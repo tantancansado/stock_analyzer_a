@@ -5,36 +5,6 @@
   "active_signals": 15,
   "completed_signals": 73,
   "overall": {
-    "7d": {
-      "count": 87,
-      "win_rate": 47.1,
-      "ci_low": 37.0,
-      "ci_high": 57.5,
-      "avg_return": 0.36,
-      "median_return": -0.34,
-      "best": 14.77,
-      "worst": -9.78
-    },
-    "14d": {
-      "count": 85,
-      "win_rate": 48.2,
-      "ci_low": 37.9,
-      "ci_high": 58.7,
-      "avg_return": 0.54,
-      "median_return": -0.2,
-      "best": 17.97,
-      "worst": -11.26
-    },
-    "30d": {
-      "count": 73,
-      "win_rate": 54.8,
-      "ci_low": 43.4,
-      "ci_high": 65.7,
-      "avg_return": 0.41,
-      "median_return": 0.94,
-      "best": 22.71,
-      "worst": -21.92
-    },
     "90d": {
       "count": 39,
       "win_rate": 61.5,
@@ -123,39 +93,6 @@
   },
   "value_strategy": {
     "count": 76,
-    "7d": {
-      "count": 75,
-      "win_rate": 44.0,
-      "ci_low": 33.3,
-      "ci_high": 55.3,
-      "avg_return": 0.2,
-      "median_return": -0.45,
-      "best": 14.77,
-      "worst": -9.78,
-      "basis": "clean_period"
-    },
-    "14d": {
-      "count": 73,
-      "win_rate": 53.4,
-      "ci_low": 42.1,
-      "ci_high": 64.4,
-      "avg_return": 0.85,
-      "median_return": 0.87,
-      "best": 17.97,
-      "worst": -11.26,
-      "basis": "clean_period"
-    },
-    "30d": {
-      "count": 61,
-      "win_rate": 55.7,
-      "ci_low": 43.3,
-      "ci_high": 67.5,
-      "avg_return": 0.66,
-      "median_return": 1.35,
-      "best": 22.71,
-      "worst": -21.92,
-      "basis": "clean_period"
-    },
     "90d": {
       "count": 27,
       "win_rate": 66.7,
@@ -183,39 +120,6 @@
   },
   "eu_value_strategy": {
     "count": 12,
-    "7d": {
-      "count": 12,
-      "win_rate": 66.7,
-      "ci_low": 39.1,
-      "ci_high": 86.2,
-      "avg_return": 1.38,
-      "median_return": 1.6,
-      "best": 6.1,
-      "worst": -2.84,
-      "basis": "clean_period"
-    },
-    "14d": {
-      "count": 12,
-      "win_rate": 16.7,
-      "ci_low": 4.7,
-      "ci_high": 44.8,
-      "avg_return": -1.31,
-      "median_return": -1.87,
-      "best": 9.23,
-      "worst": -5.13,
-      "basis": "clean_period"
-    },
-    "30d": {
-      "count": 738,
-      "win_rate": 28.5,
-      "ci_low": 25.3,
-      "ci_high": 31.8,
-      "avg_return": -4.72,
-      "median_return": -4.48,
-      "best": 31.67,
-      "worst": -98.74,
-      "basis": "eu_full_hist"
-    },
     "90d": {
       "count": 727,
       "win_rate": 43.6,
@@ -286,27 +190,7 @@
   "leaps_strategy": {
     "count": 102,
     "subyacente": {
-      "7d": {
-        "count": 87,
-        "win_rate": 43.7,
-        "ci_low": 33.7,
-        "ci_high": 54.1,
-        "avg_return": -0.42,
-        "median_return": -0.5,
-        "best": 7.7,
-        "worst": -7.22
-      },
-      "14d": {
-        "count": 65,
-        "win_rate": 40.0,
-        "ci_low": 29.0,
-        "ci_high": 52.1,
-        "avg_return": -1.14,
-        "median_return": -0.84,
-        "best": 7.15,
-        "worst": -13.24
-      },
-      "30d": {
+      "90d": {
         "count": 0,
         "win_rate": null,
         "avg_return": null,
@@ -316,7 +200,7 @@
         "ci_low": null,
         "ci_high": null
       },
-      "90d": {
+      "180d": {
         "count": 0,
         "win_rate": null,
         "avg_return": null,
@@ -328,27 +212,7 @@
       }
     },
     "contrato": {
-      "7d": {
-        "count": 46,
-        "win_rate": 37.0,
-        "ci_low": 24.5,
-        "ci_high": 51.4,
-        "avg_return": -1.26,
-        "median_return": -1.93,
-        "best": 20.21,
-        "worst": -16.37
-      },
-      "14d": {
-        "count": 36,
-        "win_rate": 41.7,
-        "ci_low": 27.1,
-        "ci_high": 57.8,
-        "avg_return": -4.03,
-        "median_return": -2.18,
-        "best": 16.93,
-        "worst": -25.12
-      },
-      "30d": {
+      "90d": {
         "count": 0,
         "win_rate": null,
         "avg_return": null,
@@ -358,7 +222,7 @@
         "ci_low": null,
         "ci_high": null
       },
-      "90d": {
+      "180d": {
         "count": 0,
         "win_rate": null,
         "avg_return": null,
@@ -369,6 +233,8 @@
         "ci_high": null
       }
     },
+    "edad_max_dias": 25,
+    "dias_hasta_primera_lectura": 65,
     "con_contrato": 65,
     "nota": "el contrato se sigue por su s\u00edmbolo OCC; son opciones poco l\u00edquidas, as\u00ed que un checkpoint sin cotizaci\u00f3n en 10 d\u00edas se queda vac\u00edo en vez de arrastrar un precio viejo"
   },
@@ -815,5 +681,5 @@
       "worst_alpha": -4.98
     }
   },
-  "generated_at": "2026-09-14T06:05:02.587389"
+  "generated_at": "2026-09-14T10:36:48.309293"
 }

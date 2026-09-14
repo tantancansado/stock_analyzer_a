@@ -1,4 +1,9 @@
-"""Unit tests for cerebro_lib.patterns."""
+"""Unit tests for cerebro_lib.patterns.
+
+El horizonte por defecto es el PRINCIPAL de horizontes.py (90d. Era 7d fijo,
+y a ese plazo el sistema no tiene ventaja: los patrones que salían de aquí
+describían ruido.
+"""
 import sys
 import os
 
@@ -17,50 +22,50 @@ def _hist(rows):
 class TestComputeStats:
 
     def test_below_min_n_returns_none(self):
-        df = _hist([{"win_7d": 1, "return_7d": 5.0}] * 2)
+        df = _hist([{"win_90d": 1, "return_90d": 5.0}] * 2)
         assert compute_stats(df, "tiny", 50.0, 0.0) is None
 
     def test_basic_stats(self):
         df = _hist([
-            {"win_7d": 1, "return_7d": 10.0},
-            {"win_7d": 1, "return_7d": 4.0},
-            {"win_7d": 0, "return_7d": -2.0},
+            {"win_90d": 1, "return_90d": 10.0},
+            {"win_90d": 1, "return_90d": 4.0},
+            {"win_90d": 0, "return_90d": -2.0},
         ])
         # wr = 2/3 = 66.7%, ret = 4.0
         r = compute_stats(df, "slice", base_wr=50.0, base_ret=1.0)
         assert r["label"] == "slice"
-        assert r["win_rate_7d"] == 66.7
-        assert r["avg_return_7d"] == 4.0
+        assert r["win_rate"] == 66.7
+        assert r["avg_return"] == 4.0
         assert r["n"] == 3
         assert r["vs_baseline_wr"] == 16.7
         assert r["vs_baseline_ret"] == 3.0
-        assert r["avg_return_14d"] is None
+        assert r["avg_return_2"] is None
 
-    def test_return_14d_when_present(self):
+    def test_return_secundario_when_present(self):
         df = _hist([
-            {"win_7d": 1, "return_7d": 5, "return_14d": 8.0},
-            {"win_7d": 1, "return_7d": 5, "return_14d": 12.0},
-            {"win_7d": 1, "return_7d": 5, "return_14d": 10.0},
+            {"win_90d": 1, "return_90d": 5, "return_180d": 8.0},
+            {"win_90d": 1, "return_90d": 5, "return_180d": 12.0},
+            {"win_90d": 1, "return_90d": 5, "return_180d": 10.0},
         ])
         r = compute_stats(df, "x", 50.0, 0.0)
-        assert r["avg_return_14d"] == 10.0
+        assert r["avg_return_2"] == 10.0
 
-    def test_return_14d_all_nan_skipped(self):
+    def test_return_secundario_all_nan_skipped(self):
         df = _hist([
-            {"win_7d": 1, "return_7d": 5, "return_14d": float("nan")},
-            {"win_7d": 1, "return_7d": 5, "return_14d": float("nan")},
-            {"win_7d": 1, "return_7d": 5, "return_14d": float("nan")},
+            {"win_90d": 1, "return_90d": 5, "return_180d": float("nan")},
+            {"win_90d": 1, "return_90d": 5, "return_180d": float("nan")},
+            {"win_90d": 1, "return_90d": 5, "return_180d": float("nan")},
         ])
         r = compute_stats(df, "x", 50.0, 0.0)
-        assert r["avg_return_14d"] is None
+        assert r["avg_return_2"] is None
 
-    def test_missing_win_7d_column(self):
-        df = _hist([{"return_7d": 5.0}] * 3)
+    def test_missing_win_column(self):
+        df = _hist([{"return_90d": 5.0}] * 3)
         r = compute_stats(df, "x", 50.0, 0.0)
-        assert r["win_rate_7d"] == 0.0
+        assert r["win_rate"] == 0.0
 
     def test_custom_min_n(self):
-        df = _hist([{"win_7d": 1, "return_7d": 5.0}])
+        df = _hist([{"win_90d": 1, "return_90d": 5.0}])
         # with min_n=1, 1 row should return stats
         assert compute_stats(df, "x", 50.0, 0.0, min_n=1) is not None
 
@@ -69,12 +74,12 @@ class TestTierColumn:
 
     def test_buckets_rows_correctly(self):
         df = _hist([
-            {"value_score": 95, "win_7d": 1, "return_7d": 10},
-            {"value_score": 92, "win_7d": 1, "return_7d": 8},
-            {"value_score": 91, "win_7d": 0, "return_7d": -1},
-            {"value_score": 85, "win_7d": 1, "return_7d": 5},
-            {"value_score": 84, "win_7d": 1, "return_7d": 4},
-            {"value_score": 82, "win_7d": 0, "return_7d": -2},
+            {"value_score": 95, "win_90d": 1, "return_90d": 10},
+            {"value_score": 92, "win_90d": 1, "return_90d": 8},
+            {"value_score": 91, "win_90d": 0, "return_90d": -1},
+            {"value_score": 85, "win_90d": 1, "return_90d": 5},
+            {"value_score": 84, "win_90d": 1, "return_90d": 4},
+            {"value_score": 82, "win_90d": 0, "return_90d": -2},
         ])
         tiers = tier_column(df, "value_score", [(90, 101), (80, 90)], 50.0, 0.0)
         assert len(tiers) == 2
@@ -84,13 +89,13 @@ class TestTierColumn:
         assert tiers[1]["n"] == 3
 
     def test_empty_buckets_excluded(self):
-        df = _hist([{"value_score": 95, "win_7d": 1, "return_7d": 5}] * 3)
+        df = _hist([{"value_score": 95, "win_90d": 1, "return_90d": 5}] * 3)
         tiers = tier_column(df, "value_score", [(90, 101), (80, 90), (70, 80)], 50.0, 0.0)
         # Only the 90-101 bucket has rows
         assert len(tiers) == 1
         assert tiers[0]["label"] == "90–101"
 
     def test_bucket_with_too_few_rows_skipped(self):
-        df = _hist([{"value_score": 95, "win_7d": 1, "return_7d": 5}] * 2)
+        df = _hist([{"value_score": 95, "win_90d": 1, "return_90d": 5}] * 2)
         tiers = tier_column(df, "value_score", [(90, 101)], 50.0, 0.0)
         assert tiers == []

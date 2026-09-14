@@ -586,31 +586,48 @@ class TestGenerateSummary:
 
     def test_win_rate_all_wins(self, tmp_path):
         recs = [
-            _make_rec(ticker='A', strategy='VALUE', return_14d=5.0, win_14d=True, status='COMPLETED'),
-            _make_rec(ticker='B', strategy='VALUE', return_14d=3.0, win_14d=True, status='COMPLETED'),
-            _make_rec(ticker='C', strategy='VALUE', return_14d=8.0, win_14d=True, status='COMPLETED'),
+            _make_rec(ticker='A', strategy='VALUE', return_90d=5.0, win_90d=True, status='COMPLETED'),
+            _make_rec(ticker='B', strategy='VALUE', return_90d=3.0, win_90d=True, status='COMPLETED'),
+            _make_rec(ticker='C', strategy='VALUE', return_90d=8.0, win_90d=True, status='COMPLETED'),
         ]
         tracker = _make_tracker(_make_df(*recs))
         summary = tracker.generate_summary()
-        assert summary['overall']['14d']['win_rate'] == 100.0
+        assert summary['overall']['90d']['win_rate'] == 100.0
 
     def test_win_rate_all_losses(self, tmp_path):
         recs = [
-            _make_rec(ticker='A', strategy='VALUE', return_14d=-5.0, win_14d=False, status='COMPLETED'),
-            _make_rec(ticker='B', strategy='VALUE', return_14d=-3.0, win_14d=False, status='COMPLETED'),
+            _make_rec(ticker='A', strategy='VALUE', return_90d=-5.0, win_90d=False, status='COMPLETED'),
+            _make_rec(ticker='B', strategy='VALUE', return_90d=-3.0, win_90d=False, status='COMPLETED'),
         ]
         tracker = _make_tracker(_make_df(*recs))
         summary = tracker.generate_summary()
-        assert summary['overall']['14d']['win_rate'] == 0.0
+        assert summary['overall']['90d']['win_rate'] == 0.0
 
     def test_win_rate_mixed(self, tmp_path):
         recs = [
-            _make_rec(ticker='A', strategy='VALUE', return_14d=5.0, win_14d=True, status='COMPLETED'),
-            _make_rec(ticker='B', strategy='VALUE', return_14d=-3.0, win_14d=False, status='COMPLETED'),
+            _make_rec(ticker='A', strategy='VALUE', return_90d=5.0, win_90d=True, status='COMPLETED'),
+            _make_rec(ticker='B', strategy='VALUE', return_90d=-3.0, win_90d=False, status='COMPLETED'),
         ]
         tracker = _make_tracker(_make_df(*recs))
         summary = tracker.generate_summary()
-        assert summary['overall']['14d']['win_rate'] == 50.0
+        assert summary['overall']['90d']['win_rate'] == 50.0
+
+    def test_el_resumen_no_publica_plazos_cortos(self, tmp_path):
+        # Esta app no va del corto plazo: a 7/14/30 días el sistema no tiene
+        # ventaja medible y publicar esos números invitaba a leer "el sistema
+        # falla" cuando lo que dicen es "todavía no ha pasado nada".
+        # La excepción viva —rebotes técnicos— está en bounce_strategies.
+        recs = [
+            _make_rec(ticker='A', strategy='VALUE', status='COMPLETED',
+                      return_7d=1.0, win_7d=True, return_14d=2.0, win_14d=True,
+                      return_30d=3.0, win_30d=True, return_90d=9.0, win_90d=True),
+        ]
+        tracker = _make_tracker(_make_df(*recs))
+        summary = tracker.generate_summary()
+        for corto in ('7d', '14d', '30d'):
+            assert corto not in summary['overall'], f'{corto} no debería publicarse'
+            assert corto not in summary.get('value_strategy', {}), f'{corto} no debería publicarse'
+        assert '90d' in summary['overall']
 
     def test_active_vs_completed_counts(self, tmp_path):
         recs = [
@@ -651,21 +668,18 @@ class TestGenerateSummary:
     def test_avg_return_all_periods(self, tmp_path):
         recs = [
             _make_rec(ticker='A', strategy='VALUE',
-                      return_7d=2.0, win_7d=True,
-                      return_14d=4.0, win_14d=True,
-                      return_30d=8.0, win_30d=True,
+                      return_90d=8.0, win_90d=True,
+                      return_180d=14.0, win_180d=True,
                       status='COMPLETED'),
             _make_rec(ticker='B', strategy='VALUE',
-                      return_7d=4.0, win_7d=True,
-                      return_14d=6.0, win_14d=True,
-                      return_30d=12.0, win_30d=True,
+                      return_90d=12.0, win_90d=True,
+                      return_180d=20.0, win_180d=True,
                       status='COMPLETED'),
         ]
         tracker = _make_tracker(_make_df(*recs))
         summary = tracker.generate_summary()
-        assert summary['overall']['7d']['avg_return'] == 3.0
-        assert summary['overall']['14d']['avg_return'] == 5.0
-        assert summary['overall']['30d']['avg_return'] == 10.0
+        assert summary['overall']['90d']['avg_return'] == 10.0
+        assert summary['overall']['180d']['avg_return'] == 17.0
 
     def test_top_performers_best_per_ticker(self, tmp_path):
         """Two signals for same ticker → top picks the best one."""
@@ -864,11 +878,11 @@ class TestEdgeCases:
         assert 'B' in tickers
 
     def test_summary_handles_single_record(self, tmp_path):
-        recs = [_make_rec(ticker='A', strategy='VALUE', return_14d=5.0, win_14d=True)]
+        recs = [_make_rec(ticker='A', strategy='VALUE', return_90d=5.0, win_90d=True)]
         tracker = _make_tracker(_make_df(*recs))
         summary = tracker.generate_summary()
         assert summary['total_signals'] == 1
-        assert summary['overall']['14d']['win_rate'] == 100.0
+        assert summary['overall']['90d']['win_rate'] == 100.0
 
     def test_return_7d_none_at_init(self):
         """Newly recorded signal has all returns as None."""

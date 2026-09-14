@@ -58,7 +58,11 @@ with open(DOCS / 'portfolio_tracker/recommendations.csv') as f:
 value_rows = [r for r in all_rows if r.get('strategy') == 'VALUE']
 print(f"\nTotal señales VALUE US: {len(value_rows)}")
 
-for horizon in ['7d', '14d', '30d']:
+# Esta app no va del corto plazo: a 7/14/30 días el sistema no tiene ventaja
+# medible y estos números invitaban a concluir que el sistema falla, cuando lo
+# que pasa es que a esos plazos todavía no ha pasado nada. Ver horizontes.py.
+from horizontes import LARGOS
+for horizon in LARGOS:
     data = [(safe_float(r[f'return_{horizon}']), safe_float(r.get(f'alpha_{horizon}')))
             for r in value_rows
             if safe_float(r.get(f'return_{horizon}')) is not None]
@@ -75,7 +79,7 @@ for horizon in ['7d', '14d', '30d']:
 print(f"\n  VALUE 30d por mes de señal:")
 by_month = defaultdict(lambda: {'n': 0, 'wins': 0, 'sum': 0.0})
 for r in value_rows:
-    ret = safe_float(r.get('return_30d'))
+    ret = safe_float(r.get('return_90d'))
     month = (r.get('signal_date') or '')[:7]
     if ret is None or not month:
         continue
@@ -92,10 +96,10 @@ for month in sorted(by_month):
 # Por score bucket (30d)
 print(f"\n  VALUE 30d por score:")
 for lo, hi in [(50, 60), (60, 65), (65, 70), (70, 75), (75, 100)]:
-    sub = [safe_float(r['return_30d']) for r in value_rows
+    sub = [safe_float(r['return_90d']) for r in value_rows
            if safe_float(r.get('value_score')) is not None
            and lo <= safe_float(r['value_score']) < hi
-           and safe_float(r.get('return_30d')) is not None]
+           and safe_float(r.get('return_90d')) is not None]
     if not sub:
         continue
     wins = sum(1 for x in sub if x > 0)
@@ -105,7 +109,7 @@ for lo, hi in [(50, 60), (60, 65), (65, 70), (70, 75), (75, 100)]:
 print(f"\n  VALUE 30d por sector (n≥10):")
 by_sector = defaultdict(lambda: {'n': 0, 'wins': 0, 'sum': 0.0})
 for r in value_rows:
-    ret = safe_float(r.get('return_30d'))
+    ret = safe_float(r.get('return_90d'))
     sector = (r.get('sector') or '?').strip()
     if ret is None:
         continue

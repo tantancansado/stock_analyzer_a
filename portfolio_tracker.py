@@ -870,6 +870,15 @@ class PortfolioTracker:
 
         _leaps = df[df['strategy'] == 'LEAPS']
 
+        # Edad de la señal LEAPS más antigua: dice cuándo habrá primera lectura
+        # a 90 días. Sin esto, un bloque vacío parece un fallo cuando lo que
+        # pasa es que el seguimiento acaba de empezar.
+        _edad_leaps = None
+        if len(_leaps) and 'signal_date' in _leaps.columns:
+            _fechas = pd.to_datetime(_leaps['signal_date'], errors='coerce').dropna()
+            if len(_fechas):
+                _edad_leaps = (pd.Timestamp(datetime.now().date()) - _fechas.min()).days
+
         def _stats_contrato(col):
             """Igual que win_stats pero sobre el retorno del CONTRATO, que no
             tiene columna win_* propia: el signo del retorno la define."""
@@ -1019,14 +1028,13 @@ class PortfolioTracker:
             # el salto de 30d (23.7%) a 90d (46.6%) no era la tesis madurando,
             # era el gráfico cambiando de muestra por debajo. El histórico sigue
             # publicado aparte, en 'long_hist_reference'.
-            'overall': {
-                '7d': win_stats('return_7d', 'win_7d'),
-                '14d': win_stats('return_14d', 'win_14d'),
-                '30d': win_stats('return_30d', 'win_30d'),
-                '90d': win_stats('return_90d', 'win_90d'),
-                '180d': win_stats('return_180d', 'win_180d'),
-                '365d': win_stats('return_365d', 'win_365d'),
-            },
+            # Sin 7/14/30d: esta app no va del corto plazo y a esos plazos el
+            # sistema no tiene ventaja medible (29% de aciertos a 7d sobre 1692
+            # señales). Publicarlos invitaba a leer "el sistema falla" cuando lo
+            # que dicen es "todavía no ha pasado nada". Ver horizontes.py. La
+            # excepción, en bounce_strategies, sí es de corto plazo por diseño.
+            'overall': {h: win_stats(f'return_{h}', f'win_{h}')
+                        for h in ('90d', '180d', '365d')},
 
             # Histórico largo (golden zone US + EU completo, incluye el periodo
             # contaminado): más muestra, otra población. Sirve de contraste, NO
@@ -1081,25 +1089,19 @@ class PortfolioTracker:
 
             'value_strategy': {
                 'count': len(value_df),
-                # 7d/14d siempre del periodo limpio. Para 30d+ se prefiere TAMBIÉN
-                # el limpio en cuanto tiene muestra, y solo se cae al histórico
-                # cuando no la hay — ver _mejor_base.
-                '7d':  {**win_stats('return_7d',  'win_7d',  value_df), 'basis': 'clean_period'} if not value_df.empty else {},
-                '14d': {**win_stats('return_14d', 'win_14d', value_df), 'basis': 'clean_period'} if not value_df.empty else {},
+                # Se prefiere el periodo limpio en cuanto tiene muestra, y solo
+                # se cae al histórico cuando no la hay — ver _mejor_base.
                 **{h: _mejor_base(h, value_df, golden_hist, win_stats)
-                   for h in ('30d', '90d', '180d', '365d')},
+                   for h in ('90d', '180d', '365d')},
             },
 
             'eu_value_strategy': {
                 'count': len(eu_df),
-                # 7d/14d: clean period. 30d+: histórico EU completo (como US con
-                # golden_hist) para tener base a horizonte largo desde ya.
-                '7d':  {**win_stats('return_7d',  'win_7d',  eu_df), 'basis': 'clean_period'} if not eu_df.empty else {},
-                '14d': {**win_stats('return_14d', 'win_14d', eu_df), 'basis': 'clean_period'} if not eu_df.empty else {},
-                '30d': {**win_stats('return_30d', 'win_30d', eu_hist), 'basis': 'eu_full_hist'} if not eu_hist.empty else {},
-                '90d': {**win_stats('return_90d', 'win_90d', eu_hist), 'basis': 'eu_full_hist'} if not eu_hist.empty else {},
-                '180d': {**win_stats('return_180d', 'win_180d', eu_hist), 'basis': 'eu_full_hist'} if not eu_hist.empty else {},
-                '365d': {**win_stats('return_365d', 'win_365d', eu_hist), 'basis': 'eu_full_hist'} if not eu_hist.empty else {},
+                # Histórico EU completo (como US con golden_hist) para tener base
+                # a horizonte largo desde ya.
+                **{h: ({**win_stats(f'return_{h}', f'win_{h}', eu_hist), 'basis': 'eu_full_hist'}
+                       if not eu_hist.empty else {})
+                   for h in ('90d', '180d', '365d')},
             },
 
             'momentum_strategy': {
@@ -1127,10 +1129,18 @@ class PortfolioTracker:
                 # Dos medidas, dos preguntas. El subyacente dice si la tesis
                 # sobre la EMPRESA acertó; el contrato, si se habría ganado
                 # dinero. Con apalancamiento ~2,5x no se deduce una de la otra.
+                # LEAPS son calls a 2028: el horizonte es de años, así que medirlas
+                # a 7 días no dice nada. Se publican los plazos largos aunque hoy
+                # salgan vacíos — el seguimiento empezó hace pocas semanas — y se
+                # dice explícitamente cuándo habrá primera lectura, que es más
+                # útil que un número sin significado.
                 'subyacente': {h: win_stats(f'return_{h}', f'win_{h}', _leaps)
-                               for h in ('7d', '14d', '30d', '90d')} if len(_leaps) else {},
+                               for h in ('90d', '180d')} if len(_leaps) else {},
                 'contrato': {h: _stats_contrato(f'option_return_{h}')
-                             for h in ('7d', '14d', '30d', '90d')} if len(_leaps) else {},
+                             for h in ('90d', '180d')} if len(_leaps) else {},
+                'edad_max_dias': int(_edad_leaps) if _edad_leaps is not None else None,
+                'dias_hasta_primera_lectura': (max(0, 90 - int(_edad_leaps))
+                                               if _edad_leaps is not None else None),
                 'con_contrato': int(_leaps['option_symbol'].notna().sum()) if 'option_symbol' in _leaps else 0,
                 'nota': ('el contrato se sigue por su símbolo OCC; son opciones poco '
                          'líquidas, así que un checkpoint sin cotización en 10 días '

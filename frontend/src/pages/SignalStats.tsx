@@ -96,14 +96,20 @@ function fmtLabel(tab: Tab, label: string) {
 
 /**
  * "¿Qué funciona y qué no?" era una tabla de números que había que leer fila
- * a fila para notar una tendencia. Aquí la misma serie (win_rate_14d/30d por
- * período) como curva: una racha mala o una mejora sostenida se ve en medio
- * segundo, sin sumar en la cabeza. La tabla de abajo sigue para el detalle.
+ * a fila para notar una tendencia. Aquí la misma serie como curva: una racha
+ * mala o una mejora sostenida se ve en medio segundo, sin sumar en la cabeza.
+ * La tabla de abajo sigue para el detalle.
+ *
+ * Los plazos ya no están escritos aquí: los manda el backend (90 y 180 días).
+ * Eran 14 y 30, y a esos plazos una tesis VALUE no ha hecho nada todavía — el
+ * gráfico enseñaba ruido con forma de tendencia.
  */
 function WinRateTrend({ rows, tab }: { rows: TimeseriesRow[]; tab: Tab }) {
+  const h1 = rows.find(r => r.horizonte)?.horizonte ?? '90d'
+  const h2 = rows.find(r => r.horizonte_2)?.horizonte_2 ?? '180d'
   const data = rows
-    .filter(r => r.win_rate_14d != null || r.win_rate_30d != null)
-    .map(r => ({ label: fmtLabel(tab, r.label), win14: r.win_rate_14d, win30: r.win_rate_30d, signals: r.signals }))
+    .filter(r => r.win_rate != null || r.win_rate_2 != null)
+    .map(r => ({ label: fmtLabel(tab, r.label), principal: r.win_rate, secundario: r.win_rate_2, signals: r.signals }))
   if (data.length < 2) return null
   return (
     <div className="h-40 -ml-2">
@@ -118,10 +124,10 @@ function WinRateTrend({ rows, tab }: { rows: TimeseriesRow[]; tab: Tab }) {
           <Tooltip
             contentStyle={{ background: 'rgba(15,23,35,0.95)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, fontSize: 12 }}
             labelStyle={{ color: 'rgba(255,255,255,0.6)' }}
-            formatter={(v, name) => [`${Number(v).toFixed(1)}%`, name === 'win14' ? 'Win 14d' : 'Win 30d']}
+            formatter={(v, name) => [`${Number(v).toFixed(1)}%`, name === 'principal' ? `Win ${h1}` : `Win ${h2}`]}
           />
-          <Line type="monotone" dataKey="win14" stroke="#22d3ee" strokeWidth={2} dot={false} connectNulls />
-          <Line type="monotone" dataKey="win30" stroke="#a78bfa" strokeWidth={2} dot={false} connectNulls />
+          <Line type="monotone" dataKey="principal" stroke="#22d3ee" strokeWidth={2} dot={false} connectNulls />
+          <Line type="monotone" dataKey="secundario" stroke="#a78bfa" strokeWidth={2} dot={false} connectNulls />
         </LineChart>
       </ResponsiveContainer>
     </div>
@@ -131,6 +137,8 @@ function WinRateTrend({ rows, tab }: { rows: TimeseriesRow[]; tab: Tab }) {
 function TimeseriesTable({ rows, tab }: { rows: TimeseriesRow[]; tab: Tab }) {
   const maxSignals = Math.max(...rows.map(r => r.signals), 1)
   const showStrategy = tab !== 'weekday'
+  const h1 = rows.find(r => r.horizonte)?.horizonte ?? '90d'
+  const h2 = rows.find(r => r.horizonte_2)?.horizonte_2 ?? '180d'
   return (
     <div className="table-x-wrap">
       <table className="w-full text-sm">
@@ -138,10 +146,10 @@ function TimeseriesTable({ rows, tab }: { rows: TimeseriesRow[]; tab: Tab }) {
           <tr className="border-b border-white/10 text-left">
             <th className="pb-2 text-xs text-foreground/40 font-medium w-28">Período</th>
             <th className="pb-2 text-xs text-foreground/40 font-medium">Señales</th>
-            <th className="pb-2 text-xs text-foreground/40 font-medium pl-3">Win 14d</th>
-            <th className="pb-2 text-xs text-foreground/40 font-medium pl-3">Win 30d</th>
-            <th className="pb-2 text-xs text-foreground/40 font-medium text-right">Ret. 14d</th>
-            <th className="pb-2 text-xs text-foreground/40 font-medium text-right">Ret. 30d</th>
+            <th className="pb-2 text-xs text-foreground/40 font-medium pl-3">Win {h1}</th>
+            <th className="pb-2 text-xs text-foreground/40 font-medium pl-3">Win {h2}</th>
+            <th className="pb-2 text-xs text-foreground/40 font-medium text-right">Ret. {h1}</th>
+            <th className="pb-2 text-xs text-foreground/40 font-medium text-right">Ret. {h2}</th>
             {showStrategy && <th className="pb-2 text-xs text-foreground/40 font-medium text-right">US/EU</th>}
           </tr>
         </thead>
@@ -153,13 +161,13 @@ function TimeseriesTable({ rows, tab }: { rows: TimeseriesRow[]; tab: Tab }) {
                 <MiniBar value={row.signals} max={maxSignals} />
               </td>
               <td className="py-2.5 pl-3 min-w-[130px]">
-                <WinBar value={row.win_rate_14d} />
+                <WinBar value={row.win_rate} />
               </td>
               <td className="py-2.5 pl-3 min-w-[130px]">
-                <WinBar value={row.win_rate_30d} />
+                <WinBar value={row.win_rate_2} />
               </td>
-              <td className="py-2.5 text-right"><ReturnBadge v={row.avg_return_14d} /></td>
-              <td className="py-2.5 text-right"><ReturnBadge v={row.avg_return_30d} /></td>
+              <td className="py-2.5 text-right"><ReturnBadge v={row.avg_return} /></td>
+              <td className="py-2.5 text-right"><ReturnBadge v={row.avg_return_2} /></td>
               {showStrategy && (
                 <td className="py-2.5 text-right">
                   <span className="text-xs font-mono text-emerald-400">{row.value_us ?? 0}</span>
@@ -195,41 +203,50 @@ function StrategyCard({ row }: { row: StrategyRow }) {
           <span className="text-sm font-semibold text-foreground">{name}</span>
           <span className="text-xs font-mono text-foreground/40">{row.signals} señales</span>
         </div>
+        {/* Los rebotes técnicos SÍ son de corto plazo por diseño: medirlos a 90
+            días mezclaría el rebote con lo que viniera después. El backend
+            manda el plazo de cada estrategia y aquí solo se rotula. */}
+        {row.corto_plazo && (
+          <p className="text-[0.62rem] text-muted-foreground mb-2.5">
+            Estrategia de corto plazo — se mide a {row.horizonte.replace('d', ' días')},
+            no a los {row.horizonte_2.replace('d', ' días')} del resto.
+          </p>
+        )}
         <div className="space-y-2.5">
           <div>
             <div className="flex justify-between text-xs text-muted-foreground mb-1">
-              <span>Win Rate 14d</span>
-              <WinBadge v={row.win_rate_14d} />
+              <span>Win Rate {row.horizonte}</span>
+              <WinBadge v={row.win_rate} />
             </div>
             <div className="h-1.5 rounded-full" style={{ background: 'rgba(255,255,255,0.07)' }}>
               <div className="h-1.5 rounded-full" style={{
-                width: `${Math.min((row.win_rate_14d ?? 0) / 80 * 100, 100)}%`,
+                width: `${Math.min((row.win_rate ?? 0) / 80 * 100, 100)}%`,
                 background: c,
               }} />
             </div>
-            <Intervalo low={row.ci_low_14d} high={row.ci_high_14d} n={row.signals} />
+            <Intervalo low={row.ci_low} high={row.ci_high} n={row.muestra} />
           </div>
           <div>
             <div className="flex justify-between text-xs text-foreground/40 mb-1">
-              <span>Win Rate 30d</span>
-              <WinBadge v={row.win_rate_30d} />
+              <span>Win Rate {row.horizonte_2}</span>
+              <WinBadge v={row.win_rate_2} />
             </div>
             <div className="h-1.5 rounded-full" style={{ background: 'rgba(255,255,255,0.07)' }}>
               <div className="h-1.5 rounded-full" style={{
-                width: `${Math.min((row.win_rate_30d ?? 0) / 80 * 100, 100)}%`,
+                width: `${Math.min((row.win_rate_2 ?? 0) / 80 * 100, 100)}%`,
                 background: c,
               }} />
             </div>
-            <Intervalo low={row.ci_low_30d} high={row.ci_high_30d} n={row.signals} />
+            <Intervalo low={row.ci_low_2} high={row.ci_high_2} n={row.muestra_2} />
           </div>
           <div className="flex justify-between pt-1 border-t border-white/5">
             <div className="text-center">
-              <div className="text-xs text-foreground/40 mb-0.5">Ret. 14d</div>
-              <ReturnBadge v={row.avg_return_14d} />
+              <div className="text-xs text-foreground/40 mb-0.5">Ret. {row.horizonte}</div>
+              <ReturnBadge v={row.avg_return} />
             </div>
             <div className="text-center">
-              <div className="text-xs text-foreground/40 mb-0.5">Ret. 30d</div>
-              <ReturnBadge v={row.avg_return_30d} />
+              <div className="text-xs text-foreground/40 mb-0.5">Ret. {row.horizonte_2}</div>
+              <ReturnBadge v={row.avg_return_2} />
             </div>
             <div className="text-center">
               <div className="text-xs text-foreground/40 mb-0.5">Drawdown</div>
@@ -243,9 +260,9 @@ function StrategyCard({ row }: { row: StrategyRow }) {
 }
 
 function BestWorstRows({ rows, tab }: { rows: TimeseriesRow[]; tab: Tab }) {
-  const completed = rows.filter(r => r.win_rate_14d !== null && r.signals >= 5)
+  const completed = rows.filter(r => r.win_rate !== null && r.signals >= 5)
   if (completed.length < 2) return null
-  const sorted = [...completed].sort((a, b) => (b.win_rate_14d ?? 0) - (a.win_rate_14d ?? 0))
+  const sorted = [...completed].sort((a, b) => (b.win_rate ?? 0) - (a.win_rate ?? 0))
   const best = sorted.slice(0, 3)
   const worst = sorted.slice(-3).reverse()
   return (
@@ -258,8 +275,8 @@ function BestWorstRows({ rows, tab }: { rows: TimeseriesRow[]; tab: Tab }) {
               <div key={r.label} className="flex items-center justify-between">
                 <span className="text-sm text-foreground">{fmtLabel(tab, r.label)}</span>
                 <div className="flex items-center gap-3">
-                  <WinBadge v={r.win_rate_14d} />
-                  <ReturnBadge v={r.avg_return_14d} />
+                  <WinBadge v={r.win_rate} />
+                  <ReturnBadge v={r.avg_return} />
                 </div>
               </div>
             ))}
@@ -274,8 +291,8 @@ function BestWorstRows({ rows, tab }: { rows: TimeseriesRow[]; tab: Tab }) {
               <div key={r.label} className="flex items-center justify-between">
                 <span className="text-sm text-foreground">{fmtLabel(tab, r.label)}</span>
                 <div className="flex items-center gap-3">
-                  <WinBadge v={r.win_rate_14d} />
-                  <ReturnBadge v={r.avg_return_14d} />
+                  <WinBadge v={r.win_rate} />
+                  <ReturnBadge v={r.avg_return} />
                 </div>
               </div>
             ))}
@@ -306,8 +323,17 @@ export default function SignalStats() {
     : tab === 'quarter' ? data.by_quarter
     : data.by_weekday
 
-  const avgWin14 = data.by_strategy.reduce((s, r) => s + (r.win_rate_14d ?? 0) * r.signals, 0)
-    / Math.max(data.by_strategy.reduce((s, r) => s + r.signals, 0), 1)
+  // Solo las estrategias de plazo largo: promediar un rebote medido a 30 días
+  // con una tesis VALUE medida a 90 da un número que no significa nada.
+  // Y se pondera por MUESTRA, no por señales totales: el win rate se calcula
+  // sobre las que tienen dato a ese plazo, y usar el otro denominador
+  // infrapondera justo a las estrategias con menos cobertura.
+  const largoPlazo = data.by_strategy.filter(r => !r.corto_plazo && r.win_rate != null)
+  const muestraTotal = largoPlazo.reduce((s, r) => s + (r.muestra || 0), 0)
+  const winGlobal = muestraTotal > 0
+    ? largoPlazo.reduce((s, r) => s + (r.win_rate ?? 0) * (r.muestra || 0), 0) / muestraTotal
+    : null
+  const horizonteGlobal = largoPlazo[0]?.horizonte ?? '90d'
 
   return (
     <div className="max-w-5xl mx-auto space-y-8">
@@ -326,10 +352,10 @@ export default function SignalStats() {
         </Card>
         <Card className="glass">
           <CardContent className="p-4 text-center">
-            <div className="text-2xl font-bold font-mono" style={{ color: avgWin14 >= 50 ? '#10b981' : '#f59e0b' }}>
-              {avgWin14.toFixed(1)}%
+            <div className="text-2xl font-bold font-mono" style={{ color: (winGlobal ?? 0) >= 50 ? '#10b981' : '#f59e0b' }}>
+              {winGlobal != null ? `${winGlobal.toFixed(1)}%` : '—'}
             </div>
-            <div className="text-xs text-foreground/40 mt-0.5">Win rate global 14d</div>
+            <div className="text-xs text-foreground/40 mt-0.5">Win rate global {horizonteGlobal}</div>
           </CardContent>
         </Card>
         <Card className="glass">
@@ -379,10 +405,10 @@ export default function SignalStats() {
               <div className="mb-4 pb-4 border-b border-white/5">
                 <div className="flex items-center gap-4 mb-2 text-[0.68rem]">
                   <span className="inline-flex items-center gap-1.5 text-foreground/50">
-                    <span className="w-2.5 h-0.5 rounded-full" style={{ background: '#22d3ee' }} /> Win 14d
+                    <span className="w-2.5 h-0.5 rounded-full" style={{ background: '#22d3ee' }} /> Win {rows.find(r => r.horizonte)?.horizonte ?? '90d'}
                   </span>
                   <span className="inline-flex items-center gap-1.5 text-foreground/50">
-                    <span className="w-2.5 h-0.5 rounded-full" style={{ background: '#a78bfa' }} /> Win 30d
+                    <span className="w-2.5 h-0.5 rounded-full" style={{ background: '#a78bfa' }} /> Win {rows.find(r => r.horizonte_2)?.horizonte_2 ?? '180d'}
                   </span>
                 </div>
                 <WinRateTrend rows={rows} tab={tab} />

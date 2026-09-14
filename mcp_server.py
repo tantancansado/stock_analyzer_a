@@ -235,11 +235,11 @@ def ticker_analysis(ticker: str) -> str:
         completed = [r for r in ticker_recs if r.get('status') == 'COMPLETED']
         lines = ['### Historial en Portfolio Tracker']
         lines.append(f'- {len(ticker_recs)} señales totales ({len(active)} activas, {len(completed)} completadas)')
-        returns_14d = [float(r['return_14d']) for r in ticker_recs if r.get('return_14d')]
-        if returns_14d:
-            avg = sum(returns_14d) / len(returns_14d)
-            wins = sum(1 for x in returns_14d if x > 0)
-            lines.append(f'- Retorno 14d promedio: {avg:+.1f}% | Win rate: {wins}/{len(returns_14d)}')
+        retornos = [float(r['return_90d']) for r in ticker_recs if r.get('return_90d')]
+        if retornos:
+            avg = sum(retornos) / len(retornos)
+            wins = sum(1 for x in retornos if x > 0)
+            lines.append(f'- Retorno 90d promedio: {avg:+.1f}% | Win rate: {wins}/{len(retornos)}')
         sections.append('\n'.join(lines))
 
     return '\n\n'.join(sections)
@@ -248,7 +248,7 @@ def ticker_analysis(ticker: str) -> str:
 @mcp.tool()
 def portfolio_status() -> str:
     """
-    Estado del portfolio tracker: win rates 7d/14d/30d, posiciones activas,
+    Estado del portfolio tracker: win rate a 90 días, posiciones activas,
     mejores y peores performers. Úsalo cuando el usuario pregunta por rendimiento.
     """
     summary = _get(f'{PAGES}/docs/portfolio_tracker/summary.json', as_json=True)
@@ -258,7 +258,9 @@ def portfolio_status() -> str:
     lines = ['## Portfolio Tracker']
 
     overall = summary.get('overall', {})
-    for period in ('7d', '14d', '30d'):
+    # Esta app no va del corto plazo: ver horizontes.py.
+    from horizontes import LARGOS
+    for period in LARGOS:
         s = overall.get(period, {})
         wr  = s.get('win_rate')
         avg = s.get('avg_return')
@@ -274,15 +276,15 @@ def portfolio_status() -> str:
     worst = summary.get('worst_performers', [])
 
     if top:
-        lines.append('\n**Top performers (14d):**')
+        lines.append('\n**Top performers (90d):**')
         for p in top[:3]:
-            ret = p.get('return_14d')
+            ret = p.get('return_90d')
             lines.append(f'  • {p["ticker"]:8} {ret:+.1f}%' if ret else f'  • {p["ticker"]}')
 
     if worst:
-        lines.append('\n**Peores performers (14d):**')
+        lines.append('\n**Peores performers (90d):**')
         for p in worst[:3]:
-            ret = p.get('return_14d')
+            ret = p.get('return_90d')
             lines.append(f'  • {p["ticker"]:8} {ret:+.1f}%' if ret else f'  • {p["ticker"]}')
 
     corr = summary.get('score_correlation')

@@ -441,7 +441,7 @@ def generate_portfolio_insight() -> None:
 
     top_performers = summary.get('top_performers', [])[:3]
     top_text = '\n'.join([
-        f"- {tp.get('ticker', '?')} ({tp.get('strategy', '?')}): {tp.get('return_14d', 0):+.1f}% en 14d"
+        f"- {tp.get('ticker', '?')} ({tp.get('strategy', '?')}): {tp.get('return_90d', 0):+.1f}% en 90d"
         for tp in top_performers
     ]) if top_performers else "No hay señales completadas aún"
 

@@ -284,7 +284,7 @@ export interface PortfolioSummary {
   date_range?: string
   active_signals?: number
   completed_signals?: number
-  overall?: Partial<Record<'7d' | '14d' | '30d' | '90d' | '180d' | '365d',
+  overall?: Partial<Record<'90d' | '180d' | '365d',
     { count: number; win_rate: number | null; avg_return: number | null }>>
   value_strategy?: StrategyStats
   eu_value_strategy?: StrategyStats
@@ -295,7 +295,7 @@ export interface PortfolioSummary {
   recent_signals?: Array<Record<string, unknown>>
   avg_max_drawdown?: number
   score_correlation?: number
-  alpha?: Partial<Record<'7d' | '14d' | '30d' | '90d' | '180d' | '365d', AlphaStat>>
+  alpha?: Partial<Record<'90d' | '180d' | '365d', AlphaStat>>
   alpha_us?: Partial<Record<'14d' | '30d' | '90d' | '180d' | '365d', AlphaStat>>
   alpha_eu?: Partial<Record<'14d' | '30d' | '90d' | '180d' | '365d', AlphaStat>>
 }
@@ -316,9 +316,6 @@ export interface StrategyPeriodStats {
 
 export interface StrategyStats {
   count?: number
-  '7d'?: StrategyPeriodStats
-  '14d'?: StrategyPeriodStats
-  '30d'?: StrategyPeriodStats
   '90d'?: StrategyPeriodStats
   '180d'?: StrategyPeriodStats
   '365d'?: StrategyPeriodStats
@@ -862,13 +859,24 @@ export interface CalibrationData {
 export const fetchCalibration = () =>
   apiClient.get<CalibrationData>('/api/portfolio-tracker/calibration')
 
+/**
+ * Los horizontes ya no viajan en el nombre del campo.
+ *
+ * Eran `win_rate_14d` / `win_rate_30d` fijos, y esta app no va del corto
+ * plazo: a 14 días una tesis VALUE no ha hecho nada todavía. Ahora el backend
+ * manda el plazo en `horizonte` (90d por defecto, 30d para las estrategias que
+ * SÍ son de corto plazo por diseño — rebotes técnicos) y la interfaz lo
+ * rotula. Ver horizontes.py.
+ */
 export interface TimeseriesRow {
   label: string
   signals: number
-  win_rate_14d: number | null
-  win_rate_30d: number | null
-  avg_return_14d: number | null
-  avg_return_30d: number | null
+  horizonte: string
+  horizonte_2: string
+  win_rate: number | null
+  win_rate_2: number | null
+  avg_return: number | null
+  avg_return_2: number | null
   value_us?: number
   value_eu?: number
   momentum?: number
@@ -876,16 +884,22 @@ export interface TimeseriesRow {
 export interface StrategyRow {
   strategy: string
   signals: number
-  win_rate_14d: number | null
-  win_rate_30d: number | null
+  /** Un rebote técnico se mide en semanas; una tesis VALUE, en trimestres. */
+  corto_plazo: boolean
+  horizonte: string
+  horizonte_2: string
+  win_rate: number | null
+  win_rate_2: number | null
   /** Intervalo de Wilson al 95%. Sin él, un 100% con 18 señales y un 42% con
    *  801 se leen igual de sólidos, y el primero es ruido. */
-  ci_low_14d: number | null
-  ci_high_14d: number | null
-  ci_low_30d: number | null
-  ci_high_30d: number | null
-  avg_return_14d: number | null
-  avg_return_30d: number | null
+  ci_low: number | null
+  ci_high: number | null
+  ci_low_2: number | null
+  ci_high_2: number | null
+  muestra: number
+  muestra_2: number
+  avg_return: number | null
+  avg_return_2: number | null
   avg_drawdown: number
 }
 export interface TimeseriesData {
@@ -913,8 +927,9 @@ export const fetchMarketBreadth = () =>
 // ── Cerebro AI agent ─────────────────────────────────────────────────────────
 export interface CerebroTier {
   label: string
-  win_rate_7d: number
-  avg_return_7d: number
+  horizonte?: string
+  win_rate: number
+  avg_return: number
   n: number
   vs_baseline_wr: number
   vs_baseline_ret: number
@@ -922,8 +937,8 @@ export interface CerebroTier {
 export interface CerebroInsights {
   generated_at: string
   total_analyzed: number
-  baseline_win_rate_7d: number
-  baseline_avg_return_7d: number
+  baseline_win_rate: number
+  baseline_avg_return: number
   score_tiers: CerebroTier[]
   market_regimes: CerebroTier[]
   sectors: CerebroTier[]

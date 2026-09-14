@@ -140,7 +140,8 @@ export default function Portfolio() {
   // 180d manda: una tesis value tarda trimestres en resolverse y a 90d aún es
   // ruido. 90d queda como referencia provisional hasta que la muestra de 180d
   // tenga tamaño (la señal más antigua es de feb-2026).
-  const periods = ['180d', '90d', '365d', '30d'] as const
+  // Sin 30d: esta app no va del corto plazo y el tracker ya no lo publica.
+  const periods = ['180d', '90d', '365d'] as const
   // TITULAR = US, no la mezcla. `overall` promedia VALUE US con EU_VALUE, y
   // el usuario compra casi solo acciones americanas: a 90d eso convierte un
   // alpha de +4,54% (US, n=103) en -2,12% arrastrado por 727 señales
@@ -148,12 +149,12 @@ export default function Portfolio() {
   // columna del panel US vs EU y con su etiqueta de población.
   const overall = (pf.value_strategy ?? pf.overall ?? {}) as Record<string, { count: number; win_rate: number; avg_return: number; ci_low?: number; ci_high?: number }>
 
-  // El tracker dice a qué horizonte ordenó los rankings. Si no lo dice (JSON
-  // viejo, antes del cambio del 9-sep-2026), se etiqueta como 14d, que es lo
-  // que ese JSON contiene de verdad — mejor un rótulo honesto y anticuado que
-  // uno bonito y falso.
-  const horizonteLabel = (pf.performers_horizon as string | undefined) ?? '14d'
-  const calibHorizonte = calibData?.horizon ?? '14d'
+  // El tracker dice a qué horizonte ordenó los rankings. Si no lo dice, se
+  // etiqueta con el horizonte mínimo de la app (90d) en vez de con el 14d que
+  // usaba antes: ese JSON viejo ya no se genera y rotular 14d invitaba a leer
+  // corto plazo donde no lo hay.
+  const horizonteLabel = (pf.performers_horizon as string | undefined) ?? '90d'
+  const calibHorizonte = calibData?.horizon ?? '90d'
   const fmtPct = mkFmtPct(calibHorizonte)
 
   // ¿US y EU salen de la misma población a 90d? Si no, la comparación directa
@@ -171,7 +172,7 @@ export default function Portfolio() {
   }, periods[0] as string)
 
   const recentSignals = (pf as Record<string, unknown>).recent_signals as RecentSignal[] | undefined
-  const hasReturns = (pf.overall as Record<string, { count: number }>)?.['7d']?.count > 0
+  const hasReturns = (pf.overall as Record<string, { count: number }>)?.['90d']?.count > 0
   const activeCount = pf.active_signals ?? 0
 
   // Days until first result across all active signals
@@ -197,7 +198,7 @@ export default function Portfolio() {
       {/* Win Rate Animation */}
       {hasReturns && (() => {
         const statsData = {
-          periods: (['30d', '90d', '180d', '365d'] as const)
+          periods: (['90d', '180d', '365d'] as const)
             .map(p => {
               const d = (overall as Record<string, { count: number; win_rate: number; avg_return: number }>)[p]
               if (!d || d.count === 0) return null

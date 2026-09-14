@@ -146,13 +146,18 @@ def ai(prompt: str, max_tokens: int = 300):
 def mine_patterns() -> dict:
     print("\n[1/5] Pattern mining...")
     df = load_csv(DOCS / "portfolio_tracker" / "recommendations.csv")
-    done = df[df["return_7d"].notna()].copy() if not df.empty else pd.DataFrame()
+    # El horizonte era 7 días. Ver horizontes.py: a ese plazo el sistema no
+    # tiene ventaja, así que los patrones que salían de aquí —y las
+    # recomendaciones de Cerebro que se apoyan en ellos— describían ruido.
+    from horizontes import PRINCIPAL
+    col_ret, col_win = f"return_{PRINCIPAL}", f"win_{PRINCIPAL}"
+    done = df[df[col_ret].notna()].copy() if not df.empty and col_ret in df.columns else pd.DataFrame()
     if len(done) < 10:
         print(f"  Only {len(done)} completed signals — need more data.")
         return {"total_analyzed": len(done), "narrative": None}
 
-    base_wr  = float(done["win_7d"].mean()) * 100 if "win_7d" in done.columns else 50.0
-    base_ret = float(done["return_7d"].mean())
+    base_wr  = float(done[col_win].mean()) * 100 if col_win in done.columns else 50.0
+    base_ret = float(done[col_ret].mean())
     print(f"  {len(done)} signals · baseline WR {base_wr:.1f}%")
 
     def stats(sub: pd.DataFrame, label: str):
@@ -168,14 +173,14 @@ def mine_patterns() -> dict:
         for r in done["market_regime"].dropna().unique():
             s = stats(done[done["market_regime"] == r], r)
             if s: regimes.append(s)
-        regimes.sort(key=lambda x: x["win_rate_7d"], reverse=True)
+        regimes.sort(key=lambda x: x["win_rate"], reverse=True)
 
     sectors = []
     if "sector" in done.columns:
         for sec in done["sector"].dropna().unique():
             s = stats(done[done["sector"] == sec], sec)
             if s: sectors.append(s)
-        sectors.sort(key=lambda x: x["win_rate_7d"], reverse=True)
+        sectors.sort(key=lambda x: x["win_rate"], reverse=True)
 
     fcf_tiers = []
     if "fcf_yield_pct" in done.columns:
@@ -216,7 +221,7 @@ def mine_patterns() -> dict:
         if s: best_combos.append(s)
 
     # ── ¿Hay algo que se distinga del azar? ───────────────────────────────
-    # 11-sep-2026. Antes esto cogia max(score_tiers, key=win_rate_7d) sin
+    # 11-sep-2026. Antes esto cogia max(score_tiers, key=win_rate) sin
     # mirar la muestra, o sea el maximo de un conjunto ruidoso -- que por
     # construccion cae siempre en el tramo con menos datos. Resultado: la
     # narrativa afirmaba "Mejor tier: 90-101 con 62,5% WR" sobre n=16, cuyo
@@ -239,7 +244,7 @@ def mine_patterns() -> dict:
 
     def _destaca(item) -> bool:
         n = item.get("n") or 0
-        wr = item.get("win_rate_7d")
+        wr = item.get("win_rate")
         if n < MUESTRA_MINIMA or wr is None:
             return False
         from portfolio_tracker import _wilson
@@ -252,7 +257,7 @@ def mine_patterns() -> dict:
     combos_solidos  = [c for c in best_combos if _destaca(c)]
     hay_senal = bool(tiers_solidos or regimes_solidos or sectores_solidos or combos_solidos)
 
-    bt = max(tiers_solidos, key=lambda x: x["win_rate_7d"], default={})
+    bt = max(tiers_solidos, key=lambda x: x["win_rate"], default={})
     br = regimes_solidos[0] if regimes_solidos else {}
     bs = sectores_solidos[0] if sectores_solidos else {}
 
@@ -263,8 +268,8 @@ def mine_patterns() -> dict:
             f"se distingue del acierto base ({base_wr:.1f}%) una vez se tiene en cuenta el "
             f"tamano de la muestra. No hay patron que explotar todavia."
         )
-        return dict(generated_at=TODAY, total_analyzed=len(done), baseline_win_rate_7d=round(base_wr,1),
-                    baseline_avg_return_7d=round(base_ret,2), score_tiers=score_tiers,
+        return dict(generated_at=TODAY, total_analyzed=len(done), baseline_win_rate=round(base_wr,1),
+                    baseline_avg_return=round(base_ret,2), score_tiers=score_tiers,
                     market_regimes=regimes, sectors=sectors[:10], fcf_tiers=fcf_tiers,
                     rr_tiers=rr_tiers, period_stats=period_stats, best_combos=best_combos,
                     hay_senal=False, narrative=narrative)
@@ -272,17 +277,17 @@ def mine_patterns() -> dict:
     # AI narrative — solo cuando hay algo que de verdad destaca
     narrative = ai(
         f"Eres el cerebro analítico de un sistema VALUE. {len(done)} señales analizadas, win rate base {base_wr:.1f}%.\n"
-        f"Mejor score tier: {bt.get('label','N/A')} → {bt.get('win_rate_7d','N/A')}% WR (ret {bt.get('avg_return_7d','N/A')}%)\n"
-        f"Mejor régimen: {br.get('label','N/A')} → {br.get('win_rate_7d','N/A')}% WR\n"
-        f"Mejor sector: {bs.get('label','N/A')} → {bs.get('win_rate_7d','N/A')}% WR\n"
-        f"FCF≥5%: {next((x['win_rate_7d'] for x in fcf_tiers if x['label']=='FCF≥5%'),'N/A')}% WR\n"
-        f"Combos: {[(c['label'],c['win_rate_7d']) for c in combos_solidos]}\n"
+        f"Mejor score tier: {bt.get('label','N/A')} → {bt.get('win_rate','N/A')}% WR (ret {bt.get('avg_return','N/A')}%)\n"
+        f"Mejor régimen: {br.get('label','N/A')} → {br.get('win_rate','N/A')}% WR\n"
+        f"Mejor sector: {bs.get('label','N/A')} → {bs.get('win_rate','N/A')}% WR\n"
+        f"FCF≥5%: {next((x['win_rate'] for x in fcf_tiers if x['label']=='FCF≥5%'),'N/A')}% WR\n"
+        f"Combos: {[(c['label'],c['win_rate']) for c in combos_solidos]}\n"
         "3-4 frases en español. Conclusiones accionables: qué favorece victorias, qué evitar.", 250
-    ) or f"Sistema analizó {len(done)} señales. Win rate base {base_wr:.1f}%. Mejor tier: {bt.get('label','N/A')} con {bt.get('win_rate_7d','N/A')}% WR."
+    ) or f"Sistema analizó {len(done)} señales. Win rate base {base_wr:.1f}%. Mejor tier: {bt.get('label','N/A')} con {bt.get('win_rate','N/A')}% WR."
 
     print(f"  ✓ Done")
-    return dict(generated_at=TODAY, total_analyzed=len(done), baseline_win_rate_7d=round(base_wr,1),
-                baseline_avg_return_7d=round(base_ret,2), score_tiers=score_tiers, market_regimes=regimes,
+    return dict(generated_at=TODAY, total_analyzed=len(done), baseline_win_rate=round(base_wr,1),
+                baseline_avg_return=round(base_ret,2), score_tiers=score_tiers, market_regimes=regimes,
                 sectors=sectors[:10], fcf_tiers=fcf_tiers, rr_tiers=rr_tiers, period_stats=period_stats,
                 best_combos=best_combos, hay_senal=True, narrative=narrative)
 
@@ -533,24 +538,24 @@ def self_calibrate(insights: dict) -> dict:
     if not insights or "score_tiers" not in insights:
         return dict(generated_at=TODAY, recommendations=[], narrative=None, total_recommendations=0)
 
-    baseline = insights.get("baseline_win_rate_7d", 50)
+    baseline = insights.get("baseline_win_rate", 50)
     recs = []
 
     for tier in insights.get("score_tiers", []):
         if tier["vs_baseline_wr"] > 10 and tier["n"] >= 10:
             recs.append(dict(type="BOOST", factor=f"Score {tier['label']}",
-                insight=f"WR {tier['win_rate_7d']}% ({tier['vs_baseline_wr']:+.1f}pp sobre base). Priorizar este rango.", n=tier["n"]))
+                insight=f"WR {tier['win_rate']}% ({tier['vs_baseline_wr']:+.1f}pp sobre base). Priorizar este rango.", n=tier["n"]))
         # Lowered threshold to -5pp (from -10pp) so the 70-80 anomaly is caught
         # (WR 19% vs baseline 26% = -6.9pp, which was silently ignored before)
         elif tier["vs_baseline_wr"] < -5 and tier["n"] >= 20:
             recs.append(dict(type="REDUCE", factor=f"Score {tier['label']}",
-                insight=f"Solo {tier['win_rate_7d']}% WR ({tier['vs_baseline_wr']:+.1f}pp bajo base, n={tier['n']}). "
+                insight=f"Solo {tier['win_rate']}% WR ({tier['vs_baseline_wr']:+.1f}pp bajo base, n={tier['n']}). "
                         f"Este rango de score no discrimina bien — filtrar más agresivo o revisar factores.", n=tier["n"]))
 
     for reg in insights.get("market_regimes", []):
         if reg["vs_baseline_wr"] < -15 and reg["n"] >= 5:
             recs.append(dict(type="REGIME_FILTER", factor=f"Régimen {reg['label']}",
-                insight=f"Solo {reg['win_rate_7d']}% WR en {reg['label']}. Considera pausar señales.", n=reg["n"]))
+                insight=f"Solo {reg['win_rate']}% WR en {reg['label']}. Considera pausar señales.", n=reg["n"]))
 
     for fcf in insights.get("fcf_tiers", []):
         if fcf["label"] == "FCF≥5%" and fcf["vs_baseline_wr"] > 5 and fcf["n"] >= 5:
@@ -627,11 +632,11 @@ def auto_tune(insights: dict, calibration: dict) -> dict:
             break
 
     # Best score tier insight
-    best_tier = max(insights.get("score_tiers",[]), key=lambda x: x["win_rate_7d"], default=None)
+    best_tier = max(insights.get("score_tiers",[]), key=lambda x: x["win_rate"], default=None)
     if best_tier and best_tier["vs_baseline_wr"] > 15 and "80" in best_tier.get("label",""):
         adjustments.append(dict(factor="score_threshold_note",
             change="Consider raising minimum threshold to 70+ for published picks",
-            reason=f"Score 80+ has {best_tier['win_rate_7d']}% WR vs {insights.get('baseline_win_rate_7d',50):.0f}% base",
+            reason=f"Score 80+ has {best_tier['win_rate']}% WR vs {insights.get('baseline_win_rate',50):.0f}% base",
             n=best_tier["n"]))
 
     narrative = ai(
@@ -4131,7 +4136,7 @@ def main():
 
     print("\n" + "=" * 60)
     print("SUMMARY")
-    print(f"  Signals analyzed : {insights.get('total_analyzed',0)} · baseline WR {insights.get('baseline_win_rate_7d',0):.1f}%")
+    print(f"  Signals analyzed : {insights.get('total_analyzed',0)} · baseline WR {insights.get('baseline_win_rate',0):.1f}%")
     print(f"  Convergences     : {convergence.get('total_convergences',0)} ({convergence.get('triple_or_more',0)} triple+)")
     print(f"  Alerts           : {alerts.get('total',0)} ({alerts.get('high_count',0)} HIGH)")
     print(f"  Entry signals    : {entry_sigs.get('strong_buy',0)} STRONG BUY · {entry_sigs.get('buy',0)} BUY")

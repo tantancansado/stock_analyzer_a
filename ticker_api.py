@@ -1819,23 +1819,40 @@ def portfolio_timeseries():
     completed['quarter'] = completed['signal_date'].dt.to_period('Q').apply(lambda p: f"Q{p.quarter} {p.year}")
     completed['weekday'] = completed['signal_date'].dt.day_name()
 
+    # Los horizontes vienen de horizontes.py, no escritos a mano aquí: esta app
+    # no va del corto plazo y un win rate a 14 días sobre una tesis VALUE mide
+    # ruido. Ver el módulo para la tabla de edge por plazo.
+    from horizontes import (PRINCIPAL, SECUNDARIO, CORTO_PRINCIPAL, CORTO_SECUNDARIO,
+                            es_corto_plazo, horizontes_de)
+
+    def _serie(grp, horizonte: str):
+        """(win rate %, retorno medio, serie de aciertos) a un horizonte."""
+        ret = pd.to_numeric(grp.get(f'return_{horizonte}'), errors='coerce').dropna() \
+            if f'return_{horizonte}' in grp.columns else pd.Series(dtype=float)
+        win = grp[f'win_{horizonte}'].map({'True': True, 'False': False, True: True, False: False}).dropna() \
+            if f'win_{horizonte}' in grp.columns else pd.Series(dtype=float)
+        return (
+            round(float(win.mean() * 100), 1) if len(win) else None,
+            round(float(ret.mean()), 2) if len(ret) else None,
+            win,
+        )
+
     def _agg(group_col: str, label_col: str | None = None) -> list[dict]:
         lc = label_col or group_col
         out = []
         for key, grp in completed.groupby(lc):
-            r14 = pd.to_numeric(grp['return_14d'], errors='coerce').dropna()
-            r30 = pd.to_numeric(grp['return_30d'], errors='coerce').dropna()
-            w14 = grp['win_14d'].map({'True': True, 'False': False, True: True, False: False})
-            w30 = grp['win_30d'].map({'True': True, 'False': False, True: True, False: False})
-            # strategy split
+            wr_p, ret_p, _ = _serie(grp, PRINCIPAL)
+            wr_s, ret_s, _ = _serie(grp, SECUNDARIO)
             strat_counts = grp['strategy'].value_counts().to_dict()
             out.append({
                 'label':          str(key),
                 'signals':        int(len(grp)),
-                'win_rate_14d':   round(float(w14.mean() * 100), 1) if len(w14) else None,
-                'win_rate_30d':   round(float(w30.mean() * 100), 1) if len(w30) else None,
-                'avg_return_14d': round(float(r14.mean()), 2) if len(r14) else None,
-                'avg_return_30d': round(float(r30.mean()), 2) if len(r30) else None,
+                'horizonte':      PRINCIPAL,
+                'horizonte_2':    SECUNDARIO,
+                'win_rate':       wr_p,
+                'win_rate_2':     wr_s,
+                'avg_return':     ret_p,
+                'avg_return_2':   ret_s,
                 'value_us':       int(strat_counts.get('VALUE', 0)),
                 'value_eu':       int(strat_counts.get('EU_VALUE', 0)),
                 'momentum':       int(strat_counts.get('MOMENTUM', 0)),
@@ -1849,24 +1866,30 @@ def portfolio_timeseries():
     # strategy overall comparison
     strat_rows = []
     for strat, grp in completed.groupby('strategy'):
-        r14 = pd.to_numeric(grp['return_14d'], errors='coerce').dropna()
-        r30 = pd.to_numeric(grp['return_30d'], errors='coerce').dropna()
-        w14 = grp['win_14d'].map({'True': True, 'False': False, True: True, False: False})
-        w30 = grp['win_30d'].map({'True': True, 'False': False, True: True, False: False})
-        lo14, hi14 = _wilson_pct(w14)
-        lo30, hi30 = _wilson_pct(w30)
+        # Un rebote técnico se resuelve en semanas: medirlo a 90 días mezcla el
+        # rebote con lo que viniera después. Cada estrategia lleva su plazo.
+        h_p, h_s = horizontes_de(strat)
+        wr_p, ret_p, win_p = _serie(grp, h_p)
+        wr_s, ret_s, win_s = _serie(grp, h_s)
+        lo_p, hi_p = _wilson_pct(win_p)
+        lo_s, hi_s = _wilson_pct(win_s)
         strat_rows.append({
             'strategy':       str(strat),
             'signals':        int(len(grp)),
-            'win_rate_14d':   round(float(w14.mean() * 100), 1) if len(w14) else None,
-            'win_rate_30d':   round(float(w30.mean() * 100), 1) if len(w30) else None,
+            'corto_plazo':    es_corto_plazo(strat),
+            'horizonte':      h_p,
+            'horizonte_2':    h_s,
+            'win_rate':       wr_p,
+            'win_rate_2':     wr_s,
             # Sin el intervalo, un 100% con 18 señales y un 42% con 801 se ven
             # igual de sólidos en pantalla, y el primero es ruido. Es la misma
             # corrección que ya lleva portfolio_tracker en su resumen.
-            'ci_low_14d':     lo14,  'ci_high_14d': hi14,
-            'ci_low_30d':     lo30,  'ci_high_30d': hi30,
-            'avg_return_14d': round(float(r14.mean()), 2) if len(r14) else None,
-            'avg_return_30d': round(float(r30.mean()), 2) if len(r30) else None,
+            'ci_low':         lo_p,  'ci_high':   hi_p,
+            'ci_low_2':       lo_s,  'ci_high_2': hi_s,
+            'muestra':        int(len(win_p)),
+            'muestra_2':      int(len(win_s)),
+            'avg_return':     ret_p,
+            'avg_return_2':   ret_s,
             'avg_drawdown':   round(float(pd.to_numeric(grp['max_drawdown_30d'], errors='coerce').dropna().mean()), 2),
         })
 
@@ -3591,40 +3614,46 @@ def backtest():
             "worst": round(min(returns), 2),
         }
 
-    # Collect per-strategy returns and per-score-bucket returns
-    strat_7d: dict[str, list[float]] = {}
-    score_buckets_7d: dict[str, list[float]] = {"≥70": [], "60-69": [], "50-59": [], "<50": []}
-    trades_7d = []
+    # Todo esto se medía a 7 días. A ese plazo el sistema no tiene ventaja
+    # ninguna (29% de aciertos sobre 1692 señales) porque a una semana de una
+    # tesis VALUE todavía no ha pasado nada: no era un backtest malo, era la
+    # pregunta equivocada. Ver horizontes.py.
+    from horizontes import PRINCIPAL, etiqueta as _etiqueta_horizonte
+    col_ret = f'return_{PRINCIPAL}'
+
+    strat: dict[str, list[float]] = {}
+    score_buckets: dict[str, list[float]] = {"≥70": [], "60-69": [], "50-59": [], "<50": []}
+    trades = []
 
     for r in rows:
-        ret7  = _f(r.get('return_7d'))
+        ret   = _f(r.get(col_ret))
         score = _f(r.get('value_score'))
-        strat = r.get('strategy', 'VALUE')
-        if ret7 is None:
+        st    = r.get('strategy', 'VALUE')
+        if ret is None:
             continue
-        strat_7d.setdefault(strat, []).append(ret7)
+        strat.setdefault(st, []).append(ret)
         if score is not None:
-            if score >= 70:   score_buckets_7d["≥70"].append(ret7)
-            elif score >= 60: score_buckets_7d["60-69"].append(ret7)
-            elif score >= 50: score_buckets_7d["50-59"].append(ret7)
-            else:             score_buckets_7d["<50"].append(ret7)
-        trades_7d.append({
+            if score >= 70:   score_buckets["≥70"].append(ret)
+            elif score >= 60: score_buckets["60-69"].append(ret)
+            elif score >= 50: score_buckets["50-59"].append(ret)
+            else:             score_buckets["<50"].append(ret)
+        trades.append({
             "ticker":          r.get('ticker'),
             "company_name":    r.get('company_name'),
-            "strategy":        strat,
+            "strategy":        st,
             "signal_date":     r.get('signal_date'),
             "signal_price":    _f(r.get('signal_price')),
             "value_score":     score,
             "sector":          r.get('sector'),
-            "return_7d":       ret7,
-            "win_7d":          ret7 > 0,
+            "retorno":         ret,
+            "acierto":         ret > 0,
             "max_drawdown_30d": _f(r.get('max_drawdown_30d')),
         })
 
-    all_7d = [t["return_7d"] for t in trades_7d]
+    todos = [t["retorno"] for t in trades]
     # Conviction slice: only value_score ≥ 55 (matches frontend default filter)
-    conviction_7d = [t["return_7d"] for t in trades_7d if t["value_score"] is not None and t["value_score"] >= 55]
-    trades_7d_sorted = sorted(trades_7d, key=lambda x: x["return_7d"], reverse=True)
+    conviccion = [t["retorno"] for t in trades if t["value_score"] is not None and t["value_score"] >= 55]
+    trades_ord = sorted(trades, key=lambda x: x["retorno"], reverse=True)
 
     # Date range
     dates = sorted(set(r.get('signal_date','') for r in rows if r.get('signal_date')))
@@ -3634,18 +3663,21 @@ def backtest():
         "type": "live_tracker",
         "date_range": {"from": dates[0] if dates else None, "to": dates[-1] if dates else None},
         "total_signals": len(rows),
+        "signals_medidas": len(trades),
         "market_context": market_regime,
+        "horizonte": PRINCIPAL,
+        "horizonte_label": _etiqueta_horizonte(PRINCIPAL),
         "periods": {
-            "7d": {
-                "overall": _stats_for(all_7d),
-                "conviction": _stats_for(conviction_7d),
-                "by_strategy": {s: _stats_for(rets) for s, rets in strat_7d.items()},
-                "by_score": {bucket: _stats_for(rets) for bucket, rets in score_buckets_7d.items()},
+            PRINCIPAL: {
+                "overall": _stats_for(todos),
+                "conviction": _stats_for(conviccion),
+                "by_strategy": {s: _stats_for(rets) for s, rets in strat.items()},
+                "by_score": {bucket: _stats_for(rets) for bucket, rets in score_buckets.items()},
             }
         },
-        "top_performers_7d": trades_7d_sorted[:10],
-        "worst_performers_7d": trades_7d_sorted[-10:][::-1],
-        "trades": trades_7d_sorted,
+        "top_performers": trades_ord[:10],
+        "worst_performers": trades_ord[-10:][::-1],
+        "trades": trades_ord,
     }
     return jsonify(result)
 

@@ -112,18 +112,18 @@ function parseMRCSV(text: string): MRSetup[] {
 
 // ── Helpers ────────────────────────────────────────────────────────────────────
 
-type Period = '7d' | '14d' | '30d' | '90d' | '180d'
+// Sin 7/14/30 días: esta app no va del corto plazo y a esos plazos el sistema
+// no tiene ventaja medible (29% de aciertos a 7d sobre 1692 señales). Ofrecer
+// el selector invitaba a leer "el sistema falla" cuando lo que dice es que
+// todavía no ha pasado nada. Ver horizontes.py.
+type Period = '90d' | '180d'
 const PERIODS: { key: Period; label: string }[] = [
-  { key: '7d',  label: '+7 días' },
-  { key: '14d', label: '+14 días' },
-  { key: '30d', label: '+30 días' },
   { key: '90d', label: '+90 días' },
   { key: '180d', label: '+180 días' },
 ]
 
 function retOf(s: Signal, p: Period) {
-  return p === '7d' ? s.return_7d : p === '14d' ? s.return_14d
-    : p === '30d' ? s.return_30d : p === '90d' ? s.return_90d : s.return_180d
+  return p === '90d' ? s.return_90d : s.return_180d
 }
 
 function pct(v: number | null, d = 1) {
@@ -182,7 +182,7 @@ export default function Backtest() {
   const [loading,  setLoading]  = useState(true)
   const [error,    setError]    = useState('')
   const [tab,      setTab]      = useState<'value' | 'mr' | 'analytics'>('value')
-  const [period,   setPeriod]   = useState<Period>('7d')
+  const [period,   setPeriod]   = useState<Period>('90d')
   const [strat,    setStrat]    = useState('ALL')
   const [sort,     setSort]     = useState<'date' | 'ret' | 'score'>('ret')
 
