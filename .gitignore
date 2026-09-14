@@ -38,6 +38,10 @@ cache/float_filter/
 !docs/ticker_data_cache.json
 !docs/why_cheap_cache.json
 !docs/tesis_value_cache.json
+# La caché de veredictos del gate NO es efímera: es lo que evita repetir el 86%
+# de las verificaciones y lo que sostiene Value US cuando se acaba el saldo de
+# Claude. Si CI no la commitea, cada ejecución parte de cero y no ahorra nada.
+!docs/ai_verdicts_cache.json
 
 # ─── Temporary / generated data ───
 vcp_calibrated_results_*.csv

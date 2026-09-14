@@ -107,3 +107,60 @@ class TestGuardarYBuscar:
         assert vc.buscar(BASE) is None
         vc.guardar(BASE, True, None)          # se regenera solo
         assert vc.buscar(BASE) is not None
+
+
+class TestSobreviveACI:
+    """Una caché que CI no commitea no ahorra NADA.
+
+    docs/ai_verdicts_cache.json caía en el patrón `*_cache.json` del
+    .gitignore, así que se escribía en cada ejecución y se tiraba: cada run
+    partía de cero, el 86% de verificaciones repetidas se seguía pagando, y la
+    resistencia a quedarse sin presupuesto no existía. El mismo tropiezo que ya
+    documenta claude_budget.py (allí fue por ser un dotfile).
+    """
+
+    # Ojo: el fixture _aislar de arriba reapunta vc.ESTADO a tmp_path, asi que
+    # para comprobar la ruta REAL hay que releerla del fuente del modulo.
+    @staticmethod
+    def _ruta_real():
+        import re as _re
+        from pathlib import Path
+        src = (Path(__file__).parent.parent / "verdict_cache.py").read_text()
+        m = _re.search(r"ESTADO\s*=.*?'docs'\s*/\s*'([^']+)'", src)
+        assert m, "no se pudo leer la ruta de ESTADO en verdict_cache.py"
+        return m.group(1)
+
+    def test_la_cache_no_esta_ignorada_por_git(self):
+        """El fichero tiene que poder commitearse.
+
+        `git check-ignore` devuelve 0 tanto si lo ignora una regla normal como
+        si lo salva una de NEGACION, asi que el codigo de salida no vale. Lo
+        que distingue los dos casos es el PATRON que casa: si empieza por `!`,
+        el fichero se commitea. Y `git add --dry-run` tampoco sirve: si el
+        fichero no existe en local dice "did not match any files" y el test
+        pasaria en vacio.
+        """
+        import subprocess
+        from pathlib import Path
+
+        raiz = Path(__file__).parent.parent
+        nombre = self._ruta_real()
+        r = subprocess.run(
+            ["git", "check-ignore", "-v", "--no-index", "--", f"docs/{nombre}"],
+            cwd=raiz, capture_output=True, text=True)
+
+        if r.returncode != 0 or not r.stdout.strip():
+            return                      # ninguna regla casa: se commitea
+
+        # formato: <fichero>:<linea>:<patron>\t<ruta>
+        patron = r.stdout.split("\t")[0].split(":", 2)[2]
+        assert patron.startswith("!"), (
+            f"docs/{nombre} lo ignora la regla `{patron}`: CI no lo commiteara "
+            f"y la cache partira de cero en cada ejecucion, sin ahorrar nada"
+        )
+
+    def test_vive_en_docs_que_es_lo_que_commitea_el_workflow(self):
+        # Los workflows hacen `git add docs/*.json`, y bash no expande dotfiles.
+        nombre = self._ruta_real()
+        assert nombre.endswith(".json")
+        assert not nombre.startswith("."), "un dotfile no lo expande bash"
