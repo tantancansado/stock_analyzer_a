@@ -57,9 +57,11 @@ export default function CommandPalette({ open, onClose }: { open: boolean; onClo
           ('keywords' in n && (n.keywords as string[]).some(kw => kw.includes(q))),
       )
     : NAVIGATION
-  const isTickerSearch = q.length >= 1 && q.length <= 5 && /^[a-z]+$/i.test(q)
-  
-  const totalItems = navItems.length + (isTickerSearch ? 1 : 0)
+  // Ya no hay fila de "analizar ticker": llevaba a /search, que se retiró el
+  // 14-sep-2026. Esta app no es un buscador de acciones, es una lista de ideas
+  // ya filtradas — preguntarle por un ticker cualquiera no encaja con lo que
+  // hace. La paleta se queda para lo que sí sirve: saltar entre secciones.
+  const totalItems = navItems.length
 
   // Keyboard navigation
   useEffect(() => {
@@ -75,22 +77,15 @@ export default function CommandPalette({ open, onClose }: { open: boolean; onClo
         e.preventDefault()
         if (totalItems === 0) return
         
-        // Handle selection
-        if (isTickerSearch && selectedIndex === 0) {
-          navigate(`/search?q=${q.toUpperCase()}`)
+        if (selectedIndex >= 0 && selectedIndex < navItems.length) {
+          navigate(navItems[selectedIndex].path)
           onClose()
-        } else {
-          const navIdx = isTickerSearch ? selectedIndex - 1 : selectedIndex
-          if (navIdx >= 0 && navIdx < navItems.length) {
-            navigate(navItems[navIdx].path)
-            onClose()
-          }
         }
       }
     }
     document.addEventListener('keydown', handleKeyDown)
     return () => document.removeEventListener('keydown', handleKeyDown)
-  }, [open, selectedIndex, totalItems, isTickerSearch, q, navigate, navItems, onClose])
+  }, [open, selectedIndex, totalItems, navigate, navItems, onClose])
 
   // Reset index on query change
   useEffect(() => { setSelectedIndex(0) }, [query])
@@ -125,30 +120,11 @@ export default function CommandPalette({ open, onClose }: { open: boolean; onClo
             </div>
           )}
 
-          {isTickerSearch && (
-            <div className="mb-2">
-              <div className="px-2 py-1.5 text-[0.65rem] font-semibold uppercase text-muted-foreground">Analizar Ticker</div>
-              <div
-                role="option"
-                aria-selected={selectedIndex === 0}
-                tabIndex={0}
-                className={cn(
-                  "flex items-center gap-2 rounded-sm px-2 py-2.5 text-sm transition-colors cursor-pointer",
-                  selectedIndex === 0 ? "bg-primary/20 text-primary" : "text-foreground hover:bg-white/5"
-                )}
-                onClick={() => { navigate(`/search?q=${q.toUpperCase()}`); onClose() }}
-              >
-                <Search size={16} className="text-primary/70" />
-                <span>Analizar <strong className="font-mono text-primary">{q.toUpperCase()}</strong></span>
-              </div>
-            </div>
-          )}
-
           {navItems.length > 0 && (
             <div>
               <div className="px-2 py-1.5 text-[0.65rem] font-semibold uppercase text-muted-foreground">Navegación</div>
               {navItems.map((item, i) => {
-                const idx = isTickerSearch ? i + 1 : i
+                const idx = i
                 return (
                   <div
                     key={item.id}

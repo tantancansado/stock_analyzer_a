@@ -1453,9 +1453,6 @@ export const fetchValueEUInsight = () =>
 export const fetchPortfolioInsight = () =>
   apiClient.get<{ narrative: string | null; date: string | null; total_signals?: number; win_rate_7d?: number }>('/api/portfolio-insight')
 
-export const analyzeTickerAI = (ticker: string) =>
-  apiClient.get<{ ticker: string; narrative: string | null; date?: string; error?: string }>(`/api/analyze-ai/${ticker}`)
-
 export interface EarningsEntry {
   ticker: string
   company: string

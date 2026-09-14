@@ -8,7 +8,6 @@ import {
   LogoBounce,
   LogoVault,
   LogoSeed,
-  LogoSonar,
   LogoChartPeak,
 } from './BrandLogos'
 
@@ -24,7 +23,6 @@ const ROUTE_LOGOS: ReadonlyArray<readonly [string, LogoComp]> = [
   ['/bounce',         LogoBounce],
   ['/my-portfolio',   LogoVault],
   ['/owner-earnings', LogoSeed],
-  ['/search',         LogoSonar],
 ]
 
 function pickLogo(pathname: string): LogoComp | null {

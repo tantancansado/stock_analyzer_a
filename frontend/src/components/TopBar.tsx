@@ -17,7 +17,6 @@ const ROUTE_TITLES: Record<string, string> = {
   '/bounce':          'Bounce',
   '/my-portfolio':    'Mi cartera',
   '/owner-earnings':  'Valoración',
-  '/search':          'Buscar ticker',
   '/entry-setups':    'Entry setups',
   '/options':         'Options flow',
   '/sectors':         'Sectores',

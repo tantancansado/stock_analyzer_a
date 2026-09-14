@@ -25,7 +25,6 @@ const RUTAS: Record<string, () => Promise<unknown>> = {
   '/sectors':         () => import('../pages/Sectors'),
   '/my-portfolio':    () => import('../pages/MyPortfolio'),
   '/backtest':        () => import('../pages/Backtest'),
-  '/search':          () => import('../pages/TickerSearch'),
   '/datos':           () => import('../pages/Datos'),
   '/position-sizing': () => import('../pages/PositionSizing'),
   '/macro-radar':     () => import('../pages/Macro'),

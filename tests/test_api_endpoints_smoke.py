@@ -156,7 +156,7 @@ class TestDownloadEndpoint:
 class TestClaudeCostEndpointsRateLimited:
     """Con varios usuarios (self-signup, 25-ago-2026) el límite genérico
     (100/hora, para toda la API) no protegía el GASTO — alguien mirando
-    tickers uno tras otro en /api/leaps, /api/analyze-ai o /api/options-chain
+    tickers uno tras otro en /api/leaps o /api/options-chain
     podía disparar decenas de llamadas pagadas a Claude sin darse cuenta,
     cada una fuera del presupuesto controlado del pipeline diario.
 
@@ -169,7 +169,8 @@ class TestClaudeCostEndpointsRateLimited:
 
     ENDPOINTS_CON_CLAUDE = [
         ("/api/leaps/<ticker>", 'leaps_ticker'),
-        ("/api/analyze-ai/<ticker>", 'analyze_ticker_ai'),
+        # /api/analyze-ai/<ticker> se retiró el 14-sep-2026 con la página de
+        # búsqueda, que era su único consumidor.
         ("/api/options-chain/<ticker>", 'options_chain'),
     ]
 

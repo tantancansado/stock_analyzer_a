@@ -46,15 +46,17 @@ function renderPalette(onClose = vi.fn()) {
 }
 
 describe('CommandPalette', () => {
-  it('navigates to ticker search from the quick action', async () => {
+  it('no ofrece analizar un ticker suelto', async () => {
+    // La fila "Analizar <TICKER>" llevaba a /search, retirada el 14-sep-2026:
+    // esta app es una lista de ideas ya filtradas, no un buscador al que
+    // preguntarle por cualquier acción. La paleta sirve para saltar entre
+    // secciones y nada más.
     const user = userEvent.setup()
-    const { onClose } = renderPalette()
+    renderPalette()
 
     await user.type(screen.getByPlaceholderText(/ticker/i), 'aapl')
-    await user.click(screen.getByRole('option', { name: /analizar aapl/i }))
 
-    expect(screen.getByTestId('location')).toHaveTextContent('/search?q=AAPL')
-    expect(onClose).toHaveBeenCalledOnce()
+    expect(screen.queryByRole('option', { name: /analizar aapl/i })).toBeNull()
   })
 
   it('filters navigation results by keywords', async () => {

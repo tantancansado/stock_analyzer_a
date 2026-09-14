@@ -34,7 +34,6 @@ const Leaps            = lazy(() => import('./pages/Leaps'))
 const Sectors          = lazy(() => import('./pages/Sectors'))
 const MyPortfolio      = lazy(() => import('./pages/MyPortfolio'))
 const Backtest         = lazy(() => import('./pages/Backtest'))
-const TickerSearch     = lazy(() => import('./pages/TickerSearch'))
 const Datos            = lazy(() => import('./pages/Datos'))
 const PositionSizing   = lazy(() => import('./pages/PositionSizing'))
 const Macro            = lazy(() => import('./pages/Macro'))
@@ -330,7 +329,6 @@ export default function App() {
                   <Route path="/calibration"   element={<Calibration />} />
                   <Route path="/backtest"       element={<Backtest />} />
                   <Route path="/position-sizing" element={<PositionSizing />} />
-                  <Route path="/search"         element={<TickerSearch />} />
                   <Route path="/macro-radar"       element={<Macro />} />
                   <Route path="/macro-countries"  element={<Navigate to="/macro-radar?tab=countries" replace />} />
                   <Route path="/macro-stress"     element={<Navigate to="/macro-radar?tab=stress" replace />} />

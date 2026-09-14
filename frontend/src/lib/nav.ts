@@ -1,10 +1,4 @@
-import {
-  TrendingUp, Users, Activity,
-  PieChart, FlaskConical, Search, LayoutDashboard, Database,
-  Ruler, Radar, CalendarDays, AlertTriangle,
-  DollarSign, Wallet, Crosshair, Calculator, Shuffle, BookOpen, Landmark, BarChart2, Wheat,
-  Rocket,
-} from 'lucide-react'
+import { TrendingUp, Users, Activity, PieChart, FlaskConical, LayoutDashboard, Database, Ruler, Radar, CalendarDays, AlertTriangle, DollarSign, Wallet, Crosshair, Calculator, Shuffle, BookOpen, Landmark, BarChart2, Wheat, Rocket } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 
 export type NavLinkItem = { path: string; icon: LucideIcon; label: string; color: string; logo?: string; keywords?: string[]; adminOnly?: boolean }
@@ -23,7 +17,6 @@ export const NAV_CATEGORIES: NavCategory[] = [
   {
     name: 'Discovery',
     items: [
-      { path: '/search',         icon: Search,          label: 'Buscar',         color: '#94a3b8', logo: 'llama-hands-growth.png',  keywords: ['buscar', 'ticker', 'search', 'analisis'] },
       { path: '/value',          icon: DollarSign,      label: 'Value',          color: '#10b981', logo: 'llama-glasses-arrow.png', keywords: ['value', 'fundamental', 'us', 'eu', 'europa', 'global', 'acciones'] },
       { path: '/entry-setups',    icon: TrendingUp,    label: 'Entry setups',    color: '#f97316', keywords: ['momentum', 'vcp', 'mean reversion', 'rebote', 'oversold', 'tendencia'] },
       { path: '/bounce',         icon: Crosshair,       label: 'Rebotes técnicos', color: '#f97316', logo: 'llama-shield.png',      keywords: ['bounce', 'rebote', 'corto plazo', 'oversold', 'rsi extremo'] },
