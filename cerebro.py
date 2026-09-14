@@ -152,9 +152,30 @@ def mine_patterns() -> dict:
     from horizontes import PRINCIPAL
     col_ret, col_win = f"return_{PRINCIPAL}", f"win_{PRINCIPAL}"
     done = df[df[col_ret].notna()].copy() if not df.empty and col_ret in df.columns else pd.DataFrame()
+
+    # SOLO US. Mezclar VALUE con EU_VALUE aquí invertía la conclusión — es un
+    # caso de libro de paradoja de Simpson. Por tramo de score a 90 días:
+    #
+    #   score    VALUE US            EU_VALUE
+    #   <50      57.5%  +7.88%       44.5%  -1.26%   (n=503)
+    #   50-60    70.7%  +4.87%       50.4%  +1.72%
+    #   60-70    64.4%  +7.61%       37.9%  +1.41%
+    #   70-80    77.8% +17.34%        0.0% -12.02%   (n=16)
+    #
+    # En US el score funciona y el tramo alto es el mejor con diferencia. Pero
+    # Europa concentra 503 señales en el tramo bajo y 16 en el alto, así que la
+    # mezcla invierte la pendiente y self_calibrate emitía "BOOST score 50-60,
+    # priorizar este rango" — el rango con un tercio del retorno del 70-80.
+    #
+    # El usuario compra casi solo US, y las páginas de estadísticas ya titulan
+    # solo con US por lo mismo. Europa se sigue midiendo, en su propio sitio.
+    POBLACION = 'VALUE'
+    if 'strategy' in done.columns:
+        done = done[done['strategy'] == POBLACION].copy()
+
     if len(done) < 10:
         print(f"  Only {len(done)} completed signals — need more data.")
-        return {"total_analyzed": len(done), "narrative": None}
+        return {"total_analyzed": len(done), "poblacion": POBLACION, "narrative": None}
 
     base_wr  = float(done[col_win].mean()) * 100 if col_win in done.columns else 50.0
     base_ret = float(done[col_ret].mean())
@@ -268,7 +289,7 @@ def mine_patterns() -> dict:
             f"se distingue del acierto base ({base_wr:.1f}%) una vez se tiene en cuenta el "
             f"tamano de la muestra. No hay patron que explotar todavia."
         )
-        return dict(generated_at=TODAY, total_analyzed=len(done), baseline_win_rate=round(base_wr,1),
+        return dict(generated_at=TODAY, total_analyzed=len(done), poblacion=POBLACION, baseline_win_rate=round(base_wr,1),
                     baseline_avg_return=round(base_ret,2), score_tiers=score_tiers,
                     market_regimes=regimes, sectors=sectors[:10], fcf_tiers=fcf_tiers,
                     rr_tiers=rr_tiers, period_stats=period_stats, best_combos=best_combos,
@@ -286,7 +307,7 @@ def mine_patterns() -> dict:
     ) or f"Sistema analizó {len(done)} señales. Win rate base {base_wr:.1f}%. Mejor tier: {bt.get('label','N/A')} con {bt.get('win_rate','N/A')}% WR."
 
     print(f"  ✓ Done")
-    return dict(generated_at=TODAY, total_analyzed=len(done), baseline_win_rate=round(base_wr,1),
+    return dict(generated_at=TODAY, total_analyzed=len(done), poblacion=POBLACION, baseline_win_rate=round(base_wr,1),
                 baseline_avg_return=round(base_ret,2), score_tiers=score_tiers, market_regimes=regimes,
                 sectors=sectors[:10], fcf_tiers=fcf_tiers, rr_tiers=rr_tiers, period_stats=period_stats,
                 best_combos=best_combos, hay_senal=True, narrative=narrative)

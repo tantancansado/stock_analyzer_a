@@ -266,17 +266,29 @@ if all_mr:
             print("  Sin salidas simulables (datos de precio insuficientes)")
 
 
+# El veredicto de VALUE US estaba escrito a mano con números de una tirada
+# vieja (n=701, WR 65%, avg +2.9%) que ya no se parecían a los de hoy, y
+# afirmaba cosas sobre 7d/14d que esta app ya no mide. Ahora se calcula.
+def _veredicto_us(horizonte):
+    datos = [(safe_float(r[f'return_{horizonte}']), safe_float(r.get(f'alpha_{horizonte}')))
+             for r in value_rows
+             if safe_float(r.get(f'return_{horizonte}')) is not None]
+    if not datos:
+        return f"  {horizonte}: sin señales cerradas todavía"
+    rets = [x[0] for x in datos]
+    alphas = [x[1] for x in datos if x[1] is not None]
+    wr = sum(1 for r in rets if r > 0) / len(rets) * 100
+    avg = sum(rets) / len(rets)
+    a = f" · alpha {sum(alphas)/len(alphas):+.2f}%" if alphas else ""
+    return f"  {horizonte}: n={len(rets)}, WR {wr:.0f}%, retorno medio {avg:+.2f}%{a}"
+
 print(f"""
 {'='*60}
 VEREDICTO FINAL
 {'='*60}
 
-VALUE US a 30 días (n=701):
-  ✅ WR 65%, avg +2.9% — funciona en mercado alcista
-  ❌ 7d/14d: WR <45%, avg negativo — no usar como horizonte de medición
-  ⚠️  El 72% WR de marzo fue rebote post-corrección, no patrón estructural
-  🏆 Mejores sectores: Healthcare 82%, Financial Services 74%, Consumer Cyclical 90%
-  🚫 Evitar: Real Estate 44%, Technology 40%
+VALUE US (horizontes de la app — ver horizontes.py):
+""" + "\n".join(_veredicto_us(h) for h in LARGOS) + f"""
 
 Bounce Trader (n=291 setups, 9 tickers, 2 días):
   ⚠️  Muestra insuficiente — solo 2 fechas, 9 tickers, rebote de mercado

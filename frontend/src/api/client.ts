@@ -937,6 +937,9 @@ export interface CerebroTier {
 export interface CerebroInsights {
   generated_at: string
   total_analyzed: number
+  /** Población sobre la que se minan los patrones. Mezclar US con EU invertía
+   *  la conclusión por composición de muestra — ver cerebro.mine_patterns. */
+  poblacion?: string
   baseline_win_rate: number
   baseline_avg_return: number
   score_tiers: CerebroTier[]
