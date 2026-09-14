@@ -33,7 +33,6 @@ TIER_1 = [
                # sin que nada avisara. Verificado 7-ago-2026: MRSH devuelve
                # "Marsh & McLennan Companies, Inc.", NYSE, $193,29, $92B.
     'MA',      # Mastercard
-    'AI.PA',   # Air Liquide (Euronext Paris)
     'CME',     # CME Group
     'RSG',     # Republic Services
     'HESAY',   # Hermès International (ADR)
@@ -74,7 +73,6 @@ TIER_2 = [
     'AJG',     # Arthur J. Gallagher
     'CNI',     # Canadian National Railway
     'ICE',     # Intercontinental Exchange
-    'LSEG.L',  # London Stock Exchange Group (LSE)
     'AZO',     # AutoZone
     'DBOEY',   # Deutsche Börse AG (ADR)
     'WST',     # West Pharmaceutical Services
@@ -97,7 +95,6 @@ TIER_3 = [
     'BRK-B',   # Berkshire Hathaway B
     'DHR',     # Danaher
     'OTIS',    # Otis Worldwide
-    'EXPN.L',  # Experian (LSE)
     'HEI',     # HEICO
     'SXYAY',   # Sika AG (ADR)
     'ITW',     # Illinois Tool Works
@@ -131,9 +128,6 @@ TIER_3 = [
     'MKC',     # McCormick & Co.
     'GWW',     # W.W. Grainger
     'JKHY',    # Jack Henry & Associates
-    'AUTO.L',  # Auto Trader Group (LSE)
-    'ITRK.L',  # Intertek Group (LSE)
-    'G24.DE',  # Scout24 (Xetra)
     'ISRG',    # Intuitive Surgical
 ]
 
@@ -266,6 +260,12 @@ def get_tier_label(tier: str) -> str:
     }.get(tier, 'Desconocido')
 
 
+# Las europeas duplicadas (AI.PA, AUTO.L, EXPN.L, G24.DE, ITRK.L, LSEG.L) se
+# sacaron el 14-sep-2026: estaban AQUÍ y en curated_tickers_eu.py a la vez, así
+# que se puntuaban dos veces y salían en la pestaña Value US. AUTO.L llegó a
+# verse ahí con su precio en peniques rotulado en dólares. Las seis siguen
+# cubiertas al 100% por las listas EU, que es donde les toca; volver a meterlas
+# aquí es añadir la línea otra vez.
 ALL_TICKERS    = get_universe(include_tier4=True)
 SCORED_TICKERS = get_universe(include_tier4=False)  # default scoring universe
 HF_UNIVERSE    = get_universe(include_tier4=False, include_hf_watch=True)

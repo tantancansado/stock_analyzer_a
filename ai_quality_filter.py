@@ -359,8 +359,16 @@ def claude_data_check(ticker_data: dict) -> tuple[bool, str | None]:
     # devolvía None sin fallar de forma visible. `temperature` no llega a la
     # API en absoluto para Sonnet 5 (se ignora en claude_chat) -- se deja
     # aquí solo para no romper la firma de otros modelos que sí la aceptan.
+    # esencial=True: este gate decide si Value US —la página principal— tiene
+    # contenido. Es fail-closed, así que quedarse sin saldo no degrada la
+    # calidad, VACÍA la página: el 11-sep el gasto cruzó el techo de lo no
+    # esencial ($10 - $1 de reserva) y el CSV filtrado lleva en 0 filas desde
+    # entonces. Con la caché de veredictos el coste baja un ~86% (solo se
+    # pregunta por datos que han cambiado), así que darle acceso a la reserva
+    # ya no puede desbordar el presupuesto: son céntimos al día.
     txt = claude_chat(messages=[{'role': 'user', 'content': prompt}],
-                      model=CLAUDE_SONNET, max_tokens=1200, temperature=0.2)
+                      model=CLAUDE_SONNET, max_tokens=1200, temperature=0.2,
+                      esencial=True)
     ok, aviso = _parse_data_check(txt, 'Claude')
     # Una duda sobre un campo concreto no se acepta a ciegas: se comprueba.
     return (ok, aviso) if ok else _verificar_duda(ticker_data, aviso, 'Claude')
@@ -842,6 +850,7 @@ def filter_opportunities(input_path: Path, strategy_name: str, score_field: str,
     # Solo se llama sobre los YA filtrados por Groq, para no disparar el coste
     # pasando el universo entero por Claude.
     if strategy_name == 'VALUE' and not df_filtered.empty:
+        import verdict_cache
         quien = 'Claude' if usar_claude else 'Groq'
         check_fn = claude_data_check if usar_claude else groq_data_check
         print(f"\n🔎 {quien} data-check sobre {len(df_filtered)} picks filtrados (gate estricto)...")
@@ -865,14 +874,40 @@ def filter_opportunities(input_path: Path, strategy_name: str, score_field: str,
             _fill('debt_to_equity', _dte)
             _fill('rev_growth', row_d.get('rev_growth_yoy'))
             _fill('pct_from_52w_high', row_d.get('proximity_to_52w_high'))
+
+            # Caché por HUELLA DEL DATO, no por ticker. Se preguntaba una vez
+            # por ticker y por día, pero los picks no rotan a diario: en
+            # septiembre, 363 de 422 verificaciones eran tickers ya vistos el
+            # día anterior (86% repetido). Y lo que se audita —ROE, margen,
+            # deuda, crecimiento— solo cambia con los resultados.
+            #
+            # Además sostiene la app cuando se acaba el saldo. El gate es
+            # fail-closed: sin presupuesto, claude_chat devuelve None, el pick
+            # sale sin verificar y el CSV filtrado queda VACÍO — Value US lleva
+            # sin datos desde el 11-sep por eso. Un veredicto sobre cifras
+            # idénticas sigue siendo válido, así que la página no se vacía.
+            cacheado = verdict_cache.buscar(row_d)
+            if cacheado is not None:
+                ok, dc, desde = cacheado
+                verificado_mask.append(ok)
+                data_warnings.append(dc)
+                estado = '✅' if ok else '🚫'
+                print(f"  {estado} {row['ticker']}: en caché desde {desde} (dato sin cambios)")
+                continue
+
             ok, dc = check_fn(row_d)
             verificado_mask.append(ok)
             data_warnings.append(dc)
             if ok:
                 print(f"  ✅ {row['ticker']}: verificado ({quien})")
+                verdict_cache.guardar(row_d, ok, dc)
             else:
                 motivo = dc or f'{quien} no pudo verificar (sin saldo o fallo de API)'
                 print(f"  🚫 {row['ticker']}: excluido — {motivo[:90]}")
+                # Un veredicto REAL sí se guarda; un "no pude" no: congelarlo 30
+                # días dejaría el pick fuera sin que nadie volviera a mirarlo.
+                if dc:
+                    verdict_cache.guardar(row_d, ok, dc)
         df_filtered['ai_verified'] = verificado_mask
         df_filtered['data_warning'] = data_warnings
         # Distingue el nivel de verificación en vez de mezclar sin marca las

@@ -87,7 +87,16 @@ def _escribir(d: dict) -> None:
 
 
 def gastado_este_mes() -> float:
-    return float(_leer().get('gastado_usd', 0.0))
+    """Gasto del mes, a prueba de que alguien ponga el contador a cero.
+
+    Se devuelve el MAYOR entre `gastado_usd` y `techo_mes`, que solo sube. El
+    25-ago-2026 un commit reinicializó el fichero a mitad de mes y borró $9.02:
+    el tope volvió a creer que quedaba presupuesto entero y el gasto real de
+    agosto ($29.52 en la consola) nunca cuadró con lo registrado ($7.30).
+    """
+    d = _leer()
+    return max(float(d.get('gastado_usd', 0.0) or 0.0),
+               float(d.get('techo_mes', 0.0) or 0.0))
 
 
 def hay_presupuesto(coste_estimado: float = 0.0, esencial: bool = False) -> bool:
@@ -145,7 +154,14 @@ def registrar_uso(respuesta, modelo: str) -> float:
     quien = _quien_llama()
     prev = por_script.get(quien) or {'usd': 0.0, 'llamadas': 0}
     por_script[quien] = {'usd': round(prev['usd'] + c, 6), 'llamadas': prev['llamadas'] + 1}
+    # El total del mes NO puede bajar. El 25-ago-2026 un commit reinicializó
+    # este fichero a mitad de mes y borró $9.02 acumulados: el tope volvió a
+    # creerse que quedaba presupuesto entero, y el gasto real de agosto ($29.52
+    # en la consola de Anthropic) nunca cuadró con lo registrado ($7.30).
+    # `techo_mes` sobrevive a que alguien ponga `gastado_usd` a cero, y
+    # `hay_presupuesto` lee el mayor de los dos.
     d['gastado_usd'] = round(float(d.get('gastado_usd', 0.0)) + c, 6)
+    d['techo_mes'] = round(max(float(d.get('techo_mes', 0.0)), d['gastado_usd']), 6)
     d['llamadas'] = int(d.get('llamadas', 0)) + 1
     u = getattr(respuesta, 'usage', None)
     stu = getattr(u, 'server_tool_use', None) if u is not None else None

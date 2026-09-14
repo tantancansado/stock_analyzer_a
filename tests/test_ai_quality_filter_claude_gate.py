@@ -18,7 +18,23 @@ from unittest.mock import patch
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
+import pytest
+
 import ai_quality_filter as aqf
+import verdict_cache
+
+
+@pytest.fixture(autouse=True)
+def _cache_aislada(tmp_path, monkeypatch):
+    """La caché de veredictos NO debe tocar el repo al correr los tests.
+
+    Sin esto, main() guardaba veredictos de tickers inventados (BUENA, EU1) en
+    docs/ai_verdicts_cache.json, que es un fichero que CI commitea. Y además un
+    test contaminaba al siguiente: el segundo encontraba su veredicto en caché
+    y ni llegaba a llamar al verificador, así que el assert de "se llamó a
+    Groq" fallaba sin que hubiera nada roto en el código.
+    """
+    monkeypatch.setattr(verdict_cache, 'ESTADO', tmp_path / 'verdicts.json')
 
 
 TICKER_DATA = {

@@ -244,3 +244,33 @@ class TestDesglosePorScript:
 
     def test_sin_llamadas_no_revienta(self):
         assert 'sin llamadas' in cb.desglose()
+
+
+class TestNoSePuedePonerACero:
+    """El total del mes no puede bajar.
+
+    El 25-ago-2026 el commit fdc7672e reinicializó docs/claude_budget.json a
+    mitad de mes y borró $9.02 acumulados. El tope volvió a creer que quedaba
+    presupuesto entero, y el gasto real de agosto ($29.52 según la consola de
+    Anthropic) nunca cuadró con lo registrado ($7.30). Peor: ese reset tapó que
+    el tope de $10 se agota hacia el día 11 y deja la app sin Value US.
+    """
+
+    def test_un_fichero_puesto_a_cero_no_borra_el_gasto(self, tmp_path, monkeypatch):
+        import json
+        import claude_budget as cb
+        estado = tmp_path / 'claude_budget.json'
+        monkeypatch.setattr(cb, 'ESTADO', estado)
+
+        mes = cb._mes_actual()
+        estado.write_text(json.dumps({'mes': mes, 'gastado_usd': 0.0,
+                                      'techo_mes': 9.02, 'llamadas': 0}))
+        assert cb.gastado_este_mes() == pytest.approx(9.02)
+
+    def test_sin_techo_mes_se_comporta_como_siempre(self, tmp_path, monkeypatch):
+        import json
+        import claude_budget as cb
+        estado = tmp_path / 'claude_budget.json'
+        monkeypatch.setattr(cb, 'ESTADO', estado)
+        estado.write_text(json.dumps({'mes': cb._mes_actual(), 'gastado_usd': 3.5}))
+        assert cb.gastado_este_mes() == pytest.approx(3.5)
