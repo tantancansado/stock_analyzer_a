@@ -224,9 +224,7 @@ export default function ValueUS() {
       const res = await fetchThesis(ticker)
       if (currentThesisTicker.current !== ticker) return
       const t = res.data.thesis
-      const text = !t ? fallback()
-        : typeof t === 'string' ? t
-        : (t as Record<string, string>).thesis_narrative || (t as Record<string, string>).overview || JSON.stringify(t)
+      const text = t ?? fallback()
       setThesisText(text)
     } catch { if (currentThesisTicker.current === ticker) setThesisText(fallback()) }
   }, [])

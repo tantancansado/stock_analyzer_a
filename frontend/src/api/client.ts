@@ -1731,10 +1731,35 @@ const _loadTheses = (): Promise<Record<string, unknown>> => {
   return _thesesCachePromise
 }
 
-export const fetchThesis = async (ticker: string): Promise<{ data: { ticker: string; thesis: unknown } }> => {
+/**
+ * Texto de una tesis, o null si no hay ninguno utilizable.
+ *
+ * Las tres páginas que enseñan tesis hacían lo mismo por su cuenta:
+ *
+ *     t.thesis_narrative || t.overview || JSON.stringify(t)
+ *
+ * y `overview` es un DICCIONARIO de métricas (score, precio, sector), sin una
+ * sola frase dentro. Cuando faltaba la narrativa, ese objeto se pasaba tal cual
+ * a ThesisBody, que hace `.replace()` sobre él y reventaba la página entera con
+ * "n.replace is not a function". Nunca fue un respaldo válido: es metadato.
+ *
+ * Devolver null deja que cada página use SU propio respaldo — el de Value US
+ * arma un texto con el razonamiento de la IA y las razones de convicción, que
+ * sí es algo que leer.
+ */
+function textoDeTesis(t: unknown): string | null {
+  if (typeof t === 'string') return t.trim() || null
+  if (t && typeof t === 'object') {
+    const n = (t as Record<string, unknown>).thesis_narrative
+    if (typeof n === 'string' && n.trim()) return n
+  }
+  return null
+}
+
+export const fetchThesis = async (ticker: string): Promise<{ data: { ticker: string; thesis: string | null } }> => {
   const data = await _loadTheses()
-  const thesis = data[`${ticker}__value`] ?? data[`${ticker}__momentum`] ?? data[ticker] ?? null
-  return { data: { ticker, thesis } }
+  const bruto = data[`${ticker}__value`] ?? data[`${ticker}__momentum`] ?? data[ticker] ?? null
+  return { data: { ticker, thesis: textoDeTesis(bruto) } }
 }
 
 export const analyzeTicker = (ticker: string) =>

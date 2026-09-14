@@ -206,9 +206,7 @@ export default function GlobalValue() {
     try {
       const res = await fetchThesis(ticker)
       const t = res.data.thesis
-      const text = !t ? 'Sin tesis disponible'
-        : typeof t === 'string' ? t
-        : (t as Record<string, string>).thesis_narrative || (t as Record<string, string>).overview || JSON.stringify(t)
+      const text = t ?? 'Sin tesis disponible'
       setThesisText(text)
     } catch { setThesisText('Error cargando tesis') }
   }

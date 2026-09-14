@@ -339,14 +339,25 @@ function GenericBullets({ preamble, bullets }: { preamble: string; bullets: stri
 // ── main component ────────────────────────────────────────────────────────────
 
 export default function ThesisBody({ text }: { text: string }) {
+  // `typeof !== 'string'` además de `!text`: un objeto es truthy y pasaba el
+  // guardia, y dos líneas más abajo `.replace()` reventaba la página entera
+  // con "n.replace is not a function" al abrir una tesis. Pasaba porque las
+  // páginas caían a `overview` cuando faltaba la narrativa, y overview es un
+  // diccionario de métricas (ya corregido en fetchThesis). Un componente de
+  // presentación no debe poder tumbar la pantalla por recibir algo raro.
   const isStatus = (
+    typeof text !== 'string' ||
     !text ||
     text === 'Cargando tesis...' ||
     text === 'Sin tesis disponible' ||
     text === 'Error cargando tesis'
   )
   if (isStatus) {
-    return <p className="text-sm text-muted-foreground italic">{text || 'Sin tesis disponible'}</p>
+    return (
+      <p className="text-sm text-muted-foreground italic">
+        {typeof text === 'string' && text ? text : 'Sin tesis disponible'}
+      </p>
+    )
   }
 
   const processed = text
