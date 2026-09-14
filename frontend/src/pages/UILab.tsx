@@ -48,7 +48,7 @@ export default function UILab() {
             { n: '+43 KB', d: 'CSS extra (+4,3 KB comprimido) importando solo los 6 componentes que usamos. El import completo costaba +408 KB.' },
             { n: '+29 KB', d: 'JS comprimido por página que use HeroUI. Es React Aria, y es lo que trae la accesibilidad.' },
             { n: '46 / 89', d: 'Tokens de HeroUI que nuestros nombres rompen. Nueve chocan de frente y envenenan otros 37 derivados.' },
-            { n: '186', d: 'Usos de hsl(var(--x)) que habría que desenvolver para quitar el choque de raíz.' },
+            { n: '310', d: 'Ediciones para quitar el choque de raíz: los tokens ya son colores completos, no tripletes sueltos. Hecho.' },
           ].map(({ n, d }) => (
             <div key={n} className="glass rounded-xl p-4 border border-border/30">
               <div className="text-2xl font-extrabold tracking-tight mb-1 font-mono">{n}</div>
@@ -56,20 +56,22 @@ export default function UILab() {
             </div>
           ))}
         </div>
-        <div className="glass rounded-xl p-4 border border-amber-500/25">
+        <div className="glass rounded-xl p-4 border border-success/25">
           <div className="flex items-start gap-3">
-            <AlertTriangle size={16} className="text-amber-400 shrink-0 mt-0.5" />
+            <AlertTriangle size={16} className="text-success shrink-0 mt-0.5" />
             <p className="text-cuerpo text-muted-foreground leading-relaxed">
-              <strong className="text-foreground">Por qué el chip «success» sale en blanco.</strong>{' '}
-              HeroUI y nosotros llamamos <code className="font-mono text-apoyo">--success</code>,{' '}
+              <strong className="text-foreground">Lo que costaba no verlo.</strong>{' '}
+              HeroUI y nosotros llamábamos <code className="font-mono text-apoyo">--success</code>,{' '}
               <code className="font-mono text-apoyo">--background</code>,{' '}
-              <code className="font-mono text-apoyo">--accent</code>… a cosas distintas. Los nuestros son
-              tripletes sueltos («152 55% 28%»), los suyos colores completos, y los nuestros ganan la cascada.
-              Aquí se los devolvemos en un contenedor, pero llega tarde para los derivados: HeroUI calcula{' '}
-              <code className="font-mono text-apoyo">--success-soft</code> a partir de{' '}
-              <code className="font-mono text-apoyo">--success</code> ya en la raíz, donde sigue roto.
-              Parchear eso serían 46 tokens perseguidos a mano — deuda, no arreglo. El arreglo de verdad es
-              que nuestros tokens pasen a ser colores completos, como manda Tailwind v4.
+              <code className="font-mono text-apoyo">--accent</code>… a cosas distintas. Los nuestros eran
+              tripletes sueltos («152 55% 28%»), los suyos colores completos, y los nuestros ganaban la
+              cascada: sus botones salían sin fondo y sus chips en blanco. Nueve choques directos
+              envenenaban otros 37 derivados, porque{' '}
+              <code className="font-mono text-apoyo">color-mix(in oklab, var(--success) 15%, transparent)</code>{' '}
+              con un triplete dentro también es inválido — 46 de sus 89 tokens rotos, y ni un aviso en el
+              build. Perseguirlos uno a uno habría sido deuda, así que se hizo el arreglo de raíz: nuestros
+              126 tokens ya son colores completos, como manda Tailwind v4, y los 184 usos que los envolvían
+              quedaron desenvueltos. Los chips de arriba se arreglaron solos.
             </p>
           </div>
         </div>

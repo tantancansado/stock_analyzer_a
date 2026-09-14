@@ -32,7 +32,7 @@ function Interruptor({ on }: { readonly on: boolean }) {
       aria-hidden
       className="relative inline-flex h-[22px] w-[38px] shrink-0 items-center rounded-full px-[3px] transition-colors duration-300"
       style={{
-        background: on ? 'hsl(var(--primary))' : 'hsl(var(--muted-foreground) / 0.22)',
+        background: on ? 'var(--primary)' : 'color-mix(in oklab, var(--muted-foreground) 22%, transparent)',
       }}
     >
       <motion.span
@@ -72,14 +72,14 @@ function Fila({
         className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg transition-all duration-300"
         style={{
           background: visible ? `color-mix(in srgb, ${item.color} 14%, transparent)` : 'transparent',
-          color: visible ? item.color : 'hsl(var(--muted-foreground) / 0.55)',
+          color: visible ? item.color : 'color-mix(in oklab, var(--muted-foreground) 55%, transparent)',
         }}
       >
         <Icono size={16} strokeWidth={1.75} />
       </span>
       <span
         className="min-w-0 flex-1 truncate text-cuerpo font-medium transition-colors duration-300"
-        style={{ color: visible ? 'hsl(var(--foreground))' : 'hsl(var(--muted-foreground) / 0.6)' }}
+        style={{ color: visible ? 'var(--foreground)' : 'color-mix(in oklab, var(--muted-foreground) 60%, transparent)' }}
       >
         {item.label}
       </span>
@@ -136,16 +136,16 @@ export default function NavCustomizer({ open, onClose, canSeeAdmin }: Props) {
           >
             {/* Asa: en móvil el panel sube desde abajo y el asa dice que se puede cerrar */}
             <div className="flex justify-center pt-2.5 sm:hidden">
-              <span className="h-1 w-9 rounded-full" style={{ background: `hsl(var(--muted-foreground) / 0.28)` }} />
+              <span className="h-1 w-9 rounded-full" style={{ background: `color-mix(in oklab, var(--muted-foreground) 28%, transparent)` }} />
             </div>
 
             <header className="flex items-start justify-between gap-3 px-5 pb-3 pt-3.5">
               <div className="min-w-0">
                 <div className="flex items-center gap-2">
-                  <SlidersHorizontal size={16} strokeWidth={1.75} style={{ color: 'hsl(var(--primary))' }} />
-                  <h2 className="text-titulo font-bold" style={{ color: 'hsl(var(--foreground))' }}>Tu menú</h2>
+                  <SlidersHorizontal size={16} strokeWidth={1.75} style={{ color: 'var(--primary)' }} />
+                  <h2 className="text-titulo font-bold" style={{ color: 'var(--foreground)' }}>Tu menú</h2>
                 </div>
-                <p className="mt-0.5 text-apoyo" style={{ color: `hsl(var(--muted-foreground) / 0.78)` }}>
+                <p className="mt-0.5 text-apoyo" style={{ color: `color-mix(in oklab, var(--muted-foreground) 78%, transparent)` }}>
                   Elige qué secciones quieres ver. Se guarda solo.
                 </p>
               </div>
@@ -153,7 +153,7 @@ export default function NavCustomizer({ open, onClose, canSeeAdmin }: Props) {
                 type="button"
                 onClick={onClose}
                 aria-label="Cerrar"
-                className="nav-custom-row -mr-1 shrink-0 rounded-lg p-1.5 transition-colors" style={{ color: `hsl(var(--muted-foreground) / 0.8)` }}
+                className="nav-custom-row -mr-1 shrink-0 rounded-lg p-1.5 transition-colors" style={{ color: `color-mix(in oklab, var(--muted-foreground) 80%, transparent)` }}
               >
                 <X size={16} strokeWidth={1.75} />
               </button>
@@ -161,10 +161,10 @@ export default function NavCustomizer({ open, onClose, canSeeAdmin }: Props) {
 
             {/* Contador + progreso: el número cambia con el mismo muelle que todo lo demás */}
             <div className="px-5 pb-3">
-              <div className="mb-1.5 flex items-baseline gap-1.5 text-apoyo" style={{ color: `hsl(var(--muted-foreground) / 0.82)` }}>
+              <div className="mb-1.5 flex items-baseline gap-1.5 text-apoyo" style={{ color: `color-mix(in oklab, var(--muted-foreground) 82%, transparent)` }}>
                 <motion.span
                   key={visibles}
-                  className="font-bold tabular-nums" style={{ color: 'hsl(var(--foreground))' }}
+                  className="font-bold tabular-nums" style={{ color: 'var(--foreground)' }}
                   initial={quieto ? false : { opacity: 0, y: -5 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={quieto ? { duration: 0 } : MUELLE}
@@ -178,11 +178,11 @@ export default function NavCustomizer({ open, onClose, canSeeAdmin }: Props) {
                   y la barra salía invisible. Las variables sí resuelven. */}
               <div
                 className="h-1 w-full overflow-hidden rounded-full"
-                style={{ background: 'hsl(var(--muted-foreground) / 0.18)' }}
+                style={{ background: 'color-mix(in oklab, var(--muted-foreground) 18%, transparent)' }}
               >
                 <motion.div
                   className="h-full rounded-full"
-                  style={{ background: 'hsl(var(--primary))' }}
+                  style={{ background: 'var(--primary)' }}
                   animate={{ width: `${total ? (visibles / total) * 100 : 0}%` }}
                   transition={quieto ? { duration: 0 } : MUELLE}
                 />
@@ -202,7 +202,7 @@ export default function NavCustomizer({ open, onClose, canSeeAdmin }: Props) {
             >
               {categorias.map(cat => (
                 <section key={cat.name} className="mb-1.5">
-                  <h3 className="px-3 pb-1 pt-2.5 text-micro font-bold uppercase tracking-[0.14em]" style={{ color: `hsl(var(--muted-foreground) / 0.6)` }}>
+                  <h3 className="px-3 pb-1 pt-2.5 text-micro font-bold uppercase tracking-[0.14em]" style={{ color: `color-mix(in oklab, var(--muted-foreground) 60%, transparent)` }}>
                     {cat.name}
                   </h3>
                   {cat.items.map(item => (
@@ -221,7 +221,7 @@ export default function NavCustomizer({ open, onClose, canSeeAdmin }: Props) {
             <AnimatePresence initial={false}>
               {hidden.length > 0 && (
                 <motion.footer
-                  className="shrink-0 overflow-hidden border-t" style={{ borderColor: 'hsl(var(--border) / 0.45)' }}
+                  className="shrink-0 overflow-hidden border-t" style={{ borderColor: 'color-mix(in oklab, var(--border) 45%, transparent)' }}
                   initial={quieto ? false : { height: 0, opacity: 0 }}
                   animate={{ height: 'auto', opacity: 1 }}
                   exit={quieto ? { opacity: 0 } : { height: 0, opacity: 0 }}
@@ -230,7 +230,7 @@ export default function NavCustomizer({ open, onClose, canSeeAdmin }: Props) {
                   <button
                     type="button"
                     onClick={reset}
-                    className="nav-custom-row flex w-full items-center justify-center gap-2 px-5 py-3 text-cuerpo font-medium transition-colors" style={{ color: `hsl(var(--muted-foreground) / 0.85)` }}
+                    className="nav-custom-row flex w-full items-center justify-center gap-2 px-5 py-3 text-cuerpo font-medium transition-colors" style={{ color: `color-mix(in oklab, var(--muted-foreground) 85%, transparent)` }}
                   >
                     <RotateCcw size={12} strokeWidth={1.75} />
                     Mostrar las {hidden.length} ocultas

@@ -152,8 +152,8 @@ export default function ValuationBar({
             salía transparente e invisible. Color explícito por `style`, como
             ya hacían los marcadores de objetivo un poco más abajo. */}
         <div
-          className="absolute top-1/2 h-3.5 w-[3px] -translate-x-1/2 -translate-y-1/2 rounded-full shadow-[0_0_0_2px_hsl(var(--background))]"
-          style={{ left: `${posPrecio}%`, background: 'hsl(var(--foreground))' }}
+          className="absolute top-1/2 h-3.5 w-[3px] -translate-x-1/2 -translate-y-1/2 rounded-full shadow-[0_0_0_2px_var(--background)]"
+          style={{ left: `${posPrecio}%`, background: 'var(--foreground)' }}
           title={`Precio actual: ${fmt(precio)}`}
         />
       </div>

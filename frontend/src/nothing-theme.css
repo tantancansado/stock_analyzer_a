@@ -27,12 +27,12 @@
   --tipo-tabla:  'Space Mono', monospace;
 
   /* Deeper blacks */
-  --background:        0 0% 0%;          /* #000000 pure black */
-  --foreground:        0 0% 92%;         /* #EBEBEB off-white */
-  --card:              0 0% 4%;          /* #0A0A0A surface */
-  --card-foreground:   0 0% 92%;
-  --popover:           0 0% 5%;
-  --popover-foreground:0 0% 92%;
+  --background: hsl(0 0% 0%);          /* #000000 pure black */
+  --foreground: hsl(0 0% 92%);         /* #EBEBEB off-white */
+  --card: hsl(0 0% 4%);          /* #0A0A0A surface */
+  --card-foreground: hsl(0 0% 92%);
+  --popover: hsl(0 0% 5%);
+  --popover-foreground: hsl(0 0% 92%);
 
   /* Color semántico — un rol, no un color. Ver el bloque "COLOR SEMÁNTICO"
      de index.css: la paleta de Tailwind que usan los componentes apunta a
@@ -42,32 +42,32 @@
      distinguirse: en una lista de precios, perder el signo es perder el dato.
      Se conserva el matiz y se baja la saturación al mínimo que aún lo separa
      del gris. */
-  --success:           152 34% 52%;
-  --danger:            2 48% 58%;
-  --warn:              38 40% 55%;
-  --info:              0 0% 62%;
-  --special:           0 0% 55%;
+  --success: hsl(152 34% 52%);
+  --danger: hsl(2 48% 58%);
+  --warn: hsl(38 40% 55%);
+  --info: hsl(0 0% 62%);
+  --special: hsl(0 0% 55%);
 
   /* Nothing accent: white as primary (no color accent) */
-  --primary:           0 0% 90%;         /* near-white */
-  --primary-foreground:0 0% 0%;          /* black text on white btn */
-  --ring:              0 0% 70%;
+  --primary: hsl(0 0% 90%);         /* near-white */
+  --primary-foreground: hsl(0 0% 0%);          /* black text on white btn */
+  --ring: hsl(0 0% 70%);
 
   /* Surfaces */
-  --secondary:         0 0% 7%;
-  --secondary-foreground: 0 0% 70%;
-  --muted:             0 0% 7%;
-  --muted-foreground:  0 0% 42%;         /* #6B6B6B */
-  --accent:            0 0% 10%;
-  --accent-foreground: 0 0% 90%;
+  --secondary: hsl(0 0% 7%);
+  --secondary-foreground: hsl(0 0% 70%);
+  --muted: hsl(0 0% 7%);
+  --muted-foreground: hsl(0 0% 42%);         /* #6B6B6B */
+  --accent: hsl(0 0% 10%);
+  --accent-foreground: hsl(0 0% 90%);
 
   /* Borders: 1px crisp, no blur */
-  --border:            0 0% 14%;         /* #242424 */
-  --input:             0 0% 8%;
+  --border: hsl(0 0% 14%);         /* #242424 */
+  --input: hsl(0 0% 8%);
 
   /* Nothing red as destructive/signal accent */
-  --destructive:       0 100% 50%;       /* #FF0000 */
-  --destructive-foreground: 0 0% 100%;
+  --destructive: hsl(0 100% 50%);       /* #FF0000 */
+  --destructive-foreground: hsl(0 0% 100%);
 
   /* Sharp corners — Nothing OS style */
   --radius: 0.125rem;                    /* 2px — almost square */

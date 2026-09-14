@@ -422,8 +422,8 @@ function MacroRadarMini({ data, loading }: { data: unknown; loading: boolean }) 
                     fullMark: 3,
                   }))
                 }>
-                  <PolarGrid stroke="hsl(var(--muted-foreground)/0.15)" />
-                  <PolarAngleAxis dataKey="subject" tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 9 }} />
+                  <PolarGrid stroke="color-mix(in oklab, var(--muted-foreground) 15%, transparent)" />
+                  <PolarAngleAxis dataKey="subject" tick={{ fill: 'var(--muted-foreground)', fontSize: 9 }} />
                   <Radar name="Macro" dataKey="A" stroke={macro.regime?.color ?? '#00ffff'} fill={macro.regime?.color ?? '#00ffff'} fillOpacity={0.2} />
                 </RadarChart>
               </ResponsiveContainer>

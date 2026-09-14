@@ -226,7 +226,7 @@ export default function BacktestResults() {
                 <YAxis tick={{ fontSize: 10, fill: 'rgba(255,255,255,0.35)' }} tickFormatter={v => `${v}%`} />
                 <ReferenceLine y={0} stroke="rgba(255,255,255,0.15)" />
                 <Tooltip
-                  contentStyle={{ background: 'hsl(var(--card))', border: '1px solid hsl(var(--border))', borderRadius: 8, fontSize: 12 }}
+                  contentStyle={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 8, fontSize: 12 }}
                   formatter={(v) => { const n = v as number ?? 0; return [`${n > 0 ? '+' : ''}${n.toFixed(2)}%`, 'Acum.'] }}
                 />
                 <Area type="monotone" dataKey="cum" stroke={cumColor} strokeWidth={2} fill="url(#cumGrad)" dot={false} />
@@ -251,7 +251,7 @@ export default function BacktestResults() {
                 <YAxis dataKey="regime" type="category" tick={{ fontSize: 10, fill: 'rgba(255,255,255,0.45)' }} width={70} />
                 <ReferenceLine x={0} stroke="rgba(255,255,255,0.15)" />
                 <Tooltip
-                  contentStyle={{ background: 'hsl(var(--card))', border: '1px solid hsl(var(--border))', borderRadius: 8, fontSize: 12 }}
+                  contentStyle={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 8, fontSize: 12 }}
                   formatter={(v, name) => { const n = v as number ?? 0; return [name === 'avg' ? `${n > 0 ? '+' : ''}${n.toFixed(2)}%` : `${n}%`, name === 'avg' ? 'Retorno' : 'Win rate'] }}
                 />
                 <Bar dataKey="avg" radius={[0, 4, 4, 0]}>
@@ -277,7 +277,7 @@ export default function BacktestResults() {
                 <YAxis tick={{ fontSize: 10, fill: 'rgba(255,255,255,0.35)' }} tickFormatter={v => `${v}%`} />
                 <ReferenceLine y={0} stroke="rgba(255,255,255,0.15)" />
                 <Tooltip
-                  contentStyle={{ background: 'hsl(var(--card))', border: '1px solid hsl(var(--border))', borderRadius: 8, fontSize: 12 }}
+                  contentStyle={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 8, fontSize: 12 }}
                   formatter={(v) => { const n = v as number ?? 0; return [`${n > 0 ? '+' : ''}${n.toFixed(2)}%`, 'Retorno medio'] }}
                 />
                 <Bar dataKey="avg" radius={[4, 4, 0, 0]}>
@@ -306,7 +306,7 @@ export default function BacktestResults() {
                 <YAxis dataKey="sector" type="category" tick={{ fontSize: 9, fill: 'rgba(255,255,255,0.45)' }} width={90} />
                 <ReferenceLine x={0} stroke="rgba(255,255,255,0.15)" />
                 <Tooltip
-                  contentStyle={{ background: 'hsl(var(--card))', border: '1px solid hsl(var(--border))', borderRadius: 8, fontSize: 12 }}
+                  contentStyle={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 8, fontSize: 12 }}
                   formatter={(v) => { const n = v as number ?? 0; return [`${n > 0 ? '+' : ''}${n.toFixed(2)}%`, 'Retorno'] }}
                 />
                 <Bar dataKey="avg" radius={[0, 4, 4, 0]}>

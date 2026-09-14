@@ -55,9 +55,9 @@ function ToastRenderer({ items, onRemove }: { items: ToastItem[]; onRemove: (id:
             gap: '0.5rem',
             padding: '0.45rem 0.9rem',
             borderRadius: '999px',
-            background: 'hsl(var(--background) / 0.95)',
+            background: 'color-mix(in oklab, var(--background) 95%, transparent)',
             backdropFilter: 'blur(12px)',
-            border: '1px solid hsl(var(--border) / 0.6)',
+            border: '1px solid color-mix(in oklab, var(--border) 60%, transparent)',
             boxShadow: '0 4px 24px hsl(0 0% 0% / 0.35)',
             fontSize: '0.75rem',
             fontWeight: 500,
@@ -72,7 +72,7 @@ function ToastRenderer({ items, onRemove }: { items: ToastItem[]; onRemove: (id:
           <span style={{ color: COLORS[item.type], fontWeight: 700, fontSize: '0.8rem', lineHeight: 1 }}>
             {ICONS[item.type]}
           </span>
-          <span style={{ color: 'hsl(var(--foreground))' }}>{item.message}</span>
+          <span style={{ color: 'var(--foreground)' }}>{item.message}</span>
         </div>
       ))}
     </div>,

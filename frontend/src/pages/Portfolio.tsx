@@ -926,7 +926,7 @@ export default function Portfolio() {
                   <BarChart data={calibData.regime_analysis} layout="vertical" margin={{ left: 8, right: 32 }}>
                     <XAxis type="number" domain={[0, 100]} tickFormatter={v => `${v}%`} tick={{ fontSize: 10 }} />
                     <YAxis type="category" dataKey="regime" tick={{ fontSize: 10 }} width={120} />
-                    <Tooltip formatter={fmtPct} contentStyle={{ background: 'hsl(var(--card))', border: '1px solid hsl(var(--border) / 0.5)', fontSize: 12 }} />
+                    <Tooltip formatter={fmtPct} contentStyle={{ background: 'var(--card)', border: '1px solid color-mix(in oklab, var(--border) 50%, transparent)', fontSize: 12 }} />
                     <ReferenceLine x={50} stroke="rgba(255,255,255,0.2)" strokeDasharray="4 2" />
                     <Bar dataKey="win_rate" radius={[0, 4, 4, 0]} fill="#06b6d4"
                       label={false}
@@ -954,7 +954,7 @@ export default function Portfolio() {
                   >
                     <XAxis type="number" domain={[0, 100]} tickFormatter={v => `${v}%`} tick={{ fontSize: 10 }} />
                     <YAxis type="category" dataKey="sector" tick={{ fontSize: 9 }} width={130} />
-                    <Tooltip formatter={fmtPct} contentStyle={{ background: 'hsl(var(--card))', border: '1px solid hsl(var(--border) / 0.5)', fontSize: 12 }} />
+                    <Tooltip formatter={fmtPct} contentStyle={{ background: 'var(--card)', border: '1px solid color-mix(in oklab, var(--border) 50%, transparent)', fontSize: 12 }} />
                     <ReferenceLine x={50} stroke="rgba(255,255,255,0.2)" strokeDasharray="4 2" />
                     <Bar dataKey="win_rate" radius={[0, 4, 4, 0]} fill="#06b6d4"
                       isAnimationActive={false}
@@ -976,7 +976,7 @@ export default function Portfolio() {
                 <LineChart data={calibData.score_buckets} margin={{ left: 8, right: 16, top: 8 }}>
                   <XAxis dataKey="range" tick={{ fontSize: 10 }} />
                   <YAxis domain={[0, 100]} tickFormatter={v => `${v}%`} tick={{ fontSize: 10 }} />
-                  <Tooltip formatter={fmtPct} contentStyle={{ background: 'hsl(var(--card))', border: '1px solid hsl(var(--border) / 0.5)', fontSize: 12 }} />
+                  <Tooltip formatter={fmtPct} contentStyle={{ background: 'var(--card)', border: '1px solid color-mix(in oklab, var(--border) 50%, transparent)', fontSize: 12 }} />
                   <ReferenceLine y={50} stroke="rgba(255,255,255,0.25)" strokeDasharray="4 2" label={{ value: '50%', position: 'insideTopRight', fontSize: 10, fill: 'rgba(255,255,255,0.3)' }} />
                   <Line type="monotone" dataKey="win_rate" stroke="#06b6d4" strokeWidth={2} dot={{ fill: '#06b6d4', r: 4 }} activeDot={{ r: 6 }} />
                 </LineChart>
@@ -994,7 +994,7 @@ export default function Portfolio() {
                   <BarChart data={calibData.fcf_yield_buckets} margin={{ left: 8, right: 16 }}>
                     <XAxis dataKey="range" tick={{ fontSize: 10 }} />
                     <YAxis domain={[0, 100]} tickFormatter={v => `${v}%`} tick={{ fontSize: 10 }} />
-                    <Tooltip formatter={fmtPct} contentStyle={{ background: 'hsl(var(--card))', border: '1px solid hsl(var(--border) / 0.5)', fontSize: 12 }} />
+                    <Tooltip formatter={fmtPct} contentStyle={{ background: 'var(--card)', border: '1px solid color-mix(in oklab, var(--border) 50%, transparent)', fontSize: 12 }} />
                     <ReferenceLine y={50} stroke="rgba(255,255,255,0.25)" strokeDasharray="4 2" />
                     <Bar dataKey="win_rate" radius={[4, 4, 0, 0]} fill="#06b6d4"
                       isAnimationActive={false}

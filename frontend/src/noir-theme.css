@@ -7,31 +7,27 @@
 
 /* ── Color tokens ────────────────────────────────────────────────── */
 [data-theme="noir"] {
-  --background:          0 0% 0%;         /* #000 — negro absoluto     */
-  --foreground:          0 0% 96%;        /* casi blanco                */
-  --card:                0 0% 5%;         /* #0d0d0d — elevación 1      */
-  --card-foreground:     0 0% 96%;
-  --popover:             0 0% 7%;
-  --popover-foreground:  0 0% 96%;
-  --primary:             0 0% 96%;         /* blanco — acento noir */
-  --primary-foreground:  0 0% 0%;
-  --secondary:           0 0% 9%;
-  --secondary-foreground:0 0% 80%;
-  --muted:               0 0% 9%;
-  --muted-foreground:    0 0% 45%;        /* gris medio — texto secundario */
-  --accent:              0 0% 12%;
-  --accent-foreground:   0 0% 96%;
-  --destructive:         0 72% 55%;
-  --destructive-foreground: 0 0% 100%;
-  --border:              0 0% 13%;        /* bordes muy sutiles          */
-  --input:               0 0% 10%;
-  --ring:                0 0% 96%;
+  --background: hsl(0 0% 0%);         /* #000 — negro absoluto     */
+  --foreground: hsl(0 0% 96%);        /* casi blanco                */
+  --card: hsl(0 0% 5%);         /* #0d0d0d — elevación 1      */
+  --card-foreground: hsl(0 0% 96%);
+  --popover: hsl(0 0% 7%);
+  --popover-foreground: hsl(0 0% 96%);
+  --primary: hsl(0 0% 96%);         /* blanco — acento noir */
+  --primary-foreground: hsl(0 0% 0%);
+  --secondary: hsl(0 0% 9%);
+  --secondary-foreground: hsl(0 0% 80%);
+  --muted: hsl(0 0% 9%);
+  --muted-foreground: hsl(0 0% 45%);        /* gris medio — texto secundario */
+  --accent: hsl(0 0% 12%);
+  --accent-foreground: hsl(0 0% 96%);
+  --destructive: hsl(0 72% 55%);
+  --destructive-foreground: hsl(0 0% 100%);
+  --border: hsl(0 0% 13%);        /* bordes muy sutiles          */
+  --input: hsl(0 0% 10%);
+  --ring: hsl(0 0% 96%);
   --radius:              0.375rem;
 
-  /* Acento secundario */
-  --noir-cyan:   0 0% 96%;
-  --noir-amber:  38 95% 55%;
-  --noir-red:    0 80% 58%;
 }
 
 /* ── Forzar dark class (los tokens usan .dark para el resto del app) */

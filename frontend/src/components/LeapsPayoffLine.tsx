@@ -83,7 +83,7 @@ export default function LeapsPayoffLine({ strike, spot, breakeven, target, class
         />
         {/* Precio actual: el marcador sólido, el que se encuentra primero */}
         <div
-          className="absolute top-1/2 h-4 w-[3px] -translate-y-1/2 -translate-x-1/2 rounded-full bg-foreground shadow-[0_0_0_2px_hsl(var(--background))]"
+          className="absolute top-1/2 h-4 w-[3px] -translate-y-1/2 -translate-x-1/2 rounded-full bg-foreground shadow-[0_0_0_2px_var(--background)]"
           style={{ left: `${posSpot}%` }}
           title={`Precio actual: ${fmt(spot)}`}
         />

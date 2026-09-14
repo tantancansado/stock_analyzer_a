@@ -193,7 +193,7 @@ function StrategyCard({ row }: { row: StrategyRow }) {
   // al 100% y Value US verde al 42%, así que el color no decía nada del dato
   // y encima sugería lo contrario. El win rate ya lleva su propio color en el
   // badge de la derecha; aquí basta con una barra neutra que muestre magnitud.
-  const c = 'hsl(var(--muted-foreground) / 0.55)'
+  const c = 'color-mix(in oklab, var(--muted-foreground) 55%, transparent)'
   const name = label[row.strategy] ?? row.strategy
 
   return (
