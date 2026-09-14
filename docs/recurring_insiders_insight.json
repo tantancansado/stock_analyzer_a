@@ -1,7 +1,7 @@
 {
   "date": "2026-09-14",
-  "timestamp": "2026-09-14T06:01:18.268246",
-  "narrative": "Los 16 tickers muestran un clustering tem\u00e1tico: la mayor\u00eda de los EU\u2011activos (AAL.L, BA",
+  "timestamp": "2026-09-14T20:12:18.553456",
+  "narrative": "Los 16 tickers analizados muestran un clustering claro en telecomunicaciones y energ\u00eda renovable (RSG, VOD, TSCO, SSE), indicando un posible inter\u00e9s sectorial en infraestructura de red y sostenibilidad. Cuando varios insiders compran simult\u00e1neamente, suele reflejar una convicci\u00f3n interna sobre la gesti\u00f3n futura o la expectativa de un anuncio positivo, reduciendo la probabilidad de \u201cbuy\u2011the",
   "total_tickers": 16,
   "total_us": 8,
   "total_eu": 8,
@@ -9,10 +9,10 @@
     {
       "ticker": "RSG",
       "market": "US",
-      "purchase_count": 38,
+      "purchase_count": 40,
       "unique_insiders": 1,
       "confidence_score": 100.0,
-      "days_span": 29
+      "days_span": 32
     },
     {
       "ticker": "AAL.L",
@@ -23,28 +23,28 @@
       "days_span": 52
     },
     {
-      "ticker": "BA.L",
+      "ticker": "MNDI.L",
       "market": "EU",
-      "purchase_count": 21,
-      "unique_insiders": 11,
+      "purchase_count": 6,
+      "unique_insiders": 2,
       "confidence_score": 100.0,
-      "days_span": 31
+      "days_span": 62
     },
     {
-      "ticker": "BARC.L",
+      "ticker": "VOD.L",
       "market": "EU",
-      "purchase_count": 10,
-      "unique_insiders": 10,
+      "purchase_count": 9,
+      "unique_insiders": 9,
+      "confidence_score": 100.0,
+      "days_span": 40
+    },
+    {
+      "ticker": "UNA.AS",
+      "market": "EU",
+      "purchase_count": 13,
+      "unique_insiders": 9,
       "confidence_score": 100.0,
       "days_span": 0
-    },
-    {
-      "ticker": "BATS.L",
-      "market": "EU",
-      "purchase_count": 45,
-      "unique_insiders": 14,
-      "confidence_score": 100.0,
-      "days_span": 69
     }
   ]
 }

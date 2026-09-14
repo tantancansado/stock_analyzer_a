@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-09-14T06:05:02",
-  "positions_checked": 16,
+  "generated_at": "2026-09-14T20:15:39",
+  "positions_checked": 15,
   "total": 4,
   "high_count": 4,
   "alerts": [
@@ -11,15 +11,6 @@
       "signal_date": "2026-03-24",
       "type": "STOP_BREACHED",
       "reason": "Precio 7914.00 por debajo del stop 8140.16",
-      "severity": "HIGH"
-    },
-    {
-      "ticker": "EXPN.L",
-      "company_name": "Experian plc",
-      "strategy": "VALUE",
-      "signal_date": "2026-08-21",
-      "type": "THESIS_BROKEN",
-      "reason": "analyst_upside salt\u00f3 a 34% \u2014 value trap (0% win hist\u00f3rico)",
       "severity": "HIGH"
     },
     {
@@ -38,6 +29,15 @@
       "signal_date": "2026-08-26",
       "type": "STOP_BREACHED",
       "reason": "Precio 312.32 por debajo del stop 322.97",
+      "severity": "HIGH"
+    },
+    {
+      "ticker": "HEI",
+      "company_name": "HEICO Corporation",
+      "strategy": "VALUE",
+      "signal_date": "2026-08-26",
+      "type": "THESIS_BROKEN",
+      "reason": "analyst_upside salt\u00f3 a 31% \u2014 value trap (0% win hist\u00f3rico)",
       "severity": "HIGH"
     }
   ]
