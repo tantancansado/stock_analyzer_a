@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-09-14T06:39:31Z",
+  "generated_at": "2026-09-14T20:49:59Z",
   "pipeline_date": "2026-09-14",
-  "ok_count": 19,
+  "ok_count": 20,
   "total": 20,
   "modules": {
     "value_us": {
@@ -9,15 +9,15 @@
       "date": "2026-09-14",
       "days_ago": 0,
       "stale_threshold_days": 2,
-      "rows": 54,
+      "rows": 47,
       "min_rows": 20
     },
     "value_filtered": {
-      "status": "empty",
+      "status": "ok",
       "date": "2026-09-14",
       "days_ago": 0,
       "stale_threshold_days": 2,
-      "rows": 0,
+      "rows": 39,
       "min_rows": 10
     },
     "vcp": {
@@ -31,7 +31,7 @@
       "date": "2026-09-14",
       "days_ago": 0,
       "stale_threshold_days": 3,
-      "rows": 34,
+      "rows": 33,
       "min_rows": 10
     },
     "value_global": {
@@ -47,7 +47,7 @@
       "date": "2026-09-14",
       "days_ago": 0,
       "stale_threshold_days": 2,
-      "rows": 136,
+      "rows": 130,
       "min_rows": 50
     },
     "technical": {
@@ -55,7 +55,7 @@
       "date": "2026-09-14",
       "days_ago": 0,
       "stale_threshold_days": 2,
-      "rows": 154,
+      "rows": 151,
       "min_rows": 30
     },
     "cerebro": {
@@ -89,7 +89,7 @@
       "date": "2026-09-14",
       "days_ago": 0,
       "stale_threshold_days": 2,
-      "rows": 1768,
+      "rows": 1772,
       "min_rows": 1
     },
     "earnings": {
@@ -121,7 +121,7 @@
       "date": "2026-09-14",
       "days_ago": 0,
       "stale_threshold_days": 3,
-      "rows": 25,
+      "rows": 16,
       "min_rows": 1
     },
     "bounce_broad": {
