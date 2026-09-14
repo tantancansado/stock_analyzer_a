@@ -24,6 +24,20 @@
   --popover:           0 0% 5%;
   --popover-foreground:0 0% 92%;
 
+  /* Color semántico — un rol, no un color. Ver el bloque "COLOR SEMÁNTICO"
+     de index.css: la paleta de Tailwind que usan los componentes apunta a
+     estos cinco tokens, así que aquí basta con redefinirlos.
+
+     Noir es monocromo por diseño, pero un rojo y un verde SÍ tienen que
+     distinguirse: en una lista de precios, perder el signo es perder el dato.
+     Se conserva el matiz y se baja la saturación al mínimo que aún lo separa
+     del gris. */
+  --success:           152 34% 52%;
+  --danger:            2 48% 58%;
+  --warn:              38 40% 55%;
+  --info:              0 0% 62%;
+  --special:           0 0% 55%;
+
   /* Nothing accent: white as primary (no color accent) */
   --primary:           0 0% 90%;         /* near-white */
   --primary-foreground:0 0% 0%;          /* black text on white btn */

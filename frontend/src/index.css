@@ -40,12 +40,113 @@
   --color-ring:                   hsl(var(--ring));
 }
 
+
+/* ═══════════════════════════════════════════════════════════════════
+   COLOR SEMÁNTICO — un rol, no un color
+   ───────────────────────────────────────────────────────────────────
+   Los componentes escribían el COLOR (`text-emerald-400`) en vez del
+   SIGNIFICADO, así que cada tema tenía que perseguirlos uno a uno por el
+   nombre de la clase. El resultado eran 147 `!important` entre index.css
+   (35) y nothing-theme.css (112), más 76 selectores `[class*="..."]` que
+   hacen string-match contra el atributo class de CADA elemento del DOM.
+
+   Aquí se invierte: las entradas de la paleta de Tailwind que el código usa
+   apuntan a un token semántico, y cada tema solo redefine SEIS valores. El
+   `inline` de `@theme inline` es lo que lo hace posible — resuelve la
+   variable en el punto de uso, así que `bg-emerald-500/15` acaba en
+   `color-mix(in oklab, hsl(var(--success)) 15%, transparent)` y cambia sola
+   al cambiar de tema.
+
+   Medido: 3031 usos de la paleta fija repartidos en 6 roles.
+════════════════════════════════════════════════════════════════════ */
+@theme inline {
+  /* Los roles, como utilidades propias: `text-success`, `bg-danger/15`… */
+  --color-success: hsl(var(--success));
+  --color-danger:  hsl(var(--danger));
+  --color-warn:    hsl(var(--warn));
+  --color-info:    hsl(var(--info));
+  --color-special: hsl(var(--special));
+
+
+  /* success */
+  --color-emerald-300:    hsl(var(--success));
+  --color-emerald-400:    hsl(var(--success));
+  --color-emerald-500:    hsl(var(--success));
+  --color-green-300:      hsl(var(--success));
+  --color-green-400:      hsl(var(--success));
+  --color-green-500:      hsl(var(--success));
+  --color-lime-400:       hsl(var(--success));
+  --color-lime-500:       hsl(var(--success));
+
+  /* danger */
+  --color-red-200:        hsl(var(--danger));
+  --color-red-300:        hsl(var(--danger));
+  --color-red-400:        hsl(var(--danger));
+  --color-red-500:        hsl(var(--danger));
+  --color-rose-300:       hsl(var(--danger));
+  --color-rose-400:       hsl(var(--danger));
+  --color-rose-500:       hsl(var(--danger));
+
+  /* warn */
+  --color-amber-300:      hsl(var(--warn));
+  --color-amber-400:      hsl(var(--warn));
+  --color-amber-500:      hsl(var(--warn));
+  --color-orange-200:     hsl(var(--warn));
+  --color-orange-300:     hsl(var(--warn));
+  --color-orange-400:     hsl(var(--warn));
+  --color-orange-500:     hsl(var(--warn));
+  --color-yellow-300:     hsl(var(--warn));
+  --color-yellow-400:     hsl(var(--warn));
+  --color-yellow-500:     hsl(var(--warn));
+
+  /* primary */
+  --color-cyan-200:       hsl(var(--primary));
+  --color-cyan-300:       hsl(var(--primary));
+  --color-cyan-400:       hsl(var(--primary));
+  --color-cyan-500:       hsl(var(--primary));
+  --color-teal-300:       hsl(var(--primary));
+  --color-teal-400:       hsl(var(--primary));
+  --color-teal-500:       hsl(var(--primary));
+
+  /* info */
+  --color-blue-300:       hsl(var(--info));
+  --color-blue-400:       hsl(var(--info));
+  --color-blue-500:       hsl(var(--info));
+  --color-indigo-300:     hsl(var(--info));
+  --color-indigo-400:     hsl(var(--info));
+  --color-indigo-500:     hsl(var(--info));
+  --color-sky-300:        hsl(var(--info));
+  --color-sky-400:        hsl(var(--info));
+  --color-sky-500:        hsl(var(--info));
+
+  /* special */
+  --color-fuchsia-500:    hsl(var(--special));
+  --color-pink-400:       hsl(var(--special));
+  --color-pink-500:       hsl(var(--special));
+  --color-purple-300:     hsl(var(--special));
+  --color-purple-400:     hsl(var(--special));
+  --color-purple-500:     hsl(var(--special));
+  --color-violet-300:     hsl(var(--special));
+  --color-violet-400:     hsl(var(--special));
+  --color-violet-500:     hsl(var(--special));
+}
+
 /* ═══════════════════════════════════════════════════════════════════
    SHADCN DESIGN TOKENS — dark (default) + light
 ════════════════════════════════════════════════════════════════════ */
 
 :root {
   /* Light mode — clean elevated cards, not glassmorphism */
+  /* Color semántico — un rol, no un color. Estos valores vienen de los
+     `!important` que había que escribir para cada clase de Tailwind: los
+     tonos -400 de Tailwind están pensados para fondo oscuro y sobre blanco
+     no llegan al contraste, así que aquí bajan a la banda -600/-700. */
+  --success: 152 55% 28%;
+  --danger:  0 65% 40%;
+  --warn:    38 75% 33%;
+  --info:    215 70% 38%;
+  --special: 265 45% 42%;
+
   --background:    220 18% 95%;
   --foreground:    222 47% 8%;
   --card:          0 0% 100%;
@@ -75,6 +176,13 @@
 }
 
 .dark {
+  /* Color semántico — equivalentes a los tonos -400 de Tailwind, que es lo
+     que el modo oscuro venía usando de facto. */
+  --success: 158 64% 52%;
+  --danger:  0 91% 71%;
+  --warn:    43 96% 56%;
+  --info:    213 94% 68%;
+  --special: 255 92% 76%;
   /* Dark mode */
   --background:    222 47% 4%;
   --foreground:    213 31% 91%;
@@ -1827,54 +1935,14 @@ tr[class*="cursor-pointer"]:hover td:first-child {
 }
 
 
-/* ── Semantic status colors — darker variants for light bg contrast ─
-   Tailwind's -400 shades are designed for dark modes.
-   On light backgrounds they lack contrast — override to -600/-700.
-══════════════════════════════════════════════════════════════════════ */
-:root:not(.dark) .text-emerald-400,
-:root:not(.dark) [class*="text-emerald-4"] {
-  color: hsl(152 55% 28%) !important;
-}
-:root:not(.dark) .text-green-400,
-:root:not(.dark) [class*="text-green-4"] {
-  color: hsl(142 55% 28%) !important;
-}
-:root:not(.dark) .text-red-400,
-:root:not(.dark) [class*="text-red-4"] {
-  color: hsl(0 65% 40%) !important;
-}
-:root:not(.dark) .text-red-300 {
-  color: hsl(0 65% 38%) !important;
-}
-:root:not(.dark) .text-amber-400,
-:root:not(.dark) [class*="text-amber-4"] {
-  color: hsl(38 75% 33%) !important;
-}
-:root:not(.dark) .text-yellow-400,
-:root:not(.dark) [class*="text-yellow-4"] {
-  color: hsl(45 75% 30%) !important;
-}
-:root:not(.dark) .text-orange-400,
-:root:not(.dark) [class*="text-orange-4"] {
-  color: hsl(25 75% 38%) !important;
-}
-:root:not(.dark) .text-blue-400,
-:root:not(.dark) [class*="text-blue-4"] {
-  color: hsl(215 70% 38%) !important;
-}
-/* Colored backgrounds — slightly more opaque for light mode */
-:root:not(.dark) [class*="bg-emerald-500/1"],
-:root:not(.dark) [class*="bg-emerald-500/8"] {
-  background-color: hsl(152 55% 28% / 0.08) !important;
-}
-:root:not(.dark) [class*="bg-red-500/1"],
-:root:not(.dark) [class*="bg-red-500/8"] {
-  background-color: hsl(0 65% 40% / 0.08) !important;
-}
-:root:not(.dark) [class*="bg-amber-500/1"],
-:root:not(.dark) [class*="bg-amber-500/8"] {
-  background-color: hsl(38 75% 33% / 0.08) !important;
-}
+/* Los colores semánticos ya NO se persiguen clase por clase.
+   Aquí vivían 8 bloques con `!important` y selectores `[class*="text-red-4"]`
+   que hacían string-match contra el atributo class de cada elemento del DOM,
+   solo para que los tonos -400 de Tailwind —pensados para fondo oscuro—
+   llegaran al contraste sobre blanco. Ahora esos tonos apuntan a
+   --success/--danger/--warn/--info/--special (ver "COLOR SEMÁNTICO" arriba) y
+   cada tema redefine seis valores. Sin !important y sin string-match. */
+
 
 /* ═══════════════════════════════════════════════════════════════════
    MOBILE / iOS FIXES
