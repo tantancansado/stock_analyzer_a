@@ -141,6 +141,14 @@ sector_rotation → mean_reversion → super_score_integrator → ai_quality_fil
   completo; en una que no lo es tanto, vende antes de alcanzarlo. Así que un
   veredicto de venta necesita DOS cosas: el precio objetivo y qué tan buena es
   la empresa comparada con las mejores de su cartera.
+- **El horizonte mínimo de medición es 90 días** (`horizontes.py`). Nada de
+  7/14/30d: el usuario vende a precio objetivo por valoración, no a fecha, y
+  medido sobre el tracker el edge del sistema NO EXISTE a corto (29% de
+  aciertos a 7d, 55% a 90d, 71% a 180d). Un 29% a una semana no dice que el
+  sistema falle, dice que todavía no ha pasado nada. **Excepción**: rebotes
+  técnicos y setups de entrada (`MEAN_REVERSION`, `BOUNCE_BROAD`,
+  `ENTRY_SETUP`) sí son de corto plazo por diseño y llevan su propio plazo.
+  Hay un test que impide bajar el mínimo
 - Prefiere 0 señales antes que señales falsas
 - Evitar sugerir compras sin análisis fundamentales sólidos
 

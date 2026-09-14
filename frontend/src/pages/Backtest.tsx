@@ -200,8 +200,11 @@ export default function Backtest() {
         fetch(`${API_BASE}/api/portfolio-tracker/signals`)
           .then(r => r.json())
           .then((j: {data?:Record<string,unknown>[]}) =>
-            ['ticker,company_name,strategy,signal_date,signal_price,value_score,sector,return_7d,return_14d,return_30d,return_90d,return_180d',
-             ...(j.data??[]).map(r => [r.ticker,r.company_name,r.strategy,r.signal_date,r.signal_price,r.value_score,r.sector,r.return_7d,r.return_14d,r.return_30d,r.return_90d,r.return_180d].join(','))
+            // Sin las columnas de 7/14/30d: el CSV es para analizar fuera, y
+            // exportar plazos donde el sistema no tiene ventaja medible invita
+            // a sacar la conclusión equivocada en una hoja de cálculo también.
+            ['ticker,company_name,strategy,signal_date,signal_price,value_score,sector,return_90d,return_180d',
+             ...(j.data??[]).map(r => [r.ticker,r.company_name,r.strategy,r.signal_date,r.signal_price,r.value_score,r.sector,r.return_90d,r.return_180d].join(','))
             ].join('\n')
           )
       ),

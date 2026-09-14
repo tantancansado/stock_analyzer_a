@@ -1398,7 +1398,7 @@ export default function Dashboard() {
               label="En seguimiento"
               value={signalsNum ?? '—'}
               countTo={signalsNum ?? undefined}
-              sub={totalSignals > 0 ? `midiendo a 30d · ${totalSignals} históricas` : 'Sin datos de portfolio'}
+              sub={totalSignals > 0 ? `midiendo a 90d · ${totalSignals} históricas` : 'Sin datos de portfolio'}
               loading={false}
             />
             </motion.div>
