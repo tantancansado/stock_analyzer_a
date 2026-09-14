@@ -270,7 +270,11 @@ export default function App() {
           {/* Sidebar */}
           <aside className={cn(
             'fixed inset-y-0 left-0 z-50 flex flex-col w-56',
-            'border-r border-white/10 bg-card/20 backdrop-blur-2xl',
+            // El aspecto lo pone `.app-chrome` desde tokens, no utilidades
+            // inline: con ellas cada tema tenía que ganar por especificidad y
+            // hacían falta once !important entre claro y noir para repintar
+            // dos elementos. Ver "El CROMO de la app" en index.css.
+            'app-chrome app-chrome--lateral',
             'transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]',
             'max-md:-translate-x-full',
             sidebarOpen && 'max-md:translate-x-0 max-md:shadow-2xl',

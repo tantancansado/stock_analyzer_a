@@ -126,8 +126,11 @@ export default function TopBar({ onMenuClick, onOpenCmd }: Readonly<Props>) {
   const timeStr = time.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' })
   const dateStr = time.toLocaleDateString('es-ES', { weekday: 'short', day: 'numeric', month: 'short' })
 
+  // `app-chrome` pone el aspecto de la barra desde tokens (ver index.css).
+  // Aquí solo queda la disposición: con las utilidades inline que había antes,
+  // cada tema tenía que ganar por especificidad a base de !important.
   return (
-    <header className="sticky top-0 z-50 flex h-[50px] items-center justify-between gap-3 px-6 bg-background/80 backdrop-blur-2xl border-b border-border/60 flex-shrink-0 transition-colors">
+    <header className="app-chrome app-chrome--superior sticky top-0 z-50 flex h-[50px] items-center justify-between gap-3 px-6 flex-shrink-0 transition-colors">
       <div className="flex items-center gap-2.5 min-w-0 flex-1">
         <Button
           variant="ghost"

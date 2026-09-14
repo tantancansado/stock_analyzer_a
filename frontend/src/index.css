@@ -154,6 +154,12 @@
 
 :root {
   /* Light mode — clean elevated cards, not glassmorphism */
+  /* Cromo — ver `.app-chrome`. */
+  --cromo-fondo:      hsl(210 20% 99% / 0.78);
+  --cromo-desenfoque: blur(22px) saturate(160%);
+  --cromo-borde:      hsl(210 15% 86%);
+  --cromo-sombra:     0 1px 10px hsl(210 20% 20% / 0.05);
+
   /* Color semántico — un rol, no un color. Estos valores vienen de los
      `!important` que había que escribir para cada clase de Tailwind: los
      tonos -400 de Tailwind están pensados para fondo oscuro y sobre blanco
@@ -193,6 +199,11 @@
 }
 
 .dark {
+  /* Cromo — ver `.app-chrome`. */
+  --cromo-fondo:      hsl(var(--card) / 0.20);
+  --cromo-desenfoque: blur(24px);
+  --cromo-borde:      hsl(0 0% 100% / 0.10);
+  --cromo-sombra:     none;
   /* Piel de panel — ver `.glass`. Muy transparente: los orbs se ven a través
      como color desenfocado, que es de donde sale el efecto de cristal. */
   --panel-fondo:     hsl(var(--card) / 0.25);
@@ -461,6 +472,25 @@ button:active:not(:disabled) { transform: scale(0.97); }
    LIQUID GLASS — real frosted glass with backdrop-filter
    Requires vibrant orbs behind to have something to blur through.
 ════════════════════════════════════════════════════════════════════ */
+
+/* El CROMO de la app — barra lateral y barra superior.
+   ───────────────────────────────────────────────────────────────────
+   Estos dos llevaban su aspecto en utilidades inline del componente
+   (`bg-card/20 backdrop-blur-2xl border-r border-white/10`), así que cada
+   tema tenía que ganarles por especificidad: cinco `!important` en el claro y
+   seis en noir, solo para repintar dos elementos.
+
+   Y el selector era `aside` A SECAS, que también alcanzaba el índice lateral
+   de la página Manual — mismo fallo que ya tuvo `header` en su día. Con una
+   clase explícita, la regla describe el cromo de la app y nada más. */
+.app-chrome {
+  background: var(--cromo-fondo);
+  backdrop-filter: var(--cromo-desenfoque);
+  -webkit-backdrop-filter: var(--cromo-desenfoque);
+  box-shadow: var(--cromo-sombra);
+}
+.app-chrome--lateral { border-right: 1px solid var(--cromo-borde); }
+.app-chrome--superior { border-bottom: 1px solid var(--cromo-borde); }
 
 /* La PIEL de un panel, en tokens.
    ───────────────────────────────────────────────────────────────────
@@ -1748,26 +1778,10 @@ tr[class*="cursor-pointer"]:hover td:first-child {
 }
 
 /* ── Sidebar — steel frosted (light) ─────────────────────────── */
-:root:not(.dark) aside {
-  background: hsl(210 22% 97% / 0.78) !important;
-  backdrop-filter: blur(22px) saturate(160%) !important;
-  -webkit-backdrop-filter: blur(22px) saturate(160%) !important;
-  border-right: 1px solid hsl(210 15% 84%) !important;
-  box-shadow: 2px 0 14px hsl(210 20% 20% / 0.05) !important;
-}
+
 
 /* ── Topbar — steel frosted (light) ──────────────────────────── */
-/* `header.sticky` y no `header` a secas: la regla describe la BARRA
-   SUPERIOR, pero con el selector abierto pintaba cualquier <header> de
-   la app con fondo opaco, blur, borde y sombra de topbar. Afectaba al
-   panel del personalizador y a las cabeceras de sección del Manual. */
-:root:not(.dark) header.sticky {
-  background: hsl(210 20% 99% / 0.78) !important;
-  backdrop-filter: blur(22px) saturate(160%) !important;
-  -webkit-backdrop-filter: blur(22px) saturate(160%) !important;
-  border-bottom: 1px solid hsl(210 15% 86%) !important;
-  box-shadow: 0 1px 10px hsl(210 20% 20% / 0.05) !important;
-}
+
 
 /* ── Table rows — cyan sweep on hover (light) ────────────────── */
 :root:not(.dark) .glass table tbody tr:nth-child(even) { background: hsl(210 15% 97% / 0.40); }

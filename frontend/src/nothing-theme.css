@@ -181,13 +181,13 @@
 }
 
 /* ── Sidebar ──────────────────────────────────────────────────────── */
-[data-theme="noir"] aside {
-  background: hsl(0 0% 2%) !important;
-  border-right: 1px solid hsl(0 0% 12%) !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
-  box-shadow: none !important;
-  border-radius: 0 !important;
+/* Cromo — se DECLARA, no se pisa. Aquí había once `!important` entre la barra
+   lateral y la superior. Ver "El CROMO de la app" en index.css. */
+[data-theme="noir"] {
+  --cromo-fondo:      hsl(0 0% 2%);
+  --cromo-desenfoque: none;
+  --cromo-borde:      hsl(0 0% 12%);
+  --cromo-sombra:     none;
 }
 
 /* Nav section labels */
@@ -220,13 +220,7 @@
    SUPERIOR, pero con el selector abierto pintaba cualquier <header> de
    la app con fondo opaco, blur, borde y sombra de topbar. Afectaba al
    panel del personalizador y a las cabeceras de sección del Manual. */
-[data-theme="noir"] header.sticky {
-  background: hsl(0 0% 0% / 0.97) !important;
-  border-bottom: 1px solid hsl(0 0% 12%) !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
-  box-shadow: none !important;
-}
+
 
 /* ── Sidebar logo — white on black ──────────────────────────────── */
 [data-theme="noir"] .sidebar-logo-icon {

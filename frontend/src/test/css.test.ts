@@ -50,8 +50,8 @@ describe('deuda de temas', () => {
   //   punto de partida      35          76     index.css
   //                        112           ?     nothing-theme.css
   const TECHO = {
-    'index.css':        { important: 30, atributo: 75 },
-    'nothing-theme.css': { important: 106, atributo: 16 },
+    'index.css':        { important: 21, atributo: 75 },
+    'nothing-theme.css': { important: 96, atributo: 16 },
   } as const
 
   it.each(HOJAS)('$nombre no acumula más !important ni selectores por atributo', ({ nombre, css }) => {
