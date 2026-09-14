@@ -204,47 +204,77 @@
 ════════════════════════════════════════════════════════════════════ */
 
 :root {
-  /* Light mode — clean elevated cards, not glassmorphism */
-  /* Cromo — ver `.app-chrome`. */
-  --cromo-fondo:      hsl(210 20% 99% / 0.78);
-  --cromo-desenfoque: blur(22px) saturate(160%);
-  --cromo-borde:      hsl(210 15% 86%);
-  --cromo-sombra:     0 1px 10px hsl(210 20% 20% / 0.05);
+  /* ── MODO CLARO ─────────────────────────────────────────────────────
+     Este bloque es el modo claro ENTERO. Antes no lo era: 16 de sus 31
+     tokens los pisaba, 1.479 líneas más abajo, un bloque `:root:not(.dark)`
+     con más especificidad que le ponía piel Cybertruck — cian eléctrico y
+     esquinas de 4px. El modo claro que decía este bloque (azul sobrio,
+     esquinas de 12px, tarjeta blanca) no llegaba a verse nunca.
+     El oscuro es Cybertruck; el claro es tranquilo. Son dos voces, no una
+     con dos brillos.
 
-  /* Color semántico — un rol, no un color. Estos valores vienen de los
-     `!important` que había que escribir para cada clase de Tailwind: los
-     tonos -400 de Tailwind están pensados para fondo oscuro y sobre blanco
-     no llegan al contraste, así que aquí bajan a la banda -600/-700. */
-  --success: hsl(152 55% 28%);
-  --danger: hsl(0 65% 40%);
-  --warn: hsl(38 75% 33%);
-  --info: hsl(215 70% 38%);
-  --special: hsl(265 45% 42%);
+     La paleta es la de Apple, con dos correcciones medidas: su azul
+     (#0071e3) y su verde (#248a3d) se quedan en 4,31 y 4,04 sobre el fondo
+     gris, por debajo del 4,5 que pide AA para texto normal — y aquí casi
+     todo es texto pequeño. Bajados dos puntos de luminosidad llegan a 4,66
+     y 4,71 sin dejar de ser reconocibles. */
 
-  --background: hsl(220 18% 95%);
-  --foreground: hsl(222 47% 8%);
-  --card: hsl(0 0% 100%);
-  --card-foreground: hsl(222 47% 8%);
-  --popover: hsl(0 0% 100%);
-  --popover-foreground: hsl(222 47% 8%);
-  --primary: hsl(239 84% 57%);
-  --primary-foreground: hsl(0 0% 100%);
-  --secondary: hsl(220 13% 92%);
-  --secondary-foreground: hsl(222 47% 12%);
-  --muted: hsl(220 13% 92%);
-  --muted-foreground: hsl(220 10% 36%);
-  --accent: hsl(220 13% 92%);
-  --accent-foreground: hsl(222 47% 12%);
-  --destructive: hsl(0 84% 55%);
+  /* Cromo — ver `.app-chrome`. El desenfoque SÍ es lenguaje Apple, pero
+     para barras y menús, nunca para el contenido. */
+  --cromo-fondo:      hsl(0 0% 100% / 0.72);
+  --cromo-desenfoque: blur(20px) saturate(180%);
+  --cromo-borde:      hsl(240 6% 83%);
+  --cromo-sombra:     none;
+
+  /* Piel de panel — ver `.glass`. En claro no hay cristal: hay una tarjeta
+     blanca que flota. La elevación la da la sombra, no el borde. */
+  --panel-fondo:      hsl(0 0% 100%);
+  --panel-desenfoque: none;
+  --panel-borde:      hsl(240 6% 90%);
+  --panel-sombra:     0 1px 2px hsl(240 6% 10% / 0.04),
+                      0 4px 12px hsl(240 6% 10% / 0.05);
+
+  /* Color semántico — un rol, no un color. Los tonos -400 de Tailwind están
+     pensados para fondo oscuro y sobre blanco no llegan al contraste, así
+     que aquí bajan a la banda que sí lo alcanza. Todos verificados ≥4,5
+     sobre #f5f5f7 y sobre blanco. */
+  --success:   hsl(135 59% 31%);   /* verde sistema iOS, 4,71 */
+  --danger:    hsl(354 100% 42%);  /* rojo sistema iOS,  4,94 */
+  --warn:      hsl(27 100% 35%);   /* naranja iOS,       4,77 */
+  --info:      hsl(210 100% 43%);  /* el mismo azul: un solo acento */
+  --special:   hsl(259 37% 48%);   /* morado iOS apagado, 5,88 */
+
+  --background:             hsl(240 11% 96%);   /* #f5f5f7, el gris de apple.com */
+  --foreground:             hsl(240 3% 12%);    /* #1d1d1f, casi negro — no negro */
+  --card:                   hsl(0 0% 100%);
+  --card-foreground:        hsl(240 3% 12%);
+  --popover:                hsl(0 0% 100%);
+  --popover-foreground:     hsl(240 3% 12%);
+  --primary:                hsl(210 100% 43%);  /* azul sobrio */
+  --primary-foreground:     hsl(0 0% 100%);
+  --secondary:              hsl(240 11% 91%);  /* #e5e5ea, systemGray5 */
+  --secondary-foreground:   hsl(240 3% 12%);
+  /* El relleno tiene que VERSE sobre tarjeta blanca: es lo que pinta los
+     skeletons de carga (`bg-muted`). Con el gris del fondo (#f5f5f7) daba 1,04
+     de contraste contra el blanco — una pantalla entera de filas invisibles
+     mientras cargan. systemGray5 da 1,26: sigue siendo discreto y se ve. */
+  --muted:                  hsl(240 11% 91%);  /* #e5e5ea */
+  /* Dos puntos por debajo del #6e6e73 de Apple, para que aguante también
+     SOBRE el relleno: ahí se quedaba en 4,04 y ahora da 4,51. */
+  --muted-foreground:       hsl(240 2% 41%);   /* #67676b */
+  --accent:                 hsl(240 14% 93%);  /* #ebebf0, hover */
+  --accent-foreground:      hsl(240 3% 12%);
+  --destructive:            hsl(354 100% 42%);
   --destructive-foreground: hsl(0 0% 100%);
-  --border: hsl(220 13% 88%);
-  --input: hsl(220 13% 89%);
-  --ring: hsl(239 84% 57%);
-  --radius:        0.75rem;
+  --border:                 hsl(240 6% 83%);    /* #d2d2d7, el hairline */
+  --input:                  hsl(240 6% 87%);
+  --ring:                   hsl(210 100% 43%);
+  --radius:                 0.75rem;            /* 12px — Apple redondea */
 
   --sidebar-width: 224px;
   --topbar-height: 50px;
 }
+
 
 .dark {
   /* Voz tipográfica Cybertruck: display angular, tablas condensadas.
@@ -1676,299 +1706,130 @@ tr[class*="cursor-pointer"]:hover td:first-child {
 }
 
 /* ═══════════════════════════════════════════════════════════════════
-   CYBERTRUCK LIGHT — angular steel on bright canvas
-   Matches the dark Cybertruck aesthetic: cyan primary, sharp corners,
-   metallic glass, steel orbs, scanlines, chrome shimmer.
+   MODO CLARO — tranquilo
 ════════════════════════════════════════════════════════════════════ */
+/* Aquí vivían 300 líneas tituladas «CYBERTRUCK LIGHT — angular steel on
+   bright canvas»: cian eléctrico, brillo animado en los títulos, un glitch
+   periódico en el logo de la barra lateral, rejilla de fondo, cristal
+   metálico y un resplandor cian en el hover de CADA botón de la app.
+   Era la piel del modo oscuro repintada sobre blanco, y sobre blanco no
+   funciona: los realces que dan profundidad a una tarjeta casi negra se
+   lavan en una casi blanca, así que había que compensarlos subiendo saturación
+   y sombra — y el resultado se lee como ruido, no como acabado.
 
-/* ── Override light mode tokens to Cybertruck palette ─────────── */
-:root:not(.dark) {
-  /* Electric cyan — darker for contrast on light backgrounds */
-  --primary: hsl(194 100% 36%);
-  --primary-foreground: hsl(0 0% 100%);
-  --ring: hsl(194 100% 36%);
+   El modo claro no es el oscuro con más luz. La elevación viene de la sombra,
+   no del borde ni del brillo; hay UN acento y no seis; y el cromo es lo único
+   translúcido, porque el desenfoque es para barras y menús, nunca para el
+   contenido.
 
-  /* Cold steel off-white */
-  --background: hsl(210 20% 96%);
-  --foreground: hsl(212 28% 8%);
-  --card: hsl(210 14% 99%);
-  --card-foreground: hsl(212 28% 8%);
-  --popover: hsl(210 14% 99%);
-  --popover-foreground: hsl(212 28% 8%);
+   Casi todo lo que había aquí desaparece en vez de reescribirse: los tokens de
+   arriba ya dicen lo que hay que decir. Lo que queda son las cinco cosas que un
+   token no puede expresar. */
 
-  /* Steel borders */
-  --border: hsl(210 15% 86%);
-  --input: hsl(210 15% 88%);
+/* ── Sin orbes ni rejilla ─────────────────────────────────────────
+   Decorado de fondo del tema oscuro: ahí son color desenfocado que se ve a
+   través del cristal. Sin cristal no decoran, ensucian. */
+:root:not(.dark) .orb-1,
+:root:not(.dark) .orb-2,
+:root:not(.dark) .orb-3 { display: none; }
 
-  /* Cool muted */
-  --muted: hsl(210 16% 93%);
-  --muted-foreground: hsl(210 14% 42%);
-  --secondary: hsl(210 16% 93%);
-  --accent: hsl(210 16% 93%);
-
-  /* Angular corners — Cybertruck signature */
-  --radius: 0.25rem;
-}
-
-/* ── Cold steel orbs (light) ──────────────────────────────────── */
-:root:not(.dark) .orb-1 {
-  background: radial-gradient(circle, hsl(194 80% 70%), hsl(210 60% 65%) 50%, transparent 70%);
-  opacity: 0.22;
-}
-:root:not(.dark) .orb-2 {
-  background: radial-gradient(circle, hsl(210 50% 68%), hsl(220 40% 72%) 50%, transparent 70%);
-  opacity: 0.16;
-}
-:root:not(.dark) .orb-3 {
-  background: radial-gradient(circle, hsl(194 60% 66%), hsl(205 50% 70%) 50%, transparent 70%);
-  opacity: 0.12;
-}
-
-/* ── Metallic glass panels (light) ────────────────────────────── */
-:root:not(.dark) .glass {
-  background: hsl(210 20% 100% / 0.62);
-  border-color: hsl(210 20% 80% / 0.50);
-  backdrop-filter: blur(26px) saturate(170%) brightness(1.04);
-  -webkit-backdrop-filter: blur(26px) saturate(170%) brightness(1.04);
-  box-shadow:
-    0 4px 20px hsl(210 20% 20% / 0.08),
-    0 1px 4px  hsl(210 20% 20% / 0.04),
-    inset 0  1.5px 0 hsl(0 0% 100% / 0.92),
-    inset 0 -1px   0 hsl(210 20% 60% / 0.08);
-  animation:
-    cyberFadeIn 0.55s cubic-bezier(0.22, 1, 0.36, 1) backwards;
-}
-:root:not(.dark) .glass:not(:has(table)):hover {
-  transform: translateY(-2px);
-  box-shadow:
-    0 10px 36px hsl(210 20% 20% / 0.11),
-    0 3px 10px  hsl(210 20% 20% / 0.06),
-    0 0   28px  hsl(194 100% 48% / 0.06),
-    inset 0  1.5px 0 hsl(0 0% 100% / 0.96),
-    inset 0 -1px   0 hsl(210 20% 60% / 0.08);
-}
-
-/* Silver + cyan metallic border (light) */
-:root:not(.dark) .glass::before {
-  background: linear-gradient(
-    135deg,
-    hsl(0 0% 100% / 0.85)     0%,
-    hsl(194 80% 55% / 0.22)  24%,
-    hsl(0 0% 90% / 0.06)     48%,
-    hsl(194 60% 50% / 0.18)  76%,
-    hsl(0 0% 100% / 0.80)   100%
-  );
-}
-
-/* Cursor spotlight — subtle cyan hover (light) */
-:root:not(.dark) .glass::after {
-  background:
-    radial-gradient(
-      280px circle at var(--mouse-x, -999px) var(--mouse-y, -999px),
-      hsl(194 100% 48% / 0.06) 0%,
-      transparent 70%
-    );
-}
-
-/* ── Sidebar — steel frosted (light) ─────────────────────────── */
-
-
-/* ── Topbar — steel frosted (light) ──────────────────────────── */
-
-
-/* ── Table rows — cyan sweep on hover (light) ────────────────── */
-:root:not(.dark) .glass table tbody tr:nth-child(even) { background: hsl(210 15% 97% / 0.40); }
-:root:not(.dark) .glass table tbody tr:hover { background: hsl(194 100% 48% / 0.06) !important; }
-:root:not(.dark) .glass table thead th {
-  background: hsl(210 18% 98% / 0.96) !important;
-  backdrop-filter: blur(20px) !important;
-  border-bottom: 1px solid hsl(210 15% 86%) !important;
-}
-:root:not(.dark) tr[class*="cursor-pointer"]:hover {
-  background: linear-gradient(
-    90deg,
-    hsl(194 100% 48% / 0.08) 0%,
-    hsl(194 100% 48% / 0.03) 40%,
-    transparent 100%
-  ) !important;
-}
-:root:not(.dark) tr[class*="cursor-pointer"]:hover td:first-child {
-  border-left: 2px solid hsl(194 100% 42% / 0.50);
-}
-
-/* ── Liquid glass — steel/cyan chamfer (light) ───────────────────
-   The dark .liquid-glass relies on white highlights popping against a
-   near-black card; on a near-white card (210 14% 99%) those same white
-   highlights wash out completely. Same recipe, inverted contrast logic:
-   opacity raised (matches .glass light's 0.62) so the panel doesn't
-   disappear into the page, depth comes from a darker steel drop shadow
-   instead of a brighter glow, and the cyan accent carries the "glass"
-   read where white no longer can. */
-:root:not(.dark) .liquid-glass {
-  background:
-    linear-gradient(
-      135deg,
-      hsl(0 0% 100% / 0.55)   0%,
-      hsl(194 60% 92% / 0.25) 50%,
-      hsl(210 20% 96% / 0.10) 100%
-    ),
-    hsl(210 20% 100% / 0.58);
-  border: 1px solid hsl(210 25% 65% / 0.65);
-  box-shadow:
-    0 16px 40px hsl(210 25% 15% / 0.18),
-    0  5px 14px hsl(210 25% 15% / 0.11),
-    inset 0  1.5px 0 hsl(0 0% 100% / 0.95),
-    inset 1.5px 0 0 hsl(0 0% 100% / 0.55),
-    inset 0 -1.5px 0 hsl(210 25% 30% / 0.22),
-    inset -1.5px 0 0 hsl(210 25% 30% / 0.14),
-    inset 0 0 20px hsl(194 100% 48% / 0.05);
-}
-
-:root:not(.dark) .liquid-glass:hover {
-  transform: translateY(-2px);
-  box-shadow:
-    0 20px 48px hsl(210 25% 15% / 0.22),
-    0  7px 18px hsl(210 25% 15% / 0.14),
-    0  0   28px hsl(194 100% 48% / 0.10),
-    inset 0  1.5px 0 hsl(0 0% 100% / 0.98),
-    inset 1.5px 0 0 hsl(0 0% 100% / 0.60),
-    inset 0 -1.5px 0 hsl(210 25% 30% / 0.24),
-    inset -1.5px 0 0 hsl(210 25% 30% / 0.16),
-    inset 0 0 24px hsl(194 100% 48% / 0.06);
-}
-
-/* Specular sweep — dark mode brightens (overlay + white stops); on a light
-   card overlay-with-white is invisible, so the sweep is built from darker
-   steel + cyan stops instead — overlay darkens/saturates them on a light
-   base the same way white stops brighten a dark one. */
-:root:not(.dark) .liquid-glass::before {
-  background: linear-gradient(
-    115deg,
-    transparent 0%,
-    hsl(210 25% 35% / 0.16) 18%,
-    hsl(210 20% 50% / 0.05) 32%,
-    transparent 48%,
-    transparent 72%,
-    hsl(194 100% 45% / 0.10) 92%,
-    hsl(194 100% 38% / 0.22) 100%
-  );
-}
-
-/* Cursor-tracked spotlight — screen blend (dark) has nothing to lighten
-   against an already-light card, so this drops mix-blend-mode and just
-   tints with cyan directly, same as .glass::after's light override. */
-:root:not(.dark) .liquid-glass::after {
-  background:
-    radial-gradient(
-      420px circle at var(--mouse-x, -999px) var(--mouse-y, -999px),
-      hsl(194 100% 48% / 0.10) 0%,
-      transparent 70%
-    );
-  mix-blend-mode: normal;
-}
-
-/* ── Gradient title — dark steel chrome shimmer (light) ──────── */
+/* ── El título es texto, no un efecto ─────────────────────────────
+   `.gradient-title` es degradado recortado + `shimmer` infinito. En claro es
+   tinta. */
 :root:not(.dark) .gradient-title {
-  background: linear-gradient(
-    90deg,
-    hsl(194 100% 32%)  0%,
-    hsl(210 20% 28%)  18%,
-    hsl(194 80% 38%)  36%,
-    hsl(210 15% 22%)  54%,
-    hsl(194 70% 34%)  72%,
-    hsl(210 20% 28%)  88%,
-    hsl(194 100% 32%) 100%
-  );
-  background-size: 200% auto;
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: shimmer 4s linear infinite;
+  background: none;
+  -webkit-text-fill-color: currentColor;
+  color: var(--foreground);
+  animation: none;
+  letter-spacing: -0.02em;   /* Apple aprieta los titulares */
 }
 
-/* ── Aurora line — cyan flow (light) ─────────────────────────── */
-:root:not(.dark) .aurora-line {
-  background: linear-gradient(
-    90deg,
-    transparent               0%,
-    hsl(210 60% 50% / 0.35) 10%,
-    hsl(194 100% 42% / 0.65) 28%,
-    hsl(194 100% 50% / 0.80) 50%,
-    hsl(194 100% 42% / 0.65) 72%,
-    hsl(210 60% 50% / 0.35) 90%,
-    transparent              100%
-  );
-  background-size: 200% 100%;
-  animation: auroraFlow 3s linear infinite;
-}
-
-/* ── Active nav link — cyan left stripe (light) ──────────────── */
+/* ── Acento activo: relleno, no franja ────────────────────────────
+   Un `inset box-shadow` de 3px a la izquierda es lenguaje de terminal. La
+   barra lateral de Apple marca lo activo con un rectángulo redondeado
+   teñido. */
 :root:not(.dark) .nav-link-active {
-  box-shadow:
-    inset 3px 0 0 hsl(194 100% 38% / 0.85),
-    inset 0 0 20px hsl(194 100% 48% / 0.04);
+  background: color-mix(in oklab, var(--primary) 12%, transparent);
+  box-shadow: none;
+  color: var(--primary);
 }
-:root:not(.dark) .nav-link-active .nav-icon {
-  color: hsl(194 100% 34%);
-}
+:root:not(.dark) .nav-link-active .nav-icon { color: var(--primary); }
+:root:not(.dark) .sidebar-logo-icon { background: var(--primary); }
 
-/* ── Sidebar logo — steel cyan (light) ───────────────────────── */
-:root:not(.dark) .sidebar-logo-icon {
-  background: linear-gradient(135deg, hsl(194 80% 40%), hsl(210 60% 50%));
+/* ── Quietud ──────────────────────────────────────────────────────
+   Tres animaciones que corrían siempre, sin que nada hubiera pasado: el
+   barrido del título, el flujo de la línea aurora y un glitch cada 8s en el
+   nombre de la app. Una animación debe responder a algo. */
+:root:not(.dark) .aurora-line {
+  background: var(--border);
+  animation: none;
 }
-
-/* ── Nav section labels — cyan (light) ───────────────────────── */
-:root:not(.dark) aside nav > div[class*="tracking"] {
-  color: hsl(194 100% 32% / 0.55);
-  letter-spacing: 0.16em;
-}
-
-/* ── Subtle grid lines (light) ───────────────────────────────── */
-:root:not(.dark) body::after {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background-image:
-    linear-gradient(hsl(194 80% 48% / 0.018) 1px, transparent 1px),
-    linear-gradient(90deg, hsl(194 80% 48% / 0.018) 1px, transparent 1px);
-  background-size: 52px 52px;
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* ── Glow-border — subtle cyan ring (light) ──────────────────── */
+:root:not(.dark) aside h1 { animation: none; }
 :root:not(.dark) .glow-border {
   animation: none;
-  box-shadow: 0 0 0 1.5px hsl(194 100% 42% / 0.20), 0 6px 20px hsl(210 20% 20% / 0.06);
+  box-shadow: none;
+  border: 1px solid color-mix(in oklab, var(--primary) 35%, transparent);
 }
 
-/* ── Score bar mask (light) ──────────────────────────────────── */
-:root:not(.dark) .score-mask { background: hsl(210 15% 90%); }
+/* ── Nada de resplandor al pasar por encima ───────────────────────
+   La regla anterior le ponía `box-shadow` cian a `button:not([disabled]):hover`
+   — todos los botones de la app, incluidos los que ya tenían su propia sombra.
+   El hover de Apple cambia el fondo un escalón y nada más. */
+:root:not(.dark) button:not([disabled]):hover { box-shadow: none; }
 
-/* ── Scrollbar — steel + cyan accent (light) ─────────────────── */
-:root:not(.dark) ::-webkit-scrollbar-thumb         { background: hsl(210 16% 80%); }
-:root:not(.dark) ::-webkit-scrollbar-thumb:hover   { background: hsl(194 80% 42% / 0.50); }
-
-/* ── Text selection — cyan tint (light) ──────────────────────── */
+/* ── Detalles de sistema ──────────────────────────────────────────
+   No se derivan de un token porque son propiedades de UA. */
+:root:not(.dark) ::-webkit-scrollbar-thumb       { background: hsl(240 6% 78%); }
+:root:not(.dark) ::-webkit-scrollbar-thumb:hover { background: hsl(240 4% 62%); }
 :root:not(.dark) ::selection {
-  background: hsl(194 100% 48% / 0.16);
+  background: color-mix(in oklab, var(--primary) 18%, transparent);
+}
+:root:not(.dark) :focus-visible { outline-color: var(--primary); }
+:root:not(.dark) .score-mask    { background: hsl(240 6% 90%); }
+
+/* ── Filas de tabla ───────────────────────────────────────────────
+   Cebra tan tenue que solo guía el ojo, y hover de un escalón. */
+:root:not(.dark) .glass table tbody tr:nth-child(2n) {
+  background: color-mix(in oklab, var(--background) 55%, transparent);
+}
+:root:not(.dark) .glass table tbody tr:hover {
+  background: color-mix(in oklab, var(--primary) 6%, transparent);
+}
+:root:not(.dark) tr[class*="cursor-pointer"]:hover td:first-child {
+  border-left: 2px solid var(--primary);
 }
 
-/* ── Focus ring — cyan (light) ───────────────────────────────── */
-:root:not(.dark) :focus-visible {
-  outline-color: hsl(194 100% 38% / 0.6);
+/* ── Hero: la única superficie con relieve ────────────────────────
+   `.liquid-glass` es para modales y tarjetas líder (ver CLAUDE.md). En claro
+   no imita cristal: es la misma tarjeta blanca, elevada un piso más. */
+:root:not(.dark) .liquid-glass {
+  background: var(--card);
+  border: 1px solid var(--border);
+  box-shadow:
+    0 2px 4px   hsl(240 6% 10% / 0.04),
+    0 12px 32px hsl(240 6% 10% / 0.10);
 }
-
-/* ── Buttons — subtle cyan glow on hover (light) ─────────────── */
-:root:not(.dark) button:not([disabled]):hover {
-  box-shadow: 0 0 12px hsl(194 100% 48% / 0.12), 0 0 3px hsl(194 100% 48% / 0.06);
+:root:not(.dark) .liquid-glass:hover {
+  transform: none;
+  box-shadow:
+    0 2px 4px   hsl(240 6% 10% / 0.05),
+    0 16px 40px hsl(240 6% 10% / 0.13);
 }
+:root:not(.dark) .liquid-glass::before,
+:root:not(.dark) .liquid-glass::after,
+:root:not(.dark) .glass::before,
+:root:not(.dark) .glass::after { display: none; }
 
-/* ── "Stock Analyzer" title — subtle glitch (light) ──────────── */
-:root:not(.dark) aside h1 {
-  animation: cyberGlitch 8s ease-in-out infinite;
+/* ── La tarjeta ───────────────────────────────────────────────────
+   `.glass` toma fondo, borde y sombra de --panel-* (arriba). Solo hace falta
+   decir que en claro no se levanta al pasar por encima: una lista entera de
+   tarjetas saltando es inquietud, no respuesta. */
+:root:not(.dark) .glass:not(:has(table)):hover {
+  transform: none;
+  box-shadow:
+    0 1px 2px  hsl(240 6% 10% / 0.05),
+    0 8px 24px hsl(240 6% 10% / 0.08);
 }
-
 
 /* Los colores semánticos ya NO se persiguen clase por clase.
    Aquí vivían 8 bloques con `!important` y selectores `[class*="text-red-4"]`

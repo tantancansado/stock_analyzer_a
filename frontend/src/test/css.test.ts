@@ -51,8 +51,10 @@ describe('deuda de temas', () => {
   //                     !important   [class*=]
   //   punto de partida      35          86      index.css
   //                        118          26      nothing-theme.css
+  //   tras quitar la piel Cybertruck del modo claro (295 líneas):
+  //                          4          40      index.css
   const TECHO = {
-    'index.css':         { important: 9, atributo: 42 },
+    'index.css':         { important: 4, atributo: 40 },
     'nothing-theme.css': { important: 87, atributo: 13 },
   } as const
 
