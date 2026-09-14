@@ -136,15 +136,23 @@
 }
 
 /* ── Glass → flat cards with single 1px border ───────────────────── */
+/* Piel de panel — se DECLARA, no se pisa.
+   Aquí había seis `!important` deshaciendo el cristal del modo oscuro. Ahora
+   `.glass` lee los tokens y este tema solo dice cuáles son los suyos: negro
+   plano, sin desenfoque, sin sombra. Ver `.glass` en index.css. */
+[data-theme="noir"] {
+  --panel-fondo:      hsl(0 0% 4%);
+  --panel-desenfoque: none;
+  --panel-borde:      hsl(0 0% 14%);
+  --panel-sombra:     none;
+}
+
+/* Lo que no es piel sí sigue aquí: esquinas rectas y sin animación de entrada
+   son señas del tema, no propiedades de un panel. */
 [data-theme="noir"] .glass {
-  background: hsl(0 0% 4%) !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
-  border: 1px solid hsl(0 0% 14%) !important;
-  box-shadow: none !important;
-  border-radius: 0 !important;
-  animation: none !important;
-  transition: border-color 0.12s ease !important;
+  border-radius: 0;
+  animation: none;
+  transition: border-color 0.12s ease;
 }
 
 [data-theme="noir"] .glass:not(:has(table)):hover {
@@ -225,7 +233,6 @@
   background: hsl(0 0% 92%) !important;
   box-shadow: none !important;
   animation: none !important;
-  border-radius: 2px !important;
 }
 [data-theme="noir"] .sidebar-logo-icon * {
   color: hsl(0 0% 0%) !important;
@@ -311,7 +318,6 @@
 
 /* ── Filter buttons — crisp border ──────────────────────────────── */
 [data-theme="noir"] .filter-btn {
-  border-radius: 2px !important;
   font-family: 'Space Mono', monospace !important;
   font-size: 0.66rem !important;
   letter-spacing: 0.06em !important;
@@ -329,7 +335,6 @@
 [data-theme="noir"] select {
   background: hsl(0 0% 5%) !important;
   border-color: hsl(0 0% 16%) !important;
-  border-radius: 2px !important;
   font-family: 'Space Mono', monospace !important;
 }
 
@@ -355,21 +360,13 @@
 [data-theme="noir"] .grade-C { background: hsl(0 0% 7%) !important; color: hsl(0 0% 60%) !important; border-color: hsl(0 0% 18%) !important; }
 [data-theme="noir"] .grade-D { background: hsl(0 0% 6%) !important; color: hsl(0 84% 60%) !important; border-color: hsl(0 50% 20%) !important; }
 
-/* ── Cards: square corners everywhere ───────────────────────────── */
-[data-theme="noir"] [class*="rounded"],
-[data-theme="noir"] [class*="rounded-lg"],
-[data-theme="noir"] [class*="rounded-xl"],
-[data-theme="noir"] [class*="rounded-2xl"],
-[data-theme="noir"] [class*="rounded-full"]:not(.api-dot):not([class*="w-2"]):not([class*="w-3"]) {
-  border-radius: 2px !important;
-}
-
-/* Keep pills/dots round */
-[data-theme="noir"] [class*="rounded-full"][class*="w-2"],
-[data-theme="noir"] [class*="rounded-full"][class*="w-3"],
-[data-theme="noir"] .api-dot {
-  border-radius: 50% !important;
-}
+/* Los radios ya NO se persiguen clase por clase.
+   Aquí había cuatro selectores `[class*="rounded-*"]` forzando 2px —
+   string-match contra el atributo class de cada elemento del DOM— más una
+   cadena de `:not()` para salvar las píldoras y los puntitos. Ahora la escala
+   de Tailwind deriva de --radius (ver "Radio" en index.css) y este tema solo
+   declara el suyo: 0.125rem. `rounded-full` se queda fuera de esa escala a
+   propósito, así que las píldoras siguen siendo píldoras sin excepciones. */
 
 /* ── Glow border — flat in Nothing mode ─────────────────────────── */
 [data-theme="noir"] .glow-border::before {
