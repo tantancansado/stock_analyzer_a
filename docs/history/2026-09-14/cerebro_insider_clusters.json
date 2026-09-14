@@ -1,6 +1,20 @@
 {
   "generated_at": "2026-09-14",
-  "total": 0,
-  "narrative": null,
-  "clusters": []
+  "total": 1,
+  "narrative": "Cuando varios directivos del mismo sector realizan compras coordinadas de acciones, suele interpretarse como una se\u00f1al de confianza interna en el futuro de la industria: los ejecutivos, al estar m\u00e1s informados sobre la estrategia, los proyectos y los riesgos, est\u00e1n apostando a que los resultados ser\u00e1n positivos y el valor de las compa\u00f1\u00edas aumentar\u00e1.  \n\nEsta actividad tambi\u00e9n puede indicar la existencia de un **cluster sectorial de insiders**, donde la informaci\u00f3n privilegiada se difunde entre ejecutivos de diferentes empresas del mismo segmento (por ejemplo, tecnolog\u00eda",
+  "clusters": [
+    {
+      "sector": "Technology",
+      "ticker_count": 3,
+      "tickers": [
+        "VRSN",
+        "SGE.L",
+        "SAP.DE"
+      ],
+      "total_purchases": 18,
+      "total_insiders": 13,
+      "cluster_score": 96,
+      "signal": "MODERATE"
+    }
+  ]
 }

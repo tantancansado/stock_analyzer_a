@@ -1,280 +1,278 @@
 {
   "generated_at": "2026-09-14",
-  "total_analyzed": 1700,
-  "baseline_win_rate_7d": 29.3,
-  "baseline_avg_return_7d": -3.6,
+  "total_analyzed": 767,
+  "poblacion": "VALUE",
+  "baseline_win_rate": 66.1,
+  "baseline_avg_return": 7.17,
   "score_tiers": [
     {
-      "label": "90\u2013101",
-      "win_rate_7d": 58.8,
-      "avg_return_7d": 0.27,
-      "avg_return_14d": -0.12,
-      "n": 17,
-      "vs_baseline_wr": 29.6,
-      "vs_baseline_ret": 3.87
-    },
-    {
       "label": "80\u201390",
-      "win_rate_7d": 51.0,
-      "avg_return_7d": 0.1,
-      "avg_return_14d": -0.06,
-      "n": 51,
-      "vs_baseline_wr": 21.7,
-      "vs_baseline_ret": 3.7
+      "horizonte": "90d",
+      "win_rate": 100.0,
+      "avg_return": 28.36,
+      "avg_return_2": 38.53,
+      "n": 5,
+      "vs_baseline_wr": 33.9,
+      "vs_baseline_ret": 21.19
     },
     {
       "label": "70\u201380",
-      "win_rate_7d": 22.7,
-      "avg_return_7d": -3.48,
-      "avg_return_14d": -3.5,
-      "n": 75,
-      "vs_baseline_wr": -6.6,
-      "vs_baseline_ret": 0.12
+      "horizonte": "90d",
+      "win_rate": 77.8,
+      "avg_return": 17.34,
+      "avg_return_2": 78.7,
+      "n": 36,
+      "vs_baseline_wr": 11.7,
+      "vs_baseline_ret": 10.17
     },
     {
       "label": "60\u201370",
-      "win_rate_7d": 41.2,
-      "avg_return_7d": -0.99,
-      "avg_return_14d": -1.52,
-      "n": 337,
-      "vs_baseline_wr": 11.9,
-      "vs_baseline_ret": 2.61
+      "horizonte": "90d",
+      "win_rate": 64.1,
+      "avg_return": 7.48,
+      "avg_return_2": 22.89,
+      "n": 234,
+      "vs_baseline_wr": -2.0,
+      "vs_baseline_ret": 0.31
     },
     {
       "label": "50\u201360",
-      "win_rate_7d": 29.2,
-      "avg_return_7d": -2.71,
-      "avg_return_14d": -3.22,
-      "n": 460,
-      "vs_baseline_wr": -0.1,
-      "vs_baseline_ret": 0.89
+      "horizonte": "90d",
+      "win_rate": 70.9,
+      "avg_return": 4.96,
+      "avg_return_2": 13.75,
+      "n": 306,
+      "vs_baseline_wr": 4.8,
+      "vs_baseline_ret": -2.21
     }
   ],
   "market_regimes": [
     {
-      "label": "CORRECTION",
-      "win_rate_7d": 56.2,
-      "avg_return_7d": 0.8,
-      "avg_return_14d": 0.51,
-      "n": 180,
-      "vs_baseline_wr": 26.9,
-      "vs_baseline_ret": 4.4
-    },
-    {
       "label": "CONFIRMED_UPTREND",
-      "win_rate_7d": 34.7,
-      "avg_return_7d": -1.74,
-      "avg_return_14d": -2.14,
-      "n": 849,
-      "vs_baseline_wr": 5.5,
-      "vs_baseline_ret": 1.86
+      "horizonte": "90d",
+      "win_rate": 66.9,
+      "avg_return": 7.85,
+      "avg_return_2": 19.32,
+      "n": 607,
+      "vs_baseline_wr": 0.8,
+      "vs_baseline_ret": 0.68
     },
     {
-      "label": "ALCISTA",
-      "win_rate_7d": 27.3,
-      "avg_return_7d": -3.24,
-      "avg_return_14d": -2.25,
-      "n": 11,
-      "vs_baseline_wr": -2.0,
-      "vs_baseline_ret": 0.36
-    },
-    {
-      "label": "UPTREND_PRESSURE",
-      "win_rate_7d": 11.7,
-      "avg_return_7d": -8.49,
-      "avg_return_14d": -9.48,
-      "n": 549,
-      "vs_baseline_wr": -17.6,
-      "vs_baseline_ret": -4.9
+      "label": "CORRECTION",
+      "horizonte": "90d",
+      "win_rate": 63.1,
+      "avg_return": 4.58,
+      "avg_return_2": 12.94,
+      "n": 160,
+      "vs_baseline_wr": -3.0,
+      "vs_baseline_ret": -2.59
     }
   ],
   "sectors": [
     {
-      "label": "Energy",
-      "win_rate_7d": 76.7,
-      "avg_return_7d": 1.78,
-      "avg_return_14d": 3.34,
-      "n": 32,
-      "vs_baseline_wr": 47.4,
-      "vs_baseline_ret": 5.38
-    },
-    {
-      "label": "Communication Services",
-      "win_rate_7d": 49.4,
-      "avg_return_7d": 0.83,
-      "avg_return_14d": 0.42,
-      "n": 89,
-      "vs_baseline_wr": 20.1,
-      "vs_baseline_ret": 4.43
-    },
-    {
-      "label": "Technology",
-      "win_rate_7d": 38.0,
-      "avg_return_7d": -1.46,
-      "avg_return_14d": -2.49,
-      "n": 220,
-      "vs_baseline_wr": 8.7,
-      "vs_baseline_ret": 2.14
-    },
-    {
-      "label": "Industrials",
-      "win_rate_7d": 34.6,
-      "avg_return_7d": -2.67,
-      "avg_return_14d": -3.83,
-      "n": 252,
-      "vs_baseline_wr": 5.3,
-      "vs_baseline_ret": 0.93
-    },
-    {
-      "label": "Utilities",
-      "win_rate_7d": 33.3,
-      "avg_return_7d": -1.26,
-      "avg_return_14d": 1.2,
-      "n": 3,
-      "vs_baseline_wr": 4.1,
-      "vs_baseline_ret": 2.34
-    },
-    {
       "label": "Financial Services",
-      "win_rate_7d": 28.7,
-      "avg_return_7d": -2.95,
-      "avg_return_14d": -2.74,
-      "n": 634,
-      "vs_baseline_wr": -0.6,
-      "vs_baseline_ret": 0.65
+      "horizonte": "90d",
+      "win_rate": 82.1,
+      "avg_return": 8.34,
+      "avg_return_2": 23.42,
+      "n": 364,
+      "vs_baseline_wr": 16.0,
+      "vs_baseline_ret": 1.17
     },
     {
       "label": "Healthcare",
-      "win_rate_7d": 26.1,
-      "avg_return_7d": -5.83,
-      "avg_return_14d": -6.35,
-      "n": 89,
-      "vs_baseline_wr": -3.1,
-      "vs_baseline_ret": -2.23
+      "horizonte": "90d",
+      "win_rate": 73.3,
+      "avg_return": 13.03,
+      "avg_return_2": 25.52,
+      "n": 30,
+      "vs_baseline_wr": 7.2,
+      "vs_baseline_ret": 5.86
     },
     {
-      "label": "Consumer Defensive",
-      "win_rate_7d": 18.0,
-      "avg_return_7d": -3.95,
-      "avg_return_14d": -4.32,
-      "n": 63,
-      "vs_baseline_wr": -11.2,
-      "vs_baseline_ret": -0.35
-    },
-    {
-      "label": "Real Estate",
-      "win_rate_7d": 17.6,
-      "avg_return_7d": -3.08,
-      "avg_return_14d": -4.84,
-      "n": 36,
-      "vs_baseline_wr": -11.6,
-      "vs_baseline_ret": 0.52
+      "label": "Communication Services",
+      "horizonte": "90d",
+      "win_rate": 71.2,
+      "avg_return": 28.87,
+      "avg_return_2": 57.83,
+      "n": 52,
+      "vs_baseline_wr": 5.1,
+      "vs_baseline_ret": 21.7
     },
     {
       "label": "Consumer Cyclical",
-      "win_rate_7d": 13.8,
-      "avg_return_7d": -11.36,
-      "avg_return_14d": -17.24,
-      "n": 109,
-      "vs_baseline_wr": -15.5,
-      "vs_baseline_ret": -7.76
+      "horizonte": "90d",
+      "win_rate": 70.0,
+      "avg_return": 3.44,
+      "avg_return_2": null,
+      "n": 10,
+      "vs_baseline_wr": 3.9,
+      "vs_baseline_ret": -3.73
+    },
+    {
+      "label": "Consumer Defensive",
+      "horizonte": "90d",
+      "win_rate": 64.3,
+      "avg_return": 7.57,
+      "avg_return_2": -30.7,
+      "n": 14,
+      "vs_baseline_wr": -1.8,
+      "vs_baseline_ret": 0.4
+    },
+    {
+      "label": "Energy",
+      "horizonte": "90d",
+      "win_rate": 57.1,
+      "avg_return": 9.69,
+      "avg_return_2": 29.85,
+      "n": 21,
+      "vs_baseline_wr": -9.0,
+      "vs_baseline_ret": 2.52
+    },
+    {
+      "label": "Basic Materials",
+      "horizonte": "90d",
+      "win_rate": 50.0,
+      "avg_return": 1.53,
+      "avg_return_2": -17.57,
+      "n": 26,
+      "vs_baseline_wr": -16.1,
+      "vs_baseline_ret": -5.64
+    },
+    {
+      "label": "Technology",
+      "horizonte": "90d",
+      "win_rate": 48.2,
+      "avg_return": -0.44,
+      "avg_return_2": 19.37,
+      "n": 85,
+      "vs_baseline_wr": -17.9,
+      "vs_baseline_ret": -7.61
+    },
+    {
+      "label": "Industrials",
+      "horizonte": "90d",
+      "win_rate": 41.9,
+      "avg_return": 2.61,
+      "avg_return_2": -1.16,
+      "n": 129,
+      "vs_baseline_wr": -24.2,
+      "vs_baseline_ret": -4.56
+    },
+    {
+      "label": "Real Estate",
+      "horizonte": "90d",
+      "win_rate": 36.1,
+      "avg_return": -3.11,
+      "avg_return_2": -3.85,
+      "n": 36,
+      "vs_baseline_wr": -30.0,
+      "vs_baseline_ret": -10.28
     }
   ],
   "fcf_tiers": [
     {
       "label": "FCF\u22655%",
-      "win_rate_7d": 35.0,
-      "avg_return_7d": -2.74,
-      "avg_return_14d": -2.81,
-      "n": 432,
-      "vs_baseline_wr": 5.7,
-      "vs_baseline_ret": 0.86
+      "horizonte": "90d",
+      "win_rate": 60.1,
+      "avg_return": 6.97,
+      "avg_return_2": 46.6,
+      "n": 173,
+      "vs_baseline_wr": -6.0,
+      "vs_baseline_ret": -0.21
     },
     {
       "label": "FCF 2-5%",
-      "win_rate_7d": 23.0,
-      "avg_return_7d": -5.11,
-      "avg_return_14d": -6.48,
-      "n": 460,
-      "vs_baseline_wr": -6.2,
-      "vs_baseline_ret": -1.51
+      "horizonte": "90d",
+      "win_rate": 46.2,
+      "avg_return": 2.66,
+      "avg_return_2": -3.45,
+      "n": 160,
+      "vs_baseline_wr": -19.9,
+      "vs_baseline_ret": -4.51
     },
     {
       "label": "FCF<2%",
-      "win_rate_7d": 25.1,
-      "avg_return_7d": -5.39,
-      "avg_return_14d": -6.66,
-      "n": 171,
-      "vs_baseline_wr": -4.1,
-      "vs_baseline_ret": -1.8
+      "horizonte": "90d",
+      "win_rate": 55.7,
+      "avg_return": 15.58,
+      "avg_return_2": 24.43,
+      "n": 79,
+      "vs_baseline_wr": -10.4,
+      "vs_baseline_ret": 8.41
     },
     {
       "label": "FCF<0%",
-      "win_rate_7d": 41.4,
-      "avg_return_7d": -2.49,
-      "avg_return_14d": -4.03,
-      "n": 70,
-      "vs_baseline_wr": 12.2,
-      "vs_baseline_ret": 1.11
+      "horizonte": "90d",
+      "win_rate": 58.2,
+      "avg_return": 20.83,
+      "avg_return_2": 24.57,
+      "n": 55,
+      "vs_baseline_wr": -7.9,
+      "vs_baseline_ret": 13.66
     }
   ],
   "rr_tiers": [
     {
       "label": "R:R\u22653",
-      "win_rate_7d": 37.2,
-      "avg_return_7d": -2.54,
-      "avg_return_14d": -4.02,
-      "n": 601,
-      "vs_baseline_wr": 7.9,
-      "vs_baseline_ret": 1.06
+      "horizonte": "90d",
+      "win_rate": 58.9,
+      "avg_return": 7.3,
+      "avg_return_2": 30.19,
+      "n": 309,
+      "vs_baseline_wr": -7.2,
+      "vs_baseline_ret": 0.13
     },
     {
       "label": "R:R 2-3",
-      "win_rate_7d": 23.5,
-      "avg_return_7d": -5.37,
-      "avg_return_14d": -5.05,
-      "n": 325,
-      "vs_baseline_wr": -5.8,
-      "vs_baseline_ret": -1.77
+      "horizonte": "90d",
+      "win_rate": 75.3,
+      "avg_return": 9.08,
+      "avg_return_2": 16.43,
+      "n": 150,
+      "vs_baseline_wr": 9.2,
+      "vs_baseline_ret": 1.91
     },
     {
       "label": "R:R<2",
-      "win_rate_7d": 21.5,
-      "avg_return_7d": -4.55,
-      "avg_return_14d": -4.63,
-      "n": 616,
-      "vs_baseline_wr": -7.7,
-      "vs_baseline_ret": -0.95
+      "horizonte": "90d",
+      "win_rate": 71.7,
+      "avg_return": 6.98,
+      "avg_return_2": 13.04,
+      "n": 237,
+      "vs_baseline_wr": 5.6,
+      "vs_baseline_ret": -0.19
     }
   ],
   "period_stats": {
     "7d": {
-      "win_rate": 29.3,
-      "avg_return": -3.6,
-      "n": 1700
+      "win_rate": 37.4,
+      "avg_return": -1.14,
+      "n": 767
     },
     "14d": {
-      "win_rate": 30.3,
-      "avg_return": -4.25,
-      "n": 1655
+      "win_rate": 40.9,
+      "avg_return": -1.39,
+      "n": 767
     },
     "30d": {
-      "win_rate": 45.9,
-      "avg_return": -0.99,
-      "n": 1557
+      "win_rate": 60.2,
+      "avg_return": 2.03,
+      "n": 767
     }
   },
   "best_combos": [
     {
       "label": "Score\u226570 + FCF\u22655%",
-      "win_rate_7d": 25.0,
-      "avg_return_7d": -4.16,
-      "avg_return_14d": -2.46,
-      "n": 48,
-      "vs_baseline_wr": -4.3,
-      "vs_baseline_ret": -0.56
+      "horizonte": "90d",
+      "win_rate": 90.6,
+      "avg_return": 23.53,
+      "avg_return_2": 85.21,
+      "n": 32,
+      "vs_baseline_wr": 24.5,
+      "vs_baseline_ret": 16.36
     }
   ],
   "hay_senal": true,
-  "narrative": "Para maximizar la tasa de aciertos, concentra tus operaciones en se\u00f1ales con puntuaci\u00f3n\u202f80\u201190 (WR\u202f\u2248\u202f51\u202f%) y prioriza el r\u00e9gimen\u202fCORRECTION, que alcanza el mejor desempe\u00f1o (WR\u202f\u2248\u202f56\u202f%). Dentro de ese marco, enf\u00f3cate en el sector"
+  "narrative": "Enf\u00f3cate en acciones del sector **Financial Services**, donde el win\u2011rate sube a **82.1\u202f%**, y prioriza aquellas con **Score\u202f\u2265\u202f70** y **FCF\u202f\u2265\u202f5\u202f%**, ya que el combo alcanza un **90.6\u202f%** de aciertos. Mant\u00e9n una selecci\u00f3n que cumpla al menos el umbral de **Score\u202f\u2265\u202f70**, pues eleva significativamente la probabilidad de \u00e9xito respecto al win\u2011rate base de 66.1\u202f%. Evita t\u00edtulos con **Score bajo** y **FCF inferior al 5\u202f%**, ya que su desempe\u00f1o cae"
 }

@@ -26,26 +26,26 @@
     "ml_score": 5,
     "sector_rotation": 10,
     "mean_reversion": 10,
-    "fcf_yield_bonus": 11,
+    "fcf_yield_bonus": 6,
     "dividend_quality": 5,
     "buyback_bonus": 3,
     "analyst_revision": 5,
-    "risk_reward_bonus": 5
+    "risk_reward_bonus": 3
   },
   "adjustments": [
     {
-      "factor": "fcf_yield_bonus",
-      "change": "+3",
-      "reason": "FCF alto mejora WR +5.7pp. Aumentar peso FCF.",
-      "n": 432
+      "factor": "fcf_yield_bonus_penalty",
+      "change": "-2 (stricter negative FCF penalty)",
+      "reason": "FCF negativo reduce WR -7.9pp. Penalizar m\u00e1s agresivo.",
+      "n": 55
     },
     {
-      "factor": "risk_reward_bonus",
-      "change": "+2",
-      "reason": "R:R alto mejora WR +7.9pp. Aumentar peso R:R.",
-      "n": 601
+      "factor": "score_threshold_note",
+      "change": "Consider raising minimum threshold to 70+ for published picks",
+      "reason": "Score 80+ has 100.0% WR vs 66% base",
+      "n": 5
     }
   ],
-  "expected_impact": "Based on 1700 historical signals",
+  "expected_impact": "Based on 767 historical signals",
   "narrative": "Ajustes propuestos basados en an\u00e1lisis hist\u00f3rico. Requieren revisi\u00f3n antes de aplicar al pipeline."
 }

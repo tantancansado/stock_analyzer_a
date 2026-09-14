@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-14T05:21:38+00:00",
+  "generated_at": "2026-09-14T19:51:11+00:00",
   "framework": "macro_stress_v2",
   "markets": {
     "crude_oil": {
@@ -31,15 +31,15 @@
           "label": "Backwardation de la curva",
           "weight": 0.25,
           "direction": "high_is_stress",
-          "value": -4.4,
+          "value": -4.41,
           "percentile": 86.9,
           "z": null,
           "score": 86.9,
           "contribution": 21.7,
           "meta": {
             "curve_state": "CONTANGO",
-            "front_price": 102.71,
-            "deferred_price": 107.23
+            "front_price": 101.33,
+            "deferred_price": 105.8
           },
           "history_ready": true
         },
@@ -86,7 +86,7 @@
           "history_ready": false
         }
       },
-      "narrative": "backwardation -4.40%",
+      "narrative": "backwardation -4.41%",
       "equity_exposure": {
         "beneficiaries": [
           "USO",
@@ -1409,7 +1409,7 @@
         },
         {
           "date": "2026-09-18",
-          "price": 102.68,
+          "price": 101.37,
           "stress_score": null
         }
       ],

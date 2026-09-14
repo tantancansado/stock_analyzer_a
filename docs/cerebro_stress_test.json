@@ -1,15 +1,15 @@
 {
   "generated_at": "2026-09-14",
-  "total_positions": 70,
+  "total_positions": 72,
   "risks": [
     {
       "type": "SECTOR_CONCENTRATION",
       "severity": "HIGH",
-      "message": "57% de se\u00f1ales en Unknown (40/70) \u2014 concentraci\u00f3n elevada",
+      "message": "62% de se\u00f1ales en Unknown (45/72) \u2014 concentraci\u00f3n elevada",
       "detail": {
         "sector": "Unknown",
-        "count": 40,
-        "pct": 57
+        "count": 45,
+        "pct": 62
       }
     },
     {
@@ -17,7 +17,7 @@
       "severity": "LOW",
       "message": "100% en mercado US \u2014 poca diversificaci\u00f3n geogr\u00e1fica",
       "detail": {
-        "us": 70,
+        "us": 72,
         "eu": 0
       }
     }
@@ -26,13 +26,13 @@
   "sector_breakdown": [
     {
       "sector": "Unknown",
-      "count": 40,
-      "pct": 57
+      "count": 45,
+      "pct": 62
     },
     {
       "sector": "Financial Services",
-      "count": 15,
-      "pct": 21
+      "count": 12,
+      "pct": 17
     },
     {
       "sector": "Technology",
@@ -45,12 +45,12 @@
       "pct": 4
     },
     {
-      "sector": "Energy",
+      "sector": "Healthcare",
       "count": 2,
       "pct": 3
     },
     {
-      "sector": "Healthcare",
+      "sector": "Consumer Cyclical",
       "count": 1,
       "pct": 1
     },
@@ -60,12 +60,12 @@
       "pct": 1
     },
     {
-      "sector": "Consumer Cyclical",
+      "sector": "Energy",
       "count": 1,
       "pct": 1
     }
   ],
   "region_breakdown": {
-    "US": 70
+    "US": 72
   }
 }

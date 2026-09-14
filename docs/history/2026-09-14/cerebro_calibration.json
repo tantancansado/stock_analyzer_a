@@ -3,47 +3,17 @@
   "recommendations": [
     {
       "type": "BOOST",
-      "factor": "Score 90\u2013101",
-      "insight": "WR 58.8% (+29.6pp sobre base). Priorizar este rango.",
-      "n": 17
-    },
-    {
-      "type": "BOOST",
-      "factor": "Score 80\u201390",
-      "insight": "WR 51.0% (+21.7pp sobre base). Priorizar este rango.",
-      "n": 51
+      "factor": "Score 70\u201380",
+      "insight": "WR 77.8% (+11.7pp sobre base). Priorizar este rango.",
+      "n": 36
     },
     {
       "type": "REDUCE",
-      "factor": "Score 70\u201380",
-      "insight": "Solo 22.7% WR (-6.6pp bajo base, n=75). Este rango de score no discrimina bien \u2014 filtrar m\u00e1s agresivo o revisar factores.",
-      "n": 75
-    },
-    {
-      "type": "BOOST",
-      "factor": "Score 60\u201370",
-      "insight": "WR 41.2% (+11.9pp sobre base). Priorizar este rango.",
-      "n": 337
-    },
-    {
-      "type": "REGIME_FILTER",
-      "factor": "R\u00e9gimen UPTREND_PRESSURE",
-      "insight": "Solo 11.7% WR en UPTREND_PRESSURE. Considera pausar se\u00f1ales.",
-      "n": 549
-    },
-    {
-      "type": "BOOST",
-      "factor": "FCF Yield \u22655%",
-      "insight": "FCF alto mejora WR +5.7pp. Aumentar peso FCF.",
-      "n": 432
-    },
-    {
-      "type": "BOOST",
-      "factor": "R:R \u22653",
-      "insight": "R:R alto mejora WR +7.9pp. Aumentar peso R:R.",
-      "n": 601
+      "factor": "FCF Negativo",
+      "insight": "FCF negativo reduce WR -7.9pp. Penalizar m\u00e1s agresivo.",
+      "n": 55
     }
   ],
-  "narrative": "Los ajustes m\u00e1s urgentes son: (1) potenciar las se\u00f1ales con Score 90\u2013101 y 80\u201390, pues su WR supera la base en 29.6\u202fpp y 21.7\u202fpp respectivamente, lo que indica mayor rentabilidad; (2) filtrar agresivamente el rango 70\u201380, donde el WR cae 6.6\u202fpp y la discriminaci\u00f3n es pobre; y (3) pausar o revisar el r\u00e9gimen UPTREND_PRESSURE, ya que su WR es solo 11.7\u202fpp, lo que sugiere que el modelo no est\u00e1 capturando la tendencia correctamente.",
-  "total_recommendations": 7
+  "narrative": "El sistema contin\u00faa aprendiendo. Se necesitan m\u00e1s se\u00f1ales completadas para recomendaciones precisas.",
+  "total_recommendations": 2
 }

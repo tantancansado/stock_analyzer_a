@@ -1,80 +1,80 @@
 {
   "generated_at": "2026-09-14",
-  "total": 56,
-  "high_count": 28,
-  "narrative": "1. La ca\u00edda abrupta de los scores y la ausencia de compras internas indican una p\u00e9rdida de convicci\u00f3n en la tendencia alcista, por lo que es prudente reducir la exposici\u00f3n o colocar stops m\u00e1s estrechos para limitar posibles p\u00e9rdidas.  \n\n2. Ante esta se\u00f1al de deterioro, la gesti\u00f3n de riesgo debe priorizar la diversificaci\u00f3n y el ajuste de tama\u00f1os de posici\u00f3n, asegurando que ning\u00fan activo repres",
+  "total": 58,
+  "high_count": 30,
+  "narrative": "Esto indica que varios valores clave han perdido significativamente su puntuaci\u00f3n de convicci\u00f3n y carecen de apoyo de insiders, lo que aumenta la probabilidad de volatilidad y posibles ca\u00eddas de precio; por lo tanto, la gesti\u00f3n de riesgo debe reforzar los l\u00edmites de exposici\u00f3n, reducir posiciones en esos activos y priorizar la vigilancia de se\u00f1ales de compra de insiders antes de a\u00f1adir o mantener capital.",
   "exits": [
-    {
-      "ticker": "CVX",
-      "severity": "HIGH",
-      "entry_score": 96.6,
-      "current_score": 30.590000000000003,
-      "signal_date": "2026-08-26",
-      "reasons": [
-        "Score cay\u00f3 66pts (97 \u2192 31)",
-        "Sin insider buying activo \u2014 se\u00f1al de convicci\u00f3n perdida"
-      ],
-      "fundamental_score": 85.8
-    },
     {
       "ticker": "MSFT",
       "severity": "HIGH",
       "entry_score": 96.2,
-      "current_score": 40.975,
+      "current_score": 60.56999999999999,
       "signal_date": "2026-09-10",
       "reasons": [
-        "Score cay\u00f3 55pts (96 \u2192 41)",
+        "Score cay\u00f3 36pts (96 \u2192 61)",
         "Sin insider buying activo \u2014 se\u00f1al de convicci\u00f3n perdida"
       ],
-      "fundamental_score": 81.6
+      "fundamental_score": 82.0
     },
     {
       "ticker": "BAC",
       "severity": "HIGH",
       "entry_score": 94.0,
-      "current_score": 54.63,
+      "current_score": 57.345,
       "signal_date": "2026-08-28",
       "reasons": [
-        "Score cay\u00f3 39pts (94 \u2192 55)",
+        "Score cay\u00f3 37pts (94 \u2192 57)",
         "Sin insider buying activo \u2014 se\u00f1al de convicci\u00f3n perdida"
       ],
-      "fundamental_score": 71.4
+      "fundamental_score": 70.3
     },
     {
       "ticker": "AXP",
       "severity": "HIGH",
       "entry_score": 90.3,
-      "current_score": 58.185,
+      "current_score": 57.845,
       "signal_date": "2026-09-10",
       "reasons": [
         "Score cay\u00f3 32pts (90 \u2192 58)",
         "Sin insider buying activo \u2014 se\u00f1al de convicci\u00f3n perdida"
       ],
-      "fundamental_score": 62.5
+      "fundamental_score": 62.0
     },
     {
       "ticker": "V",
       "severity": "HIGH",
       "entry_score": 89.1,
-      "current_score": 40.215,
+      "current_score": 49.16499999999999,
       "signal_date": "2026-09-11",
       "reasons": [
-        "Score cay\u00f3 49pts (89 \u2192 40)",
+        "Score cay\u00f3 40pts (89 \u2192 49)",
         "Sin insider buying activo \u2014 se\u00f1al de convicci\u00f3n perdida"
       ],
       "fundamental_score": 71.8
     },
     {
+      "ticker": "UNH",
+      "severity": "HIGH",
+      "entry_score": 85.5,
+      "current_score": 36.28,
+      "signal_date": "2026-09-11",
+      "reasons": [
+        "Score cay\u00f3 49pts (86 \u2192 36)",
+        "Sin insider buying activo \u2014 se\u00f1al de convicci\u00f3n perdida"
+      ],
+      "fundamental_score": 70.7
+    },
+    {
       "ticker": "OXY",
       "severity": "HIGH",
       "entry_score": 84.8,
-      "current_score": 45.92,
+      "current_score": 48.74,
       "signal_date": "2026-08-21",
       "reasons": [
-        "Score cay\u00f3 39pts (85 \u2192 46)",
+        "Score cay\u00f3 36pts (85 \u2192 49)",
         "Sin insider buying activo \u2014 se\u00f1al de convicci\u00f3n perdida"
       ],
-      "fundamental_score": 77.3
+      "fundamental_score": 80.1
     },
     {
       "ticker": "CPRT",
@@ -86,7 +86,7 @@
         "Ya no aparece en VALUE \u2014 tesis posiblemente rota",
         "Sin insider buying activo \u2014 se\u00f1al de convicci\u00f3n perdida"
       ],
-      "fundamental_score": 59.0
+      "fundamental_score": 59.1
     },
     {
       "ticker": "EXPN.L",
@@ -97,7 +97,7 @@
       "reasons": [
         "Ya no aparece en VALUE \u2014 tesis posiblemente rota"
       ],
-      "fundamental_score": 56.6
+      "fundamental_score": null
     },
     {
       "ticker": "WMT",
@@ -122,6 +122,17 @@
       "fundamental_score": 57.0
     },
     {
+      "ticker": "AON",
+      "severity": "HIGH",
+      "entry_score": 51.13,
+      "current_score": null,
+      "signal_date": "2026-08-24",
+      "reasons": [
+        "Ya no aparece en VALUE \u2014 tesis posiblemente rota"
+      ],
+      "fundamental_score": 54.7
+    },
+    {
       "ticker": "ARE",
       "severity": "HIGH",
       "entry_score": 0,
@@ -141,7 +152,7 @@
       "reasons": [
         "Ya no aparece en VALUE \u2014 tesis posiblemente rota"
       ],
-      "fundamental_score": 58.8
+      "fundamental_score": 59.5
     },
     {
       "ticker": "PNC",
@@ -163,7 +174,7 @@
       "reasons": [
         "Ya no aparece en VALUE \u2014 tesis posiblemente rota"
       ],
-      "fundamental_score": 35.4
+      "fundamental_score": 36.1
     },
     {
       "ticker": "D",
@@ -207,7 +218,7 @@
       "reasons": [
         "Ya no aparece en VALUE \u2014 tesis posiblemente rota"
       ],
-      "fundamental_score": 58.1
+      "fundamental_score": 57.6
     },
     {
       "ticker": "7741.T",
@@ -218,7 +229,7 @@
       "reasons": [
         "Ya no aparece en VALUE \u2014 tesis posiblemente rota"
       ],
-      "fundamental_score": 54.8
+      "fundamental_score": 57.8
     },
     {
       "ticker": "KIM",
@@ -317,7 +328,30 @@
       "reasons": [
         "Ya no aparece en VALUE \u2014 tesis posiblemente rota"
       ],
-      "fundamental_score": 50.6
+      "fundamental_score": 54.6
+    },
+    {
+      "ticker": "BALL",
+      "severity": "HIGH",
+      "entry_score": 0,
+      "current_score": null,
+      "signal_date": "2026-09-14",
+      "reasons": [
+        "Ya no aparece en VALUE \u2014 tesis posiblemente rota"
+      ],
+      "fundamental_score": null
+    },
+    {
+      "ticker": "CVX",
+      "severity": "MEDIUM",
+      "entry_score": 96.6,
+      "current_score": null,
+      "signal_date": "2026-08-26",
+      "reasons": [
+        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)",
+        "Sin insider buying activo \u2014 se\u00f1al de convicci\u00f3n perdida"
+      ],
+      "fundamental_score": 85.8
     },
     {
       "ticker": "UBER",
@@ -329,52 +363,40 @@
         "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)",
         "Sin insider buying activo \u2014 se\u00f1al de convicci\u00f3n perdida"
       ],
-      "fundamental_score": 72.0
+      "fundamental_score": 71.5
     },
     {
       "ticker": "ICE",
       "severity": "MEDIUM",
       "entry_score": 90.0,
-      "current_score": 36.24,
-      "signal_date": "2026-09-11",
-      "reasons": [
-        "Score cay\u00f3 54pts (90 \u2192 36) \u2014 ca\u00edda t\u00e9cnica/momentum, balance s\u00f3lido (Piotroski 8/9)",
-        "Sin insider buying activo \u2014 se\u00f1al de convicci\u00f3n perdida"
-      ],
-      "fundamental_score": 67.6
-    },
-    {
-      "ticker": "UNH",
-      "severity": "MEDIUM",
-      "entry_score": 85.5,
       "current_score": null,
       "signal_date": "2026-09-11",
       "reasons": [
         "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)",
         "Sin insider buying activo \u2014 se\u00f1al de convicci\u00f3n perdida"
       ],
-      "fundamental_score": 70.0
+      "fundamental_score": 68.3
     },
     {
       "ticker": "SAP",
       "severity": "MEDIUM",
       "entry_score": 84.3,
-      "current_score": 47.105,
+      "current_score": 38.435,
       "signal_date": "2026-09-11",
       "reasons": [
-        "Score cay\u00f3 37pts (84 \u2192 47) \u2014 ca\u00edda t\u00e9cnica/momentum, balance s\u00f3lido (Piotroski 8/9)",
+        "Score cay\u00f3 46pts (84 \u2192 38) \u2014 ca\u00edda t\u00e9cnica/momentum, balance s\u00f3lido (Piotroski 8/9)",
         "Sin insider buying activo \u2014 se\u00f1al de convicci\u00f3n perdida"
       ],
-      "fundamental_score": 74.1
+      "fundamental_score": 74.3
     },
     {
       "ticker": "MA",
       "severity": "MEDIUM",
       "entry_score": 83.0,
-      "current_score": 62.375,
+      "current_score": 52.605,
       "signal_date": "2026-09-10",
       "reasons": [
-        "Score cay\u00f3 21pts (83 \u2192 62)",
+        "Score cay\u00f3 30pts (83 \u2192 53) \u2014 ca\u00edda t\u00e9cnica/momentum, balance s\u00f3lido (Piotroski 9/9)",
         "Sin insider buying activo \u2014 se\u00f1al de convicci\u00f3n perdida"
       ],
       "fundamental_score": 72.3
@@ -395,13 +417,36 @@
       "ticker": "INTU",
       "severity": "MEDIUM",
       "entry_score": 77.2,
-      "current_score": 40.09,
+      "current_score": 40.955,
       "signal_date": "2026-08-26",
       "reasons": [
-        "Score cay\u00f3 37pts (77 \u2192 40) \u2014 ca\u00edda t\u00e9cnica/momentum, balance s\u00f3lido (Piotroski 8/9)",
+        "Score cay\u00f3 36pts (77 \u2192 41) \u2014 ca\u00edda t\u00e9cnica/momentum, balance s\u00f3lido (Piotroski 8/9)",
         "Sin insider buying activo \u2014 se\u00f1al de convicci\u00f3n perdida"
       ],
       "fundamental_score": 56.8
+    },
+    {
+      "ticker": "VEEV",
+      "severity": "MEDIUM",
+      "entry_score": 65.7,
+      "current_score": 43.89,
+      "signal_date": "2026-09-11",
+      "reasons": [
+        "Score cay\u00f3 22pts (66 \u2192 44)",
+        "Sin insider buying activo \u2014 se\u00f1al de convicci\u00f3n perdida"
+      ],
+      "fundamental_score": 77.2
+    },
+    {
+      "ticker": "QSR",
+      "severity": "MEDIUM",
+      "entry_score": 62.36500000000001,
+      "current_score": 46.285,
+      "signal_date": "2026-08-13",
+      "reasons": [
+        "Score cay\u00f3 16pts (62 \u2192 46)"
+      ],
+      "fundamental_score": 70.1
     },
     {
       "ticker": "TT",
@@ -423,7 +468,7 @@
       "reasons": [
         "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
       ],
-      "fundamental_score": 70.6
+      "fundamental_score": 68.2
     },
     {
       "ticker": "SYK",
@@ -440,10 +485,10 @@
       "ticker": "NDAQ",
       "severity": "MEDIUM",
       "entry_score": 57.72999999999999,
-      "current_score": 32.3,
+      "current_score": null,
       "signal_date": "2026-07-28",
       "reasons": [
-        "Score cay\u00f3 25pts (58 \u2192 32) \u2014 ca\u00edda t\u00e9cnica/momentum, balance s\u00f3lido (Piotroski 9/9)"
+        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
       ],
       "fundamental_score": 72.0
     },
@@ -451,12 +496,12 @@
       "ticker": "ATLKY",
       "severity": "MEDIUM",
       "entry_score": 57.095,
-      "current_score": 32.64,
+      "current_score": null,
       "signal_date": "2026-08-06",
       "reasons": [
-        "Score cay\u00f3 24pts (57 \u2192 33)"
+        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
       ],
-      "fundamental_score": 66.6
+      "fundamental_score": 65.3
     },
     {
       "ticker": "HEI",
@@ -467,16 +512,16 @@
       "reasons": [
         "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
       ],
-      "fundamental_score": 73.3
+      "fundamental_score": 72.2
     },
     {
       "ticker": "ASAZY",
       "severity": "MEDIUM",
       "entry_score": 56.24000000000001,
-      "current_score": null,
+      "current_score": 39.0,
       "signal_date": "2026-08-10",
       "reasons": [
-        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
+        "Score cay\u00f3 17pts (56 \u2192 39)"
       ],
       "fundamental_score": 67.5
     },
@@ -484,10 +529,10 @@
       "ticker": "BRK-B",
       "severity": "MEDIUM",
       "entry_score": 55.370000000000005,
-      "current_score": 33.565,
+      "current_score": 33.4,
       "signal_date": "2026-08-21",
       "reasons": [
-        "Score cay\u00f3 22pts (55 \u2192 34)"
+        "Score cay\u00f3 22pts (55 \u2192 33)"
       ],
       "fundamental_score": 80.3
     },
@@ -511,29 +556,7 @@
       "reasons": [
         "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
       ],
-      "fundamental_score": 64.1
-    },
-    {
-      "ticker": "MSCI",
-      "severity": "MEDIUM",
-      "entry_score": 52.110000000000014,
-      "current_score": 31.185,
-      "signal_date": "2026-07-23",
-      "reasons": [
-        "Score cay\u00f3 21pts (52 \u2192 31)"
-      ],
-      "fundamental_score": 61.7
-    },
-    {
-      "ticker": "AON",
-      "severity": "MEDIUM",
-      "entry_score": 51.13,
-      "current_score": 36.11,
-      "signal_date": "2026-08-24",
-      "reasons": [
-        "Score cay\u00f3 15pts (51 \u2192 36)"
-      ],
-      "fundamental_score": 52.3
+      "fundamental_score": 66.4
     },
     {
       "ticker": "ETN",
@@ -544,7 +567,7 @@
       "reasons": [
         "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
       ],
-      "fundamental_score": 69.1
+      "fundamental_score": 66.3
     },
     {
       "ticker": "FICO",
@@ -588,7 +611,18 @@
       "reasons": [
         "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
       ],
-      "fundamental_score": 63.3
+      "fundamental_score": 65.7
+    },
+    {
+      "ticker": "FDS",
+      "severity": "MEDIUM",
+      "entry_score": 0,
+      "current_score": null,
+      "signal_date": "2026-09-10",
+      "reasons": [
+        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
+      ],
+      "fundamental_score": 61.7
     },
     {
       "ticker": "SHW",
@@ -599,10 +633,10 @@
       "reasons": [
         "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
       ],
-      "fundamental_score": 68.0
+      "fundamental_score": 70.1
     },
     {
-      "ticker": "ADP",
+      "ticker": "TYL",
       "severity": "MEDIUM",
       "entry_score": 0,
       "current_score": null,
@@ -610,7 +644,7 @@
       "reasons": [
         "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
       ],
-      "fundamental_score": 64.5
+      "fundamental_score": 62.2
     },
     {
       "ticker": "WCN",
@@ -621,18 +655,7 @@
       "reasons": [
         "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
       ],
-      "fundamental_score": 62.7
-    },
-    {
-      "ticker": "VEEV",
-      "severity": "LOW",
-      "entry_score": 65.7,
-      "current_score": 56.95,
-      "signal_date": "2026-09-11",
-      "reasons": [
-        "Sin insider buying activo \u2014 se\u00f1al de convicci\u00f3n perdida"
-      ],
-      "fundamental_score": 77.2
+      "fundamental_score": 63.2
     }
   ]
 }

@@ -1,7 +1,7 @@
 {
   "generated_at": "2026-09-14",
-  "total": 76,
-  "high_count": 34,
+  "total": 67,
+  "high_count": 38,
   "alerts": [
     {
       "ticker": "AAL.L",
@@ -16,29 +16,16 @@
       }
     },
     {
-      "ticker": "AON",
-      "type": "SCORE_DRIFT",
+      "ticker": "ABT",
+      "type": "MR_ZONE",
       "severity": "HIGH",
-      "title": "Tesis en riesgo: AON",
-      "message": "Score baj\u00f3 30 pts (de 66 \u2192 36). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
+      "title": "ABT en zona oversold",
+      "message": "RSI 17, score MR 100. Calidad: \u2b50\u2b50\u2b50 EXCELENTE. Posible rebote t\u00e9cnico.",
       "date": "2026-09-14",
       "data": {
-        "original_score": 66.4,
-        "current_score": 36.1,
-        "drop": 30.3
-      }
-    },
-    {
-      "ticker": "ATLKY",
-      "type": "SCORE_DRIFT",
-      "severity": "HIGH",
-      "title": "Tesis en riesgo: ATLKY",
-      "message": "Score baj\u00f3 26 pts (de 59 \u2192 33). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
-      "date": "2026-09-14",
-      "data": {
-        "original_score": 58.6,
-        "current_score": 32.6,
-        "drop": 25.9
+        "reversion_score": 100.0,
+        "rsi": 17.2,
+        "quality": "\u2b50\u2b50\u2b50 EXCELENTE"
       }
     },
     {
@@ -58,12 +45,12 @@
       "type": "SCORE_DRIFT",
       "severity": "HIGH",
       "title": "Tesis en riesgo: BAC",
-      "message": "Score baj\u00f3 31 pts (de 86 \u2192 55). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
+      "message": "Score baj\u00f3 29 pts (de 86 \u2192 57). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
       "date": "2026-09-14",
       "data": {
         "original_score": 85.9,
-        "current_score": 54.6,
-        "drop": 31.3
+        "current_score": 57.3,
+        "drop": 28.6
       }
     },
     {
@@ -118,19 +105,6 @@
       }
     },
     {
-      "ticker": "CBOE",
-      "type": "MR_ZONE",
-      "severity": "HIGH",
-      "title": "CBOE en zona oversold",
-      "message": "RSI 36, score MR 100. Calidad: \u2b50\u2b50\u2b50 EXCELENTE. Posible rebote t\u00e9cnico.",
-      "date": "2026-09-14",
-      "data": {
-        "reversion_score": 100.0,
-        "rsi": 36.3,
-        "quality": "\u2b50\u2b50\u2b50 EXCELENTE"
-      }
-    },
-    {
       "ticker": "DGE.L",
       "type": "INSIDER_BUYING",
       "severity": "HIGH",
@@ -140,6 +114,32 @@
       "data": {
         "purchase_count": 15.0,
         "unique_insiders": 7.0
+      }
+    },
+    {
+      "ticker": "DPZ",
+      "type": "SCORE_DRIFT",
+      "severity": "HIGH",
+      "title": "Tesis en riesgo: DPZ",
+      "message": "Score baj\u00f3 28 pts (de 62 \u2192 34). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
+      "date": "2026-09-14",
+      "data": {
+        "original_score": 62.2,
+        "current_score": 34.4,
+        "drop": 27.8
+      }
+    },
+    {
+      "ticker": "FDS",
+      "type": "MR_ZONE",
+      "severity": "HIGH",
+      "title": "FDS en zona oversold",
+      "message": "RSI 38, score MR 85. Calidad: \u2b50\u2b50\u2b50 EXCELENTE. Posible rebote t\u00e9cnico.",
+      "date": "2026-09-14",
+      "data": {
+        "reversion_score": 85.0,
+        "rsi": 38.2,
+        "quality": "\u2b50\u2b50\u2b50 EXCELENTE"
       }
     },
     {
@@ -183,12 +183,12 @@
       "type": "SCORE_DRIFT",
       "severity": "HIGH",
       "title": "Tesis en riesgo: INTU",
-      "message": "Score baj\u00f3 27 pts (de 67 \u2192 40). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
+      "message": "Score baj\u00f3 26 pts (de 67 \u2192 41). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
       "date": "2026-09-14",
       "data": {
         "original_score": 66.8,
-        "current_score": 40.1,
-        "drop": 26.7
+        "current_score": 41.0,
+        "drop": 25.8
       }
     },
     {
@@ -279,6 +279,18 @@
       }
     },
     {
+      "ticker": "RHM.DE",
+      "type": "INSIDER_BUYING",
+      "severity": "HIGH",
+      "title": "Insider buying en RHM.DE",
+      "message": "4 compras por 3 directivos. Se\u00f1al de convicci\u00f3n interna.",
+      "date": "2026-09-14",
+      "data": {
+        "purchase_count": 4.0,
+        "unique_insiders": 3.0
+      }
+    },
+    {
       "ticker": "RIO.L",
       "type": "INSIDER_BUYING",
       "severity": "HIGH",
@@ -300,6 +312,31 @@
       "data": {
         "purchase_count": 10.0,
         "unique_insiders": 5.0
+      }
+    },
+    {
+      "ticker": "SAP",
+      "type": "SCORE_DRIFT",
+      "severity": "HIGH",
+      "title": "Tesis en riesgo: SAP",
+      "message": "Score baj\u00f3 29 pts (de 67 \u2192 38). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
+      "date": "2026-09-14",
+      "data": {
+        "original_score": 67.1,
+        "current_score": 38.4,
+        "drop": 28.6
+      }
+    },
+    {
+      "ticker": "SAP.DE",
+      "type": "INSIDER_BUYING",
+      "severity": "HIGH",
+      "title": "Insider buying en SAP.DE",
+      "message": "3 compras por 3 directivos. Se\u00f1al de convicci\u00f3n interna.",
+      "date": "2026-09-14",
+      "data": {
+        "purchase_count": 3.0,
+        "unique_insiders": 3.0
       }
     },
     {
@@ -375,6 +412,19 @@
       }
     },
     {
+      "ticker": "UNH",
+      "type": "SCORE_DRIFT",
+      "severity": "HIGH",
+      "title": "Tesis en riesgo: UNH",
+      "message": "Score baj\u00f3 44 pts (de 80 \u2192 36). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
+      "date": "2026-09-14",
+      "data": {
+        "original_score": 80.2,
+        "current_score": 36.3,
+        "drop": 43.9
+      }
+    },
+    {
       "ticker": "VOD.L",
       "type": "INSIDER_BUYING",
       "severity": "HIGH",
@@ -391,12 +441,12 @@
       "type": "SCORE_DRIFT",
       "severity": "HIGH",
       "title": "Tesis en riesgo: VRSN",
-      "message": "Score baj\u00f3 31 pts (de 69 \u2192 38). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
+      "message": "Score baj\u00f3 31 pts (de 69 \u2192 39). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
       "date": "2026-09-14",
       "data": {
         "original_score": 69.0,
-        "current_score": 37.7,
-        "drop": 31.3
+        "current_score": 38.5,
+        "drop": 30.5
       }
     },
     {
@@ -404,14 +454,13 @@
       "type": "STREAK",
       "severity": "HIGH",
       "title": "VRSN \u2014 9 d\u00edas en convergencia",
-      "message": "Lleva 9 d\u00edas consecutivos en 4 estrategias. Se\u00f1al persistente de alta convicci\u00f3n.",
+      "message": "Lleva 9 d\u00edas consecutivos en 3 estrategias. Se\u00f1al persistente de alta convicci\u00f3n.",
       "date": "2026-09-14",
       "data": {
         "streak_days": 9,
         "strategies": [
           "VALUE",
           "INSIDERS",
-          "OPTIONS",
           "MOMENTUM"
         ]
       }
@@ -430,14 +479,27 @@
     },
     {
       "ticker": "ADP",
+      "type": "SCORE_DRIFT",
+      "severity": "MEDIUM",
+      "title": "Tesis en riesgo: ADP",
+      "message": "Score baj\u00f3 20 pts (de 64 \u2192 44). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
+      "date": "2026-09-14",
+      "data": {
+        "original_score": 63.5,
+        "current_score": 43.8,
+        "drop": 19.8
+      }
+    },
+    {
+      "ticker": "AJG",
       "type": "MR_ZONE",
       "severity": "MEDIUM",
-      "title": "ADP en zona oversold",
+      "title": "AJG en zona oversold",
       "message": "RSI 37, score MR 70. Calidad: \u2b50\u2b50 MUY BUENA. Posible rebote t\u00e9cnico.",
       "date": "2026-09-14",
       "data": {
         "reversion_score": 70.0,
-        "rsi": 37.0,
+        "rsi": 36.8,
         "quality": "\u2b50\u2b50 MUY BUENA"
       }
     },
@@ -455,6 +517,19 @@
     },
     {
       "ticker": "AON",
+      "type": "MR_ZONE",
+      "severity": "MEDIUM",
+      "title": "AON en zona oversold",
+      "message": "RSI 27, score MR 75. Calidad: \u2b50\u2b50 MUY BUENA. Posible rebote t\u00e9cnico.",
+      "date": "2026-09-14",
+      "data": {
+        "reversion_score": 75.0,
+        "rsi": 26.6,
+        "quality": "\u2b50\u2b50 MUY BUENA"
+      }
+    },
+    {
+      "ticker": "AON",
       "type": "INSIDER_BUYING",
       "severity": "MEDIUM",
       "title": "Insider buying en AON",
@@ -467,15 +542,15 @@
     },
     {
       "ticker": "ASAZY",
-      "type": "MR_ZONE",
+      "type": "SCORE_DRIFT",
       "severity": "MEDIUM",
-      "title": "ASAZY en zona oversold",
-      "message": "RSI 24, score MR 75. Calidad: \u2b50\u2b50 MUY BUENA. Posible rebote t\u00e9cnico.",
+      "title": "Tesis en riesgo: ASAZY",
+      "message": "Score baj\u00f3 17 pts (de 56 \u2192 39). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
       "date": "2026-09-14",
       "data": {
-        "reversion_score": 75.0,
-        "rsi": 24.0,
-        "quality": "\u2b50\u2b50 MUY BUENA"
+        "original_score": 56.2,
+        "current_score": 39.0,
+        "drop": 17.2
       }
     },
     {
@@ -495,14 +570,14 @@
       "type": "VALUE_CONTRADICTION",
       "severity": "MEDIUM",
       "title": "Contradicci\u00f3n IA: AXP en VALUE pero Cerebro dice EXIT",
-      "message": "Score VALUE 58 (Grado ?) \u2014 pero Cerebro detecta candidato a salida (adj -2pts). Raz\u00f3n: Se\u00f1al salida HIGH: Score cay\u00f3 32pts (90 \u2192 59).",
+      "message": "Score VALUE 58 (Grado ?) \u2014 pero Cerebro detecta candidato a salida (adj -2pts). Raz\u00f3n: Se\u00f1al salida HIGH: Score cay\u00f3 32pts (90 \u2192 58).",
       "date": "2026-09-14",
       "data": {
-        "value_score": 58.185,
+        "value_score": 57.845,
         "conviction_grade": "",
         "cerebro_signal": "EXIT",
         "cerebro_score_adj": -2,
-        "cerebro_reason": "Se\u00f1al salida HIGH: Score cay\u00f3 32pts (90 \u2192 59) | Smart money: 1 HF + 0 insiders (conv 33) | Mejor FCF en Financial Services (7.4% vs media sector 5.5%)"
+        "cerebro_reason": "Se\u00f1al salida HIGH: Score cay\u00f3 32pts (90 \u2192 58) | Smart money: 1 HF + 0 insiders (conv 32) | Mejor FCF en Financial Services (7.3% vs media sector 5.4%)"
       }
     },
     {
@@ -510,27 +585,25 @@
       "type": "SCORE_DRIFT",
       "severity": "MEDIUM",
       "title": "Tesis en riesgo: BRK-B",
-      "message": "Score baj\u00f3 22 pts (de 55 \u2192 34). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
+      "message": "Score baj\u00f3 22 pts (de 55 \u2192 33). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
       "date": "2026-09-14",
       "data": {
         "original_score": 55.4,
-        "current_score": 33.6,
-        "drop": 21.8
+        "current_score": 33.4,
+        "drop": 22.0
       }
     },
     {
-      "ticker": "BRO",
-      "type": "NEW_CONVERGENCE",
+      "ticker": "CBOE",
+      "type": "MR_ZONE",
       "severity": "MEDIUM",
-      "title": "Nueva convergencia: BRO",
-      "message": "Aparece en 2 estrategias: VALUE, MR. Score convergencia: 48.",
+      "title": "CBOE en zona oversold",
+      "message": "RSI 32, score MR 70. Calidad: \u2b50\u2b50 MUY BUENA. Posible rebote t\u00e9cnico.",
       "date": "2026-09-14",
       "data": {
-        "strategies": [
-          "VALUE",
-          "MR"
-        ],
-        "convergence_score": 48
+        "reversion_score": 70.0,
+        "rsi": 32.5,
+        "quality": "\u2b50\u2b50 MUY BUENA"
       }
     },
     {
@@ -561,57 +634,16 @@
       }
     },
     {
-      "ticker": "CME",
-      "type": "NEW_CONVERGENCE",
-      "severity": "MEDIUM",
-      "title": "Nueva convergencia: CME",
-      "message": "Aparece en 2 estrategias: INSIDERS, OPTIONS. Score convergencia: 50.",
-      "date": "2026-09-14",
-      "data": {
-        "strategies": [
-          "INSIDERS",
-          "OPTIONS"
-        ],
-        "convergence_score": 50
-      }
-    },
-    {
       "ticker": "CTAS",
       "type": "SCORE_DRIFT",
       "severity": "MEDIUM",
       "title": "Tesis en riesgo: CTAS",
-      "message": "Score baj\u00f3 20 pts (de 57 \u2192 38). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
+      "message": "Score baj\u00f3 23 pts (de 57 \u2192 35). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
       "date": "2026-09-14",
       "data": {
         "original_score": 57.4,
-        "current_score": 37.8,
-        "drop": 19.6
-      }
-    },
-    {
-      "ticker": "CVX",
-      "type": "SCORE_DRIFT",
-      "severity": "MEDIUM",
-      "title": "Tesis en riesgo: CVX",
-      "message": "Score baj\u00f3 25 pts (de 55 \u2192 31). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
-      "date": "2026-09-14",
-      "data": {
-        "original_score": 55.2,
-        "current_score": 30.6,
-        "drop": 24.6
-      }
-    },
-    {
-      "ticker": "DPZ",
-      "type": "SCORE_DRIFT",
-      "severity": "MEDIUM",
-      "title": "Tesis en riesgo: DPZ",
-      "message": "Score baj\u00f3 21 pts (de 62 \u2192 41). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
-      "date": "2026-09-14",
-      "data": {
-        "original_score": 62.2,
-        "current_score": 40.9,
-        "drop": 21.3
+        "current_score": 34.7,
+        "drop": 22.7
       }
     },
     {
@@ -627,58 +659,16 @@
       }
     },
     {
-      "ticker": "ETN",
-      "type": "NEW_CONVERGENCE",
-      "severity": "MEDIUM",
-      "title": "Nueva convergencia: ETN",
-      "message": "Aparece en 2 estrategias: INSIDERS, MOMENTUM. Score convergencia: 50.",
-      "date": "2026-09-14",
-      "data": {
-        "strategies": [
-          "INSIDERS",
-          "MOMENTUM"
-        ],
-        "convergence_score": 50
-      }
-    },
-    {
-      "ticker": "ICE",
-      "type": "SCORE_DRIFT",
-      "severity": "MEDIUM",
-      "title": "Tesis en riesgo: ICE",
-      "message": "Score baj\u00f3 22 pts (de 58 \u2192 36). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
-      "date": "2026-09-14",
-      "data": {
-        "original_score": 57.9,
-        "current_score": 36.2,
-        "drop": 21.7
-      }
-    },
-    {
-      "ticker": "INTU",
-      "type": "MR_ZONE",
-      "severity": "MEDIUM",
-      "title": "INTU en zona oversold",
-      "message": "RSI 27, score MR 75. Calidad: \u2b50\u2b50 MUY BUENA. Posible rebote t\u00e9cnico.",
-      "date": "2026-09-14",
-      "data": {
-        "reversion_score": 75.0,
-        "rsi": 26.9,
-        "quality": "\u2b50\u2b50 MUY BUENA"
-      }
-    },
-    {
       "ticker": "INTU",
       "type": "STREAK",
       "severity": "MEDIUM",
       "title": "INTU \u2014 4 d\u00edas en convergencia",
-      "message": "Lleva 4 d\u00edas consecutivos en 3 estrategias. Se\u00f1al persistente de alta convicci\u00f3n.",
+      "message": "Lleva 4 d\u00edas consecutivos en 2 estrategias. Se\u00f1al persistente de alta convicci\u00f3n.",
       "date": "2026-09-14",
       "data": {
         "streak_days": 4,
         "strategies": [
           "VALUE",
-          "MR",
           "OPTIONS"
         ]
       }
@@ -688,11 +678,11 @@
       "type": "MR_ZONE",
       "severity": "MEDIUM",
       "title": "ISRG en zona oversold",
-      "message": "RSI 43, score MR 75. Calidad: \u2b50\u2b50 MUY BUENA. Posible rebote t\u00e9cnico.",
+      "message": "RSI 53, score MR 75. Calidad: \u2b50\u2b50 MUY BUENA. Posible rebote t\u00e9cnico.",
       "date": "2026-09-14",
       "data": {
         "reversion_score": 75.0,
-        "rsi": 43.3,
+        "rsi": 52.9,
         "quality": "\u2b50\u2b50 MUY BUENA"
       }
     },
@@ -709,36 +699,6 @@
       }
     },
     {
-      "ticker": "LIN",
-      "type": "NEW_CONVERGENCE",
-      "severity": "MEDIUM",
-      "title": "Nueva convergencia: LIN",
-      "message": "Aparece en 2 estrategias: INSIDERS, OPTIONS. Score convergencia: 50.",
-      "date": "2026-09-14",
-      "data": {
-        "strategies": [
-          "INSIDERS",
-          "OPTIONS"
-        ],
-        "convergence_score": 50
-      }
-    },
-    {
-      "ticker": "MA",
-      "type": "NEW_CONVERGENCE",
-      "severity": "MEDIUM",
-      "title": "Nueva convergencia: MA",
-      "message": "Aparece en 2 estrategias: VALUE, OPTIONS. Score convergencia: 52.",
-      "date": "2026-09-14",
-      "data": {
-        "strategies": [
-          "VALUE",
-          "OPTIONS"
-        ],
-        "convergence_score": 52
-      }
-    },
-    {
       "ticker": "MKC",
       "type": "INSIDER_BUYING",
       "severity": "MEDIUM",
@@ -748,21 +708,6 @@
       "data": {
         "purchase_count": 4.0,
         "unique_insiders": 1.0
-      }
-    },
-    {
-      "ticker": "MRSH",
-      "type": "NEW_CONVERGENCE",
-      "severity": "MEDIUM",
-      "title": "Nueva convergencia: MRSH",
-      "message": "Aparece en 2 estrategias: VALUE, OPTIONS. Score convergencia: 48.",
-      "date": "2026-09-14",
-      "data": {
-        "strategies": [
-          "VALUE",
-          "OPTIONS"
-        ],
-        "convergence_score": 48
       }
     },
     {
@@ -778,29 +723,18 @@
       }
     },
     {
-      "ticker": "MSCI",
-      "type": "SCORE_DRIFT",
+      "ticker": "MSFT",
+      "type": "VALUE_CONTRADICTION",
       "severity": "MEDIUM",
-      "title": "Tesis en riesgo: MSCI",
-      "message": "Score baj\u00f3 21 pts (de 52 \u2192 31). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
+      "title": "Contradicci\u00f3n IA: MSFT en VALUE pero Cerebro dice EXIT",
+      "message": "Score VALUE 61 (Grado ?) \u2014 pero Cerebro detecta candidato a salida (adj -16pts). Raz\u00f3n: Thesis drift MEDIUM: Score cay\u00f3 50pts en 48d (91\u219241).",
       "date": "2026-09-14",
       "data": {
-        "original_score": 52.1,
-        "current_score": 31.2,
-        "drop": 20.9
-      }
-    },
-    {
-      "ticker": "NDAQ",
-      "type": "SCORE_DRIFT",
-      "severity": "MEDIUM",
-      "title": "Tesis en riesgo: NDAQ",
-      "message": "Score baj\u00f3 21 pts (de 53 \u2192 32). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
-      "date": "2026-09-14",
-      "data": {
-        "original_score": 53.5,
-        "current_score": 32.3,
-        "drop": 21.2
+        "value_score": 60.56999999999999,
+        "conviction_grade": "",
+        "cerebro_signal": "EXIT",
+        "cerebro_score_adj": -16,
+        "cerebro_reason": "Thesis drift MEDIUM: Score cay\u00f3 50pts en 48d (91\u219241) | Se\u00f1al salida HIGH: Score cay\u00f3 55pts (96 \u2192 41) | Caro vs peers en Technology (FCF rank 13/13) | Smart money: 1 HF + 0 insiders (conv 27)"
       }
     },
     {
@@ -808,25 +742,12 @@
       "type": "SCORE_DRIFT",
       "severity": "MEDIUM",
       "title": "Tesis en riesgo: NYT",
-      "message": "Score baj\u00f3 20 pts (de 58 \u2192 39). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
+      "message": "Score baj\u00f3 24 pts (de 58 \u2192 35). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
       "date": "2026-09-14",
       "data": {
         "original_score": 58.3,
-        "current_score": 38.7,
-        "drop": 19.6
-      }
-    },
-    {
-      "ticker": "OXY",
-      "type": "SCORE_DRIFT",
-      "severity": "MEDIUM",
-      "title": "Tesis en riesgo: OXY",
-      "message": "Score baj\u00f3 16 pts (de 62 \u2192 46). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
-      "date": "2026-09-14",
-      "data": {
-        "original_score": 62.2,
-        "current_score": 45.9,
-        "drop": 16.3
+        "current_score": 34.8,
+        "drop": 23.5
       }
     },
     {
@@ -834,27 +755,25 @@
       "type": "MR_ZONE",
       "severity": "MEDIUM",
       "title": "PAYX en zona oversold",
-      "message": "RSI 29, score MR 70. Calidad: \u2b50\u2b50 MUY BUENA. Posible rebote t\u00e9cnico.",
+      "message": "RSI 33, score MR 70. Calidad: \u2b50\u2b50 MUY BUENA. Posible rebote t\u00e9cnico.",
       "date": "2026-09-14",
       "data": {
         "reversion_score": 70.0,
-        "rsi": 29.3,
+        "rsi": 33.0,
         "quality": "\u2b50\u2b50 MUY BUENA"
       }
     },
     {
-      "ticker": "PAYX",
-      "type": "NEW_CONVERGENCE",
+      "ticker": "QSR",
+      "type": "SCORE_DRIFT",
       "severity": "MEDIUM",
-      "title": "Nueva convergencia: PAYX",
-      "message": "Aparece en 2 estrategias: VALUE, MR. Score convergencia: 49.",
+      "title": "Tesis en riesgo: QSR",
+      "message": "Score baj\u00f3 16 pts (de 62 \u2192 46). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
       "date": "2026-09-14",
       "data": {
-        "strategies": [
-          "VALUE",
-          "MR"
-        ],
-        "convergence_score": 49
+        "original_score": 62.4,
+        "current_score": 46.3,
+        "drop": 16.1
       }
     },
     {
@@ -862,27 +781,12 @@
       "type": "MR_ZONE",
       "severity": "MEDIUM",
       "title": "ROP en zona oversold",
-      "message": "RSI 33, score MR 70. Calidad: \u2b50\u2b50 MUY BUENA. Posible rebote t\u00e9cnico.",
+      "message": "RSI 36, score MR 70. Calidad: \u2b50\u2b50 MUY BUENA. Posible rebote t\u00e9cnico.",
       "date": "2026-09-14",
       "data": {
         "reversion_score": 70.0,
-        "rsi": 33.3,
+        "rsi": 35.5,
         "quality": "\u2b50\u2b50 MUY BUENA"
-      }
-    },
-    {
-      "ticker": "ROP",
-      "type": "NEW_CONVERGENCE",
-      "severity": "MEDIUM",
-      "title": "Nueva convergencia: ROP",
-      "message": "Aparece en 2 estrategias: VALUE, MR. Score convergencia: 47.",
-      "date": "2026-09-14",
-      "data": {
-        "strategies": [
-          "VALUE",
-          "MR"
-        ],
-        "convergence_score": 47
       }
     },
     {
@@ -898,19 +802,6 @@
       }
     },
     {
-      "ticker": "SAP",
-      "type": "SCORE_DRIFT",
-      "severity": "MEDIUM",
-      "title": "Tesis en riesgo: SAP",
-      "message": "Score baj\u00f3 20 pts (de 67 \u2192 47). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
-      "date": "2026-09-14",
-      "data": {
-        "original_score": 67.1,
-        "current_score": 47.1,
-        "drop": 20.0
-      }
-    },
-    {
       "ticker": "SYK",
       "type": "INSIDER_BUYING",
       "severity": "MEDIUM",
@@ -923,59 +814,16 @@
       }
     },
     {
-      "ticker": "TW",
-      "type": "NEW_CONVERGENCE",
-      "severity": "MEDIUM",
-      "title": "Nueva convergencia: TW",
-      "message": "Aparece en 2 estrategias: VALUE, OPTIONS. Score convergencia: 50.",
-      "date": "2026-09-14",
-      "data": {
-        "strategies": [
-          "VALUE",
-          "OPTIONS"
-        ],
-        "convergence_score": 50
-      }
-    },
-    {
-      "ticker": "V",
+      "ticker": "VEEV",
       "type": "SCORE_DRIFT",
       "severity": "MEDIUM",
-      "title": "Tesis en riesgo: V",
-      "message": "Score baj\u00f3 23 pts (de 64 \u2192 40). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
+      "title": "Tesis en riesgo: VEEV",
+      "message": "Score baj\u00f3 22 pts (de 66 \u2192 44). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
       "date": "2026-09-14",
       "data": {
-        "original_score": 63.6,
-        "current_score": 40.2,
-        "drop": 23.4
-      }
-    },
-    {
-      "ticker": "V",
-      "type": "NEW_CONVERGENCE",
-      "severity": "MEDIUM",
-      "title": "Nueva convergencia: V",
-      "message": "Aparece en 2 estrategias: VALUE, OPTIONS. Score convergencia: 48.",
-      "date": "2026-09-14",
-      "data": {
-        "strategies": [
-          "VALUE",
-          "OPTIONS"
-        ],
-        "convergence_score": 48
-      }
-    },
-    {
-      "ticker": "VLTO",
-      "type": "SCORE_DRIFT",
-      "severity": "MEDIUM",
-      "title": "Tesis en riesgo: VLTO",
-      "message": "Score baj\u00f3 18 pts (de 53 \u2192 34). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
-      "date": "2026-09-14",
-      "data": {
-        "original_score": 52.6,
-        "current_score": 34.2,
-        "drop": 18.4
+        "original_score": 65.7,
+        "current_score": 43.9,
+        "drop": 21.8
       }
     },
     {
@@ -987,6 +835,18 @@
       "date": "2026-09-14",
       "data": {
         "purchase_count": 4.0,
+        "unique_insiders": 1.0
+      }
+    },
+    {
+      "ticker": "ZAL.DE",
+      "type": "INSIDER_BUYING",
+      "severity": "MEDIUM",
+      "title": "Insider buying en ZAL.DE",
+      "message": "18 compras por 1 directivos. Se\u00f1al de convicci\u00f3n interna.",
+      "date": "2026-09-14",
+      "data": {
+        "purchase_count": 18.0,
         "unique_insiders": 1.0
       }
     }

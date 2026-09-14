@@ -1,72 +1,72 @@
 {
   "generated_at": "2026-09-14",
-  "total": 82,
+  "total": 76,
   "at_risk": 0,
-  "narrative": "En la inversi\u00f3n en valor, la seguridad del dividendo se eval\u00faa comparando la cobertura de flujo de caja libre (FCF) y el payout: un payout cercano o superior al\u202f100\u202f% y un FCF menor al dividendo indican vulnerabilidad. Adem\u00e1s, un rendimiento muy alto (p.ej., >\u202f5\u202f%) junto con una cobertura ajustada sugiere que el dividendo podr\u00eda no ser",
+  "narrative": "En el valor, la seguridad de los dividendos se eval\u00faa por la sostenibilidad del payout: un ratio de pago por debajo de 70\u201180\u202f% y una cobertura de flujo de caja libre que supere el dividendo indican estabilidad. Cuando el payout sobrepasa el 100\u202f% y el flujo libre no cubre el pago, el dividendo es insostenible",
   "dividends": [
     {
       "ticker": "COLO-B.CO",
       "company_name": "Coloplast A/S",
       "div_yield": 5.53,
       "payout_ratio": 187.6,
-      "fcf_yield_pct": 4.98,
+      "fcf_yield_pct": 4.94,
       "interest_coverage": 4.6,
       "safety_score": 45,
       "rating": "WATCH",
       "risk_flags": [
         "Payout 188% \u2014 insostenible",
-        "FCF (5.0%) < dividendo (5.5%) \u2014 cobertura ajustada"
+        "FCF (4.9%) < dividendo (5.5%) \u2014 cobertura ajustada"
       ],
-      "value_score": 43.3
+      "value_score": 43.8
     },
     {
       "ticker": "PAYX",
       "company_name": "Paychex, Inc.",
       "div_yield": 4.11,
       "payout_ratio": 90.6,
-      "fcf_yield_pct": 5.63,
+      "fcf_yield_pct": 5.51,
       "interest_coverage": 9.6,
       "safety_score": 60,
       "rating": "WATCH",
       "risk_flags": [
         "Payout 91% \u2014 insostenible"
       ],
-      "value_score": 46.0
+      "value_score": 57.27
     },
     {
       "ticker": "KVUE",
       "company_name": "Kenvue Inc.",
       "div_yield": 4.72,
       "payout_ratio": 97.7,
-      "fcf_yield_pct": 5.59,
+      "fcf_yield_pct": 5.5,
       "interest_coverage": 6.2,
       "safety_score": 60,
       "rating": "WATCH",
       "risk_flags": [
         "Payout 98% \u2014 insostenible"
       ],
-      "value_score": 40.065
+      "value_score": 40.19
     },
     {
       "ticker": "EQIX",
       "company_name": "Equinix, Inc.",
       "div_yield": 1.99,
       "payout_ratio": 126.8,
-      "fcf_yield_pct": 3.69,
+      "fcf_yield_pct": 3.83,
       "interest_coverage": 4.0,
       "safety_score": 60,
       "rating": "WATCH",
       "risk_flags": [
         "Payout 127% \u2014 insostenible"
       ],
-      "value_score": 33.175000000000004
+      "value_score": 33.29
     },
     {
       "ticker": "PGHN.SW",
       "company_name": "Partners Group Holding AG",
       "div_yield": 7.11,
       "payout_ratio": 100.4,
-      "fcf_yield_pct": 10.1,
+      "fcf_yield_pct": 10.19,
       "interest_coverage": null,
       "safety_score": 60,
       "rating": "WATCH",
@@ -80,70 +80,56 @@
       "company_name": "KONE Oyj",
       "div_yield": 3.63,
       "payout_ratio": 98.9,
-      "fcf_yield_pct": 4.09,
+      "fcf_yield_pct": 4.07,
       "interest_coverage": 26.1,
       "safety_score": 60,
       "rating": "WATCH",
       "risk_flags": [
         "Payout 99% \u2014 insostenible"
       ],
-      "value_score": 39.7
+      "value_score": 40.1
     },
     {
       "ticker": "KR",
       "company_name": "The Kroger Co.",
       "div_yield": 2.46,
       "payout_ratio": 75.7,
-      "fcf_yield_pct": 7.27,
-      "interest_coverage": 3.0,
+      "fcf_yield_pct": 7.02,
+      "interest_coverage": 2.0,
       "safety_score": 80,
       "rating": "SAFE",
       "risk_flags": [
         "Payout 76% \u2014 zona de riesgo"
       ],
-      "value_score": 33.96
+      "value_score": 33.76
     },
     {
       "ticker": "KO",
       "company_name": "The Coca-Cola Company",
       "div_yield": 2.4,
       "payout_ratio": 62.5,
-      "fcf_yield_pct": 1.37,
+      "fcf_yield_pct": 1.36,
       "interest_coverage": 12.0,
       "safety_score": 85,
       "rating": "SAFE",
       "risk_flags": [
         "FCF (1.4%) < dividendo (2.4%) \u2014 cobertura ajustada"
       ],
-      "value_score": 31.04
+      "value_score": 40.875
     },
     {
       "ticker": "GVDNY",
       "company_name": "Givaudan SA",
       "div_yield": 2.36,
       "payout_ratio": 71.1,
-      "fcf_yield_pct": 2.07,
+      "fcf_yield_pct": 2.04,
       "interest_coverage": null,
       "safety_score": 85,
       "rating": "SAFE",
       "risk_flags": [
-        "FCF (2.1%) < dividendo (2.4%) \u2014 cobertura ajustada"
+        "FCF (2.0%) < dividendo (2.4%) \u2014 cobertura ajustada"
       ],
-      "value_score": 34.09
-    },
-    {
-      "ticker": "ATLKY",
-      "company_name": "Atlas Copco AB (publ)",
-      "div_yield": 2.67,
-      "payout_ratio": 73.8,
-      "fcf_yield_pct": 2.61,
-      "interest_coverage": 126.5,
-      "safety_score": 85,
-      "rating": "SAFE",
-      "risk_flags": [
-        "FCF (2.6%) < dividendo (2.7%) \u2014 cobertura ajustada"
-      ],
-      "value_score": 32.64
+      "value_score": 31.32999999999999
     },
     {
       "ticker": "AI.PA",
@@ -164,12 +150,12 @@
       "company_name": "Givaudan SA",
       "div_yield": 2.28,
       "payout_ratio": 70.1,
-      "fcf_yield_pct": 2.07,
+      "fcf_yield_pct": 2.05,
       "interest_coverage": null,
       "safety_score": 85,
       "rating": "SAFE",
       "risk_flags": [
-        "FCF (2.1%) < dividendo (2.3%) \u2014 cobertura ajustada"
+        "FCF (2.0%) < dividendo (2.3%) \u2014 cobertura ajustada"
       ],
       "value_score": 33.7
     },
@@ -178,472 +164,436 @@
       "company_name": "Microsoft Corporation",
       "div_yield": 0.73,
       "payout_ratio": 19.8,
-      "fcf_yield_pct": 0.45,
+      "fcf_yield_pct": 0.44,
       "interest_coverage": 55.4,
       "safety_score": 95,
       "rating": "SAFE",
       "risk_flags": [
-        "FCF (0.5%) < dividendo (0.7%) \u2014 cobertura ajustada"
+        "FCF (0.4%) < dividendo (0.7%) \u2014 cobertura ajustada"
       ],
-      "value_score": 40.975
+      "value_score": 60.56999999999999
     },
     {
       "ticker": "NOVO-B.CO",
       "company_name": "Novo Nordisk A/S",
       "div_yield": 4.23,
       "payout_ratio": 44.6,
-      "fcf_yield_pct": 3.08,
+      "fcf_yield_pct": 3.04,
       "interest_coverage": 252.0,
       "safety_score": 95,
       "rating": "SAFE",
       "risk_flags": [
-        "FCF (3.1%) < dividendo (4.2%) \u2014 cobertura ajustada"
+        "FCF (3.0%) < dividendo (4.2%) \u2014 cobertura ajustada"
       ],
-      "value_score": 55.8
+      "value_score": 56.3
     },
     {
       "ticker": "BR",
       "company_name": "Broadridge Financial Solutions, Inc.",
       "div_yield": 2.6,
       "payout_ratio": 40.6,
-      "fcf_yield_pct": 6.25,
+      "fcf_yield_pct": 6.02,
       "interest_coverage": 13.9,
       "safety_score": 100,
       "rating": "SAFE",
       "risk_flags": [],
-      "value_score": 81.765
+      "value_score": 79.485
     },
     {
       "ticker": "MCO",
       "company_name": "Moody's Corporation",
       "div_yield": 0.87,
       "payout_ratio": 25.0,
-      "fcf_yield_pct": 3.14,
+      "fcf_yield_pct": 3.13,
       "interest_coverage": 14.5,
       "safety_score": 100,
       "rating": "SAFE",
       "risk_flags": [],
-      "value_score": 79.95499999999998
+      "value_score": 75.125
     },
     {
       "ticker": "CBOE",
       "company_name": "Cboe Global Markets, Inc.",
       "div_yield": 1.22,
       "payout_ratio": 22.4,
-      "fcf_yield_pct": 2.31,
+      "fcf_yield_pct": 2.28,
       "interest_coverage": 36.6,
       "safety_score": 100,
       "rating": "SAFE",
       "risk_flags": [],
-      "value_score": 57.59
-    },
-    {
-      "ticker": "NDSN",
-      "company_name": "Nordson Corporation",
-      "div_yield": 1.2,
-      "payout_ratio": 33.2,
-      "fcf_yield_pct": 3.5,
-      "interest_coverage": 8.4,
-      "safety_score": 100,
-      "rating": "SAFE",
-      "risk_flags": [],
-      "value_score": 63.025000000000006
-    },
-    {
-      "ticker": "MA",
-      "company_name": "Mastercard Incorporated",
-      "div_yield": 0.61,
-      "payout_ratio": 17.9,
-      "fcf_yield_pct": 3.4,
-      "interest_coverage": 28.0,
-      "safety_score": 100,
-      "rating": "SAFE",
-      "risk_flags": [],
-      "value_score": 62.375
-    },
-    {
-      "ticker": "QSR",
-      "company_name": "Restaurant Brands International Inc.",
-      "div_yield": 3.38,
-      "payout_ratio": 63.8,
-      "fcf_yield_pct": 4.86,
-      "interest_coverage": 5.2,
-      "safety_score": 100,
-      "rating": "SAFE",
-      "risk_flags": [],
-      "value_score": 56.285
-    },
-    {
-      "ticker": "AUTO.L",
-      "company_name": "Autotrader Group plc",
-      "div_yield": 2.37,
-      "payout_ratio": 32.0,
-      "fcf_yield_pct": 6.41,
-      "interest_coverage": null,
-      "safety_score": 100,
-      "rating": "SAFE",
-      "risk_flags": [],
-      "value_score": 53.00999999999999
+      "value_score": 67.785
     },
     {
       "ticker": "SPGI",
       "company_name": "S&P Global Inc.",
       "div_yield": 0.94,
       "payout_ratio": 23.5,
-      "fcf_yield_pct": 4.5,
+      "fcf_yield_pct": 4.42,
       "interest_coverage": 22.7,
       "safety_score": 100,
       "rating": "SAFE",
       "risk_flags": [],
-      "value_score": 60.925
+      "value_score": 60.72
     },
     {
       "ticker": "FHN",
       "company_name": "First Horizon Corporation",
       "div_yield": 2.78,
       "payout_ratio": 30.8,
-      "fcf_yield_pct": 5.13,
+      "fcf_yield_pct": 5.15,
       "interest_coverage": null,
       "safety_score": 100,
       "rating": "SAFE",
       "risk_flags": [],
-      "value_score": 60.2
+      "value_score": 60.55000000000001
     },
     {
-      "ticker": "AXP",
-      "company_name": "American Express Company",
-      "div_yield": 1.17,
-      "payout_ratio": 21.5,
-      "fcf_yield_pct": 7.3,
-      "interest_coverage": null,
+      "ticker": "NDSN",
+      "company_name": "Nordson Corporation",
+      "div_yield": 1.2,
+      "payout_ratio": 33.2,
+      "fcf_yield_pct": 3.56,
+      "interest_coverage": 8.4,
       "safety_score": 100,
       "rating": "SAFE",
       "risk_flags": [],
-      "value_score": 58.185
+      "value_score": 60.505
     },
     {
       "ticker": "TW",
       "company_name": "Tradeweb Markets Inc.",
       "div_yield": 0.55,
       "payout_ratio": 12.4,
-      "fcf_yield_pct": 4.86,
+      "fcf_yield_pct": 4.73,
       "interest_coverage": 633.6,
       "safety_score": 100,
       "rating": "SAFE",
       "risk_flags": [],
-      "value_score": 50.1
+      "value_score": 52.34
     },
     {
-      "ticker": "SAP",
-      "company_name": "SAP SE",
-      "div_yield": 1.42,
-      "payout_ratio": 37.5,
-      "fcf_yield_pct": 4.41,
-      "interest_coverage": 20.7,
+      "ticker": "AXP",
+      "company_name": "American Express Company",
+      "div_yield": 1.17,
+      "payout_ratio": 21.5,
+      "fcf_yield_pct": 7.24,
+      "interest_coverage": null,
       "safety_score": 100,
       "rating": "SAFE",
       "risk_flags": [],
-      "value_score": 47.105
+      "value_score": 57.845
     },
     {
       "ticker": "BAC",
       "company_name": "Bank of America Corporation",
       "div_yield": 2.04,
       "payout_ratio": 25.9,
-      "fcf_yield_pct": 2.88,
+      "fcf_yield_pct": 3.06,
       "interest_coverage": null,
       "safety_score": 100,
       "rating": "SAFE",
       "risk_flags": [],
-      "value_score": 54.63
+      "value_score": 57.345
     },
     {
-      "ticker": "FDS",
-      "company_name": "FactSet Research Systems Inc.",
-      "div_yield": 1.79,
-      "payout_ratio": 29.4,
-      "fcf_yield_pct": 6.72,
-      "interest_coverage": 14.1,
+      "ticker": "MSCI",
+      "company_name": "MSCI Inc.",
+      "div_yield": 1.48,
+      "payout_ratio": 42.1,
+      "fcf_yield_pct": 3.0,
+      "interest_coverage": 7.2,
       "safety_score": 100,
       "rating": "SAFE",
       "risk_flags": [],
-      "value_score": 46.50999999999999
+      "value_score": 50.875
     },
     {
-      "ticker": "MRSH",
-      "company_name": "Marsh & McLennan Companies, Inc.",
-      "div_yield": 2.24,
-      "payout_ratio": 44.0,
-      "fcf_yield_pct": 5.67,
-      "interest_coverage": 6.6,
+      "ticker": "MA",
+      "company_name": "Mastercard Incorporated",
+      "div_yield": 0.61,
+      "payout_ratio": 17.9,
+      "fcf_yield_pct": 3.38,
+      "interest_coverage": 28.0,
       "safety_score": 100,
       "rating": "SAFE",
       "risk_flags": [],
-      "value_score": 44.28
+      "value_score": 52.605
     },
     {
       "ticker": "MKC",
       "company_name": "McCormick & Company, Incorporated",
       "div_yield": 3.74,
       "payout_ratio": 30.9,
-      "fcf_yield_pct": 5.18,
+      "fcf_yield_pct": 5.27,
       "interest_coverage": 5.5,
       "safety_score": 100,
       "rating": "SAFE",
       "risk_flags": [],
-      "value_score": 50.73
-    },
-    {
-      "ticker": "BRO",
-      "company_name": "Brown & Brown, Inc.",
-      "div_yield": 1.0,
-      "payout_ratio": 20.6,
-      "fcf_yield_pct": 7.42,
-      "interest_coverage": 4.7,
-      "safety_score": 100,
-      "rating": "SAFE",
-      "risk_flags": [],
-      "value_score": 42.685
-    },
-    {
-      "ticker": "RACE",
-      "company_name": "Ferrari N.V.",
-      "div_yield": 1.02,
-      "payout_ratio": 39.0,
-      "fcf_yield_pct": 1.59,
-      "interest_coverage": 63.9,
-      "safety_score": 100,
-      "rating": "SAFE",
-      "risk_flags": [],
-      "value_score": 49.85
-    },
-    {
-      "ticker": "ROP",
-      "company_name": "Roper Technologies, Inc.",
-      "div_yield": 0.94,
-      "payout_ratio": 14.5,
-      "fcf_yield_pct": 5.9,
-      "interest_coverage": 8.6,
-      "safety_score": 100,
-      "rating": "SAFE",
-      "risk_flags": [],
-      "value_score": 39.900000000000006
-    },
-    {
-      "ticker": "WST",
-      "company_name": "West Pharmaceutical Services, Inc.",
-      "div_yield": 0.25,
-      "payout_ratio": 11.1,
-      "fcf_yield_pct": 1.14,
-      "interest_coverage": 155.1,
-      "safety_score": 100,
-      "rating": "SAFE",
-      "risk_flags": [],
-      "value_score": 42.62
-    },
-    {
-      "ticker": "NYT",
-      "company_name": "The New York Times Company",
-      "div_yield": 1.38,
-      "payout_ratio": 32.1,
-      "fcf_yield_pct": 4.26,
-      "interest_coverage": 857.1,
-      "safety_score": 100,
-      "rating": "SAFE",
-      "risk_flags": [],
-      "value_score": 38.7
-    },
-    {
-      "ticker": "OXY",
-      "company_name": "Occidental Petroleum Corporation",
-      "div_yield": 1.83,
-      "payout_ratio": 29.5,
-      "fcf_yield_pct": 6.17,
-      "interest_coverage": 6.2,
-      "safety_score": 100,
-      "rating": "SAFE",
-      "risk_flags": [],
-      "value_score": 45.92
-    },
-    {
-      "ticker": "PGR",
-      "company_name": "The Progressive Corporation",
-      "div_yield": 0.18,
-      "payout_ratio": 69.7,
-      "fcf_yield_pct": 11.95,
-      "interest_coverage": 50.8,
-      "safety_score": 100,
-      "rating": "SAFE",
-      "risk_flags": [],
-      "value_score": 45.355
-    },
-    {
-      "ticker": "CNI",
-      "company_name": "Canadian National Railway Company",
-      "div_yield": 2.17,
-      "payout_ratio": 46.3,
-      "fcf_yield_pct": 2.95,
-      "interest_coverage": 7.8,
-      "safety_score": 100,
-      "rating": "SAFE",
-      "risk_flags": [],
-      "value_score": 44.8
-    },
-    {
-      "ticker": "DHR",
-      "company_name": "Danaher Corporation",
-      "div_yield": 0.8,
-      "payout_ratio": 25.7,
-      "fcf_yield_pct": 3.07,
-      "interest_coverage": 17.3,
-      "safety_score": 100,
-      "rating": "SAFE",
-      "risk_flags": [],
-      "value_score": 44.265
-    },
-    {
-      "ticker": "ICE",
-      "company_name": "Intercontinental Exchange, Inc.",
-      "div_yield": 1.32,
-      "payout_ratio": 28.2,
-      "fcf_yield_pct": 4.11,
-      "interest_coverage": 7.6,
-      "safety_score": 100,
-      "rating": "SAFE",
-      "risk_flags": [],
-      "value_score": 36.24
-    },
-    {
-      "ticker": "AON",
-      "company_name": "Aon plc",
-      "div_yield": 1.08,
-      "payout_ratio": 16.8,
-      "fcf_yield_pct": 4.97,
-      "interest_coverage": 7.7,
-      "safety_score": 100,
-      "rating": "SAFE",
-      "risk_flags": [],
-      "value_score": 36.11
-    },
-    {
-      "ticker": "VLTO",
-      "company_name": "Veralto Corporation",
-      "div_yield": 0.55,
-      "payout_ratio": 12.6,
-      "fcf_yield_pct": 3.52,
-      "interest_coverage": 14.1,
-      "safety_score": 100,
-      "rating": "SAFE",
-      "risk_flags": [],
-      "value_score": 34.195
-    },
-    {
-      "ticker": "SBGSY",
-      "company_name": "Schneider Electric S.E.",
-      "div_yield": 1.46,
-      "payout_ratio": 49.7,
-      "fcf_yield_pct": 3.28,
-      "interest_coverage": null,
-      "safety_score": 100,
-      "rating": "SAFE",
-      "risk_flags": [],
-      "value_score": 41.47
-    },
-    {
-      "ticker": "DPZ",
-      "company_name": "Domino's Pizza, Inc.",
-      "div_yield": 2.55,
-      "payout_ratio": 42.3,
-      "fcf_yield_pct": 5.16,
-      "interest_coverage": 4.9,
-      "safety_score": 100,
-      "rating": "SAFE",
-      "risk_flags": [],
-      "value_score": 40.91
-    },
-    {
-      "ticker": "CB",
-      "company_name": "Chubb Limited",
-      "div_yield": 1.21,
-      "payout_ratio": 13.9,
-      "fcf_yield_pct": 8.04,
-      "interest_coverage": 18.9,
-      "safety_score": 100,
-      "rating": "SAFE",
-      "risk_flags": [],
-      "value_score": 40.35
-    },
-    {
-      "ticker": "NDAQ",
-      "company_name": "Nasdaq, Inc.",
-      "div_yield": 1.27,
-      "payout_ratio": 32.7,
-      "fcf_yield_pct": 3.32,
-      "interest_coverage": 8.3,
-      "safety_score": 100,
-      "rating": "SAFE",
-      "risk_flags": [],
-      "value_score": 32.3
+      "value_score": 50.625
     },
     {
       "ticker": "V",
       "company_name": "Visa Inc.",
       "div_yield": 0.72,
       "payout_ratio": 22.1,
-      "fcf_yield_pct": 2.95,
+      "fcf_yield_pct": 2.92,
       "interest_coverage": 35.7,
       "safety_score": 100,
       "rating": "SAFE",
       "risk_flags": [],
-      "value_score": 40.215
+      "value_score": 49.16499999999999
     },
     {
-      "ticker": "INTU",
-      "company_name": "Intuit Inc.",
-      "div_yield": 1.72,
-      "payout_ratio": 29.2,
-      "fcf_yield_pct": 7.39,
-      "interest_coverage": 24.5,
+      "ticker": "OXY",
+      "company_name": "Occidental Petroleum Corporation",
+      "div_yield": 1.83,
+      "payout_ratio": 29.5,
+      "fcf_yield_pct": 6.15,
+      "interest_coverage": 6.2,
       "safety_score": 100,
       "rating": "SAFE",
       "risk_flags": [],
-      "value_score": 40.09
+      "value_score": 48.74
+    },
+    {
+      "ticker": "SAP",
+      "company_name": "SAP SE",
+      "div_yield": 1.42,
+      "payout_ratio": 37.5,
+      "fcf_yield_pct": 4.17,
+      "interest_coverage": 20.7,
+      "safety_score": 100,
+      "rating": "SAFE",
+      "risk_flags": [],
+      "value_score": 38.435
+    },
+    {
+      "ticker": "QSR",
+      "company_name": "Restaurant Brands International Inc.",
+      "div_yield": 3.38,
+      "payout_ratio": 63.8,
+      "fcf_yield_pct": 4.73,
+      "interest_coverage": 5.2,
+      "safety_score": 100,
+      "rating": "SAFE",
+      "risk_flags": [],
+      "value_score": 46.285
+    },
+    {
+      "ticker": "PGR",
+      "company_name": "The Progressive Corporation",
+      "div_yield": 0.18,
+      "payout_ratio": 69.7,
+      "fcf_yield_pct": 11.8,
+      "interest_coverage": 50.8,
+      "safety_score": 100,
+      "rating": "SAFE",
+      "risk_flags": [],
+      "value_score": 45.54
+    },
+    {
+      "ticker": "RACE",
+      "company_name": "Ferrari N.V.",
+      "div_yield": 1.02,
+      "payout_ratio": 39.0,
+      "fcf_yield_pct": 1.62,
+      "interest_coverage": 63.9,
+      "safety_score": 100,
+      "rating": "SAFE",
+      "risk_flags": [],
+      "value_score": 37.175
+    },
+    {
+      "ticker": "ADP",
+      "company_name": "Automatic Data Processing, Inc.",
+      "div_yield": 2.53,
+      "payout_ratio": 60.7,
+      "fcf_yield_pct": 4.78,
+      "interest_coverage": 13.5,
+      "safety_score": 100,
+      "rating": "SAFE",
+      "risk_flags": [],
+      "value_score": 43.8
+    },
+    {
+      "ticker": "ROP",
+      "company_name": "Roper Technologies, Inc.",
+      "div_yield": 0.94,
+      "payout_ratio": 14.5,
+      "fcf_yield_pct": 5.8,
+      "interest_coverage": 8.6,
+      "safety_score": 100,
+      "rating": "SAFE",
+      "risk_flags": [],
+      "value_score": 35.39
     },
     {
       "ticker": "FCNCA",
       "company_name": "First Citizens BancShares, Inc.",
       "div_yield": 0.39,
       "payout_ratio": 4.4,
-      "fcf_yield_pct": 5.55,
+      "fcf_yield_pct": 5.56,
       "interest_coverage": null,
       "safety_score": 100,
       "rating": "SAFE",
       "risk_flags": [],
-      "value_score": 39.67
+      "value_score": 43.24499999999999
+    },
+    {
+      "ticker": "BRO",
+      "company_name": "Brown & Brown, Inc.",
+      "div_yield": 1.0,
+      "payout_ratio": 20.6,
+      "fcf_yield_pct": 7.2,
+      "interest_coverage": 4.7,
+      "safety_score": 100,
+      "rating": "SAFE",
+      "risk_flags": [],
+      "value_score": 35.18000000000001
+    },
+    {
+      "ticker": "NYT",
+      "company_name": "The New York Times Company",
+      "div_yield": 1.38,
+      "payout_ratio": 32.1,
+      "fcf_yield_pct": 4.07,
+      "interest_coverage": 857.1,
+      "safety_score": 100,
+      "rating": "SAFE",
+      "risk_flags": [],
+      "value_score": 34.755
+    },
+    {
+      "ticker": "CNI",
+      "company_name": "Canadian National Railway Company",
+      "div_yield": 2.17,
+      "payout_ratio": 46.3,
+      "fcf_yield_pct": 2.94,
+      "interest_coverage": 7.8,
+      "safety_score": 100,
+      "rating": "SAFE",
+      "risk_flags": [],
+      "value_score": 42.17
+    },
+    {
+      "ticker": "UNH",
+      "company_name": "UnitedHealth Group Incorporated",
+      "div_yield": 2.45,
+      "payout_ratio": 57.5,
+      "fcf_yield_pct": 7.02,
+      "interest_coverage": 5.5,
+      "safety_score": 100,
+      "rating": "SAFE",
+      "risk_flags": [],
+      "value_score": 36.28
+    },
+    {
+      "ticker": "INTU",
+      "company_name": "Intuit Inc.",
+      "div_yield": 1.72,
+      "payout_ratio": 29.2,
+      "fcf_yield_pct": 7.02,
+      "interest_coverage": 24.5,
+      "safety_score": 100,
+      "rating": "SAFE",
+      "risk_flags": [],
+      "value_score": 40.955
+    },
+    {
+      "ticker": "DHR",
+      "company_name": "Danaher Corporation",
+      "div_yield": 0.8,
+      "payout_ratio": 25.7,
+      "fcf_yield_pct": 3.04,
+      "interest_coverage": 17.3,
+      "safety_score": 100,
+      "rating": "SAFE",
+      "risk_flags": [],
+      "value_score": 40.34
+    },
+    {
+      "ticker": "DPZ",
+      "company_name": "Domino's Pizza, Inc.",
+      "div_yield": 2.55,
+      "payout_ratio": 42.3,
+      "fcf_yield_pct": 4.96,
+      "interest_coverage": 4.9,
+      "safety_score": 100,
+      "rating": "SAFE",
+      "risk_flags": [],
+      "value_score": 34.365
     },
     {
       "ticker": "SXYAY",
       "company_name": "Sika AG",
       "div_yield": 2.04,
       "payout_ratio": 57.0,
-      "fcf_yield_pct": 3.45,
+      "fcf_yield_pct": 3.51,
       "interest_coverage": null,
       "safety_score": 100,
       "rating": "SAFE",
       "risk_flags": [],
-      "value_score": 38.97
+      "value_score": 39.35
     },
     {
-      "ticker": "CVX",
-      "company_name": "Chevron Corporation",
-      "div_yield": 3.33,
-      "payout_ratio": 67.2,
-      "fcf_yield_pct": 5.22,
-      "interest_coverage": 22.5,
+      "ticker": "ASAZY",
+      "company_name": "ASSA ABLOY AB (publ)",
+      "div_yield": 1.88,
+      "payout_ratio": 41.9,
+      "fcf_yield_pct": 4.84,
+      "interest_coverage": null,
       "safety_score": 100,
       "rating": "SAFE",
       "risk_flags": [],
-      "value_score": 30.590000000000003
+      "value_score": 39.0
+    },
+    {
+      "ticker": "VRSN",
+      "company_name": "VeriSign, Inc.",
+      "div_yield": 1.11,
+      "payout_ratio": 34.3,
+      "fcf_yield_pct": 3.09,
+      "interest_coverage": 15.5,
+      "safety_score": 100,
+      "rating": "SAFE",
+      "risk_flags": [],
+      "value_score": 38.52
+    },
+    {
+      "ticker": "WST",
+      "company_name": "West Pharmaceutical Services, Inc.",
+      "div_yield": 0.25,
+      "payout_ratio": 11.1,
+      "fcf_yield_pct": 1.11,
+      "interest_coverage": 155.1,
+      "safety_score": 100,
+      "rating": "SAFE",
+      "risk_flags": [],
+      "value_score": 32.23499999999999
+    },
+    {
+      "ticker": "CB",
+      "company_name": "Chubb Limited",
+      "div_yield": 1.21,
+      "payout_ratio": 13.9,
+      "fcf_yield_pct": 7.97,
+      "interest_coverage": 18.9,
+      "safety_score": 100,
+      "rating": "SAFE",
+      "risk_flags": [],
+      "value_score": 35.35
+    },
+    {
+      "ticker": "JNJ",
+      "company_name": "Johnson & Johnson",
+      "div_yield": 2.02,
+      "payout_ratio": 60.8,
+      "fcf_yield_pct": 2.62,
+      "interest_coverage": 25.9,
+      "safety_score": 100,
+      "rating": "SAFE",
+      "risk_flags": [],
+      "value_score": 35.12
     },
     {
       "ticker": "CTAS",
@@ -655,86 +605,98 @@
       "safety_score": 100,
       "rating": "SAFE",
       "risk_flags": [],
-      "value_score": 37.82
+      "value_score": 34.684999999999995
     },
     {
-      "ticker": "VRSN",
-      "company_name": "VeriSign, Inc.",
-      "div_yield": 1.11,
-      "payout_ratio": 34.3,
-      "fcf_yield_pct": 3.15,
-      "interest_coverage": 15.5,
+      "ticker": "COST",
+      "company_name": "Costco Wholesale Corporation",
+      "div_yield": 0.65,
+      "payout_ratio": 27.0,
+      "fcf_yield_pct": 1.71,
+      "interest_coverage": 81.5,
       "safety_score": 100,
       "rating": "SAFE",
       "risk_flags": [],
-      "value_score": 37.74
+      "value_score": 30.40000000000001
     },
     {
-      "ticker": "JNJ",
-      "company_name": "Johnson & Johnson",
-      "div_yield": 2.02,
-      "payout_ratio": 60.8,
-      "fcf_yield_pct": 2.64,
-      "interest_coverage": 25.9,
-      "safety_score": 100,
-      "rating": "SAFE",
-      "risk_flags": [],
-      "value_score": 34.04
-    },
-    {
-      "ticker": "MSCI",
-      "company_name": "MSCI Inc.",
-      "div_yield": 1.48,
-      "payout_ratio": 42.1,
-      "fcf_yield_pct": 2.96,
-      "interest_coverage": 7.2,
-      "safety_score": 100,
-      "rating": "SAFE",
-      "risk_flags": [],
-      "value_score": 31.185
-    },
-    {
-      "ticker": "SGE.L",
-      "company_name": "The Sage Group plc",
-      "div_yield": 2.34,
-      "payout_ratio": 55.0,
-      "fcf_yield_pct": 7.35,
+      "ticker": "SBGSY",
+      "company_name": "Schneider Electric S.E.",
+      "div_yield": 1.46,
+      "payout_ratio": 49.7,
+      "fcf_yield_pct": 3.49,
       "interest_coverage": null,
       "safety_score": 100,
       "rating": "SAFE",
       "risk_flags": [],
-      "value_score": 68.0
+      "value_score": 30.25
     },
     {
       "ticker": "SAP.DE",
       "company_name": "SAP SE",
       "div_yield": 1.41,
       "payout_ratio": 37.4,
-      "fcf_yield_pct": 4.44,
+      "fcf_yield_pct": 4.23,
       "interest_coverage": 20.7,
       "safety_score": 100,
       "rating": "SAFE",
       "risk_flags": [],
-      "value_score": 58.6
+      "value_score": 73.4
+    },
+    {
+      "ticker": "SGE.L",
+      "company_name": "The Sage Group plc",
+      "div_yield": 2.34,
+      "payout_ratio": 55.0,
+      "fcf_yield_pct": 6.98,
+      "interest_coverage": null,
+      "safety_score": 100,
+      "rating": "SAFE",
+      "risk_flags": [],
+      "value_score": 68.3
     },
     {
       "ticker": "DSY.PA",
       "company_name": "Dassault Syst\u00e8mes SE",
       "div_yield": 1.33,
       "payout_ratio": 27.8,
-      "fcf_yield_pct": 4.76,
+      "fcf_yield_pct": 4.54,
       "interest_coverage": null,
       "safety_score": 100,
       "rating": "SAFE",
       "risk_flags": [],
-      "value_score": 58.5
+      "value_score": 59.2
+    },
+    {
+      "ticker": "AMS.MC",
+      "company_name": "Amadeus IT Group, S.A.",
+      "div_yield": 2.84,
+      "payout_ratio": 50.8,
+      "fcf_yield_pct": 12.6,
+      "interest_coverage": 20.4,
+      "safety_score": 100,
+      "rating": "SAFE",
+      "risk_flags": [],
+      "value_score": 58.2
+    },
+    {
+      "ticker": "RACE.MI",
+      "company_name": "Ferrari N.V.",
+      "div_yield": 1.01,
+      "payout_ratio": 39.0,
+      "fcf_yield_pct": 1.62,
+      "interest_coverage": 63.9,
+      "safety_score": 100,
+      "rating": "SAFE",
+      "risk_flags": [],
+      "value_score": 57.5
     },
     {
       "ticker": "ITX.MC",
       "company_name": "Industria de Dise\u00f1o Textil, S.A.",
       "div_yield": 1.2,
       "payout_ratio": 56.7,
-      "fcf_yield_pct": 3.86,
+      "fcf_yield_pct": 3.88,
       "interest_coverage": 38.5,
       "safety_score": 100,
       "rating": "SAFE",
@@ -742,52 +704,28 @@
       "value_score": 57.3
     },
     {
-      "ticker": "RMV.L",
-      "company_name": "Rightmove plc",
-      "div_yield": 2.25,
-      "payout_ratio": 37.2,
-      "fcf_yield_pct": 5.55,
-      "interest_coverage": null,
-      "safety_score": 100,
-      "rating": "SAFE",
-      "risk_flags": [],
-      "value_score": 56.6
-    },
-    {
-      "ticker": "LR.PA",
-      "company_name": "Legrand SA",
-      "div_yield": 1.68,
-      "payout_ratio": 47.9,
-      "fcf_yield_pct": 2.77,
-      "interest_coverage": 11.3,
-      "safety_score": 100,
-      "rating": "SAFE",
-      "risk_flags": [],
-      "value_score": 55.9
-    },
-    {
       "ticker": "AUTO.L",
       "company_name": "Autotrader Group plc",
       "div_yield": 2.37,
       "payout_ratio": 32.0,
-      "fcf_yield_pct": 6.41,
+      "fcf_yield_pct": 6.26,
       "interest_coverage": null,
       "safety_score": 100,
       "rating": "SAFE",
       "risk_flags": [],
-      "value_score": 47.6
+      "value_score": 48.0
     },
     {
-      "ticker": "AMS.MC",
-      "company_name": "Amadeus IT Group, S.A.",
-      "div_yield": 2.84,
-      "payout_ratio": 50.8,
-      "fcf_yield_pct": 12.8,
-      "interest_coverage": 20.4,
+      "ticker": "WKL.AS",
+      "company_name": "Wolters Kluwer N.V.",
+      "div_yield": 3.93,
+      "payout_ratio": 43.0,
+      "fcf_yield_pct": 7.93,
+      "interest_coverage": null,
       "safety_score": 100,
       "rating": "SAFE",
       "risk_flags": [],
-      "value_score": 53.2
+      "value_score": 54.6
     },
     {
       "ticker": "ASSA-B.ST",
@@ -802,23 +740,11 @@
       "value_score": 52.8
     },
     {
-      "ticker": "ATCO-B.ST",
-      "company_name": "Atlas Copco AB (publ)",
-      "div_yield": 1.71,
-      "payout_ratio": 54.9,
-      "fcf_yield_pct": 3.04,
-      "interest_coverage": 126.5,
-      "safety_score": 100,
-      "rating": "SAFE",
-      "risk_flags": [],
-      "value_score": 51.6
-    },
-    {
       "ticker": "LIFCO-B.ST",
       "company_name": "Lifco AB (publ)",
       "div_yield": 0.89,
       "payout_ratio": 31.8,
-      "fcf_yield_pct": 3.03,
+      "fcf_yield_pct": 3.02,
       "interest_coverage": null,
       "safety_score": 100,
       "rating": "SAFE",
@@ -826,12 +752,24 @@
       "value_score": 51.0
     },
     {
-      "ticker": "RACE.MI",
-      "company_name": "Ferrari N.V.",
-      "div_yield": 1.01,
-      "payout_ratio": 39.0,
-      "fcf_yield_pct": 1.6,
-      "interest_coverage": 63.9,
+      "ticker": "LR.PA",
+      "company_name": "Legrand SA",
+      "div_yield": 1.68,
+      "payout_ratio": 47.9,
+      "fcf_yield_pct": 2.97,
+      "interest_coverage": 11.3,
+      "safety_score": 100,
+      "rating": "SAFE",
+      "risk_flags": [],
+      "value_score": 50.9
+    },
+    {
+      "ticker": "RMV.L",
+      "company_name": "Rightmove plc",
+      "div_yield": 2.25,
+      "payout_ratio": 37.2,
+      "fcf_yield_pct": 5.36,
+      "interest_coverage": null,
       "safety_score": 100,
       "rating": "SAFE",
       "risk_flags": [],
@@ -842,19 +780,19 @@
       "company_name": "Deutsche B\u00f6rse AG",
       "div_yield": 1.52,
       "payout_ratio": 36.2,
-      "fcf_yield_pct": 4.38,
+      "fcf_yield_pct": 4.29,
       "interest_coverage": null,
       "safety_score": 100,
       "rating": "SAFE",
       "risk_flags": [],
-      "value_score": 48.6
+      "value_score": 49.0
     },
     {
       "ticker": "HEXA-B.ST",
       "company_name": "Hexagon AB (publ)",
       "div_yield": 1.62,
       "payout_ratio": 17.8,
-      "fcf_yield_pct": 3.05,
+      "fcf_yield_pct": 3.06,
       "interest_coverage": 20.6,
       "safety_score": 100,
       "rating": "SAFE",
@@ -862,52 +800,52 @@
       "value_score": 48.3
     },
     {
-      "ticker": "INDT.ST",
-      "company_name": "Indutrade AB (publ)",
-      "div_yield": 1.29,
-      "payout_ratio": 42.1,
-      "fcf_yield_pct": 3.34,
+      "ticker": "CPG.L",
+      "company_name": "Compass Group PLC",
+      "div_yield": 2.22,
+      "payout_ratio": 55.9,
+      "fcf_yield_pct": 3.7,
       "interest_coverage": null,
       "safety_score": 100,
       "rating": "SAFE",
       "risk_flags": [],
-      "value_score": 46.0
+      "value_score": 46.9
+    },
+    {
+      "ticker": "INDT.ST",
+      "company_name": "Indutrade AB (publ)",
+      "div_yield": 1.29,
+      "payout_ratio": 42.1,
+      "fcf_yield_pct": 3.33,
+      "interest_coverage": null,
+      "safety_score": 100,
+      "rating": "SAFE",
+      "risk_flags": [],
+      "value_score": 46.5
     },
     {
       "ticker": "SU.PA",
       "company_name": "Schneider Electric S.E.",
       "div_yield": 1.44,
       "payout_ratio": 49.5,
-      "fcf_yield_pct": 3.28,
+      "fcf_yield_pct": 3.51,
       "interest_coverage": null,
       "safety_score": 100,
       "rating": "SAFE",
       "risk_flags": [],
-      "value_score": 45.4
+      "value_score": 44.7
     },
     {
-      "ticker": "OR.PA",
-      "company_name": "L'Or\u00e9al S.A.",
-      "div_yield": 1.9,
-      "payout_ratio": 61.1,
-      "fcf_yield_pct": 3.16,
+      "ticker": "HEIA.AS",
+      "company_name": "Heineken N.V.",
+      "div_yield": 2.73,
+      "payout_ratio": 46.3,
+      "fcf_yield_pct": 7.52,
       "interest_coverage": null,
       "safety_score": 100,
       "rating": "SAFE",
       "risk_flags": [],
-      "value_score": 45.2
-    },
-    {
-      "ticker": "CPG.L",
-      "company_name": "Compass Group PLC",
-      "div_yield": 2.22,
-      "payout_ratio": 55.9,
-      "fcf_yield_pct": 3.76,
-      "interest_coverage": null,
-      "safety_score": 100,
-      "rating": "SAFE",
-      "risk_flags": [],
-      "value_score": 41.9
+      "value_score": 42.2
     },
     {
       "ticker": "GEBN.SW",
@@ -926,7 +864,7 @@
       "company_name": "Diploma PLC",
       "div_yield": 0.89,
       "payout_ratio": 44.2,
-      "fcf_yield_pct": 2.56,
+      "fcf_yield_pct": 2.58,
       "interest_coverage": null,
       "safety_score": 100,
       "rating": "SAFE",
@@ -934,16 +872,16 @@
       "value_score": 39.9
     },
     {
-      "ticker": "HLMA.L",
-      "company_name": "Halma plc",
-      "div_yield": 0.68,
-      "payout_ratio": 24.2,
-      "fcf_yield_pct": null,
+      "ticker": "STMN.SW",
+      "company_name": "Straumann Holding AG",
+      "div_yield": 1.06,
+      "payout_ratio": 43.3,
+      "fcf_yield_pct": 2.62,
       "interest_coverage": null,
       "safety_score": 100,
       "rating": "SAFE",
       "risk_flags": [],
-      "value_score": 39.0
+      "value_score": 39.4
     },
     {
       "ticker": "IMCD.AS",
@@ -955,38 +893,26 @@
       "safety_score": 100,
       "rating": "SAFE",
       "risk_flags": [],
-      "value_score": 39.0
+      "value_score": 39.4
     },
     {
-      "ticker": "STMN.SW",
-      "company_name": "Straumann Holding AG",
-      "div_yield": 1.06,
-      "payout_ratio": 43.3,
-      "fcf_yield_pct": 2.66,
+      "ticker": "OR.PA",
+      "company_name": "L'Or\u00e9al S.A.",
+      "div_yield": 1.9,
+      "payout_ratio": 61.1,
+      "fcf_yield_pct": 3.13,
       "interest_coverage": null,
       "safety_score": 100,
       "rating": "SAFE",
       "risk_flags": [],
-      "value_score": 38.9
-    },
-    {
-      "ticker": "HEIA.AS",
-      "company_name": "Heineken N.V.",
-      "div_yield": 2.73,
-      "payout_ratio": 46.3,
-      "fcf_yield_pct": 7.71,
-      "interest_coverage": null,
-      "safety_score": 100,
-      "rating": "SAFE",
-      "risk_flags": [],
-      "value_score": 36.9
+      "value_score": 37.2
     },
     {
       "ticker": "SAF.PA",
       "company_name": "Safran SA",
       "div_yield": 1.01,
       "payout_ratio": 36.0,
-      "fcf_yield_pct": 2.6,
+      "fcf_yield_pct": 2.67,
       "interest_coverage": null,
       "safety_score": 100,
       "rating": "SAFE",
@@ -994,11 +920,11 @@
       "value_score": 36.4
     },
     {
-      "ticker": "SIKA.SW",
-      "company_name": "Sika AG",
-      "div_yield": 2.0,
-      "payout_ratio": 57.1,
-      "fcf_yield_pct": 3.45,
+      "ticker": "HLMA.L",
+      "company_name": "Halma plc",
+      "div_yield": 0.68,
+      "payout_ratio": 24.2,
+      "fcf_yield_pct": null,
       "interest_coverage": null,
       "safety_score": 100,
       "rating": "SAFE",
@@ -1006,16 +932,16 @@
       "value_score": 34.0
     },
     {
-      "ticker": "BEI.DE",
-      "company_name": "Beiersdorf Aktiengesellschaft",
-      "div_yield": 1.36,
-      "payout_ratio": 23.3,
-      "fcf_yield_pct": 3.5,
+      "ticker": "SIKA.SW",
+      "company_name": "Sika AG",
+      "div_yield": 2.0,
+      "payout_ratio": 57.1,
+      "fcf_yield_pct": 3.53,
       "interest_coverage": null,
       "safety_score": 100,
       "rating": "SAFE",
       "risk_flags": [],
-      "value_score": 31.4
+      "value_score": 33.6
     }
   ]
 }

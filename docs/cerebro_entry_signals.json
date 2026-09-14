@@ -1,29 +1,29 @@
 {
   "generated_at": "2026-09-14",
-  "total": 7,
+  "total": 9,
   "strong_buy": 0,
-  "buy": 2,
-  "monitor": 1,
-  "wait": 4,
-  "narrative": "Estas son las mejores entradas de hoy porque",
+  "buy": 1,
+  "monitor": 3,
+  "wait": 5,
+  "narrative": null,
   "signals": [
     {
       "ticker": "BR",
       "company_name": "Broadridge Financial Solutions, Inc.",
       "region": "US",
       "sector": "Technology",
-      "value_score": 81.765,
-      "conviction_grade": "nan",
-      "current_price": 167.74,
-      "analyst_upside_pct": 27.2,
-      "fcf_yield_pct": 6.25,
-      "risk_reward_ratio": 3.4,
-      "days_in_value": 29,
+      "value_score": 79.485,
+      "conviction_grade": "B",
+      "current_price": 174.0,
+      "analyst_upside_pct": 22.6,
+      "fcf_yield_pct": 6.02,
+      "risk_reward_ratio": 2.82,
+      "days_in_value": 30,
       "streak_days": 9,
-      "entry_score": 68,
+      "entry_score": 63,
       "signal": "BUY",
       "signals_fired": [
-        "Value score \u226580",
+        "Value score \u226570",
         "FCF yield \u22655%",
         "R:R \u22652",
         "Upside \u226520%",
@@ -33,8 +33,8 @@
       ],
       "signals_pts": [
         {
-          "name": "Value score \u226580",
-          "pts": 10
+          "name": "Value score \u226570",
+          "pts": 5
         },
         {
           "name": "FCF yield \u22655%",
@@ -62,6 +62,7 @@
         }
       ],
       "signals_missing": [
+        "Value score <80",
         "Sin insider buying (espera)",
         "Sin se\u00f1al MR oversold",
         "Sector no l\u00edder",
@@ -69,26 +70,25 @@
       ],
       "rsi": null,
       "earnings_warning": false,
-      "days_to_earnings": 50
+      "days_to_earnings": 49
     },
     {
       "ticker": "SGE.L",
       "company_name": "The Sage Group plc",
       "region": "EU",
       "sector": "Technology",
-      "value_score": 68.0,
+      "value_score": 68.3,
       "conviction_grade": "D",
-      "current_price": 958.0,
-      "analyst_upside_pct": 16.9,
-      "fcf_yield_pct": 7.35,
-      "risk_reward_ratio": 2.11,
-      "days_in_value": 3,
+      "current_price": 1008.5,
+      "analyst_upside_pct": 11.1,
+      "fcf_yield_pct": 6.98,
+      "risk_reward_ratio": 1.39,
+      "days_in_value": 4,
       "streak_days": 1,
-      "entry_score": 60,
-      "signal": "BUY",
+      "entry_score": 45,
+      "signal": "MONITOR",
       "signals_fired": [
         "FCF yield \u22655%",
-        "R:R \u22652",
         "Insider buying",
         "Analyst revision \u2191",
         "En VALUE \u22653 d\u00edas"
@@ -96,10 +96,6 @@
       "signals_pts": [
         {
           "name": "FCF yield \u22655%",
-          "pts": 10
-        },
-        {
-          "name": "R:R \u22652",
           "pts": 10
         },
         {
@@ -117,6 +113,7 @@
       ],
       "signals_missing": [
         "Value score <80",
+        "R:R <2",
         "Upside <20%",
         "Sin se\u00f1al MR oversold",
         "Sin opciones alcistas",
@@ -125,20 +122,20 @@
       ],
       "rsi": null,
       "earnings_warning": false,
-      "days_to_earnings": 66
+      "days_to_earnings": 65
     },
     {
       "ticker": "MCO",
       "company_name": "Moody's Corporation",
       "region": "US",
       "sector": "Financial Services",
-      "value_score": 79.95499999999998,
-      "conviction_grade": "nan",
-      "current_price": 474.95,
-      "analyst_upside_pct": 18.3,
-      "fcf_yield_pct": 3.14,
-      "risk_reward_ratio": 2.29,
-      "days_in_value": 12,
+      "value_score": 75.125,
+      "conviction_grade": "B",
+      "current_price": 476.105,
+      "analyst_upside_pct": 18.0,
+      "fcf_yield_pct": 3.13,
+      "risk_reward_ratio": 2.25,
+      "days_in_value": 13,
       "streak_days": 1,
       "entry_score": 30,
       "signal": "MONITOR",
@@ -178,20 +175,117 @@
       ],
       "rsi": null,
       "earnings_warning": false,
-      "days_to_earnings": 37
+      "days_to_earnings": 36
+    },
+    {
+      "ticker": "SAP.DE",
+      "company_name": "SAP SE",
+      "region": "EU",
+      "sector": "Technology",
+      "value_score": 73.4,
+      "conviction_grade": "A",
+      "current_price": 186.26,
+      "analyst_upside_pct": 11.5,
+      "fcf_yield_pct": 4.23,
+      "risk_reward_ratio": 1.44,
+      "days_in_value": 1,
+      "streak_days": 1,
+      "entry_score": 30,
+      "signal": "MONITOR",
+      "signals_fired": [
+        "Value score \u226570",
+        "Insider buying",
+        "Analyst revision \u2191"
+      ],
+      "signals_pts": [
+        {
+          "name": "Value score \u226570",
+          "pts": 5
+        },
+        {
+          "name": "Insider buying",
+          "pts": 25
+        },
+        {
+          "name": "Analyst revision \u2191",
+          "pts": 5
+        }
+      ],
+      "signals_missing": [
+        "Value score <80",
+        "FCF yield <5%",
+        "R:R <2",
+        "Upside <20%",
+        "Sin se\u00f1al MR oversold",
+        "Sin opciones alcistas",
+        "Sector no l\u00edder",
+        "R\u00e9gimen no alcista",
+        "Solo 1d en VALUE"
+      ],
+      "rsi": null,
+      "earnings_warning": false,
+      "days_to_earnings": 36
+    },
+    {
+      "ticker": "FHN",
+      "company_name": "First Horizon Corporation",
+      "region": "US",
+      "sector": "Financial Services",
+      "value_score": 60.55000000000001,
+      "conviction_grade": "B",
+      "current_price": 24.405,
+      "analyst_upside_pct": 15.6,
+      "fcf_yield_pct": 5.15,
+      "risk_reward_ratio": 1.95,
+      "days_in_value": 3,
+      "streak_days": 1,
+      "entry_score": 25,
+      "signal": "WAIT",
+      "signals_fired": [
+        "FCF yield \u22655%",
+        "Analyst revision \u2191",
+        "En VALUE \u22653 d\u00edas"
+      ],
+      "signals_pts": [
+        {
+          "name": "FCF yield \u22655%",
+          "pts": 10
+        },
+        {
+          "name": "Analyst revision \u2191",
+          "pts": 5
+        },
+        {
+          "name": "En VALUE \u22653 d\u00edas",
+          "pts": 10
+        }
+      ],
+      "signals_missing": [
+        "Value score <80",
+        "R:R <2",
+        "Upside <20%",
+        "Sin insider buying (espera)",
+        "Sin se\u00f1al MR oversold",
+        "Sin opciones alcistas",
+        "Sector no l\u00edder",
+        "R\u00e9gimen no alcista"
+      ],
+      "rsi": null,
+      "earnings_warning": false,
+      "days_to_earnings": 29
     },
     {
       "ticker": "SPGI",
       "company_name": "S&P Global Inc.",
       "region": "US",
       "sector": "Financial Services",
-      "value_score": 60.925,
-      "conviction_grade": "nan",
-      "current_price": 410.71,
-      "analyst_upside_pct": 26.7,
-      "fcf_yield_pct": 4.5,
-      "risk_reward_ratio": 3.34,
-      "days_in_value": 1,
+      "value_score": 60.72,
+      "conviction_grade": "B",
+      "current_price": 418.295,
+      "analyst_upside_pct": 24.4,
+      "fcf_yield_pct": 4.42,
+      "risk_reward_ratio": 3.05,
+      "days_in_value": 2,
       "streak_days": 1,
       "entry_score": 23,
       "signal": "WAIT",
@@ -222,35 +316,35 @@
         "Sin opciones alcistas",
         "Sector no l\u00edder",
         "R\u00e9gimen no alcista",
-        "Solo 1d en VALUE"
+        "Solo 2d en VALUE"
       ],
       "rsi": null,
       "earnings_warning": false,
-      "days_to_earnings": 45
+      "days_to_earnings": 44
     },
     {
-      "ticker": "MA",
-      "company_name": "Mastercard Incorporated",
+      "ticker": "CBOE",
+      "company_name": "Cboe Global Markets, Inc.",
       "region": "US",
       "sector": "Financial Services",
-      "value_score": 62.375,
-      "conviction_grade": "nan",
-      "current_price": 569.19,
-      "analyst_upside_pct": 17.1,
-      "fcf_yield_pct": 3.4,
-      "risk_reward_ratio": 2.14,
-      "days_in_value": 2,
-      "streak_days": 1,
-      "entry_score": 15,
+      "value_score": 67.785,
+      "conviction_grade": "B",
+      "current_price": 285.28,
+      "analyst_upside_pct": 10.6,
+      "fcf_yield_pct": 2.28,
+      "risk_reward_ratio": 1.32,
+      "days_in_value": 1,
+      "streak_days": 4,
+      "entry_score": 20,
       "signal": "WAIT",
       "signals_fired": [
-        "R:R \u22652",
+        "MR zone / oversold",
         "Analyst revision \u2191"
       ],
       "signals_pts": [
         {
-          "name": "R:R \u22652",
-          "pts": 10
+          "name": "MR zone / oversold",
+          "pts": 20
         },
         {
           "name": "Analyst revision \u2191",
@@ -260,41 +354,41 @@
       "signals_missing": [
         "Value score <80",
         "FCF yield <5%",
+        "R:R <2",
         "Upside <20%",
         "Sin insider buying (espera)",
-        "Sin se\u00f1al MR oversold",
         "Sin opciones alcistas",
         "Sector no l\u00edder",
         "R\u00e9gimen no alcista",
-        "Solo 2d en VALUE"
+        "Solo 1d en VALUE"
       ],
-      "rsi": null,
+      "rsi": 32.5,
       "earnings_warning": false,
       "days_to_earnings": 45
     },
     {
-      "ticker": "FHN",
-      "company_name": "First Horizon Corporation",
+      "ticker": "MSFT",
+      "company_name": "Microsoft Corporation",
       "region": "US",
-      "sector": "Financial Services",
-      "value_score": 60.2,
-      "conviction_grade": "nan",
-      "current_price": 24.47,
-      "analyst_upside_pct": 15.2,
-      "fcf_yield_pct": 5.13,
-      "risk_reward_ratio": 1.9,
-      "days_in_value": 2,
-      "streak_days": 1,
+      "sector": "Technology",
+      "value_score": 60.56999999999999,
+      "conviction_grade": "B",
+      "current_price": 506.385,
+      "analyst_upside_pct": 13.1,
+      "fcf_yield_pct": 0.44,
+      "risk_reward_ratio": 1.64,
+      "days_in_value": 1,
+      "streak_days": 21,
       "entry_score": 15,
       "signal": "WAIT",
       "signals_fired": [
-        "FCF yield \u22655%",
+        "Options flow alcista",
         "Analyst revision \u2191"
       ],
       "signals_pts": [
         {
-          "name": "FCF yield \u22655%",
-          "pts": 10
+          "name": "Options flow alcista",
+          "pts": 15
         },
         {
           "name": "Analyst revision \u2191",
@@ -303,41 +397,46 @@
       ],
       "signals_missing": [
         "Value score <80",
+        "FCF yield <5%",
         "R:R <2",
         "Upside <20%",
         "Sin insider buying (espera)",
         "Sin se\u00f1al MR oversold",
-        "Sin opciones alcistas",
         "Sector no l\u00edder",
         "R\u00e9gimen no alcista",
-        "Solo 2d en VALUE"
+        "Solo 1d en VALUE"
       ],
       "rsi": null,
       "earnings_warning": false,
-      "days_to_earnings": 30
+      "days_to_earnings": 44
     },
     {
       "ticker": "NDSN",
       "company_name": "Nordson Corporation",
       "region": "US",
       "sector": "Industrials",
-      "value_score": 63.025000000000006,
-      "conviction_grade": "nan",
-      "current_price": 314.47,
-      "analyst_upside_pct": 11.2,
-      "fcf_yield_pct": 3.5,
-      "risk_reward_ratio": 1.4,
-      "days_in_value": 2,
+      "value_score": 60.505,
+      "conviction_grade": "C",
+      "current_price": 309.27,
+      "analyst_upside_pct": 13.1,
+      "fcf_yield_pct": 3.56,
+      "risk_reward_ratio": 1.64,
+      "days_in_value": 3,
       "streak_days": 1,
-      "entry_score": 0,
+      "entry_score": 10,
       "signal": "WAIT",
       "signals_fired": [
-        "Analyst revision \u2191"
+        "Analyst revision \u2191",
+        "En VALUE \u22653 d\u00edas"
       ],
       "signals_pts": [
         {
           "name": "Analyst revision \u2191",
           "pts": 5
+        },
+        {
+          "name": "En VALUE \u22653 d\u00edas",
+          "pts": 10
         }
       ],
       "signals_missing": [
@@ -349,8 +448,7 @@
         "Sin se\u00f1al MR oversold",
         "Sin opciones alcistas",
         "Sector no l\u00edder",
-        "R\u00e9gimen no alcista",
-        "Solo 2d en VALUE"
+        "R\u00e9gimen no alcista"
       ],
       "rsi": null,
       "earnings_warning": false,

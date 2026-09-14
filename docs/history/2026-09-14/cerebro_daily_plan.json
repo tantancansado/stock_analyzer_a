@@ -1,45 +1,36 @@
 {
   "generated_at": "2026-09-14",
   "macro_regime": "CALM",
-  "composite_score": 7.0,
-  "sesgo": "DEFENSIVO",
-  "confianza": 0,
-  "situacion": "Mercado en calma con se\u00f1ales de riesgo geopol\u00edtico y tail risk, pero con impulso en cr\u00e9dito y defensas.",
-  "narrativa": "El entorno macro sigue estable, pero la presi\u00f3n sobre el petr\u00f3leo y la volatilidad de los extremos generan cautela. Los sectores de cr\u00e9dito HY/IG y defensa ofrecen refugio y potencial de sobrevaloraci\u00f3n, lo que favorece a los inversores VALUE que buscan valor en medio de la incertidumbre.",
+  "composite_score": 8.0,
+  "sesgo": "ALCISTA",
+  "confianza": 70,
+  "situacion": "R\u00e9gimen CALM, composite +8.0/30. 1 plays macro identificadas.",
+  "narrativa": "El mercado se encuentra en r\u00e9gimen CALM con score +8.0. Contexto permite selecci\u00f3n VALUE disciplinada. Cerebro detecta 1 tickers a evitar y 0 potenciales short squeezes.",
   "acciones_inmediatas": [
     {
       "prioridad": 1,
       "accion": "COMPRAR",
-      "instrumento": "SAP.DE",
-      "razon": "Alto score de valor y FCF s\u00f3lido en tecnolog\u00eda",
-      "catalizador": "Se\u00f1ales positivas de cr\u00e9dito y defensa",
-      "size_hint": "media (3-4%)",
-      "invalidacion": "Ca\u00edda de FCF o deterioro de la calificaci\u00f3n"
+      "instrumento": "TLT/VGLT",
+      "razon": "Yield 30yr en 5.33% \u2014 zona hist\u00f3ricamente atractiva para bonos largos",
+      "catalizador": "2018-19: TLT +18% cuando yields revertieron desde 3.25%",
+      "size_hint": "peque\u00f1a (1-2%)",
+      "invalidacion": "La Fed puede mantener tipos altos m\u00e1s tiempo \u2014 size peque\u00f1o"
     },
     {
       "prioridad": 2,
-      "accion": "COMPRAR",
-      "instrumento": "DSY.PA",
-      "razon": "Similar a SAP con alta calidad y FCF",
-      "catalizador": "Se\u00f1ales de cr\u00e9dito y defensa",
-      "size_hint": "media (3-4%)",
-      "invalidacion": "Reversi\u00f3n de la tendencia de cr\u00e9dito"
-    },
-    {
-      "prioridad": 3,
-      "accion": "COMPRAR",
-      "instrumento": "RMV.L",
-      "razon": "Valor s\u00f3lido en telecomunicaciones con buen FCF",
-      "catalizador": "Se\u00f1ales de cr\u00e9dito y defensa",
-      "size_hint": "media (3-4%)",
-      "invalidacion": "Aumento de tasas o deterioro de la demanda"
+      "accion": "VENDER",
+      "instrumento": "ATLKY",
+      "razon": "Thesis drift HIGH (48d): Score cay\u00f3 40pts en 48d (72\u219233) | Se\u00f1al salida MEDIUM: ",
+      "catalizador": "Se\u00f1al AVOID activa en Cerebro",
+      "size_hint": "grande (5%+)",
+      "invalidacion": "Score Cerebro mejora a neutral"
     }
   ],
   "macro_plays": [
     {
       "instrument": "TLT/VGLT",
       "direction": "LONG",
-      "thesis": "Yield 30yr en 5.35% \u2014 zona hist\u00f3ricamente atractiva para bonos largos",
+      "thesis": "Yield 30yr en 5.33% \u2014 zona hist\u00f3ricamente atractiva para bonos largos",
       "historical": "2018-19: TLT +18% cuando yields revertieron desde 3.25%",
       "risk": "La Fed puede mantener tipos altos m\u00e1s tiempo \u2014 size peque\u00f1o",
       "timeframe": "3-6 meses",
@@ -52,62 +43,60 @@
       }
     }
   ],
-  "macro_plays_commentary": "Mantener posici\u00f3n larga en TLT/VGLT por la atractiva zona de rendimiento de bonos largos.",
+  "macro_plays_commentary": "1 plays macro rule-based generadas sin IA.",
   "value_en_entorno": [
     {
+      "ticker": "BR",
+      "score": 79.5,
+      "sector": "Technology",
+      "fcf_yield_pct": 6.02,
+      "grade": "B"
+    },
+    {
+      "ticker": "MCO",
+      "score": 75.1,
+      "sector": "Financial Services",
+      "fcf_yield_pct": 3.13,
+      "grade": "B"
+    },
+    {
       "ticker": "SAP.DE",
-      "score": 58.6,
+      "score": 73.4,
       "sector": "Technology",
-      "fcf_yield_pct": 4.44,
+      "fcf_yield_pct": 4.23,
       "grade": "A"
     },
     {
-      "ticker": "DSY.PA",
-      "score": 58.5,
-      "sector": "Technology",
-      "fcf_yield_pct": 4.76,
-      "grade": "A"
+      "ticker": "CBOE",
+      "score": 67.8,
+      "sector": "Financial Services",
+      "fcf_yield_pct": 2.28,
+      "grade": "B"
     },
     {
-      "ticker": "RMV.L",
-      "score": 56.6,
-      "sector": "Communication Services",
-      "fcf_yield_pct": 5.55,
+      "ticker": "SPGI",
+      "score": 60.7,
+      "sector": "Financial Services",
+      "fcf_yield_pct": 4.42,
       "grade": "B"
     }
   ],
-  "value_en_entorno_razon": "Los tickers seleccionados presentan altos scores de valor, FCF saludable y calificaciones A/B, aline\u00e1ndose con la necesidad de refugio y potencial de recuperaci\u00f3n en un mercado con riesgo geopol\u00edtico y tail risk.",
+  "value_en_entorno_razon": "Tickers VALUE seleccionados para r\u00e9gimen CALM.",
   "evitar": [
     {
-      "ticker": "ADP",
-      "razon": "Alto riesgo de volatilidad y baja calidad de cr\u00e9dito"
-    },
-    {
-      "ticker": "ASAZY",
-      "razon": "Sector de alto riesgo y baja liquidez"
+      "ticker": "ATLKY",
+      "razon": "Thesis drift HIGH (48d): Score cay\u00f3 40pts en 48d (72\u219233) | Se\u00f1al salida MEDIUM: "
     }
   ],
   "agenda_semana": [
     {
       "fecha": "2026-09-16",
-      "evento": "Reuni\u00f3n de la Fed",
+      "evento": "Fed Meeting",
       "impacto": "ALTO",
-      "accion_sugerida": "Revisar exposici\u00f3n a bonos y ajustar posiciones de riesgo"
-    },
-    {
-      "fecha": "2026-09-18",
-      "evento": "Anuncio de datos de empleo",
-      "impacto": "MEDIO",
-      "accion_sugerida": "Vigilar movimientos de mercado y ajustar posiciones de valor"
-    },
-    {
-      "fecha": "2026-09-20",
-      "evento": "Resultados de earnings de LEN",
-      "impacto": "BAJO",
-      "accion_sugerida": "Evaluar impacto en sector tecnol\u00f3gico"
+      "accion_sugerida": "Reducir riesgo antes / evaluar reacci\u00f3n del mercado despu\u00e9s"
     }
   ],
-  "frase_del_dia": "\"El riesgo viene de la incertidumbre, no de la falta de informaci\u00f3n.\"",
-  "mensaje_telegram": "\ud83d\ude80 En calma, pero con riesgo geopol\u00edtico. Compra SAP.DE, DSY.PA y RMV.L (3-4% cada uno). Mant\u00e9n TLT/VGLT. \ud83d\udcc8",
-  "ai_powered": true
+  "frase_del_dia": "El mercado es el \u00fanico negocio donde se vende m\u00e1s cuando sube el precio. \u2014 Warren Buffett",
+  "mensaje_telegram": "\ud83e\udde0 CEREBRO 2026-09-14 | CALM (+8.0) | ALCISTA | VALUE: BR MCO SAP.DE | Evitar: ATLKY",
+  "ai_powered": false
 }

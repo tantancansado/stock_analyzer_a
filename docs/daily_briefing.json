@@ -1,44 +1,129 @@
 {
-  "date": "2026-09-14",
-  "timestamp": "2026-09-14T20:12:17.103216",
-  "narrative": "",
-  "macro_regime": "CALM",
-  "picks_count": 8,
-  "top_picks": [
-    {
-      "ticker": "BR",
-      "sector": "Technology",
-      "value_score": 79.485,
-      "analyst_upside_pct": 22.6,
-      "conviction_grade": null
-    },
-    {
-      "ticker": "MCO",
-      "sector": "Financial Services",
-      "value_score": 75.125,
-      "analyst_upside_pct": 18.0,
-      "conviction_grade": null
-    },
-    {
-      "ticker": "CBOE",
-      "sector": "Financial Services",
-      "value_score": 67.785,
-      "analyst_upside_pct": 10.6,
-      "conviction_grade": null
-    },
-    {
-      "ticker": "SPGI",
-      "sector": "Financial Services",
-      "value_score": 60.72,
-      "analyst_upside_pct": 24.4,
-      "conviction_grade": null
-    },
-    {
-      "ticker": "MSFT",
-      "sector": "Technology",
-      "value_score": 60.56999999999999,
-      "analyst_upside_pct": 13.1,
-      "conviction_grade": null
+  "fecha": "2026-09-14",
+  "texto": "<b>Para entrar hoy hay dos:</b>\n\nNordson (NDSN) a 309: un 8.8% por debajo de máximo, los analistas le ven un 13% de subida y sigue moviéndose mejor que el mercado en los últimos 6 meses. Entrada limpia.\n\nOccidental (OXY) a 61.6: un 8.7% por debajo de máximo, con buena generación de caja (6.15%). Los analistas ven solo un 9.7% de subida pero el modelo propio, más completo, apunta a un 65% — eso sí, todavía viene cayendo en relativo estos 6 meses, así que entra pero sin prisa.\n\n<b>Para vigilar, barato pero aún cayendo:</b>\nTradeweb (TW): 18% por debajo de máximo, pero sigue perdiendo frente al mercado con fuerza (-30% en 6 meses). Aún no es momento.\nMcCormick (MKC): un 30% de máximo abajo y sin frenar la caída relativa. A esperar.\nCboe (CBOE): 23% de máximo abajo, todavía perdiendo fuerza relativa. Sigue en espera.\nBroadridge (BR): buen negocio de fondo, pero los analistas ven un 22.6% de subida y el modelo propio bastante menos, un 11.1% — divergencia media, mejor esperar que se aclare antes de entrar.\nMSCI: aquí cuidado de verdad. Los analistas le ven un 26% de subida, pero el modelo propio dice que puede estar cara, no barata. Ese contraste tan grande es más señal de trampa que de oportunidad — de momento fuera.\n\n<b>Recordatorio de tamaño:</b> el sistema acierta un 61.5% con ganancia media del 3.15%, pero es un dato provisional a 90 días (aún no hay muestra a 180). Juega posiciones pequeñas, no lo tomes como veredicto final.\n\n🟡 Claude: $9.53 de $10 (95%) · lo que más gasta: ai_quality_filter ($2.81)",
+  "hechos": {
+    "fecha": "2026-09-14",
+    "total_lista": 47,
+    "datos_incompletos": [],
+    "comprables": [
+      {
+        "ticker": "NDSN",
+        "empresa": "Nordson Corporation",
+        "score": 60.505,
+        "precio": 309.27,
+        "upside_analista": 13.1,
+        "upside_triangulado": 13.1,
+        "divergencia": "",
+        "fcf_yield": 3.56,
+        "del_maximo_pct": -8.8,
+        "rs_6m": 1.44,
+        "timing": "ENTRADA",
+        "por_que_cae": "",
+        "por_que_cae_detalle": ""
+      },
+      {
+        "ticker": "OXY",
+        "empresa": "Occidental Petroleum Corporati",
+        "score": 48.74,
+        "precio": 61.6,
+        "upside_analista": 9.7,
+        "upside_triangulado": 65.1,
+        "divergencia": "",
+        "fcf_yield": 6.15,
+        "del_maximo_pct": -8.7,
+        "rs_6m": -5.41,
+        "timing": "ENTRADA",
+        "por_que_cae": "",
+        "por_que_cae_detalle": ""
+      }
+    ],
+    "vigilar": [
+      {
+        "ticker": "TW",
+        "empresa": "Tradeweb Markets Inc.",
+        "score": 52.34,
+        "precio": 104.19,
+        "upside_analista": 18.7,
+        "upside_triangulado": null,
+        "divergencia": "",
+        "fcf_yield": 4.73,
+        "del_maximo_pct": -18.4,
+        "rs_6m": -30.07,
+        "timing": "VIGILAR",
+        "por_que_cae": "",
+        "por_que_cae_detalle": ""
+      },
+      {
+        "ticker": "MKC",
+        "empresa": "McCormick & Company, Incorpora",
+        "score": 50.625,
+        "precio": 50.405,
+        "upside_analista": 20.3,
+        "upside_triangulado": null,
+        "divergencia": "",
+        "fcf_yield": 5.27,
+        "del_maximo_pct": -30.4,
+        "rs_6m": -25.4,
+        "timing": "ESPERAR",
+        "por_que_cae": "SIN_DATOS",
+        "por_que_cae_detalle": ""
+      },
+      {
+        "ticker": "CBOE",
+        "empresa": "Cboe Global Markets, Inc.",
+        "score": 67.785,
+        "precio": 285.28,
+        "upside_analista": 10.6,
+        "upside_triangulado": 10.6,
+        "divergencia": "",
+        "fcf_yield": 2.28,
+        "del_maximo_pct": -23.1,
+        "rs_6m": -16.49,
+        "timing": "ESPERAR",
+        "por_que_cae": "SIN_DATOS",
+        "por_que_cae_detalle": ""
+      },
+      {
+        "ticker": "BR",
+        "empresa": "Broadridge Financial Solutions",
+        "score": 79.485,
+        "precio": 174.0,
+        "upside_analista": 22.6,
+        "upside_triangulado": 11.1,
+        "divergencia": "MEDIA",
+        "fcf_yield": 6.02,
+        "del_maximo_pct": -31.3,
+        "rs_6m": -15.44,
+        "timing": "VIGILAR",
+        "por_que_cae": "SIN_DATOS",
+        "por_que_cae_detalle": ""
+      },
+      {
+        "ticker": "MSCI",
+        "empresa": "MSCI Inc.",
+        "score": 50.875,
+        "precio": 548.39,
+        "upside_analista": 26.2,
+        "upside_triangulado": -13.6,
+        "divergencia": "ALTA",
+        "fcf_yield": 3.0,
+        "del_maximo_pct": -14.9,
+        "rs_6m": -12.91,
+        "timing": "VIGILAR",
+        "por_que_cae": "",
+        "por_que_cae_detalle": ""
+      }
+    ],
+    "tesis_rotas": [],
+    "rotas_son_tuyas": true,
+    "regimen_cambio": null,
+    "rendimiento_sistema": {
+      "horizonte": "90d",
+      "es_horizonte_definitivo": false,
+      "nota": "A 180 días aún no hay muestra (la señal más antigua es de feb-2026); este 90d es provisional, no el veredicto",
+      "acierto_pct": 61.5,
+      "retorno_medio": 3.15,
+      "n": 39
     }
-  ]
+  }
 }
