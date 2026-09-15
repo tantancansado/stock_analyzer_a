@@ -33,7 +33,12 @@ export function useEntryVerdicts() {
 
   useEffect(() => {
     let alive = true
-    load().then(m => { if (alive) setMap(m) }).catch(() => {})
+    load()
+      .then(m => { if (alive) setMap(m) })
+      // Tragarlo dejaba el mapa vacío, y un mapa vacío se pinta igual que «hoy
+      // no hay veredictos de entrada». Un cero por fallo de red se lee como un
+      // cero de verdad, que es la lectura que menos conviene aquí.
+      .catch((e: unknown) => console.error('[entry-verdicts] carga fallida', e))
     const listener = (m: VerdictMap) => { if (alive) setMap(m) }
     listeners.add(listener)
     return () => { alive = false; listeners.delete(listener) }

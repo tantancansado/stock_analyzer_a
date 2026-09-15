@@ -124,19 +124,41 @@ describe('technical data cache and hooks', () => {
     expect(result.current.AAPL.net_score).toBe(50)
   })
 
-  it('stops retrying after a failed load', async () => {
-    fetchTechnicalSignalsMock.mockRejectedValueOnce(new Error('network'))
+  // Este test fijaba «tras UN fallo ya no se reintenta nunca». El comentario
+  // del código decía «don't retry endlessly», que es otra cosa: la intención
+  // era no machacar una API caída, no rendirse al primer parpadeo del wifi. Con
+  // la implementación anterior, un solo fallo al abrir la app dejaba la sesión
+  // entera sin señales técnicas — y eso no se ve como un error, se ve como
+  // «hoy no hay señales», que es la lectura contraria. La frontera correcta es
+  // un tope, no un uno.
+  it('reintenta hasta un tope y entonces para', async () => {
+    fetchTechnicalSignalsMock.mockRejectedValue(new Error('network'))
     const callback = vi.fn()
 
     subscribeToTechnicalData(callback)
+    await waitFor(() => expect(fetchTechnicalSignalsMock).toHaveBeenCalledTimes(1))
 
-    await waitFor(() => {
-      expect(fetchTechnicalSignalsMock).toHaveBeenCalledTimes(1)
-    })
-
+    // Segundo y tercer intento: todavía lo vuelve a pedir.
     subscribeToTechnicalData(vi.fn())
+    await waitFor(() => expect(fetchTechnicalSignalsMock).toHaveBeenCalledTimes(2))
+    subscribeToTechnicalData(vi.fn())
+    await waitFor(() => expect(fetchTechnicalSignalsMock).toHaveBeenCalledTimes(3))
 
-    expect(fetchTechnicalSignalsMock).toHaveBeenCalledTimes(1)
+    // Alcanzado el tope, deja de pedir: una API caída no se machaca.
+    subscribeToTechnicalData(vi.fn())
+    subscribeToTechnicalData(vi.fn())
+    expect(fetchTechnicalSignalsMock).toHaveBeenCalledTimes(3)
     expect(callback).not.toHaveBeenCalled()
+  })
+
+  it('un fallo suelto no impide que la siguiente carga funcione', async () => {
+    // Lo que rompía el comportamiento anterior y no cubría ningún test.
+    fetchTechnicalSignalsMock.mockRejectedValueOnce(new Error('parpadeo de red'))
+    subscribeToTechnicalData(vi.fn())
+    await waitFor(() => expect(fetchTechnicalSignalsMock).toHaveBeenCalledTimes(1))
+
+    const despues = vi.fn()
+    subscribeToTechnicalData(despues)
+    await waitFor(() => expect(despues).toHaveBeenCalled())
   })
 })

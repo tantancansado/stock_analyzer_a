@@ -41,7 +41,10 @@ async function loadCsvTickers(filename: string): Promise<Set<string>> {
       if (val) tickers.add(val)
     }
     return tickers
-  } catch {
+  } catch (e) {
+    // Un Set vacío se pinta igual que «ningún ticker coincide». Que al menos
+    // quede rastro de que no se llegó a leer.
+    console.error('[confluencia] no se pudo leer el CSV', e)
     return new Set()
   }
 }
