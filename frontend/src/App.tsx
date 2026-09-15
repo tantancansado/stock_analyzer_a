@@ -26,7 +26,6 @@ import PageLlama from './components/PageLlama'
 import Login from './pages/Login'
 
 const Dashboard        = lazy(() => import('./pages/Dashboard'))
-const UILab            = lazy(() => import('./pages/UILab'))
 const Value            = lazy(() => import('./pages/Value'))
 const EntrySetups      = lazy(() => import('./pages/EntrySetups'))
 const Insiders         = lazy(() => import('./pages/Insiders'))
@@ -320,7 +319,6 @@ export default function App() {
                 <Route element={<ProtectedRoute />}>
                   <Route path="/"               element={<Navigate to="/dashboard" replace />} />
                   <Route path="/dashboard"      element={<Dashboard />} />
-                  <Route path="/ui-lab"         element={<UILab />} />
                   <Route path="/value"          element={<Value />} />
                   <Route path="/value-eu"       element={<Navigate to="/value?region=eu" replace />} />
                   <Route path="/value-global"   element={<Navigate to="/value?region=global" replace />} />

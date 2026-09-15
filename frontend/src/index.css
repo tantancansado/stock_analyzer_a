@@ -1,15 +1,4 @@
 @import "tailwindcss";
-@import "tw-animate-css";
-@import "@heroui/styles/themes/shared/theme.css";
-@import "@heroui/styles/base";
-@import "@heroui/styles/themes/default/variables.css";
-@import "@heroui/styles/utilities";
-@import "@heroui/styles/variants";
-@import "@heroui/styles/components/button.css" layer(components);
-@import "@heroui/styles/components/card.css" layer(components);
-@import "@heroui/styles/components/chip.css" layer(components);
-@import "@heroui/styles/components/tooltip.css" layer(components);
-@import "@heroui/styles/components/skeleton.css" layer(components);
 @import "./noir-theme.css";
 
 /* `dark:` mira la clase .dark, no el ajuste del sistema operativo.
@@ -2525,55 +2514,3 @@ select:focus {
 .underline-tab:hover { color: var(--muted-foreground); border-bottom-color: color-mix(in oklab, var(--border) 60%, transparent); }
 .underline-tab.active { color: var(--primary); border-bottom-color: var(--primary); }
 
-/* ═══════════════════════════════════════════════════════════════════
-   BANCO DE PRUEBAS — puente de tokens para HeroUI  (temporal, /ui-lab)
-════════════════════════════════════════════════════════════════════ */
-/* HeroUI y nosotros elegimos los mismos nueve nombres —`--accent`,
-   `--background`, `--border`, `--danger`, `--foreground`, `--muted`,
-   `--radius`, `--success`— para cosas distintas y en formatos incompatibles:
-   los nuestros son tripletes HSL sueltos que se envuelven en el punto de uso
-   (`hsl(var(--x))`), los suyos colores completos en oklch.
-   Nuestro `:root` va sin capa y por tanto gana a su `@layer theme`, así que
-   `.button--primary { --button-bg: var(--accent) }` recibe «222 47% 11%»
-   donde espera un color: la declaración se cae entera y el botón sale sin
-   fondo. Lo mismo con los chips accent/danger/success.
-   Aquí se los devolvemos en su formato, pero con NUESTRA paleta — que es lo
-   que hay que medir: si su acabado mejora *nuestro* diseño, no el suyo.
-   Los que no colisionan (`--default`, `--warning`…) heredan los suyos y no
-   hace falta tocarlos. */
-:root:not(.dark) .lab-heroui {
-  --accent:                  var(--primary);
-  --accent-hover:            hsl(239 84% 50%);
-  --accent-foreground:       var(--primary-foreground);
-  --accent-soft:             hsl(239 84% 57% / 0.12);
-  --accent-soft-foreground:  hsl(239 84% 45%);
-  --accent-soft-hover:       hsl(239 84% 57% / 0.20);
-  --danger:                  var(--destructive);
-  --danger-hover:            hsl(0 84% 47%);
-  --danger-soft:             hsl(0 84% 55% / 0.12);
-  --danger-soft-foreground:  hsl(0 65% 40%);
-  --danger-soft-hover:       hsl(0 84% 55% / 0.20);
-  --success:                 hsl(152 55% 28%);
-  --background:              hsl(220 18% 95%);
-  --foreground:              hsl(222 47% 8%);
-  --border:                  hsl(220 13% 88%);
-  --muted:                   hsl(220 10% 36%);
-}
-.dark .lab-heroui {
-  --accent:                  var(--primary);
-  --accent-hover:            hsl(239 84% 74%);
-  --accent-foreground:       var(--primary-foreground);
-  --accent-soft:             hsl(239 84% 67% / 0.16);
-  --accent-soft-foreground:  hsl(239 84% 78%);
-  --accent-soft-hover:       hsl(239 84% 67% / 0.24);
-  --danger:                  var(--destructive);
-  --danger-hover:            hsl(0 72% 58%);
-  --danger-soft:             hsl(0 72% 51% / 0.16);
-  --danger-soft-foreground:  hsl(0 80% 72%);
-  --danger-soft-hover:       hsl(0 72% 51% / 0.24);
-  --success:                 hsl(158 64% 52%);
-  --background:              hsl(222 47% 4%);
-  --foreground:              hsl(213 31% 91%);
-  --border:                  hsl(239 30% 20%);
-  --muted:                   hsl(215 20% 55%);
-}

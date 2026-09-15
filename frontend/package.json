@@ -13,7 +13,6 @@
     "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
-    "@heroui/react": "^3.2.5",
     "@radix-ui/react-slot": "^1.2.4",
     "@remotion/player": "^4.0.446",
     "@supabase/supabase-js": "^2.98.0",
@@ -24,7 +23,6 @@
     "motion": "^12.38.0",
     "react": "^19.2.0",
     "react-aria": "^3.52.1",
-    "react-aria-components": "^1.21.1",
     "react-dom": "^19.2.0",
     "react-router-dom": "^7.13.1",
     "recharts": "^3.8.0",
