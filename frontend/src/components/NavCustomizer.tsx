@@ -1,8 +1,9 @@
-import { useEffect, useMemo } from 'react'
+import { useMemo } from 'react'
 import { X, RotateCcw, SlidersHorizontal } from 'lucide-react'
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
 import { NAV_CATEGORIES, type NavLinkItem } from '@/lib/nav'
 import { useNavPreferences } from '@/hooks/useNavPreferences'
+import CapaModal from './CapaModal'
 
 // Los colores van en línea con variables CSS y NO con los alias de shadcn
 // (text-foreground, text-muted-foreground, bg-accent, border-border...):
@@ -92,13 +93,6 @@ export default function NavCustomizer({ open, onClose, canSeeAdmin }: Props) {
   const { hidden, toggle, reset, isHidden } = useNavPreferences()
   const quieto = useReducedMotion()
 
-  useEffect(() => {
-    if (!open) return
-    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose() }
-    document.addEventListener('keydown', onKey)
-    return () => document.removeEventListener('keydown', onKey)
-  }, [open, onClose])
-
   const categorias = useMemo(
     () => NAV_CATEGORIES
       .map(c => ({ ...c, items: c.items.filter(i => !i.adminOnly || canSeeAdmin) }))
@@ -115,7 +109,12 @@ export default function NavCustomizer({ open, onClose, canSeeAdmin }: Props) {
   return (
     <AnimatePresence>
       {open && (
-        <div className="fixed inset-0 z-[200] flex items-end justify-center sm:items-center sm:p-4">
+        <CapaModal
+          onClose={onClose}
+          etiqueta="Personalizar menú"
+          className="fixed inset-0 z-[200] flex items-end justify-center sm:items-center sm:p-4"
+          claseFondo={null}
+        >
           <motion.button
             type="button"
             aria-label="Cerrar"
@@ -239,7 +238,7 @@ export default function NavCustomizer({ open, onClose, canSeeAdmin }: Props) {
               )}
             </AnimatePresence>
           </motion.div>
-        </div>
+        </CapaModal>
       )}
     </AnimatePresence>
   )

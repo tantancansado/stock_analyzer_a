@@ -32,7 +32,14 @@ let nextId = 1
 
 function ToastRenderer({ items, onRemove }: { items: ToastItem[]; onRemove: (id: number) => void }) {
   return createPortal(
+    /* `role="status"` con `aria-live="polite"`: un aviso que aparece abajo y se
+       va solo no existe para quien no mira la pantalla. «Polite» y no «assertive»
+       porque son confirmaciones ("copiado", "guardado"), no errores que deban
+       cortar lo que el lector esté diciendo. */
     <div
+      role="status"
+      aria-live="polite"
+      aria-atomic="false"
       style={{
         position: 'fixed',
         bottom: '1.5rem',

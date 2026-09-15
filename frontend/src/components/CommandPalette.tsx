@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { Search } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { NAV_CATEGORIES } from '@/lib/nav'
+import CapaModal from './CapaModal'
 
 // El palette se alimenta de la MISMA fuente que el menú (nav.ts). Antes tenía
 // 9 items hardcodeados de 40+ páginas, algunos con paths obsoletos (p.ej.
@@ -26,17 +27,8 @@ export default function CommandPalette({ open, onClose }: { open: boolean; onClo
   const navigate = useNavigate()
   const inputRef = useRef<HTMLInputElement>(null)
 
-  // Toggle via props logic handled in App.tsx (App captures Cmd+K and sets open)
-  // We just need to handle Escape to close
-  useEffect(() => {
-    const down = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        onClose()
-      }
-    }
-    document.addEventListener('keydown', down)
-    return () => document.removeEventListener('keydown', down)
-  }, [onClose])
+  // Escape, foco atrapado, foco devuelto y bloqueo de scroll los pone
+  // `CapaModal`. Aquí solo quedan las flechas y Enter, que son de la paleta.
 
   // Auto focus input when opened
   useEffect(() => {
@@ -93,12 +85,13 @@ export default function CommandPalette({ open, onClose }: { open: boolean; onClo
   if (!open) return null
 
   return (
-    <>
-      <div 
-        className="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm animate-in fade-in duration-200"
-        onClick={onClose}
-      />
-      <div className="fixed left-[50%] top-[20%] z-50 w-full max-w-lg translate-x-[-50%] rounded-xl border border-primary/20 bg-background/80 shadow-2xl backdrop-blur-xl animate-in zoom-in-95 duration-200 overflow-hidden">
+    <CapaModal
+      onClose={onClose}
+      etiqueta="Ir a una sección"
+      className="fixed left-[50%] top-[20%] z-50 w-full max-w-lg translate-x-[-50%] rounded-xl border border-primary/20 bg-background/80 shadow-2xl backdrop-blur-xl animate-in zoom-in-95 duration-200 overflow-hidden"
+      claseFondo="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm animate-in fade-in duration-200"
+    >
+      <div>
         <div className="flex items-center border-b border-primary/20 px-3">
           <Search className="mr-2 h-4 w-4 shrink-0 text-primary opacity-50" />
           <input
@@ -145,6 +138,6 @@ export default function CommandPalette({ open, onClose }: { open: boolean; onClo
           )}
         </div>
       </div>
-    </>
+    </CapaModal>
   )
 }

@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
-import { createPortal } from 'react-dom'
 import { X, AlertTriangle, Zap, TrendingUp, TrendingDown, Loader2 } from 'lucide-react'
 import { fetchEarningsThesis } from '../api/client'
 import type { EarningsThesis, EarningsThesisVerdict } from '../api/client'
 import TickerLogo from './TickerLogo'
+import CapaModal from './CapaModal'
 
 interface Props {
   ticker: string
@@ -54,31 +54,20 @@ export default function EarningsThesisModal({ ticker, onClose }: Props) {
     return () => { alive = false }
   }, [ticker])
 
-  useEffect(() => {
-    const handler = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose() }
-    document.addEventListener('keydown', handler)
-    return () => document.removeEventListener('keydown', handler)
-  }, [onClose])
-
-  useEffect(() => {
-    document.body.style.overflow = 'hidden'
-    return () => { document.body.style.overflow = '' }
-  }, [])
+  // Escape, scroll, foco atrapado y foco devuelto: `CapaModal`.
+  // Además, el bloqueo de scroll de aquí no llevaba contador: con este modal
+  // abierto sobre otro, el de dentro devolvía el scroll al cerrarse y la
+  // página de detrás volvía a moverse con el de fuera todavía abierto.
 
   const verdictStyle = thesis ? VERDICT_MAP[thesis.verdict] ?? VERDICT_MAP.HOLD : null
 
-  return createPortal(
-    <>
-      <div
-        className="fixed inset-0 z-[500] bg-black/70 backdrop-blur-md animate-fade-in"
-        onClick={onClose}
-        aria-hidden="true"
-      />
-      <div
-        className="fixed z-[500] bottom-0 left-0 right-0 sm:inset-0 sm:flex sm:items-center sm:justify-center sm:p-4"
-        role="dialog"
-        aria-modal="true"
-      >
+  return (
+    <CapaModal
+      onClose={onClose}
+      etiqueta={`Tesis de resultados de ${ticker}`}
+      className="fixed z-[500] bottom-0 left-0 right-0 sm:inset-0 sm:flex sm:items-center sm:justify-center sm:p-4"
+      claseFondo="fixed inset-0 z-[500] bg-black/70 backdrop-blur-md animate-fade-in"
+    >
         <div className="liquid-glass relative w-full sm:max-w-2xl rounded-t-2xl sm:rounded-2xl flex flex-col max-h-[92dvh] sm:max-h-[88dvh] modal-enter">
           <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-primary/60 via-primary to-purple-500/50 z-10" />
 
@@ -267,8 +256,6 @@ export default function EarningsThesisModal({ ticker, onClose }: Props) {
             )}
           </div>
         </div>
-      </div>
-    </>,
-    document.body
+    </CapaModal>
   )
 }

@@ -1,7 +1,5 @@
-import { useEffect, useState } from 'react'
-import { createPortal } from 'react-dom'
+import { useState } from 'react'
 
-let _openModalCount = 0
 import { X, TrendingUp, AlertTriangle, Copy, Check, ExternalLink, Shield, Award } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import GradeBadge from './GradeBadge'
@@ -11,6 +9,7 @@ import PriceChart from './PriceChart'
 import ScoreBreakdown from './ScoreBreakdown'
 import type { ValueOpportunity, TechnicalSignal } from '../api/client'
 import { useTechnicalSignals } from '../hooks/useTechnicalSignals'
+import CapaModal from './CapaModal'
 
 // ── Technical signals panel ───────────────────────────────────────────────────
 
@@ -304,20 +303,8 @@ export default function ThesisModal({ row, thesisText, onClose, currency = '$' }
       .catch(() => {})
   }
 
-  useEffect(() => {
-    const handler = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose() }
-    document.addEventListener('keydown', handler)
-    return () => document.removeEventListener('keydown', handler)
-  }, [onClose])
-
-  useEffect(() => {
-    _openModalCount++
-    document.body.style.overflow = 'hidden'
-    return () => {
-      _openModalCount--
-      if (_openModalCount === 0) document.body.style.overflow = ''
-    }
-  }, [])
+  // Escape, bloqueo de scroll (con su propio contador para modales anidados),
+  // foco atrapado y foco devuelto: todo en `CapaModal`.
 
   const upside = row.analyst_upside_pct
   const rr     = row.risk_reward_ratio
@@ -325,21 +312,13 @@ export default function ThesisModal({ row, thesisText, onClose, currency = '$' }
   const earn   = row.days_to_earnings
   const price  = row.current_price
 
-  return createPortal(
-    <>
-      {/* Backdrop */}
-      <div
-        className="fixed inset-0 z-[500] bg-black/70 backdrop-blur-md animate-fade-in"
-        onClick={onClose}
-        aria-hidden="true"
-      />
-
-      {/* Modal */}
-      <div
-        className="fixed z-[500] bottom-0 left-0 right-0 sm:inset-0 sm:flex sm:items-center sm:justify-center sm:p-4"
-        role="dialog"
-        aria-modal="true"
-      >
+  return (
+    <CapaModal
+      onClose={onClose}
+      etiqueta={`Tesis de ${row.ticker}`}
+      className="fixed z-[500] bottom-0 left-0 right-0 sm:inset-0 sm:flex sm:items-center sm:justify-center sm:p-4"
+      claseFondo="fixed inset-0 z-[500] bg-black/70 backdrop-blur-md animate-fade-in"
+    >
         <div className="liquid-glass relative w-full sm:max-w-4xl rounded-t-2xl sm:rounded-2xl flex flex-col max-h-[92dvh] sm:max-h-[90dvh] modal-enter">
           {/* Top accent */}
           <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-primary/50 via-primary to-purple-500/50 z-10" />
@@ -529,8 +508,6 @@ export default function ThesisModal({ row, thesisText, onClose, currency = '$' }
             </div>
           </div>
         </div>
-      </div>
-    </>,
-    document.body
+    </CapaModal>
   )
 }

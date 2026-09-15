@@ -1,5 +1,5 @@
-import { useEffect } from 'react'
 import { X, Keyboard } from 'lucide-react'
+import CapaModal from './CapaModal'
 
 interface Props {
   open: boolean
@@ -15,30 +15,16 @@ const SHORTCUTS: { keys: string[]; desc: string }[] = [
 ]
 
 export default function ShortcutsModal({ open, onClose }: Readonly<Props>) {
-  useEffect(() => {
-    if (!open) return
-    const handler = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose()
-    }
-    document.addEventListener('keydown', handler)
-    return () => document.removeEventListener('keydown', handler)
-  }, [open, onClose])
-
   if (!open) return null
 
   return (
-    <div
+    <CapaModal
+      onClose={onClose}
+      etiqueta="Atajos de teclado"
       className="fixed inset-0 z-[200] flex items-center justify-center p-4"
-      onClick={onClose}
+      claseFondo="fixed inset-0 z-[200] bg-black/60 backdrop-blur-sm"
     >
-      {/* Backdrop */}
-      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
-
-      {/* Panel */}
-      <div
-        className="relative z-10 w-full max-w-sm liquid-glass rounded-2xl shadow-2xl p-5 animate-fade-in-up"
-        onClick={e => e.stopPropagation()}
-      >
+      <div className="relative z-10 w-full max-w-sm liquid-glass rounded-2xl shadow-2xl p-5 animate-fade-in-up">
         {/* Header */}
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
@@ -76,6 +62,6 @@ export default function ShortcutsModal({ open, onClose }: Readonly<Props>) {
           Pulsa <kbd className="inline px-1 py-0.5 rounded bg-white/8 border border-border/40 text-micro">?</kbd> en cualquier momento para abrir este panel
         </p>
       </div>
-    </div>
+    </CapaModal>
   )
 }
