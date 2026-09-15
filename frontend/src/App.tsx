@@ -24,6 +24,7 @@ import Loading from './components/Loading'
 import { LogoOrbit } from './components/BrandLogos'
 import PageLlama from './components/PageLlama'
 import Login from './pages/Login'
+import AvisoDatos from './components/AvisoDatos'
 
 const Dashboard        = lazy(() => import('./pages/Dashboard'))
 const Value            = lazy(() => import('./pages/Value'))
@@ -301,6 +302,10 @@ export default function App() {
         {user && <PageLlama />}
         <ScrollToTop />
         <main className="flex-1 p-5 md:p-8 min-w-0" style={{ overflowX: 'clip' }}>
+          {/* Va aquí, fuera del AnimatePresence que cambia de página: el fallo
+              es de un caché COMPARTIDO, así que afecta a todas y no debe
+              desaparecer al navegar. No pinta nada mientras todo cargue bien. */}
+          <AvisoDatos />
           <ErrorBoundary resetKey={location.pathname}>
           <Suspense fallback={<Loading />}>
           <AnimatePresence mode="wait" initial={false}>

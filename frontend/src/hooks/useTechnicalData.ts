@@ -1,5 +1,6 @@
 import { fetchTechnicalSignals } from '../api/client'
 import type { TechnicalSignal, TechnicalSummary } from '../api/client'
+import { marcarFallo, marcarOk } from '../lib/estadoDatos'
 
 export type TechnicalData = { signals: TechnicalSignal[]; summary: TechnicalSummary[] }
 
@@ -33,6 +34,7 @@ export function subscribeToTechnicalData(cb: (d: TechnicalData) => void): () => 
       .then(d => {
         cache = d
         fallosSeguidos = 0
+        marcarOk('senales-tecnicas')
         const fns = listeners.splice(0)
         for (const fn of fns) fn(d)
       })
@@ -45,6 +47,9 @@ export function subscribeToTechnicalData(cb: (d: TechnicalData) => void): () => 
         console.error(
           `[technical] carga fallida (${fallosSeguidos}/${MAX_INTENTOS})` +
           (fallosSeguidos >= MAX_INTENTOS ? ' — sin más reintentos esta sesión' : ''), e)
+        // Solo se avisa al agotar los reintentos: un parpadeo que se recupera
+        // solo no merece una franja en pantalla.
+        if (fallosSeguidos >= MAX_INTENTOS) marcarFallo('senales-tecnicas')
       })
   }
   return () => {

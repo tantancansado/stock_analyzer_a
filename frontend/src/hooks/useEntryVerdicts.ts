@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { fetchEntryVerdicts, type EntryVerdict } from '../api/client'
+import { marcarFallo, marcarOk } from '../lib/estadoDatos'
 
 type VerdictMap = Record<string, EntryVerdict>
 
@@ -19,6 +20,7 @@ async function load(): Promise<VerdictMap> {
         if (v.ticker) map[v.ticker.toUpperCase()] = v
       }
       cache = { map, at: Date.now() }
+      marcarOk('veredictos-entrada')
       listeners.forEach(l => l(map))
       return map
     } finally {
@@ -38,7 +40,10 @@ export function useEntryVerdicts() {
       // Tragarlo dejaba el mapa vacío, y un mapa vacío se pinta igual que «hoy
       // no hay veredictos de entrada». Un cero por fallo de red se lee como un
       // cero de verdad, que es la lectura que menos conviene aquí.
-      .catch((e: unknown) => console.error('[entry-verdicts] carga fallida', e))
+      .catch((e: unknown) => {
+        console.error('[entry-verdicts] carga fallida', e)
+        marcarFallo('veredictos-entrada')
+      })
     const listener = (m: VerdictMap) => { if (alive) setMap(m) }
     listeners.add(listener)
     return () => { alive = false; listeners.delete(listener) }

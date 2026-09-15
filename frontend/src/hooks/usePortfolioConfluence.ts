@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { fetchMeanReversion, fetchUnusualFlow } from '../api/client'
+import { marcarFallo, marcarOk } from '../lib/estadoDatos'
 
 export interface ConfluenceSignals {
   bounce: boolean   // RSI<30, conf≥40
@@ -40,11 +41,13 @@ async function loadCsvTickers(filename: string): Promise<Set<string>> {
       const val = (l.split(',')[ti] ?? '').trim().replaceAll('"', '').toUpperCase()
       if (val) tickers.add(val)
     }
+    marcarOk('confluencia')
     return tickers
   } catch (e) {
     // Un Set vacío se pinta igual que «ningún ticker coincide». Que al menos
     // quede rastro de que no se llegó a leer.
     console.error('[confluencia] no se pudo leer el CSV', e)
+    marcarFallo('confluencia')
     return new Set()
   }
 }
