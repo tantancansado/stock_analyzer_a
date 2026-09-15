@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { AlertCircle, AlertTriangle, CheckCircle2 } from 'lucide-react'
+import { AlertCircle, AlertTriangle } from 'lucide-react'
 import { fetchPipelineStatus, fetchPipelineHealth } from '../api/client'
 import type { PipelineStatus, PipelineHealth } from '../api/client'
 
@@ -95,13 +95,18 @@ export default function StaleDataBanner({ module, dataDate, className = '' }: St
       const etiqueta = esDeHoy
         ? 'Datos de hoy'
         : mod.days_ago === 1 ? 'Datos de ayer' : `Datos de hace ${mod.days_ago} días`
+      // «Todo está bien» no merece una pastilla verde con borde ocupando su
+      // propia línea encima del título. Un estado sano se dice en voz baja: un
+      // punto y el texto, en gris, del tamaño de un pie de foto. Las pastillas
+      // y los recuadros se reservan para cuando el dato SÍ está viejo, que es
+      // cuando hace falta que te pares a leer.
       return (
         <div
           title={dateFormatted ? `Último scan: ${dateFormatted}` : undefined}
-          className={`inline-flex items-center gap-1.5 text-mini font-medium mb-4 px-3 py-1.5 rounded-lg border bg-emerald-500/8 border-emerald-500/20 text-emerald-400 ${className}`}
+          className={`inline-flex items-center gap-1.5 text-mini text-muted-foreground mb-3 ${className}`}
         >
-          <CheckCircle2 size={16} className="shrink-0 text-emerald-400" />
-          <span className="font-semibold text-emerald-400">{etiqueta}</span>
+          <span className="size-1.5 rounded-full bg-success shrink-0" aria-hidden="true" />
+          {etiqueta}
         </div>
       )
     }

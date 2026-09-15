@@ -36,6 +36,7 @@ import { ValueClarityPanel, ValueDecisionBadge, ValueModeToggle } from '../compo
 import { getValueDecision } from '@/lib/valueDecision'
 import PageShell from '@/components/PageShell'
 import { nlRegimen, nlRegimenTono } from '@/lib/nl'
+import CifrasClave from '../components/CifrasClave'
 
 function TechBiasCell({ t }: { t?: TechnicalSummary }) {
   if (!t) return <span className="text-muted-foreground text-xs">—</span>
@@ -399,12 +400,14 @@ export default function ValueUS() {
   return (
     <>
       <StaleDataBanner module="value_us" />
-      {/* Título oculto: la pestaña activa ya dice "VALUE US" 150px más arriba.
-          El badge de régimen sí se ve — es contexto de mercado, no el título —
-          y pasa al subtítulo. */}
+      {/* El título SE VE. Estuvo oculto porque la pestaña de arriba ya decía
+          "VALUE US" y repetirlo era decir lo mismo dos veces — cierto, pero el
+          remedio dejó la página sin ningún punto de entrada: se empezaba a
+          leer por un aviso, unas pestañas y cuatro tarjetas, todo del mismo
+          tamaño. Una pantalla necesita UNA cosa que se lea primero. Se queda
+          el título y la pestaña es lo que se calla, que es lo que hace iOS. */}
       <PageHeader
-        tituloOculto
-        title="VALUE US"
+        title="Value US"
         subtitle={<>
           {regimeLabel && (
             <Badge variant={nlRegimenTono(regimeCrudo)} className="mr-2 align-middle text-xs">
@@ -456,32 +459,33 @@ export default function ValueUS() {
         />
       )}
 
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-5">
-        {[
-          { label: 'Oportunidades', value: rows.length, sub: 'tickers analizados', idx: 1 },
-          { label: 'Score Medio', value: stats.avgScore.toFixed(1), sub: 'de 100 puntos', color: stats.avgScore >= 50 ? 'text-emerald-400' : 'text-amber-400', idx: 2 },
-          { label: 'Grado A+B', value: stats.gradeA + stats.gradeB, sub: `${stats.gradeA} A, ${stats.gradeB} B`, color: 'text-emerald-400', idx: 3 },
-          { label: 'Mejor Upside', value: `+${stats.bestUpside.toFixed(0)}%`, sub: 'potencial analistas', color: 'text-emerald-400', idx: 4 },
-        ].map(({ label, value, sub, color, idx }) => (
-          <Card key={label} className={`glass p-5 stagger-${idx}`}>
-            <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-2">{label}</div>
-            <div className={`text-3xl font-extrabold tracking-tight tabular-nums leading-none mb-2 ${color ?? ''}`}>{value}</div>
-            <div className="text-micro text-muted-foreground">{sub}</div>
-          </Card>
-        ))}
-      </div>
+      <CifrasClave cifras={[
+        { etiqueta: 'Oportunidades', valor: rows.length, sub: 'tickers analizados' },
+        { etiqueta: 'Score medio',   valor: stats.avgScore.toFixed(1), unidad: '/100',
+          tono: stats.avgScore >= 50 ? 'favor' : 'aviso' },
+        { etiqueta: 'Grado A+B',     valor: stats.gradeA + stats.gradeB,
+          sub: `${stats.gradeA} A, ${stats.gradeB} B`, tono: 'favor' },
+        { etiqueta: 'Mejor upside',  valor: `+${stats.bestUpside.toFixed(0)}`, unidad: '%',
+          sub: 'potencial analistas', tono: 'favor' },
+      ]} />
 
+      {/* Una nota, no una caja. Era una tarjeta a todo el ancho con borde
+          ámbar para UNA línea de texto: el contenedor pesaba más que lo que
+          contenía y competía con las tarjetas de arriba sin decir nada más
+          importante que ellas. */}
       {concentrated.length > 0 && (
-        <Card className="glass mb-4 px-5 py-3 border-amber-500/30">
-          <span className="text-amber-400 text-sm font-medium">
-            Concentración sectorial: {concentrated.map(([s, c]) => `${s} (${c})`).join(', ')}
-          </span>
-        </Card>
+        <p className="mb-5 flex items-center gap-2 text-apoyo text-warn">
+          <TriangleAlert size={12} strokeWidth={2.25} className="shrink-0" />
+          Concentración sectorial: {concentrated.map(([s, c]) => `${s} (${c})`).join(', ')}
+        </p>
       )}
 
+      {/* Una tira, no un panel. La vista recomendada era `liquid-glass` —la
+          piel reservada a modales y tarjetas líder— para explicar un modo de
+          vista: pesaba más que la lista que introduce. */}
       {clearMode ? (
-        <Card className="liquid-glass mb-3 px-4 py-3 animate-fade-in-up rounded-xl">
-          <div className="flex flex-wrap items-center gap-3">
+        <div className="mb-3 flex flex-wrap items-center gap-3 border-b border-border/60 pb-3">
+          <div className="flex flex-wrap items-center gap-3 w-full">
             {/* basis-full en móvil: con solo min-w-0 flex-1, el texto competía
                 por la línea con los tres controles de al lado y se quedaba en
                 53px — 13 líneas de 8 caracteres, ilegible. Ocupando la línea
@@ -502,7 +506,7 @@ export default function ValueUS() {
               {filtered.length !== rows.length ? `${filtered.length} / ${rows.length}` : `${rows.length} ideas`}
             </span>
           </div>
-        </Card>
+        </div>
       ) : (
       // Toolbar estilo Apple: la barra de filtros es la superficie "hero" de la
       // página (liquid-glass); tabla y stat cards quedan en .glass plano — un

@@ -37,15 +37,20 @@ export default function PageTabs({ tabs, defaultTab, paramKey = 'tab' }: Readonl
 
   return (
     <div>
-      {/* Segmented control sobre material (patrón Apple): liquid-glass como
-          toolbar siempre visible — propaga a todas las secciones con tabs.
+      {/* Control segmentado, en voz baja.
+          Estaba sobre `liquid-glass` —la piel de los modales— y la pestaña
+          activa apilaba CUATRO marcas a la vez: color, borde, sombra y fondo
+          teñido. El resultado era que las pestañas gritaban más que el título
+          de la página, justo al revés de lo que debe pasar: el título dice
+          dónde estás, la pestaña solo acota qué miras dentro.
+          Ahora es lo que hace Apple y lo mismo que `.seg-tab`: pista gris
+          discreta, pastilla para la activa y UNA sola marca. El color lo lleva
+          el texto.
 
           `max-w-full` + scroll en un div INTERNO: sin esto, en móvil los tabs
           que no caben se cortaban a media palabra ("Momentum VCP" salía como
-          "Mome…VC") sin ninguna pista de que hubiera más. El overflow NO puede
-          ir en el propio .liquid-glass — ese fija `overflow: clip` para sus
-          pseudo-elementos y lo pisaría (regla del proyecto). */}
-      <div className="page-tabs-shell liquid-glass mb-5 p-1 rounded-xl w-fit max-w-full">
+          "Mome…VC") sin ninguna pista de que hubiera más. */}
+      <div className="page-tabs-shell mb-5 p-1 rounded-xl w-fit max-w-full bg-muted/60 border border-border/40">
        <div className="flex gap-1 overflow-x-auto scrollbar-hide">
         {tabs.map(tab => (
           <button
@@ -53,14 +58,14 @@ export default function PageTabs({ tabs, defaultTab, paramKey = 'tab' }: Readonl
             onClick={() => setTab(tab.id)}
             className={`page-tab relative flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-lg px-3 py-2 text-apoyo font-medium transition-all sm:gap-2 sm:px-4 sm:text-sm ${
               activeId === tab.id
-                ? 'text-primary border border-primary/30 shadow-sm'
-                : 'text-muted-foreground hover:text-foreground hover:bg-foreground/5'
+                ? 'text-foreground'
+                : 'text-muted-foreground hover:text-foreground'
             }`}
           >
             {activeId === tab.id && (
               <motion.span
                 layoutId={`page-tab-indicator-${paramKey}`}
-                className="page-tab-indicator absolute inset-0 rounded-lg bg-primary/15"
+                className="page-tab-indicator absolute inset-0 rounded-lg"
                 transition={{ type: 'spring', stiffness: 420, damping: 34, mass: 0.7 }}
               />
             )}

@@ -2514,3 +2514,21 @@ select:focus {
 .underline-tab:hover { color: var(--muted-foreground); border-bottom-color: color-mix(in oklab, var(--border) 60%, transparent); }
 .underline-tab.active { color: var(--primary); border-bottom-color: var(--primary); }
 
+
+/* Pastilla de la pestaña activa (`PageTabs`).
+   Va en CSS y no en la clase de Tailwind porque el indicador es un elemento
+   animado por framer-motion que se DESLIZA entre pestañas: la pastilla tiene
+   que existir como superficie propia, no como fondo del botón, o el
+   desplazamiento no se vería. Mismo tratamiento que `.seg-tab.active`, para
+   que las dos familias de pestañas se lean como el mismo sistema. */
+.page-tab-indicator {
+  background: var(--card);
+  box-shadow:
+    0 0 0 0.5px hsl(240 6% 10% / 0.05),
+    0 1px 2px   hsl(240 6% 10% / 0.10),
+    0 2px 6px   hsl(240 6% 10% / 0.05);
+}
+.dark .page-tab-indicator {
+  background: color-mix(in oklab, var(--primary) 16%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--primary) 30%, transparent);
+}

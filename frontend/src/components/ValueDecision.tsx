@@ -1,6 +1,5 @@
 import { CheckCircle2, Eye, PauseCircle, ShieldAlert, SlidersHorizontal } from 'lucide-react'
 import type { ValueOpportunity } from '@/api/client'
-import { Card, CardContent } from '@/components/ui/card'
 import { cn } from '@/lib/utils'
 import type { ValueDecision } from '@/lib/valueDecision'
 
@@ -85,8 +84,13 @@ export function ValueClarityPanel({
     // veías EQIX dos veces, una en formato hero de media pantalla y otra tres
     // dedos más abajo. Los contadores son lo único que la lista no puede
     // decirte de un vistazo, así que es lo único que se queda.
-    <Card className="glass mb-4 overflow-clip">
-      <CardContent className="p-3 sm:p-4">
+    //
+    // Y ya no van en tarjeta. Cuatro números sueltos dentro de una caja a todo
+    // el ancho, justo encima de otras cuatro cifras, eran dos rectángulos
+    // diciendo cosas parecidas con el mismo peso visual. Sin caja se leen como
+    // lo que son: el desglose de la lista que viene debajo.
+    <div className="mb-5">
+      <div>
         {sinNada ? (
           // Dos situaciones muy distintas que antes decían lo mismo: que el
           // pipeline no publicara nada (legítimo — el gate solo saca lo que
@@ -119,16 +123,16 @@ export function ValueClarityPanel({
           // "Vista recomendada activa" que va justo debajo, con más contexto
           // — tenerlos también aquí era el mismo par de controles dos veces
           // seguidas.
-          <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+          <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
             {CONTADORES.map(({ clave, etiqueta, tono }) => (
               <div key={clave} className="flex items-baseline gap-1.5">
-                <span className={`text-lg font-extrabold tabular-nums ${tono}`}>{grupos[clave].length}</span>
-                <span className="text-micro font-medium text-muted-foreground">{etiqueta}</span>
+                <span className={`text-titulo font-semibold tabular-nums ${tono}`}>{grupos[clave].length}</span>
+                <span className="text-apoyo text-muted-foreground">{etiqueta}</span>
               </div>
             ))}
           </div>
         )}
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   )
 }
