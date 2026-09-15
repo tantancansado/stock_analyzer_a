@@ -240,7 +240,7 @@ function GainBar({ base, rateCut, rateHike, capital }: { base: number; rateCut: 
     const isNeg = val < 0
     return (
       <div className="flex items-center gap-2 text-xs">
-        <span className="w-28 text-foreground/40 shrink-0">{label}</span>
+        <span className="w-28 text-muted-foreground shrink-0">{label}</span>
         <div className="flex-1 h-2 rounded-full" style={{ background: 'rgba(255,255,255,0.06)' }}>
           <div className="h-2 rounded-full transition-all" style={{
             width: `${pct}%`,
@@ -250,7 +250,7 @@ function GainBar({ base, rateCut, rateHike, capital }: { base: number; rateCut: 
         <span className="w-20 text-right font-mono shrink-0" style={{ color: isNeg ? '#ef4444' : color }}>
           {isNeg ? '' : '+'}{val >= 0 ? fmtEur(val) : fmtEur(val)}
         </span>
-        <span className="w-12 text-right font-mono text-foreground/40 text-[10px] shrink-0">
+        <span className="w-12 text-right font-mono text-muted-foreground text-[10px] shrink-0">
           {isNeg ? '' : '+'}{((val / capital) * 100).toFixed(1)}%
         </span>
       </div>
@@ -281,7 +281,7 @@ function AdvisorCard({ label, rec, capital }: {
           <div>
             <div className="text-xs font-bold uppercase tracking-wider mb-1" style={{ color: rec.color }}>{label}</div>
             <div className="text-sm font-semibold text-foreground leading-tight">{rec.ticker}</div>
-            <div className="text-xs text-foreground/40 mt-0.5">{rec.name}</div>
+            <div className="text-xs text-muted-foreground mt-0.5">{rec.name}</div>
           </div>
           <div className="text-right shrink-0">
             <div className="text-xl font-bold font-mono text-foreground">{fmtEur(rec.gainBase)}</div>
@@ -296,13 +296,13 @@ function AdvisorCard({ label, rec, capital }: {
           <span className="text-xs px-2 py-0.5 rounded-full font-mono" style={{ background: `${rec.color}18`, color: rec.color, border: `1px solid ${rec.color}30` }}>
             {rec.yieldPct.toFixed(1)}% anual
           </span>
-          <span className="text-xs px-2 py-0.5 rounded-full text-foreground/40" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)' }}>
+          <span className="text-xs px-2 py-0.5 rounded-full text-muted-foreground" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)' }}>
             {rec.currency} · IBKR Ireland
           </span>
         </div>
 
         {/* Tesis */}
-        <p className="text-xs text-foreground/60 leading-relaxed">{rec.tesis}</p>
+        <p className="text-xs text-muted-foreground leading-relaxed">{rec.tesis}</p>
 
         {/* Scenarios bar */}
         <GainBar base={rec.gainBase} rateCut={rec.gainRateCut} rateHike={rec.gainRateHike} capital={capital} />
@@ -310,7 +310,7 @@ function AdvisorCard({ label, rec, capital }: {
         {/* Expandible */}
         <button
           onClick={() => setExpanded(v => !v)}
-          className="flex items-center gap-1 text-xs text-foreground/30 hover:text-foreground/60 transition-colors mt-1"
+          className="flex items-center gap-1 text-xs text-muted-foreground hover:text-muted-foreground transition-colors mt-1"
         >
           {expanded ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
           {expanded ? 'Menos detalle' : 'Más detalle'}
@@ -320,11 +320,11 @@ function AdvisorCard({ label, rec, capital }: {
           <div className="space-y-2 pt-1 border-t border-white/5">
             <div className="text-xs p-2.5 rounded-lg" style={{ background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.15)' }}>
               <span className="text-red-400 font-medium">Riesgo: </span>
-              <span className="text-foreground/60">{rec.riskNote}</span>
+              <span className="text-muted-foreground">{rec.riskNote}</span>
             </div>
             <div className="text-xs p-2.5 rounded-lg" style={{ background: 'rgba(34,197,94,0.08)', border: '1px solid rgba(34,197,94,0.15)' }}>
               <span className="text-emerald-400 font-medium">Si bajan tipos: </span>
-              <span className="text-foreground/60">{rec.rateCutNote}</span>
+              <span className="text-muted-foreground">{rec.rateCutNote}</span>
             </div>
           </div>
         )}
@@ -351,7 +351,7 @@ function FixedIncomeAdvisor({ bonds, prefs }: { bonds: BondOpportunity[]; prefs:
       {/* Header toggle */}
       <button
         onClick={() => setShow(v => !v)}
-        className="flex items-center gap-2 text-sm font-medium text-primary/80 hover:text-primary transition-colors"
+        className="flex items-center gap-2 text-sm font-medium text-primary hover:text-primary transition-colors"
       >
         <Brain size={16} />
         Asesor de renta fija — ¿dónde meter tu dinero?
@@ -364,9 +364,9 @@ function FixedIncomeAdvisor({ bonds, prefs }: { bonds: BondOpportunity[]; prefs:
             {/* Capital input */}
             <div className="flex flex-wrap items-center gap-4">
               <div>
-                <label className="text-xs text-foreground/40 block mb-1">Tu capital disponible</label>
+                <label className="text-xs text-muted-foreground block mb-1">Tu capital disponible</label>
                 <div className="flex items-center gap-2">
-                  <span className="text-foreground/50 text-sm">€</span>
+                  <span className="text-muted-foreground text-sm">€</span>
                   <input
                     type="text"
                     inputMode="numeric"
@@ -393,7 +393,7 @@ function FixedIncomeAdvisor({ bonds, prefs }: { bonds: BondOpportunity[]; prefs:
                   </button>
                 ))}
               </div>
-              <div className="text-xs text-foreground/30 ml-auto">Cuenta IBKR Ireland · todos accesibles desde EU</div>
+              <div className="text-xs text-muted-foreground ml-auto">Cuenta IBKR Ireland · todos accesibles desde EU</div>
             </div>
 
             {/* Cards por horizonte */}
@@ -404,7 +404,7 @@ function FixedIncomeAdvisor({ bonds, prefs }: { bonds: BondOpportunity[]; prefs:
             </div>
 
             {/* Nota disclaimer */}
-            <p className="text-[10px] text-foreground/20 text-center">
+            <p className="text-[10px] text-muted-foreground text-center">
               Proyecciones basadas en yields actuales del scanner diario · No es asesoramiento financiero · Rendimientos pasados no garantizan futuros
             </p>
           </CardContent>
@@ -501,7 +501,7 @@ function YieldCalculator({ bonds }: { bonds: BondOpportunity[] }) {
         <div className="table-x-wrap">
           <table className="w-full text-xs">
             <thead>
-              <tr className="border-b border-border/20 text-micro text-muted-foreground/50 uppercase tracking-wider">
+              <tr className="border-b border-border/20 text-micro text-muted-foreground uppercase tracking-wider">
                 <th className="pb-2 text-left pr-3">ETF</th>
                 <th className="pb-2 text-left pr-3">Tipo</th>
                 <th className="pb-2 text-right pr-3">Yield anual</th>
@@ -553,7 +553,7 @@ function YieldCalculator({ bonds }: { bonds: BondOpportunity[] }) {
                             style={{ width: `${Math.min((effectiveYield / (calcBonds[0]?.yield_pct ?? 1)) * (months / 12) * 100, 100)}%` }}
                           />
                         </div>
-                        <span className="font-mono text-foreground/60 w-12 text-right">{effectiveYield.toFixed(2)}%</span>
+                        <span className="font-mono text-muted-foreground w-12 text-right">{effectiveYield.toFixed(2)}%</span>
                       </div>
                     </td>
                   </tr>
@@ -563,7 +563,7 @@ function YieldCalculator({ bonds }: { bonds: BondOpportunity[] }) {
           </table>
         </div>
 
-        <p className="text-micro text-muted-foreground/40 mt-3">
+        <p className="text-micro text-muted-foreground mt-3">
           Cálculo con reinversión mensual (interés compuesto). No incluye fiscalidad ni comisiones de broker. Los T-Bills y ETFs de ultracorto se pueden vender en cualquier momento — no hay penalización por liquidez anticipada.
         </p>
       </CardContent>
@@ -673,42 +673,42 @@ function BondRow({ bond }: { bond: BondOpportunity }) {
           <td colSpan={8} className="px-4 py-3">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs mb-3">
               <div>
-                <div className="text-muted-foreground/60 mb-0.5">Precio</div>
+                <div className="text-muted-foreground mb-0.5">Precio</div>
                 <div className="font-mono font-semibold">{bond.currency === 'EUR' ? '€' : '$'}{fmt(bond.price)}</div>
               </div>
               <div>
-                <div className="text-muted-foreground/60 mb-0.5">Máx 52s</div>
+                <div className="text-muted-foreground mb-0.5">Máx 52s</div>
                 <div className="font-mono">{bond.currency === 'EUR' ? '€' : '$'}{fmt(bond.week52_high)}</div>
               </div>
               <div>
-                <div className="text-muted-foreground/60 mb-0.5">Mín 52s</div>
+                <div className="text-muted-foreground mb-0.5">Mín 52s</div>
                 <div className="font-mono">{bond.currency === 'EUR' ? '€' : '$'}{fmt(bond.week52_low)}</div>
               </div>
               <div>
-                <div className="text-muted-foreground/60 mb-0.5">Yield histórico avg</div>
+                <div className="text-muted-foreground mb-0.5">Yield histórico avg</div>
                 <div className="font-mono">{fmt(bond.hist_avg_yield_pct)}%</div>
               </div>
               <div>
-                <div className="text-muted-foreground/60 mb-0.5">SEC Yield (30d)</div>
+                <div className="text-muted-foreground mb-0.5">SEC Yield (30d)</div>
                 <div className="font-mono">{bond.sec_yield_pct != null ? `${bond.sec_yield_pct.toFixed(2)}%` : '—'}</div>
               </div>
               <div>
-                <div className="text-muted-foreground/60 mb-0.5">Duración modificada</div>
+                <div className="text-muted-foreground mb-0.5">Duración modificada</div>
                 <div className="font-mono">{fmt(bond.modified_duration, 1)} años</div>
               </div>
               <div>
-                <div className="text-muted-foreground/60 mb-0.5">Expense ratio</div>
+                <div className="text-muted-foreground mb-0.5">Expense ratio</div>
                 <div className="font-mono">{bond.expense_ratio_pct != null ? `${bond.expense_ratio_pct.toFixed(3)}%` : '—'}</div>
               </div>
               <div>
-                <div className="text-muted-foreground/60 mb-0.5">Divisa</div>
+                <div className="text-muted-foreground mb-0.5">Divisa</div>
                 <div className="font-mono">{bond.currency}</div>
               </div>
               <div>
-                <div className="text-muted-foreground/60 mb-0.5">Liquidez</div>
+                <div className="text-muted-foreground mb-0.5">Liquidez</div>
                 <div className={cn('font-mono font-semibold', LIQUIDITY_COLORS[bond.liquidity_rating] ?? 'text-muted-foreground')}>
                   {bond.liquidity_rating || '—'}
-                  {bond.avg_volume_3m != null && <span className="text-muted-foreground/50 font-normal"> ({fmtVolume(bond.avg_volume_3m)}/d)</span>}
+                  {bond.avg_volume_3m != null && <span className="text-muted-foreground font-normal"> ({fmtVolume(bond.avg_volume_3m)}/d)</span>}
                 </div>
               </div>
             </div>
@@ -716,7 +716,7 @@ function BondRow({ bond }: { bond: BondOpportunity }) {
               {bond.recommendation}
             </div>
             {bond.liquidity_note && (
-              <div className="text-micro text-muted-foreground/70 mt-1.5 px-3">
+              <div className="text-micro text-muted-foreground mt-1.5 px-3">
                 <Droplet size={12} strokeWidth={2.25} className="inline -mt-px mr-1" />{bond.liquidity_note}
               </div>
             )}
@@ -816,7 +816,7 @@ function PreferredCalculator({ prefs }: { prefs: PreferredStock[] }) {
         <div className="table-x-wrap">
           <table className="w-full text-xs">
             <thead>
-              <tr className="border-b border-border/20 text-micro text-muted-foreground/50 uppercase tracking-wider">
+              <tr className="border-b border-border/20 text-micro text-muted-foreground uppercase tracking-wider">
                 <th className="pb-2 text-left pr-3">Ticker</th>
                 <th className="pb-2 text-left pr-3">Emisor</th>
                 <th className="pb-2 text-right pr-3">Yield actual</th>
@@ -846,11 +846,11 @@ function PreferredCalculator({ prefs }: { prefs: PreferredStock[] }) {
                         {isTop && <span className="text-micro text-emerald-400 font-medium">TOP</span>}
                       </div>
                     </td>
-                    <td className="py-2 pr-3 text-muted-foreground/70 truncate max-w-[120px]">{p.issuer}</td>
+                    <td className="py-2 pr-3 text-muted-foreground truncate max-w-[120px]">{p.issuer}</td>
                     <td className="py-2 pr-3 text-right font-mono text-foreground/80">
                       {p.current_yield!.toFixed(2)}%
                     </td>
-                    <td className="py-2 pr-3 text-right font-mono text-muted-foreground/70">
+                    <td className="py-2 pr-3 text-right font-mono text-muted-foreground">
                       {fmtUsd(p.annual_div)}
                     </td>
                     <td className="py-2 pr-3 text-right font-mono font-semibold text-emerald-400">
@@ -867,7 +867,7 @@ function PreferredCalculator({ prefs }: { prefs: PreferredStock[] }) {
                             style={{ width: `${Math.min((effectiveYield / (calcPrefs[0]?.current_yield ?? 1)) * (months / 12) * 100, 100)}%` }}
                           />
                         </div>
-                        <span className="font-mono text-foreground/60 w-12 text-right">{effectiveYield.toFixed(2)}%</span>
+                        <span className="font-mono text-muted-foreground w-12 text-right">{effectiveYield.toFixed(2)}%</span>
                       </div>
                     </td>
                   </tr>
@@ -877,7 +877,7 @@ function PreferredCalculator({ prefs }: { prefs: PreferredStock[] }) {
           </table>
         </div>
 
-        <p className="text-micro text-muted-foreground/40 mt-3">
+        <p className="text-micro text-muted-foreground mt-3">
           Cálculo con reinversión mensual (interés compuesto). El capital final asume que el precio de la preferred se mantiene estable — puede variar. No incluye fiscalidad ni comisiones.
         </p>
       </CardContent>
@@ -984,19 +984,19 @@ function PreferredRow({ p }: { p: PreferredStock }) {
           <td colSpan={8} className="px-4 py-3">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs mb-3">
               <div>
-                <div className="text-muted-foreground/60 mb-0.5">Valor nominal (par)</div>
+                <div className="text-muted-foreground mb-0.5">Valor nominal (par)</div>
                 <div className="font-mono font-semibold">${p.par_value}</div>
               </div>
               <div>
-                <div className="text-muted-foreground/60 mb-0.5">Dividendo anual</div>
+                <div className="text-muted-foreground mb-0.5">Dividendo anual</div>
                 <div className="font-mono">${p.annual_div.toFixed(4)} ({p.stated_div_pct.toFixed(3)}% sobre par)</div>
               </div>
               <div>
-                <div className="text-muted-foreground/60 mb-0.5">Yield actual</div>
+                <div className="text-muted-foreground mb-0.5">Yield actual</div>
                 <div className="font-mono font-semibold text-emerald-400">{p.current_yield?.toFixed(2)}%</div>
               </div>
               <div>
-                <div className="text-muted-foreground/60 mb-0.5">Yield si la llaman en 1 año</div>
+                <div className="text-muted-foreground mb-0.5">Yield si la llaman en 1 año</div>
                 <div className={cn('font-mono font-semibold',
                   p.call_risk === 'ALTO' ? 'text-orange-400' :
                   (p.yield_to_call_1y_pct ?? 0) > (p.current_yield ?? 0) ? 'text-emerald-400' : 'text-foreground/80')}>
@@ -1004,21 +1004,21 @@ function PreferredRow({ p }: { p: PreferredStock }) {
                 </div>
               </div>
               <div>
-                <div className="text-muted-foreground/60 mb-0.5">Máx / Mín 52s</div>
+                <div className="text-muted-foreground mb-0.5">Máx / Mín 52s</div>
                 <div className="font-mono">${p.week52_high?.toFixed(2)} / ${p.week52_low?.toFixed(2)}</div>
               </div>
               <div>
-                <div className="text-muted-foreground/60 mb-0.5">Liquidez</div>
+                <div className="text-muted-foreground mb-0.5">Liquidez</div>
                 <div className={cn('font-mono font-semibold', LIQUIDITY_COLORS[p.liquidity_rating] ?? 'text-muted-foreground')}>
                   {p.liquidity_rating || '—'}
-                  {p.avg_volume_3m != null && <span className="text-muted-foreground/50 font-normal"> ({fmtVolume(p.avg_volume_3m)}/d)</span>}
+                  {p.avg_volume_3m != null && <span className="text-muted-foreground font-normal"> ({fmtVolume(p.avg_volume_3m)}/d)</span>}
                 </div>
               </div>
             </div>
             {/* Explicación clara */}
-            <div className="text-xs space-y-1 mb-3 text-muted-foreground/80">
+            <div className="text-xs space-y-1 mb-3 text-muted-foreground">
               <div>
-                <span className="text-foreground/60 font-medium">¿Cómo funciona? </span>
+                <span className="text-muted-foreground font-medium">¿Cómo funciona? </span>
                 Comprando a <span className="font-mono text-foreground">${p.price?.toFixed(2)}</span>, recibes{' '}
                 <span className="font-mono text-emerald-400">${p.annual_div.toFixed(2)}</span> al año en dividendos fijos
                 ({p.current_yield?.toFixed(2)}%). Si la empresa la recompra ("llama") a par (${p.par_value}),{' '}
@@ -1032,7 +1032,7 @@ function PreferredRow({ p }: { p: PreferredStock }) {
               {p.recommendation}
             </div>
             {p.liquidity_note && (
-              <div className="text-micro text-muted-foreground/70 mt-1.5 px-3">
+              <div className="text-micro text-muted-foreground mt-1.5 px-3">
                 <Droplet size={12} strokeWidth={2.25} className="inline -mt-px mr-1" />{p.liquidity_note}
               </div>
             )}
@@ -1100,7 +1100,7 @@ function PreferredSection() {
         </div>
         <button
           onClick={() => setShowCalc(v => !v)}
-          className="flex items-center gap-2 text-sm font-medium text-primary/80 hover:text-primary transition-colors"
+          className="flex items-center gap-2 text-sm font-medium text-primary hover:text-primary transition-colors"
         >
           <Calculator size={16} />
           Calculadora de rendimiento
@@ -1117,7 +1117,7 @@ function PreferredSection() {
           <div className="table-x-wrap">
             <table className="w-full text-sm">
               <thead>
-                <tr className="border-b border-border/30 text-mini text-muted-foreground/60 uppercase tracking-wider">
+                <tr className="border-b border-border/30 text-mini text-muted-foreground uppercase tracking-wider">
                   <th className="px-3 py-2.5 text-left">Ticker</th>
                   <th className="px-3 py-2.5 text-left">Sector</th>
                   <th className="px-3 py-2.5 text-right">Yield actual</th>
@@ -1240,7 +1240,7 @@ export default function Bonds() {
       <div>
         <button
           onClick={() => setShowCalc(v => !v)}
-          className="flex items-center gap-2 text-sm font-medium text-primary/80 hover:text-primary transition-colors mb-3"
+          className="flex items-center gap-2 text-sm font-medium text-primary hover:text-primary transition-colors mb-3"
         >
           <Calculator size={16} />
           Calculadora de rendimiento
@@ -1285,7 +1285,7 @@ export default function Bonds() {
           <div className="table-x-wrap">
             <table className="w-full text-sm">
               <thead>
-                <tr className="border-b border-border/30 text-mini text-muted-foreground/60 uppercase tracking-wider">
+                <tr className="border-b border-border/30 text-mini text-muted-foreground uppercase tracking-wider">
                   <th className="px-3 py-2.5 text-left">ETF / Bono</th>
                   <th className="px-3 py-2.5 text-left">Tipo</th>
                   <th className="px-3 py-2.5 text-right">Yield</th>

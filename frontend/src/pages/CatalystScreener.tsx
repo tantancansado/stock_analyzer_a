@@ -257,14 +257,14 @@ export default function CatalystScreener() {
                 <span className={`text-micro font-bold px-1.5 py-0.5 rounded border tracking-wide ${s.badgeColor}`}>
                   <s.badgeIcon size={12} strokeWidth={2} className="mr-1 inline shrink-0 align-[-2px]" />{s.badge}
                 </span>
-                <span className={`text-lg font-bold tabular-nums ${count === 0 ? 'text-muted-foreground/30' : active ? 'text-primary' : 'text-foreground'}`}>
+                <span className={`text-lg font-bold tabular-nums ${count === 0 ? 'text-muted-foreground' : active ? 'text-primary' : 'text-foreground'}`}>
                   {count}
                 </span>
               </div>
               <p className={`text-apoyo font-semibold leading-tight ${active ? 'text-foreground' : 'text-muted-foreground'}`}>
                 {s.label}
               </p>
-              <p className="text-micro text-muted-foreground/60 mt-0.5 leading-snug">{s.subtitle}</p>
+              <p className="text-micro text-muted-foreground mt-0.5 leading-snug">{s.subtitle}</p>
             </button>
           )
         })}

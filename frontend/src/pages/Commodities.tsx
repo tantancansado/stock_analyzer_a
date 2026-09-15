@@ -33,14 +33,14 @@ const RATING_CONFIG: Record<string, { label: string; bg: string; text: string; d
 
 const MOMENTUM_CONFIG: Record<string, { icon: React.ReactNode; label: string; color: string }> = {
   SOBRECOMPRADO: { icon: <TrendingUp className="w-3 h-3" />, label: 'Sobrecomprado', color: 'text-red-400' },
-  NEUTRAL:       { icon: <Minus className="w-3 h-3" />,      label: 'Neutral',       color: 'text-foreground/50' },
+  NEUTRAL:       { icon: <Minus className="w-3 h-3" />,      label: 'Neutral',       color: 'text-muted-foreground' },
   SOBREVENDIDO:  { icon: <TrendingDown className="w-3 h-3" />, label: 'Sobrevendido', color: 'text-cyan-400' },
 }
 
 const SEAS_CONFIG: Record<string, { label: string; color: string }> = {
   bullish:  { label: '↑ Estacional', color: 'text-emerald-400' },
   bearish:  { label: '↓ Estacional', color: 'text-red-400' },
-  neutral:  { label: '— Neutro',     color: 'text-foreground/40' },
+  neutral:  { label: '— Neutro',     color: 'text-muted-foreground' },
 }
 
 const ALL_TYPES = ['Precious_Metal', 'Energy', 'Industrial', 'Agricultural']
@@ -48,23 +48,26 @@ const ALL_TYPES = ['Precious_Metal', 'Energy', 'Industrial', 'Agricultural']
 // ─── Components ───────────────────────────────────────────────────────────────
 
 function RangeBar({ position }: { position: number | null }) {
-  if (position === null) return <span className="text-foreground/25 text-xs">—</span>
+  if (position === null) return <span className="text-muted-foreground text-xs">—</span>
   const pct = Math.min(Math.max(position * 100, 0), 100)
-  const color = position < 0.3 ? '#10b981' : position > 0.7 ? '#ef4444' : '#f59e0b'
+  const color = position < 0.3 ? 'var(--success)' : position > 0.7 ? 'var(--danger)' : 'var(--warn)'
   return (
     <div className="flex items-center gap-2 min-w-[90px]">
-      <div className="flex-1 h-1.5 rounded-full bg-white/10 relative">
+      <div className="flex-1 h-1.5 rounded-full bg-muted relative">
         <div className="absolute h-1.5 rounded-full" style={{ width: `${pct}%`, background: color }} />
       </div>
-      <span className="text-xs font-mono text-foreground/50">{pct.toFixed(0)}%</span>
+      <span className="text-xs font-mono text-muted-foreground">{pct.toFixed(0)}%</span>
     </div>
   )
 }
 
 function PctBadge({ v, inverse = false }: { v: number | null; inverse?: boolean }) {
-  if (v === null) return <span className="text-foreground/25 text-xs">—</span>
+  if (v === null) return <span className="text-muted-foreground text-xs">—</span>
   const positive = inverse ? v < 0 : v > 0
-  const color = positive ? '#10b981' : v === 0 ? '#94a3b8' : '#ef4444'
+  /* Estaban en hexadecimal —tonos para fondo casi negro— y sobre la tarjeta
+     blanca el verde se quedaba en 2,54 de contraste. El neutro era `#94a3b8`,
+     un slate fijo que no cambia con el tema. */
+  const color = positive ? 'var(--success)' : v === 0 ? 'var(--muted-foreground)' : 'var(--danger)'
   return (
     <span className="text-xs font-mono" style={{ color }}>
       {v > 0 ? '+' : ''}{v.toFixed(1)}%
@@ -89,7 +92,7 @@ function CommodityRow({ item }: { item: CommodityOpportunity }) {
         <td className="py-3 pr-3">
           <div className="flex items-center gap-2">
             <span className="text-foreground font-semibold text-sm font-mono w-12 shrink-0">{item.ticker}</span>
-            <span className="text-foreground/50 text-xs truncate max-w-[140px] hidden sm:block">{item.sector}</span>
+            <span className="text-muted-foreground text-xs truncate max-w-[140px] hidden sm:block">{item.sector}</span>
           </div>
         </td>
 
@@ -146,8 +149,8 @@ function CommodityRow({ item }: { item: CommodityOpportunity }) {
         {/* Expand */}
         <td className="py-3 text-right">
           {open
-            ? <ChevronUp className="w-4 h-4 text-foreground/30 ml-auto" />
-            : <ChevronDown className="w-4 h-4 text-foreground/30 ml-auto" />
+            ? <ChevronUp className="w-4 h-4 text-muted-foreground ml-auto" />
+            : <ChevronDown className="w-4 h-4 text-muted-foreground ml-auto" />
           }
         </td>
       </tr>
@@ -159,7 +162,7 @@ function CommodityRow({ item }: { item: CommodityOpportunity }) {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* Recomendación */}
               <div>
-                <div className="text-xs font-semibold text-foreground/40 uppercase tracking-wider mb-2">Señal</div>
+                <div className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">Señal</div>
                 <p className="text-sm text-foreground/80 leading-relaxed">{item.recommendation || '—'}</p>
               </div>
 
@@ -182,11 +185,11 @@ function CommodityRow({ item }: { item: CommodityOpportunity }) {
               {/* Ciclo */}
               {item.cycle_driver && (
                 <div className="md:col-span-2">
-                  <div className="text-xs font-semibold text-foreground/40 uppercase tracking-wider mb-2">Contexto de ciclo</div>
+                  <div className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">Contexto de ciclo</div>
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                     {item.cycle_driver && (
                       <div className="rounded-lg bg-white/5 px-3 py-2">
-                        <div className="text-xs text-foreground/40 mb-1">Motor</div>
+                        <div className="text-xs text-muted-foreground mb-1">Motor</div>
                         <p className="text-xs text-foreground/70">{item.cycle_driver}</p>
                       </div>
                     )}
@@ -216,7 +219,7 @@ function CommodityRow({ item }: { item: CommodityOpportunity }) {
 function MetricRow({ label, value, color }: { label: string; value: string; color?: string }) {
   return (
     <div className="flex justify-between items-center py-0.5">
-      <span className="text-xs text-foreground/40">{label}</span>
+      <span className="text-xs text-muted-foreground">{label}</span>
       <span className={cn('text-xs font-mono text-foreground/70', color)}>{value}</span>
     </div>
   )
@@ -235,15 +238,15 @@ function SummaryCards({ data }: { data: CommodityOpportunity[] }) {
   return (
     <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
       {[
-        { label: 'Atractivos',    value: attractive, color: '#10b981' },
-        { label: 'Sobrevendidos', value: oversold,   color: '#22d3ee' },
-        { label: 'Estacional ↑',  value: seasonal,   color: '#f59e0b' },
-        { label: 'Con alt. UCITS', value: withEuAlt, color: '#8b5cf6' },
+        { label: 'Atractivos',    value: attractive, color: 'var(--success)' },
+        { label: 'Sobrevendidos', value: oversold,   color: 'var(--info)' },
+        { label: 'Estacional ↑',  value: seasonal,   color: 'var(--warn)' },
+        { label: 'Con alt. UCITS', value: withEuAlt, color: 'var(--special)' },
       ].map(({ label, value, color }) => (
         <Card key={label} className="glass">
           <CardContent className="p-4 text-center">
             <div className="text-2xl font-bold font-mono" style={{ color }}>{value}</div>
-            <div className="text-xs text-foreground/40 mt-0.5">{label}</div>
+            <div className="text-xs text-muted-foreground mt-0.5">{label}</div>
           </CardContent>
         </Card>
       ))}
@@ -259,7 +262,7 @@ function CommodityCard({ item }: Readonly<{ item: CommodityOpportunity }>) {
   const rating = RATING_CONFIG[item.value_rating] ?? RATING_CONFIG['SIN_DATO']
   const dato = (etiqueta: string, valor: string) => (
     <div>
-      <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground/50">{etiqueta}</div>
+      <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground">{etiqueta}</div>
       <div className="text-sm font-bold tabular-nums">{valor}</div>
     </div>
   )
@@ -342,7 +345,7 @@ export default function Commodities() {
               onClick={() => setTypeFilter(id)}
               className={cn(
                 'px-3 py-1.5 rounded-md text-xs font-medium transition-all',
-                typeFilter === id ? 'bg-cyan-500/20 text-cyan-400' : 'text-foreground/40 hover:text-foreground/70',
+                typeFilter === id ? 'bg-cyan-500/20 text-cyan-400' : 'text-muted-foreground hover:text-foreground/70',
               )}
             >
               {label}
@@ -363,7 +366,7 @@ export default function Commodities() {
               onClick={() => setRatingFilter(id)}
               className={cn(
                 'px-3 py-1.5 rounded-md text-xs font-medium transition-all',
-                ratingFilter === id ? 'bg-cyan-500/20 text-cyan-400' : 'text-foreground/40 hover:text-foreground/70',
+                ratingFilter === id ? 'bg-cyan-500/20 text-cyan-400' : 'text-muted-foreground hover:text-foreground/70',
               )}
             >
               {label}
@@ -386,15 +389,15 @@ export default function Commodities() {
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-white/10 text-left">
-                  <th className="px-4 py-3 text-xs text-foreground/40 font-medium">Ticker</th>
-                  <th className="py-3 pr-3 text-xs text-foreground/40 font-medium hidden md:table-cell">Tipo</th>
-                  <th className="py-3 pr-3 text-xs text-foreground/40 font-medium">Precio</th>
-                  <th className="py-3 pr-4 text-xs text-foreground/40 font-medium hidden sm:table-cell">Rango 52s</th>
-                  <th className="py-3 pr-3 text-xs text-foreground/40 font-medium hidden sm:table-cell">Vs 2a avg</th>
-                  <th className="py-3 pr-3 text-xs text-foreground/40 font-medium hidden lg:table-cell">1d</th>
-                  <th className="py-3 pr-3 text-xs text-foreground/40 font-medium hidden md:table-cell">Momentum</th>
-                  <th className="py-3 pr-3 text-xs text-foreground/40 font-medium hidden lg:table-cell">Estacional</th>
-                  <th className="py-3 pr-3 text-xs text-foreground/40 font-medium">Rating</th>
+                  <th className="px-4 py-3 text-xs text-muted-foreground font-medium">Ticker</th>
+                  <th className="py-3 pr-3 text-xs text-muted-foreground font-medium hidden md:table-cell">Tipo</th>
+                  <th className="py-3 pr-3 text-xs text-muted-foreground font-medium">Precio</th>
+                  <th className="py-3 pr-4 text-xs text-muted-foreground font-medium hidden sm:table-cell">Rango 52s</th>
+                  <th className="py-3 pr-3 text-xs text-muted-foreground font-medium hidden sm:table-cell">Vs 2a avg</th>
+                  <th className="py-3 pr-3 text-xs text-muted-foreground font-medium hidden lg:table-cell">1d</th>
+                  <th className="py-3 pr-3 text-xs text-muted-foreground font-medium hidden md:table-cell">Momentum</th>
+                  <th className="py-3 pr-3 text-xs text-muted-foreground font-medium hidden lg:table-cell">Estacional</th>
+                  <th className="py-3 pr-3 text-xs text-muted-foreground font-medium">Rating</th>
                   <th className="py-3 px-4" />
                 </tr>
               </thead>
@@ -415,10 +418,10 @@ export default function Commodities() {
       </Card>
 
       {/* Legend */}
-      <div className="flex flex-wrap gap-4 text-xs text-foreground/25 pb-4">
-        <span><strong className="text-foreground/40">Rango 52s:</strong> 0% = mínimo anual · 100% = máximo anual</span>
-        <span><strong className="text-foreground/40">Vs 2a avg:</strong> % sobre/bajo media de 2 años (negativo = barato)</span>
-        <span><strong className="text-foreground/40">VALUE rating:</strong> basado en posición de precio histórica + estacionalidad</span>
+      <div className="flex flex-wrap gap-4 text-xs text-muted-foreground pb-4">
+        <span><strong className="text-muted-foreground">Rango 52s:</strong> 0% = mínimo anual · 100% = máximo anual</span>
+        <span><strong className="text-muted-foreground">Vs 2a avg:</strong> % sobre/bajo media de 2 años (negativo = barato)</span>
+        <span><strong className="text-muted-foreground">VALUE rating:</strong> basado en posición de precio histórica + estacionalidad</span>
       </div>
     </div>
   )

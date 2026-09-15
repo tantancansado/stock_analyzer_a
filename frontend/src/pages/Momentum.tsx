@@ -149,7 +149,7 @@ export default function Momentum() {
                 )}
               </div>
             </div>
-            <div className="flex gap-3 mt-2.5 text-micro text-muted-foreground/60">
+            <div className="flex gap-3 mt-2.5 text-micro text-muted-foreground">
               {d.current_price != null && (
                 <span>${d.current_price.toFixed(2)}</span>
               )}
@@ -271,7 +271,7 @@ export default function Momentum() {
             />
           )}
           {sorted.length > 0 && (
-            <div className="text-micro text-muted-foreground/25 text-right px-3 py-1.5 border-t border-border/10">
+            <div className="text-micro text-muted-foreground text-right px-3 py-1.5 border-t border-border/10">
               j / k navegar · Esc cerrar
             </div>
           )}

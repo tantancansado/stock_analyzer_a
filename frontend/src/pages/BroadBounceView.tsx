@@ -18,22 +18,22 @@ function Card({ s }: Readonly<{ s: BounceBroadSetup }>) {
             <Link to={`/search?q=${s.ticker}`} className="font-mono font-bold text-cuerpo text-purple-300 hover:underline">
               {s.ticker}
             </Link>
-            <div className="text-micro text-muted-foreground/70">SP500 ampliado · {s.horizon_days}d</div>
+            <div className="text-micro text-muted-foreground">SP500 ampliado · {s.horizon_days}d</div>
           </div>
         </div>
         <div className="text-right">
           <div className="text-cuerpo font-bold tabular-nums">${s.price.toFixed(2)}</div>
-          <div className="text-micro text-muted-foreground/60">R/R <b className="text-purple-300">{s.rr.toFixed(1)}</b></div>
+          <div className="text-micro text-muted-foreground">R/R <b className="text-purple-300">{s.rr.toFixed(1)}</b></div>
         </div>
       </div>
 
       <div className="grid grid-cols-2 gap-2 text-mini mb-3">
         <div className="flex flex-col">
-          <span className="text-muted-foreground/60 text-micro uppercase tracking-wider">Target</span>
+          <span className="text-muted-foreground text-micro uppercase tracking-wider">Target</span>
           <span className="font-semibold text-emerald-400 tabular-nums">${s.target.toFixed(2)} <span className="text-micro">(+{s.target_pct}%)</span></span>
         </div>
         <div className="flex flex-col">
-          <span className="text-muted-foreground/60 text-micro uppercase tracking-wider">Stop</span>
+          <span className="text-muted-foreground text-micro uppercase tracking-wider">Stop</span>
           <span className="font-semibold text-red-400 tabular-nums">${s.stop.toFixed(2)} <span className="text-micro">(-{potentialLoss}%)</span></span>
         </div>
       </div>
@@ -77,7 +77,7 @@ export default function BroadBounceView() {
           title={tituloPagina}
           subtitle={<>
             S&amp;P 500 (excl. universo curado) · Filtros estrictos multi-confirmación · Horizonte 1–5 días
-            {scanDate && <span className="text-muted-foreground/40 ml-2">· Scan {scanDate}</span>}
+            {scanDate && <span className="text-muted-foreground ml-2">· Scan {scanDate}</span>}
           </>}
         />
         <div className="flex flex-wrap gap-2 mt-3">
@@ -92,7 +92,7 @@ export default function BroadBounceView() {
           </div>
         </div>
         {catalystExcludedCount > 0 && (
-          <div className="text-micro text-red-400/70 mt-2">
+          <div className="text-micro text-red-400 mt-2">
             {catalystExcludedCount} setup{catalystExcludedCount > 1 ? 's' : ''} oculto{catalystExcludedCount > 1 ? 's' : ''} por catalizador negativo grave reciente (mismo motivo por el que no avisó Telegram)
           </div>
         )}

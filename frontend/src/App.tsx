@@ -108,7 +108,7 @@ function SidebarContent({ onClose, onSignOut, userEmail, onCustomize }: Readonly
       <nav className="flex-1 px-3 py-4 overflow-y-auto min-h-0 custom-scrollbar space-y-6">
         {categories.map(category => (
           <div key={category.name}>
-            <div className="px-2 mb-2 text-micro font-bold uppercase tracking-[0.14em] text-muted-foreground/60">
+            <div className="px-2 mb-2 text-micro font-bold uppercase tracking-[0.14em] text-muted-foreground">
               {category.name}
             </div>
             <div className="space-y-0.5">

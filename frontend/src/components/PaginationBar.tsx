@@ -36,7 +36,7 @@ export default function PaginationBar({ page, totalPages, onPage }: Props) {
       <div className="flex gap-1">
         {pages.map((p, i) =>
           p === '...'
-            ? <span key={`e${i}`} className="w-8 h-8 flex items-center justify-center text-xs text-muted-foreground/50">…</span>
+            ? <span key={`e${i}`} className="w-8 h-8 flex items-center justify-center text-xs text-muted-foreground">…</span>
             : (
               <button
                 key={p}

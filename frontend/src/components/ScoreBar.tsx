@@ -5,11 +5,14 @@ interface Props {
   max?: number
 }
 
+/* Los mismos cuatro tramos que `ScoreRing`, y los mismos tokens. Estaban en
+   hexadecimal: elegidos para fondo casi negro, sobre la tarjeta blanca del modo
+   claro el ámbar caía a 1,96 de contraste. */
 function getColor(score: number): string {
-  if (score >= 70) return '#10b981'
-  if (score >= 55) return '#3b82f6'
-  if (score >= 40) return '#f59e0b'
-  return '#ef4444'
+  if (score >= 70) return 'var(--success)'
+  if (score >= 55) return 'var(--primary)'
+  if (score >= 40) return 'var(--warn)'
+  return 'var(--danger)'
 }
 
 export default function ScoreBar({ score, max = 100 }: Props) {

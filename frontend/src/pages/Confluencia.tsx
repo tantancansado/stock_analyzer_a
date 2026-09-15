@@ -356,7 +356,7 @@ function SectionTable({ title, subtitle, rows, dim = false }: {
                       <div>conf <span className="font-semibold">{t.bounce.conf}%</span></div>
                       {t.bounce.tier === 2 && <div className="text-cyan-400 font-bold text-micro">VALUE-BACKED</div>}
                     </div>
-                  ) : <span className="text-muted-foreground/30 text-xs">—</span>}
+                  ) : <span className="text-muted-foreground text-xs">—</span>}
                 </TableCell>
                 <TableCell>
                   {(t.value_us || t.value_eu) ? (
@@ -365,18 +365,18 @@ function SectionTable({ title, subtitle, rows, dim = false }: {
                         <div>
                           <span className="text-cyan-400 font-bold">{t.value_us.score.toFixed(0)}</span>
                           <span className="ml-1 opacity-60">{t.value_us.grade}</span>
-                          <span className="ml-1 text-micro text-muted-foreground/50">US</span>
+                          <span className="ml-1 text-micro text-muted-foreground">US</span>
                         </div>
                       )}
                       {t.value_eu && (
                         <div>
                           <span className="text-cyan-400 font-bold">{t.value_eu.score.toFixed(0)}</span>
                           <span className="ml-1 opacity-60">{t.value_eu.grade}</span>
-                          <span className="ml-1 text-micro text-muted-foreground/50">EU</span>
+                          <span className="ml-1 text-micro text-muted-foreground">EU</span>
                         </div>
                       )}
                     </div>
-                  ) : <span className="text-muted-foreground/30 text-xs">—</span>}
+                  ) : <span className="text-muted-foreground text-xs">—</span>}
                 </TableCell>
                 <TableCell>
                   {t.flow ? (
@@ -392,7 +392,7 @@ function SectionTable({ title, subtitle, rows, dim = false }: {
                         <div className="text-micro opacity-60">{t.flow.drawdown.toFixed(0)}% vs máx</div>
                       )}
                     </div>
-                  ) : <span className="text-muted-foreground/30 text-xs">—</span>}
+                  ) : <span className="text-muted-foreground text-xs">—</span>}
                 </TableCell>
               </TableRow>
             ))}

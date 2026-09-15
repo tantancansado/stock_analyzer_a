@@ -286,7 +286,7 @@ export default function EarningsCalendar() {
               <span className="text-xs font-bold text-muted-foreground uppercase tracking-wider">
                 {formatDate(date)}
               </span>
-              <span className="text-xs text-muted-foreground/50">
+              <span className="text-xs text-muted-foreground">
                 — {grouped[date].length} empresa{grouped[date].length !== 1 ? 's' : ''}
               </span>
             </div>
@@ -307,7 +307,7 @@ export default function EarningsCalendar() {
                       </div>
                       <div className="flex-1 min-w-0">
                         <span className="text-xs text-foreground/80 truncate">{entry.company}</span>
-                        <span className="text-xs text-muted-foreground/60 ml-2">{entry.sector}</span>
+                        <span className="text-xs text-muted-foreground ml-2">{entry.sector}</span>
                       </div>
 
                       {/* Days countdown */}
@@ -341,7 +341,7 @@ export default function EarningsCalendar() {
                           </span>
                         )}
                         {entry.fundamental_score != null && (
-                          <span className="text-micro text-muted-foreground/60 ml-1">
+                          <span className="text-micro text-muted-foreground ml-1">
                             Fund: <span className="text-foreground/70 font-medium">{entry.fundamental_score.toFixed(0)}</span>
                           </span>
                         )}
@@ -352,17 +352,17 @@ export default function EarningsCalendar() {
                           </span>
                         )}
                         {entry.consensus_eps != null && (
-                          <span className="text-micro text-muted-foreground/70">
+                          <span className="text-micro text-muted-foreground">
                             EPS <span className="text-foreground/70 font-medium">{entry.consensus_eps.toFixed(2)}</span>
                           </span>
                         )}
                         {entry.consensus_revenue_millions != null && (
-                          <span className="text-micro text-muted-foreground/70">
+                          <span className="text-micro text-muted-foreground">
                             Rev <span className="text-foreground/70 font-medium">{formatRevenueShort(entry.consensus_revenue_millions)}</span>
                           </span>
                         )}
                         {entry.beat_confidence != null && (
-                          <span className="text-micro text-muted-foreground/70">
+                          <span className="text-micro text-muted-foreground">
                             Conf <span className="text-foreground/70 font-medium">{confidenceLabel(entry.beat_confidence)}</span>
                           </span>
                         )}

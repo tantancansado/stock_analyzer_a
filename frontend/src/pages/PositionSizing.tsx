@@ -109,7 +109,7 @@ export default function PositionSizing() {
             Compacto
           </button>
           <div className="flex items-center gap-2">
-            <span className="text-micro font-bold uppercase tracking-wider text-muted-foreground/60">Portfolio ($)</span>
+            <span className="text-micro font-bold uppercase tracking-wider text-muted-foreground">Portfolio ($)</span>
             <input
               type="number"
               value={portfolioSize}
@@ -199,7 +199,7 @@ export default function PositionSizing() {
                       <div className="text-micro text-muted-foreground">${posVal.toLocaleString('en-US', { maximumFractionDigits: 0 })}</div>
                     </div>
                   </div>
-                  <div className="flex gap-3 mt-2 text-micro text-muted-foreground/60">
+                  <div className="flex gap-3 mt-2 text-micro text-muted-foreground">
                     {r.stop_loss_pct != null && <span>Stop {r.stop_loss_pct.toFixed(1)}%</span>}
                     {r.risk_pct_portfolio != null && <span className={riskColor(r.risk_pct_portfolio)}>Riesgo {r.risk_pct_portfolio.toFixed(1)}%</span>}
                   </div>

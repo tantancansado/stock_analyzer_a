@@ -74,7 +74,7 @@ export default function IdeaMobileCard({ d, onOpen, extra }: Readonly<Props>) {
             <div className="truncate text-mini text-muted-foreground">{d.company_name}</div>
           )}
         </div>
-        <ChevronRight size={16} className="mt-1 shrink-0 text-muted-foreground/40" />
+        <ChevronRight size={16} className="mt-1 shrink-0 text-muted-foreground" />
       </div>
 
       {porQue && (

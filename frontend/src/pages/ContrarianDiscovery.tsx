@@ -25,7 +25,7 @@ function VerdictBadge({ verdict, confidence }: Readonly<{ verdict: ContrarianPic
 function Stat({ label, value, color }: Readonly<{ label: string; value: string; color?: string }>) {
   return (
     <div className="flex flex-col items-center gap-0.5 px-2.5 py-1.5 rounded-lg bg-muted/15 border border-border/20 min-w-[52px]">
-      <span className="text-micro font-bold uppercase tracking-widest text-muted-foreground/40">{label}</span>
+      <span className="text-micro font-bold uppercase tracking-widest text-muted-foreground">{label}</span>
       <span className={`text-apoyo font-bold tabular-nums ${color ?? 'text-foreground/70'}`}>{value}</span>
     </div>
   )
@@ -78,8 +78,8 @@ function PickCard({ pick }: Readonly<{ pick: ContrarianPick }>) {
               <span className="font-mono font-extrabold text-primary text-base">{pick.ticker}</span>
               <VerdictBadge verdict={pick.verdict} confidence={pick.confidence} />
             </div>
-            <div className="text-mini text-muted-foreground/60 truncate">{pick.company_name}</div>
-            {pick.sector && <div className="text-micro text-muted-foreground/40">{pick.sector}</div>}
+            <div className="text-mini text-muted-foreground truncate">{pick.company_name}</div>
+            {pick.sector && <div className="text-micro text-muted-foreground">{pick.sector}</div>}
           </div>
         </div>
         <div className="text-right shrink-0">
@@ -116,25 +116,25 @@ function PickCard({ pick }: Readonly<{ pick: ContrarianPick }>) {
 
       <div className="space-y-2 text-mini">
         <div className="flex gap-2">
-          <span className="shrink-0 font-semibold text-muted-foreground/50 w-16">Por qué cayó</span>
+          <span className="shrink-0 font-semibold text-muted-foreground w-16">Por qué cayó</span>
           <span className="text-foreground/70 leading-relaxed">{pick.drop_reason}</span>
         </div>
         {pick.recovery_thesis && (
           <div className="flex gap-2">
-            <span className="shrink-0 font-semibold text-emerald-400/60 w-16">Tesis</span>
+            <span className="shrink-0 font-semibold text-emerald-400 w-16">Tesis</span>
             <span className="text-foreground/70 leading-relaxed">{pick.recovery_thesis}</span>
           </div>
         )}
         {pick.key_risks && (
           <div className="flex gap-2">
-            <span className="shrink-0 font-semibold text-red-400/60 w-16">Riesgo</span>
+            <span className="shrink-0 font-semibold text-red-400 w-16">Riesgo</span>
             <span className="text-foreground/70 leading-relaxed">{pick.key_risks}</span>
           </div>
         )}
       </div>
 
       {pick.is_circumstantial && (
-        <div className="mt-2.5 inline-flex items-center gap-1 text-micro font-medium text-emerald-400/70 bg-emerald-500/8 border border-emerald-500/15 px-2 py-0.5 rounded-full">
+        <div className="mt-2.5 inline-flex items-center gap-1 text-micro font-medium text-emerald-400 bg-emerald-500/8 border border-emerald-500/15 px-2 py-0.5 rounded-full">
           <ShieldCheck size={12} /> Caída circunstancial — fundamentales intactos
         </div>
       )}
@@ -170,18 +170,18 @@ export default function ContrarianDiscovery() {
             {data.contrarian_buys} oportunidades
           </span>
         </div>
-        <p className="text-mini text-muted-foreground/60 max-w-2xl">
+        <p className="text-mini text-muted-foreground max-w-2xl">
           Empresas de calidad del universo curado caídas ≥20% desde máximos por razones circunstanciales —
           fundamentales intactos, analistas ven upside, Piotroski ≥5.
         </p>
-        <div className="flex items-center gap-1.5 mt-1.5 text-micro text-muted-foreground/40">
+        <div className="flex items-center gap-1.5 mt-1.5 text-micro text-muted-foreground">
           <RefreshCw size={12} />
           Actualizado {new Date(data.generated_at).toLocaleDateString('es-ES', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })}
         </div>
       </div>
 
       {data.picks.length === 0 && (
-        <div className="text-center py-12 text-muted-foreground/50 text-sm">
+        <div className="text-center py-12 text-muted-foreground text-sm">
           Sin candidatos hoy — el universo curado no tiene caídas significativas con fundamentales intactos.
         </div>
       )}
@@ -217,14 +217,14 @@ export default function ContrarianDiscovery() {
       {avoids.length > 0 && (
         <section>
           <div className="flex items-center gap-2 mb-2">
-            <AlertTriangle size={16} className="text-muted-foreground/40" />
-            <h4 className="text-mini font-bold uppercase tracking-widest text-muted-foreground/40">
+            <AlertTriangle size={16} className="text-muted-foreground" />
+            <h4 className="text-mini font-bold uppercase tracking-widest text-muted-foreground">
               Estructural / Evitar ({avoids.length})
             </h4>
           </div>
           <div className="flex flex-wrap gap-2">
             {avoids.map(p => (
-              <span key={p.ticker} className="text-micro px-2 py-0.5 rounded-lg bg-muted/15 border border-border/20 text-muted-foreground/50 font-mono">
+              <span key={p.ticker} className="text-micro px-2 py-0.5 rounded-lg bg-muted/15 border border-border/20 text-muted-foreground font-mono">
                 {p.ticker}
               </span>
             ))}

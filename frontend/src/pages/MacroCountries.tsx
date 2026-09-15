@@ -147,14 +147,14 @@ function CountryCard({ c }: { c: CountryData }) {
             <span className="text-2xl">{c.flag}</span>
             <div>
               <div className="font-semibold text-sm text-foreground leading-tight">{c.name}</div>
-              <div className="text-micro text-muted-foreground/80">{c.region}</div>
+              <div className="text-micro text-muted-foreground">{c.region}</div>
             </div>
           </div>
           <div className="flex flex-col items-end gap-1">
             <span className={`inline-flex items-center gap-0.5 text-micro font-black px-1.5 py-0.5 rounded border tracking-wide ${sig.bg} ${sig.text} ${sig.border}`}>
               <sig.icon size={12} strokeWidth={2.5} className="inline shrink-0 mr-0.5 align-[-2px]" />{sig.label}
             </span>
-            <span className="text-micro text-muted-foreground/80">{c.combined_score.toFixed(0)}/100</span>
+            <span className="text-micro text-muted-foreground">{c.combined_score.toFixed(0)}/100</span>
           </div>
         </div>
 
@@ -175,17 +175,17 @@ function CountryCard({ c }: { c: CountryData }) {
         {/* Key metrics row */}
         <div className="grid grid-cols-3 gap-1.5 text-center">
           <div className="bg-white/5 rounded px-1 py-1.5">
-            <div className="text-micro text-muted-foreground/80 mb-0.5">PIB</div>
+            <div className="text-micro text-muted-foreground mb-0.5">PIB</div>
             <div className={`text-xs font-bold ${pctColor(c.gdp_growth)}`}>{c.gdp_growth > 0 ? '+' : ''}{c.gdp_growth.toFixed(1)}%</div>
           </div>
           <div className="bg-white/5 rounded px-1 py-1.5">
-            <div className="text-micro text-muted-foreground/80 mb-0.5">IPC</div>
+            <div className="text-micro text-muted-foreground mb-0.5">IPC</div>
             <div className={`text-xs font-bold ${c.inflation >= 1.5 && c.inflation <= 3 ? 'text-emerald-400' : c.inflation > 5 ? 'text-red-400' : 'text-amber-400'}`}>
               {c.inflation.toFixed(1)}%
             </div>
           </div>
           <div className="bg-white/5 rounded px-1 py-1.5">
-            <div className="text-micro text-muted-foreground/80 mb-0.5">vs 200MA</div>
+            <div className="text-micro text-muted-foreground mb-0.5">vs 200MA</div>
             <div className={`text-xs font-bold ${mkt ? pctColor(mkt.pct_from_200) : 'text-muted-foreground'}`}>
               {mkt ? `${mkt.pct_from_200 > 0 ? '+' : ''}${mkt.pct_from_200.toFixed(1)}%` : 'N/A'}
             </div>
@@ -248,7 +248,7 @@ function CountryCard({ c }: { c: CountryData }) {
                 <div className="flex justify-between col-span-2">
                   <span className="text-muted-foreground">
                     Deuda pública / GDP
-                    <span className={`ml-1 text-micro ${c.currency_sovereign ? 'text-muted-foreground/80' : 'text-amber-500'}`}>
+                    <span className={`ml-1 text-micro ${c.currency_sovereign ? 'text-muted-foreground' : 'text-amber-500'}`}>
                       {c.currency_sovereign ? '(moneda propia)' : '(sin soberanía monetaria)'}
                     </span>
                   </span>
@@ -348,8 +348,8 @@ function CountryCard({ c }: { c: CountryData }) {
       {/* Expand toggle */}
       <div className="flex justify-center py-1 border-t border-white/5">
         {expanded
-          ? <ChevronUp className="h-3 w-3 text-muted-foreground/60" />
-          : <ChevronDown className="h-3 w-3 text-muted-foreground/60" />}
+          ? <ChevronUp className="h-3 w-3 text-muted-foreground" />
+          : <ChevronDown className="h-3 w-3 text-muted-foreground" />}
       </div>
     </div>
   )
@@ -412,9 +412,9 @@ export default function MacroCountries() {
         // que aquí basta con el periodo.
         subtitle={`${data.countries.length} países · ${periodoMacro(data.macro_source)} · mercado en tiempo real`}
       >
-        <div className="text-right text-micro text-muted-foreground/80">
+        <div className="text-right text-micro text-muted-foreground">
           <div>Actualizado: {data.generated_at}</div>
-          <div className="text-muted-foreground/60">Macro: {data.macro_source}</div>
+          <div className="text-muted-foreground">Macro: {data.macro_source}</div>
         </div>
       </PageHeader>
 

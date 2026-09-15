@@ -255,13 +255,13 @@ function JournalSection({ ticker, userId }: { ticker: string; userId: string }) 
             <div key={n.id} className="group flex gap-2 items-start px-4 py-3 rounded-xl bg-muted/20 border border-border/20">
               <div className="flex-1 min-w-0">
                 <p className="text-apoyo text-foreground/80 leading-relaxed whitespace-pre-wrap">{n.note}</p>
-                <p className="text-micro text-muted-foreground/50 mt-1">
+                <p className="text-micro text-muted-foreground mt-1">
                   {new Date(n.created_at).toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
                 </p>
               </div>
               <button
                 onClick={() => deleteNote(n.id)}
-                className="p-1 rounded text-muted-foreground/30 hover:text-red-400 hover:bg-red-500/10 transition-colors opacity-0 group-hover:opacity-100"
+                className="p-1 rounded text-muted-foreground hover:text-red-400 hover:bg-red-500/10 transition-colors opacity-0 group-hover:opacity-100"
               >
                 <Trash2 size={12} />
               </button>
@@ -467,7 +467,7 @@ function AddForm({ onAdd, saving }: { onAdd: (p: Omit<Position, 'id'>) => Promis
             <input value={expiry} onChange={e => setExpiry(e.target.value)} type="date"
               className={`w-36 ${inputCls}`} />
           </div>
-          <p className="w-full text-micro text-amber-400/70 mt-1">
+          <p className="w-full text-micro text-amber-400 mt-1">
             Precio medio = coste de la acción (no la prima). Prima cobrada se guarda aparte.
           </p>
         </div>
@@ -588,10 +588,10 @@ function OptionsPanel({ result, sym }: { result: PositionResult; sym: string }) 
         <div className="flex items-center justify-between gap-3">
           <div className="flex items-center gap-2 flex-1 min-w-0">
             <Zap size={12} className={meta.color} />
-            <span className="text-micro font-bold uppercase tracking-widest text-muted-foreground/50">Estrategia IA</span>
+            <span className="text-micro font-bold uppercase tracking-widest text-muted-foreground">Estrategia IA</span>
             <span className={`text-mini font-bold ${meta.color}`}>{meta.label}</span>
             {result.options_rationale && (
-              <span className="text-mini text-foreground/60 truncate hidden sm:block">{result.options_rationale}</span>
+              <span className="text-mini text-muted-foreground truncate hidden sm:block">{result.options_rationale}</span>
             )}
           </div>
           <button
@@ -603,7 +603,7 @@ function OptionsPanel({ result, sym }: { result: PositionResult; sym: string }) 
           </button>
         </div>
         {result.options_rationale && (
-          <p className="text-mini text-foreground/60 mt-1 sm:hidden">{result.options_rationale}</p>
+          <p className="text-mini text-muted-foreground mt-1 sm:hidden">{result.options_rationale}</p>
         )}
       </div>
 
@@ -633,10 +633,10 @@ function OptionsPanel({ result, sym }: { result: PositionResult; sym: string }) 
                 return (
                 <div className={`p-3 rounded-xl ${meta.bg} border ${meta.border} space-y-2.5`}>
                   <div className="flex items-center gap-2 flex-wrap">
-                    <span className="text-micro font-bold uppercase tracking-widest text-muted-foreground/50">Recomendación IA</span>
+                    <span className="text-micro font-bold uppercase tracking-widest text-muted-foreground">Recomendación IA</span>
                     <span className={`text-mini font-bold ${meta.color}`}>{rec.recommended_strategy?.replace(/_/g, ' ')}</span>
                     {rec.thesis_alignment && (
-                      <span className="text-micro text-foreground/60 flex-1">— {rec.thesis_alignment}</span>
+                      <span className="text-micro text-muted-foreground flex-1">— {rec.thesis_alignment}</span>
                     )}
                   </div>
 
@@ -649,24 +649,24 @@ function OptionsPanel({ result, sym }: { result: PositionResult; sym: string }) 
                         </span>
                         <span className="font-bold text-foreground text-lg">{pc.type?.toUpperCase()} ${pc.strike}</span>
                         <span className="text-muted-foreground text-sm">exp {pc.expiry}</span>
-                        <span className="text-micro text-muted-foreground/50 uppercase">{pc.horizon}</span>
+                        <span className="text-micro text-muted-foreground uppercase">{pc.horizon}</span>
                       </div>
                       {/* Key numbers */}
                       <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 text-mini">
                         <div>
-                          <div className="text-muted-foreground/50 text-micro uppercase mb-0.5">Prima por contrato</div>
+                          <div className="text-muted-foreground text-micro uppercase mb-0.5">Prima por contrato</div>
                           <div className={`font-bold text-sm ${meta.color}`}>{sym}{premium?.toFixed(2)}</div>
                         </div>
                         {pc.total_cost_100_shares != null && (
                           <div>
-                            <div className="text-muted-foreground/50 text-micro uppercase mb-0.5">Coste total (100 acc)</div>
+                            <div className="text-muted-foreground text-micro uppercase mb-0.5">Coste total (100 acc)</div>
                             <div className="font-bold text-sm text-foreground">{sym}{pc.total_cost_100_shares?.toFixed(0)}</div>
                           </div>
                         )}
                         {(rec.profit_if_target ?? rec.expected_outcome) && (
                           <div>
-                            <div className="text-muted-foreground/50 text-micro uppercase mb-0.5">Si acierta</div>
-                            <div className="text-emerald-400/80 text-mini">{rec.profit_if_target ?? rec.expected_outcome}</div>
+                            <div className="text-muted-foreground text-micro uppercase mb-0.5">Si acierta</div>
+                            <div className="text-emerald-400 text-mini">{rec.profit_if_target ?? rec.expected_outcome}</div>
                           </div>
                         )}
                       </div>
@@ -699,20 +699,20 @@ function OptionsPanel({ result, sym }: { result: PositionResult; sym: string }) 
                     {(rec.profit_if_target || rec.scenario_bull) && (
                       <div className="p-2 rounded-lg bg-emerald-500/8 border border-emerald-500/15">
                         <div className="text-emerald-400 font-semibold mb-0.5">Si sube al target</div>
-                        <div className="text-foreground/60">{rec.profit_if_target || rec.scenario_bull}</div>
+                        <div className="text-muted-foreground">{rec.profit_if_target || rec.scenario_bull}</div>
                       </div>
                     )}
                     {(rec.loss_if_drops || rec.scenario_bear) && (
                       <div className="p-2 rounded-lg bg-red-500/8 border border-red-500/15">
                         <div className="text-red-400 font-semibold mb-0.5">Si cae -15%</div>
-                        <div className="text-foreground/60">{rec.loss_if_drops || rec.scenario_bear}</div>
+                        <div className="text-muted-foreground">{rec.loss_if_drops || rec.scenario_bear}</div>
                       </div>
                     )}
                   </div>
 
                   <div className="grid grid-cols-2 gap-2 text-micro pt-1 border-t border-border/20">
-                    {rec.max_risk && <div><span className="text-red-400 font-semibold">Riesgo máx: </span><span className="text-foreground/60">{rec.max_risk}</span></div>}
-                    {rec.when_to_close && <div><span className="text-amber-400 font-semibold">Cuándo cerrar: </span><span className="text-foreground/60">{rec.when_to_close}</span></div>}
+                    {rec.max_risk && <div><span className="text-red-400 font-semibold">Riesgo máx: </span><span className="text-muted-foreground">{rec.max_risk}</span></div>}
+                    {rec.when_to_close && <div><span className="text-amber-400 font-semibold">Cuándo cerrar: </span><span className="text-muted-foreground">{rec.when_to_close}</span></div>}
                   </div>
                 </div>
                 )
@@ -721,7 +721,7 @@ function OptionsPanel({ result, sym }: { result: PositionResult; sym: string }) 
               {/* Raw contracts per expiry */}
               {data.expiries.map(exp => (
                 <div key={exp.expiry}>
-                  <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground/50 mb-2">
+                  <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-2">
                     {exp.bucket === 'long' ? <CalendarRange size={12} strokeWidth={2.25} className="inline -mt-px mr-1" /> : exp.bucket === 'medium' ? <CalendarDays size={12} strokeWidth={2.25} className="inline -mt-px mr-1" /> : <Clock size={12} strokeWidth={2.25} className="inline -mt-px mr-1" />}
                   {exp.bucket === 'long' ? 'LEAPS' : exp.bucket === 'medium' ? 'Medio plazo' : 'Corto plazo'} — {exp.expiry} · {exp.days_out} días
                   </div>
@@ -734,7 +734,7 @@ function OptionsPanel({ result, sym }: { result: PositionResult; sym: string }) 
                           <thead>
                             <tr className="border-b border-border/30">
                               {['Strike', 'Bid', 'Ask', 'Prima', '% OTM', 'Yield anual', 'Vol', 'IV%'].map(h => (
-                                <th key={h} className="text-left py-1 px-2 text-muted-foreground/50 font-semibold whitespace-nowrap">{h}</th>
+                                <th key={h} className="text-left py-1 px-2 text-muted-foreground font-semibold whitespace-nowrap">{h}</th>
                               ))}
                             </tr>
                           </thead>
@@ -765,7 +765,7 @@ function OptionsPanel({ result, sym }: { result: PositionResult; sym: string }) 
                           <thead>
                             <tr className="border-b border-border/30">
                               {['Strike', 'Bid', 'Ask', 'Prima', '% OTM', 'Coste %', 'Vol', 'IV%'].map(h => (
-                                <th key={h} className="text-left py-1 px-2 text-muted-foreground/50 font-semibold whitespace-nowrap">{h}</th>
+                                <th key={h} className="text-left py-1 px-2 text-muted-foreground font-semibold whitespace-nowrap">{h}</th>
                               ))}
                             </tr>
                           </thead>
@@ -848,7 +848,7 @@ function CoveredCallTracker({ pos, currentPrice }: { pos: Position; currentPrice
     <div className="mx-3 mb-3 rounded-xl border overflow-hidden border-amber-500/25 bg-amber-500/5">
       {/* Header */}
       <div className="flex items-center gap-2 px-4 py-2.5 border-b border-amber-500/20">
-        <span className="text-micro font-bold uppercase tracking-widest text-amber-400/60">Covered Call vendida</span>
+        <span className="text-micro font-bold uppercase tracking-widest text-amber-400">Covered Call vendida</span>
         <span className="font-mono font-bold text-amber-400 text-sm">{sym}{strike} · exp {expiry}</span>
         {dte !== null && (
           <span className={`ml-auto text-micro font-bold px-1.5 py-0.5 rounded border ${
@@ -869,30 +869,30 @@ function CoveredCallTracker({ pos, currentPrice }: { pos: Position; currentPrice
       {/* P&L grid */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-px bg-amber-500/10 text-micro">
         <div className="bg-background/60 px-3 py-2.5">
-          <div className="text-micro uppercase tracking-wider text-muted-foreground/50 mb-0.5">Prima cobrada</div>
+          <div className="text-micro uppercase tracking-wider text-muted-foreground mb-0.5">Prima cobrada</div>
           <div className="font-bold text-emerald-400">{sym}{(premium * shares).toFixed(2)}</div>
-          <div className="text-muted-foreground/40 text-micro">{sym}{premium.toFixed(2)}/acc</div>
+          <div className="text-muted-foreground text-micro">{sym}{premium.toFixed(2)}/acc</div>
         </div>
         <div className="bg-background/60 px-3 py-2.5">
-          <div className="text-micro uppercase tracking-wider text-muted-foreground/50 mb-0.5">P&L acción</div>
+          <div className="text-micro uppercase tracking-wider text-muted-foreground mb-0.5">P&L acción</div>
           <div className={`font-bold ${stockPL >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
             {stockPL >= 0 ? '+' : ''}{sym}{stockPL.toFixed(2)}
           </div>
-          <div className="text-muted-foreground/40 text-micro">base {sym}{costBasis.toFixed(2)}</div>
+          <div className="text-muted-foreground text-micro">base {sym}{costBasis.toFixed(2)}</div>
         </div>
         <div className="bg-background/60 px-3 py-2.5">
-          <div className="text-micro uppercase tracking-wider text-muted-foreground/50 mb-0.5">P&L combinado</div>
+          <div className="text-micro uppercase tracking-wider text-muted-foreground mb-0.5">P&L combinado</div>
           <div className={`font-bold text-base ${combined >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
             {combined >= 0 ? '+' : ''}{sym}{combined.toFixed(2)}
           </div>
-          <div className={`text-micro font-semibold ${combinedPct >= 0 ? 'text-emerald-400/70' : 'text-red-400/70'}`}>
+          <div className={`text-micro font-semibold ${combinedPct >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
             {combinedPct >= 0 ? '+' : ''}{combinedPct.toFixed(2)}%
           </div>
         </div>
         <div className="bg-background/60 px-3 py-2.5">
-          <div className="text-micro uppercase tracking-wider text-muted-foreground/50 mb-0.5">Base efectiva</div>
+          <div className="text-micro uppercase tracking-wider text-muted-foreground mb-0.5">Base efectiva</div>
           <div className="font-bold text-foreground">{sym}{effectiveBasis.toFixed(2)}</div>
-          <div className="text-muted-foreground/40 text-micro">
+          <div className="text-muted-foreground text-micro">
             dist strike {distPct != null ? `${distPct >= 0 ? '+' : ''}${distPct.toFixed(1)}%` : '—'}
           </div>
         </div>
@@ -911,7 +911,7 @@ function CoveredCallTracker({ pos, currentPrice }: { pos: Position; currentPrice
 function MetricChip({ label, value, valueClass = 'text-foreground' }: { label: string; value: string; valueClass?: string }) {
   return (
     <div className="flex flex-col gap-0.5 min-w-0">
-      <span className="text-micro font-semibold uppercase tracking-wider text-muted-foreground/50 leading-none">{label}</span>
+      <span className="text-micro font-semibold uppercase tracking-wider text-muted-foreground leading-none">{label}</span>
       <span className={`text-sm font-bold tabular-nums leading-tight ${valueClass}`}>{value}</span>
     </div>
   )
@@ -976,16 +976,16 @@ function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluen
           <div className="flex items-center gap-2 flex-wrap">
             <span className="font-mono font-extrabold text-lg text-foreground leading-none">{ticker}</span>
             {result?.sector && (
-              <span className="text-micro px-1.5 py-0.5 rounded bg-muted/40 border border-border/20 text-muted-foreground/50 uppercase tracking-wide">
+              <span className="text-micro px-1.5 py-0.5 rounded bg-muted/40 border border-border/20 text-muted-foreground uppercase tracking-wide">
                 {result.sector}
               </span>
             )}
           </div>
           {result?.company_name && result.company_name !== ticker && (
-            <p className="text-xs text-muted-foreground/60 truncate mt-0.5 leading-tight">{result.company_name}</p>
+            <p className="text-xs text-muted-foreground truncate mt-0.5 leading-tight">{result.company_name}</p>
           )}
           {/* Row 2: cost basis + asset type badge */}
-          <p className="text-micro text-muted-foreground/40 mt-1 flex items-center gap-1.5 flex-wrap">
+          <p className="text-micro text-muted-foreground mt-1 flex items-center gap-1.5 flex-wrap">
             {pos.asset_type === 'option' ? (
               <>
                 <span className={`px-1.5 py-0.5 rounded text-micro font-bold uppercase border ${pos.option_type === 'call' ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/25' : 'bg-red-500/15 text-red-400 border-red-500/25'}`}>
@@ -1030,19 +1030,19 @@ function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluen
             )}
             <button
               onClick={() => { setEditing(e => !e); setEditTicker(pos.ticker); setEditShares(String(pos.shares)); setEditPrice(String(pos.avg_price)) }}
-              className={`p-1 rounded-md transition-colors ${editing ? 'text-primary bg-primary/10' : 'text-muted-foreground/40 hover:text-primary hover:bg-primary/10'}`}
+              className={`p-1 rounded-md transition-colors ${editing ? 'text-primary bg-primary/10' : 'text-muted-foreground hover:text-primary hover:bg-primary/10'}`}
               title="Editar posición"
             >
               <Pencil size={12} />
             </button>
-            <button onClick={onRemove} className="p-1 rounded-md text-muted-foreground/40 hover:text-red-400 hover:bg-red-500/10 transition-colors">
+            <button onClick={onRemove} className="p-1 rounded-md text-muted-foreground hover:text-red-400 hover:bg-red-500/10 transition-colors">
               <X size={12} />
             </button>
           </div>
           {editing ? (
             <div className="flex flex-col items-end gap-1 mt-1">
               <div className="flex items-center gap-1">
-                <span className="text-micro text-muted-foreground/50">ticker</span>
+                <span className="text-micro text-muted-foreground">ticker</span>
                 <input
                   value={editTicker}
                   onChange={e => setEditTicker(e.target.value.toUpperCase())}
@@ -1051,7 +1051,7 @@ function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluen
                 />
               </div>
               <div className="flex items-center gap-1">
-                <span className="text-micro text-muted-foreground/50">acc</span>
+                <span className="text-micro text-muted-foreground">acc</span>
                 <input
                   type="number"
                   value={editShares}
@@ -1062,7 +1062,7 @@ function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluen
                 />
               </div>
               <div className="flex items-center gap-1">
-                <span className="text-micro text-muted-foreground/50">base</span>
+                <span className="text-micro text-muted-foreground">base</span>
                 <input
                   type="number"
                   value={editPrice}
@@ -1088,7 +1088,7 @@ function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluen
             <div className="text-right">
               <div className="font-extrabold text-base tabular-nums text-foreground">{sym}{cur.toFixed(2)}</div>
               {result && (
-                <div className="text-micro text-muted-foreground/40 tabular-nums">
+                <div className="text-micro text-muted-foreground tabular-nums">
                   {sym}{result.market_value.toFixed(0)} · {result.portfolio_pct.toFixed(1)}%
                 </div>
               )}
@@ -1099,8 +1099,8 @@ function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluen
 
       {/* ── P&L BAND ── */}
       <div className={`flex items-center gap-2 px-4 py-2.5 mx-3 mb-3 rounded-xl ${pl == null ? 'bg-muted/10 border border-border/20' : pl >= 0 ? 'bg-emerald-500/10 border border-emerald-500/20' : 'bg-red-500/10 border border-red-500/20'}`}>
-        {pl == null ? <TrendingUp size={16} className="text-muted-foreground/40 shrink-0" /> : pl >= 0 ? <TrendingUp size={16} className="text-emerald-400 shrink-0" /> : <TrendingDown size={16} className="text-red-400 shrink-0" />}
-        <span className={`text-2xl font-black tabular-nums leading-none ${pl == null ? 'text-muted-foreground/30' : pl >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+        {pl == null ? <TrendingUp size={16} className="text-muted-foreground shrink-0" /> : pl >= 0 ? <TrendingUp size={16} className="text-emerald-400 shrink-0" /> : <TrendingDown size={16} className="text-red-400 shrink-0" />}
+        <span className={`text-2xl font-black tabular-nums leading-none ${pl == null ? 'text-muted-foreground' : pl >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
           {pl == null ? '—' : `${pl >= 0 ? '+' : ''}${pl.toFixed(2)}%`}
         </span>
         {result && (
@@ -1111,14 +1111,14 @@ function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluen
         {result && (
           <span className="ml-auto flex items-center gap-1.5 text-micro">
             <span className={`w-1.5 h-1.5 rounded-full ${CONVICTION_DOT[result.conviction]}`} />
-            <span className="text-muted-foreground/50 uppercase tracking-wide">{result.conviction}</span>
+            <span className="text-muted-foreground uppercase tracking-wide">{result.conviction}</span>
           </span>
         )}
       </div>
 
       {/* ── NL STATUS SENTENCE ── */}
       <div className="px-4 pb-2">
-        <p className="text-mini leading-relaxed text-muted-foreground/70">
+        <p className="text-mini leading-relaxed text-muted-foreground">
           {nlPositionStatus({
             pl_pct:          pl ?? 0,
             action,
@@ -1263,7 +1263,7 @@ function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluen
           <div className="grid grid-cols-3 gap-px bg-border/20 border border-border/20 rounded-xl overflow-hidden mx-3 mb-3">
             {items.map((m, i) => (
               <div key={i} className="bg-muted/8 px-3 py-2.5">
-                <div className="text-micro font-semibold uppercase tracking-wider text-muted-foreground/40 mb-0.5">{m.label}</div>
+                <div className="text-micro font-semibold uppercase tracking-wider text-muted-foreground mb-0.5">{m.label}</div>
                 <div className={`text-sm font-bold tabular-nums ${m.valueClass ?? 'text-foreground'}`}>
                   {m.value}
                   {m.suffix && <span className={`text-xs ml-1 ${m.suffixClass}`}>{m.suffix}</span>}
@@ -1293,7 +1293,7 @@ function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluen
       {result?.volatility_pct != null && (pos.asset_type ?? 'stock') === 'stock' && (
         <div className="px-4 py-2.5 mx-3 mb-3 rounded-xl bg-primary/5 border border-primary/10">
           <div className="flex items-center justify-between mb-1.5">
-            <span className="text-micro font-bold uppercase tracking-widest text-primary/50">Sizing</span>
+            <span className="text-micro font-bold uppercase tracking-widest text-primary">Sizing</span>
             {(overweight || underweight) && (
               <span className={`text-micro font-bold uppercase tracking-wide ${overweight ? 'text-red-400' : 'text-blue-400'}`}>
                 {overweight ? '↑ SOBRE' : '↓ INFRA'}
@@ -1325,7 +1325,7 @@ function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluen
             className="w-full flex items-center justify-between px-3 py-2 rounded-xl bg-muted/10 border border-border/20 text-xs text-muted-foreground hover:border-border/40 transition-colors"
           >
             <span className="flex items-center gap-1.5 font-medium">
-              <Brain size={12} className="text-primary/60" />
+              <Brain size={12} className="text-primary" />
               Análisis IA
             </span>
             {expanded ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
@@ -1336,7 +1336,7 @@ function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluen
               {result.key_risk && (
                 <div className="flex items-start gap-2 px-2.5 py-2 rounded-lg border border-amber-500/20 bg-amber-500/5">
                   <AlertTriangle size={12} className="text-amber-400 mt-0.5 shrink-0" />
-                  <p className="text-mini text-amber-300/75 leading-relaxed">{result.key_risk}</p>
+                  <p className="text-mini text-amber-300 leading-relaxed">{result.key_risk}</p>
                 </div>
               )}
             </div>
@@ -1657,7 +1657,7 @@ export default function PersonalPortfolio() {
                   animation: `portfolioBar 1.1s ease-in-out ${i * 0.15}s infinite alternate`,
                 }}
               />
-              <span className="text-micro font-mono text-muted-foreground/40">{t}</span>
+              <span className="text-micro font-mono text-muted-foreground">{t}</span>
             </div>
           ))}
         </div>
@@ -1669,7 +1669,7 @@ export default function PersonalPortfolio() {
         `}</style>
         <div className="text-center space-y-1">
           <p className="text-sm font-semibold text-foreground/80">Cargando tu cartera…</p>
-          <p className="text-xs text-muted-foreground/50">Conectando con la nube</p>
+          <p className="text-xs text-muted-foreground">Conectando con la nube</p>
         </div>
       </div>
       </>
@@ -1724,7 +1724,7 @@ export default function PersonalPortfolio() {
                 {analyzing ? 'Analizando...' : 'Re-analizar'}
               </button>
               {cacheAge !== null && (
-                <span className="text-micro text-muted-foreground/40">
+                <span className="text-micro text-muted-foreground">
                   {cacheAge === 0 ? 'Actualizado ahora' : cacheAge < 60_000 ? 'Hace <1 min' : cacheAge < 3_600_000 ? `Hace ${Math.round(cacheAge / 60_000)}min` : `Hace ${Math.round(cacheAge / 3_600_000)}h`}
                   {' · '}cache activo
                 </span>
@@ -1741,7 +1741,7 @@ export default function PersonalPortfolio() {
               {result.portfolio_analysis.concentration_warning && (
                 <div className="flex items-start gap-2 p-2.5 rounded-lg bg-amber-500/8 border border-amber-500/20">
                   <AlertTriangle size={12} className="text-amber-400 mt-0.5 shrink-0" />
-                  <p className="text-mini text-amber-300/80">{result.portfolio_analysis.concentration_warning}</p>
+                  <p className="text-mini text-amber-300">{result.portfolio_analysis.concentration_warning}</p>
                 </div>
               )}
             </div>
@@ -1750,7 +1750,7 @@ export default function PersonalPortfolio() {
           {/* Risk & Position Sizing overview */}
           {result.risk_metrics && (
             <div className="pt-3 border-t border-border/30">
-              <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground/50 mb-2">
+              <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-2">
                 Risk Management · Position Sizing (Kelly)
               </div>
               <div className="flex gap-4 flex-wrap text-mini mb-2">
@@ -1759,7 +1759,7 @@ export default function PersonalPortfolio() {
                   <strong className={result.risk_metrics.total_risk_pct > 10 ? 'text-red-400' : result.risk_metrics.total_risk_pct > 5 ? 'text-amber-400' : 'text-emerald-400'}>
                     {result.risk_metrics.total_risk_pct.toFixed(1)}%
                   </strong>
-                  <span className="text-muted-foreground/50 ml-1">(${result.risk_metrics.total_risk_amount.toFixed(0)} en riesgo)</span>
+                  <span className="text-muted-foreground ml-1">(${result.risk_metrics.total_risk_amount.toFixed(0)} en riesgo)</span>
                 </span>
                 {result.risk_metrics.kelly_base_pct != null && (
                   <span className="text-muted-foreground">
@@ -1775,7 +1775,7 @@ export default function PersonalPortfolio() {
               {result.risk_metrics.oversized_positions.length > 0 && (
                 <div className="flex items-start gap-2 p-2 rounded-lg bg-red-500/8 border border-red-500/15 text-mini">
                   <AlertTriangle size={12} className="text-red-400 mt-0.5 shrink-0" />
-                  <span className="text-red-300/80">
+                  <span className="text-red-300">
                     Posiciones sobreexpuestas (peso actual &gt; 1.5× Kelly óptimo):{' '}
                     <strong>{result.risk_metrics.oversized_positions.join(', ')}</strong>
                     {' '}— considera reducir o abrir hedge
@@ -1802,7 +1802,7 @@ export default function PersonalPortfolio() {
                         <div className="absolute inset-y-0 left-0 rounded-full bg-primary/50" style={{ width: `${(optimal / maxBar) * 100}%` }} />
                         <div className={`absolute inset-y-0 left-0 rounded-full ${isOver ? 'bg-red-400/60' : 'bg-emerald-400/60'}`} style={{ width: `${(actual / maxBar) * 100}%`, height: '50%', top: '25%' }} />
                       </div>
-                      <div className="flex justify-between mt-0.5 text-micro text-muted-foreground/60">
+                      <div className="flex justify-between mt-0.5 text-micro text-muted-foreground">
                         <span>Actual {actual.toFixed(1)}%</span>
                         <span>Kelly {optimal.toFixed(1)}%</span>
                       </div>
@@ -1832,11 +1832,11 @@ export default function PersonalPortfolio() {
             return (
               <div className="pt-3 border-t border-border/30">
                 <div className="flex items-baseline justify-between mb-2">
-                  <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground/50">
+                  <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground">
                     Revisiones de analistas
                   </div>
                   {!hasHistory && (
-                    <div className="text-micro text-muted-foreground/50 italic">
+                    <div className="text-micro text-muted-foreground italic">
                       Empezando a trackear — los deltas se poblarán en días
                     </div>
                   )}
@@ -1857,7 +1857,7 @@ export default function PersonalPortfolio() {
                           />
                         </div>
                         <div className="flex items-center justify-between text-micro">
-                          <span className="text-muted-foreground/70">Target medio</span>
+                          <span className="text-muted-foreground">Target medio</span>
                           <span className="font-semibold text-foreground tabular-nums">
                             {target != null ? `$${target.toFixed(0)}` : '—'}
                             {upsidePct != null && (
@@ -1868,15 +1868,15 @@ export default function PersonalPortfolio() {
                           </span>
                         </div>
                         {rev.target_change_30d_pct != null && (
-                          <div className="flex items-center justify-between text-micro text-muted-foreground/60">
+                          <div className="flex items-center justify-between text-micro text-muted-foreground">
                             <span>30d</span>
-                            <span className={rev.target_change_30d_pct > 0 ? 'text-emerald-400/80' : rev.target_change_30d_pct < 0 ? 'text-red-400/80' : ''}>
+                            <span className={rev.target_change_30d_pct > 0 ? 'text-emerald-400' : rev.target_change_30d_pct < 0 ? 'text-red-400' : ''}>
                               {rev.target_change_30d_pct > 0 ? '+' : ''}{rev.target_change_30d_pct.toFixed(1)}%
                             </span>
                           </div>
                         )}
                         {rev.analyst_count != null && (
-                          <div className="flex items-center justify-between text-micro text-muted-foreground/60">
+                          <div className="flex items-center justify-between text-micro text-muted-foreground">
                             <span>Cobertura</span>
                             <span>{rev.analyst_count} analistas</span>
                           </div>
@@ -1892,7 +1892,7 @@ export default function PersonalPortfolio() {
           {/* Dividend breakdown */}
           {dividendPositions.length > 0 && (
             <div className="pt-3 border-t border-border/30">
-              <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground/50 mb-2">
+              <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-2">
                 Proyección dividendos anuales
               </div>
               <div className="flex flex-wrap gap-2">
@@ -1939,7 +1939,7 @@ export default function PersonalPortfolio() {
       {/* Empty state */}
       {positions.length === 0 && (
         <div className="glass rounded-2xl p-12 text-center animate-fade-in-up">
-          <Wallet size={40} className="mx-auto text-muted-foreground/30 mb-4" />
+          <Wallet size={40} className="mx-auto text-muted-foreground mb-4" />
           <p className="text-foreground font-semibold mb-1">Sin posiciones todavía</p>
           <p className="text-sm text-muted-foreground">Añade tus posiciones arriba y el análisis IA se generará automáticamente.</p>
         </div>
@@ -1971,7 +1971,7 @@ export default function PersonalPortfolio() {
                   {stockTickers.map((t, i) => (
                     <span
                       key={t}
-                      className="font-mono font-bold text-xs px-2.5 py-1 rounded-lg border border-primary/20 text-primary/70 bg-primary/5"
+                      className="font-mono font-bold text-xs px-2.5 py-1 rounded-lg border border-primary/20 text-primary bg-primary/5"
                       style={{ animation: `fadeInUp 0.4s ease-out ${i * 0.08}s both` }}
                     >
                       {t}
@@ -1988,11 +1988,11 @@ export default function PersonalPortfolio() {
                     >
                       <div className="w-1.5 h-1.5 rounded-full bg-primary/60 shrink-0"
                         style={{ animation: `pulse 1.4s ${i * 0.25}s infinite` }} />
-                      <span className="text-xs text-muted-foreground/60">{step}</span>
+                      <span className="text-xs text-muted-foreground">{step}</span>
                     </div>
                   ))}
                 </div>
-                <p className="text-center text-micro text-muted-foreground/30">
+                <p className="text-center text-micro text-muted-foreground">
                   ~20-40s · solo en la primera visita del día
                 </p>
               </div>

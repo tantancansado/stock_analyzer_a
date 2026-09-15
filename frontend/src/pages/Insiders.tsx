@@ -120,7 +120,7 @@ export default function Insiders() {
             <CardContent className="p-4">
               <div className="flex items-center gap-2 mb-3">
                 <Wallet size={16} className="text-primary" />
-                <span className="text-micro font-bold uppercase tracking-widest text-primary/70">Insiders en Mi Cartera</span>
+                <span className="text-micro font-bold uppercase tracking-widest text-primary">Insiders en Mi Cartera</span>
                 <span className="text-micro px-1.5 py-0.5 rounded-full bg-primary/15 text-primary font-bold">{myInsiders.length}</span>
               </div>
               <Table>
@@ -237,7 +237,7 @@ export default function Insiders() {
                   )}
                 </div>
               </div>
-              <div className="flex gap-3 mt-2.5 text-micro text-muted-foreground/60">
+              <div className="flex gap-3 mt-2.5 text-micro text-muted-foreground">
                 <span>{d.purchase_count} compras</span>
                 <span>{d.unique_insiders} direct.</span>
                 {d.last_purchase && <span>últ. {d.last_purchase}</span>}
@@ -335,7 +335,7 @@ export default function Insiders() {
                                   <div className={`text-apoyo font-bold tabular-nums leading-tight ${
                                     q === 'good' ? 'text-emerald-400' : q === 'warn' ? 'text-amber-400' : 'text-foreground/70'
                                   }`}>{String(value)}</div>
-                                  <div className="text-micro uppercase tracking-widest text-muted-foreground/45 mt-0.5 leading-tight">{label}</div>
+                                  <div className="text-micro uppercase tracking-widest text-muted-foreground mt-0.5 leading-tight">{label}</div>
                                 </div>
                               ))}
                             </div>
@@ -353,7 +353,7 @@ export default function Insiders() {
             </CardContent>
           )}
           {sorted.length > 0 && (
-            <div className="text-micro text-muted-foreground/25 text-right px-3 py-1.5 border-t border-border/10">
+            <div className="text-micro text-muted-foreground text-right px-3 py-1.5 border-t border-border/10">
               j / k navegar · Enter abrir · Esc cerrar
             </div>
           )}

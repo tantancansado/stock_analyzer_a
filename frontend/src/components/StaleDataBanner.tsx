@@ -98,7 +98,7 @@ export default function StaleDataBanner({ module, dataDate, className = '' }: St
       return (
         <div
           title={dateFormatted ? `Último scan: ${dateFormatted}` : undefined}
-          className={`inline-flex items-center gap-1.5 text-mini font-medium mb-4 px-3 py-1.5 rounded-lg border bg-emerald-500/8 border-emerald-500/20 text-emerald-400/80 ${className}`}
+          className={`inline-flex items-center gap-1.5 text-mini font-medium mb-4 px-3 py-1.5 rounded-lg border bg-emerald-500/8 border-emerald-500/20 text-emerald-400 ${className}`}
         >
           <CheckCircle2 size={16} className="shrink-0 text-emerald-400" />
           <span className="font-semibold text-emerald-400">{etiqueta}</span>
@@ -118,9 +118,9 @@ export default function StaleDataBanner({ module, dataDate, className = '' }: St
           <div className="flex-1 min-w-0">
             <div className="text-sm font-bold text-red-400 mb-0.5">
               Pipeline no ejecutado en {days} días
-              <span className="font-normal ml-1.5 text-apoyo text-red-300/80">— datos posiblemente incorrectos</span>
+              <span className="font-normal ml-1.5 text-apoyo text-red-300">— datos posiblemente incorrectos</span>
             </div>
-            <div className="text-mini text-muted-foreground/60">Última ejecución: {formatDate(health.generated_at)}</div>
+            <div className="text-mini text-muted-foreground">Última ejecución: {formatDate(health.generated_at)}</div>
           </div>
           <a href={ACTIONS_URL} target="_blank" rel="noopener noreferrer"
             className="shrink-0 text-mini font-bold px-3 py-1.5 rounded-lg border bg-red-500/15 border-red-500/30 text-red-400 hover:bg-red-500/25 transition-colors">
@@ -149,7 +149,7 @@ export default function StaleDataBanner({ module, dataDate, className = '' }: St
               <span className="font-normal ml-1.5 text-apoyo">— última actualización hace {daysOld} días</span>
             )}
           </div>
-          <div className="text-mini text-muted-foreground/60">
+          <div className="text-mini text-muted-foreground">
             El pipeline corrió hoy pero este módulo no generó datos nuevos — puede haber fallado o no tener datos disponibles.
           </div>
         </div>
@@ -190,10 +190,10 @@ export default function StaleDataBanner({ module, dataDate, className = '' }: St
           <span className="font-normal ml-1.5 text-apoyo">— última actualización {daysLabel(checkDate)}</span>
         </div>
         {pipelineInfo?.status && (
-          <div className="text-mini text-muted-foreground/60">
+          <div className="text-mini text-muted-foreground">
             Pipeline ejecutado: {formatDate(pipelineInfo.status.last_run)}
             {isVeryStale && (
-              <span className="ml-2 text-red-400/80 font-semibold">
+              <span className="ml-2 text-red-400 font-semibold">
                 · No ejecutado en {daysOld} días
               </span>
             )}

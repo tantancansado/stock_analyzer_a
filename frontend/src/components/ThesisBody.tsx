@@ -18,7 +18,7 @@ function sectionIcon(header: string): ReactNode {
   for (const [re, icon] of SECTION_ICONS) {
     if (re.test(header)) return icon
   }
-  return <Info size={12} className="text-muted-foreground/40 shrink-0" />
+  return <Info size={12} className="text-muted-foreground shrink-0" />
 }
 
 // ── Value colorization ────────────────────────────────────────────────────────
@@ -116,7 +116,7 @@ function FundamentalsGrid({ bullets }: { bullets: string[] }): ReactNode {
       <div className="grid grid-cols-2 gap-1.5">
         {kvPairs.map((kv, i) => (
           <div key={i} className="flex items-baseline justify-between gap-2 px-2.5 py-1.5 rounded-lg bg-muted/20">
-            <span className="text-mini text-muted-foreground/60 truncate">{kv.label}</span>
+            <span className="text-mini text-muted-foreground truncate">{kv.label}</span>
             <span className={`text-apoyo font-semibold tabular-nums whitespace-nowrap ${valueColor(kv.label, kv.value)}`}>
               {kv.value}
             </span>
@@ -126,7 +126,7 @@ function FundamentalsGrid({ bullets }: { bullets: string[] }): ReactNode {
       {otherLines.length > 0 && (
         <div className="text-apoyo space-y-1">
           {otherLines.map((l, i) => (
-            <p key={i} className="text-muted-foreground/70">{l}</p>
+            <p key={i} className="text-muted-foreground">{l}</p>
           ))}
         </div>
       )}
@@ -150,12 +150,12 @@ function InsiderSection({ preamble, bullets }: { preamble: string; bullets: stri
 
   return (
     <div className="space-y-2">
-      {preamble && <p className="text-apoyo text-muted-foreground/70">{preamble}</p>}
+      {preamble && <p className="text-apoyo text-muted-foreground">{preamble}</p>}
       {kvPairs.length > 0 && (
         <div className="flex flex-wrap gap-1.5">
           {kvPairs.map((kv, i) => (
             <span key={i} className="inline-flex items-baseline gap-1.5 px-2 py-1 rounded-md bg-violet-500/10 border border-violet-500/15 text-mini">
-              <span className="text-muted-foreground/50">{kv.label}:</span>
+              <span className="text-muted-foreground">{kv.label}:</span>
               <span className="font-semibold text-violet-300">{kv.value}</span>
             </span>
           ))}
@@ -166,17 +166,17 @@ function InsiderSection({ preamble, bullets }: { preamble: string; bullets: stri
           <table className="w-full text-mini">
             <thead>
               <tr className="bg-muted/30">
-                <th className="px-2 py-1 text-left font-medium text-muted-foreground/50">Rol</th>
-                <th className="px-2 py-1 text-right font-medium text-muted-foreground/50">Monto</th>
-                <th className="px-2 py-1 text-right font-medium text-muted-foreground/50">Fecha</th>
+                <th className="px-2 py-1 text-left font-medium text-muted-foreground">Rol</th>
+                <th className="px-2 py-1 text-right font-medium text-muted-foreground">Monto</th>
+                <th className="px-2 py-1 text-right font-medium text-muted-foreground">Fecha</th>
               </tr>
             </thead>
             <tbody>
               {txs.map((tx, i) => (
                 <tr key={i} className="border-t border-border/10">
-                  <td className="px-2 py-1 text-violet-300/80">{tx.role}</td>
+                  <td className="px-2 py-1 text-violet-300">{tx.role}</td>
                   <td className="px-2 py-1 text-right font-semibold tabular-nums text-foreground/70">{tx.amount}</td>
-                  <td className="px-2 py-1 text-right tabular-nums text-muted-foreground/50">{tx.date}</td>
+                  <td className="px-2 py-1 text-right tabular-nums text-muted-foreground">{tx.date}</td>
                 </tr>
               ))}
             </tbody>
@@ -185,7 +185,7 @@ function InsiderSection({ preamble, bullets }: { preamble: string; bullets: stri
       )}
       {otherLines.length > 0 && (
         <div className="text-apoyo space-y-1">
-          {otherLines.map((l, i) => <p key={i} className="text-muted-foreground/70">{l}</p>)}
+          {otherLines.map((l, i) => <p key={i} className="text-muted-foreground">{l}</p>)}
         </div>
       )}
     </div>
@@ -212,10 +212,10 @@ function ValuationSection({ bullets }: { bullets: string[] }): ReactNode {
           <div className="flex-1">
             <div className="flex items-baseline gap-2">
               <span className="text-sm font-bold text-emerald-400 tabular-nums">{analyst.target}</span>
-              <span className="text-mini font-semibold text-emerald-400/70">{analyst.upside}</span>
+              <span className="text-mini font-semibold text-emerald-400">{analyst.upside}</span>
               <span className="px-1.5 py-0.5 rounded text-micro font-bold uppercase bg-emerald-500/15 text-emerald-300">{analyst.rating}</span>
             </div>
-            <div className="text-micro text-muted-foreground/50 mt-0.5">
+            <div className="text-micro text-muted-foreground mt-0.5">
               Consenso {analyst.analysts}{range ? ` · Rango: ${range}` : ''}
             </div>
           </div>
@@ -230,10 +230,10 @@ function ValuationSection({ bullets }: { bullets: string[] }): ReactNode {
       const isPositive = valMatch[3].includes('+') || valMatch[3].includes('infravalorada')
       items.push(
         <div key={`v-${i}`} className="flex items-baseline justify-between px-3 py-1.5 rounded-lg bg-muted/20">
-          <span className="text-mini text-muted-foreground/60">{valMatch[1]}</span>
+          <span className="text-mini text-muted-foreground">{valMatch[1]}</span>
           <div className="flex items-baseline gap-1.5">
             <span className="text-apoyo font-bold tabular-nums text-foreground/80">{valMatch[2]}</span>
-            <span className={`text-micro font-semibold ${isPositive ? 'text-emerald-400/70' : 'text-red-400/70'}`}>
+            <span className={`text-micro font-semibold ${isPositive ? 'text-emerald-400' : 'text-red-400'}`}>
               {valMatch[3]}
             </span>
           </div>
@@ -245,7 +245,7 @@ function ValuationSection({ bullets }: { bullets: string[] }): ReactNode {
     // Range line standalone
     if (b.startsWith('Rango:')) {
       items.push(
-        <div key={`r-${i}`} className="text-mini text-muted-foreground/50 px-3">
+        <div key={`r-${i}`} className="text-mini text-muted-foreground px-3">
           <ChartColumn size={12} strokeWidth={2.25} className="inline -mt-px mr-1" />{b}
         </div>
       )
@@ -257,7 +257,7 @@ function ValuationSection({ bullets }: { bullets: string[] }): ReactNode {
     if (kv) {
       items.push(
         <div key={`kv-${i}`} className="flex items-baseline justify-between px-3 py-1.5 rounded-lg bg-muted/20">
-          <span className="text-mini text-muted-foreground/60">{kv.label}</span>
+          <span className="text-mini text-muted-foreground">{kv.label}</span>
           <span className={`text-apoyo font-semibold tabular-nums ${valueColor(kv.label, kv.value)}`}>{kv.value}</span>
         </div>
       )
@@ -265,7 +265,7 @@ function ValuationSection({ bullets }: { bullets: string[] }): ReactNode {
     }
 
     // Plain text
-    items.push(<p key={`p-${i}`} className="text-apoyo text-muted-foreground/70 px-1">{b}</p>)
+    items.push(<p key={`p-${i}`} className="text-apoyo text-muted-foreground px-1">{b}</p>)
   }
 
   return <div className="space-y-1.5">{items}</div>
@@ -321,13 +321,13 @@ function sectionAccent(type: SectionType): string {
 function GenericBullets({ preamble, bullets }: { preamble: string; bullets: string[] }): ReactNode {
   return (
     <div className="space-y-1.5">
-      {preamble && <p className="text-apoyo text-muted-foreground/70">{preamble}</p>}
+      {preamble && <p className="text-apoyo text-muted-foreground">{preamble}</p>}
       {bullets.length > 0 && (
         <ul className="space-y-1">
           {bullets.map((b, i) => (
             <li key={i} className="flex gap-2 text-apoyo">
-              <span className="text-primary/40 select-none shrink-0 mt-0.5">▸</span>
-              <span className="text-muted-foreground/80">{b}</span>
+              <span className="text-primary select-none shrink-0 mt-0.5">▸</span>
+              <span className="text-muted-foreground">{b}</span>
             </li>
           ))}
         </ul>
@@ -373,7 +373,7 @@ export default function ThesisBody({ text }: { text: string }) {
           // Strip redundant ticker/sector (already in modal header)
           const clean = para.replace(/\*\*/g, '').replace(/^[A-Z0-9.]+\s*—\s*/, '')
           return (
-            <p key={pi} className="text-apoyo text-foreground/50 leading-relaxed pb-1 border-b border-border/15 mb-1">
+            <p key={pi} className="text-apoyo text-muted-foreground leading-relaxed pb-1 border-b border-border/15 mb-1">
               {clean}
             </p>
           )
@@ -399,14 +399,14 @@ export default function ThesisBody({ text }: { text: string }) {
           } else if (bullets.length > 0) {
             content = <GenericBullets preamble={preamble} bullets={bullets} />
           } else if (rest) {
-            content = <p className="text-apoyo text-muted-foreground/70">{rest}</p>
+            content = <p className="text-apoyo text-muted-foreground">{rest}</p>
           }
 
           return (
             <div key={pi} className={`rounded-xl border border-border/30 border-l-2 ${sectionAccent(type)} overflow-hidden`}>
               <div className="flex items-center gap-2 px-3 py-1.5 bg-muted/30 border-b border-border/15">
                 {sectionIcon(header)}
-                <span className="text-micro font-bold tracking-widest uppercase text-foreground/50">
+                <span className="text-micro font-bold tracking-widest uppercase text-muted-foreground">
                   {header}
                 </span>
               </div>
@@ -422,7 +422,7 @@ export default function ThesisBody({ text }: { text: string }) {
         // Fallback: plain card block
         return (
           <div key={pi} className="rounded-xl bg-muted/20 border border-border/20 px-3 py-2.5 text-apoyo">
-            <p className="text-muted-foreground/70">{para.replace(/\*\*/g, '')}</p>
+            <p className="text-muted-foreground">{para.replace(/\*\*/g, '')}</p>
           </div>
         )
       })}

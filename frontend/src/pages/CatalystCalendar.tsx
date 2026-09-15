@@ -83,7 +83,7 @@ function EarningsHistoryBar({ history }: { history: NonNullable<CatalystEvent['e
           <div key={i} title={`${q.date}: est ${q.eps_est} vs act ${q.eps_act} (${(q.surprise_pct ?? 0) > 0 ? '+' : ''}${q.surprise_pct?.toFixed(1) ?? '—'}%)`}
             className={`h-2 w-6 rounded-sm ${q.beat ? 'bg-emerald-500' : 'bg-red-500'}`} />
         ))}
-        <span className="text-micro text-muted-foreground/50 ml-1 self-end">últimos {last_quarters.length}Q</span>
+        <span className="text-micro text-muted-foreground ml-1 self-end">últimos {last_quarters.length}Q</span>
       </div>
     </div>
   )
@@ -110,13 +110,13 @@ function EventCard({ event }: { event: CatalystEvent }) {
       >
         {/* Date badge */}
         <div className="shrink-0 text-center min-w-[42px]">
-          <div className="text-micro font-bold uppercase text-muted-foreground/50">
+          <div className="text-micro font-bold uppercase text-muted-foreground">
             {new Date(event.date + 'T00:00:00').toLocaleDateString('es-ES', { month: 'short' })}
           </div>
           <div className="text-lg font-extrabold leading-none text-foreground tabular-nums">
             {new Date(event.date + 'T00:00:00').getDate()}
           </div>
-          <div className={`text-micro font-bold mt-0.5 ${event.days_away <= 3 ? 'text-red-400' : event.days_away <= 7 ? 'text-amber-400' : 'text-muted-foreground/50'}`}>
+          <div className={`text-micro font-bold mt-0.5 ${event.days_away <= 3 ? 'text-red-400' : event.days_away <= 7 ? 'text-amber-400' : 'text-muted-foreground'}`}>
             {daysLabel(event.days_away)}
           </div>
         </div>
@@ -134,7 +134,7 @@ function EventCard({ event }: { event: CatalystEvent }) {
               {dirCfg.label}
             </span>
             {event.avg_move_pct != null && event.avg_move_pct > 0 && (
-              <span className="text-micro text-muted-foreground/50">
+              <span className="text-micro text-muted-foreground">
                 ±{event.avg_move_pct.toFixed(1)}% histórico
               </span>
             )}
@@ -151,7 +151,7 @@ function EventCard({ event }: { event: CatalystEvent }) {
             </span>
           )}
           {hasDetail && (
-            <span className="text-muted-foreground/40 mt-1">
+            <span className="text-muted-foreground mt-1">
               {expanded ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
             </span>
           )}
@@ -164,7 +164,7 @@ function EventCard({ event }: { event: CatalystEvent }) {
           {/* Earnings history */}
           {event.earnings_history && event.earnings_history.last_quarters?.length > 0 && (
             <div>
-              <div className="text-micro font-bold uppercase tracking-wider text-muted-foreground/40 mb-1">Historial de sorpresas</div>
+              <div className="text-micro font-bold uppercase tracking-wider text-muted-foreground mb-1">Historial de sorpresas</div>
               <EarningsHistoryBar history={event.earnings_history} />
             </div>
           )}
@@ -172,7 +172,7 @@ function EventCard({ event }: { event: CatalystEvent }) {
           {/* Affected tickers */}
           {event.affected_tickers?.length > 1 && (
             <div>
-              <div className="text-micro font-bold uppercase tracking-wider text-muted-foreground/40 mb-1.5">Tickers afectados</div>
+              <div className="text-micro font-bold uppercase tracking-wider text-muted-foreground mb-1.5">Tickers afectados</div>
               <div className="flex flex-wrap gap-1">
                 {event.affected_tickers.map(t => (
                   <span key={t} className="font-mono text-xs bg-muted/20 border border-border/30 px-1.5 py-0.5 rounded">{t}</span>
@@ -186,7 +186,7 @@ function EventCard({ event }: { event: CatalystEvent }) {
             <div className="flex gap-4">
               {event.bullish_sectors?.length > 0 && (
                 <div>
-                  <div className="text-micro font-bold uppercase tracking-wider text-emerald-400/50 mb-1">Sectores alcistas</div>
+                  <div className="text-micro font-bold uppercase tracking-wider text-emerald-400 mb-1">Sectores alcistas</div>
                   <div className="flex flex-wrap gap-1">
                     {event.bullish_sectors.map(s => (
                       <span key={s} className="text-micro font-mono text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-1.5 py-0.5 rounded">{s}</span>
@@ -196,7 +196,7 @@ function EventCard({ event }: { event: CatalystEvent }) {
               )}
               {event.bearish_sectors?.length > 0 && (
                 <div>
-                  <div className="text-micro font-bold uppercase tracking-wider text-red-400/50 mb-1">Sectores bajistas</div>
+                  <div className="text-micro font-bold uppercase tracking-wider text-red-400 mb-1">Sectores bajistas</div>
                   <div className="flex flex-wrap gap-1">
                     {event.bearish_sectors.map(s => (
                       <span key={s} className="text-micro font-mono text-red-400 bg-red-500/10 border border-red-500/20 px-1.5 py-0.5 rounded">{s}</span>
@@ -314,9 +314,9 @@ export default function CatalystCalendar() {
         {grouped.map(({ weekLabel, events: grpEvents }) => (
           <div key={weekLabel}>
             <div className="flex items-center gap-3 mb-3">
-              <h3 className="text-xs font-bold uppercase tracking-widest text-muted-foreground/50">{weekLabel}</h3>
+              <h3 className="text-xs font-bold uppercase tracking-widest text-muted-foreground">{weekLabel}</h3>
               <div className="flex-1 h-px bg-border/30" />
-              <span className="text-micro text-muted-foreground/40">{grpEvents.length} eventos</span>
+              <span className="text-micro text-muted-foreground">{grpEvents.length} eventos</span>
             </div>
             <div className="space-y-2">
               {grpEvents.map(e => <EventCard key={e.id} event={e} />)}
@@ -330,7 +330,7 @@ export default function CatalystCalendar() {
       )}
 
       {data && (
-        <p className="text-center text-micro text-muted-foreground/30 mt-6">
+        <p className="text-center text-micro text-muted-foreground mt-6">
           Generado {new Date(data.generated_at).toLocaleDateString('es-ES')} · Fuentes: BLS, Fed, yfinance, FDA.gov
         </p>
       )}

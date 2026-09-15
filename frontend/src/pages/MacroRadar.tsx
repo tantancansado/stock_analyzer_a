@@ -245,7 +245,7 @@ function SignalCard({ id, signal, stagger }: { id: string; signal: SignalData; s
 
         <div className="flex items-center justify-between">
           {signal.percentile != null && (
-            <span className="text-micro text-muted-foreground/70">
+            <span className="text-micro text-muted-foreground">
               p{signal.percentile.toFixed(0)} vs 1yr
             </span>
           )}
@@ -255,7 +255,7 @@ function SignalCard({ id, signal, stagger }: { id: string; signal: SignalData; s
         </div>
 
         {signal.change_5d != null && (
-          <div className="mt-1 text-micro text-muted-foreground/60">
+          <div className="mt-1 text-micro text-muted-foreground">
             5d: <span className={signal.change_5d >= 0 ? 'text-green-400' : 'text-red-400'}>
               {signal.change_5d >= 0 ? '+' : ''}{signal.change_5d.toFixed(1)}%
             </span>
@@ -280,7 +280,7 @@ const REGIME_COLORS: Record<string, string> = {
 function HistoryChart({ points, maxScore }: { points: HistoryPoint[]; maxScore: number }) {
   if (points.length < 2) {
     return (
-      <div className="flex items-center justify-center h-24 text-xs text-muted-foreground/60">
+      <div className="flex items-center justify-center h-24 text-xs text-muted-foreground">
         Historial en construcción — disponible tras varios días de pipeline
       </div>
     )
@@ -354,30 +354,30 @@ const INDEX_FLAGS: Record<string, string> = {
 }
 
 function RsiGauge({ value, label }: { value: number | null | undefined; label: string }) {
-  if (value == null) return <span className="text-muted-foreground/30 text-micro">—</span>
-  const color = value >= 70 ? 'text-red-400' : value <= 30 ? 'text-emerald-400' : value >= 55 ? 'text-amber-400' : 'text-muted-foreground/70'
+  if (value == null) return <span className="text-muted-foreground text-micro">—</span>
+  const color = value >= 70 ? 'text-red-400' : value <= 30 ? 'text-emerald-400' : value >= 55 ? 'text-amber-400' : 'text-muted-foreground'
   return (
     <span className="inline-flex flex-col items-center gap-0.5">
       <span className={`text-mini font-bold tabular-nums ${color}`}>{value.toFixed(0)}</span>
-      <span className="text-micro text-muted-foreground/40">{label}</span>
+      <span className="text-micro text-muted-foreground">{label}</span>
     </span>
   )
 }
 
 function MacdBadge({ signal }: { signal: string | null | undefined }) {
-  if (!signal) return <span className="text-muted-foreground/30 text-micro">—</span>
+  if (!signal) return <span className="text-muted-foreground text-micro">—</span>
   const cfg: Record<string, string> = {
     BULLISH_CROSS: 'text-emerald-400 font-black',
     BEARISH_CROSS: 'text-red-400 font-black animate-pulse',
-    BULLISH: 'text-emerald-400/70',
-    BEARISH: 'text-red-400/70',
-    NEUTRAL: 'text-muted-foreground/50',
+    BULLISH: 'text-emerald-400',
+    BEARISH: 'text-red-400',
+    NEUTRAL: 'text-muted-foreground',
   }
   const labels: Record<string, string> = {
     BULLISH_CROSS: '↑CROSS', BEARISH_CROSS: '↓CROSS',
     BULLISH: '↑', BEARISH: '↓', NEUTRAL: '—',
   }
-  return <span className={`text-micro ${cfg[signal] ?? 'text-muted-foreground/50'}`}>{labels[signal] ?? signal}</span>
+  return <span className={`text-micro ${cfg[signal] ?? 'text-muted-foreground'}`}>{labels[signal] ?? signal}</span>
 }
 
 function WeinsteinBadge({ stage }: { stage: number }) {
@@ -394,8 +394,8 @@ function WeinsteinBadge({ stage }: { stage: number }) {
 }
 
 function SpeedCell({ v }: { v: number | null | undefined }) {
-  if (v == null) return <span className="text-muted-foreground/30">—</span>
-  const color = v > 5 ? 'text-emerald-400' : v > 0 ? 'text-emerald-400/70' : v > -5 ? 'text-red-400/70' : 'text-red-400'
+  if (v == null) return <span className="text-muted-foreground">—</span>
+  const color = v > 5 ? 'text-emerald-400' : v > 0 ? 'text-emerald-400' : v > -5 ? 'text-red-400' : 'text-red-400'
   return <span className={`tabular-nums text-micro font-medium ${color}`}>{v > 0 ? '+' : ''}{v.toFixed(1)}%</span>
 }
 
@@ -469,7 +469,7 @@ function IndexBreakoutsPanel({
               if (!s) return null
               const isEquity = s.asset_type === 'equity'
               const ytdColor = s.ytd_pct == null ? '' : s.ytd_pct >= 0 ? 'text-emerald-400' : 'text-red-400'
-              const gcColor = s.golden_cross ? 'text-emerald-400' : s.death_cross ? 'text-red-400' : 'text-muted-foreground/40'
+              const gcColor = s.golden_cross ? 'text-emerald-400' : s.death_cross ? 'text-red-400' : 'text-muted-foreground'
               const gcLabel = s.golden_cross ? (s.gc_dc_fresh ? '★GC' : 'GC') : s.death_cross ? (s.gc_dc_fresh ? '★DC' : 'DC') : '—'
               return (
                 <div key={ticker} className={`rounded-xl border p-3 ${
@@ -481,7 +481,7 @@ function IndexBreakoutsPanel({
                   <div className="flex items-center gap-2 flex-wrap mb-2">
                     <span>{INDEX_FLAGS[ticker] ?? ''}</span>
                     <span className="font-mono font-black text-sm text-foreground">{ticker}</span>
-                    <span className="text-micro text-muted-foreground/60">{s.name}</span>
+                    <span className="text-micro text-muted-foreground">{s.name}</span>
                     <span className="font-bold tabular-nums text-sm">${s.price.toFixed(2)}</span>
                     {s.ytd_pct != null && (
                       <span className={`text-xs font-bold tabular-nums ${ytdColor}`}>
@@ -494,8 +494,8 @@ function IndexBreakoutsPanel({
                         {gcLabel}
                       </span>
                     )}
-                    <span className="ml-auto text-micro text-muted-foreground/50">
-                      Miner <span className={`font-bold ${s.minervini_score >= 6 ? 'text-emerald-400' : s.minervini_score >= 4 ? 'text-amber-400' : 'text-red-400/70'}`}>{s.minervini_score}/{s.minervini_max}</span>
+                    <span className="ml-auto text-micro text-muted-foreground">
+                      Miner <span className={`font-bold ${s.minervini_score >= 6 ? 'text-emerald-400' : s.minervini_score >= 4 ? 'text-amber-400' : 'text-red-400'}`}>{s.minervini_score}/{s.minervini_max}</span>
                     </span>
                   </div>
 
@@ -503,7 +503,7 @@ function IndexBreakoutsPanel({
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-micro">
                     {/* RSI block */}
                     <div className="rounded bg-muted/10 px-2 py-1.5 flex flex-col gap-1.5">
-                      <span className="text-micro font-bold uppercase text-muted-foreground/40 tracking-wider">RSI</span>
+                      <span className="text-micro font-bold uppercase text-muted-foreground tracking-wider">RSI</span>
                       <div className="flex items-center justify-around">
                         <RsiGauge value={s.rsi_daily} label="D" />
                         <RsiGauge value={s.rsi_weekly} label="S" />
@@ -512,55 +512,55 @@ function IndexBreakoutsPanel({
                     </div>
                     {/* MACD block */}
                     <div className="rounded bg-muted/10 px-2 py-1.5 flex flex-col gap-1.5">
-                      <span className="text-micro font-bold uppercase text-muted-foreground/40 tracking-wider">MACD</span>
+                      <span className="text-micro font-bold uppercase text-muted-foreground tracking-wider">MACD</span>
                       <div className="flex items-center justify-around">
                         <span className="flex flex-col items-center gap-0.5">
                           <MacdBadge signal={s.macd_daily} />
-                          <span className="text-micro text-muted-foreground/40">Diario</span>
+                          <span className="text-micro text-muted-foreground">Diario</span>
                         </span>
                         <span className="flex flex-col items-center gap-0.5">
                           <MacdBadge signal={s.macd_weekly} />
-                          <span className="text-micro text-muted-foreground/40">Semanal</span>
+                          <span className="text-micro text-muted-foreground">Semanal</span>
                         </span>
                       </div>
                     </div>
                     {/* Speed block */}
                     <div className="rounded bg-muted/10 px-2 py-1.5 flex flex-col gap-1.5">
-                      <span className="text-micro font-bold uppercase text-muted-foreground/40 tracking-wider">Velocidad</span>
+                      <span className="text-micro font-bold uppercase text-muted-foreground tracking-wider">Velocidad</span>
                       <div className="flex items-center justify-around">
                         <span className="flex flex-col items-center gap-0.5">
                           <SpeedCell v={s.speed_5d} />
-                          <span className="text-micro text-muted-foreground/40">5d</span>
+                          <span className="text-micro text-muted-foreground">5d</span>
                         </span>
                         <span className="flex flex-col items-center gap-0.5">
                           <SpeedCell v={s.speed_20d} />
-                          <span className="text-micro text-muted-foreground/40">20d</span>
+                          <span className="text-micro text-muted-foreground">20d</span>
                         </span>
                         <span className="flex flex-col items-center gap-0.5">
                           <SpeedCell v={s.speed_63d} />
-                          <span className="text-micro text-muted-foreground/40">63d</span>
+                          <span className="text-micro text-muted-foreground">63d</span>
                         </span>
                       </div>
                     </div>
                     {/* Structure block */}
                     <div className="rounded bg-muted/10 px-2 py-1.5 flex flex-col gap-1.5">
-                      <span className="text-micro font-bold uppercase text-muted-foreground/40 tracking-wider">Estructura</span>
+                      <span className="text-micro font-bold uppercase text-muted-foreground tracking-wider">Estructura</span>
                       <div className="grid grid-cols-2 gap-x-2 gap-y-0.5 text-micro">
-                        <span className="text-muted-foreground/50">Dist.Máx</span>
+                        <span className="text-muted-foreground">Dist.Máx</span>
                         <span className={`tabular-nums font-medium ${s.pct_from_52w_high >= -5 ? 'text-emerald-400' : s.pct_from_52w_high >= -15 ? 'text-amber-400' : 'text-red-400'}`}>
                           {s.pct_from_52w_high.toFixed(1)}%
                         </span>
-                        <span className="text-muted-foreground/50">Vol ratio</span>
-                        <span className={`tabular-nums font-medium ${s.volume_ratio_5d >= 1.3 ? 'text-amber-400' : 'text-muted-foreground/70'}`}>
+                        <span className="text-muted-foreground">Vol ratio</span>
+                        <span className={`tabular-nums font-medium ${s.volume_ratio_5d >= 1.3 ? 'text-amber-400' : 'text-muted-foreground'}`}>
                           {s.volume_ratio_5d.toFixed(2)}x
                         </span>
                         {isEquity && <>
-                          <span className="text-muted-foreground/50">Dist.días</span>
-                          <span className={`tabular-nums font-medium ${s.distribution_days_25s >= 4 ? 'text-red-400' : s.distribution_days_25s >= 2 ? 'text-amber-400' : 'text-emerald-400/70'}`}>
+                          <span className="text-muted-foreground">Dist.días</span>
+                          <span className={`tabular-nums font-medium ${s.distribution_days_25s >= 4 ? 'text-red-400' : s.distribution_days_25s >= 2 ? 'text-amber-400' : 'text-emerald-400'}`}>
                             {s.distribution_days_25s}
                           </span>
-                          <span className="text-muted-foreground/50">Tendencia</span>
-                          <span className={`tabular-nums font-medium ${s.trend_score >= 8 ? 'text-emerald-400' : s.trend_score >= 5 ? 'text-amber-400' : 'text-red-400/70'}`}>
+                          <span className="text-muted-foreground">Tendencia</span>
+                          <span className={`tabular-nums font-medium ${s.trend_score >= 8 ? 'text-emerald-400' : s.trend_score >= 5 ? 'text-amber-400' : 'text-red-400'}`}>
                             {s.trend_score}/{s.trend_total}
                           </span>
                         </>}
@@ -572,10 +572,10 @@ function IndexBreakoutsPanel({
                   {s.minervini_labels && s.minervini_labels.length > 0 && (
                     <div className="mt-2 flex flex-wrap gap-1">
                       {s.minervini_labels.map(l => (
-                        <span key={l} className="text-micro px-1 py-0.5 rounded bg-emerald-500/10 text-emerald-400/80 border border-emerald-500/20">✓ {l}</span>
+                        <span key={l} className="text-micro px-1 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">✓ {l}</span>
                       ))}
                       {s.minervini_failed.map(l => (
-                        <span key={l} className="text-micro px-1 py-0.5 rounded bg-red-500/8 text-red-400/60 border border-red-500/15">✗ {l}</span>
+                        <span key={l} className="text-micro px-1 py-0.5 rounded bg-red-500/8 text-red-400 border border-red-500/15">✗ {l}</span>
                       ))}
                     </div>
                   )}
@@ -592,9 +592,9 @@ function IndexBreakoutsPanel({
             {fresh.length > 0 && (
               <div>
                 <div className="flex items-center gap-2 mb-2">
-                  <span className="text-micro font-black uppercase tracking-[0.15em] text-muted-foreground/50">Roturas recientes</span>
+                  <span className="text-micro font-black uppercase tracking-[0.15em] text-muted-foreground">Roturas recientes</span>
                   <div className="flex-1 h-px bg-border/20" />
-                  <span className="text-micro text-muted-foreground/40">últimos días</span>
+                  <span className="text-micro text-muted-foreground">últimos días</span>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                   {[...bearish, ...bullish].map((b, idx) => {
@@ -621,22 +621,22 @@ function IndexBreakoutsPanel({
                         </div>
                         <div className="grid grid-cols-3 gap-1.5 mt-2">
                           <div className="text-center rounded bg-muted/15 px-1.5 py-1">
-                            <div className="text-micro text-muted-foreground/50 mb-0.5">Precio</div>
+                            <div className="text-micro text-muted-foreground mb-0.5">Precio</div>
                             <div className="text-mini font-bold tabular-nums">${b.current_price.toFixed(2)}</div>
                           </div>
                           <div className={`text-center rounded px-1.5 py-1 ${isBearish ? 'bg-red-500/8' : 'bg-emerald-500/8'}`}>
-                            <div className="text-micro text-muted-foreground/50 mb-0.5">Media</div>
+                            <div className="text-micro text-muted-foreground mb-0.5">Media</div>
                             <div className="text-mini font-bold tabular-nums">${b.ma_value.toFixed(2)}</div>
                           </div>
                           <div className="text-center rounded bg-muted/15 px-1.5 py-1">
-                            <div className="text-micro text-muted-foreground/50 mb-0.5">Distancia</div>
+                            <div className="text-micro text-muted-foreground mb-0.5">Distancia</div>
                             <div className={`text-mini font-black tabular-nums ${isBearish ? 'text-red-400' : 'text-emerald-400'}`}>
                               {b.pct_from_ma >= 0 ? '+' : ''}{b.pct_from_ma.toFixed(1)}%
                             </div>
                           </div>
                         </div>
                         {b.days_since_cross < 999 && (
-                          <div className="mt-2 text-micro text-muted-foreground/50 text-right">cruce hace {b.days_since_cross}d</div>
+                          <div className="mt-2 text-micro text-muted-foreground text-right">cruce hace {b.days_since_cross}d</div>
                         )}
                       </div>
                     )
@@ -647,16 +647,16 @@ function IndexBreakoutsPanel({
             {/* Full MA status table */}
             <div>
               <div className="flex items-center gap-2 mb-2">
-                <span className="text-micro font-black uppercase tracking-[0.15em] text-muted-foreground/50">Estado de medias</span>
+                <span className="text-micro font-black uppercase tracking-[0.15em] text-muted-foreground">Estado de medias</span>
                 <div className="flex-1 h-px bg-border/20" />
               </div>
               <div className="table-x-wrap">
                 <table className="w-full min-w-[520px] text-micro">
                   <thead>
                     <tr className="border-b border-border/20">
-                      <th className="text-left font-medium text-muted-foreground/50 pb-1.5 pr-2">Índice</th>
+                      <th className="text-left font-medium text-muted-foreground pb-1.5 pr-2">Índice</th>
                       {['ma20d','ma50d','ma100d','ma150d','ma200d','ma10w','ma30w','ma40w','ma50w','ma10m','ma20m'].map(k => (
-                        <th key={k} className="text-center font-medium text-muted-foreground/40 pb-1.5 px-0.5 whitespace-nowrap">
+                        <th key={k} className="text-center font-medium text-muted-foreground pb-1.5 px-0.5 whitespace-nowrap">
                           {k.replace('ma','').replace('d','d').replace('w','s').replace('m','m')}
                         </th>
                       ))}
@@ -674,14 +674,14 @@ function IndexBreakoutsPanel({
                         <tr key={ticker} className="border-b border-border/10 last:border-0">
                           <td className="py-1.5 pr-2 font-mono font-bold text-foreground whitespace-nowrap">
                             {INDEX_FLAGS[ticker] ?? ''} {ticker}
-                            {price != null && <span className="ml-1 font-normal text-muted-foreground/40 text-micro">${price.toFixed(1)}</span>}
+                            {price != null && <span className="ml-1 font-normal text-muted-foreground text-micro">${price.toFixed(1)}</span>}
                           </td>
                           {['ma20d','ma50d','ma100d','ma150d','ma200d','ma10w','ma30w','ma40w','ma50w','ma10m','ma20m'].map(maKey => {
                             const b = byKey[maKey]
                             const maVal = maVals[maKey]
                             // If we have summary but no breakout entry (price within 3%), still show direction
                             const above = price != null && maVal != null ? price > maVal : null
-                            if (!b && above == null) return <td key={maKey} className="text-center px-0.5 py-1.5 text-muted-foreground/20">·</td>
+                            if (!b && above == null) return <td key={maKey} className="text-center px-0.5 py-1.5 text-muted-foreground">·</td>
                             const pct = b?.pct_from_ma ?? (above != null && maVal != null && maVal !== 0 && price != null ? (price / maVal - 1) * 100 : null)
                             const signal = b?.signal ?? (above ? 'ABOVE' : 'BELOW')
                             const isBearishBreak = signal === 'BEARISH_BREAK'
@@ -693,12 +693,12 @@ function IndexBreakoutsPanel({
                                   <span className={`text-micro font-black ${
                                     isBearishBreak ? 'text-red-400 animate-pulse' :
                                     isBullishBreak ? 'text-emerald-400 animate-pulse' :
-                                    isAbove ? 'text-emerald-400/60' : 'text-red-400/60'
+                                    isAbove ? 'text-emerald-400' : 'text-red-400'
                                   }`}>
                                     {isBearishBreak ? '↓!' : isBullishBreak ? '↑!' : isAbove ? '▲' : '▼'}
                                   </span>
                                   {pct != null && (
-                                    <span className={`text-micro tabular-nums ${pct >= 0 ? 'text-emerald-400/50' : 'text-red-400/50'}`}>
+                                    <span className={`text-micro tabular-nums ${pct >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
                                       {pct >= 0 ? '+' : ''}{pct.toFixed(0)}%
                                     </span>
                                   )}
@@ -742,7 +742,7 @@ function IndexBreakoutsPanel({
                           {ev.label}
                         </span>
                         {ev.days_since > 0 && (
-                          <span className="ml-auto text-micro text-muted-foreground/50">hace {ev.days_since}d</span>
+                          <span className="ml-auto text-micro text-muted-foreground">hace {ev.days_since}d</span>
                         )}
                       </div>
                       <p className="text-xs text-foreground/75">{ev.detail}</p>
@@ -797,7 +797,7 @@ function SystemicRisksPanel({ risks }: { risks: SystemicRisk[] }) {
                 </div>
                 <p className="text-xs text-muted-foreground leading-snug mb-2">{risk.description}</p>
                 <div className="flex items-start gap-1.5">
-                  <span className="text-micro text-muted-foreground/50 shrink-0 mt-px">→</span>
+                  <span className="text-micro text-muted-foreground shrink-0 mt-px">→</span>
                   <p className="text-mini text-foreground/70 leading-snug italic">{risk.implication}</p>
                 </div>
               </div>
@@ -828,7 +828,7 @@ function HistoricalAnalogsPanel({ analogs }: { analogs: HistoricalAnalog[] }) {
             Analogías Históricas
           </p>
         </div>
-        <p className="text-micro text-muted-foreground/60 mb-4">
+        <p className="text-micro text-muted-foreground mb-4">
           Episodios cuyo patrón de señales macro más se parece al entorno actual
         </p>
         {/* Horizontal scroll on mobile */}
@@ -843,9 +843,9 @@ function HistoricalAnalogsPanel({ analogs }: { analogs: HistoricalAnalog[] }) {
                 <div className="flex items-start justify-between gap-2 mb-2">
                   <div>
                     <div className="flex items-center gap-2">
-                      <span className="text-micro text-muted-foreground/50 font-bold">#{idx + 1}</span>
+                      <span className="text-micro text-muted-foreground font-bold">#{idx + 1}</span>
                       <span className="text-sm font-bold text-foreground">{analog.name}</span>
-                      <span className="text-micro text-muted-foreground/60">{analog.date}</span>
+                      <span className="text-micro text-muted-foreground">{analog.date}</span>
                     </div>
                   </div>
                   {/* Similarity meter */}
@@ -856,7 +856,7 @@ function HistoricalAnalogsPanel({ analogs }: { analogs: HistoricalAnalog[] }) {
                     >
                       {analog.similarity.toFixed(0)}%
                     </div>
-                    <div className="text-micro text-muted-foreground/50">similitud</div>
+                    <div className="text-micro text-muted-foreground">similitud</div>
                   </div>
                 </div>
 
@@ -880,26 +880,26 @@ function HistoricalAnalogsPanel({ analogs }: { analogs: HistoricalAnalog[] }) {
                   ].map(o => (
                     <div key={o.label} className="text-center p-1.5 rounded bg-muted/10 border border-border/20">
                       <ReturnBadge value={o.value} />
-                      <div className="text-micro text-muted-foreground/50 mt-0.5">{o.label}</div>
+                      <div className="text-micro text-muted-foreground mt-0.5">{o.label}</div>
                     </div>
                   ))}
                 </div>
 
                 {/* Description */}
-                <p className="text-micro text-muted-foreground/80 leading-snug mb-1.5">
+                <p className="text-micro text-muted-foreground leading-snug mb-1.5">
                   {analog.outcome.description}
                 </p>
 
                 {/* Key difference */}
                 <div className="flex items-start gap-1.5">
-                  <span className="text-micro text-blue-400/60 shrink-0 mt-px font-bold">≠</span>
-                  <p className="text-micro text-muted-foreground/60 leading-snug italic">{analog.key_difference}</p>
+                  <span className="text-micro text-blue-400 shrink-0 mt-px font-bold">≠</span>
+                  <p className="text-micro text-muted-foreground leading-snug italic">{analog.key_difference}</p>
                 </div>
               </div>
             ))}
           </div>
         </div>
-        <p className="text-micro text-muted-foreground/40 mt-3">
+        <p className="text-micro text-muted-foreground mt-3">
           * Similitud calculada sobre 9 señales clave. Los retornos son históricos, no predicciones.
         </p>
       </CardContent>
@@ -1003,7 +1003,7 @@ export default function MacroRadar() {
         }
         return (
           <div>
-            <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground/50 mb-3 px-1">Visión animada</div>
+            <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-3 px-1">Visión animada</div>
             <Suspense fallback={<div className="glass border border-border/40 rounded-xl h-20 flex items-center justify-center text-sm text-muted-foreground">Cargando…</div>}>
               <RegimeSweepPlayer data={sweepData} />
             </Suspense>
@@ -1062,7 +1062,7 @@ export default function MacroRadar() {
                     EARNINGS: { color: 'text-purple-400',  bg: 'bg-purple-500/10 border-purple-500/20', label: 'EARN' },
                   }
                   const cfg = typeConfig[ev.type] ?? { color: 'text-muted-foreground', bg: 'bg-muted/10 border-border/20', label: ev.type }
-                  const urgencyColor = daysUntil <= 3 ? 'text-red-400' : daysUntil <= 7 ? 'text-orange-400' : 'text-muted-foreground/60'
+                  const urgencyColor = daysUntil <= 3 ? 'text-red-400' : daysUntil <= 7 ? 'text-orange-400' : 'text-muted-foreground'
                   return (
                     <div
                       key={ev.date + ev.event}
@@ -1098,7 +1098,7 @@ export default function MacroRadar() {
           <h2 className="text-sm font-semibold text-muted-foreground mb-1 uppercase tracking-wider">
             Smart Money — señales que el retail ignora
           </h2>
-          <p className="text-xs text-muted-foreground/60 mb-3">
+          <p className="text-xs text-muted-foreground mb-3">
             SKEW, VVIX, bancos regionales, small caps y yields reales — indicadores de posicionamiento institucional
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
@@ -1111,7 +1111,7 @@ export default function MacroRadar() {
 
       {/* Data errors */}
       {errors && errors.length > 0 && (
-        <div className="text-xs text-muted-foreground/60 text-right">
+        <div className="text-xs text-muted-foreground text-right">
           Señales sin datos: {errors.join(', ')}
         </div>
       )}

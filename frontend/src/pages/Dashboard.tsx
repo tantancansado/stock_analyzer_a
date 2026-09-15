@@ -199,7 +199,7 @@ function TopPicksTable({
                 <div className="flex-1 min-w-0">
                   <div className="text-apoyo text-muted-foreground truncate">{r.company_name || r.sector || ''}</div>
                   {r.sector && r.company_name && (
-                    <div className="text-mini text-muted-foreground/50 truncate">{r.sector}</div>
+                    <div className="text-mini text-muted-foreground truncate">{r.sector}</div>
                   )}
                 </div>
                 <div className="shrink-0 flex items-center gap-3">
@@ -257,14 +257,14 @@ function InsidersMini({ data, loading }: { data: InsiderData[] | undefined; load
                 <div key={r.ticker} className="flex items-center gap-3 px-4 py-2.5 hover:bg-white/3 transition-colors">
                   <div className="w-[3.5rem] shrink-0">
                     <div className="font-mono font-bold text-primary text-cuerpo">{r.ticker}</div>
-                    <div className="text-micro text-muted-foreground/50">{isEU ? 'EU' : 'US'}</div>
+                    <div className="text-micro text-muted-foreground">{isEU ? 'EU' : 'US'}</div>
                   </div>
                   <div className="flex-1 min-w-0 text-apoyo text-muted-foreground truncate">
                     {String(name ?? r.ticker)}
                   </div>
                   <div className="shrink-0 text-right">
                     <div className="text-apoyo text-foreground">{r.purchase_count}×</div>
-                    <div className="text-mini text-muted-foreground/60">{r.unique_insiders} dir.</div>
+                    <div className="text-mini text-muted-foreground">{r.unique_insiders} dir.</div>
                   </div>
                 </div>
               )
@@ -344,7 +344,7 @@ function OptionsFlowMini({ data, loading }: { data: unknown; loading: boolean })
               </div>
             </div>
             {total > 0 && (
-              <div className="text-mini font-medium text-muted-foreground/60 mt-3 text-center uppercase tracking-widest">
+              <div className="text-mini font-medium text-muted-foreground mt-3 text-center uppercase tracking-widest">
                 Balance: <span className="text-foreground/80">{Math.round((bullish / total) * 100)}% Alcista</span>
               </div>
             )}
@@ -533,7 +533,7 @@ function LiveFreshness({ lastUpdate }: { lastUpdate: Date | null }) {
     return () => clearInterval(tickId)
   }, [lastUpdate])
 
-  const freshness = secsAgo < 90 ? 'text-emerald-400' : secsAgo < 180 ? 'text-amber-400' : 'text-muted-foreground/40'
+  const freshness = secsAgo < 90 ? 'text-emerald-400' : secsAgo < 180 ? 'text-amber-400' : 'text-muted-foreground'
   return (
     <div className={`ml-auto px-3 text-micro tabular-nums shrink-0 ${freshness}`}>
       {secsAgo < 5 ? 'ahora' : `${secsAgo}s`}
@@ -565,7 +565,7 @@ function LivePriceItem({ id, price }: { id: string; price: { label: string; kind
 
   return (
     <div className="flex items-center gap-1.5 px-2.5 border-r border-primary/10 last:border-0">
-      <span className="text-mini text-muted-foreground/60 hidden sm:inline">{price.label}</span>
+      <span className="text-mini text-muted-foreground hidden sm:inline">{price.label}</span>
       <span className={`font-mono font-bold text-cuerpo tabular-nums ${chgColor}`}>{fmtVal()}</span>
       {price.change_pct != null && (
         <span className={`text-mini tabular-nums ${chgColor}`}>
@@ -601,14 +601,14 @@ function LivePricesBar() {
         {/* Status pill */}
         <div className="flex items-center gap-1.5 px-3 py-2 border-r border-primary/10 shrink-0">
           <span className={`w-1.5 h-1.5 rounded-full ${isOpen ? 'bg-emerald-400 animate-pulse' : 'bg-muted-foreground/30'}`} />
-          <span className="text-micro font-bold uppercase tracking-[0.16em] text-muted-foreground/60">
+          <span className="text-micro font-bold uppercase tracking-[0.16em] text-muted-foreground">
             {isOpen ? 'Live' : 'Closed'}
           </span>
         </div>
 
         {/* Market Heat */}
         <div className="flex items-center gap-2 px-3 border-r border-primary/10 shrink-0">
-          <div className="text-micro font-bold uppercase tracking-[0.1em] text-muted-foreground/60">Heat</div>
+          <div className="text-micro font-bold uppercase tracking-[0.1em] text-muted-foreground">Heat</div>
           <div className={cn("px-1.5 py-0.5 rounded text-micro font-bold tracking-widest", heatColor, heatBg)}>
             {heatLevel}
           </div>
@@ -668,13 +668,13 @@ function ActionRow({ action, idx }: { action: DailyPlanAction; idx: number }) {
         </div>
         <div className="text-cuerpo text-foreground/80 mb-0.5">{action.razon}</div>
         {action.catalizador && (
-          <div className="text-mini text-muted-foreground/70">
-            <span className="text-muted-foreground/50">Catalizador:</span> {action.catalizador}
+          <div className="text-mini text-muted-foreground">
+            <span className="text-muted-foreground">Catalizador:</span> {action.catalizador}
           </div>
         )}
         {action.invalidacion && (
-          <div className="text-mini text-muted-foreground/50 mt-0.5">
-            <span className="text-red-400/50">Invalida si:</span> {action.invalidacion}
+          <div className="text-mini text-muted-foreground mt-0.5">
+            <span className="text-red-400">Invalida si:</span> {action.invalidacion}
           </div>
         )}
       </div>
@@ -688,19 +688,19 @@ function MacroPlayRow({ play }: { play: MacroPlay }) {
       <div className="shrink-0 mt-0.5">
         <div className="font-mono font-bold text-cuerpo text-primary">{play.instrument}</div>
         {play.direction && (
-          <div className="text-mini text-muted-foreground/60">{play.direction}</div>
+          <div className="text-mini text-muted-foreground">{play.direction}</div>
         )}
       </div>
       <div className="flex-1 min-w-0">
         <div className="text-apoyo text-foreground/80">{play.thesis}</div>
-        <div className="text-mini text-muted-foreground/50 mt-0.5">{play.timeframe} · {play.risk}</div>
+        <div className="text-mini text-muted-foreground mt-0.5">{play.timeframe} · {play.risk}</div>
         {play.eu_alternative && (
           <div className="mt-1 flex items-center gap-1">
-            <span className="text-micro font-bold uppercase tracking-wide text-blue-400/70 border border-blue-400/30 px-1 py-px rounded">EU</span>
+            <span className="text-micro font-bold uppercase tracking-wide text-blue-400 border border-blue-400/30 px-1 py-px rounded">EU</span>
             {play.eu_alternative.ticker ? (
-              <span className="text-mini font-mono text-blue-300/80">{play.eu_alternative.ticker}</span>
+              <span className="text-mini font-mono text-blue-300">{play.eu_alternative.ticker}</span>
             ) : null}
-            <span className="text-micro text-muted-foreground/40 truncate">{play.eu_alternative.available}</span>
+            <span className="text-micro text-muted-foreground truncate">{play.eu_alternative.available}</span>
           </div>
         )}
       </div>
@@ -748,11 +748,11 @@ function DailyPlanCard({ data, loading }: { data: DailyPlan | null | undefined; 
       {/* Header */}
       <div className="flex items-start justify-between gap-3 mb-4 flex-wrap">
         <div className="flex items-center gap-2.5">
-          <Target size={16} className="text-primary/70" />
-          <span className="text-apoyo font-bold uppercase tracking-[0.16em] text-primary/70">
+          <Target size={16} className="text-primary" />
+          <span className="text-apoyo font-bold uppercase tracking-[0.16em] text-primary">
             Plan del Día — Cerebro IA
           </span>
-          <span className="text-mini text-muted-foreground/50">{data.generated_at}</span>
+          <span className="text-mini text-muted-foreground">{data.generated_at}</span>
         </div>
         <div className="flex items-center gap-2 flex-wrap">
           {data.ai_powered && (
@@ -776,7 +776,7 @@ function DailyPlanCard({ data, loading }: { data: DailyPlan | null | undefined; 
 
       {/* Narrativa */}
       {data.narrativa && (
-        <div className="text-cuerpo text-muted-foreground/80 mb-4 leading-relaxed">{data.narrativa}</div>
+        <div className="text-cuerpo text-muted-foreground mb-4 leading-relaxed">{data.narrativa}</div>
       )}
 
       <div className="h-px bg-border/20 mb-4" />
@@ -805,7 +805,7 @@ function DailyPlanCard({ data, loading }: { data: DailyPlan | null | undefined; 
             Macro Plays ({data.macro_plays.length})
             {showMacroPlays ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
             {data.macro_plays_commentary && (
-              <span className="font-normal normal-case tracking-normal text-muted-foreground/60 ml-1 flex-1 text-left">
+              <span className="font-normal normal-case tracking-normal text-muted-foreground ml-1 flex-1 text-left">
                 — {data.macro_plays_commentary}
               </span>
             )}
@@ -828,7 +828,7 @@ function DailyPlanCard({ data, loading }: { data: DailyPlan | null | undefined; 
               VALUE en este entorno
             </div>
             {data.value_en_entorno_razon && (
-              <div className="text-mini text-muted-foreground/60 mb-2">{data.value_en_entorno_razon}</div>
+              <div className="text-mini text-muted-foreground mb-2">{data.value_en_entorno_razon}</div>
             )}
             <div className="flex flex-wrap gap-1.5">
               {data.value_en_entorno.map(v => (
@@ -843,7 +843,7 @@ function DailyPlanCard({ data, loading }: { data: DailyPlan | null | undefined; 
                       {v.grade}
                     </span>
                   )}
-                  <span className="text-mini text-muted-foreground/60">{v.score}pts</span>
+                  <span className="text-mini text-muted-foreground">{v.score}pts</span>
                 </Link>
               ))}
             </div>
@@ -885,7 +885,7 @@ function DailyPlanCard({ data, loading }: { data: DailyPlan | null | undefined; 
                   ? 'border-amber-500/25 bg-amber-500/8 text-amber-300'
                   : 'border-blue-500/20 bg-blue-500/8 text-blue-300'
               }`}>
-                <span className="font-mono text-muted-foreground/60">{ev.fecha}</span>
+                <span className="font-mono text-muted-foreground">{ev.fecha}</span>
                 <span className="font-semibold">{ev.evento}</span>
                 <span className="text-micro font-bold opacity-70">[{ev.impacto}]</span>
               </div>
@@ -897,7 +897,7 @@ function DailyPlanCard({ data, loading }: { data: DailyPlan | null | undefined; 
       {/* Frase del día */}
       {data.frase_del_dia && (
         <div className="pt-2 border-t border-border/15">
-          <p className="text-apoyo italic text-muted-foreground/60">{data.frase_del_dia}</p>
+          <p className="text-apoyo italic text-muted-foreground">{data.frase_del_dia}</p>
         </div>
       )}
     </Card>
@@ -922,12 +922,12 @@ function PortfolioNewsWidget({ data, loading }: { data: any; loading: boolean })
             Noticias de Cartera
           </span>
           {tickers.length > 0 && (
-            <span className="text-micro text-muted-foreground/40 ml-1">
+            <span className="text-micro text-muted-foreground ml-1">
               {tickers.join(' · ')}
             </span>
           )}
           {scanDate && (
-            <span className="ml-auto text-micro text-muted-foreground/30">
+            <span className="ml-auto text-micro text-muted-foreground">
               {scanDate} {scanTime}
             </span>
           )}
@@ -939,9 +939,9 @@ function PortfolioNewsWidget({ data, loading }: { data: any; loading: boolean })
           </div>
         ) : important.length === 0 ? (
           <div className="text-center py-4">
-            <p className="text-xs text-muted-foreground/40">Sin noticias relevantes en las últimas 48h</p>
+            <p className="text-xs text-muted-foreground">Sin noticias relevantes en las últimas 48h</p>
             {tickers.length === 0 && (
-              <p className="text-micro text-muted-foreground/30 mt-1">
+              <p className="text-micro text-muted-foreground mt-1">
                 Edita <code className="font-mono">docs/portfolio_watch.json</code> con tus tickers
               </p>
             )}
@@ -968,7 +968,7 @@ function PortfolioNewsWidget({ data, loading }: { data: any; loading: boolean })
                         <span className={`text-micro font-black font-mono ${isHigh ? 'text-red-400' : 'text-primary'}`}>
                           {item.ticker}
                         </span>
-                        <span className="text-micro text-muted-foreground/40">
+                        <span className="text-micro text-muted-foreground">
                           {item.source}{item.time_ago ? ` · ${item.time_ago}` : ''}
                         </span>
                       </div>
@@ -995,10 +995,10 @@ function PortfolioNewsWidget({ data, loading }: { data: any; loading: boolean })
         )}
 
         <div className="mt-3 pt-2 border-t border-border/10 flex justify-between items-center">
-          <span className="text-micro text-muted-foreground/30">
+          <span className="text-micro text-muted-foreground">
             {data?.alta_count ?? 0} alta · {data?.media_count ?? 0} media
           </span>
-          <Link to="/my-portfolio" className="text-micro text-primary/60 hover:text-primary transition-colors">
+          <Link to="/my-portfolio" className="text-micro text-primary hover:text-primary transition-colors">
             Ver cartera →
           </Link>
         </div>
@@ -1225,11 +1225,11 @@ export default function Dashboard() {
                     </span>
                   )}
                 </div>
-                <p className="text-apoyo text-muted-foreground/60">
+                <p className="text-apoyo text-muted-foreground">
                   Agente IA que analiza convergencia de señales y genera alertas automáticas
                 </p>
               </div>
-              <ChevronRight size={16} className="text-muted-foreground/40 group-hover:text-primary transition-colors shrink-0" />
+              <ChevronRight size={16} className="text-muted-foreground group-hover:text-primary transition-colors shrink-0" />
             </Link>
           </div>
         )
@@ -1247,7 +1247,7 @@ export default function Dashboard() {
                   <span key={r.ticker} className="text-apoyo font-mono font-bold text-amber-300 px-2 py-0.5 rounded bg-amber-500/15">
                     {r.ticker}
                     {r.days_to_earnings != null && r.days_to_earnings <= 7 && (
-                      <span className="ml-1 font-normal text-amber-400/70">{r.days_to_earnings}d</span>
+                      <span className="ml-1 font-normal text-amber-400">{r.days_to_earnings}d</span>
                     )}
                   </span>
                 ))}
@@ -1264,7 +1264,7 @@ export default function Dashboard() {
             <CardContent className="p-4">
               <div className="flex items-center gap-2 mb-3">
                 <Wallet size={16} className="text-primary" />
-                <span className="text-mini font-bold uppercase tracking-[0.14em] text-primary/70">Acciones pendientes · Mi Cartera</span>
+                <span className="text-mini font-bold uppercase tracking-[0.14em] text-primary">Acciones pendientes · Mi Cartera</span>
                 <span className="text-mini px-1.5 py-0.5 rounded-full bg-primary/15 text-primary font-bold">{actionItems.length}</span>
               </div>
               <div className="space-y-1.5">
@@ -1276,7 +1276,7 @@ export default function Dashboard() {
                   >
                     <span className={item.color}>{item.icon}</span>
                     <span className="text-cuerpo text-foreground/80 flex-1">{item.text}</span>
-                    <ChevronRight size={12} className="text-muted-foreground/30 group-hover:text-muted-foreground transition-colors" />
+                    <ChevronRight size={12} className="text-muted-foreground group-hover:text-muted-foreground transition-colors" />
                   </Link>
                 ))}
               </div>
@@ -1290,17 +1290,17 @@ export default function Dashboard() {
         <div className="mb-4 animate-fade-in-up">
           <Link to="/portfolio" className="flex items-center gap-4 glass rounded-xl px-4 py-3 border border-border/30 hover:border-primary/30 transition-colors group">
             <div className="flex items-center gap-2 min-w-0 flex-1">
-              <span className="text-micro font-bold uppercase tracking-[0.16em] text-muted-foreground/50 shrink-0">Win Rate 90d</span>
+              <span className="text-micro font-bold uppercase tracking-[0.16em] text-muted-foreground shrink-0">Win Rate 90d</span>
               <span className={`text-xl font-extrabold tabular-nums ${winRateColor()}`}>
                 {winRateValue.win_rate.toFixed(1)}%
               </span>
               <span className="text-micro font-bold px-1.5 py-0.5 rounded border bg-primary/10 text-primary border-primary/25">horizonte value</span>
-              <span className="text-apoyo text-muted-foreground/50 hidden sm:inline">
+              <span className="text-apoyo text-muted-foreground hidden sm:inline">
                 {winRateValue.avg_return != null && <>· avg <span className={winRateValue.avg_return >= 0 ? 'text-emerald-400' : 'text-red-400'}>{winRateValue.avg_return >= 0 ? '+' : ''}{winRateValue.avg_return.toFixed(1)}%</span></>}
                 {' '}· {winRateValue.count} señales
               </span>
             </div>
-            <ChevronRight size={16} className="text-muted-foreground/30 group-hover:text-primary transition-colors shrink-0" />
+            <ChevronRight size={16} className="text-muted-foreground group-hover:text-primary transition-colors shrink-0" />
           </Link>
         </div>
       )}
@@ -1309,10 +1309,10 @@ export default function Dashboard() {
       {myPositions.length > 0 && (
         <div className="mb-4 animate-fade-in-up">
           <Link to="/my-portfolio" className="flex items-center gap-3 glass rounded-xl px-4 py-3 border border-border/30 hover:border-primary/30 transition-colors group">
-            <Wallet size={16} strokeWidth={1.75} className="text-muted-foreground/50 shrink-0" />
-            <span className="text-micro font-bold uppercase tracking-[0.16em] text-muted-foreground/50 shrink-0">Mi Cartera</span>
+            <Wallet size={16} strokeWidth={1.75} className="text-muted-foreground shrink-0" />
+            <span className="text-micro font-bold uppercase tracking-[0.16em] text-muted-foreground shrink-0">Mi Cartera</span>
             {loadingLivePrices ? (
-              <span className="text-xs text-muted-foreground/40">cargando…</span>
+              <span className="text-xs text-muted-foreground">cargando…</span>
             ) : (() => {
               const totalCost  = myPositions.reduce((s, p) => s + p.shares * p.avg_price, 0)
               const totalValue = myPositions.reduce((s, p) => {
@@ -1327,16 +1327,16 @@ export default function Dashboard() {
                   <span className={`text-xl font-extrabold tabular-nums ${pos ? 'text-emerald-400' : 'text-red-400'}`}>
                     {pos ? '+' : ''}{plPct.toFixed(2)}%
                   </span>
-                  <span className={`text-xs font-semibold tabular-nums hidden sm:inline ${pos ? 'text-emerald-400/70' : 'text-red-400/70'}`}>
+                  <span className={`text-xs font-semibold tabular-nums hidden sm:inline ${pos ? 'text-emerald-400' : 'text-red-400'}`}>
                     {pos ? '+' : ''}${pl.toFixed(0)}
                   </span>
-                  <span className="text-apoyo text-muted-foreground/40 hidden md:inline">
+                  <span className="text-apoyo text-muted-foreground hidden md:inline">
                     {myPositions.length} posiciones · ${totalValue.toFixed(0)}
                   </span>
                 </div>
               )
             })()}
-            <ChevronRight size={16} className="text-muted-foreground/30 group-hover:text-primary transition-colors shrink-0" />
+            <ChevronRight size={16} className="text-muted-foreground group-hover:text-primary transition-colors shrink-0" />
           </Link>
         </div>
       )}
@@ -1410,8 +1410,8 @@ export default function Dashboard() {
               <div className="glass rounded-2xl overflow-clip animate-fade-in-up transition-all duration-200 group-hover:bg-emerald-500/6">
                 <div className="p-5">
                   <div className="flex items-center justify-between mb-4">
-                    <span className="text-micro font-bold tracking-[0.18em] text-emerald-400/60 uppercase">Setup del día</span>
-                    <span className="inline-flex items-center gap-1 text-micro font-bold text-emerald-400/80 tracking-wide">
+                    <span className="text-micro font-bold tracking-[0.18em] text-emerald-400 uppercase">Setup del día</span>
+                    <span className="inline-flex items-center gap-1 text-micro font-bold text-emerald-400 tracking-wide">
                       <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
                       LISTO
                     </span>
@@ -1419,30 +1419,30 @@ export default function Dashboard() {
                   <div className="flex items-center justify-between gap-4">
                     <div className="min-w-0">
                       <div className="text-3xl font-black tracking-tight text-foreground group-hover:text-emerald-400 transition-colors">{bestPick.ticker}</div>
-                      <div className="text-cuerpo text-muted-foreground/70 mt-0.5 truncate">{bestPick.company_name}</div>
+                      <div className="text-cuerpo text-muted-foreground mt-0.5 truncate">{bestPick.company_name}</div>
                       <div className="flex flex-wrap gap-x-4 gap-y-1 mt-3">
                         {bestPick.analyst_upside_pct != null && (
                           <div>
-                            <div className="text-micro text-muted-foreground/40 uppercase tracking-[0.14em]">Upside</div>
+                            <div className="text-micro text-muted-foreground uppercase tracking-[0.14em]">Upside</div>
                             <div className="text-sm font-bold text-emerald-400">+{bestPick.analyst_upside_pct.toFixed(0)}%</div>
                           </div>
                         )}
                         {bestPick.fcf_yield_pct != null && (
                           <div>
-                            <div className="text-micro text-muted-foreground/40 uppercase tracking-[0.14em]">FCF Yield</div>
+                            <div className="text-micro text-muted-foreground uppercase tracking-[0.14em]">FCF Yield</div>
                             <div className="text-sm font-semibold text-foreground/80">{bestPick.fcf_yield_pct.toFixed(1)}%</div>
                           </div>
                         )}
                         {bestPick.risk_reward_ratio != null && (
                           <div>
-                            <div className="text-micro text-muted-foreground/40 uppercase tracking-[0.14em]">R:R</div>
+                            <div className="text-micro text-muted-foreground uppercase tracking-[0.14em]">R:R</div>
                             <div className="text-sm font-semibold text-foreground/80">{bestPick.risk_reward_ratio.toFixed(1)}x</div>
                           </div>
                         )}
                         {bestPick.sector && (
                           <div>
-                            <div className="text-micro text-muted-foreground/40 uppercase tracking-[0.14em]">Sector</div>
-                            <div className="text-apoyo text-muted-foreground/70 truncate max-w-[100px]">{bestPick.sector}</div>
+                            <div className="text-micro text-muted-foreground uppercase tracking-[0.14em]">Sector</div>
+                            <div className="text-apoyo text-muted-foreground truncate max-w-[100px]">{bestPick.sector}</div>
                           </div>
                         )}
                       </div>

@@ -249,7 +249,7 @@ export default function SectorRotation() {
             </div>
 
             {unmapped.length > 0 && (
-              <div className="mt-3 text-micro text-muted-foreground/60">
+              <div className="mt-3 text-micro text-muted-foreground">
                 {unmapped.map(p => p.ticker).join(', ')} — sin datos de sector
               </div>
             )}

@@ -72,7 +72,7 @@ export default function ShortcutsModal({ open, onClose }: Readonly<Props>) {
           ))}
         </ul>
 
-        <p className="mt-4 text-micro text-muted-foreground/40 text-center">
+        <p className="mt-4 text-micro text-muted-foreground text-center">
           Pulsa <kbd className="inline px-1 py-0.5 rounded bg-white/8 border border-border/40 text-micro">?</kbd> en cualquier momento para abrir este panel
         </p>
       </div>

@@ -17,16 +17,16 @@ function styleFor(verdict: string): { cls: string; icon: LucideIcon } {
     return { cls: 'bg-red-500/15 text-red-400 border-red-500/30', icon: X }
   }
   if (v.includes('/AVOID')) {
-    return { cls: 'bg-red-500/10 text-red-400/80 border-red-500/20', icon: X }
+    return { cls: 'bg-red-500/10 text-red-400 border-red-500/20', icon: X }
   }
   if (v.includes('/BUY')) {
-    return { cls: 'bg-emerald-500/10 text-emerald-400/80 border-emerald-500/20', icon: Check }
+    return { cls: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20', icon: Check }
   }
-  return { cls: 'bg-muted/20 text-muted-foreground/80 border-border/30', icon: Minus }
+  return { cls: 'bg-muted/20 text-muted-foreground border-border/30', icon: Minus }
 }
 
 export default function OeAiBadge({ verdict, adjustment, compact }: Props) {
-  if (!verdict) return <span className="text-muted-foreground/30 text-xs">—</span>
+  if (!verdict) return <span className="text-muted-foreground text-xs">—</span>
   const { cls, icon: Icon } = styleFor(verdict)
   const adjTxt = adjustment != null && adjustment !== 0
     ? (adjustment > 0 ? `+${adjustment}` : `${adjustment}`)

@@ -31,10 +31,10 @@ export default function AnalystRevisionBadge({
   const colorClasses = up
     ? strong
       ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/25'
-      : 'bg-emerald-500/10 text-emerald-400/80 border-emerald-500/15'
+      : 'bg-emerald-500/10 text-emerald-400 border-emerald-500/15'
     : strong
       ? 'bg-red-500/15 text-red-400 border-red-500/25'
-      : 'bg-red-500/10 text-red-400/80 border-red-500/15'
+      : 'bg-red-500/10 text-red-400 border-red-500/15'
   const Icon = up ? TrendingUp : TrendingDown
   const tooltip = `Target medio ${up ? '+' : ''}${targetChange7dPct.toFixed(1)}% en 7 días${
     upgradeDays14d != null ? ` · ${upgradeDays14d} días de subida (14d)` : ''

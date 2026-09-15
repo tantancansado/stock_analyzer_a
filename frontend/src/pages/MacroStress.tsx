@@ -35,7 +35,7 @@ function fmt(value: number | null | undefined, digits = 0) {
 }
 
 function retTone(value: number | null) {
-  if (value == null) return 'text-muted-foreground/55'
+  if (value == null) return 'text-muted-foreground'
   if (value > 0) return 'text-emerald-300'
   if (value < 0) return 'text-red-300'
   return 'text-muted-foreground'
@@ -58,7 +58,7 @@ function SignalCard({ signal }: { signal: MacroStressSignal }) {
     <div className="rounded-2xl border border-white/10 bg-black/10 p-3">
       <div className="flex items-start justify-between gap-2">
         <div>
-          <div className="text-micro font-bold uppercase tracking-[0.18em] text-muted-foreground/60">
+          <div className="text-micro font-bold uppercase tracking-[0.18em] text-muted-foreground">
             {signal.label}
           </div>
           <div className="mt-1 text-sm font-semibold text-foreground/85">
@@ -67,7 +67,7 @@ function SignalCard({ signal }: { signal: MacroStressSignal }) {
         </div>
         <div className="text-right">
           <div className="text-base font-black text-foreground">{fmt(signal.score, 1)}</div>
-          <div className="text-micro uppercase tracking-[0.16em] text-muted-foreground/50">
+          <div className="text-micro uppercase tracking-[0.16em] text-muted-foreground">
             {Math.round(signal.weight * 100)}%
           </div>
         </div>
@@ -75,7 +75,7 @@ function SignalCard({ signal }: { signal: MacroStressSignal }) {
       <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-white/8">
         <div className={`h-full rounded-full bg-gradient-to-r ${scoreBarClass(signal.score)}`} style={{ width: `${width}%` }} />
       </div>
-      <div className="mt-2 flex flex-wrap gap-2 text-micro text-muted-foreground/60">
+      <div className="mt-2 flex flex-wrap gap-2 text-micro text-muted-foreground">
         {signal.percentile != null && <span>pct {fmt(signal.percentile, 0)}</span>}
         {signal.z != null && <span>z {fmt(signal.z, 2)}</span>}
         {signal.contribution != null && <span>+{fmt(signal.contribution, 1)} pts</span>}
@@ -104,22 +104,22 @@ function HeatTile({
         active ? 'scale-[1.01] border-white/30' : 'hover:-translate-y-0.5 hover:border-white/20'
       }`}
     >
-      <div className="absolute right-3 top-3 flex items-center gap-1.5 rounded-full border border-white/10 bg-black/20 px-2 py-1 text-micro font-bold uppercase tracking-[0.18em] text-muted-foreground/70">
+      <div className="absolute right-3 top-3 flex items-center gap-1.5 rounded-full border border-white/10 bg-black/20 px-2 py-1 text-micro font-bold uppercase tracking-[0.18em] text-muted-foreground">
         <span className={`h-1.5 w-1.5 rounded-full ${theme.ring}`} />
         {theme.label}
       </div>
       <div className="pr-14">
-        <div className="text-micro font-bold uppercase tracking-[0.18em] text-primary/70">{market.category ?? 'macro'}</div>
+        <div className="text-micro font-bold uppercase tracking-[0.18em] text-primary">{market.category ?? 'macro'}</div>
         <h3 className="mt-2 text-xl font-black tracking-tight text-foreground">{market.label}</h3>
-        <p className="mt-1 text-sm text-muted-foreground/70">{market.regime} · {market.primary_ticker} · {marketId}</p>
+        <p className="mt-1 text-sm text-muted-foreground">{market.regime} · {market.primary_ticker} · {marketId}</p>
       </div>
       <div className="mt-6 flex items-end justify-between gap-3">
         <div>
-          <div className="text-micro uppercase tracking-[0.18em] text-muted-foreground/55">Stress score</div>
+          <div className="text-micro uppercase tracking-[0.18em] text-muted-foreground">Stress score</div>
           <div className="mt-1 text-4xl font-black tabular-nums text-foreground">{fmt(market.stress_score, 0)}</div>
         </div>
         <div className="min-w-[92px]">
-          <div className="mb-1 flex items-center justify-between text-micro uppercase tracking-[0.16em] text-muted-foreground/55">
+          <div className="mb-1 flex items-center justify-between text-micro uppercase tracking-[0.16em] text-muted-foreground">
             <span>Coverage</span>
             <span>{fmt(market.coverage_pct, 0)}%</span>
           </div>
@@ -142,7 +142,7 @@ function PriceStressChart({
   const data = market.chart_series ?? []
   if (!data.length) {
     return (
-      <div className="rounded-2xl border border-white/10 bg-black/10 p-6 text-sm text-muted-foreground/60">
+      <div className="rounded-2xl border border-white/10 bg-black/10 p-6 text-sm text-muted-foreground">
         Sin serie histórica suficiente para dibujar el drill-down.
       </div>
     )
@@ -157,10 +157,10 @@ function PriceStressChart({
     <div className="rounded-3xl border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.04),rgba(255,255,255,0.01))] p-4">
       <div className="mb-4 flex items-center justify-between gap-3">
         <div>
-          <div className="text-micro font-bold uppercase tracking-[0.18em] text-muted-foreground/55">Drill-down</div>
+          <div className="text-micro font-bold uppercase tracking-[0.18em] text-muted-foreground">Drill-down</div>
           <div className="mt-1 text-lg font-black tracking-tight text-foreground">Precio y stress histórico</div>
         </div>
-        <div className="text-right text-micro text-muted-foreground/60">
+        <div className="text-right text-micro text-muted-foreground">
           <div>{market.primary_ticker}</div>
           <div>{data.length} puntos</div>
         </div>
@@ -255,9 +255,9 @@ function AnalogueCard({ item, index }: { item: MacroStressAnalogue; index: numbe
     <div className="rounded-2xl border border-white/10 bg-black/10 p-4">
       <div className="flex items-start justify-between gap-3">
         <div>
-          <div className="text-micro font-bold uppercase tracking-[0.18em] text-muted-foreground/45">Análogo #{index + 1}</div>
+          <div className="text-micro font-bold uppercase tracking-[0.18em] text-muted-foreground">Análogo #{index + 1}</div>
           <div className="mt-1 text-sm font-bold text-foreground">{item.name}</div>
-          <div className="text-mini text-muted-foreground/60">{item.date}</div>
+          <div className="text-mini text-muted-foreground">{item.date}</div>
         </div>
         <div className="rounded-full border border-cyan-400/20 bg-cyan-400/8 px-2.5 py-1 text-micro font-bold text-cyan-300">
           {fmt(item.similarity, 0)}% sim
@@ -273,14 +273,14 @@ function AnalogueCard({ item, index }: { item: MacroStressAnalogue; index: numbe
           ['90d', item.forward_90d_return],
         ].map(([label, value]) => (
           <div key={label} className="rounded-xl border border-white/8 bg-white/[0.03] px-2.5 py-2 text-center">
-            <div className="text-micro font-bold uppercase tracking-[0.16em] text-muted-foreground/50">{label}</div>
+            <div className="text-micro font-bold uppercase tracking-[0.16em] text-muted-foreground">{label}</div>
             <div className={`mt-1 text-sm font-black ${retTone(value as number | null)}`}>
               {value == null ? 'N/A' : `${(value as number) > 0 ? '+' : ''}${value}%`}
             </div>
           </div>
         ))}
       </div>
-      <div className="mt-3 text-micro text-muted-foreground/55">
+      <div className="mt-3 text-micro text-muted-foreground">
         Señales compartidas: {item.shared_signals.join(', ')}
       </div>
     </div>
@@ -294,13 +294,13 @@ function ExposurePanel({ market }: { market: MacroStressMarket }) {
 
   return (
     <div className={`rounded-3xl border p-4 ${isRed ? 'border-red-500/20 bg-red-500/[0.06]' : 'border-white/10 bg-white/[0.03]'}`}>
-      <div className="flex items-center gap-2 text-micro font-bold uppercase tracking-[0.18em] text-muted-foreground/55">
+      <div className="flex items-center gap-2 text-micro font-bold uppercase tracking-[0.18em] text-muted-foreground">
         <ShieldAlert size={16} className={isRed ? 'text-red-300' : 'text-cyan-300'} />
         Equity Exposure Map
       </div>
       <div className="mt-4 grid gap-4 md:grid-cols-2">
         <div>
-          <div className="mb-2 text-micro font-bold uppercase tracking-[0.16em] text-emerald-300/80">Beneficiarios</div>
+          <div className="mb-2 text-micro font-bold uppercase tracking-[0.16em] text-emerald-300">Beneficiarios</div>
           <div className="flex flex-wrap gap-2">
             {beneficiaries.map((ticker) => (
               <span key={ticker} className="rounded-full border border-emerald-500/20 bg-emerald-500/10 px-2.5 py-1 text-micro font-semibold text-emerald-300">
@@ -310,7 +310,7 @@ function ExposurePanel({ market }: { market: MacroStressMarket }) {
           </div>
         </div>
         <div>
-          <div className="mb-2 text-micro font-bold uppercase tracking-[0.16em] text-red-300/80">Perdedores</div>
+          <div className="mb-2 text-micro font-bold uppercase tracking-[0.16em] text-red-300">Perdedores</div>
           <div className="flex flex-wrap gap-2">
             {losers.map((ticker) => (
               <span key={ticker} className="rounded-full border border-red-500/20 bg-red-500/10 px-2.5 py-1 text-micro font-semibold text-red-300">
@@ -320,7 +320,7 @@ function ExposurePanel({ market }: { market: MacroStressMarket }) {
           </div>
         </div>
       </div>
-      <p className="mt-4 text-mini leading-relaxed text-muted-foreground/65">
+      <p className="mt-4 text-mini leading-relaxed text-muted-foreground">
         {isRed
           ? 'Mercado en rojo: estas equities son las primeras candidatas a revisar en cartera.'
           : 'Mapa curado para traducir el stress de commodity a nombres operables en equity.'}
@@ -374,7 +374,7 @@ export default function MacroStress() {
         <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/35 to-transparent" />
         <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-2xl">
-            <div className="mb-2 inline-flex items-center gap-2 rounded-full border border-white/10 bg-black/15 px-3 py-1 text-micro font-bold uppercase tracking-[0.2em] text-primary/80">
+            <div className="mb-2 inline-flex items-center gap-2 rounded-full border border-white/10 bg-black/15 px-3 py-1 text-micro font-bold uppercase tracking-[0.2em] text-primary">
               <Radar size={12} />
               Macro Stress Framework
             </div>
@@ -387,15 +387,15 @@ export default function MacroStress() {
 
           <div className="grid gap-3 sm:grid-cols-3">
             <div className="rounded-2xl border border-white/10 bg-black/15 px-4 py-3">
-              <div className="text-micro font-bold uppercase tracking-[0.18em] text-muted-foreground/55">Mercados</div>
+              <div className="text-micro font-bold uppercase tracking-[0.18em] text-muted-foreground">Mercados</div>
               <div className="mt-1 text-3xl font-black text-foreground">{data?.summary?.markets_total ?? markets.length}</div>
             </div>
             <div className="rounded-2xl border border-red-500/20 bg-red-500/10 px-4 py-3">
-              <div className="text-micro font-bold uppercase tracking-[0.18em] text-red-200/70">En rojo</div>
+              <div className="text-micro font-bold uppercase tracking-[0.18em] text-red-200">En rojo</div>
               <div className="mt-1 text-3xl font-black text-red-300">{redCount}</div>
             </div>
             <div className="rounded-2xl border border-cyan-400/20 bg-cyan-400/10 px-4 py-3">
-              <div className="text-micro font-bold uppercase tracking-[0.18em] text-cyan-200/70">Pico actual</div>
+              <div className="text-micro font-bold uppercase tracking-[0.18em] text-cyan-200">Pico actual</div>
               <div className="mt-1 text-3xl font-black text-cyan-200">{fmt(topScore, 0)}</div>
             </div>
           </div>
@@ -403,7 +403,7 @@ export default function MacroStress() {
       </div>
 
       <div className="flex items-center justify-between gap-3">
-        <div className="flex items-center gap-2 text-micro font-bold uppercase tracking-[0.18em] text-muted-foreground/55">
+        <div className="flex items-center gap-2 text-micro font-bold uppercase tracking-[0.18em] text-muted-foreground">
           <Flame size={16} className="text-orange-300" />
           Heatmap Grid
         </div>
@@ -416,7 +416,7 @@ export default function MacroStress() {
               key={value}
               onClick={() => setSortBy(value)}
               className={`rounded-full px-3 py-1.5 text-micro font-semibold transition-colors ${
-                sortBy === value ? 'bg-white/10 text-foreground' : 'text-muted-foreground/55 hover:text-foreground'
+                sortBy === value ? 'bg-white/10 text-foreground' : 'text-muted-foreground hover:text-foreground'
               }`}
             >
               {label}
@@ -446,7 +446,7 @@ export default function MacroStress() {
               <div className="border-b border-white/10 px-5 py-4">
                 <div className="flex flex-wrap items-center gap-3">
                   <div>
-                    <div className="text-micro font-bold uppercase tracking-[0.18em] text-muted-foreground/55">Mercado activo</div>
+                    <div className="text-micro font-bold uppercase tracking-[0.18em] text-muted-foreground">Mercado activo</div>
                     <h3 className="mt-1 text-xl font-black tracking-tight text-foreground">{selected.label}</h3>
                   </div>
                   <div className="ml-auto flex flex-wrap items-center gap-2">
@@ -459,7 +459,7 @@ export default function MacroStress() {
                     }`}>
                       {selected.regime}
                     </span>
-                    <span className="rounded-full border border-white/10 bg-black/15 px-2.5 py-1 text-micro font-semibold text-muted-foreground/70">
+                    <span className="rounded-full border border-white/10 bg-black/15 px-2.5 py-1 text-micro font-semibold text-muted-foreground">
                       {fmt(selected.coverage_pct, 0)}% coverage
                     </span>
                   </div>
@@ -483,7 +483,7 @@ export default function MacroStress() {
           <Card className="glass overflow-clip border-white/10">
             <CardContent className="p-0">
               <div className="border-b border-white/10 px-5 py-4">
-                <div className="flex items-center gap-2 text-micro font-bold uppercase tracking-[0.18em] text-muted-foreground/55">
+                <div className="flex items-center gap-2 text-micro font-bold uppercase tracking-[0.18em] text-muted-foreground">
                   <Waves size={16} className="text-cyan-300" />
                   Historical Analogues
                 </div>
@@ -495,7 +495,7 @@ export default function MacroStress() {
                 {selectedAnalogues.length > 0 ? selectedAnalogues.map((item, index) => (
                   <AnalogueCard key={`${item.date}-${index}`} item={item} index={index} />
                 )) : (
-                  <div className="rounded-2xl border border-white/10 bg-black/10 p-4 text-sm text-muted-foreground/60">
+                  <div className="rounded-2xl border border-white/10 bg-black/10 p-4 text-sm text-muted-foreground">
                     {selected.history_note ?? 'Todavía no hay análogos suficientes para este mercado.'}
                   </div>
                 )}
@@ -504,7 +504,7 @@ export default function MacroStress() {
           </Card>
 
           <div className="rounded-3xl border border-amber-500/20 bg-amber-500/[0.08] p-4">
-            <div className="flex items-center gap-2 text-micro font-bold uppercase tracking-[0.18em] text-amber-300/85">
+            <div className="flex items-center gap-2 text-micro font-bold uppercase tracking-[0.18em] text-amber-300">
               <Siren size={16} />
               Reading Guide
             </div>
@@ -513,7 +513,7 @@ export default function MacroStress() {
               significa que la commodity se ha vuelto lo bastante tensa como para contaminar rápidamente a las equities expuestas.
             </p>
             {selected.history_note && (
-              <div className="mt-3 flex items-start gap-2 rounded-2xl border border-white/10 bg-black/10 px-3 py-3 text-mini text-muted-foreground/65">
+              <div className="mt-3 flex items-start gap-2 rounded-2xl border border-white/10 bg-black/10 px-3 py-3 text-mini text-muted-foreground">
                 <AlertTriangle size={16} className="mt-0.5 shrink-0 text-amber-300" />
                 <span>{selected.history_note}</span>
               </div>

@@ -107,7 +107,7 @@ function OpenLink({ to, label }: { to: string; label?: string }) {
   return (
     <Link
       to={to}
-      className="inline-flex items-center gap-1 text-apoyo font-semibold text-primary hover:text-primary/80 transition-colors"
+      className="inline-flex items-center gap-1 text-apoyo font-semibold text-primary hover:text-primary transition-colors"
     >
       {label ?? 'Abrir sección'} →
     </Link>
@@ -225,7 +225,7 @@ export default function Manual() {
         <aside className="hidden lg:block w-60 shrink-0">
           <div className="sticky top-20">
             <div className="relative mb-3">
-              <Search size={16} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-muted-foreground/50" />
+              <Search size={16} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-muted-foreground" />
               <input
                 type="text"
                 value={query}
@@ -240,7 +240,7 @@ export default function Manual() {
                 if (!items?.length) return null
                 return (
                   <div key={g}>
-                    <div className="text-micro uppercase tracking-[0.18em] font-bold text-muted-foreground/50 mb-1.5 px-2">
+                    <div className="text-micro uppercase tracking-[0.18em] font-bold text-muted-foreground mb-1.5 px-2">
                       {GROUP_LABELS[g]}
                     </div>
                     <ul className="space-y-0.5">
@@ -369,7 +369,7 @@ export default function Manual() {
 
           {/* ──────────────── Pages ──────────────── */}
 
-          <h2 className="text-lg font-bold uppercase tracking-widest text-muted-foreground/60 mt-10 mb-4 pb-1 border-b border-border/30">
+          <h2 className="text-lg font-bold uppercase tracking-widest text-muted-foreground mt-10 mb-4 pb-1 border-b border-border/30">
             Secciones de la app
           </h2>
 
@@ -662,7 +662,7 @@ export default function Manual() {
 
           {/* ──────────────── Agents ──────────────── */}
 
-          <h2 className="text-lg font-bold uppercase tracking-widest text-muted-foreground/60 mt-10 mb-4 pb-1 border-b border-border/30">
+          <h2 className="text-lg font-bold uppercase tracking-widest text-muted-foreground mt-10 mb-4 pb-1 border-b border-border/30">
             Agentes del pipeline
           </h2>
 
@@ -871,7 +871,7 @@ export default function Manual() {
 
           {/* ──────────────── Glossary + FAQ ──────────────── */}
 
-          <h2 className="text-lg font-bold uppercase tracking-widest text-muted-foreground/60 mt-10 mb-4 pb-1 border-b border-border/30">
+          <h2 className="text-lg font-bold uppercase tracking-widest text-muted-foreground mt-10 mb-4 pb-1 border-b border-border/30">
             Glosario y ayuda
           </h2>
 
@@ -931,7 +931,7 @@ export default function Manual() {
             </div>
           </Card>
 
-          <div className="mt-12 mb-8 text-center text-xs text-muted-foreground/60">
+          <div className="mt-12 mb-8 text-center text-xs text-muted-foreground">
             Stock Analyzer — Value/GARP investing, estilo Lynch. Consistencia &gt; héroes.
           </div>
         </article>

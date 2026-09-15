@@ -12,7 +12,7 @@ import { LogoCandleBull } from '../components/BrandLogos'
 import { nlRegimen, nlRegimenTono } from '@/lib/nl'
 
 function TechBiasCell({ t }: { t?: TechnicalSummary }) {
-  if (!t) return <span className="text-muted-foreground/30 text-xs">—</span>
+  if (!t) return <span className="text-muted-foreground text-xs">—</span>
   const cls = t.bias === 'BULLISH'
     ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30'
     : t.bias === 'BEARISH'
@@ -28,7 +28,7 @@ function TechBiasCell({ t }: { t?: TechnicalSummary }) {
 }
 
 function MlWinBadge({ pred }: { pred?: MlWinPrediction }) {
-  if (!pred) return <span className="text-muted-foreground/30 text-xs">—</span>
+  if (!pred) return <span className="text-muted-foreground text-xs">—</span>
   const cls =
     pred.label === 'ALTA'  ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30' :
     pred.label === 'MEDIA' ? 'bg-amber-500/15 text-amber-400 border-amber-500/30' :
@@ -65,7 +65,7 @@ function EntryQualityBadge({ quality, confidence, analyzedAt }: {
   confidence?: string
   analyzedAt?: string
 }) {
-  const sinDato = <span className="text-muted-foreground/30 text-xs">—</span>
+  const sinDato = <span className="text-muted-foreground text-xs">—</span>
   if (!quality || quality === 'wait' || confidence === 'low') return sinDato
   if (analyzedAt) {
     const dias = (Date.now() - new Date(analyzedAt).getTime()) / 86_400_000
@@ -543,7 +543,7 @@ export default function ValueEU() {
           {/* Reset + count */}
           <div className="flex items-center gap-3 ml-auto">
             {hasActiveFilters && (
-              <button onClick={resetFilters} className="text-xs text-muted-foreground/50 hover:text-foreground underline underline-offset-2 transition-colors">
+              <button onClick={resetFilters} className="text-xs text-muted-foreground hover:text-foreground underline underline-offset-2 transition-colors">
                 Limpiar
               </button>
             )}
@@ -596,7 +596,7 @@ export default function ValueEU() {
                         {d.analyst_upside_pct >= 0 ? '+' : ''}{d.analyst_upside_pct.toFixed(0)}%
                       </div>
                     )}
-                    <div className="text-micro text-muted-foreground/50 mt-0.5">{precio(d.current_price, d.ticker)}</div>
+                    <div className="text-micro text-muted-foreground mt-0.5">{precio(d.current_price, d.ticker)}</div>
                   </div>
                 </div>
                 {/* Mismo motivo que en ValueUS: decision.detail es texto fijo
@@ -649,7 +649,7 @@ export default function ValueEU() {
                       {d.analyst_upside_pct > 0 ? '+' : ''}{d.analyst_upside_pct.toFixed(0)}%
                     </div>
                   )}
-                  <div className="text-micro text-muted-foreground/50 mt-0.5">{precio(d.current_price, d.ticker)}</div>
+                  <div className="text-micro text-muted-foreground mt-0.5">{precio(d.current_price, d.ticker)}</div>
                 </div>
               </div>
 
@@ -668,13 +668,13 @@ export default function ValueEU() {
               {(d.entry_price || d.stop_loss || d.target_price) && (
                 <div className="flex gap-3 mt-2.5 text-xs font-mono">
                   {d.entry_price && <span className="text-cyan-400">E {precio(d.entry_price, d.ticker)}</span>}
-                  {d.stop_loss && <span className="text-red-400/80">SL {precio(d.stop_loss, d.ticker)}</span>}
-                  {d.target_price && <span className="text-emerald-400/80">TP {precio(d.target_price, d.ticker)}</span>}
+                  {d.stop_loss && <span className="text-red-400">SL {precio(d.stop_loss, d.ticker)}</span>}
+                  {d.target_price && <span className="text-emerald-400">TP {precio(d.target_price, d.ticker)}</span>}
                 </div>
               )}
 
               {/* Row 4: FCF / R:R / Market / Sector */}
-              <div className="flex gap-3 mt-2 text-xs text-muted-foreground/70">
+              <div className="flex gap-3 mt-2 text-xs text-muted-foreground">
                 {d.fcf_yield_pct != null && <span>FCF {d.fcf_yield_pct.toFixed(1)}%</span>}
                 {d.risk_reward_ratio != null && <span>R:R {d.risk_reward_ratio.toFixed(1)}x</span>}
                 {d.market && <span>{MARKET_FLAGS[d.market] ?? ''} {d.market}</span>}
@@ -938,7 +938,7 @@ export default function ValueEU() {
           </CardContent>
         )}
         {sorted.length > 0 && (
-          <div className="hidden sm:block text-micro text-muted-foreground/25 text-right px-3 py-1.5 border-t border-border/10">
+          <div className="hidden sm:block text-micro text-muted-foreground text-right px-3 py-1.5 border-t border-border/10">
             j / k navegar · Enter ver tesis · Esc cerrar
           </div>
         )}

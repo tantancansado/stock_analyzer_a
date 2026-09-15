@@ -52,7 +52,7 @@ function StrategyCard({ s }: { s: PortfolioStrategy }) {
                 <ActionBadge action={s.current_action} />
                 {s._stale_strategy && (
                   <span
-                    className="inline-flex items-center gap-1 rounded-full border border-amber-500/30 bg-amber-500/10 text-amber-300/90 px-2 py-0.5 text-micro font-bold uppercase tracking-wider"
+                    className="inline-flex items-center gap-1 rounded-full border border-amber-500/30 bg-amber-500/10 text-amber-300 px-2 py-0.5 text-micro font-bold uppercase tracking-wider"
                     title={s._stale_reason || 'Plan del día anterior — IA sin presupuesto hoy'}
                   >
                     <AlertTriangle size={12} strokeWidth={2.5} />
@@ -60,7 +60,7 @@ function StrategyCard({ s }: { s: PortfolioStrategy }) {
                   </span>
                 )}
               </div>
-              <div className="text-mini text-muted-foreground/70 mt-0.5">
+              <div className="text-mini text-muted-foreground mt-0.5">
                 {s.shares} acc · avg ${s.avg_price.toFixed(2)} · actual <b className="text-foreground">${s.current_price.toFixed(2)}</b>
               </div>
             </div>
@@ -69,7 +69,7 @@ function StrategyCard({ s }: { s: PortfolioStrategy }) {
             <div className={`text-base font-bold tabular-nums ${plClass}`}>
               {(s.pl_pct ?? 0) >= 0 ? '+' : ''}{(s.pl_pct ?? 0).toFixed(1)}%
             </div>
-            <div className="text-micro uppercase tracking-wider text-muted-foreground/50 mt-0.5">P&L abierto</div>
+            <div className="text-micro uppercase tracking-wider text-muted-foreground mt-0.5">P&L abierto</div>
           </div>
         </div>
 
@@ -84,12 +84,12 @@ function StrategyCard({ s }: { s: PortfolioStrategy }) {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 mb-4">
           {s.trim_at_price && s.trim_pct ? (
             <div className="rounded-lg border border-amber-500/25 bg-amber-500/5 px-3 py-2.5">
-              <div className="flex items-center gap-1.5 text-micro font-bold uppercase tracking-wider text-amber-400/80 mb-1">
+              <div className="flex items-center gap-1.5 text-micro font-bold uppercase tracking-wider text-amber-400 mb-1">
                 <TrendingDown size={12} /> Vender {s.trim_pct.toFixed(0)}%
               </div>
               <div className="text-base font-bold tabular-nums text-amber-300">${s.trim_at_price.toFixed(2)}</div>
               {distToTrim !== null && (
-                <div className="text-micro text-muted-foreground/60 mt-0.5">
+                <div className="text-micro text-muted-foreground mt-0.5">
                   {distToTrim >= 0 ? '+' : ''}{distToTrim.toFixed(1)}% desde aquí
                 </div>
               )}
@@ -99,18 +99,18 @@ function StrategyCard({ s }: { s: PortfolioStrategy }) {
             </div>
           ) : (
             <div className="rounded-lg border border-border/20 bg-muted/5 px-3 py-2.5 opacity-50">
-              <div className="text-micro font-bold uppercase tracking-wider text-muted-foreground/50">Sin nivel de venta</div>
+              <div className="text-micro font-bold uppercase tracking-wider text-muted-foreground">Sin nivel de venta</div>
             </div>
           )}
 
           {s.add_at_price && s.add_pct ? (
             <div className="rounded-lg border border-emerald-500/25 bg-emerald-500/5 px-3 py-2.5">
-              <div className="flex items-center gap-1.5 text-micro font-bold uppercase tracking-wider text-emerald-400/80 mb-1">
+              <div className="flex items-center gap-1.5 text-micro font-bold uppercase tracking-wider text-emerald-400 mb-1">
                 <TrendingUp size={12} /> Comprar +{s.add_pct.toFixed(0)}%
               </div>
               <div className="text-base font-bold tabular-nums text-emerald-300">${s.add_at_price.toFixed(2)}</div>
               {distToAdd !== null && (
-                <div className="text-micro text-muted-foreground/60 mt-0.5">
+                <div className="text-micro text-muted-foreground mt-0.5">
                   -{Math.abs(distToAdd).toFixed(1)}% desde aquí
                 </div>
               )}
@@ -120,16 +120,16 @@ function StrategyCard({ s }: { s: PortfolioStrategy }) {
             </div>
           ) : (
             <div className="rounded-lg border border-border/20 bg-muted/5 px-3 py-2.5 opacity-50">
-              <div className="text-micro font-bold uppercase tracking-wider text-muted-foreground/50">Sin nivel de recompra</div>
+              <div className="text-micro font-bold uppercase tracking-wider text-muted-foreground">Sin nivel de recompra</div>
             </div>
           )}
 
           <div className="rounded-lg border border-red-500/25 bg-red-500/5 px-3 py-2.5">
-            <div className="flex items-center gap-1.5 text-micro font-bold uppercase tracking-wider text-red-400/80 mb-1">
+            <div className="flex items-center gap-1.5 text-micro font-bold uppercase tracking-wider text-red-400 mb-1">
               <Shield size={12} /> Stop loss
             </div>
             <div className="text-base font-bold tabular-nums text-red-300">${s.stop_loss_price.toFixed(2)}</div>
-            <div className="text-micro text-muted-foreground/60 mt-0.5">
+            <div className="text-micro text-muted-foreground mt-0.5">
               {distToStop.toFixed(1)}% desde aquí
             </div>
           </div>
@@ -140,11 +140,11 @@ function StrategyCard({ s }: { s: PortfolioStrategy }) {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
             {s.triggers_sell.length > 0 && (
               <div>
-                <div className="text-micro font-bold uppercase tracking-wider text-amber-400/70 mb-1.5">Triggers de salida</div>
+                <div className="text-micro font-bold uppercase tracking-wider text-amber-400 mb-1.5">Triggers de salida</div>
                 <ul className="space-y-1">
                   {s.triggers_sell.slice(0, 3).map((t, i) => (
                     <li key={i} className="flex gap-1.5 text-apoyo leading-snug text-muted-foreground">
-                      <span className="text-amber-400/60 shrink-0">•</span>
+                      <span className="text-amber-400 shrink-0">•</span>
                       <span>{t}</span>
                     </li>
                   ))}
@@ -153,11 +153,11 @@ function StrategyCard({ s }: { s: PortfolioStrategy }) {
             )}
             {s.triggers_buy.length > 0 && (
               <div>
-                <div className="text-micro font-bold uppercase tracking-wider text-emerald-400/70 mb-1.5">Triggers de compra</div>
+                <div className="text-micro font-bold uppercase tracking-wider text-emerald-400 mb-1.5">Triggers de compra</div>
                 <ul className="space-y-1">
                   {s.triggers_buy.slice(0, 3).map((t, i) => (
                     <li key={i} className="flex gap-1.5 text-apoyo leading-snug text-muted-foreground">
-                      <span className="text-emerald-400/60 shrink-0">•</span>
+                      <span className="text-emerald-400 shrink-0">•</span>
                       <span>{t}</span>
                     </li>
                   ))}
@@ -178,11 +178,11 @@ function StrategyCard({ s }: { s: PortfolioStrategy }) {
           <div className="flex items-center gap-1.5 text-mini text-muted-foreground">
             <Calendar size={12} />
             Próximo check: <b className="text-foreground tabular-nums">{s.next_check_date}</b>
-            {s.next_check_reason && <span className="text-muted-foreground/60">— {s.next_check_reason}</span>}
+            {s.next_check_reason && <span className="text-muted-foreground">— {s.next_check_reason}</span>}
           </div>
           <div className="flex items-center gap-1.5 text-micro">
-            <Target size={12} className="text-muted-foreground/50" />
-            <span className="text-muted-foreground/60">Confianza</span>
+            <Target size={12} className="text-muted-foreground" />
+            <span className="text-muted-foreground">Confianza</span>
             <b className="text-foreground tabular-nums">{s.confidence}%</b>
           </div>
         </div>
@@ -232,7 +232,7 @@ export default function Strategies() {
       <div className="mb-5 flex items-start justify-between flex-wrap gap-3">
         <PageHeader
           {...cabecera}
-          subtitle={<>{cabecera.subtitle}{data?.scan_date && <span className="text-muted-foreground/40"> · Scan {data.scan_date}</span>}</>}
+          subtitle={<>{cabecera.subtitle}{data?.scan_date && <span className="text-muted-foreground"> · Scan {data.scan_date}</span>}</>}
         />
         <div className="flex flex-wrap gap-2">
           {(['ADD', 'TRIM', 'HOLD', 'WATCH', 'EXIT'] as StrategyAction[]).map(action => {

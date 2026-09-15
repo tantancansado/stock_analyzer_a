@@ -186,7 +186,7 @@ export default function Portfolio() {
         title="Portfolio Tracker"
         subtitle={<>Rendimiento de <strong className="text-foreground">VALUE US</strong> — {pf.value_strategy?.count ?? pf.total_signals} señales
           {pf.date_range && <span className="ml-1 opacity-60">({pf.date_range})</span>}
-          <span className="mt-1 block text-xs text-muted-foreground/70">
+          <span className="mt-1 block text-xs text-muted-foreground">
             Europa va aparte, más abajo: mezclarla en el titular hundía el número con señales que no operas.
           </span></>}
       />
@@ -211,7 +211,7 @@ export default function Portfolio() {
         if (statsData.periods.length === 0) return null
         return (
           <div className="mb-5">
-            <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground/50 mb-3 px-1">Resumen animado</div>
+            <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-3 px-1">Resumen animado</div>
             <Suspense fallback={<div className="glass border border-border/40 rounded-xl h-20 flex items-center justify-center text-sm text-muted-foreground">Cargando…</div>}>
               <PortfolioStatsPlayer data={statsData} />
             </Suspense>
@@ -375,13 +375,13 @@ export default function Portfolio() {
         <Card className="glass mb-5 animate-fade-in-up overflow-clip">
           <div className="px-5 py-3 border-b border-border/50 flex items-center gap-2">
             <h3 className="text-sm font-semibold">Correlación de Señales</h3>
-            <span className="text-micro text-muted-foreground/50">{corrData.days}d · {corrData.as_of}</span>
+            <span className="text-micro text-muted-foreground">{corrData.days}d · {corrData.as_of}</span>
           </div>
           <div className="table-x-wrap">
             <table className="text-micro tabular-nums">
               <thead>
                 <tr>
-                  <th className="px-2 py-1.5 text-left text-muted-foreground/50 font-medium w-16"></th>
+                  <th className="px-2 py-1.5 text-left text-muted-foreground font-medium w-16"></th>
                   {corrData.tickers.map(t => (
                     <th key={t} className="px-1.5 py-1.5 text-center text-muted-foreground font-mono font-bold whitespace-nowrap">{t}</th>
                   ))}
@@ -403,10 +403,10 @@ export default function Portfolio() {
                             ? val > 0 ? 'bg-red-500/8' : 'bg-blue-500/8'
                             : ''
                       const textColor = ri === ci
-                        ? 'text-muted-foreground/30'
+                        ? 'text-muted-foreground'
                         : abs >= 0.7
                           ? val > 0 ? 'text-red-400 font-bold' : 'text-blue-400 font-bold'
-                          : 'text-muted-foreground/60'
+                          : 'text-muted-foreground'
                       return (
                         <td key={colTicker} className={`px-1.5 py-1 text-center ${bg} ${textColor}`}
                           title={isHigh ? `${rowTicker}/${colTicker}: correlación ${val > 0 ? 'positiva' : 'negativa'} alta (${val.toFixed(2)})` : ''}>
@@ -419,7 +419,7 @@ export default function Portfolio() {
               </tbody>
             </table>
           </div>
-          <div className="px-4 py-2 border-t border-border/20 flex gap-4 text-micro text-muted-foreground/40">
+          <div className="px-4 py-2 border-t border-border/20 flex gap-4 text-micro text-muted-foreground">
             <span className="flex items-center gap-1"><span className="inline-block w-2 h-2 rounded-sm bg-red-500/25" /> ≥0.7 correlación positiva (concentración)</span>
             <span className="flex items-center gap-1"><span className="inline-block w-2 h-2 rounded-sm bg-blue-500/25" /> ≥0.7 correlación negativa (diversificación)</span>
           </div>
@@ -559,7 +559,7 @@ export default function Portfolio() {
                       {r.status && <div className="text-micro text-muted-foreground">{r.status}</div>}
                     </div>
                   </div>
-                  <div className="flex gap-3 mt-2 text-micro text-muted-foreground/60">
+                  <div className="flex gap-3 mt-2 text-micro text-muted-foreground">
                     {r.value_score != null && <span>Score {r.value_score.toFixed(0)}</span>}
                     {r.return_7d != null && <span>7d: {r.return_7d > 0 ? '+' : ''}{r.return_7d.toFixed(1)}%</span>}
                     {r.return_30d != null && <span>30d: {r.return_30d > 0 ? '+' : ''}{r.return_30d.toFixed(1)}%</span>}
@@ -662,7 +662,7 @@ export default function Portfolio() {
           <h2 className="text-sm font-semibold text-muted-foreground mb-1 uppercase tracking-wider">
             Correlación entre picks VALUE (últimos {corrData.days}d)
           </h2>
-          <p className="text-xs text-muted-foreground/60 mb-3">
+          <p className="text-xs text-muted-foreground mb-3">
             Riesgo de concentración oculto — correlación &gt;0.7 significa que los picks se mueven juntos
           </p>
           <Card className="glass border border-border/40">
@@ -670,7 +670,7 @@ export default function Portfolio() {
               <table className="text-micro border-collapse w-full">
                 <thead>
                   <tr>
-                    <th className="text-muted-foreground/60 font-normal p-1 text-left w-12"></th>
+                    <th className="text-muted-foreground font-normal p-1 text-left w-12"></th>
                     {corrData.tickers.map(t => (
                       <th key={t} className="text-muted-foreground font-mono font-semibold p-1 text-center whitespace-nowrap">{t}</th>
                     ))}
@@ -688,9 +688,9 @@ export default function Portfolio() {
                           absVal >= 0.8 ? 'bg-red-500/25' :
                           absVal >= 0.6 ? 'bg-orange-500/15' :
                           absVal >= 0.4 ? 'bg-yellow-500/10' : ''
-                        const textColor = isDiag ? 'text-muted-foreground/40' :
+                        const textColor = isDiag ? 'text-muted-foreground' :
                           absVal >= 0.8 ? 'text-red-400 font-bold' :
-                          absVal >= 0.6 ? 'text-orange-400' : 'text-foreground/60'
+                          absVal >= 0.6 ? 'text-orange-400' : 'text-muted-foreground'
                         return (
                           <td key={colT} className={`p-1 text-center rounded ${bg} ${textColor}`}>
                             {val != null ? val.toFixed(2) : '—'}
@@ -701,7 +701,7 @@ export default function Portfolio() {
                   ))}
                 </tbody>
               </table>
-              <div className="flex gap-4 mt-3 text-micro text-muted-foreground/60">
+              <div className="flex gap-4 mt-3 text-micro text-muted-foreground">
                 <span><span className="text-red-400 font-bold">■</span> &gt;0.8 — Muy correlados (riesgo alto)</span>
                 <span><span className="text-orange-400">■</span> 0.6–0.8 — Correlados (vigilar)</span>
                 <span><span className="text-yellow-400">■</span> 0.4–0.6 — Correlación moderada</span>
@@ -714,7 +714,7 @@ export default function Portfolio() {
       {/* ── Alpha vs benchmark ── */}
       {pf.alpha?.['90d']?.count != null && pf.alpha['90d'].count >= 3 && (
         <div className="mt-6 animate-fade-in-up">
-          <h2 className="text-base font-bold uppercase tracking-widest text-muted-foreground/60 pb-1 border-b border-border/30 mb-4">
+          <h2 className="text-base font-bold uppercase tracking-widest text-muted-foreground pb-1 border-b border-border/30 mb-4">
             Alpha vs benchmark
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -727,7 +727,7 @@ export default function Portfolio() {
                 <Card key={period} className="glass border-border/20">
                   <CardContent className="p-4">
                     <div className="flex items-center justify-between mb-3">
-                      <span className="text-xs font-semibold uppercase tracking-widest text-muted-foreground/60">{period}</span>
+                      <span className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">{period}</span>
                       <Badge variant={(a.avg_alpha ?? 0) > 0 ? 'green' : 'red'} className="text-micro">
                         {(a.avg_alpha ?? 0) > 0 ? '↑ OUTPERFORM' : '↓ UNDERPERFORM'}
                       </Badge>
@@ -735,7 +735,7 @@ export default function Portfolio() {
                     <div className={`text-3xl font-extrabold tabular-nums leading-none mb-1 ${alphaColor}`}>
                       {(a.avg_alpha ?? 0) > 0 ? '+' : ''}{a.avg_alpha?.toFixed(2)}%
                     </div>
-                    <div className="text-micro text-muted-foreground/50 mb-3">alpha medio vs {bench}</div>
+                    <div className="text-micro text-muted-foreground mb-3">alpha medio vs {bench}</div>
                     <div className="space-y-1.5 text-xs">
                       <div className="flex justify-between">
                         <span className="text-muted-foreground">Nuestras señales</span>
@@ -745,7 +745,7 @@ export default function Portfolio() {
                       </div>
                       <div className="flex justify-between">
                         <span className="text-muted-foreground">Benchmark ({bench})</span>
-                        <span className="text-muted-foreground/70 font-semibold">
+                        <span className="text-muted-foreground font-semibold">
                           {a.avg_benchmark_return != null ? `${a.avg_benchmark_return > 0 ? '+' : ''}${a.avg_benchmark_return.toFixed(2)}%` : '—'}
                         </span>
                       </div>
@@ -755,7 +755,7 @@ export default function Portfolio() {
                           {a.positive_alpha_rate?.toFixed(1)}%
                         </span>
                       </div>
-                      <div className="flex justify-between text-micro text-muted-foreground/50">
+                      <div className="flex justify-between text-micro text-muted-foreground">
                         <span>{a.count} señales</span>
                         <span>mejor {a.best_alpha != null ? `+${a.best_alpha.toFixed(1)}%` : '—'} / peor {a.worst_alpha?.toFixed(1)}%</span>
                       </div>
@@ -778,16 +778,16 @@ export default function Portfolio() {
           coinciden, no hay ganador que declarar. */}
       {((pf.value_strategy?.['90d']?.count ?? 0) >= 10 || (pf.eu_value_strategy?.['90d']?.count ?? 0) >= 10) && (
         <div className="mt-6 animate-fade-in-up">
-          <h2 className="text-base font-bold uppercase tracking-widest text-muted-foreground/60 pb-1 border-b border-border/30 mb-1">
+          <h2 className="text-base font-bold uppercase tracking-widest text-muted-foreground pb-1 border-b border-border/30 mb-1">
             VALUE US vs EU — horizonte de tesis
           </h2>
-          <p className="text-xs text-muted-foreground/60 mb-2">
+          <p className="text-xs text-muted-foreground mb-2">
             Una tesis value se juega en trimestres, no en semanas. Estas son las cifras a 90d /
             6 meses / 1 año — el 7-30d mide ruido de corto plazo y no dice nada útil aquí.
             180d y 365d se llenan conforme envejecen las señales (el tracking empezó en feb-2026).
           </p>
           {basesDistintas && (
-            <p className="mb-4 rounded-lg border border-amber-500/25 bg-amber-500/5 px-3 py-2 text-xs text-amber-300/90">
+            <p className="mb-4 rounded-lg border border-amber-500/25 bg-amber-500/5 px-3 py-2 text-xs text-amber-300">
               <strong>No son comparables entre sí a 90 días.</strong> US mide solo el periodo
               con filtrado correcto; EU aún no tiene señales limpias con 90 días cumplidos, así
               que usa todo el histórico — incluido el tramo que el propio tracker descarta por
@@ -816,7 +816,7 @@ export default function Portfolio() {
                     {/* 90d — la cifra principal */}
                     {wr != null && s90?.count ? (
                       <div className="mb-3">
-                        <div className="text-micro uppercase tracking-widest text-muted-foreground/60 mb-1">90 días · win rate</div>
+                        <div className="text-micro uppercase tracking-widest text-muted-foreground mb-1">90 días · win rate</div>
                         <div className={`text-3xl font-extrabold tabular-nums leading-none ${wr >= 55 ? 'text-emerald-400' : wr >= 45 ? 'text-amber-400' : 'text-red-400'}`}>
                           {wr.toFixed(1)}%
                         </div>
@@ -824,31 +824,31 @@ export default function Portfolio() {
                             100% con n=8 abarca del 67% al 100% y sin esto se
                             lee igual que un 66,7% con n=27. */}
                         {s90.ci_low != null && s90.ci_high != null && (
-                          <div className="mt-1 text-mini tabular-nums text-muted-foreground/70">
+                          <div className="mt-1 text-mini tabular-nums text-muted-foreground">
                             IC 95%: {s90.ci_low.toFixed(0)}–{s90.ci_high.toFixed(0)}%
                           </div>
                         )}
                         <div className="text-xs text-muted-foreground mt-1.5">
                           retorno medio {s90.avg_return != null ? `${s90.avg_return > 0 ? '+' : ''}${s90.avg_return.toFixed(2)}%` : '—'}
-                          <span className="text-muted-foreground/50"> · {s90.count} señales</span>
+                          <span className="text-muted-foreground"> · {s90.count} señales</span>
                         </div>
-                        <div className="mt-1 text-micro text-muted-foreground/50">
+                        <div className="mt-1 text-micro text-muted-foreground">
                           {BASIS_LABEL[s90.basis ?? ''] ?? s90.basis}
                         </div>
                         {a90?.avg_alpha != null && (
                           <div className="text-xs mt-1">
-                            <span className="text-muted-foreground/60">vs {bench}: </span>
+                            <span className="text-muted-foreground">vs {bench}: </span>
                             <span className={a90.avg_alpha >= 0 ? 'text-emerald-400 font-semibold' : 'text-red-400 font-semibold'}>
                               {a90.avg_alpha > 0 ? '+' : ''}{a90.avg_alpha.toFixed(1)}% alpha
                             </span>
-                            <span className="text-muted-foreground/50">
+                            <span className="text-muted-foreground">
                               {' '}(señal {a90.avg_signal_return != null ? `${a90.avg_signal_return > 0 ? '+' : ''}${a90.avg_signal_return.toFixed(1)}%` : '—'} vs índice {a90.avg_benchmark_return != null ? `${a90.avg_benchmark_return > 0 ? '+' : ''}${a90.avg_benchmark_return.toFixed(1)}%` : '—'})
                             </span>
                           </div>
                         )}
                       </div>
                     ) : (
-                      <div className="mb-3 text-sm text-muted-foreground/60">Aún sin datos a 90 días.</div>
+                      <div className="mb-3 text-sm text-muted-foreground">Aún sin datos a 90 días.</div>
                     )}
 
                     {/* 180d / 365d — acumulando */}
@@ -862,7 +862,7 @@ export default function Portfolio() {
                           const w = sp.win_rate
                           return (
                             <div key={p}>
-                              <div className="text-micro uppercase tracking-widest text-muted-foreground/60 mb-1">{plabel}</div>
+                              <div className="text-micro uppercase tracking-widest text-muted-foreground mb-1">{plabel}</div>
                               <div className={`text-xl font-extrabold tabular-nums leading-none ${w >= 55 ? 'text-emerald-400' : w >= 45 ? 'text-amber-400' : 'text-red-400'}`}>
                                 {w.toFixed(1)}%
                               </div>
@@ -874,8 +874,8 @@ export default function Portfolio() {
                         }
                         return (
                           <div key={p}>
-                            <div className="text-micro uppercase tracking-widest text-muted-foreground/60 mb-1">{plabel}</div>
-                            <div className="text-sm text-muted-foreground/40 leading-tight mt-1.5">
+                            <div className="text-micro uppercase tracking-widest text-muted-foreground mb-1">{plabel}</div>
+                            <div className="text-sm text-muted-foreground leading-tight mt-1.5">
                               Acumulando<br /><span className="text-micro">~{eta}</span>
                             </div>
                           </div>
@@ -894,7 +894,7 @@ export default function Portfolio() {
       {calibData && (
         <div className="mt-8 space-y-4 animate-fade-in-up">
           <div className="pb-1 border-b border-border/30">
-            <h2 className="text-base font-bold uppercase tracking-widest text-muted-foreground/60">
+            <h2 className="text-base font-bold uppercase tracking-widest text-muted-foreground">
               Estadísticas del sistema
             </h2>
             {/* El horizonte no es un detalle: hasta el 9-sep-2026 todo esto se
@@ -909,7 +909,7 @@ export default function Portfolio() {
                 venir de una ventana de 10 días. Con eso a la vista, "el score
                 predice" se lee como lo que es. */}
             {calibData.muestra_desde && calibData.muestra_hasta && (
-              <p className="mt-1 text-xs text-amber-300/80">
+              <p className="mt-1 text-xs text-amber-300">
                 Ojo: todas emitidas entre {calibData.muestra_desde} y {calibData.muestra_hasta}.
                 A este horizonte solo tienen dato las señales más antiguas, así que esto
                 describe ese periodo concreto — no la estrategia en general.
@@ -921,7 +921,7 @@ export default function Portfolio() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <Card className="glass border-border/20">
               <CardContent className="p-4">
-                <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground/60 mb-3">Win rate por régimen de mercado</p>
+                <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-3">Win rate por régimen de mercado</p>
                 <ResponsiveContainer width="100%" height={160}>
                   <BarChart data={calibData.regime_analysis} layout="vertical" margin={{ left: 8, right: 32 }}>
                     <XAxis type="number" domain={[0, 100]} tickFormatter={v => `${v}%`} tick={{ fontSize: 10 }} />
@@ -942,7 +942,7 @@ export default function Portfolio() {
             {/* Win rate por sector */}
             <Card className="glass border-border/20">
               <CardContent className="p-4">
-                <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground/60 mb-3">Win rate por sector (top 8)</p>
+                <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-3">Win rate por sector (top 8)</p>
                 <ResponsiveContainer width="100%" height={160}>
                   <BarChart
                     data={[...calibData.sector_calibration]
@@ -970,8 +970,8 @@ export default function Portfolio() {
           {/* Win rate por score bucket (línea) */}
           <Card className="glass border-border/20">
             <CardContent className="p-4">
-              <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground/60 mb-1">Win rate por score bucket — ¿el score predice?</p>
-              <p className="text-mini text-muted-foreground/50 mb-3">Cada punto = rango de value_score. Por encima de la línea 50% = el score añade valor real.</p>
+              <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-1">Win rate por score bucket — ¿el score predice?</p>
+              <p className="text-mini text-muted-foreground mb-3">Cada punto = rango de value_score. Por encima de la línea 50% = el score añade valor real.</p>
               <ResponsiveContainer width="100%" height={180}>
                 <LineChart data={calibData.score_buckets} margin={{ left: 8, right: 16, top: 8 }}>
                   <XAxis dataKey="range" tick={{ fontSize: 10 }} />
@@ -988,8 +988,8 @@ export default function Portfolio() {
           {calibData.fcf_yield_buckets?.length > 0 && (
             <Card className="glass border-border/20">
               <CardContent className="p-4">
-                <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground/60 mb-1">Win rate por FCF Yield % — el factor más predictivo</p>
-                <p className="text-mini text-muted-foreground/50 mb-3">El modelo ML detectó FCF Yield como la feature más importante (26.8%). Aquí la evidencia.</p>
+                <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-1">Win rate por FCF Yield % — el factor más predictivo</p>
+                <p className="text-mini text-muted-foreground mb-3">El modelo ML detectó FCF Yield como la feature más importante (26.8%). Aquí la evidencia.</p>
                 <ResponsiveContainer width="100%" height={160}>
                   <BarChart data={calibData.fcf_yield_buckets} margin={{ left: 8, right: 16 }}>
                     <XAxis dataKey="range" tick={{ fontSize: 10 }} />
@@ -1018,7 +1018,7 @@ export default function Portfolio() {
               <Card key={s.label} className="glass border-border/20">
                 <CardContent className="p-3 text-center">
                   <div className={`text-xl font-extrabold tabular-nums ${s.color}`}>{s.value}</div>
-                  <div className="text-micro text-muted-foreground/60 mt-0.5">{s.label}</div>
+                  <div className="text-micro text-muted-foreground mt-0.5">{s.label}</div>
                 </CardContent>
               </Card>
             ))}

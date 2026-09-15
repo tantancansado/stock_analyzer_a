@@ -134,3 +134,62 @@ describe('tokens de color', () => {
     expect(culpables, 'el token ya es un color: var(--x) a secas').toEqual([])
   })
 })
+
+/**
+ * La opacidad no es un mando de volumen para el texto.
+ *
+ * El código usaba `text-muted-foreground/40`, `/50`, `/60`… —veinte posiciones
+ * distintas— para decir «esto importa menos». Medido contra los tres fondos de
+ * cada tema, NINGUNA llegaba al 4,5:1 que pide WCAG AA para texto pequeño, y no
+ * solo en claro: en oscuro `/40` daba 1,78 y `/60` daba 2,65. Nunca se leyó
+ * bien; parecía sutil porque nadie lo había medido. 1.058 usos en 59 ficheros.
+ *
+ * `--muted-foreground` YA es el color callado —está elegido para eso y
+ * verificado— y los de paleta (`text-emerald-400`…) apuntan a los roles
+ * semánticos. Rebajarlos otra vez encima siempre termina por debajo del mínimo.
+ * La jerarquía se marca con tamaño y peso, que no tienen mínimo de contraste.
+ *
+ * `text-foreground/70` y por encima sí se leen en los dos temas (6,20 el peor),
+ * así que esos se permiten.
+ */
+describe('opacidad sobre el color del texto', () => {
+  const PALETA = 'red|emerald|green|blue|amber|yellow|violet|purple|sky|teal|orange|rose|cyan|indigo|pink|fuchsia|lime'
+
+  const fuentes = (() => {
+    const raiz = join(__dirname, '..')
+    const out: { ruta: string; texto: string }[] = []
+    const recorrer = (dir: string) => {
+      for (const e of readdirSync(dir, { withFileTypes: true })) {
+        const ruta = join(dir, e.name)
+        if (e.isDirectory()) { if (e.name !== 'test') recorrer(ruta) }
+        else if (e.name.endsWith('.tsx')) out.push({ ruta: ruta.slice(raiz.length + 1), texto: readFileSync(ruta, 'utf-8') })
+      }
+    }
+    recorrer(raiz)
+    return out
+  })()
+
+  const buscar = (re: RegExp) =>
+    fuentes.flatMap(({ ruta, texto }) =>
+      [...texto.matchAll(re)].map(m => `${ruta}: ${m[0]}`))
+
+  it('ningún text-muted-foreground lleva opacidad', () => {
+    expect(buscar(/text-muted-foreground\/\d+/g), 'el token ya es el color callado').toEqual([])
+  })
+
+  it('ningún text-primary lleva opacidad', () => {
+    // /80 se queda en 3,55 en claro y 3,18 en oscuro.
+    expect(buscar(/text-primary\/\d+/g)).toEqual([])
+  })
+
+  it('ningún color de paleta lleva opacidad', () => {
+    // Apuntan a --success/--danger/--warn vía @theme inline; rebajarlos los hunde.
+    expect(buscar(new RegExp(`text-(?:${PALETA})-\\d{3}/\\d+`, 'g'))).toEqual([])
+  })
+
+  it('text-foreground solo con opacidad ≥70, que es donde se lee', () => {
+    const bajos = buscar(/text-foreground\/\d+/g)
+      .filter(s => Number(s.match(/\/(\d+)$/)?.[1] ?? 100) < 70)
+    expect(bajos, 'por debajo de /70 no llega al mínimo en ningún tema').toEqual([])
+  })
+})

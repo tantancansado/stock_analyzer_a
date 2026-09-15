@@ -160,7 +160,7 @@ export default function ValuationBar({
 
       {!compacta && (
         <>
-          <div className="mt-1 flex items-baseline justify-between gap-2 text-micro tabular-nums text-muted-foreground/60">
+          <div className="mt-1 flex items-baseline justify-between gap-2 text-micro tabular-nums text-muted-foreground">
             <span>{fmt(min)}</span>
             <span className="text-muted-foreground">{enRango}% del rango 52s</span>
             <span>{fmt(max)}</span>
@@ -171,9 +171,9 @@ export default function ValuationBar({
               {objetivos.map(o => (
                 <span key={o.etiqueta} className="inline-flex items-center gap-1">
                   <span className="h-2 w-[2px] rounded-full" style={{ background: o.color }} />
-                  <span className="text-muted-foreground/70">{o.etiqueta}</span>
+                  <span className="text-muted-foreground">{o.etiqueta}</span>
                   <span className="font-semibold text-foreground/80">{fmt(o.valor)}</span>
-                  <span className={o.recorrido >= 0 ? 'text-emerald-400/80' : 'text-red-400/80'}>
+                  <span className={o.recorrido >= 0 ? 'text-emerald-400' : 'text-red-400'}>
                     {o.recorrido >= 0 ? '+' : ''}{o.recorrido.toFixed(0)}%
                   </span>
                 </span>

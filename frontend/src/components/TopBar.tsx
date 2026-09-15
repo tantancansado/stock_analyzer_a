@@ -146,7 +146,7 @@ export default function TopBar({ onMenuClick, onOpenCmd }: Readonly<Props>) {
             {mostrarTitulo && (
               <motion.span
                 key={title}
-                className="block text-cuerpo lg:text-titulo font-medium text-muted-foreground/72 tracking-wide truncate"
+                className="block text-cuerpo lg:text-titulo font-medium text-muted-foreground tracking-wide truncate"
                 initial={reduceMotion ? false : { opacity: 0, y: 6, filter: 'blur(4px)' }}
                 animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
                 exit={reduceMotion ? { opacity: 1 } : { opacity: 0, y: -6, filter: 'blur(4px)' }}
@@ -164,12 +164,12 @@ export default function TopBar({ onMenuClick, onOpenCmd }: Readonly<Props>) {
         <button
           type="button"
           onClick={onOpenCmd}
-          className="topbar-action hidden sm:flex items-center gap-2 px-2.5 py-1.5 rounded-lg border border-border/50 bg-transparent hover:bg-accent/10 hover:border-border transition-colors text-muted-foreground/70 hover:text-foreground text-apoyo"
+          className="topbar-action hidden sm:flex items-center gap-2 px-2.5 py-1.5 rounded-lg border border-border/50 bg-transparent hover:bg-accent/10 hover:border-border transition-colors text-muted-foreground hover:text-foreground text-apoyo"
           aria-label="Buscar"
         >
-          <Search size={12} strokeWidth={1.75} className="text-muted-foreground/60" />
+          <Search size={12} strokeWidth={1.75} className="text-muted-foreground" />
           <span>Buscar</span>
-          <kbd className="hidden lg:inline-flex items-center font-mono text-micro px-1 py-0 rounded border border-border/50 bg-muted/20 text-muted-foreground/70 ml-1">⌘K</kbd>
+          <kbd className="hidden lg:inline-flex items-center font-mono text-micro px-1 py-0 rounded border border-border/50 bg-muted/20 text-muted-foreground ml-1">⌘K</kbd>
         </button>
         <button
           type="button"
@@ -177,14 +177,14 @@ export default function TopBar({ onMenuClick, onOpenCmd }: Readonly<Props>) {
           className="topbar-action sm:hidden flex items-center justify-center w-8 h-8 rounded-lg border border-border/50 bg-transparent hover:bg-accent/10 transition-colors"
           aria-label="Buscar"
         >
-          <Search size={16} strokeWidth={1.75} className="text-muted-foreground/70" />
+          <Search size={16} strokeWidth={1.75} className="text-muted-foreground" />
         </button>
 
         {/* Real pipeline freshness indicator */}
         <PipelineStatus />
 
         {/* Date/time */}
-        <span className="hidden md:flex items-center gap-1.5 text-apoyo lg:text-cuerpo text-muted-foreground/52 tabular-nums">
+        <span className="hidden md:flex items-center gap-1.5 text-apoyo lg:text-cuerpo text-muted-foreground tabular-nums">
           <Clock size={12} strokeWidth={1.5} />
           {dateStr} · {timeStr}
         </span>

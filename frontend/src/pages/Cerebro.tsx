@@ -95,9 +95,9 @@ function CoachActionButton({ action, onOpen }: { action: CoachAction; onOpen: (t
           </div>
           <p className="text-sm font-semibold leading-snug text-foreground">{action.title}</p>
           <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{action.body}</p>
-          {action.meta && <p className="mt-2 text-micro font-medium text-foreground/65">{action.meta}</p>}
+          {action.meta && <p className="mt-2 text-micro font-medium text-muted-foreground">{action.meta}</p>}
         </div>
-        <ChevronRight size={16} className="mt-2 shrink-0 text-muted-foreground/40 transition-transform group-hover:translate-x-0.5 group-hover:text-primary" />
+        <ChevronRight size={16} className="mt-2 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-0.5 group-hover:text-primary" />
       </div>
     </button>
   )
@@ -205,7 +205,7 @@ function IdeasHoy({ signals, onVerDetalle }: { signals: EntrySignal[]; onVerDeta
               {/* Expanded: entry levels */}
               {isOpen && (
                 <div className="mt-2.5 pt-2.5 border-t border-border/30 space-y-0.5">
-                  <div className="text-micro text-muted-foreground/60 font-bold uppercase tracking-wider mb-1">Niveles</div>
+                  <div className="text-micro text-muted-foreground font-bold uppercase tracking-wider mb-1">Niveles</div>
                   {sig.current_price != null && (
                     <div className="flex justify-between text-micro">
                       <span className="text-muted-foreground">Precio</span>
@@ -518,7 +518,7 @@ function AlertsTab({ alerts, showAll, onToggleAll }: {
   return (
     <div className="space-y-2 animate-fade-in-up">
       <div className="flex items-center justify-between">
-        <span className="text-micro font-bold uppercase tracking-widest text-muted-foreground/40">
+        <span className="text-micro font-bold uppercase tracking-widest text-muted-foreground">
           {showAll ? `Todas las alertas (${sorted.length})` : `HIGH priority (${highAlerts.length})`}
         </span>
         <button onClick={onToggleAll} className="filter-btn">
@@ -558,12 +558,12 @@ function AlertsTab({ alerts, showAll, onToggleAll }: {
               </p>
               {/* Original message if different from NL summary */}
               {!sameAsMessage && alert.message && (
-                <p className="text-micro text-muted-foreground/60 mt-0.5 leading-relaxed">
+                <p className="text-micro text-muted-foreground mt-0.5 leading-relaxed">
                   {alert.message}
                 </p>
               )}
             </div>
-            <Link to={`/search?q=${alert.ticker}`} className="shrink-0 text-muted-foreground/40 hover:text-primary mt-0.5 transition-colors" title="Analizar ticker">
+            <Link to={`/search?q=${alert.ticker}`} className="shrink-0 text-muted-foreground hover:text-primary mt-0.5 transition-colors" title="Analizar ticker">
               <ChevronRight size={16} />
             </Link>
           </div>
@@ -632,14 +632,14 @@ function EntrySignalCard({ sig }: Readonly<{ sig: EntrySignal }>) {
                   {sig.conviction_grade}
                 </Badge>
               )}
-              <span className="text-micro text-muted-foreground/50 ml-auto">{sig.region} · {sig.days_in_value}d en VALUE</span>
+              <span className="text-micro text-muted-foreground ml-auto">{sig.region} · {sig.days_in_value}d en VALUE</span>
             </div>
 
             <div className="text-mini text-muted-foreground mb-2">{sig.company_name} · {sig.sector}</div>
 
             {/* Score bar */}
             <div className="mb-2">
-              <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground/50 mb-1">Entry score</div>
+              <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-1">Entry score</div>
               <EntryScoreBar score={sig.entry_score} />
             </div>
 
@@ -667,19 +667,19 @@ function EntrySignalCard({ sig }: Readonly<{ sig: EntrySignal }>) {
             {sig.signals_missing.length > 0 && (
               <button
                 onClick={() => setExpanded(e => !e)}
-                className="flex items-center gap-1 text-micro text-muted-foreground/50 hover:text-muted-foreground transition-colors"
+                className="flex items-center gap-1 text-micro text-muted-foreground hover:text-muted-foreground transition-colors"
               >
-                <Minus size={12} className="text-muted-foreground/40" />
+                <Minus size={12} className="text-muted-foreground" />
                 {expanded ? 'Ocultar' : `+${sig.signals_missing.length} señales extra posibles`}
                 <ChevronRight size={12} className={`transition-transform ${expanded ? 'rotate-90' : ''}`} />
               </button>
             )}
             {expanded && (
               <div>
-                <p className="text-micro text-muted-foreground/50 mb-1">Confirmaciones adicionales que aumentarían la convicción (no son requisitos):</p>
+                <p className="text-micro text-muted-foreground mb-1">Confirmaciones adicionales que aumentarían la convicción (no son requisitos):</p>
                 <div className="flex flex-wrap gap-1">
                   {sig.signals_missing.map(s => (
-                    <span key={s} className="flex items-center gap-0.5 text-micro px-1.5 py-0.5 rounded bg-muted/20 text-muted-foreground/60 border border-border/30">
+                    <span key={s} className="flex items-center gap-0.5 text-micro px-1.5 py-0.5 rounded bg-muted/20 text-muted-foreground border border-border/30">
                       {s}
                     </span>
                   ))}
@@ -952,14 +952,14 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
                   <CardContent className="p-3">
                     <div className="flex items-center gap-2 mb-2">
                       <CalendarDays size={12} className="text-amber-400" />
-                      <span className="text-micro font-bold uppercase tracking-widest text-amber-400/80">Earnings en tu cartera · próx. 14 días</span>
+                      <span className="text-micro font-bold uppercase tracking-widest text-amber-400">Earnings en tu cartera · próx. 14 días</span>
                     </div>
                     <div className="flex flex-wrap gap-2">
                       {portfolioEarnings.map(e => (
                         <span key={e.ticker} className="inline-flex items-center gap-1.5 text-mini font-bold px-2.5 py-1 rounded-lg bg-amber-500/15 text-amber-300 border border-amber-500/30">
                           {e.ticker}
-                          <span className="font-normal text-amber-400/70">{e.days_to_earnings === 0 ? 'HOY' : e.days_to_earnings === 1 ? 'MAÑANA' : `en ${e.days_to_earnings}d`}</span>
-                          {e.implied_move_pct != null && <span className="font-normal text-muted-foreground/50">±{e.implied_move_pct.toFixed(1)}%</span>}
+                          <span className="font-normal text-amber-400">{e.days_to_earnings === 0 ? 'HOY' : e.days_to_earnings === 1 ? 'MAÑANA' : `en ${e.days_to_earnings}d`}</span>
+                          {e.implied_move_pct != null && <span className="font-normal text-muted-foreground">±{e.implied_move_pct.toFixed(1)}%</span>}
                         </span>
                       ))}
                     </div>
@@ -971,42 +971,42 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
             <Card className="glass border-border/30">
               <CardContent className="p-4">
                 <div className="flex items-center gap-2 mb-3">
-                  <Newspaper size={16} className="text-muted-foreground/60" />
-                  <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground/60">Resumen automático</span>
-                  <span className="ml-auto text-micro text-muted-foreground/40">Briefing IA no generado aún</span>
+                  <Newspaper size={16} className="text-muted-foreground" />
+                  <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Resumen automático</span>
+                  <span className="ml-auto text-micro text-muted-foreground">Briefing IA no generado aún</span>
                 </div>
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 text-mini">
                   <div className="rounded-lg bg-muted/10 border border-border/20 p-2.5">
-                    <div className="text-micro text-muted-foreground/50 mb-1 uppercase tracking-wider">Régimen</div>
+                    <div className="text-micro text-muted-foreground mb-1 uppercase tracking-wider">Régimen</div>
                     <div className="font-bold text-foreground/80">{briefingData?.regime ?? insights?.market_regimes?.[0]?.label ?? '—'}</div>
                   </div>
                   <div className="rounded-lg bg-emerald-500/5 border border-emerald-500/15 p-2.5">
-                    <div className="text-micro text-muted-foreground/50 mb-1 uppercase tracking-wider">Entradas hoy</div>
+                    <div className="text-micro text-muted-foreground mb-1 uppercase tracking-wider">Entradas hoy</div>
                     <div className="font-bold text-emerald-400">{(entryData?.strong_buy ?? 0) + (entryData?.buy ?? 0)} accionables</div>
                   </div>
                   <div className="rounded-lg bg-red-500/5 border border-red-500/15 p-2.5">
-                    <div className="text-micro text-muted-foreground/50 mb-1 uppercase tracking-wider">Alertas HIGH</div>
+                    <div className="text-micro text-muted-foreground mb-1 uppercase tracking-wider">Alertas HIGH</div>
                     <div className="font-bold text-red-400">{alertsData?.high_count ?? 0}</div>
                   </div>
                   <div className="rounded-lg bg-cyan-500/5 border border-cyan-500/15 p-2.5">
-                    <div className="text-micro text-muted-foreground/50 mb-1 uppercase tracking-wider">Convergencias</div>
+                    <div className="text-micro text-muted-foreground mb-1 uppercase tracking-wider">Convergencias</div>
                     <div className="font-bold text-cyan-400">{convergence?.triple_or_more ?? 0} triples</div>
                   </div>
                   {portfolioRiskCount > 0 && (
                     <div className="rounded-lg bg-violet-500/5 border border-violet-500/20 p-2.5 col-span-2">
-                      <div className="text-micro text-muted-foreground/50 mb-1 uppercase tracking-wider">Tu cartera</div>
+                      <div className="text-micro text-muted-foreground mb-1 uppercase tracking-wider">Tu cartera</div>
                       <div className="font-bold text-violet-400">{portfolioRiskCount} alerta{portfolioRiskCount > 1 ? 's' : ''} en posiciones propias</div>
                     </div>
                   )}
                   {portfolioEarnings.length > 0 && (
                     <div className="rounded-lg bg-amber-500/5 border border-amber-500/20 p-2.5 col-span-2 sm:col-span-3">
-                      <div className="text-micro text-muted-foreground/50 mb-1.5 uppercase tracking-wider">Earnings en tu cartera (próx. 14d)</div>
+                      <div className="text-micro text-muted-foreground mb-1.5 uppercase tracking-wider">Earnings en tu cartera (próx. 14d)</div>
                       <div className="flex flex-wrap gap-2">
                         {portfolioEarnings.map(e => (
                           <span key={e.ticker} className="inline-flex items-center gap-1.5 text-mini font-bold px-2 py-0.5 rounded-lg bg-amber-500/15 text-amber-300 border border-amber-500/30">
                             {e.ticker}
-                            <span className="font-normal text-amber-400/70">{e.days_to_earnings === 0 ? 'HOY' : e.days_to_earnings === 1 ? 'MAÑANA' : `en ${e.days_to_earnings}d`}</span>
-                            {e.implied_move_pct != null && <span className="font-normal text-muted-foreground/60">±{e.implied_move_pct.toFixed(1)}%</span>}
+                            <span className="font-normal text-amber-400">{e.days_to_earnings === 0 ? 'HOY' : e.days_to_earnings === 1 ? 'MAÑANA' : `en ${e.days_to_earnings}d`}</span>
+                            {e.implied_move_pct != null && <span className="font-normal text-muted-foreground">±{e.implied_move_pct.toFixed(1)}%</span>}
                           </span>
                         ))}
                       </div>
@@ -1116,11 +1116,11 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
                             <TickerLogo ticker={ticker} size="xs" className="shrink-0" />
                             <Link to={`/search?q=${ticker}`} className="font-mono font-bold text-red-400 text-apoyo hover:underline">{ticker}</Link>
                             {entryScore != null && currentScore != null && (
-                              <span className="ml-auto text-micro text-red-400/70 font-mono">score {Math.round(entryScore)} → {Math.round(currentScore)}</span>
+                              <span className="ml-auto text-micro text-red-400 font-mono">score {Math.round(entryScore)} → {Math.round(currentScore)}</span>
                             )}
                           </div>
                           <p className="text-micro text-muted-foreground leading-tight">{reason}</p>
-                          {aiFinding && <p className="mt-1 text-micro text-red-300/70 leading-tight italic">{aiFinding}</p>}
+                          {aiFinding && <p className="mt-1 text-micro text-red-300 leading-tight italic">{aiFinding}</p>}
                         </div>
                       ))}
                       {briefingSections.traps_warning.map(([ticker, score]) => (
@@ -1223,7 +1223,7 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
               {/* Risk alerts for owned positions */}
               {portfolioRiskCount > 0 && (
                 <div className="space-y-2">
-                  <div className="text-micro font-bold uppercase tracking-widest text-red-400/70">Alertas en tus posiciones</div>
+                  <div className="text-micro font-bold uppercase tracking-widest text-red-400">Alertas en tus posiciones</div>
                   {portfolioExitHigh.map(e => (
                     <div key={e.ticker} className="flex items-start gap-3 p-3 rounded-xl border border-red-500/30 bg-red-500/5">
                       <TickerLogo ticker={e.ticker} size="sm" className="shrink-0 mt-0.5" />
@@ -1246,7 +1246,7 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
                           <span className="text-micro font-bold px-1 py-0.5 rounded border bg-amber-500/15 text-amber-400 border-amber-500/30">TRAMPA HIGH</span>
                           <span className="text-micro text-amber-400 ml-auto">{t.trap_score}/10</span>
                         </div>
-                        <div className="flex flex-wrap gap-1 mt-1">{t.flags.slice(0, 3).map((f, i) => <span key={i} className="text-micro text-muted-foreground/70 bg-muted/10 border border-border/20 px-1.5 py-0.5 rounded">{f}</span>)}</div>
+                        <div className="flex flex-wrap gap-1 mt-1">{t.flags.slice(0, 3).map((f, i) => <span key={i} className="text-micro text-muted-foreground bg-muted/10 border border-border/20 px-1.5 py-0.5 rounded">{f}</span>)}</div>
                       </div>
                     </div>
                   ))}
@@ -1267,7 +1267,7 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
               {/* Earnings upcoming */}
               {portfolioEarnings.length > 0 && (
                 <div className="space-y-2">
-                  <div className="text-micro font-bold uppercase tracking-widest text-violet-400/70">Earnings próximos (≤14d)</div>
+                  <div className="text-micro font-bold uppercase tracking-widest text-violet-400">Earnings próximos (≤14d)</div>
                   {portfolioEarnings.map(e => (
                     <div key={e.ticker} className="flex items-center gap-3 p-3 rounded-xl border border-violet-500/20 bg-violet-500/5">
                       <TickerLogo ticker={e.ticker} size="sm" className="shrink-0" />
@@ -1293,7 +1293,7 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
               {/* Positions P&L grid */}
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
-                  <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground/60">Tus posiciones</div>
+                  <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground">Tus posiciones</div>
                   <Link to="/my-portfolio" className="text-mini text-primary hover:underline">Ver análisis completo →</Link>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
@@ -1326,7 +1326,7 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
                               </div>
                             </>
                           ) : (
-                            <div className="text-micro text-muted-foreground/40">sin precio</div>
+                            <div className="text-micro text-muted-foreground">sin precio</div>
                           )}
                         </div>
                       </div>
@@ -1406,7 +1406,7 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
             <p className="text-xs text-muted-foreground">
               Setups de rebote — oversold con RSI bajo y soporte claro · <Link to="/mean-reversion" className="text-primary hover:underline">Ver tabla completa →</Link>
             </p>
-            <span className="text-xs text-muted-foreground/50">{topBounces.length} setups de calidad</span>
+            <span className="text-xs text-muted-foreground">{topBounces.length} setups de calidad</span>
           </div>
 
           {topBounces.length === 0 ? (
@@ -1438,7 +1438,7 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
                               {d.ticker}
                             </Link>
                             {d.company_name && (
-                              <div className="text-micro text-muted-foreground/60 truncate max-w-[120px]">{d.company_name}</div>
+                              <div className="text-micro text-muted-foreground truncate max-w-[120px]">{d.company_name}</div>
                             )}
                           </div>
                         </div>
@@ -1448,22 +1448,22 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
                               ? 'bg-violet-500/10 border-violet-500/25 text-violet-400'
                               : 'bg-blue-500/10 border-blue-500/25 text-blue-400'
                           }`}>{isDaily ? 'DIARIO' : 'SEMANAL'}</div>
-                          <div className="text-micro text-muted-foreground/40 mt-0.5">{strategyShort}</div>
+                          <div className="text-micro text-muted-foreground mt-0.5">{strategyShort}</div>
                         </div>
                       </div>
 
                       {/* Price grid */}
                       <div className="grid grid-cols-3 gap-1.5 mb-3">
                         <div className="rounded-lg bg-muted/15 p-2 text-center">
-                          <div className="text-micro text-muted-foreground/50 mb-0.5">Entrada</div>
+                          <div className="text-micro text-muted-foreground mb-0.5">Entrada</div>
                           <div className="text-mini font-bold leading-none">{d.entry_zone?.split(' ')[0] ?? '—'}</div>
                         </div>
                         <div className="rounded-lg bg-emerald-500/8 border border-emerald-500/15 p-2 text-center">
-                          <div className="text-micro text-muted-foreground/50 mb-0.5">Target</div>
+                          <div className="text-micro text-muted-foreground mb-0.5">Target</div>
                           <div className="text-mini font-bold text-emerald-400 leading-none">{d.target != null ? `$${d.target.toFixed(2)}` : '—'}</div>
                         </div>
                         <div className="rounded-lg bg-red-500/6 border border-red-500/10 p-2 text-center">
-                          <div className="text-micro text-muted-foreground/50 mb-0.5">Stop</div>
+                          <div className="text-micro text-muted-foreground mb-0.5">Stop</div>
                           <div className="text-mini font-bold text-red-400 leading-none">{d.stop_loss != null ? `$${d.stop_loss.toFixed(2)}` : '—'}</div>
                         </div>
                       </div>
@@ -1477,7 +1477,7 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
                             </span>
                           )}
                           {d.drawdown_pct != null && (
-                            <span className="text-muted-foreground/50">↓{Math.abs(d.drawdown_pct).toFixed(0)}%</span>
+                            <span className="text-muted-foreground">↓{Math.abs(d.drawdown_pct).toFixed(0)}%</span>
                           )}
                         </div>
                         {rr != null && (
@@ -1500,11 +1500,11 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
                               </span>
                             )}
                             {d.ai_reason && (
-                              <span className="text-micro text-muted-foreground/50 truncate max-w-[110px]">{d.ai_reason}</span>
+                              <span className="text-micro text-muted-foreground truncate max-w-[110px]">{d.ai_reason}</span>
                             )}
                           </div>
                           {d.historical_win_rate != null && (
-                            <span className="text-micro text-muted-foreground/50 tabular-nums">{d.historical_win_rate.toFixed(0)}% hist</span>
+                            <span className="text-micro text-muted-foreground tabular-nums">{d.historical_win_rate.toFixed(0)}% hist</span>
                           )}
                         </div>
                       )}
@@ -1561,7 +1561,7 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
                         {sig.value_score != null && <span>Score: <strong className="text-foreground">{sig.value_score.toFixed(0)}</strong></span>}
                         {sig.analyst_upside_pct != null && <span>Upside: <strong className={sig.analyst_upside_pct >= 10 ? 'text-emerald-400' : 'text-foreground'}>{sig.analyst_upside_pct >= 0 ? '+' : ''}{sig.analyst_upside_pct.toFixed(1)}%</strong></span>}
                         {sig.fcf_yield_pct != null && <span>FCF: <strong className={sig.fcf_yield_pct >= 5 ? 'text-emerald-400' : 'text-foreground'}>{sig.fcf_yield_pct.toFixed(1)}%</strong></span>}
-                        <span className="ml-auto text-muted-foreground/60">Conv. score: {sig.convergence_score}</span>
+                        <span className="ml-auto text-muted-foreground">Conv. score: {sig.convergence_score}</span>
                       </div>
                       {sig.analysis && (
                         <p className="text-mini text-foreground/70 leading-relaxed border-l-2 border-violet-500/40 pl-2">
@@ -1617,7 +1617,7 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
                       <div>
                         <div className="text-mini font-semibold text-foreground/80 mb-0.5">{rec.factor}</div>
                         <p className="text-mini text-muted-foreground leading-relaxed">{rec.insight}</p>
-                        <span className="text-micro text-muted-foreground/50">n={rec.n} señales</span>
+                        <span className="text-micro text-muted-foreground">n={rec.n} señales</span>
                       </div>
                     </div>
                   ))}
@@ -1669,7 +1669,7 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
                     </div>
                     <p className="text-mini text-muted-foreground leading-relaxed">{e.reasons.join(' · ')}</p>
                     {(e as any).ai_validation?.summary && (
-                      <p className="text-micro text-muted-foreground/60 mt-1 italic">{(e as any).ai_validation.summary}</p>
+                      <p className="text-micro text-muted-foreground mt-1 italic">{(e as any).ai_validation.summary}</p>
                     )}
                   </div>
                 </div>
@@ -1700,7 +1700,7 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
                     <span className="ml-auto text-micro text-amber-400">trampa {t.trap_score}/10</span>
                   </div>
                   <div className="flex flex-wrap gap-1">
-                    {t.flags.map((f, i) => <span key={i} className="text-micro text-muted-foreground/70 bg-muted/10 border border-border/20 px-1.5 py-0.5 rounded">{f}</span>)}
+                    {t.flags.map((f, i) => <span key={i} className="text-micro text-muted-foreground bg-muted/10 border border-border/20 px-1.5 py-0.5 rounded">{f}</span>)}
                   </div>
                 </div>
                 )
@@ -1830,7 +1830,7 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
             <div className="flex items-center gap-2 mb-3">
               <Activity size={16} className="text-pink-400" />
               <h3 className="text-sm font-bold text-foreground/80">Portfolio Stress Test</h3>
-              {stressData && <span className="text-micro text-foreground/60 bg-muted/15 border border-border/30 px-1.5 py-0.5 rounded font-bold">{stressData.total_positions} posiciones · {stressData.risks.length} riesgos</span>}
+              {stressData && <span className="text-micro text-muted-foreground bg-muted/15 border border-border/30 px-1.5 py-0.5 rounded font-bold">{stressData.total_positions} posiciones · {stressData.risks.length} riesgos</span>}
             </div>
             {stressData?.narrative && <AiNarrativeCard narrative={stressData.narrative} label="" />}
             <div className="space-y-2 mt-2">
@@ -1892,7 +1892,7 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
                     {s.hf_present && <span className="ml-1.5 text-purple-400">· HF presente</span>}
                   </div>
                   <div className="flex flex-wrap gap-1">
-                    {s.flags.map((f, i) => <span key={i} className="text-micro text-muted-foreground/70 bg-muted/10 border border-border/20 px-1.5 py-0.5 rounded">{f}</span>)}
+                    {s.flags.map((f, i) => <span key={i} className="text-micro text-muted-foreground bg-muted/10 border border-border/20 px-1.5 py-0.5 rounded">{f}</span>)}
                   </div>
                 </div>
               ))}
@@ -1929,7 +1929,7 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
                     </div>
                   )}
                   <div className="flex flex-wrap gap-1">
-                    {d.flags.map((f, i) => <span key={i} className="text-micro text-muted-foreground/70 bg-muted/10 border border-border/20 px-1.5 py-0.5 rounded">{f}</span>)}
+                    {d.flags.map((f, i) => <span key={i} className="text-micro text-muted-foreground bg-muted/10 border border-border/20 px-1.5 py-0.5 rounded">{f}</span>)}
                   </div>
                 </div>
               ))}

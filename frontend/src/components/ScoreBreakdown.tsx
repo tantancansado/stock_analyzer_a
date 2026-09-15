@@ -83,7 +83,7 @@ export default function ScoreBreakdown({ row }: ScoreBreakdownProps) {
             Negativo: {negatives.reduce((s, i) => s + i.value, 0).toFixed(1)}pts
           </span>
           {row.days_in_list != null && row.days_in_list > 0 && (
-            <span className="text-amber-400/70">
+            <span className="text-amber-400">
               {row.days_in_list}d en lista
             </span>
           )}

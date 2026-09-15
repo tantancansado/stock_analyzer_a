@@ -18,7 +18,7 @@ function TechnicalPanel({ ticker }: { ticker: string }) {
   const { signals, summary, loading } = useTechnicalSignals(ticker)
 
   if (loading) return (
-    <div className="flex items-center gap-2 text-xs text-muted-foreground/50 py-2">
+    <div className="flex items-center gap-2 text-xs text-muted-foreground py-2">
       <div className="w-3 h-3 border-2 border-muted-foreground/30 border-t-primary rounded-full animate-spin" />
       Cargando señales...
     </div>
@@ -57,7 +57,7 @@ function TechnicalPanel({ ticker }: { ticker: string }) {
               {s.direction === 'BULLISH' ? '▲' : s.direction === 'BEARISH' ? '▼' : '—'}{s.timeframe === 'WEEKLY' ? 'W' : 'D'}
             </span>
             <span className="text-xs text-foreground/80 flex-1">{s.signal_name}</span>
-            <span className="text-micro text-muted-foreground/50 tabular-nums shrink-0">
+            <span className="text-micro text-muted-foreground tabular-nums shrink-0">
               {s.days_ago === 0 ? 'hoy' : s.days_ago === 1 ? 'ayer' : `${s.days_ago}d`}
             </span>
           </div>
@@ -117,9 +117,9 @@ function ConvictionPanel({ row }: { row: ValueOpportunity }) {
             const isNegative = /riesgo|alerta|bajo|débil|negativo|warning|alto endeud/i.test(r)
             return (
               <span key={i} className={`text-micro px-2 py-0.5 rounded-lg border ${
-                isPositive ? 'bg-emerald-500/8 border-emerald-500/20 text-emerald-400/80' :
-                isNegative ? 'bg-red-500/8 border-red-500/20 text-red-400/80' :
-                'bg-muted/20 border-border/40 text-muted-foreground/70'
+                isPositive ? 'bg-emerald-500/8 border-emerald-500/20 text-emerald-400' :
+                isNegative ? 'bg-red-500/8 border-red-500/20 text-red-400' :
+                'bg-muted/20 border-border/40 text-muted-foreground'
               }`}>
                 {r}
               </span>
@@ -130,15 +130,15 @@ function ConvictionPanel({ row }: { row: ValueOpportunity }) {
 
       {row.piotroski_score != null && (
         <div className="flex items-center gap-1.5 text-xs mt-3">
-          <span className="text-muted-foreground/60">Piotroski</span>
+          <span className="text-muted-foreground">Piotroski</span>
           <span className={
             row.piotroski_score >= 7 ? 'font-bold tabular-nums text-emerald-400' :
-            row.piotroski_score >= 5 ? 'font-bold tabular-nums text-cyan-400/80' :
+            row.piotroski_score >= 5 ? 'font-bold tabular-nums text-cyan-400' :
             'font-bold tabular-nums text-muted-foreground'
           }>
             {row.piotroski_score}/9
           </span>
-          {row.piotroski_label && <span className="text-muted-foreground/40 text-micro">{row.piotroski_label}</span>}
+          {row.piotroski_label && <span className="text-muted-foreground text-micro">{row.piotroski_label}</span>}
         </div>
       )}
     </div>
@@ -185,14 +185,14 @@ function WhyCheap({ row }: Readonly<{ row: ValueOpportunity }>) {
           <span className={`text-micro font-bold uppercase tracking-wider px-2 py-1 rounded border ${meta.clase}`}>
             {meta.etiqueta}
           </span>
-          <span className="text-micro text-muted-foreground/70">{meta.nota}</span>
+          <span className="text-micro text-muted-foreground">{meta.nota}</span>
         </div>
         {row.why_cheap_resumen && (
           <p className="text-apoyo leading-relaxed text-foreground/80">{row.why_cheap_resumen}</p>
         )}
         {fuentes.length > 0 && (
           <div className="flex flex-wrap items-center gap-2 mt-2 pt-2 border-t border-border/15">
-            <span className="text-micro font-bold uppercase tracking-widest text-muted-foreground/40">
+            <span className="text-micro font-bold uppercase tracking-widest text-muted-foreground">
               Fuentes
             </span>
             {fuentes.map((u) => (
@@ -202,7 +202,7 @@ function WhyCheap({ row }: Readonly<{ row: ValueOpportunity }>) {
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={e => e.stopPropagation()}
-                className="inline-flex items-center gap-1 text-micro text-primary/80 hover:text-primary underline underline-offset-2"
+                className="inline-flex items-center gap-1 text-micro text-primary hover:text-primary underline underline-offset-2"
               >
                 <ExternalLink size={12} />
                 {new URL(u).hostname.replace('www.', '')}
@@ -255,9 +255,9 @@ function InteresCorto({ row }: Readonly<{ row: ValueOpportunity }>) {
           <span className={`text-micro font-bold uppercase tracking-wider px-2 py-1 rounded border ${t.clase}`}>
             {v.toFixed(1)}% del float
           </span>
-          <span className="text-micro text-muted-foreground/70">{t.nota}</span>
+          <span className="text-micro text-muted-foreground">{t.nota}</span>
         </div>
-        <p className="text-micro leading-relaxed text-muted-foreground/60 mt-2">
+        <p className="text-micro leading-relaxed text-muted-foreground mt-2">
           Dato informativo, no penaliza el score: en este universo el interés corto
           no ha predicho el retorno (6265 observaciones). Buena parte es cobertura
           y arbitraje, no apuesta bajista.
@@ -277,7 +277,7 @@ function Chip({ label, value, color }: { label: string; value: string; color?: s
                                  'bg-muted/20 border-border/20'
   return (
     <div className={`flex flex-col items-center gap-0.5 px-3 py-2 rounded-lg border min-w-[56px] ${bg}`}>
-      <span className="text-micro font-bold uppercase tracking-widest text-muted-foreground/40 leading-none">{label}</span>
+      <span className="text-micro font-bold uppercase tracking-widest text-muted-foreground leading-none">{label}</span>
       <span className={`text-apoyo font-bold tabular-nums leading-none ${color ?? 'text-foreground/70'}`}>{value}</span>
     </div>
   )
@@ -365,8 +365,8 @@ export default function ThesisModal({ row, thesisText, onClose, currency = '$' }
                   <Badge variant="green" className="text-micro">52w High</Badge>
                 )}
               </div>
-              <p className="text-sm text-foreground/60">{row.company_name}</p>
-              {row.sector && <p className="text-micro text-muted-foreground/40">{row.sector}</p>}
+              <p className="text-sm text-muted-foreground">{row.company_name}</p>
+              {row.sector && <p className="text-micro text-muted-foreground">{row.sector}</p>}
             </div>
             <div className="flex items-start gap-1.5 shrink-0">
               {price != null && (
@@ -380,13 +380,13 @@ export default function ThesisModal({ row, thesisText, onClose, currency = '$' }
                   )}
                 </div>
               )}
-              <button onClick={copyTicker} className="p-1.5 rounded-lg text-muted-foreground/50 hover:bg-muted/40 hover:text-foreground transition-colors" title="Copiar ticker">
+              <button onClick={copyTicker} className="p-1.5 rounded-lg text-muted-foreground hover:bg-muted/40 hover:text-foreground transition-colors" title="Copiar ticker">
                 {copied ? <Check size={16} className="text-emerald-400" /> : <Copy size={16} />}
               </button>
-              <a href={`https://www.tradingview.com/chart/?symbol=${row.ticker}`} target="_blank" rel="noopener noreferrer" className="p-1.5 rounded-lg text-muted-foreground/50 hover:bg-muted/40 hover:text-foreground transition-colors" title="TradingView">
+              <a href={`https://www.tradingview.com/chart/?symbol=${row.ticker}`} target="_blank" rel="noopener noreferrer" className="p-1.5 rounded-lg text-muted-foreground hover:bg-muted/40 hover:text-foreground transition-colors" title="TradingView">
                 <ExternalLink size={16} />
               </a>
-              <button onClick={onClose} className="w-8 h-8 flex items-center justify-center rounded-lg text-muted-foreground/60 hover:bg-red-500/15 hover:text-red-400 hover:border hover:border-red-500/30 transition-all" title="Cerrar (Esc)">
+              <button onClick={onClose} className="w-8 h-8 flex items-center justify-center rounded-lg text-muted-foreground hover:bg-red-500/15 hover:text-red-400 hover:border hover:border-red-500/30 transition-all" title="Cerrar (Esc)">
                 <X size={16} />
               </button>
             </div>
@@ -397,19 +397,19 @@ export default function ThesisModal({ row, thesisText, onClose, currency = '$' }
             <div className="flex gap-2 px-5 lg:px-6 pb-3 flex-shrink-0">
               {row.entry_price != null && (
                 <div className="flex-1 px-3 py-2 rounded-lg bg-primary/5 border border-primary/20">
-                  <div className="text-micro font-bold uppercase tracking-widest text-primary/40 mb-0.5">Entrada</div>
+                  <div className="text-micro font-bold uppercase tracking-widest text-primary mb-0.5">Entrada</div>
                   <div className="font-extrabold text-cuerpo tabular-nums text-primary leading-none">{currency}{row.entry_price.toFixed(2)}</div>
                 </div>
               )}
               {row.stop_loss != null && (
                 <div className="flex-1 px-3 py-2 rounded-lg bg-red-500/6 border border-red-500/15">
-                  <div className="text-micro font-bold uppercase tracking-widest text-red-400/40 mb-0.5">Stop Loss</div>
+                  <div className="text-micro font-bold uppercase tracking-widest text-red-400 mb-0.5">Stop Loss</div>
                   <div className="font-extrabold text-cuerpo tabular-nums text-red-400 leading-none">{currency}{row.stop_loss.toFixed(2)}</div>
                 </div>
               )}
               {row.target_price != null && (
                 <div className="flex-1 px-3 py-2 rounded-lg bg-emerald-500/6 border border-emerald-500/15">
-                  <div className="text-micro font-bold uppercase tracking-widest text-emerald-400/40 mb-0.5">Objetivo</div>
+                  <div className="text-micro font-bold uppercase tracking-widest text-emerald-400 mb-0.5">Objetivo</div>
                   <div className="font-extrabold text-cuerpo tabular-nums text-emerald-400 leading-none">{currency}{row.target_price.toFixed(2)}</div>
                 </div>
               )}
@@ -485,18 +485,18 @@ export default function ThesisModal({ row, thesisText, onClose, currency = '$' }
                     <div className="grid grid-cols-3 gap-2">
                       {row.roe_pct != null && (
                         <div className="text-center py-2 px-1 rounded-lg bg-muted/15 border border-border/15">
-                          <div className={`text-sm font-bold tabular-nums ${row.roe_pct >= 15 ? 'text-emerald-400' : row.roe_pct < 0 ? 'text-red-400' : 'text-foreground/60'}`}>
+                          <div className={`text-sm font-bold tabular-nums ${row.roe_pct >= 15 ? 'text-emerald-400' : row.roe_pct < 0 ? 'text-red-400' : 'text-muted-foreground'}`}>
                             {row.roe_pct.toFixed(1)}%
                           </div>
-                          <div className="text-micro text-muted-foreground/40 font-medium uppercase">ROE</div>
+                          <div className="text-micro text-muted-foreground font-medium uppercase">ROE</div>
                         </div>
                       )}
                       {row.profit_margin_pct != null && (
                         <div className="text-center py-2 px-1 rounded-lg bg-muted/15 border border-border/15">
-                          <div className={`text-sm font-bold tabular-nums ${row.profit_margin_pct >= 15 ? 'text-emerald-400' : row.profit_margin_pct < 0 ? 'text-red-400' : 'text-foreground/60'}`}>
+                          <div className={`text-sm font-bold tabular-nums ${row.profit_margin_pct >= 15 ? 'text-emerald-400' : row.profit_margin_pct < 0 ? 'text-red-400' : 'text-muted-foreground'}`}>
                             {row.profit_margin_pct.toFixed(1)}%
                           </div>
-                          <div className="text-micro text-muted-foreground/40 font-medium uppercase">Margen</div>
+                          <div className="text-micro text-muted-foreground font-medium uppercase">Margen</div>
                         </div>
                       )}
                       {row.revenue_growth_pct != null && (
@@ -504,7 +504,7 @@ export default function ThesisModal({ row, thesisText, onClose, currency = '$' }
                           <div className={`text-sm font-bold tabular-nums ${row.revenue_growth_pct > 0 ? 'text-emerald-400' : 'text-red-400'}`}>
                             {row.revenue_growth_pct >= 0 ? '+' : ''}{row.revenue_growth_pct.toFixed(1)}%
                           </div>
-                          <div className="text-micro text-muted-foreground/40 font-medium uppercase">Revenue</div>
+                          <div className="text-micro text-muted-foreground font-medium uppercase">Revenue</div>
                         </div>
                       )}
                     </div>

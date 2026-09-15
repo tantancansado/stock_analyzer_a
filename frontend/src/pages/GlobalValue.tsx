@@ -8,7 +8,7 @@ import { useTechnicalSummaryMap } from '../hooks/useTechnicalSummaryMap'
 import type { TechnicalSummary } from '../api/client'
 
 function TechBiasCell({ t }: { t?: TechnicalSummary }) {
-  if (!t) return <span className="text-muted-foreground/30 text-xs">—</span>
+  if (!t) return <span className="text-muted-foreground text-xs">—</span>
   const cls = t.bias === 'BULLISH'
     ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30'
     : t.bias === 'BEARISH'
@@ -352,7 +352,7 @@ export default function GlobalValue() {
                     objetivoAnalista={row.target_price_analyst}
                     compacta
                   />
-                  <div className="flex gap-3 mt-2 text-micro text-muted-foreground/60">
+                  <div className="flex gap-3 mt-2 text-micro text-muted-foreground">
                     {row.fcf_yield_pct != null && <span>FCF: {row.fcf_yield_pct.toFixed(1)}%</span>}
                     {row.risk_reward_ratio != null && <span>R:R {row.risk_reward_ratio.toFixed(1)}x</span>}
                     {meta && <span>{meta.label} · {row.currency}</span>}
@@ -545,7 +545,7 @@ export default function GlobalValue() {
                 </TableBody>
               </Table>
               {sorted.length > 0 && (
-                <div className="text-micro text-muted-foreground/25 text-right px-3 py-1.5 border-t border-border/10">
+                <div className="text-micro text-muted-foreground text-right px-3 py-1.5 border-t border-border/10">
                   j / k navegar · Enter abrir · Esc cerrar
                 </div>
               )}

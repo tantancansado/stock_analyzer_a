@@ -61,7 +61,7 @@ function StatCard({ icon: Icon, label, value, color }: {
         </div>
         <div>
           <div className="text-2xl font-bold text-foreground font-mono">{value}</div>
-          <div className="text-xs text-foreground/50 mt-0.5">{label}</div>
+          <div className="text-xs text-muted-foreground mt-0.5">{label}</div>
         </div>
       </CardContent>
     </Card>
@@ -75,7 +75,7 @@ function ActivityBar({ value, max }: { value: number; max: number }) {
       <div className="flex-1 h-1.5 rounded-full" style={{ background: 'rgba(255,255,255,0.08)' }}>
         <div className="h-1.5 rounded-full transition-all" style={{ width: `${pct}%`, background: '#22d3ee' }} />
       </div>
-      <span className="text-xs font-mono text-foreground/60 w-4 text-right">{value}</span>
+      <span className="text-xs font-mono text-muted-foreground w-4 text-right">{value}</span>
     </div>
   )
 }
@@ -142,7 +142,7 @@ export default function AdminUsage() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between mb-3">
               <h2 className="text-sm font-semibold text-foreground/70 uppercase tracking-wider flex items-center gap-2">
-                <Wallet size={16} className="text-foreground/40" />
+                <Wallet size={16} className="text-muted-foreground" />
                 Presupuesto de Claude este mes
               </h2>
               {data.claude_budget.sin_credito && (
@@ -153,8 +153,8 @@ export default function AdminUsage() {
               <span className="text-2xl font-bold font-mono text-foreground">
                 ${data.claude_budget.gastado_usd.toFixed(2)}
               </span>
-              <span className="text-sm text-foreground/40">de ${data.claude_budget.tope_usd.toFixed(2)}</span>
-              <span className="text-xs text-foreground/40 ml-auto">{data.claude_budget.llamadas} llamadas</span>
+              <span className="text-sm text-muted-foreground">de ${data.claude_budget.tope_usd.toFixed(2)}</span>
+              <span className="text-xs text-muted-foreground ml-auto">{data.claude_budget.llamadas} llamadas</span>
             </div>
             <div className="h-2 rounded-full mb-4" style={{ background: 'rgba(255,255,255,0.08)' }}>
               <div
@@ -167,7 +167,7 @@ export default function AdminUsage() {
               />
             </div>
             {data.claude_desglose && (
-              <pre className="text-xs font-mono text-foreground/50 whitespace-pre-wrap leading-relaxed">
+              <pre className="text-xs font-mono text-muted-foreground whitespace-pre-wrap leading-relaxed">
                 {data.claude_desglose}
               </pre>
             )}
@@ -182,7 +182,7 @@ export default function AdminUsage() {
             Usuarios con actividad ({activeUsers.length})
           </h2>
           {activeUsers.length === 0 ? (
-            <p className="text-foreground/40 text-sm">Ningún usuario ha usado Mi Cartera todavía.</p>
+            <p className="text-muted-foreground text-sm">Ningún usuario ha usado Mi Cartera todavía.</p>
           ) : (
             <div className="space-y-4">
               {activeUsers.map(u => (
@@ -196,18 +196,18 @@ export default function AdminUsage() {
                       <Badge variant="outline" className="text-cyan-400 border-cyan-400/30 text-xs">owner</Badge>
                     )}
                   </div>
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-1 text-xs text-foreground/50 mb-2">
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-1 text-xs text-muted-foreground mb-2">
                     <span>Registro: <span className="text-foreground/70">{fmtDate(u.created_at)}</span></span>
                     <span>Último login: <span className="text-foreground/70">{fmtDate(u.last_sign_in)}</span></span>
                     <span>Última actividad cartera: <span className="text-foreground/70">{fmtDatetime(u.last_portfolio_activity)}</span></span>
                     <span>Entradas journal: <span className="text-foreground/70">{u.journal_entries}</span></span>
                   </div>
                   <div className="space-y-1.5">
-                    <div className="flex items-center gap-2 text-xs text-foreground/40">
+                    <div className="flex items-center gap-2 text-xs text-muted-foreground">
                       <span className="w-16">Posiciones</span>
                       <div className="flex-1"><ActivityBar value={u.positions} max={maxPositions} /></div>
                     </div>
-                    <div className="flex items-center gap-2 text-xs text-foreground/40">
+                    <div className="flex items-center gap-2 text-xs text-muted-foreground">
                       <span className="w-16">Journal</span>
                       <div className="flex-1"><ActivityBar value={u.journal_entries} max={maxJournal} /></div>
                     </div>
@@ -237,11 +237,11 @@ export default function AdminUsage() {
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-white/10 text-left">
-                  <th className="pb-2 text-xs text-foreground/40 font-medium">Email</th>
-                  <th className="pb-2 text-xs text-foreground/40 font-medium text-center">Estado</th>
-                  <th className="pb-2 text-xs text-foreground/40 font-medium text-right">Registro</th>
-                  <th className="pb-2 text-xs text-foreground/40 font-medium text-right">Último login</th>
-                  <th className="pb-2 text-xs text-foreground/40 font-medium text-right">Posiciones</th>
+                  <th className="pb-2 text-xs text-muted-foreground font-medium">Email</th>
+                  <th className="pb-2 text-xs text-muted-foreground font-medium text-center">Estado</th>
+                  <th className="pb-2 text-xs text-muted-foreground font-medium text-right">Registro</th>
+                  <th className="pb-2 text-xs text-muted-foreground font-medium text-right">Último login</th>
+                  <th className="pb-2 text-xs text-muted-foreground font-medium text-right">Posiciones</th>
                 </tr>
               </thead>
               <tbody>
@@ -258,8 +258,8 @@ export default function AdminUsage() {
                         ? <Check size={12} strokeWidth={3} className="text-emerald-400 text-xs inline shrink-0" />
                         : <span className="text-amber-400 text-xs">○</span>}
                     </td>
-                    <td className="py-2.5 text-right text-foreground/50 text-xs">{fmtDate(u.created_at)}</td>
-                    <td className="py-2.5 text-right text-foreground/50 text-xs">{fmtDate(u.last_sign_in)}</td>
+                    <td className="py-2.5 text-right text-muted-foreground text-xs">{fmtDate(u.created_at)}</td>
+                    <td className="py-2.5 text-right text-muted-foreground text-xs">{fmtDate(u.last_sign_in)}</td>
                     <td className="py-2.5 text-right font-mono text-foreground/70">{u.positions}</td>
                   </tr>
                 ))}
@@ -274,7 +274,7 @@ export default function AdminUsage() {
         <Card className="glass">
           <CardContent className="p-6">
             <h2 className="text-sm font-semibold text-foreground/70 uppercase tracking-wider mb-4 flex items-center gap-2">
-              <TrendingUp size={16} className="text-foreground/40" />
+              <TrendingUp size={16} className="text-muted-foreground" />
               Tickers más añadidos entre todos los usuarios
             </h2>
             <div className="space-y-2">
@@ -292,7 +292,7 @@ export default function AdminUsage() {
                       />
                     </div>
                   </div>
-                  <span className="text-xs font-mono text-foreground/50 w-6 text-right">{t.count}</span>
+                  <span className="text-xs font-mono text-muted-foreground w-6 text-right">{t.count}</span>
                 </div>
               ))}
             </div>

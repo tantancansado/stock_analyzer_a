@@ -278,7 +278,7 @@ export default function Comparador() {
       {/* Empty state */}
       {tickers.length === 0 && (
         <div className="glass rounded-2xl p-12 text-center">
-          <GitCompare size={40} className="mx-auto text-muted-foreground/30 mb-4" />
+          <GitCompare size={40} className="mx-auto text-muted-foreground mb-4" />
           <p className="text-foreground font-semibold mb-1">Añade al menos 2 tickers</p>
           <p className="text-sm text-muted-foreground">Escribe un ticker y pulsa Enter o "Añadir"</p>
         </div>
@@ -307,7 +307,7 @@ export default function Comparador() {
                             <span className="text-micro text-muted-foreground truncate max-w-[120px]">{d.company_name}</span>
                           )}
                           {d?.sector_name && (
-                            <span className="text-micro px-1.5 py-0.5 rounded bg-muted/40 border border-border/30 text-muted-foreground/60 uppercase tracking-wide">
+                            <span className="text-micro px-1.5 py-0.5 rounded bg-muted/40 border border-border/30 text-muted-foreground uppercase tracking-wide">
                               {d.sector_name}
                             </span>
                           )}
@@ -321,7 +321,7 @@ export default function Comparador() {
                 {sections.map(section => (
                   <Fragment key={section.title}>
                     <tr className="bg-muted/10">
-                      <td colSpan={loadedTickers.length + 1} className="px-3 sm:px-4 py-1.5 text-micro font-bold uppercase tracking-widest text-muted-foreground/50">
+                      <td colSpan={loadedTickers.length + 1} className="px-3 sm:px-4 py-1.5 text-micro font-bold uppercase tracking-widest text-muted-foreground">
                         <span className="sticky left-3 inline-block">{section.title}</span>
                       </td>
                     </tr>

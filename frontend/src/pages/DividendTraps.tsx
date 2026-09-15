@@ -65,7 +65,7 @@ function TrapCard({ entry }: { entry: DividendTrapEntry }) {
             {entry.dividend_yield != null && (
               <div className="text-center">
                 <div className={`font-bold ${cfg.text}`}>{entry.dividend_yield.toFixed(1)}%</div>
-                <div className="text-muted-foreground/60 text-micro">Yield</div>
+                <div className="text-muted-foreground text-micro">Yield</div>
               </div>
             )}
             {entry.payout_ratio != null && (
@@ -73,7 +73,7 @@ function TrapCard({ entry }: { entry: DividendTrapEntry }) {
                 <div className={`font-bold ${entry.payout_ratio > 100 ? 'text-red-400' : entry.payout_ratio > 80 ? 'text-orange-400' : 'text-yellow-400'}`}>
                   {entry.payout_ratio.toFixed(0)}%
                 </div>
-                <div className="text-muted-foreground/60 text-micro">Payout</div>
+                <div className="text-muted-foreground text-micro">Payout</div>
               </div>
             )}
             {entry.fcf_yield != null && (
@@ -81,12 +81,12 @@ function TrapCard({ entry }: { entry: DividendTrapEntry }) {
                 <div className={`font-bold ${entry.fcf_yield < 0 ? 'text-red-400' : entry.dividend_yield != null && entry.fcf_yield < entry.dividend_yield ? 'text-orange-400' : 'text-green-400'}`}>
                   {entry.fcf_yield.toFixed(1)}%
                 </div>
-                <div className="text-muted-foreground/60 text-micro">FCF</div>
+                <div className="text-muted-foreground text-micro">FCF</div>
               </div>
             )}
             <div>
               <TrapScoreBar score={entry.trap_score} />
-              <div className="text-muted-foreground/60 text-micro mt-0.5">Riesgo</div>
+              <div className="text-muted-foreground text-micro mt-0.5">Riesgo</div>
             </div>
           </div>
 
@@ -126,25 +126,25 @@ function SafeCard({ entry }: { entry: DividendTrapEntry }) {
             {entry.dividend_yield != null && (
               <div className="text-center">
                 <div className="font-bold text-emerald-400">{entry.dividend_yield.toFixed(1)}%</div>
-                <div className="text-muted-foreground/60 text-micro">Yield</div>
+                <div className="text-muted-foreground text-micro">Yield</div>
               </div>
             )}
             {entry.payout_ratio != null && (
               <div className="text-center">
                 <div className="font-bold text-foreground/70">{entry.payout_ratio.toFixed(0)}%</div>
-                <div className="text-muted-foreground/60 text-micro">Payout</div>
+                <div className="text-muted-foreground text-micro">Payout</div>
               </div>
             )}
             {entry.fcf_yield != null && (
               <div className="text-center">
                 <div className="font-bold text-green-400">{entry.fcf_yield.toFixed(1)}%</div>
-                <div className="text-muted-foreground/60 text-micro">FCF</div>
+                <div className="text-muted-foreground text-micro">FCF</div>
               </div>
             )}
             {entry.fundamental_score != null && (
               <div className="text-center">
-                <div className="font-bold text-foreground/60">{entry.fundamental_score.toFixed(0)}</div>
-                <div className="text-muted-foreground/60 text-micro">Fund</div>
+                <div className="font-bold text-muted-foreground">{entry.fundamental_score.toFixed(0)}</div>
+                <div className="text-muted-foreground text-micro">Fund</div>
               </div>
             )}
           </div>
@@ -279,7 +279,7 @@ export default function DividendTraps() {
                 </div>
               ))}
             </div>
-            <p className="text-micro text-muted-foreground/60 mt-2">Estas acciones aparecen como oportunidades VALUE pero su dividendo puede estar en riesgo de recorte.</p>
+            <p className="text-micro text-muted-foreground mt-2">Estas acciones aparecen como oportunidades VALUE pero su dividendo puede estar en riesgo de recorte.</p>
           </CardContent>
         </Card>
       )}
@@ -380,7 +380,7 @@ export default function DividendTraps() {
           {filteredTraps.length === 0 ? (
             <Card className="glass border border-border/40">
               <CardContent className="p-10 text-center">
-                <ShieldCheck size={32} className="text-emerald-400/40 mx-auto mb-3" />
+                <ShieldCheck size={32} className="text-emerald-400 mx-auto mb-3" />
                 <p className="text-sm font-medium text-foreground/70">Sin trampas con los filtros actuales</p>
                 <p className="text-xs text-muted-foreground mt-1">Prueba cambiando el filtro de riesgo</p>
               </CardContent>
@@ -398,7 +398,7 @@ export default function DividendTraps() {
           {data.safe_dividends.length === 0 ? (
             <Card className="glass border border-border/40">
               <CardContent className="p-10 text-center">
-                <AlertTriangle size={32} className="text-orange-400/40 mx-auto mb-3" />
+                <AlertTriangle size={32} className="text-orange-400 mx-auto mb-3" />
                 <p className="text-sm font-medium text-foreground/70">No hay dividendos calificados como seguros</p>
                 <p className="text-xs text-muted-foreground mt-1">El escáner no encontró dividendos con suficiente cobertura de FCF</p>
               </CardContent>
@@ -419,7 +419,7 @@ export default function DividendTraps() {
               <CardContent className="p-8 text-center">
                 <Loader2 size={22} className="animate-spin text-primary mx-auto mb-3" />
                 <p className="text-sm text-muted-foreground">Escaneando ex-dividend dates...</p>
-                <p className="text-xs text-muted-foreground/50 mt-1">Primera carga puede tardar ~30s</p>
+                <p className="text-xs text-muted-foreground mt-1">Primera carga puede tardar ~30s</p>
               </CardContent>
             </Card>
           )}
@@ -427,7 +427,7 @@ export default function DividendTraps() {
           {divCalLoaded && divCalendar.length === 0 && (
             <Card className="glass border border-border/40">
               <CardContent className="p-10 text-center">
-                <CalendarClock size={32} className="text-blue-400/40 mx-auto mb-3" />
+                <CalendarClock size={32} className="text-blue-400 mx-auto mb-3" />
                 <p className="text-sm font-medium text-foreground/70">Sin ex-dividend dates próximos</p>
                 <p className="text-xs text-muted-foreground mt-1">No hay acciones de calidad con ex-div en los próximos 45 días</p>
               </CardContent>
@@ -467,41 +467,41 @@ export default function DividendTraps() {
                         <div className={`font-bold ${event.days_to_exdiv <= 7 ? 'text-amber-400' : 'text-blue-400'}`}>
                           {event.days_to_exdiv}d
                         </div>
-                        <div className="text-muted-foreground/60 text-micro">Ex-Div</div>
+                        <div className="text-muted-foreground text-micro">Ex-Div</div>
                       </div>
 
                       <div className="text-center">
                         <div className="font-bold text-foreground/80">{event.ex_dividend_date.slice(5)}</div>
-                        <div className="text-muted-foreground/60 text-micro">Fecha</div>
+                        <div className="text-muted-foreground text-micro">Fecha</div>
                       </div>
 
                       {event.dividend_per_share != null && (
                         <div className="text-center">
                           <div className="font-bold text-emerald-400">${event.dividend_per_share.toFixed(2)}</div>
-                          <div className="text-muted-foreground/60 text-micro">$/Accion</div>
+                          <div className="text-muted-foreground text-micro">$/Accion</div>
                         </div>
                       )}
 
                       {event.capture_yield_pct != null && (
                         <div className="text-center">
                           <div className="font-bold text-emerald-400">{event.capture_yield_pct.toFixed(2)}%</div>
-                          <div className="text-muted-foreground/60 text-micro">Capture</div>
+                          <div className="text-muted-foreground text-micro">Capture</div>
                         </div>
                       )}
 
                       {event.dividend_yield_annual != null && (
                         <div className="text-center">
                           <div className="font-bold text-foreground/70">{event.dividend_yield_annual.toFixed(1)}%</div>
-                          <div className="text-muted-foreground/60 text-micro">Yield anual</div>
+                          <div className="text-muted-foreground text-micro">Yield anual</div>
                         </div>
                       )}
 
                       {event.fundamental_score != null && (
                         <div className="text-center">
-                          <div className={`font-bold ${event.fundamental_score >= 65 ? 'text-emerald-400' : event.fundamental_score >= 50 ? 'text-foreground/60' : 'text-red-400'}`}>
+                          <div className={`font-bold ${event.fundamental_score >= 65 ? 'text-emerald-400' : event.fundamental_score >= 50 ? 'text-muted-foreground' : 'text-red-400'}`}>
                             {event.fundamental_score.toFixed(0)}
                           </div>
-                          <div className="text-muted-foreground/60 text-micro">Fund</div>
+                          <div className="text-muted-foreground text-micro">Fund</div>
                         </div>
                       )}
 

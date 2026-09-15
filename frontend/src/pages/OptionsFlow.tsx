@@ -89,9 +89,9 @@ function CallPutBar({ callPct }: { callPct: number }) {
         <div className="bg-red-500/70 h-full" style={{ width: `${putPct}%` }} />
       </div>
       <span className="text-micro text-muted-foreground tabular-nums w-16 text-right">
-        <span className="text-emerald-400/80">{callPct.toFixed(0)}C</span>
+        <span className="text-emerald-400">{callPct.toFixed(0)}C</span>
         {' / '}
-        <span className="text-red-400/80">{putPct.toFixed(0)}P</span>
+        <span className="text-red-400">{putPct.toFixed(0)}P</span>
       </span>
     </div>
   )
@@ -132,7 +132,7 @@ function InterpretationBadge({ interp, reason, drawdown }: {
 function ContractRow({ c }: { c: TopContract }) {
   const isCall = c.side === 'CALL'
   return (
-    <div className={`flex flex-wrap items-center gap-x-3 gap-y-0.5 text-micro py-0.5 ${isCall ? 'text-emerald-400/80' : 'text-red-400/80'}`}>
+    <div className={`flex flex-wrap items-center gap-x-3 gap-y-0.5 text-micro py-0.5 ${isCall ? 'text-emerald-400' : 'text-red-400'}`}>
       <span className="font-bold w-8">{c.side}</span>
       <span className="font-mono">${c.strike}</span>
       <span className="text-muted-foreground">{c.expiry} ({c.dte}d)</span>
@@ -142,10 +142,10 @@ function ContractRow({ c }: { c: TopContract }) {
       )}
       <span className="font-bold">{fmtPremium(c.premium_usd)}</span>
       {c.iv != null && <span className="text-muted-foreground">IV {fmtIV(c.iv)}</span>}
-      {c.speculative && <span className="text-amber-400/80 font-semibold inline-flex items-center gap-0.5"><Zap size={12} strokeWidth={2.5} />SWEEP</span>}
-      {c.itm && <span className="text-muted-foreground/60">[ITM]</span>}
+      {c.speculative && <span className="text-amber-400 font-semibold inline-flex items-center gap-0.5"><Zap size={12} strokeWidth={2.5} />SWEEP</span>}
+      {c.itm && <span className="text-muted-foreground">[ITM]</span>}
       {c.last_trade_date && (
-        <span className="text-muted-foreground/50 ml-1">
+        <span className="text-muted-foreground ml-1">
           {c.last_trade_date.includes('T') ? c.last_trade_date.slice(0, 16).replace('T', ' ') : c.last_trade_date}
         </span>
       )}
@@ -338,13 +338,13 @@ export default function OptionsFlow() {
                     </TableCell>
                     <TableCell className="text-muted-foreground text-micro">
                       {r.top_contracts.slice(0, 1).map((c, i) => (
-                        <span key={i} className={c.side === 'CALL' ? 'text-emerald-400/70' : 'text-red-400/70'}>
+                        <span key={i} className={c.side === 'CALL' ? 'text-emerald-400' : 'text-red-400'}>
                           {c.side} ${c.strike} {c.expiry} {fmtPremium(c.premium_usd)}
                           {c.speculative && <Zap size={12} strokeWidth={2.5} className="inline ml-0.5 -mt-px text-amber-400" />}
                         </span>
                       ))}
                       {r.top_contracts.length > 1 && (
-                        <span className="text-muted-foreground/40 ml-1">+{r.top_contracts.length - 1}</span>
+                        <span className="text-muted-foreground ml-1">+{r.top_contracts.length - 1}</span>
                       )}
                     </TableCell>
                   </TableRow>

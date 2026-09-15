@@ -38,26 +38,26 @@ function RecentPositionRow({ d }: { d: MeanReversionRecentEntry }) {
         <div className="flex items-center gap-1.5">
           <TickerLogo ticker={d.ticker} size="xs" />
           <span className="font-mono font-bold text-primary text-apoyo tracking-wide">{d.ticker}</span>
-          <span className="text-micro text-muted-foreground/60">día {d.days_since_signal} de {d.window_days}</span>
+          <span className="text-micro text-muted-foreground">día {d.days_since_signal} de {d.window_days}</span>
         </div>
         <span className={`text-micro font-bold px-2 py-0.5 rounded border ${meta.cls}`}>{meta.label}</span>
       </div>
       <div className="grid grid-cols-3 gap-1.5 text-center mb-2">
         <div className="rounded bg-muted/15 px-1.5 py-1">
-          <div className="text-micro text-muted-foreground/50 leading-none mb-0.5">Precio hoy</div>
+          <div className="text-micro text-muted-foreground leading-none mb-0.5">Precio hoy</div>
           <div className="text-mini font-bold text-foreground leading-none">{d.current_price != null ? `$${d.current_price.toFixed(2)}` : '—'}</div>
         </div>
         <div className="rounded bg-emerald-500/8 px-1.5 py-1">
-          <div className="text-micro text-muted-foreground/50 leading-none mb-0.5">Target</div>
+          <div className="text-micro text-muted-foreground leading-none mb-0.5">Target</div>
           <div className="text-mini font-bold text-emerald-400 leading-none">{d.target != null ? `$${d.target.toFixed(2)}` : '—'}</div>
         </div>
         <div className="rounded bg-red-500/6 px-1.5 py-1">
-          <div className="text-micro text-muted-foreground/50 leading-none mb-0.5">Stop</div>
+          <div className="text-micro text-muted-foreground leading-none mb-0.5">Stop</div>
           <div className="text-mini font-bold text-red-400 leading-none">{d.stop_loss != null ? `$${d.stop_loss.toFixed(2)}` : '—'}</div>
         </div>
       </div>
       {d.ai_note && (
-        <p className="text-mini text-muted-foreground/80 leading-relaxed italic">{d.ai_note}</p>
+        <p className="text-mini text-muted-foreground leading-relaxed italic">{d.ai_note}</p>
       )}
     </div>
   )
@@ -236,9 +236,9 @@ export default function MeanReversion() {
         return (
           <div className="mb-6 animate-fade-in-up">
             <div className="flex items-center gap-2 mb-3">
-              <span className="text-micro font-black uppercase tracking-[0.15em] text-muted-foreground/50">Top Rebotes Hoy</span>
+              <span className="text-micro font-black uppercase tracking-[0.15em] text-muted-foreground">Top Rebotes Hoy</span>
               <div className="flex-1 h-px bg-border/20" />
-              <span className="text-micro text-muted-foreground/40">{top.length} setups</span>
+              <span className="text-micro text-muted-foreground">{top.length} setups</span>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-2">
               {top.map((d, idx) => {
@@ -277,15 +277,15 @@ export default function MeanReversion() {
                     {/* Price ladder */}
                     <div className="grid grid-cols-3 gap-1 mb-2 text-center">
                       <div className="rounded bg-muted/15 px-1.5 py-1">
-                        <div className="text-micro text-muted-foreground/50 leading-none mb-0.5">Entrada</div>
+                        <div className="text-micro text-muted-foreground leading-none mb-0.5">Entrada</div>
                         <div className="text-mini font-bold text-muted-foreground leading-none truncate">{d.entry_zone?.split(' ')[0] ?? '—'}</div>
                       </div>
                       <div className="rounded bg-emerald-500/8 px-1.5 py-1">
-                        <div className="text-micro text-muted-foreground/50 leading-none mb-0.5">Target</div>
+                        <div className="text-micro text-muted-foreground leading-none mb-0.5">Target</div>
                         <div className="text-mini font-bold text-emerald-400 leading-none">{d.target != null ? `$${d.target.toFixed(1)}` : '—'}</div>
                       </div>
                       <div className="rounded bg-red-500/6 px-1.5 py-1">
-                        <div className="text-micro text-muted-foreground/50 leading-none mb-0.5">Stop</div>
+                        <div className="text-micro text-muted-foreground leading-none mb-0.5">Stop</div>
                         <div className="text-mini font-bold text-red-400 leading-none">{d.stop_loss != null ? `$${d.stop_loss.toFixed(1)}` : '—'}</div>
                       </div>
                     </div>
@@ -303,7 +303,7 @@ export default function MeanReversion() {
                           </span>
                         )}
                         {d.historical_win_rate != null && (
-                          <span className="text-micro text-muted-foreground/50 tabular-nums">{d.historical_win_rate.toFixed(0)}% hist</span>
+                          <span className="text-micro text-muted-foreground tabular-nums">{d.historical_win_rate.toFixed(0)}% hist</span>
                         )}
                       </div>
                       {rr != null && (
@@ -347,7 +347,7 @@ export default function MeanReversion() {
             <CardContent className="p-4">
               <div className="flex items-center gap-2 mb-3">
                 <Wallet size={16} className="text-primary" />
-                <span className="text-micro font-bold uppercase tracking-widest text-primary/70">Mis Posiciones en Zona Oversold</span>
+                <span className="text-micro font-bold uppercase tracking-widest text-primary">Mis Posiciones en Zona Oversold</span>
                 <span className="text-micro px-1.5 py-0.5 rounded-full bg-primary/15 text-primary font-bold">{myMR.length}</span>
               </div>
               <Table>
@@ -379,7 +379,7 @@ export default function MeanReversion() {
                       <TableCell className="tabular-nums">
                         {d.risk_reward != null && Number(d.risk_reward) > 0
                           ? <span className={(d.risk_reward as number) >= 2 ? 'text-emerald-400' : (d.risk_reward as number) >= 1 ? 'text-amber-400' : 'text-red-400'}>{Number(d.risk_reward).toFixed(1)}</span>
-                          : <span className="text-muted-foreground/30">—</span>}
+                          : <span className="text-muted-foreground">—</span>}
                       </TableCell>
                     </TableRow>
                   ))}
@@ -402,10 +402,10 @@ export default function MeanReversion() {
             <CardContent className="p-4">
               <div className="flex items-center gap-2 mb-3">
                 <Wallet size={16} className="text-primary" />
-                <span className="text-micro font-bold uppercase tracking-widest text-primary/70">Mis Posiciones — Ya Fuera del Escaneo de Hoy</span>
+                <span className="text-micro font-bold uppercase tracking-widest text-primary">Mis Posiciones — Ya Fuera del Escaneo de Hoy</span>
                 <span className="text-micro px-1.5 py-0.5 rounded-full bg-primary/15 text-primary font-bold">{recent.length}</span>
               </div>
-              <p className="text-mini text-muted-foreground/60 mb-3 leading-relaxed">
+              <p className="text-mini text-muted-foreground mb-3 leading-relaxed">
                 El RSI ya no está en sobreventa, así que no aparecen como setup nuevo — pero
                 si ya estabas dentro, esto es lo que ha pasado con la posición.
               </p>
@@ -444,7 +444,7 @@ export default function MeanReversion() {
                 )}
               </div>
             </div>
-            <div className="flex gap-3 mt-2 text-micro text-muted-foreground/60">
+            <div className="flex gap-3 mt-2 text-micro text-muted-foreground">
               {d.support_level != null && <span>Soporte ${d.support_level.toFixed(2)}</span>}
               {d.target != null && <span>Target ${d.target.toFixed(2)}</span>}
               {d.rsi != null && <span>RSI {d.rsi.toFixed(0)}</span>}
@@ -540,7 +540,7 @@ export default function MeanReversion() {
                     <TableCell className="tabular-nums">
                       {d.risk_reward != null && Number(d.risk_reward) > 0
                         ? <span className={(d.risk_reward as number) >= 2 ? 'text-emerald-400' : (d.risk_reward as number) >= 1 ? 'text-amber-400' : 'text-red-400'}>{Number(d.risk_reward).toFixed(1)}</span>
-                        : <span className="text-muted-foreground/30">—</span>}
+                        : <span className="text-muted-foreground">—</span>}
                     </TableCell>
                   </TableRow>
                   {expanded === d.ticker && (
@@ -563,7 +563,7 @@ export default function MeanReversion() {
                                   color === 'emerald' ? 'text-emerald-400' :
                                   color === 'red' ? 'text-red-400' : 'text-primary'
                                 }`}>${value.toFixed(2)}</div>
-                                <div className="text-micro uppercase tracking-widest text-muted-foreground/45 mt-0.5">{label}</div>
+                                <div className="text-micro uppercase tracking-widest text-muted-foreground mt-0.5">{label}</div>
                               </div>
                             ))}
                           </div>
@@ -584,7 +584,7 @@ export default function MeanReversion() {
                                 <div className={`text-apoyo font-bold tabular-nums leading-tight ${
                                   q === 'good' ? 'text-emerald-400' : 'text-foreground/70'
                                 }`}>{value}</div>
-                                <div className="text-micro uppercase tracking-widest text-muted-foreground/45 mt-0.5 leading-tight">{label}</div>
+                                <div className="text-micro uppercase tracking-widest text-muted-foreground mt-0.5 leading-tight">{label}</div>
                               </div>
                             ))}
                           </div>
@@ -604,7 +604,7 @@ export default function MeanReversion() {
             />
           )}
           {filtered.length > 0 && (
-            <div className="px-4 py-2 border-t border-border/20 flex items-center gap-3 text-micro text-muted-foreground/50">
+            <div className="px-4 py-2 border-t border-border/20 flex items-center gap-3 text-micro text-muted-foreground">
               <span>j/k or ↑↓ navegar</span>
               <span>Enter expandir</span>
               <span>Esc cerrar</span>

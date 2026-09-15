@@ -41,7 +41,7 @@ const VERDICT_CONFIG: Record<string, { label: string; cls: string }> = {
 function Metric({ label, value, hint, className }: { label: string; value: React.ReactNode; hint?: string; className?: string }) {
   return (
     <div className="min-w-0">
-      <div className="text-micro uppercase tracking-widest text-muted-foreground/60 mb-0.5 flex items-center gap-1">
+      <div className="text-micro uppercase tracking-widest text-muted-foreground mb-0.5 flex items-center gap-1">
         {label}{hint && <span title={hint}><Info className="w-2.5 h-2.5 opacity-40" /></span>}
       </div>
       <div className={cn('text-sm font-bold tabular-nums leading-none', className)}>{value}</div>
@@ -55,7 +55,7 @@ function StrikeComparator({ contracts, bestStrike }: { contracts: LeapsContract[
     <div className="mt-3 table-x-wrap rounded-md border border-border/30">
       <table className="w-full text-micro tabular-nums">
         <thead>
-          <tr className="text-muted-foreground/60 text-left">
+          <tr className="text-muted-foreground text-left">
             <th className="font-normal px-2 py-1.5">Strike</th>
             <th className="font-normal px-2 py-1.5">Δ</th>
             <th className="font-normal px-2 py-1.5">Lev</th>
@@ -85,7 +85,7 @@ function StrikeComparator({ contracts, bestStrike }: { contracts: LeapsContract[
           })}
         </tbody>
       </table>
-      <div className="px-2 py-1.5 text-micro text-muted-foreground/50 border-t border-border/20">
+      <div className="px-2 py-1.5 text-micro text-muted-foreground border-t border-border/20">
         Mismo vencimiento ({rows[0]?.expiry}). Más deep (strike bajo) = menos carry/riesgo, menos leverage. La marcada como MEJOR es la de mejor equilibrio.
       </div>
     </div>
@@ -125,7 +125,7 @@ function OpportunityCard({ o, rank }: { o: LeapsOpportunity; rank?: number }) {
         <div className="flex items-start justify-between gap-3 mb-3">
           <div className="flex items-center gap-3 min-w-0">
             {rank != null && (
-              <span className="text-lg font-extrabold text-muted-foreground/40 tabular-nums w-6 shrink-0">{rank}</span>
+              <span className="text-lg font-extrabold text-muted-foreground tabular-nums w-6 shrink-0">{rank}</span>
             )}
             <TickerLogo ticker={o.ticker} size="md" />
             <div className="min-w-0">
@@ -145,7 +145,7 @@ function OpportunityCard({ o, rank }: { o: LeapsOpportunity; rank?: number }) {
               </div>
               <div className="text-xs text-muted-foreground truncate">{o.company_name}</div>
               {(o.pct_from_52w_high != null || o.ytd_pct != null || o.forward_pe != null) && (
-                <div className="text-micro text-muted-foreground/60 mt-0.5">
+                <div className="text-micro text-muted-foreground mt-0.5">
                   {o.pct_from_52w_high != null && <span>{o.pct_from_52w_high.toFixed(0)}% desde máx. 52s</span>}
                   {o.pct_from_52w_high != null && o.ytd_pct != null && <span> · </span>}
                   {o.ytd_pct != null && <span>YTD {o.ytd_pct >= 0 ? '+' : ''}{o.ytd_pct.toFixed(0)}%</span>}
@@ -158,7 +158,7 @@ function OpportunityCard({ o, rank }: { o: LeapsOpportunity; rank?: number }) {
             <div className={cn('text-2xl font-extrabold tabular-nums leading-none', scoreColor(o.opportunity_score))}>
               {o.opportunity_score.toFixed(0)}
             </div>
-            <div className="text-micro uppercase tracking-widest text-muted-foreground/50">score</div>
+            <div className="text-micro uppercase tracking-widest text-muted-foreground">score</div>
           </div>
         </div>
 
@@ -193,7 +193,7 @@ function OpportunityCard({ o, rank }: { o: LeapsOpportunity; rank?: number }) {
         {/* The recommended order — the headline */}
         <div className="rounded-md bg-primary/5 border border-primary/20 px-3 py-2.5 mb-3">
           <div className="flex items-center justify-between gap-2 mb-1">
-            <div className="text-micro uppercase tracking-widest text-primary/70 flex items-center gap-1">
+            <div className="text-micro uppercase tracking-widest text-primary flex items-center gap-1">
               <Rocket className="w-3 h-3" /> Contrato recomendado
             </div>
             <button
@@ -297,10 +297,10 @@ function OpportunityCard({ o, rank }: { o: LeapsOpportunity; rank?: number }) {
                   {pat.ventaja_neta_usd != null && ` (${pat.ventaja_neta_usd >= 0 ? '+' : ''}$${Math.abs(pat.ventaja_neta_usd).toLocaleString('es-ES')})`}
                 </span>
                 {pat.ventaja_neta_pct <= 0 && (
-                  <span className="text-red-400/80"> — sale mejor la acción</span>
+                  <span className="text-red-400"> — sale mejor la acción</span>
                 )}
                 {pat.ventaja_neta_pct > 0 && pat.ventaja_neta_pct <= 3 && (
-                  <span className="text-amber-400/80"> — el spread se lo come casi todo</span>
+                  <span className="text-amber-400"> — el spread se lo come casi todo</span>
                 )}
               </div>
             )}
@@ -324,8 +324,8 @@ function OpportunityCard({ o, rank }: { o: LeapsOpportunity; rank?: number }) {
           <>
           {/* AI narrative */}
           {o.ai_narrative && (
-            <div className="text-xs text-muted-foreground/90 leading-relaxed border-t border-border/30 pt-2.5">
-              <span className="inline-flex items-center gap-1 text-primary/70 font-semibold mr-1">
+            <div className="text-xs text-muted-foreground leading-relaxed border-t border-border/30 pt-2.5">
+              <span className="inline-flex items-center gap-1 text-primary font-semibold mr-1">
                 <Brain className="w-3 h-3" />
               </span>
               {o.ai_narrative}
@@ -338,19 +338,19 @@ function OpportunityCard({ o, rank }: { o: LeapsOpportunity; rank?: number }) {
               {ex.take_profit && (
                 <div className="rounded-md bg-emerald-500/5 border border-emerald-500/20 px-2.5 py-2">
                   <div className="flex items-center gap-1 text-emerald-400 font-semibold mb-0.5"><Target className="w-3 h-3" /> Tomar beneficios</div>
-                  <div className="text-muted-foreground/90">{ex.take_profit}</div>
+                  <div className="text-muted-foreground">{ex.take_profit}</div>
                 </div>
               )}
               {ex.roll && (
                 <div className="rounded-md bg-cyan-500/5 border border-cyan-500/20 px-2.5 py-2">
                   <div className="flex items-center gap-1 text-cyan-400 font-semibold mb-0.5"><RefreshCw className="w-3 h-3" /> Cuándo rolar</div>
-                  <div className="text-muted-foreground/90">{ex.roll}</div>
+                  <div className="text-muted-foreground">{ex.roll}</div>
                 </div>
               )}
               {ex.thesis_break && (
                 <div className="rounded-md bg-red-500/5 border border-red-500/20 px-2.5 py-2">
                   <div className="flex items-center gap-1 text-red-400 font-semibold mb-0.5"><AlertTriangle className="w-3 h-3" /> Tesis rota</div>
-                  <div className="text-muted-foreground/90">{ex.thesis_break}</div>
+                  <div className="text-muted-foreground">{ex.thesis_break}</div>
                 </div>
               )}
             </div>
@@ -445,7 +445,7 @@ export default function Leaps() {
       {/* On-demand search */}
       <form onSubmit={runOnDemand} className="flex gap-2 mb-5">
         <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground/50" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
           <input
             value={query}
             onChange={e => setQuery(e.target.value)}
@@ -463,7 +463,7 @@ export default function Leaps() {
       )}
       {onDemand && (
         <div className="mb-6">
-          <div className="text-micro uppercase tracking-widest text-muted-foreground/60 mb-2">Análisis en vivo</div>
+          <div className="text-micro uppercase tracking-widest text-muted-foreground mb-2">Análisis en vivo</div>
           <OpportunityCard o={onDemand} />
         </div>
       )}
@@ -478,10 +478,10 @@ export default function Leaps() {
               encima: `justify-between` sin wrap reparte el ancho pero no deja
               que el segundo bloque baje. */}
           <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1 mb-2 mt-1">
-            <h2 className="text-sm font-bold uppercase tracking-widest text-muted-foreground/60">
+            <h2 className="text-sm font-bold uppercase tracking-widest text-muted-foreground">
               Mejores oportunidades ({data.opportunities.length})
             </h2>
-            <span className="text-micro text-muted-foreground/50">
+            <span className="text-micro text-muted-foreground">
               tipo libre de riesgo {data.risk_free_rate_pct}% · {data.analyzed} analizadas de {data.universe_size}
             </span>
           </div>

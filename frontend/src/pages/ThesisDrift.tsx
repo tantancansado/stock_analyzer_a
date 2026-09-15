@@ -20,7 +20,7 @@ function ScoreDelta({ now, prev }: { now: number; prev: number }) {
   return (
     <span className="tabular-nums text-sm">
       <span className="text-muted-foreground">{prev.toFixed(0)}</span>
-      <span className="text-muted-foreground/50 mx-1">→</span>
+      <span className="text-muted-foreground mx-1">→</span>
       <span className={cls}>{now.toFixed(0)}</span>
       <span className={`ml-1 text-xs font-bold ${cls}`}>
         {delta >= 0 ? '+' : ''}{delta.toFixed(0)}
@@ -66,11 +66,11 @@ export default function ThesisDrift() {
                 <span className={`text-micro font-bold px-1.5 py-0.5 rounded border ${cfg.cls}`}>
                   {cfg.label}
                 </span>
-                <span className={`text-xl font-bold tabular-nums ${counts[sev] === 0 ? 'text-muted-foreground/20' : sev === 'HIGH' ? 'text-red-400' : sev === 'MEDIUM' ? 'text-amber-400' : 'text-muted-foreground'}`}>
+                <span className={`text-xl font-bold tabular-nums ${counts[sev] === 0 ? 'text-muted-foreground' : sev === 'HIGH' ? 'text-red-400' : sev === 'MEDIUM' ? 'text-amber-400' : 'text-muted-foreground'}`}>
                   {counts[sev]}
                 </span>
               </div>
-              <p className="text-micro text-muted-foreground/60">
+              <p className="text-micro text-muted-foreground">
                 {sev === 'HIGH' ? 'Tesis posiblemente rota' : sev === 'MEDIUM' ? 'Deterioro moderado' : 'Cambio menor'}
               </p>
             </button>
@@ -115,20 +115,20 @@ export default function ThesisDrift() {
                 <div className="mt-2.5 flex items-center gap-2 text-mini text-muted-foreground">
                   <span>Score</span>
                   <ScoreDelta now={d.value_score_now} prev={d.value_score_prev} />
-                  <span className="text-muted-foreground/50">· {d.days_tracked}d vigilada</span>
+                  <span className="text-muted-foreground">· {d.days_tracked}d vigilada</span>
                 </div>
 
                 {d.drift_flags.length > 0 && (
                   <ul className="mt-2.5 space-y-0.5">
                     {d.drift_flags.map(f => (
-                      <li key={f} className="text-mini leading-snug text-red-400/80">↘ {f}</li>
+                      <li key={f} className="text-mini leading-snug text-red-400">↘ {f}</li>
                     ))}
                   </ul>
                 )}
                 {d.improvements.length > 0 && (
                   <ul className="mt-1.5 space-y-0.5">
                     {d.improvements.map(imp => (
-                      <li key={imp} className="text-mini leading-snug text-emerald-400/80">↗ {imp}</li>
+                      <li key={imp} className="text-mini leading-snug text-emerald-400">↗ {imp}</li>
                     ))}
                   </ul>
                 )}
@@ -165,7 +165,7 @@ export default function ThesisDrift() {
                         <TickerLogo ticker={d.ticker} size="sm" />
                         <div>
                           <div>{d.ticker}</div>
-                          <div className="text-micro text-muted-foreground/60 font-normal hidden sm:block max-w-[120px] truncate">
+                          <div className="text-micro text-muted-foreground font-normal hidden sm:block max-w-[120px] truncate">
                             {d.company_name}
                           </div>
                         </div>
@@ -185,7 +185,7 @@ export default function ThesisDrift() {
                     <TableCell className="max-w-[280px]">
                       <ul className="space-y-0.5">
                         {d.drift_flags.map((f, i) => (
-                          <li key={i} className="text-micro text-red-400/80 leading-snug">
+                          <li key={i} className="text-micro text-red-400 leading-snug">
                             ↘ {f}
                           </li>
                         ))}
@@ -195,13 +195,13 @@ export default function ThesisDrift() {
                       {d.improvements.length > 0 ? (
                         <ul className="space-y-0.5">
                           {d.improvements.map((imp, i) => (
-                            <li key={i} className="text-micro text-emerald-400/80 leading-snug">
+                            <li key={i} className="text-micro text-emerald-400 leading-snug">
                               ↗ {imp}
                             </li>
                           ))}
                         </ul>
                       ) : (
-                        <span className="text-muted-foreground/30 text-xs">—</span>
+                        <span className="text-muted-foreground text-xs">—</span>
                       )}
                     </TableCell>
                   </TableRow>

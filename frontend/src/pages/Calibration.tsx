@@ -32,18 +32,18 @@ function ScoreBucketsTable({ buckets }: { buckets: CalibrationBucket[] }) {
       <table className="w-full text-sm">
         <thead>
           <tr className="border-b border-white/10 text-left">
-            <th className="pb-2 text-xs text-foreground/50 font-medium">Score</th>
-            <th className="pb-2 text-xs text-foreground/50 font-medium text-right">Señales</th>
-            <th className="pb-2 text-xs text-foreground/50 font-medium pl-4">Win Rate 14d</th>
-            <th className="pb-2 text-xs text-foreground/50 font-medium text-right">Retorno Medio</th>
-            <th className="pb-2 text-xs text-foreground/50 font-medium text-right">Mediana</th>
+            <th className="pb-2 text-xs text-muted-foreground font-medium">Score</th>
+            <th className="pb-2 text-xs text-muted-foreground font-medium text-right">Señales</th>
+            <th className="pb-2 text-xs text-muted-foreground font-medium pl-4">Win Rate 14d</th>
+            <th className="pb-2 text-xs text-muted-foreground font-medium text-right">Retorno Medio</th>
+            <th className="pb-2 text-xs text-muted-foreground font-medium text-right">Mediana</th>
           </tr>
         </thead>
         <tbody>
           {buckets.map(b => (
             <tr key={b.range} className="border-b border-white/5 hover:bg-white/5 transition-colors">
               <td className="py-2.5 font-mono font-medium text-foreground">{b.range}</td>
-              <td className="py-2.5 text-right text-foreground/60">{b.count}</td>
+              <td className="py-2.5 text-right text-muted-foreground">{b.count}</td>
               <td className="py-2.5 pl-4 min-w-[160px]">
                 <WinBar value={b.win_rate} />
               </td>
@@ -67,17 +67,17 @@ function RegimeTable({ rows }: { rows: CalibrationRegime[] }) {
       <table className="w-full text-sm">
         <thead>
           <tr className="border-b border-white/10 text-left">
-            <th className="pb-2 text-xs text-foreground/50 font-medium">Régimen</th>
-            <th className="pb-2 text-xs text-foreground/50 font-medium text-right">Señales</th>
-            <th className="pb-2 text-xs text-foreground/50 font-medium pl-4">Win Rate 14d</th>
-            <th className="pb-2 text-xs text-foreground/50 font-medium text-right">Retorno Medio</th>
+            <th className="pb-2 text-xs text-muted-foreground font-medium">Régimen</th>
+            <th className="pb-2 text-xs text-muted-foreground font-medium text-right">Señales</th>
+            <th className="pb-2 text-xs text-muted-foreground font-medium pl-4">Win Rate 14d</th>
+            <th className="pb-2 text-xs text-muted-foreground font-medium text-right">Retorno Medio</th>
           </tr>
         </thead>
         <tbody>
           {rows.map(r => (
             <tr key={r.regime} className="border-b border-white/5 hover:bg-white/5 transition-colors">
               <td className="py-2.5 font-medium text-foreground">{r.regime}</td>
-              <td className="py-2.5 text-right text-foreground/60">{r.count}</td>
+              <td className="py-2.5 text-right text-muted-foreground">{r.count}</td>
               <td className="py-2.5 pl-4 min-w-[160px]">
                 <WinBar value={r.win_rate} />
               </td>
@@ -98,17 +98,17 @@ function SectorTable({ rows }: { rows: CalibrationSector[] }) {
       <table className="w-full text-sm">
         <thead>
           <tr className="border-b border-white/10 text-left">
-            <th className="pb-2 text-xs text-foreground/50 font-medium">Sector</th>
-            <th className="pb-2 text-xs text-foreground/50 font-medium text-right">Señales</th>
-            <th className="pb-2 text-xs text-foreground/50 font-medium pl-4">Win Rate 14d</th>
-            <th className="pb-2 text-xs text-foreground/50 font-medium text-right">Retorno Medio</th>
+            <th className="pb-2 text-xs text-muted-foreground font-medium">Sector</th>
+            <th className="pb-2 text-xs text-muted-foreground font-medium text-right">Señales</th>
+            <th className="pb-2 text-xs text-muted-foreground font-medium pl-4">Win Rate 14d</th>
+            <th className="pb-2 text-xs text-muted-foreground font-medium text-right">Retorno Medio</th>
           </tr>
         </thead>
         <tbody>
           {rows.map(r => (
             <tr key={r.sector} className="border-b border-white/5 hover:bg-white/5 transition-colors">
               <td className="py-2.5 text-foreground/90">{r.sector}</td>
-              <td className="py-2.5 text-right text-foreground/60">{r.count}</td>
+              <td className="py-2.5 text-right text-muted-foreground">{r.count}</td>
               <td className="py-2.5 pl-4 min-w-[160px]">
                 <WinBar value={r.win_rate} />
               </td>
@@ -188,7 +188,7 @@ export default function Calibration() {
         {bestScore && (
           <Card className="glass border-white/10">
             <CardContent className="p-4">
-              <div className="text-xs text-foreground/50 mb-1">Mejor rango de score</div>
+              <div className="text-xs text-muted-foreground mb-1">Mejor rango de score</div>
               <div className="text-lg font-semibold text-foreground">{bestScore.range} pts</div>
               <Badge variant="outline" className="mt-1 text-xs" style={{ color: '#10b981', borderColor: '#10b98144' }}>
                 {bestScore.win_rate}% win rate
@@ -202,7 +202,7 @@ export default function Calibration() {
         {bestSector && (
           <Card className="glass border-white/10">
             <CardContent className="p-4">
-              <div className="text-xs text-foreground/50 mb-1">Sector más fiable</div>
+              <div className="text-xs text-muted-foreground mb-1">Sector más fiable</div>
               <div className="text-lg font-semibold text-foreground truncate">{bestSector.sector}</div>
               <Badge variant="outline" className="mt-1 text-xs" style={{ color: '#10b981', borderColor: '#10b98144' }}>
                 {bestSector.win_rate}% win rate
@@ -216,7 +216,7 @@ export default function Calibration() {
         {bestRegime && (
           <Card className="glass border-white/10">
             <CardContent className="p-4">
-              <div className="text-xs text-foreground/50 mb-1">Régimen más favorable</div>
+              <div className="text-xs text-muted-foreground mb-1">Régimen más favorable</div>
               <div className="text-lg font-semibold text-foreground">{nlRegimen(bestRegime.regime) || bestRegime.regime}</div>
               <Badge variant="outline" className="mt-1 text-xs" style={{ color: '#10b981', borderColor: '#10b98144' }}>
                 {bestRegime.win_rate}% win rate
@@ -279,7 +279,7 @@ export default function Calibration() {
         </Card>
       )}
 
-      <p className="text-xs text-foreground/30 text-right">
+      <p className="text-xs text-muted-foreground text-right">
         Actualizado: {new Date(data.generated_at).toLocaleString('es-ES')}
       </p>
     </div>

@@ -204,10 +204,10 @@ function StepperInput({
   const adj = (delta: number) => onChange(clamp(parseFloat((value + delta).toFixed(dec))))
   return (
     <div className="flex flex-col gap-0.5 min-w-0">
-      <span className="text-micro uppercase tracking-widest text-muted-foreground/50 font-semibold leading-none">{label}</span>
+      <span className="text-micro uppercase tracking-widest text-muted-foreground font-semibold leading-none">{label}</span>
       {tikrRef != null && (
-        <span className="text-micro text-muted-foreground/35 leading-none">
-          TIKR: <span className="font-mono text-muted-foreground/55">{tikrRef.toFixed(dec)}{suffix}</span>
+        <span className="text-micro text-muted-foreground leading-none">
+          TIKR: <span className="font-mono text-muted-foreground">{tikrRef.toFixed(dec)}{suffix}</span>
         </span>
       )}
       <div className="flex items-center gap-0.5 mt-0.5">
@@ -235,10 +235,10 @@ function OrangeCell({
   return (
     <div className="flex items-center justify-center gap-0.5">
       <button onClick={() => adj(-step)}
-        className="w-4 h-4 rounded bg-orange-500/10 hover:bg-orange-500/25 border border-orange-500/20 text-orange-400/60 hover:text-orange-400 flex items-center justify-center text-micro transition-colors">▼</button>
+        className="w-4 h-4 rounded bg-orange-500/10 hover:bg-orange-500/25 border border-orange-500/20 text-orange-400 hover:text-orange-400 flex items-center justify-center text-micro transition-colors">▼</button>
       <span className="w-12 text-center font-bold tabular-nums text-mini text-orange-400">{value.toFixed(dec)}{suffix}</span>
       <button onClick={() => adj(+step)}
-        className="w-4 h-4 rounded bg-orange-500/10 hover:bg-orange-500/25 border border-orange-500/20 text-orange-400/60 hover:text-orange-400 flex items-center justify-center text-micro transition-colors">▲</button>
+        className="w-4 h-4 rounded bg-orange-500/10 hover:bg-orange-500/25 border border-orange-500/20 text-orange-400 hover:text-orange-400 flex items-center justify-center text-micro transition-colors">▲</button>
     </div>
   )
 }
@@ -447,7 +447,7 @@ function DetailView({
             </div>
             <p className="text-xs text-muted-foreground">
               Precio compra para <span className="text-foreground font-semibold">{returnT}%</span> anual · Salida {data.exit_year ?? '—'}E ({data.years_to_exit ?? '—'} años)
-              {isProjected && <span className="ml-2 text-micro text-amber-400/70 border border-amber-400/20 rounded px-1.5 py-0.5">estimaciones proyectadas ~</span>}
+              {isProjected && <span className="ml-2 text-micro text-amber-400 border border-amber-400/20 rounded px-1.5 py-0.5">estimaciones proyectadas ~</span>}
             </p>
           </div>
 
@@ -488,7 +488,7 @@ function DetailView({
         )}
 
         {/* NL valuation narrative */}
-        <p className="mt-3 text-mini leading-relaxed text-muted-foreground/75 italic">
+        <p className="mt-3 text-mini leading-relaxed text-muted-foreground italic">
           {nlValuation({
             ticker:          data.ticker,
             current_price:   data.current_price ?? 0,
@@ -503,7 +503,7 @@ function DetailView({
         <div className="mt-4 pt-4 border-t border-white/6 space-y-3">
           {/* Return slider */}
           <div className="flex items-center gap-3">
-            <span className="text-micro uppercase tracking-widest text-muted-foreground/50 font-semibold shrink-0">Retorno objetivo</span>
+            <span className="text-micro uppercase tracking-widest text-muted-foreground font-semibold shrink-0">Retorno objetivo</span>
             <input type="range" min={8} max={25} step={1} value={returnT}
               onChange={e => setReturnT(Number(e.target.value))}
               className="flex-1 accent-cyan-400 h-1" />
@@ -518,9 +518,9 @@ function DetailView({
 
           {/* Múltiplos de valoración — stepper con referencia TIKR */}
           <div>
-            <p className="text-micro uppercase tracking-widest text-muted-foreground/40 font-semibold mb-2">
+            <p className="text-micro uppercase tracking-widest text-muted-foreground font-semibold mb-2">
               Múltiplos de valoración objetivo
-              <span className="ml-2 text-micro text-muted-foreground/30 normal-case tracking-normal">(TIKR = mediana histórica / consenso NTM)</span>
+              <span className="ml-2 text-micro text-muted-foreground normal-case tracking-normal">(TIKR = mediana histórica / consenso NTM)</span>
             </p>
             <div className="flex flex-wrap gap-5">
               <StepperInput label="EV/FCF"   value={evFcfT}  onChange={setEvFcfT}
@@ -548,7 +548,7 @@ function DetailView({
                 'px-3 py-1 transition-colors',
                 !fwdMode
                   ? 'bg-white/10 text-foreground'
-                  : 'text-muted-foreground/50 hover:text-muted-foreground hover:bg-white/5'
+                  : 'text-muted-foreground hover:text-muted-foreground hover:bg-white/5'
               )}
             >
               Consenso TIKR
@@ -559,7 +559,7 @@ function DetailView({
                 'px-3 py-1 border-l border-border/30 transition-colors',
                 fwdMode
                   ? 'bg-orange-500/20 text-orange-400'
-                  : 'text-muted-foreground/50 hover:text-muted-foreground hover:bg-white/5'
+                  : 'text-muted-foreground hover:text-muted-foreground hover:bg-white/5'
               )}
             >
               Modelo propio
@@ -567,12 +567,12 @@ function DetailView({
           </div>
           {fwdMode && (
             <button onClick={() => setFwdInputs(initFwdInputs(data, Object.keys(data.forward_fcf ?? {}).sort()))}
-              className="text-micro text-muted-foreground/40 hover:text-muted-foreground transition-colors">
+              className="text-micro text-muted-foreground hover:text-muted-foreground transition-colors">
               ↺ reset
             </button>
           )}
           {fwdMode && (
-            <span className="text-micro text-orange-400/50 ml-auto">
+            <span className="text-micro text-orange-400 ml-auto">
               Casillas naranjas = supuestos editables
             </span>
           )}
@@ -582,25 +582,25 @@ function DetailView({
         {!fwdMode && fwdYears.length > 0 && (
           <Card className={cn('overflow-clip', isProjected ? 'border border-amber-500/20 bg-amber-500/3' : 'border border-border/20')}>
             {isProjected && (
-              <div className="px-3 py-2 border-b border-amber-500/20 text-micro text-amber-400/80 flex items-center gap-2">
+              <div className="px-3 py-2 border-b border-amber-500/20 text-micro text-amber-400 flex items-center gap-2">
                 <span className="font-bold">~ PROYECTADO</span>
-                <span className="text-muted-foreground/60">Sin estimaciones de analistas en TIKR — FCF proyectado desde NTM × CAGR histórico. Datos pueden diferir del consenso real.</span>
+                <span className="text-muted-foreground">Sin estimaciones de analistas en TIKR — FCF proyectado desde NTM × CAGR histórico. Datos pueden diferir del consenso real.</span>
               </div>
             )}
             <div className="table-x-wrap">
               <table className="w-full text-mini">
                 <thead>
                   <tr className="border-b border-border/20">
-                    <th className="text-left px-3 py-2 text-muted-foreground/50 font-semibold uppercase tracking-wider w-36">Consenso TIKR</th>
+                    <th className="text-left px-3 py-2 text-muted-foreground font-semibold uppercase tracking-wider w-36">Consenso TIKR</th>
                     {fwdYears.map(yr => (
-                      <th key={yr} className="px-2 py-2 text-center text-muted-foreground/60 font-semibold">{yr}E</th>
+                      <th key={yr} className="px-2 py-2 text-center text-muted-foreground font-semibold">{yr}E</th>
                     ))}
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-border/15">
                   {fwdYears.some(yr => data.forward_estimates?.[yr]?.revenue != null) && (
                     <tr className="hover:bg-white/2">
-                      <td className="px-3 py-1.5 text-muted-foreground/70 whitespace-nowrap">Revenue ($M)</td>
+                      <td className="px-3 py-1.5 text-muted-foreground whitespace-nowrap">Revenue ($M)</td>
                       {fwdYears.map((yr, i) => {
                         const cur = data.forward_estimates?.[yr]?.revenue
                         const prev = i > 0 ? data.forward_estimates?.[fwdYears[i-1]]?.revenue : null
@@ -608,15 +608,15 @@ function DetailView({
                         return (
                           <td key={yr} className="px-2 py-1.5 text-center">
                             {cur != null
-                              ? <span className="font-mono">{(cur / 1000).toFixed(1)}B{growth != null && <span className="ml-1 text-micro text-muted-foreground/50">{growth > 0 ? '+' : ''}{growth.toFixed(0)}%</span>}</span>
-                              : <span className="text-muted-foreground/30">—</span>}
+                              ? <span className="font-mono">{(cur / 1000).toFixed(1)}B{growth != null && <span className="ml-1 text-micro text-muted-foreground">{growth > 0 ? '+' : ''}{growth.toFixed(0)}%</span>}</span>
+                              : <span className="text-muted-foreground">—</span>}
                           </td>
                         )
                       })}
                     </tr>
                   )}
                   <tr className="hover:bg-white/2">
-                    <td className="px-3 py-1.5 text-muted-foreground/70 whitespace-nowrap">EBITDA ($M)</td>
+                    <td className="px-3 py-1.5 text-muted-foreground whitespace-nowrap">EBITDA ($M)</td>
                     {fwdYears.map((yr, i) => {
                       const est = data.forward_estimates?.[yr]
                       const prev = i > 0 ? data.forward_estimates?.[fwdYears[i-1]]?.ebitda : null
@@ -625,36 +625,36 @@ function DetailView({
                       return (
                         <td key={yr} className="px-2 py-1.5 text-center">
                           {cur != null
-                            ? <span className="font-mono">{(cur / 1000).toFixed(1)}B{growth != null && <span className="ml-1 text-micro text-muted-foreground/50">{growth > 0 ? '+' : ''}{growth.toFixed(0)}%</span>}</span>
-                            : <span className="text-muted-foreground/30">—</span>}
+                            ? <span className="font-mono">{(cur / 1000).toFixed(1)}B{growth != null && <span className="ml-1 text-micro text-muted-foreground">{growth > 0 ? '+' : ''}{growth.toFixed(0)}%</span>}</span>
+                            : <span className="text-muted-foreground">—</span>}
                         </td>
                       )
                     })}
                   </tr>
                   <tr className="hover:bg-white/2">
-                    <td className="px-3 py-1.5 text-muted-foreground/70 whitespace-nowrap">FCF ($M)</td>
+                    <td className="px-3 py-1.5 text-muted-foreground whitespace-nowrap">FCF ($M)</td>
                     {fwdYears.map((yr, i) => {
                       const fcfM = data.forward_fcf[yr]?.fcf
                       const prevFcf = i > 0 ? data.forward_fcf[fwdYears[i-1]]?.fcf : null
                       const growth = fcfM && prevFcf && prevFcf > 0 ? (fcfM / prevFcf - 1) * 100 : null
                       const isProj = data.forward_fcf[yr]?.projected === true
                       return (
-                        <td key={yr} className={cn('px-2 py-1.5 text-center', isProj && 'text-amber-400/70')}>
+                        <td key={yr} className={cn('px-2 py-1.5 text-center', isProj && 'text-amber-400')}>
                           {fcfM != null
-                            ? <span className="font-mono">{(fcfM / 1000).toFixed(1)}B{growth != null && <span className="ml-1 text-micro text-muted-foreground/50">{growth > 0 ? '+' : ''}{growth.toFixed(0)}%</span>}</span>
-                            : <span className="text-muted-foreground/30">—</span>}
+                            ? <span className="font-mono">{(fcfM / 1000).toFixed(1)}B{growth != null && <span className="ml-1 text-micro text-muted-foreground">{growth > 0 ? '+' : ''}{growth.toFixed(0)}%</span>}</span>
+                            : <span className="text-muted-foreground">—</span>}
                         </td>
                       )
                     })}
                   </tr>
                   <tr className="hover:bg-white/2">
-                    <td className="px-3 py-1.5 text-muted-foreground/70 whitespace-nowrap">FCF/sh</td>
+                    <td className="px-3 py-1.5 text-muted-foreground whitespace-nowrap">FCF/sh</td>
                     {fwdYears.map((yr, i) => {
                       const fcfPs = data.forward_fcf[yr]?.fcf_per_share
                       const prevPs = i > 0 ? data.forward_fcf[fwdYears[i-1]]?.fcf_per_share : null
                       const growth = fcfPs && prevPs && prevPs > 0 ? (fcfPs / prevPs - 1) * 100 : null
                       return (
-                        <td key={yr} className="px-2 py-1.5 text-center font-mono text-cyan-400/80">
+                        <td key={yr} className="px-2 py-1.5 text-center font-mono text-cyan-400">
                           {fcfPs != null ? `$${fcfPs.toFixed(2)}${growth != null ? ` (${growth > 0 ? '+' : ''}${growth.toFixed(0)}%)` : ''}` : '—'}
                         </td>
                       )
@@ -662,11 +662,11 @@ function DetailView({
                   </tr>
                   {fwdYears.some(yr => data.forward_estimates?.[yr]?.eps_norm != null) && (
                     <tr className="hover:bg-white/2">
-                      <td className="px-3 py-1.5 text-muted-foreground/70 whitespace-nowrap">EPS normalizado</td>
+                      <td className="px-3 py-1.5 text-muted-foreground whitespace-nowrap">EPS normalizado</td>
                       {fwdYears.map(yr => {
                         const eps = data.forward_estimates?.[yr]?.eps_norm
                         return (
-                          <td key={yr} className="px-2 py-1.5 text-center font-mono text-muted-foreground/70">
+                          <td key={yr} className="px-2 py-1.5 text-center font-mono text-muted-foreground">
                             {eps != null ? `$${eps.toFixed(2)}` : '—'}
                           </td>
                         )
@@ -685,15 +685,15 @@ function DetailView({
               <table className="w-full text-mini">
                 <thead>
                   <tr className="border-b border-orange-500/20">
-                    <th className="text-left px-3 py-2 text-muted-foreground/50 font-semibold uppercase tracking-wider w-40">Supuesto</th>
+                    <th className="text-left px-3 py-2 text-muted-foreground font-semibold uppercase tracking-wider w-40">Supuesto</th>
                     {fwdYears.map(yr => (
-                      <th key={yr} className="px-2 py-2 text-center text-muted-foreground/60 font-semibold">{yr}E</th>
+                      <th key={yr} className="px-2 py-2 text-center text-muted-foreground font-semibold">{yr}E</th>
                     ))}
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-border/20">
                   <tr className="hover:bg-white/2">
-                    <td className="px-3 py-1.5 text-muted-foreground/70 whitespace-nowrap">Crec. Ingresos %</td>
+                    <td className="px-3 py-1.5 text-muted-foreground whitespace-nowrap">Crec. Ingresos %</td>
                     {fwdYears.map(yr => (
                       <td key={yr} className="px-2 py-1 text-center">
                         <OrangeCell value={fwdInputs[yr]?.rev_growth_pct ?? 10}
@@ -702,7 +702,7 @@ function DetailView({
                     ))}
                   </tr>
                   <tr className="hover:bg-white/2">
-                    <td className="px-3 py-1.5 text-muted-foreground/70 whitespace-nowrap">Margen EBIT %</td>
+                    <td className="px-3 py-1.5 text-muted-foreground whitespace-nowrap">Margen EBIT %</td>
                     {fwdYears.map(yr => (
                       <td key={yr} className="px-2 py-1 text-center">
                         <OrangeCell value={fwdInputs[yr]?.ebit_margin_pct ?? 20}
@@ -711,7 +711,7 @@ function DetailView({
                     ))}
                   </tr>
                   <tr className="hover:bg-white/2">
-                    <td className="px-3 py-1.5 text-muted-foreground/70 whitespace-nowrap">Tasa impositiva %</td>
+                    <td className="px-3 py-1.5 text-muted-foreground whitespace-nowrap">Tasa impositiva %</td>
                     {fwdYears.map(yr => (
                       <td key={yr} className="px-2 py-1 text-center">
                         <OrangeCell value={fwdInputs[yr]?.tax_rate_pct ?? 21}
@@ -720,7 +720,7 @@ function DetailView({
                     ))}
                   </tr>
                   <tr className="hover:bg-white/2">
-                    <td className="px-3 py-1.5 text-muted-foreground/70 whitespace-nowrap">CapEx mant / Ventas %</td>
+                    <td className="px-3 py-1.5 text-muted-foreground whitespace-nowrap">CapEx mant / Ventas %</td>
                     {fwdYears.map(yr => (
                       <td key={yr} className="px-2 py-1 text-center">
                         <OrangeCell value={fwdInputs[yr]?.capex_pct ?? 5}
@@ -729,7 +729,7 @@ function DetailView({
                     ))}
                   </tr>
                   <tr className="hover:bg-white/2">
-                    <td className="px-3 py-1.5 text-muted-foreground/70 whitespace-nowrap">Capital Trabajo / Ventas %</td>
+                    <td className="px-3 py-1.5 text-muted-foreground whitespace-nowrap">Capital Trabajo / Ventas %</td>
                     {fwdYears.map(yr => (
                       <td key={yr} className="px-2 py-1 text-center">
                         <OrangeCell value={fwdInputs[yr]?.wc_pct ?? 0}
@@ -738,7 +738,7 @@ function DetailView({
                     ))}
                   </tr>
                   <tr className="hover:bg-white/2">
-                    <td className="px-3 py-1.5 text-muted-foreground/70 whitespace-nowrap">Intereses ($M)</td>
+                    <td className="px-3 py-1.5 text-muted-foreground whitespace-nowrap">Intereses ($M)</td>
                     {fwdYears.map(yr => (
                       <td key={yr} className="px-2 py-1 text-center">
                         <OrangeCell value={fwdInputs[yr]?.interest_m ?? 0}
@@ -747,7 +747,7 @@ function DetailView({
                     ))}
                   </tr>
                   <tr className="bg-cyan-500/5 border-t border-cyan-500/20">
-                    <td className="px-3 py-1.5 font-semibold text-cyan-400/80 whitespace-nowrap">FCF/sh (modelo)</td>
+                    <td className="px-3 py-1.5 font-semibold text-cyan-400 whitespace-nowrap">FCF/sh (modelo)</td>
                     {fwdYears.map(yr => {
                       const localFcf = computeFwdFromModel(data, fwdInputs, daLastHist)
                       const fcfPs = localFcf[yr]?.fcf_per_share
@@ -757,7 +757,7 @@ function DetailView({
                         <td key={yr} className="px-2 py-1.5 text-center font-bold tabular-nums text-cyan-400">
                           {fcfPs != null ? `$${fcfPs.toFixed(2)}` : '—'}
                           {diff != null && Math.abs(diff) > 0.5 && (
-                            <span className={`ml-1 text-micro ${diff > 0 ? 'text-emerald-400/60' : 'text-red-400/60'}`}>
+                            <span className={`ml-1 text-micro ${diff > 0 ? 'text-emerald-400' : 'text-red-400'}`}>
                               {diff > 0 ? '+' : ''}{diff.toFixed(0)}%
                             </span>
                           )}
@@ -803,95 +803,95 @@ function DetailView({
               <table className="w-full text-mini">
                 <thead>
                   <tr className="border-b border-border/30">
-                    <th className="text-left px-3 py-2 text-muted-foreground/50 font-semibold uppercase tracking-wider w-44">(millones)</th>
+                    <th className="text-left px-3 py-2 text-muted-foreground font-semibold uppercase tracking-wider w-44">(millones)</th>
                     {[...bdownYears].reverse().map(yr => (
-                      <th key={yr} className="px-2 py-2 text-center text-muted-foreground/60 font-semibold">{yr}</th>
+                      <th key={yr} className="px-2 py-2 text-center text-muted-foreground font-semibold">{yr}</th>
                     ))}
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-border/15">
                   {/* Revenue */}
                   <tr className="hover:bg-white/2">
-                    <td className="px-3 py-1.5 text-muted-foreground/70 whitespace-nowrap font-medium">Revenue</td>
+                    <td className="px-3 py-1.5 text-muted-foreground whitespace-nowrap font-medium">Revenue</td>
                     {[...bdownYears].reverse().map((yr, i, arr) => {
                       const b = data.fcf_breakdown?.[yr]
                       const prev = arr[i-1] ? data.fcf_breakdown?.[arr[i-1]] : null
                       const yoy = b?.revenue && prev?.revenue ? (b.revenue / prev.revenue - 1) * 100 : null
                       return (
                         <td key={yr} className="px-2 py-1.5 text-center font-mono">
-                          {b?.revenue != null ? <>{fmtM(b.revenue)}{yoy != null && <span className="ml-1 text-micro text-muted-foreground/40">{yoy > 0 ? '+' : ''}{yoy.toFixed(0)}%</span>}</> : <span className="text-muted-foreground/30">—</span>}
+                          {b?.revenue != null ? <>{fmtM(b.revenue)}{yoy != null && <span className="ml-1 text-micro text-muted-foreground">{yoy > 0 ? '+' : ''}{yoy.toFixed(0)}%</span>}</> : <span className="text-muted-foreground">—</span>}
                         </td>
                       )
                     })}
                   </tr>
                   {/* EBITDA */}
                   <tr className="hover:bg-white/2">
-                    <td className="px-3 py-1.5 text-muted-foreground/70 whitespace-nowrap">EBITDA</td>
+                    <td className="px-3 py-1.5 text-muted-foreground whitespace-nowrap">EBITDA</td>
                     {[...bdownYears].reverse().map((yr, i, arr) => {
                       const b = data.fcf_breakdown?.[yr]
                       const prev = arr[i-1] ? data.fcf_breakdown?.[arr[i-1]] : null
                       const yoy = b?.ebitda && prev?.ebitda ? (b.ebitda / prev.ebitda - 1) * 100 : null
                       return (
                         <td key={yr} className="px-2 py-1.5 text-center font-mono">
-                          {b?.ebitda != null ? <>{fmtM(b.ebitda)}{b.ebitda_margin != null && <span className="ml-1 text-micro text-muted-foreground/40">{b.ebitda_margin.toFixed(0)}%</span>}{yoy != null && <span className="ml-1 text-micro text-muted-foreground/30">{yoy > 0 ? '+' : ''}{yoy.toFixed(0)}%</span>}</> : <span className="text-muted-foreground/30">—</span>}
+                          {b?.ebitda != null ? <>{fmtM(b.ebitda)}{b.ebitda_margin != null && <span className="ml-1 text-micro text-muted-foreground">{b.ebitda_margin.toFixed(0)}%</span>}{yoy != null && <span className="ml-1 text-micro text-muted-foreground">{yoy > 0 ? '+' : ''}{yoy.toFixed(0)}%</span>}</> : <span className="text-muted-foreground">—</span>}
                         </td>
                       )
                     })}
                   </tr>
                   {/* D&A */}
                   <tr className="hover:bg-white/2 bg-white/1">
-                    <td className="px-3 py-1.5 text-muted-foreground/50 whitespace-nowrap pl-6">D&A</td>
+                    <td className="px-3 py-1.5 text-muted-foreground whitespace-nowrap pl-6">D&A</td>
                     {[...bdownYears].reverse().map(yr => {
                       const b = data.fcf_breakdown?.[yr]
-                      return <td key={yr} className="px-2 py-1.5 text-center font-mono text-muted-foreground/50">{b?.dna != null ? fmtM(b.dna) : <span className="text-muted-foreground/25">—</span>}</td>
+                      return <td key={yr} className="px-2 py-1.5 text-center font-mono text-muted-foreground">{b?.dna != null ? fmtM(b.dna) : <span className="text-muted-foreground">—</span>}</td>
                     })}
                   </tr>
                   {/* EBIT */}
                   <tr className="hover:bg-white/2">
-                    <td className="px-3 py-1.5 text-muted-foreground/70 whitespace-nowrap">EBIT</td>
+                    <td className="px-3 py-1.5 text-muted-foreground whitespace-nowrap">EBIT</td>
                     {[...bdownYears].reverse().map((yr, i, arr) => {
                       const b = data.fcf_breakdown?.[yr]
                       const prev = arr[i-1] ? data.fcf_breakdown?.[arr[i-1]] : null
                       const yoy = b?.ebit && prev?.ebit ? (b.ebit / prev.ebit - 1) * 100 : null
                       return (
                         <td key={yr} className="px-2 py-1.5 text-center font-mono">
-                          {b?.ebit != null ? <>{fmtM(b.ebit)}{b.ebit_margin != null && <span className="ml-1 text-micro text-muted-foreground/40">{b.ebit_margin.toFixed(0)}%</span>}{yoy != null && <span className="ml-1 text-micro text-muted-foreground/30">{yoy > 0 ? '+' : ''}{yoy.toFixed(0)}%</span>}</> : <span className="text-muted-foreground/30">—</span>}
+                          {b?.ebit != null ? <>{fmtM(b.ebit)}{b.ebit_margin != null && <span className="ml-1 text-micro text-muted-foreground">{b.ebit_margin.toFixed(0)}%</span>}{yoy != null && <span className="ml-1 text-micro text-muted-foreground">{yoy > 0 ? '+' : ''}{yoy.toFixed(0)}%</span>}</> : <span className="text-muted-foreground">—</span>}
                         </td>
                       )
                     })}
                   </tr>
                   {/* Interest */}
                   <tr className="hover:bg-white/2 bg-white/1">
-                    <td className="px-3 py-1.5 text-muted-foreground/50 whitespace-nowrap pl-6">Intereses</td>
+                    <td className="px-3 py-1.5 text-muted-foreground whitespace-nowrap pl-6">Intereses</td>
                     {[...bdownYears].reverse().map(yr => {
                       const b = data.fcf_breakdown?.[yr]
-                      return <td key={yr} className="px-2 py-1.5 text-center font-mono text-amber-400/70">{b?.interest != null ? fmtM(b.interest) : <span className="text-muted-foreground/25">—</span>}</td>
+                      return <td key={yr} className="px-2 py-1.5 text-center font-mono text-amber-400">{b?.interest != null ? fmtM(b.interest) : <span className="text-muted-foreground">—</span>}</td>
                     })}
                   </tr>
                   {/* Net Income */}
                   <tr className="hover:bg-white/2">
-                    <td className="px-3 py-1.5 text-muted-foreground/70 whitespace-nowrap">Beneficio Neto</td>
+                    <td className="px-3 py-1.5 text-muted-foreground whitespace-nowrap">Beneficio Neto</td>
                     {[...bdownYears].reverse().map((yr, i, arr) => {
                       const b = data.fcf_breakdown?.[yr]
                       const prev = arr[i-1] ? data.fcf_breakdown?.[arr[i-1]] : null
                       const yoy = b?.net_income && prev?.net_income ? (b.net_income / prev.net_income - 1) * 100 : null
                       return (
                         <td key={yr} className="px-2 py-1.5 text-center font-mono">
-                          {b?.net_income != null ? <>{fmtM(b.net_income)}{b.net_margin != null && <span className="ml-1 text-micro text-muted-foreground/40">{b.net_margin.toFixed(0)}%</span>}{yoy != null && <span className="ml-1 text-micro text-muted-foreground/30">{yoy > 0 ? '+' : ''}{yoy.toFixed(0)}%</span>}</> : <span className="text-muted-foreground/30">—</span>}
+                          {b?.net_income != null ? <>{fmtM(b.net_income)}{b.net_margin != null && <span className="ml-1 text-micro text-muted-foreground">{b.net_margin.toFixed(0)}%</span>}{yoy != null && <span className="ml-1 text-micro text-muted-foreground">{yoy > 0 ? '+' : ''}{yoy.toFixed(0)}%</span>}</> : <span className="text-muted-foreground">—</span>}
                         </td>
                       )
                     })}
                   </tr>
                   {/* EPS Diluido */}
                   <tr className="hover:bg-white/2 bg-white/1">
-                    <td className="px-3 py-1.5 text-muted-foreground/50 whitespace-nowrap pl-6">EPS diluido</td>
+                    <td className="px-3 py-1.5 text-muted-foreground whitespace-nowrap pl-6">EPS diluido</td>
                     {[...bdownYears].reverse().map((yr, i, arr) => {
                       const bs = data.historical_bs?.[yr]
                       const prevBs = arr[i-1] ? data.historical_bs?.[arr[i-1]] : null
                       const yoy = bs?.eps && prevBs?.eps ? (bs.eps / prevBs.eps - 1) * 100 : null
                       return (
-                        <td key={yr} className="px-2 py-1.5 text-center font-mono text-muted-foreground/60">
-                          {bs?.eps != null ? <>${bs.eps.toFixed(2)}{yoy != null && <span className="ml-1 text-micro text-muted-foreground/30">{yoy > 0 ? '+' : ''}{yoy.toFixed(0)}%</span>}</> : <span className="text-muted-foreground/25">—</span>}
+                        <td key={yr} className="px-2 py-1.5 text-center font-mono text-muted-foreground">
+                          {bs?.eps != null ? <>${bs.eps.toFixed(2)}{yoy != null && <span className="ml-1 text-micro text-muted-foreground">{yoy > 0 ? '+' : ''}{yoy.toFixed(0)}%</span>}</> : <span className="text-muted-foreground">—</span>}
                         </td>
                       )
                     })}
@@ -912,32 +912,32 @@ function DetailView({
               <table className="w-full text-mini">
                 <thead>
                   <tr className="border-b border-border/30">
-                    <th className="text-left px-3 py-2 text-muted-foreground/50 font-semibold uppercase tracking-wider w-44">(millones)</th>
+                    <th className="text-left px-3 py-2 text-muted-foreground font-semibold uppercase tracking-wider w-44">(millones)</th>
                     {[...bdownYears].reverse().map(yr => (
-                      <th key={yr} className="px-2 py-2 text-center text-muted-foreground/60 font-semibold">{yr}</th>
+                      <th key={yr} className="px-2 py-2 text-center text-muted-foreground font-semibold">{yr}</th>
                     ))}
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-border/15">
                   <tr className="hover:bg-white/2">
-                    <td className="px-3 py-1.5 text-muted-foreground/70">EBITDA</td>
+                    <td className="px-3 py-1.5 text-muted-foreground">EBITDA</td>
                     {[...bdownYears].reverse().map(yr => { const b = data.fcf_breakdown?.[yr]; return <td key={yr} className="px-2 py-1.5 text-center font-mono">{b?.ebitda != null ? fmtM(b.ebitda) : '—'}</td> })}
                   </tr>
                   <tr className="hover:bg-white/2 bg-white/1">
-                    <td className="px-3 py-1.5 text-muted-foreground/50 pl-6">− CapEx mant.</td>
-                    {[...bdownYears].reverse().map(yr => { const b = data.fcf_breakdown?.[yr]; return <td key={yr} className="px-2 py-1.5 text-center font-mono text-amber-400/70">{b?.capex_maint != null ? fmtM(b.capex_maint) : '—'}</td> })}
+                    <td className="px-3 py-1.5 text-muted-foreground pl-6">− CapEx mant.</td>
+                    {[...bdownYears].reverse().map(yr => { const b = data.fcf_breakdown?.[yr]; return <td key={yr} className="px-2 py-1.5 text-center font-mono text-amber-400">{b?.capex_maint != null ? fmtM(b.capex_maint) : '—'}</td> })}
                   </tr>
                   <tr className="hover:bg-white/2 bg-white/1">
-                    <td className="px-3 py-1.5 text-muted-foreground/50 pl-6">− Intereses</td>
-                    {[...bdownYears].reverse().map(yr => { const b = data.fcf_breakdown?.[yr]; return <td key={yr} className="px-2 py-1.5 text-center font-mono text-amber-400/70">{b?.interest != null ? fmtM(b.interest) : '—'}</td> })}
+                    <td className="px-3 py-1.5 text-muted-foreground pl-6">− Intereses</td>
+                    {[...bdownYears].reverse().map(yr => { const b = data.fcf_breakdown?.[yr]; return <td key={yr} className="px-2 py-1.5 text-center font-mono text-amber-400">{b?.interest != null ? fmtM(b.interest) : '—'}</td> })}
                   </tr>
                   <tr className="hover:bg-white/2 bg-white/1">
-                    <td className="px-3 py-1.5 text-muted-foreground/50 pl-6">− Impuestos</td>
-                    {[...bdownYears].reverse().map(yr => { const b = data.fcf_breakdown?.[yr]; return <td key={yr} className="px-2 py-1.5 text-center font-mono text-amber-400/70">{b?.income_tax != null ? fmtM(b.income_tax) : '—'}</td> })}
+                    <td className="px-3 py-1.5 text-muted-foreground pl-6">− Impuestos</td>
+                    {[...bdownYears].reverse().map(yr => { const b = data.fcf_breakdown?.[yr]; return <td key={yr} className="px-2 py-1.5 text-center font-mono text-amber-400">{b?.income_tax != null ? fmtM(b.income_tax) : '—'}</td> })}
                   </tr>
                   <tr className="hover:bg-white/2 bg-white/1">
-                    <td className="px-3 py-1.5 text-muted-foreground/50 pl-6">+ ΔCap. Trabajo</td>
-                    {[...bdownYears].reverse().map(yr => { const b = data.fcf_breakdown?.[yr]; return <td key={yr} className="px-2 py-1.5 text-center font-mono text-sky-400/70">{b?.delta_wc != null ? fmtM(b.delta_wc) : '—'}</td> })}
+                    <td className="px-3 py-1.5 text-muted-foreground pl-6">+ ΔCap. Trabajo</td>
+                    {[...bdownYears].reverse().map(yr => { const b = data.fcf_breakdown?.[yr]; return <td key={yr} className="px-2 py-1.5 text-center font-mono text-sky-400">{b?.delta_wc != null ? fmtM(b.delta_wc) : '—'}</td> })}
                   </tr>
                   <tr className="hover:bg-white/2 border-t border-border/30">
                     <td className="px-3 py-1.5 font-semibold text-cyan-400">FCF</td>
@@ -949,46 +949,46 @@ function DetailView({
                       const yoy = fcf && prevFcf ? (fcf / prevFcf - 1) * 100 : null
                       return (
                         <td key={yr} className="px-2 py-1.5 text-center font-mono font-semibold text-cyan-400">
-                          {fcf != null ? <>{fmtM(fcf)}{yoy != null && <span className="ml-1 text-micro text-muted-foreground/40 font-normal">{yoy > 0 ? '+' : ''}{yoy.toFixed(0)}%</span>}</> : '—'}
+                          {fcf != null ? <>{fmtM(fcf)}{yoy != null && <span className="ml-1 text-micro text-muted-foreground font-normal">{yoy > 0 ? '+' : ''}{yoy.toFixed(0)}%</span>}</> : '—'}
                         </td>
                       )
                     })}
                   </tr>
                   <tr className="hover:bg-white/2 bg-white/1">
-                    <td className="px-3 py-1.5 text-muted-foreground/50 pl-6">FCF Margin %</td>
+                    <td className="px-3 py-1.5 text-muted-foreground pl-6">FCF Margin %</td>
                     {[...bdownYears].reverse().map(yr => {
                       const b = data.fcf_breakdown?.[yr]
                       const fcf = b?.owner_earnings ?? b?.template_fcf
                       const margin = fcf && b?.revenue ? fcf / b.revenue * 100 : null
-                      return <td key={yr} className="px-2 py-1.5 text-center font-mono text-muted-foreground/60">{margin != null ? `${margin.toFixed(1)}%` : '—'}</td>
+                      return <td key={yr} className="px-2 py-1.5 text-center font-mono text-muted-foreground">{margin != null ? `${margin.toFixed(1)}%` : '—'}</td>
                     })}
                   </tr>
                   <tr className="hover:bg-white/2 bg-white/1">
-                    <td className="px-3 py-1.5 text-muted-foreground/50 pl-6">FCF/share</td>
+                    <td className="px-3 py-1.5 text-muted-foreground pl-6">FCF/share</td>
                     {[...bdownYears].reverse().map(yr => {
                       const fcfPs = data.historical_fcf_per_share?.[yr]
-                      return <td key={yr} className="px-2 py-1.5 text-center font-mono text-cyan-400/70">{fcfPs != null ? `$${fcfPs.toFixed(2)}` : '—'}</td>
+                      return <td key={yr} className="px-2 py-1.5 text-center font-mono text-cyan-400">{fcfPs != null ? `$${fcfPs.toFixed(2)}` : '—'}</td>
                     })}
                   </tr>
                   <tr className="hover:bg-white/2 bg-white/1">
-                    <td className="px-3 py-1.5 text-muted-foreground/50 pl-6">CapEx/Ventas</td>
+                    <td className="px-3 py-1.5 text-muted-foreground pl-6">CapEx/Ventas</td>
                     {[...bdownYears].reverse().map(yr => {
                       const b = data.fcf_breakdown?.[yr]
                       const ratio = b?.capex_maint && b?.revenue ? Math.abs(b.capex_maint) / b.revenue * 100 : null
-                      return <td key={yr} className="px-2 py-1.5 text-center font-mono text-muted-foreground/50">{ratio != null ? `${ratio.toFixed(1)}%` : '—'}</td>
+                      return <td key={yr} className="px-2 py-1.5 text-center font-mono text-muted-foreground">{ratio != null ? `${ratio.toFixed(1)}%` : '—'}</td>
                     })}
                   </tr>
                   <tr className="hover:bg-white/2 bg-white/1">
-                    <td className="px-3 py-1.5 text-muted-foreground/50 pl-6">Conversión EBITDA→FCF</td>
+                    <td className="px-3 py-1.5 text-muted-foreground pl-6">Conversión EBITDA→FCF</td>
                     {[...bdownYears].reverse().map(yr => {
                       const b = data.fcf_breakdown?.[yr]
                       const fcf = b?.owner_earnings ?? b?.template_fcf
                       const conv = fcf && b?.ebitda ? fcf / b.ebitda * 100 : null
-                      return <td key={yr} className="px-2 py-1.5 text-center font-mono text-muted-foreground/50">{conv != null ? `${conv.toFixed(0)}%` : '—'}</td>
+                      return <td key={yr} className="px-2 py-1.5 text-center font-mono text-muted-foreground">{conv != null ? `${conv.toFixed(0)}%` : '—'}</td>
                     })}
                   </tr>
                   <tr className="hover:bg-white/2">
-                    <td className="px-3 py-1.5 text-muted-foreground/50 pl-6 text-micro">Fuente</td>
+                    <td className="px-3 py-1.5 text-muted-foreground pl-6 text-micro">Fuente</td>
                     {[...bdownYears].reverse().map(yr => {
                       const b = data.fcf_breakdown?.[yr]
                       return (
@@ -1046,77 +1046,77 @@ function DetailView({
                   <table className="w-full text-mini">
                     <thead>
                       <tr className="border-b border-border/30">
-                        <th className="text-left px-3 py-2 text-muted-foreground/50 font-semibold uppercase tracking-wider w-36">Ratio</th>
+                        <th className="text-left px-3 py-2 text-muted-foreground font-semibold uppercase tracking-wider w-36">Ratio</th>
                         {multYears.map(yr => (
-                          <th key={yr} className="px-2 py-2 text-center text-muted-foreground/60 font-semibold">{yr}</th>
+                          <th key={yr} className="px-2 py-2 text-center text-muted-foreground font-semibold">{yr}</th>
                         ))}
-                        <th className="px-2 py-2 text-center text-cyan-400/70 font-semibold text-micro whitespace-nowrap">Mediana</th>
-                        <th className="px-2 py-2 text-center text-amber-400/60 font-semibold text-micro whitespace-nowrap">NTM actual</th>
+                        <th className="px-2 py-2 text-center text-cyan-400 font-semibold text-micro whitespace-nowrap">Mediana</th>
+                        <th className="px-2 py-2 text-center text-amber-400 font-semibold text-micro whitespace-nowrap">NTM actual</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-border/15">
                       {/* Precio cierre */}
                       <tr className="hover:bg-white/2 bg-white/1">
-                        <td className="px-3 py-1.5 text-muted-foreground/50 text-micro">Precio cierre</td>
+                        <td className="px-3 py-1.5 text-muted-foreground text-micro">Precio cierre</td>
                         {multYears.map(yr => {
                           const m = data.historical_multiples[yr]
-                          return <td key={yr} className="px-2 py-1.5 text-center font-mono text-muted-foreground/50">{m?.price != null ? `$${m.price.toFixed(2)}` : '—'}</td>
+                          return <td key={yr} className="px-2 py-1.5 text-center font-mono text-muted-foreground">{m?.price != null ? `$${m.price.toFixed(2)}` : '—'}</td>
                         })}
-                        <td className="px-2 py-1.5 text-center text-muted-foreground/30">—</td>
-                        <td className="px-2 py-1.5 text-center font-mono text-amber-400/70">{data.current_price != null ? `$${data.current_price.toFixed(2)}` : '—'}</td>
+                        <td className="px-2 py-1.5 text-center text-muted-foreground">—</td>
+                        <td className="px-2 py-1.5 text-center font-mono text-amber-400">{data.current_price != null ? `$${data.current_price.toFixed(2)}` : '—'}</td>
                       </tr>
                       {/* EV/FCF */}
                       <tr className="hover:bg-white/2">
-                        <td className="px-3 py-1.5 text-muted-foreground/70 font-medium">EV/FCF</td>
+                        <td className="px-3 py-1.5 text-muted-foreground font-medium">EV/FCF</td>
                         {multYears.map(yr => {
                           const v = data.historical_multiples[yr]?.ev_fcf
                           const isHigh = v != null && medEvFcf != null && v > medEvFcf * 1.3
                           const isLow  = v != null && medEvFcf != null && v < medEvFcf * 0.7
-                          return <td key={yr} className={cn('px-2 py-1.5 text-center font-mono', isHigh ? 'text-red-400/70' : isLow ? 'text-emerald-400/70' : 'text-cyan-400/80')}>{v != null ? `${v.toFixed(1)}x` : '—'}</td>
+                          return <td key={yr} className={cn('px-2 py-1.5 text-center font-mono', isHigh ? 'text-red-400' : isLow ? 'text-emerald-400' : 'text-cyan-400')}>{v != null ? `${v.toFixed(1)}x` : '—'}</td>
                         })}
                         <td className="px-2 py-1.5 text-center font-semibold text-cyan-400">{medEvFcf != null ? `${medEvFcf.toFixed(1)}x` : '—'}</td>
-                        <td className="px-2 py-1.5 text-center font-semibold text-amber-400/70">{data.median_ev_fcf != null ? `${data.median_ev_fcf.toFixed(1)}x` : '—'}</td>
+                        <td className="px-2 py-1.5 text-center font-semibold text-amber-400">{data.median_ev_fcf != null ? `${data.median_ev_fcf.toFixed(1)}x` : '—'}</td>
                       </tr>
                       {/* P/E */}
                       <tr className="hover:bg-white/2">
-                        <td className="px-3 py-1.5 text-muted-foreground/70">P/E</td>
+                        <td className="px-3 py-1.5 text-muted-foreground">P/E</td>
                         {multYears.map(yr => {
                           const v = data.historical_multiples[yr]?.pe
-                          return <td key={yr} className="px-2 py-1.5 text-center font-mono text-muted-foreground/70">{v != null ? `${v.toFixed(1)}x` : '—'}</td>
+                          return <td key={yr} className="px-2 py-1.5 text-center font-mono text-muted-foreground">{v != null ? `${v.toFixed(1)}x` : '—'}</td>
                         })}
-                        <td className="px-2 py-1.5 text-center font-semibold text-muted-foreground/60">{medPe != null ? `${medPe.toFixed(1)}x` : '—'}</td>
-                        <td className="px-2 py-1.5 text-center font-semibold text-amber-400/70">{data.ntm_pe != null ? `${data.ntm_pe.toFixed(1)}x` : '—'}</td>
+                        <td className="px-2 py-1.5 text-center font-semibold text-muted-foreground">{medPe != null ? `${medPe.toFixed(1)}x` : '—'}</td>
+                        <td className="px-2 py-1.5 text-center font-semibold text-amber-400">{data.ntm_pe != null ? `${data.ntm_pe.toFixed(1)}x` : '—'}</td>
                       </tr>
                       {/* EV/EBITDA */}
                       <tr className="hover:bg-white/2">
-                        <td className="px-3 py-1.5 text-muted-foreground/70">EV/EBITDA</td>
+                        <td className="px-3 py-1.5 text-muted-foreground">EV/EBITDA</td>
                         {multYears.map(yr => {
                           const v = data.historical_multiples[yr]?.ev_ebitda
-                          return <td key={yr} className="px-2 py-1.5 text-center font-mono text-muted-foreground/70">{v != null ? `${v.toFixed(1)}x` : '—'}</td>
+                          return <td key={yr} className="px-2 py-1.5 text-center font-mono text-muted-foreground">{v != null ? `${v.toFixed(1)}x` : '—'}</td>
                         })}
-                        <td className="px-2 py-1.5 text-center font-semibold text-muted-foreground/60">{medEvEb != null ? `${medEvEb.toFixed(1)}x` : '—'}</td>
-                        <td className="px-2 py-1.5 text-center font-semibold text-amber-400/70">{data.ntm_ev_ebitda != null ? `${data.ntm_ev_ebitda.toFixed(1)}x` : '—'}</td>
+                        <td className="px-2 py-1.5 text-center font-semibold text-muted-foreground">{medEvEb != null ? `${medEvEb.toFixed(1)}x` : '—'}</td>
+                        <td className="px-2 py-1.5 text-center font-semibold text-amber-400">{data.ntm_ev_ebitda != null ? `${data.ntm_ev_ebitda.toFixed(1)}x` : '—'}</td>
                       </tr>
                       {/* EV/EBIT */}
                       <tr className="hover:bg-white/2">
-                        <td className="px-3 py-1.5 text-muted-foreground/70">EV/EBIT</td>
+                        <td className="px-3 py-1.5 text-muted-foreground">EV/EBIT</td>
                         {multYears.map(yr => {
                           const v = data.historical_multiples[yr]?.ev_ebit
-                          return <td key={yr} className="px-2 py-1.5 text-center font-mono text-muted-foreground/70">{v != null ? `${v.toFixed(1)}x` : '—'}</td>
+                          return <td key={yr} className="px-2 py-1.5 text-center font-mono text-muted-foreground">{v != null ? `${v.toFixed(1)}x` : '—'}</td>
                         })}
-                        <td className="px-2 py-1.5 text-center font-semibold text-muted-foreground/60">{medEvEbit != null ? `${medEvEbit.toFixed(1)}x` : '—'}</td>
-                        <td className="px-2 py-1.5 text-center text-muted-foreground/30">—</td>
+                        <td className="px-2 py-1.5 text-center font-semibold text-muted-foreground">{medEvEbit != null ? `${medEvEbit.toFixed(1)}x` : '—'}</td>
+                        <td className="px-2 py-1.5 text-center text-muted-foreground">—</td>
                       </tr>
                       {/* FCF Yield */}
                       <tr className="hover:bg-white/2">
-                        <td className="px-3 py-1.5 text-muted-foreground/70">FCF Yield</td>
+                        <td className="px-3 py-1.5 text-muted-foreground">FCF Yield</td>
                         {multYears.map(yr => {
                           const v = data.historical_multiples[yr]?.fcf_yield
                           const isHigh = v != null && medFcfYld != null && v > medFcfYld * 1.3
-                          return <td key={yr} className={cn('px-2 py-1.5 text-center font-mono', isHigh ? 'text-emerald-400/70' : 'text-muted-foreground/60')}>{v != null ? `${v.toFixed(1)}%` : '—'}</td>
+                          return <td key={yr} className={cn('px-2 py-1.5 text-center font-mono', isHigh ? 'text-emerald-400' : 'text-muted-foreground')}>{v != null ? `${v.toFixed(1)}%` : '—'}</td>
                         })}
-                        <td className="px-2 py-1.5 text-center font-semibold text-muted-foreground/60">{medFcfYld != null ? `${medFcfYld.toFixed(1)}%` : '—'}</td>
-                        <td className="px-2 py-1.5 text-center font-semibold text-amber-400/70">{data.ntm_fcf_yield_pct != null ? `${data.ntm_fcf_yield_pct.toFixed(1)}%` : '—'}</td>
+                        <td className="px-2 py-1.5 text-center font-semibold text-muted-foreground">{medFcfYld != null ? `${medFcfYld.toFixed(1)}%` : '—'}</td>
+                        <td className="px-2 py-1.5 text-center font-semibold text-amber-400">{data.ntm_fcf_yield_pct != null ? `${data.ntm_fcf_yield_pct.toFixed(1)}%` : '—'}</td>
                       </tr>
                     </tbody>
                   </table>
@@ -1136,12 +1136,12 @@ function DetailView({
               <TableHeader>
                 <TableRow className="hover:bg-transparent border-border/30">
                   <TableHead className="w-28">Año</TableHead>
-                  <TableHead className="text-right text-cyan-400/70">EV/FCF <span className="text-muted-foreground/40 font-normal text-micro">({evFcfT}x)</span></TableHead>
-                  <TableHead className="text-right text-muted-foreground/70">PER <span className="text-muted-foreground/40 font-normal text-micro">({perT}x)</span></TableHead>
-                  <TableHead className="text-right text-muted-foreground/70">EV/EBITDA <span className="text-muted-foreground/40 font-normal text-micro">({evEbT}x)</span></TableHead>
-                  <TableHead className="text-right text-muted-foreground/70">EV/EBIT <span className="text-muted-foreground/40 font-normal text-micro">({evEbitT}x)</span></TableHead>
+                  <TableHead className="text-right text-cyan-400">EV/FCF <span className="text-muted-foreground font-normal text-micro">({evFcfT}x)</span></TableHead>
+                  <TableHead className="text-right text-muted-foreground">PER <span className="text-muted-foreground font-normal text-micro">({perT}x)</span></TableHead>
+                  <TableHead className="text-right text-muted-foreground">EV/EBITDA <span className="text-muted-foreground font-normal text-micro">({evEbT}x)</span></TableHead>
+                  <TableHead className="text-right text-muted-foreground">EV/EBIT <span className="text-muted-foreground font-normal text-micro">({evEbitT}x)</span></TableHead>
                   <TableHead className="text-right font-semibold">Promedio</TableHead>
-                  <TableHead className="text-right text-muted-foreground/60">CAGR</TableHead>
+                  <TableHead className="text-right text-muted-foreground">CAGR</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -1156,12 +1156,12 @@ function DetailView({
                   return (
                     <TableRow key={yr} className={cn(isExit && 'bg-cyan-500/5')}>
                       <TableCell className="font-medium">
-                        {yr}E {isExit && <span className="ml-1 text-micro text-cyan-400/70">← salida</span>}
+                        {yr}E {isExit && <span className="ml-1 text-micro text-cyan-400">← salida</span>}
                       </TableCell>
                       <TableCell className="text-right font-mono text-cyan-400">{fmt(pt.ev_fcf, '$')}</TableCell>
-                      <TableCell className="text-right font-mono text-muted-foreground/70">{fmt(pt.per, '$')}</TableCell>
-                      <TableCell className="text-right font-mono text-muted-foreground/70">{fmt(pt.ev_ebitda, '$')}</TableCell>
-                      <TableCell className="text-right font-mono text-muted-foreground/70">{fmt(pt.ev_ebit, '$')}</TableCell>
+                      <TableCell className="text-right font-mono text-muted-foreground">{fmt(pt.per, '$')}</TableCell>
+                      <TableCell className="text-right font-mono text-muted-foreground">{fmt(pt.ev_ebitda, '$')}</TableCell>
+                      <TableCell className="text-right font-mono text-muted-foreground">{fmt(pt.ev_ebit, '$')}</TableCell>
                       <TableCell className={cn('text-right font-semibold', isExit ? 'text-cyan-400' : '')}>{fmt(avgP, '$')}</TableCell>
                       <TableCell className={cn('text-right font-semibold', cagr == null ? 'text-muted-foreground' : cagr >= returnT ? 'text-emerald-400' : cagr >= 0 ? 'text-amber-400' : 'text-red-400')}>
                         {cagr != null ? `${cagr > 0 ? '+' : ''}${cagr.toFixed(1)}%` : '—'}
@@ -1172,8 +1172,8 @@ function DetailView({
               </TableBody>
             </Table>
           </Card>
-          <p className="text-micro text-muted-foreground/40 mt-1">
-            Precio de compra para {returnT}% anual: <span className="text-cyan-400/70 font-semibold">{fmt(computed.buyPrice, '$')}</span>
+          <p className="text-micro text-muted-foreground mt-1">
+            Precio de compra para {returnT}% anual: <span className="text-cyan-400 font-semibold">{fmt(computed.buyPrice, '$')}</span>
             {computed.upsidePct != null && <span className={cn('ml-2', upsideColor(computed.upsidePct))}>{computed.upsidePct > 0 ? '+' : ''}{computed.upsidePct.toFixed(1)}% vs actual</span>}
           </p>
         </div>
@@ -1193,14 +1193,14 @@ function DetailView({
                   <TableHead>Año</TableHead>
                   <TableHead className="text-right">Revenue</TableHead>
                   <TableHead className="text-right">EBITDA</TableHead>
-                  <TableHead className="text-right text-muted-foreground/70">D&A</TableHead>
+                  <TableHead className="text-right text-muted-foreground">D&A</TableHead>
                   <TableHead className="text-right">EBIT</TableHead>
-                  <TableHead className="text-right text-amber-400/80">− Interés</TableHead>
-                  <TableHead className="text-right text-amber-400/80">− Imptos</TableHead>
-                  <TableHead className="text-right text-muted-foreground/70">NI</TableHead>
-                  <TableHead className="text-right text-sky-400/80">ΔCT</TableHead>
-                  <TableHead className="text-right text-muted-foreground/70">− CapEx<sub>m</sub></TableHead>
-                  <TableHead className="text-right font-bold text-cyan-400/80">FCF</TableHead>
+                  <TableHead className="text-right text-amber-400">− Interés</TableHead>
+                  <TableHead className="text-right text-amber-400">− Imptos</TableHead>
+                  <TableHead className="text-right text-muted-foreground">NI</TableHead>
+                  <TableHead className="text-right text-sky-400">ΔCT</TableHead>
+                  <TableHead className="text-right text-muted-foreground">− CapEx<sub>m</sub></TableHead>
+                  <TableHead className="text-right font-bold text-cyan-400">FCF</TableHead>
                   <TableHead className="text-right">Fuente</TableHead>
                 </TableRow>
               </TableHeader>
@@ -1214,27 +1214,27 @@ function DetailView({
                       <TableCell className="text-right">{fmtM(b.revenue)}</TableCell>
                       <TableCell className="text-right">
                         <span>{fmtM(b.ebitda)}</span>
-                        {b.ebitda_margin != null && <span className="ml-1 text-micro text-muted-foreground/50">{b.ebitda_margin.toFixed(0)}%</span>}
+                        {b.ebitda_margin != null && <span className="ml-1 text-micro text-muted-foreground">{b.ebitda_margin.toFixed(0)}%</span>}
                       </TableCell>
-                      <TableCell className="text-right text-muted-foreground/60">{fmtM(b.dna)}</TableCell>
+                      <TableCell className="text-right text-muted-foreground">{fmtM(b.dna)}</TableCell>
                       <TableCell className="text-right">
                         <span>{fmtM(b.ebit)}</span>
-                        {b.ebit_margin != null && <span className="ml-1 text-micro text-muted-foreground/50">{b.ebit_margin.toFixed(0)}%</span>}
+                        {b.ebit_margin != null && <span className="ml-1 text-micro text-muted-foreground">{b.ebit_margin.toFixed(0)}%</span>}
                       </TableCell>
-                      <TableCell className={cn('text-right', b.interest == null ? 'text-muted-foreground/30' : 'text-amber-400')}>
+                      <TableCell className={cn('text-right', b.interest == null ? 'text-muted-foreground' : 'text-amber-400')}>
                         {fmtM(b.interest)}
                       </TableCell>
-                      <TableCell className={cn('text-right', b.income_tax == null ? 'text-muted-foreground/30' : 'text-amber-400')}>
+                      <TableCell className={cn('text-right', b.income_tax == null ? 'text-muted-foreground' : 'text-amber-400')}>
                         {fmtM(b.income_tax)}
                       </TableCell>
-                      <TableCell className="text-right text-muted-foreground/60">
+                      <TableCell className="text-right text-muted-foreground">
                         <span>{fmtM(b.net_income)}</span>
-                        {b.net_margin != null && <span className="ml-1 text-micro text-muted-foreground/40">{b.net_margin.toFixed(0)}%</span>}
+                        {b.net_margin != null && <span className="ml-1 text-micro text-muted-foreground">{b.net_margin.toFixed(0)}%</span>}
                       </TableCell>
-                      <TableCell className={cn('text-right', b.delta_wc == null ? 'text-muted-foreground/30' : 'text-sky-400')}>
+                      <TableCell className={cn('text-right', b.delta_wc == null ? 'text-muted-foreground' : 'text-sky-400')}>
                         {b.delta_wc != null ? fmtM(b.delta_wc) : '—'}
                       </TableCell>
-                      <TableCell className="text-right text-muted-foreground/60">{fmtM(b.capex_maint)}</TableCell>
+                      <TableCell className="text-right text-muted-foreground">{fmtM(b.capex_maint)}</TableCell>
                       <TableCell className="text-right font-bold text-cyan-400">{fmtM(b.owner_earnings)}</TableCell>
                       <TableCell className="text-right">
                         <span className={cn('text-micro px-1.5 py-0.5 rounded font-medium',
@@ -1284,92 +1284,92 @@ function DetailView({
                   <table className="w-full text-mini">
                     <thead>
                       <tr className="border-b border-border/30">
-                        <th className="text-left px-3 py-2 text-muted-foreground/50 font-semibold uppercase tracking-wider w-44">(millones / por acción)</th>
+                        <th className="text-left px-3 py-2 text-muted-foreground font-semibold uppercase tracking-wider w-44">(millones / por acción)</th>
                         {bsYears.map(yr => (
-                          <th key={yr} className="px-2 py-2 text-center text-muted-foreground/60 font-semibold">{yr}</th>
+                          <th key={yr} className="px-2 py-2 text-center text-muted-foreground font-semibold">{yr}</th>
                         ))}
-                        <th className="px-2 py-2 text-center text-cyan-400/60 font-semibold text-micro">CAGR</th>
+                        <th className="px-2 py-2 text-center text-cyan-400 font-semibold text-micro">CAGR</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-border/15">
                       {/* Deuda total */}
                       <tr className="hover:bg-white/2">
-                        <td className="px-3 py-1.5 text-muted-foreground/70 whitespace-nowrap">Deuda total ($M)</td>
+                        <td className="px-3 py-1.5 text-muted-foreground whitespace-nowrap">Deuda total ($M)</td>
                         {bsYears.map(yr => {
                           const b = data.historical_bs[yr]
-                          return <td key={yr} className="px-2 py-1.5 text-center font-mono text-amber-400/70">{b?.total_debt != null ? fmtM(b.total_debt) : '—'}</td>
+                          return <td key={yr} className="px-2 py-1.5 text-center font-mono text-amber-400">{b?.total_debt != null ? fmtM(b.total_debt) : '—'}</td>
                         })}
-                        <td className="px-2 py-1.5 text-center font-mono text-muted-foreground/40">—</td>
+                        <td className="px-2 py-1.5 text-center font-mono text-muted-foreground">—</td>
                       </tr>
                       {/* Caja */}
                       <tr className="hover:bg-white/2 bg-white/1">
-                        <td className="px-3 py-1.5 text-muted-foreground/50 pl-6 whitespace-nowrap">Caja ($M)</td>
+                        <td className="px-3 py-1.5 text-muted-foreground pl-6 whitespace-nowrap">Caja ($M)</td>
                         {bsYears.map(yr => {
                           const b = data.historical_bs[yr]
-                          return <td key={yr} className="px-2 py-1.5 text-center font-mono text-emerald-400/60">{b?.cash != null ? fmtM(b.cash) : '—'}</td>
+                          return <td key={yr} className="px-2 py-1.5 text-center font-mono text-emerald-400">{b?.cash != null ? fmtM(b.cash) : '—'}</td>
                         })}
-                        <td className="px-2 py-1.5 text-center font-mono text-muted-foreground/40">—</td>
+                        <td className="px-2 py-1.5 text-center font-mono text-muted-foreground">—</td>
                       </tr>
                       {/* Deuda neta */}
                       <tr className="hover:bg-white/2">
-                        <td className="px-3 py-1.5 text-muted-foreground/70 whitespace-nowrap font-medium">Deuda neta ($M)</td>
+                        <td className="px-3 py-1.5 text-muted-foreground whitespace-nowrap font-medium">Deuda neta ($M)</td>
                         {bsYears.map(yr => {
                           const b = data.historical_bs[yr]
                           const nd = b?.net_debt
-                          return <td key={yr} className={cn('px-2 py-1.5 text-center font-mono font-semibold', nd != null && nd > 0 ? 'text-red-400/70' : 'text-emerald-400/70')}>{nd != null ? fmtM(nd) : '—'}</td>
+                          return <td key={yr} className={cn('px-2 py-1.5 text-center font-mono font-semibold', nd != null && nd > 0 ? 'text-red-400' : 'text-emerald-400')}>{nd != null ? fmtM(nd) : '—'}</td>
                         })}
-                        <td className="px-2 py-1.5 text-center font-mono text-muted-foreground/40">—</td>
+                        <td className="px-2 py-1.5 text-center font-mono text-muted-foreground">—</td>
                       </tr>
                       {/* Equity */}
                       <tr className="hover:bg-white/2">
-                        <td className="px-3 py-1.5 text-muted-foreground/70 whitespace-nowrap">Equity ($M)</td>
+                        <td className="px-3 py-1.5 text-muted-foreground whitespace-nowrap">Equity ($M)</td>
                         {bsYears.map(yr => {
                           const b = data.historical_bs[yr]
-                          return <td key={yr} className="px-2 py-1.5 text-center font-mono text-sky-400/70">{b?.total_equity != null ? fmtM(b.total_equity) : '—'}</td>
+                          return <td key={yr} className="px-2 py-1.5 text-center font-mono text-sky-400">{b?.total_equity != null ? fmtM(b.total_equity) : '—'}</td>
                         })}
-                        <td className="px-2 py-1.5 text-center font-mono text-muted-foreground/40">—</td>
+                        <td className="px-2 py-1.5 text-center font-mono text-muted-foreground">—</td>
                       </tr>
                       {/* Acciones */}
                       <tr className="hover:bg-white/2">
-                        <td className="px-3 py-1.5 text-muted-foreground/70 whitespace-nowrap">Acciones diluidas (M)</td>
+                        <td className="px-3 py-1.5 text-muted-foreground whitespace-nowrap">Acciones diluidas (M)</td>
                         {bsYears.map(yr => {
                           const b = data.historical_bs[yr]
-                          return <td key={yr} className="px-2 py-1.5 text-center font-mono text-muted-foreground/60">{b?.shares != null ? b.shares.toFixed(1) : '—'}</td>
+                          return <td key={yr} className="px-2 py-1.5 text-center font-mono text-muted-foreground">{b?.shares != null ? b.shares.toFixed(1) : '—'}</td>
                         })}
-                        <td className={cn('px-2 py-1.5 text-center font-mono', (() => { const c = cagr(firstBs?.shares, lastBs?.shares, nYears); return c == null ? 'text-muted-foreground/40' : c > 1 ? 'text-red-400/70' : c < -1 ? 'text-emerald-400/70' : 'text-muted-foreground/60' })())}>
+                        <td className={cn('px-2 py-1.5 text-center font-mono', (() => { const c = cagr(firstBs?.shares, lastBs?.shares, nYears); return c == null ? 'text-muted-foreground' : c > 1 ? 'text-red-400' : c < -1 ? 'text-emerald-400' : 'text-muted-foreground' })())}>
                           {(() => { const c = cagr(firstBs?.shares, lastBs?.shares, nYears); return c != null ? `${c > 0 ? '+' : ''}${c.toFixed(1)}%` : '—' })()}
                         </td>
                       </tr>
                       {/* EPS */}
                       <tr className="hover:bg-white/2 bg-white/1">
-                        <td className="px-3 py-1.5 text-muted-foreground/50 pl-6 whitespace-nowrap">EPS diluido</td>
+                        <td className="px-3 py-1.5 text-muted-foreground pl-6 whitespace-nowrap">EPS diluido</td>
                         {bsYears.map(yr => {
                           const b = data.historical_bs[yr]
-                          return <td key={yr} className="px-2 py-1.5 text-center font-mono text-muted-foreground/60">{b?.eps != null ? `$${b.eps.toFixed(2)}` : '—'}</td>
+                          return <td key={yr} className="px-2 py-1.5 text-center font-mono text-muted-foreground">{b?.eps != null ? `$${b.eps.toFixed(2)}` : '—'}</td>
                         })}
-                        <td className={cn('px-2 py-1.5 text-center font-mono', (() => { const c = cagr(firstBs?.eps, lastBs?.eps, nYears); return c == null ? 'text-muted-foreground/40' : c >= 0 ? 'text-emerald-400/70' : 'text-red-400/70' })())}>
+                        <td className={cn('px-2 py-1.5 text-center font-mono', (() => { const c = cagr(firstBs?.eps, lastBs?.eps, nYears); return c == null ? 'text-muted-foreground' : c >= 0 ? 'text-emerald-400' : 'text-red-400' })())}>
                           {(() => { const c = cagr(firstBs?.eps, lastBs?.eps, nYears); return c != null ? `${c > 0 ? '+' : ''}${c.toFixed(1)}%` : '—' })()}
                         </td>
                       </tr>
                       {/* Recompra */}
                       <tr className="hover:bg-white/2">
-                        <td className="px-3 py-1.5 text-muted-foreground/70 whitespace-nowrap">Recompras ($M)</td>
+                        <td className="px-3 py-1.5 text-muted-foreground whitespace-nowrap">Recompras ($M)</td>
                         {bsYears.map(yr => {
                           const b = data.historical_bs[yr]
                           const bb = b?.buybacks
-                          return <td key={yr} className={cn('px-2 py-1.5 text-center font-mono', bb != null && bb < 0 ? 'text-emerald-400/70' : 'text-muted-foreground/50')}>{bb != null ? fmtM(Math.abs(bb)) : '—'}</td>
+                          return <td key={yr} className={cn('px-2 py-1.5 text-center font-mono', bb != null && bb < 0 ? 'text-emerald-400' : 'text-muted-foreground')}>{bb != null ? fmtM(Math.abs(bb)) : '—'}</td>
                         })}
-                        <td className="px-2 py-1.5 text-center font-mono text-muted-foreground/40">—</td>
+                        <td className="px-2 py-1.5 text-center font-mono text-muted-foreground">—</td>
                       </tr>
                       {/* ROE */}
                       <tr className="hover:bg-white/2 border-t border-border/20">
-                        <td className="px-3 py-1.5 font-semibold text-muted-foreground/80 whitespace-nowrap">ROE %</td>
+                        <td className="px-3 py-1.5 font-semibold text-muted-foreground whitespace-nowrap">ROE %</td>
                         {bsYears.map(yr => {
                           const b = data.historical_bs[yr]
                           const roe = b?.roe_pct
-                          return <td key={yr} className={cn('px-2 py-1.5 text-center font-mono font-semibold', roe == null ? 'text-muted-foreground/30' : roe < 0 ? 'text-red-400' : roe < 8 ? 'text-amber-400/70' : 'text-emerald-400/80')}>{roe != null ? `${roe.toFixed(1)}%` : '—'}</td>
+                          return <td key={yr} className={cn('px-2 py-1.5 text-center font-mono font-semibold', roe == null ? 'text-muted-foreground' : roe < 0 ? 'text-red-400' : roe < 8 ? 'text-amber-400' : 'text-emerald-400')}>{roe != null ? `${roe.toFixed(1)}%` : '—'}</td>
                         })}
-                        <td className="px-2 py-1.5 text-center font-mono text-muted-foreground/40">—</td>
+                        <td className="px-2 py-1.5 text-center font-mono text-muted-foreground">—</td>
                       </tr>
                     </tbody>
                   </table>
@@ -1388,11 +1388,11 @@ function DetailView({
         return (
           <div className="space-y-4">
             <p className="text-xs font-semibold">7. ROIC — Return on Invested Capital</p>
-            <p className="text-micro text-muted-foreground/60">
+            <p className="text-micro text-muted-foreground">
               ROIC = NOPAT / Capital Invertido · NOPAT = EBIT × (1 − tasa impositiva) · CI = Equity + Deuda Neta (promedio inicio/fin)
             </p>
             {!hasRoic && (
-              <div className="glass rounded-xl p-5 border border-border/20 text-center text-xs text-muted-foreground/50">
+              <div className="glass rounded-xl p-5 border border-border/20 text-center text-xs text-muted-foreground">
                 Sin datos de ROIC — requiere datos EBIT + balance disponibles.
               </div>
             )}
@@ -1402,61 +1402,61 @@ function DetailView({
                   <table className="w-full text-mini">
                     <thead>
                       <tr className="border-b border-border/30">
-                        <th className="text-left px-3 py-2 text-muted-foreground/50 font-semibold uppercase tracking-wider w-44">(millones)</th>
+                        <th className="text-left px-3 py-2 text-muted-foreground font-semibold uppercase tracking-wider w-44">(millones)</th>
                         {roicYears.map(yr => (
-                          <th key={yr} className="px-2 py-2 text-center text-muted-foreground/60 font-semibold">{yr}</th>
+                          <th key={yr} className="px-2 py-2 text-center text-muted-foreground font-semibold">{yr}</th>
                         ))}
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-border/15">
                       {/* EBIT */}
                       <tr className="hover:bg-white/2 bg-white/1">
-                        <td className="px-3 py-1.5 text-muted-foreground/50 whitespace-nowrap">EBIT ($M)</td>
+                        <td className="px-3 py-1.5 text-muted-foreground whitespace-nowrap">EBIT ($M)</td>
                         {roicYears.map(yr => {
                           const r = data.historical_roic[yr]
-                          return <td key={yr} className="px-2 py-1.5 text-center font-mono text-muted-foreground/60">{r?.ebit != null ? fmtM(r.ebit) : '—'}</td>
+                          return <td key={yr} className="px-2 py-1.5 text-center font-mono text-muted-foreground">{r?.ebit != null ? fmtM(r.ebit) : '—'}</td>
                         })}
                       </tr>
                       {/* NOPAT */}
                       <tr className="hover:bg-white/2">
-                        <td className="px-3 py-1.5 text-muted-foreground/70 whitespace-nowrap">NOPAT ($M)</td>
+                        <td className="px-3 py-1.5 text-muted-foreground whitespace-nowrap">NOPAT ($M)</td>
                         {roicYears.map(yr => {
                           const r = data.historical_roic[yr]
-                          return <td key={yr} className="px-2 py-1.5 text-center font-mono text-amber-400/70">{r?.nopat != null ? fmtM(r.nopat) : '—'}</td>
+                          return <td key={yr} className="px-2 py-1.5 text-center font-mono text-amber-400">{r?.nopat != null ? fmtM(r.nopat) : '—'}</td>
                         })}
                       </tr>
                       {/* Equity */}
                       <tr className="hover:bg-white/2 bg-white/1">
-                        <td className="px-3 py-1.5 text-muted-foreground/50 pl-6 whitespace-nowrap">Equity ($M)</td>
+                        <td className="px-3 py-1.5 text-muted-foreground pl-6 whitespace-nowrap">Equity ($M)</td>
                         {roicYears.map(yr => {
                           const r = data.historical_roic[yr]
-                          return <td key={yr} className="px-2 py-1.5 text-center font-mono text-sky-400/60">{r?.equity != null ? fmtM(r.equity) : '—'}</td>
+                          return <td key={yr} className="px-2 py-1.5 text-center font-mono text-sky-400">{r?.equity != null ? fmtM(r.equity) : '—'}</td>
                         })}
                       </tr>
                       {/* Net Debt */}
                       <tr className="hover:bg-white/2 bg-white/1">
-                        <td className="px-3 py-1.5 text-muted-foreground/50 pl-6 whitespace-nowrap">Deuda Neta ($M)</td>
+                        <td className="px-3 py-1.5 text-muted-foreground pl-6 whitespace-nowrap">Deuda Neta ($M)</td>
                         {roicYears.map(yr => {
                           const r = data.historical_roic[yr]
                           const nd = r?.net_debt
-                          return <td key={yr} className={cn('px-2 py-1.5 text-center font-mono', nd != null && nd > 0 ? 'text-red-400/50' : 'text-emerald-400/50')}>{nd != null ? fmtM(nd) : '—'}</td>
+                          return <td key={yr} className={cn('px-2 py-1.5 text-center font-mono', nd != null && nd > 0 ? 'text-red-400' : 'text-emerald-400')}>{nd != null ? fmtM(nd) : '—'}</td>
                         })}
                       </tr>
                       {/* Capital Invertido */}
                       <tr className="hover:bg-white/2">
-                        <td className="px-3 py-1.5 text-muted-foreground/70 whitespace-nowrap">Capital Invertido ($M)</td>
+                        <td className="px-3 py-1.5 text-muted-foreground whitespace-nowrap">Capital Invertido ($M)</td>
                         {roicYears.map(yr => {
                           const r = data.historical_roic[yr]
-                          return <td key={yr} className="px-2 py-1.5 text-center font-mono text-muted-foreground/60">{r?.ic != null ? fmtM(r.ic) : '—'}</td>
+                          return <td key={yr} className="px-2 py-1.5 text-center font-mono text-muted-foreground">{r?.ic != null ? fmtM(r.ic) : '—'}</td>
                         })}
                       </tr>
                       {/* ROIC */}
                       <tr className="hover:bg-white/2 border-t border-border/20">
-                        <td className="px-3 py-1.5 font-semibold text-muted-foreground/80 whitespace-nowrap">ROIC %</td>
+                        <td className="px-3 py-1.5 font-semibold text-muted-foreground whitespace-nowrap">ROIC %</td>
                         {roicYears.map(yr => {
                           const r = data.historical_roic[yr]
                           const roic = r?.roic_pct
-                          return <td key={yr} className={cn('px-2 py-1.5 text-center font-mono font-bold', roic == null ? 'text-muted-foreground/30' : roic < 0 ? 'text-red-400' : roic < 8 ? 'text-amber-400' : roic >= 15 ? 'text-emerald-400' : 'text-cyan-400')}>{roic != null ? `${roic.toFixed(1)}%` : '—'}</td>
+                          return <td key={yr} className={cn('px-2 py-1.5 text-center font-mono font-bold', roic == null ? 'text-muted-foreground' : roic < 0 ? 'text-red-400' : roic < 8 ? 'text-amber-400' : roic >= 15 ? 'text-emerald-400' : 'text-cyan-400')}>{roic != null ? `${roic.toFixed(1)}%` : '—'}</td>
                         })}
                       </tr>
                     </tbody>
@@ -1484,14 +1484,14 @@ function DetailView({
             <div className="flex items-center gap-3">
               <p className="text-xs font-semibold">8. Red Flags</p>
               {flags.length === 0
-                ? <span className="text-micro text-emerald-400/70 border border-emerald-500/20 rounded px-2 py-0.5">Sin alertas — datos TIKR</span>
-                : <span className="text-micro text-muted-foreground/50">{flags.filter(f => f.severity === 'high').length} high · {flags.filter(f => f.severity === 'medium').length} medium · {flags.filter(f => f.severity === 'low').length} low</span>
+                ? <span className="text-micro text-emerald-400 border border-emerald-500/20 rounded px-2 py-0.5">Sin alertas — datos TIKR</span>
+                : <span className="text-micro text-muted-foreground">{flags.filter(f => f.severity === 'high').length} high · {flags.filter(f => f.severity === 'medium').length} medium · {flags.filter(f => f.severity === 'low').length} low</span>
               }
             </div>
             {flags.length === 0 && (
               <div className="glass rounded-xl p-6 border border-emerald-500/15 text-center">
-                <p className="text-emerald-400/80 text-sm font-semibold">Sin alertas de calidad detectadas</p>
-                <p className="text-xs text-muted-foreground/50 mt-1">Todos los checks superados con los datos TIKR disponibles.</p>
+                <p className="text-emerald-400 text-sm font-semibold">Sin alertas de calidad detectadas</p>
+                <p className="text-xs text-muted-foreground mt-1">Todos los checks superados con los datos TIKR disponibles.</p>
               </div>
             )}
             {sorted.length > 0 && (
@@ -1509,7 +1509,7 @@ function DetailView({
                 ))}
               </div>
             )}
-            <p className="text-micro text-muted-foreground/35">Checks basados exclusivamente en datos reales de TIKR Pro. Sin estimaciones.</p>
+            <p className="text-micro text-muted-foreground">Checks basados exclusivamente en datos reales de TIKR Pro. Sin estimaciones.</p>
           </div>
         )
       })()}
@@ -1524,7 +1524,7 @@ type SortKey = 'ticker' | 'upside_pct' | 'current_price' | 'buy_price' | 'median
 const PAGE_SIZE = 20
 
 function UpsideBar({ pct }: { pct: number | null }) {
-  if (pct == null) return <span className="text-muted-foreground/40">—</span>
+  if (pct == null) return <span className="text-muted-foreground">—</span>
   const capped = Math.max(-100, Math.min(200, pct))
   const barPct = Math.abs(capped) / 2  // 200% max → 100% bar
   const isPos  = pct >= 0
@@ -1607,7 +1607,7 @@ function BatchView({
   const thCls = (k: SortKey, left = false) => cn(
     'cursor-pointer select-none whitespace-nowrap hover:text-foreground transition-colors',
     left ? 'text-left' : 'text-right',
-    sortKey === k ? 'text-primary' : 'text-muted-foreground/50'
+    sortKey === k ? 'text-primary' : 'text-muted-foreground'
   )
 
   return (
@@ -1615,7 +1615,7 @@ function BatchView({
       {/* Controls */}
       <div className="glass rounded-xl p-4 border border-white/8 flex flex-wrap gap-4 items-end">
         <div className="flex-1 min-w-[160px]">
-          <label className="text-micro uppercase tracking-widest text-muted-foreground/50 font-semibold block mb-1.5">
+          <label className="text-micro uppercase tracking-widest text-muted-foreground font-semibold block mb-1.5">
             Retorno anual objetivo
           </label>
           <div className="flex items-center gap-3">
@@ -1633,11 +1633,11 @@ function BatchView({
         </div>
 
         <div className="flex-1 min-w-[160px] max-w-[260px]">
-          <label className="text-micro uppercase tracking-widest text-muted-foreground/50 font-semibold block mb-1.5">
+          <label className="text-micro uppercase tracking-widest text-muted-foreground font-semibold block mb-1.5">
             Buscar ticker o empresa
           </label>
           <div className="relative">
-            <Search size={12} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-muted-foreground/40" />
+            <Search size={12} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-muted-foreground" />
             <Input
               value={filter}
               onChange={e => setFilter(e.target.value)}
@@ -1657,7 +1657,7 @@ function BatchView({
                 'px-2.5 py-1 rounded-md text-micro font-bold uppercase tracking-wider border transition-all',
                 signalFilter === s
                   ? (s === 'ALL' ? 'bg-white/15 text-foreground border-white/20' : SIGNAL_COLORS[s])
-                  : 'bg-transparent text-muted-foreground/50 border-border/20 hover:border-border/40 hover:text-muted-foreground'
+                  : 'bg-transparent text-muted-foreground border-border/20 hover:border-border/40 hover:text-muted-foreground'
               )}
             >
               {s === 'ALL' ? `Todas (${results.filter(r => !r.error).length})` : `${s} (${counts[s] ?? 0})`}
@@ -1669,11 +1669,11 @@ function BatchView({
       {/* Results count + page info */}
       {filtered.length > 0 && (
         <div className="flex items-center justify-between px-1">
-          <span className="text-xs text-muted-foreground/50">
+          <span className="text-xs text-muted-foreground">
             Mostrando <span className="text-muted-foreground font-semibold">{start}–{end}</span> de <span className="text-muted-foreground font-semibold">{filtered.length}</span> empresas
           </span>
           {totalPages > 1 && (
-            <span className="text-xs text-muted-foreground/40">
+            <span className="text-xs text-muted-foreground">
               Página {page} / {totalPages}
             </span>
           )}
@@ -1688,7 +1688,7 @@ function BatchView({
               <TableHead onClick={() => onSort('ticker')} className={thCls('ticker', true)}>
                 Ticker <SortIcon k="ticker" />
               </TableHead>
-              <TableHead className="text-muted-foreground/40">Empresa</TableHead>
+              <TableHead className="text-muted-foreground">Empresa</TableHead>
               <TableHead onClick={() => onSort('current_price')} className={thCls('current_price')}>
                 Precio actual <SortIcon k="current_price" />
               </TableHead>
@@ -1705,7 +1705,7 @@ function BatchView({
               <TableHead onClick={() => onSort('ntm_fcf_yield_pct')} className={thCls('ntm_fcf_yield_pct')}>
                 FCF Yield NTM <SortIcon k="ntm_fcf_yield_pct" />
               </TableHead>
-              <TableHead className="text-right text-muted-foreground/40">Salida</TableHead>
+              <TableHead className="text-right text-muted-foreground">Salida</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -1717,7 +1717,7 @@ function BatchView({
                     <span className="font-bold tracking-wide">{row.ticker}</span>
                   </div>
                 </TableCell>
-                <TableCell className="text-muted-foreground/60 max-w-[160px] truncate text-xs">
+                <TableCell className="text-muted-foreground max-w-[160px] truncate text-xs">
                   {row.company_name || '—'}
                 </TableCell>
                 <TableCell className="text-right tabular-nums">{fmt(row.current_price, '$')}</TableCell>
@@ -1728,13 +1728,13 @@ function BatchView({
                 <TableCell className="text-right">
                   <SignalBadge signal={row.signal} />
                 </TableCell>
-                <TableCell className="text-right text-muted-foreground/70 tabular-nums">
+                <TableCell className="text-right text-muted-foreground tabular-nums">
                   {fmt(row.median_ev_fcf, '', 'x', 1)}
                 </TableCell>
-                <TableCell className="text-right text-muted-foreground/70 tabular-nums">
+                <TableCell className="text-right text-muted-foreground tabular-nums">
                   {fmt(row.ntm_fcf_yield_pct, '', '%', 1)}
                 </TableCell>
-                <TableCell className="text-right text-muted-foreground/50 text-xs tabular-nums">
+                <TableCell className="text-right text-muted-foreground text-xs tabular-nums">
                   {row.exit_year ?? '—'}E
                 </TableCell>
               </TableRow>

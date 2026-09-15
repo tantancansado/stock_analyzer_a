@@ -19,13 +19,13 @@ const TABS: { id: Tab; label: string }[] = [
 ]
 
 function ReturnBadge({ v }: { v: number | null }) {
-  if (v === null || v === undefined) return <span className="text-foreground/30 text-xs">—</span>
+  if (v === null || v === undefined) return <span className="text-muted-foreground text-xs">—</span>
   const color = v > 0 ? '#10b981' : v > -2 ? '#f59e0b' : '#ef4444'
   return <span className="text-xs font-mono" style={{ color }}>{v > 0 ? '+' : ''}{v.toFixed(2)}%</span>
 }
 
 function WinBadge({ v }: { v: number | null }) {
-  if (v === null || v === undefined) return <span className="text-foreground/30 text-xs">—</span>
+  if (v === null || v === undefined) return <span className="text-muted-foreground text-xs">—</span>
   const color = v >= 50 ? '#10b981' : v >= 35 ? '#f59e0b' : '#ef4444'
   return <span className="text-xs font-mono font-semibold" style={{ color }}>{v.toFixed(1)}%</span>
 }
@@ -37,7 +37,7 @@ function MiniBar({ value, max, color = '#22d3ee' }: { value: number; max: number
       <div className="w-16 h-1.5 rounded-full" style={{ background: 'rgba(255,255,255,0.07)' }}>
         <div className="h-1.5 rounded-full" style={{ width: `${pct}%`, background: color }} />
       </div>
-      <span className="text-xs font-mono text-foreground/60">{value}</span>
+      <span className="text-xs font-mono text-muted-foreground">{value}</span>
     </div>
   )
 }
@@ -144,13 +144,13 @@ function TimeseriesTable({ rows, tab }: { rows: TimeseriesRow[]; tab: Tab }) {
       <table className="w-full text-sm">
         <thead>
           <tr className="border-b border-white/10 text-left">
-            <th className="pb-2 text-xs text-foreground/40 font-medium w-28">Período</th>
-            <th className="pb-2 text-xs text-foreground/40 font-medium">Señales</th>
-            <th className="pb-2 text-xs text-foreground/40 font-medium pl-3">Win {h1}</th>
-            <th className="pb-2 text-xs text-foreground/40 font-medium pl-3">Win {h2}</th>
-            <th className="pb-2 text-xs text-foreground/40 font-medium text-right">Ret. {h1}</th>
-            <th className="pb-2 text-xs text-foreground/40 font-medium text-right">Ret. {h2}</th>
-            {showStrategy && <th className="pb-2 text-xs text-foreground/40 font-medium text-right">US/EU</th>}
+            <th className="pb-2 text-xs text-muted-foreground font-medium w-28">Período</th>
+            <th className="pb-2 text-xs text-muted-foreground font-medium">Señales</th>
+            <th className="pb-2 text-xs text-muted-foreground font-medium pl-3">Win {h1}</th>
+            <th className="pb-2 text-xs text-muted-foreground font-medium pl-3">Win {h2}</th>
+            <th className="pb-2 text-xs text-muted-foreground font-medium text-right">Ret. {h1}</th>
+            <th className="pb-2 text-xs text-muted-foreground font-medium text-right">Ret. {h2}</th>
+            {showStrategy && <th className="pb-2 text-xs text-muted-foreground font-medium text-right">US/EU</th>}
           </tr>
         </thead>
         <tbody>
@@ -171,7 +171,7 @@ function TimeseriesTable({ rows, tab }: { rows: TimeseriesRow[]; tab: Tab }) {
               {showStrategy && (
                 <td className="py-2.5 text-right">
                   <span className="text-xs font-mono text-emerald-400">{row.value_us ?? 0}</span>
-                  <span className="text-foreground/30 mx-1">/</span>
+                  <span className="text-muted-foreground mx-1">/</span>
                   <span className="text-xs font-mono text-blue-400">{row.value_eu ?? 0}</span>
                 </td>
               )}
@@ -201,7 +201,7 @@ function StrategyCard({ row }: { row: StrategyRow }) {
       <CardContent className="p-5">
         <div className="flex items-center justify-between mb-3">
           <span className="text-sm font-semibold text-foreground">{name}</span>
-          <span className="text-xs font-mono text-foreground/40">{row.signals} señales</span>
+          <span className="text-xs font-mono text-muted-foreground">{row.signals} señales</span>
         </div>
         {/* Los rebotes técnicos SÍ son de corto plazo por diseño: medirlos a 90
             días mezclaría el rebote con lo que viniera después. El backend
@@ -227,7 +227,7 @@ function StrategyCard({ row }: { row: StrategyRow }) {
             <Intervalo low={row.ci_low} high={row.ci_high} n={row.muestra} />
           </div>
           <div>
-            <div className="flex justify-between text-xs text-foreground/40 mb-1">
+            <div className="flex justify-between text-xs text-muted-foreground mb-1">
               <span>Win Rate {row.horizonte_2}</span>
               <WinBadge v={row.win_rate_2} />
             </div>
@@ -241,15 +241,15 @@ function StrategyCard({ row }: { row: StrategyRow }) {
           </div>
           <div className="flex justify-between pt-1 border-t border-white/5">
             <div className="text-center">
-              <div className="text-xs text-foreground/40 mb-0.5">Ret. {row.horizonte}</div>
+              <div className="text-xs text-muted-foreground mb-0.5">Ret. {row.horizonte}</div>
               <ReturnBadge v={row.avg_return} />
             </div>
             <div className="text-center">
-              <div className="text-xs text-foreground/40 mb-0.5">Ret. {row.horizonte_2}</div>
+              <div className="text-xs text-muted-foreground mb-0.5">Ret. {row.horizonte_2}</div>
               <ReturnBadge v={row.avg_return_2} />
             </div>
             <div className="text-center">
-              <div className="text-xs text-foreground/40 mb-0.5">Drawdown</div>
+              <div className="text-xs text-muted-foreground mb-0.5">Drawdown</div>
               <span className="text-xs font-mono text-red-400">{row.avg_drawdown.toFixed(1)}%</span>
             </div>
           </div>
@@ -347,7 +347,7 @@ export default function SignalStats() {
         <Card className="glass">
           <CardContent className="p-4 text-center">
             <div className="text-2xl font-bold font-mono text-foreground">{data.total_completed.toLocaleString()}</div>
-            <div className="text-xs text-foreground/40 mt-0.5">Señales completadas</div>
+            <div className="text-xs text-muted-foreground mt-0.5">Señales completadas</div>
           </CardContent>
         </Card>
         <Card className="glass">
@@ -355,20 +355,20 @@ export default function SignalStats() {
             <div className="text-2xl font-bold font-mono" style={{ color: (winGlobal ?? 0) >= 50 ? '#10b981' : '#f59e0b' }}>
               {winGlobal != null ? `${winGlobal.toFixed(1)}%` : '—'}
             </div>
-            <div className="text-xs text-foreground/40 mt-0.5">Win rate global {horizonteGlobal}</div>
+            <div className="text-xs text-muted-foreground mt-0.5">Win rate global {horizonteGlobal}</div>
           </CardContent>
         </Card>
         <Card className="glass">
           <CardContent className="p-4 text-center">
             <div className="text-2xl font-bold font-mono text-foreground">{data.by_strategy.length}</div>
-            <div className="text-xs text-foreground/40 mt-0.5">Estrategias activas</div>
+            <div className="text-xs text-muted-foreground mt-0.5">Estrategias activas</div>
           </CardContent>
         </Card>
       </div>
 
       {/* Por estrategia */}
       <div>
-        <h2 className="text-sm font-semibold text-foreground/60 uppercase tracking-wider mb-3">Por estrategia</h2>
+        <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-3">Por estrategia</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {data.by_strategy.map(s => <StrategyCard key={s.strategy} row={s} />)}
         </div>
@@ -377,7 +377,7 @@ export default function SignalStats() {
       {/* Tabla temporal */}
       <div>
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-sm font-semibold text-foreground/60 uppercase tracking-wider">Evolución temporal</h2>
+          <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">Evolución temporal</h2>
           <div className="flex gap-1 p-1 rounded-lg" style={{ background: 'rgba(255,255,255,0.05)' }}>
             {TABS.map(t => (
               <button
@@ -387,7 +387,7 @@ export default function SignalStats() {
                   'px-3 py-1.5 rounded-md text-xs font-medium transition-all',
                   tab === t.id
                     ? 'bg-cyan-500/20 text-cyan-400'
-                    : 'text-foreground/40 hover:text-foreground/70',
+                    : 'text-muted-foreground hover:text-foreground/70',
                 )}
               >
                 {t.label}
@@ -404,10 +404,10 @@ export default function SignalStats() {
             {tab !== 'weekday' && (
               <div className="mb-4 pb-4 border-b border-white/5">
                 <div className="flex items-center gap-4 mb-2 text-micro">
-                  <span className="inline-flex items-center gap-1.5 text-foreground/50">
+                  <span className="inline-flex items-center gap-1.5 text-muted-foreground">
                     <span className="w-2.5 h-0.5 rounded-full" style={{ background: '#22d3ee' }} /> Win {rows.find(r => r.horizonte)?.horizonte ?? '90d'}
                   </span>
-                  <span className="inline-flex items-center gap-1.5 text-foreground/50">
+                  <span className="inline-flex items-center gap-1.5 text-muted-foreground">
                     <span className="w-2.5 h-0.5 rounded-full" style={{ background: '#a78bfa' }} /> Win {rows.find(r => r.horizonte_2)?.horizonte_2 ?? '180d'}
                   </span>
                 </div>
@@ -422,13 +422,13 @@ export default function SignalStats() {
       {/* Mejores / peores */}
       {tab !== 'weekday' && (
         <div>
-          <h2 className="text-sm font-semibold text-foreground/60 uppercase tracking-wider mb-3">Ranking de períodos</h2>
+          <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-3">Ranking de períodos</h2>
           <BestWorstRows rows={rows} tab={tab} />
         </div>
       )}
 
       {/* Nota */}
-      <p className="text-xs text-foreground/25 text-center pb-4">
+      <p className="text-xs text-muted-foreground text-center pb-4">
         Solo señales completadas · mín. 5 señales para ranking · win rate = retorno positivo a vencimiento
       </p>
     </div>

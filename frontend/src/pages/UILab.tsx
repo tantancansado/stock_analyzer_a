@@ -140,7 +140,7 @@ export default function UILab() {
             <CardContent className="p-4">
               <div className="flex items-center gap-2 mb-3">
                 <Wallet size={16} className="text-primary" />
-                <span className="text-mini font-bold uppercase tracking-[0.14em] text-primary/70">Acciones pendientes</span>
+                <span className="text-mini font-bold uppercase tracking-[0.14em] text-primary">Acciones pendientes</span>
                 <span className="text-mini px-1.5 py-0.5 rounded-full bg-primary/15 text-primary font-bold">{ACCIONES.length}</span>
               </div>
               <div className="space-y-1.5">
@@ -148,7 +148,7 @@ export default function UILab() {
                   <div key={i} className="flex items-center gap-2 px-3 py-2 rounded-lg bg-muted/10 border border-border/20">
                     <AlertTriangle size={12} className={a.color} />
                     <span className="text-cuerpo text-foreground/80 flex-1">{a.texto}</span>
-                    <ChevronRight size={12} className="text-muted-foreground/30" />
+                    <ChevronRight size={12} className="text-muted-foreground" />
                   </div>
                 ))}
               </div>

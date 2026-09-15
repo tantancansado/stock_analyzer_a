@@ -296,7 +296,7 @@ export default function Backtest() {
                 className={`px-4 py-1.5 rounded-lg text-xs font-semibold transition-all ${
                   period === p.key ? 'bg-background text-foreground shadow-sm border border-border/40' : 'text-muted-foreground hover:text-foreground'
                 }`}>
-                {p.label} <span className="text-muted-foreground/50">({filtered.filter(s=>retOf(s,p.key)!=null).length})</span>
+                {p.label} <span className="text-muted-foreground">({filtered.filter(s=>retOf(s,p.key)!=null).length})</span>
               </button>
             ))}
           </div>
@@ -324,7 +324,7 @@ export default function Backtest() {
                 const ret = retOf(s, period)
                 return (
                   <div key={i} className={`flex items-center gap-2 px-4 py-2.5 hover:bg-muted/10 transition-colors ${ret == null ? 'opacity-40' : ''}`}>
-                    <span className="w-16 shrink-0 text-mini text-muted-foreground/60 tabular-nums">{s.signal_date.slice(5)}</span>
+                    <span className="w-16 shrink-0 text-mini text-muted-foreground tabular-nums">{s.signal_date.slice(5)}</span>
                     <div className="w-8 shrink-0"><TickerLogo ticker={s.ticker} size="xs" /></div>
                     <div className="flex-1 min-w-0">
                       <span className="font-mono font-bold text-primary text-cuerpo">{s.ticker}</span>
@@ -335,13 +335,13 @@ export default function Backtest() {
                       {s.value_score?.toFixed(0) ?? '—'}
                     </span>
                     <span className="w-20 text-right shrink-0 text-mini text-muted-foreground tabular-nums">${s.signal_price.toFixed(2)}</span>
-                    <span className={`w-16 text-right shrink-0 font-bold tabular-nums text-cuerpo ${ret == null ? 'text-muted-foreground/40' : ret >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+                    <span className={`w-16 text-right shrink-0 font-bold tabular-nums text-cuerpo ${ret == null ? 'text-muted-foreground' : ret >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
                       {ret == null ? '—' : pct(ret)}
                     </span>
                     <span className="w-14 text-center shrink-0 hidden sm:block">
                       {ret != null
                         ? <span className={`text-micro font-bold px-1.5 py-0.5 rounded ${ret > 0 ? 'bg-emerald-500/15 text-emerald-400' : 'bg-red-500/15 text-red-400'}`}>{ret > 0 ? '↑ WIN' : '↓ LOSS'}</span>
-                        : <span className="text-micro text-muted-foreground/30">pend.</span>
+                        : <span className="text-micro text-muted-foreground">pend.</span>
                       }
                     </span>
                   </div>

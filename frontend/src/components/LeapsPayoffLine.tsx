@@ -92,23 +92,23 @@ export default function LeapsPayoffLine({ strike, spot, breakeven, target, class
       <div className="mt-1.5 flex flex-wrap items-baseline gap-x-3 gap-y-0.5 text-micro tabular-nums">
         <span className="inline-flex items-center gap-1">
           <span className="h-2 w-[2px] rounded-full bg-muted-foreground/50" />
-          <span className="text-muted-foreground/70">Strike</span>
+          <span className="text-muted-foreground">Strike</span>
           <span className="font-semibold text-foreground/80">{fmt(strike)}</span>
         </span>
         <span className="inline-flex items-center gap-1">
           <span className="h-2 w-[2px] rounded-full bg-foreground" />
-          <span className="text-muted-foreground/70">Hoy</span>
+          <span className="text-muted-foreground">Hoy</span>
           <span className="font-semibold text-foreground/80">{fmt(spot)}</span>
         </span>
         <span className="inline-flex items-center gap-1">
           <span className="h-2 w-[2px] rounded-full bg-amber-400" />
-          <span className="text-muted-foreground/70">Empate</span>
+          <span className="text-muted-foreground">Empate</span>
           <span className="font-semibold text-foreground/80">{fmt(breakeven)}</span>
         </span>
         {target != null && target > 0 && (
           <span className="inline-flex items-center gap-1">
             <span className="h-2 w-[2px] rounded-full bg-violet-400" />
-            <span className="text-muted-foreground/70">Target</span>
+            <span className="text-muted-foreground">Target</span>
             <span className="font-semibold text-foreground/80">{fmt(target)}</span>
           </span>
         )}

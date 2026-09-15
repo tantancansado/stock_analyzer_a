@@ -80,7 +80,7 @@ export default function Login() {
                 type="button"
                 aria-label="Cambiar a iniciar sesión"
                 onClick={() => switchMode('signin')}
-                className={`flex-1 py-1.5 rounded-md transition-colors ${mode === 'signin' ? 'bg-primary/15 text-primary' : 'text-muted-foreground/60'}`}
+                className={`flex-1 py-1.5 rounded-md transition-colors ${mode === 'signin' ? 'bg-primary/15 text-primary' : 'text-muted-foreground'}`}
               >
                 Entrar
               </button>
@@ -88,7 +88,7 @@ export default function Login() {
                 type="button"
                 aria-label="Cambiar a crear cuenta"
                 onClick={() => switchMode('signup')}
-                className={`flex-1 py-1.5 rounded-md transition-colors ${mode === 'signup' ? 'bg-primary/15 text-primary' : 'text-muted-foreground/60'}`}
+                className={`flex-1 py-1.5 rounded-md transition-colors ${mode === 'signup' ? 'bg-primary/15 text-primary' : 'text-muted-foreground'}`}
               >
                 Crear cuenta
               </button>
@@ -96,7 +96,7 @@ export default function Login() {
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label htmlFor="login-email" className="text-mini font-bold uppercase tracking-wider text-muted-foreground/70 block mb-1.5">
+                <label htmlFor="login-email" className="text-mini font-bold uppercase tracking-wider text-muted-foreground block mb-1.5">
                   Email
                 </label>
                 <input
@@ -112,7 +112,7 @@ export default function Login() {
               </div>
 
               <div>
-                <label htmlFor="login-password" className="text-mini font-bold uppercase tracking-wider text-muted-foreground/70 block mb-1.5">
+                <label htmlFor="login-password" className="text-mini font-bold uppercase tracking-wider text-muted-foreground block mb-1.5">
                   Contraseña
                 </label>
                 <input
@@ -149,7 +149,7 @@ export default function Login() {
           </CardContent>
         </Card>
 
-        <p className="text-center text-micro text-muted-foreground/40 mt-4">
+        <p className="text-center text-micro text-muted-foreground mt-4">
           Acceso privado · Solo usuarios autorizados
         </p>
       </div>

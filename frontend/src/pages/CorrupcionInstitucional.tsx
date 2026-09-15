@@ -124,16 +124,16 @@ function CongressCard({ signal }: { signal: PoliticalSignal }) {
                 <span className="text-muted-foreground bg-muted/30 px-1.5 py-0.5 rounded">{signal.amount}</span>
               )}
               <StrengthBadge strength={signal.signal_strength} />
-              <span className="ml-auto text-muted-foreground/40 text-micro">{fmtDate(signal.transaction_date)}</span>
+              <span className="ml-auto text-muted-foreground text-micro">{fmtDate(signal.transaction_date)}</span>
             </div>
             {signal.asset_description && (
-              <div className="text-mini text-muted-foreground/50 truncate">{signal.asset_description}</div>
+              <div className="text-mini text-muted-foreground truncate">{signal.asset_description}</div>
             )}
           </div>
         </div>
         {signal.link && (
           <a href={signal.link} target="_blank" rel="noopener noreferrer"
-            className="flex items-center gap-1 text-mini text-muted-foreground/40 hover:text-muted-foreground transition-colors w-fit">
+            className="flex items-center gap-1 text-mini text-muted-foreground hover:text-muted-foreground transition-colors w-fit">
             <ExternalLink size={12} /> Ver declaración oficial
           </a>
         )}
@@ -161,15 +161,15 @@ function ContractCard({ signal }: { signal: PoliticalSignal }) {
                 <Badge variant="outline" className="text-micro py-0 px-1.5 border-border/40">{signal.sector}</Badge>
               )}
               <StrengthBadge strength={signal.signal_strength} />
-              <span className="ml-auto text-muted-foreground/40 text-micro">{fmtDate(signal.scanned_at)}</span>
+              <span className="ml-auto text-muted-foreground text-micro">{fmtDate(signal.scanned_at)}</span>
             </div>
             {signal.description && (
-              <div className="text-mini text-muted-foreground/50 line-clamp-2">{signal.description}</div>
+              <div className="text-mini text-muted-foreground line-clamp-2">{signal.description}</div>
             )}
           </div>
           {signal.link && (
             <a href={signal.link} target="_blank" rel="noopener noreferrer"
-              className="shrink-0 text-muted-foreground/40 hover:text-muted-foreground transition-colors mt-0.5">
+              className="shrink-0 text-muted-foreground hover:text-muted-foreground transition-colors mt-0.5">
               <ExternalLink size={12} />
             </a>
           )}
@@ -192,22 +192,22 @@ function EoCard({ signal }: { signal: PoliticalSignal }) {
             <div className="flex flex-wrap items-center gap-1.5 text-xs">
               {signal.tickers.slice(0, 6).map(t => <TickerChip key={t} ticker={t} />)}
               <StrengthBadge strength={signal.signal_strength} />
-              <span className="ml-auto text-muted-foreground/40 text-micro">{fmtDate(signal.signing_date || signal.scanned_at)}</span>
+              <span className="ml-auto text-muted-foreground text-micro">{fmtDate(signal.signing_date || signal.scanned_at)}</span>
             </div>
             {signal.abstract && (
-              <div className="text-mini text-muted-foreground/50 line-clamp-2">{signal.abstract}</div>
+              <div className="text-mini text-muted-foreground line-clamp-2">{signal.abstract}</div>
             )}
             {signal.agencies && signal.agencies.length > 0 && (
               <div className="flex flex-wrap gap-1">
                 {signal.agencies.slice(0, 3).map(a => (
-                  <span key={a} className="text-micro text-muted-foreground/50 bg-muted/20 px-1.5 py-0.5 rounded">{a}</span>
+                  <span key={a} className="text-micro text-muted-foreground bg-muted/20 px-1.5 py-0.5 rounded">{a}</span>
                 ))}
               </div>
             )}
           </div>
           {signal.link && (
             <a href={signal.link} target="_blank" rel="noopener noreferrer"
-              className="shrink-0 text-muted-foreground/40 hover:text-muted-foreground transition-colors mt-0.5">
+              className="shrink-0 text-muted-foreground hover:text-muted-foreground transition-colors mt-0.5">
               <ExternalLink size={12} />
             </a>
           )}
@@ -308,7 +308,7 @@ export default function CorrupcionInstitucional() {
 
 function SectionNote({ text }: { text: string }) {
   return (
-    <p className="text-xs text-muted-foreground/60 italic border-l-2 border-border/30 pl-3">{text}</p>
+    <p className="text-xs text-muted-foreground italic border-l-2 border-border/30 pl-3">{text}</p>
   )
 }
 

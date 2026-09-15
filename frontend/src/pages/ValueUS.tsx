@@ -38,7 +38,7 @@ import PageShell from '@/components/PageShell'
 import { nlRegimen, nlRegimenTono } from '@/lib/nl'
 
 function TechBiasCell({ t }: { t?: TechnicalSummary }) {
-  if (!t) return <span className="text-muted-foreground/30 text-xs">—</span>
+  if (!t) return <span className="text-muted-foreground text-xs">—</span>
   const cls = t.bias === 'BULLISH'
     ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30'
     : t.bias === 'BEARISH'
@@ -54,7 +54,7 @@ function TechBiasCell({ t }: { t?: TechnicalSummary }) {
 }
 
 function MlWinBadge({ pred }: { pred?: MlWinPrediction }) {
-  if (!pred) return <span className="text-muted-foreground/30 text-xs">—</span>
+  if (!pred) return <span className="text-muted-foreground text-xs">—</span>
   const cls =
     pred.label === 'ALTA'  ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30' :
     pred.label === 'MEDIA' ? 'bg-amber-500/15 text-amber-400 border-amber-500/30' :
@@ -91,7 +91,7 @@ function EntryQualityBadge({ quality, confidence, analyzedAt }: {
   confidence?: string
   analyzedAt?: string
 }) {
-  const sinDato = <span className="text-muted-foreground/30 text-xs">—</span>
+  const sinDato = <span className="text-muted-foreground text-xs">—</span>
   if (!quality || quality === 'wait' || confidence === 'low') return sinDato
   if (analyzedAt) {
     const dias = (Date.now() - new Date(analyzedAt).getTime()) / 86_400_000
@@ -591,7 +591,7 @@ export default function ValueUS() {
           {/* Reset + count — pushed to the right */}
           <div className="flex items-center gap-3 ml-auto">
             {hasActiveFilters && (
-              <button onClick={resetFilters} className="text-xs text-muted-foreground/50 hover:text-foreground underline underline-offset-2 transition-colors">
+              <button onClick={resetFilters} className="text-xs text-muted-foreground hover:text-foreground underline underline-offset-2 transition-colors">
                 Limpiar
               </button>
             )}
@@ -644,7 +644,7 @@ export default function ValueUS() {
                         {d.analyst_upside_pct >= 0 ? '+' : ''}{d.analyst_upside_pct.toFixed(0)}%
                       </div>
                     )}
-                    <div className="text-micro text-muted-foreground/50 mt-0.5">{precio(d.current_price, d.ticker)}</div>
+                    <div className="text-micro text-muted-foreground mt-0.5">{precio(d.current_price, d.ticker)}</div>
                   </div>
                 </div>
                 {/* `decision.detail` es texto fijo por categoría, no por
@@ -712,7 +712,7 @@ export default function ValueUS() {
                       {d.analyst_upside_pct > 0 ? '+' : ''}{d.analyst_upside_pct.toFixed(0)}%
                     </div>
                   )}
-                  <div className="text-micro text-muted-foreground/50 mt-0.5">{precio(d.current_price, d.ticker)}</div>
+                  <div className="text-micro text-muted-foreground mt-0.5">{precio(d.current_price, d.ticker)}</div>
                 </div>
               </div>
 
@@ -731,13 +731,13 @@ export default function ValueUS() {
               {(d.entry_price || d.stop_loss || d.target_price) && (
                 <div className="flex gap-3 mt-2.5 text-xs font-mono">
                   {d.entry_price && <span className="text-cyan-400">E ${d.entry_price.toFixed(2)}</span>}
-                  {d.stop_loss && <span className="text-red-400/80">SL ${d.stop_loss.toFixed(2)}</span>}
-                  {d.target_price && <span className="text-emerald-400/80">TP ${d.target_price.toFixed(2)}</span>}
+                  {d.stop_loss && <span className="text-red-400">SL ${d.stop_loss.toFixed(2)}</span>}
+                  {d.target_price && <span className="text-emerald-400">TP ${d.target_price.toFixed(2)}</span>}
                 </div>
               )}
 
               {/* Row 4: FCF / R:R / Sector */}
-              <div className="flex gap-3 mt-2 text-xs text-muted-foreground/70">
+              <div className="flex gap-3 mt-2 text-xs text-muted-foreground">
                 {d.fcf_yield_pct != null && <span>FCF {d.fcf_yield_pct.toFixed(1)}%</span>}
                 {d.risk_reward_ratio != null && <span>R:R {d.risk_reward_ratio.toFixed(1)}x</span>}
                 {d.sector && <span className="truncate">{d.sector}</span>}
@@ -968,7 +968,7 @@ export default function ValueUS() {
                           ?? (d.conviction_reasons ? d.conviction_reasons.split(' | ')[0] : null)
                         return reason ? (
                           <span
-                            className="text-micro text-muted-foreground/80 font-normal font-sans leading-snug max-w-[360px] line-clamp-2 hidden lg:block"
+                            className="text-micro text-muted-foreground font-normal font-sans leading-snug max-w-[360px] line-clamp-2 hidden lg:block"
                             title={reason}
                           >
                             {reason}
@@ -1060,7 +1060,7 @@ export default function ValueUS() {
                 : 'Sin resultados con los filtros aplicados'}
             </p>
             {rows.length === 0 && (
-              <p className="mt-2 text-mini text-muted-foreground/60 max-w-md mx-auto leading-relaxed">
+              <p className="mt-2 text-mini text-muted-foreground max-w-md mx-auto leading-relaxed">
                 El filtro de calidad no dio por buena ninguna: o los candidatos de hoy
                 no pasaron la revisión de datos, o no pudo ejecutarse. Antes se
                 enseñaban igualmente las ideas sin verificar, y eso es justo lo que
@@ -1070,7 +1070,7 @@ export default function ValueUS() {
           </CardContent>
         )}
         {sorted.length > 0 && (
-          <div className="hidden sm:block text-micro text-muted-foreground/25 text-right px-3 py-1.5 border-t border-border/10">
+          <div className="hidden sm:block text-micro text-muted-foreground text-right px-3 py-1.5 border-t border-border/10">
             j / k navegar · Enter ver tesis · Esc cerrar
           </div>
         )}

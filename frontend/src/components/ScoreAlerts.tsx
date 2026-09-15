@@ -25,10 +25,10 @@ function AlertRow({ alert }: { alert: ScoreAlert }) {
     <div className={`flex items-center gap-3 px-3 py-2 rounded-lg border ${cfg.bg} ${cfg.border}`}>
       <Icon size={16} className={cfg.text} />
       <span className={`font-mono font-bold text-sm w-16 shrink-0 ${cfg.text}`}>{alert.ticker}</span>
-      <span className="text-xs text-foreground/60 flex-1 truncate">{alert.company_name}</span>
-      <span className="text-micro text-muted-foreground/50 hidden sm:block">{alert.sector}</span>
+      <span className="text-xs text-muted-foreground flex-1 truncate">{alert.company_name}</span>
+      <span className="text-micro text-muted-foreground hidden sm:block">{alert.sector}</span>
       {alert.grade && (
-        <span className="text-micro font-bold px-1.5 py-0.5 rounded bg-muted/30 border border-border/30 text-muted-foreground/60">
+        <span className="text-micro font-bold px-1.5 py-0.5 rounded bg-muted/30 border border-border/30 text-muted-foreground">
           {alert.grade}
         </span>
       )}
@@ -68,7 +68,7 @@ export default function ScoreAlerts() {
 
   if (!data || data.alerts.length === 0) {
     return (
-      <p className="text-sm text-muted-foreground/60 text-center py-8">
+      <p className="text-sm text-muted-foreground text-center py-8">
         Sin cambios significativos desde ayer.
       </p>
     )
@@ -83,7 +83,7 @@ export default function ScoreAlerts() {
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-2 flex-wrap">
-        <span className="text-micro font-bold uppercase tracking-widest text-muted-foreground/50">
+        <span className="text-micro font-bold uppercase tracking-widest text-muted-foreground">
           Novedades vs {data.generated_at}
         </span>
         <SummaryPill label="↑" count={data.counts.score_up}   color="bg-emerald-500/10 text-emerald-400 border-emerald-500/25" />
