@@ -257,7 +257,7 @@ export default function CatalystScreener() {
                 <span className={`text-micro font-bold px-1.5 py-0.5 rounded border tracking-wide ${s.badgeColor}`}>
                   <s.badgeIcon size={12} strokeWidth={2} className="mr-1 inline shrink-0 align-[-2px]" />{s.badge}
                 </span>
-                <span className={`text-lg font-bold tabular-nums ${count === 0 ? 'text-muted-foreground' : active ? 'text-primary' : 'text-foreground'}`}>
+                <span className={`text-seccion font-bold tabular-nums ${count === 0 ? 'text-muted-foreground' : active ? 'text-primary' : 'text-foreground'}`}>
                   {count}
                 </span>
               </div>
@@ -357,21 +357,21 @@ export default function CatalystScreener() {
                         {matchedCats.map(c => <CatalystTag key={c.id} c={c} />)}
                       </div>
                     </TableCell>
-                    <TableCell className="hidden md:table-cell tabular-nums text-sm">
+                    <TableCell className="hidden md:table-cell tabular-nums text-cuerpo">
                       {d.analyst_upside_pct != null && (
                         <span className={d.analyst_upside_pct >= 0 ? 'text-emerald-400' : 'text-red-400'}>
                           {d.analyst_upside_pct > 0 ? '+' : ''}{d.analyst_upside_pct.toFixed(0)}%
                         </span>
                       )}
                     </TableCell>
-                    <TableCell className="hidden md:table-cell tabular-nums text-sm">
+                    <TableCell className="hidden md:table-cell tabular-nums text-cuerpo">
                       {d.fcf_yield_pct != null ? (
                         <span className={d.fcf_yield_pct >= 5 ? 'text-emerald-400' : d.fcf_yield_pct >= 3 ? 'text-amber-400' : d.fcf_yield_pct < 0 ? 'text-red-400' : ''}>
                           {d.fcf_yield_pct.toFixed(1)}%
                         </span>
                       ) : '—'}
                     </TableCell>
-                    <TableCell className="hidden lg:table-cell tabular-nums text-sm">
+                    <TableCell className="hidden lg:table-cell tabular-nums text-cuerpo">
                       {d.risk_reward_ratio != null ? (
                         <span className={d.risk_reward_ratio >= 3 ? 'text-emerald-400' : d.risk_reward_ratio >= 2 ? 'text-amber-400' : 'text-red-400'}>
                           {d.risk_reward_ratio.toFixed(1)}x

@@ -66,7 +66,7 @@ function EarningsHistoryBar({ history }: { history: NonNullable<CatalystEvent['e
   const color = (beat_rate ?? 0) >= 75 ? 'text-emerald-400' : (beat_rate ?? 0) >= 50 ? 'text-amber-400' : 'text-red-400'
   return (
     <div className="mt-2 space-y-1.5">
-      <div className="flex items-center gap-3 text-xs">
+      <div className="flex items-center gap-3 text-mini">
         {beat_rate != null && (
           <span className={`font-bold ${color}`}>Bate {beat_rate.toFixed(0)}%</span>
         )}
@@ -113,7 +113,7 @@ function EventCard({ event }: { event: CatalystEvent }) {
           <div className="text-micro font-bold uppercase text-muted-foreground">
             {new Date(event.date + 'T00:00:00').toLocaleDateString('es-ES', { month: 'short' })}
           </div>
-          <div className="text-lg font-extrabold leading-none text-foreground tabular-nums">
+          <div className="text-seccion font-extrabold leading-none text-foreground tabular-nums">
             {new Date(event.date + 'T00:00:00').getDate()}
           </div>
           <div className={`text-micro font-bold mt-0.5 ${event.days_away <= 3 ? 'text-red-400' : event.days_away <= 7 ? 'text-amber-400' : 'text-muted-foreground'}`}>
@@ -139,14 +139,14 @@ function EventCard({ event }: { event: CatalystEvent }) {
               </span>
             )}
           </div>
-          <div className="text-sm font-semibold text-foreground truncate">{event.title}</div>
-          <div className="text-xs text-muted-foreground mt-0.5 line-clamp-2">{event.description}</div>
+          <div className="text-cuerpo font-semibold text-foreground truncate">{event.title}</div>
+          <div className="text-mini text-muted-foreground mt-0.5 line-clamp-2">{event.description}</div>
         </div>
 
         {/* Right side: ticker chip + expand */}
         <div className="shrink-0 flex flex-col items-end gap-1">
           {event.ticker && (
-            <span className="font-mono text-xs font-bold text-foreground/80 bg-muted/20 px-2 py-0.5 rounded border border-border/30">
+            <span className="font-mono text-mini font-bold text-foreground/80 bg-muted/20 px-2 py-0.5 rounded border border-border/30">
               {event.ticker}
             </span>
           )}
@@ -175,7 +175,7 @@ function EventCard({ event }: { event: CatalystEvent }) {
               <div className="text-micro font-bold uppercase tracking-wider text-muted-foreground mb-1.5">Tickers afectados</div>
               <div className="flex flex-wrap gap-1">
                 {event.affected_tickers.map(t => (
-                  <span key={t} className="font-mono text-xs bg-muted/20 border border-border/30 px-1.5 py-0.5 rounded">{t}</span>
+                  <span key={t} className="font-mono text-mini bg-muted/20 border border-border/30 px-1.5 py-0.5 rounded">{t}</span>
                 ))}
               </div>
             </div>
@@ -209,7 +209,7 @@ function EventCard({ event }: { event: CatalystEvent }) {
 
           {/* Price + market cap for earnings/FDA */}
           {event.current_price && (
-            <div className="flex gap-4 text-xs text-muted-foreground">
+            <div className="flex gap-4 text-mini text-muted-foreground">
               <span>Precio: <strong className="text-foreground">${event.current_price.toFixed(2)}</strong></span>
               {event.eps_estimate && (
                 <span>EPS est: <strong className="text-foreground">${event.eps_estimate.toFixed(2)}</strong></span>
@@ -270,7 +270,7 @@ export default function CatalystCalendar() {
         ].map(({ label, value, sub, color }) => (
           <Card key={label} className="glass p-5">
             <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-2">{label}</div>
-            <div className={`text-3xl font-extrabold tracking-tight tabular-nums leading-none mb-2 ${color}`}>{value}</div>
+            <div className={`text-cifra font-extrabold tracking-tight tabular-nums leading-none mb-2 ${color}`}>{value}</div>
             <div className="text-micro text-muted-foreground">{sub}</div>
           </Card>
         ))}
@@ -314,7 +314,7 @@ export default function CatalystCalendar() {
         {grouped.map(({ weekLabel, events: grpEvents }) => (
           <div key={weekLabel}>
             <div className="flex items-center gap-3 mb-3">
-              <h3 className="text-xs font-bold uppercase tracking-widest text-muted-foreground">{weekLabel}</h3>
+              <h3 className="text-mini font-bold uppercase tracking-widest text-muted-foreground">{weekLabel}</h3>
               <div className="flex-1 h-px bg-border/30" />
               <span className="text-micro text-muted-foreground">{grpEvents.length} eventos</span>
             </div>

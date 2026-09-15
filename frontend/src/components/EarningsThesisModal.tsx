@@ -29,7 +29,7 @@ function Stat({ label, value, color }: { label: string; value: string; color?: s
   return (
     <div className="flex flex-col gap-0.5 px-3 py-2 rounded-lg bg-muted/20 border border-border/20 min-w-[70px]">
       <span className="text-micro font-bold uppercase tracking-widest text-muted-foreground leading-none">{label}</span>
-      <span className={`text-sm font-bold tabular-nums leading-tight ${color ?? 'text-foreground/80'}`}>{value}</span>
+      <span className={`text-cuerpo font-bold tabular-nums leading-tight ${color ?? 'text-foreground/80'}`}>{value}</span>
     </div>
   )
 }
@@ -80,13 +80,13 @@ export default function EarningsThesisModal({ ticker, onClose }: Props) {
               <TickerLogo ticker={ticker} size="md" />
               <div className="min-w-0">
                 <div className="flex items-center gap-2">
-                  <span className="font-mono font-extrabold text-primary text-xl tracking-tight">{ticker}</span>
+                  <span className="font-mono font-extrabold text-primary text-seccion tracking-tight">{ticker}</span>
                   <span className="text-micro font-bold uppercase tracking-widest text-primary px-1.5 py-0.5 rounded bg-primary/10 border border-primary/20">
                     Tesis IA
                   </span>
                 </div>
                 {thesis?.company_name && (
-                  <p className="text-xs text-muted-foreground truncate">{thesis.company_name}</p>
+                  <p className="text-mini text-muted-foreground truncate">{thesis.company_name}</p>
                 )}
                 {thesis?.sector && (
                   <p className="text-micro text-muted-foreground">{thesis.sector}</p>
@@ -104,7 +104,7 @@ export default function EarningsThesisModal({ ticker, onClose }: Props) {
 
           <div className="flex-1 overflow-y-auto min-h-0 border-t border-border/30 px-5 py-4 space-y-5">
             {loading && (
-              <div className="flex items-center justify-center gap-2 py-10 text-sm text-muted-foreground">
+              <div className="flex items-center justify-center gap-2 py-10 text-cuerpo text-muted-foreground">
                 <Loader2 size={16} className="animate-spin" /> Cargando tesis IA...
               </div>
             )}
@@ -112,7 +112,7 @@ export default function EarningsThesisModal({ ticker, onClose }: Props) {
             {!loading && notFound && (
               <div className="text-center py-10 space-y-2">
                 <AlertTriangle size={20} className="text-muted-foreground mx-auto" />
-                <p className="text-sm text-muted-foreground">
+                <p className="text-cuerpo text-muted-foreground">
                   Aún no hay tesis generada para <span className="font-mono font-bold text-foreground/70">{ticker}</span>.
                 </p>
                 <p className="text-micro text-muted-foreground">
@@ -127,11 +127,11 @@ export default function EarningsThesisModal({ ticker, onClose }: Props) {
                 <div className={`flex items-center justify-between gap-3 px-4 py-3 rounded-xl border ${verdictStyle.bg} ${verdictStyle.border}`}>
                   <div>
                     <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground">Recomendación</div>
-                    <div className={`text-lg font-extrabold ${verdictStyle.text}`}>{verdictStyle.label}</div>
+                    <div className={`text-seccion font-extrabold ${verdictStyle.text}`}>{verdictStyle.label}</div>
                   </div>
                   <div className="text-right">
                     <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground">Confianza</div>
-                    <div className={`text-lg font-extrabold tabular-nums ${verdictStyle.text}`}>{thesis.confidence}</div>
+                    <div className={`text-seccion font-extrabold tabular-nums ${verdictStyle.text}`}>{thesis.confidence}</div>
                   </div>
                 </div>
 
@@ -156,7 +156,7 @@ export default function EarningsThesisModal({ ticker, onClose }: Props) {
                 <div className="flex items-center gap-3 flex-wrap">
                   <div className="flex-1 min-w-[160px] px-4 py-3 rounded-xl bg-primary/5 border border-primary/20">
                     <div className="text-micro font-bold uppercase tracking-widest text-primary">Implied Move</div>
-                    <div className="text-3xl font-extrabold tabular-nums text-primary leading-tight">
+                    <div className="text-cifra font-extrabold tabular-nums text-primary leading-tight">
                       {thesis.implied_move_pct != null ? `±${thesis.implied_move_pct.toFixed(1)}%` : 'N/A'}
                     </div>
                     <div className="text-micro text-muted-foreground">
@@ -191,7 +191,7 @@ export default function EarningsThesisModal({ ticker, onClose }: Props) {
                 {thesis.thesis_summary && (
                   <div>
                     <h4 className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-2">Resumen</h4>
-                    <p className="text-sm text-foreground/85 leading-relaxed whitespace-pre-line">
+                    <p className="text-cuerpo text-foreground/85 leading-relaxed whitespace-pre-line">
                       {thesis.thesis_summary}
                     </p>
                   </div>

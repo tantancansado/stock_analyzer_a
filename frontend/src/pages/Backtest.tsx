@@ -162,7 +162,7 @@ function Stats({ signals, period }: { signals: Signal[]; period: Period }) {
       ].map(c => (
         <div key={c.label} className="glass rounded-2xl p-4">
           <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-1">{c.label}</div>
-          <div className={`text-2xl font-extrabold ${c.color}`}>{c.val}</div>
+          <div className={`text-pagina font-extrabold ${c.color}`}>{c.val}</div>
           {c.sub && <div className="text-micro text-muted-foreground mt-0.5">{c.sub}</div>}
         </div>
       ))}
@@ -253,7 +253,7 @@ export default function Backtest() {
 
       <div className="flex items-start gap-3 p-3.5 rounded-xl bg-primary/5 border border-primary/20">
         <Info size={16} className="text-primary mt-0.5 shrink-0" />
-        <p className="text-xs text-muted-foreground">
+        <p className="text-mini text-muted-foreground">
           Señales generadas en tiempo real. Deduplicadas por ticker — si el sistema seleccionó el mismo ticker varios días, se muestra solo la primera señal para no inflar el win rate.
         </p>
       </div>
@@ -261,15 +261,15 @@ export default function Backtest() {
       {/* Main tabs */}
       <div className="flex gap-2 p-1 rounded-xl bg-muted/20 border border-border/30 w-fit">
         <button onClick={() => setTab('value')}
-          className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all ${tab === 'value' ? 'bg-background text-primary border border-primary/40 shadow-sm' : 'text-muted-foreground hover:text-foreground border border-transparent'}`}>
+          className={`flex items-center gap-2 px-4 py-2 rounded-lg text-cuerpo font-semibold transition-all ${tab === 'value' ? 'bg-background text-primary border border-primary/40 shadow-sm' : 'text-muted-foreground hover:text-foreground border border-transparent'}`}>
           <ChartColumn size={16} strokeWidth={2} />Value ({signals.length})
         </button>
         <button onClick={() => setTab('mr')}
-          className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all ${tab === 'mr' ? 'bg-background text-teal-400 border border-teal-500/40 shadow-sm' : 'text-muted-foreground hover:text-foreground border border-transparent'}`}>
+          className={`flex items-center gap-2 px-4 py-2 rounded-lg text-cuerpo font-semibold transition-all ${tab === 'mr' ? 'bg-background text-teal-400 border border-teal-500/40 shadow-sm' : 'text-muted-foreground hover:text-foreground border border-transparent'}`}>
           <ArrowLeftRight size={16} /> Mean Reversion ({mrSetups.length})
         </button>
         <button onClick={() => setTab('analytics')}
-          className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all ${tab === 'analytics' ? 'bg-background text-violet-400 border border-violet-500/40 shadow-sm' : 'text-muted-foreground hover:text-foreground border border-transparent'}`}>
+          className={`flex items-center gap-2 px-4 py-2 rounded-lg text-cuerpo font-semibold transition-all ${tab === 'analytics' ? 'bg-background text-violet-400 border border-violet-500/40 shadow-sm' : 'text-muted-foreground hover:text-foreground border border-transparent'}`}>
           <TrendingUp size={16} strokeWidth={2} />Analytics
         </button>
       </div>
@@ -281,7 +281,7 @@ export default function Backtest() {
           <div className="flex gap-2 flex-wrap">
             {['ALL', ...strategies].map(s => (
               <button key={s} onClick={() => setStrat(s)}
-                className={`px-3 py-1.5 rounded-lg text-xs font-semibold border transition-all ${
+                className={`px-3 py-1.5 rounded-lg text-mini font-semibold border transition-all ${
                   strat === s ? 'bg-primary/15 border-primary/30 text-primary' : 'bg-muted/20 border-border/30 text-muted-foreground hover:text-foreground'
                 }`}>
                 {s === 'ALL' ? `Todas (${signals.length})` : `${STRAT_LABEL[s]??s} (${signals.filter(x=>x.strategy===s).length})`}
@@ -293,7 +293,7 @@ export default function Backtest() {
           <div className="flex gap-1 p-1 rounded-xl bg-muted/20 border border-border/30 w-fit">
             {PERIODS.map(p => (
               <button key={p.key} onClick={() => setPeriod(p.key)}
-                className={`px-4 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                className={`px-4 py-1.5 rounded-lg text-mini font-semibold transition-all ${
                   period === p.key ? 'bg-background text-foreground shadow-sm border border-border/40' : 'text-muted-foreground hover:text-foreground'
                 }`}>
                 {p.label} <span className="text-muted-foreground">({filtered.filter(s=>retOf(s,p.key)!=null).length})</span>
@@ -365,7 +365,7 @@ export default function Backtest() {
         <div className="space-y-4">
           <div className="flex items-start gap-3 p-3.5 rounded-xl bg-teal-500/5 border border-teal-500/20">
             <ArrowLeftRight size={16} className="text-teal-400 mt-0.5 shrink-0" />
-            <p className="text-xs text-muted-foreground">
+            <p className="text-mini text-muted-foreground">
               Setups actuales de Mean Reversion — acciones en sobreventa extrema con potencial de rebote.
               Estas señales no tienen historial de retornos todavía (el tracking empieza a añadirse al pipeline).
             </p>

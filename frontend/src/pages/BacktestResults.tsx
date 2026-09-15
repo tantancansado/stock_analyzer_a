@@ -41,7 +41,7 @@ function StatCard({ label, value, sub, color }: { label: string; value: string; 
     <Card className="bg-card/50">
       <CardContent className="p-4">
         <p className="text-mini text-muted-foreground uppercase tracking-wider mb-1">{label}</p>
-        <p className={`text-xl font-bold tabular-nums ${color ?? 'text-foreground'}`}>{value}</p>
+        <p className={`text-seccion font-bold tabular-nums ${color ?? 'text-foreground'}`}>{value}</p>
         {sub && <p className="text-micro text-muted-foreground mt-0.5">{sub}</p>}
       </CardContent>
     </Card>
@@ -175,7 +175,7 @@ export default function BacktestResults() {
   if (loading) return <Loading />
   if (error) return <ErrorState message={error} />
   if (!stats14d.n) return (
-    <Card><CardContent className="py-16 text-center text-muted-foreground text-sm">Sin datos de señales completadas</CardContent></Card>
+    <Card><CardContent className="py-16 text-center text-muted-foreground text-cuerpo">Sin datos de señales completadas</CardContent></Card>
   )
 
   const cumFinal = weekly.at(-1)?.cum ?? 0

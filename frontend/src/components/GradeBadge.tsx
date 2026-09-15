@@ -13,7 +13,7 @@ export default function GradeBadge({ grade, score }: Props) {
   return (
     <span
       className={cn(
-        'inline-flex items-center justify-center px-2 py-0.5 rounded-md border text-xs font-bold tracking-wide min-w-[26px] cursor-help',
+        'inline-flex items-center justify-center px-2 py-0.5 rounded-md border text-mini font-bold tracking-wide min-w-[26px] cursor-help',
         `grade-${grade}`
       )}
       title={title}

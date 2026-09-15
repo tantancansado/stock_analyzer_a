@@ -75,7 +75,7 @@ function PickCard({ pick }: Readonly<{ pick: ContrarianPick }>) {
           <TickerLogo ticker={pick.ticker} size="sm" />
           <div className="min-w-0">
             <div className="flex items-center gap-2 flex-wrap">
-              <span className="font-mono font-extrabold text-primary text-base">{pick.ticker}</span>
+              <span className="font-mono font-extrabold text-primary text-titulo">{pick.ticker}</span>
               <VerdictBadge verdict={pick.verdict} confidence={pick.confidence} />
             </div>
             <div className="text-mini text-muted-foreground truncate">{pick.company_name}</div>
@@ -84,9 +84,9 @@ function PickCard({ pick }: Readonly<{ pick: ContrarianPick }>) {
         </div>
         <div className="text-right shrink-0">
           {pick.current_price != null && (
-            <div className="text-base font-extrabold tabular-nums">${pick.current_price.toFixed(2)}</div>
+            <div className="text-titulo font-extrabold tabular-nums">${pick.current_price.toFixed(2)}</div>
           )}
-          <div className={`text-xs font-bold tabular-nums flex items-center gap-1 justify-end ${ddColor(pick.drawdown_from_52w)}`}>
+          <div className={`text-mini font-bold tabular-nums flex items-center gap-1 justify-end ${ddColor(pick.drawdown_from_52w)}`}>
             <TrendingDown size={12} />
             {pick.drawdown_from_52w.toFixed(1)}% desde máx
           </div>
@@ -165,7 +165,7 @@ export default function ContrarianDiscovery() {
     <div className="space-y-6">
       <div>
         <div className="flex items-center gap-3 mb-1.5">
-          <h3 className="text-lg font-extrabold tracking-tight">Contrarian Discovery</h3>
+          <h3 className="text-seccion font-extrabold tracking-tight">Contrarian Discovery</h3>
           <span className="text-micro font-bold px-2 py-0.5 rounded-full bg-primary/10 text-primary border border-primary/20">
             {data.contrarian_buys} oportunidades
           </span>
@@ -181,7 +181,7 @@ export default function ContrarianDiscovery() {
       </div>
 
       {data.picks.length === 0 && (
-        <div className="text-center py-12 text-muted-foreground text-sm">
+        <div className="text-center py-12 text-muted-foreground text-cuerpo">
           Sin candidatos hoy — el universo curado no tiene caídas significativas con fundamentales intactos.
         </div>
       )}

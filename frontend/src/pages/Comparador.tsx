@@ -102,7 +102,7 @@ function Cell({ metric, data, allData }: { metric: Metric; data: TickerData; all
   const isGrowth = metric.key === 'revenue_growth' || metric.key === 'roe' || metric.key === 'roic_greenblatt'
 
   return (
-    <td className="px-3 sm:px-4 py-2.5 text-center text-sm tabular-nums">
+    <td className="px-3 sm:px-4 py-2.5 text-center text-cuerpo tabular-nums">
       <span className={`font-semibold ${cls || 'text-foreground/80'} flex items-center justify-center gap-1`}>
         {(isUpside || isGrowth) && num != null && (
           num > 0 ? <TrendingUp size={12} /> : num < 0 ? <TrendingDown size={12} /> : <Minus size={12} />
@@ -213,7 +213,7 @@ export default function Comparador() {
       <div className="glass rounded-2xl p-5">
         <div className="flex gap-2 flex-wrap items-center">
           {tickers.map(t => (
-            <div key={t} className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-muted/30 border border-border/40 text-sm">
+            <div key={t} className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-muted/30 border border-border/40 text-cuerpo">
               {loading[t] ? (
                 <Loader2 size={12} className="animate-spin text-muted-foreground" />
               ) : errors[t] ? (
@@ -248,7 +248,7 @@ export default function Comparador() {
                   }}
                   onFocus={() => suggestions.length > 0 && setShowSugg(true)}
                   placeholder="AAPL o Apple..."
-                  className="w-40 px-3 py-1.5 rounded-lg bg-muted/30 border border-border/40 text-sm font-bold text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/50"
+                  className="w-40 px-3 py-1.5 rounded-lg bg-muted/30 border border-border/40 text-cuerpo font-bold text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/50"
                 />
                 <Button size="sm" onClick={addTicker} disabled={!input.trim()}>
                   <Plus size={16} />
@@ -260,7 +260,7 @@ export default function Comparador() {
                   {suggestions.map((s, i) => (
                     <li
                       key={s.ticker}
-                      className={`flex items-center gap-2 px-3 py-2 cursor-pointer transition-colors text-sm ${i === activeIdx ? 'bg-primary/10' : 'hover:bg-muted/50'}`}
+                      className={`flex items-center gap-2 px-3 py-2 cursor-pointer transition-colors text-cuerpo ${i === activeIdx ? 'bg-primary/10' : 'hover:bg-muted/50'}`}
                       onMouseDown={() => addTickerBySymbol(s.ticker)}
                       onMouseEnter={() => setActiveIdx(i)}
                     >
@@ -280,7 +280,7 @@ export default function Comparador() {
         <div className="glass rounded-2xl p-12 text-center">
           <GitCompare size={40} className="mx-auto text-muted-foreground mb-4" />
           <p className="text-foreground font-semibold mb-1">Añade al menos 2 tickers</p>
-          <p className="text-sm text-muted-foreground">Escribe un ticker y pulsa Enter o "Añadir"</p>
+          <p className="text-cuerpo text-muted-foreground">Escribe un ticker y pulsa Enter o "Añadir"</p>
         </div>
       )}
 

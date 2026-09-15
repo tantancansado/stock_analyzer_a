@@ -102,7 +102,7 @@ function BounceCard({ s, isConviction }: { s: BounceSetup; isConviction: boolean
         <div className="flex items-center gap-2.5 min-w-0">
           <TickerLogo ticker={s.ticker} size="sm" />
           <div className="min-w-0">
-            <div className="font-mono font-extrabold text-foreground text-base leading-tight tracking-wide">{s.ticker}</div>
+            <div className="font-mono font-extrabold text-foreground text-titulo leading-tight tracking-wide">{s.ticker}</div>
             <div className="text-micro text-muted-foreground truncate">{s.company_name}</div>
           </div>
         </div>
@@ -161,11 +161,11 @@ function BounceCard({ s, isConviction }: { s: BounceSetup; isConviction: boolean
       <div className="grid grid-cols-3 gap-2">
         <div className="bg-muted/10 rounded-xl p-2.5 text-center">
           <div className="text-micro font-bold uppercase tracking-wider text-muted-foreground mb-1">Entrada</div>
-          <div className="text-sm font-extrabold text-foreground tabular-nums">${s.current_price.toFixed(2)}</div>
+          <div className="text-cuerpo font-extrabold text-foreground tabular-nums">${s.current_price.toFixed(2)}</div>
         </div>
         <div className="bg-emerald-500/8 border border-emerald-500/20 rounded-xl p-2.5 text-center">
           <div className="text-micro font-bold uppercase tracking-wider text-emerald-400 mb-1">Rebote</div>
-          <div className="text-sm font-extrabold text-emerald-400 tabular-nums">
+          <div className="text-cuerpo font-extrabold text-emerald-400 tabular-nums">
             {bounceUsd != null ? `+$${bounceUsd.toFixed(2)}` : '—'}
           </div>
           {bouncePct != null && (
@@ -174,7 +174,7 @@ function BounceCard({ s, isConviction }: { s: BounceSetup; isConviction: boolean
         </div>
         <div className="bg-red-500/8 border border-red-500/20 rounded-xl p-2.5 text-center">
           <div className="text-micro font-bold uppercase tracking-wider text-red-400 mb-1">Stop</div>
-          <div className="text-sm font-extrabold text-red-400 tabular-nums">${s.stop_loss.toFixed(2)}</div>
+          <div className="text-cuerpo font-extrabold text-red-400 tabular-nums">${s.stop_loss.toFixed(2)}</div>
           <div className="text-micro text-red-400">{stopPct.toFixed(1)}%</div>
         </div>
       </div>
@@ -303,10 +303,10 @@ function SectionHeader({ icon, title, subtitle, count, accent }: {
     <div className={`flex items-center gap-3 px-4 py-3 rounded-xl border mb-4 ${accent}`}>
       <div className="shrink-0">{icon}</div>
       <div className="min-w-0 flex-1">
-        <div className="font-extrabold text-sm leading-tight">{title}</div>
+        <div className="font-extrabold text-cuerpo leading-tight">{title}</div>
         <div className="text-micro opacity-70 mt-0.5">{subtitle}</div>
       </div>
-      <div className="text-2xl font-black tabular-nums shrink-0">{count}</div>
+      <div className="text-pagina font-black tabular-nums shrink-0">{count}</div>
     </div>
   )
 }
@@ -489,8 +489,8 @@ export default function BounceTrader() {
       {filtered.length === 0 ? (
         <div className="text-center py-16 text-muted-foreground">
           <Target size={32} strokeWidth={1.5} className="mx-auto mb-3 opacity-20" />
-          <div className="text-sm font-medium">No hay setups de alta fiabilidad hoy</div>
-          <div className="text-xs mt-1 opacity-60">
+          <div className="text-cuerpo font-medium">No hay setups de alta fiabilidad hoy</div>
+          <div className="text-mini mt-1 opacity-60">
             {rawBounceCount > 0
               ? `${rawBounceCount} tickers oversold pero ninguno pasa los filtros de calidad`
               : 'El mercado no ha generado oportunidades oversold válidas'

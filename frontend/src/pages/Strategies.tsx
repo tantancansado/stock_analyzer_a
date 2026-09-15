@@ -45,7 +45,7 @@ function StrategyCard({ s }: { s: PortfolioStrategy }) {
               <div className="flex items-center gap-2 flex-wrap">
                 <Link
                   to={`/search?q=${s.ticker}`}
-                  className="font-mono font-extrabold text-lg text-primary hover:underline"
+                  className="font-mono font-extrabold text-seccion text-primary hover:underline"
                 >
                   {s.ticker}
                 </Link>
@@ -66,7 +66,7 @@ function StrategyCard({ s }: { s: PortfolioStrategy }) {
             </div>
           </div>
           <div className="text-right shrink-0">
-            <div className={`text-base font-bold tabular-nums ${plClass}`}>
+            <div className={`text-titulo font-bold tabular-nums ${plClass}`}>
               {(s.pl_pct ?? 0) >= 0 ? '+' : ''}{(s.pl_pct ?? 0).toFixed(1)}%
             </div>
             <div className="text-micro uppercase tracking-wider text-muted-foreground mt-0.5">P&L abierto</div>
@@ -76,7 +76,7 @@ function StrategyCard({ s }: { s: PortfolioStrategy }) {
         {/* Action reason */}
         {s.action_reason && (
           <div className="mb-4 rounded-lg border border-border/30 bg-muted/10 px-3 py-2.5">
-            <p className="text-sm leading-relaxed text-foreground">{s.action_reason}</p>
+            <p className="text-cuerpo leading-relaxed text-foreground">{s.action_reason}</p>
           </div>
         )}
 
@@ -87,7 +87,7 @@ function StrategyCard({ s }: { s: PortfolioStrategy }) {
               <div className="flex items-center gap-1.5 text-micro font-bold uppercase tracking-wider text-amber-400 mb-1">
                 <TrendingDown size={12} /> Vender {s.trim_pct.toFixed(0)}%
               </div>
-              <div className="text-base font-bold tabular-nums text-amber-300">${s.trim_at_price.toFixed(2)}</div>
+              <div className="text-titulo font-bold tabular-nums text-amber-300">${s.trim_at_price.toFixed(2)}</div>
               {distToTrim !== null && (
                 <div className="text-micro text-muted-foreground mt-0.5">
                   {distToTrim >= 0 ? '+' : ''}{distToTrim.toFixed(1)}% desde aquí
@@ -108,7 +108,7 @@ function StrategyCard({ s }: { s: PortfolioStrategy }) {
               <div className="flex items-center gap-1.5 text-micro font-bold uppercase tracking-wider text-emerald-400 mb-1">
                 <TrendingUp size={12} /> Comprar +{s.add_pct.toFixed(0)}%
               </div>
-              <div className="text-base font-bold tabular-nums text-emerald-300">${s.add_at_price.toFixed(2)}</div>
+              <div className="text-titulo font-bold tabular-nums text-emerald-300">${s.add_at_price.toFixed(2)}</div>
               {distToAdd !== null && (
                 <div className="text-micro text-muted-foreground mt-0.5">
                   -{Math.abs(distToAdd).toFixed(1)}% desde aquí
@@ -128,7 +128,7 @@ function StrategyCard({ s }: { s: PortfolioStrategy }) {
             <div className="flex items-center gap-1.5 text-micro font-bold uppercase tracking-wider text-red-400 mb-1">
               <Shield size={12} /> Stop loss
             </div>
-            <div className="text-base font-bold tabular-nums text-red-300">${s.stop_loss_price.toFixed(2)}</div>
+            <div className="text-titulo font-bold tabular-nums text-red-300">${s.stop_loss_price.toFixed(2)}</div>
             <div className="text-micro text-muted-foreground mt-0.5">
               {distToStop.toFixed(1)}% desde aquí
             </div>

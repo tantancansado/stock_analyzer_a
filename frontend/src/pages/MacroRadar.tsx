@@ -219,9 +219,9 @@ function SignalCard({ id, signal, stagger }: { id: string; signal: SignalData; s
         <div className="flex items-start justify-between gap-2 mb-2">
           <div className="flex items-center gap-2">
             <Icono size={20} strokeWidth={1.75} className="shrink-0 text-muted-foreground" />
-            <span className="text-xs font-semibold text-foreground leading-tight">{signal.label}</span>
+            <span className="text-mini font-semibold text-foreground leading-tight">{signal.label}</span>
           </div>
-          <div className={`text-xs font-bold px-1.5 py-0.5 rounded ${scoreToColor(score)}`}>
+          <div className={`text-mini font-bold px-1.5 py-0.5 rounded ${scoreToColor(score)}`}>
             {score >= 0 ? '+' : ''}{score.toFixed(1)}
           </div>
         </div>
@@ -280,7 +280,7 @@ const REGIME_COLORS: Record<string, string> = {
 function HistoryChart({ points, maxScore }: { points: HistoryPoint[]; maxScore: number }) {
   if (points.length < 2) {
     return (
-      <div className="flex items-center justify-center h-24 text-xs text-muted-foreground">
+      <div className="flex items-center justify-center h-24 text-mini text-muted-foreground">
         Historial en construcción — disponible tras varios días de pipeline
       </div>
     )
@@ -429,7 +429,7 @@ function IndexBreakoutsPanel({
         {/* Header */}
         <div className="flex items-center gap-2 mb-3 flex-wrap">
           <Radar size={16} strokeWidth={2} className="text-muted-foreground shrink-0" />
-          <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+          <p className="text-mini font-semibold text-muted-foreground uppercase tracking-wider">
             Análisis de Índices
           </p>
           {bearish.length > 0 && (
@@ -480,11 +480,11 @@ function IndexBreakoutsPanel({
                   {/* Row 1: identity + key metrics */}
                   <div className="flex items-center gap-2 flex-wrap mb-2">
                     <span>{INDEX_FLAGS[ticker] ?? ''}</span>
-                    <span className="font-mono font-black text-sm text-foreground">{ticker}</span>
+                    <span className="font-mono font-black text-cuerpo text-foreground">{ticker}</span>
                     <span className="text-micro text-muted-foreground">{s.name}</span>
-                    <span className="font-bold tabular-nums text-sm">${s.price.toFixed(2)}</span>
+                    <span className="font-bold tabular-nums text-cuerpo">${s.price.toFixed(2)}</span>
                     {s.ytd_pct != null && (
-                      <span className={`text-xs font-bold tabular-nums ${ytdColor}`}>
+                      <span className={`text-mini font-bold tabular-nums ${ytdColor}`}>
                         YTD {s.ytd_pct > 0 ? '+' : ''}{s.ytd_pct.toFixed(1)}%
                       </span>
                     )}
@@ -608,12 +608,12 @@ function IndexBreakoutsPanel({
                         <div className="flex items-center justify-between mb-2">
                           <div className="flex items-center gap-2">
                             <span>{INDEX_FLAGS[b.index] ?? ''}</span>
-                            <span className="font-mono font-black text-sm text-foreground">{b.index}</span>
+                            <span className="font-mono font-black text-cuerpo text-foreground">{b.index}</span>
                             <span className={`text-micro font-bold px-1.5 py-0.5 rounded border ${isBearish ? 'bg-red-500/15 text-red-400 border-red-500/20' : 'bg-emerald-500/15 text-emerald-400 border-emerald-500/20'}`}>
                               {b.ma_label}
                             </span>
                           </div>
-                          <span className={`text-lg ${isBearish ? 'text-red-400' : 'text-emerald-400'}`}>{isBearish ? '↓' : '↑'}</span>
+                          <span className={`text-seccion ${isBearish ? 'text-red-400' : 'text-emerald-400'}`}>{isBearish ? '↓' : '↑'}</span>
                         </div>
                         <div className="text-micro text-foreground/80 font-semibold mb-1">
                           {b.index_name.split('(')[0].trim()}
@@ -737,7 +737,7 @@ function IndexBreakoutsPanel({
                     >
                       <div className="flex items-center gap-2 mb-1">
                         <IconoEvento size={16} strokeWidth={2} className={isBullish ? 'text-emerald-400 shrink-0' : 'text-red-400 shrink-0'} />
-                        <span className="font-mono font-bold text-sm">{INDEX_FLAGS[ev.index] ?? ''} {ev.index}</span>
+                        <span className="font-mono font-bold text-cuerpo">{INDEX_FLAGS[ev.index] ?? ''} {ev.index}</span>
                         <span className={`text-micro font-bold px-1.5 py-0.5 rounded border ${isBullish ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/25' : 'bg-red-500/15 text-red-400 border-red-500/25'}`}>
                           {ev.label}
                         </span>
@@ -745,7 +745,7 @@ function IndexBreakoutsPanel({
                           <span className="ml-auto text-micro text-muted-foreground">hace {ev.days_since}d</span>
                         )}
                       </div>
-                      <p className="text-xs text-foreground/75">{ev.detail}</p>
+                      <p className="text-mini text-foreground/75">{ev.detail}</p>
                     </div>
                   )
                 })}
@@ -772,7 +772,7 @@ function SystemicRisksPanel({ risks }: { risks: SystemicRisk[] }) {
       <CardContent className="p-4">
         <div className="flex items-center gap-2 mb-4">
           <TriangleAlert size={16} strokeWidth={2} className="text-muted-foreground shrink-0" />
-          <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+          <p className="text-mini font-semibold text-muted-foreground uppercase tracking-wider">
             Riesgos Sistémicos Activos
           </p>
           {hasRealRisks && (
@@ -789,13 +789,13 @@ function SystemicRisksPanel({ risks }: { risks: SystemicRisk[] }) {
                 <div className="flex items-start justify-between gap-2 mb-1.5">
                   <div className="flex items-center gap-1.5">
                     <cfg.icon size={16} strokeWidth={2} className={`shrink-0 ${cfg.text}`} />
-                    <span className={`text-sm font-bold ${cfg.text}`}>{risk.name}</span>
+                    <span className={`text-cuerpo font-bold ${cfg.text}`}>{risk.name}</span>
                   </div>
                   <span className={`text-micro font-bold px-1.5 py-0.5 rounded border ${cfg.bg} ${cfg.text} shrink-0`}>
                     {cfg.label}
                   </span>
                 </div>
-                <p className="text-xs text-muted-foreground leading-snug mb-2">{risk.description}</p>
+                <p className="text-mini text-muted-foreground leading-snug mb-2">{risk.description}</p>
                 <div className="flex items-start gap-1.5">
                   <span className="text-micro text-muted-foreground shrink-0 mt-px">→</span>
                   <p className="text-mini text-foreground/70 leading-snug italic">{risk.implication}</p>
@@ -812,7 +812,7 @@ function SystemicRisksPanel({ risks }: { risks: SystemicRisk[] }) {
 function ReturnBadge({ value }: { value: number }) {
   const color = value > 0 ? 'text-emerald-400' : value < 0 ? 'text-red-400' : 'text-muted-foreground'
   return (
-    <span className={`text-xs font-bold ${color}`}>
+    <span className={`text-mini font-bold ${color}`}>
       {value > 0 ? '+' : ''}{value}%
     </span>
   )
@@ -824,7 +824,7 @@ function HistoricalAnalogsPanel({ analogs }: { analogs: HistoricalAnalog[] }) {
       <CardContent className="p-4">
         <div className="flex items-center gap-2 mb-1">
           <History size={16} strokeWidth={2} className="text-muted-foreground shrink-0" />
-          <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+          <p className="text-mini font-semibold text-muted-foreground uppercase tracking-wider">
             Analogías Históricas
           </p>
         </div>
@@ -844,14 +844,14 @@ function HistoricalAnalogsPanel({ analogs }: { analogs: HistoricalAnalog[] }) {
                   <div>
                     <div className="flex items-center gap-2">
                       <span className="text-micro text-muted-foreground font-bold">#{idx + 1}</span>
-                      <span className="text-sm font-bold text-foreground">{analog.name}</span>
+                      <span className="text-cuerpo font-bold text-foreground">{analog.name}</span>
                       <span className="text-micro text-muted-foreground">{analog.date}</span>
                     </div>
                   </div>
                   {/* Similarity meter */}
                   <div className="text-right shrink-0">
                     <div
-                      className="text-xs font-bold"
+                      className="text-mini font-bold"
                       style={{ color: analog.similarity > 75 ? '#f97316' : analog.similarity > 60 ? '#f59e0b' : '#94a3b8' }}
                     >
                       {analog.similarity.toFixed(0)}%
@@ -935,12 +935,12 @@ export default function MacroRadar() {
       <PageHeader {...cabecera}>
         <div className="text-right flex flex-col items-end gap-2">
           <span
-            className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-sm font-bold ${regimeBadgeVariant(regime.name)}`}
+            className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-cuerpo font-bold ${regimeBadgeVariant(regime.name)}`}
           >
             <span className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: regime.color }} />
             {regime.name}
           </span>
-          <span className="text-xs text-muted-foreground">{date}</span>
+          <span className="text-mini text-muted-foreground">{date}</span>
         </div>
       </PageHeader>
 
@@ -951,25 +951,25 @@ export default function MacroRadar() {
           <div className="flex-1 space-y-3">
             <div className="flex items-center gap-3 flex-wrap">
               <div className="w-3 h-3 rounded-full shrink-0" style={{ backgroundColor: regime.color }} />
-              <span className="text-3xl font-black text-foreground">{regime.name}</span>
+              <span className="text-cifra font-black text-foreground">{regime.name}</span>
               <span
-                className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full border text-xs font-bold ${regimeBadgeVariant(regime.name)}`}
+                className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full border text-mini font-bold ${regimeBadgeVariant(regime.name)}`}
               >
                 <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ backgroundColor: regime.color }} />
                 {regime.name}
               </span>
             </div>
-            <p className="text-sm text-muted-foreground">{regime.description}</p>
+            <p className="text-cuerpo text-muted-foreground">{regime.description}</p>
             {ai_narrative && (
               <div className="mt-3 p-3 rounded-lg bg-muted/20 border border-border/30">
-                <p className="text-xs font-semibold text-primary mb-1">Análisis IA</p>
-                <p className="text-sm text-foreground/90 leading-relaxed">{ai_narrative}</p>
+                <p className="text-mini font-semibold text-primary mb-1">Análisis IA</p>
+                <p className="text-cuerpo text-foreground/90 leading-relaxed">{ai_narrative}</p>
               </div>
             )}
           </div>
           {/* Right: score gauge + counts */}
           <div className="md:w-64 flex flex-col justify-center gap-2">
-            <p className="text-xs text-muted-foreground font-medium">Puntuación compuesta</p>
+            <p className="text-mini text-muted-foreground font-medium">Puntuación compuesta</p>
             <ScoreGauge score={composite_score} max={max_score} />
             <div className="grid grid-cols-3 gap-1 mt-1">
               {[
@@ -978,7 +978,7 @@ export default function MacroRadar() {
                 { label: 'Negativas', count: orderedSignals.filter(k => signals[k]?.score < 0).length, color: 'text-red-400' },
               ].map(s => (
                 <div key={s.label} className="text-center">
-                  <div className={`text-lg font-bold ${s.color}`}>{s.count}</div>
+                  <div className={`text-seccion font-bold ${s.color}`}>{s.count}</div>
                   <div className="text-micro text-muted-foreground">{s.label}</div>
                 </div>
               ))}
@@ -1004,7 +1004,7 @@ export default function MacroRadar() {
         return (
           <div>
             <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-3 px-1">Visión animada</div>
-            <Suspense fallback={<div className="glass border border-border/40 rounded-xl h-20 flex items-center justify-center text-sm text-muted-foreground">Cargando…</div>}>
+            <Suspense fallback={<div className="glass border border-border/40 rounded-xl h-20 flex items-center justify-center text-cuerpo text-muted-foreground">Cargando…</div>}>
               <RegimeSweepPlayer data={sweepData} />
             </Suspense>
           </div>
@@ -1014,7 +1014,7 @@ export default function MacroRadar() {
       {/* History chart */}
       <Card className="glass border border-border/40">
         <CardContent className="p-4">
-          <p className="text-xs font-semibold text-muted-foreground mb-3 uppercase tracking-wider">
+          <p className="text-mini font-semibold text-muted-foreground mb-3 uppercase tracking-wider">
             Evolución del régimen (últimos {historyData?.history?.length ?? 0} días)
           </p>
           <HistoryChart
@@ -1047,7 +1047,7 @@ export default function MacroRadar() {
       {econData && econData.events.length > 0 && (
         <Card className="glass border border-border/40">
           <CardContent className="p-4">
-            <p className="text-xs font-semibold text-muted-foreground mb-3 uppercase tracking-wider">
+            <p className="text-mini font-semibold text-muted-foreground mb-3 uppercase tracking-wider">
               Próximos eventos macroeconómicos
             </p>
             <div className="overflow-x-auto -mx-1 pb-1">
@@ -1066,7 +1066,7 @@ export default function MacroRadar() {
                   return (
                     <div
                       key={ev.date + ev.event}
-                      className={`shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-xs whitespace-nowrap ${cfg.bg} ${cfg.color}`}
+                      className={`shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-mini whitespace-nowrap ${cfg.bg} ${cfg.color}`}
                     >
                       <span className="font-bold">{cfg.label}</span>
                       <span className="text-foreground/70">{ev.event}</span>
@@ -1085,7 +1085,7 @@ export default function MacroRadar() {
       {/* Signal grid */}
       <div className="space-y-4">
         <div>
-          <h2 className="text-sm font-semibold text-muted-foreground mb-3 uppercase tracking-wider">
+          <h2 className="text-cuerpo font-semibold text-muted-foreground mb-3 uppercase tracking-wider">
             Señales clásicas
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
@@ -1095,10 +1095,10 @@ export default function MacroRadar() {
           </div>
         </div>
         <div>
-          <h2 className="text-sm font-semibold text-muted-foreground mb-1 uppercase tracking-wider">
+          <h2 className="text-cuerpo font-semibold text-muted-foreground mb-1 uppercase tracking-wider">
             Smart Money — señales que el retail ignora
           </h2>
-          <p className="text-xs text-muted-foreground mb-3">
+          <p className="text-mini text-muted-foreground mb-3">
             SKEW, VVIX, bancos regionales, small caps y yields reales — indicadores de posicionamiento institucional
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
@@ -1111,7 +1111,7 @@ export default function MacroRadar() {
 
       {/* Data errors */}
       {errors && errors.length > 0 && (
-        <div className="text-xs text-muted-foreground text-right">
+        <div className="text-mini text-muted-foreground text-right">
           Señales sin datos: {errors.join(', ')}
         </div>
       )}
@@ -1119,7 +1119,7 @@ export default function MacroRadar() {
       {/* Legend */}
       <Card className="glass border border-border/30">
         <CardContent className="p-4">
-          <p className="text-xs font-semibold text-muted-foreground mb-2 uppercase tracking-wider">Guía de regímenes</p>
+          <p className="text-mini font-semibold text-muted-foreground mb-2 uppercase tracking-wider">Guía de regímenes</p>
           <div className="flex flex-wrap gap-3">
             {[
               { name: 'CALM',   color: '#10b981', desc: 'Favorable' },
@@ -1130,8 +1130,8 @@ export default function MacroRadar() {
             ].map(r => (
               <div key={r.name} className="flex items-center gap-1.5">
                 <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: r.color }} />
-                <span className="text-xs font-bold" style={{ color: r.color }}>{r.name}</span>
-                <span className="text-xs text-muted-foreground">— {r.desc}</span>
+                <span className="text-mini font-bold" style={{ color: r.color }}>{r.name}</span>
+                <span className="text-mini text-muted-foreground">— {r.desc}</span>
               </div>
             ))}
           </div>

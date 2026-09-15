@@ -144,9 +144,9 @@ function CountryCard({ c }: { c: CountryData }) {
       <div className="p-4">
         <div className="flex items-start justify-between gap-2 mb-3">
           <div className="flex items-center gap-2">
-            <span className="text-2xl">{c.flag}</span>
+            <span className="text-pagina">{c.flag}</span>
             <div>
-              <div className="font-semibold text-sm text-foreground leading-tight">{c.name}</div>
+              <div className="font-semibold text-cuerpo text-foreground leading-tight">{c.name}</div>
               <div className="text-micro text-muted-foreground">{c.region}</div>
             </div>
           </div>
@@ -176,17 +176,17 @@ function CountryCard({ c }: { c: CountryData }) {
         <div className="grid grid-cols-3 gap-1.5 text-center">
           <div className="bg-foreground/5 rounded px-1 py-1.5">
             <div className="text-micro text-muted-foreground mb-0.5">PIB</div>
-            <div className={`text-xs font-bold ${pctColor(c.gdp_growth)}`}>{c.gdp_growth > 0 ? '+' : ''}{c.gdp_growth.toFixed(1)}%</div>
+            <div className={`text-mini font-bold ${pctColor(c.gdp_growth)}`}>{c.gdp_growth > 0 ? '+' : ''}{c.gdp_growth.toFixed(1)}%</div>
           </div>
           <div className="bg-foreground/5 rounded px-1 py-1.5">
             <div className="text-micro text-muted-foreground mb-0.5">IPC</div>
-            <div className={`text-xs font-bold ${c.inflation >= 1.5 && c.inflation <= 3 ? 'text-emerald-400' : c.inflation > 5 ? 'text-red-400' : 'text-amber-400'}`}>
+            <div className={`text-mini font-bold ${c.inflation >= 1.5 && c.inflation <= 3 ? 'text-emerald-400' : c.inflation > 5 ? 'text-red-400' : 'text-amber-400'}`}>
               {c.inflation.toFixed(1)}%
             </div>
           </div>
           <div className="bg-foreground/5 rounded px-1 py-1.5">
             <div className="text-micro text-muted-foreground mb-0.5">vs 200MA</div>
-            <div className={`text-xs font-bold ${mkt ? pctColor(mkt.pct_from_200) : 'text-muted-foreground'}`}>
+            <div className={`text-mini font-bold ${mkt ? pctColor(mkt.pct_from_200) : 'text-muted-foreground'}`}>
               {mkt ? `${mkt.pct_from_200 > 0 ? '+' : ''}${mkt.pct_from_200.toFixed(1)}%` : 'N/A'}
             </div>
           </div>
@@ -214,7 +214,7 @@ function CountryCard({ c }: { c: CountryData }) {
 
       {/* Expanded detail */}
       {expanded && (
-        <div className="border-t border-foreground/10 p-4 space-y-4 text-xs" onClick={e => e.stopPropagation()}>
+        <div className="border-t border-foreground/10 p-4 space-y-4 text-mini" onClick={e => e.stopPropagation()}>
 
           {/* Macro fundamentals */}
           <div>
@@ -430,7 +430,7 @@ export default function MacroCountries() {
           const codes = s[key] as string[]
           if (!codes.length) return null
           return (
-            <div key={key} className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border text-xs font-semibold ${cls}`}>
+            <div key={key} className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border text-mini font-semibold ${cls}`}>
               <Icono size={12} strokeWidth={2.5} className="shrink-0" />
               <span>{label}</span>
               <span className="font-normal opacity-70">
@@ -449,7 +449,7 @@ export default function MacroCountries() {
             <button
               key={r}
               onClick={() => setRegion(r)}
-              className={`px-3 py-1 rounded-md text-xs transition-colors ${region === r ? 'bg-foreground/15 text-foreground font-semibold' : 'text-muted-foreground hover:text-foreground'}`}
+              className={`px-3 py-1 rounded-md text-mini transition-colors ${region === r ? 'bg-foreground/15 text-foreground font-semibold' : 'text-muted-foreground hover:text-foreground'}`}
             >
               {r}
             </button>
@@ -471,7 +471,7 @@ export default function MacroCountries() {
             <button
               key={k}
               onClick={() => setSortBy(k)}
-              className={`px-3 py-1 rounded-md text-xs transition-colors ${sortBy === k ? 'bg-foreground/15 text-foreground font-semibold' : 'text-muted-foreground hover:text-foreground'}`}
+              className={`px-3 py-1 rounded-md text-mini transition-colors ${sortBy === k ? 'bg-foreground/15 text-foreground font-semibold' : 'text-muted-foreground hover:text-foreground'}`}
             >
               {l}
             </button>

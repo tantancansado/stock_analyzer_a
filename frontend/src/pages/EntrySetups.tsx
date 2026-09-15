@@ -57,7 +57,7 @@ function EntrySetupsFreshness() {
         {noneRan
           ? <AlertCircle size={16} className="text-red-400 shrink-0" />
           : <AlertTriangle size={16} className="text-amber-400 shrink-0" />}
-        <span className={`min-w-0 flex-1 text-xs font-bold ${noneRan ? 'text-red-400' : 'text-amber-400'}`}>
+        <span className={`min-w-0 flex-1 text-mini font-bold ${noneRan ? 'text-red-400' : 'text-amber-400'}`}>
           {noneRan
             ? 'Pipeline no ejecutado hoy — datos desactualizados'
             : `${nStale} de ${statuses.length} módulos sin actualizar hoy`}

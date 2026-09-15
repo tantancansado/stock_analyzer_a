@@ -88,9 +88,9 @@ function SectionHeader({ id, icon: Icon, title, subtitle }: { id: string; icon: 
     <header id={id} className="group scroll-mt-20 mb-4">
       <div className="flex items-center gap-2.5">
         <Icon size={16} className="text-primary transition-transform duration-300 group-hover:scale-110" />
-        <h2 className="text-xl font-extrabold tracking-tight">{title}</h2>
+        <h2 className="text-seccion font-extrabold tracking-tight">{title}</h2>
       </div>
-      {subtitle && <p className="text-sm text-muted-foreground mt-1">{subtitle}</p>}
+      {subtitle && <p className="text-cuerpo text-muted-foreground mt-1">{subtitle}</p>}
     </header>
   )
 }
@@ -207,7 +207,7 @@ export default function Manual() {
             document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
             setJumpTo('')
           }}
-          className="w-full px-3 py-2.5 text-sm rounded-md bg-muted/20 border border-border/40 focus:border-primary/60 focus:outline-none transition-colors"
+          className="w-full px-3 py-2.5 text-cuerpo rounded-md bg-muted/20 border border-border/40 focus:border-primary/60 focus:outline-none transition-colors"
         >
           <option value="" disabled>Saltar a una sección…</option>
           {(['intro', 'pages', 'agents', 'concepts'] as const).map(g => (
@@ -284,7 +284,7 @@ export default function Manual() {
               <li><b>Agentes especializados</b> que cruzan esos datos (ver <a href="#agentes-overview" className="text-primary hover:underline">Agentes</a>) y generan oportunidades filtradas por IA.</li>
               <li><b>Una interfaz en tiempo real</b> (esta app) donde ves rankings, tu cartera, alertas, backtests y análisis individual por ticker.</li>
             </ul>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-cuerpo text-muted-foreground">
               Si es tu primera vez, empieza por <a href="#flujo-diario" className="text-primary hover:underline">Flujo diario sugerido</a>.
             </p>
           </Card>
@@ -303,7 +303,7 @@ export default function Manual() {
               <li><b>Dato faltante ≠ dato bueno.</b> Cuando un score por defecto es 50 (información no disponible), el sistema <u>no puntúa</u> — prefiere no recomendar a inventarse números.</li>
               <li><b>Se vende a precio objetivo, nunca a un % fijo de ganancia ni a un nivel técnico.</b> El objetivo se calcula (múltiplo × BPA limpio, DCF, consenso), y una empresa excepcional aguanta hasta el objetivo completo mientras una mediocre no.</li>
             </ul>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-cuerpo text-muted-foreground">
               Esto explica por qué a veces el Dashboard muestra "0 oportunidades momentum" durante correcciones. Es correcto — preferimos cero señales antes que señales falsas.
             </p>
           </Card>
@@ -320,14 +320,14 @@ export default function Manual() {
             </div>
 
             <p className="font-semibold mb-2">Banners de frescura de datos</p>
-            <ul className="list-disc pl-5 space-y-1.5 mb-4 text-sm">
+            <ul className="list-disc pl-5 space-y-1.5 mb-4 text-cuerpo">
               <li><Pill tone="green">Datos en vivo</Pill> el módulo se actualizó hoy.</li>
               <li><Pill tone="amber">Módulo no actualizado hoy</Pill> el pipeline corrió pero este módulo concreto no generó datos.</li>
               <li><Pill tone="red">Pipeline no ejecutado en X días</Pill> fallo sistémico — clic en "Lanzar pipeline" para disparar manualmente.</li>
             </ul>
 
             <p className="font-semibold mb-2">Scores clave</p>
-            <ul className="list-disc pl-5 space-y-1.5 text-sm">
+            <ul className="list-disc pl-5 space-y-1.5 text-cuerpo">
               <li><b>value_score (0–100):</b> combinado de fundamentales + insiders + opciones + sector + mean reversion. Ver <a href="#agente-super-score" className="text-primary hover:underline">Super Score Integrator</a>.</li>
               <li><b>Grade A/B/C/D:</b> conviction grade. A = alta convicción (≥3 positivos, ≤1 red flag). D = evitar.</li>
               <li>
@@ -346,11 +346,11 @@ export default function Manual() {
             <ol className="list-decimal pl-5 space-y-3">
               <li>
                 <b>Dashboard</b> → estado del mercado, top 5 VALUE y alertas urgentes del día.
-                <div className="text-xs text-muted-foreground mt-0.5">Si ves banner rojo "Pipeline no ejecutado", lánzalo antes de seguir.</div>
+                <div className="text-mini text-muted-foreground mt-0.5">Si ves banner rojo "Pipeline no ejecutado", lánzalo antes de seguir.</div>
               </li>
               <li>
                 <b>Cerebro</b> → el agente de IA te resume qué hacer hoy (entradas sugeridas, exits, alertas).
-                <div className="text-xs text-muted-foreground mt-0.5">Es tu "briefing matinal" — si solo tienes 2 minutos, mira esto.</div>
+                <div className="text-mini text-muted-foreground mt-0.5">Es tu "briefing matinal" — si solo tienes 2 minutos, mira esto.</div>
               </li>
               <li>
                 <b>Mi cartera</b> → ¿alguna posición con señal de salida o earnings mañana?
@@ -369,7 +369,7 @@ export default function Manual() {
 
           {/* ──────────────── Pages ──────────────── */}
 
-          <h2 className="text-lg font-bold uppercase tracking-widest text-muted-foreground mt-10 mb-4 pb-1 border-b border-border/30">
+          <h2 className="text-seccion font-bold uppercase tracking-widest text-muted-foreground mt-10 mb-4 pb-1 border-b border-border/30">
             Secciones de la app
           </h2>
 
@@ -377,7 +377,7 @@ export default function Manual() {
             subtitle="Tu página de inicio — una foto del estado del mercado y tus mejores oportunidades." />
           <Card>
             <p className="font-semibold mb-1">Qué verás</p>
-            <ul className="list-disc pl-5 space-y-1.5 text-sm mb-3">
+            <ul className="list-disc pl-5 space-y-1.5 text-cuerpo mb-3">
               <li><b>Régimen de mercado:</b> BULL / CORRECTION / BEAR según breadth e índices. Afecta cuántas señales momentum se muestran.</li>
               <li><b>Top 5 VALUE US + EU:</b> las mejores ideas filtradas por IA. Clic para ver tesis.</li>
               <li><b>Portfolio win rate:</b> % de acierto de las recomendaciones pasadas (7d/14d/30d).</li>
@@ -394,7 +394,7 @@ export default function Manual() {
               Cruza convergencias (ej. un ticker con insider buying + options alcistas + rebote técnico a la vez) y destaca lo importante.
             </p>
             <p className="font-semibold mb-1">Secciones del briefing</p>
-            <ul className="list-disc pl-5 space-y-1.5 text-sm mb-3">
+            <ul className="list-disc pl-5 space-y-1.5 text-cuerpo mb-3">
               <li><b>Entradas sugeridas:</b> tickers con convergencia VALUE + técnico óptimo hoy.</li>
               <li><b>Smart money:</b> dónde están comprando insiders + instituciones.</li>
               <li><b>Exit warnings:</b> tus posiciones con señal de venta.</li>
@@ -411,14 +411,14 @@ export default function Manual() {
             <p className="mb-3">
               Usa las pestañas para cambiar entre <b>US</b>, <b>Europa</b> o <b>Global</b>. La tabla se puede filtrar por:
             </p>
-            <ul className="list-disc pl-5 space-y-1.5 text-sm mb-3">
+            <ul className="list-disc pl-5 space-y-1.5 text-cuerpo mb-3">
               <li><b>Grade:</b> A (mejor), B, C, D (evitar).</li>
               <li><b>Sector:</b> útil para diversificar.</li>
               <li><b>FCF%</b> mínimo.</li>
               <li><b>R:R</b> mínimo.</li>
               <li><b>Ocultar earnings en &lt; 7 días:</b> evita entradas arriesgadas cerca de resultados.</li>
             </ul>
-            <p className="text-sm mb-3">
+            <p className="text-cuerpo mb-3">
               <b>Expandir una fila</b> muestra la <i>conviction panel</i>: positivos (ej. "ROE 22%, FCF 8%, insider buying"), red flags (ej. "analyst revisions cayendo") y la tesis generada por IA.
             </p>
             <div className="mt-3"><OpenLink to="/value" /></div>
@@ -431,7 +431,7 @@ export default function Manual() {
               Te muestra <b>ciclos de deuda</b> (Dalio), <b>inflación</b>, <b>soberanía monetaria</b> y <b>bancos centrales</b> por país.
               Útil para decidir rotaciones sectoriales y evitar países con riesgo sistémico.
             </p>
-            <ul className="list-disc pl-5 space-y-1.5 text-sm mb-3">
+            <ul className="list-disc pl-5 space-y-1.5 text-cuerpo mb-3">
               <li><b>Tab "Radar":</b> visión global — expansión vs recesión.</li>
               <li><b>Tab "Países":</b> ficha detallada por país (PIB, inflación, política monetaria).</li>
             </ul>
@@ -444,7 +444,7 @@ export default function Manual() {
             <p className="mb-3">
               Los directivos compran por una sola razón: creen que la acción subirá. Vender tiene 100 razones (diversificar, impuestos, divorcio). Por eso <b>solo miramos compras</b>.
             </p>
-            <ul className="list-disc pl-5 space-y-1.5 text-sm mb-3">
+            <ul className="list-disc pl-5 space-y-1.5 text-cuerpo mb-3">
               <li><b>Confidence score:</b> normaliza importe, número de insiders, recencia y calidad (CEO &gt; director).</li>
               <li><b>Filtros US / EU / All</b> arriba a la derecha.</li>
               <li><b>Cluster buys:</b> cuando varios insiders compran en pocos días — señal mucho más fuerte que uno solo.</li>
@@ -458,11 +458,11 @@ export default function Manual() {
             <p className="mb-3">
               Esta sección es <b>más técnica y más arriesgada</b> que Value, y de horizonte mucho más corto: 1–3 días, no semanas. Dos tipos de señal:
             </p>
-            <ul className="list-disc pl-5 space-y-1.5 text-sm mb-3">
+            <ul className="list-disc pl-5 space-y-1.5 text-cuerpo mb-3">
               <li><b>Rebote con convicción:</b> caída técnica en empresa fundamentalmente sólida — tamaño normal, puede convertirse en posición.</li>
               <li><b>Rebote técnico puro:</b> solo señales técnicas, sin respaldo fundamental — tamaño pequeño, objetivo +5–7%, stop ajustado.</li>
             </ul>
-            <p className="text-sm text-muted-foreground mb-3">
+            <p className="text-cuerpo text-muted-foreground mb-3">
               Úsala solo si ya dominas stops y tamaño de posición. No es el core del sistema.
             </p>
             <OpenLink to="/bounce" />
@@ -474,7 +474,7 @@ export default function Manual() {
             <p className="mb-3">
               Dos pestañas:
             </p>
-            <ul className="list-disc pl-5 space-y-1.5 text-sm mb-3">
+            <ul className="list-disc pl-5 space-y-1.5 text-cuerpo mb-3">
               <li><b>Mis posiciones:</b> carga tu cartera manual (persiste local). El sistema la cruza con Cerebro para avisarte de exits.</li>
               <li><b>Historial de señales:</b> todas las recomendaciones pasadas con performance 7d/14d/30d. Útil para validar el sistema.</li>
             </ul>
@@ -487,12 +487,12 @@ export default function Manual() {
             <p className="mb-3">
               Calcula <b>Owner Earnings</b> (FCF ajustado a capex de mantenimiento) y compara con el precio actual. Da tres precios objetivo:
             </p>
-            <ul className="list-disc pl-5 space-y-1.5 text-sm mb-3">
+            <ul className="list-disc pl-5 space-y-1.5 text-cuerpo mb-3">
               <li><b>DCF conservador</b> (crecimiento perpetuo bajo).</li>
               <li><b>Múltiplo P/E histórico</b>.</li>
               <li><b>Target analistas</b> (mediana).</li>
             </ul>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-cuerpo text-muted-foreground">
               Usa esta herramienta cuando ya tengas un ticker candidato y quieras confirmar margen de seguridad.
             </p>
             <div className="mt-3"><OpenLink to="/owner-earnings" /></div>
@@ -502,7 +502,7 @@ export default function Manual() {
             subtitle="Ficha completa individual — el lugar para investigar cualquier empresa a fondo." />
           <Card>
             <p className="mb-3">Busca por ticker o nombre. La ficha muestra:</p>
-            <ul className="list-disc pl-5 space-y-1.5 text-sm mb-3">
+            <ul className="list-disc pl-5 space-y-1.5 text-cuerpo mb-3">
               <li><b>Resumen:</b> precio, market cap, sector, descripción.</li>
               <li><b>Salud financiera:</b> current ratio, debt/equity, operating margin, interest coverage, FCF/share, payout ratio.</li>
               <li><b>Scores:</b> value, momentum, fundamental, piotroski, greenblatt, VCP.</li>
@@ -516,13 +516,13 @@ export default function Manual() {
             subtitle="Patrones técnicos combinados — catalizadores, VCP y mean reversion en un solo lugar." />
           <Card>
             <p className="mb-3">Cuatro pestañas:</p>
-            <ul className="list-disc pl-5 space-y-1.5 text-sm mb-3">
+            <ul className="list-disc pl-5 space-y-1.5 text-cuerpo mb-3">
               <li><b>Catalizadores:</b> filtros sobre el universo curado — por ejemplo "upside en zona dorada" (10–25%), earnings próximos, etc.</li>
               <li><b>Mean Reversion:</b> soporte, volumen y RSI para rebotes en el universo curado (Oversold Bounce, Bull Flag Pullback).</li>
               <li><b>Momentum VCP:</b> Volatility Contraction Pattern estilo Minervini — tendencias Stage 2 confirmadas.</li>
               <li><b>Universo Ampliado:</b> el mismo escaneo de rebotes técnicos pero sobre el S&amp;P 500 completo, no solo el universo curado — con objetivo y stop fijos (+4% / −2.5%) para que target y stop caigan siempre del lado correcto del precio.</li>
             </ul>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-cuerpo text-muted-foreground">
               Todo setup publicado pasa antes por un validador que descarta configuraciones imposibles: objetivo por debajo del precio, stop por encima de la entrada, o riesgo/beneficio por debajo de 1:1.
             </p>
             <div className="mt-3"><OpenLink to="/entry-setups" /></div>
@@ -535,17 +535,17 @@ export default function Manual() {
               No es especulación con opciones: es una forma de tener la MISMA exposición que comprar acciones de una empresa de calidad, con menos capital inmovilizado
               (delta 0.70–0.92, vencimiento &gt;13 meses). El "riesgo" real es perder la prima si la tesis se rompe del todo antes del vencimiento.
             </p>
-            <p className="font-semibold mb-1 text-sm">Cada oportunidad viene clasificada por situación</p>
-            <ul className="list-disc pl-5 space-y-1.5 text-sm mb-3">
+            <p className="font-semibold mb-1 text-cuerpo">Cada oportunidad viene clasificada por situación</p>
+            <ul className="list-disc pl-5 space-y-1.5 text-cuerpo mb-3">
               <li><b>Caída circunstancial:</b> ha caído desde máximos pero los fundamentales parecen intactos.</li>
               <li><b>Calidad a buen precio:</b> no se ha disparado, cotiza a múltiplo razonable — no es "barata por pánico", es calidad a precio justo.</li>
               <li><b>Dip de ganador:</b> ha subido mucho en el año y ahora corrige.</li>
             </ul>
-            <p className="text-sm mb-3">
+            <p className="text-cuerpo mb-3">
               <b>Ventaja neta:</b> compara el contrato con comprar la acción directamente, descontando YA el coste de cruzar el spread de compra/venta ida y vuelta —
               un apalancamiento bruto grande puede quedar en casi nada (o negativo) una vez se resta ese coste real.
             </p>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-cuerpo text-muted-foreground">
               Cada contrato mostrado ya pasó el filtro de Claude (ver <a href="#agente-leaps" className="text-primary hover:underline">LEAPS Analyzer</a>) — lo que no se verifica explícitamente como oportunidad razonable no llega a mostrarse, no se marca solo con un aviso.
             </p>
             <div className="mt-3"><OpenLink to="/leaps" /></div>
@@ -586,7 +586,7 @@ export default function Manual() {
             <p className="mb-3">
               Un yield del 10% no es un regalo — normalmente significa que el mercado descuenta un recorte. Esta sección detecta:
             </p>
-            <ul className="list-disc pl-5 space-y-1.5 text-sm">
+            <ul className="list-disc pl-5 space-y-1.5 text-cuerpo">
               <li>Payout ratio &gt; 90% (no sostenible).</li>
               <li>FCF insuficiente para cubrir dividendo.</li>
               <li>Deuda creciente + payout alto.</li>
@@ -601,7 +601,7 @@ export default function Manual() {
             <p className="mb-3">
               Introduce el tamaño de tu cartera y la tabla calcula cuánto asignar a cada oportunidad en base a:
             </p>
-            <ul className="list-disc pl-5 space-y-1.5 text-sm">
+            <ul className="list-disc pl-5 space-y-1.5 text-cuerpo">
               <li><b>Convicción</b> (grade A = más peso).</li>
               <li><b>Volatilidad</b> histórica.</li>
               <li><b>Kelly fraccionado</b> (normalmente 25% del Kelly óptimo — más conservador).</li>
@@ -615,7 +615,7 @@ export default function Manual() {
             <p className="mb-3">
               Ejecuta la estrategia actual contra 1–5 años de datos históricos. Muestra:
             </p>
-            <ul className="list-disc pl-5 space-y-1.5 text-sm">
+            <ul className="list-disc pl-5 space-y-1.5 text-cuerpo">
               <li>Curva de equity vs S&amp;P 500.</li>
               <li>Drawdown máximo.</li>
               <li>Win rate, profit factor, Sharpe.</li>
@@ -649,12 +649,12 @@ export default function Manual() {
             <p className="mb-3">
               La sección Bonos tiene dos partes diferenciadas:
             </p>
-            <ul className="list-disc pl-5 space-y-2 text-sm mb-4">
+            <ul className="list-disc pl-5 space-y-2 text-cuerpo mb-4">
               <li><b>ETFs de bonos</b> — 21 ETFs clasificados por tipo: T-Bills (BIL, SGOV, SHV), Treasury corto (VGSH, SHY), TIPS, IG Corp, High Yield, EUR Govt, EUR IG y EM. Cada uno muestra yield actual, duración, distancia al máximo 52w y rating VALUE (Muy atractivo → Neutral → Caro).</li>
               <li><b>Calculadora de rendimiento</b> — introduce capital y plazo (1m hasta 3 años) y el sistema calcula ganancia, capital final y yield del período por instrumento, usando interés compuesto mensual.</li>
               <li><b>Acciones preferentes</b> — instrumentos híbridos: pagan dividendo fijo como un bono ($25 par, NYSE) pero cotizan como acciones. Ventajas: senior al accionista común, yield 6-8%, sin vencimiento fijo. Riesgo principal: si el precio sube por encima del par ($25) la empresa puede rescatarlas (call risk).</li>
             </ul>
-            <div className="bg-muted/20 rounded p-3 text-sm text-muted-foreground space-y-1">
+            <div className="bg-muted/20 rounded p-3 text-cuerpo text-muted-foreground space-y-1">
               <p><b>¿Por qué estas preferentes ahora?</b> La Fed subió tipos 0→5.5% en 2022-2023. Las preferentes con cupón del 5.5-6% bajaron de $25 a $18-19 porque los bonos del tesoro pagaban lo mismo. Ahora compras $25 de valor a $18-19 y cobras 7-8% anual. Si los tipos bajan, el precio sube de vuelta hacia $25 (+30% de plusvalía adicional).</p>
             </div>
             <OpenLink to="/bonds" />
@@ -662,7 +662,7 @@ export default function Manual() {
 
           {/* ──────────────── Agents ──────────────── */}
 
-          <h2 className="text-lg font-bold uppercase tracking-widest text-muted-foreground mt-10 mb-4 pb-1 border-b border-border/30">
+          <h2 className="text-seccion font-bold uppercase tracking-widest text-muted-foreground mt-10 mb-4 pb-1 border-b border-border/30">
             Agentes del pipeline
           </h2>
 
@@ -672,7 +672,7 @@ export default function Manual() {
             <p className="mb-3">
               Cada noche (y varias veces al día) GitHub Actions ejecuta el pipeline en este orden:
             </p>
-            <ol className="list-decimal pl-5 space-y-1.5 text-sm mb-3 font-mono text-apoyo">
+            <ol className="list-decimal pl-5 space-y-1.5 text-cuerpo mb-3 font-mono text-apoyo">
               <li>sector_rotation</li>
               <li>mean_reversion</li>
               <li>super_score_integrator</li>
@@ -683,7 +683,7 @@ export default function Manual() {
               <li>portfolio_tracker</li>
               <li>ticker_data_cache</li>
             </ol>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-cuerpo text-muted-foreground">
               Cada agente produce un CSV que el siguiente lee. Si un agente falla, los siguientes usan el dato del día anterior.
             </p>
           </Card>
@@ -692,7 +692,7 @@ export default function Manual() {
           <Card>
             <p className="mb-2"><b>Qué hace:</b> descarga datos de yfinance (balance, cuenta de resultados, cash flow) y calcula scores fundamentales.</p>
             <p className="mb-2"><b>Output:</b> <code className="bg-muted/30 px-1 rounded">docs/fundamental_scores.csv</code></p>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-cuerpo text-muted-foreground">
               Calcula ROE, debt/equity, operating margin, FCF yield, payout ratio, Piotroski, Greenblatt ROIC, etc.
               Si un dato falta, el campo queda vacío — <u>nunca inventa un valor</u>.
             </p>
@@ -702,8 +702,8 @@ export default function Manual() {
           <Card>
             <p className="mb-2"><b>Qué hace:</b> combina fundamentales + insiders + opciones + sector + mean reversion + ML en un <code className="bg-muted/30 px-1 rounded">value_score</code> final (0–100).</p>
             <p className="mb-3"><b>Output:</b> <code className="bg-muted/30 px-1 rounded">docs/value_opportunities.csv</code> + <code className="bg-muted/30 px-1 rounded">momentum_opportunities.csv</code></p>
-            <p className="font-semibold mb-1 text-sm">Pesos aproximados del value_score:</p>
-            <ul className="list-disc pl-5 space-y-0.5 text-sm mb-3">
+            <p className="font-semibold mb-1 text-cuerpo">Pesos aproximados del value_score:</p>
+            <ul className="list-disc pl-5 space-y-0.5 text-cuerpo mb-3">
               <li>Fundamentales: 40 pts (solo si no es el valor por defecto 50).</li>
               <li>Profitability bonus: 15 pts.</li>
               <li>Insiders: 15 pts.</li>
@@ -718,8 +718,8 @@ export default function Manual() {
               <li>Earnings &lt; 7 días: −5 pts.</li>
               <li>R:R: ±3 pts.</li>
             </ul>
-            <p className="text-sm mb-2"><b>Hard rejects (value_score = 0):</b></p>
-            <ul className="list-disc pl-5 space-y-0.5 text-sm">
+            <p className="text-cuerpo mb-2"><b>Hard rejects (value_score = 0):</b></p>
+            <ul className="list-disc pl-5 space-y-0.5 text-cuerpo">
               <li>ROE negativo.</li>
               <li>Upside analista negativo (sobrevalorado).</li>
               <li>Upside analista ≥ 30% — value trap: 0% de acierto medido en señales reales por encima de ese umbral.</li>
@@ -730,41 +730,41 @@ export default function Manual() {
           <Card>
             <p className="mb-2"><b>Qué hace:</b> un LLM (Groq + Llama) lee cada oportunidad y descarta las que tienen red flags cualitativos no capturables con números (fraude histórico, regulación pendiente, tesis contradictoria).</p>
             <p className="mb-2"><b>Output:</b> <code className="bg-muted/30 px-1 rounded">docs/value_opportunities_filtered.csv</code></p>
-            <p className="mb-2 text-sm">
+            <p className="mb-2 text-cuerpo">
               <b>Después</b>, Claude audita la plausibilidad de los datos de cada pick que sobrevive (precio/target/upside/ROE coherentes entre sí para esa empresa concreta).
               Este paso es un filtro de verdad, no un aviso: solo se publica lo que Claude confirma explícitamente — si no puede verificarlo (sin saldo, fallo de API, respuesta rara), el pick se queda fuera hasta la siguiente ejecución, igual que si lo hubiera rechazado.
             </p>
-            <p className="text-sm text-muted-foreground">El Dashboard muestra por defecto los <i>filtrados</i> (más estrictos). En Value US / EU puedes cambiar al listado completo.</p>
+            <p className="text-cuerpo text-muted-foreground">El Dashboard muestra por defecto los <i>filtrados</i> (más estrictos). En Value US / EU puedes cambiar al listado completo.</p>
           </Card>
 
           <SectionHeader id="agente-thesis" icon={Bot} title="Thesis Generator" />
           <Card>
             <p className="mb-2"><b>Qué hace:</b> genera la tesis de inversión en lenguaje natural (2–4 párrafos) para cada ticker con grade A/B.</p>
-            <p className="text-sm text-muted-foreground">Aparece al expandir una fila en VALUE o en la ficha del ticker. Combina: qué hace la empresa, por qué está barata, catalizadores, riesgos.</p>
+            <p className="text-cuerpo text-muted-foreground">Aparece al expandir una fila en VALUE o en la ficha del ticker. Combina: qué hace la empresa, por qué está barata, catalizadores, riesgos.</p>
           </Card>
 
           <SectionHeader id="agente-entry-exit" icon={Bot} title="Entry/Exit Calculator" />
           <Card>
             <p className="mb-2"><b>Qué hace:</b> calcula <b>entry price</b>, <b>stop loss</b> (típicamente 8%) y <b>target price</b> para cada oportunidad basado en soporte técnico, volatilidad y upside analista.</p>
-            <p className="text-sm text-muted-foreground">Verás estos 3 precios en la conviction panel de VALUE.</p>
+            <p className="text-cuerpo text-muted-foreground">Verás estos 3 precios en la conviction panel de VALUE.</p>
           </Card>
 
           <SectionHeader id="agente-mean-rev" icon={Bot} title="Mean Reversion Detector" />
           <Card>
             <p className="mb-2"><b>Qué hace:</b> detecta acciones que han caído lejos de su media móvil con volumen capitulatorio — candidatas a rebote.</p>
-            <p className="text-sm text-muted-foreground">Usa z-score sobre el return de 20 días + ratio de volumen.</p>
+            <p className="text-cuerpo text-muted-foreground">Usa z-score sobre el return de 20 días + ratio de volumen.</p>
           </Card>
 
           <SectionHeader id="agente-bounce" icon={Bot} title="Bounce Trader" />
           <Card>
             <p className="mb-2"><b>Qué hace:</b> versión más táctica del mean reversion, orientada a trades de 1–4 semanas con stops ajustados. Se conecta a Interactive Brokers (TWS) para ejecutar.</p>
-            <p className="text-sm text-muted-foreground">Soporta modo paper (cuenta de simulación) y modo real (<code className="bg-muted/30 px-1 rounded">--live</code>, con confirmación explícita antes de mandar una orden real) — cuál esté activo depende de cómo se lance, no es fijo.</p>
+            <p className="text-cuerpo text-muted-foreground">Soporta modo paper (cuenta de simulación) y modo real (<code className="bg-muted/30 px-1 rounded">--live</code>, con confirmación explícita antes de mandar una orden real) — cuál esté activo depende de cómo se lance, no es fijo.</p>
           </Card>
 
           <SectionHeader id="agente-insiders" icon={Bot} title="Insider Scanners (US + EU)" />
           <Card>
             <p className="mb-2"><b>Qué hace:</b> dos scrapers — uno para SEC Form 4 (US) y otro para regulatory filings europeos (nl.ts para Holanda, etc.).</p>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-cuerpo text-muted-foreground">
               Normaliza importe, rol (CEO &gt; CFO &gt; director), cluster buys. Calcula <code className="bg-muted/30 px-1 rounded">confidence_score</code> que ves en la app.
             </p>
           </Card>
@@ -772,39 +772,39 @@ export default function Manual() {
           <SectionHeader id="agente-options" icon={Bot} title="Options Flow Detector" />
           <Card>
             <p className="mb-2"><b>Qué hace:</b> detecta volumen de opciones inusual (&gt; 3× media) con preferencia direccional clara.</p>
-            <p className="text-sm text-muted-foreground">Put/call ratio, unusual calls / puts, sentiment score. Alimenta el <code className="bg-muted/30 px-1 rounded">value_score</code> con 10 pts.</p>
+            <p className="text-cuerpo text-muted-foreground">Put/call ratio, unusual calls / puts, sentiment score. Alimenta el <code className="bg-muted/30 px-1 rounded">value_score</code> con 10 pts.</p>
           </Card>
 
           <SectionHeader id="agente-sector" icon={Bot} title="Sector Rotation" />
           <Card>
             <p className="mb-2"><b>Qué hace:</b> clasifica los 11 sectores GICS en expansión / contracción / neutral vs índice.</p>
-            <p className="text-sm text-muted-foreground">La lógica es contrarian: un sector en corrección leve suma puntos; un sector sobrecalentado resta.</p>
+            <p className="text-cuerpo text-muted-foreground">La lógica es contrarian: un sector en corrección leve suma puntos; un sector sobrecalentado resta.</p>
           </Card>
 
           <SectionHeader id="agente-macro" icon={Bot} title="Macro / Country Scanner" />
           <Card>
             <p className="mb-2"><b>Qué hace:</b> agrega datos macroeconómicos por país (PIB, inflación, política monetaria, deuda/PIB) y clasifica regímenes.</p>
-            <p className="text-sm text-muted-foreground">Usado por la sección Macro Radar. Basado en frameworks de Dalio (ciclo de deuda largo/corto) + soberanía monetaria.</p>
+            <p className="text-cuerpo text-muted-foreground">Usado por la sección Macro Radar. Basado en frameworks de Dalio (ciclo de deuda largo/corto) + soberanía monetaria.</p>
           </Card>
 
           <SectionHeader id="agente-catalyst" icon={Bot} title="Catalyst Scanner" />
           <Card>
             <p className="mb-2"><b>Qué hace:</b> extrae fechas de eventos conocidos — earnings, FDA / PDUFA (farma), spin-offs, M&amp;A pendientes.</p>
-            <p className="text-sm text-muted-foreground">Salidas en la pestaña Catalysts del Calendario.</p>
+            <p className="text-cuerpo text-muted-foreground">Salidas en la pestaña Catalysts del Calendario.</p>
           </Card>
 
           <SectionHeader id="agente-portfolio" icon={Bot} title="Portfolio Tracker" />
           <Card>
             <p className="mb-2"><b>Qué hace:</b> guarda cada recomendación hecha por el sistema con su fecha y score, y calcula el return 7d/14d/30d después.</p>
             <p className="mb-2"><b>Output:</b> <code className="bg-muted/30 px-1 rounded">docs/portfolio_tracker/recommendations.csv</code> + <code className="bg-muted/30 px-1 rounded">summary.json</code></p>
-            <p className="text-sm text-muted-foreground">Alimenta el widget "Portfolio win rate" del Dashboard. También la pestaña Historial de señales.</p>
+            <p className="text-cuerpo text-muted-foreground">Alimenta el widget "Portfolio win rate" del Dashboard. También la pestaña Historial de señales.</p>
           </Card>
 
           <SectionHeader id="agente-leaps" icon={Bot} title="LEAPS Analyzer" />
           <Card>
             <p className="mb-2"><b>Qué hace:</b> escanea la cadena de opciones del universo de calidad buscando calls deep-ITM (delta 0.70–0.92, vencimiento &gt;13 meses) como sustituto apalancado de la acción — nunca sobre empresas con upside ≥30% (mismo hard-reject de value trap que VALUE).</p>
             <p className="mb-2"><b>Output:</b> <code className="bg-muted/30 px-1 rounded">docs/leaps_opportunities.json</code></p>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-cuerpo text-muted-foreground">
               Claude verifica cada contrato antes de publicarlo (coherencia de los datos + veredicto oportunidad/razonable/evitar). Es un filtro real: lo que no pasa no se muestra,
               igual que en <a href="#agente-ai-filter" className="text-primary hover:underline">AI Quality Filter</a> — no queda como aviso pegado a una fila que se sigue publicando.
             </p>
@@ -813,13 +813,13 @@ export default function Manual() {
           <SectionHeader id="agente-why-cheap" icon={Bot} title="Why Cheap" />
           <Card>
             <p className="mb-2"><b>Qué hace:</b> responde la pregunta que decide una compra value — ¿por qué está barata esta empresa? Busca en fuentes reales (resultados, guidance, noticias) y clasifica la caída en una de cuatro categorías.</p>
-            <ul className="list-disc pl-5 space-y-0.5 text-sm mb-2">
+            <ul className="list-disc pl-5 space-y-0.5 text-cuerpo mb-2">
               <li><b>Deterioro:</b> el negocio está peor de verdad (guidance retirada, márgenes cayendo, pérdida de cuota). Único veredicto que descarta el pick.</li>
               <li><b>Cíclico:</b> el sector está en la parte baja de su ciclo, el negocio aguanta.</li>
               <li><b>Evento:</b> shock puntual y acotado, ya conocido y cuantificable.</li>
               <li><b>Sentimiento:</b> rotación, múltiplos o macro — nada específico de la empresa.</li>
             </ul>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-cuerpo text-muted-foreground">
               Sin búsquedas reales detrás del veredicto, sale "sin datos" — nunca vetando ni respaldando por descarte. Solo se gasta en candidatos que ya tendrían sentido comprar (score suficiente y caída real que explicar).
             </p>
           </Card>
@@ -828,16 +828,16 @@ export default function Manual() {
           <Card>
             <p className="mb-2"><b>Qué hace:</b> entrena un modelo XGBoost calibrado (isotonic) cada día sobre el historial completo de señales VALUE del Portfolio Tracker (1.497+ señales con outcome verificado) y predice la probabilidad real de ganar para cada ticker del universo.</p>
             <p className="mb-2"><b>Output:</b> <code className="bg-muted/30 px-1 rounded">docs/ml_win_probability.json</code> — alimenta <code className="bg-muted/30 px-1 rounded">ml_win_probability</code>/<code className="bg-muted/30 px-1 rounded">ml_win_label</code> y el campo <code className="bg-muted/30 px-1 rounded">ml_score</code> (0-100) del Super Score Integrador.</p>
-            <div className="mt-3 space-y-2 text-sm">
+            <div className="mt-3 space-y-2 text-cuerpo">
               <p className="font-semibold text-foreground/80">Rendimiento del modelo (cross-validation 5-fold):</p>
               <div className="grid grid-cols-2 gap-2">
                 <div className="bg-emerald-500/10 border border-emerald-500/20 rounded p-2 text-center">
-                  <div className="text-emerald-400 font-bold text-lg">0.88</div>
-                  <div className="text-muted-foreground text-xs">ROC-AUC</div>
+                  <div className="text-emerald-400 font-bold text-seccion">0.88</div>
+                  <div className="text-muted-foreground text-mini">ROC-AUC</div>
                 </div>
                 <div className="bg-emerald-500/10 border border-emerald-500/20 rounded p-2 text-center">
-                  <div className="text-emerald-400 font-bold text-lg">0.13</div>
-                  <div className="text-muted-foreground text-xs">Brier Score (calibración)</div>
+                  <div className="text-emerald-400 font-bold text-seccion">0.13</div>
+                  <div className="text-muted-foreground text-mini">Brier Score (calibración)</div>
                 </div>
               </div>
               <p className="font-semibold text-foreground/80 mt-3">Features por orden de importancia:</p>
@@ -859,25 +859,25 @@ export default function Manual() {
           <SectionHeader id="agente-cerebro" icon={Bot} title="Cerebro (orquestador)" />
           <Card>
             <p className="mb-2"><b>Qué hace:</b> cuando todos los agentes anteriores han terminado, Cerebro cruza sus outputs para detectar:</p>
-            <ul className="list-disc pl-5 space-y-1 text-sm mb-2">
+            <ul className="list-disc pl-5 space-y-1 text-cuerpo mb-2">
               <li>Convergencias (mismo ticker aparece en &gt;2 listas).</li>
               <li>Entradas sugeridas para hoy.</li>
               <li>Exits en tu cartera.</li>
               <li>Value traps nuevas.</li>
               <li>Alertas de calidad decayente.</li>
             </ul>
-            <p className="text-sm text-muted-foreground">Es el agente más "inteligente" — el único que toma decisiones cruzando fuentes, no solo puntuando una.</p>
+            <p className="text-cuerpo text-muted-foreground">Es el agente más "inteligente" — el único que toma decisiones cruzando fuentes, no solo puntuando una.</p>
           </Card>
 
           {/* ──────────────── Glossary + FAQ ──────────────── */}
 
-          <h2 className="text-lg font-bold uppercase tracking-widest text-muted-foreground mt-10 mb-4 pb-1 border-b border-border/30">
+          <h2 className="text-seccion font-bold uppercase tracking-widest text-muted-foreground mt-10 mb-4 pb-1 border-b border-border/30">
             Glosario y ayuda
           </h2>
 
           <SectionHeader id="glosario" icon={Shield} title="Glosario" />
           <Card>
-            <dl className="text-sm space-y-3">
+            <dl className="text-cuerpo space-y-3">
               <div><dt className="font-bold">FCF (Free Cash Flow)</dt><dd className="text-muted-foreground">Caja que genera el negocio después de capex. El flujo que Buffett mira: si es positivo y creciente, la empresa gana dinero de verdad.</dd></div>
               <div><dt className="font-bold">FCF yield</dt><dd className="text-muted-foreground">FCF / market cap. &gt; 5% es sólido, &gt; 8% excelente, negativo = red flag.</dd></div>
               <div><dt className="font-bold">ROE (Return on Equity)</dt><dd className="text-muted-foreground">Beneficio / patrimonio. Mide rentabilidad sobre el capital. Negativo = el sistema descarta automáticamente.</dd></div>
@@ -899,7 +899,7 @@ export default function Manual() {
 
           <SectionHeader id="faq" icon={HelpCircle} title="Preguntas frecuentes" />
           <Card>
-            <div className="space-y-4 text-sm">
+            <div className="space-y-4 text-cuerpo">
               <div>
                 <p className="font-bold mb-1">¿Por qué el Dashboard dice "0 oportunidades momentum"?</p>
                 <p className="text-muted-foreground">Porque estamos en régimen CORRECTION o BEAR. Durante correcciones el sistema espera a que se confirmen tendencias Stage 2 — es el comportamiento correcto. Cero señales &gt; señales falsas.</p>
@@ -931,7 +931,7 @@ export default function Manual() {
             </div>
           </Card>
 
-          <div className="mt-12 mb-8 text-center text-xs text-muted-foreground">
+          <div className="mt-12 mb-8 text-center text-mini text-muted-foreground">
             Stock Analyzer — Value/GARP investing, estilo Lynch. Consistencia &gt; héroes.
           </div>
         </article>

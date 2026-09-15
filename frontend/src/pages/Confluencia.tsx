@@ -54,7 +54,7 @@ function ScoreCircle({ score }: { score: number }) {
     score >= 4 ? 'text-cyan-400 border-cyan-500/40' :
     'text-muted-foreground border-border/40'
   return (
-    <div className={`w-9 h-9 rounded-full border-2 flex items-center justify-center text-sm font-extrabold tabular-nums ${color}`}>
+    <div className={`w-9 h-9 rounded-full border-2 flex items-center justify-center text-cuerpo font-extrabold tabular-nums ${color}`}>
       {score}
     </div>
   )
@@ -247,7 +247,7 @@ export default function Confluencia() {
         ].map(({ label, value, sub, color, idx }) => (
           <Card key={label} className={`glass p-4 stagger-${idx}`}>
             <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-1">{label}</div>
-            <div className={`text-3xl font-extrabold tracking-tight tabular-nums leading-none mb-1 ${color}`}>{value}</div>
+            <div className={`text-cifra font-extrabold tracking-tight tabular-nums leading-none mb-1 ${color}`}>{value}</div>
             <div className="text-micro text-muted-foreground">{sub}</div>
           </Card>
         ))}
@@ -288,7 +288,7 @@ function SectionTable({ title, subtitle, rows, dim = false }: {
   return (
     <div className={`mb-6 ${dim ? 'opacity-60' : ''}`}>
       <div className="flex items-baseline gap-2 mb-2">
-        <h3 className="text-sm font-bold">{title}</h3>
+        <h3 className="text-cuerpo font-bold">{title}</h3>
         <span className="text-micro text-muted-foreground">{subtitle}</span>
       </div>
       {/* Móvil: tarjetas. Las seis columnas (Score, Ticker, Señales, Bounce,
@@ -356,7 +356,7 @@ function SectionTable({ title, subtitle, rows, dim = false }: {
                       <div>conf <span className="font-semibold">{t.bounce.conf}%</span></div>
                       {t.bounce.tier === 2 && <div className="text-cyan-400 font-bold text-micro">VALUE-BACKED</div>}
                     </div>
-                  ) : <span className="text-muted-foreground text-xs">—</span>}
+                  ) : <span className="text-muted-foreground text-mini">—</span>}
                 </TableCell>
                 <TableCell>
                   {(t.value_us || t.value_eu) ? (
@@ -376,7 +376,7 @@ function SectionTable({ title, subtitle, rows, dim = false }: {
                         </div>
                       )}
                     </div>
-                  ) : <span className="text-muted-foreground text-xs">—</span>}
+                  ) : <span className="text-muted-foreground text-mini">—</span>}
                 </TableCell>
                 <TableCell>
                   {t.flow ? (
@@ -392,7 +392,7 @@ function SectionTable({ title, subtitle, rows, dim = false }: {
                         <div className="text-micro opacity-60">{t.flow.drawdown.toFixed(0)}% vs máx</div>
                       )}
                     </div>
-                  ) : <span className="text-muted-foreground text-xs">—</span>}
+                  ) : <span className="text-muted-foreground text-mini">—</span>}
                 </TableCell>
               </TableRow>
             ))}

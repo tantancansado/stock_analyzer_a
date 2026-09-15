@@ -35,10 +35,10 @@ export default function PageHeader({ title, subtitle, children, tituloOculto }: 
       <div className="min-w-0 sm:flex-1">
         <h1 className={tituloOculto
           ? 'sr-only'
-          : 'text-xl sm:text-2xl font-extrabold tracking-tight gradient-title mb-1 leading-tight text-balance'}>
+          : 'text-seccion sm:text-pagina font-extrabold tracking-tight gradient-title mb-1 leading-tight text-balance'}>
           {title}
         </h1>
-        {subtitle && <p className="text-sm text-muted-foreground">{subtitle}</p>}
+        {subtitle && <p className="text-cuerpo text-muted-foreground">{subtitle}</p>}
       </div>
       {children && (
         <div className="flex flex-wrap items-center gap-2 sm:shrink-0 sm:mt-0.5">{children}</div>

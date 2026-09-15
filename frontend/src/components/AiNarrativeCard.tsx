@@ -69,7 +69,7 @@ export default function AiNarrativeCard({ narrative, label = 'Análisis IA', cla
         <div className="px-4 py-3 space-y-2.5">
           {elements.map((el, i) => {
             if (el.type === 'title') return (
-              <div key={i} className="text-xs font-bold text-primary uppercase tracking-wide">{el.content}</div>
+              <div key={i} className="text-mini font-bold text-primary uppercase tracking-wide">{el.content}</div>
             )
             if (el.type === 'point') return (
               <div key={i} className="flex gap-2.5 items-start">
@@ -81,19 +81,19 @@ export default function AiNarrativeCard({ narrative, label = 'Análisis IA', cla
                 {el.num == null && (
                   <span className="flex-shrink-0 w-1.5 h-1.5 rounded-full bg-primary/50 mt-1.5" />
                 )}
-                <p className="text-sm text-foreground/85 leading-relaxed">{renderInlineBold(el.content)}</p>
+                <p className="text-cuerpo text-foreground/85 leading-relaxed">{renderInlineBold(el.content)}</p>
               </div>
             )
             if (el.type === 'quote') return (
-              <blockquote key={i} className="border-l-2 border-primary/40 pl-3 italic text-sm text-foreground/70 leading-relaxed">
+              <blockquote key={i} className="border-l-2 border-primary/40 pl-3 italic text-cuerpo text-foreground/70 leading-relaxed">
                 {renderInlineBold(el.content)}
               </blockquote>
             )
-            return <p key={i} className="text-sm text-foreground/85 leading-relaxed">{renderInlineBold(el.content)}</p>
+            return <p key={i} className="text-cuerpo text-foreground/85 leading-relaxed">{renderInlineBold(el.content)}</p>
           })}
         </div>
       ) : (
-        <p className="px-4 py-3 text-sm text-foreground/85 leading-relaxed">{narrative}</p>
+        <p className="px-4 py-3 text-cuerpo text-foreground/85 leading-relaxed">{narrative}</p>
       )}
     </div>
   )

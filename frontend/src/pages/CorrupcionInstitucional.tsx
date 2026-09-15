@@ -78,7 +78,7 @@ function fmtDate(raw?: string) {
 
 function TickerChip({ ticker }: { ticker: string }) {
   return (
-    <span className="font-mono font-semibold text-foreground bg-muted/50 px-1.5 py-0.5 rounded text-xs">
+    <span className="font-mono font-semibold text-foreground bg-muted/50 px-1.5 py-0.5 rounded text-mini">
       {ticker}
     </span>
   )
@@ -108,16 +108,16 @@ function CongressCard({ signal }: { signal: PoliticalSignal }) {
           </div>
           <div className="flex-1 min-w-0 space-y-1.5">
             <div className="flex items-center gap-2 flex-wrap">
-              <span className="font-semibold text-sm">{signal.politician}</span>
+              <span className="font-semibold text-cuerpo">{signal.politician}</span>
               {signal.party && (
-                <span className={cn('text-xs font-medium', partyColor)}>
+                <span className={cn('text-mini font-medium', partyColor)}>
                   {signal.party} · {signal.chamber}
                 </span>
               )}
             </div>
-            <div className="flex flex-wrap items-center gap-1.5 text-xs">
+            <div className="flex flex-wrap items-center gap-1.5 text-mini">
               {signal.tickers.map(t => <TickerChip key={t} ticker={t} />)}
-              <span className={cn('font-semibold text-xs', isBuy ? 'text-emerald-400' : 'text-red-400')}>
+              <span className={cn('font-semibold text-mini', isBuy ? 'text-emerald-400' : 'text-red-400')}>
                 {isBuy ? 'COMPRA' : 'VENTA'}
               </span>
               {signal.amount && (
@@ -149,13 +149,13 @@ function ContractCard({ signal }: { signal: PoliticalSignal }) {
         <div className="flex items-start gap-2">
           <div className="flex-1 min-w-0 space-y-1.5">
             <div className="flex items-center gap-2 flex-wrap">
-              <span className="font-semibold text-sm">{signal.recipient}</span>
+              <span className="font-semibold text-cuerpo">{signal.recipient}</span>
               {signal.amount && (
-                <span className="text-emerald-400 font-bold text-sm">{signal.amount}</span>
+                <span className="text-emerald-400 font-bold text-cuerpo">{signal.amount}</span>
               )}
             </div>
-            <div className="text-xs text-muted-foreground">{signal.agency}</div>
-            <div className="flex flex-wrap items-center gap-1.5 text-xs">
+            <div className="text-mini text-muted-foreground">{signal.agency}</div>
+            <div className="flex flex-wrap items-center gap-1.5 text-mini">
               {signal.tickers.map(t => <TickerChip key={t} ticker={t} />)}
               {signal.sector && (
                 <Badge variant="outline" className="text-micro py-0 px-1.5 border-border/40">{signal.sector}</Badge>
@@ -186,10 +186,10 @@ function EoCard({ signal }: { signal: PoliticalSignal }) {
         <div className="flex items-start gap-2">
           <div className="flex-1 min-w-0 space-y-1.5">
             <a href={signal.link} target="_blank" rel="noopener noreferrer"
-              className="text-sm font-medium leading-snug hover:text-primary transition-colors line-clamp-2 block">
+              className="text-cuerpo font-medium leading-snug hover:text-primary transition-colors line-clamp-2 block">
               {signal.title}
             </a>
-            <div className="flex flex-wrap items-center gap-1.5 text-xs">
+            <div className="flex flex-wrap items-center gap-1.5 text-mini">
               {signal.tickers.slice(0, 6).map(t => <TickerChip key={t} ticker={t} />)}
               <StrengthBadge strength={signal.signal_strength} />
               <span className="ml-auto text-muted-foreground text-micro">{fmtDate(signal.signing_date || signal.scanned_at)}</span>
@@ -308,12 +308,12 @@ export default function CorrupcionInstitucional() {
 
 function SectionNote({ text }: { text: string }) {
   return (
-    <p className="text-xs text-muted-foreground italic border-l-2 border-border/30 pl-3">{text}</p>
+    <p className="text-mini text-muted-foreground italic border-l-2 border-border/30 pl-3">{text}</p>
   )
 }
 
 function Empty({ text }: { text: string }) {
   return (
-    <div className="text-center py-14 text-muted-foreground text-sm">{text}</div>
+    <div className="text-center py-14 text-muted-foreground text-cuerpo">{text}</div>
   )
 }

@@ -234,7 +234,7 @@ function JournalSection({ ticker, userId }: { ticker: string; userId: string }) 
               onChange={e => setText(e.target.value)}
               placeholder="Añade una nota: razón de compra, tesis, eventos..."
               rows={2}
-              className="flex-1 px-3 py-2 rounded-lg bg-muted/30 border border-border/40 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/50 resize-none"
+              className="flex-1 px-3 py-2 rounded-lg bg-muted/30 border border-border/40 text-cuerpo text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/50 resize-none"
             />
             <button
               onClick={addNote}
@@ -358,11 +358,11 @@ function AddForm({ onAdd, saving }: { onAdd: (p: Omit<Position, 'id'>) => Promis
     setTicker(''); setShares(''); setPrice(''); setStrike(''); setExpiry(''); setCoupon(''); setMaturity(''); setCcPremium('')
   }
 
-  const inputCls = "px-3 py-2 rounded-lg bg-muted/30 border border-border/40 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/50"
+  const inputCls = "px-3 py-2 rounded-lg bg-muted/30 border border-border/40 text-cuerpo text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/50"
 
   return (
     <div className="glass rounded-2xl p-5 space-y-4">
-      <h2 className="text-sm font-bold text-foreground flex items-center gap-2">
+      <h2 className="text-cuerpo font-bold text-foreground flex items-center gap-2">
         <Plus size={16} className="text-primary" />
         Añadir posición
       </h2>
@@ -373,7 +373,7 @@ function AddForm({ onAdd, saving }: { onAdd: (p: Omit<Position, 'id'>) => Promis
           <button
             key={at.value}
             onClick={() => setAssetType(at.value)}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-xs font-semibold transition-all ${
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-mini font-semibold transition-all ${
               assetType === at.value
                 ? `bg-primary/15 border-primary/40 text-primary`
                 : 'bg-muted/20 border-border/30 text-muted-foreground hover:border-border/60'
@@ -430,7 +430,7 @@ function AddForm({ onAdd, saving }: { onAdd: (p: Omit<Position, 'id'>) => Promis
             <div className="flex rounded-lg overflow-hidden border border-border/40">
               {(['call', 'put'] as const).map(v => (
                 <button key={v} onClick={() => setOptType(v)}
-                  className={`px-3 py-1.5 text-xs font-bold uppercase transition-colors ${
+                  className={`px-3 py-1.5 text-mini font-bold uppercase transition-colors ${
                     optType === v ? (v === 'call' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-red-500/20 text-red-400') : 'bg-muted/20 text-muted-foreground'
                   }`}>{v}</button>
               ))}
@@ -501,7 +501,7 @@ function AddForm({ onAdd, saving }: { onAdd: (p: Omit<Position, 'id'>) => Promis
           {saving ? <Loader2 size={16} className="animate-spin" /> : <Plus size={16} strokeWidth={2.5} />}
           Añadir
         </Button>
-        {error && <p className="text-xs text-red-400">{error}</p>}
+        {error && <p className="text-mini text-red-400">{error}</p>}
       </div>
     </div>
   )
@@ -611,12 +611,12 @@ function OptionsPanel({ result, sym }: { result: PositionResult; sym: string }) 
       {open && (
         <div className="px-5 py-4 space-y-4">
           {loading && (
-            <div className="flex items-center gap-2 text-xs text-muted-foreground">
+            <div className="flex items-center gap-2 text-mini text-muted-foreground">
               <Loader2 size={16} className="animate-spin" /> Cargando cadena de opciones desde Yahoo Finance…
             </div>
           )}
           {err && (
-            <div className="text-xs text-amber-400 bg-amber-500/10 border border-amber-500/20 rounded-lg px-3 py-2">
+            <div className="text-mini text-amber-400 bg-amber-500/10 border border-amber-500/20 rounded-lg px-3 py-2">
               {err.includes('no tiene opciones') ? (
                 <span>{err} — Las estrategias basadas en opciones no están disponibles para este activo. Consulta el análisis de la IA arriba.</span>
               ) : err}
@@ -644,23 +644,23 @@ function OptionsPanel({ result, sym }: { result: PositionResult; sym: string }) 
                     <div className="p-3 rounded-lg bg-background/40 border border-primary/20 space-y-2">
                       {/* Contract header */}
                       <div className="flex items-center gap-3 flex-wrap">
-                        <span className={`text-xs font-bold px-2 py-0.5 rounded ${pc.action === 'COMPRAR' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-amber-500/20 text-amber-400'}`}>
+                        <span className={`text-mini font-bold px-2 py-0.5 rounded ${pc.action === 'COMPRAR' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-amber-500/20 text-amber-400'}`}>
                           {pc.action ?? (rec.recommended_strategy?.includes('COVERED') ? 'VENDER' : 'COMPRAR')}
                         </span>
-                        <span className="font-bold text-foreground text-lg">{pc.type?.toUpperCase()} ${pc.strike}</span>
-                        <span className="text-muted-foreground text-sm">exp {pc.expiry}</span>
+                        <span className="font-bold text-foreground text-seccion">{pc.type?.toUpperCase()} ${pc.strike}</span>
+                        <span className="text-muted-foreground text-cuerpo">exp {pc.expiry}</span>
                         <span className="text-micro text-muted-foreground uppercase">{pc.horizon}</span>
                       </div>
                       {/* Key numbers */}
                       <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 text-mini">
                         <div>
                           <div className="text-muted-foreground text-micro uppercase mb-0.5">Prima por contrato</div>
-                          <div className={`font-bold text-sm ${meta.color}`}>{sym}{premium?.toFixed(2)}</div>
+                          <div className={`font-bold text-cuerpo ${meta.color}`}>{sym}{premium?.toFixed(2)}</div>
                         </div>
                         {pc.total_cost_100_shares != null && (
                           <div>
                             <div className="text-muted-foreground text-micro uppercase mb-0.5">Coste total (100 acc)</div>
-                            <div className="font-bold text-sm text-foreground">{sym}{pc.total_cost_100_shares?.toFixed(0)}</div>
+                            <div className="font-bold text-cuerpo text-foreground">{sym}{pc.total_cost_100_shares?.toFixed(0)}</div>
                           </div>
                         )}
                         {(rec.profit_if_target ?? rec.expected_outcome) && (
@@ -849,7 +849,7 @@ function CoveredCallTracker({ pos, currentPrice }: { pos: Position; currentPrice
       {/* Header */}
       <div className="flex items-center gap-2 px-4 py-2.5 border-b border-amber-500/20">
         <span className="text-micro font-bold uppercase tracking-widest text-amber-400">Covered Call vendida</span>
-        <span className="font-mono font-bold text-amber-400 text-sm">{sym}{strike} · exp {expiry}</span>
+        <span className="font-mono font-bold text-amber-400 text-cuerpo">{sym}{strike} · exp {expiry}</span>
         {dte !== null && (
           <span className={`ml-auto text-micro font-bold px-1.5 py-0.5 rounded border ${
             dte <= 7   ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/25' :
@@ -882,7 +882,7 @@ function CoveredCallTracker({ pos, currentPrice }: { pos: Position; currentPrice
         </div>
         <div className="bg-background/60 px-3 py-2.5">
           <div className="text-micro uppercase tracking-wider text-muted-foreground mb-0.5">P&L combinado</div>
-          <div className={`font-bold text-base ${combined >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+          <div className={`font-bold text-titulo ${combined >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
             {combined >= 0 ? '+' : ''}{sym}{combined.toFixed(2)}
           </div>
           <div className={`text-micro font-semibold ${combinedPct >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
@@ -912,7 +912,7 @@ function MetricChip({ label, value, valueClass = 'text-foreground' }: { label: s
   return (
     <div className="flex flex-col gap-0.5 min-w-0">
       <span className="text-micro font-semibold uppercase tracking-wider text-muted-foreground leading-none">{label}</span>
-      <span className={`text-sm font-bold tabular-nums leading-tight ${valueClass}`}>{value}</span>
+      <span className={`text-cuerpo font-bold tabular-nums leading-tight ${valueClass}`}>{value}</span>
     </div>
   )
 }
@@ -974,7 +974,7 @@ function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluen
         <div className="flex-1 min-w-0">
           {/* Row 1: ticker + company + sector */}
           <div className="flex items-center gap-2 flex-wrap">
-            <span className="font-mono font-extrabold text-lg text-foreground leading-none">{ticker}</span>
+            <span className="font-mono font-extrabold text-seccion text-foreground leading-none">{ticker}</span>
             {result?.sector && (
               <span className="text-micro px-1.5 py-0.5 rounded bg-muted/40 border border-border/20 text-muted-foreground uppercase tracking-wide">
                 {result.sector}
@@ -982,7 +982,7 @@ function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluen
             )}
           </div>
           {result?.company_name && result.company_name !== ticker && (
-            <p className="text-xs text-muted-foreground truncate mt-0.5 leading-tight">{result.company_name}</p>
+            <p className="text-mini text-muted-foreground truncate mt-0.5 leading-tight">{result.company_name}</p>
           )}
           {/* Row 2: cost basis + asset type badge */}
           <p className="text-micro text-muted-foreground mt-1 flex items-center gap-1.5 flex-wrap">
@@ -1046,7 +1046,7 @@ function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluen
                 <input
                   value={editTicker}
                   onChange={e => setEditTicker(e.target.value.toUpperCase())}
-                  className="w-20 text-right text-xs font-mono font-bold bg-background/60 border border-border/40 rounded px-1 py-0.5 focus:outline-none focus:border-primary/50"
+                  className="w-20 text-right text-mini font-mono font-bold bg-background/60 border border-border/40 rounded px-1 py-0.5 focus:outline-none focus:border-primary/50"
                   placeholder="AAPL"
                 />
               </div>
@@ -1056,7 +1056,7 @@ function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluen
                   type="number"
                   value={editShares}
                   onChange={e => setEditShares(e.target.value)}
-                  className="w-16 text-right text-xs bg-background/60 border border-border/40 rounded px-1 py-0.5 focus:outline-none focus:border-primary/50"
+                  className="w-16 text-right text-mini bg-background/60 border border-border/40 rounded px-1 py-0.5 focus:outline-none focus:border-primary/50"
                   min="0"
                   step="any"
                 />
@@ -1067,7 +1067,7 @@ function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluen
                   type="number"
                   value={editPrice}
                   onChange={e => setEditPrice(e.target.value)}
-                  className="w-20 text-right text-xs bg-background/60 border border-border/40 rounded px-1 py-0.5 focus:outline-none focus:border-primary/50"
+                  className="w-20 text-right text-mini bg-background/60 border border-border/40 rounded px-1 py-0.5 focus:outline-none focus:border-primary/50"
                   min="0"
                   step="any"
                 />
@@ -1086,7 +1086,7 @@ function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluen
             </div>
           ) : (
             <div className="text-right">
-              <div className="font-extrabold text-base tabular-nums text-foreground">{sym}{cur.toFixed(2)}</div>
+              <div className="font-extrabold text-titulo tabular-nums text-foreground">{sym}{cur.toFixed(2)}</div>
               {result && (
                 <div className="text-micro text-muted-foreground tabular-nums">
                   {sym}{result.market_value.toFixed(0)} · {result.portfolio_pct.toFixed(1)}%
@@ -1100,11 +1100,11 @@ function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluen
       {/* ── P&L BAND ── */}
       <div className={`flex items-center gap-2 px-4 py-2.5 mx-3 mb-3 rounded-xl ${pl == null ? 'bg-muted/10 border border-border/20' : pl >= 0 ? 'bg-emerald-500/10 border border-emerald-500/20' : 'bg-red-500/10 border border-red-500/20'}`}>
         {pl == null ? <TrendingUp size={16} className="text-muted-foreground shrink-0" /> : pl >= 0 ? <TrendingUp size={16} className="text-emerald-400 shrink-0" /> : <TrendingDown size={16} className="text-red-400 shrink-0" />}
-        <span className={`text-2xl font-black tabular-nums leading-none ${pl == null ? 'text-muted-foreground' : pl >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+        <span className={`text-pagina font-black tabular-nums leading-none ${pl == null ? 'text-muted-foreground' : pl >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
           {pl == null ? '—' : `${pl >= 0 ? '+' : ''}${pl.toFixed(2)}%`}
         </span>
         {result && (
-          <span className={`text-sm font-semibold tabular-nums opacity-60 ${(pl ?? 0) >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+          <span className={`text-cuerpo font-semibold tabular-nums opacity-60 ${(pl ?? 0) >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
             {result.pl_abs >= 0 ? '+' : ''}{sym}{Math.abs(result.pl_abs).toFixed(0)}
           </span>
         )}
@@ -1264,9 +1264,9 @@ function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluen
             {items.map((m, i) => (
               <div key={i} className="bg-muted/8 px-3 py-2.5">
                 <div className="text-micro font-semibold uppercase tracking-wider text-muted-foreground mb-0.5">{m.label}</div>
-                <div className={`text-sm font-bold tabular-nums ${m.valueClass ?? 'text-foreground'}`}>
+                <div className={`text-cuerpo font-bold tabular-nums ${m.valueClass ?? 'text-foreground'}`}>
                   {m.value}
-                  {m.suffix && <span className={`text-xs ml-1 ${m.suffixClass}`}>{m.suffix}</span>}
+                  {m.suffix && <span className={`text-mini ml-1 ${m.suffixClass}`}>{m.suffix}</span>}
                 </div>
               </div>
             ))}
@@ -1322,7 +1322,7 @@ function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluen
         <div className="mx-3 mb-3">
           <button
             onClick={() => setExpanded(v => !v)}
-            className="w-full flex items-center justify-between px-3 py-2 rounded-xl bg-muted/10 border border-border/20 text-xs text-muted-foreground hover:border-border/40 transition-colors"
+            className="w-full flex items-center justify-between px-3 py-2 rounded-xl bg-muted/10 border border-border/20 text-mini text-muted-foreground hover:border-border/40 transition-colors"
           >
             <span className="flex items-center gap-1.5 font-medium">
               <Brain size={12} className="text-primary" />
@@ -1332,7 +1332,7 @@ function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluen
           </button>
           {expanded && (
             <div className="mt-1.5 px-3 py-3 rounded-xl bg-muted/8 border border-border/15 space-y-2">
-              <p className="text-xs text-foreground/75 leading-relaxed">{result.analysis}</p>
+              <p className="text-mini text-foreground/75 leading-relaxed">{result.analysis}</p>
               {result.key_risk && (
                 <div className="flex items-start gap-2 px-2.5 py-2 rounded-lg border border-amber-500/20 bg-amber-500/5">
                   <AlertTriangle size={12} className="text-amber-400 mt-0.5 shrink-0" />
@@ -1668,8 +1668,8 @@ export default function PersonalPortfolio() {
           }
         `}</style>
         <div className="text-center space-y-1">
-          <p className="text-sm font-semibold text-foreground/80">Cargando tu cartera…</p>
-          <p className="text-xs text-muted-foreground">Conectando con la nube</p>
+          <p className="text-cuerpo font-semibold text-foreground/80">Cargando tu cartera…</p>
+          <p className="text-mini text-muted-foreground">Conectando con la nube</p>
         </div>
       </div>
       </>
@@ -1689,26 +1689,26 @@ export default function PersonalPortfolio() {
             <div className="flex gap-6 flex-wrap">
               <div className="animate-fade-in-up text-center sm:text-left" style={{ animationDelay: '0ms' }}>
                 <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-0.5">Valor total</div>
-                <div className="text-4xl font-black tabular-nums text-foreground">
+                <div className="text-cifra font-black tabular-nums text-foreground">
                   ${result.total_value.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}
                 </div>
               </div>
               <div className="animate-fade-in-up text-center sm:text-left" style={{ animationDelay: '60ms' }}>
                 <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-0.5">P&L total</div>
-                <div className={`text-2xl font-bold tabular-nums flex items-center gap-1 ${totalPL >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+                <div className={`text-pagina font-bold tabular-nums flex items-center gap-1 ${totalPL >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
                   {totalPL >= 0 ? <TrendingUp size={16} /> : <TrendingDown size={16} />}
                   {totalPL >= 0 ? '+' : ''}${totalPL.toFixed(0)}
-                  <span className="text-sm font-semibold ml-1">({totalPLPct >= 0 ? '+' : ''}{totalPLPct.toFixed(2)}%)</span>
+                  <span className="text-cuerpo font-semibold ml-1">({totalPLPct >= 0 ? '+' : ''}{totalPLPct.toFixed(2)}%)</span>
                 </div>
               </div>
               <div className="animate-fade-in-up text-center sm:text-left" style={{ animationDelay: '120ms' }}>
                 <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-0.5">Posiciones</div>
-                <div className="text-2xl font-bold text-foreground">{positions.length}</div>
+                <div className="text-pagina font-bold text-foreground">{positions.length}</div>
               </div>
               {annualDividends > 0 && (
                 <div className="animate-fade-in-up text-center sm:text-left" style={{ animationDelay: '180ms' }}>
                   <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-0.5">Dividendos / año</div>
-                  <div className="text-2xl font-bold tabular-nums text-emerald-400">
+                  <div className="text-pagina font-bold tabular-nums text-emerald-400">
                     ~${annualDividends.toFixed(0)}
                   </div>
                 </div>
@@ -1718,7 +1718,7 @@ export default function PersonalPortfolio() {
               <button
                 onClick={() => { invalidateCache(); analyze() }}
                 disabled={analyzing}
-                className="flex items-center gap-2 px-4 py-2 rounded-xl bg-primary/10 border border-primary/25 text-primary text-sm font-semibold hover:bg-primary/20 transition-colors disabled:opacity-50"
+                className="flex items-center gap-2 px-4 py-2 rounded-xl bg-primary/10 border border-primary/25 text-primary text-cuerpo font-semibold hover:bg-primary/20 transition-colors disabled:opacity-50"
               >
                 <RefreshCw size={16} className={analyzing ? 'animate-spin' : ''} />
                 {analyzing ? 'Analizando...' : 'Re-analizar'}
@@ -1734,9 +1734,9 @@ export default function PersonalPortfolio() {
 
           {result.portfolio_analysis?.summary && (
             <div className="pt-3 border-t border-border/30 space-y-2">
-              <p className="text-sm text-foreground/80 leading-relaxed">{result.portfolio_analysis.summary}</p>
+              <p className="text-cuerpo text-foreground/80 leading-relaxed">{result.portfolio_analysis.summary}</p>
               {result.portfolio_analysis.overall_recommendation && (
-                <p className="text-sm text-muted-foreground leading-relaxed">{result.portfolio_analysis.overall_recommendation}</p>
+                <p className="text-cuerpo text-muted-foreground leading-relaxed">{result.portfolio_analysis.overall_recommendation}</p>
               )}
               {result.portfolio_analysis.concentration_warning && (
                 <div className="flex items-start gap-2 p-2.5 rounded-lg bg-amber-500/8 border border-amber-500/20">
@@ -1917,9 +1917,9 @@ export default function PersonalPortfolio() {
       {/* Refresh status banner — feedback al editar posiciones */}
       {refreshState.status !== 'idle' && (
         <div className={
-          refreshState.status === 'running' ? 'flex items-center gap-2 p-3 rounded-xl bg-primary/10 border border-primary/20 text-primary text-sm animate-fade-in-up' :
-          refreshState.status === 'ok'      ? 'flex items-center gap-2 p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-sm animate-fade-in-up' :
-                                              'flex items-center gap-2 p-3 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-400 text-sm animate-fade-in-up'
+          refreshState.status === 'running' ? 'flex items-center gap-2 p-3 rounded-xl bg-primary/10 border border-primary/20 text-primary text-cuerpo animate-fade-in-up' :
+          refreshState.status === 'ok'      ? 'flex items-center gap-2 p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-cuerpo animate-fade-in-up' :
+                                              'flex items-center gap-2 p-3 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-400 text-cuerpo animate-fade-in-up'
         }>
           {refreshState.status === 'running'
             ? <Loader2 size={16} className="animate-spin" />
@@ -1930,7 +1930,7 @@ export default function PersonalPortfolio() {
 
       {/* Error */}
       {error && (
-        <div className="flex items-center gap-2 p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm">
+        <div className="flex items-center gap-2 p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-cuerpo">
           <AlertTriangle size={16} />
           {error}
         </div>
@@ -1941,7 +1941,7 @@ export default function PersonalPortfolio() {
         <div className="glass rounded-2xl p-12 text-center animate-fade-in-up">
           <Wallet size={40} className="mx-auto text-muted-foreground mb-4" />
           <p className="text-foreground font-semibold mb-1">Sin posiciones todavía</p>
-          <p className="text-sm text-muted-foreground">Añade tus posiciones arriba y el análisis IA se generará automáticamente.</p>
+          <p className="text-cuerpo text-muted-foreground">Añade tus posiciones arriba y el análisis IA se generará automáticamente.</p>
         </div>
       )}
 
@@ -1971,7 +1971,7 @@ export default function PersonalPortfolio() {
                   {stockTickers.map((t, i) => (
                     <span
                       key={t}
-                      className="font-mono font-bold text-xs px-2.5 py-1 rounded-lg border border-primary/20 text-primary bg-primary/5"
+                      className="font-mono font-bold text-mini px-2.5 py-1 rounded-lg border border-primary/20 text-primary bg-primary/5"
                       style={{ animation: `fadeInUp 0.4s ease-out ${i * 0.08}s both` }}
                     >
                       {t}
@@ -1988,7 +1988,7 @@ export default function PersonalPortfolio() {
                     >
                       <div className="w-1.5 h-1.5 rounded-full bg-primary/60 shrink-0"
                         style={{ animation: `pulse 1.4s ${i * 0.25}s infinite` }} />
-                      <span className="text-xs text-muted-foreground">{step}</span>
+                      <span className="text-mini text-muted-foreground">{step}</span>
                     </div>
                   ))}
                 </div>
@@ -2013,10 +2013,10 @@ export default function PersonalPortfolio() {
                   <div className="flex items-start gap-3 rounded-xl border border-orange-500/25 bg-orange-500/8 p-4">
                     <AlertTriangle size={16} className="mt-0.5 shrink-0 text-orange-300" />
                     <div>
-                      <p className="text-sm font-bold text-orange-300">
+                      <p className="text-cuerpo font-bold text-orange-300">
                         Macro Stress detecta exposición en {macroWarningEntries.length} posición{macroWarningEntries.length > 1 ? 'es' : ''}
                       </p>
-                      <p className="mt-0.5 text-xs text-muted-foreground">
+                      <p className="mt-0.5 text-mini text-muted-foreground">
                         {macroWarningEntries
                           .map(([ticker, warnings]) => `${ticker} → ${warnings.map(w => `${w.marketLabel} ${w.score.toFixed(0)}`).join(', ')}`)
                           .join(' · ')}
@@ -2029,11 +2029,11 @@ export default function PersonalPortfolio() {
                   <div className={`flex items-start gap-3 p-4 rounded-xl border ${criticalCount > 0 ? 'border-red-500/30 bg-red-500/8' : 'border-amber-500/25 bg-amber-500/6'}`}>
                     <Brain size={16} className={criticalCount > 0 ? 'text-red-400 mt-0.5 shrink-0' : 'text-amber-400 mt-0.5 shrink-0'} />
                     <div>
-                      <p className={`text-sm font-bold ${criticalCount > 0 ? 'text-red-400' : 'text-amber-400'}`}>
+                      <p className={`text-cuerpo font-bold ${criticalCount > 0 ? 'text-red-400' : 'text-amber-400'}`}>
                         Cerebro IA detectó alertas en {posWithAlerts.length} de {positions.length} posiciones
                         {criticalCount > 0 && ` — ${criticalCount} crítica${criticalCount > 1 ? 's' : ''}`}
                       </p>
-                      <p className="text-xs text-muted-foreground mt-0.5">
+                      <p className="text-mini text-muted-foreground mt-0.5">
                         {posWithAlerts.map(p => p.ticker).join(', ')} · Ver detalles en cada posición
                       </p>
                     </div>

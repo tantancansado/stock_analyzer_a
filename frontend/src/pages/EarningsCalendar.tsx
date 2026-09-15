@@ -140,7 +140,7 @@ export default function EarningsCalendar() {
   return (
     <div className="max-w-5xl mx-auto space-y-5">
       <PageHeader {...cabecera}>
-        <span className="text-xs text-muted-foreground">{data.total} tickers · {data.as_of}</span>
+        <span className="text-mini text-muted-foreground">{data.total} tickers · {data.as_of}</span>
       </PageHeader>
 
       {/* Stats */}
@@ -149,27 +149,27 @@ export default function EarningsCalendar() {
           <CardContent className="p-4">
             <div className="flex items-center gap-2">
               <AlertTriangle size={16} className="text-red-400 flex-shrink-0" />
-              <div className="text-xl font-bold text-red-400">{within7d}</div>
+              <div className="text-seccion font-bold text-red-400">{within7d}</div>
             </div>
-            <div className="text-xs text-muted-foreground mt-1">Earnings en 7 días</div>
+            <div className="text-mini text-muted-foreground mt-1">Earnings en 7 días</div>
           </CardContent>
         </Card>
         <Card className="glass border border-border/50">
           <CardContent className="p-4">
             <div className="flex items-center gap-2">
               <AlertTriangle size={16} className="text-orange-400 flex-shrink-0" />
-              <div className="text-xl font-bold text-orange-400">{warningCount}</div>
+              <div className="text-seccion font-bold text-orange-400">{warningCount}</div>
             </div>
-            <div className="text-xs text-muted-foreground mt-1">Con alerta activa</div>
+            <div className="text-mini text-muted-foreground mt-1">Con alerta activa</div>
           </CardContent>
         </Card>
         <Card className="glass border border-border/50">
           <CardContent className="p-4">
             <div className="flex items-center gap-2">
               <Zap size={16} className="text-emerald-400 flex-shrink-0" />
-              <div className="text-xl font-bold text-emerald-400">{catalystCount}</div>
+              <div className="text-seccion font-bold text-emerald-400">{catalystCount}</div>
             </div>
-            <div className="text-xs text-muted-foreground mt-1">Posible catalizador</div>
+            <div className="text-mini text-muted-foreground mt-1">Posible catalizador</div>
           </CardContent>
         </Card>
       </div>
@@ -180,7 +180,7 @@ export default function EarningsCalendar() {
           <CardContent className="p-4">
             <div className="flex items-center gap-2 mb-3">
               <Wallet size={16} className="text-primary" />
-              <span className="text-xs font-bold uppercase tracking-widest text-primary">Earnings de Mi Cartera</span>
+              <span className="text-mini font-bold uppercase tracking-widest text-primary">Earnings de Mi Cartera</span>
               <span className="text-micro px-2 py-0.5 rounded-full bg-primary/20 text-primary border border-primary/30 font-bold">{myEarnings.length}</span>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
@@ -192,7 +192,7 @@ export default function EarningsCalendar() {
                   <TickerLogo ticker={entry.ticker} size="xs" />
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-1.5">
-                      <span className="font-mono font-bold text-sm text-primary">{entry.ticker}</span>
+                      <span className="font-mono font-bold text-cuerpo text-primary">{entry.ticker}</span>
                       <span className="text-micro text-muted-foreground truncate">{entry.company}</span>
                     </div>
                     <div className="flex items-center gap-2 mt-0.5">
@@ -242,7 +242,7 @@ export default function EarningsCalendar() {
                   >
                     <Bot size={12} /> Tesis IA
                   </button>
-                  <div className={`text-lg font-bold tabular-nums shrink-0 ${urgencyColor(entry.days_to_earnings, entry.earnings_warning)}`}>
+                  <div className={`text-seccion font-bold tabular-nums shrink-0 ${urgencyColor(entry.days_to_earnings, entry.earnings_warning)}`}>
                     {daysLabel(entry.days_to_earnings)}
                   </div>
                 </div>
@@ -259,7 +259,7 @@ export default function EarningsCalendar() {
           placeholder="Buscar ticker, empresa, sector..."
           value={search}
           onChange={e => setSearch(e.target.value)}
-          className="flex-1 text-sm rounded-lg border border-border/40 bg-background/60 px-3 py-1.5 focus:outline-none focus:border-primary/50 text-foreground placeholder:text-muted-foreground"
+          className="flex-1 text-cuerpo rounded-lg border border-border/40 bg-background/60 px-3 py-1.5 focus:outline-none focus:border-primary/50 text-foreground placeholder:text-muted-foreground"
         />
         <div className="flex gap-1.5 flex-wrap">
           {(['all', 'portfolio', 'warning', 'catalyst'] as FilterMode[]).map(f => (
@@ -273,7 +273,7 @@ export default function EarningsCalendar() {
       {/* Grouped by date */}
       {sortedDates.length === 0 ? (
         <Card className="glass border border-border/40">
-          <CardContent className="p-8 text-center text-sm text-muted-foreground">
+          <CardContent className="p-8 text-center text-cuerpo text-muted-foreground">
             Sin earnings próximos con los filtros actuales
           </CardContent>
         </Card>
@@ -283,10 +283,10 @@ export default function EarningsCalendar() {
             {/* Date header */}
             <div className="flex items-center gap-2 mb-2 animate-fade-in-up">
               <Calendar size={16} className="text-muted-foreground" />
-              <span className="text-xs font-bold text-muted-foreground uppercase tracking-wider">
+              <span className="text-mini font-bold text-muted-foreground uppercase tracking-wider">
                 {formatDate(date)}
               </span>
-              <span className="text-xs text-muted-foreground">
+              <span className="text-mini text-muted-foreground">
                 — {grouped[date].length} empresa{grouped[date].length !== 1 ? 's' : ''}
               </span>
             </div>
@@ -302,16 +302,16 @@ export default function EarningsCalendar() {
                       {/* Ticker + company */}
                       <div className="flex items-center gap-1.5 min-w-[80px]">
                         <TickerLogo ticker={entry.ticker} size="xs" />
-                        <span className="font-mono font-bold text-sm text-primary">{entry.ticker}</span>
+                        <span className="font-mono font-bold text-cuerpo text-primary">{entry.ticker}</span>
                         <OwnedBadge ticker={entry.ticker} />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <span className="text-xs text-foreground/80 truncate">{entry.company}</span>
-                        <span className="text-xs text-muted-foreground ml-2">{entry.sector}</span>
+                        <span className="text-mini text-foreground/80 truncate">{entry.company}</span>
+                        <span className="text-mini text-muted-foreground ml-2">{entry.sector}</span>
                       </div>
 
                       {/* Days countdown */}
-                      <div className={`text-sm font-bold min-w-[40px] text-right ${urgencyColor(entry.days_to_earnings, entry.earnings_warning)}`}>
+                      <div className={`text-cuerpo font-bold min-w-[40px] text-right ${urgencyColor(entry.days_to_earnings, entry.earnings_warning)}`}>
                         {daysLabel(entry.days_to_earnings)}
                       </div>
 
@@ -387,7 +387,7 @@ export default function EarningsCalendar() {
 
       {/* Legend */}
       <Card className="glass border border-border/30">
-        <CardContent className="p-3 flex flex-wrap gap-4 text-xs text-muted-foreground">
+        <CardContent className="p-3 flex flex-wrap gap-4 text-mini text-muted-foreground">
           <div className="flex items-center gap-1.5">
             <div className="w-2 h-2 rounded-full bg-red-400" />
             <span>Earnings en ≤7 días — evitar entrada nueva</span>

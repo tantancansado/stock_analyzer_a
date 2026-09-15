@@ -87,10 +87,10 @@ export default class ErrorBoundary extends Component<Props, State> {
       return (
         <div className="min-h-[60vh] flex flex-col items-center justify-center p-8 text-center">
           <TriangleAlert size={40} strokeWidth={1.5} className="mb-4 opacity-30" />
-          <h2 className="text-lg font-bold text-foreground mb-2">
+          <h2 className="text-seccion font-bold text-foreground mb-2">
             {importError ? 'La app necesita actualizarse' : 'Algo salió mal'}
           </h2>
-          <p className="text-sm text-muted-foreground mb-4 max-w-md">
+          <p className="text-cuerpo text-muted-foreground mb-4 max-w-md">
             {importError
               ? 'Hay una versión nueva y el navegador intentó abrir una pieza antigua. Actualiza la app para continuar.'
               : this.state.error.message || 'Error inesperado en esta sección.'}
@@ -98,14 +98,14 @@ export default class ErrorBoundary extends Component<Props, State> {
           {importError ? (
             <button
               onClick={() => { void recoverAppShell() }}
-              className="text-xs px-4 py-2 rounded border border-primary/40 text-primary hover:bg-primary/10 transition-colors"
+              className="text-mini px-4 py-2 rounded border border-primary/40 text-primary hover:bg-primary/10 transition-colors"
             >
               Actualizar ahora
             </button>
           ) : (
             <button
               onClick={() => this.setState({ error: null })}
-              className="text-xs px-4 py-2 rounded border border-primary/40 text-primary hover:bg-primary/10 transition-colors"
+              className="text-mini px-4 py-2 rounded border border-primary/40 text-primary hover:bg-primary/10 transition-colors"
             >
               Reintentar
             </button>

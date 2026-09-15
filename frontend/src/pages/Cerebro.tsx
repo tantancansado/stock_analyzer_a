@@ -93,8 +93,8 @@ function CoachActionButton({ action, onOpen }: { action: CoachAction; onOpen: (t
             </span>
             {action.ticker && <span className="font-mono text-mini font-bold text-primary">{action.ticker}</span>}
           </div>
-          <p className="text-sm font-semibold leading-snug text-foreground">{action.title}</p>
-          <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{action.body}</p>
+          <p className="text-cuerpo font-semibold leading-snug text-foreground">{action.title}</p>
+          <p className="mt-1 text-mini leading-relaxed text-muted-foreground">{action.body}</p>
           {action.meta && <p className="mt-2 text-micro font-medium text-muted-foreground">{action.meta}</p>}
         </div>
         <ChevronRight size={16} className="mt-2 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-0.5 group-hover:text-primary" />
@@ -269,10 +269,10 @@ function CerebroCoachPanel({
                 pone el h1 de la página. Ponerlo aquí daba dos encabezados de
                 nivel 1 compitiendo, y además este es el titular del día, que
                 cambia con los datos — no el nombre de la sección. */}
-            <p className="max-w-2xl text-2xl font-extrabold leading-tight tracking-tight text-foreground md:text-3xl">
+            <p className="max-w-2xl text-pagina font-extrabold leading-tight tracking-tight text-foreground md:text-cifra">
               {headline}
             </p>
-            <p className="mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground">{subline}</p>
+            <p className="mt-3 max-w-xl text-cuerpo leading-relaxed text-muted-foreground">{subline}</p>
 
             <div className="mt-5 flex flex-wrap gap-2">
               <button type="button" onClick={() => onOpenTab(actions[0]?.tab ?? 'briefing')} className="filter-btn active">
@@ -607,7 +607,7 @@ function EntryScoreBar({ score }: { score: number }) {
       <div className="flex-1 h-2 rounded-full bg-muted/20 overflow-hidden">
         <div className={`h-full rounded-full transition-all ${color}`} style={{ width: `${score}%` }} />
       </div>
-      <span className="tabular-nums text-sm font-extrabold w-8 text-right">{score}</span>
+      <span className="tabular-nums text-cuerpo font-extrabold w-8 text-right">{score}</span>
     </div>
   )
 }
@@ -886,11 +886,11 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
       {/* Header — se oculta cuando Cerebro va embebido como pestaña del Dashboard */}
       {!embedded && (
         <div className="mb-7 animate-fade-in-up">
-          <h2 className="text-2xl font-extrabold tracking-tight mb-2 gradient-title flex items-center gap-2">
+          <h2 className="text-pagina font-extrabold tracking-tight mb-2 gradient-title flex items-center gap-2">
             <Brain size={22} className="text-violet-400" />
             Cerebro — IA Proactiva
           </h2>
-          <p className="text-sm text-muted-foreground">
+          <p className="text-cuerpo text-muted-foreground">
             Te resume lo importante primero. El detalle técnico sigue debajo cuando lo necesites.
           </p>
         </div>
@@ -916,7 +916,7 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
         ].map((s, i) => (
           <Card key={s.label} onClick={s.onClick} className="glass p-5 border border-border/40 hover:border-border/60 transition-colors animate-fade-in-up cursor-pointer active:scale-[0.98]" style={{ animationDelay: `${i * 60}ms` }}>
             <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-2">{s.label}</div>
-            <div className={`text-3xl font-extrabold tabular-nums leading-none mb-1 ${s.color}`}>{s.value}</div>
+            <div className={`text-cifra font-extrabold tabular-nums leading-none mb-1 ${s.color}`}>{s.value}</div>
             <div className={`text-micro ${portfolioRiskCount > 0 && s.label === 'En cartera' ? 'text-red-400' : 'text-muted-foreground'}`}>{s.sub}</div>
           </Card>
         ))}
@@ -972,7 +972,7 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
               <CardContent className="p-4">
                 <div className="flex items-center gap-2 mb-3">
                   <Newspaper size={16} className="text-muted-foreground" />
-                  <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Resumen automático</span>
+                  <span className="text-mini font-bold uppercase tracking-widest text-muted-foreground">Resumen automático</span>
                   <span className="ml-auto text-micro text-muted-foreground">Briefing IA no generado aún</span>
                 </div>
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 text-mini">
@@ -1025,7 +1025,7 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
                   <CardContent className="p-4">
                     <div className="flex items-center gap-2 mb-3">
                       <Zap size={16} className="text-emerald-400" />
-                      <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Entradas hoy</span>
+                      <span className="text-mini font-bold uppercase tracking-widest text-muted-foreground">Entradas hoy</span>
                       <span className="ml-auto text-micro bg-emerald-500/15 text-emerald-400 px-1.5 py-0.5 rounded border border-emerald-500/30 font-bold">
                         {briefingSections.strong_buy_count} SB · {briefingSections.buy_count} BUY
                       </span>
@@ -1052,7 +1052,7 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
                   <CardContent className="p-4">
                     <div className="flex items-center gap-2 mb-3">
                       <Building2 size={16} className="text-purple-400" />
-                      <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Smart Money</span>
+                      <span className="text-mini font-bold uppercase tracking-widest text-muted-foreground">Smart Money</span>
                     </div>
                     <div className="space-y-1.5">
                       {briefingSections.smart_money.map(([ticker, nHF, nInsiders]) => (
@@ -1075,7 +1075,7 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
                   <CardContent className="p-4">
                     <div className="flex items-center gap-2 mb-3">
                       <Activity size={16} className="text-orange-300" />
-                      <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Macro Stress</span>
+                      <span className="text-mini font-bold uppercase tracking-widest text-muted-foreground">Macro Stress</span>
                     </div>
                     <div className="space-y-2">
                       {briefingSections.macro_stress.map((item) => (
@@ -1107,7 +1107,7 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
                   <CardContent className="p-4">
                     <div className="flex items-center gap-2 mb-3">
                       <ShieldAlert size={16} className="text-red-400" />
-                      <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Vigilar / Salir</span>
+                      <span className="text-mini font-bold uppercase tracking-widest text-muted-foreground">Vigilar / Salir</span>
                     </div>
                     <div className="space-y-2">
                       {briefingSections.exit_warnings.map(([ticker, reason, aiFinding, entryScore, currentScore]: [string, string, string, number, number]) => (
@@ -1141,7 +1141,7 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
                   <CardContent className="p-4">
                     <div className="flex items-center gap-2 mb-3">
                       <Crosshair size={16} className="text-cyan-400" />
-                      <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Convergencias</span>
+                      <span className="text-mini font-bold uppercase tracking-widest text-muted-foreground">Convergencias</span>
                     </div>
                     <div className="space-y-1.5">
                       {briefingSections.top_convergences.map(([ticker, score]) => (
@@ -1162,7 +1162,7 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
                   <CardContent className="p-4">
                     <div className="flex items-center gap-2 mb-3">
                       <Bell size={16} className="text-violet-400" />
-                      <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Earnings en tu cartera</span>
+                      <span className="text-mini font-bold uppercase tracking-widest text-muted-foreground">Earnings en tu cartera</span>
                       <span className="ml-auto text-micro bg-violet-500/15 text-violet-400 px-1.5 py-0.5 rounded border border-violet-500/30 font-bold">
                         {portfolioEarnings.length} próximos
                       </span>
@@ -1192,7 +1192,7 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
                   <CardContent className="p-4">
                     <div className="flex items-center gap-2 mb-3">
                       <Bell size={16} className="text-amber-400" />
-                      <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Alertas HIGH</span>
+                      <span className="text-mini font-bold uppercase tracking-widest text-muted-foreground">Alertas HIGH</span>
                     </div>
                     <div className="space-y-1.5">
                       {briefingSections.high_alerts.map(([ticker, type]) => (
@@ -1279,7 +1279,7 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
                         {e.implied_move_pct != null && <div className="text-micro text-muted-foreground">Movimiento implícito: ±{e.implied_move_pct.toFixed(1)}%</div>}
                       </div>
                       <div className="text-right shrink-0">
-                        <div className={`text-sm font-black tabular-nums ${e.days_to_earnings === 0 ? 'text-red-400' : e.days_to_earnings != null && e.days_to_earnings <= 3 ? 'text-amber-400' : 'text-violet-400'}`}>
+                        <div className={`text-cuerpo font-black tabular-nums ${e.days_to_earnings === 0 ? 'text-red-400' : e.days_to_earnings != null && e.days_to_earnings <= 3 ? 'text-amber-400' : 'text-violet-400'}`}>
                           {e.days_to_earnings === 0 ? 'HOY' : `${e.days_to_earnings}d`}
                         </div>
                         {e.earnings_catalyst && <div className="text-micro text-emerald-400 font-bold">CATALIZADOR</div>}
@@ -1360,7 +1360,7 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
                 <button
                   key={f}
                   onClick={() => setEntryFilter(f)}
-                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold border transition-colors active:scale-[0.98] ${
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-mini font-semibold border transition-colors active:scale-[0.98] ${
                     entryFilter === f
                       ? 'bg-primary/15 text-primary border-primary/30'
                       : 'bg-muted/10 text-muted-foreground border-border/30 hover:text-foreground'
@@ -1403,10 +1403,10 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
       {activeTab === 'bounces' && (
         <div className="space-y-4 animate-fade-in-up">
           <div className="flex items-center justify-between">
-            <p className="text-xs text-muted-foreground">
+            <p className="text-mini text-muted-foreground">
               Setups de rebote — oversold con RSI bajo y soporte claro · <Link to="/mean-reversion" className="text-primary hover:underline">Ver tabla completa →</Link>
             </p>
-            <span className="text-xs text-muted-foreground">{topBounces.length} setups de calidad</span>
+            <span className="text-mini text-muted-foreground">{topBounces.length} setups de calidad</span>
           </div>
 
           {topBounces.length === 0 ? (
@@ -1528,7 +1528,7 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
             return (
             <>
               <div className="flex items-center justify-between">
-                <p className="text-xs text-muted-foreground">
+                <p className="text-mini text-muted-foreground">
                   {showAllConvergences ? `${signals.length} convergencias totales` : `${tripleSignals.length} convergencias triples (≥3 estrategias)`}
                 </p>
                 {!showAllConvergences && signals.length > tripleSignals.length ? (
@@ -1637,7 +1637,7 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
           <section>
             <div className="flex items-center gap-2 mb-3">
               <TrendingDown size={16} className="text-red-400" />
-              <h3 className="text-sm font-bold text-foreground/80">Exit Monitor</h3>
+              <h3 className="text-cuerpo font-bold text-foreground/80">Exit Monitor</h3>
               {exitData && <span className="text-micro text-red-400 bg-red-500/10 border border-red-500/20 px-1.5 py-0.5 rounded font-bold">{exitData.high_count} HIGH · {exitData.total} total</span>}
             </div>
             {exitData?.narrative && <AiNarrativeCard narrative={exitData.narrative} label="" />}
@@ -1683,7 +1683,7 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
           <section>
             <div className="flex items-center gap-2 mb-3">
               <AlertOctagon size={16} className="text-amber-400" />
-              <h3 className="text-sm font-bold text-foreground/80">Value Trap Detector</h3>
+              <h3 className="text-cuerpo font-bold text-foreground/80">Value Trap Detector</h3>
               {trapsData && <span className="text-micro text-amber-400 bg-amber-500/10 border border-amber-500/20 px-1.5 py-0.5 rounded font-bold">{trapsData.high_count} HIGH · {trapsData.total} total</span>}
             </div>
             {trapsData?.narrative && <AiNarrativeCard narrative={trapsData.narrative} label="" />}
@@ -1713,7 +1713,7 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
           <section>
             <div className="flex items-center gap-2 mb-3">
               <Building2 size={16} className="text-purple-400" />
-              <h3 className="text-sm font-bold text-foreground/80">Smart Money Convergence</h3>
+              <h3 className="text-cuerpo font-bold text-foreground/80">Smart Money Convergence</h3>
               {smData && <span className="text-micro text-purple-400 bg-purple-500/10 border border-purple-500/20 px-1.5 py-0.5 rounded font-bold">{smData.total} señales</span>}
             </div>
             {smData?.narrative && <AiNarrativeCard narrative={smData.narrative} label="" />}
@@ -1738,7 +1738,7 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
           <section>
             <div className="flex items-center gap-2 mb-3">
               <Users size={16} className="text-teal-400" />
-              <h3 className="text-sm font-bold text-foreground/80">Insider Sector Clusters</h3>
+              <h3 className="text-cuerpo font-bold text-foreground/80">Insider Sector Clusters</h3>
               {clustersData && <span className="text-micro text-teal-400 bg-teal-500/10 border border-teal-500/20 px-1.5 py-0.5 rounded font-bold">{clustersData.total} clusters</span>}
             </div>
             {clustersData?.narrative && <AiNarrativeCard narrative={clustersData.narrative} label="" />}
@@ -1765,7 +1765,7 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
           <section>
             <div className="flex items-center gap-2 mb-3">
               <Wallet size={16} className="text-emerald-400" />
-              <h3 className="text-sm font-bold text-foreground/80">Dividend Safety Monitor</h3>
+              <h3 className="text-cuerpo font-bold text-foreground/80">Dividend Safety Monitor</h3>
               {divData && <span className="text-micro text-red-400 bg-red-500/10 border border-red-500/20 px-1.5 py-0.5 rounded font-bold">{divData.at_risk} AT RISK · {divData.total} total</span>}
             </div>
             {divData?.narrative && <AiNarrativeCard narrative={divData.narrative} label="" />}
@@ -1797,7 +1797,7 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
           <section>
             <div className="flex items-center gap-2 mb-3">
               <BarChart2 size={16} className="text-blue-400" />
-              <h3 className="text-sm font-bold text-foreground/80">Piotroski Momentum</h3>
+              <h3 className="text-cuerpo font-bold text-foreground/80">Piotroski Momentum</h3>
               {piotrData && <span className="text-micro text-blue-400 bg-blue-500/10 border border-blue-500/20 px-1.5 py-0.5 rounded font-bold">{piotrData.improving} mejorando · {piotrData.total} analizados</span>}
             </div>
             {piotrData?.narrative && <AiNarrativeCard narrative={piotrData.narrative} label="" />}
@@ -1829,7 +1829,7 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
           <section>
             <div className="flex items-center gap-2 mb-3">
               <Activity size={16} className="text-pink-400" />
-              <h3 className="text-sm font-bold text-foreground/80">Portfolio Stress Test</h3>
+              <h3 className="text-cuerpo font-bold text-foreground/80">Portfolio Stress Test</h3>
               {stressData && <span className="text-micro text-muted-foreground bg-muted/15 border border-border/30 px-1.5 py-0.5 rounded font-bold">{stressData.total_positions} posiciones · {stressData.risks.length} riesgos</span>}
             </div>
             {stressData?.narrative && <AiNarrativeCard narrative={stressData.narrative} label="" />}
@@ -1844,7 +1844,7 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
                 </div>
               ))}
               {stressData && (stressData.risks ?? []).length === 0 && (
-                <div className="p-4 rounded-xl border border-emerald-500/20 bg-emerald-500/5 text-center text-sm text-emerald-400">
+                <div className="p-4 rounded-xl border border-emerald-500/20 bg-emerald-500/5 text-center text-cuerpo text-emerald-400">
                   Sin riesgos de concentración detectados — cartera bien diversificada
                 </div>
               )}
@@ -1852,7 +1852,7 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
             {stressData?.sector_breakdown && stressData.sector_breakdown.length > 0 && (
               <Card className="glass mt-3">
                 <CardContent className="p-4">
-                  <div className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-3">Distribución sectorial (últimas 60 días)</div>
+                  <div className="text-mini font-bold uppercase tracking-widest text-muted-foreground mb-3">Distribución sectorial (últimas 60 días)</div>
                   <div className="space-y-2">
                     {stressData.sector_breakdown.map(s => (
                       <div key={s.sector} className="flex items-center gap-2">
@@ -1873,7 +1873,7 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
           <section>
             <div className="flex items-center gap-2 mb-3">
               <Zap size={16} className="text-cyan-400" />
-              <h3 className="text-sm font-bold text-foreground/80">Short Squeeze Detector</h3>
+              <h3 className="text-cuerpo font-bold text-foreground/80">Short Squeeze Detector</h3>
               {squeezeData && <span className="text-micro text-cyan-400 bg-cyan-500/10 border border-cyan-500/20 px-1.5 py-0.5 rounded font-bold">{squeezeData.high_count} HIGH · {squeezeData.total} total</span>}
             </div>
             {squeezeData?.narrative && <AiNarrativeCard narrative={squeezeData.narrative} label="" />}
@@ -1906,7 +1906,7 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
           <section>
             <div className="flex items-center gap-2 mb-3">
               <TrendingDown size={16} className="text-orange-400" />
-              <h3 className="text-sm font-bold text-foreground/80">Quality Decay Monitor</h3>
+              <h3 className="text-cuerpo font-bold text-foreground/80">Quality Decay Monitor</h3>
               {decayData && <span className="text-micro text-orange-400 bg-orange-500/10 border border-orange-500/20 px-1.5 py-0.5 rounded font-bold">{decayData.high_count} HIGH · {decayData.total} total</span>}
             </div>
             {decayData?.narrative && <AiNarrativeCard narrative={decayData.narrative} label="" />}

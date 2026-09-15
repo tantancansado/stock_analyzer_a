@@ -40,7 +40,7 @@ export function ValueModeToggle({
       aria-pressed={clearMode}
       onClick={() => onChange(!clearMode)}
       className={cn(
-        'inline-flex items-center gap-2 rounded-lg border px-3 py-1.5 text-xs font-semibold transition-colors',
+        'inline-flex items-center gap-2 rounded-lg border px-3 py-1.5 text-mini font-semibold transition-colors',
         clearMode
           ? 'border-primary/40 bg-primary/10 text-primary'
           : 'border-border/50 text-muted-foreground hover:border-border/80 hover:text-foreground'
@@ -97,7 +97,7 @@ export function ValueClarityPanel({
           // la IA verifica) o que tus filtros lo escondan. El 9-sep-2026 el
           // suelo de score por defecto (55) dejaba esta pantalla en "no hay
           // ideas" con 4 picks publicados: parecía que no había encontrado nada.
-          <div className="text-sm">
+          <div className="text-cuerpo">
             {totalPublicadas > 0 ? (
               <>
                 <p className="text-foreground">

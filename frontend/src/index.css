@@ -39,6 +39,14 @@
   --text-apoyo:  0.8125rem;   /* 13px — texto de apoyo */
   --text-cuerpo: 0.875rem;    /* 14px — cuerpo */
   --text-titulo: 1rem;        /* 16px — títulos de tarjeta y cabeceras */
+  /* La escala se cortaba aquí, y por encima convivían cinco tamaños de
+     Tailwind en crudo (lg, xl, 2xl, 3xl, 4xl) con 118 usos. O sea: dos escalas
+     tipográficas a la vez, una semántica y otra no, cada una con ~1.200 usos.
+     Nada casaba porque nada compartía sistema. Estos tres cierran la escala
+     por arriba con los tres papeles que faltaban. */
+  --text-seccion: 1.125rem;   /* 18px — título de sección dentro de una página */
+  --text-pagina:  1.5rem;     /* 24px — título de página */
+  --text-cifra:   1.875rem;   /* 30px — cifras de cabecera */
 }
 
 @theme inline {
@@ -962,7 +970,7 @@ button:active:not(:disabled) { transform: scale(0.97); }
 
 /* Section label: "Score≥", "Grado", "Sector" */
 .filter-label {
-  font-size: 0.65rem;
+  font-size: var(--text-micro);   /* era 0.65rem = 10,4px: por debajo del suelo de 11px */
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -983,7 +991,7 @@ button:active:not(:disabled) { transform: scale(0.97); }
   align-items: center;
   height: 1.625rem;          /* 26px — readable on mobile */
   padding: 0 0.625rem;       /* px-2.5 */
-  font-size: 0.72rem;
+  font-size: var(--text-mini);
   font-weight: 500;
   border-radius: 0.375rem;
   border: 1px solid color-mix(in oklab, var(--border) 50%, transparent);
@@ -1026,7 +1034,7 @@ button:active:not(:disabled) { transform: scale(0.97); }
   width: 3.25rem;
   height: 1.625rem;
   padding: 0 0.5rem;
-  font-size: 0.72rem;
+  font-size: var(--text-mini);
   border-radius: 0.375rem;
   border: 1px solid color-mix(in oklab, var(--border) 50%, transparent);
   background: transparent;
@@ -2221,10 +2229,11 @@ select:focus {
     padding-bottom: 0.625rem;
   }
 
-  /* Ensure stat card numbers don't overflow on small screens */
-  .text-3xl.tabular-nums {
-    font-size: 1.5rem;
-  }
+  /* Aquí había un `.text-3xl.tabular-nums { font-size: 1.5rem }` para que las
+     cifras de cabecera no desbordaran en móvil. La clase dejó de existir al
+     unificar la escala, así que la regla ya no aplicaba a nada — y el problema
+     que resolvía tampoco existe: `CifrasClave` reparte en dos columnas en
+     móvil en vez de cuatro. */
 
   /* Better filter bar scrolling on mobile */
   .glass .flex.flex-wrap {
@@ -2450,7 +2459,7 @@ select:focus {
   align-items: center;
   height: 1.75rem;
   padding: 0 0.625rem;
-  font-size: 0.72rem;
+  font-size: var(--text-mini);
   font-weight: 500;
   border-radius: 0.375rem;
   border: 1px solid color-mix(in oklab, var(--border) 50%, transparent);
@@ -2482,7 +2491,7 @@ select:focus {
   white-space: nowrap;
   border-radius: 0.5rem;
   padding: 0.5rem 0.75rem;
-  font-size: 0.8rem;
+  font-size: var(--text-apoyo);
   font-weight: 500;
   color: var(--muted-foreground);
   border: 1px solid transparent;
@@ -2505,7 +2514,7 @@ select:focus {
   gap: 0.375rem;
   white-space: nowrap;
   padding: 0.625rem 1rem;
-  font-size: 0.75rem;
+  font-size: var(--text-mini);
   font-weight: 600;
   color: color-mix(in oklab, var(--muted-foreground) 60%, transparent);
   border-bottom: 2px solid transparent;

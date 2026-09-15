@@ -200,7 +200,7 @@ export default function OptionsFlow() {
         subtitle={<>
           Actividad inusual de opciones — sweeps, bloques grandes, sesgo direccional
           {scanDate && (
-            <span className="ml-2 opacity-50 text-xs">
+            <span className="ml-2 opacity-50 text-mini">
               · {scanDate.toLocaleTimeString('es', { hour: '2-digit', minute: '2-digit' })} ET
             </span>
           )}
@@ -219,7 +219,7 @@ export default function OptionsFlow() {
         ].map(({ label, value, sub, color, idx }) => (
           <Card key={label} className={`glass p-5 stagger-${idx}`}>
             <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-2">{label}</div>
-            <div className={`text-3xl font-extrabold tracking-tight tabular-nums leading-none mb-2 ${color ?? ''}`}>{value}</div>
+            <div className={`text-cifra font-extrabold tracking-tight tabular-nums leading-none mb-2 ${color ?? ''}`}>{value}</div>
             <div className="text-micro text-muted-foreground">{sub}</div>
           </Card>
         ))}
@@ -263,7 +263,7 @@ export default function OptionsFlow() {
             <div className="flex items-center justify-between mb-2">
               <div className="flex items-center gap-2">
                 <TickerLogo ticker={r.ticker} size="xs" />
-                <span className="font-mono font-bold text-sm text-primary">{r.ticker}</span>
+                <span className="font-mono font-bold text-cuerpo text-primary">{r.ticker}</span>
               </div>
               <div className="flex flex-col items-end gap-1">
                 <SignalBadge signal={r.signal} />
@@ -276,7 +276,7 @@ export default function OptionsFlow() {
             </div>
             <div className="flex items-center justify-between mb-2">
               <CallPutBar callPct={r.call_pct} />
-              <span className="text-xs font-mono font-bold">{fmtPremium(r.total_premium)}</span>
+              <span className="text-mini font-mono font-bold">{fmtPremium(r.total_premium)}</span>
             </div>
             {expanded === r.ticker && r.top_contracts.map((c, i) => (
               <ContractRow key={i} c={c} />
@@ -387,7 +387,7 @@ export default function OptionsFlow() {
           <div className="mt-6">
             <div className="flex items-center justify-between mb-3">
               <div>
-                <h2 className="flex items-center gap-2 text-base font-bold"><Brain size={16} strokeWidth={1.75} className="shrink-0" />Calidad IA — TIER 1 &amp; 2</h2>
+                <h2 className="flex items-center gap-2 text-titulo font-bold"><Brain size={16} strokeWidth={1.75} className="shrink-0" />Calidad IA — TIER 1 &amp; 2</h2>
                 <p className="text-mini text-muted-foreground mt-0.5">
                   Flujo filtrado por cerebro: contratos con volumen institucional confirmado y baja probabilidad de ruido.
                   T1 (ruido filtrado) = {qualityRaw.noise_filtered} descartados.

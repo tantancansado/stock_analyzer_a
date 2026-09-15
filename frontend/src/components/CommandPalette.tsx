@@ -96,7 +96,7 @@ export default function CommandPalette({ open, onClose }: { open: boolean; onClo
           <Search className="mr-2 h-4 w-4 shrink-0 text-primary opacity-50" />
           <input
             ref={inputRef}
-            className="flex h-12 w-full rounded-md bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50"
+            className="flex h-12 w-full rounded-md bg-transparent py-3 text-cuerpo outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50"
             placeholder="Escribe un comando o busca un ticker..."
             value={query}
             onChange={(e) => setQuery(e.target.value)}
@@ -108,7 +108,7 @@ export default function CommandPalette({ open, onClose }: { open: boolean; onClo
         
         <div className="max-h-[300px] overflow-y-auto p-2 scrollbar-none">
           {totalItems === 0 && (
-            <div className="py-6 text-center text-sm text-muted-foreground">
+            <div className="py-6 text-center text-cuerpo text-muted-foreground">
               Sin resultados para <span className="font-mono">{query}</span>
             </div>
           )}
@@ -122,7 +122,7 @@ export default function CommandPalette({ open, onClose }: { open: boolean; onClo
                   <div
                     key={item.id}
                     className={cn(
-                      "flex items-center gap-2 rounded-sm px-2 py-2 text-sm transition-colors cursor-pointer mb-0.5",
+                      "flex items-center gap-2 rounded-sm px-2 py-2 text-cuerpo transition-colors cursor-pointer mb-0.5",
                       selectedIndex === idx ? "bg-primary/20 text-primary shadow-[inset_0_0_10px_rgba(0,255,255,0.1)]" : "text-foreground hover:bg-foreground/5"
                     )}
                     onClick={() => { navigate(item.path); onClose() }}

@@ -27,7 +27,7 @@ function TrapScoreBar({ score }: { score: number }) {
       <div className="h-1.5 w-24 rounded-full bg-muted/30 overflow-hidden">
         <div className="h-full rounded-full transition-all" style={{ width: `${score}%`, backgroundColor: color }} />
       </div>
-      <span className="text-xs font-bold" style={{ color }}>{score}</span>
+      <span className="text-mini font-bold" style={{ color }}>{score}</span>
     </div>
   )
 }
@@ -47,21 +47,21 @@ function TrapCard({ entry }: { entry: DividendTrapEntry }) {
           <div className="flex items-center gap-1.5 min-w-[72px]">
             <TickerLogo ticker={entry.ticker} size="xs" />
             <div>
-              <div className="font-mono font-bold text-sm text-primary flex items-center gap-1.5">{entry.ticker}<OwnedBadge ticker={entry.ticker} /></div>
+              <div className="font-mono font-bold text-cuerpo text-primary flex items-center gap-1.5">{entry.ticker}<OwnedBadge ticker={entry.ticker} /></div>
               <div className="text-micro text-muted-foreground truncate max-w-[80px]">{entry.sector}</div>
             </div>
           </div>
 
           {/* Company */}
           <div className="flex-1 min-w-0">
-            <div className="text-xs text-foreground/80 truncate">{entry.company}</div>
+            <div className="text-mini text-foreground/80 truncate">{entry.company}</div>
             {entry.current_price != null && (
               <div className="text-micro text-muted-foreground">${entry.current_price.toFixed(2)}</div>
             )}
           </div>
 
           {/* Metrics */}
-          <div className="flex items-center gap-3 text-xs flex-wrap">
+          <div className="flex items-center gap-3 text-mini flex-wrap">
             {entry.dividend_yield != null && (
               <div className="text-center">
                 <div className={`font-bold ${cfg.text}`}>{entry.dividend_yield.toFixed(1)}%</div>
@@ -118,11 +118,11 @@ function SafeCard({ entry }: { entry: DividendTrapEntry }) {
       <CardContent className="p-3">
         <div className="flex items-center gap-3 flex-wrap">
           <div className="min-w-[64px]">
-            <div className="font-mono font-bold text-sm text-primary">{entry.ticker}</div>
+            <div className="font-mono font-bold text-cuerpo text-primary">{entry.ticker}</div>
             <div className="text-micro text-muted-foreground truncate max-w-[70px]">{entry.sector}</div>
           </div>
-          <div className="flex-1 text-xs text-foreground/70 truncate">{entry.company}</div>
-          <div className="flex items-center gap-3 text-xs">
+          <div className="flex-1 text-mini text-foreground/70 truncate">{entry.company}</div>
+          <div className="flex items-center gap-3 text-mini">
             {entry.dividend_yield != null && (
               <div className="text-center">
                 <div className="font-bold text-emerald-400">{entry.dividend_yield.toFixed(1)}%</div>
@@ -205,20 +205,20 @@ export default function DividendTraps() {
   return (
     <div className="max-w-5xl mx-auto space-y-5">
       <PageHeader {...cabecera}>
-        <span className="text-xs text-muted-foreground">{data.date} · {data.total_scanned} tickers analizados</span>
+        <span className="text-mini text-muted-foreground">{data.date} · {data.total_scanned} tickers analizados</span>
       </PageHeader>
 
       {/* Portfolio alert */}
       {myPositions.length > 0 && (myTraps.length > 0 || mySafe.length > 0) && (
         <Card className={`glass border ${myTraps.length > 0 ? 'border-red-500/30 bg-red-500/5' : 'border-primary/20 bg-primary/5'}`}>
           <CardContent className="p-4">
-            <h4 className="text-xs font-bold uppercase tracking-widest text-primary mb-3 flex items-center gap-2">
+            <h4 className="text-mini font-bold uppercase tracking-widest text-primary mb-3 flex items-center gap-2">
               <Briefcase size={16} />
               Tu Cartera — Dividend Check
             </h4>
             {myTraps.length > 0 && (
               <div className="mb-3">
-                <div className="text-xs font-semibold text-red-400 mb-2 flex items-center gap-1.5">
+                <div className="text-mini font-semibold text-red-400 mb-2 flex items-center gap-1.5">
                   <AlertTriangle size={12} />
                   {myTraps.length} posicion{myTraps.length > 1 ? 'es' : ''} con dividendo en riesgo
                 </div>
@@ -226,9 +226,9 @@ export default function DividendTraps() {
                   {myTraps.map(t => (
                     <div key={t.ticker} className="flex items-center gap-3 py-1.5 px-3 bg-red-500/5 rounded-lg border border-red-500/10">
                       <TickerLogo ticker={t.ticker} size="xs" />
-                      <span className="font-mono font-bold text-sm text-primary">{t.ticker}</span>
-                      <span className="text-xs text-muted-foreground truncate flex-1">{t.company}</span>
-                      <span className="text-xs font-bold text-red-400">Yield {t.dividend_yield?.toFixed(1)}%</span>
+                      <span className="font-mono font-bold text-cuerpo text-primary">{t.ticker}</span>
+                      <span className="text-mini text-muted-foreground truncate flex-1">{t.company}</span>
+                      <span className="text-mini font-bold text-red-400">Yield {t.dividend_yield?.toFixed(1)}%</span>
                       <span className={`text-micro font-bold px-1.5 py-0.5 rounded ${RISK_CONFIG[t.risk_level].bg} ${RISK_CONFIG[t.risk_level].text}`}>
                         {RISK_CONFIG[t.risk_level].label}
                       </span>
@@ -239,7 +239,7 @@ export default function DividendTraps() {
             )}
             {mySafe.length > 0 && (
               <div>
-                <div className="text-xs font-semibold text-emerald-400 mb-2 flex items-center gap-1.5">
+                <div className="text-mini font-semibold text-emerald-400 mb-2 flex items-center gap-1.5">
                   <ShieldCheck size={12} />
                   {mySafe.length} posicion{mySafe.length > 1 ? 'es' : ''} con dividendo seguro
                 </div>
@@ -247,8 +247,8 @@ export default function DividendTraps() {
                   {mySafe.map(t => (
                     <div key={t.ticker} className="flex items-center gap-1.5 px-2.5 py-1 bg-emerald-500/10 rounded-lg border border-emerald-500/15">
                       <TickerLogo ticker={t.ticker} size="xs" />
-                      <span className="font-mono font-bold text-xs text-primary">{t.ticker}</span>
-                      <span className="text-xs font-semibold text-emerald-400">{t.dividend_yield?.toFixed(1)}%</span>
+                      <span className="font-mono font-bold text-mini text-primary">{t.ticker}</span>
+                      <span className="text-mini font-semibold text-emerald-400">{t.dividend_yield?.toFixed(1)}%</span>
                     </div>
                   ))}
                 </div>
@@ -262,7 +262,7 @@ export default function DividendTraps() {
       {recTraps.length > 0 && (
         <Card className="glass border border-amber-500/30 bg-amber-500/5">
           <CardContent className="p-4">
-            <h4 className="text-xs font-bold uppercase tracking-widest text-amber-400 mb-3 flex items-center gap-2">
+            <h4 className="text-mini font-bold uppercase tracking-widest text-amber-400 mb-3 flex items-center gap-2">
               <Zap size={16} />
               Recomendaciones VALUE con dividendo en riesgo ({recTraps.length})
             </h4>
@@ -270,9 +270,9 @@ export default function DividendTraps() {
               {recTraps.map(t => (
                 <div key={t.ticker} className="flex items-center gap-3 py-1.5 px-3 bg-amber-500/5 rounded-lg border border-amber-500/10">
                   <TickerLogo ticker={t.ticker} size="xs" />
-                  <span className="font-mono font-bold text-sm text-primary">{t.ticker}</span>
-                  <span className="text-xs text-muted-foreground truncate flex-1">{t.company}</span>
-                  <span className="text-xs text-amber-400">Yield {t.dividend_yield?.toFixed(1) ?? '—'}% · Payout {t.payout_ratio?.toFixed(0) ?? '—'}%</span>
+                  <span className="font-mono font-bold text-cuerpo text-primary">{t.ticker}</span>
+                  <span className="text-mini text-muted-foreground truncate flex-1">{t.company}</span>
+                  <span className="text-mini text-amber-400">Yield {t.dividend_yield?.toFixed(1) ?? '—'}% · Payout {t.payout_ratio?.toFixed(0) ?? '—'}%</span>
                   <span className={`text-micro font-bold px-1.5 py-0.5 rounded ${RISK_CONFIG[t.risk_level].bg} ${RISK_CONFIG[t.risk_level].text}`}>
                     {RISK_CONFIG[t.risk_level].label}
                   </span>
@@ -290,27 +290,27 @@ export default function DividendTraps() {
           <CardContent className="p-4">
             <div className="flex items-center gap-2">
               <AlertTriangle size={16} className="text-red-400 flex-shrink-0" />
-              <div className="text-xl font-bold text-red-400">{data.traps_high}</div>
+              <div className="text-seccion font-bold text-red-400">{data.traps_high}</div>
             </div>
-            <div className="text-xs text-muted-foreground mt-1">Riesgo ALTO</div>
+            <div className="text-mini text-muted-foreground mt-1">Riesgo ALTO</div>
           </CardContent>
         </Card>
         <Card className="glass border border-orange-500/20">
           <CardContent className="p-4">
             <div className="flex items-center gap-2">
               <AlertTriangle size={16} className="text-orange-400 flex-shrink-0" />
-              <div className="text-xl font-bold text-orange-400">{data.traps_medium}</div>
+              <div className="text-seccion font-bold text-orange-400">{data.traps_medium}</div>
             </div>
-            <div className="text-xs text-muted-foreground mt-1">Riesgo MEDIO</div>
+            <div className="text-mini text-muted-foreground mt-1">Riesgo MEDIO</div>
           </CardContent>
         </Card>
         <Card className="glass border border-emerald-500/20">
           <CardContent className="p-4">
             <div className="flex items-center gap-2">
               <ShieldCheck size={16} className="text-emerald-400 flex-shrink-0" />
-              <div className="text-xl font-bold text-emerald-400">{data.safe_count}</div>
+              <div className="text-seccion font-bold text-emerald-400">{data.safe_count}</div>
             </div>
-            <div className="text-xs text-muted-foreground mt-1">Dividendo seguro</div>
+            <div className="text-mini text-muted-foreground mt-1">Dividendo seguro</div>
           </CardContent>
         </Card>
       </div>
@@ -326,7 +326,7 @@ export default function DividendTraps() {
             <button
               key={key}
               onClick={() => { setTab(key); if (key === 'timing') loadDivCalendar() }}
-              className={`text-xs font-semibold px-4 py-1.5 rounded-lg transition-all ${
+              className={`text-mini font-semibold px-4 py-1.5 rounded-lg transition-all ${
                 tab === key
                   ? 'bg-background shadow-sm text-foreground border border-border/40'
                   : 'text-muted-foreground hover:text-foreground'
@@ -354,12 +354,12 @@ export default function DividendTraps() {
 
       {/* Tab summary row */}
       {tab === 'traps' && (
-        <p className="text-xs text-muted-foreground">
+        <p className="text-mini text-muted-foreground">
           {data.traps.length} trampas detectadas · <span className="text-red-400 font-semibold">{data.traps_high} ALTO riesgo</span> · <span className="text-orange-400 font-semibold">{data.traps_medium} MEDIO</span>
         </p>
       )}
       {tab === 'safe' && (
-        <p className="text-xs text-muted-foreground">
+        <p className="text-mini text-muted-foreground">
           {data.safe_count} dividendos sostenibles
           {data.safe_dividends.length > 0 && data.safe_dividends.some(s => s.dividend_yield != null) && (
             <> · dividendo medio <span className="text-emerald-400 font-semibold">
@@ -369,7 +369,7 @@ export default function DividendTraps() {
         </p>
       )}
       {tab === 'timing' && divCalLoaded && (
-        <p className="text-xs text-muted-foreground">
+        <p className="text-mini text-muted-foreground">
           Próximos <span className="text-blue-400 font-semibold">{divCalendar.filter(e => e.days_to_exdiv <= 30).length}</span> dividendos en 30 días
         </p>
       )}
@@ -381,8 +381,8 @@ export default function DividendTraps() {
             <Card className="glass border border-border/40">
               <CardContent className="p-10 text-center">
                 <ShieldCheck size={32} className="text-emerald-400 mx-auto mb-3" />
-                <p className="text-sm font-medium text-foreground/70">Sin trampas con los filtros actuales</p>
-                <p className="text-xs text-muted-foreground mt-1">Prueba cambiando el filtro de riesgo</p>
+                <p className="text-cuerpo font-medium text-foreground/70">Sin trampas con los filtros actuales</p>
+                <p className="text-mini text-muted-foreground mt-1">Prueba cambiando el filtro de riesgo</p>
               </CardContent>
             </Card>
           ) : (
@@ -399,8 +399,8 @@ export default function DividendTraps() {
             <Card className="glass border border-border/40">
               <CardContent className="p-10 text-center">
                 <AlertTriangle size={32} className="text-orange-400 mx-auto mb-3" />
-                <p className="text-sm font-medium text-foreground/70">No hay dividendos calificados como seguros</p>
-                <p className="text-xs text-muted-foreground mt-1">El escáner no encontró dividendos con suficiente cobertura de FCF</p>
+                <p className="text-cuerpo font-medium text-foreground/70">No hay dividendos calificados como seguros</p>
+                <p className="text-mini text-muted-foreground mt-1">El escáner no encontró dividendos con suficiente cobertura de FCF</p>
               </CardContent>
             </Card>
           ) : (
@@ -418,8 +418,8 @@ export default function DividendTraps() {
             <Card className="glass border border-border/40">
               <CardContent className="p-8 text-center">
                 <Loader2 size={22} className="animate-spin text-primary mx-auto mb-3" />
-                <p className="text-sm text-muted-foreground">Escaneando ex-dividend dates...</p>
-                <p className="text-xs text-muted-foreground mt-1">Primera carga puede tardar ~30s</p>
+                <p className="text-cuerpo text-muted-foreground">Escaneando ex-dividend dates...</p>
+                <p className="text-mini text-muted-foreground mt-1">Primera carga puede tardar ~30s</p>
               </CardContent>
             </Card>
           )}
@@ -428,8 +428,8 @@ export default function DividendTraps() {
             <Card className="glass border border-border/40">
               <CardContent className="p-10 text-center">
                 <CalendarClock size={32} className="text-blue-400 mx-auto mb-3" />
-                <p className="text-sm font-medium text-foreground/70">Sin ex-dividend dates próximos</p>
-                <p className="text-xs text-muted-foreground mt-1">No hay acciones de calidad con ex-div en los próximos 45 días</p>
+                <p className="text-cuerpo font-medium text-foreground/70">Sin ex-dividend dates próximos</p>
+                <p className="text-mini text-muted-foreground mt-1">No hay acciones de calidad con ex-div en los próximos 45 días</p>
               </CardContent>
             </Card>
           )}
@@ -447,7 +447,7 @@ export default function DividendTraps() {
                     <div className="flex items-center gap-1.5 min-w-[72px]">
                       <TickerLogo ticker={event.ticker} size="xs" />
                       <div>
-                        <div className="font-mono font-bold text-sm text-primary flex items-center gap-1.5">
+                        <div className="font-mono font-bold text-cuerpo text-primary flex items-center gap-1.5">
                           {event.ticker}
                           <OwnedBadge ticker={event.ticker} />
                         </div>
@@ -456,13 +456,13 @@ export default function DividendTraps() {
                     </div>
 
                     <div className="flex-1 min-w-0">
-                      <div className="text-xs text-foreground/80 truncate">{event.company}</div>
+                      <div className="text-mini text-foreground/80 truncate">{event.company}</div>
                       {event.current_price != null && (
                         <div className="text-micro text-muted-foreground">${event.current_price.toFixed(2)}</div>
                       )}
                     </div>
 
-                    <div className="flex items-center gap-3 text-xs flex-wrap">
+                    <div className="flex items-center gap-3 text-mini flex-wrap">
                       <div className="text-center">
                         <div className={`font-bold ${event.days_to_exdiv <= 7 ? 'text-amber-400' : 'text-blue-400'}`}>
                           {event.days_to_exdiv}d
@@ -523,7 +523,7 @@ export default function DividendTraps() {
               <>
                 {urgent.length > 0 && (
                   <div>
-                    <h4 className="text-xs font-bold uppercase tracking-widest text-amber-400 mb-2 flex items-center gap-1.5">
+                    <h4 className="text-mini font-bold uppercase tracking-widest text-amber-400 mb-2 flex items-center gap-1.5">
                       <Clock size={12} />
                       Esta semana — comprar antes del ex-div ({urgent.length})
                     </h4>
@@ -535,7 +535,7 @@ export default function DividendTraps() {
 
                 {soon.length > 0 && (
                   <div>
-                    <h4 className="text-xs font-bold uppercase tracking-widest text-blue-400 mb-2 flex items-center gap-1.5">
+                    <h4 className="text-mini font-bold uppercase tracking-widest text-blue-400 mb-2 flex items-center gap-1.5">
                       <CalendarClock size={12} />
                       Proximas 2-3 semanas ({soon.length})
                     </h4>
@@ -547,7 +547,7 @@ export default function DividendTraps() {
 
                 {later.length > 0 && (
                   <div>
-                    <h4 className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-2 flex items-center gap-1.5">
+                    <h4 className="text-mini font-bold uppercase tracking-widest text-muted-foreground mb-2 flex items-center gap-1.5">
                       <DollarSign size={12} />
                       Mas adelante ({later.length})
                     </h4>
@@ -563,7 +563,7 @@ export default function DividendTraps() {
           {/* Timing explanation */}
           {divCalLoaded && (
             <Card className="glass border border-border/30">
-              <CardContent className="p-3 space-y-1 text-xs text-muted-foreground">
+              <CardContent className="p-3 space-y-1 text-mini text-muted-foreground">
                 <div className="font-semibold text-foreground/70 mb-2">Estrategia de Dividend Timing</div>
                 <div>• Solo muestra empresas <span className="text-emerald-400">filtradas por IA</span> — recomendaciones VALUE verificadas con calidad confirmada</div>
                 <div>• <span className="text-blue-400">Comprar antes del ex-dividend date</span> para capturar el dividendo y quedarte en cartera</div>
@@ -579,7 +579,7 @@ export default function DividendTraps() {
       {/* Legend (only for trap/safe tabs) */}
       {tab !== 'timing' && (
         <Card className="glass border border-border/30">
-          <CardContent className="p-3 space-y-1 text-xs text-muted-foreground">
+          <CardContent className="p-3 space-y-1 text-mini text-muted-foreground">
             <div className="font-semibold text-foreground/70 mb-2">Criterios de trampa</div>
             <div>• <span className="text-red-400">Payout &gt;100%</span> — el dividendo supera los beneficios</div>
             <div>• <span className="text-red-400">FCF yield &lt; dividend yield</span> — la caja libre no cubre el dividendo</div>

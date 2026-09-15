@@ -39,7 +39,7 @@ import { nlRegimen, nlRegimenTono } from '@/lib/nl'
 import CifrasClave from '../components/CifrasClave'
 
 function TechBiasCell({ t }: { t?: TechnicalSummary }) {
-  if (!t) return <span className="text-muted-foreground text-xs">—</span>
+  if (!t) return <span className="text-muted-foreground text-mini">—</span>
   const cls = t.bias === 'BULLISH'
     ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30'
     : t.bias === 'BEARISH'
@@ -47,7 +47,7 @@ function TechBiasCell({ t }: { t?: TechnicalSummary }) {
     : 'bg-muted/20 text-muted-foreground border-border/20'
   const icon = t.bias === 'BULLISH' ? '▲' : t.bias === 'BEARISH' ? '▼' : '—'
   return (
-    <span className={`text-xs font-bold px-1.5 py-0.5 rounded-full border ${cls}`}
+    <span className={`text-mini font-bold px-1.5 py-0.5 rounded-full border ${cls}`}
       title={`+${t.bullish_count} alcistas / -${t.bearish_count} bajistas`}>
       {icon}
     </span>
@@ -55,7 +55,7 @@ function TechBiasCell({ t }: { t?: TechnicalSummary }) {
 }
 
 function MlWinBadge({ pred }: { pred?: MlWinPrediction }) {
-  if (!pred) return <span className="text-muted-foreground text-xs">—</span>
+  if (!pred) return <span className="text-muted-foreground text-mini">—</span>
   const cls =
     pred.label === 'ALTA'  ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30' :
     pred.label === 'MEDIA' ? 'bg-amber-500/15 text-amber-400 border-amber-500/30' :
@@ -92,7 +92,7 @@ function EntryQualityBadge({ quality, confidence, analyzedAt }: {
   confidence?: string
   analyzedAt?: string
 }) {
-  const sinDato = <span className="text-muted-foreground text-xs">—</span>
+  const sinDato = <span className="text-muted-foreground text-mini">—</span>
   if (!quality || quality === 'wait' || confidence === 'low') return sinDato
   if (analyzedAt) {
     const dias = (Date.now() - new Date(analyzedAt).getTime()) / 86_400_000
@@ -410,7 +410,7 @@ export default function ValueUS() {
         title="Value US"
         subtitle={<>
           {regimeLabel && (
-            <Badge variant={nlRegimenTono(regimeCrudo)} className="mr-2 align-middle text-xs">
+            <Badge variant={nlRegimenTono(regimeCrudo)} className="mr-2 align-middle text-mini">
               {regimeLabel}
             </Badge>
           )}
@@ -438,10 +438,10 @@ export default function ValueUS() {
           <div className={`mb-5 flex items-start gap-3 px-4 py-3 rounded-lg border ${cfg.bg}`}>
             <TriangleAlert size={16} strokeWidth={2} className={`shrink-0 mt-0.5 ${cfg.text}`} />
             <div>
-              <span className={`text-xs font-bold uppercase tracking-wider ${cfg.text}`}>
+              <span className={`text-mini font-bold uppercase tracking-wider ${cfg.text}`}>
                 Macro Radar: {rname} ({macro.composite_score?.toFixed(1)}/{macro.max_score})
               </span>
-              <p className="text-xs text-muted-foreground mt-0.5">{cfg.msg}</p>
+              <p className="text-mini text-muted-foreground mt-0.5">{cfg.msg}</p>
             </div>
             <Link to="/macro-radar" className={`ml-auto shrink-0 text-micro font-semibold ${cfg.text} hover:underline`}>
               Ver detalle →
@@ -491,8 +491,8 @@ export default function ValueUS() {
                 53px — 13 líneas de 8 caracteres, ilegible. Ocupando la línea
                 entera, los botones bajan solos. */}
             <div className="min-w-0 basis-full sm:flex-1 sm:basis-auto">
-              <p className="text-sm font-semibold text-foreground">Vista recomendada activa</p>
-              <p className="text-xs text-muted-foreground">
+              <p className="text-cuerpo font-semibold text-foreground">Vista recomendada activa</p>
+              <p className="text-mini text-muted-foreground">
                 Ocultamos alertas de riesgo graves y ordenamos por oportunidad. Los filtros técnicos siguen disponibles.
               </p>
             </div>
@@ -595,7 +595,7 @@ export default function ValueUS() {
           {/* Reset + count — pushed to the right */}
           <div className="flex items-center gap-3 ml-auto">
             {hasActiveFilters && (
-              <button onClick={resetFilters} className="text-xs text-muted-foreground hover:text-foreground underline underline-offset-2 transition-colors">
+              <button onClick={resetFilters} className="text-mini text-muted-foreground hover:text-foreground underline underline-offset-2 transition-colors">
                 Limpiar
               </button>
             )}
@@ -635,16 +635,16 @@ export default function ValueUS() {
                     <TickerLogo ticker={d.ticker} size="md" className="mt-0.5 shrink-0" />
                     <div className="min-w-0">
                       <div className="flex flex-wrap items-center gap-2">
-                        <span className="font-mono font-extrabold text-base leading-tight">{d.ticker}</span>
+                        <span className="font-mono font-extrabold text-titulo leading-tight">{d.ticker}</span>
                         <ValueDecisionBadge decision={decision} />
                         <OwnedBadge ticker={d.ticker} />
                       </div>
-                      <span className="text-xs text-muted-foreground truncate max-w-[210px] block mt-0.5">{d.company_name}</span>
+                      <span className="text-mini text-muted-foreground truncate max-w-[210px] block mt-0.5">{d.company_name}</span>
                     </div>
                   </div>
                   <div className="text-right shrink-0">
                     {d.analyst_upside_pct != null && (
-                      <div className={`text-sm font-bold ${d.analyst_upside_pct >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+                      <div className={`text-cuerpo font-bold ${d.analyst_upside_pct >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
                         {d.analyst_upside_pct >= 0 ? '+' : ''}{d.analyst_upside_pct.toFixed(0)}%
                       </div>
                     )}
@@ -693,13 +693,13 @@ export default function ValueUS() {
                   <ScoreRing score={d.value_score} size="sm" />
                   <div className="min-w-0">
                     <div className="flex items-center gap-2 flex-wrap">
-                      <span className="font-mono font-extrabold text-base leading-tight">{d.ticker}</span>
+                      <span className="font-mono font-extrabold text-titulo leading-tight">{d.ticker}</span>
                       {isReady && (
                         <SignalBadge icon={CircleCheck} tono="favor" texto="LISTO" />
                       )}
                       <OwnedBadge ticker={d.ticker} />
                     </div>
-                    <span className="text-xs text-muted-foreground truncate max-w-[160px] block mt-0.5">{d.company_name}</span>
+                    <span className="text-mini text-muted-foreground truncate max-w-[160px] block mt-0.5">{d.company_name}</span>
                   </div>
                 </div>
                 <div className="text-right shrink-0">
@@ -712,7 +712,7 @@ export default function ValueUS() {
                     }`}>ML {d.ml_score.toFixed(0)}</div>
                   )}
                   {d.analyst_upside_pct != null && (
-                    <div className={`text-sm font-bold mt-1 ${d.analyst_upside_pct > 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+                    <div className={`text-cuerpo font-bold mt-1 ${d.analyst_upside_pct > 0 ? 'text-emerald-400' : 'text-red-400'}`}>
                       {d.analyst_upside_pct > 0 ? '+' : ''}{d.analyst_upside_pct.toFixed(0)}%
                     </div>
                   )}
@@ -733,7 +733,7 @@ export default function ValueUS() {
 
               {/* Row 3: Entry / Stop / Target */}
               {(d.entry_price || d.stop_loss || d.target_price) && (
-                <div className="flex gap-3 mt-2.5 text-xs font-mono">
+                <div className="flex gap-3 mt-2.5 text-mini font-mono">
                   {d.entry_price && <span className="text-cyan-400">E ${d.entry_price.toFixed(2)}</span>}
                   {d.stop_loss && <span className="text-red-400">SL ${d.stop_loss.toFixed(2)}</span>}
                   {d.target_price && <span className="text-emerald-400">TP ${d.target_price.toFixed(2)}</span>}
@@ -741,7 +741,7 @@ export default function ValueUS() {
               )}
 
               {/* Row 4: FCF / R:R / Sector */}
-              <div className="flex gap-3 mt-2 text-xs text-muted-foreground">
+              <div className="flex gap-3 mt-2 text-mini text-muted-foreground">
                 {d.fcf_yield_pct != null && <span>FCF {d.fcf_yield_pct.toFixed(1)}%</span>}
                 {d.risk_reward_ratio != null && <span>R:R {d.risk_reward_ratio.toFixed(1)}x</span>}
                 {d.sector && <span className="truncate">{d.sector}</span>}
@@ -1012,7 +1012,7 @@ export default function ValueUS() {
                   <TableCell className="tabular-nums">
                     {d.target_price_analyst ? `$${d.target_price_analyst.toFixed(0)}` : '—'}
                     {d.analyst_upside_pct != null && (
-                      <span className={`ml-1.5 text-xs font-semibold ${d.analyst_upside_pct > 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+                      <span className={`ml-1.5 text-mini font-semibold ${d.analyst_upside_pct > 0 ? 'text-emerald-400' : 'text-red-400'}`}>
                         {d.analyst_upside_pct > 0 ? '+' : ''}{d.analyst_upside_pct.toFixed(0)}%
                       </span>
                     )}

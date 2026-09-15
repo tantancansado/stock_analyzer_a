@@ -48,7 +48,7 @@ const ALL_TYPES = ['Precious_Metal', 'Energy', 'Industrial', 'Agricultural']
 // ─── Components ───────────────────────────────────────────────────────────────
 
 function RangeBar({ position }: { position: number | null }) {
-  if (position === null) return <span className="text-muted-foreground text-xs">—</span>
+  if (position === null) return <span className="text-muted-foreground text-mini">—</span>
   const pct = Math.min(Math.max(position * 100, 0), 100)
   const color = position < 0.3 ? 'var(--success)' : position > 0.7 ? 'var(--danger)' : 'var(--warn)'
   return (
@@ -56,20 +56,20 @@ function RangeBar({ position }: { position: number | null }) {
       <div className="flex-1 h-1.5 rounded-full bg-muted relative">
         <div className="absolute h-1.5 rounded-full" style={{ width: `${pct}%`, background: color }} />
       </div>
-      <span className="text-xs font-mono text-muted-foreground">{pct.toFixed(0)}%</span>
+      <span className="text-mini font-mono text-muted-foreground">{pct.toFixed(0)}%</span>
     </div>
   )
 }
 
 function PctBadge({ v, inverse = false }: { v: number | null; inverse?: boolean }) {
-  if (v === null) return <span className="text-muted-foreground text-xs">—</span>
+  if (v === null) return <span className="text-muted-foreground text-mini">—</span>
   const positive = inverse ? v < 0 : v > 0
   /* Estaban en hexadecimal —tonos para fondo casi negro— y sobre la tarjeta
      blanca el verde se quedaba en 2,54 de contraste. El neutro era `#94a3b8`,
      un slate fijo que no cambia con el tema. */
   const color = positive ? 'var(--success)' : v === 0 ? 'var(--muted-foreground)' : 'var(--danger)'
   return (
-    <span className="text-xs font-mono" style={{ color }}>
+    <span className="text-mini font-mono" style={{ color }}>
       {v > 0 ? '+' : ''}{v.toFixed(1)}%
     </span>
   )
@@ -91,21 +91,21 @@ function CommodityRow({ item }: { item: CommodityOpportunity }) {
         {/* Ticker + nombre */}
         <td className="py-3 pr-3">
           <div className="flex items-center gap-2">
-            <span className="text-foreground font-semibold text-sm font-mono w-12 shrink-0">{item.ticker}</span>
-            <span className="text-muted-foreground text-xs truncate max-w-[140px] hidden sm:block">{item.sector}</span>
+            <span className="text-foreground font-semibold text-cuerpo font-mono w-12 shrink-0">{item.ticker}</span>
+            <span className="text-muted-foreground text-mini truncate max-w-[140px] hidden sm:block">{item.sector}</span>
           </div>
         </td>
 
         {/* Tipo */}
         <td className="py-3 pr-3 hidden md:table-cell">
-          <span className={cn('text-xs px-2 py-0.5 rounded border', typeColor)}>
+          <span className={cn('text-mini px-2 py-0.5 rounded border', typeColor)}>
             {TYPE_LABELS[item.commodity_type] ?? item.commodity_type}
           </span>
         </td>
 
         {/* Precio */}
         <td className="py-3 pr-3">
-          <span className="text-foreground text-sm font-mono">
+          <span className="text-foreground text-cuerpo font-mono">
             {item.price !== null ? `$${item.price.toFixed(2)}` : '—'}
           </span>
         </td>
@@ -128,19 +128,19 @@ function CommodityRow({ item }: { item: CommodityOpportunity }) {
 
         {/* Momentum */}
         <td className="py-3 pr-3 hidden md:table-cell">
-          <span className={cn('flex items-center gap-1 text-xs', momentum.color)}>
+          <span className={cn('flex items-center gap-1 text-mini', momentum.color)}>
             {momentum.icon} {momentum.label}
           </span>
         </td>
 
         {/* Estacional */}
         <td className="py-3 pr-3 hidden lg:table-cell">
-          <span className={cn('text-xs', seas.color)}>{seas.label}</span>
+          <span className={cn('text-mini', seas.color)}>{seas.label}</span>
         </td>
 
         {/* Rating VALUE */}
         <td className="py-3 pr-3">
-          <div className={cn('flex items-center gap-1.5 px-2 py-0.5 rounded border text-xs font-medium', rating.bg, rating.text)}>
+          <div className={cn('flex items-center gap-1.5 px-2 py-0.5 rounded border text-mini font-medium', rating.bg, rating.text)}>
             <div className={cn('w-1.5 h-1.5 rounded-full', rating.dot)} />
             {rating.label}
           </div>
@@ -162,8 +162,8 @@ function CommodityRow({ item }: { item: CommodityOpportunity }) {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* Recomendación */}
               <div>
-                <div className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">Señal</div>
-                <p className="text-sm text-foreground/80 leading-relaxed">{item.recommendation || '—'}</p>
+                <div className="text-mini font-semibold text-muted-foreground uppercase tracking-wider mb-2">Señal</div>
+                <p className="text-cuerpo text-foreground/80 leading-relaxed">{item.recommendation || '—'}</p>
               </div>
 
               {/* Métricas */}
@@ -185,24 +185,24 @@ function CommodityRow({ item }: { item: CommodityOpportunity }) {
               {/* Ciclo */}
               {item.cycle_driver && (
                 <div className="md:col-span-2">
-                  <div className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">Contexto de ciclo</div>
+                  <div className="text-mini font-semibold text-muted-foreground uppercase tracking-wider mb-2">Contexto de ciclo</div>
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                     {item.cycle_driver && (
                       <div className="rounded-lg bg-foreground/5 px-3 py-2">
-                        <div className="text-xs text-muted-foreground mb-1">Motor</div>
-                        <p className="text-xs text-foreground/70">{item.cycle_driver}</p>
+                        <div className="text-mini text-muted-foreground mb-1">Motor</div>
+                        <p className="text-mini text-foreground/70">{item.cycle_driver}</p>
                       </div>
                     )}
                     {item.cycle_bullish && (
                       <div className="rounded-lg bg-emerald-500/5 border border-emerald-500/15 px-3 py-2">
-                        <div className="text-xs text-emerald-400 mb-1">Factores alcistas</div>
-                        <p className="text-xs text-foreground/70">{item.cycle_bullish}</p>
+                        <div className="text-mini text-emerald-400 mb-1">Factores alcistas</div>
+                        <p className="text-mini text-foreground/70">{item.cycle_bullish}</p>
                       </div>
                     )}
                     {item.cycle_bearish && (
                       <div className="rounded-lg bg-red-500/5 border border-red-500/15 px-3 py-2">
-                        <div className="text-xs text-red-400 mb-1">Factores bajistas</div>
-                        <p className="text-xs text-foreground/70">{item.cycle_bearish}</p>
+                        <div className="text-mini text-red-400 mb-1">Factores bajistas</div>
+                        <p className="text-mini text-foreground/70">{item.cycle_bearish}</p>
                       </div>
                     )}
                   </div>
@@ -219,8 +219,8 @@ function CommodityRow({ item }: { item: CommodityOpportunity }) {
 function MetricRow({ label, value, color }: { label: string; value: string; color?: string }) {
   return (
     <div className="flex justify-between items-center py-0.5">
-      <span className="text-xs text-muted-foreground">{label}</span>
-      <span className={cn('text-xs font-mono text-foreground/70', color)}>{value}</span>
+      <span className="text-mini text-muted-foreground">{label}</span>
+      <span className={cn('text-mini font-mono text-foreground/70', color)}>{value}</span>
     </div>
   )
 }
@@ -245,8 +245,8 @@ function SummaryCards({ data }: { data: CommodityOpportunity[] }) {
       ].map(({ label, value, color }) => (
         <Card key={label} className="glass">
           <CardContent className="p-4 text-center">
-            <div className="text-2xl font-bold font-mono" style={{ color }}>{value}</div>
-            <div className="text-xs text-muted-foreground mt-0.5">{label}</div>
+            <div className="text-pagina font-bold font-mono" style={{ color }}>{value}</div>
+            <div className="text-mini text-muted-foreground mt-0.5">{label}</div>
           </CardContent>
         </Card>
       ))}
@@ -263,7 +263,7 @@ function CommodityCard({ item }: Readonly<{ item: CommodityOpportunity }>) {
   const dato = (etiqueta: string, valor: string) => (
     <div>
       <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground">{etiqueta}</div>
-      <div className="text-sm font-bold tabular-nums">{valor}</div>
+      <div className="text-cuerpo font-bold tabular-nums">{valor}</div>
     </div>
   )
   return (
@@ -389,18 +389,18 @@ export default function Commodities() {
       <Card className="glass hidden sm:block">
         <CardContent className="p-0">
           <div className="table-x-wrap">
-            <table className="w-full text-sm">
+            <table className="w-full text-cuerpo">
               <thead>
                 <tr className="border-b border-foreground/10 text-left">
-                  <th className="px-4 py-3 text-xs text-muted-foreground font-medium">Ticker</th>
-                  <th className="py-3 pr-3 text-xs text-muted-foreground font-medium hidden md:table-cell">Tipo</th>
-                  <th className="py-3 pr-3 text-xs text-muted-foreground font-medium">Precio</th>
-                  <th className="py-3 pr-4 text-xs text-muted-foreground font-medium hidden sm:table-cell">Rango 52s</th>
-                  <th className="py-3 pr-3 text-xs text-muted-foreground font-medium hidden sm:table-cell">Vs 2a avg</th>
-                  <th className="py-3 pr-3 text-xs text-muted-foreground font-medium hidden lg:table-cell">1d</th>
-                  <th className="py-3 pr-3 text-xs text-muted-foreground font-medium hidden md:table-cell">Momentum</th>
-                  <th className="py-3 pr-3 text-xs text-muted-foreground font-medium hidden lg:table-cell">Estacional</th>
-                  <th className="py-3 pr-3 text-xs text-muted-foreground font-medium">Rating</th>
+                  <th className="px-4 py-3 text-mini text-muted-foreground font-medium">Ticker</th>
+                  <th className="py-3 pr-3 text-mini text-muted-foreground font-medium hidden md:table-cell">Tipo</th>
+                  <th className="py-3 pr-3 text-mini text-muted-foreground font-medium">Precio</th>
+                  <th className="py-3 pr-4 text-mini text-muted-foreground font-medium hidden sm:table-cell">Rango 52s</th>
+                  <th className="py-3 pr-3 text-mini text-muted-foreground font-medium hidden sm:table-cell">Vs 2a avg</th>
+                  <th className="py-3 pr-3 text-mini text-muted-foreground font-medium hidden lg:table-cell">1d</th>
+                  <th className="py-3 pr-3 text-mini text-muted-foreground font-medium hidden md:table-cell">Momentum</th>
+                  <th className="py-3 pr-3 text-mini text-muted-foreground font-medium hidden lg:table-cell">Estacional</th>
+                  <th className="py-3 pr-3 text-mini text-muted-foreground font-medium">Rating</th>
                   <th className="py-3 px-4" />
                 </tr>
               </thead>
@@ -421,7 +421,7 @@ export default function Commodities() {
       </Card>
 
       {/* Legend */}
-      <div className="flex flex-wrap gap-4 text-xs text-muted-foreground pb-4">
+      <div className="flex flex-wrap gap-4 text-mini text-muted-foreground pb-4">
         <span><strong className="text-muted-foreground">Rango 52s:</strong> 0% = mínimo anual · 100% = máximo anual</span>
         <span><strong className="text-muted-foreground">Vs 2a avg:</strong> % sobre/bajo media de 2 años (negativo = barato)</span>
         <span><strong className="text-muted-foreground">VALUE rating:</strong> basado en posición de precio histórica + estacionalidad</span>

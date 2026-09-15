@@ -8,7 +8,7 @@ const Table = React.forwardRef<HTMLTableElement, React.HTMLAttributes<HTMLTableE
     // Un overflow-x:auto incondicional captura el sticky y desplaza el header
     // sobre las primeras filas (regla #1 de CLAUDE.md).
     <div className="relative w-full table-x-wrap">
-      <table ref={ref} className={cn('w-full caption-bottom text-sm', className)} {...props} />
+      <table ref={ref} className={cn('w-full caption-bottom text-cuerpo', className)} {...props} />
     </div>
   )
 )
@@ -72,7 +72,7 @@ TableCell.displayName = 'TableCell'
 
 const TableCaption = React.forwardRef<HTMLTableCaptionElement, React.HTMLAttributes<HTMLTableCaptionElement>>(
   ({ className, ...props }, ref) => (
-    <caption ref={ref} className={cn('mt-4 text-sm text-muted-foreground', className)} {...props} />
+    <caption ref={ref} className={cn('mt-4 text-cuerpo text-muted-foreground', className)} {...props} />
   )
 )
 TableCaption.displayName = 'TableCaption'

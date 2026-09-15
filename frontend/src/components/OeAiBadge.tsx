@@ -26,7 +26,7 @@ function styleFor(verdict: string): { cls: string; icon: LucideIcon } {
 }
 
 export default function OeAiBadge({ verdict, adjustment, compact }: Props) {
-  if (!verdict) return <span className="text-muted-foreground text-xs">—</span>
+  if (!verdict) return <span className="text-muted-foreground text-mini">—</span>
   const { cls, icon: Icon } = styleFor(verdict)
   const adjTxt = adjustment != null && adjustment !== 0
     ? (adjustment > 0 ? `+${adjustment}` : `${adjustment}`)

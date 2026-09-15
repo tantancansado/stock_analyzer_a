@@ -60,7 +60,7 @@ export default function LogoPreview() {
               <Comp size={64} />
             </div>
             <div className="px-3 py-2 border-t border-border/20">
-              <div className="text-sm font-bold tracking-tight">{name}</div>
+              <div className="text-cuerpo font-bold tracking-tight">{name}</div>
               <div className="text-micro text-muted-foreground leading-snug mt-0.5">{usage}</div>
             </div>
           </button>
@@ -94,7 +94,7 @@ export default function LogoPreview() {
         </div>
       </div>
 
-      <div className="p-4 rounded-xl border border-primary/20 bg-primary/5 text-sm text-muted-foreground animate-fade-in-up">
+      <div className="p-4 rounded-xl border border-primary/20 bg-primary/5 text-cuerpo text-muted-foreground animate-fade-in-up">
         <span className="font-semibold text-foreground">Sistema completo.</span> La llama ha sido reemplazada en todos los sitios. En cada página verás arriba a la derecha el logo temático correspondiente (decoración sutil, se hace más visible al pasar el ratón).
       </div>
     </>

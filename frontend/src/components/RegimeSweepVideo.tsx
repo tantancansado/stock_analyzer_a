@@ -189,7 +189,7 @@ const RemotionPlayer = lazy(() =>
 export function RegimeSweepPlayer({ data }: { data: RegimeSweepData }) {
   return (
     <Suspense fallback={
-      <div className="glass border border-border/40 rounded-xl h-24 flex items-center justify-center text-sm text-muted-foreground">
+      <div className="glass border border-border/40 rounded-xl h-24 flex items-center justify-center text-cuerpo text-muted-foreground">
         Cargando…
       </div>
     }>

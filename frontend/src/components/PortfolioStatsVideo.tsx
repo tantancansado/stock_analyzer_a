@@ -212,7 +212,7 @@ export function PortfolioStatsPlayer({ data }: { data: PortfolioStatsData }) {
   const totalFrames = 60 + data.periods.length * 15 + 60
   return (
     <Suspense fallback={
-      <div className="glass border border-border/40 rounded-xl h-24 flex items-center justify-center text-sm text-muted-foreground">
+      <div className="glass border border-border/40 rounded-xl h-24 flex items-center justify-center text-cuerpo text-muted-foreground">
         Cargando…
       </div>
     }>

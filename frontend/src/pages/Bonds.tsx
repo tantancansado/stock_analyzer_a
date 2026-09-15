@@ -239,7 +239,7 @@ function GainBar({ base, rateCut, rateHike, capital }: { base: number; rateCut: 
     const pct = Math.min(Math.abs(val) / max * 80, 80)
     const isNeg = val < 0
     return (
-      <div className="flex items-center gap-2 text-xs">
+      <div className="flex items-center gap-2 text-mini">
         <span className="w-28 text-muted-foreground shrink-0">{label}</span>
         <div className="flex-1 h-2 rounded-full" style={{ background: 'rgba(255,255,255,0.06)' }}>
           <div className="h-2 rounded-full transition-all" style={{
@@ -279,13 +279,13 @@ function AdvisorCard({ label, rec, capital }: {
         {/* Header */}
         <div className="flex items-start justify-between gap-2">
           <div>
-            <div className="text-xs font-bold uppercase tracking-wider mb-1" style={{ color: rec.color }}>{label}</div>
-            <div className="text-sm font-semibold text-foreground leading-tight">{rec.ticker}</div>
-            <div className="text-xs text-muted-foreground mt-0.5">{rec.name}</div>
+            <div className="text-mini font-bold uppercase tracking-wider mb-1" style={{ color: rec.color }}>{label}</div>
+            <div className="text-cuerpo font-semibold text-foreground leading-tight">{rec.ticker}</div>
+            <div className="text-mini text-muted-foreground mt-0.5">{rec.name}</div>
           </div>
           <div className="text-right shrink-0">
-            <div className="text-xl font-bold font-mono text-foreground">{fmtEur(rec.gainBase)}</div>
-            <div className="text-xs font-mono mt-0.5" style={{ color: pctBase >= 0 ? '#10b981' : '#ef4444' }}>
+            <div className="text-seccion font-bold font-mono text-foreground">{fmtEur(rec.gainBase)}</div>
+            <div className="text-mini font-mono mt-0.5" style={{ color: pctBase >= 0 ? '#10b981' : '#ef4444' }}>
               +{pctBase.toFixed(2)}% total
             </div>
           </div>
@@ -293,16 +293,16 @@ function AdvisorCard({ label, rec, capital }: {
 
         {/* Yield badge */}
         <div className="flex gap-2 flex-wrap">
-          <span className="text-xs px-2 py-0.5 rounded-full font-mono" style={{ background: `${rec.color}18`, color: rec.color, border: `1px solid ${rec.color}30` }}>
+          <span className="text-mini px-2 py-0.5 rounded-full font-mono" style={{ background: `${rec.color}18`, color: rec.color, border: `1px solid ${rec.color}30` }}>
             {rec.yieldPct.toFixed(1)}% anual
           </span>
-          <span className="text-xs px-2 py-0.5 rounded-full text-muted-foreground" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)' }}>
+          <span className="text-mini px-2 py-0.5 rounded-full text-muted-foreground" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)' }}>
             {rec.currency} · IBKR Ireland
           </span>
         </div>
 
         {/* Tesis */}
-        <p className="text-xs text-muted-foreground leading-relaxed">{rec.tesis}</p>
+        <p className="text-mini text-muted-foreground leading-relaxed">{rec.tesis}</p>
 
         {/* Scenarios bar */}
         <GainBar base={rec.gainBase} rateCut={rec.gainRateCut} rateHike={rec.gainRateHike} capital={capital} />
@@ -310,7 +310,7 @@ function AdvisorCard({ label, rec, capital }: {
         {/* Expandible */}
         <button
           onClick={() => setExpanded(v => !v)}
-          className="flex items-center gap-1 text-xs text-muted-foreground hover:text-muted-foreground transition-colors mt-1"
+          className="flex items-center gap-1 text-mini text-muted-foreground hover:text-muted-foreground transition-colors mt-1"
         >
           {expanded ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
           {expanded ? 'Menos detalle' : 'Más detalle'}
@@ -318,11 +318,11 @@ function AdvisorCard({ label, rec, capital }: {
 
         {expanded && (
           <div className="space-y-2 pt-1 border-t border-foreground/5">
-            <div className="text-xs p-2.5 rounded-lg" style={{ background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.15)' }}>
+            <div className="text-mini p-2.5 rounded-lg" style={{ background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.15)' }}>
               <span className="text-red-400 font-medium">Riesgo: </span>
               <span className="text-muted-foreground">{rec.riskNote}</span>
             </div>
-            <div className="text-xs p-2.5 rounded-lg" style={{ background: 'rgba(34,197,94,0.08)', border: '1px solid rgba(34,197,94,0.15)' }}>
+            <div className="text-mini p-2.5 rounded-lg" style={{ background: 'rgba(34,197,94,0.08)', border: '1px solid rgba(34,197,94,0.15)' }}>
               <span className="text-emerald-400 font-medium">Si bajan tipos: </span>
               <span className="text-muted-foreground">{rec.rateCutNote}</span>
             </div>
@@ -351,7 +351,7 @@ function FixedIncomeAdvisor({ bonds, prefs }: { bonds: BondOpportunity[]; prefs:
       {/* Header toggle */}
       <button
         onClick={() => setShow(v => !v)}
-        className="flex items-center gap-2 text-sm font-medium text-primary hover:text-primary transition-colors"
+        className="flex items-center gap-2 text-cuerpo font-medium text-primary hover:text-primary transition-colors"
       >
         <Brain size={16} />
         Asesor de renta fija — ¿dónde meter tu dinero?
@@ -364,9 +364,9 @@ function FixedIncomeAdvisor({ bonds, prefs }: { bonds: BondOpportunity[]; prefs:
             {/* Capital input */}
             <div className="flex flex-wrap items-center gap-4">
               <div>
-                <label className="text-xs text-muted-foreground block mb-1">Tu capital disponible</label>
+                <label className="text-mini text-muted-foreground block mb-1">Tu capital disponible</label>
                 <div className="flex items-center gap-2">
-                  <span className="text-muted-foreground text-sm">€</span>
+                  <span className="text-muted-foreground text-cuerpo">€</span>
                   <input
                     type="text"
                     inputMode="numeric"
@@ -378,7 +378,7 @@ function FixedIncomeAdvisor({ bonds, prefs }: { bonds: BondOpportunity[]; prefs:
                       if (!isNaN(n) && n >= 100) setCapital(n)
                     }}
                     onBlur={() => setRawCapital(String(capital))}
-                    className="w-36 bg-foreground/5 border border-foreground/10 rounded-lg px-3 py-1.5 text-sm font-mono text-foreground focus:outline-none focus:border-primary/50"
+                    className="w-36 bg-foreground/5 border border-foreground/10 rounded-lg px-3 py-1.5 text-cuerpo font-mono text-foreground focus:outline-none focus:border-primary/50"
                   />
                 </div>
               </div>
@@ -393,7 +393,7 @@ function FixedIncomeAdvisor({ bonds, prefs }: { bonds: BondOpportunity[]; prefs:
                   </button>
                 ))}
               </div>
-              <div className="text-xs text-muted-foreground ml-auto">Cuenta IBKR Ireland · todos accesibles desde EU</div>
+              <div className="text-mini text-muted-foreground ml-auto">Cuenta IBKR Ireland · todos accesibles desde EU</div>
             </div>
 
             {/* Cards por horizonte */}
@@ -434,15 +434,15 @@ function YieldCalculator({ bonds }: { bonds: BondOpportunity[] }) {
       <CardContent className="p-5">
         <div className="flex items-center gap-2 mb-4">
           <Calculator size={16} className="text-primary" />
-          <h2 className="text-sm font-semibold text-foreground">Calculadora de rendimiento</h2>
-          <span className="text-xs text-muted-foreground ml-1">— ¿cuánto ganas si inviertes X durante Y meses?</span>
+          <h2 className="text-cuerpo font-semibold text-foreground">Calculadora de rendimiento</h2>
+          <span className="text-mini text-muted-foreground ml-1">— ¿cuánto ganas si inviertes X durante Y meses?</span>
         </div>
 
         {/* Inputs */}
         <div className="flex flex-wrap gap-4 mb-5">
           {/* Capital */}
           <div>
-            <label className="text-xs text-muted-foreground block mb-1.5">Capital a invertir ($)</label>
+            <label className="text-mini text-muted-foreground block mb-1.5">Capital a invertir ($)</label>
             <div className="flex items-center gap-1.5">
               <input
                 type="text"
@@ -454,7 +454,7 @@ function YieldCalculator({ bonds }: { bonds: BondOpportunity[] }) {
                   const n = parseInt(raw, 10)
                   if (!isNaN(n) && n > 0) setCapital(n)
                 }}
-                className="w-32 px-3 py-1.5 rounded-lg border border-border/50 bg-background/40 text-foreground text-sm font-mono focus:outline-none focus:border-primary/60"
+                className="w-32 px-3 py-1.5 rounded-lg border border-border/50 bg-background/40 text-foreground text-cuerpo font-mono focus:outline-none focus:border-primary/60"
               />
               {[1000, 5000, 10000, 50000, 100000].map(v => (
                 <button
@@ -470,7 +470,7 @@ function YieldCalculator({ bonds }: { bonds: BondOpportunity[] }) {
 
           {/* Plazo */}
           <div>
-            <label className="text-xs text-muted-foreground block mb-1.5">Plazo</label>
+            <label className="text-mini text-muted-foreground block mb-1.5">Plazo</label>
             <div className="flex gap-1.5">
               {PRESET_MONTHS.map(m => (
                 <button
@@ -489,7 +489,7 @@ function YieldCalculator({ bonds }: { bonds: BondOpportunity[] }) {
         {topGainer && (() => {
           const { gain, effectiveYield } = calcReturn(capital, topGainer.yield_pct!, months)
           return (
-            <div className="mb-4 px-3 py-2 rounded-lg bg-emerald-500/8 border border-emerald-500/20 text-xs text-emerald-400">
+            <div className="mb-4 px-3 py-2 rounded-lg bg-emerald-500/8 border border-emerald-500/20 text-mini text-emerald-400">
               Mejor rendimiento: <span className="font-bold">{topGainer.ticker}</span> — ganarías{' '}
               <span className="font-bold">{fmtUsd(gain)}</span> en {months < 12 ? `${months} meses` : months === 12 ? '1 año' : `${months / 12} años`}{' '}
               <span className="opacity-70">({effectiveYield.toFixed(2)}% del período)</span>
@@ -499,7 +499,7 @@ function YieldCalculator({ bonds }: { bonds: BondOpportunity[] }) {
 
         {/* Results table */}
         <div className="table-x-wrap">
-          <table className="w-full text-xs">
+          <table className="w-full text-mini">
             <thead>
               <tr className="border-b border-border/20 text-micro text-muted-foreground uppercase tracking-wider">
                 <th className="pb-2 text-left pr-3">ETF</th>
@@ -589,7 +589,7 @@ function YieldVsAvg({ val }: { val: number | null | undefined }) {
   const color = val >= 0.3 ? 'text-emerald-400' : val >= 0 ? 'text-green-400' : val >= -0.3 ? 'text-yellow-400' : 'text-red-400'
   const Icon = val > 0 ? TrendingUp : val < 0 ? TrendingDown : Minus
   return (
-    <span className={cn('flex items-center gap-1 font-mono text-xs', color)}>
+    <span className={cn('flex items-center gap-1 font-mono text-mini', color)}>
       <Icon size={12} />
       {val > 0 ? '+' : ''}{val.toFixed(2)}%
     </span>
@@ -599,7 +599,7 @@ function YieldVsAvg({ val }: { val: number | null | undefined }) {
 function PctFromHigh({ val }: { val: number | null | undefined }) {
   if (val == null) return <span className="text-muted-foreground">—</span>
   const color = val <= -8 ? 'text-emerald-400' : val <= -3 ? 'text-yellow-400' : 'text-muted-foreground'
-  return <span className={cn('font-mono text-xs', color)}>{val > 0 ? '+' : ''}{val.toFixed(1)}%</span>
+  return <span className={cn('font-mono text-mini', color)}>{val > 0 ? '+' : ''}{val.toFixed(1)}%</span>
 }
 
 function DurationBar({ years }: { years: number | null | undefined }) {
@@ -612,7 +612,7 @@ function DurationBar({ years }: { years: number | null | undefined }) {
       <div className="h-1 w-16 rounded-full bg-muted/30 overflow-hidden">
         <div className="h-full rounded-full" style={{ width: `${pct}%`, backgroundColor: color }} />
       </div>
-      <span className="text-xs font-mono" style={{ color }}>{years < 1 ? `${(years * 12).toFixed(0)}m` : `${years}y`}</span>
+      <span className="text-mini font-mono" style={{ color }}>{years < 1 ? `${(years * 12).toFixed(0)}m` : `${years}y`}</span>
     </div>
   )
 }
@@ -632,7 +632,7 @@ function BondRow({ bond }: { bond: BondOpportunity }) {
           <div className="flex items-center gap-2">
             <div className={cn('w-1.5 h-1.5 rounded-full flex-shrink-0', ratingCfg.dot)} />
             <div>
-              <span className="font-mono font-bold text-sm text-primary">{bond.ticker}</span>
+              <span className="font-mono font-bold text-cuerpo text-primary">{bond.ticker}</span>
               <div className="text-micro text-muted-foreground truncate max-w-[140px]">{bond.name}</div>
             </div>
           </div>
@@ -644,7 +644,7 @@ function BondRow({ bond }: { bond: BondOpportunity }) {
         </td>
         <td className="px-3 py-2.5 text-right">
           {bond.yield_pct != null ? (
-            <span className={cn('font-mono font-bold text-sm', bond.yield_pct >= 5 ? 'text-emerald-400' : bond.yield_pct >= 3.5 ? 'text-green-400' : 'text-muted-foreground')}>
+            <span className={cn('font-mono font-bold text-cuerpo', bond.yield_pct >= 5 ? 'text-emerald-400' : bond.yield_pct >= 3.5 ? 'text-green-400' : 'text-muted-foreground')}>
               {bond.yield_pct.toFixed(2)}%
             </span>
           ) : <span className="text-muted-foreground">—</span>}
@@ -671,7 +671,7 @@ function BondRow({ bond }: { bond: BondOpportunity }) {
       {expanded && (
         <tr className="border-b border-border/20 bg-white/[0.015]">
           <td colSpan={8} className="px-4 py-3">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs mb-3">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-mini mb-3">
               <div>
                 <div className="text-muted-foreground mb-0.5">Precio</div>
                 <div className="font-mono font-semibold">{bond.currency === 'EUR' ? '€' : '$'}{fmt(bond.price)}</div>
@@ -712,7 +712,7 @@ function BondRow({ bond }: { bond: BondOpportunity }) {
                 </div>
               </div>
             </div>
-            <div className={cn('text-xs px-3 py-2 rounded-lg border', ratingCfg.bg, ratingCfg.text)}>
+            <div className={cn('text-mini px-3 py-2 rounded-lg border', ratingCfg.bg, ratingCfg.text)}>
               {bond.recommendation}
             </div>
             {bond.liquidity_note && (
@@ -749,15 +749,15 @@ function PreferredCalculator({ prefs }: { prefs: PreferredStock[] }) {
       <CardContent className="p-5">
         <div className="flex items-center gap-2 mb-4">
           <Calculator size={16} className="text-primary" />
-          <h2 className="text-sm font-semibold text-foreground">Calculadora de rendimiento — Preferred Stocks</h2>
-          <span className="text-xs text-muted-foreground ml-1">— ¿cuánto cobras en dividendos si inviertes X durante Y meses?</span>
+          <h2 className="text-cuerpo font-semibold text-foreground">Calculadora de rendimiento — Preferred Stocks</h2>
+          <span className="text-mini text-muted-foreground ml-1">— ¿cuánto cobras en dividendos si inviertes X durante Y meses?</span>
         </div>
 
         {/* Inputs */}
         <div className="flex flex-wrap gap-4 mb-5">
           {/* Capital */}
           <div>
-            <label className="text-xs text-muted-foreground block mb-1.5">Capital a invertir ($)</label>
+            <label className="text-mini text-muted-foreground block mb-1.5">Capital a invertir ($)</label>
             <div className="flex items-center gap-1.5">
               <input
                 type="text"
@@ -769,7 +769,7 @@ function PreferredCalculator({ prefs }: { prefs: PreferredStock[] }) {
                   const n = parseInt(raw, 10)
                   if (!isNaN(n) && n > 0) setCapital(n)
                 }}
-                className="w-32 px-3 py-1.5 rounded-lg border border-border/50 bg-background/40 text-foreground text-sm font-mono focus:outline-none focus:border-primary/60"
+                className="w-32 px-3 py-1.5 rounded-lg border border-border/50 bg-background/40 text-foreground text-cuerpo font-mono focus:outline-none focus:border-primary/60"
               />
               {[1000, 5000, 10000, 50000, 100000].map(v => (
                 <button
@@ -785,7 +785,7 @@ function PreferredCalculator({ prefs }: { prefs: PreferredStock[] }) {
 
           {/* Plazo */}
           <div>
-            <label className="text-xs text-muted-foreground block mb-1.5">Plazo</label>
+            <label className="text-mini text-muted-foreground block mb-1.5">Plazo</label>
             <div className="flex gap-1.5">
               {PRESET_MONTHS.map(m => (
                 <button
@@ -804,7 +804,7 @@ function PreferredCalculator({ prefs }: { prefs: PreferredStock[] }) {
         {topGainer && (() => {
           const { gain, effectiveYield } = calcReturn(capital, topGainer.current_yield!, months)
           return (
-            <div className="mb-4 px-3 py-2 rounded-lg bg-emerald-500/8 border border-emerald-500/20 text-xs text-emerald-400">
+            <div className="mb-4 px-3 py-2 rounded-lg bg-emerald-500/8 border border-emerald-500/20 text-mini text-emerald-400">
               Mayor yield: <span className="font-bold">{topGainer.ticker}</span> ({topGainer.issuer}) — cobrarías{' '}
               <span className="font-bold">{fmtUsd(gain)}</span> en dividendos en {months < 12 ? `${months} meses` : months === 12 ? '1 año' : `${months / 12} años`}{' '}
               <span className="opacity-70">({effectiveYield.toFixed(2)}% del período)</span>
@@ -814,7 +814,7 @@ function PreferredCalculator({ prefs }: { prefs: PreferredStock[] }) {
 
         {/* Results table */}
         <div className="table-x-wrap">
-          <table className="w-full text-xs">
+          <table className="w-full text-mini">
             <thead>
               <tr className="border-b border-border/20 text-micro text-muted-foreground uppercase tracking-wider">
                 <th className="pb-2 text-left pr-3">Ticker</th>
@@ -919,7 +919,7 @@ function PreferredRow({ p }: { p: PreferredStock }) {
           <div className="flex items-center gap-2">
             <div className={cn('w-1.5 h-1.5 rounded-full flex-shrink-0', ratingCfg.dot)} />
             <div>
-              <span className="font-mono font-bold text-sm text-primary">{p.ticker}</span>
+              <span className="font-mono font-bold text-cuerpo text-primary">{p.ticker}</span>
               <div className="text-micro text-muted-foreground">{p.issuer}</div>
             </div>
           </div>
@@ -932,7 +932,7 @@ function PreferredRow({ p }: { p: PreferredStock }) {
         </td>
         {/* Yield actual (+ aviso de call si el YTC lo desmiente) */}
         <td className="px-3 py-2.5 text-right">
-          <span className={cn('font-mono font-bold text-sm',
+          <span className={cn('font-mono font-bold text-cuerpo',
             (p.current_yield ?? 0) >= 6.5 ? 'text-emerald-400' :
             (p.current_yield ?? 0) >= 5.5 ? 'text-green-400' : 'text-muted-foreground'
           )}>
@@ -949,13 +949,13 @@ function PreferredRow({ p }: { p: PreferredStock }) {
         </td>
         {/* Dividendo fijo */}
         <td className="px-3 py-2.5 text-right">
-          <span className="font-mono text-xs text-muted-foreground">
+          <span className="font-mono text-mini text-muted-foreground">
             {p.stated_div_pct.toFixed(3)}% · ${p.annual_div.toFixed(2)}/a
           </span>
         </td>
         {/* Precio vs par */}
         <td className="px-3 py-2.5 text-right">
-          <div className="text-xs font-mono">
+          <div className="text-mini font-mono">
             <span className="text-foreground/80">${p.price?.toFixed(2) ?? '—'}</span>
             {p.pct_from_par != null && (
               <span className={cn('ml-1.5', abovePar ? 'text-orange-400' : 'text-emerald-400')}>
@@ -982,7 +982,7 @@ function PreferredRow({ p }: { p: PreferredStock }) {
       {expanded && (
         <tr className="border-b border-border/20 bg-white/[0.015]">
           <td colSpan={8} className="px-4 py-3">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs mb-3">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-mini mb-3">
               <div>
                 <div className="text-muted-foreground mb-0.5">Valor nominal (par)</div>
                 <div className="font-mono font-semibold">${p.par_value}</div>
@@ -1016,7 +1016,7 @@ function PreferredRow({ p }: { p: PreferredStock }) {
               </div>
             </div>
             {/* Explicación clara */}
-            <div className="text-xs space-y-1 mb-3 text-muted-foreground">
+            <div className="text-mini space-y-1 mb-3 text-muted-foreground">
               <div>
                 <span className="text-muted-foreground font-medium">¿Cómo funciona? </span>
                 Comprando a <span className="font-mono text-foreground">${p.price?.toFixed(2)}</span>, recibes{' '}
@@ -1028,7 +1028,7 @@ function PreferredRow({ p }: { p: PreferredStock }) {
                 }
               </div>
             </div>
-            <div className={cn('text-xs px-3 py-2 rounded-lg border', ratingCfg.bg, ratingCfg.text)}>
+            <div className={cn('text-mini px-3 py-2 rounded-lg border', ratingCfg.bg, ratingCfg.text)}>
               {p.recommendation}
             </div>
             {p.liquidity_note && (
@@ -1055,7 +1055,7 @@ function PreferredSection() {
       .finally(() => setLoading(false))
   }, [])
 
-  if (loading) return <div className="text-xs text-muted-foreground py-4">Cargando preferred stocks...</div>
+  if (loading) return <div className="text-mini text-muted-foreground py-4">Cargando preferred stocks...</div>
   if (!prefs.length) return null
 
   const atractivos = prefs.filter(p => ['MUY_ATRACTIVO', 'ATRACTIVO'].includes(p.value_rating))
@@ -1066,8 +1066,8 @@ function PreferredSection() {
       <Card className="glass border-primary/15">
         <CardContent className="p-4">
           <div className="flex items-start gap-3">
-            <div className="flex-1 space-y-2 text-xs text-muted-foreground">
-              <div className="text-sm font-semibold text-foreground">Preferred Stocks — ¿qué son?</div>
+            <div className="flex-1 space-y-2 text-mini text-muted-foreground">
+              <div className="text-cuerpo font-semibold text-foreground">Preferred Stocks — ¿qué son?</div>
               <div>
                 Son <span className="text-foreground/80 font-medium">acciones preferentes</span>: cotizan en bolsa como una acción normal,
                 pero pagan un <span className="text-emerald-400 font-medium">dividendo fijo y garantizado</span> antes que los accionistas ordinarios.
@@ -1095,12 +1095,12 @@ function PreferredSection() {
       {/* Resumen + toggle calculadora */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-base font-semibold text-foreground">Preferred Stocks</h2>
-          <p className="text-xs text-muted-foreground">{prefs.length} analizadas · {atractivos.length} atractivas</p>
+          <h2 className="text-titulo font-semibold text-foreground">Preferred Stocks</h2>
+          <p className="text-mini text-muted-foreground">{prefs.length} analizadas · {atractivos.length} atractivas</p>
         </div>
         <button
           onClick={() => setShowCalc(v => !v)}
-          className="flex items-center gap-2 text-sm font-medium text-primary hover:text-primary transition-colors"
+          className="flex items-center gap-2 text-cuerpo font-medium text-primary hover:text-primary transition-colors"
         >
           <Calculator size={16} />
           Calculadora de rendimiento
@@ -1115,7 +1115,7 @@ function PreferredSection() {
       <Card className="glass border-border/30">
         <CardContent className="p-0">
           <div className="table-x-wrap">
-            <table className="w-full text-sm">
+            <table className="w-full text-cuerpo">
               <thead>
                 <tr className="border-b border-border/30 text-mini text-muted-foreground uppercase tracking-wider">
                   <th className="px-3 py-2.5 text-left">Ticker</th>
@@ -1207,26 +1207,26 @@ export default function Bonds() {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         <Card className="glass border-border/30">
           <CardContent className="p-4">
-            <div className="text-xs text-muted-foreground mb-1">Bonos analizados</div>
-            <div className="text-2xl font-bold text-foreground">{bonds.length}</div>
+            <div className="text-mini text-muted-foreground mb-1">Bonos analizados</div>
+            <div className="text-pagina font-bold text-foreground">{bonds.length}</div>
           </CardContent>
         </Card>
         <Card className="glass border-border/30">
           <CardContent className="p-4">
-            <div className="text-xs text-muted-foreground mb-1">Atractivos</div>
-            <div className="text-2xl font-bold text-emerald-400">{atractivos.length}</div>
+            <div className="text-mini text-muted-foreground mb-1">Atractivos</div>
+            <div className="text-pagina font-bold text-emerald-400">{atractivos.length}</div>
           </CardContent>
         </Card>
         <Card className="glass border-border/30">
           <CardContent className="p-4">
-            <div className="text-xs text-muted-foreground mb-1">Yield medio universo</div>
-            <div className="text-2xl font-bold text-foreground">{avgYield > 0 ? `${avgYield.toFixed(2)}%` : '—'}</div>
+            <div className="text-mini text-muted-foreground mb-1">Yield medio universo</div>
+            <div className="text-pagina font-bold text-foreground">{avgYield > 0 ? `${avgYield.toFixed(2)}%` : '—'}</div>
           </CardContent>
         </Card>
         <Card className="glass border-border/30">
           <CardContent className="p-4">
-            <div className="text-xs text-muted-foreground mb-1">Yield más alto</div>
-            <div className="text-2xl font-bold text-foreground">
+            <div className="text-mini text-muted-foreground mb-1">Yield más alto</div>
+            <div className="text-pagina font-bold text-foreground">
               {bonds.length ? `${Math.max(...bonds.map(b => b.yield_pct ?? 0)).toFixed(2)}%` : '—'}
             </div>
           </CardContent>
@@ -1240,7 +1240,7 @@ export default function Bonds() {
       <div>
         <button
           onClick={() => setShowCalc(v => !v)}
-          className="flex items-center gap-2 text-sm font-medium text-primary hover:text-primary transition-colors mb-3"
+          className="flex items-center gap-2 text-cuerpo font-medium text-primary hover:text-primary transition-colors mb-3"
         >
           <Calculator size={16} />
           Calculadora de rendimiento
@@ -1266,7 +1266,7 @@ export default function Bonds() {
             key={r}
             onClick={() => setRatingFilter(r)}
             className={cn(
-              'text-xs px-3 py-1.5 rounded-lg border transition-all font-medium',
+              'text-mini px-3 py-1.5 rounded-lg border transition-all font-medium',
               ratingFilter === r
                 ? r === 'ATRACTIVO' ? 'bg-emerald-500/20 border-emerald-500/40 text-emerald-400'
                   : r === 'CARO' ? 'bg-red-500/20 border-red-500/40 text-red-400'
@@ -1283,7 +1283,7 @@ export default function Bonds() {
       <Card className="glass border-border/30">
         <CardContent className="p-0">
           <div className="table-x-wrap">
-            <table className="w-full text-sm">
+            <table className="w-full text-cuerpo">
               <thead>
                 <tr className="border-b border-border/30 text-mini text-muted-foreground uppercase tracking-wider">
                   <th className="px-3 py-2.5 text-left">ETF / Bono</th>
@@ -1299,7 +1299,7 @@ export default function Bonds() {
               <tbody>
                 {filtered.length === 0 ? (
                   <tr>
-                    <td colSpan={8} className="px-4 py-8 text-center text-muted-foreground text-sm">
+                    <td colSpan={8} className="px-4 py-8 text-center text-muted-foreground text-cuerpo">
                       No hay bonos con los filtros seleccionados
                     </td>
                   </tr>
@@ -1317,7 +1317,7 @@ export default function Bonds() {
 
       {/* How to read guide */}
       <Card className="glass border-border/20">
-        <CardContent className="p-4 text-xs text-muted-foreground space-y-1.5">
+        <CardContent className="p-4 text-mini text-muted-foreground space-y-1.5">
           <div className="font-semibold text-foreground/70 mb-2">Cómo leer la tabla</div>
           <div><span className="text-emerald-400 font-medium">T-Bill / Cash EUR</span> — vencimiento &lt;1 año. Sin riesgo de precio, liquidez total. BIL/SGOV pagan ~4-5% anual — a 3 meses son ~1.1%, proporcional al tiempo invertido</div>
           <div><span className="text-blue-400 font-medium">Treasury 1-2 años</span> — SHY/VGSH: rendimiento competitivo, riesgo de tipos mínimo, mucho más seguro que largo plazo</div>

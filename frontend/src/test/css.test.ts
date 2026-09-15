@@ -308,3 +308,69 @@ describe('contraste de los colores semánticos', () => {
     },
   )
 })
+
+/**
+ * Una sola escala tipográfica.
+ *
+ * Convivían dos: la semántica (`text-micro`…`text-titulo`, 1.146 usos) y la de
+ * Tailwind en crudo (`text-xs`…`text-4xl`, 1.216). Cada una con su ritmo, así
+ * que dos textos del mismo papel salían a tamaños distintos según quién
+ * escribiera la página. Eso —y no los colores— era lo que hacía que la app no
+ * casara consigo misma.
+ *
+ * Y en el CSS, las 12 declaraciones de `font-size` estaban TODAS a pelo: seis
+ * clases de control con cuatro tamaños distintos (0.65 / 0.72 / 0.75 / 0.8rem),
+ * elegidos por separado, con `.filter-label` por debajo del suelo de 11px que
+ * fija el propio proyecto.
+ */
+describe('escala tipográfica', () => {
+  const css = readFileSync(join(__dirname, '..', 'index.css'), 'utf-8')
+
+  // El tamaño del rem cambia por breakpoint (densidad deliberada) y los campos
+  // de formulario van a 16px para que iOS no haga zoom al enfocarlos. Ninguno
+  // es tipografía: son las dos únicas excepciones legítimas.
+  const EXENTOS = /^\s*(html|textarea|input\[type=)/
+
+  it('ninguna regla de CSS fija un tamaño fuera de la escala', () => {
+    const sinComentar = sinComentarios(css)
+    const sueltos: string[] = []
+    // Para cada `font-size` se busca hacia atrás el selector que abre su
+    // bloque. Hay que mirar el ÚLTIMO `{` anterior y no el primero: dentro de
+    // una media query, `html` va anidado y quedarse con el `@media` daba el
+    // selector equivocado.
+    for (const m of sinComentar.matchAll(/font-size:\s*([^;]+);/g)) {
+      if (m[1].includes('var(--text-')) continue
+      const antes = sinComentar.slice(0, m.index)
+      const abre = antes.lastIndexOf('{')
+      const inicio = Math.max(antes.lastIndexOf('}', abre), antes.lastIndexOf('{', abre - 1))
+      const nombre = antes.slice(inicio + 1, abre).trim().split('\n').pop()?.trim() ?? ''
+      if (EXENTOS.test(nombre)) continue
+      sueltos.push(`${nombre.slice(0, 40)} → ${m[1].trim()}`)
+    }
+    expect(sueltos, 'usar var(--text-…): la escala existe para esto').toEqual([])
+  })
+
+  it('ningún .tsx usa los tamaños de Tailwind en crudo', () => {
+    const raiz = join(__dirname, '..')
+    const fuentes: { ruta: string; texto: string }[] = []
+    const recorrer = (dir: string) => {
+      for (const e of readdirSync(dir, { withFileTypes: true })) {
+        const ruta = join(dir, e.name)
+        if (e.isDirectory()) { if (e.name !== 'test') recorrer(ruta) }
+        else if (e.name.endsWith('.tsx')) fuentes.push({ ruta: ruta.slice(raiz.length + 1), texto: readFileSync(ruta, 'utf-8') })
+      }
+    }
+    recorrer(raiz)
+
+    const culpables = fuentes.flatMap(({ ruta, texto }) =>
+      texto.split('\n').flatMap((linea, i) =>
+        [...linea.matchAll(/\b(?:[a-z0-9]+:)*text-(xs|sm|base|lg|xl|2xl|3xl|4xl)\b/g)]
+          // `text-xl`/`text-4xl` sin peso ni cifras tabulares dimensionan un
+          // ICONO o un emoji, no texto: eso no es de la escala tipográfica.
+          .filter(m => !(['xl', '4xl'].includes(m[1]) &&
+                         !/font-(thin|light|normal|medium|semibold|bold|extrabold|black)|tabular-nums/.test(linea)))
+          .map(m => `${ruta}:${i + 1} ${m[0]}`)))
+
+    expect(culpables, 'usar micro/mini/apoyo/cuerpo/titulo/seccion/pagina/cifra').toEqual([])
+  })
+})

@@ -186,7 +186,7 @@ export default function Portfolio() {
         title="Portfolio Tracker"
         subtitle={<>Rendimiento de <strong className="text-foreground">VALUE US</strong> — {pf.value_strategy?.count ?? pf.total_signals} señales
           {pf.date_range && <span className="ml-1 opacity-60">({pf.date_range})</span>}
-          <span className="mt-1 block text-xs text-muted-foreground">
+          <span className="mt-1 block text-mini text-muted-foreground">
             Europa va aparte, más abajo: mezclarla en el titular hundía el número con señales que no operas.
           </span></>}
       />
@@ -212,7 +212,7 @@ export default function Portfolio() {
         return (
           <div className="mb-5">
             <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-3 px-1">Resumen animado</div>
-            <Suspense fallback={<div className="glass border border-border/40 rounded-xl h-20 flex items-center justify-center text-sm text-muted-foreground">Cargando…</div>}>
+            <Suspense fallback={<div className="glass border border-border/40 rounded-xl h-20 flex items-center justify-center text-cuerpo text-muted-foreground">Cargando…</div>}>
               <PortfolioStatsPlayer data={statsData} />
             </Suspense>
           </div>
@@ -231,7 +231,7 @@ export default function Portfolio() {
                   Win Rate {p}
                   {p === bestPeriod && <Badge variant="green" className="text-micro px-1 py-0 leading-4">BEST</Badge>}
                 </div>
-                <div className={`text-3xl font-extrabold tracking-tight tabular-nums leading-none mb-2 ${d.win_rate >= 50 ? 'text-emerald-400' : 'text-red-400'}`}>
+                <div className={`text-cifra font-extrabold tracking-tight tabular-nums leading-none mb-2 ${d.win_rate >= 50 ? 'text-emerald-400' : 'text-red-400'}`}>
                   {d.win_rate?.toFixed(1)}%
                 </div>
                 <div className="text-micro text-muted-foreground">
@@ -244,7 +244,7 @@ export default function Portfolio() {
           {pf.score_correlation != null && (
             <Card className="glass p-5 stagger-4">
               <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-2">Correlacion Score-Return</div>
-              <div className={`text-3xl font-extrabold tracking-tight tabular-nums leading-none mb-2 ${pf.score_correlation > 0.1 ? 'text-emerald-400' : 'text-amber-400'}`}>
+              <div className={`text-cifra font-extrabold tracking-tight tabular-nums leading-none mb-2 ${pf.score_correlation > 0.1 ? 'text-emerald-400' : 'text-amber-400'}`}>
                 {pf.score_correlation.toFixed(3)}
               </div>
               <div className="text-micro text-muted-foreground">
@@ -261,13 +261,13 @@ export default function Portfolio() {
           <div className="flex items-start gap-3">
             <Hourglass size={20} strokeWidth={1.75} className="opacity-60 mt-0.5" />
             <div>
-              <p className="text-sm font-semibold text-foreground mb-1">
+              <p className="text-cuerpo font-semibold text-foreground mb-1">
                 {activeCount} señales activas — primeras métricas disponibles
                 {daysToFirst !== null && daysToFirst > 0
                   ? ` en ${daysToFirst} días`
                   : ' pronto'}
               </p>
-              <p className="text-xs text-muted-foreground">
+              <p className="text-mini text-muted-foreground">
                 El tracker graba el precio de cada señal y calcula el retorno real a los 7, 14 y 30 días.
                 Vuelve en unos días para ver el rendimiento.
               </p>
@@ -281,12 +281,12 @@ export default function Portfolio() {
         <div className="grid grid-cols-2 gap-3 mb-5">
           <Card className="glass p-5">
             <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-2">Avg Max Drawdown</div>
-            <div className="text-3xl font-extrabold tracking-tight tabular-nums leading-none mb-2 text-red-400">{pf.avg_max_drawdown.toFixed(2)}%</div>
+            <div className="text-cifra font-extrabold tracking-tight tabular-nums leading-none mb-2 text-red-400">{pf.avg_max_drawdown.toFixed(2)}%</div>
             <div className="text-micro text-muted-foreground">riesgo promedio</div>
           </Card>
           <Card className="glass p-5">
             <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-2">Total Señales</div>
-            <div className="text-3xl font-extrabold tracking-tight tabular-nums leading-none mb-2">{pf.total_signals}</div>
+            <div className="text-cifra font-extrabold tracking-tight tabular-nums leading-none mb-2">{pf.total_signals}</div>
             <div className="text-micro text-muted-foreground">{pf.unique_tickers} tickers únicos</div>
           </Card>
         </div>
@@ -298,7 +298,7 @@ export default function Portfolio() {
         {pf.top_performers && pf.top_performers.length > 0 && (
           <Card className="glass">
             <div className="px-5 py-3 border-b border-border/50 flex items-center gap-2">
-              <h3 className="text-sm font-semibold text-emerald-400">Top Performers</h3>
+              <h3 className="text-cuerpo font-semibold text-emerald-400">Top Performers</h3>
               <Badge variant="green" className="text-micro">{pf.top_performers.length}</Badge>
             </div>
             <Table>
@@ -335,7 +335,7 @@ export default function Portfolio() {
         {pf.worst_performers && pf.worst_performers.length > 0 && (
           <Card className="glass">
             <div className="px-5 py-3 border-b border-border/50 flex items-center gap-2">
-              <h3 className="text-sm font-semibold text-red-400">Worst Performers</h3>
+              <h3 className="text-cuerpo font-semibold text-red-400">Worst Performers</h3>
               <Badge variant="red" className="text-micro">{pf.worst_performers.length}</Badge>
             </div>
             <Table>
@@ -374,7 +374,7 @@ export default function Portfolio() {
       {corrData && corrData.tickers.length > 1 && (
         <Card className="glass mb-5 animate-fade-in-up overflow-clip">
           <div className="px-5 py-3 border-b border-border/50 flex items-center gap-2">
-            <h3 className="text-sm font-semibold">Correlación de Señales</h3>
+            <h3 className="text-cuerpo font-semibold">Correlación de Señales</h3>
             <span className="text-micro text-muted-foreground">{corrData.days}d · {corrData.as_of}</span>
           </div>
           <div className="table-x-wrap">
@@ -430,9 +430,9 @@ export default function Portfolio() {
       {recentSignals && recentSignals.length > 0 && (
         <Card className="glass animate-fade-in-up">
           <div className="px-5 py-3 border-b border-border/50 flex items-center gap-2">
-            <h3 className="text-sm font-semibold">En seguimiento</h3>
+            <h3 className="text-cuerpo font-semibold">En seguimiento</h3>
             <Badge variant="gray" className="text-micro">{activeCount}</Badge>
-            <span className="text-xs text-muted-foreground ml-auto">
+            <span className="text-mini text-muted-foreground ml-auto">
               señales de &lt;30 días, aún midiéndose · últimas 20
             </span>
           </div>
@@ -493,7 +493,7 @@ export default function Portfolio() {
           else { setSigSortKey(key); setSigSortDir('desc') }
         }
         const thS = (key: SortKey) =>
-          `cursor-pointer select-none whitespace-nowrap transition-colors hover:text-foreground text-xs ${sigSortKey === key ? 'text-primary' : ''}`
+          `cursor-pointer select-none whitespace-nowrap transition-colors hover:text-foreground text-mini ${sigSortKey === key ? 'text-primary' : ''}`
 
         const sigFiltered = signalsData.data.filter(s => {
           if (sigFilter === 'ACTIVE') return s.status === 'ACTIVE'
@@ -519,7 +519,7 @@ export default function Portfolio() {
         return (
           <div className="mt-6">
             <div className="flex items-center gap-3 mb-3">
-              <h3 className="text-sm font-semibold">Historial de Señales</h3>
+              <h3 className="text-cuerpo font-semibold">Historial de Señales</h3>
               <Badge variant="gray" className="text-micro">{signalsData.count}</Badge>
               <div className="flex gap-1 ml-2">
                 {(['ALL', 'ACTIVE', 'COMPLETED'] as const).map(f => (
@@ -532,7 +532,7 @@ export default function Portfolio() {
                   </button>
                 ))}
               </div>
-              <span className="text-xs text-muted-foreground ml-auto">{sigFiltered.length} señales</span>
+              <span className="text-mini text-muted-foreground ml-auto">{sigFiltered.length} señales</span>
             </div>
 
             {/* Mobile cards */}
@@ -544,7 +544,7 @@ export default function Portfolio() {
                       <TickerLogo ticker={r.ticker} size="xs" />
                       <div>
                         <div className="flex items-center gap-1.5">
-                          <span className="font-mono font-bold text-sm">{r.ticker}</span>
+                          <span className="font-mono font-bold text-cuerpo">{r.ticker}</span>
                           <Badge variant={stratVariant(r.strategy)}>{stratLabel(r.strategy)}</Badge>
                         </div>
                         <span className="text-micro text-muted-foreground">{r.signal_date?.slice(0, 10)}</span>
@@ -552,7 +552,7 @@ export default function Portfolio() {
                     </div>
                     <div className="text-right">
                       {r.return_14d != null && (
-                        <div className={`text-sm font-bold ${r.return_14d > 0 ? 'text-emerald-400' : r.return_14d < 0 ? 'text-red-400' : 'text-muted-foreground'}`}>
+                        <div className={`text-cuerpo font-bold ${r.return_14d > 0 ? 'text-emerald-400' : r.return_14d < 0 ? 'text-red-400' : 'text-muted-foreground'}`}>
                           {r.return_14d > 0 ? '+' : ''}{r.return_14d.toFixed(1)}%
                         </div>
                       )}
@@ -646,7 +646,7 @@ export default function Portfolio() {
               <div className="mt-3 flex justify-center">
                 <button
                   onClick={() => setSigPage(p => p + 1)}
-                  className="text-xs px-4 py-1.5 rounded-lg border border-border/40 text-muted-foreground hover:border-primary/40 hover:text-primary transition-colors"
+                  className="text-mini px-4 py-1.5 rounded-lg border border-border/40 text-muted-foreground hover:border-primary/40 hover:text-primary transition-colors"
                 >
                   Ver más ({sigFiltered.length - sigVisible} restantes)
                 </button>
@@ -659,10 +659,10 @@ export default function Portfolio() {
       {/* Correlation Matrix */}
       {corrData && corrData.tickers.length >= 3 && (
         <div className="mt-6">
-          <h2 className="text-sm font-semibold text-muted-foreground mb-1 uppercase tracking-wider">
+          <h2 className="text-cuerpo font-semibold text-muted-foreground mb-1 uppercase tracking-wider">
             Correlación entre picks VALUE (últimos {corrData.days}d)
           </h2>
-          <p className="text-xs text-muted-foreground mb-3">
+          <p className="text-mini text-muted-foreground mb-3">
             Riesgo de concentración oculto — correlación &gt;0.7 significa que los picks se mueven juntos
           </p>
           <Card className="glass border border-border/40">
@@ -714,7 +714,7 @@ export default function Portfolio() {
       {/* ── Alpha vs benchmark ── */}
       {pf.alpha?.['90d']?.count != null && pf.alpha['90d'].count >= 3 && (
         <div className="mt-6 animate-fade-in-up">
-          <h2 className="text-base font-bold uppercase tracking-widest text-muted-foreground pb-1 border-b border-border/30 mb-4">
+          <h2 className="text-titulo font-bold uppercase tracking-widest text-muted-foreground pb-1 border-b border-border/30 mb-4">
             Alpha vs benchmark
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -727,16 +727,16 @@ export default function Portfolio() {
                 <Card key={period} className="glass border-border/20">
                   <CardContent className="p-4">
                     <div className="flex items-center justify-between mb-3">
-                      <span className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">{period}</span>
+                      <span className="text-mini font-semibold uppercase tracking-widest text-muted-foreground">{period}</span>
                       <Badge variant={(a.avg_alpha ?? 0) > 0 ? 'green' : 'red'} className="text-micro">
                         {(a.avg_alpha ?? 0) > 0 ? '↑ OUTPERFORM' : '↓ UNDERPERFORM'}
                       </Badge>
                     </div>
-                    <div className={`text-3xl font-extrabold tabular-nums leading-none mb-1 ${alphaColor}`}>
+                    <div className={`text-cifra font-extrabold tabular-nums leading-none mb-1 ${alphaColor}`}>
                       {(a.avg_alpha ?? 0) > 0 ? '+' : ''}{a.avg_alpha?.toFixed(2)}%
                     </div>
                     <div className="text-micro text-muted-foreground mb-3">alpha medio vs {bench}</div>
-                    <div className="space-y-1.5 text-xs">
+                    <div className="space-y-1.5 text-mini">
                       <div className="flex justify-between">
                         <span className="text-muted-foreground">Nuestras señales</span>
                         <span className={a.avg_signal_return != null && a.avg_signal_return > 0 ? 'text-emerald-400 font-semibold' : 'text-red-400 font-semibold'}>
@@ -778,16 +778,16 @@ export default function Portfolio() {
           coinciden, no hay ganador que declarar. */}
       {((pf.value_strategy?.['90d']?.count ?? 0) >= 10 || (pf.eu_value_strategy?.['90d']?.count ?? 0) >= 10) && (
         <div className="mt-6 animate-fade-in-up">
-          <h2 className="text-base font-bold uppercase tracking-widest text-muted-foreground pb-1 border-b border-border/30 mb-1">
+          <h2 className="text-titulo font-bold uppercase tracking-widest text-muted-foreground pb-1 border-b border-border/30 mb-1">
             VALUE US vs EU — horizonte de tesis
           </h2>
-          <p className="text-xs text-muted-foreground mb-2">
+          <p className="text-mini text-muted-foreground mb-2">
             Una tesis value se juega en trimestres, no en semanas. Estas son las cifras a 90d /
             6 meses / 1 año — el 7-30d mide ruido de corto plazo y no dice nada útil aquí.
             180d y 365d se llenan conforme envejecen las señales (el tracking empezó en feb-2026).
           </p>
           {basesDistintas && (
-            <p className="mb-4 rounded-lg border border-amber-500/25 bg-amber-500/5 px-3 py-2 text-xs text-amber-300">
+            <p className="mb-4 rounded-lg border border-amber-500/25 bg-amber-500/5 px-3 py-2 text-mini text-amber-300">
               <strong>No son comparables entre sí a 90 días.</strong> US mide solo el periodo
               con filtrado correcto; EU aún no tiene señales limpias con 90 días cumplidos, así
               que usa todo el histórico — incluido el tramo que el propio tracker descarta por
@@ -809,7 +809,7 @@ export default function Portfolio() {
                 <Card key={badge} className={`glass border ${leads ? 'border-primary/40' : 'border-border/20'}`}>
                   <CardContent className="p-4">
                     <div className="flex items-center justify-between mb-3">
-                      <span className="text-sm font-bold tracking-wide">{label}</span>
+                      <span className="text-cuerpo font-bold tracking-wide">{label}</span>
                       {leads && <Badge variant="blue" className="text-micro">↑ MEJOR A 90D</Badge>}
                     </div>
 
@@ -817,7 +817,7 @@ export default function Portfolio() {
                     {wr != null && s90?.count ? (
                       <div className="mb-3">
                         <div className="text-micro uppercase tracking-widest text-muted-foreground mb-1">90 días · win rate</div>
-                        <div className={`text-3xl font-extrabold tabular-nums leading-none ${wr >= 55 ? 'text-emerald-400' : wr >= 45 ? 'text-amber-400' : 'text-red-400'}`}>
+                        <div className={`text-cifra font-extrabold tabular-nums leading-none ${wr >= 55 ? 'text-emerald-400' : wr >= 45 ? 'text-amber-400' : 'text-red-400'}`}>
                           {wr.toFixed(1)}%
                         </div>
                         {/* El intervalo al lado del dato, no escondido: un
@@ -828,7 +828,7 @@ export default function Portfolio() {
                             IC 95%: {s90.ci_low.toFixed(0)}–{s90.ci_high.toFixed(0)}%
                           </div>
                         )}
-                        <div className="text-xs text-muted-foreground mt-1.5">
+                        <div className="text-mini text-muted-foreground mt-1.5">
                           retorno medio {s90.avg_return != null ? `${s90.avg_return > 0 ? '+' : ''}${s90.avg_return.toFixed(2)}%` : '—'}
                           <span className="text-muted-foreground"> · {s90.count} señales</span>
                         </div>
@@ -836,7 +836,7 @@ export default function Portfolio() {
                           {BASIS_LABEL[s90.basis ?? ''] ?? s90.basis}
                         </div>
                         {a90?.avg_alpha != null && (
-                          <div className="text-xs mt-1">
+                          <div className="text-mini mt-1">
                             <span className="text-muted-foreground">vs {bench}: </span>
                             <span className={a90.avg_alpha >= 0 ? 'text-emerald-400 font-semibold' : 'text-red-400 font-semibold'}>
                               {a90.avg_alpha > 0 ? '+' : ''}{a90.avg_alpha.toFixed(1)}% alpha
@@ -848,7 +848,7 @@ export default function Portfolio() {
                         )}
                       </div>
                     ) : (
-                      <div className="mb-3 text-sm text-muted-foreground">Aún sin datos a 90 días.</div>
+                      <div className="mb-3 text-cuerpo text-muted-foreground">Aún sin datos a 90 días.</div>
                     )}
 
                     {/* 180d / 365d — acumulando */}
@@ -863,7 +863,7 @@ export default function Portfolio() {
                           return (
                             <div key={p}>
                               <div className="text-micro uppercase tracking-widest text-muted-foreground mb-1">{plabel}</div>
-                              <div className={`text-xl font-extrabold tabular-nums leading-none ${w >= 55 ? 'text-emerald-400' : w >= 45 ? 'text-amber-400' : 'text-red-400'}`}>
+                              <div className={`text-seccion font-extrabold tabular-nums leading-none ${w >= 55 ? 'text-emerald-400' : w >= 45 ? 'text-amber-400' : 'text-red-400'}`}>
                                 {w.toFixed(1)}%
                               </div>
                               <div className="text-micro text-muted-foreground mt-1">
@@ -875,7 +875,7 @@ export default function Portfolio() {
                         return (
                           <div key={p}>
                             <div className="text-micro uppercase tracking-widest text-muted-foreground mb-1">{plabel}</div>
-                            <div className="text-sm text-muted-foreground leading-tight mt-1.5">
+                            <div className="text-cuerpo text-muted-foreground leading-tight mt-1.5">
                               Acumulando<br /><span className="text-micro">~{eta}</span>
                             </div>
                           </div>
@@ -894,13 +894,13 @@ export default function Portfolio() {
       {calibData && (
         <div className="mt-8 space-y-4 animate-fade-in-up">
           <div className="pb-1 border-b border-border/30">
-            <h2 className="text-base font-bold uppercase tracking-widest text-muted-foreground">
+            <h2 className="text-titulo font-bold uppercase tracking-widest text-muted-foreground">
               Estadísticas del sistema
             </h2>
             {/* El horizonte no es un detalle: hasta el 9-sep-2026 todo esto se
                 medía a 14 días y las conclusiones ("el score no predice")
                 describían qué rebota en dos semanas, no qué tesis acierta. */}
-            <p className="mt-1 text-xs text-muted-foreground">
+            <p className="mt-1 text-mini text-muted-foreground">
               Medido a <strong className="text-foreground">{calibHorizonte}</strong> sobre {calibData.total_completed} señales
               {calibData.poblacion && <> · {calibData.poblacion}</>}
             </p>
@@ -909,7 +909,7 @@ export default function Portfolio() {
                 venir de una ventana de 10 días. Con eso a la vista, "el score
                 predice" se lee como lo que es. */}
             {calibData.muestra_desde && calibData.muestra_hasta && (
-              <p className="mt-1 text-xs text-amber-300">
+              <p className="mt-1 text-mini text-amber-300">
                 Ojo: todas emitidas entre {calibData.muestra_desde} y {calibData.muestra_hasta}.
                 A este horizonte solo tienen dato las señales más antiguas, así que esto
                 describe ese periodo concreto — no la estrategia en general.
@@ -921,7 +921,7 @@ export default function Portfolio() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <Card className="glass border-border/20">
               <CardContent className="p-4">
-                <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-3">Win rate por régimen de mercado</p>
+                <p className="text-mini font-semibold uppercase tracking-widest text-muted-foreground mb-3">Win rate por régimen de mercado</p>
                 <ResponsiveContainer width="100%" height={160}>
                   <BarChart data={calibData.regime_analysis} layout="vertical" margin={{ left: 8, right: 32 }}>
                     <XAxis type="number" domain={[0, 100]} tickFormatter={v => `${v}%`} tick={{ fontSize: 10 }} />
@@ -942,7 +942,7 @@ export default function Portfolio() {
             {/* Win rate por sector */}
             <Card className="glass border-border/20">
               <CardContent className="p-4">
-                <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-3">Win rate por sector (top 8)</p>
+                <p className="text-mini font-semibold uppercase tracking-widest text-muted-foreground mb-3">Win rate por sector (top 8)</p>
                 <ResponsiveContainer width="100%" height={160}>
                   <BarChart
                     data={[...calibData.sector_calibration]
@@ -970,7 +970,7 @@ export default function Portfolio() {
           {/* Win rate por score bucket (línea) */}
           <Card className="glass border-border/20">
             <CardContent className="p-4">
-              <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-1">Win rate por score bucket — ¿el score predice?</p>
+              <p className="text-mini font-semibold uppercase tracking-widest text-muted-foreground mb-1">Win rate por score bucket — ¿el score predice?</p>
               <p className="text-mini text-muted-foreground mb-3">Cada punto = rango de value_score. Por encima de la línea 50% = el score añade valor real.</p>
               <ResponsiveContainer width="100%" height={180}>
                 <LineChart data={calibData.score_buckets} margin={{ left: 8, right: 16, top: 8 }}>
@@ -988,7 +988,7 @@ export default function Portfolio() {
           {calibData.fcf_yield_buckets?.length > 0 && (
             <Card className="glass border-border/20">
               <CardContent className="p-4">
-                <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-1">Win rate por FCF Yield % — el factor más predictivo</p>
+                <p className="text-mini font-semibold uppercase tracking-widest text-muted-foreground mb-1">Win rate por FCF Yield % — el factor más predictivo</p>
                 <p className="text-mini text-muted-foreground mb-3">El modelo ML detectó FCF Yield como la feature más importante (26.8%). Aquí la evidencia.</p>
                 <ResponsiveContainer width="100%" height={160}>
                   <BarChart data={calibData.fcf_yield_buckets} margin={{ left: 8, right: 16 }}>
@@ -1017,7 +1017,7 @@ export default function Portfolio() {
             ].map(s => (
               <Card key={s.label} className="glass border-border/20">
                 <CardContent className="p-3 text-center">
-                  <div className={`text-xl font-extrabold tabular-nums ${s.color}`}>{s.value}</div>
+                  <div className={`text-seccion font-extrabold tabular-nums ${s.color}`}>{s.value}</div>
                   <div className="text-micro text-muted-foreground mt-0.5">{s.label}</div>
                 </CardContent>
               </Card>

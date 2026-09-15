@@ -24,15 +24,15 @@ function AlertRow({ alert }: { alert: ScoreAlert }) {
   return (
     <div className={`flex items-center gap-3 px-3 py-2 rounded-lg border ${cfg.bg} ${cfg.border}`}>
       <Icon size={16} className={cfg.text} />
-      <span className={`font-mono font-bold text-sm w-16 shrink-0 ${cfg.text}`}>{alert.ticker}</span>
-      <span className="text-xs text-muted-foreground flex-1 truncate">{alert.company_name}</span>
+      <span className={`font-mono font-bold text-cuerpo w-16 shrink-0 ${cfg.text}`}>{alert.ticker}</span>
+      <span className="text-mini text-muted-foreground flex-1 truncate">{alert.company_name}</span>
       <span className="text-micro text-muted-foreground hidden sm:block">{alert.sector}</span>
       {alert.grade && (
         <span className="text-micro font-bold px-1.5 py-0.5 rounded bg-muted/30 border border-border/30 text-muted-foreground">
           {alert.grade}
         </span>
       )}
-      <span className={`text-xs font-bold tabular-nums shrink-0 ${cfg.text}`}>{deltaStr}</span>
+      <span className={`text-mini font-bold tabular-nums shrink-0 ${cfg.text}`}>{deltaStr}</span>
     </div>
   )
 }
@@ -60,7 +60,7 @@ export default function ScoreAlerts() {
 
   if (loading) {
     return (
-      <div className="flex items-center gap-2 py-8 justify-center text-sm text-muted-foreground">
+      <div className="flex items-center gap-2 py-8 justify-center text-cuerpo text-muted-foreground">
         <Loader2 size={16} className="animate-spin" /> Cargando novedades...
       </div>
     )
@@ -68,7 +68,7 @@ export default function ScoreAlerts() {
 
   if (!data || data.alerts.length === 0) {
     return (
-      <p className="text-sm text-muted-foreground text-center py-8">
+      <p className="text-cuerpo text-muted-foreground text-center py-8">
         Sin cambios significativos desde ayer.
       </p>
     )

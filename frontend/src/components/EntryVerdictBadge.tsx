@@ -60,7 +60,7 @@ export default function EntryVerdictBadge({ verdict, compact = false, className 
       </button>
 
       {open && (
-        <div className="absolute z-50 top-full left-0 mt-1 w-72 rounded-lg border border-border shadow-xl p-3 text-xs space-y-2" style={{ backgroundColor: 'var(--background)' }}>
+        <div className="absolute z-50 top-full left-0 mt-1 w-72 rounded-lg border border-border shadow-xl p-3 text-mini space-y-2" style={{ backgroundColor: 'var(--background)' }}>
           <div className="flex items-center gap-2 pb-1.5 border-b border-border/30">
             <Icon size={16} className={meta.bg.split(' ').find(c => c.startsWith('text-')) ?? 'text-foreground'} />
             <span className="font-bold">{meta.label}</span>

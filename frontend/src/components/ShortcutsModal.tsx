@@ -29,7 +29,7 @@ export default function ShortcutsModal({ open, onClose }: Readonly<Props>) {
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
             <Keyboard size={16} className="text-primary" />
-            <span className="text-sm font-bold text-foreground">Atajos de teclado</span>
+            <span className="text-cuerpo font-bold text-foreground">Atajos de teclado</span>
           </div>
           <button
             onClick={onClose}
@@ -43,7 +43,7 @@ export default function ShortcutsModal({ open, onClose }: Readonly<Props>) {
         <ul className="space-y-2">
           {SHORTCUTS.map(s => (
             <li key={s.desc} className="flex items-center justify-between gap-4">
-              <span className="text-xs text-muted-foreground">{s.desc}</span>
+              <span className="text-mini text-muted-foreground">{s.desc}</span>
               <div className="flex items-center gap-1 shrink-0">
                 {s.keys.map(k => (
                   <kbd

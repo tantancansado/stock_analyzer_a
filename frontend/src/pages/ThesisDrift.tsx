@@ -18,11 +18,11 @@ function ScoreDelta({ now, prev }: { now: number; prev: number }) {
   const delta = now - prev
   const cls = delta >= 0 ? 'text-emerald-400' : 'text-red-400'
   return (
-    <span className="tabular-nums text-sm">
+    <span className="tabular-nums text-cuerpo">
       <span className="text-muted-foreground">{prev.toFixed(0)}</span>
       <span className="text-muted-foreground mx-1">→</span>
       <span className={cls}>{now.toFixed(0)}</span>
-      <span className={`ml-1 text-xs font-bold ${cls}`}>
+      <span className={`ml-1 text-mini font-bold ${cls}`}>
         {delta >= 0 ? '+' : ''}{delta.toFixed(0)}
       </span>
     </span>
@@ -66,7 +66,7 @@ export default function ThesisDrift() {
                 <span className={`text-micro font-bold px-1.5 py-0.5 rounded border ${cfg.cls}`}>
                   {cfg.label}
                 </span>
-                <span className={`text-xl font-bold tabular-nums ${counts[sev] === 0 ? 'text-muted-foreground' : sev === 'HIGH' ? 'text-red-400' : sev === 'MEDIUM' ? 'text-amber-400' : 'text-muted-foreground'}`}>
+                <span className={`text-seccion font-bold tabular-nums ${counts[sev] === 0 ? 'text-muted-foreground' : sev === 'HIGH' ? 'text-red-400' : sev === 'MEDIUM' ? 'text-amber-400' : 'text-muted-foreground'}`}>
                   {counts[sev]}
                 </span>
               </div>
@@ -82,7 +82,7 @@ export default function ThesisDrift() {
         <Card>
           <CardContent className="py-14 text-center">
             <CircleCheck size={32} strokeWidth={1.5} className="mx-auto mb-3 opacity-20" />
-            <p className="text-sm text-muted-foreground">Sin deterioro detectado con el filtro actual</p>
+            <p className="text-cuerpo text-muted-foreground">Sin deterioro detectado con el filtro actual</p>
           </CardContent>
         </Card>
       ) : (
@@ -179,7 +179,7 @@ export default function ThesisDrift() {
                     <TableCell>
                       <ScoreDelta now={d.value_score_now} prev={d.value_score_prev} />
                     </TableCell>
-                    <TableCell className="hidden md:table-cell tabular-nums text-sm text-muted-foreground">
+                    <TableCell className="hidden md:table-cell tabular-nums text-cuerpo text-muted-foreground">
                       {d.days_tracked}d
                     </TableCell>
                     <TableCell className="max-w-[280px]">
@@ -201,7 +201,7 @@ export default function ThesisDrift() {
                           ))}
                         </ul>
                       ) : (
-                        <span className="text-muted-foreground text-xs">—</span>
+                        <span className="text-muted-foreground text-mini">—</span>
                       )}
                     </TableCell>
                   </TableRow>

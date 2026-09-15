@@ -17,7 +17,7 @@ function TechnicalPanel({ ticker }: { ticker: string }) {
   const { signals, summary, loading } = useTechnicalSignals(ticker)
 
   if (loading) return (
-    <div className="flex items-center gap-2 text-xs text-muted-foreground py-2">
+    <div className="flex items-center gap-2 text-mini text-muted-foreground py-2">
       <div className="w-3 h-3 border-2 border-muted-foreground/30 border-t-primary rounded-full animate-spin" />
       Cargando señales...
     </div>
@@ -55,7 +55,7 @@ function TechnicalPanel({ ticker }: { ticker: string }) {
             }`}>
               {s.direction === 'BULLISH' ? '▲' : s.direction === 'BEARISH' ? '▼' : '—'}{s.timeframe === 'WEEKLY' ? 'W' : 'D'}
             </span>
-            <span className="text-xs text-foreground/80 flex-1">{s.signal_name}</span>
+            <span className="text-mini text-foreground/80 flex-1">{s.signal_name}</span>
             <span className="text-micro text-muted-foreground tabular-nums shrink-0">
               {s.days_ago === 0 ? 'hoy' : s.days_ago === 1 ? 'ayer' : `${s.days_ago}d`}
             </span>
@@ -87,7 +87,7 @@ function ConvictionPanel({ row }: { row: ValueOpportunity }) {
           Conviction IA
         </h4>
         {grade && score != null && (
-          <span className={`text-xs font-bold px-2.5 py-0.5 rounded-lg ${
+          <span className={`text-mini font-bold px-2.5 py-0.5 rounded-lg ${
             grade === 'A' || grade === 'A+' ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/25' :
             grade === 'B' ? 'bg-blue-500/15 text-blue-400 border border-blue-500/25' :
             'bg-amber-500/15 text-amber-400 border border-amber-500/25'
@@ -128,7 +128,7 @@ function ConvictionPanel({ row }: { row: ValueOpportunity }) {
       )}
 
       {row.piotroski_score != null && (
-        <div className="flex items-center gap-1.5 text-xs mt-3">
+        <div className="flex items-center gap-1.5 text-mini mt-3">
           <span className="text-muted-foreground">Piotroski</span>
           <span className={
             row.piotroski_score >= 7 ? 'font-bold tabular-nums text-emerald-400' :
@@ -333,7 +333,7 @@ export default function ThesisModal({ row, thesisText, onClose, currency = '$' }
             <div className="min-w-0 flex-1">
               <div className="flex items-center gap-2.5 flex-wrap mb-1">
                 <TickerLogo ticker={row.ticker} size="md" />
-                <span className="font-mono font-extrabold text-primary text-2xl tracking-tight">{row.ticker}</span>
+                <span className="font-mono font-extrabold text-primary text-pagina tracking-tight">{row.ticker}</span>
                 <GradeBadge grade={row.conviction_grade} score={row.conviction_score} />
                 {row.earnings_warning && (
                   <Badge variant="yellow" className="text-micro gap-1">
@@ -344,15 +344,15 @@ export default function ThesisModal({ row, thesisText, onClose, currency = '$' }
                   <Badge variant="green" className="text-micro">52w High</Badge>
                 )}
               </div>
-              <p className="text-sm text-muted-foreground">{row.company_name}</p>
+              <p className="text-cuerpo text-muted-foreground">{row.company_name}</p>
               {row.sector && <p className="text-micro text-muted-foreground">{row.sector}</p>}
             </div>
             <div className="flex items-start gap-1.5 shrink-0">
               {price != null && (
                 <div className="text-right mr-2">
-                  <div className="text-2xl font-extrabold tabular-nums tracking-tight">{currency}{price.toFixed(2)}</div>
+                  <div className="text-pagina font-extrabold tabular-nums tracking-tight">{currency}{price.toFixed(2)}</div>
                   {upside != null && (
-                    <div className={`text-xs font-semibold tabular-nums flex items-center gap-1 justify-end ${upside >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+                    <div className={`text-mini font-semibold tabular-nums flex items-center gap-1 justify-end ${upside >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
                       <TrendingUp size={12} />
                       {upside >= 0 ? '+' : ''}{upside.toFixed(1)}%
                     </div>
@@ -464,7 +464,7 @@ export default function ThesisModal({ row, thesisText, onClose, currency = '$' }
                     <div className="grid grid-cols-3 gap-2">
                       {row.roe_pct != null && (
                         <div className="text-center py-2 px-1 rounded-lg bg-muted/15 border border-border/15">
-                          <div className={`text-sm font-bold tabular-nums ${row.roe_pct >= 15 ? 'text-emerald-400' : row.roe_pct < 0 ? 'text-red-400' : 'text-muted-foreground'}`}>
+                          <div className={`text-cuerpo font-bold tabular-nums ${row.roe_pct >= 15 ? 'text-emerald-400' : row.roe_pct < 0 ? 'text-red-400' : 'text-muted-foreground'}`}>
                             {row.roe_pct.toFixed(1)}%
                           </div>
                           <div className="text-micro text-muted-foreground font-medium uppercase">ROE</div>
@@ -472,7 +472,7 @@ export default function ThesisModal({ row, thesisText, onClose, currency = '$' }
                       )}
                       {row.profit_margin_pct != null && (
                         <div className="text-center py-2 px-1 rounded-lg bg-muted/15 border border-border/15">
-                          <div className={`text-sm font-bold tabular-nums ${row.profit_margin_pct >= 15 ? 'text-emerald-400' : row.profit_margin_pct < 0 ? 'text-red-400' : 'text-muted-foreground'}`}>
+                          <div className={`text-cuerpo font-bold tabular-nums ${row.profit_margin_pct >= 15 ? 'text-emerald-400' : row.profit_margin_pct < 0 ? 'text-red-400' : 'text-muted-foreground'}`}>
                             {row.profit_margin_pct.toFixed(1)}%
                           </div>
                           <div className="text-micro text-muted-foreground font-medium uppercase">Margen</div>
@@ -480,7 +480,7 @@ export default function ThesisModal({ row, thesisText, onClose, currency = '$' }
                       )}
                       {row.revenue_growth_pct != null && (
                         <div className="text-center py-2 px-1 rounded-lg bg-muted/15 border border-border/15">
-                          <div className={`text-sm font-bold tabular-nums ${row.revenue_growth_pct > 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+                          <div className={`text-cuerpo font-bold tabular-nums ${row.revenue_growth_pct > 0 ? 'text-emerald-400' : 'text-red-400'}`}>
                             {row.revenue_growth_pct >= 0 ? '+' : ''}{row.revenue_growth_pct.toFixed(1)}%
                           </div>
                           <div className="text-micro text-muted-foreground font-medium uppercase">Revenue</div>
@@ -495,7 +495,7 @@ export default function ThesisModal({ row, thesisText, onClose, currency = '$' }
               <div className="lg:col-span-3 px-5 lg:px-5 py-4 lg:border-t-0 border-t border-border/20">
                 {/* Aviso de datos dudosos (verificación de Claude, mismo patrón que LEAPS) */}
                 {row.data_warning && (
-                  <div className="rounded-md border border-amber-500/40 bg-amber-500/10 px-3 py-2 mb-3 text-xs text-amber-300 flex items-start gap-1.5">
+                  <div className="rounded-md border border-amber-500/40 bg-amber-500/10 px-3 py-2 mb-3 text-mini text-amber-300 flex items-start gap-1.5">
                     <AlertTriangle className="w-3.5 h-3.5 shrink-0 mt-0.5" />
                     <span><strong>Datos a verificar:</strong> {row.data_warning}</span>
                   </div>

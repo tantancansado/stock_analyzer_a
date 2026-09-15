@@ -60,8 +60,8 @@ function StatCard({ icon: Icon, label, value, color }: {
           <Icon size={20} style={{ color }} />
         </div>
         <div>
-          <div className="text-2xl font-bold text-foreground font-mono">{value}</div>
-          <div className="text-xs text-muted-foreground mt-0.5">{label}</div>
+          <div className="text-pagina font-bold text-foreground font-mono">{value}</div>
+          <div className="text-mini text-muted-foreground mt-0.5">{label}</div>
         </div>
       </CardContent>
     </Card>
@@ -75,7 +75,7 @@ function ActivityBar({ value, max }: { value: number; max: number }) {
       <div className="flex-1 h-1.5 rounded-full" style={{ background: 'rgba(255,255,255,0.08)' }}>
         <div className="h-1.5 rounded-full transition-all" style={{ width: `${pct}%`, background: '#22d3ee' }} />
       </div>
-      <span className="text-xs font-mono text-muted-foreground w-4 text-right">{value}</span>
+      <span className="text-mini font-mono text-muted-foreground w-4 text-right">{value}</span>
     </div>
   )
 }
@@ -141,20 +141,20 @@ export default function AdminUsage() {
         <Card className="glass">
           <CardContent className="p-6">
             <div className="flex items-center justify-between mb-3">
-              <h2 className="text-sm font-semibold text-foreground/70 uppercase tracking-wider flex items-center gap-2">
+              <h2 className="text-cuerpo font-semibold text-foreground/70 uppercase tracking-wider flex items-center gap-2">
                 <Wallet size={16} className="text-muted-foreground" />
                 Presupuesto de Claude este mes
               </h2>
               {data.claude_budget.sin_credito && (
-                <Badge variant="outline" className="text-red-400 border-red-400/30 text-xs">sin saldo</Badge>
+                <Badge variant="outline" className="text-red-400 border-red-400/30 text-mini">sin saldo</Badge>
               )}
             </div>
             <div className="flex items-baseline gap-2 mb-2">
-              <span className="text-2xl font-bold font-mono text-foreground">
+              <span className="text-pagina font-bold font-mono text-foreground">
                 ${data.claude_budget.gastado_usd.toFixed(2)}
               </span>
-              <span className="text-sm text-muted-foreground">de ${data.claude_budget.tope_usd.toFixed(2)}</span>
-              <span className="text-xs text-muted-foreground ml-auto">{data.claude_budget.llamadas} llamadas</span>
+              <span className="text-cuerpo text-muted-foreground">de ${data.claude_budget.tope_usd.toFixed(2)}</span>
+              <span className="text-mini text-muted-foreground ml-auto">{data.claude_budget.llamadas} llamadas</span>
             </div>
             <div className="h-2 rounded-full mb-4" style={{ background: 'rgba(255,255,255,0.08)' }}>
               <div
@@ -167,7 +167,7 @@ export default function AdminUsage() {
               />
             </div>
             {data.claude_desglose && (
-              <pre className="text-xs font-mono text-muted-foreground whitespace-pre-wrap leading-relaxed">
+              <pre className="text-mini font-mono text-muted-foreground whitespace-pre-wrap leading-relaxed">
                 {data.claude_desglose}
               </pre>
             )}
@@ -178,36 +178,36 @@ export default function AdminUsage() {
       {/* Usuarios con actividad */}
       <Card className="glass">
         <CardContent className="p-6">
-          <h2 className="text-sm font-semibold text-foreground/70 uppercase tracking-wider mb-4">
+          <h2 className="text-cuerpo font-semibold text-foreground/70 uppercase tracking-wider mb-4">
             Usuarios con actividad ({activeUsers.length})
           </h2>
           {activeUsers.length === 0 ? (
-            <p className="text-muted-foreground text-sm">Ningún usuario ha usado Mi Cartera todavía.</p>
+            <p className="text-muted-foreground text-cuerpo">Ningún usuario ha usado Mi Cartera todavía.</p>
           ) : (
             <div className="space-y-4">
               {activeUsers.map(u => (
                 <div key={u.user_id} className="border-b border-foreground/5 pb-4 last:border-0 last:pb-0">
                   <div className="flex flex-wrap items-center gap-2 mb-2">
-                    <span className="text-sm text-foreground font-medium">{u.email ?? u.user_id.slice(0, 16) + '…'}</span>
+                    <span className="text-cuerpo text-foreground font-medium">{u.email ?? u.user_id.slice(0, 16) + '…'}</span>
                     {u.confirmed
-                      ? <Badge variant="outline" className="text-emerald-400 border-emerald-400/30 text-xs">confirmado</Badge>
-                      : <Badge variant="outline" className="text-amber-400 border-amber-400/30 text-xs">sin confirmar</Badge>}
+                      ? <Badge variant="outline" className="text-emerald-400 border-emerald-400/30 text-mini">confirmado</Badge>
+                      : <Badge variant="outline" className="text-amber-400 border-amber-400/30 text-mini">sin confirmar</Badge>}
                     {u.user_id === ADMIN_USER_ID && (
-                      <Badge variant="outline" className="text-cyan-400 border-cyan-400/30 text-xs">owner</Badge>
+                      <Badge variant="outline" className="text-cyan-400 border-cyan-400/30 text-mini">owner</Badge>
                     )}
                   </div>
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-1 text-xs text-muted-foreground mb-2">
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-1 text-mini text-muted-foreground mb-2">
                     <span>Registro: <span className="text-foreground/70">{fmtDate(u.created_at)}</span></span>
                     <span>Último login: <span className="text-foreground/70">{fmtDate(u.last_sign_in)}</span></span>
                     <span>Última actividad cartera: <span className="text-foreground/70">{fmtDatetime(u.last_portfolio_activity)}</span></span>
                     <span>Entradas journal: <span className="text-foreground/70">{u.journal_entries}</span></span>
                   </div>
                   <div className="space-y-1.5">
-                    <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                    <div className="flex items-center gap-2 text-mini text-muted-foreground">
                       <span className="w-16">Posiciones</span>
                       <div className="flex-1"><ActivityBar value={u.positions} max={maxPositions} /></div>
                     </div>
-                    <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                    <div className="flex items-center gap-2 text-mini text-muted-foreground">
                       <span className="w-16">Journal</span>
                       <div className="flex-1"><ActivityBar value={u.journal_entries} max={maxJournal} /></div>
                     </div>
@@ -215,7 +215,7 @@ export default function AdminUsage() {
                   {u.tickers.length > 0 && (
                     <div className="flex flex-wrap gap-1 mt-2">
                       {u.tickers.map(t => (
-                        <span key={t} className="px-1.5 py-0.5 rounded text-xs font-mono"
+                        <span key={t} className="px-1.5 py-0.5 rounded text-mini font-mono"
                           style={{ background: 'rgba(34,211,238,0.1)', color: '#22d3ee' }}>{t}</span>
                       ))}
                     </div>
@@ -230,36 +230,36 @@ export default function AdminUsage() {
       {/* Todos los usuarios registrados */}
       <Card className="glass">
         <CardContent className="p-6">
-          <h2 className="text-sm font-semibold text-foreground/70 uppercase tracking-wider mb-4">
+          <h2 className="text-cuerpo font-semibold text-foreground/70 uppercase tracking-wider mb-4">
             Todos los usuarios ({data.total_users})
           </h2>
           <div className="table-x-wrap">
-            <table className="w-full text-sm">
+            <table className="w-full text-cuerpo">
               <thead>
                 <tr className="border-b border-foreground/10 text-left">
-                  <th className="pb-2 text-xs text-muted-foreground font-medium">Email</th>
-                  <th className="pb-2 text-xs text-muted-foreground font-medium text-center">Estado</th>
-                  <th className="pb-2 text-xs text-muted-foreground font-medium text-right">Registro</th>
-                  <th className="pb-2 text-xs text-muted-foreground font-medium text-right">Último login</th>
-                  <th className="pb-2 text-xs text-muted-foreground font-medium text-right">Posiciones</th>
+                  <th className="pb-2 text-mini text-muted-foreground font-medium">Email</th>
+                  <th className="pb-2 text-mini text-muted-foreground font-medium text-center">Estado</th>
+                  <th className="pb-2 text-mini text-muted-foreground font-medium text-right">Registro</th>
+                  <th className="pb-2 text-mini text-muted-foreground font-medium text-right">Último login</th>
+                  <th className="pb-2 text-mini text-muted-foreground font-medium text-right">Posiciones</th>
                 </tr>
               </thead>
               <tbody>
                 {data.registered_users.map(u => (
                   <tr key={u.user_id} className="border-b border-foreground/5 hover:bg-foreground/5 transition-colors">
-                    <td className="py-2.5 text-foreground/80 font-mono text-xs">
+                    <td className="py-2.5 text-foreground/80 font-mono text-mini">
                       {u.email ?? u.user_id.slice(0, 20) + '…'}
                       {u.user_id === ADMIN_USER_ID && (
-                        <span className="ml-1.5 text-cyan-400 text-xs">(owner)</span>
+                        <span className="ml-1.5 text-cyan-400 text-mini">(owner)</span>
                       )}
                     </td>
                     <td className="py-2.5 text-center">
                       {u.confirmed
-                        ? <Check size={12} strokeWidth={3} className="text-emerald-400 text-xs inline shrink-0" />
-                        : <span className="text-amber-400 text-xs">○</span>}
+                        ? <Check size={12} strokeWidth={3} className="text-emerald-400 text-mini inline shrink-0" />
+                        : <span className="text-amber-400 text-mini">○</span>}
                     </td>
-                    <td className="py-2.5 text-right text-muted-foreground text-xs">{fmtDate(u.created_at)}</td>
-                    <td className="py-2.5 text-right text-muted-foreground text-xs">{fmtDate(u.last_sign_in)}</td>
+                    <td className="py-2.5 text-right text-muted-foreground text-mini">{fmtDate(u.created_at)}</td>
+                    <td className="py-2.5 text-right text-muted-foreground text-mini">{fmtDate(u.last_sign_in)}</td>
                     <td className="py-2.5 text-right font-mono text-foreground/70">{u.positions}</td>
                   </tr>
                 ))}
@@ -273,14 +273,14 @@ export default function AdminUsage() {
       {data.top_tickers.length > 0 && (
         <Card className="glass">
           <CardContent className="p-6">
-            <h2 className="text-sm font-semibold text-foreground/70 uppercase tracking-wider mb-4 flex items-center gap-2">
+            <h2 className="text-cuerpo font-semibold text-foreground/70 uppercase tracking-wider mb-4 flex items-center gap-2">
               <TrendingUp size={16} className="text-muted-foreground" />
               Tickers más añadidos entre todos los usuarios
             </h2>
             <div className="space-y-2">
               {data.top_tickers.map(t => (
                 <div key={t.ticker} className="flex items-center gap-3">
-                  <span className="font-mono text-sm text-foreground w-16">{t.ticker}</span>
+                  <span className="font-mono text-cuerpo text-foreground w-16">{t.ticker}</span>
                   <div className="flex-1">
                     <div className="h-2 rounded-full" style={{ background: 'rgba(255,255,255,0.06)' }}>
                       <div
@@ -292,7 +292,7 @@ export default function AdminUsage() {
                       />
                     </div>
                   </div>
-                  <span className="text-xs font-mono text-muted-foreground w-6 text-right">{t.count}</span>
+                  <span className="text-mini font-mono text-muted-foreground w-6 text-right">{t.count}</span>
                 </div>
               ))}
             </div>

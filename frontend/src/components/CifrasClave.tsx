@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils'
  *
  * Treinta y un ficheros pintaban esto a mano y ninguno igual que otro: cuatro
  * tarjetas `.glass` con etiqueta en versalitas espaciadas, número en
- * `text-3xl font-extrabold` y una línea de apoyo. Por eso la app no se sentía
+ * `text-cifra font-extrabold` y una línea de apoyo. Por eso la app no se sentía
  * diseñada — cada página se inventaba su versión de lo mismo.
  *
  * Tres decisiones, y ninguna es de gusto:
@@ -75,7 +75,7 @@ export default function CifrasClave({
           <div className="text-mini font-medium text-muted-foreground mb-1.5">{etiqueta}</div>
           <div className="flex items-baseline gap-1">
             <span className={cn(
-              'text-3xl font-semibold tracking-tight tabular-nums leading-none',
+              'text-cifra font-semibold tracking-tight tabular-nums leading-none',
               TONO[tono ?? 'neutro'],
             )}>
               {valor}

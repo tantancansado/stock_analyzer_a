@@ -8,7 +8,7 @@ import { useTechnicalSummaryMap } from '../hooks/useTechnicalSummaryMap'
 import type { TechnicalSummary } from '../api/client'
 
 function TechBiasCell({ t }: { t?: TechnicalSummary }) {
-  if (!t) return <span className="text-muted-foreground text-xs">—</span>
+  if (!t) return <span className="text-muted-foreground text-mini">—</span>
   const cls = t.bias === 'BULLISH'
     ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30'
     : t.bias === 'BEARISH'
@@ -16,7 +16,7 @@ function TechBiasCell({ t }: { t?: TechnicalSummary }) {
     : 'bg-muted/20 text-muted-foreground border-border/20'
   const icon = t.bias === 'BULLISH' ? '▲' : t.bias === 'BEARISH' ? '▼' : '—'
   return (
-    <span className={`text-xs font-bold px-1.5 py-0.5 rounded-full border ${cls}`}
+    <span className={`text-mini font-bold px-1.5 py-0.5 rounded-full border ${cls}`}
       title={`+${t.bullish_count} alcistas / -${t.bearish_count} bajistas`}>
       {icon}
     </span>
@@ -75,7 +75,7 @@ function ConvictionPanel({ row }: { row: GlobalOpportunity }) {
       <div className="flex items-center gap-3 mb-3">
         <span className="text-micro font-bold uppercase tracking-widest text-muted-foreground">Conviction Filter</span>
         {row.conviction_grade && row.conviction_score != null && (
-          <span className={`text-xs font-bold px-2 py-0.5 rounded ${row.conviction_grade === 'A' ? 'bg-emerald-500/20 text-emerald-400' : row.conviction_grade === 'B' ? 'bg-blue-500/20 text-blue-400' : 'bg-amber-500/20 text-amber-400'}`}>
+          <span className={`text-mini font-bold px-2 py-0.5 rounded ${row.conviction_grade === 'A' ? 'bg-emerald-500/20 text-emerald-400' : row.conviction_grade === 'B' ? 'bg-blue-500/20 text-blue-400' : 'bg-amber-500/20 text-amber-400'}`}>
             {row.conviction_grade} — {row.conviction_score.toFixed(0)}pts
           </span>
         )}
@@ -257,8 +257,8 @@ export default function GlobalValue() {
               className={`glass p-4 rounded-xl text-left transition-all hover:scale-[1.02] ${isActive ? 'ring-2' : ''}`}
               style={{ '--tw-ring-color': meta.color } as React.CSSProperties}
             >
-              <div className="text-2xl mb-1">{meta.flag}</div>
-              <div className="text-sm font-bold">{meta.label}</div>
+              <div className="text-pagina mb-1">{meta.flag}</div>
+              <div className="text-cuerpo font-bold">{meta.label}</div>
               <div className="text-micro text-muted-foreground mt-1">
                 CAPE <span className="font-mono font-bold" style={{ color: meta.color }}>{meta.cape}</span>
                 {count > 0 && <span className="ml-2">{count} picks · avg {avgScore.toFixed(0)}pts</span>}
@@ -276,16 +276,16 @@ export default function GlobalValue() {
             {g === 'ALL' ? 'Todos' : `Grado ${g}`}
           </button>
         ))}
-        <span className="text-muted-foreground text-xs mx-1">|</span>
+        <span className="text-muted-foreground text-mini mx-1">|</span>
         <input
           type="number" placeholder="FCF% ≥" value={minFcf}
           onChange={e => setMinFcf(e.target.value)}
-          className="w-20 text-xs px-2 py-1 rounded-md border border-border bg-background text-foreground"
+          className="w-20 text-mini px-2 py-1 rounded-md border border-border bg-background text-foreground"
         />
         <input
           type="number" placeholder="R:R ≥" value={minRr}
           onChange={e => setMinRr(e.target.value)}
-          className="w-20 text-xs px-2 py-1 rounded-md border border-border bg-background text-foreground"
+          className="w-20 text-mini px-2 py-1 rounded-md border border-border bg-background text-foreground"
         />
         <button onClick={() => setHideRisky(h => !h)} className={`filter-btn ${hideRisky ? 'active-red' : ''}`}>
           {hideRisky ? <><Ban size={12} strokeWidth={2.25} />Ocultar RISKY</> : 'Mostrar todos'}
@@ -293,7 +293,7 @@ export default function GlobalValue() {
         <button onClick={() => setCompact(v => !v)} className={`filter-btn ${compact ? 'active' : ''}`}>
           {compact ? '⊟ Compacta' : '⊞ Completa'}
         </button>
-        <span className="text-xs text-muted-foreground ml-auto">{filtered.length} resultados</span>
+        <span className="text-mini text-muted-foreground ml-auto">{filtered.length} resultados</span>
       </div>
 
       {rows.length === 0 ? (
@@ -325,7 +325,7 @@ export default function GlobalValue() {
                       <div>
                         <div className="flex items-center gap-1.5">
                           {meta && <span>{meta.flag}</span>}
-                          <span className="font-mono font-bold text-sm text-primary">{row.ticker.replace(/\.(SA|KS|T|HK)$/, '')}</span>
+                          <span className="font-mono font-bold text-cuerpo text-primary">{row.ticker.replace(/\.(SA|KS|T|HK)$/, '')}</span>
                           <OwnedBadge ticker={row.ticker} />
                           {row.ai_verdict === 'RISKY' && <Ban size={12} strokeWidth={2.25} className="text-red-400 shrink-0" />}
                           {listo && <span className="text-micro font-bold px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 inline-flex items-center gap-1"><CircleCheck size={12} strokeWidth={2.25} />LISTO</span>}
@@ -336,7 +336,7 @@ export default function GlobalValue() {
                     <div className="text-right flex flex-col items-end gap-1">
                       <GradeBadge grade={row.conviction_grade ?? ''} />
                       {row.analyst_upside_pct != null && (
-                        <span className={`text-xs font-semibold tabular-nums ${row.analyst_upside_pct >= 20 ? 'text-emerald-400' : row.analyst_upside_pct >= 0 ? 'text-foreground' : 'text-red-400'}`}>
+                        <span className={`text-mini font-semibold tabular-nums ${row.analyst_upside_pct >= 20 ? 'text-emerald-400' : row.analyst_upside_pct >= 0 ? 'text-foreground' : 'text-red-400'}`}>
                           {row.analyst_upside_pct >= 0 ? '+' : ''}{row.analyst_upside_pct.toFixed(1)}%
                         </span>
                       )}
@@ -360,11 +360,11 @@ export default function GlobalValue() {
                   {expandedTicker === row.ticker && (
                     <div className="mt-3 pt-3 border-t border-border/30">
                       {thesisText === 'Cargando tesis...' ? (
-                        <p className="text-xs text-muted-foreground italic">{thesisText}</p>
+                        <p className="text-mini text-muted-foreground italic">{thesisText}</p>
                       ) : thesisText && thesisText !== 'Sin tesis disponible' && thesisText !== 'Error cargando tesis' ? (
                         <ThesisBody text={thesisText} />
                       ) : thesisText ? (
-                        <p className="text-xs text-muted-foreground italic">{thesisText}</p>
+                        <p className="text-mini text-muted-foreground italic">{thesisText}</p>
                       ) : null}
                     </div>
                   )}
@@ -417,10 +417,10 @@ export default function GlobalValue() {
                             </div>
                           </TableCell>
                           <TableCell className="max-w-[160px]">
-                            <div className="truncate text-sm font-medium">{row.company_name}</div>
+                            <div className="truncate text-cuerpo font-medium">{row.company_name}</div>
                             {row.market && <div className="text-micro text-muted-foreground">{meta?.label} · {row.currency}</div>}
                           </TableCell>
-                          <TableCell className="font-mono text-sm tabular-nums">
+                          <TableCell className="font-mono text-cuerpo tabular-nums">
                             {formatPrice(row)}
                           </TableCell>
                           <TableCell>
@@ -434,32 +434,32 @@ export default function GlobalValue() {
                           </TableCell>
                           <TableCell>
                             {row.analyst_upside_pct != null ? (
-                              <span className={`font-semibold text-sm tabular-nums ${row.analyst_upside_pct >= 20 ? 'text-emerald-400' : row.analyst_upside_pct >= 0 ? 'text-foreground' : 'text-red-400'}`}>
+                              <span className={`font-semibold text-cuerpo tabular-nums ${row.analyst_upside_pct >= 20 ? 'text-emerald-400' : row.analyst_upside_pct >= 0 ? 'text-foreground' : 'text-red-400'}`}>
                                 {row.analyst_upside_pct >= 0 ? '+' : ''}{row.analyst_upside_pct.toFixed(1)}%
                               </span>
                             ) : '—'}
                           </TableCell>
                           <TableCell>
                             {row.fcf_yield_pct != null ? (
-                              <span className={`font-semibold text-sm tabular-nums ${row.fcf_yield_pct >= 5 ? 'text-emerald-400' : row.fcf_yield_pct >= 0 ? 'text-muted-foreground' : 'text-red-400'}`}>
+                              <span className={`font-semibold text-cuerpo tabular-nums ${row.fcf_yield_pct >= 5 ? 'text-emerald-400' : row.fcf_yield_pct >= 0 ? 'text-muted-foreground' : 'text-red-400'}`}>
                                 {row.fcf_yield_pct.toFixed(1)}%
                               </span>
                             ) : '—'}
                           </TableCell>
                           <TableCell>
                             {row.risk_reward_ratio != null ? (
-                              <span className={`font-semibold text-sm tabular-nums ${row.risk_reward_ratio >= 3 ? 'text-emerald-400' : row.risk_reward_ratio >= 2 ? 'text-foreground' : 'text-muted-foreground'}`}>
+                              <span className={`font-semibold text-cuerpo tabular-nums ${row.risk_reward_ratio >= 3 ? 'text-emerald-400' : row.risk_reward_ratio >= 2 ? 'text-foreground' : 'text-muted-foreground'}`}>
                                 {row.risk_reward_ratio.toFixed(1)}x
                               </span>
                             ) : '—'}
                           </TableCell>
                           {!compact && (
-                            <TableCell className="font-mono text-sm tabular-nums text-muted-foreground">
+                            <TableCell className="font-mono text-cuerpo tabular-nums text-muted-foreground">
                               {row.pe_forward != null ? `${row.pe_forward}x` : '—'}
                             </TableCell>
                           )}
                           {!compact && (
-                            <TableCell className="font-mono text-sm tabular-nums">
+                            <TableCell className="font-mono text-cuerpo tabular-nums">
                               {row.roe_pct != null ? (
                                 <span className={`${(row.roe_pct ?? 0) >= 15 ? 'text-emerald-400' : 'text-muted-foreground'}`}>
                                   {row.roe_pct}%
@@ -467,7 +467,7 @@ export default function GlobalValue() {
                               ) : '—'}
                             </TableCell>
                           )}
-                          <TableCell className="font-mono text-sm tabular-nums">
+                          <TableCell className="font-mono text-cuerpo tabular-nums">
                             {row.pct_from_52w_high != null ? (
                               <span className={`${row.pct_from_52w_high <= -30 ? 'text-emerald-400' : row.pct_from_52w_high <= -15 ? 'text-amber-400' : 'text-muted-foreground'}`}>
                                 {row.pct_from_52w_high.toFixed(1)}%
@@ -490,7 +490,7 @@ export default function GlobalValue() {
                                 ].map(({ label, val, color }) => (
                                   <div key={label} className="glass rounded-lg p-3">
                                     <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-1">{label}</div>
-                                    <div className={`text-lg font-extrabold tabular-nums ${color}`}>{val}</div>
+                                    <div className={`text-seccion font-extrabold tabular-nums ${color}`}>{val}</div>
                                   </div>
                                 ))}
                               </div>
@@ -498,7 +498,7 @@ export default function GlobalValue() {
                               {expandedRow.nasdaq_adr && (
                                 <div className="flex items-center gap-2 mt-3 mb-1">
                                   <span className="text-micro font-bold uppercase tracking-widest text-muted-foreground">También en US</span>
-                                  <span className="font-mono text-xs font-bold text-blue-400 bg-blue-500/10 border border-blue-500/30 px-2 py-0.5 rounded">
+                                  <span className="font-mono text-mini font-bold text-blue-400 bg-blue-500/10 border border-blue-500/30 px-2 py-0.5 rounded">
                                     {expandedRow.nasdaq_adr}
                                   </span>
                                   <span className="text-micro text-muted-foreground">NYSE/NASDAQ/OTC · cotiza en USD · horario europeo</span>
@@ -510,12 +510,12 @@ export default function GlobalValue() {
                                   <div className="flex items-center gap-3 mb-2 flex-wrap">
                                     <span className="text-micro font-bold uppercase tracking-widest text-muted-foreground">Análisis IA</span>
                                     {expandedRow.ai_verdict && (
-                                      <span className={`text-xs font-bold px-2 py-0.5 rounded ${expandedRow.ai_verdict === 'CLEAN' ? 'bg-emerald-500/20 text-emerald-400' : expandedRow.ai_verdict === 'SUSPECT' ? 'bg-amber-500/20 text-amber-400' : 'bg-red-500/20 text-red-400'}`}>
+                                      <span className={`text-mini font-bold px-2 py-0.5 rounded ${expandedRow.ai_verdict === 'CLEAN' ? 'bg-emerald-500/20 text-emerald-400' : expandedRow.ai_verdict === 'SUSPECT' ? 'bg-amber-500/20 text-amber-400' : 'bg-red-500/20 text-red-400'}`}>
                                         {expandedRow.ai_verdict === 'CLEAN' ? 'CLEAN' : expandedRow.ai_verdict === 'SUSPECT' ? 'SUSPECT' : 'RISKY'}
                                       </span>
                                     )}
                                     {expandedRow.ai_notes && (
-                                      <span className="text-xs text-muted-foreground italic">{expandedRow.ai_notes}</span>
+                                      <span className="text-mini text-muted-foreground italic">{expandedRow.ai_notes}</span>
                                     )}
                                   </div>
                                   {expandedRow.risk_flags && (
@@ -534,7 +534,7 @@ export default function GlobalValue() {
                                   <ThesisBody text={thesisText} />
                                 </div>
                               ) : thesisText ? (
-                                <p className="text-xs text-muted-foreground mt-3 italic">{thesisText}</p>
+                                <p className="text-mini text-muted-foreground mt-3 italic">{thesisText}</p>
                               ) : null}
                             </TableCell>
                           </TableRow>

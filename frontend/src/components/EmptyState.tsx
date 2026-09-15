@@ -32,14 +32,14 @@ export default function EmptyState({ icon, title, subtitle, action, compact }: E
         </div>
       )}
       <p
-        className={compact ? 'text-sm text-muted-foreground' : 'font-medium text-foreground'}
+        className={compact ? 'text-cuerpo text-muted-foreground' : 'font-medium text-foreground'}
         style={{ animation: 'fadeInUp 0.3s ease both 0.1s' }}
       >
         {title}
       </p>
       {subtitle && (
         <p
-          className="text-xs text-muted-foreground mt-1.5 max-w-xs"
+          className="text-mini text-muted-foreground mt-1.5 max-w-xs"
           style={{ animation: 'fadeInUp 0.3s ease both 0.18s' }}
         >
           {subtitle}
@@ -51,7 +51,7 @@ export default function EmptyState({ icon, title, subtitle, action, compact }: E
             variant="outline"
             size="sm"
             onClick={action.onClick}
-            className="mt-4 text-xs px-3 py-1.5"
+            className="mt-4 text-mini px-3 py-1.5"
           >
             {action.label}
           </Button>

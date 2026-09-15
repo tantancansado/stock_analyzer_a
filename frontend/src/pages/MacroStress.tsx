@@ -61,12 +61,12 @@ function SignalCard({ signal }: { signal: MacroStressSignal }) {
           <div className="text-micro font-bold uppercase tracking-[0.18em] text-muted-foreground">
             {signal.label}
           </div>
-          <div className="mt-1 text-sm font-semibold text-foreground/85">
+          <div className="mt-1 text-cuerpo font-semibold text-foreground/85">
             {signal.value != null ? `${fmt(signal.value, Math.abs(signal.value) >= 10 ? 1 : 2)}` : 'Sin dato'}
           </div>
         </div>
         <div className="text-right">
-          <div className="text-base font-black text-foreground">{fmt(signal.score, 1)}</div>
+          <div className="text-titulo font-black text-foreground">{fmt(signal.score, 1)}</div>
           <div className="text-micro uppercase tracking-[0.16em] text-muted-foreground">
             {Math.round(signal.weight * 100)}%
           </div>
@@ -110,13 +110,13 @@ function HeatTile({
       </div>
       <div className="pr-14">
         <div className="text-micro font-bold uppercase tracking-[0.18em] text-primary">{market.category ?? 'macro'}</div>
-        <h3 className="mt-2 text-xl font-black tracking-tight text-foreground">{market.label}</h3>
-        <p className="mt-1 text-sm text-muted-foreground">{market.regime} · {market.primary_ticker} · {marketId}</p>
+        <h3 className="mt-2 text-seccion font-black tracking-tight text-foreground">{market.label}</h3>
+        <p className="mt-1 text-cuerpo text-muted-foreground">{market.regime} · {market.primary_ticker} · {marketId}</p>
       </div>
       <div className="mt-6 flex items-end justify-between gap-3">
         <div>
           <div className="text-micro uppercase tracking-[0.18em] text-muted-foreground">Stress score</div>
-          <div className="mt-1 text-4xl font-black tabular-nums text-foreground">{fmt(market.stress_score, 0)}</div>
+          <div className="mt-1 text-cifra font-black tabular-nums text-foreground">{fmt(market.stress_score, 0)}</div>
         </div>
         <div className="min-w-[92px]">
           <div className="mb-1 flex items-center justify-between text-micro uppercase tracking-[0.16em] text-muted-foreground">
@@ -142,7 +142,7 @@ function PriceStressChart({
   const data = market.chart_series ?? []
   if (!data.length) {
     return (
-      <div className="rounded-2xl border border-foreground/10 bg-black/10 p-6 text-sm text-muted-foreground">
+      <div className="rounded-2xl border border-foreground/10 bg-black/10 p-6 text-cuerpo text-muted-foreground">
         Sin serie histórica suficiente para dibujar el drill-down.
       </div>
     )
@@ -158,7 +158,7 @@ function PriceStressChart({
       <div className="mb-4 flex items-center justify-between gap-3">
         <div>
           <div className="text-micro font-bold uppercase tracking-[0.18em] text-muted-foreground">Drill-down</div>
-          <div className="mt-1 text-lg font-black tracking-tight text-foreground">Precio y stress histórico</div>
+          <div className="mt-1 text-seccion font-black tracking-tight text-foreground">Precio y stress histórico</div>
         </div>
         <div className="text-right text-micro text-muted-foreground">
           <div>{market.primary_ticker}</div>
@@ -256,7 +256,7 @@ function AnalogueCard({ item, index }: { item: MacroStressAnalogue; index: numbe
       <div className="flex items-start justify-between gap-3">
         <div>
           <div className="text-micro font-bold uppercase tracking-[0.18em] text-muted-foreground">Análogo #{index + 1}</div>
-          <div className="mt-1 text-sm font-bold text-foreground">{item.name}</div>
+          <div className="mt-1 text-cuerpo font-bold text-foreground">{item.name}</div>
           <div className="text-mini text-muted-foreground">{item.date}</div>
         </div>
         <div className="rounded-full border border-cyan-400/20 bg-cyan-400/8 px-2.5 py-1 text-micro font-bold text-cyan-300">
@@ -274,7 +274,7 @@ function AnalogueCard({ item, index }: { item: MacroStressAnalogue; index: numbe
         ].map(([label, value]) => (
           <div key={label} className="rounded-xl border border-foreground/8 bg-white/[0.03] px-2.5 py-2 text-center">
             <div className="text-micro font-bold uppercase tracking-[0.16em] text-muted-foreground">{label}</div>
-            <div className={`mt-1 text-sm font-black ${retTone(value as number | null)}`}>
+            <div className={`mt-1 text-cuerpo font-black ${retTone(value as number | null)}`}>
               {value == null ? 'N/A' : `${(value as number) > 0 ? '+' : ''}${value}%`}
             </div>
           </div>
@@ -378,8 +378,8 @@ export default function MacroStress() {
               <Radar size={12} />
               Macro Stress Framework
             </div>
-            <h1 className="text-3xl font-black tracking-tight text-foreground">Heatmap de dislocaciones macro</h1>
-            <p className="mt-2 text-sm leading-relaxed text-foreground/72">
+            <h1 className="text-cifra font-black tracking-tight text-foreground">Heatmap de dislocaciones macro</h1>
+            <p className="mt-2 text-cuerpo leading-relaxed text-foreground/72">
               El score no intenta adivinar el próximo tick. Compacta inventarios, curva, geopolítica y positioning para detectar
               cuándo un mercado commodity entra en régimen operativo peligroso.
             </p>
@@ -388,15 +388,15 @@ export default function MacroStress() {
           <div className="grid gap-3 sm:grid-cols-3">
             <div className="rounded-2xl border border-foreground/10 bg-black/15 px-4 py-3">
               <div className="text-micro font-bold uppercase tracking-[0.18em] text-muted-foreground">Mercados</div>
-              <div className="mt-1 text-3xl font-black text-foreground">{data?.summary?.markets_total ?? markets.length}</div>
+              <div className="mt-1 text-cifra font-black text-foreground">{data?.summary?.markets_total ?? markets.length}</div>
             </div>
             <div className="rounded-2xl border border-red-500/20 bg-red-500/10 px-4 py-3">
               <div className="text-micro font-bold uppercase tracking-[0.18em] text-red-200">En rojo</div>
-              <div className="mt-1 text-3xl font-black text-red-300">{redCount}</div>
+              <div className="mt-1 text-cifra font-black text-red-300">{redCount}</div>
             </div>
             <div className="rounded-2xl border border-cyan-400/20 bg-cyan-400/10 px-4 py-3">
               <div className="text-micro font-bold uppercase tracking-[0.18em] text-cyan-200">Pico actual</div>
-              <div className="mt-1 text-3xl font-black text-cyan-200">{fmt(topScore, 0)}</div>
+              <div className="mt-1 text-cifra font-black text-cyan-200">{fmt(topScore, 0)}</div>
             </div>
           </div>
         </div>
@@ -447,7 +447,7 @@ export default function MacroStress() {
                 <div className="flex flex-wrap items-center gap-3">
                   <div>
                     <div className="text-micro font-bold uppercase tracking-[0.18em] text-muted-foreground">Mercado activo</div>
-                    <h3 className="mt-1 text-xl font-black tracking-tight text-foreground">{selected.label}</h3>
+                    <h3 className="mt-1 text-seccion font-black tracking-tight text-foreground">{selected.label}</h3>
                   </div>
                   <div className="ml-auto flex flex-wrap items-center gap-2">
                     <span className={`rounded-full border px-2.5 py-1 text-micro font-bold ${
@@ -465,7 +465,7 @@ export default function MacroStress() {
                   </div>
                 </div>
                 {selected.narrative && (
-                  <p className="mt-3 text-sm leading-relaxed text-foreground/72">{selected.narrative}</p>
+                  <p className="mt-3 text-cuerpo leading-relaxed text-foreground/72">{selected.narrative}</p>
                 )}
               </div>
               <div className="grid gap-3 p-5 md:grid-cols-2">
@@ -487,7 +487,7 @@ export default function MacroStress() {
                   <Waves size={16} className="text-cyan-300" />
                   Historical Analogues
                 </div>
-                <p className="mt-2 text-sm text-foreground/70">
+                <p className="mt-2 text-cuerpo text-foreground/70">
                   No te doy una “probabilidad” fabricada. Te enseño episodios históricos parecidos y qué pasó después.
                 </p>
               </div>
@@ -495,7 +495,7 @@ export default function MacroStress() {
                 {selectedAnalogues.length > 0 ? selectedAnalogues.map((item, index) => (
                   <AnalogueCard key={`${item.date}-${index}`} item={item} index={index} />
                 )) : (
-                  <div className="rounded-2xl border border-foreground/10 bg-black/10 p-4 text-sm text-muted-foreground">
+                  <div className="rounded-2xl border border-foreground/10 bg-black/10 p-4 text-cuerpo text-muted-foreground">
                     {selected.history_note ?? 'Todavía no hay análogos suficientes para este mercado.'}
                   </div>
                 )}
@@ -508,7 +508,7 @@ export default function MacroStress() {
               <Siren size={16} />
               Reading Guide
             </div>
-            <p className="mt-3 text-sm leading-relaxed text-foreground/76">
+            <p className="mt-3 text-cuerpo leading-relaxed text-foreground/76">
               Verde significa normalidad operativa. Ámbar pide vigilancia. Rojo no equivale a “sube seguro” o “cae seguro”:
               significa que la commodity se ha vuelto lo bastante tensa como para contaminar rápidamente a las equities expuestas.
             </p>

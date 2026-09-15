@@ -110,7 +110,7 @@ export default function Momentum() {
         ].map(({ label, value, sub, color, idx }) => (
           <Card key={label} className={`glass p-5 stagger-${idx}`}>
             <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-2">{label}</div>
-            <div className={`text-3xl font-extrabold tracking-tight tabular-nums leading-none mb-2 ${color ?? ''}`}>{value}</div>
+            <div className={`text-cifra font-extrabold tracking-tight tabular-nums leading-none mb-2 ${color ?? ''}`}>{value}</div>
             <div className="text-micro text-muted-foreground">{sub}</div>
           </Card>
         ))}
@@ -130,7 +130,7 @@ export default function Momentum() {
                 <div>
                   <div className="flex items-center gap-2 flex-wrap">
                     <TickerLogo ticker={d.ticker} size="sm" />
-                    <span className="font-mono font-bold text-sm">{d.ticker}</span>
+                    <span className="font-mono font-bold text-cuerpo">{d.ticker}</span>
                     <EntryVerdictBadge verdict={verdicts[d.ticker?.toUpperCase() ?? '']} compact />
                   </div>
                   <span className="text-micro text-muted-foreground block truncate max-w-[140px]">{d.company_name}</span>
@@ -253,7 +253,7 @@ export default function Momentum() {
                     <TableCell className="tabular-nums">
                       {d.target_price_analyst ? `$${d.target_price_analyst.toFixed(0)}` : '—'}
                       {d.analyst_upside_pct != null && (
-                        <span className={`ml-1 text-xs font-semibold ${d.analyst_upside_pct > 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+                        <span className={`ml-1 text-mini font-semibold ${d.analyst_upside_pct > 0 ? 'text-emerald-400' : 'text-red-400'}`}>
                           {d.analyst_upside_pct > 0 ? '+' : ''}{d.analyst_upside_pct.toFixed(0)}%
                         </span>
                       )}

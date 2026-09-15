@@ -31,7 +31,7 @@ export default function AvisoDatos({ className = '' }: { readonly className?: st
     >
       <CloudOff size={16} className="text-amber-400 shrink-0 mt-0.5" />
       <div className="flex-1 min-w-0">
-        <div className="text-sm font-bold text-amber-400 mb-0.5">
+        <div className="text-cuerpo font-bold text-amber-400 mb-0.5">
           No he podido cargar {lista}
         </div>
         <div className="text-mini text-muted-foreground">

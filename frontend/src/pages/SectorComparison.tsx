@@ -86,19 +86,19 @@ function StandoutRow({ d }: Readonly<{ d: SectorStandout }>) {
           {isBest ? 'Mejor FCF' : 'Caro vs peers'}
         </span>
       </TableCell>
-      <TableCell className="tabular-nums text-sm">
+      <TableCell className="tabular-nums text-cuerpo">
         <span className={fcfColor(d.fcf_yield_pct)}>{d.fcf_yield_pct.toFixed(1)}%</span>
-        <span className="text-muted-foreground text-xs ml-1">
+        <span className="text-muted-foreground text-mini ml-1">
           (vs {(d.sector_avg_fcf ?? 0).toFixed(1)}% avg)
         </span>
       </TableCell>
       <TableCell className="hidden sm:table-cell tabular-nums text-mini text-muted-foreground">
         #{d.fcf_rank} / {d.fcf_rank_of}
       </TableCell>
-      <TableCell className="tabular-nums text-sm">
+      <TableCell className="tabular-nums text-cuerpo">
         <span className={scoreColor(d.value_score)}>{d.value_score.toFixed(0)}</span>
       </TableCell>
-      <TableCell className="hidden lg:table-cell tabular-nums text-sm">
+      <TableCell className="hidden lg:table-cell tabular-nums text-cuerpo">
         {d.analyst_upside_pct != null ? (
           <span className={d.analyst_upside_pct >= 0 ? 'text-emerald-400' : 'text-red-400'}>
             {d.analyst_upside_pct > 0 ? '+' : ''}{d.analyst_upside_pct.toFixed(0)}%
@@ -158,7 +158,7 @@ export default function SectorComparison() {
           <button
             key={v}
             onClick={() => setActiveView(v)}
-            className={`px-4 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+            className={`px-4 py-1.5 rounded-lg text-mini font-semibold transition-all ${
               activeView === v
                 ? 'bg-background text-foreground shadow-sm border border-border/40'
                 : 'text-muted-foreground hover:text-foreground'
@@ -178,7 +178,7 @@ export default function SectorComparison() {
             <Card className="border border-border/40">
               <CardContent className="pt-5">
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-sm font-semibold">Score VALUE promedio por sector</h3>
+                  <h3 className="text-cuerpo font-semibold">Score VALUE promedio por sector</h3>
                   <div className="flex items-center gap-3 text-micro text-muted-foreground">
                     <span>Score</span>
                     <span>FCF%</span>
@@ -195,17 +195,17 @@ export default function SectorComparison() {
                 líneas en móvil y descolgaban los números 16px entre sí — tres
                 cifras que se comparan entre ellas tienen que compartir línea base. */}
             <div className="p-4 rounded-xl border border-border/40 bg-card/50">
-              <div className="text-2xl font-extrabold text-foreground leading-none">{sectorSummary.length}</div>
+              <div className="text-pagina font-extrabold text-foreground leading-none">{sectorSummary.length}</div>
               <div className="text-micro font-bold uppercase tracking-wider text-muted-foreground mt-1.5">Sectores</div>
               <div className="text-micro text-muted-foreground mt-0.5">{data?.total ?? 0} tickers analizados</div>
             </div>
             <div className="p-4 rounded-xl border border-border/40 bg-card/50">
-              <div className="text-2xl font-extrabold text-emerald-400 leading-none">{bestCount}</div>
+              <div className="text-pagina font-extrabold text-emerald-400 leading-none">{bestCount}</div>
               <div className="text-micro font-bold uppercase tracking-wider text-muted-foreground mt-1.5">Mejores FCF</div>
               <div className="text-micro text-muted-foreground mt-0.5">Nº 1 de su sector</div>
             </div>
             <div className="p-4 rounded-xl border border-border/40 bg-card/50">
-              <div className="text-2xl font-extrabold text-red-400 leading-none">{priceyCount}</div>
+              <div className="text-pagina font-extrabold text-red-400 leading-none">{priceyCount}</div>
               <div className="text-micro font-bold uppercase tracking-wider text-muted-foreground mt-1.5">Caro vs peers</div>
               <div className="text-micro text-muted-foreground mt-0.5">FCF bajo vs sector</div>
             </div>

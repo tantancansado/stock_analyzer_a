@@ -213,7 +213,7 @@ function StepperInput({
       <div className="flex items-center gap-0.5 mt-0.5">
         <button onClick={() => adj(-step)}
           className="w-5 h-5 rounded bg-foreground/5 hover:bg-amber-500/15 border border-foreground/10 hover:border-amber-500/30 text-muted-foreground hover:text-amber-400 flex items-center justify-center text-micro transition-colors">▼</button>
-        <span className="w-14 text-center font-bold tabular-nums text-sm text-amber-400">{value.toFixed(dec)}{suffix}</span>
+        <span className="w-14 text-center font-bold tabular-nums text-cuerpo text-amber-400">{value.toFixed(dec)}{suffix}</span>
         <button onClick={() => adj(+step)}
           className="w-5 h-5 rounded bg-foreground/5 hover:bg-amber-500/15 border border-foreground/10 hover:border-amber-500/30 text-muted-foreground hover:text-amber-400 flex items-center justify-center text-micro transition-colors">▲</button>
       </div>
@@ -430,7 +430,7 @@ function DetailView({
   return (
     <div className="space-y-5">
       {/* Back button */}
-      <button onClick={onBack} className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors">
+      <button onClick={onBack} className="flex items-center gap-1.5 text-cuerpo text-muted-foreground hover:text-foreground transition-colors">
         <ArrowLeft size={16} />
         Todas las empresas
       </button>
@@ -441,11 +441,11 @@ function DetailView({
           <div>
             <div className="flex items-center gap-3 mb-1">
               <TickerLogo ticker={data.ticker} size="md" />
-              <h2 className="text-2xl font-bold tracking-tight">{data.ticker}</h2>
-              {data.company_name && <span className="text-sm text-muted-foreground truncate max-w-xs">{data.company_name}</span>}
+              <h2 className="text-pagina font-bold tracking-tight">{data.ticker}</h2>
+              {data.company_name && <span className="text-cuerpo text-muted-foreground truncate max-w-xs">{data.company_name}</span>}
               <SignalBadge signal={computed.signal} />
             </div>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-mini text-muted-foreground">
               Precio compra para <span className="text-foreground font-semibold">{returnT}%</span> anual · Salida {data.exit_year ?? '—'}E ({data.years_to_exit ?? '—'} años)
               {isProjected && <span className="ml-2 text-micro text-amber-400 border border-amber-400/20 rounded px-1.5 py-0.5">estimaciones proyectadas ~</span>}
             </p>
@@ -453,18 +453,18 @@ function DetailView({
 
           <div className="flex flex-wrap gap-3">
             <div className="text-right">
-              <div className="text-xs text-muted-foreground uppercase tracking-widest mb-0.5">Precio actual</div>
-              <div className="text-xl font-bold tabular-nums">{fmt(data.current_price, '$')}</div>
+              <div className="text-mini text-muted-foreground uppercase tracking-widest mb-0.5">Precio actual</div>
+              <div className="text-seccion font-bold tabular-nums">{fmt(data.current_price, '$')}</div>
             </div>
             <div className="text-right">
-              <div className="text-xs text-muted-foreground uppercase tracking-widest mb-0.5">Precio de compra</div>
-              <div className={cn('text-xl font-bold tabular-nums', computed.signal === 'BUY' ? 'text-emerald-400' : '')}>
+              <div className="text-mini text-muted-foreground uppercase tracking-widest mb-0.5">Precio de compra</div>
+              <div className={cn('text-seccion font-bold tabular-nums', computed.signal === 'BUY' ? 'text-emerald-400' : '')}>
                 {fmt(computed.buyPrice, '$')}
               </div>
             </div>
             <div className="text-right">
-              <div className="text-xs text-muted-foreground uppercase tracking-widest mb-0.5">Margen seguridad</div>
-              <div className={cn('text-xl font-bold tabular-nums', upsideColor(computed.upsidePct))}>
+              <div className="text-mini text-muted-foreground uppercase tracking-widest mb-0.5">Margen seguridad</div>
+              <div className={cn('text-seccion font-bold tabular-nums', upsideColor(computed.upsidePct))}>
                 {computed.upsidePct != null ? `${computed.upsidePct > 0 ? '+' : ''}${computed.upsidePct.toFixed(1)}%` : '—'}
               </div>
             </div>
@@ -507,10 +507,10 @@ function DetailView({
             <input type="range" min={8} max={25} step={1} value={returnT}
               onChange={e => setReturnT(Number(e.target.value))}
               className="flex-1 accent-cyan-400 h-1" />
-            <span className="text-sm font-bold tabular-nums w-9 text-right text-cyan-400 shrink-0">{returnT}%</span>
+            <span className="text-cuerpo font-bold tabular-nums w-9 text-right text-cyan-400 shrink-0">{returnT}%</span>
             {returnT !== data.target_return_pct && !apiPending && (
               <button onClick={() => { setApiPending(true); onRecalculate(returnT) }}
-                className="px-2.5 py-1 rounded-md bg-foreground/8 hover:bg-foreground/12 border border-foreground/10 text-xs text-muted-foreground transition-colors shrink-0">
+                className="px-2.5 py-1 rounded-md bg-foreground/8 hover:bg-foreground/12 border border-foreground/10 text-mini text-muted-foreground transition-colors shrink-0">
                 Actualizar FCF →
               </button>
             )}
@@ -539,7 +539,7 @@ function DetailView({
       {/* Forward Model — orange editable assumptions */}
       <div>
         <div className="flex items-center gap-3 mb-2">
-          <p className="text-xs font-semibold">Modelo forward</p>
+          <p className="text-mini font-semibold">Modelo forward</p>
           {/* Toggle: two explicit options, always visible */}
           <div className="flex rounded-md border border-border/30 overflow-clip text-micro font-semibold">
             <button
@@ -797,7 +797,7 @@ function DetailView({
       {/* ── 1. Income Statement histórico ─────────────────────────────── */}
       {bdownYears.length > 0 && activeTab === 'is' && (
         <div>
-          <p className="text-xs font-semibold mb-2">1. Income Statement</p>
+          <p className="text-mini font-semibold mb-2">1. Income Statement</p>
           <Card className="glass overflow-clip">
             <div className="table-x-wrap">
               <table className="w-full text-mini">
@@ -906,7 +906,7 @@ function DetailView({
       {/* ── 2. FCF Statement histórico ────────────────────────────────── */}
       {bdownYears.length > 0 && activeTab === 'fcf' && (
         <div>
-          <p className="text-xs font-semibold mb-2">2. Cash Flow — FCF = EBITDA − CapEx<sub>m</sub> − Interés − Impuestos + ΔCT</p>
+          <p className="text-mini font-semibold mb-2">2. Cash Flow — FCF = EBITDA − CapEx<sub>m</sub> − Interés − Impuestos + ΔCT</p>
           <Card className="glass overflow-clip">
             <div className="table-x-wrap">
               <table className="w-full text-mini">
@@ -1031,7 +1031,7 @@ function DetailView({
 
         return (
           <div className="space-y-4">
-            <p className="text-xs font-semibold">3. Ratios de valoración históricos</p>
+            <p className="text-mini font-semibold">3. Ratios de valoración históricos</p>
 
             {!hasMultiples && (
               <div className="glass rounded-xl border border-border/20">
@@ -1130,7 +1130,7 @@ function DetailView({
       {/* ── 4. Precio objetivo por múltiplo ──────────────────────────── */}
       {activeTab === 'valoracion' && Object.keys(computed.priceTargets).length > 0 && (
         <div>
-          <p className="text-xs font-semibold mb-2">4. Precio objetivo por múltiplo</p>
+          <p className="text-mini font-semibold mb-2">4. Precio objetivo por múltiplo</p>
           <Card className="glass overflow-clip">
             <Table>
               <TableHeader>
@@ -1181,7 +1181,7 @@ function DetailView({
 
       {/* FCF Breakdown — template style */}
       {activeTab === 'detalle' && <div>
-        <p className="text-xs font-semibold mb-1.5">5. Desglose FCF detallado — fórmula plantilla</p>
+        <p className="text-mini font-semibold mb-1.5">5. Desglose FCF detallado — fórmula plantilla</p>
           <p className="text-micro text-muted-foreground mb-2">
             FCF = EBITDA − CapEx<sub>mant</sub> − Interés − Impuestos + ΔCT
             <span className="ml-2 opacity-50">· TIKR = dato real de TIKR Pro · CFO = CFO − CapEx<sub>mant</sub> · —  = no disponible en TIKR</span>
@@ -1272,7 +1272,7 @@ function DetailView({
 
         return (
           <div className="space-y-4">
-            <p className="text-xs font-semibold">6. Balance Sheet</p>
+            <p className="text-mini font-semibold">6. Balance Sheet</p>
             {!hasBS && (
               <div className="glass rounded-xl border border-border/20">
                 <EmptyState compact title="Sin datos de balance — disponibles tras el próximo pipeline." />
@@ -1387,12 +1387,12 @@ function DetailView({
 
         return (
           <div className="space-y-4">
-            <p className="text-xs font-semibold">7. ROIC — Return on Invested Capital</p>
+            <p className="text-mini font-semibold">7. ROIC — Return on Invested Capital</p>
             <p className="text-micro text-muted-foreground">
               ROIC = NOPAT / Capital Invertido · NOPAT = EBIT × (1 − tasa impositiva) · CI = Equity + Deuda Neta (promedio inicio/fin)
             </p>
             {!hasRoic && (
-              <div className="glass rounded-xl p-5 border border-border/20 text-center text-xs text-muted-foreground">
+              <div className="glass rounded-xl p-5 border border-border/20 text-center text-mini text-muted-foreground">
                 Sin datos de ROIC — requiere datos EBIT + balance disponibles.
               </div>
             )}
@@ -1482,7 +1482,7 @@ function DetailView({
         return (
           <div className="space-y-4">
             <div className="flex items-center gap-3">
-              <p className="text-xs font-semibold">8. Red Flags</p>
+              <p className="text-mini font-semibold">8. Red Flags</p>
               {flags.length === 0
                 ? <span className="text-micro text-emerald-400 border border-emerald-500/20 rounded px-2 py-0.5">Sin alertas — datos TIKR</span>
                 : <span className="text-micro text-muted-foreground">{flags.filter(f => f.severity === 'high').length} high · {flags.filter(f => f.severity === 'medium').length} medium · {flags.filter(f => f.severity === 'low').length} low</span>
@@ -1490,8 +1490,8 @@ function DetailView({
             </div>
             {flags.length === 0 && (
               <div className="glass rounded-xl p-6 border border-emerald-500/15 text-center">
-                <p className="text-emerald-400 text-sm font-semibold">Sin alertas de calidad detectadas</p>
-                <p className="text-xs text-muted-foreground mt-1">Todos los checks superados con los datos TIKR disponibles.</p>
+                <p className="text-emerald-400 text-cuerpo font-semibold">Sin alertas de calidad detectadas</p>
+                <p className="text-mini text-muted-foreground mt-1">Todos los checks superados con los datos TIKR disponibles.</p>
               </div>
             )}
             {sorted.length > 0 && (
@@ -1530,7 +1530,7 @@ function UpsideBar({ pct }: { pct: number | null }) {
   const isPos  = pct >= 0
   return (
     <div className="flex items-center gap-2 justify-end">
-      <span className={cn('font-bold tabular-nums text-sm', upsideColor(pct))}>
+      <span className={cn('font-bold tabular-nums text-cuerpo', upsideColor(pct))}>
         {pct > 0 ? '+' : ''}{pct.toFixed(1)}%
       </span>
       <div className="w-14 h-1.5 rounded-full bg-foreground/5 overflow-clip shrink-0">
@@ -1628,7 +1628,7 @@ function BatchView({
               onChange={e => onTargetReturnChange(Number(e.target.value))}
               className="flex-1 accent-cyan-400 h-1"
             />
-            <span className="text-sm font-bold tabular-nums w-10 text-right text-cyan-400">{targetReturn}%</span>
+            <span className="text-cuerpo font-bold tabular-nums w-10 text-right text-cyan-400">{targetReturn}%</span>
           </div>
         </div>
 
@@ -1642,7 +1642,7 @@ function BatchView({
               value={filter}
               onChange={e => setFilter(e.target.value)}
               placeholder="MSFT, Microsoft, Visa…"
-              className="pl-7 h-8 text-sm bg-foreground/4 border-foreground/10"
+              className="pl-7 h-8 text-cuerpo bg-foreground/4 border-foreground/10"
             />
           </div>
         </div>
@@ -1669,11 +1669,11 @@ function BatchView({
       {/* Results count + page info */}
       {filtered.length > 0 && (
         <div className="flex items-center justify-between px-1">
-          <span className="text-xs text-muted-foreground">
+          <span className="text-mini text-muted-foreground">
             Mostrando <span className="text-muted-foreground font-semibold">{start}–{end}</span> de <span className="text-muted-foreground font-semibold">{filtered.length}</span> empresas
           </span>
           {totalPages > 1 && (
-            <span className="text-xs text-muted-foreground">
+            <span className="text-mini text-muted-foreground">
               Página {page} / {totalPages}
             </span>
           )}
@@ -1717,7 +1717,7 @@ function BatchView({
                     <span className="font-bold tracking-wide">{row.ticker}</span>
                   </div>
                 </TableCell>
-                <TableCell className="text-muted-foreground max-w-[160px] truncate text-xs">
+                <TableCell className="text-muted-foreground max-w-[160px] truncate text-mini">
                   {row.company_name || '—'}
                 </TableCell>
                 <TableCell className="text-right tabular-nums">{fmt(row.current_price, '$')}</TableCell>
@@ -1734,7 +1734,7 @@ function BatchView({
                 <TableCell className="text-right text-muted-foreground tabular-nums">
                   {fmt(row.ntm_fcf_yield_pct, '', '%', 1)}
                 </TableCell>
-                <TableCell className="text-right text-muted-foreground text-xs tabular-nums">
+                <TableCell className="text-right text-muted-foreground text-mini tabular-nums">
                   {row.exit_year ?? '—'}E
                 </TableCell>
               </TableRow>
@@ -1865,7 +1865,7 @@ export default function OwnerEarnings() {
           variant="outline"
           onClick={() => selected ? fetchDetail(selected.ticker, targetReturn) : fetchBatch()}
           disabled={loadingBatch || detailLoading}
-          className="gap-2 border-foreground/10 bg-foreground/4 hover:bg-foreground/8 text-xs"
+          className="gap-2 border-foreground/10 bg-foreground/4 hover:bg-foreground/8 text-mini"
         >
           <RefreshCw size={12} className={cn(loadingBatch || detailLoading ? 'animate-spin' : '')} />
           Actualizar

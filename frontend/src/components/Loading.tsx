@@ -73,7 +73,7 @@ function SkeletonTable() {
           <Skeleton className="h-6 w-24 rounded" />
         </div>
       </div>
-      <table className="w-full text-sm">
+      <table className="w-full text-cuerpo">
         <thead>
           <tr className="border-b border-border/40">
             {COL_HEADERS.map((w, i) => (
@@ -133,10 +133,10 @@ export function ErrorState({ message }: { message: string }) {
           chillón con su propio estilo, justo encima de un mensaje que ya está
           en rojo de error. Dos lenguajes visuales para el mismo aviso. */}
       <TriangleAlert size={28} strokeWidth={1.75} className="mx-auto mb-3 text-destructive opacity-70" />
-      <p className="text-sm font-semibold text-destructive mb-1">
+      <p className="text-cuerpo font-semibold text-destructive mb-1">
         {isConnection ? 'No se puede conectar con la API' : 'Error al cargar datos'}
       </p>
-      <p className="text-xs text-muted-foreground">
+      <p className="text-mini text-muted-foreground">
         {/* En local "arranca la API" es la instrucción correcta; en el móvil,
             con la API en Railway, no hay nada que el usuario pueda ejecutar. */}
         {isConnection

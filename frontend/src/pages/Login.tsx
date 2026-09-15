@@ -61,10 +61,10 @@ export default function Login() {
       <div className="w-full max-w-sm px-4 relative z-10">
         {/* Logo / title */}
         <div className="text-center mb-8">
-          <div className="text-3xl font-extrabold tracking-tight gradient-title mb-1">
+          <div className="text-cifra font-extrabold tracking-tight gradient-title mb-1">
             Stock Analyzer
           </div>
-          <p className="text-sm text-muted-foreground">Sistema de análisis VALUE + MOMENTUM</p>
+          <p className="text-cuerpo text-muted-foreground">Sistema de análisis VALUE + MOMENTUM</p>
         </div>
 
         <Card className="glass">
@@ -72,7 +72,7 @@ export default function Login() {
             {/* Crear cuenta no da acceso por sí solo — solo saca un login de
                 Supabase válido. Quien lo use decide si accede o no ALLOWED_EMAILS
                 en el backend, en cada llamada a la API. */}
-            <div className="flex rounded-md border border-border/50 p-0.5 mb-5 text-xs font-semibold">
+            <div className="flex rounded-md border border-border/50 p-0.5 mb-5 text-mini font-semibold">
               {/* aria-label distinto del texto visible: si no, su nombre
                   accesible ("Entrar"/"Crear cuenta") choca con el del botón
                   de submit de más abajo, que dice lo mismo según el modo */}
@@ -106,7 +106,7 @@ export default function Login() {
                   autoComplete="email"
                   value={email}
                   onChange={e => setEmail(e.target.value)}
-                  className="w-full text-sm px-3 py-2 rounded-md border border-border/50 bg-transparent text-foreground focus:outline-none focus:border-primary/60 transition-colors"
+                  className="w-full text-cuerpo px-3 py-2 rounded-md border border-border/50 bg-transparent text-foreground focus:outline-none focus:border-primary/60 transition-colors"
                   placeholder="tu@email.com"
                 />
               </div>
@@ -123,7 +123,7 @@ export default function Login() {
                   autoComplete={mode === 'signup' ? 'new-password' : 'current-password'}
                   value={password}
                   onChange={e => setPassword(e.target.value)}
-                  className="w-full text-sm px-3 py-2 rounded-md border border-border/50 bg-transparent text-foreground focus:outline-none focus:border-primary/60 transition-colors"
+                  className="w-full text-cuerpo px-3 py-2 rounded-md border border-border/50 bg-transparent text-foreground focus:outline-none focus:border-primary/60 transition-colors"
                   placeholder="••••••••"
                 />
               </div>

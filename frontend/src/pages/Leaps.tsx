@@ -44,7 +44,7 @@ function Metric({ label, value, hint, className }: { label: string; value: React
       <div className="text-micro uppercase tracking-widest text-muted-foreground mb-0.5 flex items-center gap-1">
         {label}{hint && <span title={hint}><Info className="w-2.5 h-2.5 opacity-40" /></span>}
       </div>
-      <div className={cn('text-sm font-bold tabular-nums leading-none', className)}>{value}</div>
+      <div className={cn('text-cuerpo font-bold tabular-nums leading-none', className)}>{value}</div>
     </div>
   )
 }
@@ -125,7 +125,7 @@ function OpportunityCard({ o, rank }: { o: LeapsOpportunity; rank?: number }) {
         <div className="flex items-start justify-between gap-3 mb-3">
           <div className="flex items-center gap-3 min-w-0">
             {rank != null && (
-              <span className="text-lg font-extrabold text-muted-foreground tabular-nums w-6 shrink-0">{rank}</span>
+              <span className="text-seccion font-extrabold text-muted-foreground tabular-nums w-6 shrink-0">{rank}</span>
             )}
             <TickerLogo ticker={o.ticker} size="md" />
             <div className="min-w-0">
@@ -143,7 +143,7 @@ function OpportunityCard({ o, rank }: { o: LeapsOpportunity; rank?: number }) {
                   )
                 })()}
               </div>
-              <div className="text-xs text-muted-foreground truncate">{o.company_name}</div>
+              <div className="text-mini text-muted-foreground truncate">{o.company_name}</div>
               {(o.pct_from_52w_high != null || o.ytd_pct != null || o.forward_pe != null) && (
                 <div className="text-micro text-muted-foreground mt-0.5">
                   {o.pct_from_52w_high != null && <span>{o.pct_from_52w_high.toFixed(0)}% desde máx. 52s</span>}
@@ -155,7 +155,7 @@ function OpportunityCard({ o, rank }: { o: LeapsOpportunity; rank?: number }) {
             </div>
           </div>
           <div className="text-right shrink-0">
-            <div className={cn('text-2xl font-extrabold tabular-nums leading-none', scoreColor(o.opportunity_score))}>
+            <div className={cn('text-pagina font-extrabold tabular-nums leading-none', scoreColor(o.opportunity_score))}>
               {o.opportunity_score.toFixed(0)}
             </div>
             <div className="text-micro uppercase tracking-widest text-muted-foreground">score</div>
@@ -164,7 +164,7 @@ function OpportunityCard({ o, rank }: { o: LeapsOpportunity; rank?: number }) {
 
         {/* Earnings inminentes: la IV está inflada — mejor esperar al evento */}
         {o.earnings_warning && (
-          <div className="rounded-md border border-amber-500/40 bg-amber-500/10 px-3 py-2 mb-3 text-xs text-amber-300 flex items-start gap-1.5">
+          <div className="rounded-md border border-amber-500/40 bg-amber-500/10 px-3 py-2 mb-3 text-mini text-amber-300 flex items-start gap-1.5">
             <AlertTriangle className="w-3.5 h-3.5 shrink-0 mt-0.5" />
             <span><strong>Earnings en {o.days_to_earnings} días</strong> — la IV suele estar inflada antes del evento; comprar el LEAPS ahora es pagar de más. Valora esperar a después.</span>
           </div>
@@ -172,7 +172,7 @@ function OpportunityCard({ o, rank }: { o: LeapsOpportunity; rank?: number }) {
 
         {/* Aviso de datos dudosos (verificación de Claude) */}
         {o.data_warning && (
-          <div className="rounded-md border border-amber-500/40 bg-amber-500/10 px-3 py-2 mb-3 text-xs text-amber-300 flex items-start gap-1.5">
+          <div className="rounded-md border border-amber-500/40 bg-amber-500/10 px-3 py-2 mb-3 text-mini text-amber-300 flex items-start gap-1.5">
             <AlertTriangle className="w-3.5 h-3.5 shrink-0 mt-0.5" />
             <span><strong>Datos a verificar:</strong> {o.data_warning}</span>
           </div>
@@ -185,7 +185,7 @@ function OpportunityCard({ o, rank }: { o: LeapsOpportunity; rank?: number }) {
               <Brain className="w-3 h-3" /> VEREDICTO: {VERDICT_CONFIG[o.situation_verdict.verdict].label}
             </div>
             {o.situation_verdict.reason && (
-              <div className="text-xs opacity-90 leading-snug">{o.situation_verdict.reason}</div>
+              <div className="text-mini opacity-90 leading-snug">{o.situation_verdict.reason}</div>
             )}
           </div>
         )}
@@ -214,10 +214,10 @@ function OpportunityCard({ o, rank }: { o: LeapsOpportunity; rank?: number }) {
                   : (<><Bell className="w-3 h-3" /> Seguir</>)}
             </button>
           </div>
-          <div className="font-bold text-sm leading-snug">
+          <div className="font-bold text-cuerpo leading-snug">
             COMPRAR 1× CALL <span className="text-primary">{o.ticker} ${c.strike.toFixed(0)}</span> · exp {c.expiry}
           </div>
-          <div className="text-xs text-muted-foreground mt-0.5">
+          <div className="text-mini text-muted-foreground mt-0.5">
             Prima ≈ <span className="text-foreground font-semibold">{fmtUsd(c.mid)}</span>/acción ·
             {' '}<span className="text-foreground font-semibold">{fmtUsd(c.cost_per_contract, 0)}</span> por contrato (100 acc.) ·
             {' '}límite sugerido ≤ {fmtUsd(c.ask)}
@@ -277,7 +277,7 @@ function OpportunityCard({ o, rank }: { o: LeapsOpportunity; rank?: number }) {
 
         {/* Profit scenario at analyst target */}
         {pat && (
-          <div className="rounded-md bg-emerald-500/5 border border-emerald-500/20 px-3 py-2 mb-3 text-xs">
+          <div className="rounded-md bg-emerald-500/5 border border-emerald-500/20 px-3 py-2 mb-3 text-mini">
             <span className="text-emerald-400 font-semibold inline-flex items-center gap-1">
               <TrendingUp className="w-3 h-3" /> Si llega al target {fmtUsd(pat.target_price)}:
             </span>{' '}
@@ -324,7 +324,7 @@ function OpportunityCard({ o, rank }: { o: LeapsOpportunity; rank?: number }) {
           <>
           {/* AI narrative */}
           {o.ai_narrative && (
-            <div className="text-xs text-muted-foreground leading-relaxed border-t border-border/30 pt-2.5">
+            <div className="text-mini text-muted-foreground leading-relaxed border-t border-border/30 pt-2.5">
               <span className="inline-flex items-center gap-1 text-primary font-semibold mr-1">
                 <Brain className="w-3 h-3" />
               </span>
@@ -426,13 +426,13 @@ export default function Leaps() {
           que scrollear un pantallazo entero para llegar a lo que se viene a
           ver. En desktop sigue abierto, que ahí no estorba. */}
       <details open={!esMovil} className="group rounded-lg bg-muted/10 border border-border/30 mb-5">
-        <summary className="cursor-pointer list-none px-4 py-2.5 text-xs font-semibold text-foreground/80 marker:hidden sm:hidden">
+        <summary className="cursor-pointer list-none px-4 py-2.5 text-mini font-semibold text-foreground/80 marker:hidden sm:hidden">
           <span className="inline-flex items-center gap-1.5">
             <ChevronDown size={16} className="transition-transform group-open:rotate-180" />
             ¿Qué es un LEAPS deep-ITM?
           </span>
         </summary>
-        <div className="px-4 pb-3 pt-0 text-xs text-muted-foreground leading-relaxed sm:pt-3">
+        <div className="px-4 pb-3 pt-0 text-mini text-muted-foreground leading-relaxed sm:pt-3">
         Un <strong className="text-foreground">LEAPS deep-in-the-money</strong> (delta ~0.80) replica casi 1:1 el
         movimiento de la acción con ~2x apalancamiento y menos capital, pagando una pequeña prima temporal
         (<em>carry</em>). Es la <strong className="text-foreground">filosofía value aplicada a LEAPS</strong>: buenas
@@ -450,7 +450,7 @@ export default function Leaps() {
             value={query}
             onChange={e => setQuery(e.target.value)}
             placeholder="Analiza cualquier ticker en vivo (ej. UBER, GOOGL, AMZN)…"
-            className="w-full bg-background/60 border border-border/40 rounded-md pl-9 pr-3 py-2 text-sm focus:border-primary/50 focus:outline-none"
+            className="w-full bg-background/60 border border-border/40 rounded-md pl-9 pr-3 py-2 text-cuerpo focus:border-primary/50 focus:outline-none"
           />
         </div>
         <Button type="submit" disabled={odLoading}>
@@ -459,7 +459,7 @@ export default function Leaps() {
       </form>
 
       {odError && (
-        <div className="rounded-md bg-red-500/10 border border-red-500/25 text-red-300 text-xs px-3 py-2 mb-5">{odError}</div>
+        <div className="rounded-md bg-red-500/10 border border-red-500/25 text-red-300 text-mini px-3 py-2 mb-5">{odError}</div>
       )}
       {onDemand && (
         <div className="mb-6">
@@ -478,7 +478,7 @@ export default function Leaps() {
               encima: `justify-between` sin wrap reparte el ancho pero no deja
               que el segundo bloque baje. */}
           <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1 mb-2 mt-1">
-            <h2 className="text-sm font-bold uppercase tracking-widest text-muted-foreground">
+            <h2 className="text-cuerpo font-bold uppercase tracking-widest text-muted-foreground">
               Mejores oportunidades ({data.opportunities.length})
             </h2>
             <span className="text-micro text-muted-foreground">

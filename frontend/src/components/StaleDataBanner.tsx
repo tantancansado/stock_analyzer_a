@@ -121,7 +121,7 @@ export default function StaleDataBanner({ module, dataDate, className = '' }: St
             <AlertCircle size={16} className="text-red-400 absolute inset-0 animate-ping opacity-50" />
           </span>
           <div className="flex-1 min-w-0">
-            <div className="text-sm font-bold text-red-400 mb-0.5">
+            <div className="text-cuerpo font-bold text-red-400 mb-0.5">
               Pipeline no ejecutado en {days} días
               <span className="font-normal ml-1.5 text-apoyo text-red-300">— datos posiblemente incorrectos</span>
             </div>
@@ -148,7 +148,7 @@ export default function StaleDataBanner({ module, dataDate, className = '' }: St
       <div className={`rounded-xl border px-4 py-3 mb-5 animate-fade-in-up flex items-start gap-3 bg-amber-500/8 border-amber-500/30 ${className}`}>
         <AlertTriangle size={16} className="text-amber-400 shrink-0 mt-0.5" />
         <div className="flex-1 min-w-0">
-          <div className="text-sm font-bold text-amber-400 mb-0.5">
+          <div className="text-cuerpo font-bold text-amber-400 mb-0.5">
             {mod?.status === 'missing' ? 'Módulo sin datos' : 'Módulo no actualizado hoy'}
             {daysOld != null && daysOld > 0 && (
               <span className="font-normal ml-1.5 text-apoyo">— última actualización hace {daysOld} días</span>
@@ -190,7 +190,7 @@ export default function StaleDataBanner({ module, dataDate, className = '' }: St
         <AlertTriangle size={16} className="text-amber-400 shrink-0 mt-0.5" />
       )}
       <div className="flex-1 min-w-0">
-        <div className={`text-sm font-bold mb-0.5 ${isVeryStale ? 'text-red-400' : 'text-amber-400'}`}>
+        <div className={`text-cuerpo font-bold mb-0.5 ${isVeryStale ? 'text-red-400' : 'text-amber-400'}`}>
           Datos posiblemente desactualizados
           <span className="font-normal ml-1.5 text-apoyo">— última actualización {daysLabel(checkDate)}</span>
         </div>

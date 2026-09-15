@@ -56,7 +56,7 @@ export default function PageTabs({ tabs, defaultTab, paramKey = 'tab' }: Readonl
           <button
             key={tab.id}
             onClick={() => setTab(tab.id)}
-            className={`page-tab relative flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-lg px-3 py-2 text-apoyo font-medium transition-all sm:gap-2 sm:px-4 sm:text-sm ${
+            className={`page-tab relative flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-lg px-3 py-2 text-apoyo font-medium transition-all sm:gap-2 sm:px-4 sm:text-cuerpo ${
               activeId === tab.id
                 ? 'text-foreground'
                 : 'text-muted-foreground hover:text-foreground'

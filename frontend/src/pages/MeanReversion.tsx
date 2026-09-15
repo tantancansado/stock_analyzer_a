@@ -261,7 +261,7 @@ export default function MeanReversion() {
                     {/* Header */}
                     <div className="flex items-center justify-between mb-2">
                       <div className="flex items-center gap-1.5">
-                        <span className="font-mono font-black text-sm text-foreground">{d.ticker}</span>
+                        <span className="font-mono font-black text-cuerpo text-foreground">{d.ticker}</span>
                         <span className={`text-micro font-bold px-1.5 py-0.5 rounded border ${
                           strategyShort === 'Oversold'
                             ? 'bg-amber-500/10 border-amber-500/25 text-amber-400'
@@ -307,7 +307,7 @@ export default function MeanReversion() {
                         )}
                       </div>
                       {rr != null && (
-                        <span className={`text-xs font-black tabular-nums ${rrColor}`}>{rr.toFixed(1)}x</span>
+                        <span className={`text-mini font-black tabular-nums ${rrColor}`}>{rr.toFixed(1)}x</span>
                       )}
                     </div>
                   </div>
@@ -429,7 +429,7 @@ export default function MeanReversion() {
             <div className="flex items-center justify-between">
               <div>
                 <div className="flex items-center gap-2 flex-wrap">
-                  <span className="font-mono font-bold text-sm">{d.ticker}</span>
+                  <span className="font-mono font-bold text-cuerpo">{d.ticker}</span>
                   <Badge variant={qualVariant(d.quality)}>{d.quality}</Badge>
                   <EntryVerdictBadge verdict={verdicts[d.ticker?.toUpperCase() ?? '']} compact />
                 </div>
@@ -438,7 +438,7 @@ export default function MeanReversion() {
               <div className="text-right">
                 <ScoreBar score={d.reversion_score} />
                 {d.risk_reward != null && (
-                  <div className={`text-xs font-semibold mt-0.5 ${Number(d.risk_reward) >= 2 ? 'text-emerald-400' : Number(d.risk_reward) >= 1 ? 'text-amber-400' : 'text-red-400'}`}>
+                  <div className={`text-mini font-semibold mt-0.5 ${Number(d.risk_reward) >= 2 ? 'text-emerald-400' : Number(d.risk_reward) >= 1 ? 'text-amber-400' : 'text-red-400'}`}>
                     R:R {Number(d.risk_reward).toFixed(1)}
                   </div>
                 )}
@@ -559,7 +559,7 @@ export default function MeanReversion() {
                                 color === 'red' ? 'bg-red-500/8 border-red-500/15' :
                                 'bg-primary/5 border-primary/20'
                               }`}>
-                                <div className={`text-sm font-bold tabular-nums ${
+                                <div className={`text-cuerpo font-bold tabular-nums ${
                                   color === 'emerald' ? 'text-emerald-400' :
                                   color === 'red' ? 'text-red-400' : 'text-primary'
                                 }`}>${value.toFixed(2)}</div>

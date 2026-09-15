@@ -69,10 +69,10 @@ function SnapshotRow({ snap, csvBase }: { snap: HistorySnapshot; csvBase: string
         onClick={() => setOpen(o => !o)}
       >
         <div className="flex items-center gap-3">
-          <span className="text-sm font-mono font-bold text-primary">{snap.date}</span>
+          <span className="text-cuerpo font-mono font-bold text-primary">{snap.date}</span>
           <span className="text-micro font-semibold text-muted-foreground bg-muted/30 px-2 py-0.5 rounded">{snap.files.length} archivos</span>
         </div>
-        <span className="text-muted-foreground text-xs">{open ? '▲' : '▼'}</span>
+        <span className="text-muted-foreground text-mini">{open ? '▲' : '▼'}</span>
       </div>
       {open && (
         <div className="px-4 pb-3 flex flex-wrap gap-2">
@@ -82,7 +82,7 @@ function SnapshotRow({ snap, csvBase }: { snap: HistorySnapshot; csvBase: string
               href={`${csvBase}/history/${snap.date}/${f}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-xs px-2.5 py-1 rounded border border-border/50 text-muted-foreground hover:text-foreground hover:border-primary transition-colors"
+              className="text-mini px-2.5 py-1 rounded border border-border/50 text-muted-foreground hover:text-foreground hover:border-primary transition-colors"
             >
               ↓ {key_files[f] ?? f.replace('.csv', '')}
             </a>
@@ -113,13 +113,13 @@ export default function Datos() {
 
       {/* Current CSVs */}
       <div className="mb-8 animate-fade-in-up" style={{ animationDelay: '60ms' }}>
-        <h3 className="text-sm font-bold uppercase tracking-widest text-muted-foreground mb-4">
+        <h3 className="text-cuerpo font-bold uppercase tracking-widest text-muted-foreground mb-4">
           Datos Actuales
         </h3>
         <div className="space-y-6">
           {CSV_CATALOG.map((group, gi) => (
             <div key={group.group} className="animate-fade-in-up" style={{ animationDelay: `${(gi + 1) * 80}ms` }}>
-              <div className="text-xs font-bold uppercase tracking-widest gradient-title mb-2 px-1">
+              <div className="text-mini font-bold uppercase tracking-widest gradient-title mb-2 px-1">
                 {group.group}
               </div>
               <Card className="glass">
@@ -129,8 +129,8 @@ export default function Datos() {
                     className={`flex items-center justify-between px-5 py-3 ${i < group.items.length - 1 ? 'border-b border-border/30' : ''}`}
                   >
                     <div className="flex-1 min-w-0">
-                      <div className="text-sm font-semibold text-foreground">{item.label}</div>
-                      <div className="text-xs text-muted-foreground truncate">{item.desc}</div>
+                      <div className="text-cuerpo font-semibold text-foreground">{item.label}</div>
+                      <div className="text-mini text-muted-foreground truncate">{item.desc}</div>
                     </div>
                     <div className="flex items-center gap-2 ml-4 shrink-0">
                       <span className="text-micro text-muted-foreground font-mono hidden sm:block">{item.file}</span>
@@ -139,7 +139,7 @@ export default function Datos() {
                         download={item.file}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-xs px-3 py-1 rounded border border-border/50 text-muted-foreground hover:text-foreground hover:border-primary active:scale-[0.98] transition-all"
+                        className="text-mini px-3 py-1 rounded border border-border/50 text-muted-foreground hover:text-foreground hover:border-primary active:scale-[0.98] transition-all"
                       >
                         ↓ CSV
                       </a>
@@ -155,7 +155,7 @@ export default function Datos() {
       {/* Historical archive */}
       <div className="animate-fade-in-up" style={{ animationDelay: '400ms' }}>
         <div className="flex items-center gap-3 mb-4">
-          <h3 className="text-sm font-bold uppercase tracking-widest gradient-title">
+          <h3 className="text-cuerpo font-bold uppercase tracking-widest gradient-title">
             Historial
           </h3>
           {historyUpdated && (
@@ -178,10 +178,10 @@ export default function Datos() {
           <Card className="glass">
             <CardContent className="py-12 text-center">
               <FolderOpen size={32} strokeWidth={1.5} className="mx-auto mb-3 opacity-20" />
-              <p className="text-sm text-muted-foreground">
+              <p className="text-cuerpo text-muted-foreground">
                 Sin historial disponible aún.
                 {!csvBase && (
-                  <span className="block text-xs mt-1 text-amber-400">
+                  <span className="block text-mini mt-1 text-amber-400">
                     (Modo desarrollo — historial disponible en producción)
                   </span>
                 )}

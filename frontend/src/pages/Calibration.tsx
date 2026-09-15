@@ -15,7 +15,7 @@ function WinBar({ value, max = 80 }: { value: number | null | undefined; max?: n
       <div className="flex-1 h-2 rounded-full" style={{ background: 'rgba(255,255,255,0.08)' }}>
         <div className="h-2 rounded-full transition-all" style={{ width: `${pct}%`, background: color }} />
       </div>
-      <span className="text-xs w-10 text-right" style={{ color }}>{v.toFixed(1)}%</span>
+      <span className="text-mini w-10 text-right" style={{ color }}>{v.toFixed(1)}%</span>
     </div>
   )
 }
@@ -23,20 +23,20 @@ function WinBar({ value, max = 80 }: { value: number | null | undefined; max?: n
 function ReturnBadge({ value }: { value: number | null | undefined }) {
   const v = value ?? 0
   const color = v > 0 ? '#10b981' : v > -3 ? '#f59e0b' : '#ef4444'
-  return <span style={{ color }} className="text-xs font-mono">{v > 0 ? '+' : ''}{v.toFixed(2)}%</span>
+  return <span style={{ color }} className="text-mini font-mono">{v > 0 ? '+' : ''}{v.toFixed(2)}%</span>
 }
 
 function ScoreBucketsTable({ buckets }: { buckets: CalibrationBucket[] }) {
   return (
     <div className="table-x-wrap">
-      <table className="w-full text-sm">
+      <table className="w-full text-cuerpo">
         <thead>
           <tr className="border-b border-foreground/10 text-left">
-            <th className="pb-2 text-xs text-muted-foreground font-medium">Score</th>
-            <th className="pb-2 text-xs text-muted-foreground font-medium text-right">Señales</th>
-            <th className="pb-2 text-xs text-muted-foreground font-medium pl-4">Win Rate 14d</th>
-            <th className="pb-2 text-xs text-muted-foreground font-medium text-right">Retorno Medio</th>
-            <th className="pb-2 text-xs text-muted-foreground font-medium text-right">Mediana</th>
+            <th className="pb-2 text-mini text-muted-foreground font-medium">Score</th>
+            <th className="pb-2 text-mini text-muted-foreground font-medium text-right">Señales</th>
+            <th className="pb-2 text-mini text-muted-foreground font-medium pl-4">Win Rate 14d</th>
+            <th className="pb-2 text-mini text-muted-foreground font-medium text-right">Retorno Medio</th>
+            <th className="pb-2 text-mini text-muted-foreground font-medium text-right">Mediana</th>
           </tr>
         </thead>
         <tbody>
@@ -64,13 +64,13 @@ function ScoreBucketsTable({ buckets }: { buckets: CalibrationBucket[] }) {
 function RegimeTable({ rows }: { rows: CalibrationRegime[] }) {
   return (
     <div className="table-x-wrap">
-      <table className="w-full text-sm">
+      <table className="w-full text-cuerpo">
         <thead>
           <tr className="border-b border-foreground/10 text-left">
-            <th className="pb-2 text-xs text-muted-foreground font-medium">Régimen</th>
-            <th className="pb-2 text-xs text-muted-foreground font-medium text-right">Señales</th>
-            <th className="pb-2 text-xs text-muted-foreground font-medium pl-4">Win Rate 14d</th>
-            <th className="pb-2 text-xs text-muted-foreground font-medium text-right">Retorno Medio</th>
+            <th className="pb-2 text-mini text-muted-foreground font-medium">Régimen</th>
+            <th className="pb-2 text-mini text-muted-foreground font-medium text-right">Señales</th>
+            <th className="pb-2 text-mini text-muted-foreground font-medium pl-4">Win Rate 14d</th>
+            <th className="pb-2 text-mini text-muted-foreground font-medium text-right">Retorno Medio</th>
           </tr>
         </thead>
         <tbody>
@@ -95,13 +95,13 @@ function RegimeTable({ rows }: { rows: CalibrationRegime[] }) {
 function SectorTable({ rows }: { rows: CalibrationSector[] }) {
   return (
     <div className="table-x-wrap">
-      <table className="w-full text-sm">
+      <table className="w-full text-cuerpo">
         <thead>
           <tr className="border-b border-foreground/10 text-left">
-            <th className="pb-2 text-xs text-muted-foreground font-medium">Sector</th>
-            <th className="pb-2 text-xs text-muted-foreground font-medium text-right">Señales</th>
-            <th className="pb-2 text-xs text-muted-foreground font-medium pl-4">Win Rate 14d</th>
-            <th className="pb-2 text-xs text-muted-foreground font-medium text-right">Retorno Medio</th>
+            <th className="pb-2 text-mini text-muted-foreground font-medium">Sector</th>
+            <th className="pb-2 text-mini text-muted-foreground font-medium text-right">Señales</th>
+            <th className="pb-2 text-mini text-muted-foreground font-medium pl-4">Win Rate 14d</th>
+            <th className="pb-2 text-mini text-muted-foreground font-medium text-right">Retorno Medio</th>
           </tr>
         </thead>
         <tbody>
@@ -132,7 +132,7 @@ function ScoreInsight({ buckets }: { buckets: CalibrationBucket[] }) {
     i === 0 || b.win_rate >= buckets[i - 1].win_rate
   )
   return (
-    <div className="mt-4 p-3 rounded-lg text-xs text-foreground/70" style={{ background: 'rgba(255,255,255,0.04)' }}>
+    <div className="mt-4 p-3 rounded-lg text-mini text-foreground/70" style={{ background: 'rgba(255,255,255,0.04)' }}>
       {hasMonotone
         ? 'El score es monotónico: a mayor score, mayor win rate.'
         : `Mejor bucket: <b>${best.range}</b> (${best.win_rate}% win rate) · Peor: ${worst.range} (${worst.win_rate}%)`
@@ -188,9 +188,9 @@ export default function Calibration() {
         {bestScore && (
           <Card className="glass border-foreground/10">
             <CardContent className="p-4">
-              <div className="text-xs text-muted-foreground mb-1">Mejor rango de score</div>
-              <div className="text-lg font-semibold text-foreground">{bestScore.range} pts</div>
-              <Badge variant="outline" className="mt-1 text-xs" style={{ color: '#10b981', borderColor: '#10b98144' }}>
+              <div className="text-mini text-muted-foreground mb-1">Mejor rango de score</div>
+              <div className="text-seccion font-semibold text-foreground">{bestScore.range} pts</div>
+              <Badge variant="outline" className="mt-1 text-mini" style={{ color: '#10b981', borderColor: '#10b98144' }}>
                 {bestScore.win_rate}% win rate
               </Badge>
               <div className="mt-1 text-micro text-muted-foreground tabular-nums">
@@ -202,9 +202,9 @@ export default function Calibration() {
         {bestSector && (
           <Card className="glass border-foreground/10">
             <CardContent className="p-4">
-              <div className="text-xs text-muted-foreground mb-1">Sector más fiable</div>
-              <div className="text-lg font-semibold text-foreground truncate">{bestSector.sector}</div>
-              <Badge variant="outline" className="mt-1 text-xs" style={{ color: '#10b981', borderColor: '#10b98144' }}>
+              <div className="text-mini text-muted-foreground mb-1">Sector más fiable</div>
+              <div className="text-seccion font-semibold text-foreground truncate">{bestSector.sector}</div>
+              <Badge variant="outline" className="mt-1 text-mini" style={{ color: '#10b981', borderColor: '#10b98144' }}>
                 {bestSector.win_rate}% win rate
               </Badge>
               <div className="mt-1 text-micro text-muted-foreground tabular-nums">
@@ -216,9 +216,9 @@ export default function Calibration() {
         {bestRegime && (
           <Card className="glass border-foreground/10">
             <CardContent className="p-4">
-              <div className="text-xs text-muted-foreground mb-1">Régimen más favorable</div>
-              <div className="text-lg font-semibold text-foreground">{nlRegimen(bestRegime.regime) || bestRegime.regime}</div>
-              <Badge variant="outline" className="mt-1 text-xs" style={{ color: '#10b981', borderColor: '#10b98144' }}>
+              <div className="text-mini text-muted-foreground mb-1">Régimen más favorable</div>
+              <div className="text-seccion font-semibold text-foreground">{nlRegimen(bestRegime.regime) || bestRegime.regime}</div>
+              <Badge variant="outline" className="mt-1 text-mini" style={{ color: '#10b981', borderColor: '#10b98144' }}>
                 {bestRegime.win_rate}% win rate
               </Badge>
               <div className="mt-1 text-micro text-muted-foreground tabular-nums">
@@ -230,7 +230,7 @@ export default function Calibration() {
       </div>
 
       {!bestScore && !bestSector && !bestRegime && (
-        <p className="text-xs text-muted-foreground">
+        <p className="text-mini text-muted-foreground">
           Todavía no hay ningún tramo con {MUESTRA_MINIMA} señales completadas, así que
           no se destaca ninguno como «el mejor»: con menos muestra, el que encabeza la
           lista suele ser el que tuvo más suerte. El detalle completo está en las
@@ -242,7 +242,7 @@ export default function Calibration() {
       {data.score_buckets?.length > 0 && (
         <Card className="glass border-foreground/10">
           <CardContent className="p-5">
-            <h2 className="text-sm font-semibold text-foreground mb-4">Calibración por Score VALUE</h2>
+            <h2 className="text-cuerpo font-semibold text-foreground mb-4">Calibración por Score VALUE</h2>
             <ScoreBucketsTable buckets={data.score_buckets} />
             <ScoreInsight buckets={data.score_buckets} />
           </CardContent>
@@ -254,7 +254,7 @@ export default function Calibration() {
         {data.regime_analysis?.length > 0 && (
           <Card className="glass border-foreground/10">
             <CardContent className="p-5">
-              <h2 className="text-sm font-semibold text-foreground mb-4">Por Régimen de Mercado</h2>
+              <h2 className="text-cuerpo font-semibold text-foreground mb-4">Por Régimen de Mercado</h2>
               <RegimeTable rows={data.regime_analysis} />
             </CardContent>
           </Card>
@@ -262,7 +262,7 @@ export default function Calibration() {
         {data.fcf_yield_buckets?.length > 0 && (
           <Card className="glass border-foreground/10">
             <CardContent className="p-5">
-              <h2 className="text-sm font-semibold text-foreground mb-4">Por FCF Yield</h2>
+              <h2 className="text-cuerpo font-semibold text-foreground mb-4">Por FCF Yield</h2>
               <ScoreBucketsTable buckets={data.fcf_yield_buckets} />
             </CardContent>
           </Card>
@@ -273,13 +273,13 @@ export default function Calibration() {
       {data.sector_calibration?.length > 0 && (
         <Card className="glass border-foreground/10">
           <CardContent className="p-5">
-            <h2 className="text-sm font-semibold text-foreground mb-4">Calibración por Sector</h2>
+            <h2 className="text-cuerpo font-semibold text-foreground mb-4">Calibración por Sector</h2>
             <SectorTable rows={data.sector_calibration} />
           </CardContent>
         </Card>
       )}
 
-      <p className="text-xs text-muted-foreground text-right">
+      <p className="text-mini text-muted-foreground text-right">
         Actualizado: {new Date(data.generated_at).toLocaleString('es-ES')}
       </p>
     </div>

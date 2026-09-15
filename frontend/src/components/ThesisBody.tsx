@@ -211,7 +211,7 @@ function ValuationSection({ bullets }: { bullets: string[] }): ReactNode {
         <div key={`a-${i}`} className="flex items-center gap-3 px-3 py-2 rounded-lg bg-emerald-500/8 border border-emerald-500/15">
           <div className="flex-1">
             <div className="flex items-baseline gap-2">
-              <span className="text-sm font-bold text-emerald-400 tabular-nums">{analyst.target}</span>
+              <span className="text-cuerpo font-bold text-emerald-400 tabular-nums">{analyst.target}</span>
               <span className="text-mini font-semibold text-emerald-400">{analyst.upside}</span>
               <span className="px-1.5 py-0.5 rounded text-micro font-bold uppercase bg-emerald-500/15 text-emerald-300">{analyst.rating}</span>
             </div>
@@ -354,7 +354,7 @@ export default function ThesisBody({ text }: { text: string }) {
   )
   if (isStatus) {
     return (
-      <p className="text-sm text-muted-foreground italic">
+      <p className="text-cuerpo text-muted-foreground italic">
         {typeof text === 'string' && text ? text : 'Sin tesis disponible'}
       </p>
     )
@@ -367,7 +367,7 @@ export default function ThesisBody({ text }: { text: string }) {
   const paragraphs = processed.split('\n\n').map(p => p.trim()).filter(Boolean)
 
   return (
-    <div className="text-sm leading-relaxed text-muted-foreground space-y-2.5">
+    <div className="text-cuerpo leading-relaxed text-muted-foreground space-y-2.5">
       {paragraphs.map((para, pi) => {
         if (pi === 0) {
           // Strip redundant ticker/sector (already in modal header)

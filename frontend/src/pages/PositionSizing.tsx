@@ -114,7 +114,7 @@ export default function PositionSizing() {
               type="number"
               value={portfolioSize}
               onChange={e => setPortfolioSize(Math.max(1000, Number(e.target.value)))}
-              className="w-28 text-sm px-2.5 py-1.5 rounded border border-border/50 bg-transparent text-foreground focus:outline-none focus:border-primary/50 tabular-nums"
+              className="w-28 text-cuerpo px-2.5 py-1.5 rounded border border-border/50 bg-transparent text-foreground focus:outline-none focus:border-primary/50 tabular-nums"
             />
           </div>
         </div>
@@ -123,26 +123,26 @@ export default function PositionSizing() {
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-5">
         <Card className="glass p-5 stagger-1">
           <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-2">Posiciones</div>
-          <div className="text-3xl font-extrabold tracking-tight tabular-nums leading-none mb-2">{rows.length}</div>
+          <div className="text-cifra font-extrabold tracking-tight tabular-nums leading-none mb-2">{rows.length}</div>
           <div className="text-micro text-muted-foreground">tickers en cartera</div>
         </Card>
         <Card className="glass p-5 stagger-2">
           <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-2">Capital Asignado</div>
-          <div className="text-3xl font-extrabold tracking-tight tabular-nums leading-none mb-2">
+          <div className="text-cifra font-extrabold tracking-tight tabular-nums leading-none mb-2">
             ${(totalValue / 1000).toFixed(0)}k
           </div>
           <div className="text-micro text-muted-foreground">de ${(portfolioSize / 1000).toFixed(0)}k</div>
         </Card>
         <Card className="glass p-5 stagger-3">
           <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-2">Riesgo Total</div>
-          <div className={`text-3xl font-extrabold tracking-tight tabular-nums leading-none mb-2 ${totalRiskColor(totalRisk)}`}>
+          <div className={`text-cifra font-extrabold tracking-tight tabular-nums leading-none mb-2 ${totalRiskColor(totalRisk)}`}>
             {totalRisk.toFixed(1)}%
           </div>
           <div className="text-micro text-muted-foreground">del portfolio</div>
         </Card>
         <Card className="glass p-5 stagger-4">
           <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-2">Posición Media</div>
-          <div className="text-3xl font-extrabold tracking-tight tabular-nums leading-none mb-2">
+          <div className="text-cifra font-extrabold tracking-tight tabular-nums leading-none mb-2">
             {avgSize.toFixed(1)}%
           </div>
           <div className="text-micro text-muted-foreground">del portfolio</div>
@@ -188,14 +188,14 @@ export default function PositionSizing() {
                     <div className="flex items-center gap-2.5">
                       <TickerLogo ticker={r.ticker} size="sm" className="shrink-0" />
                       <div>
-                        <span className="font-mono font-bold text-base text-primary">{r.ticker}</span>
+                        <span className="font-mono font-bold text-titulo text-primary">{r.ticker}</span>
                         {r.current_price != null && (
                           <div className="text-micro text-muted-foreground">${r.current_price.toFixed(2)}</div>
                         )}
                       </div>
                     </div>
                     <div className="text-right">
-                      <div className="text-lg font-bold text-foreground">{posSize.toFixed(1)}%</div>
+                      <div className="text-seccion font-bold text-foreground">{posSize.toFixed(1)}%</div>
                       <div className="text-micro text-muted-foreground">${posVal.toLocaleString('en-US', { maximumFractionDigits: 0 })}</div>
                     </div>
                   </div>

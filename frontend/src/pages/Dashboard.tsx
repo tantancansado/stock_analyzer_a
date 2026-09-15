@@ -92,7 +92,7 @@ function StatCard({
   return (
     <Card className="glass p-5">
       <div className="text-micro font-bold uppercase tracking-[0.16em] text-muted-foreground mb-2">{label}</div>
-      <div className={`text-3xl font-extrabold tracking-tight tabular-nums leading-none mb-2 ${color}`}>{displayValue}</div>
+      <div className={`text-cifra font-extrabold tracking-tight tabular-nums leading-none mb-2 ${color}`}>{displayValue}</div>
       {sub && <div className="text-apoyo text-muted-foreground">{sub}</div>}
     </Card>
   )
@@ -116,7 +116,7 @@ function RegimeCard({ label, data, loading }: { label: string; data: Record<stri
       <div className="text-micro font-bold uppercase tracking-[0.16em] text-muted-foreground mb-2">{label}</div>
       <div className={`flex items-center gap-2 ${s.text} mb-2`}>
         {s.icon}
-        <span className="text-xl font-extrabold tracking-tight">{s.label}</span>
+        <span className="text-seccion font-extrabold tracking-tight">{s.label}</span>
         <InfoTooltip
           text={
             <span>
@@ -327,7 +327,7 @@ function OptionsFlowMini({ data, loading }: { data: unknown; loading: boolean })
                   </PieChart>
                 </ResponsiveContainer>
                 <div className="absolute inset-0 flex items-center justify-center flex-col pointer-events-none">
-                  <span className="text-lg font-extrabold leading-none">{total}</span>
+                  <span className="text-seccion font-extrabold leading-none">{total}</span>
                 </div>
               </div>
 
@@ -335,11 +335,11 @@ function OptionsFlowMini({ data, loading }: { data: unknown; loading: boolean })
               <div className="flex-1 space-y-2">
                 <div className="flex justify-between items-center bg-emerald-500/10 border border-emerald-500/20 rounded px-2 py-1.5">
                   <span className="text-micro font-bold uppercase tracking-widest text-emerald-400">Bullish</span>
-                  <span className="font-mono font-bold text-sm text-emerald-400">{bullish}</span>
+                  <span className="font-mono font-bold text-cuerpo text-emerald-400">{bullish}</span>
                 </div>
                 <div className="flex justify-between items-center bg-red-500/10 border border-red-500/20 rounded px-2 py-1.5">
                   <span className="text-micro font-bold uppercase tracking-widest text-red-400">Bearish</span>
-                  <span className="font-mono font-bold text-sm text-red-400">{bearish}</span>
+                  <span className="font-mono font-bold text-cuerpo text-red-400">{bearish}</span>
                 </div>
               </div>
             </div>
@@ -382,7 +382,7 @@ function MacroRadarMini({ data, loading }: { data: unknown; loading: boolean }) 
   return (
     <div>
       <div className="flex items-center justify-between mb-2 px-1">
-        <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground flex items-center gap-1.5">
+        <span className="text-mini font-bold uppercase tracking-widest text-muted-foreground flex items-center gap-1.5">
           <RadarIcon size={12} /> Macro Radar
         </span>
         <Link to="/macro-radar" className="flex items-center gap-1 text-micro text-muted-foreground hover:text-foreground transition-colors">
@@ -403,7 +403,7 @@ function MacroRadarMini({ data, loading }: { data: unknown; loading: boolean }) 
             <div className="flex items-center justify-between mb-1">
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 rounded-full animate-pulse shadow-[0_0_8px_currentColor]" style={{ backgroundColor: macro.regime?.color, color: macro.regime?.color }} />
-                <span className={`text-base font-extrabold ${MACRO_REGIME_TEXT[macro.regime?.name] ?? 'text-foreground'}`}>
+                <span className={`text-titulo font-extrabold ${MACRO_REGIME_TEXT[macro.regime?.name] ?? 'text-foreground'}`}>
                   {macro.regime?.name}
                 </span>
               </div>
@@ -439,7 +439,7 @@ function MacroRadarMini({ data, loading }: { data: unknown; loading: boolean }) 
                 .map(({ k, s }) => (
                   <div key={k} className="flex-1 bg-white/[0.02] border border-border/20 rounded-md p-1.5">
                     <div className="text-micro text-muted-foreground uppercase tracking-wider mb-0.5 truncate">{s.label}</div>
-                    <div className={`text-xs font-bold tabular-nums ${s.score < -1 ? 'text-red-400' : s.score < 0 ? 'text-orange-400' : 'text-emerald-400'}`}>
+                    <div className={`text-mini font-bold tabular-nums ${s.score < -1 ? 'text-red-400' : s.score < 0 ? 'text-orange-400' : 'text-emerald-400'}`}>
                       {s.score > 0 ? '+' : ''}{s.score.toFixed(1)}
                     </div>
                   </div>
@@ -460,7 +460,7 @@ function MeanReversionMini({ data, loading }: { data: unknown; loading: boolean 
   return (
     <div>
       <div className="flex items-center justify-between mb-2 px-1">
-        <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Mean Reversion</span>
+        <span className="text-mini font-bold uppercase tracking-widest text-muted-foreground">Mean Reversion</span>
         <Link to="/mean-reversion" className="flex items-center gap-1 text-micro text-muted-foreground hover:text-foreground transition-colors">
           Ver todos <ChevronRight size={12} />
         </Link>
@@ -475,14 +475,14 @@ function MeanReversionMini({ data, loading }: { data: unknown; loading: boolean 
           <div className="flex items-center gap-4">
             <div>
               <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-1">Setups</div>
-              <div className="text-2xl font-extrabold tabular-nums">{total || '—'}</div>
+              <div className="text-pagina font-extrabold tabular-nums">{total || '—'}</div>
             </div>
             {high > 0 && (
               <>
                 <div className="h-10 w-px bg-border/50" />
                 <div>
                   <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-1">Alta Calidad</div>
-                  <div className="text-2xl font-extrabold text-teal-400 tabular-nums">{high}</div>
+                  <div className="text-pagina font-extrabold text-teal-400 tabular-nums">{high}</div>
                 </div>
               </>
             )}
@@ -771,7 +771,7 @@ function DailyPlanCard({ data, loading }: { data: DailyPlan | null | undefined; 
 
       {/* Situacion — la frase que resume el día, tratamiento de titular */}
       {data.situacion && (
-        <div className="text-xl sm:text-2xl font-bold tracking-tight mb-1.5 text-foreground leading-snug">{data.situacion}</div>
+        <div className="text-seccion sm:text-pagina font-bold tracking-tight mb-1.5 text-foreground leading-snug">{data.situacion}</div>
       )}
 
       {/* Narrativa */}
@@ -918,7 +918,7 @@ function PortfolioNewsWidget({ data, loading }: { data: any; loading: boolean })
       <CardContent className="p-4">
         <div className="flex items-center gap-2 mb-3">
           <Newspaper size={16} strokeWidth={2} className="text-muted-foreground shrink-0" />
-          <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+          <span className="text-mini font-semibold text-muted-foreground uppercase tracking-wider">
             Noticias de Cartera
           </span>
           {tickers.length > 0 && (
@@ -939,7 +939,7 @@ function PortfolioNewsWidget({ data, loading }: { data: any; loading: boolean })
           </div>
         ) : important.length === 0 ? (
           <div className="text-center py-4">
-            <p className="text-xs text-muted-foreground">Sin noticias relevantes en las últimas 48h</p>
+            <p className="text-mini text-muted-foreground">Sin noticias relevantes en las últimas 48h</p>
             {tickers.length === 0 && (
               <p className="text-micro text-muted-foreground mt-1">
                 Edita <code className="font-mono">docs/portfolio_watch.json</code> con tus tickers
@@ -1146,7 +1146,7 @@ export default function Dashboard() {
       {/* Header */}
       <div className="mb-6 animate-fade-in-up flex items-start justify-between gap-4">
         <div>
-          <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-2 gradient-title">Centro de mando</h1>
+          <h1 className="text-cifra sm:text-cifra font-extrabold tracking-tight mb-2 gradient-title">Centro de mando</h1>
           <p className="text-titulo text-muted-foreground">
             {activeTab === 'resumen'
               ? 'Resumen ejecutivo · Actualización diaria automática'
@@ -1174,7 +1174,7 @@ export default function Dashboard() {
       </div>
 
       {activeTab === 'cerebro' && (
-        <Suspense fallback={<div className="glass border border-border/40 rounded-xl h-40 flex items-center justify-center text-sm text-muted-foreground">Cargando Cerebro…</div>}>
+        <Suspense fallback={<div className="glass border border-border/40 rounded-xl h-40 flex items-center justify-center text-cuerpo text-muted-foreground">Cargando Cerebro…</div>}>
           <Cerebro embedded />
         </Suspense>
       )}
@@ -1291,7 +1291,7 @@ export default function Dashboard() {
           <Link to="/portfolio" className="flex items-center gap-4 glass rounded-xl px-4 py-3 border border-border/30 hover:border-primary/30 transition-colors group">
             <div className="flex items-center gap-2 min-w-0 flex-1">
               <span className="text-micro font-bold uppercase tracking-[0.16em] text-muted-foreground shrink-0">Win Rate 90d</span>
-              <span className={`text-xl font-extrabold tabular-nums ${winRateColor()}`}>
+              <span className={`text-seccion font-extrabold tabular-nums ${winRateColor()}`}>
                 {winRateValue.win_rate.toFixed(1)}%
               </span>
               <span className="text-micro font-bold px-1.5 py-0.5 rounded border bg-primary/10 text-primary border-primary/25">horizonte value</span>
@@ -1312,7 +1312,7 @@ export default function Dashboard() {
             <Wallet size={16} strokeWidth={1.75} className="text-muted-foreground shrink-0" />
             <span className="text-micro font-bold uppercase tracking-[0.16em] text-muted-foreground shrink-0">Mi Cartera</span>
             {loadingLivePrices ? (
-              <span className="text-xs text-muted-foreground">cargando…</span>
+              <span className="text-mini text-muted-foreground">cargando…</span>
             ) : (() => {
               const totalCost  = myPositions.reduce((s, p) => s + p.shares * p.avg_price, 0)
               const totalValue = myPositions.reduce((s, p) => {
@@ -1324,10 +1324,10 @@ export default function Dashboard() {
               const pos   = pl >= 0
               return (
                 <div className="flex items-center gap-3 flex-1 min-w-0">
-                  <span className={`text-xl font-extrabold tabular-nums ${pos ? 'text-emerald-400' : 'text-red-400'}`}>
+                  <span className={`text-seccion font-extrabold tabular-nums ${pos ? 'text-emerald-400' : 'text-red-400'}`}>
                     {pos ? '+' : ''}{plPct.toFixed(2)}%
                   </span>
-                  <span className={`text-xs font-semibold tabular-nums hidden sm:inline ${pos ? 'text-emerald-400' : 'text-red-400'}`}>
+                  <span className={`text-mini font-semibold tabular-nums hidden sm:inline ${pos ? 'text-emerald-400' : 'text-red-400'}`}>
                     {pos ? '+' : ''}${pl.toFixed(0)}
                   </span>
                   <span className="text-apoyo text-muted-foreground hidden md:inline">
@@ -1418,25 +1418,25 @@ export default function Dashboard() {
                   </div>
                   <div className="flex items-center justify-between gap-4">
                     <div className="min-w-0">
-                      <div className="text-3xl font-black tracking-tight text-foreground group-hover:text-emerald-400 transition-colors">{bestPick.ticker}</div>
+                      <div className="text-cifra font-black tracking-tight text-foreground group-hover:text-emerald-400 transition-colors">{bestPick.ticker}</div>
                       <div className="text-cuerpo text-muted-foreground mt-0.5 truncate">{bestPick.company_name}</div>
                       <div className="flex flex-wrap gap-x-4 gap-y-1 mt-3">
                         {bestPick.analyst_upside_pct != null && (
                           <div>
                             <div className="text-micro text-muted-foreground uppercase tracking-[0.14em]">Upside</div>
-                            <div className="text-sm font-bold text-emerald-400">+{bestPick.analyst_upside_pct.toFixed(0)}%</div>
+                            <div className="text-cuerpo font-bold text-emerald-400">+{bestPick.analyst_upside_pct.toFixed(0)}%</div>
                           </div>
                         )}
                         {bestPick.fcf_yield_pct != null && (
                           <div>
                             <div className="text-micro text-muted-foreground uppercase tracking-[0.14em]">FCF Yield</div>
-                            <div className="text-sm font-semibold text-foreground/80">{bestPick.fcf_yield_pct.toFixed(1)}%</div>
+                            <div className="text-cuerpo font-semibold text-foreground/80">{bestPick.fcf_yield_pct.toFixed(1)}%</div>
                           </div>
                         )}
                         {bestPick.risk_reward_ratio != null && (
                           <div>
                             <div className="text-micro text-muted-foreground uppercase tracking-[0.14em]">R:R</div>
-                            <div className="text-sm font-semibold text-foreground/80">{bestPick.risk_reward_ratio.toFixed(1)}x</div>
+                            <div className="text-cuerpo font-semibold text-foreground/80">{bestPick.risk_reward_ratio.toFixed(1)}x</div>
                           </div>
                         )}
                         {bestPick.sector && (

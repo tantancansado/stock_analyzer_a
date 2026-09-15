@@ -49,14 +49,14 @@ function QuadrantItems({ items, colorCls }: { items: SRResult[]; colorCls: strin
     <div className="flex flex-wrap gap-1.5">
       {items.map(r => (
         <div key={r.sector} className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-current/20 bg-current/5 ${colorCls}`}>
-          <span className="text-xs font-medium text-foreground/90">{r.sector}</span>
+          <span className="text-mini font-medium text-foreground/90">{r.sector}</span>
           <span className={`text-micro font-semibold ${colorCls}`}>
             {r.relative_strength?.toFixed(1)}
             {r.velocity != null && <span className="ml-1 opacity-70">{r.velocity > 0 ? '+' : ''}{Number(r.velocity).toFixed(1)}</span>}
           </span>
         </div>
       ))}
-      {items.length === 0 && <div className="text-xs text-muted-foreground italic py-1">Ninguno</div>}
+      {items.length === 0 && <div className="text-mini text-muted-foreground italic py-1">Ninguno</div>}
     </div>
   )
 }
@@ -114,12 +114,12 @@ export default function SectorRotation() {
             { label: 'WEAKENING', items: weakening, color: 'text-amber-400',   bg: 'bg-amber-500/10 border-amber-500/30' },
             { label: 'LAGGING',   items: lagging,   color: 'text-red-400',     bg: 'bg-red-500/10 border-red-500/30' },
           ].map(({ label, items, color, bg }) => (
-            <div key={label} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-xs font-bold ${bg} ${color}`}>
+            <div key={label} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-mini font-bold ${bg} ${color}`}>
               {label} <span className="font-normal opacity-70">{items.length}</span>
             </div>
           ))}
           {alerts.length > 0 && (
-            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-xs font-bold bg-primary/10 border-primary/30 text-primary ml-auto">
+            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-mini font-bold bg-primary/10 border-primary/30 text-primary ml-auto">
               {alerts.length} ALERTAS <span className="font-normal opacity-70">({rotationIn} IN · {rotationOut} OUT)</span>
             </div>
           )}
@@ -135,7 +135,7 @@ export default function SectorRotation() {
         ].map(({ label, value, sub, color, idx }) => (
           <Card key={label} className={`glass p-5 stagger-${idx} animate-fade-in-up`}>
             <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-2">{label}</div>
-            <div className={`text-3xl font-extrabold tracking-tight tabular-nums leading-none mb-2 ${color ?? ''}`}>{value}</div>
+            <div className={`text-cifra font-extrabold tracking-tight tabular-nums leading-none mb-2 ${color ?? ''}`}>{value}</div>
             <div className="text-micro text-muted-foreground">{sub}</div>
           </Card>
         ))}
@@ -143,28 +143,28 @@ export default function SectorRotation() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 mb-5">
         <Card className="glass p-5 border-emerald-500/20 stagger-1 animate-fade-in-up">
-          <h4 className="text-xs font-bold uppercase tracking-widest text-emerald-400 mb-3 flex items-center">
+          <h4 className="text-mini font-bold uppercase tracking-widest text-emerald-400 mb-3 flex items-center">
             Leading ({leading.length})
             <InfoTooltip text="RS alta y momentum positivo (acelerando). Sectores líderes del mercado — buscar oportunidades de compra." />
           </h4>
           <QuadrantItems items={leading} colorCls="text-emerald-400" />
         </Card>
         <Card className="glass p-5 border-blue-500/20 stagger-2 animate-fade-in-up">
-          <h4 className="text-xs font-bold uppercase tracking-widest text-blue-400 mb-3 flex items-center">
+          <h4 className="text-mini font-bold uppercase tracking-widest text-blue-400 mb-3 flex items-center">
             Improving ({improving.length})
             <InfoTooltip text="RS baja pero momentum positivo (ganando fuerza). Sectores que empiezan a rotar al alza — posibles candidatos emergentes." />
           </h4>
           <QuadrantItems items={improving} colorCls="text-blue-400" />
         </Card>
         <Card className="glass p-5 border-amber-500/20 stagger-3 animate-fade-in-up">
-          <h4 className="text-xs font-bold uppercase tracking-widest text-amber-400 mb-3 flex items-center">
+          <h4 className="text-mini font-bold uppercase tracking-widest text-amber-400 mb-3 flex items-center">
             Weakening ({weakening.length})
             <InfoTooltip text="RS alta pero momentum negativo (perdiendo fuerza). Sectores que fueron líderes pero empiezan a girar — considerar reducir exposición." />
           </h4>
           <QuadrantItems items={weakening} colorCls="text-amber-400" />
         </Card>
         <Card className="glass p-5 border-red-500/20 stagger-4 animate-fade-in-up">
-          <h4 className="text-xs font-bold uppercase tracking-widest text-red-400 mb-3 flex items-center">
+          <h4 className="text-mini font-bold uppercase tracking-widest text-red-400 mb-3 flex items-center">
             Lagging ({lagging.length})
             <InfoTooltip text="RS baja y momentum negativo. Sectores rezagados — evitar nuevas posiciones largas." side="bottom" />
           </h4>
@@ -203,7 +203,7 @@ export default function SectorRotation() {
 
         return (
           <Card className="glass p-5 mb-5 border-primary/20 animate-fade-in-up">
-            <h4 className="text-xs font-bold uppercase tracking-widest text-primary mb-4 flex items-center gap-2">
+            <h4 className="text-mini font-bold uppercase tracking-widest text-primary mb-4 flex items-center gap-2">
               <Briefcase size={16} />
               Exposicion de Mi Cartera ({total} posiciones mapeadas)
             </h4>
@@ -211,17 +211,17 @@ export default function SectorRotation() {
             {/* Summary bar */}
             <div className="flex flex-wrap items-center gap-3 mb-4">
               {favorable > 0 && (
-                <div className="flex items-center gap-1.5 text-sm">
+                <div className="flex items-center gap-1.5 text-cuerpo">
                   <CheckCircle size={16} className="text-emerald-400" />
                   <span className="text-emerald-400 font-semibold">{favorable}</span>
-                  <span className="text-muted-foreground text-xs">en sectores favorables</span>
+                  <span className="text-muted-foreground text-mini">en sectores favorables</span>
                 </div>
               )}
               {unfavorable > 0 && (
-                <div className="flex items-center gap-1.5 text-sm">
+                <div className="flex items-center gap-1.5 text-cuerpo">
                   <AlertTriangle size={16} className="text-amber-400" />
                   <span className="text-amber-400 font-semibold">{unfavorable}</span>
-                  <span className="text-muted-foreground text-xs">en sectores desfavorables</span>
+                  <span className="text-muted-foreground text-mini">en sectores desfavorables</span>
                 </div>
               )}
             </div>
@@ -239,7 +239,7 @@ export default function SectorRotation() {
                     {items.map(({ ticker, sector }) => (
                       <div key={ticker} className="flex items-center gap-1.5 py-1 border-b border-border/10 last:border-0">
                         <TickerLogo ticker={ticker} size="xs" />
-                        <span className="font-mono font-bold text-foreground text-xs">{ticker}</span>
+                        <span className="font-mono font-bold text-foreground text-mini">{ticker}</span>
                         <span className="text-micro text-muted-foreground ml-auto truncate max-w-[80px]">{sector}</span>
                       </div>
                     ))}
@@ -260,7 +260,7 @@ export default function SectorRotation() {
       {alerts.length > 0 && (
         <Card className="glass animate-fade-in-up">
           <div className="px-5 py-3 border-b border-border/50 flex items-center gap-2">
-            <h3 className="text-sm font-semibold">Alertas de Rotación</h3>
+            <h3 className="text-cuerpo font-semibold">Alertas de Rotación</h3>
             <span className="text-micro font-bold px-2 py-0.5 rounded-full bg-primary/15 text-primary border border-primary/30">{alerts.length}</span>
           </div>
           <div className="overflow-x-auto">
@@ -279,7 +279,7 @@ export default function SectorRotation() {
                       <AlertBadge type={a.type} variant={alertVariant(a.type)} />
                     </TableCell>
                     <TableCell className="font-mono font-bold text-primary text-apoyo">{a.sector}</TableCell>
-                    <TableCell className="whitespace-normal max-w-sm text-muted-foreground text-xs">{a.message}</TableCell>
+                    <TableCell className="whitespace-normal max-w-sm text-muted-foreground text-mini">{a.message}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
