@@ -31,7 +31,7 @@ from __future__ import annotations
 from typing import Any
 
 import claude_research
-from claude_research import ask_with_search, parse_json
+from claude_research import ask_with_search, ask_with_search_lote, parse_json
 
 VEREDICTOS = ('DETERIORO', 'CICLICO', 'EVENTO', 'SENTIMIENTO', 'SIN_DATOS')
 BLOQUEANTES = ('DETERIORO',)
@@ -100,6 +100,13 @@ def analyze_ticker(ticker: str, company: str, drop_pct: float,
         max_tokens=1200,
         model=claude_research.MODEL_HAIKU,
     )
+    return _interpretar(texto, fuentes)
+
+
+def _interpretar(texto: str, fuentes: list[str]) -> dict:
+    """Respuesta cruda -> veredicto. Lo usan la vía síncrona y la de lote: dos
+    parseos separados acaban desincronizándose."""
+    vacio = {'veredicto': 'SIN_DATOS', 'resumen': '', 'confianza': 0, 'fuentes': []}
     data = parse_json(texto)
     if not data:
         return vacio
@@ -149,6 +156,12 @@ def analyze_picks(rows: list[dict], min_drop_pct: float = 8.0,
     if candidatos:
         print(f'   🔍 {len(candidatos)} candidatos con caída que explicar '
               f'(score ≥ {MIN_SCORE_CANDIDATO:.0f}); se analizan {min(len(candidatos), max_tickers)}')
+    # Las preguntas son independientes: van en UN lote, que la Batch API cobra
+    # a la mitad. Es la segunda llamada más cara de la app por el contexto que
+    # arrastra la búsqueda. Lo que no vuelva del lote lo resuelve
+    # `ask_with_search_lote` en síncrono.
+    elegidos = []
+    prompts = {}
     for _score, drop, r in candidatos[:max_tickers]:
         ticker = str(r.get('ticker', '')).upper()
         if not ticker:
@@ -157,7 +170,18 @@ def analyze_picks(rows: list[dict], min_drop_pct: float = 8.0,
             rs = float(r.get('relative_strength_6m') or 0)
         except (TypeError, ValueError):
             rs = 0.0
-        res = analyze_ticker(ticker, str(r.get('company_name', '')), drop, rs)
+        elegidos.append((ticker, drop))
+        prompts[ticker] = PROMPT.format(
+            company=str(r.get('company_name', '')) or ticker, ticker=ticker,
+            drop=abs(drop or 0), rs=rs or 0)
+
+    crudos = ask_with_search_lote(
+        prompts, system=SYSTEM, max_searches=2, max_tokens=1200,
+        model=claude_research.MODEL_HAIKU,
+    )
+
+    for ticker, drop in elegidos:
+        res = _interpretar(*crudos[ticker])
         out[ticker] = res
         icono = {'DETERIORO': '🚫', 'CICLICO': '🔄', 'EVENTO': '⚡',
                  'SENTIMIENTO': '💭', 'SIN_DATOS': '❓'}.get(res['veredicto'], '❓')

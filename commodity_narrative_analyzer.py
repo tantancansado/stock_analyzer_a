@@ -22,7 +22,7 @@ que el usuario tenga que cruzarlo él mismo.
 from __future__ import annotations
 
 import claude_research
-from claude_research import ask_with_search, parse_json
+from claude_research import ask_with_search, ask_with_search_lote, parse_json
 
 MAX_COMMODITIES = 10   # universo entero cabe de sobra en el presupuesto
 PRESUPUESTO_SEG = 300  # 5 min como mucho — enrichment opcional, no crítico
@@ -79,6 +79,13 @@ def analyze_commodity(ticker: str, sector: str, price: float, currency: str,
         system=SYSTEM, max_tokens=1200, max_searches=2,
         model=claude_research.MODEL_HAIKU,
     )
+    return _interpretar(texto, fuentes)
+
+
+def _interpretar(texto: str, fuentes: list[str]) -> dict:
+    """Respuesta cruda -> veredicto. Compartido por la vía síncrona y la de
+    lote; dos parseos separados acaban desincronizándose."""
+    vacio = {'veredicto': 'SIN_DATOS', 'resumen': '', 'confianza': 0, 'fuentes': []}
     data = parse_json(texto)
     if not data:
         return vacio
@@ -108,8 +115,6 @@ def enrich(rows: list[dict], max_commodities: int = MAX_COMMODITIES) -> dict[str
     No tiene sentido gastar una búsqueda en explicar algo que ya está CARO —
     el ranking prioriza value_rating ATRACTIVO/MUY_ATRACTIVO primero.
     """
-    import time
-
     def _f(x):
         try:
             return float(x)
@@ -120,19 +125,31 @@ def enrich(rows: list[dict], max_commodities: int = MAX_COMMODITIES) -> dict[str
     candidatos = sorted(rows, key=lambda r: orden.get(r.get('value_rating', ''), 4))
 
     out: dict[str, dict] = {}
-    inicio = time.monotonic()
+
+    # Las preguntas son independientes: van en UN lote, a mitad de precio.
+    # `PRESUPUESTO_SEG` cortaba el bucle cuando las llamadas de una en una se
+    # alargaban; en lote ese papel lo hace `espera_max_s`, que es el mismo
+    # límite pero aplicado a la espera entera en vez de a cada llamada.
+    elegidos: list[tuple[str, dict]] = []
+    prompts: dict[str, str] = {}
     for r in candidatos[:max_commodities]:
-        if time.monotonic() - inicio > PRESUPUESTO_SEG:
-            print(f'   ⏱️  Presupuesto agotado — {len(out)}/{len(candidatos[:max_commodities])} analizados')
-            break
         ticker = str(r.get('ticker', '')).upper()
         if not ticker:
             continue
-        res = analyze_commodity(
-            ticker, str(r.get('sector', '')), _f(r.get('price')) or 0,
-            str(r.get('currency', 'USD')), _f(r.get('pct_from_high')) or 0,
-            _f(r.get('pct_vs_2y_avg')) or 0,
-        )
+        elegidos.append((ticker, r))
+        prompts[ticker] = PROMPT.format(
+            sector=str(r.get('sector', '')), ticker=ticker,
+            price=_f(r.get('price')) or 0, currency=str(r.get('currency', 'USD')),
+            pct_from_high=_f(r.get('pct_from_high')) or 0,
+            pct_vs_2y=_f(r.get('pct_vs_2y_avg')) or 0)
+
+    crudos = ask_with_search_lote(
+        prompts, system=SYSTEM, max_tokens=1200, max_searches=2,
+        model=claude_research.MODEL_HAIKU, espera_max_s=PRESUPUESTO_SEG,
+    )
+
+    for ticker, r in elegidos:
+        res = _interpretar(*crudos[ticker])
         out[ticker] = res
         icono = {'OPORTUNIDAD_ESTRUCTURAL': '🟢', 'MINIMO_CICLICO': '🟡',
                  'TRAMPA_DE_VALOR': '🔴', 'SIN_DATOS': '❓'}.get(res['veredicto'], '❓')

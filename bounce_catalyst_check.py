@@ -19,7 +19,7 @@ motivo: eso es justo lo que crea la oportunidad.
 from __future__ import annotations
 
 import claude_research
-from claude_research import ask_with_search, parse_json
+from claude_research import ask_with_search, ask_with_search_lote, parse_json
 
 LOOKBACK_HORAS = 72
 
@@ -87,6 +87,13 @@ def check_ticker(ticker: str) -> dict:
         system=SYSTEM, max_tokens=1200, max_searches=2,
         model=claude_research.MODEL_HAIKU,
     )
+    return _interpretar(texto, fuentes)
+
+
+def _interpretar(texto: str, fuentes: list[str]) -> dict:
+    """Respuesta cruda -> {veredicto, motivo, fuentes}. Compartido por la vía
+    síncrona y la de lote: dos parseos separados se desincronizan."""
+    vacio = {'veredicto': 'SIN_DATOS', 'motivo': '', 'fuentes': []}
     data = parse_json(texto)
     if not data:
         return vacio
@@ -113,12 +120,25 @@ def filter_setups(setups: list[dict]) -> tuple[list[dict], list[dict]]:
     if not setups:
         return setups, []
 
+    # Las preguntas son independientes entre sí, así que van en UN lote: la
+    # Batch API las cobra a la mitad y esta es la llamada más cara de la app
+    # ($0,31 cada una por el contexto que arrastra la búsqueda). Lo que no
+    # vuelva del lote lo resuelve `ask_with_search_lote` en síncrono, así que
+    # el peor caso es pagar lo de siempre, nunca quedarse sin comprobar.
+    tickers = [t for t in (str(x.get('ticker', '')).upper() for x in setups) if t]
+    prompts = {t: PROMPT.format(ticker=t, horas=LOOKBACK_HORAS) for t in tickers}
+    crudos = ask_with_search_lote(
+        prompts, system=SYSTEM, max_tokens=1200, max_searches=2,
+        model=claude_research.MODEL_HAIKU,
+    )
+    veredictos = {t: _interpretar(*crudos[t]) for t in prompts}
+
     limpios, descartados = [], []
     for s in setups:
         ticker = str(s.get('ticker', '')).upper()
         if not ticker:
             continue
-        res = check_ticker(ticker)
+        res = veredictos.get(ticker) or {'veredicto': 'SIN_DATOS', 'motivo': '', 'fuentes': []}
         if res['veredicto'] == 'PELIGRO':
             descartados.append({**s, 'catalyst_motivo': res['motivo'],
                                 'catalyst_fuentes': res['fuentes']})

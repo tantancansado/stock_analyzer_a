@@ -69,23 +69,55 @@ class TestEnrich:
          'currency': 'USD', 'pct_from_high': '-42.6', 'pct_vs_2y_avg': '-31', 'eu_alternative': 'NGAS.L'},
     ]
 
+    # `enrich` pregunta por todos en UN lote, así que lo que se observa es la
+    # lista de prompts, no una secuencia de llamadas. El orden sigue
+    # importando: `max_commodities` trunca, y lo que se corta es la cola.
+    @staticmethod
+    def _capturar(destino, respuesta=('', [])):
+        def _fake(prompts, **_):
+            destino.extend(prompts)
+            return {t: respuesta for t in prompts}
+        return _fake
+
     def test_prioriza_lo_atractivo_sobre_lo_caro(self):
-        orden_visto = []
-
-        def _fake(ticker, sector, price, ccy, pfh, pv2y):
-            orden_visto.append(ticker)
-            return {'veredicto': 'SIN_DATOS', 'resumen': '', 'confianza': 0, 'fuentes': []}
-
-        with patch.object(cna, 'analyze_commodity', side_effect=_fake):
+        vistos = []
+        with patch.object(cna, 'ask_with_search_lote', self._capturar(vistos)):
             cna.enrich(self.ROWS, max_commodities=10)
-        assert orden_visto[0] == 'UNG'  # MUY_ATRACTIVO antes que CARO
+        assert vistos[0] == 'UNG'  # MUY_ATRACTIVO antes que CARO
 
     def test_respeta_el_limite_de_commodities(self):
-        muchos = self.ROWS * 10
-        with patch.object(cna, 'analyze_commodity',
-                          return_value={'veredicto': 'SIN_DATOS', 'resumen': '', 'confianza': 0, 'fuentes': []}):
+        # Tickers DISTINTOS: repetir la misma fila no probaba el límite, porque
+        # las preguntas van en un dict por ticker y las repetidas se funden en
+        # una. (Que se fundan está bien —preguntar dos veces por el mismo sale
+        # igual de caro y da lo mismo— pero no es lo que este test mide.)
+        muchos = [dict(self.ROWS[0], ticker=f'C{i}') for i in range(10)]
+        vistos = []
+        with patch.object(cna, 'ask_with_search_lote', self._capturar(vistos)):
             out = cna.enrich(muchos, max_commodities=3)
-        assert len(out) <= 3
+        # El límite se aplica ANTES de preguntar: si se preguntara por los diez
+        # y luego se recortara, el ahorro sería cero y la factura el triple.
+        assert len(vistos) == 3
+        assert len(out) == 3
+
+    def test_no_pregunta_dos_veces_por_el_mismo_ticker(self):
+        vistos = []
+        with patch.object(cna, 'ask_with_search_lote', self._capturar(vistos)):
+            cna.enrich(self.ROWS * 5, max_commodities=10)
+        assert sorted(vistos) == ['GLD', 'UNG']
+
+    def test_cada_veredicto_va_a_su_commodity(self):
+        """Cruzar respuestas es el fallo propio de un lote: una TRAMPA_DE_VALOR
+        asignada al ticker equivocado marca como trampa algo que no lo es."""
+        respuestas = {
+            'UNG': ('{"veredicto": "MINIMO_CICLICO", "resumen": "ciclo", "confianza": 70}', [URL]),
+            'CORN': ('{"veredicto": "TRAMPA_DE_VALOR", "resumen": "exceso", "confianza": 80}', [URL]),
+        }
+        with patch.object(cna, 'ask_with_search_lote',
+                          lambda prompts, **_: {t: respuestas.get(t, ('', [])) for t in prompts}):
+            out = cna.enrich(self.ROWS, max_commodities=10)
+        assert out['UNG']['veredicto'] == 'MINIMO_CICLICO'
+        if 'CORN' in out:
+            assert out['CORN']['veredicto'] == 'TRAMPA_DE_VALOR' 
 
     def test_lista_vacia_no_rompe(self):
         assert cna.enrich([]) == {}

@@ -39,10 +39,14 @@ from pathlib import Path
 # commiteaba, cada run de CI partía de cero y el tope no acotaba nada.
 ESTADO = Path(__file__).parent / 'docs' / 'claude_budget.json'
 
-# Tope mensual en dólares. El usuario lo fijó en ~10$/mes el 10-ago-2026,
-# hasta comprobar si las recomendaciones compensan en dinero. Subirlo es una
-# decisión suya, no una optimización: no tocar sin pedírselo.
-TOPE_USD = float(os.getenv('CLAUDE_BUDGET_USD', '10.0'))
+# Tope mensual en dólares. Lo fija el usuario, no es una optimización: no
+# tocarlo sin pedírselo.
+#   10-ago-2026: 10$, hasta comprobar si las recomendaciones compensan.
+#   15-sep-2026: 20$. El gasto real iba a ~19,7$/mes y el tope se agotaba el
+#     día 15 — con el gate fail-closed eso deja media Value US colgando de la
+#     caché de veredictos. El usuario lo dio por aceptable: «20 dólares al mes
+#     puede ser aceptable, el objetivo es optimizarlo sin perder calidad».
+TOPE_USD = float(os.getenv('CLAUDE_BUDGET_USD', '20.0'))
 
 # Reserva para que el último día del mes no se quede sin briefing: por debajo
 # de este margen solo pasan las llamadas marcadas como esenciales.
@@ -110,8 +114,21 @@ def hay_presupuesto(coste_estimado: float = 0.0, esencial: bool = False) -> bool
     return (gastado + coste_estimado) < techo
 
 
-def coste_de(respuesta, modelo: str) -> float:
-    """Coste real de una respuesta de la API, leído de su `usage`."""
+# La Batch API cobra al 50%: «All usage is charged at 50% of the standard API
+# prices… applies to input tokens, output tokens, and any special tokens».
+# No menciona las peticiones de búsqueda web, que se cobran por petición y no
+# por token, así que aquí el descuento se aplica SOLO a los tokens y la
+# búsqueda se cuenta entera. Si resultara que también va rebajada, el contador
+# va por encima del gasto real — que es el lado seguro para un tope.
+DESCUENTO_LOTE = 0.5
+
+
+def coste_de(respuesta, modelo: str, descuento: float = 1.0) -> float:
+    """Coste real de una respuesta de la API, leído de su `usage`.
+
+    `descuento` multiplica el precio de los tokens: 1.0 síncrono,
+    DESCUENTO_LOTE para lo que vaya por la Batch API.
+    """
     p_in, p_out = PRECIOS.get(modelo, PRECIOS['claude-sonnet-5'])
     u = getattr(respuesta, 'usage', None)
     if u is None:
@@ -123,7 +140,7 @@ def coste_de(respuesta, modelo: str) -> float:
     stu = getattr(u, 'server_tool_use', None)
     if stu is not None:
         busq = getattr(stu, 'web_search_requests', 0) or 0
-    return tin / 1e6 * p_in + tout / 1e6 * p_out + busq * PRECIO_BUSQUEDA_USD
+    return (tin / 1e6 * p_in + tout / 1e6 * p_out) * descuento + busq * PRECIO_BUSQUEDA_USD
 
 
 def _quien_llama() -> str:
@@ -146,9 +163,9 @@ def _quien_llama() -> str:
     return 'desconocido'
 
 
-def registrar_uso(respuesta, modelo: str) -> float:
+def registrar_uso(respuesta, modelo: str, descuento: float = 1.0) -> float:
     """Suma al contador del mes lo que ha costado esta llamada. Devuelve el coste."""
-    c = coste_de(respuesta, modelo)
+    c = coste_de(respuesta, modelo, descuento)
     d = _leer()
     por_script = d.setdefault('por_script', {})
     quien = _quien_llama()
@@ -163,6 +180,11 @@ def registrar_uso(respuesta, modelo: str) -> float:
     d['gastado_usd'] = round(float(d.get('gastado_usd', 0.0)) + c, 6)
     d['techo_mes'] = round(max(float(d.get('techo_mes', 0.0)), d['gastado_usd']), 6)
     d['llamadas'] = int(d.get('llamadas', 0)) + 1
+    if descuento != 1.0:
+        d['llamadas_lote'] = int(d.get('llamadas_lote', 0)) + 1
+        d['ahorro_lote_usd'] = round(
+            float(d.get('ahorro_lote_usd', 0.0))
+            + (coste_de(respuesta, modelo) - c), 6)
     u = getattr(respuesta, 'usage', None)
     stu = getattr(u, 'server_tool_use', None) if u is not None else None
     if stu is not None:

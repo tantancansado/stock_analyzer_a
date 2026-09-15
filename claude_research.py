@@ -213,3 +213,63 @@ def parse_json(texto: str) -> dict:
         return json.loads(t[ini:fin + 1])
     except ValueError:
         return {}
+
+
+def ask_with_search_lote(
+    prompts: dict[str, str], system: str, max_tokens: int = 2000,
+    max_searches: int = 2, model: str = MODEL, effort: str = 'medium',
+    espera_max_s: int | None = None,
+) -> dict[str, tuple[str, list[str]]]:
+    """`ask_with_search` para varias preguntas a la vez, por la Batch API.
+
+    Devuelve {id: (texto, urls)}, con una entrada por cada id que entró.
+
+    Esta es la vía CARA de la app: con búsqueda, cada llamada arrastra 172k-263k
+    tokens de entrada y sale a $0,21-$0,31. Diecisiete llamadas al mes son el
+    46% de la factura. La Batch API las cobra a la mitad sin cambiar nada del
+    resultado — mismo modelo, mismos parámetros y el mismo bucle agéntico de
+    servidor, herramientas incluidas.
+
+    Lo que NO se da por hecho es que el lote siempre llegue: lo que falle, lo
+    que expire o lo que vuelva a medias se resuelve por el camino síncrono de
+    siempre. La comprobación veta pero no autoriza, así que quedarse sin
+    respuesta nunca deja pasar un setup malo — pero sí dejaría pasar uno que
+    debería vetarse, y eso no se cambia por ahorrar.
+    """
+    from claude_lote import Peticion, claude_lote, ESPERA_MAX_S
+
+    vacios: dict[str, tuple[str, list[str]]] = {k: ('', []) for k in prompts}
+    if not prompts:
+        return vacios
+
+    tool = dict(WEB_SEARCH_TOOL, max_uses=max_searches)
+    extra: dict[str, Any] = {'tools': [tool]}
+    if not any(m in model.lower() for m in _SIN_EFFORT):
+        extra['output_config'] = {'effort': effort}
+
+    def _extraer(mensaje):
+        """None manda esta petición al respaldo síncrono.
+
+        El bucle de herramientas del servidor da MÁS vueltas en lote que en
+        síncrono —no hay conexión abierta que mantener— pero aun así puede
+        volver con `pause_turn`, y entonces el turno no ha terminado. Quien
+        sabe continuarlo es `ask_with_search`, que ya trae ese bucle.
+        """
+        if getattr(mensaje, 'stop_reason', None) in ('pause_turn', 'refusal'):
+            return None
+        texto, urls = _extract(mensaje)
+        return (texto, urls) if texto else None
+
+    def _respaldo(p: Peticion) -> tuple[str, list[str]]:
+        return ask_with_search(prompts[p.id], system=system, max_tokens=max_tokens,
+                               max_searches=max_searches, model=model, effort=effort)
+
+    peticiones = [
+        Peticion(pid, [{'role': 'user', 'content': texto}],
+                 system=system, max_tokens=max_tokens, **extra)
+        for pid, texto in prompts.items()
+    ]
+    res = claude_lote(peticiones, model=model,
+                      espera_max_s=espera_max_s or ESPERA_MAX_S,
+                      respaldo=_respaldo, extraer=_extraer)
+    return {pid: (res.get(pid) or ('', [])) for pid in prompts}

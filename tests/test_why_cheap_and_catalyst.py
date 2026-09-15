@@ -9,6 +9,7 @@ import pandas as pd
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import bounce_catalyst_check as bcc
+import claude_research as cr
 import why_cheap_analyzer as wc
 
 URL = 'https://ir.example.com/q2-results'
@@ -79,11 +80,47 @@ class TestWhyCheap:
             {'ticker': 'FLOJA',   'company_name': 'C', 'proximity_to_52w_high': -30.0, 'value_score': 35},
         ]
         j = '{"veredicto": "CICLICO", "resumen": "ok", "confianza": 60}'
-        with patch.object(wc, 'ask_with_search', return_value=(j, [URL])):
+        # Se parchea el LOTE, que es por donde pregunta `analyze_picks` desde
+        # que las preguntas van juntas. Parchear `ask_with_search` dejaba este
+        # test en verde sin tocar la respuesta: lo que comprueba es a quién se
+        # pregunta, y eso salía igual.
+        with patch.object(wc, 'ask_with_search_lote',
+                          lambda prompts, **_: {t: (j, [URL]) for t in prompts}):
             out = wc.analyze_picks(rows)
         # Ni la que está en máximos (nada que explicar) ni la de score bajo
         # (no se compraría igualmente) consumen una búsqueda
         assert list(out) == ['BUENA']
+        assert out['BUENA']['veredicto'] == 'CICLICO'
+
+    def test_cada_veredicto_va_a_su_ticker(self):
+        """Lo que puede romper un lote y no una llamada suelta: cruzar las
+        respuestas. Aquí un DETERIORO mal asignado saca de la lista a una
+        empresa sana y deja dentro a una deteriorada."""
+        rows = [
+            {'ticker': 'SANA',  'company_name': 'A', 'proximity_to_52w_high': -25.0, 'value_score': 70},
+            {'ticker': 'ROTA',  'company_name': 'B', 'proximity_to_52w_high': -30.0, 'value_score': 72},
+        ]
+        respuestas = {
+            'SANA': ('{"veredicto": "CICLICO", "resumen": "ciclo", "confianza": 70}', [URL]),
+            'ROTA': ('{"veredicto": "DETERIORO", "resumen": "margen roto", "confianza": 80}', [URL]),
+        }
+        with patch.object(wc, 'ask_with_search_lote',
+                          lambda prompts, **_: {t: respuestas[t] for t in prompts}):
+            out = wc.analyze_picks(rows)
+        assert out['SANA']['veredicto'] == 'CICLICO'
+        assert out['ROTA']['veredicto'] == 'DETERIORO'
+
+    def test_el_bloqueo_sigue_funcionando_por_el_camino_sincrono(self):
+        """Si el lote no vuelve se cae al síncrono. Un DETERIORO tiene que
+        seguir bloqueando por ahí: el ahorro no puede comerse el filtro."""
+        rows = [{'ticker': 'ROTA', 'company_name': 'B',
+                 'proximity_to_52w_high': -30.0, 'value_score': 72}]
+        j = '{"veredicto": "DETERIORO", "resumen": "margen roto", "confianza": 80}'
+        import groq_utils
+        with patch.object(cr, 'ask_with_search', return_value=(j, [URL])), \
+             patch.object(groq_utils, '_get_anthropic_client', lambda: None):
+            out = wc.analyze_picks(rows)
+        assert out['ROTA']['veredicto'] == 'DETERIORO' 
 
     def test_apply_saca_deterioro_y_deja_el_resto(self):
         df = pd.DataFrame([{'ticker': 'OTIS'}, {'ticker': 'ICE'}])
@@ -128,28 +165,65 @@ class TestBounceCatalystCoste:
 
 
 class TestBounceCatalyst:
+    """`filter_setups` pregunta por todos los tickers en UN lote (mitad de
+    precio), así que se parchea `ask_with_search_lote`. Antes se parcheaba
+    `ask_with_search` y, al pasar a lote, dos de estos tests siguieron en verde
+    por el motivo equivocado: sin respuesta sale SIN_DATOS, que también deja
+    pasar el setup. Solo se cayó el de PELIGRO — el único cuyo resultado
+    esperado NO coincide con el de «no pude comprobarlo»."""
+
+    @staticmethod
+    def _responde(**por_ticker):
+        """Doble de `ask_with_search_lote`: {id: (texto, urls)} por ticker."""
+        return lambda prompts, **_: {t: por_ticker.get(t, ('', [])) for t in prompts}
+
     def test_peligro_descarta_el_setup(self):
         j = '{"veredicto": "PELIGRO", "motivo": "Profit warning el lunes"}'
-        with patch.object(bcc, 'ask_with_search', return_value=(j, [URL])):
+        with patch.object(bcc, 'ask_with_search_lote', self._responde(AEP=(j, [URL]))):
             limpios, fuera = bcc.filter_setups([{'ticker': 'AEP'}])
         assert limpios == [] and fuera[0]['ticker'] == 'AEP'
 
     def test_limpio_sigue_adelante(self):
         j = '{"veredicto": "LIMPIO", "motivo": "Debilidad de mercado"}'
-        with patch.object(bcc, 'ask_with_search', return_value=(j, [URL])):
+        with patch.object(bcc, 'ask_with_search_lote', self._responde(MO=(j, [URL]))):
             limpios, fuera = bcc.filter_setups([{'ticker': 'MO'}])
         assert len(limpios) == 1 and fuera == []
 
+    def test_cada_veredicto_va_a_su_ticker(self):
+        """Lo que puede romper un lote y no una llamada suelta: cruzar las
+        respuestas. Un veredicto de PELIGRO aplicado al ticker equivocado
+        descarta uno bueno y deja pasar uno malo."""
+        peligro = '{"veredicto": "PELIGRO", "motivo": "fraude contable"}'
+        limpio  = '{"veredicto": "LIMPIO", "motivo": "rotación sectorial"}'
+        with patch.object(bcc, 'ask_with_search_lote',
+                          self._responde(AEP=(peligro, [URL]), MO=(limpio, [URL]))):
+            limpios, fuera = bcc.filter_setups([{'ticker': 'MO'}, {'ticker': 'AEP'}])
+        assert [x['ticker'] for x in limpios] == ['MO']
+        assert [x['ticker'] for x in fuera] == ['AEP']
+
     def test_peligro_sin_busquedas_no_descarta(self):
         j = '{"veredicto": "PELIGRO", "motivo": "me suena mal"}'
-        with patch.object(bcc, 'ask_with_search', return_value=(j, [])):
+        with patch.object(bcc, 'ask_with_search_lote', self._responde(MO=(j, []))):
             limpios, fuera = bcc.filter_setups([{'ticker': 'MO'}])
         assert len(limpios) == 1 and fuera == []
 
     def test_api_caida_deja_pasar_los_setups(self):
-        with patch.object(bcc, 'ask_with_search', return_value=('', [])):
+        with patch.object(bcc, 'ask_with_search_lote', self._responde()):
             limpios, fuera = bcc.filter_setups([{'ticker': 'MO'}, {'ticker': 'AEP'}])
         assert len(limpios) == 2 and fuera == []
+
+    def test_el_veto_sigue_funcionando_por_el_camino_sincrono(self):
+        """Si el lote no vuelve, `ask_with_search_lote` cae al síncrono. Lo que
+        no puede pasar es que el ahorro se coma el veto: un catalizador grave
+        tiene que descartar el setup igual por ese camino."""
+        j = '{"veredicto": "PELIGRO", "motivo": "profit warning"}'
+        import groq_utils
+        with patch.object(cr, 'ask_with_search', return_value=(j, [URL])), \
+             patch.object(groq_utils, '_get_anthropic_client', lambda: None):
+            # Sin cliente, `claude_lote` no envía nada y resuelve TODO por el
+            # respaldo — el mismo camino que si el lote expirara.
+            limpios, fuera = bcc.filter_setups([{'ticker': 'AEP'}])
+        assert limpios == [] and fuera[0]['ticker'] == 'AEP'
 
     def test_lista_vacia(self):
         assert bcc.filter_setups([]) == ([], [])
