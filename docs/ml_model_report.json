@@ -1,31 +1,31 @@
 {
-  "generated_at": "2026-09-14T19:39:50.387071",
-  "n_samples": 1531,
-  "win_rate_base": 0.292,
-  "cv_roc_auc": 0.8072,
-  "cv_brier_score": 0.1616,
+  "generated_at": "2026-09-15T05:10:15.869338",
+  "n_samples": 1533,
+  "win_rate_base": 0.2929,
+  "cv_roc_auc": 0.8058,
+  "cv_brier_score": 0.1629,
   "feature_importance": {
-    "regime_num": 0.1558,
-    "value_score_sq": 0.1102,
-    "fcf_gte_5": 0.1059,
-    "fcf_positive": 0.0868,
-    "risk_reward_ratio": 0.0867,
-    "fcf_yield_pct": 0.0829,
-    "analyst_upside_pct": 0.0827,
-    "value_score": 0.0781,
-    "upside_gte_30": 0.0557,
-    "score_gte_65": 0.054
+    "regime_num": 0.1562,
+    "value_score_sq": 0.1098,
+    "fcf_positive": 0.1012,
+    "fcf_gte_5": 0.0946,
+    "fcf_yield_pct": 0.0851,
+    "analyst_upside_pct": 0.0831,
+    "risk_reward_ratio": 0.082,
+    "value_score": 0.0747,
+    "score_gte_75": 0.0491,
+    "score_gte_65": 0.0458
   },
   "sector_win_rates": {
     "Energy": 0.727,
     "Communication Services": 0.483,
-    "Financial Services": 0.354,
+    "Financial Services": 0.356,
     "Technology": 0.349,
     "Industrials": 0.235,
     "Real Estate": 0.194,
     "Healthcare": 0.19,
     "Consumer Defensive": 0.177,
     "Basic Materials": 0.119,
-    "Consumer Cyclical": 0.09
+    "Consumer Cyclical": 0.099
   }
 }

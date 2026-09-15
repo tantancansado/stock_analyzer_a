@@ -159,7 +159,7 @@
   },
   "bounce_strategies": {
     "BOUNCE_BROAD": {
-      "count": 17,
+      "count": 18,
       "7d": {
         "count": 12,
         "win_rate": 41.7,
@@ -173,14 +173,14 @@
       "nota": "horizonte real 1-5 d\u00edas: el 7d es la medida m\u00e1s cercana disponible, no el criterio del setup (target vs stop)"
     },
     "MEAN_REVERSION": {
-      "count": 60,
+      "count": 69,
       "7d": {
-        "count": 26,
-        "win_rate": 34.6,
-        "ci_low": 19.4,
-        "ci_high": 53.8,
-        "avg_return": -3.06,
-        "median_return": -1.92,
+        "count": 27,
+        "win_rate": 33.3,
+        "ci_low": 18.6,
+        "ci_high": 52.2,
+        "avg_return": -3.21,
+        "median_return": -2.52,
         "best": 4.54,
         "worst": -14.93
       },
@@ -233,8 +233,8 @@
         "ci_high": null
       }
     },
-    "edad_max_dias": 25,
-    "dias_hasta_primera_lectura": 65,
+    "edad_max_dias": 26,
+    "dias_hasta_primera_lectura": 64,
     "con_contrato": 65,
     "nota": "el contrato se sigue por su s\u00edmbolo OCC; son opciones poco l\u00edquidas, as\u00ed que un checkpoint sin cotizaci\u00f3n en 10 d\u00edas se queda vac\u00edo en vez de arrastrar un precio viejo"
   },
@@ -380,7 +380,7 @@
       "signal_price": 77.01,
       "sector": "Consumer Cyclical",
       "value_score": 59.09,
-      "days_active": 4,
+      "days_active": 5,
       "first_result_date": "2026-09-17"
     },
     {
@@ -391,7 +391,7 @@
       "signal_price": 314.4,
       "sector": "Industrials",
       "value_score": 59.72,
-      "days_active": 12,
+      "days_active": 13,
       "first_result_date": "2026-09-09"
     },
     {
@@ -402,7 +402,7 @@
       "signal_price": 435.84,
       "sector": "Financial Services",
       "value_score": 58.14,
-      "days_active": 13,
+      "days_active": 14,
       "first_result_date": "2026-09-08"
     },
     {
@@ -413,7 +413,7 @@
       "signal_price": 108.815,
       "sector": "Financial Services",
       "value_score": 57.05500000000001,
-      "days_active": 17,
+      "days_active": 18,
       "first_result_date": "2026-09-04"
     },
     {
@@ -424,7 +424,7 @@
       "signal_price": 127.08,
       "sector": "Industrials",
       "value_score": 50.06999999999999,
-      "days_active": 18,
+      "days_active": 19,
       "first_result_date": "2026-09-03"
     },
     {
@@ -435,7 +435,7 @@
       "signal_price": 7.26,
       "sector": "Healthcare",
       "value_score": 59.59,
-      "days_active": 19,
+      "days_active": 20,
       "first_result_date": "2026-09-02"
     },
     {
@@ -446,7 +446,7 @@
       "signal_price": 351.05,
       "sector": "Industrials",
       "value_score": 56.375,
-      "days_active": 19,
+      "days_active": 20,
       "first_result_date": "2026-09-02"
     },
     {
@@ -457,7 +457,7 @@
       "signal_price": 455.25,
       "sector": "Industrials",
       "value_score": 51.95,
-      "days_active": 19,
+      "days_active": 20,
       "first_result_date": "2026-09-02"
     },
     {
@@ -468,7 +468,7 @@
       "signal_price": 355.11,
       "sector": "Financial Services",
       "value_score": 51.13,
-      "days_active": 21,
+      "days_active": 22,
       "first_result_date": "2026-08-31"
     },
     {
@@ -479,7 +479,7 @@
       "signal_price": 2966.0,
       "sector": "Industrials",
       "value_score": 60.88499999999999,
-      "days_active": 24,
+      "days_active": 25,
       "first_result_date": "2026-08-28"
     },
     {
@@ -490,7 +490,7 @@
       "signal_price": 496.86,
       "sector": "Financial Services",
       "value_score": 55.370000000000005,
-      "days_active": 24,
+      "days_active": 25,
       "first_result_date": "2026-08-28"
     },
     {
@@ -501,7 +501,7 @@
       "signal_price": 60.09,
       "sector": "Energy",
       "value_score": 62.24000000000001,
-      "days_active": 25,
+      "days_active": 26,
       "first_result_date": "2026-08-27"
     },
     {
@@ -512,7 +512,7 @@
       "signal_price": 24.87,
       "sector": "Financial Services",
       "value_score": 51.305,
-      "days_active": 25,
+      "days_active": 26,
       "first_result_date": "2026-08-27"
     }
   ],
@@ -659,5 +659,5 @@
       "worst_alpha": -4.98
     }
   },
-  "generated_at": "2026-09-14T20:15:38.879022"
+  "generated_at": "2026-09-15T05:44:12.116529"
 }
