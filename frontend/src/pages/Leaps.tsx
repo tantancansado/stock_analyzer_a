@@ -41,7 +41,7 @@ const VERDICT_CONFIG: Record<string, { label: string; cls: string }> = {
 function Metric({ label, value, hint, className }: { label: string; value: React.ReactNode; hint?: string; className?: string }) {
   return (
     <div className="min-w-0">
-      <div className="text-micro uppercase tracking-widest text-muted-foreground mb-0.5 flex items-center gap-1">
+      <div className="etiqueta-seccion mb-0.5 flex items-center gap-1">
         {label}{hint && <span title={hint}><Info className="w-2.5 h-2.5 opacity-40" /></span>}
       </div>
       <div className={cn('text-cuerpo font-bold tabular-nums leading-none', className)}>{value}</div>
@@ -158,7 +158,7 @@ function OpportunityCard({ o, rank }: { o: LeapsOpportunity; rank?: number }) {
             <div className={cn('text-pagina font-extrabold tabular-nums leading-none', scoreColor(o.opportunity_score))}>
               {o.opportunity_score.toFixed(0)}
             </div>
-            <div className="text-micro uppercase tracking-widest text-muted-foreground">score</div>
+            <div className="etiqueta-seccion">score</div>
           </div>
         </div>
 
@@ -193,7 +193,7 @@ function OpportunityCard({ o, rank }: { o: LeapsOpportunity; rank?: number }) {
         {/* The recommended order — the headline */}
         <div className="rounded-md bg-primary/5 border border-primary/20 px-3 py-2.5 mb-3">
           <div className="flex items-center justify-between gap-2 mb-1">
-            <div className="text-micro uppercase tracking-widest text-primary flex items-center gap-1">
+            <div className="etiqueta-seccion text-primary flex items-center gap-1">
               <Rocket className="w-3 h-3" /> Contrato recomendado
             </div>
             <button
@@ -463,7 +463,7 @@ export default function Leaps() {
       )}
       {onDemand && (
         <div className="mb-6">
-          <div className="text-micro uppercase tracking-widest text-muted-foreground mb-2">Análisis en vivo</div>
+          <div className="etiqueta-seccion mb-2">Análisis en vivo</div>
           <OpportunityCard o={onDemand} />
         </div>
       )}

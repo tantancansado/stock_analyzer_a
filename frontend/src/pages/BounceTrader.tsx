@@ -160,11 +160,11 @@ function BounceCard({ s, isConviction }: { s: BounceSetup; isConviction: boolean
       {/* Main numbers */}
       <div className="grid grid-cols-3 gap-2">
         <div className="bg-muted/10 rounded-xl p-2.5 text-center">
-          <div className="text-micro font-bold uppercase tracking-wider text-muted-foreground mb-1">Entrada</div>
+          <div className="etiqueta-seccion mb-1">Entrada</div>
           <div className="text-cuerpo font-extrabold text-foreground tabular-nums">${s.current_price.toFixed(2)}</div>
         </div>
         <div className="bg-emerald-500/8 border border-emerald-500/20 rounded-xl p-2.5 text-center">
-          <div className="text-micro font-bold uppercase tracking-wider text-emerald-400 mb-1">Rebote</div>
+          <div className="etiqueta-seccion text-emerald-400 mb-1">Rebote</div>
           <div className="text-cuerpo font-extrabold text-emerald-400 tabular-nums">
             {bounceUsd != null ? `+$${bounceUsd.toFixed(2)}` : '—'}
           </div>
@@ -173,7 +173,7 @@ function BounceCard({ s, isConviction }: { s: BounceSetup; isConviction: boolean
           )}
         </div>
         <div className="bg-red-500/8 border border-red-500/20 rounded-xl p-2.5 text-center">
-          <div className="text-micro font-bold uppercase tracking-wider text-red-400 mb-1">Stop</div>
+          <div className="etiqueta-seccion text-red-400 mb-1">Stop</div>
           <div className="text-cuerpo font-extrabold text-red-400 tabular-nums">${s.stop_loss.toFixed(2)}</div>
           <div className="text-micro text-red-400">{stopPct.toFixed(1)}%</div>
         </div>
@@ -195,7 +195,7 @@ function BounceCard({ s, isConviction }: { s: BounceSetup; isConviction: boolean
       {/* Bounce confidence bar */}
       <div>
         <div className="flex items-center justify-between mb-1">
-          <span className="text-micro font-bold uppercase tracking-wider text-muted-foreground">Confianza rebote</span>
+          <span className="etiqueta-seccion">Confianza rebote</span>
           <span className={`text-micro font-bold ${conf.color.replace('bg-', 'text-')}`}>{conf.label} {conf.pct}%</span>
         </div>
         <div className="h-1 bg-muted/20 rounded-full overflow-clip">

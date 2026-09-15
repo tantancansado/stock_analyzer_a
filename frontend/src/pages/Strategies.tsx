@@ -52,7 +52,7 @@ function StrategyCard({ s }: { s: PortfolioStrategy }) {
                 <ActionBadge action={s.current_action} />
                 {s._stale_strategy && (
                   <span
-                    className="inline-flex items-center gap-1 rounded-full border border-amber-500/30 bg-amber-500/10 text-amber-300 px-2 py-0.5 text-micro font-bold uppercase tracking-wider"
+                    className="etiqueta-seccion inline-flex items-center gap-1 rounded-full border border-amber-500/30 bg-amber-500/10 text-amber-300 px-2 py-0.5"
                     title={s._stale_reason || 'Plan del día anterior — IA sin presupuesto hoy'}
                   >
                     <AlertTriangle size={12} strokeWidth={2.5} />
@@ -69,7 +69,7 @@ function StrategyCard({ s }: { s: PortfolioStrategy }) {
             <div className={`text-titulo font-bold tabular-nums ${plClass}`}>
               {(s.pl_pct ?? 0) >= 0 ? '+' : ''}{(s.pl_pct ?? 0).toFixed(1)}%
             </div>
-            <div className="text-micro uppercase tracking-wider text-muted-foreground mt-0.5">P&L abierto</div>
+            <div className="etiqueta-seccion mt-0.5">P&L abierto</div>
           </div>
         </div>
 
@@ -84,7 +84,7 @@ function StrategyCard({ s }: { s: PortfolioStrategy }) {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 mb-4">
           {s.trim_at_price && s.trim_pct ? (
             <div className="rounded-lg border border-amber-500/25 bg-amber-500/5 px-3 py-2.5">
-              <div className="flex items-center gap-1.5 text-micro font-bold uppercase tracking-wider text-amber-400 mb-1">
+              <div className="etiqueta-seccion flex items-center gap-1.5 text-amber-400 mb-1">
                 <TrendingDown size={12} /> Vender {s.trim_pct.toFixed(0)}%
               </div>
               <div className="text-titulo font-bold tabular-nums text-amber-300">${s.trim_at_price.toFixed(2)}</div>
@@ -99,13 +99,13 @@ function StrategyCard({ s }: { s: PortfolioStrategy }) {
             </div>
           ) : (
             <div className="rounded-lg border border-border/20 bg-muted/5 px-3 py-2.5 opacity-50">
-              <div className="text-micro font-bold uppercase tracking-wider text-muted-foreground">Sin nivel de venta</div>
+              <div className="etiqueta-seccion">Sin nivel de venta</div>
             </div>
           )}
 
           {s.add_at_price && s.add_pct ? (
             <div className="rounded-lg border border-emerald-500/25 bg-emerald-500/5 px-3 py-2.5">
-              <div className="flex items-center gap-1.5 text-micro font-bold uppercase tracking-wider text-emerald-400 mb-1">
+              <div className="etiqueta-seccion flex items-center gap-1.5 text-emerald-400 mb-1">
                 <TrendingUp size={12} /> Comprar +{s.add_pct.toFixed(0)}%
               </div>
               <div className="text-titulo font-bold tabular-nums text-emerald-300">${s.add_at_price.toFixed(2)}</div>
@@ -120,12 +120,12 @@ function StrategyCard({ s }: { s: PortfolioStrategy }) {
             </div>
           ) : (
             <div className="rounded-lg border border-border/20 bg-muted/5 px-3 py-2.5 opacity-50">
-              <div className="text-micro font-bold uppercase tracking-wider text-muted-foreground">Sin nivel de recompra</div>
+              <div className="etiqueta-seccion">Sin nivel de recompra</div>
             </div>
           )}
 
           <div className="rounded-lg border border-red-500/25 bg-red-500/5 px-3 py-2.5">
-            <div className="flex items-center gap-1.5 text-micro font-bold uppercase tracking-wider text-red-400 mb-1">
+            <div className="etiqueta-seccion flex items-center gap-1.5 text-red-400 mb-1">
               <Shield size={12} /> Stop loss
             </div>
             <div className="text-titulo font-bold tabular-nums text-red-300">${s.stop_loss_price.toFixed(2)}</div>
@@ -140,7 +140,7 @@ function StrategyCard({ s }: { s: PortfolioStrategy }) {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
             {s.triggers_sell.length > 0 && (
               <div>
-                <div className="text-micro font-bold uppercase tracking-wider text-amber-400 mb-1.5">Triggers de salida</div>
+                <div className="etiqueta-seccion text-amber-400 mb-1.5">Triggers de salida</div>
                 <ul className="space-y-1">
                   {s.triggers_sell.slice(0, 3).map((t, i) => (
                     <li key={i} className="flex gap-1.5 text-apoyo leading-snug text-muted-foreground">
@@ -153,7 +153,7 @@ function StrategyCard({ s }: { s: PortfolioStrategy }) {
             )}
             {s.triggers_buy.length > 0 && (
               <div>
-                <div className="text-micro font-bold uppercase tracking-wider text-emerald-400 mb-1.5">Triggers de compra</div>
+                <div className="etiqueta-seccion text-emerald-400 mb-1.5">Triggers de compra</div>
                 <ul className="space-y-1">
                   {s.triggers_buy.slice(0, 3).map((t, i) => (
                     <li key={i} className="flex gap-1.5 text-apoyo leading-snug text-muted-foreground">

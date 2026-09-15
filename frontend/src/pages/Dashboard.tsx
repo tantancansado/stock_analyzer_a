@@ -91,7 +91,7 @@ function StatCard({
   )
   return (
     <Card className="glass p-5">
-      <div className="text-micro font-bold uppercase tracking-[0.16em] text-muted-foreground mb-2">{label}</div>
+      <div className="etiqueta-seccion tracking-[0.16em] mb-2">{label}</div>
       <div className={`text-cifra font-extrabold tracking-tight tabular-nums leading-none mb-2 ${color}`}>{displayValue}</div>
       {sub && <div className="text-apoyo text-muted-foreground">{sub}</div>}
     </Card>
@@ -113,7 +113,7 @@ function RegimeCard({ label, data, loading }: { label: string; data: Record<stri
 
   return (
     <Card className={`glass p-5 border ${s.bg}`}>
-      <div className="text-micro font-bold uppercase tracking-[0.16em] text-muted-foreground mb-2">{label}</div>
+      <div className="etiqueta-seccion tracking-[0.16em] mb-2">{label}</div>
       <div className={`flex items-center gap-2 ${s.text} mb-2`}>
         {s.icon}
         <span className="text-seccion font-extrabold tracking-tight">{s.label}</span>
@@ -334,17 +334,17 @@ function OptionsFlowMini({ data, loading }: { data: unknown; loading: boolean })
               {/* Legend */}
               <div className="flex-1 space-y-2">
                 <div className="flex justify-between items-center bg-emerald-500/10 border border-emerald-500/20 rounded px-2 py-1.5">
-                  <span className="text-micro font-bold uppercase tracking-widest text-emerald-400">Bullish</span>
+                  <span className="etiqueta-seccion text-emerald-400">Bullish</span>
                   <span className="font-mono font-bold text-cuerpo text-emerald-400">{bullish}</span>
                 </div>
                 <div className="flex justify-between items-center bg-red-500/10 border border-red-500/20 rounded px-2 py-1.5">
-                  <span className="text-micro font-bold uppercase tracking-widest text-red-400">Bearish</span>
+                  <span className="etiqueta-seccion text-red-400">Bearish</span>
                   <span className="font-mono font-bold text-cuerpo text-red-400">{bearish}</span>
                 </div>
               </div>
             </div>
             {total > 0 && (
-              <div className="text-mini font-medium text-muted-foreground mt-3 text-center uppercase tracking-widest">
+              <div className="etiqueta-seccion mt-3 text-center">
                 Balance: <span className="text-foreground/80">{Math.round((bullish / total) * 100)}% Alcista</span>
               </div>
             )}
@@ -382,7 +382,7 @@ function MacroRadarMini({ data, loading }: { data: unknown; loading: boolean }) 
   return (
     <div>
       <div className="flex items-center justify-between mb-2 px-1">
-        <span className="text-mini font-bold uppercase tracking-widest text-muted-foreground flex items-center gap-1.5">
+        <span className="etiqueta-seccion flex items-center gap-1.5">
           <RadarIcon size={12} /> Macro Radar
         </span>
         <Link to="/macro-radar" className="flex items-center gap-1 text-micro text-muted-foreground hover:text-foreground transition-colors">
@@ -438,7 +438,7 @@ function MacroRadarMini({ data, loading }: { data: unknown; loading: boolean }) 
                 .slice(0, 2)
                 .map(({ k, s }) => (
                   <div key={k} className="flex-1 bg-white/[0.02] border border-border/20 rounded-md p-1.5">
-                    <div className="text-micro text-muted-foreground uppercase tracking-wider mb-0.5 truncate">{s.label}</div>
+                    <div className="etiqueta-seccion mb-0.5 truncate">{s.label}</div>
                     <div className={`text-mini font-bold tabular-nums ${s.score < -1 ? 'text-red-400' : s.score < 0 ? 'text-orange-400' : 'text-emerald-400'}`}>
                       {s.score > 0 ? '+' : ''}{s.score.toFixed(1)}
                     </div>
@@ -460,7 +460,7 @@ function MeanReversionMini({ data, loading }: { data: unknown; loading: boolean 
   return (
     <div>
       <div className="flex items-center justify-between mb-2 px-1">
-        <span className="text-mini font-bold uppercase tracking-widest text-muted-foreground">Mean Reversion</span>
+        <span className="etiqueta-seccion">Mean Reversion</span>
         <Link to="/mean-reversion" className="flex items-center gap-1 text-micro text-muted-foreground hover:text-foreground transition-colors">
           Ver todos <ChevronRight size={12} />
         </Link>
@@ -474,14 +474,14 @@ function MeanReversionMini({ data, loading }: { data: unknown; loading: boolean 
         ) : (
           <div className="flex items-center gap-4">
             <div>
-              <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-1">Setups</div>
+              <div className="etiqueta-seccion mb-1">Setups</div>
               <div className="text-pagina font-extrabold tabular-nums">{total || '—'}</div>
             </div>
             {high > 0 && (
               <>
                 <div className="h-10 w-px bg-border/50" />
                 <div>
-                  <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-1">Alta Calidad</div>
+                  <div className="etiqueta-seccion mb-1">Alta Calidad</div>
                   <div className="text-pagina font-extrabold text-teal-400 tabular-nums">{high}</div>
                 </div>
               </>
@@ -601,14 +601,14 @@ function LivePricesBar() {
         {/* Status pill */}
         <div className="flex items-center gap-1.5 px-3 py-2 border-r border-primary/10 shrink-0">
           <span className={`w-1.5 h-1.5 rounded-full ${isOpen ? 'bg-emerald-400 animate-pulse' : 'bg-muted-foreground/30'}`} />
-          <span className="text-micro font-bold uppercase tracking-[0.16em] text-muted-foreground">
+          <span className="etiqueta-seccion tracking-[0.16em]">
             {isOpen ? 'Live' : 'Closed'}
           </span>
         </div>
 
         {/* Market Heat */}
         <div className="flex items-center gap-2 px-3 border-r border-primary/10 shrink-0">
-          <div className="text-micro font-bold uppercase tracking-[0.1em] text-muted-foreground">Heat</div>
+          <div className="etiqueta-seccion tracking-[0.1em]">Heat</div>
           <div className={cn("px-1.5 py-0.5 rounded text-micro font-bold tracking-widest", heatColor, heatBg)}>
             {heatLevel}
           </div>
@@ -696,7 +696,7 @@ function MacroPlayRow({ play }: { play: MacroPlay }) {
         <div className="text-mini text-muted-foreground mt-0.5">{play.timeframe} · {play.risk}</div>
         {play.eu_alternative && (
           <div className="mt-1 flex items-center gap-1">
-            <span className="text-micro font-bold uppercase tracking-wide text-blue-400 border border-blue-400/30 px-1 py-px rounded">EU</span>
+            <span className="etiqueta-seccion text-blue-400 border border-blue-400/30 px-1 py-px rounded">EU</span>
             {play.eu_alternative.ticker ? (
               <span className="text-mini font-mono text-blue-300">{play.eu_alternative.ticker}</span>
             ) : null}
@@ -784,7 +784,7 @@ function DailyPlanCard({ data, loading }: { data: DailyPlan | null | undefined; 
       {/* Acciones Inmediatas */}
       {(data.acciones_inmediatas?.length ?? 0) > 0 && (
         <div className="mb-4">
-          <div className="text-mini font-bold uppercase tracking-[0.16em] text-muted-foreground mb-2">
+          <div className="etiqueta-seccion tracking-[0.16em] mb-2">
             Acciones Inmediatas
           </div>
           <div>
@@ -800,7 +800,7 @@ function DailyPlanCard({ data, loading }: { data: DailyPlan | null | undefined; 
         <div className="mb-4">
           <button
             onClick={() => setShowMacroPlays(prev => !prev)}
-            className="flex items-center gap-2 text-mini font-bold uppercase tracking-[0.16em] text-muted-foreground mb-2 hover:text-foreground transition-colors w-full text-left"
+            className="etiqueta-seccion flex items-center gap-2 tracking-[0.16em] mb-2 hover:text-foreground transition-colors w-full text-left"
           >
             Macro Plays ({data.macro_plays.length})
             {showMacroPlays ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
@@ -824,7 +824,7 @@ function DailyPlanCard({ data, loading }: { data: DailyPlan | null | undefined; 
       <div className="flex gap-4 mb-4 flex-wrap">
         {(data.value_en_entorno?.length ?? 0) > 0 && (
           <div className="flex-1 min-w-0">
-            <div className="text-mini font-bold uppercase tracking-[0.16em] text-muted-foreground mb-2">
+            <div className="etiqueta-seccion tracking-[0.16em] mb-2">
               VALUE en este entorno
             </div>
             {data.value_en_entorno_razon && (
@@ -852,7 +852,7 @@ function DailyPlanCard({ data, loading }: { data: DailyPlan | null | undefined; 
 
         {(data.evitar?.length ?? 0) > 0 && (
           <div className="shrink-0">
-            <div className="text-mini font-bold uppercase tracking-[0.16em] text-muted-foreground mb-2">
+            <div className="etiqueta-seccion tracking-[0.16em] mb-2">
               Evitar
             </div>
             <div className="flex flex-wrap gap-1.5">
@@ -873,7 +873,7 @@ function DailyPlanCard({ data, loading }: { data: DailyPlan | null | undefined; 
       {/* Agenda */}
       {(data.agenda_semana?.length ?? 0) > 0 && (
         <div className="mb-3">
-          <div className="text-mini font-bold uppercase tracking-[0.16em] text-muted-foreground mb-2">
+          <div className="etiqueta-seccion tracking-[0.16em] mb-2">
             Agenda
           </div>
           <div className="flex flex-wrap gap-2">
@@ -918,7 +918,7 @@ function PortfolioNewsWidget({ data, loading }: { data: any; loading: boolean })
       <CardContent className="p-4">
         <div className="flex items-center gap-2 mb-3">
           <Newspaper size={16} strokeWidth={2} className="text-muted-foreground shrink-0" />
-          <span className="text-mini font-semibold text-muted-foreground uppercase tracking-wider">
+          <span className="etiqueta-seccion">
             Noticias de Cartera
           </span>
           {tickers.length > 0 && (
@@ -1264,7 +1264,7 @@ export default function Dashboard() {
             <CardContent className="p-4">
               <div className="flex items-center gap-2 mb-3">
                 <Wallet size={16} className="text-primary" />
-                <span className="text-mini font-bold uppercase tracking-[0.14em] text-primary">Acciones pendientes · Mi Cartera</span>
+                <span className="etiqueta-seccion tracking-[0.14em] text-primary">Acciones pendientes · Mi Cartera</span>
                 <span className="text-mini px-1.5 py-0.5 rounded-full bg-primary/15 text-primary font-bold">{actionItems.length}</span>
               </div>
               <div className="space-y-1.5">
@@ -1290,7 +1290,7 @@ export default function Dashboard() {
         <div className="mb-4 animate-fade-in-up">
           <Link to="/portfolio" className="flex items-center gap-4 glass rounded-xl px-4 py-3 border border-border/30 hover:border-primary/30 transition-colors group">
             <div className="flex items-center gap-2 min-w-0 flex-1">
-              <span className="text-micro font-bold uppercase tracking-[0.16em] text-muted-foreground shrink-0">Win Rate 90d</span>
+              <span className="etiqueta-seccion tracking-[0.16em] shrink-0">Win Rate 90d</span>
               <span className={`text-seccion font-extrabold tabular-nums ${winRateColor()}`}>
                 {winRateValue.win_rate.toFixed(1)}%
               </span>
@@ -1310,7 +1310,7 @@ export default function Dashboard() {
         <div className="mb-4 animate-fade-in-up">
           <Link to="/my-portfolio" className="flex items-center gap-3 glass rounded-xl px-4 py-3 border border-border/30 hover:border-primary/30 transition-colors group">
             <Wallet size={16} strokeWidth={1.75} className="text-muted-foreground shrink-0" />
-            <span className="text-micro font-bold uppercase tracking-[0.16em] text-muted-foreground shrink-0">Mi Cartera</span>
+            <span className="etiqueta-seccion tracking-[0.16em] shrink-0">Mi Cartera</span>
             {loadingLivePrices ? (
               <span className="text-mini text-muted-foreground">cargando…</span>
             ) : (() => {
@@ -1344,7 +1344,7 @@ export default function Dashboard() {
       {/* Toggle: Ver datos de mercado */}
       <button
         onClick={() => setShowDetails(d => !d)}
-        className="w-full flex items-center justify-center gap-2 mb-5 py-3 rounded-lg border border-border bg-muted/25 text-muted-foreground hover:text-foreground hover:bg-muted/40 transition-colors text-mini font-bold uppercase tracking-[0.16em]"
+        className="etiqueta-seccion w-full flex items-center justify-center gap-2 mb-5 py-3 rounded-lg border border-border bg-muted/25 hover:text-foreground hover:bg-muted/40 transition-colors tracking-[0.16em]"
       >
         <ChevronDown size={12} className={`collapse-chevron ${showDetails ? 'open' : ''}`} />
         {showDetails ? 'Ocultar datos' : 'Ver datos de mercado'}
@@ -1410,7 +1410,7 @@ export default function Dashboard() {
               <div className="glass rounded-2xl overflow-clip animate-fade-in-up transition-all duration-200 group-hover:bg-emerald-500/6">
                 <div className="p-5">
                   <div className="flex items-center justify-between mb-4">
-                    <span className="text-micro font-bold tracking-[0.18em] text-emerald-400 uppercase">Setup del día</span>
+                    <span className="etiqueta-seccion tracking-[0.18em] text-emerald-400">Setup del día</span>
                     <span className="inline-flex items-center gap-1 text-micro font-bold text-emerald-400 tracking-wide">
                       <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
                       LISTO
@@ -1423,25 +1423,25 @@ export default function Dashboard() {
                       <div className="flex flex-wrap gap-x-4 gap-y-1 mt-3">
                         {bestPick.analyst_upside_pct != null && (
                           <div>
-                            <div className="text-micro text-muted-foreground uppercase tracking-[0.14em]">Upside</div>
+                            <div className="etiqueta-seccion tracking-[0.14em]">Upside</div>
                             <div className="text-cuerpo font-bold text-emerald-400">+{bestPick.analyst_upside_pct.toFixed(0)}%</div>
                           </div>
                         )}
                         {bestPick.fcf_yield_pct != null && (
                           <div>
-                            <div className="text-micro text-muted-foreground uppercase tracking-[0.14em]">FCF Yield</div>
+                            <div className="etiqueta-seccion tracking-[0.14em]">FCF Yield</div>
                             <div className="text-cuerpo font-semibold text-foreground/80">{bestPick.fcf_yield_pct.toFixed(1)}%</div>
                           </div>
                         )}
                         {bestPick.risk_reward_ratio != null && (
                           <div>
-                            <div className="text-micro text-muted-foreground uppercase tracking-[0.14em]">R:R</div>
+                            <div className="etiqueta-seccion tracking-[0.14em]">R:R</div>
                             <div className="text-cuerpo font-semibold text-foreground/80">{bestPick.risk_reward_ratio.toFixed(1)}x</div>
                           </div>
                         )}
                         {bestPick.sector && (
                           <div>
-                            <div className="text-micro text-muted-foreground uppercase tracking-[0.14em]">Sector</div>
+                            <div className="etiqueta-seccion tracking-[0.14em]">Sector</div>
                             <div className="text-apoyo text-muted-foreground truncate max-w-[100px]">{bestPick.sector}</div>
                           </div>
                         )}

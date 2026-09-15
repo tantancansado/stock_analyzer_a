@@ -269,7 +269,7 @@ function BestWorstRows({ rows, tab }: { rows: TimeseriesRow[]; tab: Tab }) {
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
       <Card className="glass">
         <CardContent className="p-5">
-          <div className="text-mini font-semibold text-emerald-400 uppercase tracking-wider mb-3">Mejores períodos</div>
+          <div className="etiqueta-seccion text-emerald-400 mb-3">Mejores períodos</div>
           <div className="space-y-2">
             {best.map(r => (
               <div key={r.label} className="flex items-center justify-between">
@@ -285,7 +285,7 @@ function BestWorstRows({ rows, tab }: { rows: TimeseriesRow[]; tab: Tab }) {
       </Card>
       <Card className="glass">
         <CardContent className="p-5">
-          <div className="text-mini font-semibold text-red-400 uppercase tracking-wider mb-3">Peores períodos</div>
+          <div className="etiqueta-seccion text-red-400 mb-3">Peores períodos</div>
           <div className="space-y-2">
             {worst.map(r => (
               <div key={r.label} className="flex items-center justify-between">

@@ -134,7 +134,7 @@ export default function SectorRotation() {
           { label: 'Alertas', value: alerts.length, sub: `${rotationIn} rotacion IN, ${rotationOut} OUT`, idx: 4 },
         ].map(({ label, value, sub, color, idx }) => (
           <Card key={label} className={`glass p-5 stagger-${idx} animate-fade-in-up`}>
-            <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-2">{label}</div>
+            <div className="etiqueta-seccion mb-2">{label}</div>
             <div className={`text-cifra font-extrabold tracking-tight tabular-nums leading-none mb-2 ${color ?? ''}`}>{value}</div>
             <div className="text-micro text-muted-foreground">{sub}</div>
           </Card>
@@ -143,28 +143,28 @@ export default function SectorRotation() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 mb-5">
         <Card className="glass p-5 border-emerald-500/20 stagger-1 animate-fade-in-up">
-          <h4 className="text-mini font-bold uppercase tracking-widest text-emerald-400 mb-3 flex items-center">
+          <h4 className="etiqueta-seccion text-emerald-400 mb-3 flex items-center">
             Leading ({leading.length})
             <InfoTooltip text="RS alta y momentum positivo (acelerando). Sectores líderes del mercado — buscar oportunidades de compra." />
           </h4>
           <QuadrantItems items={leading} colorCls="text-emerald-400" />
         </Card>
         <Card className="glass p-5 border-blue-500/20 stagger-2 animate-fade-in-up">
-          <h4 className="text-mini font-bold uppercase tracking-widest text-blue-400 mb-3 flex items-center">
+          <h4 className="etiqueta-seccion text-blue-400 mb-3 flex items-center">
             Improving ({improving.length})
             <InfoTooltip text="RS baja pero momentum positivo (ganando fuerza). Sectores que empiezan a rotar al alza — posibles candidatos emergentes." />
           </h4>
           <QuadrantItems items={improving} colorCls="text-blue-400" />
         </Card>
         <Card className="glass p-5 border-amber-500/20 stagger-3 animate-fade-in-up">
-          <h4 className="text-mini font-bold uppercase tracking-widest text-amber-400 mb-3 flex items-center">
+          <h4 className="etiqueta-seccion text-amber-400 mb-3 flex items-center">
             Weakening ({weakening.length})
             <InfoTooltip text="RS alta pero momentum negativo (perdiendo fuerza). Sectores que fueron líderes pero empiezan a girar — considerar reducir exposición." />
           </h4>
           <QuadrantItems items={weakening} colorCls="text-amber-400" />
         </Card>
         <Card className="glass p-5 border-red-500/20 stagger-4 animate-fade-in-up">
-          <h4 className="text-mini font-bold uppercase tracking-widest text-red-400 mb-3 flex items-center">
+          <h4 className="etiqueta-seccion text-red-400 mb-3 flex items-center">
             Lagging ({lagging.length})
             <InfoTooltip text="RS baja y momentum negativo. Sectores rezagados — evitar nuevas posiciones largas." side="bottom" />
           </h4>
@@ -203,7 +203,7 @@ export default function SectorRotation() {
 
         return (
           <Card className="glass p-5 mb-5 border-primary/20 animate-fade-in-up">
-            <h4 className="text-mini font-bold uppercase tracking-widest text-primary mb-4 flex items-center gap-2">
+            <h4 className="etiqueta-seccion text-primary mb-4 flex items-center gap-2">
               <Briefcase size={16} />
               Exposicion de Mi Cartera ({total} posiciones mapeadas)
             </h4>
@@ -233,7 +233,7 @@ export default function SectorRotation() {
                 if (items.length === 0) return null
                 return (
                   <div key={status} className="bg-muted/10 rounded-lg p-3 border border-border/20">
-                    <div className={`text-micro font-bold uppercase tracking-widest mb-2 ${statusColor[status]}`}>
+                    <div className={`etiqueta-seccion mb-2 ${statusColor[status]}`}>
                       {statusLabel[status]} ({items.length})
                     </div>
                     {items.map(({ ticker, sector }) => (

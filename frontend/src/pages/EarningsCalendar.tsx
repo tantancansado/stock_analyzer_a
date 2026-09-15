@@ -180,7 +180,7 @@ export default function EarningsCalendar() {
           <CardContent className="p-4">
             <div className="flex items-center gap-2 mb-3">
               <Wallet size={16} className="text-primary" />
-              <span className="text-mini font-bold uppercase tracking-widest text-primary">Earnings de Mi Cartera</span>
+              <span className="etiqueta-seccion text-primary">Earnings de Mi Cartera</span>
               <span className="text-micro px-2 py-0.5 rounded-full bg-primary/20 text-primary border border-primary/30 font-bold">{myEarnings.length}</span>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
@@ -283,7 +283,7 @@ export default function EarningsCalendar() {
             {/* Date header */}
             <div className="flex items-center gap-2 mb-2 animate-fade-in-up">
               <Calendar size={16} className="text-muted-foreground" />
-              <span className="text-mini font-bold text-muted-foreground uppercase tracking-wider">
+              <span className="etiqueta-seccion">
                 {formatDate(date)}
               </span>
               <span className="text-mini text-muted-foreground">

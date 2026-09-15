@@ -47,7 +47,11 @@ const TableHead = React.forwardRef<HTMLTableCellElement, React.ThHTMLAttributes<
     <th
       ref={ref}
       className={cn(
-        'h-10 px-3 text-left align-middle text-micro lg:text-mini font-bold uppercase tracking-[0.16em] text-muted-foreground [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]',
+        // Un rótulo de columna es lo mismo que un rótulo de sección: pasa por
+        // `.etiqueta-seccion` en vez de repetir aquí su propio tamaño, peso y
+        // tracking (llevaba `tracking-[0.16em]`, un valor que no coincidía con
+        // ninguno de los otros diez que había por la app).
+        'etiqueta-seccion h-10 px-3 text-left align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]',
         className
       )}
       {...props}

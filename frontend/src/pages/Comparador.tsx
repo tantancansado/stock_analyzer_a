@@ -291,7 +291,7 @@ export default function Comparador() {
             <table className="w-full">
               <thead>
                 <tr className="border-b border-border/30 bg-muted/20">
-                  <th className="freeze-col px-3 sm:px-4 py-3 text-left text-micro font-bold uppercase tracking-widest text-muted-foreground w-40">
+                  <th className="etiqueta-seccion freeze-col px-3 sm:px-4 py-3 text-left w-40">
                     Métrica
                   </th>
                   {loadedTickers.map(t => {
@@ -307,7 +307,7 @@ export default function Comparador() {
                             <span className="text-micro text-muted-foreground truncate max-w-[120px]">{d.company_name}</span>
                           )}
                           {d?.sector_name && (
-                            <span className="text-micro px-1.5 py-0.5 rounded bg-muted/40 border border-border/30 text-muted-foreground uppercase tracking-wide">
+                            <span className="etiqueta-seccion px-1.5 py-0.5 rounded bg-muted/40 border border-border/30">
                               {d.sector_name}
                             </span>
                           )}
@@ -321,7 +321,7 @@ export default function Comparador() {
                 {sections.map(section => (
                   <Fragment key={section.title}>
                     <tr className="bg-muted/10">
-                      <td colSpan={loadedTickers.length + 1} className="px-3 sm:px-4 py-1.5 text-micro font-bold uppercase tracking-widest text-muted-foreground">
+                      <td colSpan={loadedTickers.length + 1} className="etiqueta-seccion px-3 sm:px-4 py-1.5">
                         <span className="sticky left-3 inline-block">{section.title}</span>
                       </td>
                     </tr>

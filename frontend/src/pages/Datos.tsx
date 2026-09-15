@@ -119,7 +119,7 @@ export default function Datos() {
         <div className="space-y-6">
           {CSV_CATALOG.map((group, gi) => (
             <div key={group.group} className="animate-fade-in-up" style={{ animationDelay: `${(gi + 1) * 80}ms` }}>
-              <div className="text-mini font-bold uppercase tracking-widest gradient-title mb-2 px-1">
+              <div className="etiqueta-seccion gradient-title mb-2 px-1">
                 {group.group}
               </div>
               <Card className="glass">

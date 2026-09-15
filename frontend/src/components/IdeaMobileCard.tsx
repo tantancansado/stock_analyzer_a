@@ -34,7 +34,7 @@ const POR_QUE_CAE: Record<string, string> = {
 function Dato({ etiqueta, valor, tono }: Readonly<{ etiqueta: string; valor: string; tono?: string }>) {
   return (
     <div className="min-w-0">
-      <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground">{etiqueta}</div>
+      <div className="etiqueta-seccion">{etiqueta}</div>
       <div className={`text-cuerpo font-bold tabular-nums truncate ${tono ?? 'text-foreground'}`}>{valor}</div>
     </div>
   )

@@ -236,7 +236,7 @@ export default function MeanReversion() {
         return (
           <div className="mb-6 animate-fade-in-up">
             <div className="flex items-center gap-2 mb-3">
-              <span className="text-micro font-black uppercase tracking-[0.15em] text-muted-foreground">Top Rebotes Hoy</span>
+              <span className="etiqueta-seccion font-black tracking-[0.15em]">Top Rebotes Hoy</span>
               <div className="flex-1 h-px bg-border/20" />
               <span className="text-micro text-muted-foreground">{top.length} setups</span>
             </div>
@@ -320,7 +320,7 @@ export default function MeanReversion() {
 
       {/* Quality filter */}
       <div className="flex items-center gap-2 mb-5 flex-wrap">
-        <span className="text-micro font-bold uppercase tracking-widest text-muted-foreground mr-1">Calidad</span>
+        <span className="etiqueta-seccion mr-1">Calidad</span>
         {[{ label: 'TODAS', value: '' }, ...QUALITY_LEVELS.map(q => ({ label: q.label, value: q.match }))].map(opt => {
           const count = opt.value === '' ? validItems.length : (qualCounts.find(q => q.match === opt.value)?.count ?? 0)
           const active = filterQuality === opt.value
@@ -347,7 +347,7 @@ export default function MeanReversion() {
             <CardContent className="p-4">
               <div className="flex items-center gap-2 mb-3">
                 <Wallet size={16} className="text-primary" />
-                <span className="text-micro font-bold uppercase tracking-widest text-primary">Mis Posiciones en Zona Oversold</span>
+                <span className="etiqueta-seccion text-primary">Mis Posiciones en Zona Oversold</span>
                 <span className="text-micro px-1.5 py-0.5 rounded-full bg-primary/15 text-primary font-bold">{myMR.length}</span>
               </div>
               <Table>
@@ -402,7 +402,7 @@ export default function MeanReversion() {
             <CardContent className="p-4">
               <div className="flex items-center gap-2 mb-3">
                 <Wallet size={16} className="text-primary" />
-                <span className="text-micro font-bold uppercase tracking-widest text-primary">Mis Posiciones — Ya Fuera del Escaneo de Hoy</span>
+                <span className="etiqueta-seccion text-primary">Mis Posiciones — Ya Fuera del Escaneo de Hoy</span>
                 <span className="text-micro px-1.5 py-0.5 rounded-full bg-primary/15 text-primary font-bold">{recent.length}</span>
               </div>
               <p className="text-mini text-muted-foreground mb-3 leading-relaxed">
@@ -563,7 +563,7 @@ export default function MeanReversion() {
                                   color === 'emerald' ? 'text-emerald-400' :
                                   color === 'red' ? 'text-red-400' : 'text-primary'
                                 }`}>${value.toFixed(2)}</div>
-                                <div className="text-micro uppercase tracking-widest text-muted-foreground mt-0.5">{label}</div>
+                                <div className="etiqueta-seccion mt-0.5">{label}</div>
                               </div>
                             ))}
                           </div>
@@ -584,7 +584,7 @@ export default function MeanReversion() {
                                 <div className={`text-apoyo font-bold tabular-nums leading-tight ${
                                   q === 'good' ? 'text-emerald-400' : 'text-foreground/70'
                                 }`}>{value}</div>
-                                <div className="text-micro uppercase tracking-widest text-muted-foreground mt-0.5 leading-tight">{label}</div>
+                                <div className="etiqueta-seccion mt-0.5 leading-tight">{label}</div>
                               </div>
                             ))}
                           </div>

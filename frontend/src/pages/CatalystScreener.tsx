@@ -272,7 +272,7 @@ export default function CatalystScreener() {
 
       {/* Active setup: catalyst legend */}
       <div className="flex flex-wrap gap-2 items-center">
-        <span className="text-mini text-muted-foreground font-medium uppercase tracking-wider">Filtros activos:</span>
+        <span className="etiqueta-seccion">Filtros activos:</span>
         {activeCatalysts.map(c => (
           <div key={c.id} className="flex items-center gap-1.5">
             <CatalystTag c={c} />

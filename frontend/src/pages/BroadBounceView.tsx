@@ -29,11 +29,11 @@ function Card({ s }: Readonly<{ s: BounceBroadSetup }>) {
 
       <div className="grid grid-cols-2 gap-2 text-mini mb-3">
         <div className="flex flex-col">
-          <span className="text-muted-foreground text-micro uppercase tracking-wider">Target</span>
+          <span className="etiqueta-seccion">Target</span>
           <span className="font-semibold text-emerald-400 tabular-nums">${s.target.toFixed(2)} <span className="text-micro">(+{s.target_pct}%)</span></span>
         </div>
         <div className="flex flex-col">
-          <span className="text-muted-foreground text-micro uppercase tracking-wider">Stop</span>
+          <span className="etiqueta-seccion">Stop</span>
           <span className="font-semibold text-red-400 tabular-nums">${s.stop.toFixed(2)} <span className="text-micro">(-{potentialLoss}%)</span></span>
         </div>
       </div>

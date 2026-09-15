@@ -406,7 +406,7 @@ export default function ThesisBody({ text }: { text: string }) {
             <div key={pi} className={`rounded-xl border border-border/30 border-l-2 ${sectionAccent(type)} overflow-hidden`}>
               <div className="flex items-center gap-2 px-3 py-1.5 bg-muted/30 border-b border-border/15">
                 {sectionIcon(header)}
-                <span className="text-micro font-bold tracking-widest uppercase text-muted-foreground">
+                <span className="etiqueta-seccion">
                   {header}
                 </span>
               </div>

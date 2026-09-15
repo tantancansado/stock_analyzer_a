@@ -211,7 +211,7 @@ export default function Portfolio() {
         if (statsData.periods.length === 0) return null
         return (
           <div className="mb-5">
-            <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-3 px-1">Resumen animado</div>
+            <div className="etiqueta-seccion mb-3 px-1">Resumen animado</div>
             <Suspense fallback={<div className="glass border border-border/40 rounded-xl h-20 flex items-center justify-center text-cuerpo text-muted-foreground">Cargando…</div>}>
               <PortfolioStatsPlayer data={statsData} />
             </Suspense>
@@ -227,7 +227,7 @@ export default function Portfolio() {
             if (!d || d.count === 0) return null
             return (
               <Card key={p} className={`glass p-5 stagger-${idx + 1}`}>
-                <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-2 flex items-center gap-1">
+                <div className="etiqueta-seccion mb-2 flex items-center gap-1">
                   Win Rate {p}
                   {p === bestPeriod && <Badge variant="green" className="text-micro px-1 py-0 leading-4">BEST</Badge>}
                 </div>
@@ -243,7 +243,7 @@ export default function Portfolio() {
           })}
           {pf.score_correlation != null && (
             <Card className="glass p-5 stagger-4">
-              <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-2">Correlacion Score-Return</div>
+              <div className="etiqueta-seccion mb-2">Correlacion Score-Return</div>
               <div className={`text-cifra font-extrabold tracking-tight tabular-nums leading-none mb-2 ${pf.score_correlation > 0.1 ? 'text-emerald-400' : 'text-amber-400'}`}>
                 {pf.score_correlation.toFixed(3)}
               </div>
@@ -280,12 +280,12 @@ export default function Portfolio() {
       {pf.avg_max_drawdown != null && (
         <div className="grid grid-cols-2 gap-3 mb-5">
           <Card className="glass p-5">
-            <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-2">Avg Max Drawdown</div>
+            <div className="etiqueta-seccion mb-2">Avg Max Drawdown</div>
             <div className="text-cifra font-extrabold tracking-tight tabular-nums leading-none mb-2 text-red-400">{pf.avg_max_drawdown.toFixed(2)}%</div>
             <div className="text-micro text-muted-foreground">riesgo promedio</div>
           </Card>
           <Card className="glass p-5">
-            <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-2">Total Señales</div>
+            <div className="etiqueta-seccion mb-2">Total Señales</div>
             <div className="text-cifra font-extrabold tracking-tight tabular-nums leading-none mb-2">{pf.total_signals}</div>
             <div className="text-micro text-muted-foreground">{pf.unique_tickers} tickers únicos</div>
           </Card>
@@ -727,7 +727,7 @@ export default function Portfolio() {
                 <Card key={period} className="glass border-border/20">
                   <CardContent className="p-4">
                     <div className="flex items-center justify-between mb-3">
-                      <span className="text-mini font-semibold uppercase tracking-widest text-muted-foreground">{period}</span>
+                      <span className="etiqueta-seccion">{period}</span>
                       <Badge variant={(a.avg_alpha ?? 0) > 0 ? 'green' : 'red'} className="text-micro">
                         {(a.avg_alpha ?? 0) > 0 ? '↑ OUTPERFORM' : '↓ UNDERPERFORM'}
                       </Badge>
@@ -816,7 +816,7 @@ export default function Portfolio() {
                     {/* 90d — la cifra principal */}
                     {wr != null && s90?.count ? (
                       <div className="mb-3">
-                        <div className="text-micro uppercase tracking-widest text-muted-foreground mb-1">90 días · win rate</div>
+                        <div className="etiqueta-seccion mb-1">90 días · win rate</div>
                         <div className={`text-cifra font-extrabold tabular-nums leading-none ${wr >= 55 ? 'text-emerald-400' : wr >= 45 ? 'text-amber-400' : 'text-red-400'}`}>
                           {wr.toFixed(1)}%
                         </div>
@@ -862,7 +862,7 @@ export default function Portfolio() {
                           const w = sp.win_rate
                           return (
                             <div key={p}>
-                              <div className="text-micro uppercase tracking-widest text-muted-foreground mb-1">{plabel}</div>
+                              <div className="etiqueta-seccion mb-1">{plabel}</div>
                               <div className={`text-seccion font-extrabold tabular-nums leading-none ${w >= 55 ? 'text-emerald-400' : w >= 45 ? 'text-amber-400' : 'text-red-400'}`}>
                                 {w.toFixed(1)}%
                               </div>
@@ -874,7 +874,7 @@ export default function Portfolio() {
                         }
                         return (
                           <div key={p}>
-                            <div className="text-micro uppercase tracking-widest text-muted-foreground mb-1">{plabel}</div>
+                            <div className="etiqueta-seccion mb-1">{plabel}</div>
                             <div className="text-cuerpo text-muted-foreground leading-tight mt-1.5">
                               Acumulando<br /><span className="text-micro">~{eta}</span>
                             </div>
@@ -921,7 +921,7 @@ export default function Portfolio() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <Card className="glass border-border/20">
               <CardContent className="p-4">
-                <p className="text-mini font-semibold uppercase tracking-widest text-muted-foreground mb-3">Win rate por régimen de mercado</p>
+                <p className="etiqueta-seccion mb-3">Win rate por régimen de mercado</p>
                 <ResponsiveContainer width="100%" height={160}>
                   <BarChart data={calibData.regime_analysis} layout="vertical" margin={{ left: 8, right: 32 }}>
                     <XAxis type="number" domain={[0, 100]} tickFormatter={v => `${v}%`} tick={{ fontSize: 10 }} />
@@ -942,7 +942,7 @@ export default function Portfolio() {
             {/* Win rate por sector */}
             <Card className="glass border-border/20">
               <CardContent className="p-4">
-                <p className="text-mini font-semibold uppercase tracking-widest text-muted-foreground mb-3">Win rate por sector (top 8)</p>
+                <p className="etiqueta-seccion mb-3">Win rate por sector (top 8)</p>
                 <ResponsiveContainer width="100%" height={160}>
                   <BarChart
                     data={[...calibData.sector_calibration]
@@ -970,7 +970,7 @@ export default function Portfolio() {
           {/* Win rate por score bucket (línea) */}
           <Card className="glass border-border/20">
             <CardContent className="p-4">
-              <p className="text-mini font-semibold uppercase tracking-widest text-muted-foreground mb-1">Win rate por score bucket — ¿el score predice?</p>
+              <p className="etiqueta-seccion mb-1">Win rate por score bucket — ¿el score predice?</p>
               <p className="text-mini text-muted-foreground mb-3">Cada punto = rango de value_score. Por encima de la línea 50% = el score añade valor real.</p>
               <ResponsiveContainer width="100%" height={180}>
                 <LineChart data={calibData.score_buckets} margin={{ left: 8, right: 16, top: 8 }}>
@@ -988,7 +988,7 @@ export default function Portfolio() {
           {calibData.fcf_yield_buckets?.length > 0 && (
             <Card className="glass border-border/20">
               <CardContent className="p-4">
-                <p className="text-mini font-semibold uppercase tracking-widest text-muted-foreground mb-1">Win rate por FCF Yield % — el factor más predictivo</p>
+                <p className="etiqueta-seccion mb-1">Win rate por FCF Yield % — el factor más predictivo</p>
                 <p className="text-mini text-muted-foreground mb-3">El modelo ML detectó FCF Yield como la feature más importante (26.8%). Aquí la evidencia.</p>
                 <ResponsiveContainer width="100%" height={160}>
                   <BarChart data={calibData.fcf_yield_buckets} margin={{ left: 8, right: 16 }}>

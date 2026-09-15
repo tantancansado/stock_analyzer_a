@@ -164,7 +164,7 @@ function EventCard({ event }: { event: CatalystEvent }) {
           {/* Earnings history */}
           {event.earnings_history && event.earnings_history.last_quarters?.length > 0 && (
             <div>
-              <div className="text-micro font-bold uppercase tracking-wider text-muted-foreground mb-1">Historial de sorpresas</div>
+              <div className="etiqueta-seccion mb-1">Historial de sorpresas</div>
               <EarningsHistoryBar history={event.earnings_history} />
             </div>
           )}
@@ -172,7 +172,7 @@ function EventCard({ event }: { event: CatalystEvent }) {
           {/* Affected tickers */}
           {event.affected_tickers?.length > 1 && (
             <div>
-              <div className="text-micro font-bold uppercase tracking-wider text-muted-foreground mb-1.5">Tickers afectados</div>
+              <div className="etiqueta-seccion mb-1.5">Tickers afectados</div>
               <div className="flex flex-wrap gap-1">
                 {event.affected_tickers.map(t => (
                   <span key={t} className="font-mono text-mini bg-muted/20 border border-border/30 px-1.5 py-0.5 rounded">{t}</span>
@@ -186,7 +186,7 @@ function EventCard({ event }: { event: CatalystEvent }) {
             <div className="flex gap-4">
               {event.bullish_sectors?.length > 0 && (
                 <div>
-                  <div className="text-micro font-bold uppercase tracking-wider text-emerald-400 mb-1">Sectores alcistas</div>
+                  <div className="etiqueta-seccion text-emerald-400 mb-1">Sectores alcistas</div>
                   <div className="flex flex-wrap gap-1">
                     {event.bullish_sectors.map(s => (
                       <span key={s} className="text-micro font-mono text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-1.5 py-0.5 rounded">{s}</span>
@@ -196,7 +196,7 @@ function EventCard({ event }: { event: CatalystEvent }) {
               )}
               {event.bearish_sectors?.length > 0 && (
                 <div>
-                  <div className="text-micro font-bold uppercase tracking-wider text-red-400 mb-1">Sectores bajistas</div>
+                  <div className="etiqueta-seccion text-red-400 mb-1">Sectores bajistas</div>
                   <div className="flex flex-wrap gap-1">
                     {event.bearish_sectors.map(s => (
                       <span key={s} className="text-micro font-mono text-red-400 bg-red-500/10 border border-red-500/20 px-1.5 py-0.5 rounded">{s}</span>
@@ -269,7 +269,7 @@ export default function CatalystCalendar() {
           { label: 'Earnings', value: earningsCount, sub: 'resultados próximos', color: 'text-emerald-400' },
         ].map(({ label, value, sub, color }) => (
           <Card key={label} className="glass p-5">
-            <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-2">{label}</div>
+            <div className="etiqueta-seccion mb-2">{label}</div>
             <div className={`text-cifra font-extrabold tracking-tight tabular-nums leading-none mb-2 ${color}`}>{value}</div>
             <div className="text-micro text-muted-foreground">{sub}</div>
           </Card>
@@ -314,7 +314,7 @@ export default function CatalystCalendar() {
         {grouped.map(({ weekLabel, events: grpEvents }) => (
           <div key={weekLabel}>
             <div className="flex items-center gap-3 mb-3">
-              <h3 className="text-mini font-bold uppercase tracking-widest text-muted-foreground">{weekLabel}</h3>
+              <h3 className="etiqueta-seccion">{weekLabel}</h3>
               <div className="flex-1 h-px bg-border/30" />
               <span className="text-micro text-muted-foreground">{grpEvents.length} eventos</span>
             </div>

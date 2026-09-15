@@ -201,7 +201,7 @@ export default function NavCustomizer({ open, onClose, canSeeAdmin }: Props) {
             >
               {categorias.map(cat => (
                 <section key={cat.name} className="mb-1.5">
-                  <h3 className="px-3 pb-1 pt-2.5 text-micro font-bold uppercase tracking-[0.14em]" style={{ color: `color-mix(in oklab, var(--muted-foreground) 60%, transparent)` }}>
+                  <h3 className="etiqueta-seccion px-3 pb-1 pt-2.5 tracking-[0.14em]" style={{ color: `color-mix(in oklab, var(--muted-foreground) 60%, transparent)` }}>
                     {cat.name}
                   </h3>
                   {cat.items.map(item => (

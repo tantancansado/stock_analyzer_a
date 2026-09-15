@@ -393,27 +393,27 @@ function AddForm({ onAdd, saving }: { onAdd: (p: Omit<Position, 'id'>) => Promis
           dos en dos. */}
       <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-row sm:flex-wrap sm:items-end">
         <div className="flex flex-col gap-1">
-          <label className="text-micro font-bold uppercase tracking-widest text-muted-foreground">Ticker</label>
+          <label className="etiqueta-seccion">Ticker</label>
           <input value={ticker} onChange={e => setTicker(e.target.value.toUpperCase())}
             onKeyDown={e => e.key === 'Enter' && submit()} placeholder="AAPL"
             className={`w-full sm:w-24 font-mono font-bold ${inputCls}`} />
         </div>
         <div className="flex flex-col gap-1">
-          <label className="text-micro font-bold uppercase tracking-widest text-muted-foreground">{SHARES_LABEL[assetType]}</label>
+          <label className="etiqueta-seccion">{SHARES_LABEL[assetType]}</label>
           <input value={shares} onChange={e => setShares(e.target.value)}
             onKeyDown={e => e.key === 'Enter' && submit()}
             placeholder={assetType === 'option' ? '1' : assetType === 'bond' ? '10000' : '100'}
             type="number" min="0" className={`w-full sm:w-24 ${inputCls}`} />
         </div>
         <div className="flex flex-col gap-1">
-          <label className="text-micro font-bold uppercase tracking-widest text-muted-foreground">{PRICE_LABEL[assetType]}</label>
+          <label className="etiqueta-seccion">{PRICE_LABEL[assetType]}</label>
           <input value={price} onChange={e => setPrice(e.target.value)}
             onKeyDown={e => e.key === 'Enter' && submit()}
             placeholder={assetType === 'bond' ? '98.50' : assetType === 'option' ? '3.50' : '150.00'}
             type="number" min="0" step="0.01" className={`w-full sm:w-28 ${inputCls}`} />
         </div>
         <div className="flex flex-col gap-1">
-          <label className="text-micro font-bold uppercase tracking-widest text-muted-foreground">Moneda</label>
+          <label className="etiqueta-seccion">Moneda</label>
           <select aria-label="Moneda" value={currency} onChange={e => setCurrency(e.target.value as 'USD' | 'EUR')}
             className={inputCls}>
             <option value="USD">USD $</option>
@@ -426,7 +426,7 @@ function AddForm({ onAdd, saving }: { onAdd: (p: Omit<Position, 'id'>) => Promis
       {assetType === 'option' && (
         <div className="flex flex-wrap gap-2 items-end p-3 rounded-xl bg-purple-500/5 border border-purple-500/15">
           <div className="flex flex-col gap-1">
-            <label className="text-micro font-bold uppercase tracking-widest text-muted-foreground">Tipo</label>
+            <label className="etiqueta-seccion">Tipo</label>
             <div className="flex rounded-lg overflow-hidden border border-border/40">
               {(['call', 'put'] as const).map(v => (
                 <button key={v} onClick={() => setOptType(v)}
@@ -437,12 +437,12 @@ function AddForm({ onAdd, saving }: { onAdd: (p: Omit<Position, 'id'>) => Promis
             </div>
           </div>
           <div className="flex flex-col gap-1">
-            <label className="text-micro font-bold uppercase tracking-widest text-muted-foreground">Strike</label>
+            <label className="etiqueta-seccion">Strike</label>
             <input value={strike} onChange={e => setStrike(e.target.value)} placeholder="150.00"
               type="number" min="0" step="0.50" className={`w-24 ${inputCls}`} />
           </div>
           <div className="flex flex-col gap-1">
-            <label className="text-micro font-bold uppercase tracking-widest text-muted-foreground">Expiración</label>
+            <label className="etiqueta-seccion">Expiración</label>
             <input value={expiry} onChange={e => setExpiry(e.target.value)} type="date"
               className={`w-36 ${inputCls}`} />
           </div>
@@ -453,17 +453,17 @@ function AddForm({ onAdd, saving }: { onAdd: (p: Omit<Position, 'id'>) => Promis
       {assetType === 'covered_call' && (
         <div className="flex flex-wrap gap-2 items-end p-3 rounded-xl bg-amber-500/5 border border-amber-500/15">
           <div className="flex flex-col gap-1">
-            <label className="text-micro font-bold uppercase tracking-widest text-muted-foreground">Strike vendido</label>
+            <label className="etiqueta-seccion">Strike vendido</label>
             <input value={strike} onChange={e => setStrike(e.target.value)} placeholder="60.00"
               type="number" min="0" step="0.50" className={`w-24 ${inputCls}`} />
           </div>
           <div className="flex flex-col gap-1">
-            <label className="text-micro font-bold uppercase tracking-widest text-muted-foreground">Prima cobrada/acc</label>
+            <label className="etiqueta-seccion">Prima cobrada/acc</label>
             <input value={ccPremium} onChange={e => setCcPremium(e.target.value)} placeholder="1.14"
               type="number" min="0" step="0.01" className={`w-28 ${inputCls}`} />
           </div>
           <div className="flex flex-col gap-1">
-            <label className="text-micro font-bold uppercase tracking-widest text-muted-foreground">Expiración</label>
+            <label className="etiqueta-seccion">Expiración</label>
             <input value={expiry} onChange={e => setExpiry(e.target.value)} type="date"
               className={`w-36 ${inputCls}`} />
           </div>
@@ -477,18 +477,18 @@ function AddForm({ onAdd, saving }: { onAdd: (p: Omit<Position, 'id'>) => Promis
       {(assetType === 'bond' || assetType === 'preferred') && (
         <div className="flex flex-wrap gap-2 items-end p-3 rounded-xl bg-amber-500/5 border border-amber-500/15">
           <div className="flex flex-col gap-1">
-            <label className="text-micro font-bold uppercase tracking-widest text-muted-foreground">Cupón %</label>
+            <label className="etiqueta-seccion">Cupón %</label>
             <input value={coupon} onChange={e => setCoupon(e.target.value)} placeholder="5.25"
               type="number" min="0" step="0.01" className={`w-20 ${inputCls}`} />
           </div>
           <div className="flex flex-col gap-1">
-            <label className="text-micro font-bold uppercase tracking-widest text-muted-foreground">Valor par</label>
+            <label className="etiqueta-seccion">Valor par</label>
             <input value={parVal} onChange={e => setParVal(e.target.value)} placeholder="1000"
               type="number" min="0" className={`w-20 ${inputCls}`} />
           </div>
           {assetType === 'bond' && (
             <div className="flex flex-col gap-1">
-              <label className="text-micro font-bold uppercase tracking-widest text-muted-foreground">Vencimiento</label>
+              <label className="etiqueta-seccion">Vencimiento</label>
               <input value={maturity} onChange={e => setMaturity(e.target.value)} type="date"
                 className={`w-36 ${inputCls}`} />
             </div>
@@ -588,7 +588,7 @@ function OptionsPanel({ result, sym }: { result: PositionResult; sym: string }) 
         <div className="flex items-center justify-between gap-3">
           <div className="flex items-center gap-2 flex-1 min-w-0">
             <Zap size={12} className={meta.color} />
-            <span className="text-micro font-bold uppercase tracking-widest text-muted-foreground">Estrategia IA</span>
+            <span className="etiqueta-seccion">Estrategia IA</span>
             <span className={`text-mini font-bold ${meta.color}`}>{meta.label}</span>
             {result.options_rationale && (
               <span className="text-mini text-muted-foreground truncate hidden sm:block">{result.options_rationale}</span>
@@ -633,7 +633,7 @@ function OptionsPanel({ result, sym }: { result: PositionResult; sym: string }) 
                 return (
                 <div className={`p-3 rounded-xl ${meta.bg} border ${meta.border} space-y-2.5`}>
                   <div className="flex items-center gap-2 flex-wrap">
-                    <span className="text-micro font-bold uppercase tracking-widest text-muted-foreground">Recomendación IA</span>
+                    <span className="etiqueta-seccion">Recomendación IA</span>
                     <span className={`text-mini font-bold ${meta.color}`}>{rec.recommended_strategy?.replace(/_/g, ' ')}</span>
                     {rec.thesis_alignment && (
                       <span className="text-micro text-muted-foreground flex-1">— {rec.thesis_alignment}</span>
@@ -673,7 +673,7 @@ function OptionsPanel({ result, sym }: { result: PositionResult; sym: string }) 
                       {/* Order instructions — the "para tontos" section */}
                       {pc.order_instructions && (
                         <div className="p-2 rounded-lg bg-primary/5 border border-primary/20 text-mini text-foreground/80">
-                          <div className="text-primary font-semibold text-micro uppercase tracking-wide mb-1">Orden exacta en tu broker</div>
+                          <div className="etiqueta-seccion text-primary mb-1">Orden exacta en tu broker</div>
                           {pc.order_instructions}
                         </div>
                       )}
@@ -683,7 +683,7 @@ function OptionsPanel({ result, sym }: { result: PositionResult; sym: string }) 
                   {/* Step by step */}
                   {rec.step_by_step && (
                     <div className="p-2 rounded-lg bg-blue-500/5 border border-blue-500/15 text-mini text-foreground/70 leading-relaxed">
-                      <div className="text-blue-400 font-semibold text-micro uppercase tracking-wide mb-1">Paso a paso</div>
+                      <div className="etiqueta-seccion text-blue-400 mb-1">Paso a paso</div>
                       {rec.step_by_step}
                     </div>
                   )}
@@ -721,7 +721,7 @@ function OptionsPanel({ result, sym }: { result: PositionResult; sym: string }) 
               {/* Raw contracts per expiry */}
               {data.expiries.map(exp => (
                 <div key={exp.expiry}>
-                  <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-2">
+                  <div className="etiqueta-seccion mb-2">
                     {exp.bucket === 'long' ? <CalendarRange size={12} strokeWidth={2.25} className="inline -mt-px mr-1" /> : exp.bucket === 'medium' ? <CalendarDays size={12} strokeWidth={2.25} className="inline -mt-px mr-1" /> : <Clock size={12} strokeWidth={2.25} className="inline -mt-px mr-1" />}
                   {exp.bucket === 'long' ? 'LEAPS' : exp.bucket === 'medium' ? 'Medio plazo' : 'Corto plazo'} — {exp.expiry} · {exp.days_out} días
                   </div>
@@ -848,7 +848,7 @@ function CoveredCallTracker({ pos, currentPrice }: { pos: Position; currentPrice
     <div className="mx-3 mb-3 rounded-xl border overflow-hidden border-amber-500/25 bg-amber-500/5">
       {/* Header */}
       <div className="flex items-center gap-2 px-4 py-2.5 border-b border-amber-500/20">
-        <span className="text-micro font-bold uppercase tracking-widest text-amber-400">Covered Call vendida</span>
+        <span className="etiqueta-seccion text-amber-400">Covered Call vendida</span>
         <span className="font-mono font-bold text-amber-400 text-cuerpo">{sym}{strike} · exp {expiry}</span>
         {dte !== null && (
           <span className={`ml-auto text-micro font-bold px-1.5 py-0.5 rounded border ${
@@ -869,19 +869,19 @@ function CoveredCallTracker({ pos, currentPrice }: { pos: Position; currentPrice
       {/* P&L grid */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-px bg-amber-500/10 text-micro">
         <div className="bg-background/60 px-3 py-2.5">
-          <div className="text-micro uppercase tracking-wider text-muted-foreground mb-0.5">Prima cobrada</div>
+          <div className="etiqueta-seccion mb-0.5">Prima cobrada</div>
           <div className="font-bold text-emerald-400">{sym}{(premium * shares).toFixed(2)}</div>
           <div className="text-muted-foreground text-micro">{sym}{premium.toFixed(2)}/acc</div>
         </div>
         <div className="bg-background/60 px-3 py-2.5">
-          <div className="text-micro uppercase tracking-wider text-muted-foreground mb-0.5">P&L acción</div>
+          <div className="etiqueta-seccion mb-0.5">P&L acción</div>
           <div className={`font-bold ${stockPL >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
             {stockPL >= 0 ? '+' : ''}{sym}{stockPL.toFixed(2)}
           </div>
           <div className="text-muted-foreground text-micro">base {sym}{costBasis.toFixed(2)}</div>
         </div>
         <div className="bg-background/60 px-3 py-2.5">
-          <div className="text-micro uppercase tracking-wider text-muted-foreground mb-0.5">P&L combinado</div>
+          <div className="etiqueta-seccion mb-0.5">P&L combinado</div>
           <div className={`font-bold text-titulo ${combined >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
             {combined >= 0 ? '+' : ''}{sym}{combined.toFixed(2)}
           </div>
@@ -890,7 +890,7 @@ function CoveredCallTracker({ pos, currentPrice }: { pos: Position; currentPrice
           </div>
         </div>
         <div className="bg-background/60 px-3 py-2.5">
-          <div className="text-micro uppercase tracking-wider text-muted-foreground mb-0.5">Base efectiva</div>
+          <div className="etiqueta-seccion mb-0.5">Base efectiva</div>
           <div className="font-bold text-foreground">{sym}{effectiveBasis.toFixed(2)}</div>
           <div className="text-muted-foreground text-micro">
             dist strike {distPct != null ? `${distPct >= 0 ? '+' : ''}${distPct.toFixed(1)}%` : '—'}
@@ -911,7 +911,7 @@ function CoveredCallTracker({ pos, currentPrice }: { pos: Position; currentPrice
 function MetricChip({ label, value, valueClass = 'text-foreground' }: { label: string; value: string; valueClass?: string }) {
   return (
     <div className="flex flex-col gap-0.5 min-w-0">
-      <span className="text-micro font-semibold uppercase tracking-wider text-muted-foreground leading-none">{label}</span>
+      <span className="etiqueta-seccion leading-none">{label}</span>
       <span className={`text-cuerpo font-bold tabular-nums leading-tight ${valueClass}`}>{value}</span>
     </div>
   )
@@ -976,7 +976,7 @@ function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluen
           <div className="flex items-center gap-2 flex-wrap">
             <span className="font-mono font-extrabold text-seccion text-foreground leading-none">{ticker}</span>
             {result?.sector && (
-              <span className="text-micro px-1.5 py-0.5 rounded bg-muted/40 border border-border/20 text-muted-foreground uppercase tracking-wide">
+              <span className="etiqueta-seccion px-1.5 py-0.5 rounded bg-muted/40 border border-border/20">
                 {result.sector}
               </span>
             )}
@@ -1263,7 +1263,7 @@ function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluen
           <div className="grid grid-cols-3 gap-px bg-border/20 border border-border/20 rounded-xl overflow-hidden mx-3 mb-3">
             {items.map((m, i) => (
               <div key={i} className="bg-muted/8 px-3 py-2.5">
-                <div className="text-micro font-semibold uppercase tracking-wider text-muted-foreground mb-0.5">{m.label}</div>
+                <div className="etiqueta-seccion mb-0.5">{m.label}</div>
                 <div className={`text-cuerpo font-bold tabular-nums ${m.valueClass ?? 'text-foreground'}`}>
                   {m.value}
                   {m.suffix && <span className={`text-mini ml-1 ${m.suffixClass}`}>{m.suffix}</span>}
@@ -1293,9 +1293,9 @@ function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluen
       {result?.volatility_pct != null && (pos.asset_type ?? 'stock') === 'stock' && (
         <div className="px-4 py-2.5 mx-3 mb-3 rounded-xl bg-primary/5 border border-primary/10">
           <div className="flex items-center justify-between mb-1.5">
-            <span className="text-micro font-bold uppercase tracking-widest text-primary">Sizing</span>
+            <span className="etiqueta-seccion text-primary">Sizing</span>
             {(overweight || underweight) && (
-              <span className={`text-micro font-bold uppercase tracking-wide ${overweight ? 'text-red-400' : 'text-blue-400'}`}>
+              <span className={`etiqueta-seccion ${overweight ? 'text-red-400' : 'text-blue-400'}`}>
                 {overweight ? '↑ SOBRE' : '↓ INFRA'}
               </span>
             )}
@@ -1688,13 +1688,13 @@ export default function PersonalPortfolio() {
           <div className="flex items-start justify-between flex-wrap gap-4">
             <div className="flex gap-6 flex-wrap">
               <div className="animate-fade-in-up text-center sm:text-left" style={{ animationDelay: '0ms' }}>
-                <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-0.5">Valor total</div>
+                <div className="etiqueta-seccion mb-0.5">Valor total</div>
                 <div className="text-cifra font-black tabular-nums text-foreground">
                   ${result.total_value.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}
                 </div>
               </div>
               <div className="animate-fade-in-up text-center sm:text-left" style={{ animationDelay: '60ms' }}>
-                <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-0.5">P&L total</div>
+                <div className="etiqueta-seccion mb-0.5">P&L total</div>
                 <div className={`text-pagina font-bold tabular-nums flex items-center gap-1 ${totalPL >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
                   {totalPL >= 0 ? <TrendingUp size={16} /> : <TrendingDown size={16} />}
                   {totalPL >= 0 ? '+' : ''}${totalPL.toFixed(0)}
@@ -1702,12 +1702,12 @@ export default function PersonalPortfolio() {
                 </div>
               </div>
               <div className="animate-fade-in-up text-center sm:text-left" style={{ animationDelay: '120ms' }}>
-                <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-0.5">Posiciones</div>
+                <div className="etiqueta-seccion mb-0.5">Posiciones</div>
                 <div className="text-pagina font-bold text-foreground">{positions.length}</div>
               </div>
               {annualDividends > 0 && (
                 <div className="animate-fade-in-up text-center sm:text-left" style={{ animationDelay: '180ms' }}>
-                  <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-0.5">Dividendos / año</div>
+                  <div className="etiqueta-seccion mb-0.5">Dividendos / año</div>
                   <div className="text-pagina font-bold tabular-nums text-emerald-400">
                     ~${annualDividends.toFixed(0)}
                   </div>
@@ -1750,7 +1750,7 @@ export default function PersonalPortfolio() {
           {/* Risk & Position Sizing overview */}
           {result.risk_metrics && (
             <div className="pt-3 border-t border-border/30">
-              <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-2">
+              <div className="etiqueta-seccion mb-2">
                 Risk Management · Position Sizing (Kelly)
               </div>
               <div className="flex gap-4 flex-wrap text-mini mb-2">
@@ -1832,7 +1832,7 @@ export default function PersonalPortfolio() {
             return (
               <div className="pt-3 border-t border-border/30">
                 <div className="flex items-baseline justify-between mb-2">
-                  <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground">
+                  <div className="etiqueta-seccion">
                     Revisiones de analistas
                   </div>
                   {!hasHistory && (
@@ -1892,7 +1892,7 @@ export default function PersonalPortfolio() {
           {/* Dividend breakdown */}
           {dividendPositions.length > 0 && (
             <div className="pt-3 border-t border-border/30">
-              <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-2">
+              <div className="etiqueta-seccion mb-2">
                 Proyección dividendos anuales
               </div>
               <div className="flex flex-wrap gap-2">

@@ -56,7 +56,7 @@ export default function ScoreBreakdown({ row }: ScoreBreakdownProps) {
 
   return (
     <div>
-      <h4 className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-2">
+      <h4 className="etiqueta-seccion mb-2">
         Breakdown del Score
       </h4>
       <div className="flex flex-wrap gap-1.5">

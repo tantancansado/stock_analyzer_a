@@ -83,7 +83,7 @@ export default function ScoreAlerts() {
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-2 flex-wrap">
-        <span className="text-micro font-bold uppercase tracking-widest text-muted-foreground">
+        <span className="etiqueta-seccion">
           Novedades vs {data.generated_at}
         </span>
         <SummaryPill label="↑" count={data.counts.score_up}   color="bg-emerald-500/10 text-emerald-400 border-emerald-500/25" />
@@ -98,7 +98,7 @@ export default function ScoreAlerts() {
         const cfg = TYPE_CONFIG[type]
         return (
           <div key={type}>
-            <h4 className={`text-micro font-bold uppercase tracking-widest mb-1.5 ${cfg.text}`}>
+            <h4 className={`etiqueta-seccion mb-1.5 ${cfg.text}`}>
               {cfg.label}
             </h4>
             <div className="space-y-1">

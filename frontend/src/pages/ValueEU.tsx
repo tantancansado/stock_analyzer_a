@@ -377,7 +377,7 @@ export default function ValueEU() {
           <div className={`mb-5 flex items-start gap-3 px-4 py-3 rounded-lg border ${cfg.bg}`}>
             <TriangleAlert size={16} strokeWidth={2} className="shrink-0 mt-0.5" />
             <div>
-              <span className={`text-mini font-bold uppercase tracking-wider ${cfg.text}`}>
+              <span className={`etiqueta-seccion ${cfg.text}`}>
                 Macro Radar: {rname} ({macro.composite_score?.toFixed(1)}/{macro.max_score})
               </span>
               <p className="text-mini text-muted-foreground mt-0.5">{cfg.msg}</p>
@@ -410,7 +410,7 @@ export default function ValueEU() {
           { label: 'Mejor Upside', value: `+${bestUpside.toFixed(0)}%`, sub: 'potencial analistas', color: 'text-emerald-400', idx: 4 },
         ].map(({ label, value, sub, color, idx }) => (
           <Card key={label} className={`glass p-5 stagger-${idx}`}>
-            <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-2">{label}</div>
+            <div className="etiqueta-seccion mb-2">{label}</div>
             <div className={`text-cifra font-extrabold tracking-tight tabular-nums leading-none mb-2 ${color ?? ''}`}>{value}</div>
             <div className="text-micro text-muted-foreground">{sub}</div>
           </Card>

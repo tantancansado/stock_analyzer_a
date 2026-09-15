@@ -161,7 +161,7 @@ function Stats({ signals, period }: { signals: Signal[]; period: Period }) {
         { label: 'Mejor / Peor', val: `${pct(Math.max(...rets))} / ${pct(Math.min(...rets))}`, sub: '', color: '' },
       ].map(c => (
         <div key={c.label} className="glass rounded-2xl p-4">
-          <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-1">{c.label}</div>
+          <div className="etiqueta-seccion mb-1">{c.label}</div>
           <div className={`text-pagina font-extrabold ${c.color}`}>{c.val}</div>
           {c.sub && <div className="text-micro text-muted-foreground mt-0.5">{c.sub}</div>}
         </div>
@@ -309,7 +309,7 @@ export default function Backtest() {
               recortaba fuera de la tarjeta sin forma de llegar a ella. */}
           <div className="glass rounded-2xl table-x-wrap">
             <div className="min-w-[34rem]">
-            <div className="flex items-center gap-2 px-4 py-2.5 border-b border-border/30 text-micro font-bold uppercase tracking-widest text-muted-foreground">
+            <div className="etiqueta-seccion flex items-center gap-2 px-4 py-2.5 border-b border-border/30">
               <button onClick={() => setSort('date')} className={`w-16 shrink-0 text-left hover:text-foreground transition-colors ${sort==='date'?'text-primary':''}`}>Fecha ↕</button>
               <span className="w-8 shrink-0" />
               <span className="flex-1 min-w-0">Ticker</span>
@@ -373,7 +373,7 @@ export default function Backtest() {
 
           <div className="glass rounded-2xl table-x-wrap">
             <div className="min-w-[33rem]">
-            <div className="flex items-center gap-2 px-4 py-2.5 border-b border-border/30 text-micro font-bold uppercase tracking-widest text-muted-foreground">
+            <div className="etiqueta-seccion flex items-center gap-2 px-4 py-2.5 border-b border-border/30">
               <span className="w-8 shrink-0" />
               <span className="flex-1 min-w-0">Ticker</span>
               <span className="w-24 shrink-0 hidden md:block">Estrategia</span>

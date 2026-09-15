@@ -73,7 +73,7 @@ export default function EntryVerdictBadge({ verdict, compact = false, className 
           </div>
           {reasons.length > 0 && (
             <div>
-              <div className="text-micro uppercase tracking-widest text-emerald-400 font-bold mb-1">A favor</div>
+              <div className="etiqueta-seccion text-emerald-400 mb-1">A favor</div>
               <ul className="space-y-0.5">
                 {reasons.map(r => <li key={r} className="text-foreground/85 text-mini">· {r}</li>)}
               </ul>
@@ -81,7 +81,7 @@ export default function EntryVerdictBadge({ verdict, compact = false, className 
           )}
           {blockers.length > 0 && (
             <div>
-              <div className="text-micro uppercase tracking-widest text-red-400 font-bold mb-1">En contra</div>
+              <div className="etiqueta-seccion text-red-400 mb-1">En contra</div>
               <ul className="space-y-0.5">
                 {blockers.map(b => <li key={b} className="text-foreground/85 text-mini">· {b}</li>)}
               </ul>
@@ -89,7 +89,7 @@ export default function EntryVerdictBadge({ verdict, compact = false, className 
           )}
           {verdict.trigger && (
             <div className="pt-1.5 border-t border-border/30">
-              <div className="text-micro uppercase tracking-widest text-primary font-bold mb-1">Trigger</div>
+              <div className="etiqueta-seccion text-primary mb-1">Trigger</div>
               <p className="text-mini text-foreground/85 leading-snug">{verdict.trigger}</p>
             </div>
           )}

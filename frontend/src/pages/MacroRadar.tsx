@@ -429,7 +429,7 @@ function IndexBreakoutsPanel({
         {/* Header */}
         <div className="flex items-center gap-2 mb-3 flex-wrap">
           <Radar size={16} strokeWidth={2} className="text-muted-foreground shrink-0" />
-          <p className="text-mini font-semibold text-muted-foreground uppercase tracking-wider">
+          <p className="etiqueta-seccion">
             Análisis de Índices
           </p>
           {bearish.length > 0 && (
@@ -503,7 +503,7 @@ function IndexBreakoutsPanel({
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-micro">
                     {/* RSI block */}
                     <div className="rounded bg-muted/10 px-2 py-1.5 flex flex-col gap-1.5">
-                      <span className="text-micro font-bold uppercase text-muted-foreground tracking-wider">RSI</span>
+                      <span className="etiqueta-seccion">RSI</span>
                       <div className="flex items-center justify-around">
                         <RsiGauge value={s.rsi_daily} label="D" />
                         <RsiGauge value={s.rsi_weekly} label="S" />
@@ -512,7 +512,7 @@ function IndexBreakoutsPanel({
                     </div>
                     {/* MACD block */}
                     <div className="rounded bg-muted/10 px-2 py-1.5 flex flex-col gap-1.5">
-                      <span className="text-micro font-bold uppercase text-muted-foreground tracking-wider">MACD</span>
+                      <span className="etiqueta-seccion">MACD</span>
                       <div className="flex items-center justify-around">
                         <span className="flex flex-col items-center gap-0.5">
                           <MacdBadge signal={s.macd_daily} />
@@ -526,7 +526,7 @@ function IndexBreakoutsPanel({
                     </div>
                     {/* Speed block */}
                     <div className="rounded bg-muted/10 px-2 py-1.5 flex flex-col gap-1.5">
-                      <span className="text-micro font-bold uppercase text-muted-foreground tracking-wider">Velocidad</span>
+                      <span className="etiqueta-seccion">Velocidad</span>
                       <div className="flex items-center justify-around">
                         <span className="flex flex-col items-center gap-0.5">
                           <SpeedCell v={s.speed_5d} />
@@ -544,7 +544,7 @@ function IndexBreakoutsPanel({
                     </div>
                     {/* Structure block */}
                     <div className="rounded bg-muted/10 px-2 py-1.5 flex flex-col gap-1.5">
-                      <span className="text-micro font-bold uppercase text-muted-foreground tracking-wider">Estructura</span>
+                      <span className="etiqueta-seccion">Estructura</span>
                       <div className="grid grid-cols-2 gap-x-2 gap-y-0.5 text-micro">
                         <span className="text-muted-foreground">Dist.Máx</span>
                         <span className={`tabular-nums font-medium ${s.pct_from_52w_high >= -5 ? 'text-emerald-400' : s.pct_from_52w_high >= -15 ? 'text-amber-400' : 'text-red-400'}`}>
@@ -592,7 +592,7 @@ function IndexBreakoutsPanel({
             {fresh.length > 0 && (
               <div>
                 <div className="flex items-center gap-2 mb-2">
-                  <span className="text-micro font-black uppercase tracking-[0.15em] text-muted-foreground">Roturas recientes</span>
+                  <span className="etiqueta-seccion font-black tracking-[0.15em]">Roturas recientes</span>
                   <div className="flex-1 h-px bg-border/20" />
                   <span className="text-micro text-muted-foreground">últimos días</span>
                 </div>
@@ -647,7 +647,7 @@ function IndexBreakoutsPanel({
             {/* Full MA status table */}
             <div>
               <div className="flex items-center gap-2 mb-2">
-                <span className="text-micro font-black uppercase tracking-[0.15em] text-muted-foreground">Estado de medias</span>
+                <span className="etiqueta-seccion font-black tracking-[0.15em]">Estado de medias</span>
                 <div className="flex-1 h-px bg-border/20" />
               </div>
               <div className="table-x-wrap">
@@ -772,7 +772,7 @@ function SystemicRisksPanel({ risks }: { risks: SystemicRisk[] }) {
       <CardContent className="p-4">
         <div className="flex items-center gap-2 mb-4">
           <TriangleAlert size={16} strokeWidth={2} className="text-muted-foreground shrink-0" />
-          <p className="text-mini font-semibold text-muted-foreground uppercase tracking-wider">
+          <p className="etiqueta-seccion">
             Riesgos Sistémicos Activos
           </p>
           {hasRealRisks && (
@@ -824,7 +824,7 @@ function HistoricalAnalogsPanel({ analogs }: { analogs: HistoricalAnalog[] }) {
       <CardContent className="p-4">
         <div className="flex items-center gap-2 mb-1">
           <History size={16} strokeWidth={2} className="text-muted-foreground shrink-0" />
-          <p className="text-mini font-semibold text-muted-foreground uppercase tracking-wider">
+          <p className="etiqueta-seccion">
             Analogías Históricas
           </p>
         </div>
@@ -1003,7 +1003,7 @@ export default function MacroRadar() {
         }
         return (
           <div>
-            <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-3 px-1">Visión animada</div>
+            <div className="etiqueta-seccion mb-3 px-1">Visión animada</div>
             <Suspense fallback={<div className="glass border border-border/40 rounded-xl h-20 flex items-center justify-center text-cuerpo text-muted-foreground">Cargando…</div>}>
               <RegimeSweepPlayer data={sweepData} />
             </Suspense>
@@ -1014,7 +1014,7 @@ export default function MacroRadar() {
       {/* History chart */}
       <Card className="glass border border-border/40">
         <CardContent className="p-4">
-          <p className="text-mini font-semibold text-muted-foreground mb-3 uppercase tracking-wider">
+          <p className="etiqueta-seccion mb-3">
             Evolución del régimen (últimos {historyData?.history?.length ?? 0} días)
           </p>
           <HistoryChart
@@ -1047,7 +1047,7 @@ export default function MacroRadar() {
       {econData && econData.events.length > 0 && (
         <Card className="glass border border-border/40">
           <CardContent className="p-4">
-            <p className="text-mini font-semibold text-muted-foreground mb-3 uppercase tracking-wider">
+            <p className="etiqueta-seccion mb-3">
               Próximos eventos macroeconómicos
             </p>
             <div className="overflow-x-auto -mx-1 pb-1">
@@ -1119,7 +1119,7 @@ export default function MacroRadar() {
       {/* Legend */}
       <Card className="glass border border-border/30">
         <CardContent className="p-4">
-          <p className="text-mini font-semibold text-muted-foreground mb-2 uppercase tracking-wider">Guía de regímenes</p>
+          <p className="etiqueta-seccion mb-2">Guía de regímenes</p>
           <div className="flex flex-wrap gap-3">
             {[
               { name: 'CALM',   color: '#10b981', desc: 'Favorable' },

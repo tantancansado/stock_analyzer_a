@@ -212,7 +212,7 @@ export default function DividendTraps() {
       {myPositions.length > 0 && (myTraps.length > 0 || mySafe.length > 0) && (
         <Card className={`glass border ${myTraps.length > 0 ? 'border-red-500/30 bg-red-500/5' : 'border-primary/20 bg-primary/5'}`}>
           <CardContent className="p-4">
-            <h4 className="text-mini font-bold uppercase tracking-widest text-primary mb-3 flex items-center gap-2">
+            <h4 className="etiqueta-seccion text-primary mb-3 flex items-center gap-2">
               <Briefcase size={16} />
               Tu Cartera — Dividend Check
             </h4>
@@ -262,7 +262,7 @@ export default function DividendTraps() {
       {recTraps.length > 0 && (
         <Card className="glass border border-amber-500/30 bg-amber-500/5">
           <CardContent className="p-4">
-            <h4 className="text-mini font-bold uppercase tracking-widest text-amber-400 mb-3 flex items-center gap-2">
+            <h4 className="etiqueta-seccion text-amber-400 mb-3 flex items-center gap-2">
               <Zap size={16} />
               Recomendaciones VALUE con dividendo en riesgo ({recTraps.length})
             </h4>
@@ -523,7 +523,7 @@ export default function DividendTraps() {
               <>
                 {urgent.length > 0 && (
                   <div>
-                    <h4 className="text-mini font-bold uppercase tracking-widest text-amber-400 mb-2 flex items-center gap-1.5">
+                    <h4 className="etiqueta-seccion text-amber-400 mb-2 flex items-center gap-1.5">
                       <Clock size={12} />
                       Esta semana — comprar antes del ex-div ({urgent.length})
                     </h4>
@@ -535,7 +535,7 @@ export default function DividendTraps() {
 
                 {soon.length > 0 && (
                   <div>
-                    <h4 className="text-mini font-bold uppercase tracking-widest text-blue-400 mb-2 flex items-center gap-1.5">
+                    <h4 className="etiqueta-seccion text-blue-400 mb-2 flex items-center gap-1.5">
                       <CalendarClock size={12} />
                       Proximas 2-3 semanas ({soon.length})
                     </h4>
@@ -547,7 +547,7 @@ export default function DividendTraps() {
 
                 {later.length > 0 && (
                   <div>
-                    <h4 className="text-mini font-bold uppercase tracking-widest text-muted-foreground mb-2 flex items-center gap-1.5">
+                    <h4 className="etiqueta-seccion mb-2 flex items-center gap-1.5">
                       <DollarSign size={12} />
                       Mas adelante ({later.length})
                     </h4>

@@ -218,7 +218,7 @@ export default function OptionsFlow() {
           { label: 'Premium Total', value: fmtPremium(totalPremium), sub: `${raw?.unusual_count ?? 0} con bloque >$100K`, idx: 4 },
         ].map(({ label, value, sub, color, idx }) => (
           <Card key={label} className={`glass p-5 stagger-${idx}`}>
-            <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-2">{label}</div>
+            <div className="etiqueta-seccion mb-2">{label}</div>
             <div className={`text-cifra font-extrabold tracking-tight tabular-nums leading-none mb-2 ${color ?? ''}`}>{value}</div>
             <div className="text-micro text-muted-foreground">{sub}</div>
           </Card>

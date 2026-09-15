@@ -50,7 +50,7 @@ function SectorBar({ sectors }: Readonly<{ sectors: SectorSummary[] }>) {
       ))}
       <div className="grid grid-cols-[140px_1fr_60px_56px] gap-2 items-center mt-1">
         <span />
-        <span className="text-micro text-muted-foreground uppercase tracking-wider">Score VALUE promedio</span>
+        <span className="etiqueta-seccion">Score VALUE promedio</span>
         <span className="text-micro text-muted-foreground text-right">Score</span>
         <span className="text-micro text-muted-foreground text-right">FCF%</span>
       </div>
@@ -196,17 +196,17 @@ export default function SectorComparison() {
                 cifras que se comparan entre ellas tienen que compartir línea base. */}
             <div className="p-4 rounded-xl border border-border/40 bg-card/50">
               <div className="text-pagina font-extrabold text-foreground leading-none">{sectorSummary.length}</div>
-              <div className="text-micro font-bold uppercase tracking-wider text-muted-foreground mt-1.5">Sectores</div>
+              <div className="etiqueta-seccion mt-1.5">Sectores</div>
               <div className="text-micro text-muted-foreground mt-0.5">{data?.total ?? 0} tickers analizados</div>
             </div>
             <div className="p-4 rounded-xl border border-border/40 bg-card/50">
               <div className="text-pagina font-extrabold text-emerald-400 leading-none">{bestCount}</div>
-              <div className="text-micro font-bold uppercase tracking-wider text-muted-foreground mt-1.5">Mejores FCF</div>
+              <div className="etiqueta-seccion mt-1.5">Mejores FCF</div>
               <div className="text-micro text-muted-foreground mt-0.5">Nº 1 de su sector</div>
             </div>
             <div className="p-4 rounded-xl border border-border/40 bg-card/50">
               <div className="text-pagina font-extrabold text-red-400 leading-none">{priceyCount}</div>
-              <div className="text-micro font-bold uppercase tracking-wider text-muted-foreground mt-1.5">Caro vs peers</div>
+              <div className="etiqueta-seccion mt-1.5">Caro vs peers</div>
               <div className="text-micro text-muted-foreground mt-0.5">FCF bajo vs sector</div>
             </div>
           </div>

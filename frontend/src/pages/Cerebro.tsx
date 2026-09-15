@@ -142,7 +142,7 @@ function IdeasHoy({ signals, onVerDetalle }: { signals: EntrySignal[]; onVerDeta
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
           <Zap size={16} className="text-emerald-400" />
-          <span className="text-micro font-bold uppercase tracking-[0.18em] text-muted-foreground">Ideas de hoy</span>
+          <span className="etiqueta-seccion tracking-[0.18em]">Ideas de hoy</span>
           <span className="text-micro px-1.5 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 font-bold">{deduped.length}</span>
         </div>
         <button onClick={onVerDetalle} className="text-micro text-muted-foreground hover:text-primary transition-colors">
@@ -205,7 +205,7 @@ function IdeasHoy({ signals, onVerDetalle }: { signals: EntrySignal[]; onVerDeta
               {/* Expanded: entry levels */}
               {isOpen && (
                 <div className="mt-2.5 pt-2.5 border-t border-border/30 space-y-0.5">
-                  <div className="text-micro text-muted-foreground font-bold uppercase tracking-wider mb-1">Niveles</div>
+                  <div className="etiqueta-seccion mb-1">Niveles</div>
                   {sig.current_price != null && (
                     <div className="flex justify-between text-micro">
                       <span className="text-muted-foreground">Precio</span>
@@ -260,7 +260,7 @@ function CerebroCoachPanel({
                 <MessageCircle size={16} strokeWidth={1.75} />
               </span>
               <div>
-                <div className="text-micro font-bold uppercase tracking-[0.18em] text-violet-300">Cerebro te diría</div>
+                <div className="etiqueta-seccion tracking-[0.18em] text-violet-300">Cerebro te diría</div>
                 <div className="text-mini text-muted-foreground">Resumen operativo, sin jerga</div>
               </div>
             </div>
@@ -290,7 +290,7 @@ function CerebroCoachPanel({
           <div className="border-t border-border/20 p-4 lg:border-l lg:border-t-0">
             <div className="mb-2 flex items-center gap-2 px-1">
               <Sparkles size={16} className="text-primary" />
-              <span className="text-micro font-bold uppercase tracking-[0.16em] text-muted-foreground">Siguiente foco</span>
+              <span className="etiqueta-seccion tracking-[0.16em]">Siguiente foco</span>
             </div>
             <div className="space-y-2">
               {actions.map(action => (
@@ -518,7 +518,7 @@ function AlertsTab({ alerts, showAll, onToggleAll }: {
   return (
     <div className="space-y-2 animate-fade-in-up">
       <div className="flex items-center justify-between">
-        <span className="text-micro font-bold uppercase tracking-widest text-muted-foreground">
+        <span className="etiqueta-seccion">
           {showAll ? `Todas las alertas (${sorted.length})` : `HIGH priority (${highAlerts.length})`}
         </span>
         <button onClick={onToggleAll} className="filter-btn">
@@ -639,7 +639,7 @@ function EntrySignalCard({ sig }: Readonly<{ sig: EntrySignal }>) {
 
             {/* Score bar */}
             <div className="mb-2">
-              <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-1">Entry score</div>
+              <div className="etiqueta-seccion mb-1">Entry score</div>
               <EntryScoreBar score={sig.entry_score} />
             </div>
 
@@ -915,7 +915,7 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
           { label: 'Alertas HIGH',      value: alertsData?.high_count ?? '—',    color: (alertsData?.high_count ?? 0) > 0 ? 'text-red-400' : 'text-muted-foreground', sub: `${alertsData?.total ?? 0} total`, onClick: () => setActiveTab('alerts') },
         ].map((s, i) => (
           <Card key={s.label} onClick={s.onClick} className="glass p-5 border border-border/40 hover:border-border/60 transition-colors animate-fade-in-up cursor-pointer active:scale-[0.98]" style={{ animationDelay: `${i * 60}ms` }}>
-            <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-2">{s.label}</div>
+            <div className="etiqueta-seccion mb-2">{s.label}</div>
             <div className={`text-cifra font-extrabold tabular-nums leading-none mb-1 ${s.color}`}>{s.value}</div>
             <div className={`text-micro ${portfolioRiskCount > 0 && s.label === 'En cartera' ? 'text-red-400' : 'text-muted-foreground'}`}>{s.sub}</div>
           </Card>
@@ -952,7 +952,7 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
                   <CardContent className="p-3">
                     <div className="flex items-center gap-2 mb-2">
                       <CalendarDays size={12} className="text-amber-400" />
-                      <span className="text-micro font-bold uppercase tracking-widest text-amber-400">Earnings en tu cartera · próx. 14 días</span>
+                      <span className="etiqueta-seccion text-amber-400">Earnings en tu cartera · próx. 14 días</span>
                     </div>
                     <div className="flex flex-wrap gap-2">
                       {portfolioEarnings.map(e => (
@@ -972,35 +972,35 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
               <CardContent className="p-4">
                 <div className="flex items-center gap-2 mb-3">
                   <Newspaper size={16} className="text-muted-foreground" />
-                  <span className="text-mini font-bold uppercase tracking-widest text-muted-foreground">Resumen automático</span>
+                  <span className="etiqueta-seccion">Resumen automático</span>
                   <span className="ml-auto text-micro text-muted-foreground">Briefing IA no generado aún</span>
                 </div>
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 text-mini">
                   <div className="rounded-lg bg-muted/10 border border-border/20 p-2.5">
-                    <div className="text-micro text-muted-foreground mb-1 uppercase tracking-wider">Régimen</div>
+                    <div className="etiqueta-seccion mb-1">Régimen</div>
                     <div className="font-bold text-foreground/80">{briefingData?.regime ?? insights?.market_regimes?.[0]?.label ?? '—'}</div>
                   </div>
                   <div className="rounded-lg bg-emerald-500/5 border border-emerald-500/15 p-2.5">
-                    <div className="text-micro text-muted-foreground mb-1 uppercase tracking-wider">Entradas hoy</div>
+                    <div className="etiqueta-seccion mb-1">Entradas hoy</div>
                     <div className="font-bold text-emerald-400">{(entryData?.strong_buy ?? 0) + (entryData?.buy ?? 0)} accionables</div>
                   </div>
                   <div className="rounded-lg bg-red-500/5 border border-red-500/15 p-2.5">
-                    <div className="text-micro text-muted-foreground mb-1 uppercase tracking-wider">Alertas HIGH</div>
+                    <div className="etiqueta-seccion mb-1">Alertas HIGH</div>
                     <div className="font-bold text-red-400">{alertsData?.high_count ?? 0}</div>
                   </div>
                   <div className="rounded-lg bg-cyan-500/5 border border-cyan-500/15 p-2.5">
-                    <div className="text-micro text-muted-foreground mb-1 uppercase tracking-wider">Convergencias</div>
+                    <div className="etiqueta-seccion mb-1">Convergencias</div>
                     <div className="font-bold text-cyan-400">{convergence?.triple_or_more ?? 0} triples</div>
                   </div>
                   {portfolioRiskCount > 0 && (
                     <div className="rounded-lg bg-violet-500/5 border border-violet-500/20 p-2.5 col-span-2">
-                      <div className="text-micro text-muted-foreground mb-1 uppercase tracking-wider">Tu cartera</div>
+                      <div className="etiqueta-seccion mb-1">Tu cartera</div>
                       <div className="font-bold text-violet-400">{portfolioRiskCount} alerta{portfolioRiskCount > 1 ? 's' : ''} en posiciones propias</div>
                     </div>
                   )}
                   {portfolioEarnings.length > 0 && (
                     <div className="rounded-lg bg-amber-500/5 border border-amber-500/20 p-2.5 col-span-2 sm:col-span-3">
-                      <div className="text-micro text-muted-foreground mb-1.5 uppercase tracking-wider">Earnings en tu cartera (próx. 14d)</div>
+                      <div className="etiqueta-seccion mb-1.5">Earnings en tu cartera (próx. 14d)</div>
                       <div className="flex flex-wrap gap-2">
                         {portfolioEarnings.map(e => (
                           <span key={e.ticker} className="inline-flex items-center gap-1.5 text-mini font-bold px-2 py-0.5 rounded-lg bg-amber-500/15 text-amber-300 border border-amber-500/30">
@@ -1025,7 +1025,7 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
                   <CardContent className="p-4">
                     <div className="flex items-center gap-2 mb-3">
                       <Zap size={16} className="text-emerald-400" />
-                      <span className="text-mini font-bold uppercase tracking-widest text-muted-foreground">Entradas hoy</span>
+                      <span className="etiqueta-seccion">Entradas hoy</span>
                       <span className="ml-auto text-micro bg-emerald-500/15 text-emerald-400 px-1.5 py-0.5 rounded border border-emerald-500/30 font-bold">
                         {briefingSections.strong_buy_count} SB · {briefingSections.buy_count} BUY
                       </span>
@@ -1052,7 +1052,7 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
                   <CardContent className="p-4">
                     <div className="flex items-center gap-2 mb-3">
                       <Building2 size={16} className="text-purple-400" />
-                      <span className="text-mini font-bold uppercase tracking-widest text-muted-foreground">Smart Money</span>
+                      <span className="etiqueta-seccion">Smart Money</span>
                     </div>
                     <div className="space-y-1.5">
                       {briefingSections.smart_money.map(([ticker, nHF, nInsiders]) => (
@@ -1075,7 +1075,7 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
                   <CardContent className="p-4">
                     <div className="flex items-center gap-2 mb-3">
                       <Activity size={16} className="text-orange-300" />
-                      <span className="text-mini font-bold uppercase tracking-widest text-muted-foreground">Macro Stress</span>
+                      <span className="etiqueta-seccion">Macro Stress</span>
                     </div>
                     <div className="space-y-2">
                       {briefingSections.macro_stress.map((item) => (
@@ -1107,7 +1107,7 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
                   <CardContent className="p-4">
                     <div className="flex items-center gap-2 mb-3">
                       <ShieldAlert size={16} className="text-red-400" />
-                      <span className="text-mini font-bold uppercase tracking-widest text-muted-foreground">Vigilar / Salir</span>
+                      <span className="etiqueta-seccion">Vigilar / Salir</span>
                     </div>
                     <div className="space-y-2">
                       {briefingSections.exit_warnings.map(([ticker, reason, aiFinding, entryScore, currentScore]: [string, string, string, number, number]) => (
@@ -1141,7 +1141,7 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
                   <CardContent className="p-4">
                     <div className="flex items-center gap-2 mb-3">
                       <Crosshair size={16} className="text-cyan-400" />
-                      <span className="text-mini font-bold uppercase tracking-widest text-muted-foreground">Convergencias</span>
+                      <span className="etiqueta-seccion">Convergencias</span>
                     </div>
                     <div className="space-y-1.5">
                       {briefingSections.top_convergences.map(([ticker, score]) => (
@@ -1162,7 +1162,7 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
                   <CardContent className="p-4">
                     <div className="flex items-center gap-2 mb-3">
                       <Bell size={16} className="text-violet-400" />
-                      <span className="text-mini font-bold uppercase tracking-widest text-muted-foreground">Earnings en tu cartera</span>
+                      <span className="etiqueta-seccion">Earnings en tu cartera</span>
                       <span className="ml-auto text-micro bg-violet-500/15 text-violet-400 px-1.5 py-0.5 rounded border border-violet-500/30 font-bold">
                         {portfolioEarnings.length} próximos
                       </span>
@@ -1192,7 +1192,7 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
                   <CardContent className="p-4">
                     <div className="flex items-center gap-2 mb-3">
                       <Bell size={16} className="text-amber-400" />
-                      <span className="text-mini font-bold uppercase tracking-widest text-muted-foreground">Alertas HIGH</span>
+                      <span className="etiqueta-seccion">Alertas HIGH</span>
                     </div>
                     <div className="space-y-1.5">
                       {briefingSections.high_alerts.map(([ticker, type]) => (
@@ -1223,7 +1223,7 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
               {/* Risk alerts for owned positions */}
               {portfolioRiskCount > 0 && (
                 <div className="space-y-2">
-                  <div className="text-micro font-bold uppercase tracking-widest text-red-400">Alertas en tus posiciones</div>
+                  <div className="etiqueta-seccion text-red-400">Alertas en tus posiciones</div>
                   {portfolioExitHigh.map(e => (
                     <div key={e.ticker} className="flex items-start gap-3 p-3 rounded-xl border border-red-500/30 bg-red-500/5">
                       <TickerLogo ticker={e.ticker} size="sm" className="shrink-0 mt-0.5" />
@@ -1267,7 +1267,7 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
               {/* Earnings upcoming */}
               {portfolioEarnings.length > 0 && (
                 <div className="space-y-2">
-                  <div className="text-micro font-bold uppercase tracking-widest text-violet-400">Earnings próximos (≤14d)</div>
+                  <div className="etiqueta-seccion text-violet-400">Earnings próximos (≤14d)</div>
                   {portfolioEarnings.map(e => (
                     <div key={e.ticker} className="flex items-center gap-3 p-3 rounded-xl border border-violet-500/20 bg-violet-500/5">
                       <TickerLogo ticker={e.ticker} size="sm" className="shrink-0" />
@@ -1293,7 +1293,7 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
               {/* Positions P&L grid */}
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
-                  <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground">Tus posiciones</div>
+                  <div className="etiqueta-seccion">Tus posiciones</div>
                   <Link to="/my-portfolio" className="text-mini text-primary hover:underline">Ver análisis completo →</Link>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
@@ -1852,7 +1852,7 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
             {stressData?.sector_breakdown && stressData.sector_breakdown.length > 0 && (
               <Card className="glass mt-3">
                 <CardContent className="p-4">
-                  <div className="text-mini font-bold uppercase tracking-widest text-muted-foreground mb-3">Distribución sectorial (últimas 60 días)</div>
+                  <div className="etiqueta-seccion mb-3">Distribución sectorial (últimas 60 días)</div>
                   <div className="space-y-2">
                     {stressData.sector_breakdown.map(s => (
                       <div key={s.sector} className="flex items-center gap-2">

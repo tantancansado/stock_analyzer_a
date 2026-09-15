@@ -25,7 +25,7 @@ function VerdictBadge({ verdict, confidence }: Readonly<{ verdict: ContrarianPic
 function Stat({ label, value, color }: Readonly<{ label: string; value: string; color?: string }>) {
   return (
     <div className="flex flex-col items-center gap-0.5 px-2.5 py-1.5 rounded-lg bg-muted/15 border border-border/20 min-w-[52px]">
-      <span className="text-micro font-bold uppercase tracking-widest text-muted-foreground">{label}</span>
+      <span className="etiqueta-seccion">{label}</span>
       <span className={`text-apoyo font-bold tabular-nums ${color ?? 'text-foreground/70'}`}>{value}</span>
     </div>
   )
@@ -190,7 +190,7 @@ export default function ContrarianDiscovery() {
         <section>
           <div className="flex items-center gap-2 mb-3">
             <ShieldCheck size={16} className="text-emerald-400" />
-            <h4 className="text-mini font-bold uppercase tracking-widest text-emerald-400">
+            <h4 className="etiqueta-seccion text-emerald-400">
               Contrarian Buy ({buys.length})
             </h4>
           </div>
@@ -204,7 +204,7 @@ export default function ContrarianDiscovery() {
         <section>
           <div className="flex items-center gap-2 mb-3">
             <Eye size={16} className="text-amber-400" />
-            <h4 className="text-mini font-bold uppercase tracking-widest text-amber-400">
+            <h4 className="etiqueta-seccion text-amber-400">
               Vigilancia ({watches.length})
             </h4>
           </div>
@@ -218,7 +218,7 @@ export default function ContrarianDiscovery() {
         <section>
           <div className="flex items-center gap-2 mb-2">
             <AlertTriangle size={16} className="text-muted-foreground" />
-            <h4 className="text-mini font-bold uppercase tracking-widest text-muted-foreground">
+            <h4 className="etiqueta-seccion">
               Estructural / Evitar ({avoids.length})
             </h4>
           </div>

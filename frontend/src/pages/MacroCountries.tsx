@@ -218,7 +218,7 @@ function CountryCard({ c }: { c: CountryData }) {
 
           {/* Macro fundamentals */}
           <div>
-            <div className="text-micro font-semibold text-muted-foreground uppercase tracking-wider mb-2">Macro Fundamentales</div>
+            <div className="etiqueta-seccion mb-2">Macro Fundamentales</div>
             <div className="grid grid-cols-2 gap-x-4 gap-y-1.5">
               <div className="flex justify-between">
                 <span className="text-muted-foreground">PIB real 2025e</span>
@@ -265,7 +265,7 @@ function CountryCard({ c }: { c: CountryData }) {
           {/* AI Analysis */}
           {c.ai_narrative && (
             <div className="bg-purple-500/5 border border-purple-500/20 rounded-lg p-3 space-y-2">
-              <div className="text-micro font-semibold text-purple-400 uppercase tracking-wider flex items-center gap-1">
+              <div className="etiqueta-seccion text-purple-400 flex items-center gap-1">
                 <Bot size={12} strokeWidth={2} className="mr-1 inline shrink-0 align-[-2px]" />Análisis IA — {c.ai_verdict ?? c.signal}
                 {c.ai_confidence != null && <span className="text-purple-500 font-normal">· confianza {c.ai_confidence}%</span>}
               </div>
@@ -291,7 +291,7 @@ function CountryCard({ c }: { c: CountryData }) {
           {/* Market data */}
           {mkt && (
             <div>
-              <div className="text-micro font-semibold text-muted-foreground uppercase tracking-wider mb-2">
+              <div className="etiqueta-seccion mb-2">
                 Mercado — {c.etf_data ? c.etf : c.index}
               </div>
               <div className="grid grid-cols-2 gap-x-4 gap-y-1.5">
@@ -331,7 +331,7 @@ function CountryCard({ c }: { c: CountryData }) {
 
           {/* Scoring breakdown */}
           <div>
-            <div className="text-micro font-semibold text-muted-foreground uppercase tracking-wider mb-2">Desglose Scoring</div>
+            <div className="etiqueta-seccion mb-2">Desglose Scoring</div>
             <div className="space-y-0.5">
               {c.macro_breakdown.map((b, i) => (
                 <div key={i} className="text-micro text-muted-foreground">{b}</div>
@@ -490,7 +490,7 @@ export default function MacroCountries() {
 
       {/* Legend */}
       <div className="glass rounded-lg border border-foreground/10 p-4">
-        <div className="text-micro font-semibold text-muted-foreground uppercase tracking-wider mb-2">Metodología</div>
+        <div className="etiqueta-seccion mb-2">Metodología</div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-micro text-muted-foreground leading-relaxed">
           <div>
             <span className="text-cyan-400 font-semibold">Score Macro (45%):</span> PIB real, inflación (óptimo 1.5-3%), desempleo, dirección de tipos, balanza corriente.

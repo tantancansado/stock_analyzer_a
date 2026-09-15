@@ -73,7 +73,7 @@ function ConvictionPanel({ row }: { row: GlobalOpportunity }) {
   return (
     <div className="border-t border-border/40 pt-4 mt-4">
       <div className="flex items-center gap-3 mb-3">
-        <span className="text-micro font-bold uppercase tracking-widest text-muted-foreground">Conviction Filter</span>
+        <span className="etiqueta-seccion">Conviction Filter</span>
         {row.conviction_grade && row.conviction_score != null && (
           <span className={`text-mini font-bold px-2 py-0.5 rounded ${row.conviction_grade === 'A' ? 'bg-emerald-500/20 text-emerald-400' : row.conviction_grade === 'B' ? 'bg-blue-500/20 text-blue-400' : 'bg-amber-500/20 text-amber-400'}`}>
             {row.conviction_grade} — {row.conviction_score.toFixed(0)}pts
@@ -213,7 +213,7 @@ export default function GlobalValue() {
 
   const Th = ({ k, label, tooltip }: { k: SortKey; label: string; tooltip?: string }) => (
     <TableHead
-      className="cursor-pointer select-none whitespace-nowrap text-micro font-semibold uppercase tracking-wider"
+      className="etiqueta-seccion cursor-pointer select-none whitespace-nowrap"
       onClick={() => onSort(k)}
     >
       <span className="flex items-center gap-1">
@@ -383,7 +383,7 @@ export default function GlobalValue() {
                     <Th k="company_name" label="Empresa" />
                     <Th k="current_price" label="Precio" />
                     <Th k="value_score" label="Score" tooltip="VALUE score (0-100). Incluye bonus por mercado undervalued." />
-                    <TableHead className="text-micro font-semibold uppercase tracking-wider">Grade</TableHead>
+                    <TableHead className="etiqueta-seccion">Grade</TableHead>
                     <Th k="sector" label="Sector" />
                     <Th k="analyst_upside_pct" label="Potencial" tooltip="Upside implícito según precio objetivo consenso analistas" />
                     <Th k="fcf_yield_pct" label="FCF%" tooltip="Free Cash Flow Yield = FCF / Market Cap" />
@@ -391,7 +391,7 @@ export default function GlobalValue() {
                     {!compact && <Th k="pe_forward" label="P/E fwd" />}
                     {!compact && <Th k="roe_pct" label="ROE%" />}
                     <Th k="pct_from_52w_high" label="vs Max" tooltip="Distancia al máximo de 52 semanas. Negativo = caído del máximo → posible oportunidad de entrada." />
-                    <TableHead className="text-micro font-semibold uppercase tracking-wider">Téc</TableHead>
+                    <TableHead className="etiqueta-seccion">Téc</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -489,7 +489,7 @@ export default function GlobalValue() {
                                   { label: 'Analistas', val: expandedRow.analyst_count != null ? String(expandedRow.analyst_count) : '—', color: '' },
                                 ].map(({ label, val, color }) => (
                                   <div key={label} className="glass rounded-lg p-3">
-                                    <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-1">{label}</div>
+                                    <div className="etiqueta-seccion mb-1">{label}</div>
                                     <div className={`text-seccion font-extrabold tabular-nums ${color}`}>{val}</div>
                                   </div>
                                 ))}
@@ -497,7 +497,7 @@ export default function GlobalValue() {
                               {/* US ADR alternative */}
                               {expandedRow.nasdaq_adr && (
                                 <div className="flex items-center gap-2 mt-3 mb-1">
-                                  <span className="text-micro font-bold uppercase tracking-widest text-muted-foreground">También en US</span>
+                                  <span className="etiqueta-seccion">También en US</span>
                                   <span className="font-mono text-mini font-bold text-blue-400 bg-blue-500/10 border border-blue-500/30 px-2 py-0.5 rounded">
                                     {expandedRow.nasdaq_adr}
                                   </span>
@@ -508,7 +508,7 @@ export default function GlobalValue() {
                               {(expandedRow.risk_flags || expandedRow.ai_verdict) && (
                                 <div className="border-t border-border/40 pt-4 mt-4">
                                   <div className="flex items-center gap-3 mb-2 flex-wrap">
-                                    <span className="text-micro font-bold uppercase tracking-widest text-muted-foreground">Análisis IA</span>
+                                    <span className="etiqueta-seccion">Análisis IA</span>
                                     {expandedRow.ai_verdict && (
                                       <span className={`text-mini font-bold px-2 py-0.5 rounded ${expandedRow.ai_verdict === 'CLEAN' ? 'bg-emerald-500/20 text-emerald-400' : expandedRow.ai_verdict === 'SUSPECT' ? 'bg-amber-500/20 text-amber-400' : 'bg-red-500/20 text-red-400'}`}>
                                         {expandedRow.ai_verdict === 'CLEAN' ? 'CLEAN' : expandedRow.ai_verdict === 'SUSPECT' ? 'SUSPECT' : 'RISKY'}
@@ -530,7 +530,7 @@ export default function GlobalValue() {
                               <ConvictionPanel row={expandedRow} />
                               {thesisText && thesisText !== 'Sin tesis disponible' && thesisText !== 'Error cargando tesis' && thesisText !== 'Cargando tesis...' ? (
                                 <div className="mt-4">
-                                  <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-2">Tesis de Inversión</div>
+                                  <div className="etiqueta-seccion mb-2">Tesis de Inversión</div>
                                   <ThesisBody text={thesisText} />
                                 </div>
                               ) : thesisText ? (

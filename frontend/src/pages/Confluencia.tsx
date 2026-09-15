@@ -246,7 +246,7 @@ export default function Confluencia() {
           { label: 'Value + Flow', value: valueCount + flowCount, sub: 'señales en universo', color: 'text-cyan-400', idx: 3 },
         ].map(({ label, value, sub, color, idx }) => (
           <Card key={label} className={`glass p-4 stagger-${idx}`}>
-            <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-1">{label}</div>
+            <div className="etiqueta-seccion mb-1">{label}</div>
             <div className={`text-cifra font-extrabold tracking-tight tabular-nums leading-none mb-1 ${color}`}>{value}</div>
             <div className="text-micro text-muted-foreground">{sub}</div>
           </Card>

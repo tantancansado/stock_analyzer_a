@@ -127,13 +127,26 @@
 
      Ojo: aquí NO se usa `inline`. Estas variables se leen al construir la
      utilidad y calc() con una variable sin resolver no cuaja; los valores se
-     recalculan igual porque calc() es dinámico. */
-  --radius-sm:  calc(var(--radius) * 0.5);
-  --radius-md:  var(--radius);
-  --radius-lg:  calc(var(--radius) * 1.34);
-  --radius-xl:  calc(var(--radius) * 2);
-  --radius-2xl: calc(var(--radius) * 2.67);
-  --radius-3xl: calc(var(--radius) * 4);
+     recalculan igual porque calc() es dinámico.
+
+     Y son TRES pasos, no seis. Había seis valores distintos en uso —6, 12, 16,
+     24, 32 y 48px en claro— repartidos por 400 sitios sin criterio: la misma
+     clase de elemento salía con un redondeo u otro según la página. Tres
+     papeles bastan, y las tarjetas a 24-32px eran además demasiado redondas
+     para el resto del lenguaje.
+     Se colapsa en la ESCALA y no en los 400 usos a propósito: cambiar clase
+     por clase obliga a acertar el papel de cada elemento uno a uno, y basta
+     con fallar en unos pocos para dejarlo peor que estaba.
+
+         control (sm, md)         0.67×   →  8px en claro, 2,7 en oscuro
+         por defecto (lg)         1×      → 12px          , 4
+         tarjeta (xl, 2xl, 3xl)   1.34×   → 16px          , 5,4  */
+  --radius-sm:  calc(var(--radius) * 0.67);
+  --radius-md:  calc(var(--radius) * 0.67);
+  --radius-lg:  var(--radius);
+  --radius-xl:  calc(var(--radius) * 1.34);
+  --radius-2xl: calc(var(--radius) * 1.34);
+  --radius-3xl: calc(var(--radius) * 1.34);
 
   /* Los roles, como utilidades propias: `text-success`, `bg-danger/15`… */
   --color-success: var(--success);
@@ -2540,4 +2553,30 @@ select:focus {
 .dark .page-tab-indicator {
   background: color-mix(in oklab, var(--primary) 16%, transparent);
   box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--primary) 30%, transparent);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   ETIQUETA DE SECCIÓN
+════════════════════════════════════════════════════════════════════ */
+/* El rótulo que encabeza un bloque dentro de una página («ACCIONES
+   PENDIENTES», «SEÑALES TÉCNICAS»…). Había 311, y diez variantes de lo mismo:
+   `tracking-widest`, `tracking-wider`, `tracking-[0.18em]`, `tracking-[0.16em]`,
+   con `font-bold` o `font-semibold`, a `text-micro` o `text-mini`. Nadie
+   distingue 0,16em de 0,18em, pero el conjunto sí se nota: son rótulos que
+   deberían leerse como el mismo elemento y no lo parecen.
+
+   Se queda en versalitas —es una convención de rótulo de sección y es la voz
+   de esta app— pero con UNA definición. Distinto de las etiquetas de
+   `CifrasClave`, que van en frase: ahí el rótulo acompaña a un número y compite
+   con él; aquí encabeza un bloque y tiene que recederse. Son papeles
+   diferentes, no una incoherencia.
+
+   `font-weight: 600` y no 700: a 11px en versalitas, el bold cierra los
+   contraformas y se lee peor. */
+.etiqueta-seccion {
+  font-size: var(--text-micro);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--muted-foreground);
 }

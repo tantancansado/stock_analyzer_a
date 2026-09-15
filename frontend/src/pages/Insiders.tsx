@@ -103,7 +103,7 @@ export default function Insiders() {
           { label: 'Confianza Media', value: avgConf.toFixed(0), sub: 'normalizado 0-100', color: avgConf >= 60 ? 'text-emerald-400' : 'text-amber-400', idx: 4 },
         ].map(({ label, value, sub, color, idx }) => (
           <Card key={label} className={`glass p-5 stagger-${idx}`}>
-            <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-2">{label}</div>
+            <div className="etiqueta-seccion mb-2">{label}</div>
             <div className={`text-cifra font-extrabold tracking-tight tabular-nums leading-none mb-2 ${color ?? ''}`}>{value}</div>
             <div className="text-micro text-muted-foreground">{sub}</div>
           </Card>
@@ -120,7 +120,7 @@ export default function Insiders() {
             <CardContent className="p-4">
               <div className="flex items-center gap-2 mb-3">
                 <Wallet size={16} className="text-primary" />
-                <span className="text-micro font-bold uppercase tracking-widest text-primary">Insiders en Mi Cartera</span>
+                <span className="etiqueta-seccion text-primary">Insiders en Mi Cartera</span>
                 <span className="text-micro px-1.5 py-0.5 rounded-full bg-primary/15 text-primary font-bold">{myInsiders.length}</span>
               </div>
               <Table>
@@ -335,7 +335,7 @@ export default function Insiders() {
                                   <div className={`text-apoyo font-bold tabular-nums leading-tight ${
                                     q === 'good' ? 'text-emerald-400' : q === 'warn' ? 'text-amber-400' : 'text-foreground/70'
                                   }`}>{String(value)}</div>
-                                  <div className="text-micro uppercase tracking-widest text-muted-foreground mt-0.5 leading-tight">{label}</div>
+                                  <div className="etiqueta-seccion mt-0.5 leading-tight">{label}</div>
                                 </div>
                               ))}
                             </div>

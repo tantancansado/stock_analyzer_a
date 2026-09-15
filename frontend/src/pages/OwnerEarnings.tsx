@@ -204,7 +204,7 @@ function StepperInput({
   const adj = (delta: number) => onChange(clamp(parseFloat((value + delta).toFixed(dec))))
   return (
     <div className="flex flex-col gap-0.5 min-w-0">
-      <span className="text-micro uppercase tracking-widest text-muted-foreground font-semibold leading-none">{label}</span>
+      <span className="etiqueta-seccion leading-none">{label}</span>
       {tikrRef != null && (
         <span className="text-micro text-muted-foreground leading-none">
           TIKR: <span className="font-mono text-muted-foreground">{tikrRef.toFixed(dec)}{suffix}</span>
@@ -453,17 +453,17 @@ function DetailView({
 
           <div className="flex flex-wrap gap-3">
             <div className="text-right">
-              <div className="text-mini text-muted-foreground uppercase tracking-widest mb-0.5">Precio actual</div>
+              <div className="etiqueta-seccion mb-0.5">Precio actual</div>
               <div className="text-seccion font-bold tabular-nums">{fmt(data.current_price, '$')}</div>
             </div>
             <div className="text-right">
-              <div className="text-mini text-muted-foreground uppercase tracking-widest mb-0.5">Precio de compra</div>
+              <div className="etiqueta-seccion mb-0.5">Precio de compra</div>
               <div className={cn('text-seccion font-bold tabular-nums', computed.signal === 'BUY' ? 'text-emerald-400' : '')}>
                 {fmt(computed.buyPrice, '$')}
               </div>
             </div>
             <div className="text-right">
-              <div className="text-mini text-muted-foreground uppercase tracking-widest mb-0.5">Margen seguridad</div>
+              <div className="etiqueta-seccion mb-0.5">Margen seguridad</div>
               <div className={cn('text-seccion font-bold tabular-nums', upsideColor(computed.upsidePct))}>
                 {computed.upsidePct != null ? `${computed.upsidePct > 0 ? '+' : ''}${computed.upsidePct.toFixed(1)}%` : '—'}
               </div>
@@ -503,7 +503,7 @@ function DetailView({
         <div className="mt-4 pt-4 border-t border-foreground/6 space-y-3">
           {/* Return slider */}
           <div className="flex items-center gap-3">
-            <span className="text-micro uppercase tracking-widest text-muted-foreground font-semibold shrink-0">Retorno objetivo</span>
+            <span className="etiqueta-seccion shrink-0">Retorno objetivo</span>
             <input type="range" min={8} max={25} step={1} value={returnT}
               onChange={e => setReturnT(Number(e.target.value))}
               className="flex-1 accent-cyan-400 h-1" />
@@ -518,7 +518,7 @@ function DetailView({
 
           {/* Múltiplos de valoración — stepper con referencia TIKR */}
           <div>
-            <p className="text-micro uppercase tracking-widest text-muted-foreground font-semibold mb-2">
+            <p className="etiqueta-seccion mb-2">
               Múltiplos de valoración objetivo
               <span className="ml-2 text-micro text-muted-foreground normal-case tracking-normal">(TIKR = mediana histórica / consenso NTM)</span>
             </p>
@@ -1615,7 +1615,7 @@ function BatchView({
       {/* Controls */}
       <div className="glass rounded-xl p-4 border border-foreground/8 flex flex-wrap gap-4 items-end">
         <div className="flex-1 min-w-[160px]">
-          <label className="text-micro uppercase tracking-widest text-muted-foreground font-semibold block mb-1.5">
+          <label className="etiqueta-seccion block mb-1.5">
             Retorno anual objetivo
           </label>
           <div className="flex items-center gap-3">
@@ -1633,7 +1633,7 @@ function BatchView({
         </div>
 
         <div className="flex-1 min-w-[160px] max-w-[260px]">
-          <label className="text-micro uppercase tracking-widest text-muted-foreground font-semibold block mb-1.5">
+          <label className="etiqueta-seccion block mb-1.5">
             Buscar ticker o empresa
           </label>
           <div className="relative">

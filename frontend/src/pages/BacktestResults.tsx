@@ -40,7 +40,7 @@ function StatCard({ label, value, sub, color }: { label: string; value: string; 
   return (
     <Card className="bg-card/50">
       <CardContent className="p-4">
-        <p className="text-mini text-muted-foreground uppercase tracking-wider mb-1">{label}</p>
+        <p className="etiqueta-seccion mb-1">{label}</p>
         <p className={`text-seccion font-bold tabular-nums ${color ?? 'text-foreground'}`}>{value}</p>
         {sub && <p className="text-micro text-muted-foreground mt-0.5">{sub}</p>}
       </CardContent>
@@ -210,7 +210,7 @@ export default function BacktestResults() {
       {weekly.length > 1 && (
         <Card className="bg-card/50">
           <CardContent className="p-4">
-            <p className="text-mini font-semibold text-muted-foreground uppercase tracking-wider mb-3">
+            <p className="etiqueta-seccion mb-3">
               Curva de capital acumulada (retorno medio por semana, base 0)
             </p>
             <ResponsiveContainer width="100%" height={160}>
@@ -241,7 +241,7 @@ export default function BacktestResults() {
         {/* By regime */}
         <Card className="bg-card/50">
           <CardContent className="p-4">
-            <p className="text-mini font-semibold text-muted-foreground uppercase tracking-wider mb-3">
+            <p className="etiqueta-seccion mb-3">
               Retorno medio por régimen de mercado (14d)
             </p>
             <ResponsiveContainer width="100%" height={180}>
@@ -267,7 +267,7 @@ export default function BacktestResults() {
         {/* Score quartiles */}
         <Card className="bg-card/50">
           <CardContent className="p-4">
-            <p className="text-mini font-semibold text-muted-foreground uppercase tracking-wider mb-3">
+            <p className="etiqueta-seccion mb-3">
               Retorno por cuartil de value_score — ¿el score predice resultados?
             </p>
             <ResponsiveContainer width="100%" height={180}>
@@ -296,7 +296,7 @@ export default function BacktestResults() {
       {sectorStats.length > 0 && (
         <Card className="bg-card/50">
           <CardContent className="p-4">
-            <p className="text-mini font-semibold text-muted-foreground uppercase tracking-wider mb-3">
+            <p className="etiqueta-seccion mb-3">
               Retorno medio por sector (14d, mín. 5 señales)
             </p>
             <ResponsiveContainer width="100%" height={200}>

@@ -162,7 +162,7 @@ function CommodityRow({ item }: { item: CommodityOpportunity }) {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* Recomendación */}
               <div>
-                <div className="text-mini font-semibold text-muted-foreground uppercase tracking-wider mb-2">Señal</div>
+                <div className="etiqueta-seccion mb-2">Señal</div>
                 <p className="text-cuerpo text-foreground/80 leading-relaxed">{item.recommendation || '—'}</p>
               </div>
 
@@ -185,7 +185,7 @@ function CommodityRow({ item }: { item: CommodityOpportunity }) {
               {/* Ciclo */}
               {item.cycle_driver && (
                 <div className="md:col-span-2">
-                  <div className="text-mini font-semibold text-muted-foreground uppercase tracking-wider mb-2">Contexto de ciclo</div>
+                  <div className="etiqueta-seccion mb-2">Contexto de ciclo</div>
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                     {item.cycle_driver && (
                       <div className="rounded-lg bg-foreground/5 px-3 py-2">
@@ -262,7 +262,7 @@ function CommodityCard({ item }: Readonly<{ item: CommodityOpportunity }>) {
   const rating = RATING_CONFIG[item.value_rating] ?? RATING_CONFIG['SIN_DATO']
   const dato = (etiqueta: string, valor: string) => (
     <div>
-      <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground">{etiqueta}</div>
+      <div className="etiqueta-seccion">{etiqueta}</div>
       <div className="text-cuerpo font-bold tabular-nums">{valor}</div>
     </div>
   )

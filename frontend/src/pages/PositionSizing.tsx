@@ -109,7 +109,7 @@ export default function PositionSizing() {
             Compacto
           </button>
           <div className="flex items-center gap-2">
-            <span className="text-micro font-bold uppercase tracking-wider text-muted-foreground">Portfolio ($)</span>
+            <span className="etiqueta-seccion">Portfolio ($)</span>
             <input
               type="number"
               value={portfolioSize}
@@ -122,26 +122,26 @@ export default function PositionSizing() {
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-5">
         <Card className="glass p-5 stagger-1">
-          <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-2">Posiciones</div>
+          <div className="etiqueta-seccion mb-2">Posiciones</div>
           <div className="text-cifra font-extrabold tracking-tight tabular-nums leading-none mb-2">{rows.length}</div>
           <div className="text-micro text-muted-foreground">tickers en cartera</div>
         </Card>
         <Card className="glass p-5 stagger-2">
-          <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-2">Capital Asignado</div>
+          <div className="etiqueta-seccion mb-2">Capital Asignado</div>
           <div className="text-cifra font-extrabold tracking-tight tabular-nums leading-none mb-2">
             ${(totalValue / 1000).toFixed(0)}k
           </div>
           <div className="text-micro text-muted-foreground">de ${(portfolioSize / 1000).toFixed(0)}k</div>
         </Card>
         <Card className="glass p-5 stagger-3">
-          <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-2">Riesgo Total</div>
+          <div className="etiqueta-seccion mb-2">Riesgo Total</div>
           <div className={`text-cifra font-extrabold tracking-tight tabular-nums leading-none mb-2 ${totalRiskColor(totalRisk)}`}>
             {totalRisk.toFixed(1)}%
           </div>
           <div className="text-micro text-muted-foreground">del portfolio</div>
         </Card>
         <Card className="glass p-5 stagger-4">
-          <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-2">Posición Media</div>
+          <div className="etiqueta-seccion mb-2">Posición Media</div>
           <div className="text-cifra font-extrabold tracking-tight tabular-nums leading-none mb-2">
             {avgSize.toFixed(1)}%
           </div>

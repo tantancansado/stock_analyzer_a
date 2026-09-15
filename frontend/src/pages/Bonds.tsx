@@ -279,7 +279,7 @@ function AdvisorCard({ label, rec, capital }: {
         {/* Header */}
         <div className="flex items-start justify-between gap-2">
           <div>
-            <div className="text-mini font-bold uppercase tracking-wider mb-1" style={{ color: rec.color }}>{label}</div>
+            <div className="etiqueta-seccion mb-1" style={{ color: rec.color }}>{label}</div>
             <div className="text-cuerpo font-semibold text-foreground leading-tight">{rec.ticker}</div>
             <div className="text-mini text-muted-foreground mt-0.5">{rec.name}</div>
           </div>
@@ -501,7 +501,7 @@ function YieldCalculator({ bonds }: { bonds: BondOpportunity[] }) {
         <div className="table-x-wrap">
           <table className="w-full text-mini">
             <thead>
-              <tr className="border-b border-border/20 text-micro text-muted-foreground uppercase tracking-wider">
+              <tr className="etiqueta-seccion border-b border-border/20">
                 <th className="pb-2 text-left pr-3">ETF</th>
                 <th className="pb-2 text-left pr-3">Tipo</th>
                 <th className="pb-2 text-right pr-3">Yield anual</th>
@@ -816,7 +816,7 @@ function PreferredCalculator({ prefs }: { prefs: PreferredStock[] }) {
         <div className="table-x-wrap">
           <table className="w-full text-mini">
             <thead>
-              <tr className="border-b border-border/20 text-micro text-muted-foreground uppercase tracking-wider">
+              <tr className="etiqueta-seccion border-b border-border/20">
                 <th className="pb-2 text-left pr-3">Ticker</th>
                 <th className="pb-2 text-left pr-3">Emisor</th>
                 <th className="pb-2 text-right pr-3">Yield actual</th>
@@ -1117,7 +1117,7 @@ function PreferredSection() {
           <div className="table-x-wrap">
             <table className="w-full text-cuerpo">
               <thead>
-                <tr className="border-b border-border/30 text-mini text-muted-foreground uppercase tracking-wider">
+                <tr className="etiqueta-seccion border-b border-border/30">
                   <th className="px-3 py-2.5 text-left">Ticker</th>
                   <th className="px-3 py-2.5 text-left">Sector</th>
                   <th className="px-3 py-2.5 text-right">Yield actual</th>
@@ -1285,7 +1285,7 @@ export default function Bonds() {
           <div className="table-x-wrap">
             <table className="w-full text-cuerpo">
               <thead>
-                <tr className="border-b border-border/30 text-mini text-muted-foreground uppercase tracking-wider">
+                <tr className="etiqueta-seccion border-b border-border/30">
                   <th className="px-3 py-2.5 text-left">ETF / Bono</th>
                   <th className="px-3 py-2.5 text-left">Tipo</th>
                   <th className="px-3 py-2.5 text-right">Yield</th>

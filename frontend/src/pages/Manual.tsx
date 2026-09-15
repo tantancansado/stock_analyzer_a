@@ -240,7 +240,7 @@ export default function Manual() {
                 if (!items?.length) return null
                 return (
                   <div key={g}>
-                    <div className="text-micro uppercase tracking-[0.18em] font-bold text-muted-foreground mb-1.5 px-2">
+                    <div className="etiqueta-seccion tracking-[0.18em] mb-1.5 px-2">
                       {GROUP_LABELS[g]}
                     </div>
                     <ul className="space-y-0.5">

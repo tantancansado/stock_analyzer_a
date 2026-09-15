@@ -96,7 +96,7 @@ export default function Login() {
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label htmlFor="login-email" className="text-mini font-bold uppercase tracking-wider text-muted-foreground block mb-1.5">
+                <label htmlFor="login-email" className="etiqueta-seccion block mb-1.5">
                   Email
                 </label>
                 <input
@@ -112,7 +112,7 @@ export default function Login() {
               </div>
 
               <div>
-                <label htmlFor="login-password" className="text-mini font-bold uppercase tracking-wider text-muted-foreground block mb-1.5">
+                <label htmlFor="login-password" className="etiqueta-seccion block mb-1.5">
                   Contraseña
                 </label>
                 <input

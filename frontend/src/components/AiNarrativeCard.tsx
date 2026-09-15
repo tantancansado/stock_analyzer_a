@@ -63,13 +63,13 @@ export default function AiNarrativeCard({ narrative, label = 'Análisis IA', cla
             estilo, así que en una cabecera junto a texto en versalitas canta
             enseguida: parece pegado, no diseñado. */}
         <Sparkles size={12} strokeWidth={2.25} className="text-indigo-400 shrink-0" />
-        <span className="text-micro font-bold text-indigo-400 uppercase tracking-widest">{label}</span>
+        <span className="etiqueta-seccion text-indigo-400">{label}</span>
       </div>
       {hasStructure ? (
         <div className="px-4 py-3 space-y-2.5">
           {elements.map((el, i) => {
             if (el.type === 'title') return (
-              <div key={i} className="text-mini font-bold text-primary uppercase tracking-wide">{el.content}</div>
+              <div key={i} className="etiqueta-seccion text-primary">{el.content}</div>
             )
             if (el.type === 'point') return (
               <div key={i} className="flex gap-2.5 items-start">

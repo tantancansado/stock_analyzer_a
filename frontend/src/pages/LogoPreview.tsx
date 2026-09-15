@@ -70,7 +70,7 @@ export default function LogoPreview() {
       {/* Tamaños — logo seleccionado a 3 sizes */}
       <div className="rounded-xl border border-border/40 bg-muted/5 animate-fade-in-up mb-6" style={{ overflow: 'clip' }}>
         <div className="px-4 py-2.5 border-b border-border/20 flex items-center justify-between">
-          <span className="text-micro font-bold uppercase tracking-widest text-muted-foreground">
+          <span className="etiqueta-seccion">
             Seleccionado: {LOGOS.find(l => l.key === selected)?.name}
           </span>
           <span className="text-micro text-muted-foreground">
