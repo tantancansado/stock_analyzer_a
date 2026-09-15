@@ -677,9 +677,15 @@ export default function ValueUS() {
               className={`glass rounded-2xl p-4 cursor-pointer active:scale-[0.98] transition-transform border ${hasTrap ? 'border-red-500/30' : hasExit ? 'border-amber-500/30' : 'border-white/5'}`}
               style={{ animationDelay: `${i * 40}ms` }}
             >
-              {/* Row 1: logo + ticker + grade + upside */}
+              {/* Fila 1: logo + puntuación + ticker + grado + upside.
+                  El logo faltaba: el anillo de puntuación ocupaba su sitio, así
+                  que al apagar la vista clara —que es lo que pasa al filtrar—
+                  la tarjeta perdía lo único que identifica la empresa de un
+                  vistazo y se quedaba con un número. El comentario de esta
+                  misma línea ya decía «logo». */}
               <div className="flex items-center justify-between gap-2">
-                <div className="flex items-center gap-3 min-w-0">
+                <div className="flex items-center gap-2.5 min-w-0">
+                  <TickerLogo ticker={d.ticker} size="sm" />
                   <ScoreRing score={d.value_score} size="sm" />
                   <div className="min-w-0">
                     <div className="flex items-center gap-2 flex-wrap">

@@ -12,6 +12,16 @@
 @import "@heroui/styles/components/skeleton.css" layer(components);
 @import "./noir-theme.css";
 
+/* `dark:` mira la clase .dark, no el ajuste del sistema operativo.
+   Tailwind v4 resuelve `dark:` con `prefers-color-scheme` por defecto, pero el
+   tema de la app lo decide `ThemeContext` poniendo o quitando `.dark` en el
+   <html>. Sin esta línea, un `dark:bg-x` apuntaría al ajuste del SO: parecería
+   funcionar en un portátil en modo oscuro y fallaría en cuanto los dos no
+   coincidieran. No se usaba en ningún sitio todavía — es una trampa desactivada
+   antes de que alguien caiga en ella, y hace falta para la ficha de iniciales
+   de `TickerLogo`. */
+@custom-variant dark (&:where(.dark, .dark *));
+
 /* ═══════════════════════════════════════════════════════════════════
    FONTS
 ════════════════════════════════════════════════════════════════════ */
@@ -1819,6 +1829,24 @@ tr[class*="cursor-pointer"]:hover td:first-child {
 :root:not(.dark) .liquid-glass::after,
 :root:not(.dark) .glass::before,
 :root:not(.dark) .glass::after { display: none; }
+
+/* Ficha para logos casi blancos.
+   No depende del tema: un glifo blanco necesita fondo oscuro tanto sobre la
+   tarjeta negra como sobre la blanca. El gris es el mismo `--foreground` del
+   modo claro (#1d1d1f), elegido por ser neutro y no competir con el color que
+   suele llevar el logo. Quién la recibe lo decide `TickerLogo` midiendo los
+   píxeles, no una lista. */
+.ficha-logo-claro {
+  background: hsl(240 3% 16%);
+  border-color: hsl(240 3% 28%);
+}
+
+/* ── El anillo de puntuación sin halo ─────────────────────────────
+   `ScoreRing` pinta el arco con un `feGaussianBlur` detrás para que brille
+   sobre la tarjeta casi negra. Sobre una blanca ese mismo brillo no brilla:
+   se ve como una mancha difuminada alrededor del número. La propiedad CSS
+   `filter` pisa al atributo `filter` del SVG, así que basta con anularla. */
+:root:not(.dark) .score-arc { filter: none; }
 
 /* ── Control segmentado: pastilla blanca, no ficha azul ───────────
    `.seg-tab.active` se pinta con tinte del acento al 15%, borde al 30% y un

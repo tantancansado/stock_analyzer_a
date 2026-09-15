@@ -1,11 +1,16 @@
 const SIZE_MAP = { sm: 36, md: 52, lg: 72 }
 const STROKE_MAP = { sm: 3, md: 4, lg: 5 }
 
+/* Los cuatro tramos salen de los tokens del tema, no de hsl() fijos. Los que
+   había (`hsl(142 76% 46%)` y compañía) estaban elegidos para fondo casi
+   negro: sobre la tarjeta blanca del modo claro el verde se quedaba en 2,5 de
+   contraste, por debajo del 3,0 que pide AA para un elemento gráfico. Los
+   tokens ya vienen verificados en los dos temas. */
 function scoreColor(s: number) {
-  if (s >= 70) return 'hsl(142 76% 46%)'
-  if (s >= 55) return 'hsl(217 91% 60%)'
-  if (s >= 40) return 'hsl(38 92% 50%)'
-  return 'hsl(0 72% 51%)'
+  if (s >= 70) return 'var(--success)'
+  if (s >= 55) return 'var(--primary)'
+  if (s >= 40) return 'var(--warn)'
+  return 'var(--danger)'
 }
 
 export default function ScoreRing({ score, size = 'md', showLabel = true }: {
@@ -69,6 +74,7 @@ export default function ScoreRing({ score, size = 'md', showLabel = true }: {
           strokeLinecap="round"
           strokeDasharray={circumference}
           strokeDashoffset={offset}
+          className="score-arc"
           filter={`url(#${glowId})`}
           style={{ transition: 'stroke-dashoffset 0.8s cubic-bezier(0.22, 1, 0.36, 1)' }}
         />
