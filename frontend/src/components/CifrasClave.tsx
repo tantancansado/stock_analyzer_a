@@ -29,23 +29,35 @@ import { cn } from '@/lib/utils'
  * bailen de sitio.
  */
 
-export type TonoCifra = 'favor' | 'aviso' | 'alarma' | 'neutro'
+/* Mismo vocabulario que `Metrica`, a propósito: dos componentes hermanos con
+   listas de tonos distintas obligan a traducir en cada sitio de uso, y ahí es
+   donde se cuelan las incoherencias. `apagado` es «no hay dato o está
+   inactivo» — se pinta en gris, no en un color con significado. */
+export type TonoCifra = 'favor' | 'aviso' | 'alarma' | 'neutro' | 'apagado'
 
 const TONO: Record<TonoCifra, string> = {
-  favor:  'text-success',
-  aviso:  'text-warn',
-  alarma: 'text-danger',
-  neutro: 'text-foreground',
+  favor:   'text-success',
+  aviso:   'text-warn',
+  alarma:  'text-danger',
+  neutro:  'text-foreground',
+  apagado: 'text-muted-foreground',
 }
 
 export interface Cifra {
-  readonly etiqueta: string
+  /** ReactNode y no string: algunas llevan un distintivo al lado del rótulo
+      («BEST», un icono de aviso). El `key` sale del índice, que aquí es
+      estable — la lista se construye entera en cada render. */
+  readonly etiqueta: React.ReactNode
   readonly valor: React.ReactNode
   /** «%», «/100», «pts»… Se pinta más ligero y en gris, detrás del valor. */
   readonly unidad?: string
   /** Una línea de contexto debajo. */
   readonly sub?: React.ReactNode
   readonly tono?: TonoCifra
+  /** Si navega a algún sitio. Una cifra pulsable NO se mete en una caja para
+      parecer un botón: se le da estado de pulsación, que es lo que hace iOS.
+      Meterla en tarjeta la devolvería al problema que este componente resuelve. */
+  readonly onClick?: () => void
 }
 
 export default function CifrasClave({
@@ -69,11 +81,15 @@ export default function CifrasClave({
         className,
       )}
     >
-      {cifras.map(({ etiqueta, valor, unidad, sub, tono }, i) => (
-        <div
-          key={etiqueta}
+      {cifras.map(({ etiqueta, valor, unidad, sub, tono, onClick }, i) => {
+        const Etiqueta = onClick ? 'button' : 'div'
+        return (
+        <Etiqueta
+          key={i}
+          {...(onClick ? { type: 'button' as const, onClick } : {})}
           className={cn(
             'min-w-0',
+            onClick && 'text-left cursor-pointer rounded-md -m-1 p-1 transition-colors hover:bg-muted/60 active:bg-muted',
             // La línea divisoria solo entre columnas, y solo donde hay sitio.
             i > 0 && 'sm:border-l sm:border-border/60 sm:pl-10',
           )}
@@ -95,8 +111,9 @@ export default function CifrasClave({
           </div>
           )}
           {sub && <div className="text-mini text-muted-foreground mt-1.5">{sub}</div>}
-        </div>
-      ))}
+        </Etiqueta>
+        )
+      })}
     </div>
   )
 }

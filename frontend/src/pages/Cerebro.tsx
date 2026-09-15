@@ -28,6 +28,7 @@ import {
 import { nlAlert } from '@/lib/nl'
 import ScoreAlerts from '../components/ScoreAlerts'
 import EmptyState from '@/components/EmptyState'
+import CifrasClave from '../components/CifrasClave'
 
 const ThesisDriftTab       = lazy(() => import('./ThesisDrift'))
 const ContrarianDiscovery  = lazy(() => import('./ContrarianDiscovery'))
@@ -905,22 +906,40 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
         onOpenTab={scrollToTabs}
       />
 
-      {/* Summary cards */}
-      <div className="grid grid-cols-2 lg:grid-cols-5 gap-3 mb-5">
-        {[
-          { label: 'En cartera',        value: portfolioPositions.length || '—', color: portfolioPositions.length > 0 ? 'text-primary' : 'text-muted-foreground', sub: portfolioRiskCount > 0 ? `${portfolioRiskCount} alerta${portfolioRiskCount > 1 ? 's' : ''}` : portfolioEarnings.length > 0 ? `${portfolioEarnings.length} earnings próx.` : 'sin alertas', onClick: () => setActiveTab('myportfolio') },
-          { label: 'Strong Buy hoy',    value: entryData?.strong_buy ?? '—',     color: (entryData?.strong_buy ?? 0) > 0 ? 'text-emerald-400' : 'text-muted-foreground', sub: `${entryData?.buy ?? 0} BUY · ${entryData?.monitor ?? 0} Monitor`, onClick: () => setActiveTab('entry') },
-          { label: 'Win rate VALUE',    value: insights ? `${insights.baseline_win_rate.toFixed(1)}%` : '—', color: insights?.baseline_win_rate != null ? (insights.baseline_win_rate >= 55 ? 'text-emerald-400' : insights.baseline_win_rate >= 45 ? 'text-amber-400' : 'text-red-400') : '', sub: `90d histórico${insights?.poblacion === 'VALUE' ? ' · solo US' : ''}` },
-          { label: 'Convergencias',     value: convergence?.total_convergences ?? '—', color: 'text-cyan-400', sub: `${convergence?.triple_or_more ?? 0} triples`, onClick: () => setActiveTab('convergence') },
-          { label: 'Alertas HIGH',      value: alertsData?.high_count ?? '—',    color: (alertsData?.high_count ?? 0) > 0 ? 'text-red-400' : 'text-muted-foreground', sub: `${alertsData?.total ?? 0} total`, onClick: () => setActiveTab('alerts') },
-        ].map((s, i) => (
-          <Card key={s.label} onClick={s.onClick} className="glass p-5 border border-border/40 hover:border-border/60 transition-colors animate-fade-in-up cursor-pointer active:scale-[0.98]" style={{ animationDelay: `${i * 60}ms` }}>
-            <div className="etiqueta-seccion mb-2">{s.label}</div>
-            <div className={`text-cifra font-extrabold tabular-nums leading-none mb-1 ${s.color}`}>{s.value}</div>
-            <div className={`text-micro ${portfolioRiskCount > 0 && s.label === 'En cartera' ? 'text-red-400' : 'text-muted-foreground'}`}>{s.sub}</div>
-          </Card>
-        ))}
-      </div>
+      {/* Cinco cifras, no cinco tarjetas. Son navegables —cada una lleva a su
+          pestaña— y por eso estaban en `<Card>`: para parecer pulsables. Pero
+          una cifra pulsable se resuelve con estado de pulsación, no metiéndola
+          en un rectángulo; en caja competían entre sí y con el título. */}
+      <CifrasClave cifras={[
+        { etiqueta: 'En cartera',
+          valor: portfolioPositions.length || '—',
+          tono: portfolioPositions.length > 0 ? 'neutro' : 'apagado',
+          sub: portfolioRiskCount > 0
+            ? <span className="text-danger">{portfolioRiskCount} alerta{portfolioRiskCount > 1 ? 's' : ''}</span>
+            : portfolioEarnings.length > 0 ? `${portfolioEarnings.length} earnings próx.` : 'sin alertas',
+          onClick: () => setActiveTab('myportfolio') },
+        { etiqueta: 'Strong Buy hoy',
+          valor: entryData?.strong_buy ?? '—',
+          tono: (entryData?.strong_buy ?? 0) > 0 ? 'favor' : 'apagado',
+          sub: `${entryData?.buy ?? 0} BUY · ${entryData?.monitor ?? 0} Monitor`,
+          onClick: () => setActiveTab('entry') },
+        { etiqueta: 'Win rate VALUE',
+          valor: insights ? insights.baseline_win_rate.toFixed(1) : '—',
+          unidad: insights ? '%' : undefined,
+          tono: insights?.baseline_win_rate == null ? 'apagado'
+            : insights.baseline_win_rate >= 55 ? 'favor'
+            : insights.baseline_win_rate >= 45 ? 'aviso' : 'alarma',
+          sub: `90d histórico${insights?.poblacion === 'VALUE' ? ' · solo US' : ''}` },
+        { etiqueta: 'Convergencias',
+          valor: convergence?.total_convergences ?? '—',
+          sub: `${convergence?.triple_or_more ?? 0} triples`,
+          onClick: () => setActiveTab('convergence') },
+        { etiqueta: 'Alertas HIGH',
+          valor: alertsData?.high_count ?? '—',
+          tono: (alertsData?.high_count ?? 0) > 0 ? 'alarma' : 'apagado',
+          sub: `${alertsData?.total ?? 0} total`,
+          onClick: () => setActiveTab('alerts') },
+      ]} />
 
       {/* Tabs */}
       <div id="cerebro-tabs-anchor" className="flex gap-1 mb-4 border-b border-border/40 overflow-x-auto">
@@ -1088,7 +1107,7 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
                           {item.exposed.length > 0 && (
                             <div className="mt-2 flex flex-wrap gap-1">
                               {item.exposed.map((ticker) => (
-                                <span key={ticker} className="rounded-full border border-orange-500/20 bg-black/10 px-1.5 py-0.5 text-micro font-bold text-orange-200">
+                                <span key={ticker} className="rounded-full border border-orange-500/20 bg-muted/50 px-1.5 py-0.5 text-micro font-bold text-orange-200">
                                   {ticker}
                                 </span>
                               ))}

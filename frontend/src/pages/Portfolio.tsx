@@ -13,6 +13,7 @@ import {
 } from 'recharts'
 import PageHeader from '@/components/PageHeader'
 import PageShell from '@/components/PageShell'
+import CifrasClave from '../components/CifrasClave'
 
 const mkFmtPct = (horizonte: string) =>
   (v: unknown) => [`${Number(v).toFixed(1)}%`, `Win rate ${horizonte}`] as [string, string]
@@ -219,40 +220,30 @@ export default function Portfolio() {
         )
       })()}
 
-      {/* Win Rate Cards — shown once returns exist */}
       {hasReturns && (
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-5">
-          {periods.map((p, idx) => {
+        <CifrasClave cifras={[
+          ...periods.flatMap(p => {
             const d = (overall as Record<string, { count: number; win_rate: number; avg_return: number }>)[p]
-            if (!d || d.count === 0) return null
-            return (
-              <Card key={p} className={`glass p-5 stagger-${idx + 1}`}>
-                <div className="etiqueta-seccion mb-2 flex items-center gap-1">
-                  Win Rate {p}
-                  {p === bestPeriod && <Badge variant="green" className="text-micro px-1 py-0 leading-4">BEST</Badge>}
-                </div>
-                <div className={`text-cifra font-extrabold tracking-tight tabular-nums leading-none mb-2 ${d.win_rate >= 50 ? 'text-emerald-400' : 'text-red-400'}`}>
-                  {d.win_rate?.toFixed(1)}%
-                </div>
-                <div className="text-micro text-muted-foreground">
-                  Avg: <span className={d.avg_return >= 0 ? 'text-emerald-400' : 'text-red-400'}>{d.avg_return >= 0 ? '+' : ''}{d.avg_return?.toFixed(2)}%</span>
-                  {' '}| {d.count} señales
-                </div>
-              </Card>
-            )
-          })}
-          {pf.score_correlation != null && (
-            <Card className="glass p-5 stagger-4">
-              <div className="etiqueta-seccion mb-2">Correlacion Score-Return</div>
-              <div className={`text-cifra font-extrabold tracking-tight tabular-nums leading-none mb-2 ${pf.score_correlation > 0.1 ? 'text-emerald-400' : 'text-amber-400'}`}>
-                {pf.score_correlation.toFixed(3)}
-              </div>
-              <div className="text-micro text-muted-foreground">
-                {pf.score_correlation > 0.1 ? 'Scores predicen retornos' : 'Correlacion debil'}
-              </div>
-            </Card>
-          )}
-        </div>
+            if (!d || d.count === 0) return []
+            return [{
+              etiqueta: <>Win rate {p}{p === bestPeriod && (
+                <Badge variant="green" className="ml-1.5 text-micro px-1 py-0 leading-4">BEST</Badge>
+              )}</>,
+              valor: d.win_rate?.toFixed(1),
+              unidad: '%',
+              tono: (d.win_rate >= 50 ? 'favor' : 'alarma') as 'favor' | 'alarma',
+              sub: <>Media <span className={d.avg_return >= 0 ? 'text-success' : 'text-danger'}>
+                {d.avg_return >= 0 ? '+' : ''}{d.avg_return?.toFixed(2)}%
+              </span> · {d.count} señales</>,
+            }]
+          }),
+          ...(pf.score_correlation != null ? [{
+            etiqueta: 'Correlación score-retorno',
+            valor: pf.score_correlation.toFixed(3),
+            tono: (pf.score_correlation > 0.1 ? 'favor' : 'aviso') as 'favor' | 'aviso',
+            sub: pf.score_correlation > 0.1 ? 'Los scores predicen retornos' : 'Correlación débil',
+          }] : []),
+        ]} />
       )}
 
       {/* Waiting state — no returns yet */}
