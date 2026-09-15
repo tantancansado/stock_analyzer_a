@@ -230,3 +230,81 @@ describe('velos de color', () => {
     expect(culpables, 'usar foreground/N: se da la vuelta con el tema').toEqual([])
   })
 })
+
+/**
+ * Los colores semánticos llegan al mínimo legible sobre TODOS los fondos de su
+ * tema.
+ *
+ * Esto no es una regla de estilo, es una trampa con memoria: los cinco colores
+ * del modo claro estaban verificados contra el fondo y la tarjeta, y pasaban.
+ * Luego `--muted` subió de #f5f5f7 a #e5e5ea —para que los skeletons de carga
+ * dejaran de ser blancos sobre blanco— y eso creó un fondo NUEVO, más oscuro,
+ * contra el que cuatro de los cinco caían a 4,11-4,34. Nadie tocó los colores;
+ * se rompieron solos al mover otra cosa.
+ *
+ * Por eso el test calcula el contraste en vez de comprobar valores concretos:
+ * cualquier cambio en un token de fondo vuelve a evaluarlos todos.
+ */
+describe('contraste de los colores semánticos', () => {
+  const css = readFileSync(join(__dirname, '..', 'index.css'), 'utf-8')
+
+  const hslARgb = (s: string): [number, number, number] => {
+    const [h, sa, l] = s.match(/[\d.]+/g)!.map(Number)
+    const a = (sa / 100) * Math.min(l / 100, 1 - l / 100)
+    const f = (n: number) => {
+      const k = (n + h / 30) % 12
+      return l / 100 - a * Math.max(-1, Math.min(k - 3, 9 - k, 1))
+    }
+    return [f(0) * 255, f(8) * 255, f(4) * 255]
+  }
+  const luminancia = (c: [number, number, number]) => {
+    const [r, g, b] = c.map(v => {
+      const x = v / 255
+      return x <= 0.03928 ? x / 12.92 : Math.pow((x + 0.055) / 1.055, 2.4)
+    })
+    return 0.2126 * r + 0.7152 * g + 0.0722 * b
+  }
+  const contraste = (a: string, b: string) => {
+    const [la, lb] = [luminancia(hslARgb(a)), luminancia(hslARgb(b))]
+    return (Math.max(la, lb) + 0.05) / (Math.min(la, lb) + 0.05)
+  }
+
+  /** Los `hsl(...)` declarados dentro de un bloque. */
+  const tokensDe = (bloque: string) => {
+    const out: Record<string, string> = {}
+    for (const m of bloque.matchAll(/^\s*(--[a-z0-9-]+):\s*hsl\(([^)]+)\)\s*;/gm)) {
+      if (/var\(/.test(m[2])) continue
+      out[m[1]] = m[2].trim()
+    }
+    return out
+  }
+
+  const ROLES = ['--success', '--danger', '--warn', '--info', '--special']
+  const SUPERFICIES = ['--background', '--card', '--muted']
+  const MINIMO = 4.5   // AA para texto normal, que es casi todo en esta app
+
+  const temas = [
+    // El :root del modo claro es el que declara --background; hay otro con las fuentes.
+    ['claro', [...css.matchAll(/^:root \{([\s\S]*?)^\}/gm)].map(m => m[1]).find(b => b.includes('--background:'))!],
+    ['oscuro', css.match(/^\.dark \{([\s\S]*?)^\}/m)![1]],
+  ] as const
+
+  it.each(temas.map(([n, b]) => ({ nombre: n, bloque: b })))(
+    'modo $nombre: ningún color semántico baja del mínimo en ningún fondo',
+    ({ bloque }) => {
+      const t = tokensDe(bloque)
+      const fondos = SUPERFICIES.filter(s => t[s])
+      expect(fondos.length, 'el tema declara sus superficies').toBeGreaterThan(1)
+
+      const flojos: string[] = []
+      for (const rol of ROLES) {
+        if (!t[rol]) continue
+        for (const fondo of fondos) {
+          const c = contraste(t[rol], t[fondo])
+          if (c < MINIMO) flojos.push(`${rol} sobre ${fondo}: ${c.toFixed(2)}`)
+        }
+      }
+      expect(flojos, `mínimo ${MINIMO}:1`).toEqual([])
+    },
+  )
+})
