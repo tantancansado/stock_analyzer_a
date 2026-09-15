@@ -35,10 +35,21 @@ sector_rotation → mean_reversion → super_score_integrator → ai_quality_fil
   - `overflow: clip` tiene idéntico efecto visual pero NO crea scroll container
 - **`.liquid-glass` (refracción real vía SVG `feDisplacementMap`, `index.css`) solo en elementos hero**: modales, tarjeta líder de una página, toolbars/barras siempre visibles. **NUNCA en listas o tablas** — el filtro SVG se repinta cada frame, es caro. Para todo lo demás usar `.glass` (blur plano, sin distorsión)
   - Si un elemento `.liquid-glass` necesita scroll interno (ej. una barra horizontal), el `overflow-x-auto`/`overflow-y-auto` va en un div INTERNO, nunca en el propio `.liquid-glass` — este ya fija `overflow: clip` para sus pseudo-elementos y lo pisaría
-  - Tiene piel propia para modo claro (`:root:not(.dark) .liquid-glass` en la sección Cybertruck Light) — los highlights blancos del modo oscuro se lavan sobre fondo claro, ahí se usan tonos acero/cian en su lugar
+  - Tiene piel propia para modo claro (`:root:not(.dark) .liquid-glass`, sección "MODO CLARO — tranquilo"): los highlights blancos del oscuro se lavan sobre fondo claro, así que ahí no imita cristal — es la misma tarjeta blanca elevada un piso más, con sombra en vez de brillo
 - Las tablas usan `thead th` con `position: sticky; top: var(--topbar-height, 50px)`
 - **Un dato → un único dispositivo de énfasis.** El kit de la app tiene 8 formas de marcar "esto importa" (borde de color, badge bg+border+texto, ring/glow, `.glow-border` rotatorio, text-shadow glow, barra de acento, clases `.grade-A/B/C/D`, punto pulsante). Para un mismo dato (ej. "este pick es bueno"), usar SOLO UNO — nunca apilar borde de Card + badge del mismo color + icono del mismo color + barra de progreso del mismo color encima. Si ya hay un ring/glow o un badge marcando el dato, la tarjeta que lo contiene va neutra (`.glass` sin borde de color)
-- Tema: dark glassmorphism + Cybertruck skin (cyan eléctrico `194 100% 48%`, esquinas afiladas `--radius: 0.25rem`)
+- **Dos voces, no una con dos brillos.** Oscuro = glassmorphism + Cybertruck
+  (cian eléctrico `194 100% 48%`, esquinas de `0.25rem`, orbes, brillos). Claro =
+  Apple tranquilo (`#f5f5f7` de fondo, tarjeta blanca, `#1d1d1f` de texto, UN
+  acento azul `210 100% 43%`, esquinas de `0.75rem`, elevación por sombra y nada
+  de brillo ni animación de fondo). El claro NO es el oscuro con más luz: los
+  realces que dan profundidad sobre casi-negro se lavan sobre casi-blanco, y
+  compensarlos subiendo saturación es lo que hacía que se leyera como ruido
+- **Contraste verificado, no supuesto.** Todo color nuevo del modo claro se mide
+  contra fondo (`#f5f5f7`), tarjeta (`#fff`) y relleno (`#e5e5ea`) antes de
+  entrar: AA de texto normal es 4.5, y aquí casi todo es texto pequeño. El azul y
+  el verde de Apple no llegan tal cual (4.31 y 4.04) — van dos puntos de
+  luminosidad más abajo
 - **Mobile-first, el usuario usa la app sobre todo en el móvil**:
   - Todo `grid-cols-N` nuevo (N≥2) empieza en `grid-cols-1` salvo que el contenido de cada celda ya sea compacto de forma demostrable (texto ≤0.75rem, ≤2 líneas) — entonces puede ir fijo en 2-3 columnas sin prefijo
   - Toda fila `flex` con 3+ hermanos (badges, filtros, stats) lleva `flex-wrap`
@@ -86,7 +97,13 @@ sector_rotation → mean_reversion → super_score_integrator → ai_quality_fil
 - **Desplegables**: `.select-control`, mismo lenguaje que `.filter-btn`
 - **Nada de colores de paleta ajena** (`text-slate-*`, `zinc`, `gray`…): son
   tonos fijos que no cambian con el tema. Usar los tokens (`text-muted-foreground`)
-  o `hsl(var(--token))` en línea
+  o `var(--token)` en línea
+- **Los tokens de color YA SON colores**, no tripletes sueltos: `--primary: hsl(210 100% 43%)`.
+  Se usan `var(--primary)` a secas, y para opacidad
+  `color-mix(in oklab, var(--primary) 20%, transparent)` — nunca `hsl(var(--primary))`
+  ni `hsl(var(--primary) / .2)`. Con un triplete dentro, cualquier `color-mix` o
+  cualquier hoja ajena que consuma el token se cae entera y en silencio: así se
+  rompían 46 de los 89 tokens de HeroUI. Hay dos tests en `css.test.ts` que lo vigilan
 - **Un `<h1>` por página, y solo uno.** Si la página es pestaña de un
   contenedor, el h1 lo pone la subpágina, no el contenedor. Si el título ya lo
   dice la pestaña activa, usar `tituloOculto` en `PageHeader`: el h1 sigue ahí

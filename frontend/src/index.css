@@ -1820,6 +1820,29 @@ tr[class*="cursor-pointer"]:hover td:first-child {
 :root:not(.dark) .glass::before,
 :root:not(.dark) .glass::after { display: none; }
 
+/* ── Control segmentado: pastilla blanca, no ficha azul ───────────
+   `.seg-tab.active` se pinta con tinte del acento al 15%, borde al 30% y un
+   halo de 18px. En oscuro eso es el idioma de la casa; en claro se lee como
+   una ficha pesada, y encima el halo azul sobre fondo claro ensucia.
+   El control segmentado de Apple marca lo activo al revés: una pastilla
+   BLANCA que se levanta un milímetro sobre la pista gris. El color lo lleva
+   el texto, no el fondo. */
+:root:not(.dark) .seg-tab.active {
+  background: var(--card);
+  border-color: transparent;
+  color: var(--foreground);
+  box-shadow:
+    0 0 0 0.5px hsl(240 6% 10% / 0.04),
+    0 1px 2px   hsl(240 6% 10% / 0.10),
+    0 2px 6px   hsl(240 6% 10% / 0.05);
+}
+
+/* Y el filtro activo se queda en ficha teñida —eso sí es lenguaje Apple— pero
+   con el borde a la mitad: al 60% competía con el texto que envuelve. */
+:root:not(.dark) .filter-btn.active {
+  border-color: color-mix(in oklab, var(--primary) 30%, transparent);
+}
+
 /* ── La tarjeta ───────────────────────────────────────────────────
    `.glass` toma fondo, borde y sombra de --panel-* (arriba). Solo hace falta
    decir que en claro no se levanta al pasar por encima: una lista entera de
