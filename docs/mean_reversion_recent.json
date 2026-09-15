@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-14T20:34:00.437867",
+  "generated_at": "2026-09-15T05:52:11.197684",
   "tickers": {
     "ORLY": {
       "ticker": "ORLY",
@@ -7,7 +7,7 @@
       "strategy": "Oversold Bounce",
       "quality": "\u2b50\u2b50 MUY BUENA",
       "signal_date": "2026-09-10",
-      "days_since_signal": 4,
+      "days_since_signal": 5,
       "window_days": 3,
       "entry_zone": "$85.55 - $89.05",
       "target": 93.97,
@@ -23,7 +23,7 @@
       "strategy": "Oversold Bounce",
       "quality": "MODERADA",
       "signal_date": "2026-09-10",
-      "days_since_signal": 4,
+      "days_since_signal": 5,
       "window_days": 3,
       "entry_zone": "$303.63 - $316.02",
       "target": 355.3,
@@ -39,7 +39,7 @@
       "strategy": "Oversold Bounce",
       "quality": "MODERADA",
       "signal_date": "2026-09-10",
-      "days_since_signal": 4,
+      "days_since_signal": 5,
       "window_days": 3,
       "entry_zone": "$302.3 - $314.63",
       "target": 361.32,
@@ -47,22 +47,6 @@
       "rsi_at_signal": 28.7,
       "current_price": 327.7799987792969,
       "status": "VENTANA_EXPIRADA",
-      "ai_note": ""
-    },
-    "ASAZY": {
-      "ticker": "ASAZY",
-      "company_name": "ASSA ABLOY AB (publ)",
-      "strategy": "Oversold Bounce",
-      "quality": "\u2b50\u2b50 MUY BUENA",
-      "signal_date": "2026-09-11",
-      "days_since_signal": 3,
-      "window_days": 3,
-      "entry_zone": "$16.64 - $17.32",
-      "target": 19.87,
-      "stop_loss": 16.57,
-      "rsi_at_signal": 29.5,
-      "current_price": 17.520000457763672,
-      "status": "EN_VENTANA",
       "ai_note": null
     },
     "WCN": {
@@ -71,30 +55,14 @@
       "strategy": "Oversold Bounce",
       "quality": "MODERADA",
       "signal_date": "2026-09-11",
-      "days_since_signal": 3,
+      "days_since_signal": 4,
       "window_days": 3,
       "entry_zone": "$152.71 - $158.95",
       "target": 170.46,
       "stop_loss": 151.71,
       "rsi_at_signal": 27.1,
       "current_price": 161.02999877929688,
-      "status": "EN_VENTANA",
-      "ai_note": null
-    },
-    "BRO": {
-      "ticker": "BRO",
-      "company_name": "Brown & Brown, Inc.",
-      "strategy": "Oversold Bounce",
-      "quality": "MODERADA",
-      "signal_date": "2026-09-14",
-      "days_since_signal": 0,
-      "window_days": 3,
-      "entry_zone": "$64.64 - $67.27",
-      "target": 73.12,
-      "stop_loss": 63.28,
-      "rsi_at_signal": 27.6,
-      "current_price": 68.33000183105469,
-      "status": "EN_VENTANA",
+      "status": "VENTANA_EXPIRADA",
       "ai_note": null
     }
   }

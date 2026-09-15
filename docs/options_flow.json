@@ -1,26 +1,115 @@
 {
-  "scan_date": "2026-09-14 20:38:34",
-  "total_flows": 16,
+  "scan_date": "2026-09-15 05:57:30",
+  "total_flows": 29,
   "sentiment_breakdown": {
-    "bullish": 9,
-    "bearish": 7,
-    "neutral": 0
+    "bullish": 15,
+    "bearish": 10,
+    "neutral": 4
   },
-  "total_premium": 269126924.0,
+  "total_premium": 251056753.0,
   "flows": [
+    {
+      "ticker": "V",
+      "company_name": "Visa Inc.",
+      "current_price": 375.28,
+      "expiration_date": "2026-09-18",
+      "days_to_expiration": 2,
+      "unusual_calls": 8,
+      "unusual_puts": 9,
+      "total_unusual": 17,
+      "call_premium": 1384987.0,
+      "put_premium": 1270102.0,
+      "total_premium": 2655089.0,
+      "put_call_ratio": 0.92,
+      "sentiment": "NEUTRAL",
+      "sentiment_emoji": "\ud83d\udfe1",
+      "flow_score": 100,
+      "quality": "\ud83d\udd25\ud83d\udd25\ud83d\udd25 WHALE ACTIVITY",
+      "top_calls": [
+        {
+          "type": "CALL",
+          "strike": 370.0,
+          "volume": 759.0,
+          "oi": 0,
+          "vol_oi_ratio": 759.0,
+          "last_price": 6.95,
+          "premium": 527505.0,
+          "itm": true,
+          "implied_volatility": 1.0000000000000003e-05
+        },
+        {
+          "type": "CALL",
+          "strike": 360.0,
+          "volume": 218.0,
+          "oi": 0,
+          "vol_oi_ratio": 218.0,
+          "last_price": 15.7,
+          "premium": 342260.0,
+          "itm": true,
+          "implied_volatility": 1.0000000000000003e-05
+        },
+        {
+          "type": "CALL",
+          "strike": 375.0,
+          "volume": 368.0,
+          "oi": 0,
+          "vol_oi_ratio": 368.0,
+          "last_price": 3.7,
+          "premium": 136160.0,
+          "itm": true,
+          "implied_volatility": 1.0000000000000003e-05
+        }
+      ],
+      "top_puts": [
+        {
+          "type": "PUT",
+          "strike": 365.0,
+          "volume": 4392.0,
+          "oi": 0,
+          "vol_oi_ratio": 4392.0,
+          "last_price": 0.65,
+          "premium": 285480.0,
+          "itm": false,
+          "implied_volatility": 0.062509375
+        },
+        {
+          "type": "PUT",
+          "strike": 375.0,
+          "volume": 713.0,
+          "oi": 0,
+          "vol_oi_ratio": 713.0,
+          "last_price": 3.15,
+          "premium": 224594.99999999997,
+          "itm": false,
+          "implied_volatility": 0.00196310546875
+        },
+        {
+          "type": "PUT",
+          "strike": 370.0,
+          "volume": 1296.0,
+          "oi": 0,
+          "vol_oi_ratio": 1296.0,
+          "last_price": 1.52,
+          "premium": 196992.0,
+          "itm": false,
+          "implied_volatility": 0.0312596875
+        }
+      ],
+      "detected_date": "2026-09-15"
+    },
     {
       "ticker": "ADP",
       "company_name": "Automatic Data Processing, Inc.",
       "current_price": 276.63,
       "expiration_date": "2026-09-18",
-      "days_to_expiration": 3,
+      "days_to_expiration": 2,
       "unusual_calls": 6,
-      "unusual_puts": 6,
-      "total_unusual": 12,
+      "unusual_puts": 7,
+      "total_unusual": 13,
       "call_premium": 16358952.0,
-      "put_premium": 172006.0,
-      "total_premium": 16530958.0,
-      "put_call_ratio": 0.01,
+      "put_premium": 314876.0,
+      "total_premium": 16673828.0,
+      "put_call_ratio": 0.02,
       "sentiment": "BULLISH",
       "sentiment_emoji": "\ud83d\udfe2",
       "flow_score": 100,
@@ -30,12 +119,12 @@
           "type": "CALL",
           "strike": 230.0,
           "volume": 1206.0,
-          "oi": 7.0,
-          "vol_oi_ratio": 172.28571428571428,
+          "oi": 0.0,
+          "vol_oi_ratio": 1206.0,
           "last_price": 36.92,
           "premium": 4452552.0,
           "itm": true,
-          "implied_volatility": 0.87695435546875
+          "implied_volatility": 1.0000000000000003e-05
         },
         {
           "type": "CALL",
@@ -46,31 +135,42 @@
           "last_price": 71.97,
           "premium": 4318200.0,
           "itm": true,
-          "implied_volatility": 1.439455927734375
+          "implied_volatility": 1.0000000000000003e-05
         },
         {
           "type": "CALL",
           "strike": 200.0,
           "volume": 600.0,
-          "oi": 1.0,
+          "oi": 0.0,
           "vol_oi_ratio": 600.0,
           "last_price": 67.18,
           "premium": 4030800.000000001,
           "itm": true,
-          "implied_volatility": 1.3066440917968747
+          "implied_volatility": 1.0000000000000003e-05
         }
       ],
       "top_puts": [
         {
           "type": "PUT",
+          "strike": 270.0,
+          "volume": 1099.0,
+          "oi": 0,
+          "vol_oi_ratio": 1099.0,
+          "last_price": 1.3,
+          "premium": 142870.0,
+          "itm": false,
+          "implied_volatility": 0.062509375
+        },
+        {
+          "type": "PUT",
           "strike": 275.0,
           "volume": 185.0,
-          "oi": 12,
-          "vol_oi_ratio": 15.416666666666666,
+          "oi": 0,
+          "vol_oi_ratio": 185.0,
           "last_price": 3.1,
           "premium": 57350.0,
           "itm": false,
-          "implied_volatility": 0.30762411132812495
+          "implied_volatility": 0.015634843750000002
         },
         {
           "type": "PUT",
@@ -82,34 +182,201 @@
           "premium": 26795.999999999996,
           "itm": false,
           "implied_volatility": 0.500005
+        }
+      ],
+      "detected_date": "2026-09-15"
+    },
+    {
+      "ticker": "COST",
+      "company_name": "Costco Wholesale Corporation",
+      "current_price": 918.91,
+      "expiration_date": "2026-09-18",
+      "days_to_expiration": 2,
+      "unusual_calls": 12,
+      "unusual_puts": 11,
+      "total_unusual": 23,
+      "call_premium": 1943641.0,
+      "put_premium": 2031090.0,
+      "total_premium": 3974731.0,
+      "put_call_ratio": 1.04,
+      "sentiment": "NEUTRAL",
+      "sentiment_emoji": "\ud83d\udfe1",
+      "flow_score": 100,
+      "quality": "\ud83d\udd25\ud83d\udd25\ud83d\udd25 WHALE ACTIVITY",
+      "top_calls": [
+        {
+          "type": "CALL",
+          "strike": 920.0,
+          "volume": 488.0,
+          "oi": 0,
+          "vol_oi_ratio": 488.0,
+          "last_price": 8.3,
+          "premium": 405040.00000000006,
+          "itm": false,
+          "implied_volatility": 0.0039162109375
+        },
+        {
+          "type": "CALL",
+          "strike": 945.0,
+          "volume": 2675.0,
+          "oi": 0,
+          "vol_oi_ratio": 2675.0,
+          "last_price": 1.2,
+          "premium": 321000.0,
+          "itm": false,
+          "implied_volatility": 0.062509375
+        },
+        {
+          "type": "CALL",
+          "strike": 910.0,
+          "volume": 223.0,
+          "oi": 0,
+          "vol_oi_ratio": 223.0,
+          "last_price": 14.0,
+          "premium": 312200.0,
+          "itm": true,
+          "implied_volatility": 1.0000000000000003e-05
+        }
+      ],
+      "top_puts": [
+        {
+          "type": "PUT",
+          "strike": 1000.0,
+          "volume": 114.0,
+          "oi": 0,
+          "vol_oi_ratio": 114.0,
+          "last_price": 99.4,
+          "premium": 1133160.0,
+          "itm": true,
+          "implied_volatility": 1.0000000000000003e-05
         },
         {
           "type": "PUT",
-          "strike": 272.5,
-          "volume": 121.0,
-          "oi": 9,
-          "vol_oi_ratio": 13.444444444444445,
-          "last_price": 2.2,
-          "premium": 26620.000000000004,
+          "strike": 910.0,
+          "volume": 555.0,
+          "oi": 0,
+          "vol_oi_ratio": 555.0,
+          "last_price": 4.2,
+          "premium": 233100.0,
           "itm": false,
-          "implied_volatility": 0.3979552392578125
+          "implied_volatility": 0.015634843750000002
+        },
+        {
+          "type": "PUT",
+          "strike": 920.0,
+          "volume": 238.0,
+          "oi": 0,
+          "vol_oi_ratio": 238.0,
+          "last_price": 8.25,
+          "premium": 196350.0,
+          "itm": true,
+          "implied_volatility": 1.0000000000000003e-05
         }
       ],
-      "detected_date": "2026-09-14"
+      "detected_date": "2026-09-15"
     },
     {
       "ticker": "MSFT",
       "company_name": "Microsoft Corporation",
       "current_price": 505.41,
-      "expiration_date": "2026-09-14",
-      "days_to_expiration": -1,
-      "unusual_calls": 16,
-      "unusual_puts": 8,
-      "total_unusual": 24,
-      "call_premium": 58106304.0,
-      "put_premium": 4663019.0,
-      "total_premium": 62769323.0,
-      "put_call_ratio": 0.08,
+      "expiration_date": "2026-09-16",
+      "days_to_expiration": 0,
+      "unusual_calls": 15,
+      "unusual_puts": 12,
+      "total_unusual": 27,
+      "call_premium": 14931124.0,
+      "put_premium": 7477310.0,
+      "total_premium": 22408434.0,
+      "put_call_ratio": 0.5,
+      "sentiment": "NEUTRAL",
+      "sentiment_emoji": "\ud83d\udfe1",
+      "flow_score": 100,
+      "quality": "\ud83d\udd25\ud83d\udd25\ud83d\udd25 WHALE ACTIVITY",
+      "top_calls": [
+        {
+          "type": "CALL",
+          "strike": 505.0,
+          "volume": 8777.0,
+          "oi": 0.0,
+          "vol_oi_ratio": 8777.0,
+          "last_price": 4.55,
+          "premium": 3993535.0,
+          "itm": true,
+          "implied_volatility": 1.0000000000000003e-05
+        },
+        {
+          "type": "CALL",
+          "strike": 510.0,
+          "volume": 12177.0,
+          "oi": 0.0,
+          "vol_oi_ratio": 12177.0,
+          "last_price": 2.25,
+          "premium": 2739825.0,
+          "itm": false,
+          "implied_volatility": 0.0312596875
+        },
+        {
+          "type": "CALL",
+          "strike": 500.0,
+          "volume": 2871.0,
+          "oi": 0.0,
+          "vol_oi_ratio": 2871.0,
+          "last_price": 7.5,
+          "premium": 2153250.0,
+          "itm": true,
+          "implied_volatility": 1.0000000000000003e-05
+        }
+      ],
+      "top_puts": [
+        {
+          "type": "PUT",
+          "strike": 507.5,
+          "volume": 5083,
+          "oi": 0,
+          "vol_oi_ratio": 5083,
+          "last_price": 5.0,
+          "premium": 2541500.0,
+          "itm": true,
+          "implied_volatility": 1.0000000000000003e-05
+        },
+        {
+          "type": "PUT",
+          "strike": 510.0,
+          "volume": 1676,
+          "oi": 0,
+          "vol_oi_ratio": 1676,
+          "last_price": 6.37,
+          "premium": 1067612.0,
+          "itm": true,
+          "implied_volatility": 1.0000000000000003e-05
+        },
+        {
+          "type": "PUT",
+          "strike": 530.0,
+          "volume": 423,
+          "oi": 0,
+          "vol_oi_ratio": 423,
+          "last_price": 24.8,
+          "premium": 1049040.0,
+          "itm": true,
+          "implied_volatility": 1.0000000000000003e-05
+        }
+      ],
+      "detected_date": "2026-09-15"
+    },
+    {
+      "ticker": "KO",
+      "company_name": "The Coca-Cola Company",
+      "current_price": 89.35,
+      "expiration_date": "2026-09-18",
+      "days_to_expiration": 2,
+      "unusual_calls": 25,
+      "unusual_puts": 5,
+      "total_unusual": 30,
+      "call_premium": 159795143.0,
+      "put_premium": 150129.0,
+      "total_premium": 159945272.0,
+      "put_call_ratio": 0.0,
       "sentiment": "BULLISH",
       "sentiment_emoji": "\ud83d\udfe2",
       "flow_score": 100,
@@ -117,88 +384,266 @@
       "top_calls": [
         {
           "type": "CALL",
-          "strike": 500.0,
-          "volume": 37370.0,
-          "oi": 3034,
-          "vol_oi_ratio": 12.317073170731707,
-          "last_price": 5.8,
-          "premium": 21674600.0,
+          "strike": 70.0,
+          "volume": 13421.0,
+          "oi": 0,
+          "vol_oi_ratio": 13421.0,
+          "last_price": 19.25,
+          "premium": 25835425.0,
           "itm": true,
-          "implied_volatility": 0.2192460888671875
+          "implied_volatility": 1.0000000000000003e-05
         },
         {
           "type": "CALL",
-          "strike": 502.5,
-          "volume": 52727.0,
-          "oi": 804,
-          "vol_oi_ratio": 65.58084577114428,
-          "last_price": 3.17,
-          "premium": 16714459.0,
+          "strike": 85.0,
+          "volume": 53759.0,
+          "oi": 0,
+          "vol_oi_ratio": 53759.0,
+          "last_price": 4.35,
+          "premium": 23385165.0,
           "itm": true,
-          "implied_volatility": 0.19751779052734375
+          "implied_volatility": 1.0000000000000003e-05
         },
         {
           "type": "CALL",
-          "strike": 497.5,
-          "volume": 6390.0,
-          "oi": 1305,
-          "vol_oi_ratio": 4.896551724137931,
-          "last_price": 8.43,
-          "premium": 5386770.0,
+          "strike": 82.5,
+          "volume": 34310.0,
+          "oi": 0,
+          "vol_oi_ratio": 34310.0,
+          "last_price": 6.8,
+          "premium": 23330800.0,
           "itm": true,
-          "implied_volatility": 0.2819896020507812
+          "implied_volatility": 1.0000000000000003e-05
         }
       ],
       "top_puts": [
         {
           "type": "PUT",
-          "strike": 510.0,
-          "volume": 5316.0,
-          "oi": 51.0,
-          "vol_oi_ratio": 104.23529411764706,
-          "last_price": 4.0,
-          "premium": 2126400.0,
-          "itm": true,
-          "implied_volatility": 0.29566134033203123
-        },
-        {
-          "type": "PUT",
-          "strike": 507.5,
-          "volume": 15529.0,
-          "oi": 1.0,
-          "vol_oi_ratio": 15529.0,
-          "last_price": 1.3,
-          "premium": 2018770.0,
-          "itm": true,
-          "implied_volatility": 0.10328045166015623
-        },
-        {
-          "type": "PUT",
-          "strike": 505.0,
-          "volume": 34463.0,
-          "oi": 357.0,
-          "vol_oi_ratio": 96.53501400560224,
-          "last_price": 0.11,
-          "premium": 379093.0,
+          "strike": 89.0,
+          "volume": 711.0,
+          "oi": 0,
+          "vol_oi_ratio": 711.0,
+          "last_price": 0.82,
+          "premium": 58302.0,
           "itm": false,
-          "implied_volatility": 0.028574167480468753
+          "implied_volatility": 0.015634843750000002
+        },
+        {
+          "type": "PUT",
+          "strike": 88.0,
+          "volume": 812.0,
+          "oi": 0,
+          "vol_oi_ratio": 812.0,
+          "last_price": 0.38,
+          "premium": 30856.0,
+          "itm": false,
+          "implied_volatility": 0.0312596875
+        },
+        {
+          "type": "PUT",
+          "strike": 87.0,
+          "volume": 1401.0,
+          "oi": 0,
+          "vol_oi_ratio": 1401.0,
+          "last_price": 0.17,
+          "premium": 23817.0,
+          "itm": false,
+          "implied_volatility": 0.062509375
         }
       ],
-      "detected_date": "2026-09-14"
+      "detected_date": "2026-09-15"
+    },
+    {
+      "ticker": "INTU",
+      "company_name": "Intuit Inc.",
+      "current_price": 339.15,
+      "expiration_date": "2026-09-18",
+      "days_to_expiration": 2,
+      "unusual_calls": 11,
+      "unusual_puts": 3,
+      "total_unusual": 14,
+      "call_premium": 4049310.0,
+      "put_premium": 1737840.0,
+      "total_premium": 5787150.0,
+      "put_call_ratio": 0.43,
+      "sentiment": "BULLISH",
+      "sentiment_emoji": "\ud83d\udfe2",
+      "flow_score": 100,
+      "quality": "\ud83d\udd25\ud83d\udd25\ud83d\udd25 WHALE ACTIVITY",
+      "top_calls": [
+        {
+          "type": "CALL",
+          "strike": 347.5,
+          "volume": 3548.0,
+          "oi": 0,
+          "vol_oi_ratio": 3548.0,
+          "last_price": 4.8,
+          "premium": 1703039.9999999998,
+          "itm": false,
+          "implied_volatility": 0.062509375
+        },
+        {
+          "type": "CALL",
+          "strike": 320.0,
+          "volume": 473.0,
+          "oi": 0,
+          "vol_oi_ratio": 473.0,
+          "last_price": 22.0,
+          "premium": 1040600.0,
+          "itm": true,
+          "implied_volatility": 1.0000000000000003e-05
+        },
+        {
+          "type": "CALL",
+          "strike": 325.0,
+          "volume": 465.0,
+          "oi": 0,
+          "vol_oi_ratio": 465.0,
+          "last_price": 15.8,
+          "premium": 734700.0,
+          "itm": true,
+          "implied_volatility": 1.0000000000000003e-05
+        }
+      ],
+      "top_puts": [
+        {
+          "type": "PUT",
+          "strike": 440.0,
+          "volume": 128.0,
+          "oi": 0.0,
+          "vol_oi_ratio": 128.0,
+          "last_price": 123.0,
+          "premium": 1574400.0,
+          "itm": true,
+          "implied_volatility": 1.0000000000000003e-05
+        },
+        {
+          "type": "PUT",
+          "strike": 335.0,
+          "volume": 187.0,
+          "oi": 0.0,
+          "vol_oi_ratio": 187.0,
+          "last_price": 6.0,
+          "premium": 112200.0,
+          "itm": false,
+          "implied_volatility": 0.0312596875
+        },
+        {
+          "type": "PUT",
+          "strike": 330.0,
+          "volume": 122.0,
+          "oi": 0.0,
+          "vol_oi_ratio": 122.0,
+          "last_price": 4.2,
+          "premium": 51240.0,
+          "itm": false,
+          "implied_volatility": 0.062509375
+        }
+      ],
+      "detected_date": "2026-09-15"
+    },
+    {
+      "ticker": "WMT",
+      "company_name": "Walmart Inc.",
+      "current_price": 109.08,
+      "expiration_date": "2026-09-18",
+      "days_to_expiration": 2,
+      "unusual_calls": 13,
+      "unusual_puts": 8,
+      "total_unusual": 21,
+      "call_premium": 5773485.0,
+      "put_premium": 1466935.0,
+      "total_premium": 7240420.0,
+      "put_call_ratio": 0.25,
+      "sentiment": "BULLISH",
+      "sentiment_emoji": "\ud83d\udfe2",
+      "flow_score": 100,
+      "quality": "\ud83d\udd25\ud83d\udd25\ud83d\udd25 WHALE ACTIVITY",
+      "top_calls": [
+        {
+          "type": "CALL",
+          "strike": 110.0,
+          "volume": 26946.0,
+          "oi": 0,
+          "vol_oi_ratio": 26946.0,
+          "last_price": 0.84,
+          "premium": 2263464.0,
+          "itm": false,
+          "implied_volatility": 0.0312596875
+        },
+        {
+          "type": "CALL",
+          "strike": 105.0,
+          "volume": 2492.0,
+          "oi": 0,
+          "vol_oi_ratio": 2492.0,
+          "last_price": 4.27,
+          "premium": 1064083.9999999998,
+          "itm": true,
+          "implied_volatility": 1.0000000000000003e-05
+        },
+        {
+          "type": "CALL",
+          "strike": 109.0,
+          "volume": 5195.0,
+          "oi": 0,
+          "vol_oi_ratio": 5195.0,
+          "last_price": 1.3,
+          "premium": 675350.0,
+          "itm": true,
+          "implied_volatility": 1.0000000000000003e-05
+        }
+      ],
+      "top_puts": [
+        {
+          "type": "PUT",
+          "strike": 135.0,
+          "volume": 240.0,
+          "oi": 0,
+          "vol_oi_ratio": 240.0,
+          "last_price": 29.7,
+          "premium": 712800.0,
+          "itm": true,
+          "implied_volatility": 1.0000000000000003e-05
+        },
+        {
+          "type": "PUT",
+          "strike": 109.0,
+          "volume": 2642.0,
+          "oi": 0,
+          "vol_oi_ratio": 2642.0,
+          "last_price": 1.11,
+          "premium": 293262.00000000006,
+          "itm": false,
+          "implied_volatility": 0.0039162109375
+        },
+        {
+          "type": "PUT",
+          "strike": 110.0,
+          "volume": 989.0,
+          "oi": 0,
+          "vol_oi_ratio": 989.0,
+          "last_price": 1.7,
+          "premium": 168130.0,
+          "itm": true,
+          "implied_volatility": 1.0000000000000003e-05
+        }
+      ],
+      "detected_date": "2026-09-15"
     },
     {
       "ticker": "WM",
       "company_name": "Waste Management, Inc.",
       "current_price": 218.09,
       "expiration_date": "2026-09-18",
-      "days_to_expiration": 3,
-      "unusual_calls": 6,
-      "unusual_puts": 0,
-      "total_unusual": 6,
-      "call_premium": 3918596.0,
-      "put_premium": 0,
-      "total_premium": 3918596.0,
-      "put_call_ratio": 0.0,
+      "days_to_expiration": 2,
+      "unusual_calls": 7,
+      "unusual_puts": 1,
+      "total_unusual": 8,
+      "call_premium": 4030696.0,
+      "put_premium": 31720.0,
+      "total_premium": 4062416.0,
+      "put_call_ratio": 0.01,
       "sentiment": "BULLISH",
       "sentiment_emoji": "\ud83d\udfe2",
       "flow_score": 90,
@@ -208,12 +653,12 @@
           "type": "CALL",
           "strike": 180.0,
           "volume": 280,
-          "oi": 3,
-          "vol_oi_ratio": 93.33333333333333,
+          "oi": 0,
+          "vol_oi_ratio": 280,
           "last_price": 34.8,
           "premium": 974400.0,
           "itm": true,
-          "implied_volatility": 1.1313519995117187
+          "implied_volatility": 1.0000000000000003e-05
         },
         {
           "type": "CALL",
@@ -224,35 +669,47 @@
           "last_price": 20.02,
           "premium": 906906.0,
           "itm": true,
-          "implied_volatility": 0.58789474609375
+          "implied_volatility": 1.0000000000000003e-05
         },
         {
           "type": "CALL",
           "strike": 200.0,
           "volume": 470,
-          "oi": 6,
-          "vol_oi_ratio": 78.33333333333333,
+          "oi": 0,
+          "vol_oi_ratio": 470,
           "last_price": 15.02,
           "premium": 705940.0,
           "itm": true,
-          "implied_volatility": 0.773439765625
+          "implied_volatility": 1.0000000000000003e-05
         }
       ],
-      "top_puts": [],
-      "detected_date": "2026-09-14"
+      "top_puts": [
+        {
+          "type": "PUT",
+          "strike": 220.0,
+          "volume": 122.0,
+          "oi": 0,
+          "vol_oi_ratio": 122.0,
+          "last_price": 2.6,
+          "premium": 31720.0,
+          "itm": true,
+          "implied_volatility": 1.0000000000000003e-05
+        }
+      ],
+      "detected_date": "2026-09-15"
     },
     {
-      "ticker": "KO",
-      "company_name": "The Coca-Cola Company",
-      "current_price": 89.35,
+      "ticker": "CME",
+      "company_name": "CME Group Inc.",
+      "current_price": 280.46,
       "expiration_date": "2026-09-18",
-      "days_to_expiration": 3,
-      "unusual_calls": 20,
-      "unusual_puts": 0,
-      "total_unusual": 20,
-      "call_premium": 157503205.0,
-      "put_premium": 0,
-      "total_premium": 157503205.0,
+      "days_to_expiration": 2,
+      "unusual_calls": 5,
+      "unusual_puts": 1,
+      "total_unusual": 6,
+      "call_premium": 16137680.0,
+      "put_premium": 65500.0,
+      "total_premium": 16203180.0,
       "put_call_ratio": 0.0,
       "sentiment": "BULLISH",
       "sentiment_emoji": "\ud83d\udfe2",
@@ -261,102 +718,59 @@
       "top_calls": [
         {
           "type": "CALL",
-          "strike": 70.0,
-          "volume": 13421.0,
-          "oi": 2409,
-          "vol_oi_ratio": 5.571191365711914,
-          "last_price": 19.25,
-          "premium": 25835425.0,
-          "itm": true,
-          "implied_volatility": 1.154301103515625
-        },
-        {
-          "type": "CALL",
-          "strike": 85.0,
-          "volume": 53759.0,
-          "oi": 9787,
-          "vol_oi_ratio": 5.492898743230817,
-          "last_price": 4.35,
-          "premium": 23385165.0,
-          "itm": true,
-          "implied_volatility": 0.29492892578124996
-        },
-        {
-          "type": "CALL",
-          "strike": 82.5,
-          "volume": 34310.0,
-          "oi": 5684,
-          "vol_oi_ratio": 6.036242083040112,
-          "last_price": 6.8,
-          "premium": 23330800.0,
-          "itm": true,
-          "implied_volatility": 0.46680220703125
-        }
-      ],
-      "top_puts": [],
-      "detected_date": "2026-09-14"
-    },
-    {
-      "ticker": "CME",
-      "company_name": "CME Group Inc.",
-      "current_price": 280.46,
-      "expiration_date": "2026-09-18",
-      "days_to_expiration": 3,
-      "unusual_calls": 4,
-      "unusual_puts": 0,
-      "total_unusual": 4,
-      "call_premium": 16126800.0,
-      "put_premium": 0,
-      "total_premium": 16126800.0,
-      "put_call_ratio": 0.0,
-      "sentiment": "BULLISH",
-      "sentiment_emoji": "\ud83d\udfe2",
-      "flow_score": 80,
-      "quality": "\ud83d\udd25\ud83d\udd25\ud83d\udd25 WHALE ACTIVITY",
-      "top_calls": [
-        {
-          "type": "CALL",
           "strike": 230.0,
           "volume": 1710.0,
-          "oi": 13.0,
-          "vol_oi_ratio": 131.53846153846155,
+          "oi": 0.0,
+          "vol_oi_ratio": 1710.0,
           "last_price": 48.5,
           "premium": 8293500.0,
           "itm": true,
-          "implied_volatility": 0.937500625
+          "implied_volatility": 1.0000000000000003e-05
         },
         {
           "type": "CALL",
           "strike": 240.0,
           "volume": 1140.0,
-          "oi": 10.0,
-          "vol_oi_ratio": 114.0,
+          "oi": 0.0,
+          "vol_oi_ratio": 1140.0,
           "last_price": 39.3,
           "premium": 4480200.0,
           "itm": true,
-          "implied_volatility": 0.6757844921875001
+          "implied_volatility": 1.0000000000000003e-05
         },
         {
           "type": "CALL",
           "strike": 220.0,
           "volume": 570.0,
-          "oi": 22.0,
-          "vol_oi_ratio": 25.90909090909091,
+          "oi": 0.0,
+          "vol_oi_ratio": 570.0,
           "last_price": 58.5,
           "premium": 3334500.0,
           "itm": true,
-          "implied_volatility": 0.8945323046874999
+          "implied_volatility": 1.0000000000000003e-05
         }
       ],
-      "top_puts": [],
-      "detected_date": "2026-09-14"
+      "top_puts": [
+        {
+          "type": "PUT",
+          "strike": 275.0,
+          "volume": 524.0,
+          "oi": 0.0,
+          "vol_oi_ratio": 524.0,
+          "last_price": 1.25,
+          "premium": 65500.0,
+          "itm": false,
+          "implied_volatility": 0.062509375
+        }
+      ],
+      "detected_date": "2026-09-15"
     },
     {
       "ticker": "BR",
       "company_name": "Broadridge Financial Solutions, Inc.",
       "current_price": 174.39,
       "expiration_date": "2026-09-18",
-      "days_to_expiration": 3,
+      "days_to_expiration": 2,
       "unusual_calls": 1,
       "unusual_puts": 0,
       "total_unusual": 1,
@@ -373,73 +787,152 @@
           "type": "CALL",
           "strike": 145.0,
           "volume": 460.0,
-          "oi": 5,
-          "vol_oi_ratio": 92.0,
+          "oi": 0,
+          "vol_oi_ratio": 460.0,
           "last_price": 33.8,
           "premium": 1554799.9999999998,
           "itm": true,
-          "implied_volatility": 1.2685583447265623
+          "implied_volatility": 1.0000000000000003e-05
         }
       ],
       "top_puts": [],
-      "detected_date": "2026-09-14"
+      "detected_date": "2026-09-15"
     },
     {
-      "ticker": "INTU",
-      "company_name": "Intuit Inc.",
-      "current_price": 339.15,
+      "ticker": "PG",
+      "company_name": "The Procter & Gamble Company",
+      "current_price": 146.13,
       "expiration_date": "2026-09-18",
-      "days_to_expiration": 3,
-      "unusual_calls": 2,
-      "unusual_puts": 0,
-      "total_unusual": 2,
-      "call_premium": 2437740.0,
-      "put_premium": 0,
-      "total_premium": 2437740.0,
-      "put_call_ratio": 0.0,
-      "sentiment": "BULLISH",
-      "sentiment_emoji": "\ud83d\udfe2",
+      "days_to_expiration": 2,
+      "unusual_calls": 5,
+      "unusual_puts": 2,
+      "total_unusual": 7,
+      "call_premium": 180357.0,
+      "put_premium": 368537.0,
+      "total_premium": 548894.0,
+      "put_call_ratio": 2.04,
+      "sentiment": "BEARISH",
+      "sentiment_emoji": "\ud83d\udd34",
       "flow_score": 80,
       "quality": "\ud83d\udd25\ud83d\udd25\ud83d\udd25 WHALE ACTIVITY",
       "top_calls": [
         {
           "type": "CALL",
-          "strike": 347.5,
-          "volume": 3548.0,
-          "oi": 52,
-          "vol_oi_ratio": 68.23076923076923,
-          "last_price": 4.8,
-          "premium": 1703039.9999999998,
-          "itm": false,
-          "implied_volatility": 0.5222215747070311
+          "strike": 146.0,
+          "volume": 598.0,
+          "oi": 0,
+          "vol_oi_ratio": 598.0,
+          "last_price": 1.36,
+          "premium": 81328.00000000001,
+          "itm": true,
+          "implied_volatility": 1.0000000000000003e-05
         },
         {
           "type": "CALL",
-          "strike": 325.0,
-          "volume": 465.0,
-          "oi": 71,
-          "vol_oi_ratio": 6.549295774647887,
-          "last_price": 15.8,
-          "premium": 734700.0,
+          "strike": 145.0,
+          "volume": 246.0,
+          "oi": 0,
+          "vol_oi_ratio": 246.0,
+          "last_price": 2.0,
+          "premium": 49200.0,
           "itm": true,
-          "implied_volatility": 0.5376022802734376
+          "implied_volatility": 1.0000000000000003e-05
+        },
+        {
+          "type": "CALL",
+          "strike": 148.0,
+          "volume": 442.0,
+          "oi": 0,
+          "vol_oi_ratio": 442.0,
+          "last_price": 0.61,
+          "premium": 26962.0,
+          "itm": false,
+          "implied_volatility": 0.0312596875
         }
       ],
-      "top_puts": [],
-      "detected_date": "2026-09-14"
+      "top_puts": [
+        {
+          "type": "PUT",
+          "strike": 160.0,
+          "volume": 220.0,
+          "oi": 0,
+          "vol_oi_ratio": 220.0,
+          "last_price": 16.1,
+          "premium": 354200.00000000006,
+          "itm": true,
+          "implied_volatility": 1.0000000000000003e-05
+        },
+        {
+          "type": "PUT",
+          "strike": 145.0,
+          "volume": 177.0,
+          "oi": 0,
+          "vol_oi_ratio": 177.0,
+          "last_price": 0.81,
+          "premium": 14337.0,
+          "itm": false,
+          "implied_volatility": 0.015634843750000002
+        }
+      ],
+      "detected_date": "2026-09-15"
     },
     {
       "ticker": "SYK",
       "company_name": "Stryker Corporation",
       "current_price": 281.87,
       "expiration_date": "2026-09-18",
-      "days_to_expiration": 3,
+      "days_to_expiration": 2,
+      "unusual_calls": 1,
+      "unusual_puts": 1,
+      "total_unusual": 2,
+      "call_premium": 20160.0,
+      "put_premium": 5588240.0,
+      "total_premium": 5608400.0,
+      "put_call_ratio": 277.19,
+      "sentiment": "BEARISH",
+      "sentiment_emoji": "\ud83d\udd34",
+      "flow_score": 80,
+      "quality": "\ud83d\udd25\ud83d\udd25\ud83d\udd25 WHALE ACTIVITY",
+      "top_calls": [
+        {
+          "type": "CALL",
+          "strike": 290.0,
+          "volume": 120.0,
+          "oi": 0,
+          "vol_oi_ratio": 120.0,
+          "last_price": 1.68,
+          "premium": 20160.0,
+          "itm": false,
+          "implied_volatility": 0.062509375
+        }
+      ],
+      "top_puts": [
+        {
+          "type": "PUT",
+          "strike": 330.0,
+          "volume": 952.0,
+          "oi": 0,
+          "vol_oi_ratio": 952.0,
+          "last_price": 58.7,
+          "premium": 5588240.0,
+          "itm": true,
+          "implied_volatility": 1.0000000000000003e-05
+        }
+      ],
+      "detected_date": "2026-09-15"
+    },
+    {
+      "ticker": "MRSH",
+      "company_name": "Marsh & McLennan Companies, Inc.",
+      "current_price": 180.43,
+      "expiration_date": "2026-09-18",
+      "days_to_expiration": 2,
       "unusual_calls": 0,
       "unusual_puts": 1,
       "total_unusual": 1,
       "call_premium": 0,
-      "put_premium": 5588240.0,
-      "total_premium": 5588240.0,
+      "put_premium": 804180.0,
+      "total_premium": 804180.0,
       "put_call_ratio": 999,
       "sentiment": "BEARISH",
       "sentiment_emoji": "\ud83d\udd34",
@@ -449,80 +942,48 @@
       "top_puts": [
         {
           "type": "PUT",
-          "strike": 330.0,
-          "volume": 952.0,
-          "oi": 181,
-          "vol_oi_ratio": 5.259668508287293,
-          "last_price": 58.7,
-          "premium": 5588240.0,
+          "strike": 185.0,
+          "volume": 1031.0,
+          "oi": 0,
+          "vol_oi_ratio": 1031.0,
+          "last_price": 7.8,
+          "premium": 804180.0,
           "itm": true,
-          "implied_volatility": 1.017583037109375
+          "implied_volatility": 1.0000000000000003e-05
         }
       ],
-      "detected_date": "2026-09-14"
-    },
-    {
-      "ticker": "V",
-      "company_name": "Visa Inc.",
-      "current_price": 375.28,
-      "expiration_date": "2026-09-18",
-      "days_to_expiration": 3,
-      "unusual_calls": 0,
-      "unusual_puts": 2,
-      "total_unusual": 2,
-      "call_premium": 0,
-      "put_premium": 343635.0,
-      "total_premium": 343635.0,
-      "put_call_ratio": 999,
-      "sentiment": "BEARISH",
-      "sentiment_emoji": "\ud83d\udd34",
-      "flow_score": 60,
-      "quality": "\ud83d\udd25 NOTABLE FLOW",
-      "top_calls": [],
-      "top_puts": [
-        {
-          "type": "PUT",
-          "strike": 392.5,
-          "volume": 105.0,
-          "oi": 0,
-          "vol_oi_ratio": 105.0,
-          "last_price": 17.35,
-          "premium": 182175.00000000003,
-          "itm": true,
-          "implied_volatility": 0.22412885253906245
-        },
-        {
-          "type": "PUT",
-          "strike": 390.0,
-          "volume": 108.0,
-          "oi": 0,
-          "vol_oi_ratio": 108.0,
-          "last_price": 14.95,
-          "premium": 161460.0,
-          "itm": true,
-          "implied_volatility": 0.198250205078125
-        }
-      ],
-      "detected_date": "2026-09-14"
+      "detected_date": "2026-09-15"
     },
     {
       "ticker": "ZTS",
       "company_name": "Zoetis Inc.",
       "current_price": 73.67,
       "expiration_date": "2026-09-18",
-      "days_to_expiration": 3,
-      "unusual_calls": 0,
-      "unusual_puts": 1,
-      "total_unusual": 1,
-      "call_premium": 0,
-      "put_premium": 362670.0,
-      "total_premium": 362670.0,
-      "put_call_ratio": 999,
+      "days_to_expiration": 2,
+      "unusual_calls": 1,
+      "unusual_puts": 3,
+      "total_unusual": 4,
+      "call_premium": 21150.0,
+      "put_premium": 529270.0,
+      "total_premium": 550420.0,
+      "put_call_ratio": 25.02,
       "sentiment": "BEARISH",
       "sentiment_emoji": "\ud83d\udd34",
-      "flow_score": 60,
-      "quality": "\ud83d\udd25 NOTABLE FLOW",
-      "top_calls": [],
+      "flow_score": 70,
+      "quality": "\ud83d\udd25\ud83d\udd25 STRONG FLOW",
+      "top_calls": [
+        {
+          "type": "CALL",
+          "strike": 75.0,
+          "volume": 282.0,
+          "oi": 0,
+          "vol_oi_ratio": 282.0,
+          "last_price": 0.75,
+          "premium": 21150.0,
+          "itm": false,
+          "implied_volatility": 0.062509375
+        }
+      ],
       "top_puts": [
         {
           "type": "PUT",
@@ -533,17 +994,381 @@
           "last_price": 34.54,
           "premium": 362670.0,
           "itm": true,
-          "implied_volatility": 2.333988540039062
+          "implied_volatility": 1.0000000000000003e-05
+        },
+        {
+          "type": "PUT",
+          "strike": 85.0,
+          "volume": 120.0,
+          "oi": 0,
+          "vol_oi_ratio": 120.0,
+          "last_price": 11.4,
+          "premium": 136800.0,
+          "itm": true,
+          "implied_volatility": 1.0000000000000003e-05
+        },
+        {
+          "type": "PUT",
+          "strike": 75.0,
+          "volume": 149.0,
+          "oi": 0,
+          "vol_oi_ratio": 149.0,
+          "last_price": 2.0,
+          "premium": 29800.0,
+          "itm": true,
+          "implied_volatility": 1.0000000000000003e-05
         }
       ],
-      "detected_date": "2026-09-14"
+      "detected_date": "2026-09-15"
+    },
+    {
+      "ticker": "FICO",
+      "company_name": "Fair Isaac Corporation",
+      "current_price": 1001.5,
+      "expiration_date": "2026-09-18",
+      "days_to_expiration": 2,
+      "unusual_calls": 0,
+      "unusual_puts": 2,
+      "total_unusual": 2,
+      "call_premium": 0,
+      "put_premium": 816360.0,
+      "total_premium": 816360.0,
+      "put_call_ratio": 999,
+      "sentiment": "BEARISH",
+      "sentiment_emoji": "\ud83d\udd34",
+      "flow_score": 70,
+      "quality": "\ud83d\udd25\ud83d\udd25 STRONG FLOW",
+      "top_calls": [],
+      "top_puts": [
+        {
+          "type": "PUT",
+          "strike": 1000.0,
+          "volume": 213.0,
+          "oi": 0.0,
+          "vol_oi_ratio": 213.0,
+          "last_price": 25.9,
+          "premium": 551670.0,
+          "itm": false,
+          "implied_volatility": 0.0039162109375
+        },
+        {
+          "type": "PUT",
+          "strike": 980.0,
+          "volume": 173.0,
+          "oi": 0.0,
+          "vol_oi_ratio": 173.0,
+          "last_price": 15.3,
+          "premium": 264690.0,
+          "itm": false,
+          "implied_volatility": 0.062509375
+        }
+      ],
+      "detected_date": "2026-09-15"
+    },
+    {
+      "ticker": "MSI",
+      "company_name": "Motorola Solutions, Inc.",
+      "current_price": 474.13,
+      "expiration_date": "2026-09-18",
+      "days_to_expiration": 2,
+      "unusual_calls": 1,
+      "unusual_puts": 0,
+      "total_unusual": 1,
+      "call_premium": 180790.0,
+      "put_premium": 0,
+      "total_premium": 180790.0,
+      "put_call_ratio": 0.0,
+      "sentiment": "BULLISH",
+      "sentiment_emoji": "\ud83d\udfe2",
+      "flow_score": 60,
+      "quality": "\ud83d\udd25 NOTABLE FLOW",
+      "top_calls": [
+        {
+          "type": "CALL",
+          "strike": 460.0,
+          "volume": 101.0,
+          "oi": 0,
+          "vol_oi_ratio": 101.0,
+          "last_price": 17.9,
+          "premium": 180790.0,
+          "itm": true,
+          "implied_volatility": 1.0000000000000003e-05
+        }
+      ],
+      "top_puts": [],
+      "detected_date": "2026-09-15"
+    },
+    {
+      "ticker": "CPRT",
+      "company_name": "Copart, Inc.",
+      "current_price": 31.73,
+      "expiration_date": "2026-09-18",
+      "days_to_expiration": 2,
+      "unusual_calls": 0,
+      "unusual_puts": 2,
+      "total_unusual": 2,
+      "call_premium": 0,
+      "put_premium": 242550.0,
+      "total_premium": 242550.0,
+      "put_call_ratio": 999,
+      "sentiment": "BEARISH",
+      "sentiment_emoji": "\ud83d\udd34",
+      "flow_score": 60,
+      "quality": "\ud83d\udd25 NOTABLE FLOW",
+      "top_calls": [],
+      "top_puts": [
+        {
+          "type": "PUT",
+          "strike": 47.5,
+          "volume": 105,
+          "oi": 0,
+          "vol_oi_ratio": 105,
+          "last_price": 12.8,
+          "premium": 134400.0,
+          "itm": true,
+          "implied_volatility": 1.0000000000000003e-05
+        },
+        {
+          "type": "PUT",
+          "strike": 45.0,
+          "volume": 105,
+          "oi": 0,
+          "vol_oi_ratio": 105,
+          "last_price": 10.3,
+          "premium": 108150.0,
+          "itm": true,
+          "implied_volatility": 1.0000000000000003e-05
+        }
+      ],
+      "detected_date": "2026-09-15"
+    },
+    {
+      "ticker": "MA",
+      "company_name": "Mastercard Incorporated",
+      "current_price": 574.42,
+      "expiration_date": "2026-09-18",
+      "days_to_expiration": 2,
+      "unusual_calls": 0,
+      "unusual_puts": 4,
+      "total_unusual": 4,
+      "call_premium": 0,
+      "put_premium": 136625.0,
+      "total_premium": 136625.0,
+      "put_call_ratio": 999,
+      "sentiment": "BEARISH",
+      "sentiment_emoji": "\ud83d\udd34",
+      "flow_score": 60,
+      "quality": "\ud83d\udd25 NOTABLE FLOW",
+      "top_calls": [],
+      "top_puts": [
+        {
+          "type": "PUT",
+          "strike": 562.5,
+          "volume": 202.0,
+          "oi": 0,
+          "vol_oi_ratio": 202.0,
+          "last_price": 2.3,
+          "premium": 46460.0,
+          "itm": false,
+          "implied_volatility": 0.062509375
+        },
+        {
+          "type": "PUT",
+          "strike": 565.0,
+          "volume": 137.0,
+          "oi": 0,
+          "vol_oi_ratio": 137.0,
+          "last_price": 2.95,
+          "premium": 40415.0,
+          "itm": false,
+          "implied_volatility": 0.0312596875
+        },
+        {
+          "type": "PUT",
+          "strike": 557.5,
+          "volume": 218.0,
+          "oi": 0,
+          "vol_oi_ratio": 218.0,
+          "last_price": 1.25,
+          "premium": 27250.0,
+          "itm": false,
+          "implied_volatility": 0.062509375
+        }
+      ],
+      "detected_date": "2026-09-15"
+    },
+    {
+      "ticker": "VRSN",
+      "company_name": "VeriSign, Inc.",
+      "current_price": 298.6,
+      "expiration_date": "2026-09-18",
+      "days_to_expiration": 2,
+      "unusual_calls": 0,
+      "unusual_puts": 2,
+      "total_unusual": 2,
+      "call_premium": 0,
+      "put_premium": 307004.0,
+      "total_premium": 307004.0,
+      "put_call_ratio": 999,
+      "sentiment": "BEARISH",
+      "sentiment_emoji": "\ud83d\udd34",
+      "flow_score": 60,
+      "quality": "\ud83d\udd25 NOTABLE FLOW",
+      "top_calls": [],
+      "top_puts": [
+        {
+          "type": "PUT",
+          "strike": 250.0,
+          "volume": 1633.0,
+          "oi": 0,
+          "vol_oi_ratio": 1633.0,
+          "last_price": 0.98,
+          "premium": 160034.0,
+          "itm": false,
+          "implied_volatility": 0.2500075
+        },
+        {
+          "type": "PUT",
+          "strike": 240.0,
+          "volume": 1633.0,
+          "oi": 0,
+          "vol_oi_ratio": 1633.0,
+          "last_price": 0.9,
+          "premium": 146970.0,
+          "itm": false,
+          "implied_volatility": 0.500005
+        }
+      ],
+      "detected_date": "2026-09-15"
+    },
+    {
+      "ticker": "PAYX",
+      "company_name": "Paychex, Inc.",
+      "current_price": 118.51,
+      "expiration_date": "2026-09-18",
+      "days_to_expiration": 2,
+      "unusual_calls": 1,
+      "unusual_puts": 0,
+      "total_unusual": 1,
+      "call_premium": 358830.0,
+      "put_premium": 0,
+      "total_premium": 358830.0,
+      "put_call_ratio": 0.0,
+      "sentiment": "BULLISH",
+      "sentiment_emoji": "\ud83d\udfe2",
+      "flow_score": 60,
+      "quality": "\ud83d\udd25 NOTABLE FLOW",
+      "top_calls": [
+        {
+          "type": "CALL",
+          "strike": 115.0,
+          "volume": 886.0,
+          "oi": 0,
+          "vol_oi_ratio": 886.0,
+          "last_price": 4.05,
+          "premium": 358830.0,
+          "itm": true,
+          "implied_volatility": 1.0000000000000003e-05
+        }
+      ],
+      "top_puts": [],
+      "detected_date": "2026-09-15"
+    },
+    {
+      "ticker": "TMO",
+      "company_name": "Thermo Fisher Scientific Inc.",
+      "current_price": 613.62,
+      "expiration_date": "2026-09-18",
+      "days_to_expiration": 2,
+      "unusual_calls": 2,
+      "unusual_puts": 1,
+      "total_unusual": 3,
+      "call_premium": 60495.0,
+      "put_premium": 93840.0,
+      "total_premium": 154335.0,
+      "put_call_ratio": 1.55,
+      "sentiment": "NEUTRAL",
+      "sentiment_emoji": "\ud83d\udfe1",
+      "flow_score": 60,
+      "quality": "\ud83d\udd25 NOTABLE FLOW",
+      "top_calls": [
+        {
+          "type": "CALL",
+          "strike": 730.0,
+          "volume": 985.0,
+          "oi": 0,
+          "vol_oi_ratio": 985.0,
+          "last_price": 0.45,
+          "premium": 44325.0,
+          "itm": false,
+          "implied_volatility": 0.2500075
+        },
+        {
+          "type": "CALL",
+          "strike": 670.0,
+          "volume": 294.0,
+          "oi": 0,
+          "vol_oi_ratio": 294.0,
+          "last_price": 0.55,
+          "premium": 16170.000000000002,
+          "itm": false,
+          "implied_volatility": 0.12500875
+        }
+      ],
+      "top_puts": [
+        {
+          "type": "PUT",
+          "strike": 610.0,
+          "volume": 102.0,
+          "oi": 0,
+          "vol_oi_ratio": 102.0,
+          "last_price": 9.2,
+          "premium": 93840.0,
+          "itm": false,
+          "implied_volatility": 0.015634843750000002
+        }
+      ],
+      "detected_date": "2026-09-15"
+    },
+    {
+      "ticker": "VEEV",
+      "company_name": "Veeva Systems Inc.",
+      "current_price": 265.67,
+      "expiration_date": "2026-09-18",
+      "days_to_expiration": 2,
+      "unusual_calls": 1,
+      "unusual_puts": 0,
+      "total_unusual": 1,
+      "call_premium": 140320.0,
+      "put_premium": 0,
+      "total_premium": 140320.0,
+      "put_call_ratio": 0.0,
+      "sentiment": "BULLISH",
+      "sentiment_emoji": "\ud83d\udfe2",
+      "flow_score": 60,
+      "quality": "\ud83d\udd25 NOTABLE FLOW",
+      "top_calls": [
+        {
+          "type": "CALL",
+          "strike": 260.0,
+          "volume": 160,
+          "oi": 0,
+          "vol_oi_ratio": 160,
+          "last_price": 8.77,
+          "premium": 140319.99999999997,
+          "itm": true,
+          "implied_volatility": 1.0000000000000003e-05
+        }
+      ],
+      "top_puts": [],
+      "detected_date": "2026-09-15"
     },
     {
       "ticker": "AJG",
       "company_name": "Arthur J. Gallagher & Co.",
       "current_price": 253.3,
       "expiration_date": "2026-09-18",
-      "days_to_expiration": 3,
+      "days_to_expiration": 2,
       "unusual_calls": 1,
       "unusual_puts": 0,
       "total_unusual": 1,
@@ -565,63 +1390,84 @@
           "last_price": 44.45,
           "premium": 484505.0,
           "itm": true,
-          "implied_volatility": 0.7417018017578124
+          "implied_volatility": 1.0000000000000003e-05
         }
       ],
       "top_puts": [],
-      "detected_date": "2026-09-14"
+      "detected_date": "2026-09-15"
     },
     {
-      "ticker": "WMT",
-      "company_name": "Walmart Inc.",
-      "current_price": 109.08,
+      "ticker": "VRSK",
+      "company_name": "Verisk Analytics, Inc.",
+      "current_price": 187.03,
       "expiration_date": "2026-09-18",
-      "days_to_expiration": 3,
+      "days_to_expiration": 2,
       "unusual_calls": 1,
-      "unusual_puts": 1,
-      "total_unusual": 2,
-      "call_premium": 69882.0,
-      "put_premium": 712800.0,
-      "total_premium": 782682.0,
-      "put_call_ratio": 10.2,
-      "sentiment": "BEARISH",
-      "sentiment_emoji": "\ud83d\udd34",
+      "unusual_puts": 0,
+      "total_unusual": 1,
+      "call_premium": 21360.0,
+      "put_premium": 0,
+      "total_premium": 21360.0,
+      "put_call_ratio": 0.0,
+      "sentiment": "BULLISH",
+      "sentiment_emoji": "\ud83d\udfe2",
       "flow_score": 50,
       "quality": "\ud83d\udd25 NOTABLE FLOW",
       "top_calls": [
         {
           "type": "CALL",
-          "strike": 113.0,
-          "volume": 3678.0,
-          "oi": 1086,
-          "vol_oi_ratio": 3.386740331491713,
-          "last_price": 0.19,
-          "premium": 69882.0,
+          "strike": 200.0,
+          "volume": 445.0,
+          "oi": 0,
+          "vol_oi_ratio": 445.0,
+          "last_price": 0.48,
+          "premium": 21360.0,
           "itm": false,
-          "implied_volatility": 0.25391371093750004
+          "implied_volatility": 0.12500875
         }
       ],
+      "top_puts": [],
+      "detected_date": "2026-09-15"
+    },
+    {
+      "ticker": "ROL",
+      "company_name": "Rollins, Inc.",
+      "current_price": 35.31,
+      "expiration_date": "2026-09-18",
+      "days_to_expiration": 2,
+      "unusual_calls": 0,
+      "unusual_puts": 1,
+      "total_unusual": 1,
+      "call_premium": 0,
+      "put_premium": 79120.0,
+      "total_premium": 79120.0,
+      "put_call_ratio": 999,
+      "sentiment": "BEARISH",
+      "sentiment_emoji": "\ud83d\udd34",
+      "flow_score": 50,
+      "quality": "\ud83d\udd25 NOTABLE FLOW",
+      "top_calls": [],
       "top_puts": [
         {
           "type": "PUT",
-          "strike": 135.0,
-          "volume": 240.0,
-          "oi": 60,
-          "vol_oi_ratio": 4.0,
-          "last_price": 29.7,
-          "premium": 712800.0,
+          "strike": 37.5,
+          "volume": 344.0,
+          "oi": 0,
+          "vol_oi_ratio": 344.0,
+          "last_price": 2.3,
+          "premium": 79120.0,
           "itm": true,
-          "implied_volatility": 1.5263695556640622
+          "implied_volatility": 1.0000000000000003e-05
         }
       ],
-      "detected_date": "2026-09-14"
+      "detected_date": "2026-09-15"
     },
     {
       "ticker": "SPGI",
       "company_name": "S&P Global Inc.",
       "current_price": 418.54,
       "expiration_date": "2026-09-18",
-      "days_to_expiration": 3,
+      "days_to_expiration": 2,
       "unusual_calls": 0,
       "unusual_puts": 1,
       "total_unusual": 1,
@@ -631,144 +1477,133 @@
       "put_call_ratio": 999,
       "sentiment": "BEARISH",
       "sentiment_emoji": "\ud83d\udd34",
-      "flow_score": 40,
-      "quality": "MODERATE",
+      "flow_score": 50,
+      "quality": "\ud83d\udd25 NOTABLE FLOW",
       "top_calls": [],
       "top_puts": [
         {
           "type": "PUT",
           "strike": 407.5,
           "volume": 104.0,
-          "oi": 18,
-          "vol_oi_ratio": 5.777777777777778,
+          "oi": 0,
+          "vol_oi_ratio": 104.0,
           "last_price": 2.4,
           "premium": 24960.0,
           "itm": false,
-          "implied_volatility": 0.34241380249023434
+          "implied_volatility": 0.062509375
         }
       ],
-      "detected_date": "2026-09-14"
+      "detected_date": "2026-09-15"
     },
     {
-      "ticker": "COST",
-      "company_name": "Costco Wholesale Corporation",
-      "current_price": 918.91,
+      "ticker": "MSCI",
+      "company_name": "MSCI Inc.",
+      "current_price": 553.65,
       "expiration_date": "2026-09-18",
-      "days_to_expiration": 3,
-      "unusual_calls": 2,
+      "days_to_expiration": 2,
+      "unusual_calls": 1,
       "unusual_puts": 0,
-      "total_unusual": 2,
-      "call_premium": 409800.0,
+      "total_unusual": 1,
+      "call_premium": 10965.0,
       "put_premium": 0,
-      "total_premium": 409800.0,
+      "total_premium": 10965.0,
       "put_call_ratio": 0.0,
       "sentiment": "BULLISH",
       "sentiment_emoji": "\ud83d\udfe2",
-      "flow_score": 40,
-      "quality": "MODERATE",
+      "flow_score": 50,
+      "quality": "\ud83d\udd25 NOTABLE FLOW",
       "top_calls": [
         {
           "type": "CALL",
-          "strike": 945.0,
-          "volume": 2675.0,
-          "oi": 783,
-          "vol_oi_ratio": 3.416347381864623,
-          "last_price": 1.2,
-          "premium": 321000.0,
+          "strike": 630.0,
+          "volume": 129.0,
+          "oi": 0,
+          "vol_oi_ratio": 129.0,
+          "last_price": 0.85,
+          "premium": 10965.0,
           "itm": false,
-          "implied_volatility": 0.20533021240234373
-        },
-        {
-          "type": "CALL",
-          "strike": 937.5,
-          "volume": 370.0,
-          "oi": 79,
-          "vol_oi_ratio": 4.6835443037974684,
-          "last_price": 2.4,
-          "premium": 88800.0,
-          "itm": false,
-          "implied_volatility": 0.21662160339355468
+          "implied_volatility": 0.2500075
         }
       ],
       "top_puts": [],
-      "detected_date": "2026-09-14"
+      "detected_date": "2026-09-15"
     },
     {
-      "ticker": "CPRT",
-      "company_name": "Copart, Inc.",
-      "current_price": 31.73,
+      "ticker": "IDXX",
+      "company_name": "IDEXX Laboratories, Inc.",
+      "current_price": 509.56,
       "expiration_date": "2026-09-18",
-      "days_to_expiration": 3,
-      "unusual_calls": 0,
-      "unusual_puts": 2,
-      "total_unusual": 2,
-      "call_premium": 0,
-      "put_premium": 242550.0,
-      "total_premium": 242550.0,
-      "put_call_ratio": 999,
-      "sentiment": "BEARISH",
-      "sentiment_emoji": "\ud83d\udd34",
-      "flow_score": 40,
-      "quality": "MODERATE",
-      "top_calls": [],
-      "top_puts": [
+      "days_to_expiration": 2,
+      "unusual_calls": 1,
+      "unusual_puts": 0,
+      "total_unusual": 1,
+      "call_premium": 20700.0,
+      "put_premium": 0,
+      "total_premium": 20700.0,
+      "put_call_ratio": 0.0,
+      "sentiment": "BULLISH",
+      "sentiment_emoji": "\ud83d\udfe2",
+      "flow_score": 50,
+      "quality": "\ud83d\udd25 NOTABLE FLOW",
+      "top_calls": [
         {
-          "type": "PUT",
-          "strike": 47.5,
-          "volume": 105,
-          "oi": 28,
-          "vol_oi_ratio": 3.75,
-          "last_price": 12.8,
-          "premium": 134400.0,
-          "itm": true,
-          "implied_volatility": 1.93359408203125
+          "type": "CALL",
+          "strike": 560.0,
+          "volume": 100.0,
+          "oi": 0,
+          "vol_oi_ratio": 100.0,
+          "last_price": 2.07,
+          "premium": 20699.999999999996,
+          "itm": false,
+          "implied_volatility": 0.2500075
+        }
+      ],
+      "top_puts": [],
+      "detected_date": "2026-09-15"
+    },
+    {
+      "ticker": "ICE",
+      "company_name": "Intercontinental Exchange, Inc.",
+      "current_price": 157.75,
+      "expiration_date": "2026-09-18",
+      "days_to_expiration": 2,
+      "unusual_calls": 2,
+      "unusual_puts": 0,
+      "total_unusual": 2,
+      "call_premium": 61115.0,
+      "put_premium": 0,
+      "total_premium": 61115.0,
+      "put_call_ratio": 0.0,
+      "sentiment": "BULLISH",
+      "sentiment_emoji": "\ud83d\udfe2",
+      "flow_score": 50,
+      "quality": "\ud83d\udd25 NOTABLE FLOW",
+      "top_calls": [
+        {
+          "type": "CALL",
+          "strike": 160.0,
+          "volume": 511.0,
+          "oi": 0,
+          "vol_oi_ratio": 511.0,
+          "last_price": 0.85,
+          "premium": 43435.0,
+          "itm": false,
+          "implied_volatility": 0.0312596875
         },
         {
-          "type": "PUT",
-          "strike": 45.0,
-          "volume": 105,
-          "oi": 26,
-          "vol_oi_ratio": 4.038461538461538,
-          "last_price": 10.3,
-          "premium": 108150.0,
-          "itm": true,
-          "implied_volatility": 1.8437507812499998
-        }
-      ],
-      "detected_date": "2026-09-14"
-    },
-    {
-      "ticker": "MA",
-      "company_name": "Mastercard Incorporated",
-      "current_price": 574.42,
-      "expiration_date": "2026-09-18",
-      "days_to_expiration": 3,
-      "unusual_calls": 0,
-      "unusual_puts": 1,
-      "total_unusual": 1,
-      "call_premium": 0,
-      "put_premium": 46460.0,
-      "total_premium": 46460.0,
-      "put_call_ratio": 999,
-      "sentiment": "BEARISH",
-      "sentiment_emoji": "\ud83d\udd34",
-      "flow_score": 40,
-      "quality": "MODERATE",
-      "top_calls": [],
-      "top_puts": [
-        {
-          "type": "PUT",
-          "strike": 562.5,
-          "volume": 202.0,
-          "oi": 25,
-          "vol_oi_ratio": 8.08,
-          "last_price": 2.3,
-          "premium": 46460.0,
+          "type": "CALL",
+          "strike": 162.5,
+          "volume": 520.0,
+          "oi": 0,
+          "vol_oi_ratio": 520.0,
+          "last_price": 0.34,
+          "premium": 17680.0,
           "itm": false,
-          "implied_volatility": 0.26868407104492187
+          "implied_volatility": 0.062509375
         }
       ],
-      "detected_date": "2026-09-14"
+      "top_puts": [],
+      "detected_date": "2026-09-15"
     }
   ]
 }
