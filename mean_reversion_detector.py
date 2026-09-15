@@ -797,6 +797,19 @@ class MeanReversionDetector:
             import time
             time.sleep(0.5)
 
+        # Una señal por ticker mientras la anterior siga viva. Sin esto el
+        # detector reemitía el mismo ticker cada día mientras caía: HRI salió
+        # SIETE veces entre el 26-ago y el 7-sep (158 → 156 → 157 → 151 → 152
+        # → 138 → 139). No son siete oportunidades, es la misma acción cayendo.
+        # Y contaminaba las estadísticas: deduplicando, el acierto a 7d de esta
+        # estrategia sube del 33% al 45%. Ver `senales_abiertas`.
+        import senales_abiertas
+        opportunities, omitidos = senales_abiertas.filtrar(opportunities, 'MEAN_REVERSION')
+        if omitidos:
+            print(f"   🔁 {len(omitidos)} con señal ya abierta, no se reemiten: "
+                  f"{', '.join(sorted(set(omitidos))[:8])}"
+                  f"{'…' if len(set(omitidos)) > 8 else ''}")
+
         # Sort by score
         opportunities.sort(key=lambda x: x['reversion_score'], reverse=True)
 
@@ -817,27 +830,71 @@ class MeanReversionDetector:
         self.results = opportunities
         return opportunities
 
-    # ── Win-rate lookup (from backtest history) ──────────────────────────────
+    # ── Win rate: del tracker real, o nada ───────────────────────────────────
 
-    # Pre-computed from docs/backtest/mr_history_backtest_*.json (30-day hold)
-    _WIN_RATE_TIERS = {
-        (90, 100): 100.0,
-        (80, 89):  83.9,
-        (70, 79):  63.2,
-        (60, 69):  71.7,
-        (0,  59):  55.0,   # estimated — below backtest sample range
-    }
+    # Aquí había una tabla fija que traducía el score a un número:
+    #
+    #     (90, 100): 100.0      (70, 79): 63.2
+    #     (80,  89):  83.9      (60, 69): 71.7
+    #
+    # y se publicaba en la columna `historical_win_rate`, que el frontend pinta
+    # como «100% hist». No venía de ningún histórico: un score de 92 devolvía
+    # «100%» porque caía en el primer tramo, y ya. La tabla ni siquiera era
+    # monótona — el tramo 60-69 daba MEJOR win rate (71,7%) que el 70-79
+    # (63,2%), señal de que salió de un backtest con muestras diminutas por
+    # tramo y nadie la revisó.
+    #
+    # Un número que dice ser medido y no lo es engaña más que no tener número,
+    # y va contra la regla de la casa: si el dato falla, no se inventa.
+    #
+    # Ahora sale del tracker o no sale. Con la muestra de hoy —cero señales con
+    # 30 días cumplidos— la columna irá vacía, que es la respuesta honesta
+    # hasta que las de agosto cumplan plazo.
 
-    def _score_to_win_rate(self, score: float) -> float:
-        for (lo, hi), wr in self._WIN_RATE_TIERS.items():
-            if lo <= score <= hi:
-                return wr
-        return 55.0
+    # Mínimo de señales resueltas para publicar un porcentaje. Por debajo, el
+    # número diría más del azar que del sistema.
+    MUESTRA_MINIMA_WIN_RATE = 30
+
+    def _win_rate_real(self):
+        """% de acierto medido en el tracker, al horizonte de esta familia.
+
+        None si no hay muestra suficiente — y entonces no se publica nada.
+        """
+        try:
+            import csv as _csv
+            from horizontes import CORTO_PRINCIPAL
+            ruta = Path(__file__).parent / 'docs' / 'portfolio_tracker' / 'recommendations.csv'
+            if not ruta.exists():
+                return None
+            col = f'return_{CORTO_PRINCIPAL}'
+            vals = []
+            with open(ruta) as fh:
+                for r in _csv.DictReader(fh):
+                    if r.get('strategy') != 'MEAN_REVERSION':
+                        continue
+                    v = r.get(col)
+                    if v in (None, '', 'nan'):
+                        continue
+                    try:
+                        vals.append(float(v))
+                    except ValueError:
+                        continue
+            if len(vals) < self.MUESTRA_MINIMA_WIN_RATE:
+                return None
+            return 100.0 * sum(1 for x in vals if x > 0) / len(vals)
+        except Exception:
+            return None
 
     def _add_win_rates(self, opportunities: list) -> None:
-        """Adds historical_win_rate field to each opportunity based on score tier."""
+        wr = self._win_rate_real()
+        if wr is None:
+            print(f"   ℹ️  Sin muestra suficiente (<{self.MUESTRA_MINIMA_WIN_RATE} "
+                  f"señales resueltas a {__import__('horizontes').CORTO_PRINCIPAL}): "
+                  f"no se publica win rate")
+            return
         for opp in opportunities:
-            opp['historical_win_rate'] = self._score_to_win_rate(opp.get('reversion_score', 0))
+            opp['historical_win_rate'] = round(wr, 1)
+
 
     # ── Batch AI validation via Groq ─────────────────────────────────────────
 
