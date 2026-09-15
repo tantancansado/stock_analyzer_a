@@ -10,6 +10,7 @@ import TickerLogo from '../components/TickerLogo'
 import EmptyState from '../components/EmptyState'
 import PageHeader from '@/components/PageHeader'
 import PageShell from '@/components/PageShell'
+import CifrasClave from '../components/CifrasClave'
 
 // Map yfinance sector names → rotation sector names
 const SECTOR_MAP: Record<string, string> = {
@@ -126,20 +127,12 @@ export default function SectorRotation() {
         </div>
       )}
 
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-5">
-        {[
-          { label: 'Sectores', value: results.length, sub: 'analizados', idx: 1 },
-          { label: 'Leading', value: leading.length, sub: 'momentum positivo', color: 'text-emerald-400', idx: 2 },
-          { label: 'Improving', value: improving.length, sub: 'ganando fuerza', color: 'text-blue-400', idx: 3 },
-          { label: 'Alertas', value: alerts.length, sub: `${rotationIn} rotacion IN, ${rotationOut} OUT`, idx: 4 },
-        ].map(({ label, value, sub, color, idx }) => (
-          <Card key={label} className={`glass p-5 stagger-${idx} animate-fade-in-up`}>
-            <div className="etiqueta-seccion mb-2">{label}</div>
-            <div className={`text-cifra font-extrabold tracking-tight tabular-nums leading-none mb-2 ${color ?? ''}`}>{value}</div>
-            <div className="text-micro text-muted-foreground">{sub}</div>
-          </Card>
-        ))}
-      </div>
+      <CifrasClave cifras={[
+        { etiqueta: 'Sectores', valor: results.length, sub: 'analizados' },
+        { etiqueta: 'Leading', valor: leading.length, sub: 'momentum positivo', tono: 'favor' },
+        { etiqueta: 'Improving', valor: improving.length, sub: 'ganando fuerza', tono: 'neutro' },
+        { etiqueta: 'Alertas', valor: alerts.length, sub: `${rotationIn} rotacion IN, ${rotationOut} OUT` },
+      ]} />
 
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 mb-5">
         <Card className="glass p-5 border-emerald-500/20 stagger-1 animate-fade-in-up">

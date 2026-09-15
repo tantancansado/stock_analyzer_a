@@ -7,6 +7,7 @@ import StaleDataBanner from '../components/StaleDataBanner'
 import { Card } from '@/components/ui/card'
 import { CalendarDays, ChevronDown, ChevronRight, SearchX, AlarmClock, Banknote, ChartColumn, Pill, TrendingUp} from 'lucide-react'
 import PageShell from '@/components/PageShell'
+import CifrasClave from '../components/CifrasClave'
 
 // ─── Config ───────────────────────────────────────────────────────────────────
 
@@ -261,20 +262,12 @@ export default function CatalystCalendar() {
       />
 
       {/* Summary cards */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-5">
-        {[
-          { label: 'Total eventos', value: totalEvents, sub: `${data?.horizon_days ?? 90}d horizonte`, color: '' },
-          { label: 'Esta semana', value: thisWeek, sub: 'próximos 7 días', color: thisWeek > 5 ? 'text-red-400' : 'text-amber-400' },
-          { label: 'Alto impacto', value: highImpact, sub: 'FOMC, earnings clave', color: 'text-red-400' },
-          { label: 'Earnings', value: earningsCount, sub: 'resultados próximos', color: 'text-emerald-400' },
-        ].map(({ label, value, sub, color }) => (
-          <Card key={label} className="glass p-5">
-            <div className="etiqueta-seccion mb-2">{label}</div>
-            <div className={`text-cifra font-extrabold tracking-tight tabular-nums leading-none mb-2 ${color}`}>{value}</div>
-            <div className="text-micro text-muted-foreground">{sub}</div>
-          </Card>
-        ))}
-      </div>
+      <CifrasClave cifras={[
+        { etiqueta: 'Total eventos', valor: totalEvents, sub: `${data?.horizon_days ?? 90}d horizonte` },
+        { etiqueta: 'Esta semana', valor: thisWeek, sub: 'próximos 7 días', tono: thisWeek > 5 ? 'alarma' : 'aviso' },
+        { etiqueta: 'Alto impacto', valor: highImpact, sub: 'FOMC, earnings clave', tono: 'alarma' },
+        { etiqueta: 'Earnings', valor: earningsCount, sub: 'resultados próximos', tono: 'favor' },
+      ]} />
 
       {/* Filter bar */}
       <Card className="liquid-glass px-4 py-3 mb-4 rounded-xl">

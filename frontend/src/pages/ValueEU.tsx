@@ -113,6 +113,7 @@ import { useEntryVerdicts } from '../hooks/useEntryVerdicts'
 import { useValueExperienceMode } from '../hooks/useValueExperienceMode'
 import { ValueClarityPanel, ValueDecisionBadge, ValueModeToggle } from '../components/ValueDecision'
 import { getValueDecision } from '@/lib/valueDecision'
+import CifrasClave from '../components/CifrasClave'
 
 const MARKET_FLAGS: Record<string, string> = {
   DAX40: '🇩🇪', FTSE100: '🇬🇧', CAC40: '🇫🇷',
@@ -345,9 +346,10 @@ export default function ValueEU() {
   return (
     <>
       <StaleDataBanner module="value_eu" />
+      {/* Título visible, como en ValueUS: la pestaña dice qué miras, el título
+          dice dónde estás, y sin él la página no tiene punto de entrada. */}
       <PageHeader
-        tituloOculto
-        title="VALUE Europa"
+        title="Value Europa"
         subtitle={<>
           {regimeLabel && (
             <Badge variant={nlRegimenTono(String(regimeCrudo))} className="mr-2 align-middle text-mini">
@@ -402,32 +404,24 @@ export default function ValueEU() {
         />
       )}
 
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-5">
-        {[
-          { label: 'Oportunidades', value: rows.length, sub: `${markets.size} mercados`, idx: 1 },
-          { label: 'Score Medio', value: avgScore.toFixed(1), sub: 'de 100 puntos', color: avgScore >= 50 ? 'text-emerald-400' : 'text-amber-400', idx: 2 },
-          { label: 'Dividendo Medio', value: `${avgDivYield.toFixed(1)}%`, sub: `${avgDiv.length} con dividendo`, color: 'text-emerald-400', idx: 3 },
-          { label: 'Mejor Upside', value: `+${bestUpside.toFixed(0)}%`, sub: 'potencial analistas', color: 'text-emerald-400', idx: 4 },
-        ].map(({ label, value, sub, color, idx }) => (
-          <Card key={label} className={`glass p-5 stagger-${idx}`}>
-            <div className="etiqueta-seccion mb-2">{label}</div>
-            <div className={`text-cifra font-extrabold tracking-tight tabular-nums leading-none mb-2 ${color ?? ''}`}>{value}</div>
-            <div className="text-micro text-muted-foreground">{sub}</div>
-          </Card>
-        ))}
-      </div>
+      <CifrasClave cifras={[
+        { etiqueta: 'Oportunidades', valor: rows.length, sub: `${markets.size} mercados` },
+        { etiqueta: 'Score medio', valor: avgScore.toFixed(1), sub: 'de 100 puntos', tono: avgScore >= 50 ? 'favor' : 'aviso' },
+        { etiqueta: 'Dividendo medio', valor: `${avgDivYield.toFixed(1)}%`, sub: `${avgDiv.length} con dividendo`, tono: 'favor' },
+        { etiqueta: 'Mejor upside', valor: `+${bestUpside.toFixed(0)}%`, sub: 'potencial analistas', tono: 'favor' },
+      ]} />
 
+      {/* Una nota, no una caja — mismo tratamiento que en ValueUS. */}
       {concentrated.length > 0 && (
-        <Card className="glass mb-4 px-5 py-3 border-amber-500/30">
-          <span className="text-amber-400 text-cuerpo font-medium">
-            Concentración sectorial: {concentrated.map(([s, c]) => `${s} (${c})`).join(', ')}
-          </span>
-        </Card>
+        <p className="mb-5 flex items-center gap-2 text-apoyo text-warn">
+          <TriangleAlert size={12} strokeWidth={2.25} className="shrink-0" />
+          Concentración sectorial: {concentrated.map(([s, c]) => `${s} (${c})`).join(', ')}
+        </p>
       )}
 
       {/* Filter Bar */}
       {clearMode ? (
-        <Card className="liquid-glass mb-3 px-4 py-3 animate-fade-in-up rounded-xl">
+        <div className="mb-3 flex flex-wrap items-center gap-3 border-b border-border/60 pb-3">
           <div className="flex flex-wrap items-center gap-3">
             {/* basis-full en móvil: con solo min-w-0 flex-1, el texto competía
                 por la línea con los tres controles de al lado y se quedaba en
@@ -449,7 +443,7 @@ export default function ValueEU() {
               {filtered.length !== rows.length ? `${filtered.length} / ${rows.length}` : `${rows.length} ideas`}
             </span>
           </div>
-        </Card>
+        </div>
       ) : (
       <Card className="liquid-glass px-4 py-3 mb-3 animate-fade-in-up rounded-xl">
         <div className="flex flex-wrap gap-x-4 gap-y-2 items-center">

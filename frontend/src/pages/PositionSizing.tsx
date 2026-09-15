@@ -12,6 +12,7 @@ import EmptyState from '../components/EmptyState'
 import PageHeader from '@/components/PageHeader'
 import PageShell from '@/components/PageShell'
 import { Ruler } from 'lucide-react'
+import CifrasClave from '../components/CifrasClave'
 
 interface PositionRow {
   ticker: string
@@ -58,10 +59,11 @@ function riskColor(pct: number) {
  * cualquier cartera diversificada salía en rojo. Pintaba un 4.8% repartido
  * entre 13 nombres —conservador— del mismo color que una alarma.
  */
-function totalRiskColor(pct: number) {
-  if (pct > 12) return 'text-red-400'
-  if (pct > 6) return 'text-amber-400'
-  return 'text-emerald-400'
+/** Los cortes que tenía `totalRiskColor`, en el vocabulario de tonos. */
+function totalRiskTono(pct: number): 'favor' | 'aviso' | 'alarma' {
+  if (pct > 12) return 'alarma'
+  if (pct > 6) return 'aviso'
+  return 'favor'
 }
 
 const BASE_PORTFOLIO = 100_000
@@ -120,34 +122,14 @@ export default function PositionSizing() {
         </div>
       </PageHeader>
 
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-5">
-        <Card className="glass p-5 stagger-1">
-          <div className="etiqueta-seccion mb-2">Posiciones</div>
-          <div className="text-cifra font-extrabold tracking-tight tabular-nums leading-none mb-2">{rows.length}</div>
-          <div className="text-micro text-muted-foreground">tickers en cartera</div>
-        </Card>
-        <Card className="glass p-5 stagger-2">
-          <div className="etiqueta-seccion mb-2">Capital Asignado</div>
-          <div className="text-cifra font-extrabold tracking-tight tabular-nums leading-none mb-2">
-            ${(totalValue / 1000).toFixed(0)}k
-          </div>
-          <div className="text-micro text-muted-foreground">de ${(portfolioSize / 1000).toFixed(0)}k</div>
-        </Card>
-        <Card className="glass p-5 stagger-3">
-          <div className="etiqueta-seccion mb-2">Riesgo Total</div>
-          <div className={`text-cifra font-extrabold tracking-tight tabular-nums leading-none mb-2 ${totalRiskColor(totalRisk)}`}>
-            {totalRisk.toFixed(1)}%
-          </div>
-          <div className="text-micro text-muted-foreground">del portfolio</div>
-        </Card>
-        <Card className="glass p-5 stagger-4">
-          <div className="etiqueta-seccion mb-2">Posición Media</div>
-          <div className="text-cifra font-extrabold tracking-tight tabular-nums leading-none mb-2">
-            {avgSize.toFixed(1)}%
-          </div>
-          <div className="text-micro text-muted-foreground">del portfolio</div>
-        </Card>
-      </div>
+      <CifrasClave cifras={[
+        { etiqueta: 'Posiciones',       valor: rows.length, sub: 'tickers en cartera' },
+        { etiqueta: 'Capital asignado', valor: `$${(totalValue / 1000).toFixed(0)}k`,
+          sub: `de $${(portfolioSize / 1000).toFixed(0)}k` },
+        { etiqueta: 'Riesgo total',     valor: totalRisk.toFixed(1), unidad: '%', sub: 'del portfolio',
+          tono: totalRiskTono(totalRisk) },
+        { etiqueta: 'Posición media',   valor: avgSize.toFixed(1), unidad: '%', sub: 'del portfolio' },
+      ]} />
 
       {/* El Kelly base es de cartera, el mismo para todas las filas: se decía
           una vez por posición —13 veces el mismo número— en vez de aquí. Y sin

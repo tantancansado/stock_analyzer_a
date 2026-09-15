@@ -9,6 +9,7 @@ import PageHeader from '@/components/PageHeader'
 import CsvDownload from '@/components/CsvDownload'
 import PageShell from '@/components/PageShell'
 import { Brain, Minus, TrendingDown, TrendingUp, Repeat, Zap, ChartColumn, Sparkle, type LucideIcon } from 'lucide-react'
+import CifrasClave from '../components/CifrasClave'
 
 interface TopContract {
   side: 'CALL' | 'PUT'
@@ -210,20 +211,12 @@ export default function OptionsFlow() {
       </PageHeader>
 
       {/* Summary cards */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-5">
-        {[
-          { label: 'Tickers con flujo', value: raw?.total_tickers_with_flow ?? 0, sub: 'con actividad opciones', idx: 1 },
-          { label: 'Bullish', value: raw?.bullish_count ?? 0, sub: 'calls dominan', color: 'text-emerald-400', idx: 2 },
-          { label: 'Bearish', value: raw?.bearish_count ?? 0, sub: 'puts dominan', color: 'text-red-400', idx: 3 },
-          { label: 'Premium Total', value: fmtPremium(totalPremium), sub: `${raw?.unusual_count ?? 0} con bloque >$100K`, idx: 4 },
-        ].map(({ label, value, sub, color, idx }) => (
-          <Card key={label} className={`glass p-5 stagger-${idx}`}>
-            <div className="etiqueta-seccion mb-2">{label}</div>
-            <div className={`text-cifra font-extrabold tracking-tight tabular-nums leading-none mb-2 ${color ?? ''}`}>{value}</div>
-            <div className="text-micro text-muted-foreground">{sub}</div>
-          </Card>
-        ))}
-      </div>
+      <CifrasClave cifras={[
+        { etiqueta: 'Tickers con flujo', valor: raw?.total_tickers_with_flow ?? 0, sub: 'con actividad opciones' },
+        { etiqueta: 'Bullish', valor: raw?.bullish_count ?? 0, sub: 'calls dominan', tono: 'favor' },
+        { etiqueta: 'Bearish', valor: raw?.bearish_count ?? 0, sub: 'puts dominan', tono: 'alarma' },
+        { etiqueta: 'Premium total', valor: fmtPremium(totalPremium), sub: `${raw?.unusual_count ?? 0} con bloque >$100K` },
+      ]} />
 
       {/* Filters */}
       <div className="flex flex-wrap gap-2 mb-4">

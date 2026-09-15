@@ -13,7 +13,6 @@ import {
 import AiNarrativeCard from '../components/AiNarrativeCard'
 
 import { useApi } from '../hooks/useApi'
-import { useCountUp } from '../hooks/useCountUp'
 import { Card, CardContent } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import GradeBadge from '../components/GradeBadge'
@@ -28,6 +27,7 @@ import { usePersonalPortfolio } from '../context/PersonalPortfolioContext'
 import { PieChart, Pie, Cell, ResponsiveContainer, RadarChart, PolarGrid, PolarAngleAxis, Radar } from 'recharts'
 import { cn } from '@/lib/utils'
 import EmptyState from '@/components/EmptyState'
+import CifrasClave from '../components/CifrasClave'
 
 // Cerebro se carga solo cuando se abre su pestaña (no penaliza el Resumen)
 const Cerebro = lazy(() => import('./Cerebro'))
@@ -64,39 +64,14 @@ function regimeStyle(regime: string | undefined) {
 
 // ── sub-components ───────────────────────────────────────────────────────────
 
-function StatCard({
-  label, value, sub, color = 'text-foreground', loading = false,
-  countTo, countDecimals = 0, countSuffix = '',
-}: {
-  label: string
-  value: React.ReactNode
-  sub?: React.ReactNode
-  color?: string
-  loading?: boolean
-  countTo?: number
-  countDecimals?: number
-  countSuffix?: string
-}) {
-  const counted = useCountUp(countTo ?? null, 700, countDecimals)
-  const displayValue = countTo != null
-    ? `${counted.toFixed(countDecimals)}${countSuffix}`
-    : value
-
-  if (loading) return (
-    <Card className="glass p-5">
-      <Skeleton className="h-2.5 w-1/2 mb-4" />
-      <Skeleton className="h-8 w-2/5 mb-3" />
-      <Skeleton className="h-2.5 w-3/5" />
-    </Card>
-  )
-  return (
-    <Card className="glass p-5">
-      <div className="etiqueta-seccion tracking-[0.16em] mb-2">{label}</div>
-      <div className={`text-cifra font-extrabold tracking-tight tabular-nums leading-none mb-2 ${color}`}>{displayValue}</div>
-      {sub && <div className="text-apoyo text-muted-foreground">{sub}</div>}
-    </Card>
-  )
-}
+// Aquí vivía un `StatCard` propio de esta página: etiqueta en versalitas, cifra
+// en `font-extrabold` y todo dentro de una tarjeta `.glass`. Cinco páginas
+// tenían el suyo y ninguno era igual que otro. Lo sustituye `CifrasClave`.
+//
+// Se pierde por el camino la animación de conteo del número. Es deliberado:
+// contaba hasta la cifra cada vez que la página se montaba, lo que llama la
+// atención sobre un dato que no ha cambiado — y en una pantalla que ya tiene
+// que dirigir la mirada a lo importante, eso es un competidor más.
 
 function RegimeCard({ label, data, loading }: { label: string; data: Record<string, unknown> | undefined; loading: boolean }) {
   if (loading) return (
@@ -1138,6 +1113,14 @@ export default function Dashboard() {
     return 'text-red-400'
   }
 
+  /** El mismo corte, en el vocabulario de tonos de `CifrasClave`. */
+  function winRateTono(): 'favor' | 'aviso' | 'alarma' | 'neutro' {
+    if (winRateValue?.win_rate == null) return 'neutro'
+    if (winRateValue.win_rate >= 55) return 'favor'
+    if (winRateValue.win_rate >= 45) return 'aviso'
+    return 'alarma'
+  }
+
   const signalsNum = activeSignals > 0 ? activeSignals : totalSignals > 0 ? totalSignals : null
 
 
@@ -1362,9 +1345,35 @@ export default function Dashboard() {
             </div>
           )}
 
-          {/* Market Regime + Portfolio Stats */}
+          {/* Régimen de mercado y cifras de cartera.
+              Iban los cuatro en la MISMA rejilla de cuatro columnas, y no son
+              lo mismo: el régimen es un estado (icono, nombre, tooltip, precio
+              del índice) y eso sí es una tarjeta; el win rate y el seguimiento
+              son cifras, y una cifra dentro de una caja compite con la caja de
+              al lado en vez de leerse como un dato. Separados por lo que son. */}
+          <CifrasClave cifras={[
+            {
+              etiqueta: 'Win rate 90d',
+              valor: winRateValue?.win_rate != null ? winRateValue.win_rate.toFixed(1) : '—',
+              unidad: winRateValue?.win_rate != null ? '%' : undefined,
+              tono: winRateTono(),
+              sub: winRateValue?.win_rate != null ? (
+                <>
+                  Media <span className={(winRateValue.avg_return ?? 0) >= 0 ? 'text-success' : 'text-danger'}>
+                    {pct(winRateValue.avg_return)}
+                  </span> · {winRateValue.count} señales
+                </>
+              ) : 'Acumulando datos a 90d',
+            },
+            {
+              etiqueta: 'En seguimiento',
+              valor: signalsNum ?? '—',
+              sub: totalSignals > 0 ? `midiendo a 90d · ${totalSignals} históricas` : 'Sin datos de portfolio',
+            },
+          ]} />
+
           <motion.div
-            className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6"
+            className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6"
             initial="hidden"
             animate="visible"
             variants={{ visible: { transition: { staggerChildren: 0.07 } } }}
@@ -1374,33 +1383,6 @@ export default function Dashboard() {
             </motion.div>
             <motion.div variants={{ hidden: { opacity: 0, y: 14 }, visible: { opacity: 1, y: 0, transition: { duration: 0.35, ease: [0.22, 1, 0.36, 1] } } }}>
               <RegimeCard label="Mercado EU" data={euRegime} loading={loadingRegime} />
-            </motion.div>
-            <motion.div variants={{ hidden: { opacity: 0, y: 14 }, visible: { opacity: 1, y: 0, transition: { duration: 0.35, ease: [0.22, 1, 0.36, 1] } } }}>
-            <StatCard
-              label="Win Rate 90d"
-              value={winRateValue?.win_rate != null ? `${winRateValue.win_rate.toFixed(1)}%` : '—'}
-              countTo={winRateValue?.win_rate ?? undefined}
-              countDecimals={1}
-              countSuffix="%"
-              sub={winRateValue?.win_rate != null ? (
-                <span>
-                  Avg <span className={(winRateValue.avg_return ?? 0) >= 0 ? 'text-emerald-400' : 'text-red-400'}>
-                    {pct(winRateValue.avg_return)}
-                  </span> · {winRateValue.count} señales
-                </span>
-              ) : 'Acumulando datos a 90d'}
-              color={winRateColor()}
-              loading={false}
-            />
-            </motion.div>
-            <motion.div variants={{ hidden: { opacity: 0, y: 14 }, visible: { opacity: 1, y: 0, transition: { duration: 0.35, ease: [0.22, 1, 0.36, 1] } } }}>
-            <StatCard
-              label="En seguimiento"
-              value={signalsNum ?? '—'}
-              countTo={signalsNum ?? undefined}
-              sub={totalSignals > 0 ? `midiendo a 90d · ${totalSignals} históricas` : 'Sin datos de portfolio'}
-              loading={false}
-            />
             </motion.div>
           </motion.div>
 

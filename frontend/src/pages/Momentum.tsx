@@ -15,6 +15,7 @@ import { useEntryVerdicts } from '../hooks/useEntryVerdicts'
 import EmptyState from '../components/EmptyState'
 import PageShell from '@/components/PageShell'
 import { TrendingDown } from 'lucide-react'
+import CifrasClave from '../components/CifrasClave'
 
 type SortKey = keyof MomentumOpportunity
 type SortDir = 'asc' | 'desc'
@@ -101,20 +102,12 @@ export default function Momentum() {
         <button onClick={() => downloadCsv('momentum')} className="filter-btn">↓ CSV</button>
       </PageHeader>
 
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-5">
-        {[
-          { label: 'Setups', value: rows.length, sub: 'configuraciones activas', idx: 1 },
-          { label: 'Score Medio', value: avgScore.toFixed(1), sub: 'momentum score', color: avgScore >= 60 ? 'text-emerald-400' : 'text-amber-400', idx: 2 },
-          { label: 'VCP Alto', value: vcpHigh, sub: 'VCP score 70+', color: 'text-blue-400', idx: 3 },
-          { label: 'Cerca de Máximos', value: nearHigh, sub: `dentro del 10% | ${trendStrong} tendencia 7+/8`, color: 'text-emerald-400', idx: 4 },
-        ].map(({ label, value, sub, color, idx }) => (
-          <Card key={label} className={`glass p-5 stagger-${idx}`}>
-            <div className="etiqueta-seccion mb-2">{label}</div>
-            <div className={`text-cifra font-extrabold tracking-tight tabular-nums leading-none mb-2 ${color ?? ''}`}>{value}</div>
-            <div className="text-micro text-muted-foreground">{sub}</div>
-          </Card>
-        ))}
-      </div>
+      <CifrasClave cifras={[
+        { etiqueta: 'Setups', valor: rows.length, sub: 'configuraciones activas' },
+        { etiqueta: 'Score medio', valor: avgScore.toFixed(1), sub: 'momentum score', tono: avgScore >= 60 ? 'favor' : 'aviso' },
+        { etiqueta: 'VCP alto', valor: vcpHigh, sub: 'VCP score 70+', tono: 'neutro' },
+        { etiqueta: 'Cerca de máximos', valor: nearHigh, sub: `dentro del 10% | ${trendStrong} tendencia 7+/8`, tono: 'favor' },
+      ]} />
 
       {/* Mobile cards */}
       <div className="sm:hidden space-y-2 mb-2">

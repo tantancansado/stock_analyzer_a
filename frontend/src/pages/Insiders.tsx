@@ -17,6 +17,7 @@ import { UserRound, Wallet } from 'lucide-react'
 import PaginationBar from '../components/PaginationBar'
 import EmptyState from '../components/EmptyState'
 import PageShell from '@/components/PageShell'
+import CifrasClave from '../components/CifrasClave'
 
 type InsiderRow = InsiderData & { market?: string }
 type SortKey = keyof InsiderRow
@@ -95,20 +96,12 @@ export default function Insiders() {
         <AiNarrativeCard narrative={insightRaw.narrative} label="Análisis de Patrones Insider" className="mb-5" />
       )}
 
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-5">
-        {[
-          { label: 'Tickers', value: filtered.length, sub: `${euRows.length} EU · ${usRows.length} US`, idx: 1 },
-          { label: 'Alta Confianza', value: highConf, sub: 'score normalizado 70+', color: 'text-emerald-400', idx: 2 },
-          { label: 'Multi-Insider', value: multiInsider, sub: '≥2 directivos comprando', color: 'text-blue-400', idx: 3 },
-          { label: 'Confianza Media', value: avgConf.toFixed(0), sub: 'normalizado 0-100', color: avgConf >= 60 ? 'text-emerald-400' : 'text-amber-400', idx: 4 },
-        ].map(({ label, value, sub, color, idx }) => (
-          <Card key={label} className={`glass p-5 stagger-${idx}`}>
-            <div className="etiqueta-seccion mb-2">{label}</div>
-            <div className={`text-cifra font-extrabold tracking-tight tabular-nums leading-none mb-2 ${color ?? ''}`}>{value}</div>
-            <div className="text-micro text-muted-foreground">{sub}</div>
-          </Card>
-        ))}
-      </div>
+      <CifrasClave cifras={[
+        { etiqueta: 'Tickers', valor: filtered.length, sub: `${euRows.length} EU · ${usRows.length} US` },
+        { etiqueta: 'Alta confianza', valor: highConf, sub: 'score normalizado 70+', tono: 'favor' },
+        { etiqueta: 'Multi-insider', valor: multiInsider, sub: '≥2 directivos comprando', tono: 'neutro' },
+        { etiqueta: 'Confianza media', valor: avgConf.toFixed(0), sub: 'normalizado 0-100', tono: avgConf >= 60 ? 'favor' : 'aviso' },
+      ]} />
 
       {/* My Portfolio insiders */}
       {(() => {

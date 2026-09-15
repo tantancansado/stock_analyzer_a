@@ -49,8 +49,14 @@ export interface Cifra {
 }
 
 export default function CifrasClave({
-  cifras, className = '',
-}: { readonly cifras: readonly Cifra[]; readonly className?: string }) {
+  cifras, cargando = false, className = '',
+}: {
+  readonly cifras: readonly Cifra[]
+  /** Esqueleto mientras llega el dato, con la MISMA maqueta: sin esto la
+      página salta de sitio al cargar. */
+  readonly cargando?: boolean
+  readonly className?: string
+}) {
   if (cifras.length === 0) return null
 
   return (
@@ -73,6 +79,9 @@ export default function CifrasClave({
           )}
         >
           <div className="text-mini font-medium text-muted-foreground mb-1.5">{etiqueta}</div>
+          {cargando ? (
+            <div className="h-[1.875rem] w-16 rounded-md bg-muted animate-pulse" />
+          ) : (
           <div className="flex items-baseline gap-1">
             <span className={cn(
               'text-cifra font-semibold tracking-tight tabular-nums leading-none',
@@ -84,6 +93,7 @@ export default function CifrasClave({
               <span className="text-titulo font-normal text-muted-foreground leading-none">{unidad}</span>
             )}
           </div>
+          )}
           {sub && <div className="text-mini text-muted-foreground mt-1.5">{sub}</div>}
         </div>
       ))}

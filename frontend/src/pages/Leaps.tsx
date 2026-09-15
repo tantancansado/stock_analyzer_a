@@ -9,12 +9,13 @@ import Loading, { ErrorState } from '../components/Loading'
 import StaleDataBanner from '../components/StaleDataBanner'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { AlertTriangle, Bell, BellRing, Brain, Check, ChevronDown, ChevronUp, Gem, Info, Layers, RefreshCw, Rocket, Search, Target, TrendingUp, Star} from 'lucide-react'
+import { AlertTriangle, Bell, BellRing, Brain, Check, ChevronDown, ChevronUp, Gem, Layers, RefreshCw, Rocket, Search, Target, TrendingUp, Star} from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useAuth } from '@/context/AuthContext'
 import { supabase } from '@/lib/supabase'
 import { Button } from '@/components/ui/button'
 import EmptyState from '@/components/EmptyState'
+import Metrica from '../components/Metrica'
 
 const fmtUsd = (n: number, d = 2) =>
   new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: d }).format(n)
@@ -38,16 +39,11 @@ const VERDICT_CONFIG: Record<string, { label: string; cls: string }> = {
   EVITAR:      { label: 'EVITAR',      cls: 'text-red-400 bg-red-500/15 border-red-500/40' },
 }
 
-function Metric({ label, value, hint, className }: { label: string; value: React.ReactNode; hint?: string; className?: string }) {
-  return (
-    <div className="min-w-0">
-      <div className="etiqueta-seccion mb-0.5 flex items-center gap-1">
-        {label}{hint && <span title={hint}><Info className="w-2.5 h-2.5 opacity-40" /></span>}
-      </div>
-      <div className={cn('text-cuerpo font-bold tabular-nums leading-none', className)}>{value}</div>
-    </div>
-  )
-}
+// El `Metric` de esta página era, línea por línea, lo que ahora es `Metrica`.
+// Se mantiene el nombre local como alias para no tocar sus 20 usos.
+const Metric = ({ label, value, hint, className }: {
+  label: string; value: React.ReactNode; hint?: string; className?: string
+}) => <Metrica etiqueta={label} valor={value} pista={hint} className={className} />
 
 function StrikeComparator({ contracts, bestStrike }: { contracts: LeapsContract[]; bestStrike: number }) {
   const rows = [...contracts].sort((a, b) => a.strike - b.strike)

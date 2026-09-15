@@ -4,9 +4,10 @@ import { useAuth } from '@/context/AuthContext'
 import { apiClient } from '@/api/client'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { BookOpen, Briefcase, Check, TrendingUp, Users, Wallet } from 'lucide-react'
+import { Check, TrendingUp, Wallet } from 'lucide-react'
 import PageHeader from '@/components/PageHeader'
 import PageShell from '@/components/PageShell'
+import CifrasClave from '../components/CifrasClave'
 
 const ADMIN_USER_ID = '3da8acd3-0b70-43c7-9684-6da77fbc6cfa'
 
@@ -47,27 +48,7 @@ interface AdminData {
   claude_desglose: string | null
 }
 
-function StatCard({ icon: Icon, label, value, color }: {
-  icon: typeof Users
-  label: string
-  value: number | string
-  color: string
-}) {
-  return (
-    <Card className="glass">
-      <CardContent className="p-5 flex items-center gap-4">
-        <div className="p-3 rounded-lg" style={{ background: `${color}22` }}>
-          <Icon size={20} style={{ color }} />
-        </div>
-        <div>
-          <div className="text-pagina font-bold text-foreground font-mono">{value}</div>
-          <div className="text-mini text-muted-foreground mt-0.5">{label}</div>
-        </div>
-      </CardContent>
-    </Card>
-  )
-}
-
+// El `StatCard` de esta página lo sustituye `CifrasClave`.
 function ActivityBar({ value, max }: { value: number; max: number }) {
   const pct = max > 0 ? Math.min((value / max) * 100, 100) : 0
   return (
@@ -126,13 +107,17 @@ export default function AdminUsage() {
     <div className="max-w-5xl mx-auto space-y-8">
       <PageHeader title="Admin · Uso de la app" subtitle="Solo visible para el owner" />
 
-      {/* KPI cards */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <StatCard icon={Users}     label="Usuarios registrados" value={data.total_users}           color="#22d3ee" />
-        <StatCard icon={Users}     label="Confirmados"          value={confirmedUsers.length}       color="#a78bfa" />
-        <StatCard icon={Briefcase} label="Posiciones totales"   value={data.total_positions}        color="#34d399" />
-        <StatCard icon={BookOpen}  label="Entradas de journal"  value={data.total_journal_entries}  color="#f59e0b" />
-      </div>
+      {/* Los cuatro iconos de colores desaparecen con la tarjeta: cada uno
+          llevaba su hexadecimal a pelo (#22d3ee, #a78bfa, #34d399, #f59e0b),
+          cuatro tonos que no significaban nada —no había un «azul = usuarios»—
+          y que además no cambian con el tema. Decorar un número con un color
+          arbitrario le resta legibilidad en vez de sumarle sentido. */}
+      <CifrasClave cifras={[
+        { etiqueta: 'Usuarios registrados', valor: data.total_users },
+        { etiqueta: 'Confirmados',          valor: confirmedUsers.length },
+        { etiqueta: 'Posiciones totales',   valor: data.total_positions },
+        { etiqueta: 'Entradas de journal',  valor: data.total_journal_entries },
+      ]} />
 
       {/* Presupuesto de Claude — con varios usuarios en la app tiene sentido
           ver aquí, en un solo sitio, cuánto se lleva gastado del tope mensual

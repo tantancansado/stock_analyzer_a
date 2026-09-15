@@ -7,6 +7,7 @@ import {
   AreaChart, Area, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip,
   ResponsiveContainer, ReferenceLine, Cell,
 } from 'recharts'
+import CifrasClave from '../components/CifrasClave'
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -36,18 +37,8 @@ function pct(n: number | null | undefined) {
   return (n * 100).toFixed(0) + '%'
 }
 
-function StatCard({ label, value, sub, color }: { label: string; value: string; sub?: string; color?: string }) {
-  return (
-    <Card className="bg-card/50">
-      <CardContent className="p-4">
-        <p className="etiqueta-seccion mb-1">{label}</p>
-        <p className={`text-seccion font-bold tabular-nums ${color ?? 'text-foreground'}`}>{value}</p>
-        {sub && <p className="text-micro text-muted-foreground mt-0.5">{sub}</p>}
-      </CardContent>
-    </Card>
-  )
-}
-
+// El `StatCard` de esta página —tarjeta `bg-card/50` con rótulo y cifra— lo
+// sustituye `CifrasClave`. Cinco páginas tenían el suyo y ninguno igual.
 const REGIME_ORDER = ['CONFIRMED_UPTREND', 'UPTREND', 'UPTREND_PRESSURE', 'NEUTRAL', 'CORRECTION', 'BEAR']
 const REGIME_LABEL: Record<string, string> = {
   CONFIRMED_UPTREND: 'Tendencia',
@@ -184,27 +175,15 @@ export default function BacktestResults() {
   return (
     <div className="space-y-6">
 
-      {/* Global KPIs */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-        <StatCard label="Señales VALUE" value={stats14d.n.toString()} sub={`${stats30d.n} con 30d`} />
-        <StatCard
-          label="Ret. medio 14d"
-          value={fmt(stats14d.avg)}
-          sub={`30d: ${fmt(stats30d.avg)}`}
-          color={stats14d.avg != null && stats14d.avg >= 0 ? 'text-emerald-400' : 'text-red-400'}
-        />
-        <StatCard
-          label="Win rate 14d"
-          value={pct(stats14d.wr)}
-          sub={`30d: ${pct(stats30d.wr)}`}
-          color={(stats14d.wr ?? 0) >= 0.5 ? 'text-emerald-400' : (stats14d.wr ?? 0) >= 0.4 ? 'text-amber-400' : 'text-red-400'}
-        />
-        <StatCard
-          label="Mejor / peor"
-          value={`${fmt(stats14d.best, 0)} / ${fmt(stats14d.worst, 0)}`}
-          sub="retorno 14d"
-        />
-      </div>
+      <CifrasClave cifras={[
+        { etiqueta: 'Señales VALUE', valor: stats14d.n, sub: `${stats30d.n} con 30d` },
+        { etiqueta: 'Ret. medio 14d', valor: fmt(stats14d.avg), sub: `30d: ${fmt(stats30d.avg)}`,
+          tono: stats14d.avg != null && stats14d.avg >= 0 ? 'favor' : 'alarma' },
+        { etiqueta: 'Win rate 14d', valor: pct(stats14d.wr), sub: `30d: ${pct(stats30d.wr)}`,
+          tono: (stats14d.wr ?? 0) >= 0.5 ? 'favor' : (stats14d.wr ?? 0) >= 0.4 ? 'aviso' : 'alarma' },
+        { etiqueta: 'Mejor / peor', valor: `${fmt(stats14d.best, 0)} / ${fmt(stats14d.worst, 0)}`,
+          sub: 'retorno 14d' },
+      ]} />
 
       {/* Equity curve */}
       {weekly.length > 1 && (
