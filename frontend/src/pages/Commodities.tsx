@@ -85,7 +85,7 @@ function CommodityRow({ item }: { item: CommodityOpportunity }) {
   return (
     <>
       <tr
-        className="border-b border-white/5 hover:bg-white/5 transition-colors cursor-pointer"
+        className="border-b border-foreground/5 hover:bg-foreground/5 transition-colors cursor-pointer"
         onClick={() => setOpen(o => !o)}
       >
         {/* Ticker + nombre */}
@@ -157,7 +157,7 @@ function CommodityRow({ item }: { item: CommodityOpportunity }) {
 
       {/* Expanded detail */}
       {open && (
-        <tr className="border-b border-white/5 bg-white/[0.02]">
+        <tr className="border-b border-foreground/5 bg-white/[0.02]">
           <td colSpan={10} className="px-4 py-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* Recomendación */}
@@ -188,7 +188,7 @@ function CommodityRow({ item }: { item: CommodityOpportunity }) {
                   <div className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">Contexto de ciclo</div>
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                     {item.cycle_driver && (
-                      <div className="rounded-lg bg-white/5 px-3 py-2">
+                      <div className="rounded-lg bg-foreground/5 px-3 py-2">
                         <div className="text-xs text-muted-foreground mb-1">Motor</div>
                         <p className="text-xs text-foreground/70">{item.cycle_driver}</p>
                       </div>
@@ -269,7 +269,7 @@ function CommodityCard({ item }: Readonly<{ item: CommodityOpportunity }>) {
   return (
     <button
       onClick={() => setAbierto(a => !a)}
-      className="glass w-full rounded-xl border border-border/25 p-3.5 text-left active:bg-white/5"
+      className="glass w-full rounded-xl border border-border/25 p-3.5 text-left active:bg-foreground/5"
     >
       <div className="flex flex-wrap items-center gap-2">
         <span className="font-mono text-cuerpo font-bold text-primary">{item.ticker}</span>
@@ -335,28 +335,34 @@ export default function Commodities() {
 
       <SummaryCards data={data} />
 
-      {/* Filters */}
-      <div className="flex flex-wrap gap-2">
-        {/* Type filter */}
-        <div className="flex gap-1 p-1 rounded-lg bg-white/5">
+      {/* Filtros.
+          Eran dos grupos de píldoras hechas a mano, pegados y los dos
+          empezando por «Todos», sin nada que dijera qué filtraba cada uno: se
+          leía como una sola barra con el mismo botón repetido. Y el estado
+          activo iba en `bg-cyan-500/20 text-cyan-400`, el cian del tema oscuro
+          escrito a pelo, que sobre fondo claro no significa nada.
+          Ahora usan `.filter-label` + `.filter-btn`, que es lo que usa el resto
+          de la app, con el separador de por medio. */}
+      <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+        <div className="flex flex-wrap items-center gap-1">
+          <span className="filter-label mr-0.5">Tipo</span>
           {[{ id: 'ALL', label: 'Todos' }, ...ALL_TYPES.map(t => ({ id: t, label: TYPE_LABELS[t] ?? t }))].map(({ id, label }) => (
             <button
               key={id}
               onClick={() => setTypeFilter(id)}
-              className={cn(
-                'px-3 py-1.5 rounded-md text-xs font-medium transition-all',
-                typeFilter === id ? 'bg-cyan-500/20 text-cyan-400' : 'text-muted-foreground hover:text-foreground/70',
-              )}
+              className={cn('filter-btn', typeFilter === id && 'active')}
             >
               {label}
             </button>
           ))}
         </div>
 
-        {/* Rating filter */}
-        <div className="flex gap-1 p-1 rounded-lg bg-white/5">
+        <div className="w-px h-4 bg-border/40 self-center" />
+
+        <div className="flex flex-wrap items-center gap-1">
+          <span className="filter-label mr-0.5">Valoración</span>
           {[
-            { id: 'ALL',  label: 'Todos' },
+            { id: 'ALL',  label: 'Todas' },
             { id: 'BUYS', label: 'Atractivos' },
             { id: 'NEUTRAL', label: 'Neutral' },
             { id: 'CARO', label: 'Caro' },
@@ -364,10 +370,7 @@ export default function Commodities() {
             <button
               key={id}
               onClick={() => setRatingFilter(id)}
-              className={cn(
-                'px-3 py-1.5 rounded-md text-xs font-medium transition-all',
-                ratingFilter === id ? 'bg-cyan-500/20 text-cyan-400' : 'text-muted-foreground hover:text-foreground/70',
-              )}
+              className={cn('filter-btn', ratingFilter === id && 'active')}
             >
               {label}
             </button>
@@ -388,7 +391,7 @@ export default function Commodities() {
           <div className="table-x-wrap">
             <table className="w-full text-sm">
               <thead>
-                <tr className="border-b border-white/10 text-left">
+                <tr className="border-b border-foreground/10 text-left">
                   <th className="px-4 py-3 text-xs text-muted-foreground font-medium">Ticker</th>
                   <th className="py-3 pr-3 text-xs text-muted-foreground font-medium hidden md:table-cell">Tipo</th>
                   <th className="py-3 pr-3 text-xs text-muted-foreground font-medium">Precio</th>

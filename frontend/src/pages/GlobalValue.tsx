@@ -83,7 +83,7 @@ function ConvictionPanel({ row }: { row: GlobalOpportunity }) {
       {reasons.length > 0 && (
         <div className="flex flex-wrap gap-1.5">
           {reasons.map((r, i) => (
-            <span key={i} className="text-micro px-2 py-0.5 rounded-full bg-white/5 border border-border/50 text-muted-foreground">{r}</span>
+            <span key={i} className="text-micro px-2 py-0.5 rounded-full bg-foreground/5 border border-border/50 text-muted-foreground">{r}</span>
           ))}
         </div>
       )}
@@ -404,7 +404,7 @@ export default function GlobalValue() {
                       <React.Fragment key={row.ticker}>
                         <TableRow
                           data-row-idx={idx}
-                          className={`border-border/30 cursor-pointer transition-colors hover:bg-white/3 stagger-${Math.min(idx + 1, 10)} ${isExpanded ? 'bg-white/5' : ''} ${focusedIdx === idx ? 'bg-primary/10 ring-1 ring-inset ring-primary/30' : ''}`}
+                          className={`border-border/30 cursor-pointer transition-colors hover:bg-foreground/3 stagger-${Math.min(idx + 1, 10)} ${isExpanded ? 'bg-foreground/5' : ''} ${focusedIdx === idx ? 'bg-primary/10 ring-1 ring-inset ring-primary/30' : ''}`}
                           onClick={() => { setFocusedIdx(idx); toggleThesis(row.ticker, row) }}
                         >
                           <TableCell>
@@ -480,7 +480,7 @@ export default function GlobalValue() {
                         </TableRow>
                         {isExpanded && expandedRow && (
                           <TableRow className="border-border/20 hover:bg-transparent">
-                            <TableCell colSpan={colSpan} className="bg-white/2 px-6 pb-5">
+                            <TableCell colSpan={colSpan} className="bg-foreground/2 px-6 pb-5">
                               <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-3 mb-4">
                                 {[
                                   { label: 'Margen Neto', val: expandedRow.profit_margin_pct != null ? `${expandedRow.profit_margin_pct}%` : '—', color: (expandedRow.profit_margin_pct ?? 0) >= 10 ? 'text-emerald-400' : '' },

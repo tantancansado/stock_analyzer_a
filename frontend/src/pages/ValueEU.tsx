@@ -618,7 +618,7 @@ export default function ValueEU() {
             <div
               key={d.ticker}
               onClick={() => { setFocusedIdx(i); toggleThesis(d.ticker, d) }}
-              className={`glass rounded-2xl p-4 cursor-pointer active:scale-[0.98] transition-transform border ${hasTrap ? 'border-red-500/30' : hasExit ? 'border-amber-500/30' : 'border-white/5'}`}
+              className={`glass rounded-2xl p-4 cursor-pointer active:scale-[0.98] transition-transform border ${hasTrap ? 'border-red-500/30' : hasExit ? 'border-amber-500/30' : 'border-foreground/5'}`}
               style={{ animationDelay: `${i * 40}ms` }}
             >
               {/* Fila 1: logo + puntuación + ticker + grado + upside.

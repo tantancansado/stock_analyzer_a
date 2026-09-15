@@ -296,7 +296,7 @@ export default function PositionSizing() {
                         </TableCell>
                         <TableCell>
                           <div className="flex items-center gap-2">
-                            <div className="relative h-1.5 w-12 rounded-full bg-white/10 overflow-clip">
+                            <div className="relative h-1.5 w-12 rounded-full bg-foreground/10 overflow-clip">
                               <div
                                 className="absolute inset-y-0 left-0 bg-primary/60 rounded-full"
                                 style={{ width: `${Math.min((r.position_size_pct ?? 0) * 5, 100)}%` }}

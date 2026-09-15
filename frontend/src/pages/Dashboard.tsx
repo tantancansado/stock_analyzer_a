@@ -185,7 +185,7 @@ function TopPicksTable({
         ) : (
           <div className="divide-y divide-border/30">
             {rows.map((r) => (
-              <div key={r.ticker} className="flex items-center gap-3 px-4 py-2.5 hover:bg-white/3 transition-colors">
+              <div key={r.ticker} className="flex items-center gap-3 px-4 py-2.5 hover:bg-foreground/3 transition-colors">
                 <TickerLogo ticker={r.ticker} size="md" className="flex-shrink-0" />
                 <div className="w-20 shrink-0">
                   <div className="font-mono font-bold text-primary text-cuerpo tracking-wide truncate">{r.ticker}</div>
@@ -254,7 +254,7 @@ function InsidersMini({ data, loading }: { data: InsiderData[] | undefined; load
               const name = ri.company_name ?? ri.company ?? r.ticker
               const isEU = ri.market === 'EU' || r.confidence_label != null
               return (
-                <div key={r.ticker} className="flex items-center gap-3 px-4 py-2.5 hover:bg-white/3 transition-colors">
+                <div key={r.ticker} className="flex items-center gap-3 px-4 py-2.5 hover:bg-foreground/3 transition-colors">
                   <div className="w-[3.5rem] shrink-0">
                     <div className="font-mono font-bold text-primary text-cuerpo">{r.ticker}</div>
                     <div className="text-micro text-muted-foreground">{isEU ? 'EU' : 'US'}</div>

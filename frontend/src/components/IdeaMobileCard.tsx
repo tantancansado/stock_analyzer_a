@@ -56,7 +56,7 @@ export default function IdeaMobileCard({ d, onOpen, extra }: Readonly<Props>) {
   return (
     <button
       onClick={onOpen}
-      className="glass w-full rounded-xl border border-border/25 p-3.5 text-left active:bg-white/5"
+      className="glass w-full rounded-xl border border-border/25 p-3.5 text-left active:bg-foreground/5"
     >
       <div className="flex items-start gap-2.5">
         <TickerLogo ticker={d.ticker} size="sm" />

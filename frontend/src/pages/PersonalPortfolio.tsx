@@ -962,7 +962,7 @@ function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluen
       trap ? 'border-amber-500/30' :
       action === 'AÑADIR' ? 'border-emerald-500/25' :
       action === 'VENDER' ? 'border-red-500/20' :
-      'border-white/6'
+      'border-foreground/6'
     }`}>
       {/* Top accent line */}
       <div className={`h-0.5 w-full ${ACTION_BAR[action]}`} />

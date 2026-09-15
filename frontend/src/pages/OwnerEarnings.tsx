@@ -212,10 +212,10 @@ function StepperInput({
       )}
       <div className="flex items-center gap-0.5 mt-0.5">
         <button onClick={() => adj(-step)}
-          className="w-5 h-5 rounded bg-white/5 hover:bg-amber-500/15 border border-white/10 hover:border-amber-500/30 text-muted-foreground hover:text-amber-400 flex items-center justify-center text-micro transition-colors">▼</button>
+          className="w-5 h-5 rounded bg-foreground/5 hover:bg-amber-500/15 border border-foreground/10 hover:border-amber-500/30 text-muted-foreground hover:text-amber-400 flex items-center justify-center text-micro transition-colors">▼</button>
         <span className="w-14 text-center font-bold tabular-nums text-sm text-amber-400">{value.toFixed(dec)}{suffix}</span>
         <button onClick={() => adj(+step)}
-          className="w-5 h-5 rounded bg-white/5 hover:bg-amber-500/15 border border-white/10 hover:border-amber-500/30 text-muted-foreground hover:text-amber-400 flex items-center justify-center text-micro transition-colors">▲</button>
+          className="w-5 h-5 rounded bg-foreground/5 hover:bg-amber-500/15 border border-foreground/10 hover:border-amber-500/30 text-muted-foreground hover:text-amber-400 flex items-center justify-center text-micro transition-colors">▲</button>
       </div>
     </div>
   )
@@ -436,7 +436,7 @@ function DetailView({
       </button>
 
       {/* Hero card */}
-      <div className="glass rounded-xl p-5 border border-white/8">
+      <div className="glass rounded-xl p-5 border border-foreground/8">
         <div className="flex flex-wrap items-start gap-4 justify-between">
           <div>
             <div className="flex items-center gap-3 mb-1">
@@ -478,7 +478,7 @@ function DetailView({
               <span>Compra ${computed.buyPrice.toFixed(2)}</span>
               <span>Objetivo ${computed.exitPrice.toFixed(2)} ({data.exit_year}E)</span>
             </div>
-            <div className="h-1.5 rounded-full bg-white/5 overflow-clip">
+            <div className="h-1.5 rounded-full bg-foreground/5 overflow-clip">
               <div
                 className={cn('h-full rounded-full transition-all', computed.signal === 'BUY' ? 'bg-emerald-500' : computed.signal === 'WATCH' ? 'bg-amber-500' : computed.signal === 'HOLD' ? 'bg-sky-500' : 'bg-red-500')}
                 style={{ width: `${Math.min(100, Math.max(2, (data.current_price / computed.exitPrice) * 100))}%` }}
@@ -500,7 +500,7 @@ function DetailView({
         </p>
 
         {/* Parameters — retorno + múltiplos de valoración */}
-        <div className="mt-4 pt-4 border-t border-white/6 space-y-3">
+        <div className="mt-4 pt-4 border-t border-foreground/6 space-y-3">
           {/* Return slider */}
           <div className="flex items-center gap-3">
             <span className="text-micro uppercase tracking-widest text-muted-foreground font-semibold shrink-0">Retorno objetivo</span>
@@ -510,7 +510,7 @@ function DetailView({
             <span className="text-sm font-bold tabular-nums w-9 text-right text-cyan-400 shrink-0">{returnT}%</span>
             {returnT !== data.target_return_pct && !apiPending && (
               <button onClick={() => { setApiPending(true); onRecalculate(returnT) }}
-                className="px-2.5 py-1 rounded-md bg-white/8 hover:bg-white/12 border border-white/10 text-xs text-muted-foreground transition-colors shrink-0">
+                className="px-2.5 py-1 rounded-md bg-foreground/8 hover:bg-foreground/12 border border-foreground/10 text-xs text-muted-foreground transition-colors shrink-0">
                 Actualizar FCF →
               </button>
             )}
@@ -547,8 +547,8 @@ function DetailView({
               className={cn(
                 'px-3 py-1 transition-colors',
                 !fwdMode
-                  ? 'bg-white/10 text-foreground'
-                  : 'text-muted-foreground hover:text-muted-foreground hover:bg-white/5'
+                  ? 'bg-foreground/10 text-foreground'
+                  : 'text-muted-foreground hover:text-muted-foreground hover:bg-foreground/5'
               )}
             >
               Consenso TIKR
@@ -559,7 +559,7 @@ function DetailView({
                 'px-3 py-1 border-l border-border/30 transition-colors',
                 fwdMode
                   ? 'bg-orange-500/20 text-orange-400'
-                  : 'text-muted-foreground hover:text-muted-foreground hover:bg-white/5'
+                  : 'text-muted-foreground hover:text-muted-foreground hover:bg-foreground/5'
               )}
             >
               Modelo propio
@@ -599,7 +599,7 @@ function DetailView({
                 </thead>
                 <tbody className="divide-y divide-border/15">
                   {fwdYears.some(yr => data.forward_estimates?.[yr]?.revenue != null) && (
-                    <tr className="hover:bg-white/2">
+                    <tr className="hover:bg-foreground/2">
                       <td className="px-3 py-1.5 text-muted-foreground whitespace-nowrap">Revenue ($M)</td>
                       {fwdYears.map((yr, i) => {
                         const cur = data.forward_estimates?.[yr]?.revenue
@@ -615,7 +615,7 @@ function DetailView({
                       })}
                     </tr>
                   )}
-                  <tr className="hover:bg-white/2">
+                  <tr className="hover:bg-foreground/2">
                     <td className="px-3 py-1.5 text-muted-foreground whitespace-nowrap">EBITDA ($M)</td>
                     {fwdYears.map((yr, i) => {
                       const est = data.forward_estimates?.[yr]
@@ -631,7 +631,7 @@ function DetailView({
                       )
                     })}
                   </tr>
-                  <tr className="hover:bg-white/2">
+                  <tr className="hover:bg-foreground/2">
                     <td className="px-3 py-1.5 text-muted-foreground whitespace-nowrap">FCF ($M)</td>
                     {fwdYears.map((yr, i) => {
                       const fcfM = data.forward_fcf[yr]?.fcf
@@ -647,7 +647,7 @@ function DetailView({
                       )
                     })}
                   </tr>
-                  <tr className="hover:bg-white/2">
+                  <tr className="hover:bg-foreground/2">
                     <td className="px-3 py-1.5 text-muted-foreground whitespace-nowrap">FCF/sh</td>
                     {fwdYears.map((yr, i) => {
                       const fcfPs = data.forward_fcf[yr]?.fcf_per_share
@@ -661,7 +661,7 @@ function DetailView({
                     })}
                   </tr>
                   {fwdYears.some(yr => data.forward_estimates?.[yr]?.eps_norm != null) && (
-                    <tr className="hover:bg-white/2">
+                    <tr className="hover:bg-foreground/2">
                       <td className="px-3 py-1.5 text-muted-foreground whitespace-nowrap">EPS normalizado</td>
                       {fwdYears.map(yr => {
                         const eps = data.forward_estimates?.[yr]?.eps_norm
@@ -692,7 +692,7 @@ function DetailView({
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-border/20">
-                  <tr className="hover:bg-white/2">
+                  <tr className="hover:bg-foreground/2">
                     <td className="px-3 py-1.5 text-muted-foreground whitespace-nowrap">Crec. Ingresos %</td>
                     {fwdYears.map(yr => (
                       <td key={yr} className="px-2 py-1 text-center">
@@ -701,7 +701,7 @@ function DetailView({
                       </td>
                     ))}
                   </tr>
-                  <tr className="hover:bg-white/2">
+                  <tr className="hover:bg-foreground/2">
                     <td className="px-3 py-1.5 text-muted-foreground whitespace-nowrap">Margen EBIT %</td>
                     {fwdYears.map(yr => (
                       <td key={yr} className="px-2 py-1 text-center">
@@ -710,7 +710,7 @@ function DetailView({
                       </td>
                     ))}
                   </tr>
-                  <tr className="hover:bg-white/2">
+                  <tr className="hover:bg-foreground/2">
                     <td className="px-3 py-1.5 text-muted-foreground whitespace-nowrap">Tasa impositiva %</td>
                     {fwdYears.map(yr => (
                       <td key={yr} className="px-2 py-1 text-center">
@@ -719,7 +719,7 @@ function DetailView({
                       </td>
                     ))}
                   </tr>
-                  <tr className="hover:bg-white/2">
+                  <tr className="hover:bg-foreground/2">
                     <td className="px-3 py-1.5 text-muted-foreground whitespace-nowrap">CapEx mant / Ventas %</td>
                     {fwdYears.map(yr => (
                       <td key={yr} className="px-2 py-1 text-center">
@@ -728,7 +728,7 @@ function DetailView({
                       </td>
                     ))}
                   </tr>
-                  <tr className="hover:bg-white/2">
+                  <tr className="hover:bg-foreground/2">
                     <td className="px-3 py-1.5 text-muted-foreground whitespace-nowrap">Capital Trabajo / Ventas %</td>
                     {fwdYears.map(yr => (
                       <td key={yr} className="px-2 py-1 text-center">
@@ -737,7 +737,7 @@ function DetailView({
                       </td>
                     ))}
                   </tr>
-                  <tr className="hover:bg-white/2">
+                  <tr className="hover:bg-foreground/2">
                     <td className="px-3 py-1.5 text-muted-foreground whitespace-nowrap">Intereses ($M)</td>
                     {fwdYears.map(yr => (
                       <td key={yr} className="px-2 py-1 text-center">
@@ -811,7 +811,7 @@ function DetailView({
                 </thead>
                 <tbody className="divide-y divide-border/15">
                   {/* Revenue */}
-                  <tr className="hover:bg-white/2">
+                  <tr className="hover:bg-foreground/2">
                     <td className="px-3 py-1.5 text-muted-foreground whitespace-nowrap font-medium">Revenue</td>
                     {[...bdownYears].reverse().map((yr, i, arr) => {
                       const b = data.fcf_breakdown?.[yr]
@@ -825,7 +825,7 @@ function DetailView({
                     })}
                   </tr>
                   {/* EBITDA */}
-                  <tr className="hover:bg-white/2">
+                  <tr className="hover:bg-foreground/2">
                     <td className="px-3 py-1.5 text-muted-foreground whitespace-nowrap">EBITDA</td>
                     {[...bdownYears].reverse().map((yr, i, arr) => {
                       const b = data.fcf_breakdown?.[yr]
@@ -839,7 +839,7 @@ function DetailView({
                     })}
                   </tr>
                   {/* D&A */}
-                  <tr className="hover:bg-white/2 bg-white/1">
+                  <tr className="hover:bg-foreground/2 bg-foreground/1">
                     <td className="px-3 py-1.5 text-muted-foreground whitespace-nowrap pl-6">D&A</td>
                     {[...bdownYears].reverse().map(yr => {
                       const b = data.fcf_breakdown?.[yr]
@@ -847,7 +847,7 @@ function DetailView({
                     })}
                   </tr>
                   {/* EBIT */}
-                  <tr className="hover:bg-white/2">
+                  <tr className="hover:bg-foreground/2">
                     <td className="px-3 py-1.5 text-muted-foreground whitespace-nowrap">EBIT</td>
                     {[...bdownYears].reverse().map((yr, i, arr) => {
                       const b = data.fcf_breakdown?.[yr]
@@ -861,7 +861,7 @@ function DetailView({
                     })}
                   </tr>
                   {/* Interest */}
-                  <tr className="hover:bg-white/2 bg-white/1">
+                  <tr className="hover:bg-foreground/2 bg-foreground/1">
                     <td className="px-3 py-1.5 text-muted-foreground whitespace-nowrap pl-6">Intereses</td>
                     {[...bdownYears].reverse().map(yr => {
                       const b = data.fcf_breakdown?.[yr]
@@ -869,7 +869,7 @@ function DetailView({
                     })}
                   </tr>
                   {/* Net Income */}
-                  <tr className="hover:bg-white/2">
+                  <tr className="hover:bg-foreground/2">
                     <td className="px-3 py-1.5 text-muted-foreground whitespace-nowrap">Beneficio Neto</td>
                     {[...bdownYears].reverse().map((yr, i, arr) => {
                       const b = data.fcf_breakdown?.[yr]
@@ -883,7 +883,7 @@ function DetailView({
                     })}
                   </tr>
                   {/* EPS Diluido */}
-                  <tr className="hover:bg-white/2 bg-white/1">
+                  <tr className="hover:bg-foreground/2 bg-foreground/1">
                     <td className="px-3 py-1.5 text-muted-foreground whitespace-nowrap pl-6">EPS diluido</td>
                     {[...bdownYears].reverse().map((yr, i, arr) => {
                       const bs = data.historical_bs?.[yr]
@@ -919,27 +919,27 @@ function DetailView({
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-border/15">
-                  <tr className="hover:bg-white/2">
+                  <tr className="hover:bg-foreground/2">
                     <td className="px-3 py-1.5 text-muted-foreground">EBITDA</td>
                     {[...bdownYears].reverse().map(yr => { const b = data.fcf_breakdown?.[yr]; return <td key={yr} className="px-2 py-1.5 text-center font-mono">{b?.ebitda != null ? fmtM(b.ebitda) : '—'}</td> })}
                   </tr>
-                  <tr className="hover:bg-white/2 bg-white/1">
+                  <tr className="hover:bg-foreground/2 bg-foreground/1">
                     <td className="px-3 py-1.5 text-muted-foreground pl-6">− CapEx mant.</td>
                     {[...bdownYears].reverse().map(yr => { const b = data.fcf_breakdown?.[yr]; return <td key={yr} className="px-2 py-1.5 text-center font-mono text-amber-400">{b?.capex_maint != null ? fmtM(b.capex_maint) : '—'}</td> })}
                   </tr>
-                  <tr className="hover:bg-white/2 bg-white/1">
+                  <tr className="hover:bg-foreground/2 bg-foreground/1">
                     <td className="px-3 py-1.5 text-muted-foreground pl-6">− Intereses</td>
                     {[...bdownYears].reverse().map(yr => { const b = data.fcf_breakdown?.[yr]; return <td key={yr} className="px-2 py-1.5 text-center font-mono text-amber-400">{b?.interest != null ? fmtM(b.interest) : '—'}</td> })}
                   </tr>
-                  <tr className="hover:bg-white/2 bg-white/1">
+                  <tr className="hover:bg-foreground/2 bg-foreground/1">
                     <td className="px-3 py-1.5 text-muted-foreground pl-6">− Impuestos</td>
                     {[...bdownYears].reverse().map(yr => { const b = data.fcf_breakdown?.[yr]; return <td key={yr} className="px-2 py-1.5 text-center font-mono text-amber-400">{b?.income_tax != null ? fmtM(b.income_tax) : '—'}</td> })}
                   </tr>
-                  <tr className="hover:bg-white/2 bg-white/1">
+                  <tr className="hover:bg-foreground/2 bg-foreground/1">
                     <td className="px-3 py-1.5 text-muted-foreground pl-6">+ ΔCap. Trabajo</td>
                     {[...bdownYears].reverse().map(yr => { const b = data.fcf_breakdown?.[yr]; return <td key={yr} className="px-2 py-1.5 text-center font-mono text-sky-400">{b?.delta_wc != null ? fmtM(b.delta_wc) : '—'}</td> })}
                   </tr>
-                  <tr className="hover:bg-white/2 border-t border-border/30">
+                  <tr className="hover:bg-foreground/2 border-t border-border/30">
                     <td className="px-3 py-1.5 font-semibold text-cyan-400">FCF</td>
                     {[...bdownYears].reverse().map((yr, i, arr) => {
                       const b = data.fcf_breakdown?.[yr]
@@ -954,7 +954,7 @@ function DetailView({
                       )
                     })}
                   </tr>
-                  <tr className="hover:bg-white/2 bg-white/1">
+                  <tr className="hover:bg-foreground/2 bg-foreground/1">
                     <td className="px-3 py-1.5 text-muted-foreground pl-6">FCF Margin %</td>
                     {[...bdownYears].reverse().map(yr => {
                       const b = data.fcf_breakdown?.[yr]
@@ -963,14 +963,14 @@ function DetailView({
                       return <td key={yr} className="px-2 py-1.5 text-center font-mono text-muted-foreground">{margin != null ? `${margin.toFixed(1)}%` : '—'}</td>
                     })}
                   </tr>
-                  <tr className="hover:bg-white/2 bg-white/1">
+                  <tr className="hover:bg-foreground/2 bg-foreground/1">
                     <td className="px-3 py-1.5 text-muted-foreground pl-6">FCF/share</td>
                     {[...bdownYears].reverse().map(yr => {
                       const fcfPs = data.historical_fcf_per_share?.[yr]
                       return <td key={yr} className="px-2 py-1.5 text-center font-mono text-cyan-400">{fcfPs != null ? `$${fcfPs.toFixed(2)}` : '—'}</td>
                     })}
                   </tr>
-                  <tr className="hover:bg-white/2 bg-white/1">
+                  <tr className="hover:bg-foreground/2 bg-foreground/1">
                     <td className="px-3 py-1.5 text-muted-foreground pl-6">CapEx/Ventas</td>
                     {[...bdownYears].reverse().map(yr => {
                       const b = data.fcf_breakdown?.[yr]
@@ -978,7 +978,7 @@ function DetailView({
                       return <td key={yr} className="px-2 py-1.5 text-center font-mono text-muted-foreground">{ratio != null ? `${ratio.toFixed(1)}%` : '—'}</td>
                     })}
                   </tr>
-                  <tr className="hover:bg-white/2 bg-white/1">
+                  <tr className="hover:bg-foreground/2 bg-foreground/1">
                     <td className="px-3 py-1.5 text-muted-foreground pl-6">Conversión EBITDA→FCF</td>
                     {[...bdownYears].reverse().map(yr => {
                       const b = data.fcf_breakdown?.[yr]
@@ -987,7 +987,7 @@ function DetailView({
                       return <td key={yr} className="px-2 py-1.5 text-center font-mono text-muted-foreground">{conv != null ? `${conv.toFixed(0)}%` : '—'}</td>
                     })}
                   </tr>
-                  <tr className="hover:bg-white/2">
+                  <tr className="hover:bg-foreground/2">
                     <td className="px-3 py-1.5 text-muted-foreground pl-6 text-micro">Fuente</td>
                     {[...bdownYears].reverse().map(yr => {
                       const b = data.fcf_breakdown?.[yr]
@@ -1056,7 +1056,7 @@ function DetailView({
                     </thead>
                     <tbody className="divide-y divide-border/15">
                       {/* Precio cierre */}
-                      <tr className="hover:bg-white/2 bg-white/1">
+                      <tr className="hover:bg-foreground/2 bg-foreground/1">
                         <td className="px-3 py-1.5 text-muted-foreground text-micro">Precio cierre</td>
                         {multYears.map(yr => {
                           const m = data.historical_multiples[yr]
@@ -1066,7 +1066,7 @@ function DetailView({
                         <td className="px-2 py-1.5 text-center font-mono text-amber-400">{data.current_price != null ? `$${data.current_price.toFixed(2)}` : '—'}</td>
                       </tr>
                       {/* EV/FCF */}
-                      <tr className="hover:bg-white/2">
+                      <tr className="hover:bg-foreground/2">
                         <td className="px-3 py-1.5 text-muted-foreground font-medium">EV/FCF</td>
                         {multYears.map(yr => {
                           const v = data.historical_multiples[yr]?.ev_fcf
@@ -1078,7 +1078,7 @@ function DetailView({
                         <td className="px-2 py-1.5 text-center font-semibold text-amber-400">{data.median_ev_fcf != null ? `${data.median_ev_fcf.toFixed(1)}x` : '—'}</td>
                       </tr>
                       {/* P/E */}
-                      <tr className="hover:bg-white/2">
+                      <tr className="hover:bg-foreground/2">
                         <td className="px-3 py-1.5 text-muted-foreground">P/E</td>
                         {multYears.map(yr => {
                           const v = data.historical_multiples[yr]?.pe
@@ -1088,7 +1088,7 @@ function DetailView({
                         <td className="px-2 py-1.5 text-center font-semibold text-amber-400">{data.ntm_pe != null ? `${data.ntm_pe.toFixed(1)}x` : '—'}</td>
                       </tr>
                       {/* EV/EBITDA */}
-                      <tr className="hover:bg-white/2">
+                      <tr className="hover:bg-foreground/2">
                         <td className="px-3 py-1.5 text-muted-foreground">EV/EBITDA</td>
                         {multYears.map(yr => {
                           const v = data.historical_multiples[yr]?.ev_ebitda
@@ -1098,7 +1098,7 @@ function DetailView({
                         <td className="px-2 py-1.5 text-center font-semibold text-amber-400">{data.ntm_ev_ebitda != null ? `${data.ntm_ev_ebitda.toFixed(1)}x` : '—'}</td>
                       </tr>
                       {/* EV/EBIT */}
-                      <tr className="hover:bg-white/2">
+                      <tr className="hover:bg-foreground/2">
                         <td className="px-3 py-1.5 text-muted-foreground">EV/EBIT</td>
                         {multYears.map(yr => {
                           const v = data.historical_multiples[yr]?.ev_ebit
@@ -1108,7 +1108,7 @@ function DetailView({
                         <td className="px-2 py-1.5 text-center text-muted-foreground">—</td>
                       </tr>
                       {/* FCF Yield */}
-                      <tr className="hover:bg-white/2">
+                      <tr className="hover:bg-foreground/2">
                         <td className="px-3 py-1.5 text-muted-foreground">FCF Yield</td>
                         {multYears.map(yr => {
                           const v = data.historical_multiples[yr]?.fcf_yield
@@ -1293,7 +1293,7 @@ function DetailView({
                     </thead>
                     <tbody className="divide-y divide-border/15">
                       {/* Deuda total */}
-                      <tr className="hover:bg-white/2">
+                      <tr className="hover:bg-foreground/2">
                         <td className="px-3 py-1.5 text-muted-foreground whitespace-nowrap">Deuda total ($M)</td>
                         {bsYears.map(yr => {
                           const b = data.historical_bs[yr]
@@ -1302,7 +1302,7 @@ function DetailView({
                         <td className="px-2 py-1.5 text-center font-mono text-muted-foreground">—</td>
                       </tr>
                       {/* Caja */}
-                      <tr className="hover:bg-white/2 bg-white/1">
+                      <tr className="hover:bg-foreground/2 bg-foreground/1">
                         <td className="px-3 py-1.5 text-muted-foreground pl-6 whitespace-nowrap">Caja ($M)</td>
                         {bsYears.map(yr => {
                           const b = data.historical_bs[yr]
@@ -1311,7 +1311,7 @@ function DetailView({
                         <td className="px-2 py-1.5 text-center font-mono text-muted-foreground">—</td>
                       </tr>
                       {/* Deuda neta */}
-                      <tr className="hover:bg-white/2">
+                      <tr className="hover:bg-foreground/2">
                         <td className="px-3 py-1.5 text-muted-foreground whitespace-nowrap font-medium">Deuda neta ($M)</td>
                         {bsYears.map(yr => {
                           const b = data.historical_bs[yr]
@@ -1321,7 +1321,7 @@ function DetailView({
                         <td className="px-2 py-1.5 text-center font-mono text-muted-foreground">—</td>
                       </tr>
                       {/* Equity */}
-                      <tr className="hover:bg-white/2">
+                      <tr className="hover:bg-foreground/2">
                         <td className="px-3 py-1.5 text-muted-foreground whitespace-nowrap">Equity ($M)</td>
                         {bsYears.map(yr => {
                           const b = data.historical_bs[yr]
@@ -1330,7 +1330,7 @@ function DetailView({
                         <td className="px-2 py-1.5 text-center font-mono text-muted-foreground">—</td>
                       </tr>
                       {/* Acciones */}
-                      <tr className="hover:bg-white/2">
+                      <tr className="hover:bg-foreground/2">
                         <td className="px-3 py-1.5 text-muted-foreground whitespace-nowrap">Acciones diluidas (M)</td>
                         {bsYears.map(yr => {
                           const b = data.historical_bs[yr]
@@ -1341,7 +1341,7 @@ function DetailView({
                         </td>
                       </tr>
                       {/* EPS */}
-                      <tr className="hover:bg-white/2 bg-white/1">
+                      <tr className="hover:bg-foreground/2 bg-foreground/1">
                         <td className="px-3 py-1.5 text-muted-foreground pl-6 whitespace-nowrap">EPS diluido</td>
                         {bsYears.map(yr => {
                           const b = data.historical_bs[yr]
@@ -1352,7 +1352,7 @@ function DetailView({
                         </td>
                       </tr>
                       {/* Recompra */}
-                      <tr className="hover:bg-white/2">
+                      <tr className="hover:bg-foreground/2">
                         <td className="px-3 py-1.5 text-muted-foreground whitespace-nowrap">Recompras ($M)</td>
                         {bsYears.map(yr => {
                           const b = data.historical_bs[yr]
@@ -1362,7 +1362,7 @@ function DetailView({
                         <td className="px-2 py-1.5 text-center font-mono text-muted-foreground">—</td>
                       </tr>
                       {/* ROE */}
-                      <tr className="hover:bg-white/2 border-t border-border/20">
+                      <tr className="hover:bg-foreground/2 border-t border-border/20">
                         <td className="px-3 py-1.5 font-semibold text-muted-foreground whitespace-nowrap">ROE %</td>
                         {bsYears.map(yr => {
                           const b = data.historical_bs[yr]
@@ -1410,7 +1410,7 @@ function DetailView({
                     </thead>
                     <tbody className="divide-y divide-border/15">
                       {/* EBIT */}
-                      <tr className="hover:bg-white/2 bg-white/1">
+                      <tr className="hover:bg-foreground/2 bg-foreground/1">
                         <td className="px-3 py-1.5 text-muted-foreground whitespace-nowrap">EBIT ($M)</td>
                         {roicYears.map(yr => {
                           const r = data.historical_roic[yr]
@@ -1418,7 +1418,7 @@ function DetailView({
                         })}
                       </tr>
                       {/* NOPAT */}
-                      <tr className="hover:bg-white/2">
+                      <tr className="hover:bg-foreground/2">
                         <td className="px-3 py-1.5 text-muted-foreground whitespace-nowrap">NOPAT ($M)</td>
                         {roicYears.map(yr => {
                           const r = data.historical_roic[yr]
@@ -1426,7 +1426,7 @@ function DetailView({
                         })}
                       </tr>
                       {/* Equity */}
-                      <tr className="hover:bg-white/2 bg-white/1">
+                      <tr className="hover:bg-foreground/2 bg-foreground/1">
                         <td className="px-3 py-1.5 text-muted-foreground pl-6 whitespace-nowrap">Equity ($M)</td>
                         {roicYears.map(yr => {
                           const r = data.historical_roic[yr]
@@ -1434,7 +1434,7 @@ function DetailView({
                         })}
                       </tr>
                       {/* Net Debt */}
-                      <tr className="hover:bg-white/2 bg-white/1">
+                      <tr className="hover:bg-foreground/2 bg-foreground/1">
                         <td className="px-3 py-1.5 text-muted-foreground pl-6 whitespace-nowrap">Deuda Neta ($M)</td>
                         {roicYears.map(yr => {
                           const r = data.historical_roic[yr]
@@ -1443,7 +1443,7 @@ function DetailView({
                         })}
                       </tr>
                       {/* Capital Invertido */}
-                      <tr className="hover:bg-white/2">
+                      <tr className="hover:bg-foreground/2">
                         <td className="px-3 py-1.5 text-muted-foreground whitespace-nowrap">Capital Invertido ($M)</td>
                         {roicYears.map(yr => {
                           const r = data.historical_roic[yr]
@@ -1451,7 +1451,7 @@ function DetailView({
                         })}
                       </tr>
                       {/* ROIC */}
-                      <tr className="hover:bg-white/2 border-t border-border/20">
+                      <tr className="hover:bg-foreground/2 border-t border-border/20">
                         <td className="px-3 py-1.5 font-semibold text-muted-foreground whitespace-nowrap">ROIC %</td>
                         {roicYears.map(yr => {
                           const r = data.historical_roic[yr]
@@ -1533,7 +1533,7 @@ function UpsideBar({ pct }: { pct: number | null }) {
       <span className={cn('font-bold tabular-nums text-sm', upsideColor(pct))}>
         {pct > 0 ? '+' : ''}{pct.toFixed(1)}%
       </span>
-      <div className="w-14 h-1.5 rounded-full bg-white/5 overflow-clip shrink-0">
+      <div className="w-14 h-1.5 rounded-full bg-foreground/5 overflow-clip shrink-0">
         <div
           className={cn('h-full rounded-full transition-all', isPos ? 'bg-emerald-500/60' : 'bg-red-500/60')}
           style={{ width: `${Math.min(100, barPct)}%` }}
@@ -1613,7 +1613,7 @@ function BatchView({
   return (
     <div className="space-y-4">
       {/* Controls */}
-      <div className="glass rounded-xl p-4 border border-white/8 flex flex-wrap gap-4 items-end">
+      <div className="glass rounded-xl p-4 border border-foreground/8 flex flex-wrap gap-4 items-end">
         <div className="flex-1 min-w-[160px]">
           <label className="text-micro uppercase tracking-widest text-muted-foreground font-semibold block mb-1.5">
             Retorno anual objetivo
@@ -1642,7 +1642,7 @@ function BatchView({
               value={filter}
               onChange={e => setFilter(e.target.value)}
               placeholder="MSFT, Microsoft, Visa…"
-              className="pl-7 h-8 text-sm bg-white/4 border-white/10"
+              className="pl-7 h-8 text-sm bg-foreground/4 border-foreground/10"
             />
           </div>
         </div>
@@ -1656,7 +1656,7 @@ function BatchView({
               className={cn(
                 'px-2.5 py-1 rounded-md text-micro font-bold uppercase tracking-wider border transition-all',
                 signalFilter === s
-                  ? (s === 'ALL' ? 'bg-white/15 text-foreground border-white/20' : SIGNAL_COLORS[s])
+                  ? (s === 'ALL' ? 'bg-foreground/15 text-foreground border-foreground/20' : SIGNAL_COLORS[s])
                   : 'bg-transparent text-muted-foreground border-border/20 hover:border-border/40 hover:text-muted-foreground'
               )}
             >
@@ -1865,7 +1865,7 @@ export default function OwnerEarnings() {
           variant="outline"
           onClick={() => selected ? fetchDetail(selected.ticker, targetReturn) : fetchBatch()}
           disabled={loadingBatch || detailLoading}
-          className="gap-2 border-white/10 bg-white/4 hover:bg-white/8 text-xs"
+          className="gap-2 border-foreground/10 bg-foreground/4 hover:bg-foreground/8 text-xs"
         >
           <RefreshCw size={12} className={cn(loadingBatch || detailLoading ? 'animate-spin' : '')} />
           Actualizar

@@ -143,7 +143,7 @@ function TimeseriesTable({ rows, tab }: { rows: TimeseriesRow[]; tab: Tab }) {
     <div className="table-x-wrap">
       <table className="w-full text-sm">
         <thead>
-          <tr className="border-b border-white/10 text-left">
+          <tr className="border-b border-foreground/10 text-left">
             <th className="pb-2 text-xs text-muted-foreground font-medium w-28">Período</th>
             <th className="pb-2 text-xs text-muted-foreground font-medium">Señales</th>
             <th className="pb-2 text-xs text-muted-foreground font-medium pl-3">Win {h1}</th>
@@ -155,7 +155,7 @@ function TimeseriesTable({ rows, tab }: { rows: TimeseriesRow[]; tab: Tab }) {
         </thead>
         <tbody>
           {rows.map(row => (
-            <tr key={row.label} className="border-b border-white/5 hover:bg-white/5 transition-colors">
+            <tr key={row.label} className="border-b border-foreground/5 hover:bg-foreground/5 transition-colors">
               <td className="py-2.5 text-foreground font-medium text-xs">{fmtLabel(tab, row.label)}</td>
               <td className="py-2.5">
                 <MiniBar value={row.signals} max={maxSignals} />
@@ -239,7 +239,7 @@ function StrategyCard({ row }: { row: StrategyRow }) {
             </div>
             <Intervalo low={row.ci_low_2} high={row.ci_high_2} n={row.muestra_2} />
           </div>
-          <div className="flex justify-between pt-1 border-t border-white/5">
+          <div className="flex justify-between pt-1 border-t border-foreground/5">
             <div className="text-center">
               <div className="text-xs text-muted-foreground mb-0.5">Ret. {row.horizonte}</div>
               <ReturnBadge v={row.avg_return} />
@@ -402,7 +402,7 @@ export default function SignalStats() {
                 repite cada semana), así que una curva ahí mentiría sobre una
                 tendencia que no existe. Solo en las pestañas con orden real. */}
             {tab !== 'weekday' && (
-              <div className="mb-4 pb-4 border-b border-white/5">
+              <div className="mb-4 pb-4 border-b border-foreground/5">
                 <div className="flex items-center gap-4 mb-2 text-micro">
                   <span className="inline-flex items-center gap-1.5 text-muted-foreground">
                     <span className="w-2.5 h-0.5 rounded-full" style={{ background: '#22d3ee' }} /> Win {rows.find(r => r.horizonte)?.horizonte ?? '90d'}

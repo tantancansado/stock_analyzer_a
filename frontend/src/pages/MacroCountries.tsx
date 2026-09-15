@@ -121,7 +121,7 @@ function rateLabel(dir: string) {
 function ScoreBar({ value, max = 100, color }: { value: number; max?: number; color: string }) {
   const pct = Math.min(100, (value / max) * 100)
   return (
-    <div className="h-1.5 w-full rounded-full bg-white/10 overflow-clip">
+    <div className="h-1.5 w-full rounded-full bg-foreground/10 overflow-clip">
       <div className="h-full rounded-full transition-all" style={{ width: `${pct}%`, background: color }} />
     </div>
   )
@@ -137,7 +137,7 @@ function CountryCard({ c }: { c: CountryData }) {
 
   return (
     <div
-      className="glass rounded-lg border border-white/10 overflow-clip cursor-pointer hover:border-white/20 transition-colors"
+      className="glass rounded-lg border border-foreground/10 overflow-clip cursor-pointer hover:border-foreground/20 transition-colors"
       onClick={() => setExpanded(e => !e)}
     >
       {/* Header */}
@@ -174,17 +174,17 @@ function CountryCard({ c }: { c: CountryData }) {
 
         {/* Key metrics row */}
         <div className="grid grid-cols-3 gap-1.5 text-center">
-          <div className="bg-white/5 rounded px-1 py-1.5">
+          <div className="bg-foreground/5 rounded px-1 py-1.5">
             <div className="text-micro text-muted-foreground mb-0.5">PIB</div>
             <div className={`text-xs font-bold ${pctColor(c.gdp_growth)}`}>{c.gdp_growth > 0 ? '+' : ''}{c.gdp_growth.toFixed(1)}%</div>
           </div>
-          <div className="bg-white/5 rounded px-1 py-1.5">
+          <div className="bg-foreground/5 rounded px-1 py-1.5">
             <div className="text-micro text-muted-foreground mb-0.5">IPC</div>
             <div className={`text-xs font-bold ${c.inflation >= 1.5 && c.inflation <= 3 ? 'text-emerald-400' : c.inflation > 5 ? 'text-red-400' : 'text-amber-400'}`}>
               {c.inflation.toFixed(1)}%
             </div>
           </div>
-          <div className="bg-white/5 rounded px-1 py-1.5">
+          <div className="bg-foreground/5 rounded px-1 py-1.5">
             <div className="text-micro text-muted-foreground mb-0.5">vs 200MA</div>
             <div className={`text-xs font-bold ${mkt ? pctColor(mkt.pct_from_200) : 'text-muted-foreground'}`}>
               {mkt ? `${mkt.pct_from_200 > 0 ? '+' : ''}${mkt.pct_from_200.toFixed(1)}%` : 'N/A'}
@@ -214,7 +214,7 @@ function CountryCard({ c }: { c: CountryData }) {
 
       {/* Expanded detail */}
       {expanded && (
-        <div className="border-t border-white/10 p-4 space-y-4 text-xs" onClick={e => e.stopPropagation()}>
+        <div className="border-t border-foreground/10 p-4 space-y-4 text-xs" onClick={e => e.stopPropagation()}>
 
           {/* Macro fundamentals */}
           <div>
@@ -336,7 +336,7 @@ function CountryCard({ c }: { c: CountryData }) {
               {c.macro_breakdown.map((b, i) => (
                 <div key={i} className="text-micro text-muted-foreground">{b}</div>
               ))}
-              <div className="my-1 border-t border-white/5" />
+              <div className="my-1 border-t border-foreground/5" />
               {c.market_breakdown.map((b, i) => (
                 <div key={i} className="text-micro text-muted-foreground">{b}</div>
               ))}
@@ -346,7 +346,7 @@ function CountryCard({ c }: { c: CountryData }) {
       )}
 
       {/* Expand toggle */}
-      <div className="flex justify-center py-1 border-t border-white/5">
+      <div className="flex justify-center py-1 border-t border-foreground/5">
         {expanded
           ? <ChevronUp className="h-3 w-3 text-muted-foreground" />
           : <ChevronDown className="h-3 w-3 text-muted-foreground" />}
@@ -444,12 +444,12 @@ export default function MacroCountries() {
       {/* Filters + sort */}
       <div className="flex flex-wrap gap-2 items-center">
         {/* Region */}
-        <div className="flex bg-white/5 rounded-lg p-0.5 gap-0.5">
+        <div className="flex bg-foreground/5 rounded-lg p-0.5 gap-0.5">
           {REGIONS.map(r => (
             <button
               key={r}
               onClick={() => setRegion(r)}
-              className={`px-3 py-1 rounded-md text-xs transition-colors ${region === r ? 'bg-white/15 text-foreground font-semibold' : 'text-muted-foreground hover:text-foreground'}`}
+              className={`px-3 py-1 rounded-md text-xs transition-colors ${region === r ? 'bg-foreground/15 text-foreground font-semibold' : 'text-muted-foreground hover:text-foreground'}`}
             >
               {r}
             </button>
@@ -466,12 +466,12 @@ export default function MacroCountries() {
         </select>
 
         {/* Sort */}
-        <div className="flex bg-white/5 rounded-lg p-0.5 gap-0.5 ml-auto">
+        <div className="flex bg-foreground/5 rounded-lg p-0.5 gap-0.5 ml-auto">
           {([['score','Score'],['gdp','PIB'],['ytd','YTD']] as const).map(([k, l]) => (
             <button
               key={k}
               onClick={() => setSortBy(k)}
-              className={`px-3 py-1 rounded-md text-xs transition-colors ${sortBy === k ? 'bg-white/15 text-foreground font-semibold' : 'text-muted-foreground hover:text-foreground'}`}
+              className={`px-3 py-1 rounded-md text-xs transition-colors ${sortBy === k ? 'bg-foreground/15 text-foreground font-semibold' : 'text-muted-foreground hover:text-foreground'}`}
             >
               {l}
             </button>
@@ -489,7 +489,7 @@ export default function MacroCountries() {
       )}
 
       {/* Legend */}
-      <div className="glass rounded-lg border border-white/10 p-4">
+      <div className="glass rounded-lg border border-foreground/10 p-4">
         <div className="text-micro font-semibold text-muted-foreground uppercase tracking-wider mb-2">Metodología</div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-micro text-muted-foreground leading-relaxed">
           <div>

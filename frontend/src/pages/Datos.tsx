@@ -65,7 +65,7 @@ function SnapshotRow({ snap, csvBase }: { snap: HistorySnapshot; csvBase: string
   return (
     <div className="border-b border-border/30 last:border-0">
       <div
-        className="flex items-center justify-between px-4 py-3 cursor-pointer hover:bg-white/5 active:scale-[0.99] transition-all"
+        className="flex items-center justify-between px-4 py-3 cursor-pointer hover:bg-foreground/5 active:scale-[0.99] transition-all"
         onClick={() => setOpen(o => !o)}
       >
         <div className="flex items-center gap-3">

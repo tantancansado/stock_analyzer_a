@@ -123,7 +123,7 @@ export default function CommandPalette({ open, onClose }: { open: boolean; onClo
                     key={item.id}
                     className={cn(
                       "flex items-center gap-2 rounded-sm px-2 py-2 text-sm transition-colors cursor-pointer mb-0.5",
-                      selectedIndex === idx ? "bg-primary/20 text-primary shadow-[inset_0_0_10px_rgba(0,255,255,0.1)]" : "text-foreground hover:bg-white/5"
+                      selectedIndex === idx ? "bg-primary/20 text-primary shadow-[inset_0_0_10px_rgba(0,255,255,0.1)]" : "text-foreground hover:bg-foreground/5"
                     )}
                     onClick={() => { navigate(item.path); onClose() }}
                   >

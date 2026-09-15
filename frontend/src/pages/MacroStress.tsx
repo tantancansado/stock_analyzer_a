@@ -55,7 +55,7 @@ function scoreBarClass(score: number | null | undefined) {
 function SignalCard({ signal }: { signal: MacroStressSignal }) {
   const width = signal.score == null ? 0 : Math.max(0, Math.min(100, signal.score))
   return (
-    <div className="rounded-2xl border border-white/10 bg-black/10 p-3">
+    <div className="rounded-2xl border border-foreground/10 bg-black/10 p-3">
       <div className="flex items-start justify-between gap-2">
         <div>
           <div className="text-micro font-bold uppercase tracking-[0.18em] text-muted-foreground">
@@ -72,7 +72,7 @@ function SignalCard({ signal }: { signal: MacroStressSignal }) {
           </div>
         </div>
       </div>
-      <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-white/8">
+      <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-foreground/8">
         <div className={`h-full rounded-full bg-gradient-to-r ${scoreBarClass(signal.score)}`} style={{ width: `${width}%` }} />
       </div>
       <div className="mt-2 flex flex-wrap gap-2 text-micro text-muted-foreground">
@@ -100,11 +100,11 @@ function HeatTile({
   return (
     <button
       onClick={onClick}
-      className={`relative rounded-3xl border border-white/10 bg-white/[0.03] p-4 text-left transition-all duration-300 ${
-        active ? 'scale-[1.01] border-white/30' : 'hover:-translate-y-0.5 hover:border-white/20'
+      className={`relative rounded-3xl border border-foreground/10 bg-white/[0.03] p-4 text-left transition-all duration-300 ${
+        active ? 'scale-[1.01] border-foreground/30' : 'hover:-translate-y-0.5 hover:border-foreground/20'
       }`}
     >
-      <div className="absolute right-3 top-3 flex items-center gap-1.5 rounded-full border border-white/10 bg-black/20 px-2 py-1 text-micro font-bold uppercase tracking-[0.18em] text-muted-foreground">
+      <div className="absolute right-3 top-3 flex items-center gap-1.5 rounded-full border border-foreground/10 bg-black/20 px-2 py-1 text-micro font-bold uppercase tracking-[0.18em] text-muted-foreground">
         <span className={`h-1.5 w-1.5 rounded-full ${theme.ring}`} />
         {theme.label}
       </div>
@@ -123,7 +123,7 @@ function HeatTile({
             <span>Coverage</span>
             <span>{fmt(market.coverage_pct, 0)}%</span>
           </div>
-          <div className="h-2 overflow-hidden rounded-full bg-white/10">
+          <div className="h-2 overflow-hidden rounded-full bg-foreground/10">
             <div className={`h-full rounded-full bg-gradient-to-r ${scoreBarClass(score)}`} style={{ width: `${Math.max(6, score)}%` }} />
           </div>
         </div>
@@ -142,7 +142,7 @@ function PriceStressChart({
   const data = market.chart_series ?? []
   if (!data.length) {
     return (
-      <div className="rounded-2xl border border-white/10 bg-black/10 p-6 text-sm text-muted-foreground">
+      <div className="rounded-2xl border border-foreground/10 bg-black/10 p-6 text-sm text-muted-foreground">
         Sin serie histórica suficiente para dibujar el drill-down.
       </div>
     )
@@ -154,7 +154,7 @@ function PriceStressChart({
   }
 
   return (
-    <div className="rounded-3xl border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.04),rgba(255,255,255,0.01))] p-4">
+    <div className="rounded-3xl border border-foreground/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.04),rgba(255,255,255,0.01))] p-4">
       <div className="mb-4 flex items-center justify-between gap-3">
         <div>
           <div className="text-micro font-bold uppercase tracking-[0.18em] text-muted-foreground">Drill-down</div>
@@ -252,7 +252,7 @@ function PriceStressChart({
 
 function AnalogueCard({ item, index }: { item: MacroStressAnalogue; index: number }) {
   return (
-    <div className="rounded-2xl border border-white/10 bg-black/10 p-4">
+    <div className="rounded-2xl border border-foreground/10 bg-black/10 p-4">
       <div className="flex items-start justify-between gap-3">
         <div>
           <div className="text-micro font-bold uppercase tracking-[0.18em] text-muted-foreground">Análogo #{index + 1}</div>
@@ -272,7 +272,7 @@ function AnalogueCard({ item, index }: { item: MacroStressAnalogue; index: numbe
           ['60d', item.forward_60d_return],
           ['90d', item.forward_90d_return],
         ].map(([label, value]) => (
-          <div key={label} className="rounded-xl border border-white/8 bg-white/[0.03] px-2.5 py-2 text-center">
+          <div key={label} className="rounded-xl border border-foreground/8 bg-white/[0.03] px-2.5 py-2 text-center">
             <div className="text-micro font-bold uppercase tracking-[0.16em] text-muted-foreground">{label}</div>
             <div className={`mt-1 text-sm font-black ${retTone(value as number | null)}`}>
               {value == null ? 'N/A' : `${(value as number) > 0 ? '+' : ''}${value}%`}
@@ -293,7 +293,7 @@ function ExposurePanel({ market }: { market: MacroStressMarket }) {
   const isRed = (market.stress_score ?? 0) >= 60
 
   return (
-    <div className={`rounded-3xl border p-4 ${isRed ? 'border-red-500/20 bg-red-500/[0.06]' : 'border-white/10 bg-white/[0.03]'}`}>
+    <div className={`rounded-3xl border p-4 ${isRed ? 'border-red-500/20 bg-red-500/[0.06]' : 'border-foreground/10 bg-white/[0.03]'}`}>
       <div className="flex items-center gap-2 text-micro font-bold uppercase tracking-[0.18em] text-muted-foreground">
         <ShieldAlert size={16} className={isRed ? 'text-red-300' : 'text-cyan-300'} />
         Equity Exposure Map
@@ -370,11 +370,11 @@ export default function MacroStress() {
     <div className="space-y-5">
       <StaleDataBanner module="macro_stress" />
 
-      <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(249,115,22,0.18),transparent_28%),radial-gradient(circle_at_bottom_right,rgba(6,182,212,0.14),transparent_24%),linear-gradient(135deg,rgba(255,255,255,0.06),rgba(255,255,255,0.015))] px-5 py-6">
-        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/35 to-transparent" />
+      <div className="relative overflow-hidden rounded-3xl border border-foreground/10 bg-[radial-gradient(circle_at_top_left,rgba(249,115,22,0.18),transparent_28%),radial-gradient(circle_at_bottom_right,rgba(6,182,212,0.14),transparent_24%),linear-gradient(135deg,rgba(255,255,255,0.06),rgba(255,255,255,0.015))] px-5 py-6">
+        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-foreground/35 to-transparent" />
         <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-2xl">
-            <div className="mb-2 inline-flex items-center gap-2 rounded-full border border-white/10 bg-black/15 px-3 py-1 text-micro font-bold uppercase tracking-[0.2em] text-primary">
+            <div className="mb-2 inline-flex items-center gap-2 rounded-full border border-foreground/10 bg-black/15 px-3 py-1 text-micro font-bold uppercase tracking-[0.2em] text-primary">
               <Radar size={12} />
               Macro Stress Framework
             </div>
@@ -386,7 +386,7 @@ export default function MacroStress() {
           </div>
 
           <div className="grid gap-3 sm:grid-cols-3">
-            <div className="rounded-2xl border border-white/10 bg-black/15 px-4 py-3">
+            <div className="rounded-2xl border border-foreground/10 bg-black/15 px-4 py-3">
               <div className="text-micro font-bold uppercase tracking-[0.18em] text-muted-foreground">Mercados</div>
               <div className="mt-1 text-3xl font-black text-foreground">{data?.summary?.markets_total ?? markets.length}</div>
             </div>
@@ -407,7 +407,7 @@ export default function MacroStress() {
           <Flame size={16} className="text-orange-300" />
           Heatmap Grid
         </div>
-        <div className="flex items-center gap-1 rounded-full border border-white/10 bg-white/[0.03] p-1">
+        <div className="flex items-center gap-1 rounded-full border border-foreground/10 bg-white/[0.03] p-1">
           {([
             ['stress', 'Por score'],
             ['name', 'Por nombre'],
@@ -416,7 +416,7 @@ export default function MacroStress() {
               key={value}
               onClick={() => setSortBy(value)}
               className={`rounded-full px-3 py-1.5 text-micro font-semibold transition-colors ${
-                sortBy === value ? 'bg-white/10 text-foreground' : 'text-muted-foreground hover:text-foreground'
+                sortBy === value ? 'bg-foreground/10 text-foreground' : 'text-muted-foreground hover:text-foreground'
               }`}
             >
               {label}
@@ -441,9 +441,9 @@ export default function MacroStress() {
         <div className="space-y-5">
           <PriceStressChart market={selected} analogues={selectedAnalogues} />
 
-          <Card className="glass overflow-clip border-white/10">
+          <Card className="glass overflow-clip border-foreground/10">
             <CardContent className="p-0">
-              <div className="border-b border-white/10 px-5 py-4">
+              <div className="border-b border-foreground/10 px-5 py-4">
                 <div className="flex flex-wrap items-center gap-3">
                   <div>
                     <div className="text-micro font-bold uppercase tracking-[0.18em] text-muted-foreground">Mercado activo</div>
@@ -459,7 +459,7 @@ export default function MacroStress() {
                     }`}>
                       {selected.regime}
                     </span>
-                    <span className="rounded-full border border-white/10 bg-black/15 px-2.5 py-1 text-micro font-semibold text-muted-foreground">
+                    <span className="rounded-full border border-foreground/10 bg-black/15 px-2.5 py-1 text-micro font-semibold text-muted-foreground">
                       {fmt(selected.coverage_pct, 0)}% coverage
                     </span>
                   </div>
@@ -480,9 +480,9 @@ export default function MacroStress() {
         <div className="space-y-5">
           <ExposurePanel market={selected} />
 
-          <Card className="glass overflow-clip border-white/10">
+          <Card className="glass overflow-clip border-foreground/10">
             <CardContent className="p-0">
-              <div className="border-b border-white/10 px-5 py-4">
+              <div className="border-b border-foreground/10 px-5 py-4">
                 <div className="flex items-center gap-2 text-micro font-bold uppercase tracking-[0.18em] text-muted-foreground">
                   <Waves size={16} className="text-cyan-300" />
                   Historical Analogues
@@ -495,7 +495,7 @@ export default function MacroStress() {
                 {selectedAnalogues.length > 0 ? selectedAnalogues.map((item, index) => (
                   <AnalogueCard key={`${item.date}-${index}`} item={item} index={index} />
                 )) : (
-                  <div className="rounded-2xl border border-white/10 bg-black/10 p-4 text-sm text-muted-foreground">
+                  <div className="rounded-2xl border border-foreground/10 bg-black/10 p-4 text-sm text-muted-foreground">
                     {selected.history_note ?? 'Todavía no hay análogos suficientes para este mercado.'}
                   </div>
                 )}
@@ -513,7 +513,7 @@ export default function MacroStress() {
               significa que la commodity se ha vuelto lo bastante tensa como para contaminar rápidamente a las equities expuestas.
             </p>
             {selected.history_note && (
-              <div className="mt-3 flex items-start gap-2 rounded-2xl border border-white/10 bg-black/10 px-3 py-3 text-mini text-muted-foreground">
+              <div className="mt-3 flex items-start gap-2 rounded-2xl border border-foreground/10 bg-black/10 px-3 py-3 text-mini text-muted-foreground">
                 <AlertTriangle size={16} className="mt-0.5 shrink-0 text-amber-300" />
                 <span>{selected.history_note}</span>
               </div>

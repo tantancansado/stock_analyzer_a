@@ -317,7 +317,7 @@ function AdvisorCard({ label, rec, capital }: {
         </button>
 
         {expanded && (
-          <div className="space-y-2 pt-1 border-t border-white/5">
+          <div className="space-y-2 pt-1 border-t border-foreground/5">
             <div className="text-xs p-2.5 rounded-lg" style={{ background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.15)' }}>
               <span className="text-red-400 font-medium">Riesgo: </span>
               <span className="text-muted-foreground">{rec.riskNote}</span>
@@ -378,7 +378,7 @@ function FixedIncomeAdvisor({ bonds, prefs }: { bonds: BondOpportunity[]; prefs:
                       if (!isNaN(n) && n >= 100) setCapital(n)
                     }}
                     onBlur={() => setRawCapital(String(capital))}
-                    className="w-36 bg-white/5 border border-white/10 rounded-lg px-3 py-1.5 text-sm font-mono text-foreground focus:outline-none focus:border-primary/50"
+                    className="w-36 bg-foreground/5 border border-foreground/10 rounded-lg px-3 py-1.5 text-sm font-mono text-foreground focus:outline-none focus:border-primary/50"
                   />
                 </div>
               </div>

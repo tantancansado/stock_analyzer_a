@@ -186,7 +186,7 @@ export default function AdminUsage() {
           ) : (
             <div className="space-y-4">
               {activeUsers.map(u => (
-                <div key={u.user_id} className="border-b border-white/5 pb-4 last:border-0 last:pb-0">
+                <div key={u.user_id} className="border-b border-foreground/5 pb-4 last:border-0 last:pb-0">
                   <div className="flex flex-wrap items-center gap-2 mb-2">
                     <span className="text-sm text-foreground font-medium">{u.email ?? u.user_id.slice(0, 16) + '…'}</span>
                     {u.confirmed
@@ -236,7 +236,7 @@ export default function AdminUsage() {
           <div className="table-x-wrap">
             <table className="w-full text-sm">
               <thead>
-                <tr className="border-b border-white/10 text-left">
+                <tr className="border-b border-foreground/10 text-left">
                   <th className="pb-2 text-xs text-muted-foreground font-medium">Email</th>
                   <th className="pb-2 text-xs text-muted-foreground font-medium text-center">Estado</th>
                   <th className="pb-2 text-xs text-muted-foreground font-medium text-right">Registro</th>
@@ -246,7 +246,7 @@ export default function AdminUsage() {
               </thead>
               <tbody>
                 {data.registered_users.map(u => (
-                  <tr key={u.user_id} className="border-b border-white/5 hover:bg-white/5 transition-colors">
+                  <tr key={u.user_id} className="border-b border-foreground/5 hover:bg-foreground/5 transition-colors">
                     <td className="py-2.5 text-foreground/80 font-mono text-xs">
                       {u.email ?? u.user_id.slice(0, 20) + '…'}
                       {u.user_id === ADMIN_USER_ID && (

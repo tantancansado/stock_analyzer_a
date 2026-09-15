@@ -193,3 +193,40 @@ describe('opacidad sobre el color del texto', () => {
     expect(bajos, 'por debajo de /70 no llega al mínimo en ningún tema').toEqual([])
   })
 })
+
+/**
+ * Los velos blancos son idioma del tema oscuro.
+ *
+ * `bg-white/5` aclara una superficie casi negra. Sobre la tarjeta blanca del
+ * modo claro es blanco sobre blanco: no se ve nada. Había 178 —bordes de fila,
+ * fondos de panel, estados de pulsación— y en modo claro todos desaparecían.
+ *
+ * `foreground/N` es el equivalente exacto que se da la vuelta solo: en oscuro
+ * `--foreground` es casi blanco (mismo efecto que antes) y en claro casi negro,
+ * que es lo que un velo sutil debe ser sobre fondo claro.
+ *
+ * Se permiten las opacidades altas: `bg-white/90` es la placa de `TickerLogo`,
+ * blanca a propósito porque los logos de empresa están dibujados para fondo
+ * blanco.
+ */
+describe('velos de color', () => {
+  it('ningún velo sutil usa blanco fijo', () => {
+    const raiz = join(__dirname, '..')
+    const fuentes: { ruta: string; texto: string }[] = []
+    const recorrer = (dir: string) => {
+      for (const e of readdirSync(dir, { withFileTypes: true })) {
+        const ruta = join(dir, e.name)
+        if (e.isDirectory()) { if (e.name !== 'test') recorrer(ruta) }
+        else if (e.name.endsWith('.tsx')) fuentes.push({ ruta: ruta.slice(raiz.length + 1), texto: readFileSync(ruta, 'utf-8') })
+      }
+    }
+    recorrer(raiz)
+
+    const culpables = fuentes.flatMap(({ ruta, texto }) =>
+      [...texto.matchAll(/(?:[a-z-]+:)?(?:bg|border|from|to|via|ring|divide|outline)-white\/(\d{1,3})\b/g)]
+        .filter(m => Number(m[1]) <= 35)
+        .map(m => `${ruta}: ${m[0]}`))
+
+    expect(culpables, 'usar foreground/N: se da la vuelta con el tema').toEqual([])
+  })
+})

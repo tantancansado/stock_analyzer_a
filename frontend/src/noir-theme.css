@@ -146,16 +146,20 @@
   -webkit-text-fill-color: transparent !important;
 }
 
-/* ── Cards y botones — bordes más visibles en hover ──────────────── */
-[data-theme="noir"] [class*="border-white/8"],
-[data-theme="noir"] [class*="border-white\/8"] {
-  border-color: hsl(0 0% 13%) !important;
-}
+/* Aquí había dos `[class*="border-white/8"]` con `!important` forzando
+   `hsl(0 0% 13%)`. Al pasar los velos de `white/N` a `foreground/N` la clase
+   cambió de nombre y el selector se habría quedado muerto en silencio — pero
+   además ya no hacía falta: `border-foreground/8` sobre el fondo de noir da
+   rgb(29,29,29) y el override forzaba rgb(33,33,33). Cuatro sobre 255. Y
+   `hsl(0 0% 13%)` es exactamente el `--border` de noir, o sea que el override
+   pedía a mano lo que ahora sale solo. */
 
 /* ── Input fields ─────────────────────────────────────────────────── */
 [data-theme="noir"] input[type="text"],
-[data-theme="noir"] input[type="search"],
-[data-theme="noir"] .bg-white\/4 {
+[data-theme="noir"] input[type="search"] {
+  /* Se cayó de esta lista `.bg-white\/4`, por lo mismo: ahora es
+     `bg-foreground/4` y sobre la tarjeta de noir da rgb(22,22,22) donde el
+     override forzaba rgb(20,20,20). */
   background: hsl(0 0% 8%) !important;
   border-color: hsl(0 0% 15%) !important;
 }

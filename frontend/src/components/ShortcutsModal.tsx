@@ -33,7 +33,7 @@ export default function ShortcutsModal({ open, onClose }: Readonly<Props>) {
           </div>
           <button
             onClick={onClose}
-            className="p-1 rounded-lg text-muted-foreground hover:text-foreground hover:bg-white/10 transition-colors"
+            className="p-1 rounded-lg text-muted-foreground hover:text-foreground hover:bg-foreground/10 transition-colors"
           >
             <X size={16} />
           </button>
@@ -48,7 +48,7 @@ export default function ShortcutsModal({ open, onClose }: Readonly<Props>) {
                 {s.keys.map(k => (
                   <kbd
                     key={k}
-                    className="inline-flex items-center justify-center min-w-[22px] h-[22px] px-1.5 rounded-md bg-white/8 border border-border/50 text-micro font-semibold text-foreground/80 font-mono"
+                    className="inline-flex items-center justify-center min-w-[22px] h-[22px] px-1.5 rounded-md bg-foreground/8 border border-border/50 text-micro font-semibold text-foreground/80 font-mono"
                   >
                     {k}
                   </kbd>
@@ -59,7 +59,7 @@ export default function ShortcutsModal({ open, onClose }: Readonly<Props>) {
         </ul>
 
         <p className="mt-4 text-micro text-muted-foreground text-center">
-          Pulsa <kbd className="inline px-1 py-0.5 rounded bg-white/8 border border-border/40 text-micro">?</kbd> en cualquier momento para abrir este panel
+          Pulsa <kbd className="inline px-1 py-0.5 rounded bg-foreground/8 border border-border/40 text-micro">?</kbd> en cualquier momento para abrir este panel
         </p>
       </div>
     </CapaModal>

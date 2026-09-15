@@ -31,7 +31,7 @@ function ScoreBucketsTable({ buckets }: { buckets: CalibrationBucket[] }) {
     <div className="table-x-wrap">
       <table className="w-full text-sm">
         <thead>
-          <tr className="border-b border-white/10 text-left">
+          <tr className="border-b border-foreground/10 text-left">
             <th className="pb-2 text-xs text-muted-foreground font-medium">Score</th>
             <th className="pb-2 text-xs text-muted-foreground font-medium text-right">Señales</th>
             <th className="pb-2 text-xs text-muted-foreground font-medium pl-4">Win Rate 14d</th>
@@ -41,7 +41,7 @@ function ScoreBucketsTable({ buckets }: { buckets: CalibrationBucket[] }) {
         </thead>
         <tbody>
           {buckets.map(b => (
-            <tr key={b.range} className="border-b border-white/5 hover:bg-white/5 transition-colors">
+            <tr key={b.range} className="border-b border-foreground/5 hover:bg-foreground/5 transition-colors">
               <td className="py-2.5 font-mono font-medium text-foreground">{b.range}</td>
               <td className="py-2.5 text-right text-muted-foreground">{b.count}</td>
               <td className="py-2.5 pl-4 min-w-[160px]">
@@ -66,7 +66,7 @@ function RegimeTable({ rows }: { rows: CalibrationRegime[] }) {
     <div className="table-x-wrap">
       <table className="w-full text-sm">
         <thead>
-          <tr className="border-b border-white/10 text-left">
+          <tr className="border-b border-foreground/10 text-left">
             <th className="pb-2 text-xs text-muted-foreground font-medium">Régimen</th>
             <th className="pb-2 text-xs text-muted-foreground font-medium text-right">Señales</th>
             <th className="pb-2 text-xs text-muted-foreground font-medium pl-4">Win Rate 14d</th>
@@ -75,7 +75,7 @@ function RegimeTable({ rows }: { rows: CalibrationRegime[] }) {
         </thead>
         <tbody>
           {rows.map(r => (
-            <tr key={r.regime} className="border-b border-white/5 hover:bg-white/5 transition-colors">
+            <tr key={r.regime} className="border-b border-foreground/5 hover:bg-foreground/5 transition-colors">
               <td className="py-2.5 font-medium text-foreground">{r.regime}</td>
               <td className="py-2.5 text-right text-muted-foreground">{r.count}</td>
               <td className="py-2.5 pl-4 min-w-[160px]">
@@ -97,7 +97,7 @@ function SectorTable({ rows }: { rows: CalibrationSector[] }) {
     <div className="table-x-wrap">
       <table className="w-full text-sm">
         <thead>
-          <tr className="border-b border-white/10 text-left">
+          <tr className="border-b border-foreground/10 text-left">
             <th className="pb-2 text-xs text-muted-foreground font-medium">Sector</th>
             <th className="pb-2 text-xs text-muted-foreground font-medium text-right">Señales</th>
             <th className="pb-2 text-xs text-muted-foreground font-medium pl-4">Win Rate 14d</th>
@@ -106,7 +106,7 @@ function SectorTable({ rows }: { rows: CalibrationSector[] }) {
         </thead>
         <tbody>
           {rows.map(r => (
-            <tr key={r.sector} className="border-b border-white/5 hover:bg-white/5 transition-colors">
+            <tr key={r.sector} className="border-b border-foreground/5 hover:bg-foreground/5 transition-colors">
               <td className="py-2.5 text-foreground/90">{r.sector}</td>
               <td className="py-2.5 text-right text-muted-foreground">{r.count}</td>
               <td className="py-2.5 pl-4 min-w-[160px]">
@@ -186,7 +186,7 @@ export default function Calibration() {
       {/* Summary KPIs */}
       <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
         {bestScore && (
-          <Card className="glass border-white/10">
+          <Card className="glass border-foreground/10">
             <CardContent className="p-4">
               <div className="text-xs text-muted-foreground mb-1">Mejor rango de score</div>
               <div className="text-lg font-semibold text-foreground">{bestScore.range} pts</div>
@@ -200,7 +200,7 @@ export default function Calibration() {
           </Card>
         )}
         {bestSector && (
-          <Card className="glass border-white/10">
+          <Card className="glass border-foreground/10">
             <CardContent className="p-4">
               <div className="text-xs text-muted-foreground mb-1">Sector más fiable</div>
               <div className="text-lg font-semibold text-foreground truncate">{bestSector.sector}</div>
@@ -214,7 +214,7 @@ export default function Calibration() {
           </Card>
         )}
         {bestRegime && (
-          <Card className="glass border-white/10">
+          <Card className="glass border-foreground/10">
             <CardContent className="p-4">
               <div className="text-xs text-muted-foreground mb-1">Régimen más favorable</div>
               <div className="text-lg font-semibold text-foreground">{nlRegimen(bestRegime.regime) || bestRegime.regime}</div>
@@ -240,7 +240,7 @@ export default function Calibration() {
 
       {/* Score Calibration */}
       {data.score_buckets?.length > 0 && (
-        <Card className="glass border-white/10">
+        <Card className="glass border-foreground/10">
           <CardContent className="p-5">
             <h2 className="text-sm font-semibold text-foreground mb-4">Calibración por Score VALUE</h2>
             <ScoreBucketsTable buckets={data.score_buckets} />
@@ -252,7 +252,7 @@ export default function Calibration() {
       {/* Regime + Sector side by side */}
       <div className="grid md:grid-cols-2 gap-4">
         {data.regime_analysis?.length > 0 && (
-          <Card className="glass border-white/10">
+          <Card className="glass border-foreground/10">
             <CardContent className="p-5">
               <h2 className="text-sm font-semibold text-foreground mb-4">Por Régimen de Mercado</h2>
               <RegimeTable rows={data.regime_analysis} />
@@ -260,7 +260,7 @@ export default function Calibration() {
           </Card>
         )}
         {data.fcf_yield_buckets?.length > 0 && (
-          <Card className="glass border-white/10">
+          <Card className="glass border-foreground/10">
             <CardContent className="p-5">
               <h2 className="text-sm font-semibold text-foreground mb-4">Por FCF Yield</h2>
               <ScoreBucketsTable buckets={data.fcf_yield_buckets} />
@@ -271,7 +271,7 @@ export default function Calibration() {
 
       {/* Sector Calibration */}
       {data.sector_calibration?.length > 0 && (
-        <Card className="glass border-white/10">
+        <Card className="glass border-foreground/10">
           <CardContent className="p-5">
             <h2 className="text-sm font-semibold text-foreground mb-4">Calibración por Sector</h2>
             <SectorTable rows={data.sector_calibration} />
