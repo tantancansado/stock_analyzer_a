@@ -69,12 +69,44 @@ def fetch_ticker_yfinance(ticker: str, attempt: int = 1) -> dict:
         return None
 
 
+# Máxima antigüedad del dato de origen. El pipeline corre a diario; siete días
+# deja margen para fines de semana y festivos, y caza un fósil de meses.
+MAX_ANTIGUEDAD_DIAS = 7
+
+
+def _antiguedad_del_dato(df) -> int | None:
+    """Días desde la fecha del DATO (no del fichero). None si no la declara."""
+    for col in ('data_as_of_date', 'score_timestamp', 'scan_date'):
+        if col not in df.columns:
+            continue
+        try:
+            fechas = pd.to_datetime(df[col], errors='coerce').dropna()
+            if fechas.empty:
+                continue
+            return (pd.Timestamp.now().normalize() - fechas.max().normalize()).days
+        except Exception:
+            continue
+    return None
+
+
 def add_entry_exit_prices(input_file: str = None, output_file: str = None):
     """
     Añade entry/exit prices a todas las oportunidades usando yfinance
     """
     if not input_file:
-        input_file = 'docs/super_scores_ultimate.csv'
+        # `super_scores_ultimate.csv` es un FÓSIL: nadie lo escribe desde
+        # feb-2026 y sus 82 filas llevan `data_as_of_date 2026-02-19`. Este
+        # script lo leía por defecto, le pedía precios FRESCOS a yfinance y
+        # escribía `super_opportunities_with_prices.csv` — que `ticker_api`
+        # sirve como entrada, stop y objetivo.
+        #
+        # El resultado: un fichero que se commitea cada día con precios de hoy
+        # y fundamentales de hace siete meses. Parecía vivo justo porque el
+        # precio SÍ se actualizaba. Para AVGO servía «BUY NOW, entrada 344,72,
+        # objetivo 479,44, R:R 14,59» calculado sobre febrero.
+        #
+        # La fuente viva del lado momentum es `momentum_opportunities.csv`.
+        input_file = 'docs/momentum_opportunities.csv'
     if not output_file:
         output_file = 'docs/super_opportunities_with_prices.csv'
 
@@ -89,8 +121,22 @@ def add_entry_exit_prices(input_file: str = None, output_file: str = None):
         return
 
     df = pd.read_csv(input_file)
+
+    # Un origen caducado no se procesa. Sin esto, el script hace su trabajo con
+    # esmero —precios frescos, entradas, stops, objetivos— sobre un universo
+    # muerto, y el resultado es indistinguible de uno bueno: es el tipo de
+    # fallo que sobrevive meses porque nada falla.
+    dias = _antiguedad_del_dato(df)
+    if dias is not None and dias > MAX_ANTIGUEDAD_DIAS:
+        print(f"🛑 {input_file}: el DATO es de hace {dias} días "
+              f"(máximo {MAX_ANTIGUEDAD_DIAS}). No se calculan precios sobre un origen caducado.")
+        print("   Un objetivo calculado sobre fundamentales viejos parece "
+              "actual porque el precio sí lo es. Mejor sin dato que con uno que engaña.")
+        return
+
     total = min(len(df), 50)
-    print(f"✅ Loaded {len(df)} opportunities from {input_file}")
+    print(f"✅ Loaded {len(df)} opportunities from {input_file}"
+          + (f" (dato de hace {dias}d)" if dias is not None else ""))
     print(f"📋 Processing top {total}...\n")
 
     # Initialize calculator

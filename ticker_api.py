@@ -1071,10 +1071,18 @@ def _analyze_live(ticker):
 
         "price_target": pt_det.get('custom_target'),
         "upside_percent": pt_det.get('upside_percent'),
-        # Entrada/stop/objetivo salen de super_opportunities_with_prices.csv,
-        # que SÍ se recalcula a diario (add_entry_exit_to_opportunities.py).
-        # Iban fijos a None aquí, así que un ticker que pasara por el camino
-        # en vivo perdía una escalera de precios que existía y estaba al día.
+        # Entrada/stop/objetivo salen de super_opportunities_with_prices.csv.
+        # Iban fijos a None aquí, así que un ticker que pasara por el camino en
+        # vivo perdía una escalera de precios que sí existe.
+        #
+        # El comentario anterior decía que ese fichero «SÍ se recalcula a
+        # diario», y era medio cierto: se recalculaban los PRECIOS, pero leía
+        # de `super_scores_ultimate.csv`, un fósil de feb-2026. Así que servía
+        # entradas y objetivos de hoy sobre fundamentales de siete meses atrás
+        # — y parecía al día precisamente porque el precio lo estaba. Arreglado
+        # en add_entry_exit_to_opportunities.py: fuente viva + guardián de
+        # antigüedad. Si un ticker no está, esto devuelve None, que es lo
+        # correcto: mejor sin escalera que con una que engaña.
         **_precios_entrada_salida(ticker),
 
         "insiders_score": 0, "institutional_score": 0,
