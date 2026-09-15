@@ -5,6 +5,7 @@ import TickerLogo from '../components/TickerLogo'
 import PageHeader from '../components/PageHeader'
 import PageShell from '@/components/PageShell'
 import EmptyState from '@/components/EmptyState'
+import CifrasClave from '../components/CifrasClave'
 
 const BacktestResults = lazy(() => import('./BacktestResults'))
 
@@ -153,20 +154,15 @@ function Stats({ signals, period }: { signals: Signal[]; period: Period }) {
   const median = sorted.length % 2 === 0 ? (sorted[mid-1] + sorted[mid]) / 2 : sorted[mid]
 
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-      {[
-        { label: 'Tickers evaluados', val: String(withData.length), sub: `de ${signals.length} únicos`, color: '' },
-        { label: 'Win Rate', val: `${wr.toFixed(1)}%`, sub: `${wins} ganaron · ${withData.length-wins} perdieron`, color: wr >= 50 ? 'text-emerald-400' : 'text-red-400' },
-        { label: 'Retorno medio', val: pct(avg, 2)!, sub: `mediana ${pct(median, 2)}`, color: avg >= 0 ? 'text-emerald-400' : 'text-red-400' },
-        { label: 'Mejor / Peor', val: `${pct(Math.max(...rets))} / ${pct(Math.min(...rets))}`, sub: '', color: '' },
-      ].map(c => (
-        <div key={c.label} className="glass rounded-2xl p-4">
-          <div className="etiqueta-seccion mb-1">{c.label}</div>
-          <div className={`text-pagina font-extrabold ${c.color}`}>{c.val}</div>
-          {c.sub && <div className="text-micro text-muted-foreground mt-0.5">{c.sub}</div>}
-        </div>
-      ))}
-    </div>
+    <CifrasClave cifras={[
+      { etiqueta: 'Tickers evaluados', valor: withData.length, sub: `de ${signals.length} únicos` },
+      { etiqueta: 'Win rate', valor: wr.toFixed(1), unidad: '%',
+        sub: `${wins} ganaron · ${withData.length - wins} perdieron`,
+        tono: wr >= 50 ? 'favor' : 'alarma' },
+      { etiqueta: 'Retorno medio', valor: pct(avg, 2)!, sub: `mediana ${pct(median, 2)}`,
+        tono: avg >= 0 ? 'favor' : 'alarma' },
+      { etiqueta: 'Mejor / peor', valor: `${pct(Math.max(...rets))} / ${pct(Math.min(...rets))}` },
+    ]} />
   )
 }
 

@@ -8,6 +8,7 @@ import EmptyState from '../components/EmptyState'
 import PageHeader from '@/components/PageHeader'
 import PageShell from '@/components/PageShell'
 import { Telescope } from 'lucide-react'
+import CifrasClave from '../components/CifrasClave'
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -238,20 +239,11 @@ export default function Confluencia() {
         subtitle="Tickers donde Bounce + Value + Flow coinciden — top 10 por convicción"
       />
 
-      {/* Summary cards */}
-      <div className="grid grid-cols-3 gap-3 mb-6">
-        {[
-          { label: 'Alta convicción', value: highConviction.length, sub: '≥2 sistemas alineados', color: 'text-emerald-400', idx: 1 },
-          { label: 'Bounce activos', value: bounceCount, sub: 'RSI<30 + conf≥40', color: 'text-purple-400', idx: 2 },
-          { label: 'Value + Flow', value: valueCount + flowCount, sub: 'señales en universo', color: 'text-cyan-400', idx: 3 },
-        ].map(({ label, value, sub, color, idx }) => (
-          <Card key={label} className={`glass p-4 stagger-${idx}`}>
-            <div className="etiqueta-seccion mb-1">{label}</div>
-            <div className={`text-cifra font-extrabold tracking-tight tabular-nums leading-none mb-1 ${color}`}>{value}</div>
-            <div className="text-micro text-muted-foreground">{sub}</div>
-          </Card>
-        ))}
-      </div>
+      <CifrasClave cifras={[
+        { etiqueta: 'Alta convicción', valor: highConviction.length, sub: '≥2 sistemas alineados', tono: 'favor' },
+        { etiqueta: 'Bounce activos',  valor: bounceCount, sub: 'RSI<30 + conf≥40' },
+        { etiqueta: 'Value + Flow',    valor: valueCount + flowCount, sub: 'señales en universo' },
+      ]} />
 
       {confluence.length === 0 ? (
         <Card className="glass">

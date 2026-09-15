@@ -155,6 +155,13 @@ TIER_4 = [
     'PSA',     # Public Storage
     'HD',      # Home Depot
     'ASML',    # ASML Holding
+    # Añadida el 15-sep-2026 a petición del usuario. Margen operativo 54%, ROE
+    # 44% y FCF de 30.600 M la ponen en la liga de las Tier 1, pero entra en
+    # TIER_4 por lo que hace incierta su valoración, no por la calidad: con PER
+    # 43 hoy y 17,5 adelantado, el precio descuenta que el BPA pase de $7,83 a
+    # $19,39 — y el rango de objetivos de los 47 analistas va de $216 a $715.
+    # Cuando la horquilla es de 3,3x, la mediana no es un precio objetivo.
+    'AVGO',    # Broadcom
     'KYCCF',   # Kyocera (OTC)
     'GOOG',    # Alphabet
     'AMZN',    # Amazon

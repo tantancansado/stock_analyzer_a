@@ -17,6 +17,7 @@ import { useApi } from '../hooks/useApi'
 import PageHeader from '../components/PageHeader'
 import { Button } from '@/components/ui/button'
 import EmptyState from '@/components/EmptyState'
+import CifrasClave from '../components/CifrasClave'
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -1686,34 +1687,26 @@ export default function PersonalPortfolio() {
       {result && (
         <div className="glass rounded-2xl p-5 space-y-4">
           <div className="flex items-start justify-between flex-wrap gap-4">
-            <div className="flex gap-6 flex-wrap">
-              <div className="animate-fade-in-up text-center sm:text-left" style={{ animationDelay: '0ms' }}>
-                <div className="etiqueta-seccion mb-0.5">Valor total</div>
-                <div className="text-cifra font-black tabular-nums text-foreground">
-                  ${result.total_value.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}
-                </div>
-              </div>
-              <div className="animate-fade-in-up text-center sm:text-left" style={{ animationDelay: '60ms' }}>
-                <div className="etiqueta-seccion mb-0.5">P&L total</div>
-                <div className={`text-pagina font-bold tabular-nums flex items-center gap-1 ${totalPL >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+            {/* Las cuatro iban a tres tamaños y tres pesos distintos —`cifra`
+                en negra para el valor total, `pagina` en bold para las otras—
+                cuando son lo mismo: las cifras de cabecera de la cartera. Una
+                jerarquía dentro de un grupo que no tiene jerarquía solo hace
+                que se lean como cuatro cosas sueltas. */}
+            <CifrasClave className="mb-0" cifras={[
+              { etiqueta: 'Valor total',
+                valor: `$${result.total_value.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}` },
+              { etiqueta: 'P&L total',
+                valor: <span className="flex items-center gap-1">
                   {totalPL >= 0 ? <TrendingUp size={16} /> : <TrendingDown size={16} />}
                   {totalPL >= 0 ? '+' : ''}${totalPL.toFixed(0)}
-                  <span className="text-cuerpo font-semibold ml-1">({totalPLPct >= 0 ? '+' : ''}{totalPLPct.toFixed(2)}%)</span>
-                </div>
-              </div>
-              <div className="animate-fade-in-up text-center sm:text-left" style={{ animationDelay: '120ms' }}>
-                <div className="etiqueta-seccion mb-0.5">Posiciones</div>
-                <div className="text-pagina font-bold text-foreground">{positions.length}</div>
-              </div>
-              {annualDividends > 0 && (
-                <div className="animate-fade-in-up text-center sm:text-left" style={{ animationDelay: '180ms' }}>
-                  <div className="etiqueta-seccion mb-0.5">Dividendos / año</div>
-                  <div className="text-pagina font-bold tabular-nums text-emerald-400">
-                    ~${annualDividends.toFixed(0)}
-                  </div>
-                </div>
-              )}
-            </div>
+                </span>,
+                unidad: `(${totalPLPct >= 0 ? '+' : ''}${totalPLPct.toFixed(2)}%)`,
+                tono: totalPL >= 0 ? 'favor' : 'alarma' },
+              { etiqueta: 'Posiciones', valor: positions.length },
+              ...(annualDividends > 0
+                ? [{ etiqueta: 'Dividendos / año', valor: `~$${annualDividends.toFixed(0)}`, tono: 'favor' as const }]
+                : []),
+            ]} />
             <div className="flex flex-col items-end gap-1.5">
               <button
                 onClick={() => { invalidateCache(); analyze() }}
