@@ -111,3 +111,33 @@ def test_el_gate_no_exige_sobreventa_a_un_bull_flag():
     assert 'Oversold Bounce' in prompt and 'Bull Flag Pullback' in prompt
     # El motivo tiene que citar un número: «R:R bajo» salía en fichas con R:R 11,9
     assert 'DEBE citar un número concreto' in prompt
+
+
+# ── Catalizadores: «±X% histórico» no era el movimiento de la acción ─────────
+
+def test_los_catalizadores_no_publican_un_movimiento_que_no_han_medido():
+    """La app pinta `avg_move_pct` como «±X% histórico», que se lee como
+    «cuánto se mueve la acción con los resultados». Se rellenaba con el valor
+    absoluto de la sorpresa media de BPA, que es otra cosa: AZO salía el
+    16-sep-2026 con «±0,4% histórico» por fallar el BPA un 0,4% de media.
+
+    No se puede calcular con los datos disponibles —las fechas de
+    `earnings_history` son cierres de trimestre fiscal, no días de publicación—
+    así que no se publica. La sorpresa media sigue estando, con su nombre.
+    """
+    import inspect
+    import catalyst_scanner
+    fuente = inspect.getsource(catalyst_scanner.load_earnings_events)
+    assert 'abs(avg_surprise)' not in fuente
+    assert "'avg_move_pct': None," in fuente
+
+
+def test_el_texto_del_catalizador_no_contradice_su_numero():
+    """CTAS: «Resultados mixtos — bate 100% del tiempo». Cuatro de cuatro no es
+    mixto; caía al `else` por no llegar a +5% de sorpresa media."""
+    import inspect
+    import catalyst_scanner
+    fuente = inspect.getsource(catalyst_scanner.load_earnings_events)
+    i_mixtos = fuente.rindex('Resultados mixtos')   # la etiqueta, no el comentario
+    i_rama = fuente.index('elif beat_rate >= 75:')
+    assert i_rama < i_mixtos, 'un beat_rate alto debe salir de la rama «mixtos» antes de llegar a ella'

@@ -198,7 +198,15 @@ class PortfolioTracker:
         #   Upside: banda dorada de value_bands.py, fuente única (ver abajo por
         #   qué se quitó el filtro de R:R que la pisaba)
         _EXCLUDED_SECTORS_VALUE = {'Technology', 'Real Estate'}
-        value_path = Path('docs/value_opportunities.csv')
+        # El CSV FILTRADO: lo que el gate de Claude ha verificado y lo único que
+        # el usuario llega a ver. Leyendo el sin-filtrar, el tracker medía un
+        # conjunto distinto del publicado y la cifra de rendimiento de la app
+        # hablaba de otra cosa — en las dos direcciones. Una señal que nunca
+        # llegó al usuario no forma parte del historial del sistema.
+        # Comprobado el 16-sep-2026: con los filtros de aquí aplicados, ambos
+        # CSV dan exactamente los mismos 4 tickers, así que el cambio corrige la
+        # definición sin romper la serie.
+        value_path = Path('docs/value_opportunities_filtered.csv')
         if 'VALUE' not in ya_hoy and value_path.exists():
             vdf = pd.read_csv(value_path)
             if not vdf.empty:

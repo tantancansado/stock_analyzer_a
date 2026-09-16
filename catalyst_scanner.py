@@ -345,12 +345,21 @@ def load_earnings_events(universe: list) -> list:
             beat_rate = history.get('beat_rate', 50)
             avg_surprise = history.get('avg_surprise_pct', 0)
 
+            # El texto no puede contradecir a su propio número. CTAS salió el
+            # 16-sep-2026 como «Resultados mixtos — bate 100% del tiempo»:
+            # caía al `else` por no llegar a +5% de sorpresa media, y el `else`
+            # se llamaba «mixtos». Cuatro de cuatro no es mixto; lo que pasa es
+            # que las bate por poco, y eso es lo que hay que decir.
             if beat_rate >= 75 and avg_surprise >= 5:
                 direction = 'BULLISH'
                 label = f"Históricamente bate estimaciones {int(beat_rate)}% del tiempo (+{avg_surprise:.1f}% sorpresa media)"
             elif beat_rate <= 40 or avg_surprise <= -3:
                 direction = 'BEARISH'
                 label = f"Históricamente decepciona — bate solo {int(beat_rate)}% del tiempo"
+            elif beat_rate >= 75:
+                direction = 'VOLATILE'
+                label = (f"Bate {int(beat_rate)}% del tiempo, pero por poco "
+                         f"({avg_surprise:+.1f}% de sorpresa media)")
             else:
                 direction = 'VOLATILE'
                 label = f"Resultados mixtos — bate {int(beat_rate)}% del tiempo"
@@ -372,7 +381,21 @@ def load_earnings_events(universe: list) -> list:
                 'description': label,
                 'impact': impact,
                 'direction_bias': direction,
-                'avg_move_pct': abs(avg_surprise) if avg_surprise else None,
+                # `avg_move_pct` significa «cuánto se suele mover la acción con
+                # los resultados» — la app lo pinta como «±X% histórico». Aquí
+                # se rellenaba con |sorpresa media de BPA|, que es otra cosa
+                # completamente: AZO aparecía con «±0,4% histórico» por fallar
+                # el BPA un 0,4% de media, cuando se mueve varios puntos.
+                #
+                # No se puede calcular con lo que hay: las fechas de
+                # `earnings_history` son cierres de trimestre fiscal
+                # (2025-08-31, 2025-11-30…), no los días de publicación, que
+                # caen semanas después. Medir el precio alrededor de ellas daría
+                # otro número inventado, solo que más difícil de detectar.
+                #
+                # Así que no se publica. La sorpresa media sí va, con su nombre,
+                # dentro de `earnings_history`.
+                'avg_move_pct': None,
                 'affected_tickers': [ticker],
                 'bullish_sectors': [],
                 'bearish_sectors': [],
