@@ -702,8 +702,17 @@ def scan_entry_signals(convergence: dict) -> dict:
     print("[6/6] Entry signal scan...")
 
     # ── Load all data sources ──────────────────────────────────────────────────
-    value_df    = _enrich_value_with_extras(load_csv(DOCS / "value_opportunities.csv"))
-    value_eu_df = _enrich_value_with_extras(load_csv(DOCS / "european_value_opportunities.csv"))
+    # Los CSV FILTRADOS. Esta función produce «Ideas de hoy» del Centro de
+    # mando: no es un análisis del universo, es una lista de cosas que comprar,
+    # y por tanto tiene que salir de lo que el gate de Claude ha verificado.
+    #
+    # Leyendo el sin-filtrar, 3 de las 7 ideas del 16-sep-2026 (MCO, SGE.L,
+    # SAP.DE) no estaban en la lista verificada. El resto de cerebro sigue
+    # leyendo el universo entero a propósito: ahí sí se están midiendo cosas
+    # (estadísticas de sector, trampas de valor, deriva de tesis) y recortar la
+    # muestra al filtrado sesgaría la medición.
+    value_df    = _enrich_value_with_extras(load_csv(DOCS / "value_opportunities_filtered.csv"))
+    value_eu_df = _enrich_value_with_extras(load_csv(DOCS / "european_value_opportunities_filtered.csv"))
     insiders_df = load_csv(DOCS / "recurring_insiders.csv")
     eu_ins_df   = load_csv(DOCS / "eu_recurring_insiders.csv")
     mr_df       = load_csv(DOCS / "mean_reversion_opportunities.csv")

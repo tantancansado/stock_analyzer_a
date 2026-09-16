@@ -40,9 +40,19 @@ GROQ_API_KEY = os.getenv('GROQ_API_KEY')
 # Data loading
 # ─────────────────────────────────────────────────────────────────────────────
 
+# Los CSV FILTRADOS en VALUE: son los que han pasado el gate de Claude, que es
+# fail-closed. Leyendo el sin-filtrar, este agente emitía «ENTRY — Entrada
+# válida ahora» sobre picks que el gate nunca había mirado.
+#
+# El 16-sep-2026 así salió Nucor: veredicto ENTRY con confianza 80, visible en
+# /value, /momentum y el Centro de mando (`useEntryVerdicts`). No es que el
+# gate la rechazara — nunca llegó a evaluarla.
+#
+# Es la cuarta puerta lateral del mismo gate. Las otras tres eran
+# `daily_briefing`, `telegram_legendary_alerts` y `new_value_alerts`.
 SOURCES = [
-    ('value',    DOCS / 'value_opportunities.csv'),
-    ('value_eu', DOCS / 'european_value_opportunities.csv'),
+    ('value',    DOCS / 'value_opportunities_filtered.csv'),
+    ('value_eu', DOCS / 'european_value_opportunities_filtered.csv'),
     ('momentum', DOCS / 'momentum_opportunities.csv'),
     ('bounce',   DOCS / 'bounce_opportunities.csv'),
 ]

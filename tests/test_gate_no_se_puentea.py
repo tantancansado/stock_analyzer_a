@@ -11,6 +11,7 @@ rodeaban el gate por completo:
     daily_briefing.gather_facts()          → el mensaje diario
     telegram_legendary_alerts             → alertas de picks
     new_value_alerts (fallback)           → «value nuevo»
+    entry_verdict_agent                   → «ENTRY — Entrada válida ahora»
 
 Un gate fail-closed con una puerta lateral abierta no es fail-closed. Y el fallo
 era silencioso: el mensaje salía perfectamente formado, solo que con un pick que
@@ -21,14 +22,16 @@ from pathlib import Path
 
 RAIZ = Path(__file__).resolve().parent.parent
 
-# Emisores hacia Telegram que presentan picks VALUE al usuario.
-EMISORES = ['daily_briefing.py', 'telegram_legendary_alerts.py', 'new_value_alerts.py']
+# Todo lo que presenta un pick VALUE al usuario: Telegram y el veredicto de
+# entrada que la app pinta en /value, /momentum y el Centro de mando.
+EMISORES = ['daily_briefing.py', 'telegram_legendary_alerts.py', 'new_value_alerts.py',
+            'entry_verdict_agent.py']
 
 # `value_opportunities.csv` (o el europeo) SIN el sufijo `_filtered`.
 SIN_FILTRAR = re.compile(r"""['"][^'"]*(?<!_filtered)value_opportunities\.csv['"]""")
 
 
-def test_ningun_emisor_de_telegram_lee_el_csv_sin_filtrar():
+def test_ningun_emisor_lee_el_csv_sin_filtrar():
     culpables = []
     for nombre in EMISORES:
         for n, linea in enumerate(( RAIZ / nombre).read_text().splitlines(), 1):
@@ -64,3 +67,66 @@ def test_sin_historico_no_se_anuncia_nada_como_nuevo():
     assert any(isinstance(x, ast.Return) for x in guarda.body), \
         'sin histórico con el que comparar, run_new_value_alerts debe salir sin avisar'
 
+
+
+# ── Un pick que desaparece no puede hacerlo en silencio ──────────────────────
+
+def test_el_gate_avisa_de_los_verificados_que_desaparecen():
+    """El 16-sep-2026 faltaba MCO —score 83,1, el más alto de toda la lista
+    VALUE— que había pasado el gate el día anterior. Y BRO, igual. Nadie se
+    enteró: no hay error, no hay línea de log, la página se pinta bien con 34
+    filas en vez de 36.
+
+    El gate es fail-closed por diseño y eso está bien: ante la duda, fuera. Lo
+    que no está bien es que «fuera» sea indistinguible de «nunca estuvo».
+    """
+    import io
+    from contextlib import redirect_stdout
+
+    import pandas as pd
+
+    fuente = (RAIZ / 'ai_quality_filter.py').read_text()
+    i = fuente.index('def _avisar_de_los_que_desaparecen')
+    j = fuente.index('def filter_opportunities(')
+    ns: dict = {}
+    exec(fuente[i:j], ns)          # sin importar el módulo: depende de groq
+
+    import tempfile
+    from pathlib import Path as _P
+    with tempfile.TemporaryDirectory() as tmp:
+        previo = _P(tmp) / 'value_opportunities_filtered.csv'
+        pd.DataFrame({'ticker': ['MCO', 'BRO', 'NDSN'],
+                      'value_score': [83.1, 33.9, 55.0]}).to_csv(previo, index=False)
+
+        salida = io.StringIO()
+        with redirect_stdout(salida):
+            ns['_avisar_de_los_que_desaparecen'](pd.DataFrame({'ticker': ['NDSN']}), previo)
+        texto = salida.getvalue()
+
+    assert 'MCO' in texto and 'BRO' in texto
+    assert '83.1' in texto, 'con el score de ayer, para saber lo que se ha caído'
+    assert 'NDSN' not in texto, 'el que sigue estando no se menciona'
+
+
+def test_sin_bajas_no_dice_nada():
+    """Un aviso que sale todos los días deja de leerse."""
+    import io
+    from contextlib import redirect_stdout
+
+    import pandas as pd
+
+    fuente = (RAIZ / 'ai_quality_filter.py').read_text()
+    i = fuente.index('def _avisar_de_los_que_desaparecen')
+    j = fuente.index('def filter_opportunities(')
+    ns: dict = {}
+    exec(fuente[i:j], ns)
+
+    import tempfile
+    from pathlib import Path as _P
+    with tempfile.TemporaryDirectory() as tmp:
+        previo = _P(tmp) / 'f.csv'
+        pd.DataFrame({'ticker': ['NDSN'], 'value_score': [55.0]}).to_csv(previo, index=False)
+        salida = io.StringIO()
+        with redirect_stdout(salida):
+            ns['_avisar_de_los_que_desaparecen'](pd.DataFrame({'ticker': ['NDSN', 'MCO']}), previo)
+    assert salida.getvalue() == ''

@@ -715,6 +715,48 @@ def extract_fundamentals(row):
 
     return roe, profit_margin, debt_to_equity
 
+def _avisar_de_los_que_desaparecen(df_nuevo, output_path) -> None:
+    """Qué picks verificados ayer no están hoy, y si alguien llegó a mirarlos.
+
+    Un pick que desaparece del CSV filtrado no deja rastro: la lista simplemente
+    sale más corta. El 16-sep-2026 faltaba MCO —score 83,1, el más alto de toda
+    la lista VALUE— que había pasado el gate el día anterior. Y BRO, igual.
+    Nadie se enteró: no hay error, no hay línea de log, la página se pinta bien
+    con 34 filas en vez de 36.
+
+    El gate es fail-closed por diseño y eso está bien: ante la duda, fuera. Lo
+    que no está bien es que "fuera" sea indistinguible de "nunca estuvo".
+    """
+    import pandas as _pd
+    if not output_path.exists():
+        return
+    try:
+        anterior = _pd.read_csv(output_path)
+    except Exception:
+        return
+    if anterior.empty or 'ticker' not in anterior.columns:
+        return
+
+    ahora = set(df_nuevo['ticker'].astype(str)) if 'ticker' in df_nuevo.columns else set()
+    caidos = [t for t in anterior['ticker'].astype(str) if t not in ahora]
+    if not caidos:
+        return
+
+    scores = {}
+    if 'value_score' in anterior.columns:
+        scores = dict(zip(anterior['ticker'].astype(str),
+                          _pd.to_numeric(anterior['value_score'], errors='coerce')))
+
+    print(f"\n⚠️  {len(caidos)} que ayer estaban verificados y hoy NO salen:")
+    for t in sorted(caidos, key=lambda x: -(scores.get(x) or 0)):
+        sc = scores.get(t)
+        marca = '  ← era el mejor de la lista' if sc is not None and sc == max(
+            (v for v in scores.values() if v == v), default=None) else ''
+        print(f"     {t:<8} score de ayer {sc if sc == sc else 'n/d'}{marca}")
+    print("     Si esto se repite, mirar arriba por qué: sin veredicto, dato "
+          "cambiado de banda, o sin saldo.")
+
+
 def filter_opportunities(input_path: Path, strategy_name: str, score_field: str,
                           usar_claude: bool = True):
     """
@@ -932,6 +974,7 @@ def filter_opportunities(input_path: Path, strategy_name: str, score_field: str,
     # Save filtered results
     output_filename = input_path.stem + '_filtered.csv'
     output_path = Path('docs') / output_filename
+    _avisar_de_los_que_desaparecen(df_filtered, output_path)
     df_filtered.to_csv(output_path, index=False)
     print(f"\n💾 Saved to: {output_path}")
 
