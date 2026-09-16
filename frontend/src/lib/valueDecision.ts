@@ -1,4 +1,5 @@
 import type { ValueOpportunity } from '@/api/client'
+import { enZonaDorada } from './bandasUpside'
 
 export type ValueDecisionKind = 'ready' | 'watch' | 'wait' | 'avoid'
 
@@ -33,16 +34,22 @@ export function getValueDecision({
   const score = row.value_score ?? 0
   const grade = (row.conviction_grade ?? '').toUpperCase()
   const upside = row.analyst_upside_pct
-  const rr = row.risk_reward_ratio
   const nearEarnings = row.days_to_earnings != null && row.days_to_earnings <= 7
   const hasBadUpside = upside != null && upside < 0
-  const hasGoodUpside = upside == null || upside >= 10
-  const hasEnoughReward = rr == null || rr >= 1.5
+  // Una sola condición de upside, y con la banda declarada.
+  //
+  // Antes había dos, y las dos sobre la MISMA variable: `upside >= 10` y
+  // `rr >= 1.5`, que es `upside >= 12` porque `risk_reward_ratio` se calcula
+  // como `analyst_upside_pct / 8`. El segundo suelo era el que mandaba, más
+  // estricto, y estaba escrito en unidades de otra cosa.
+  //
+  // Y ninguno tenía techo: un upside del 27% —fuera de la banda dorada, en la
+  // franja pegada al HARD REJECT— salía como "listo para entrar".
+  const hasGoodUpside = upside == null || enZonaDorada(upside)
   const isReady =
     score >= 65 &&
     GOOD_GRADES.has(grade) &&
     hasGoodUpside &&
-    hasEnoughReward &&
     !nearEarnings
 
   if (hasExit || row.cerebro_signal === 'EXIT') {

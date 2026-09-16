@@ -148,7 +148,10 @@ class TestCatalizadorDeUpside:
         src = f.read_text()
         assert "id: 'rr_strong'" not in src, 'volvió el catalizador que premiaba upside alto'
         assert "id: 'upside_dorado'" in src
-        assert 'analyst_upside_pct ?? 0) < 25' in src
+        # La banda dejó de escribirse a mano aquí: vive en
+        # `frontend/src/lib/bandasUpside.ts`, espejo de `value_bands.py`, y hay
+        # un test propio (`bandasUpside.test.ts`) que impide las copias inline.
+        assert 'enZonaDorada(d.analyst_upside_pct)' in src
 
 
 class TestSueloDeRiesgo:

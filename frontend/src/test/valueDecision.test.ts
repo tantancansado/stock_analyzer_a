@@ -233,21 +233,20 @@ describe('getValueDecision — ready (isReady path)', () => {
     expect(result.kind).not.toBe('ready')
   })
 
-  it('returns ready when risk_reward_ratio is null', () => {
-    // null rr → hasEnoughReward=true
-    const result = getValueDecision({ row: makeRow({ risk_reward_ratio: undefined }) })
-    expect(result.kind).toBe('ready')
+  // `risk_reward_ratio` ya no decide nada aquí. Es `analyst_upside_pct / 8`,
+  // así que el `rr >= 1.5` que había era un segundo suelo de upside —en 12%,
+  // más estricto que el 10% de al lado— escrito en unidades de otra cosa. Y
+  // ninguno de los dos tenía techo: un 27% salía "listo para entrar" estando
+  // fuera de la banda dorada, en la franja pegada al HARD REJECT.
+  it('el R:R ya no decide: lo que manda es la banda de upside', () => {
+    expect(getValueDecision({ row: makeRow({ risk_reward_ratio: 1.4 }) }).kind).toBe('ready')
+    expect(getValueDecision({ row: makeRow({ risk_reward_ratio: undefined }) }).kind).toBe('ready')
   })
 
-  it('returns ready when risk_reward_ratio is exactly 1.5', () => {
-    const result = getValueDecision({ row: makeRow({ risk_reward_ratio: 1.5 }) })
-    expect(result.kind).toBe('ready')
-  })
-
-  it('risk_reward_ratio 1.4 blocks isReady', () => {
-    // regression: 1.4 < 1.5 → hasEnoughReward=false → isReady=false → watch (grade A)
-    const result = getValueDecision({ row: makeRow({ risk_reward_ratio: 1.4 }) })
-    expect(result.kind).not.toBe('ready')
+  it('un upside fuera de la banda dorada no está listo', () => {
+    expect(getValueDecision({ row: makeRow({ analyst_upside_pct: 27 }) }).kind).not.toBe('ready')
+    expect(getValueDecision({ row: makeRow({ analyst_upside_pct: 5 }) }).kind).not.toBe('ready')
+    expect(getValueDecision({ row: makeRow({ analyst_upside_pct: 24.9 }) }).kind).toBe('ready')
   })
 
   it('ready badge class contains emerald', () => {
@@ -484,14 +483,9 @@ describe('getValueDecision — edge cases', () => {
     expect(result.kind).toBe('ready')
   })
 
-  it('rr exactly 1.5 qualifies as enough reward (boundary inclusive)', () => {
-    const result = getValueDecision({ row: makeRow({ risk_reward_ratio: 1.5 }) })
-    expect(result.kind).toBe('ready')
-  })
-
-  it('rr 1.49 does not qualify (blocks isReady, falls to watch)', () => {
-    const result = getValueDecision({ row: makeRow({ risk_reward_ratio: 1.49 }) })
-    expect(result.kind).toBe('watch')
+  it('el borde de la banda dorada es inclusivo por abajo y exclusivo por arriba', () => {
+    expect(getValueDecision({ row: makeRow({ analyst_upside_pct: 10 }) }).kind).toBe('ready')
+    expect(getValueDecision({ row: makeRow({ analyst_upside_pct: 25 }) }).kind).toBe('watch')
   })
 
   it('value_score defaults to 0 when undefined/null', () => {

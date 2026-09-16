@@ -10,6 +10,7 @@ import ScoreBreakdown from './ScoreBreakdown'
 import type { ValueOpportunity, TechnicalSignal } from '../api/client'
 import { useTechnicalSignals } from '../hooks/useTechnicalSignals'
 import CapaModal from './CapaModal'
+import { colorUpside } from '../lib/bandasUpside'
 
 // ── Technical signals panel ───────────────────────────────────────────────────
 
@@ -413,8 +414,7 @@ export default function ThesisModal({ row, thesisText, onClose, currency = '$' }
                  verde a partir de 2 dejaba en verde todo el upside ≥16% —
                  incluido el que pasa de 25% y el que roza el HARD REJECT de 30. */
               <Chip label="R:R" value={rr.toFixed(1)}
-                color={upside != null && upside >= 10 && upside < 25 ? 'text-emerald-400'
-                     : upside != null && upside >= 30 ? 'text-red-400' : 'text-amber-400'} />
+                color={colorUpside(upside)} />
             )}
             {fcf != null && (
               <Chip label="FCF%" value={`${fcf.toFixed(1)}%`} color={fcf >= 5 ? 'text-emerald-400' : fcf >= 3 ? 'text-amber-400' : fcf < 0 ? 'text-red-400' : ''} />

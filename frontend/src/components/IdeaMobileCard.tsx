@@ -4,6 +4,7 @@ import type { ValueOpportunity } from '@/api/client'
 import TickerLogo from './TickerLogo'
 import OwnedBadge from './OwnedBadge'
 import ValuationBar from './ValuationBar'
+import { colorUpside } from '../lib/bandasUpside'
 
 /**
  * Una idea (VALUE, catalizadores, LEAPS…) como tarjeta, para móvil.
@@ -88,7 +89,7 @@ export default function IdeaMobileCard({ d, onOpen, extra }: Readonly<Props>) {
         <Dato
           etiqueta="Potencial"
           valor={upside != null ? `${upside > 0 ? '+' : ''}${upside.toFixed(0)}%` : '—'}
-          tono={upside == null ? undefined : upside >= 10 ? 'text-emerald-400' : 'text-muted-foreground'}
+          tono={upside == null ? undefined : colorUpside(upside)}
         />
         <Dato etiqueta="Score" valor={d.value_score != null ? d.value_score.toFixed(0) : '—'} />
       </div>

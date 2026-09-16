@@ -4,6 +4,8 @@
 // ha discriminado gangas reales de trampas (CBOE/NDAQ vs MA/V); el consenso
 // solo aporta banderas.
 
+import { UPSIDE_HARD_REJECT, enZonaDorada } from './bandasUpside'
+
 export type TickerDecisionKind = 'compra' | 'espera' | 'evita' | 'no_fiable' | 'sin_modelo'
 
 export interface OeModelInput {
@@ -172,8 +174,8 @@ export function getTickerDecision({
   if (aiVerdict === 'BUY') {
     reasons.push(`El validador IA respalda la tesis${aiConf != null ? ` (confianza ${aiConf}%)` : ''}`)
   }
-  if (analystUpsidePct != null && analystUpsidePct >= 10 && analystUpsidePct < 25) {
-    reasons.push(`Upside de consenso en zona dorada (+${analystUpsidePct.toFixed(0)}%)`)
+  if (enZonaDorada(analystUpsidePct)) {
+    reasons.push(`Upside de consenso en zona dorada (+${analystUpsidePct!.toFixed(0)}%)`)
   }
   if (oe.ntm_fcf_yield_pct != null && oe.ntm_fcf_yield_pct >= 5) {
     reasons.push(`FCF yield NTM del ${oe.ntm_fcf_yield_pct.toFixed(1)}%`)
@@ -182,8 +184,8 @@ export function getTickerDecision({
   if (daysToEarnings != null && daysToEarnings <= 7) {
     blockers.push(`Earnings en ${daysToEarnings} días — riesgo de evento`)
   }
-  if (analystUpsidePct != null && analystUpsidePct >= 30) {
-    blockers.push(`Upside de consenso ≥30% (+${analystUpsidePct.toFixed(0)}%) — patrón histórico de value trap`)
+  if (analystUpsidePct != null && analystUpsidePct >= UPSIDE_HARD_REJECT) {
+    blockers.push(`Upside de consenso ≥${UPSIDE_HARD_REJECT}% (+${analystUpsidePct.toFixed(0)}%) — patrón histórico de value trap`)
   }
   if (analystUpsidePct != null && analystUpsidePct < 0) {
     blockers.push('El consenso de analistas está por debajo del precio actual')
@@ -195,7 +197,7 @@ export function getTickerDecision({
   // ── Veredicto ─────────────────────────────────────────────────────────────
   // Upside ≥30% es hard-reject histórico (0% aciertos en 55 señales): manda
   // sobre todo lo demás.
-  if (analystUpsidePct != null && analystUpsidePct >= 30) {
+  if (analystUpsidePct != null && analystUpsidePct >= UPSIDE_HARD_REJECT) {
     return {
       kind: 'evita',
       label: 'EVITA',

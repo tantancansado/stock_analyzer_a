@@ -29,6 +29,7 @@ import { nlAlert } from '@/lib/nl'
 import ScoreAlerts from '../components/ScoreAlerts'
 import EmptyState from '@/components/EmptyState'
 import CifrasClave from '../components/CifrasClave'
+import { colorUpside, enZonaDorada } from '../lib/bandasUpside'
 
 const ThesisDriftTab       = lazy(() => import('./ThesisDrift'))
 const ContrarianDiscovery  = lazy(() => import('./ContrarianDiscovery'))
@@ -127,7 +128,7 @@ function oneLiner(sig: EntrySignal): string {
   // no es gestión del riesgo: el integrator lo calcula como
   // `analyst_upside_pct / 8`. Mismo fallo que CatalystScreener ya corrigió.
   const up = sig.analyst_upside_pct ?? null
-  if (up != null && up >= 10 && up < 25) return `${up.toFixed(0)}% de upside, dentro de la banda que funciona`
+  if (enZonaDorada(up)) return `${up!.toFixed(0)}% de upside, dentro de la banda que funciona`
   return `${sig.signals_fired.slice(0, 2).join(' · ')}`
 }
 
@@ -1584,7 +1585,7 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
                       <div className="text-mini text-muted-foreground mb-2">{sig.company_name} · {sig.sector}</div>
                       <div className="flex flex-wrap gap-3 text-mini mb-2">
                         {sig.value_score != null && <span>Score: <strong className="text-foreground">{sig.value_score.toFixed(0)}</strong></span>}
-                        {sig.analyst_upside_pct != null && <span>Upside: <strong className={sig.analyst_upside_pct >= 10 ? 'text-emerald-400' : 'text-foreground'}>{sig.analyst_upside_pct >= 0 ? '+' : ''}{sig.analyst_upside_pct.toFixed(1)}%</strong></span>}
+                        {sig.analyst_upside_pct != null && <span>Upside: <strong className={colorUpside(sig.analyst_upside_pct)}>{sig.analyst_upside_pct >= 0 ? '+' : ''}{sig.analyst_upside_pct.toFixed(1)}%</strong></span>}
                         {sig.fcf_yield_pct != null && <span>FCF: <strong className={sig.fcf_yield_pct >= 5 ? 'text-emerald-400' : 'text-foreground'}>{sig.fcf_yield_pct.toFixed(1)}%</strong></span>}
                         <span className="ml-auto text-muted-foreground">Conv. score: {sig.convergence_score}</span>
                       </div>

@@ -13,6 +13,7 @@ import { Card } from '@/components/ui/card'
 import EmptyState from '../components/EmptyState'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { ArrowUpCircle, BarChart3, CalendarDays, Coins, Flame, Gem, RefreshCw, Scale, SearchX, Target, TrendingUp, Trophy, Zap } from 'lucide-react'
+import { enZonaDorada } from '../lib/bandasUpside'
 
 // ── Catalyst definitions ──────────────────────────────────────────────────────
 
@@ -99,7 +100,7 @@ const CATALYSTS: Catalyst[] = [
     // o sea que la app los marcaba en verde por estar en la peor banda.
     description: 'Potencial del analista dentro de la banda [10%, 25%), la única que ha funcionado en las señales propias. Por encima del 25% el retorno se hunde: no es más chollo, es más trampa.',
     color: 'amber',
-    match: d => (d.analyst_upside_pct ?? 0) >= 10 && (d.analyst_upside_pct ?? 0) < 25,
+    match: d => enZonaDorada(d.analyst_upside_pct),
   },
 ]
 
