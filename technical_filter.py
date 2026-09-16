@@ -184,11 +184,22 @@ def _compute_tech_stage(
     pct_from_52w_low: float | None,
 ) -> str:
     try:
+        # Sin histórico para la MA200 no hay etapa. Antes devolvía "stage1", que
+        # es una etapa REAL de Weinstein (construyendo base) — así que un fallo
+        # de descarga salía como un diagnóstico técnico legítimo, y
+        # `_entry_readiness` lo convertía en «VIGILAR — construyendo base
+        # (lateral), espera la reconquista de las medias»: una frase con criterio
+        # sobre una acción de la que no se había podido descargar el precio.
+        #
+        # Pasó el 15-sep-2026 con la lista europea ENTERA: 34 de 34 filas con
+        # stage1/sideways/VIGILAR y con RS, ATR y distancia al máximo todos
+        # nulos — la firma de un `_fetch_history` que devolvió pocas filas. El
+        # 16 seguían 31 de 33. Dos días publicando timing inventado para Europa.
         if len(close) < 200:
-            return "stage1"
+            return "unknown"
         ma200 = float(close.rolling(200).mean().iloc[-1])
         if np.isnan(ma200):
-            return "stage1"
+            return "unknown"
 
         above_ma200 = price > ma200
         ma200_trending_up = (ma200 > ma200_4wk) if ma200_4wk is not None else False
@@ -236,6 +247,12 @@ def _entry_readiness(tech_stage: str, trend: str, rs_6m: float | None,
     31-jul-2026 mientras el filtro de medias decía "150 MA below 200 MA". Con
     dos motores en desacuerdo no hay suelo confirmado: hay desacuerdo.
     """
+    # Sin etapa no hay veredicto. El `return` de abajo —«construyendo base»— es
+    # la rama por defecto y se tragaba también los casos en que no se pudo
+    # calcular nada, dándoles una frase con criterio.
+    if tech_stage in ("unknown", "", None):
+        return None, "Sin histórico suficiente para juzgar el timing — no se ha podido descargar el precio"
+
     rs_weak = rs_6m is not None and rs_6m < -25
     if tech_stage == "stage4_ma_alcista":
         return "ESPERAR", ("Ha perdido la MA200, aunque la media sigue subiendo — "
@@ -301,7 +318,11 @@ def compute_technical_signals(ticker: str, spy_6m_return: float) -> dict:
     low = df["Low"].squeeze()
     volume = df["Volume"].squeeze()
 
-    if len(close) < 60:
+    # 220 sesiones es lo que necesitan la MA200 y su pendiente a 4 semanas, que
+    # es de lo que sale la etapa. Con menos, `_fetch_history` ya devolvía datos
+    # (solo rechaza <30) y aquí se calculaba lo que se podía: el resultado era
+    # media ficha con los huecos en blanco y una etapa inventada.
+    if len(close) < 220:
         base["error"] = "insufficient_data"
         return base
 

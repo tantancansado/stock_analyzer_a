@@ -512,11 +512,19 @@ class TestComputeTechStage:
         result = _compute_tech_stage(close, price, None, None, None)
         assert isinstance(result, str)
 
-    def test_stage1_when_short_series(self):
+    def test_serie_corta_es_desconocida_no_stage1(self):
+        """Antes devolvía "stage1", que es una etapa REAL de Weinstein
+        (construyendo base). Con eso, un fallo de descarga salía como un
+        diagnóstico técnico legítimo y `_entry_readiness` le ponía encima una
+        frase con criterio: «VIGILAR — construyendo base, espera la reconquista
+        de las medias».
+
+        El 15-sep-2026 le pasó a la lista europea ENTERA, 34 de 34 filas, y el
+        16 a 31 de 33. Dos días de timing inventado para Europa."""
         close = _make_close(100, start=100.0, trend=0.5)
         price = float(close.iloc[-1])
         result = _compute_tech_stage(close, price, None, None, None)
-        assert result == "stage1"
+        assert result == "unknown"
 
     def test_stage2_on_clean_uptrend_not_extended(self):
         # Price above MA200 (trending up), not within 5% of 52w high

@@ -203,3 +203,52 @@ def test_bajo_una_ma200_que_sube_no_se_clasifica_como_caida():
     etapa = _compute_tech_stage(close, precio, ma200_4sem,
                                 pct_from_52w_high=-35.0, pct_from_52w_low=60.0)
     assert etapa == 'stage4_ma_alcista', etapa
+
+
+class TestSinHistoricoNoHayTiming:
+    """El 15-sep-2026 la lista europea ENTERA salió con timing inventado.
+
+    34 de 34 filas con `stage1` / `sideways` / `VIGILAR`, y con RS, ATR y
+    distancia al máximo todos nulos — la firma de un `_fetch_history` que
+    devolvió pocas filas. El 16 seguían 31 de 33. Dos días publicando
+    «VIGILAR — construyendo base (lateral), espera la reconquista de las
+    medias» sobre acciones cuyo precio no se había podido descargar.
+
+    La causa: `_compute_tech_stage` devolvía "stage1" cuando faltaba histórico.
+    Pero stage1 es una etapa REAL de Weinstein, así que el fallo salía como un
+    diagnóstico legítimo y `_entry_readiness` le ponía una frase con criterio.
+    """
+
+    def test_sin_histórico_la_etapa_es_desconocida_no_stage1(self):
+        import numpy as np
+        import pandas as pd
+
+        from technical_filter import _compute_tech_stage
+        corta = pd.Series(np.linspace(100, 120, 45))
+        etapa = _compute_tech_stage(corta, 120.0, None, -5.0, 20.0)
+        assert etapa == 'unknown', \
+            'stage1 es una etapa real: usarla de comodín convierte un fallo en un diagnóstico'
+
+    def test_sin_etapa_no_se_emite_veredicto(self):
+        from technical_filter import _entry_readiness
+        veredicto, motivo = _entry_readiness('unknown', 'sideways', None, False)
+        assert veredicto is None
+        assert 'histórico' in motivo.lower()
+
+    def test_la_rama_por_defecto_sigue_funcionando_para_etapas_reales(self):
+        """El arreglo no debe tragarse los casos legítimos."""
+        from technical_filter import _entry_readiness
+        assert _entry_readiness('stage2', 'uptrend', 5.0, True)[0] == 'ENTRADA'
+        assert _entry_readiness('stage1', 'sideways', 5.0, False)[0] == 'VIGILAR'
+        assert _entry_readiness('stage4', 'downtrend', -30, False)[0] == 'ESPERAR'
+
+    def test_no_se_publica_media_ficha(self):
+        """Con menos sesiones de las que necesita la MA200 y su pendiente, se
+        marca `insufficient_data` en vez de rellenar lo que se pueda y dejar el
+        resto en blanco."""
+        import inspect
+
+        import technical_filter as tf
+        fuente = inspect.getsource(tf.compute_technical_signals)
+        assert 'len(close) < 220' in fuente, \
+            '220 = lo que necesitan la MA200 (200) y su pendiente a 4 semanas (21)'
