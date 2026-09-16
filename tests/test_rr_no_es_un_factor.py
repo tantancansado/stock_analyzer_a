@@ -95,3 +95,48 @@ def test_ninguna_pantalla_titula_el_upside_de_trampa_como_virtud():
     codigo = re.sub(r'//[^\n]*|/\*.*?\*/', '', fuente, flags=re.S)
     assert 'riesgo asimétrico excepcional' not in codigo
     assert 'upside validado por analistas' not in codigo
+
+
+# ── El 50 que significa "no hay dato" y se publicaba como nota ───────────────
+
+def test_ningun_aviso_de_telegram_rellena_una_dimension_con_50():
+    """CLAUDE.md: `fundamental_score == 50.0` SIGNIFICA dato ausente.
+
+    `telegram_legendary_alerts` rellenaba el hueco con ese mismo 50 y publicaba
+    «Quality: 50/100 — 🟡 Regular»: una calidad mediocre pero medida, cuando no
+    había nada que medir. El emoji lo remataba — un juicio sobre un hueco se lee
+    igual que un juicio real.
+    """
+    src = (RAIZ / 'telegram_legendary_alerts.py').read_text()
+    assert "row.get('fundamental_score', 50)" not in src
+    assert "dims.get('fundamental', 50)" not in src
+
+
+def test_el_aviso_dice_sin_dato_en_vez_de_inventarlo():
+    from telegram_legendary_alerts import TelegramLegendaryAlerts
+    a = TelegramLegendaryAlerts.__new__(TelegramLegendaryAlerts)
+    msg = a.format_legendary_alert({
+        'ticker': 'XYZ', 'company_name': 'Ejemplo', 'super_score_5d': 82,
+        'tier': 'LEGENDARY',
+        'dimensions': {'vcp': 78, 'insiders': 0, 'sector': 61,
+                       'institutional': 45, 'quality': None},
+    })
+    assert 'Quality:</b> sin dato' in msg
+    assert 'Recurring Insiders:</b> sin dato' in msg, '0 tampoco es una medición'
+    assert 'VCP Pattern:</b> 78/100' in msg, 'lo que sí hay se sigue diciendo'
+
+
+def test_la_tesis_no_puntua_el_riesgo_sin_score_ni_premia_estar_cara():
+    """Dos fallos que estaban a dos líneas de su propio antídoto: justo encima,
+    `fundamental_score` sí comprueba el 50 y lo deja en None.
+
+    · `super_score_5d` caía a 50 — el valor que significa "dato ausente".
+    · `abs(upside)`: un upside de -30% (la acción está por encima del objetivo)
+      puntuaba igual que uno de +30%. Cuanto más cara, más estrellas.
+    """
+    src = (RAIZ / 'thesis_generator.py').read_text()
+    codigo = '\n'.join(l.split('#')[0] for l in src.splitlines())
+    assert "row.get('super_score_5d', 50) or 50" not in codigo
+    assert '(score_5d + abs(upside)) / 2' not in codigo
+    assert "rating['overall'] = round(sum(_stars) / len(_stars), 1) if _stars else 3.0" not in codigo, \
+        'un 3/5 por defecto se lee como nota, no como hueco'

@@ -112,7 +112,20 @@ class TelegramLegendaryAlerts:
         # Emojis según score
         fire = "🔥" * min(5, int(score / 20))
 
-        quality_score = self._safe_float(dims.get('quality', dims.get('fundamental', 50)))
+        # Una dimensión sin dato se dice, no se rellena con un 50.
+        #
+        # CLAUDE.md: `fundamental_score == 50.0` SIGNIFICA dato ausente. Aquí el
+        # hueco se rellenaba con ese mismo 50 y el aviso publicaba
+        # «Quality: 50/100 — 🟡 Regular»: una calidad mediocre pero medida,
+        # cuando en realidad no había nada que medir. El emoji lo remataba,
+        # porque un juicio sobre un hueco se lee igual que un juicio real.
+        def dim(clave: str) -> str:
+            v = dims.get(clave)
+            v = self._safe_float(v) if v is not None else None
+            if v is None or v == 0 or v == 50.0:
+                return 'sin dato'
+            return f'{v:.0f}/100\n   └ {self._get_quality_emoji(v)}'
+
         message = f"""
 🌟 <b>LEGENDARY OPPORTUNITY DETECTED!</b> 🌟
 {fire}
@@ -123,20 +136,15 @@ class TelegramLegendaryAlerts:
 
 📊 <b>ANÁLISIS 5 DIMENSIONES:</b>
 
-🚀 <b>VCP Pattern:</b> {dims['vcp']:.0f}/100
-   └ {self._get_quality_emoji(dims['vcp'])}
+🚀 <b>VCP Pattern:</b> {dim('vcp')}
 
-👔 <b>Recurring Insiders:</b> {dims['insiders']:.0f}/100
-   └ {self._get_quality_emoji(dims['insiders'])}
+👔 <b>Recurring Insiders:</b> {dim('insiders')}
 
-📈 <b>Sector:</b> {dims['sector']:.0f}/100
-   └ {self._get_quality_emoji(dims['sector'])}
+📈 <b>Sector:</b> {dim('sector')}
 
-🏛️ <b>Institutional:</b> {dims['institutional']:.0f}/100
-   └ {self._get_quality_emoji(dims['institutional'])}
+🏛️ <b>Institutional:</b> {dim('institutional')}
 
-🎯 <b>Quality:</b> {quality_score:.0f}/100
-   └ {self._get_quality_emoji(quality_score)}
+🎯 <b>Quality:</b> {dim('quality') if dims.get('quality') is not None else dim('fundamental')}
 """
 
         # Timing Convergence
@@ -232,7 +240,10 @@ class TelegramLegendaryAlerts:
                     'insiders': row.get('insiders_score', 0),
                     'sector': row.get('sector_score', 0),
                     'institutional': row.get('institutional_score', 0),
-                    'quality': row.get('fundamental_score', 50)
+                    # Sin `, 50`: un 50 aquí es indistinguible de una calidad
+                    # medida de 50, y CLAUDE.md dice que ese valor SIGNIFICA
+                    # dato ausente. Que llegue vacío y el mensaje lo diga.
+                    'quality': row.get('fundamental_score')
                 },
                 'description': 'Confirmación 5D - Probabilidad histórica',
                 'timing_convergence': row.get('timing_convergence', False),

@@ -1193,16 +1193,36 @@ ESTRUCTURA (usa **negrita** para cada sección):
         rating['fundamental'] = min(5, int(fund_score / 20) + 1) if fund_score is not None else None
 
         # Risk/Reward (0-5 stars) - basado en combinación
-        score_5d = row.get('super_score_5d', 50) or 50
+        #
+        # Dos arreglos, y los dos estaban a dos líneas de su propio antídoto:
+        # justo encima, `fundamental_score` sí comprueba el 50 y lo deja en None.
+        #
+        #  · `super_score_5d` caía a 50 cuando faltaba, y 50 es exactamente el
+        #    valor que CLAUDE.md declara "dato ausente". Sin score no hay
+        #    estrellas de riesgo/recompensa.
+        #  · `abs(upside)`: un upside de -30% (la acción está POR ENCIMA del
+        #    objetivo, o sea cara) puntuaba igual que uno de +30%. Cuanto más
+        #    sobrevalorada, más estrellas. Un upside negativo no aporta nada.
+        score_5d = row.get('super_score_5d')
+        if score_5d is None or (isinstance(score_5d, float) and
+                                (np.isnan(score_5d) or abs(score_5d - 50.0) < 0.01)):
+            score_5d = None
+
         upside = row.get('upside_percent', 0)
         if upside is None or (isinstance(upside, float) and np.isnan(upside)):
             upside = 0
-        risk_reward = (score_5d + abs(upside)) / 2
-        rating['risk_reward'] = min(5, int(risk_reward / 20) + 1)
+        upside = max(0.0, float(upside))
 
-        # Overall — use only non-None components
+        if score_5d is None:
+            rating['risk_reward'] = None
+        else:
+            risk_reward = (score_5d + upside) / 2
+            rating['risk_reward'] = min(5, int(risk_reward / 20) + 1)
+
+        # Overall — use only non-None components. Sin ninguna, None: un 3/5 por
+        # defecto es "regular" y se lee como una nota, no como un hueco.
         _stars = [v for v in [rating['technical'], rating['fundamental'], rating['risk_reward']] if v is not None]
-        rating['overall'] = round(sum(_stars) / len(_stars), 1) if _stars else 3.0
+        rating['overall'] = round(sum(_stars) / len(_stars), 1) if _stars else None
 
         return rating
 
@@ -1357,7 +1377,9 @@ def main():
         thesis = theses[example]
         if 'error' not in thesis:
             print(f"\n{thesis['thesis_narrative']}")
-            print(f"\n⭐ Rating Overall: {thesis['rating']['overall']}/5")
+            _ov = thesis['rating']['overall']
+            print(f"\n⭐ Rating Overall: {_ov}/5" if _ov is not None
+                  else "\n⭐ Rating Overall: sin datos suficientes")
 
 
 if __name__ == "__main__":
