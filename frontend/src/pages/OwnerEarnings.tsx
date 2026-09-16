@@ -99,9 +99,15 @@ function recompute(
   for (const yr of fwdYears) {
     const fwd = data.forward_fcf[yr]
     const nd  = data.forward_net_debt[yr] ?? 0
-    const sh  = data.forward_shares?.[yr] ?? 1
+    // Sin número de acciones no se calcula nada de este año. Había un `?? 1`:
+    // con UNA acción, la deuda neta por acción pasa a ser la deuda entera y el
+    // objetivo por EV/EBITDA se vuelve la capitalización completa. Es el mismo
+    // fallback silencioso que el backend tenía en 250 millones de acciones y
+    // que produjo 18 «BUY» inventados (Walmart con +1.919% de upside).
+    const sh  = data.forward_shares?.[yr]
+    if (!sh || sh <= 0) continue
     const est = data.forward_estimates?.[yr] ?? {}
-    const ndPs = sh > 0 ? nd / sh : 0
+    const ndPs = nd / sh
     const targets: PriceTarget = {}
 
     const evFcfPrice = fwd.fcf_per_share * evFcfT - ndPs
@@ -111,7 +117,7 @@ function recompute(
     if (eps && eps > 0) targets.per = Math.round(eps * perT * 100) / 100
 
     const ebitda = est.ebitda
-    if (ebitda && sh > 0) {
+    if (ebitda) {
       const mc = ebitda * evEbitdaT - nd
       if (mc > 0) targets.ev_ebitda = Math.round(mc / sh * 100) / 100
     }
@@ -119,7 +125,7 @@ function recompute(
     // EV/EBIT — use fwd model ebit_per_share if available; else derive from EBITDA × ebitFrac
     const ebitPs = fwd.ebit_per_share != null
       ? fwd.ebit_per_share
-      : (ebitda && sh > 0 && ebitFracOfEbitda > 0 ? ebitda * ebitFracOfEbitda / sh : null)
+      : (ebitda && ebitFracOfEbitda > 0 ? ebitda * ebitFracOfEbitda / sh : null)
     if (ebitPs && ebitPs > 0) {
       const evEbitPrice = ebitPs * evEbitT - ndPs
       if (evEbitPrice > 0) targets.ev_ebit = Math.round(evEbitPrice * 100) / 100
@@ -344,7 +350,9 @@ function computeFwdFromModel(
   let prevDA  = daLastHist   // D&A crece con revenue igual que en la plantilla
   for (const yr of fwdYears) {
     const inp = inputs[yr]
-    const shares = (data.forward_shares?.[yr] ?? 1)
+    // Mismo motivo que arriba: sin recuento de acciones no hay FCF por acción.
+    const shares = data.forward_shares?.[yr]
+    if (!shares || shares <= 0) continue
     const rev = prevRev * (1 + inp.rev_growth_pct / 100)
     const ebit = rev * inp.ebit_margin_pct / 100
     // D&A: prev_DA × (1 + rev_growth%) — fórmula plantilla hoja 1.IS fila 8

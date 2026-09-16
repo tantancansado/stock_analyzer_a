@@ -421,7 +421,28 @@ def calculate(
     current_year = ae_raw.get("current_year", 2026)
 
     latest_yr = years[0] if years else None
-    shares_proj = _metric(metrics, "shares_diluted", latest_yr) or 250.0
+    # Sin número de acciones no hay valoración posible. Aquí había un
+    # `or 250.0`: un fallback silencioso de 250 millones de acciones para
+    # CUALQUIER empresa que no trajera el dato.
+    #
+    # El 16-sep-2026 lo cobraban 54 de 119 tickers —los 54 sin un solo dato
+    # histórico— y todos salían con el MISMO recuento, 247,0135 (los 250
+    # iniciales menos la recompra media proyectada). Visa tiene 2.000 millones
+    # de acciones y AutoZone 16: el mismo número para las dos.
+    #
+    # De ahí sale `fcf_per_share`, y de ahí el precio objetivo, el precio de
+    # compra y el veredicto. El resultado eran 18 de los 21 «BUY» del módulo
+    # construidos sobre un dato inventado, con cosas como Walmart «compra por
+    # debajo de 2.164$» cotizando a 107 (+1.919% de upside), JNJ +515% o
+    # Procter & Gamble +493%.
+    #
+    # Sin fallback: si falta el dato no hay proyección, no hay objetivo y no hay
+    # señal. Es la regla de CLAUDE.md —"si el dato falla → no score, no número
+    # inventado"— y el módulo ya la aplicaba en el bucle histórico de arriba,
+    # que hace `continue` cuando faltan las acciones. Solo la proyección hacia
+    # delante se la saltaba.
+    shares_proj = _metric(metrics, "shares_diluted", latest_yr)
+    sin_acciones = not shares_proj or shares_proj <= 0
     net_debt_proj = (
         (_metric(metrics, "total_debt", latest_yr) or 0)
         - (_metric(metrics, "cash", latest_yr) or 0)
@@ -434,7 +455,7 @@ def calculate(
     forward_net_debt: dict = {}
     forward_shares: dict = {}
 
-    for yr_str in sorted(forward_est.keys()):
+    for yr_str in sorted(forward_est.keys() if not sin_acciones else []):
         est = forward_est[yr_str]
         fcf_m = _fv(est.get("fcf"))
 
@@ -457,7 +478,7 @@ def calculate(
 
     # ── Fallback: proyección desde NTM FCF cuando no hay estimaciones anuales ──
     # Aplica a tickers con ntm_fcf disponible pero sin forward consensus (e.g. V, MCD)
-    if not forward_fcf and ntm_fcf_m and ntm_fcf_m > 0:
+    if not forward_fcf and ntm_fcf_m and ntm_fcf_m > 0 and not sin_acciones:
         # Tasa de crecimiento histórica de FCF (últimos 3 años, si disponible)
         hist_years_sorted = sorted(historical_fcf.keys(), reverse=True)
         fcf_growth = 0.07  # default conservador 7%
@@ -737,6 +758,12 @@ def calculate(
         "safety_margin_pct": safety_margin_pct if price_consistency_issue is None else None,
         "signal": _signal(upside_pct) if price_consistency_issue is None else "DATA_INCONSISTENT",
         "price_consistency_issue": price_consistency_issue,
+        # Por qué no hay veredicto, cuando no lo hay. Un NO_DATA sin motivo se
+        # lee como "no encontramos nada", que no es lo mismo que "no tenemos con
+        # qué mirarlo".
+        "sin_datos_motivo": ("no hay número de acciones: sin él no se puede "
+                             "calcular FCF por acción ni un precio objetivo")
+                            if sin_acciones else None,
     }
 
 
