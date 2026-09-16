@@ -1461,3 +1461,44 @@ class TestPrintReportNoTumbaElPipeline:
             'top_performers': [{'ticker': 'AAA'}],        # sin return ni strategy
             'worst_performers': [{}],                     # vacío del todo
         })
+
+
+class TestPrecioFosil:
+    """`signal_price` se congela al registrar. Si el CSV trae un precio viejo,
+    la señal nace con un precio que ya no existe y el rendimiento que se le
+    calcula incluye un movimiento ANTERIOR a la señal.
+
+    EME: 16 filas entre el 8-abr y el 12-jun-2026, todas con `signal_price`
+    750,42 mientras la acción llegaba a 943. Cada reemisión se apuntaba una
+    subida ya ocurrida. Son el 73% de las señales MOMENTUM del tracker, y con
+    ellas la estrategia aparenta un alfa de +10,9% a 7 días.
+
+    El cooldown de 21 días llegó después y ya impide las reemisiones. Lo que
+    faltaba era impedir el precio fósil: la reemisión era el síntoma, el CSV sin
+    regenerar la causa.
+    """
+
+    def test_un_csv_con_el_dato_viejo_no_registra_señales(self, capsys):
+        import pandas as pd
+        from portfolio_tracker import PortfolioTracker
+        viejo = pd.Timestamp.now().normalize() - pd.Timedelta(days=10)
+        df = pd.DataFrame([{'ticker': 'EME', 'current_price': 750.42,
+                            'score_timestamp': viejo.strftime('%Y-%m-%d')}])
+        assert PortfolioTracker._antiguedad_del_dato(df) == 10
+        assert PortfolioTracker._dato_caducado(PortfolioTracker.__new__(PortfolioTracker), df, 'x.csv')
+
+    def test_un_csv_de_hoy_sí_registra(self):
+        import pandas as pd
+        from portfolio_tracker import PortfolioTracker
+        hoy = pd.Timestamp.now().normalize().strftime('%Y-%m-%d')
+        df = pd.DataFrame([{'ticker': 'EME', 'current_price': 943.0, 'score_timestamp': hoy}])
+        assert not PortfolioTracker._dato_caducado(PortfolioTracker.__new__(PortfolioTracker), df, 'x.csv')
+
+    def test_un_csv_sin_fecha_declarada_no_se_bloquea(self):
+        """No declarar la fecha no es prueba de estar caducado; bloquear ahí
+        dejaría el tracker mudo por un motivo que nadie ha comprobado."""
+        import pandas as pd
+        from portfolio_tracker import PortfolioTracker
+        df = pd.DataFrame([{'ticker': 'EME', 'current_price': 943.0}])
+        assert PortfolioTracker._antiguedad_del_dato(df) is None
+        assert not PortfolioTracker._dato_caducado(PortfolioTracker.__new__(PortfolioTracker), df, 'x.csv')

@@ -161,6 +161,42 @@ class PortfolioTracker:
             'option_price_90d', 'option_price_180d',
         ])
 
+    # Cuántos días puede tener el DATO de un CSV antes de dejar de registrarse.
+    # El tracker congela `signal_price` en el momento de registrar: si el CSV
+    # trae un precio viejo, la señal nace con un precio que ya no existe y el
+    # rendimiento que se le calcula incluye un movimiento anterior a la señal.
+    #
+    # Pasó con EME: 16 filas entre el 8-abr y el 12-jun-2026, todas con
+    # `signal_price` 750,42 mientras la acción llegaba a 943. Cada reemisión se
+    # apuntaba una subida ya ocurrida. Las 16 son el 73% de las señales
+    # MOMENTUM del tracker. El cooldown de 21 días llegó después y ya impide
+    # las reemisiones; lo que faltaba era impedir el precio fósil.
+    MAX_ANTIGUEDAD_DATO_DIAS = 3
+
+    @staticmethod
+    def _antiguedad_del_dato(df) -> int | None:
+        """Días desde la fecha del DATO (no del fichero). None si no la declara."""
+        for col in ('data_as_of_date', 'score_timestamp', 'scan_date', 'detected_date'):
+            if col not in df.columns:
+                continue
+            try:
+                fechas = pd.to_datetime(df[col], errors='coerce').dropna()
+                if fechas.empty:
+                    continue
+                return (pd.Timestamp.now().normalize() - fechas.max().normalize()).days
+            except Exception:
+                continue
+        return None
+
+    def _dato_caducado(self, df, nombre: str) -> bool:
+        dias = self._antiguedad_del_dato(df)
+        if dias is not None and dias > self.MAX_ANTIGUEDAD_DATO_DIAS:
+            print(f"  🛑 {nombre}: el dato es de hace {dias} días "
+                  f"(máximo {self.MAX_ANTIGUEDAD_DATO_DIAS}) — no se registran señales. "
+                  f"Un precio fósil se apunta una subida anterior a la señal.")
+            return True
+        return False
+
     def record_signals(self):
         """Registra las señales de hoy de todas las estrategias."""
         today = pd.Timestamp.now().normalize()
@@ -209,7 +245,7 @@ class PortfolioTracker:
         value_path = Path('docs/value_opportunities_filtered.csv')
         if 'VALUE' not in ya_hoy and value_path.exists():
             vdf = pd.read_csv(value_path)
-            if not vdf.empty:
+            if not vdf.empty and not self._dato_caducado(vdf, value_path.name):
                 _score = pd.to_numeric(vdf.get('value_score', pd.Series(dtype=float)), errors='coerce')
                 vdf = vdf[_score.between(50.0, 65.0)]
                 # OJO: `risk_reward_ratio` NO es un factor independiente —
@@ -346,7 +382,7 @@ class PortfolioTracker:
         momentum_path = Path('docs/momentum_opportunities_filtered.csv')
         if 'MOMENTUM' not in ya_hoy and momentum_path.exists():
             mdf = pd.read_csv(momentum_path)
-            if not mdf.empty:
+            if not mdf.empty and not self._dato_caducado(mdf, momentum_path.name):
                 for _, row in mdf.iterrows():
                     ticker = str(row['ticker']).upper().strip()
                     if ticker in cooldown_tickers:
@@ -415,7 +451,7 @@ class PortfolioTracker:
             except Exception as e:
                 print(f"  no se pudo leer {ruta.name}: {e}")
                 continue
-            if bdf.empty:
+            if bdf.empty or self._dato_caducado(bdf, ruta.name):
                 continue
             for _, row in bdf.iterrows():
                 ticker = str(row.get('ticker', '')).upper().strip()
