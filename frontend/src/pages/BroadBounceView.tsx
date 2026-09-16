@@ -64,9 +64,23 @@ export default function BroadBounceView() {
   // Mismo veto que bounce_alerts.py aplica antes de avisar por Telegram —
   // sin esto la app seguía enseñando un setup con catalizador negativo grave
   // (profit warning, investigación...) sin ese aviso.
+  //
+  // Y TRES estados, no dos. Antes se guardaban solo los PELIGRO, así que «sin
+  // flag» quería decir dos cosas incompatibles —comprobado y limpio, o nunca
+  // comprobado— y la app las pintaba igual. Los caminos por los que no se
+  // comprueba son reales y silenciosos: el paso de alertas sale antes si todos
+  // los setups ya se avisaron hace poco, devuelve vacío si no hay saldo, y
+  // lleva `continue-on-error` en el workflow.
   const allSetups: BounceBroadSetup[] = resp?.setups ?? []
-  const setups = allSetups.filter(s => !catalystFlags[s.ticker.toUpperCase()])
+  const estadoVeto = (t: string): 'PELIGRO' | 'LIMPIO' | 'SIN_COMPROBAR' => {
+    const f = catalystFlags[t.toUpperCase()]
+    if (!f) return 'SIN_COMPROBAR'
+    // Los flags viejos no llevaban `veredicto` y solo se guardaban los peligros.
+    return f.veredicto ?? 'PELIGRO'
+  }
+  const setups = allSetups.filter(s => estadoVeto(s.ticker) !== 'PELIGRO')
   const catalystExcludedCount = allSetups.length - setups.length
+  const sinComprobar = setups.filter(s => estadoVeto(s.ticker) === 'SIN_COMPROBAR').length
   const universeSize = resp?.universe_size ?? 0
   const scanDate = resp?.scan_date
 
@@ -92,8 +106,20 @@ export default function BroadBounceView() {
           </div>
         </div>
         {catalystExcludedCount > 0 && (
-          <div className="text-micro text-red-400 mt-2">
+          <div className="text-micro text-danger mt-2">
             {catalystExcludedCount} setup{catalystExcludedCount > 1 ? 's' : ''} oculto{catalystExcludedCount > 1 ? 's' : ''} por catalizador negativo grave reciente (mismo motivo por el que no avisó Telegram)
+          </div>
+        )}
+        {/* «No comprobado» no es «limpio». Un RSI(2) extremo se ve igual sea
+            una goma estirada o el primer día de un desplome, y el veto es lo
+            único que los separa: decir que no ha corrido es la diferencia
+            entre una señal verificada y una que solo lo parece. */}
+        {sinComprobar > 0 && (
+          <div className="text-micro text-warn mt-2">
+            {sinComprobar === setups.length
+              ? (setups.length > 1 ? 'Ninguno comprobado' : 'Sin comprobar')
+              : `${sinComprobar} sin comprobar`}
+            {' '}contra catalizadores negativos — no significa que estén limpios, significa que no se ha mirado
           </div>
         )}
       </div>

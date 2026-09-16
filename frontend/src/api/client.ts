@@ -824,6 +824,11 @@ export interface BounceCatalystFlag {
   motivo: string
   fuentes: string[]
   checked_at: string
+  /** Se guardan también los LIMPIO, no solo los PELIGRO: sin eso, «sin flag»
+      significaba a la vez «comprobado y limpio» y «nunca comprobado». Ausente
+      en flags escritos antes del 16-sep-2026, que se tratan como PELIGRO por
+      compatibilidad — era lo único que se guardaba entonces. */
+  veredicto?: 'PELIGRO' | 'LIMPIO'
 }
 
 export const fetchBounceCatalystFlags = () =>

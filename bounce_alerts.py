@@ -202,10 +202,28 @@ def _save_seen(seen: dict) -> None:
         print(f'  No se pudo guardar el estado de dedup: {e}')
 
 
-def _save_catalyst_flags(descartados: list[dict], today: str) -> None:
-    """Persiste los PELIGRO de hoy para que el frontend los vea — hasta ahora
-    filter_setups() los calculaba y los tiraba tras el aviso de Telegram: la
-    app seguía enseñando el mismo setup sin el aviso que sí llegó por Telegram.
+def _save_catalyst_flags(descartados: list[dict], today: str,
+                         limpios: list[dict] | None = None) -> None:
+    """Persiste el resultado de la comprobación para que el frontend lo vea.
+
+    Se guardan los PELIGRO **y también los LIMPIO**, y eso es el punto. Antes
+    solo se guardaban los descartados, así que «sin flag» quería decir dos
+    cosas incompatibles:
+
+        - se comprobó y no hay catalizador grave  → se puede enseñar
+        - NO se comprobó                          → no se sabe
+
+    y la app las trataba igual. Los caminos por los que no se comprueba son
+    reales y silenciosos: si todos los setups ya se avisaron hace menos de
+    DEDUP_DAYS, `main()` sale antes de llamar al veto; si no hay saldo o la API
+    falla, `ask_with_search` devuelve vacío y el veredicto sale SIN_DATOS; y el
+    paso entero lleva `continue-on-error` en el workflow.
+
+    En los tres casos el setup aparecía como si hubiera pasado el filtro. Es el
+    mismo «no lo sé» disfrazado de «no hay nada» que había en la carga de datos
+    del frontend — y aquí es peor, porque lo que se salta es un veto de
+    seguridad.
+
     Expira a DEDUP_DAYS, igual que el propio dedup de avisos.
     """
     try:
@@ -217,8 +235,16 @@ def _save_catalyst_flags(descartados: list[dict], today: str) -> None:
         t: f for t, f in flags.items()
         if f.get('checked_at') and (today_d - date.fromisoformat(f['checked_at'])).days < DEDUP_DAYS
     }
+    for c in (limpios or []):
+        flags[c['ticker']] = {
+            'veredicto': 'LIMPIO',
+            'motivo': c.get('catalyst_motivo', ''),
+            'fuentes': c.get('catalyst_fuentes', []),
+            'checked_at': today,
+        }
     for d in descartados:
         flags[d['ticker']] = {
+            'veredicto': 'PELIGRO',
             'motivo': d.get('catalyst_motivo', ''),
             'fuentes': d.get('catalyst_fuentes', []),
             'checked_at': today,
@@ -297,8 +323,10 @@ def main() -> None:
     # desde los indicadores se ven igual. Se comprueba si hay un catalizador
     # negativo grave detrás antes de avisar de nada (bounce_catalyst_check).
     fresh, descartados = filter_setups(fresh)
-    if descartados:
-        _save_catalyst_flags(descartados, today)
+    # Se guarda SIEMPRE, aunque no se descarte nada: registrar que un ticker se
+    # comprobó y salió limpio es tan importante como registrar el peligro. Sin
+    # eso, «sin flag» significa a la vez «limpio» y «no comprobado».
+    _save_catalyst_flags(descartados, today, limpios=fresh)
     if not fresh:
         print(f'  {len(descartados)} setup(s) descartados por catalizador negativo — nada que avisar')
         return

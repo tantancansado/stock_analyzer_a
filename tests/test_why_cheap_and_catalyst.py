@@ -227,3 +227,64 @@ class TestBounceCatalyst:
 
     def test_lista_vacia(self):
         assert bcc.filter_setups([]) == ([], [])
+
+
+class TestFlagsDeCatalizador:
+    """Se guardan los LIMPIO además de los PELIGRO.
+
+    Antes solo se persistían los descartados, así que «sin flag» significaba a
+    la vez «comprobado y limpio» y «nunca comprobado», y la app los pintaba
+    igual. Y los caminos por los que NO se comprueba son reales y silenciosos:
+    `main()` sale antes si todos los setups ya se avisaron hace menos de
+    DEDUP_DAYS, `ask_with_search` devuelve vacío sin saldo, y el paso lleva
+    `continue-on-error` en el workflow. En los tres, un setup sin verificar
+    aparecía como si hubiera pasado el veto de seguridad.
+    """
+
+    def _flags(self, tmp_path, monkeypatch):
+        import bounce_alerts as ba
+        ruta = tmp_path / 'flags.json'
+        monkeypatch.setattr(ba, 'CATALYST_FLAGS_PATH', ruta)
+        return ba, ruta
+
+    def test_guarda_tambien_los_limpios(self, tmp_path, monkeypatch):
+        import json
+        ba, ruta = self._flags(tmp_path, monkeypatch)
+        ba._save_catalyst_flags(
+            descartados=[{'ticker': 'MALA', 'catalyst_motivo': 'profit warning',
+                          'catalyst_fuentes': ['http://x']}],
+            today='2026-09-16',
+            limpios=[{'ticker': 'BUENA', 'catalyst_motivo': '', 'catalyst_fuentes': []}],
+        )
+        flags = json.loads(ruta.read_text())['flags']
+        assert flags['MALA']['veredicto'] == 'PELIGRO'
+        assert flags['BUENA']['veredicto'] == 'LIMPIO', \
+            'sin esto, «sin flag» no distingue limpio de no comprobado'
+
+    def test_un_ticker_no_comprobado_no_aparece(self, tmp_path, monkeypatch):
+        import json
+        ba, ruta = self._flags(tmp_path, monkeypatch)
+        ba._save_catalyst_flags(descartados=[], today='2026-09-16',
+                                limpios=[{'ticker': 'BUENA'}])
+        flags = json.loads(ruta.read_text())['flags']
+        assert 'BUENA' in flags and 'NUNCA_MIRADA' not in flags
+
+    def test_sin_descartados_tambien_escribe(self, tmp_path, monkeypatch):
+        """El día que todo sale limpio también hay que dejar constancia: antes
+        no se escribía nada y el resultado era indistinguible de no haber
+        corrido el veto."""
+        ba, ruta = self._flags(tmp_path, monkeypatch)
+        ba._save_catalyst_flags(descartados=[], today='2026-09-16',
+                                limpios=[{'ticker': 'BUENA'}])
+        assert ruta.exists()
+
+    def test_los_flags_caducan(self, tmp_path, monkeypatch):
+        import json
+        ba, ruta = self._flags(tmp_path, monkeypatch)
+        ba._save_catalyst_flags(descartados=[], today='2026-09-01',
+                                limpios=[{'ticker': 'VIEJA'}])
+        ba._save_catalyst_flags(descartados=[], today='2026-09-16',
+                                limpios=[{'ticker': 'NUEVA'}])
+        flags = json.loads(ruta.read_text())['flags']
+        assert 'NUEVA' in flags and 'VIEJA' not in flags, \
+            'una comprobación de hace dos semanas no dice nada de hoy'
