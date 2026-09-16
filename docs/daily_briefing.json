@@ -1,44 +1,129 @@
 {
-  "date": "2026-09-16",
-  "timestamp": "2026-09-16T05:35:27.521272",
-  "narrative": "",
-  "macro_regime": "CALM",
-  "picks_count": 8,
-  "top_picks": [
-    {
-      "ticker": "BR",
-      "sector": "Technology",
-      "value_score": 82.41,
-      "analyst_upside_pct": 25.3,
-      "conviction_grade": null
-    },
-    {
-      "ticker": "INTU",
-      "sector": "Technology",
-      "value_score": 74.775,
-      "analyst_upside_pct": 23.2,
-      "conviction_grade": null
-    },
-    {
-      "ticker": "CBOE",
-      "sector": "Financial Services",
-      "value_score": 66.755,
-      "analyst_upside_pct": 16.7,
-      "conviction_grade": null
-    },
-    {
-      "ticker": "FHN",
-      "sector": "Financial Services",
-      "value_score": 60.525000000000006,
-      "analyst_upside_pct": 15.2,
-      "conviction_grade": null
-    },
-    {
-      "ticker": "AXP",
-      "sector": "Financial Services",
-      "value_score": 57.80500000000001,
-      "analyst_upside_pct": 15.9,
-      "conviction_grade": null
+  "fecha": "2026-09-16",
+  "texto": "<b>Hoy hay dos entradas claras: Nordson (NDSN) y Nucor (NUE).</b>\n\nNordson cotiza a 309,25$, un 8,8% por debajo de máximos, con los analistas viendo un 13,1% de subida y buen momentum reciente. Nucor está a 258,82$, un 7,6% por debajo de máximos, con 10,2% de recorrido según analistas y una fortaleza relativa muy alta en los últimos 6 meses. Las dos en zona de entrada.\n\nNada roto en cartera hoy, así que sin urgencias por ese lado.\n\nPara vigilar, sin comprar todavía (están baratas pero aún no dan la señal de entrada):\n- <b>Moody's (MCO)</b>: score alto, 20,3% de upside, pero cae aún un 14,6% desde máximos.\n- <b>Broadridge (BR)</b>: buen score, aunque el upside de analistas (25,3%) diverge mucho del triangulado (13,6%), así que cuidado con fiarte del número grande.\n- <b>Cboe (CBOE)</b>: 16,7% de upside, cayendo un 27,1% desde máximos.\n- <b>Intuit (INTU)</b>: la más golpeada, -53,3% desde máximos, pero también la que más divergencia tiene entre lo que dicen los analistas (23,2%) y lo triangulado (6,2%) — paciencia aquí.\n- <b>American Express (AXP)</b>: 15,9% de upside, aún en fase de observación, no de entrada.\n\nEl acierto del sistema a 90 días es del 61,5% con ganancia media del 3,15% (39 señales), pero es un dato provisional —todavía no hay muestra suficiente a 180 días para tomarlo como veredicto. Ajusta el tamaño de posición en consecuencia.",
+  "hechos": {
+    "fecha": "2026-09-16",
+    "total_lista": 44,
+    "datos_incompletos": [],
+    "comprables": [
+      {
+        "ticker": "NDSN",
+        "empresa": "Nordson Corporation",
+        "score": 55.03,
+        "precio": 309.25,
+        "upside_analista": 13.1,
+        "upside_triangulado": 13.1,
+        "divergencia": "",
+        "fcf_yield": 3.56,
+        "del_maximo_pct": -8.8,
+        "rs_6m": 1.62,
+        "timing": "ENTRADA",
+        "por_que_cae": "",
+        "por_que_cae_detalle": ""
+      },
+      {
+        "ticker": "NUE",
+        "empresa": "Nucor Corporation",
+        "score": 35.2,
+        "precio": 258.82,
+        "upside_analista": 10.2,
+        "upside_triangulado": 10.2,
+        "divergencia": "",
+        "fcf_yield": 1.16,
+        "del_maximo_pct": -7.6,
+        "rs_6m": 47.11,
+        "timing": "ENTRADA",
+        "por_que_cae": "",
+        "por_que_cae_detalle": ""
+      }
+    ],
+    "vigilar": [
+      {
+        "ticker": "INTU",
+        "empresa": "Intuit Inc.",
+        "score": 74.775,
+        "precio": 329.27,
+        "upside_analista": 23.2,
+        "upside_triangulado": 6.2,
+        "divergencia": "ALTA",
+        "fcf_yield": 7.22,
+        "del_maximo_pct": -53.3,
+        "rs_6m": -41.28,
+        "timing": "ESPERAR",
+        "por_que_cae": "SIN_DATOS",
+        "por_que_cae_detalle": ""
+      },
+      {
+        "ticker": "CBOE",
+        "empresa": "Cboe Global Markets, Inc.",
+        "score": 66.755,
+        "precio": 270.44,
+        "upside_analista": 16.7,
+        "upside_triangulado": 16.7,
+        "divergencia": "",
+        "fcf_yield": 2.4,
+        "del_maximo_pct": -27.1,
+        "rs_6m": -20.72,
+        "timing": "ESPERAR",
+        "por_que_cae": "SIN_DATOS",
+        "por_que_cae_detalle": ""
+      },
+      {
+        "ticker": "BR",
+        "empresa": "Broadridge Financial Solutions",
+        "score": 82.41,
+        "precio": 170.25,
+        "upside_analista": 25.3,
+        "upside_triangulado": 13.6,
+        "divergencia": "ALTA",
+        "fcf_yield": 6.15,
+        "del_maximo_pct": -32.0,
+        "rs_6m": -16.73,
+        "timing": "ESPERAR",
+        "por_que_cae": "SIN_DATOS",
+        "por_que_cae_detalle": ""
+      },
+      {
+        "ticker": "MCO",
+        "empresa": "Moody's Corporation",
+        "score": 83.14000000000001,
+        "precio": 467.16,
+        "upside_analista": 20.3,
+        "upside_triangulado": 20.3,
+        "divergencia": "",
+        "fcf_yield": 3.19,
+        "del_maximo_pct": -14.6,
+        "rs_6m": -7.11,
+        "timing": "ESPERAR",
+        "por_que_cae": "SIN_DATOS",
+        "por_que_cae_detalle": ""
+      },
+      {
+        "ticker": "AXP",
+        "empresa": "American Express Company",
+        "score": 57.80500000000001,
+        "precio": 324.43,
+        "upside_analista": 15.9,
+        "upside_triangulado": 15.9,
+        "divergencia": "",
+        "fcf_yield": 7.3,
+        "del_maximo_pct": -16.3,
+        "rs_6m": -4.83,
+        "timing": "VIGILAR",
+        "por_que_cae": "SIN_DATOS",
+        "por_que_cae_detalle": ""
+      }
+    ],
+    "tesis_rotas": [],
+    "rotas_son_tuyas": true,
+    "regimen_cambio": null,
+    "rendimiento_sistema": {
+      "horizonte": "90d",
+      "es_horizonte_definitivo": false,
+      "nota": "A 180 días aún no hay muestra (la señal más antigua es de feb-2026); este 90d es provisional, no el veredicto",
+      "acierto_pct": 61.5,
+      "retorno_medio": 3.15,
+      "n": 39
     }
-  ]
+  }
 }
