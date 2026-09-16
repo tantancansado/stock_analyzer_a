@@ -1,7 +1,22 @@
 {
-  "total_problemas": 0,
-  "desfases_conocidos": [],
-  "detalle": {},
+  "total_problemas": 6,
+  "desfases_conocidos": [
+    "⏳ ⚠️  value_opportunities.csv: upside DCF = (objetivo − precio) / precio — 1/40 filas, peor desvío 3% (CBOE)",
+    "⏳ ⚠️  value_opportunities.csv: upside P/E = (objetivo − precio) / precio — 1/40 filas, peor desvío 2% (MCO)",
+    "⏳ ⚠️  value_opportunities_filtered.csv: upside DCF = (objetivo − precio) / precio — 1/31 filas, peor desvío 3% (CBOE)",
+    "⏳ ⚠️  european_value_opportunities.csv: upside DCF = (objetivo − precio) / precio — 1/23 filas, peor desvío 2% (DB1.DE)",
+    "⏳ ⚠️  momentum_opportunities.csv: upside analista = (objetivo − precio) / precio — 1/2 filas, peor desvío 4% (FAST)"
+  ],
+  "detalle": {
+    "identidades aritméticas de lo publicado": [
+      "🛑 value_opportunities.csv: FCF yield = FCF por acción / precio — 4/44 filas, peor desvío 52% (FCNCA, ASAZY, V, BRK-B)",
+      "🛑 value_opportunities_filtered.csv: FCF yield = FCF por acción / precio — 3/34 filas, peor desvío 52% (V, BRK-B, FCNCA)",
+      "🛑 value_opportunities_filtered.csv: R:R = (salida − entrada) / (entrada − stop) — 34/34 filas, peor desvío 887% (ADP, V, BR, CB, INTU)",
+      "🛑 european_value_opportunities.csv: FCF yield = FCF por acción / precio — 8/31 filas, peor desvío 99% (SGE.L, NOVO-B.CO, AUTO.L, LIFCO-B.ST, RMV.L)",
+      "🛑 european_value_opportunities.csv: R:R = (salida − entrada) / (entrada − stop) — 3/3 filas, peor desvío 566% (PGHN.SW, SIKA.SW, GIVN.SW)",
+      "🛑 mean_reversion_opportunities.csv: R:R = (salida − entrada) / (entrada − stop) — 11/12 filas, peor desvío 187% (FDS, TECK, HEI, INTU, JKHY)"
+    ]
+  },
   "tickers_value": 44,
   "tickers_verdicts": 78
 }

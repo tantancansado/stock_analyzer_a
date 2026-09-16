@@ -87,7 +87,10 @@ export interface ValueOpportunity {
   analyst_upside_pct?: number
   analyst_count?: number
   fcf_yield_pct?: number
+  /** `analyst_upside_pct / 8`. NO es el R:R de la ficha — ver `rr_operativo`. */
   risk_reward_ratio?: number
+  /** R:R de ESTA ficha: (salida − entrada) / (entrada − stop). */
+  rr_operativo?: number | null
   dividend_yield_pct?: number
   buyback_active?: boolean
   days_to_earnings?: number

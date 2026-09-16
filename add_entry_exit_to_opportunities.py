@@ -311,6 +311,29 @@ def _enrich_csv_with_entry_exit(input_file: str):
             df.at[idx, 'risk_pct'] = entry_exit['risk_pct']
             df.at[idx, 'reward_pct'] = entry_exit['reward_pct']
             df.at[idx, 'entry_timing'] = entry_exit['entry_timing']
+
+            # El R:R DE ESTA FICHA, calculado con la entrada, el stop y la
+            # salida que se acaban de escribir tres líneas más arriba.
+            #
+            # Hacía falta porque `risk_reward_ratio` NO es eso: el integrator
+            # (y el escáner europeo por su cuenta) lo calculan como
+            # `analyst_upside_pct / 8`, el upside reescalado contra un stop
+            # estándar del 8% que estas fichas no usan. El 16-sep-2026 no
+            # cuadraba NINGUNA fila: las 34 del VALUE filtrado y las 3 suizas.
+            #     PGHN.SW  publicaba R:R 3,34  ·  su propia ficha da 13,41
+            #     GIVN.SW             0,85                        6,51
+            # Los dos números eran correctos por separado y el par mentía, que
+            # es la forma exacta de todos los fallos de datos de este repo.
+            #
+            # Se publica en una columna NUEVA en vez de redefinir la vieja: hay
+            # consumidores calibrados sobre `risk_reward_ratio` (la predicción
+            # ML lo usa de variable, cerebro reparte estadísticas por tramos) y
+            # cambiarle el significado en silencio sería el mismo error otra vez.
+            entrada = entry_exit['entry_price']
+            riesgo = entrada - entry_exit['stop_loss']
+            if riesgo > 0:
+                df.at[idx, 'rr_operativo'] = round(
+                    (entry_exit['exit_price'] - entrada) / riesgo, 2)
             print(f"  [{idx+1}] {ticker}: Entry ${entry_exit['entry_price']:.2f} → Target ${entry_exit['exit_price']:.2f}")
 
         except Exception as e:

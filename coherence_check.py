@@ -246,6 +246,45 @@ def columnas_obligatorias(value: list[dict], nombre_csv: str = 'value_opportunit
             if not any((r.get(c) or '').strip() for r in value)]
 
 
+def identidades_rotas(nombres: tuple[str, ...]) -> list[str]:
+    """Identidades que TIENEN que cumplirse en los CSV publicados.
+
+    Es la comprobación más barata que existe y la única que no necesita saber
+    nada del negocio: el upside ES (objetivo − precio) / precio. O cuadra o hay
+    un bug arriba.
+
+    Se añade el 16-sep-2026 porque todos los fallos de datos de ese día tenían
+    la misma forma —dos números correctos por separado que juntos mienten— y
+    ninguno dio error: la página se pintaba igual y el CSV tenía sus filas. Ver
+    identidades.py para la lista de casos.
+    """
+    try:
+        import pandas as pd
+
+        import identidades
+    except ImportError as exc:
+        return [f'no se pudo ejecutar el chequeo de identidades: {exc}']
+
+    fuera: list[str] = []
+    for nombre in nombres:
+        ruta = DOCS / nombre
+        if not ruta.exists():
+            continue
+        try:
+            d = pd.read_csv(ruta)
+        except Exception as exc:
+            fuera.append(f'{nombre}: no se pudo leer ({exc})')
+            continue
+        for i in identidades.revisar(d, nombre) + identidades.revisar_operacion(d, nombre):
+            # Los desvíos pequeños son desfase entre el momento de capturar el
+            # precio y el de calcular un derivado: se informan como ⏳ para que
+            # no cuenten como incoherencia — un check que salta en rojo sin
+            # nada que arreglar se acaba ignorando, y entonces tampoco avisa
+            # cuando sí importa.
+            fuera.append(str(i) if i.grave else f'⏳ {i}')
+    return fuera
+
+
 def run() -> int:
     print('[coherence_check] Cruzando lo publicado consigo mismo...')
 
@@ -280,6 +319,12 @@ def run() -> int:
         ('commodities: rating contra narrativa IA',   commodity_rating_vs_narrativa(commodities)),
         ('postmortem contra el win rate del tracker', postmortem_vs_tracker_summary(postmortem, tracker_summary)),
         ('precio LEAPS contra precio VALUE',           leaps_precio_vs_value(value, value_eu, leaps)),
+        ('identidades aritméticas de lo publicado',   identidades_rotas((
+            'value_opportunities.csv', 'value_opportunities_filtered.csv',
+            'european_value_opportunities.csv', 'european_value_opportunities_filtered.csv',
+            'momentum_opportunities.csv', 'mean_reversion_opportunities.csv',
+            'bounce_setups_broad.csv',
+        ))),
     ]
 
     total = 0

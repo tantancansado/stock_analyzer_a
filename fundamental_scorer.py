@@ -256,7 +256,7 @@ class FundamentalScorer:
                 **self._calculate_target_prices(info, ticker),
 
                 # Value Quality Metrics (FCF, dividends, buybacks, revisions, earnings cal)
-                **self._calculate_value_quality_metrics(stock, info),
+                **self._calculate_value_quality_metrics(stock, info, fx_meta),
 
                 # Piotroski F-Score (Proven: +13.4% annual alpha)
                 **self._calculate_piotroski_fscore(stock, info),
@@ -1234,7 +1234,7 @@ class FundamentalScorer:
             pass
         return result
 
-    def _calculate_value_quality_metrics(self, stock, info: Dict) -> Dict:
+    def _calculate_value_quality_metrics(self, stock, info: Dict, fx_meta: Dict | None = None) -> Dict:
         """
         Métricas de calidad VALUE (Lynch/Buffett style):
         - FCF Yield (Free Cash Flow / Market Cap)
@@ -1279,8 +1279,30 @@ class FundamentalScorer:
             shares = info.get('sharesOutstanding')
             if fcf and market_cap and market_cap > 0:
                 result['fcf_yield_pct'] = round((float(fcf) / float(market_cap)) * 100, 2)
-            if fcf and shares and float(shares) > 0:
-                result['fcf_per_share'] = round(float(fcf) / float(shares), 2)
+            # `fcf_per_share` sale del YIELD y del PRECIO, no de dividir el FCF
+            # entre las acciones. Así la identidad «yield = FCF por acción /
+            # precio» es cierta POR CONSTRUCCIÓN, y de paso se esquivan los dos
+            # fallos que tenía la división directa:
+            #
+            #  1) Clases de acción. `sharesOutstanding` es UNA clase y
+            #     `marketCap` son todas. Medido el 16-sep-2026:
+            #         BRK-B  acciones/implícitas = 0,658  → FCF por acción +52%
+            #         V                            0,913
+            #         FCNCA                        0,911
+            #         MCO                          1,000  (una sola clase)
+            #     Berkshire salía con 51,12 de FCF por acción cuando son 33,62.
+            #
+            #  2) Unidad. `fcf` viene en la divisa MAYOR del precio y Londres
+            #     cotiza en PENIQUES, así que el par mezclaba unidades: SGE.L,
+            #     AUTO.L, RMV.L y DPLM.L daban un factor de 100 clavado entre el
+            #     yield publicado y el que salía de dividir.
+            #
+            # El yield divide dos agregados de la misma divisa (FCF y
+            # capitalización), así que es unit-safe; multiplicarlo por el precio
+            # devuelve el valor por acción en la unidad del precio, sea cual sea.
+            if result['fcf_yield_pct'] is not None:
+                result['fcf_per_share'] = round(
+                    result['fcf_yield_pct'] * current_price / 100.0, 2)
 
             # ── DIVIDEND QUALITY ───────────────────────────────────────
             div_yield = info.get('dividendYield')
