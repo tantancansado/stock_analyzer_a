@@ -755,7 +755,9 @@ Complementa VCP y otras señales para timing óptimo.
 
         import pandas as pd
 
-        csv_path = Path('docs/value_opportunities.csv')
+        # El filtrado, no el universo entero: este método manda picks a
+        # Telegram y el gate de Claude es fail-closed. Ver daily_briefing.
+        csv_path = Path('docs/value_opportunities_filtered.csv')
         if not csv_path.exists():
             print("⚠️  No hay datos de Value Opportunities")
             return

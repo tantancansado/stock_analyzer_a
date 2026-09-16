@@ -102,7 +102,19 @@ def datos_incompletos(rows: list[dict]) -> list[str]:
 
 def gather_facts() -> dict:
     """Hechos ya verificados por el resto del pipeline. Nada se calcula aquí."""
-    rows = _rows(DOCS / 'value_opportunities.csv')
+    # El CSV FILTRADO, que es el que ha pasado el gate de Claude. Antes leía
+    # `value_opportunities.csv` —el universo entero, sin verificar— y anunciaba
+    # como «comprables» picks que el gate nunca había validado.
+    #
+    # El 16-sep-2026 el briefing mandó NUE (score 35,2) como comprable: no fue
+    # rechazada por el gate, es que ni llegó a evaluarse. El gate es
+    # fail-CLOSED por diseño —«si Claude no lo valida, no se muestra»— y este
+    # camino lo abría de par en par, precisamente en el mensaje que el usuario
+    # sí lee todos los días.
+    #
+    # El filtrado tiene las 164 columnas del otro y 12 más, así que no se
+    # pierde ningún campo.
+    rows = _rows(DOCS / 'value_opportunities_filtered.csv')
 
     def ficha(r):
         return {

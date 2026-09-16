@@ -75,9 +75,10 @@ def run_new_value_alerts():
     today = datetime.now().strftime('%Y-%m-%d')
 
     # ── Load today's data (filtered = what the app shows) ───────────────
+    # Sin fallback al sin-filtrar. Si el filtrado no está, no se avisa: el gate
+    # es fail-closed y caer al universo entero lo anula justo el día que algo
+    # ha ido mal en el pipeline — que es cuando más peligroso es.
     today_path = DOCS / 'value_opportunities_filtered.csv'
-    if not today_path.exists():
-        today_path = DOCS / 'value_opportunities.csv'  # fallback
     today_df = _load_value_df(today_path)
     if today_df.empty:
         print("No value_opportunities_filtered.csv found, skipping")
@@ -103,14 +104,28 @@ def run_new_value_alerts():
     yesterday_tickers = set()
     for delta in [1, 2, 3]:
         candidate = (datetime.now() - timedelta(days=delta)).strftime('%Y-%m-%d')
-        hist_path = HISTORY / candidate / 'value_opportunities.csv'
+        # Como BASE de comparación, no como fuente de lo que se anuncia. El
+        # histórico solo archiva el CSV sin filtrar, y usar el universo entero
+        # como base es el lado seguro del error: es un superconjunto del
+        # filtrado, así que como mucho SILENCIA un aviso (un pick que ayer ya
+        # estaba en la lista y hoy acaba de pasar el gate), nunca inventa uno.
+        # Si algún día se archiva también el filtrado, este es el sitio.
+        hist_path = HISTORY / candidate / 'value_opportunities_filtered.csv'
+        if not hist_path.exists():
+            hist_path = HISTORY / candidate / 'value_opportunities.csv'   # base
         yesterday_tickers = _load_value_csv(hist_path)
         if yesterday_tickers:
             print(f"  Comparing vs {candidate} ({len(yesterday_tickers)} tickers)")
             break
 
     if not yesterday_tickers:
-        print("  No historical data found for comparison — sending full top list instead")
+        # Sin base no hay «nuevos»: todo parecería nuevo y saldría la lista
+        # entera como si acabara de aparecer. Es un aviso falso — no por los
+        # datos, sino por lo que afirma — y el usuario prefiere 0 avisos a un
+        # aviso que no es verdad.
+        print("  Sin histórico con el que comparar (3 días) — no se avisa: "
+              "sin base, «nuevo» no significa nada")
+        return
 
     # ── Find NEW tickers ─────────────────────────────────────────────────
     new_tickers = today_tickers - yesterday_tickers
