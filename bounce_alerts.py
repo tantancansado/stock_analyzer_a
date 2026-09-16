@@ -150,6 +150,14 @@ def passes_quality_filters(r) -> tuple[bool, str]:
     if _truthy(r.get('earnings_warning')):
         return False, 'earnings dentro del horizonte del setup'
 
+    # Si la IA lo rechazó, no se avisa. No estaba comprobado en ningún filtro:
+    # CBOE salió el 16-sep-2026 con `ai_confirmation: NO` («RSI >25 y R:R
+    # bajo») y aun así llegó una notificación diciendo «merece un vistazo hoy».
+    # CAUTION sí pasa —es una advertencia, no un rechazo— y se marca en el
+    # mensaje para que se vea.
+    if str(r.get('ai_confirmation') or '').upper() == 'NO':
+        return False, f"la IA lo rechaza: {r.get('ai_reason') or 'sin motivo'}"
+
     return True, ''
 
 
@@ -170,14 +178,28 @@ def load_curated_setups() -> list[dict]:
                 print(f'  {t}: descartado — {why}')
                 continue
             score = r.get('reversion_score')
+            # El objetivo que se anuncia tiene que ser el mismo contra el que
+            # se calculó el R:R. El detector guarda DOS: `target` es la
+            # resistencia (optimista) y `bounce_target` es min(precio×1.07,
+            # resistencia) — y `risk_reward` se calcula contra el SEGUNDO.
+            # Publicarlos juntos daba avisos incoherentes: CBOE salió el
+            # 16-sep-2026 como «Target $308,62 · R:R 1,1», cuando con ese
+            # objetivo el R:R es 2,25 y el 1,1 corresponde a 289,37. Los dos
+            # números eran correctos por separado y el par era falso.
+            objetivo = r.get('bounce_target')
+            if objetivo is None or pd.isna(objetivo):
+                objetivo = r.get('target')
             out.append({
                 'ticker':  t,
                 'source':  'CURADO',
                 'price':   r.get('current_price'),
-                'target':  r.get('target'),
+                'target':  objetivo,
+                'techo':   r.get('target'),      # la resistencia, como contexto
                 'stop':    r.get('stop_loss'),
                 'rr':      r.get('risk_reward'),
                 'rsi':     r.get('rsi'),
+                'regimen_ok': r.get('market_ok'),
+                'regimen':    r.get('market_regime'),
                 'note':    f"RSI {r.get('rsi')} · score MR {score}" if pd.notna(score) else f"RSI {r.get('rsi')}",
             })
         return out
@@ -284,12 +306,34 @@ def _fmt(v, prefix='$') -> str:
 def build_message(setups: list[dict], today: str) -> str:
     lines = [f'🎯 <b>Setup de Rebote detectado</b> — {today}',
              '<i>Es raro (~1/semana): merece un vistazo hoy, horizonte 1-5 días</i>', '']
+    # El régimen, arriba del todo y una sola vez. El detector ya lo calcula
+    # («SPY < MA50 → rebotes de alto riesgo») y el aviso lo ignoraba: CBOE se
+    # avisó el 16-sep-2026 con `market_regime: CORRECCIÓN` y `market_ok: False`
+    # sin mencionarlo. Va como AVISO y no como filtro a propósito: los rebotes
+    # aparecen precisamente cuando el mercado cae, así que filtrar por régimen
+    # dejaría la sección vacía justo los días que tiene algo que decir.
+    malos = [s for s in setups[:MAX_ALERTS] if s.get('regimen_ok') is False]
+    if malos:
+        reg = next((s.get('regimen') for s in malos if s.get('regimen')), None)
+        lines.append(f"⚠️ <b>Régimen {reg or 'adverso'}</b> — el sistema marca los rebotes "
+                     f"como de alto riesgo hoy")
+        lines.append('')
+
     for s in setups[:MAX_ALERTS]:
         tag = '🔬' if s['source'] == 'CURADO' else '📡'
         rr = f" · R:R {float(s['rr']):.1f}" if s.get('rr') is not None and not pd.isna(s['rr']) else ''
+        # El techo (la resistencia) va como contexto, separado del objetivo del
+        # R:R, para que no se confundan otra vez.
+        techo = ''
+        try:
+            if s.get('techo') is not None and not pd.isna(s['techo']) and \
+               float(s['techo']) > float(s.get('target') or 0):
+                techo = f" · techo {_fmt(s['techo'])}"
+        except (TypeError, ValueError):
+            pass
         lines.append(
             f"{tag} <b>{s['ticker']}</b> [{s['source']}] {_fmt(s.get('price'))}\n"
-            f"   Target {_fmt(s.get('target'))} · Stop {_fmt(s.get('stop'))}{rr}\n"
+            f"   Target {_fmt(s.get('target'))} · Stop {_fmt(s.get('stop'))}{rr}{techo}\n"
             f"   {s.get('note', '')}"
         )
         lines.append('')
@@ -329,6 +373,21 @@ def main() -> None:
     _save_catalyst_flags(descartados, today, limpios=fresh)
     if not fresh:
         print(f'  {len(descartados)} setup(s) descartados por catalizador negativo — nada que avisar')
+        return
+
+    # Última puerta antes de enviar. Los filtros de arriba comprueban si la
+    # idea es buena; esto comprueba que el MENSAJE no se contradiga a sí mismo.
+    # Son cosas distintas y hacía falta la segunda: el 16-sep-2026 salió CBOE
+    # como «Target $308,62 · R:R 1,1» con los tres números correctos por
+    # separado y el conjunto falso. Un aviso con precios es una propuesta de
+    # operación: si no cuadra consigo misma, no sale.
+    import alerta_coherente
+    precios = {str(s_.get('ticker', '')).upper(): _num(s_.get('price')) for s_ in fresh}
+    fresh, incoherentes = alerta_coherente.filtrar(fresh, precios)
+    for problema in incoherentes:
+        print(f'  🛑 NO se avisa — {problema}')
+    if not fresh:
+        print('  Ningún setup pasa la revisión de coherencia — sin aviso')
         return
 
     msg = build_message(fresh, today)

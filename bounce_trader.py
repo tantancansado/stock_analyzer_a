@@ -663,6 +663,23 @@ def _tg_confirm_trade(m: dict, fund: Optional[dict] = None) -> bool:
     Returns True si aprobado, False si rechazado o timeout.
     Sin Telegram configurado → aprueba automáticamente.
     """
+    # Este mensaje lleva un botón de EJECUTAR: es el aviso de más riesgo del
+    # repo. Si sus números no cuadran entre sí no se propone la operación —
+    # rechazar es el lado seguro cuando lo que está en juego es una orden real.
+    #
+    # El 16-sep-2026 un aviso de rebote salió con «Target $308,62 · R:R 1,1»,
+    # donde el R:R correspondía a OTRO objetivo. Aquel no ejecutaba nada; este
+    # sí, y por eso la comprobación va antes que ninguna otra cosa.
+    import alerta_coherente
+    fallos = alerta_coherente.revisar({
+        'ticker': m.get('ticker'), 'price': m.get('entry'),
+        'target': m.get('target'), 'stop': m.get('stop'), 'rr': m.get('rr'),
+    })
+    if fallos:
+        for f in fallos:
+            print(f'  🛑 Setup NO propuesto — {f}')
+        return False
+
     if not BOT_TOKEN or not CHAT_ID:
         return True
 

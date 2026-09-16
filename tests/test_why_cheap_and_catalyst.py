@@ -288,3 +288,82 @@ class TestFlagsDeCatalizador:
         flags = json.loads(ruta.read_text())['flags']
         assert 'NUEVA' in flags and 'VIEJA' not in flags, \
             'una comprobación de hace dos semanas no dice nada de hoy'
+
+
+class TestAvisoDeRebote:
+    """Lo que salió el 16-sep-2026 y no debía.
+
+    CBOE llegó como «Target $308,62 · R:R 1,1». Los dos números eran correctos
+    por separado y el PAR era falso: el 1,1 se calcula contra `bounce_target`
+    (289,37), no contra el `target` que se anunciaba. Con el objetivo del
+    mensaje el R:R real era 2,25.
+
+    Y además se avisó de un setup con `ai_confirmation: NO` («RSI >25 y R:R
+    bajo»), en un régimen que el propio detector marca como `market_ok: False`,
+    sin mencionar ninguna de las dos cosas.
+    """
+
+    def _fila(self, **extra):
+        base = {
+            'ticker': 'CBOE', 'strategy': 'Oversold Bounce', 'current_price': 270.44,
+            'target': 308.62, 'bounce_target': 289.37, 'stop_loss': 253.49,
+            'risk_reward': 1.12, 'rsi': 26.0, 'bounce_confidence': 66.0,
+            'distance_to_support_pct': 1.4, 'ai_confirmation': 'YES',
+            'reversion_score': 55, 'market_ok': True, 'market_regime': 'ALCISTA',
+            'earnings_warning': False, 'dark_pool_signal': 'ACCUMULATION',
+        }
+        base.update(extra)
+        return base
+
+    def _cargar(self, filas, tmp_path, monkeypatch):
+        import pandas as pd, bounce_alerts as ba
+        csv = tmp_path / 'mr.csv'
+        pd.DataFrame(filas).to_csv(csv, index=False)
+        monkeypatch.setattr(ba, 'MR_CSV', csv)
+        return ba.load_curated_setups()
+
+    def test_el_objetivo_anunciado_es_el_del_RR(self, tmp_path, monkeypatch):
+        s = self._cargar([self._fila()], tmp_path, monkeypatch)[0]
+        assert s['target'] == 289.37, 'se anuncia el objetivo contra el que se calculó el R:R'
+        assert s['techo'] == 308.62, 'la resistencia se enseña aparte, como contexto'
+
+    def test_objetivo_y_RR_cuadran(self, tmp_path, monkeypatch):
+        s = self._cargar([self._fila()], tmp_path, monkeypatch)[0]
+        calculado = (s['target'] - s['price']) / (s['price'] - s['stop'])
+        assert abs(calculado - s['rr']) < 0.05, \
+            f"el R:R anunciado ({s['rr']}) no corresponde al objetivo ({s['target']})"
+
+    def test_sin_bounce_target_usa_el_normal(self, tmp_path, monkeypatch):
+        import numpy as np
+        s = self._cargar([self._fila(bounce_target=np.nan)], tmp_path, monkeypatch)[0]
+        assert s['target'] == 308.62
+
+    def test_lo_que_la_IA_rechaza_no_se_avisa(self, tmp_path, monkeypatch):
+        fuera = self._cargar([self._fila(ai_confirmation='NO', ai_reason='RSI >25')],
+                             tmp_path, monkeypatch)
+        assert fuera == [], 'una notificación de «merece un vistazo» sobre algo rechazado'
+
+    def test_CAUTION_sí_pasa(self, tmp_path, monkeypatch):
+        """Es una advertencia, no un rechazo: se avisa y se marca."""
+        s = self._cargar([self._fila(ai_confirmation='CAUTION')], tmp_path, monkeypatch)
+        assert len(s) == 1
+
+    def test_el_mensaje_avisa_del_regimen_adverso(self, tmp_path, monkeypatch):
+        import bounce_alerts as ba
+        s = self._cargar([self._fila(market_ok=False, market_regime='CORRECCIÓN')],
+                         tmp_path, monkeypatch)
+        msg = ba.build_message(s, '2026-09-16')
+        assert 'CORRECCIÓN' in msg and 'alto riesgo' in msg
+
+    def test_con_regimen_bueno_no_mete_ruido(self, tmp_path, monkeypatch):
+        import bounce_alerts as ba
+        s = self._cargar([self._fila()], tmp_path, monkeypatch)
+        assert 'alto riesgo' not in ba.build_message(s, '2026-09-16')
+
+    def test_el_regimen_avisa_pero_NO_filtra(self, tmp_path, monkeypatch):
+        """A propósito: los rebotes aparecen cuando el mercado cae, así que
+        filtrar por régimen dejaría la sección vacía justo cuando tiene algo
+        que decir."""
+        s = self._cargar([self._fila(market_ok=False, market_regime='CORRECCIÓN')],
+                         tmp_path, monkeypatch)
+        assert len(s) == 1
