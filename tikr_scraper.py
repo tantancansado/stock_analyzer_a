@@ -897,20 +897,28 @@ def fetch_tf_financials(
     if not extracted:
         return {}
 
-    # Extraer priceclose histórico por año FY desde dates[]
-    # Necesario para calcular market_cap, TEV y múltiplos de valoración históricos
-    price_close: dict[int, float | None] = {}
-    for entry in date_entries:
-        if entry.get('periodtypeid') == 1 and entry['calendaryear'] in annual_years:
-            yr = entry['calendaryear']
-            pc = entry.get('priceclose')
-            try:
-                price_close[yr] = round(float(pc), 4) if pc not in (None, '1.000000000', '1.0') else None
-            except (TypeError, ValueError):
-                price_close[yr] = None
-    # Solo guardar si hay al menos un precio real (no todos 1.0 = sin datos)
-    if any(v is not None for v in price_close.values()):
-        extracted['price_close'] = price_close
+    # `priceclose` de TIKR NO es un precio de cierre: es el TIPO DE CAMBIO del
+    # año a la divisa de presentación. Por eso valía 1.0 en las estadounidenses
+    # —el filtro de abajo lo tomaba por "sin datos"— y algo distinto de 1 en las
+    # demás. Medido sobre el lote del 16-sep-2026, de los 17 tickers que traían
+    # el campo, ninguno era una empresa que reportara en dólares, y el "precio"
+    # se repetía entre empresas que no tienen nada que ver:
+    #
+    #     0,85  → SAP, RACE, ESLOY, HESAY, DBOEY, G24.DE, WTKWY   (EUR/USD)
+    #     0,74  → RELX, LSEG.L, ITRK.L                            (GBP/USD)
+    #     9,21  → ASAZY, ATLKY                                    (SEK/USD)
+    #   158,71  → 7741.T                                          (JPY/USD)
+    #
+    # Con eso, `owner_earnings` calculaba market cap = tipo_de_cambio × acciones
+    # y de ahí los múltiplos históricos. Salían FCF yields del 4.713%, PER de
+    # 0,1 y valores de empresa NEGATIVOS (7741.T: -477.841). Y esos múltiplos
+    # fijan `ev_fcf_target`, o sea el precio objetivo y el veredicto: son los
+    # mismos tickers que aparecían como "OVERVALUED -95%".
+    #
+    # Alguien ya vio el patrón del 1.0 pero lo leyó como "falta el precio" en
+    # vez de "este campo es una conversión de divisa". No se extrae: un precio
+    # histórico de verdad se saca de yfinance (`_historical_annual_prices` en
+    # owner_earnings, que además corrige los peniques de Londres).
 
     # Calcular revenue CAGR desde extracted data
     rev = extracted.get('total_revenue') or extracted.get('revenue', {})

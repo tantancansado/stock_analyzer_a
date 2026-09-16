@@ -18,6 +18,7 @@ import { RefreshCw, Wallet, Check, TriangleAlert, X} from 'lucide-react'
 import EmptyState from '../components/EmptyState'
 import PageHeader from '@/components/PageHeader'
 import PageShell from '@/components/PageShell'
+import { precio } from '../lib/moneda'
 
 // ── Estado de posiciones fuera del escaneo del día ────────────────────────────
 // Un "Oversold Bounce" sale de la lista en cuanto el RSI deja la sobreventa,
@@ -45,15 +46,15 @@ function RecentPositionRow({ d }: { d: MeanReversionRecentEntry }) {
       <div className="grid grid-cols-3 gap-1.5 text-center mb-2">
         <div className="rounded bg-muted/15 px-1.5 py-1">
           <div className="text-micro text-muted-foreground leading-none mb-0.5">Precio hoy</div>
-          <div className="text-mini font-bold text-foreground leading-none">{d.current_price != null ? `$${d.current_price.toFixed(2)}` : '—'}</div>
+          <div className="text-mini font-bold text-foreground leading-none">{precio(d.current_price, d.ticker)}</div>
         </div>
         <div className="rounded bg-emerald-500/8 px-1.5 py-1">
           <div className="text-micro text-muted-foreground leading-none mb-0.5">Target</div>
-          <div className="text-mini font-bold text-emerald-400 leading-none">{d.target != null ? `$${d.target.toFixed(2)}` : '—'}</div>
+          <div className="text-mini font-bold text-emerald-400 leading-none">{precio(d.target, d.ticker)}</div>
         </div>
         <div className="rounded bg-red-500/6 px-1.5 py-1">
           <div className="text-micro text-muted-foreground leading-none mb-0.5">Stop</div>
-          <div className="text-mini font-bold text-red-400 leading-none">{d.stop_loss != null ? `$${d.stop_loss.toFixed(2)}` : '—'}</div>
+          <div className="text-mini font-bold text-red-400 leading-none">{precio(d.stop_loss, d.ticker)}</div>
         </div>
       </div>
       {d.ai_note && (
@@ -294,11 +295,11 @@ export default function MeanReversion() {
                       </div>
                       <div className="rounded bg-emerald-500/8 px-1.5 py-1">
                         <div className="text-micro text-muted-foreground leading-none mb-0.5">Target</div>
-                        <div className="text-mini font-bold text-emerald-400 leading-none">{d.target != null ? `$${d.target.toFixed(1)}` : '—'}</div>
+                        <div className="text-mini font-bold text-emerald-400 leading-none">{precio(d.target, d.ticker, null, 1)}</div>
                       </div>
                       <div className="rounded bg-red-500/6 px-1.5 py-1">
                         <div className="text-micro text-muted-foreground leading-none mb-0.5">Stop</div>
-                        <div className="text-mini font-bold text-red-400 leading-none">{d.stop_loss != null ? `$${d.stop_loss.toFixed(1)}` : '—'}</div>
+                        <div className="text-mini font-bold text-red-400 leading-none">{precio(d.stop_loss, d.ticker, null, 1)}</div>
                       </div>
                     </div>
                     {/* R:R + AI + Win Rate row */}
@@ -385,9 +386,9 @@ export default function MeanReversion() {
                       </TableCell>
                       <TableCell><Badge variant={qualVariant(d.quality)}>{d.quality}</Badge></TableCell>
                       <TableCell><ScoreBar score={d.reversion_score} /></TableCell>
-                      <TableCell className="tabular-nums text-amber-400">{d.support_level != null ? `$${d.support_level.toFixed(2)}` : '—'}</TableCell>
-                      <TableCell className="tabular-nums">{d.target ? `$${d.target.toFixed(2)}` : '—'}</TableCell>
-                      <TableCell className="tabular-nums">{d.stop_loss ? `$${d.stop_loss.toFixed(2)}` : '—'}</TableCell>
+                      <TableCell className="tabular-nums text-amber-400">{precio(d.support_level, d.ticker)}</TableCell>
+                      <TableCell className="tabular-nums">{precio(d.target, d.ticker)}</TableCell>
+                      <TableCell className="tabular-nums">{precio(d.stop_loss, d.ticker)}</TableCell>
                       <TableCell className="tabular-nums">
                         {d.risk_reward != null && Number(d.risk_reward) > 0
                           ? <span className={(d.risk_reward as number) >= 2 ? 'text-emerald-400' : (d.risk_reward as number) >= 1 ? 'text-amber-400' : 'text-red-400'}>{Number(d.risk_reward).toFixed(1)}</span>
@@ -542,12 +543,12 @@ export default function MeanReversion() {
                       </TableCell>
                     ) : (
                       <TableCell className="tabular-nums text-amber-400">
-                        {d.support_level != null ? `$${d.support_level.toFixed(2)}` : '—'}
+                        {precio(d.support_level, d.ticker)}
                       </TableCell>
                     )}
-                    <TableCell className="tabular-nums">{d.target ? `$${d.target.toFixed(2)}` : '—'}</TableCell>
+                    <TableCell className="tabular-nums">{precio(d.target, d.ticker)}</TableCell>
                     {!compact && (
-                      <TableCell className="tabular-nums">{d.stop_loss ? `$${d.stop_loss.toFixed(2)}` : '—'}</TableCell>
+                      <TableCell className="tabular-nums">{precio(d.stop_loss, d.ticker)}</TableCell>
                     )}
                     <TableCell className="tabular-nums">
                       {d.risk_reward != null && Number(d.risk_reward) > 0

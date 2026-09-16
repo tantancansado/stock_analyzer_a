@@ -12,6 +12,7 @@ import { cn } from '@/lib/utils'
 import { nlValuation } from '@/lib/nl'
 import PageHeader from '../components/PageHeader'
 import EmptyState from '@/components/EmptyState'
+import { precio } from '../lib/moneda'
 
 // ── Types ────────────────────────────────────────────────────────────────────
 
@@ -663,7 +664,7 @@ function DetailView({
                       const growth = fcfPs && prevPs && prevPs > 0 ? (fcfPs / prevPs - 1) * 100 : null
                       return (
                         <td key={yr} className="px-2 py-1.5 text-center font-mono text-cyan-400">
-                          {fcfPs != null ? `$${fcfPs.toFixed(2)}${growth != null ? ` (${growth > 0 ? '+' : ''}${growth.toFixed(0)}%)` : ''}` : '—'}
+                          {fcfPs != null ? `${precio(fcfPs, data.ticker)}${growth != null ? ` (${growth > 0 ? '+' : ''}${growth.toFixed(0)}%)` : ''}` : '—'}
                         </td>
                       )
                     })}
@@ -675,7 +676,7 @@ function DetailView({
                         const eps = data.forward_estimates?.[yr]?.eps_norm
                         return (
                           <td key={yr} className="px-2 py-1.5 text-center font-mono text-muted-foreground">
-                            {eps != null ? `$${eps.toFixed(2)}` : '—'}
+                            {precio(eps, data.ticker)}
                           </td>
                         )
                       })}
@@ -763,7 +764,7 @@ function DetailView({
                       const diff = fcfPs != null && tikrPs != null ? ((fcfPs / tikrPs - 1) * 100) : null
                       return (
                         <td key={yr} className="px-2 py-1.5 text-center font-bold tabular-nums text-cyan-400">
-                          {fcfPs != null ? `$${fcfPs.toFixed(2)}` : '—'}
+                          {precio(fcfPs, data.ticker)}
                           {diff != null && Math.abs(diff) > 0.5 && (
                             <span className={`ml-1 text-micro ${diff > 0 ? 'text-emerald-400' : 'text-red-400'}`}>
                               {diff > 0 ? '+' : ''}{diff.toFixed(0)}%
@@ -975,7 +976,7 @@ function DetailView({
                     <td className="px-3 py-1.5 text-muted-foreground pl-6">FCF/share</td>
                     {[...bdownYears].reverse().map(yr => {
                       const fcfPs = data.historical_fcf_per_share?.[yr]
-                      return <td key={yr} className="px-2 py-1.5 text-center font-mono text-cyan-400">{fcfPs != null ? `$${fcfPs.toFixed(2)}` : '—'}</td>
+                      return <td key={yr} className="px-2 py-1.5 text-center font-mono text-cyan-400">{precio(fcfPs, data.ticker)}</td>
                     })}
                   </tr>
                   <tr className="hover:bg-foreground/2 bg-foreground/1">
@@ -1068,10 +1069,10 @@ function DetailView({
                         <td className="px-3 py-1.5 text-muted-foreground text-micro">Precio cierre</td>
                         {multYears.map(yr => {
                           const m = data.historical_multiples[yr]
-                          return <td key={yr} className="px-2 py-1.5 text-center font-mono text-muted-foreground">{m?.price != null ? `$${m.price.toFixed(2)}` : '—'}</td>
+                          return <td key={yr} className="px-2 py-1.5 text-center font-mono text-muted-foreground">{precio(m?.price, data.ticker)}</td>
                         })}
                         <td className="px-2 py-1.5 text-center text-muted-foreground">—</td>
-                        <td className="px-2 py-1.5 text-center font-mono text-amber-400">{data.current_price != null ? `$${data.current_price.toFixed(2)}` : '—'}</td>
+                        <td className="px-2 py-1.5 text-center font-mono text-amber-400">{precio(data.current_price, data.ticker)}</td>
                       </tr>
                       {/* EV/FCF */}
                       <tr className="hover:bg-foreground/2">
@@ -1353,7 +1354,7 @@ function DetailView({
                         <td className="px-3 py-1.5 text-muted-foreground pl-6 whitespace-nowrap">EPS diluido</td>
                         {bsYears.map(yr => {
                           const b = data.historical_bs[yr]
-                          return <td key={yr} className="px-2 py-1.5 text-center font-mono text-muted-foreground">{b?.eps != null ? `$${b.eps.toFixed(2)}` : '—'}</td>
+                          return <td key={yr} className="px-2 py-1.5 text-center font-mono text-muted-foreground">{precio(b?.eps, data.ticker)}</td>
                         })}
                         <td className={cn('px-2 py-1.5 text-center font-mono', (() => { const c = cagr(firstBs?.eps, lastBs?.eps, nYears); return c == null ? 'text-muted-foreground' : c >= 0 ? 'text-emerald-400' : 'text-red-400' })())}>
                           {(() => { const c = cagr(firstBs?.eps, lastBs?.eps, nYears); return c != null ? `${c > 0 ? '+' : ''}${c.toFixed(1)}%` : '—' })()}

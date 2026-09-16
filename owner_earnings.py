@@ -365,7 +365,11 @@ def calculate(
     ntm_ev_ebitda = _fv(multiples.get("ntm_ev_ebitda"))
     ntm_fcf_m = _fv(ntm.get("ntm_fcf") or ntm.get("fcf"))
 
-    # Precios históricos: solo TIKR price_close — sin yfinance
+    # Precios históricos anuales. `price_close` de TIKR se dejó de extraer el
+    # 16-sep-2026: no era un precio, era el tipo de cambio del año (ver
+    # tikr_scraper). Se sigue leyendo por si queda algún caché viejo con el
+    # campo; cuando no está, `historical_multiples` sale vacío, que es lo
+    # correcto — es lo que ya pasaba con las 120 empresas estadounidenses.
     tikr_prices = _metric_series(metrics, "price_close")  # dict {yr: float|None}
     annual_prices = {yr: v for yr, v in tikr_prices.items() if v is not None} if tikr_prices else {}
 
@@ -407,9 +411,15 @@ def calculate(
     elif ntm_fcf_m and tev and ntm_fcf_m > 0:
         median_ev_fcf = tev / ntm_fcf_m
     else:
-        median_ev_fcf = 25.0
+        # Aquí había un `25.0`. Un múltiplo EV/FCF de 25 inventado para
+        # cualquier empresa sin histórico ni FCF a doce meses — y de él sale
+        # `ev_fcf_target`, o sea el precio objetivo entero. Lo cobraban 17
+        # tickers del lote del 16-sep (CB, BRK-B, PGR, JNJ, EQIX…). Es el mismo
+        # fallback silencioso que las 250 millones de acciones, y la misma
+        # regla: sin dato no hay valoración.
+        median_ev_fcf = None
 
-    if ev_fcf_target is None:
+    if ev_fcf_target is None and median_ev_fcf is not None:
         ev_fcf_target = round(median_ev_fcf * 0.90, 1)
     if per_target is None:
         per_target = round((ntm_pe or 25) * 0.85, 1)
@@ -515,7 +525,8 @@ def calculate(
         est = forward_est.get(yr_str, {})
         targets: dict = {}
 
-        targets["ev_fcf"] = round(fcf_ps * ev_fcf_target - nd_ps, 2)
+        if ev_fcf_target is not None:
+            targets["ev_fcf"] = round(fcf_ps * ev_fcf_target - nd_ps, 2)
 
         eps = _fv(est.get("eps_norm"))
         if eps and eps > 0:
@@ -725,7 +736,7 @@ def calculate(
         "fcf_breakdown": fcf_breakdown,
         "capex_pct_sales_median": round(capex_pct_median * 100, 2),
         "da_pct_sales_median": round(da_pct_sales_median, 2),
-        "median_ev_fcf": round(median_ev_fcf, 1),
+        "median_ev_fcf": round(median_ev_fcf, 1) if median_ev_fcf is not None else None,
         "ntm_fcf_yield_pct": ntm_fcf_yield,
         "ntm_pe": ntm_pe,
         "ntm_ev_ebitda": ntm_ev_ebitda,

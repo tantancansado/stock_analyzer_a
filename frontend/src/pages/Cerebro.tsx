@@ -30,6 +30,7 @@ import ScoreAlerts from '../components/ScoreAlerts'
 import EmptyState from '@/components/EmptyState'
 import CifrasClave from '../components/CifrasClave'
 import { colorUpside, enZonaDorada } from '../lib/bandasUpside'
+import { precio } from '../lib/moneda'
 
 const ThesisDriftTab       = lazy(() => import('./ThesisDrift'))
 const ContrarianDiscovery  = lazy(() => import('./ContrarianDiscovery'))
@@ -1486,11 +1487,11 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
                         </div>
                         <div className="rounded-lg bg-emerald-500/8 border border-emerald-500/15 p-2 text-center">
                           <div className="text-micro text-muted-foreground mb-0.5">Target</div>
-                          <div className="text-mini font-bold text-emerald-400 leading-none">{d.target != null ? `$${d.target.toFixed(2)}` : '—'}</div>
+                          <div className="text-mini font-bold text-emerald-400 leading-none">{precio(d.target, d.ticker)}</div>
                         </div>
                         <div className="rounded-lg bg-red-500/6 border border-red-500/10 p-2 text-center">
                           <div className="text-micro text-muted-foreground mb-0.5">Stop</div>
-                          <div className="text-mini font-bold text-red-400 leading-none">{d.stop_loss != null ? `$${d.stop_loss.toFixed(2)}` : '—'}</div>
+                          <div className="text-mini font-bold text-red-400 leading-none">{precio(d.stop_loss, d.ticker)}</div>
                         </div>
                       </div>
 
