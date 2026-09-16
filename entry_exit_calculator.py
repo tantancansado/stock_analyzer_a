@@ -15,6 +15,15 @@ import numpy as np
 from typing import Dict, Optional, Tuple
 
 
+def _num(v):
+    """Número utilizable, o None. Sin inventar un 0 por el camino."""
+    try:
+        f = float(v)
+        return None if f != f else f
+    except (TypeError, ValueError):
+        return None
+
+
 class EntryExitCalculator:
     """Calcula precios óptimos de entrada/salida"""
 
@@ -60,8 +69,10 @@ class EntryExitCalculator:
 
         # Calculate risk/reward
         risk = entry_price - stop_loss
-        reward = exit_price - entry_price
-        risk_reward = reward / risk if risk > 0 else 0
+        # Sin objetivo por valoración no hay recompensa que medir, y por tanto
+        # tampoco R:R. Antes esto no podía pasar porque el objetivo se inventaba.
+        reward = (exit_price - entry_price) if exit_price is not None else None
+        risk_reward = (reward / risk) if (reward is not None and risk > 0) else None
 
         # Entry timing recommendation
         entry_timing = self._get_entry_timing(
@@ -75,16 +86,16 @@ class EntryExitCalculator:
             'entry_range_low': round(entry_price * 0.98, 2),  # -2%
             'entry_range_high': round(entry_price * 1.02, 2),  # +2%
             'stop_loss': round(stop_loss, 2),
-            'exit_price': round(exit_price, 2),
-            'exit_range_low': round(exit_price * 0.95, 2),  # Conservative
-            'exit_range_high': round(exit_price * 1.05, 2),  # Optimistic
+            'exit_price': round(exit_price, 2) if exit_price is not None else None,
+            'exit_range_low': round(exit_price * 0.95, 2) if exit_price is not None else None,
+            'exit_range_high': round(exit_price * 1.05, 2) if exit_price is not None else None,
             'risk_dollars': round(risk, 2),
-            'reward_dollars': round(reward, 2),
-            'risk_reward_ratio': round(risk_reward, 2),
+            'reward_dollars': round(reward, 2) if reward is not None else None,
+            'risk_reward_ratio': round(risk_reward, 2) if risk_reward is not None else None,
             'risk_pct': round((risk / entry_price) * 100, 2),
-            'reward_pct': round((reward / entry_price) * 100, 2),
+            'reward_pct': round((reward / entry_price) * 100, 2) if reward is not None else None,
             'entry_timing': entry_timing,
-            'meets_criteria': risk_reward >= self.min_risk_reward
+            'meets_criteria': (risk_reward is not None and risk_reward >= self.min_risk_reward)
         }
 
     def _calculate_entry_price(
@@ -190,63 +201,66 @@ class EntryExitCalculator:
         hist: pd.DataFrame,
         fundamental_data: Dict,
         validation: Dict
-    ) -> float:
+    ) -> float | None:
+        """Precio de salida POR VALORACIÓN, con los objetivos que ya calcula el
+        pipeline. None si no hay ninguno utilizable.
+
+        Lo que había aquí no era una valoración. Era:
+
+            40%  «un 10% por encima del máximo de 52 semanas»
+            40%  «suponer que toda empresa merece un PER de 25»
+            20%  `current_price * 1.30`  ← un placeholder fijo, y el comentario
+                                            del código lo decía: "Placeholder"
+            y un suelo de `max(exit, precio × 1.20)`, "asegurar al menos un 20%"
+
+        Resultado medido el 16-sep-2026 sobre las 34 filas del VALUE filtrado:
+        el `exit_price` quedaba POR ENCIMA del consenso de analistas en 33 de
+        34, con un desvío mediano del +10,5% y hasta +35% en INTU.
+
+        Dos problemas, y el segundo es el grave:
+
+          · los objetivos de verdad —consenso, DCF, modelo P/E— ya están
+            calculados en el CSV, en la fila de al lado, y no se miraban;
+          · el suelo del 20% es vender a un PORCENTAJE FIJO, que es justo lo
+            que el perfil del usuario descarta: vende a precio objetivo por
+            valoración, nunca a un % de ganancia. Con ese suelo, ningún pick
+            podía tener un objetivo por debajo de +20% aunque estuviera en su
+            precio justo.
+
+        Ahora: ancla en el consenso de analistas, y solo promedia con los
+        modelos propios si esos modelos están de acuerdo ENTRE ELLOS. Cuando
+        DCF y P/E se contradicen en el signo no hay valoración propia en la que
+        apoyarse (ver upside_triangulation), así que se usa el consenso solo.
+        Sin ningún objetivo utilizable no se inventa uno: None, y sin objetivo
+        no hay R:R.
         """
-        Calcula precio de salida basado en fundamentales y técnico
+        analista = _num(validation.get('target_price_analyst'))
+        if not analista or analista <= 0:
+            return None
 
-        Considera:
-        1. Fair value (PE target)
-        2. Analyst price targets
-        3. Technical resistance (52-week high)
-        4. Risk/Reward minimum 3:1
-        """
-        # Technical target (ATH or above)
-        year_high = validation.get('price_vs_ath')
-        if year_high is not None:
-            # Calculate actual 52-week high from percentage
-            ath_price = current_price / (1 + (year_high / 100))
-            technical_target = ath_price * 1.10  # 10% above ATH
-        else:
-            technical_target = current_price * 1.30  # Default 30% gain
+        # Los modelos propios NO promedian con el analista: deciden si su
+        # objetivo vale o no. Es la política que el resto del sistema ya aplica
+        # (`upside_divergence` en super_score_integrator): «si DCF y P/E
+        # contradicen al sell-side, el upside del analista no es argumento».
+        #
+        # Promediarlos sería repetir el error de `upside_triangulated_pct`, que
+        # publicaba la mediana de respuestas contrarias como si fuera una
+        # triangulación. Con VRSN salía un objetivo de 224,90 sobre un precio de
+        # 301 — de promediar un +8% del consenso con un -59% de los modelos.
+        # Eso no es una valoración, es la media de un sí y un no.
+        dcf = _num(validation.get('target_price_dcf'))
+        pe = _num(validation.get('target_price_pe'))
+        if dcf and pe and dcf > 0 and pe > 0:
+            up_dcf, up_pe = dcf / current_price - 1, pe / current_price - 1
+            en_rango = abs(up_dcf) <= 2.0 and abs(up_pe) <= 2.0   # ADR con divisa rota
+            if en_rango:
+                up_analista = analista / current_price - 1
+                # Si los dos modelos coinciden en que va al otro lado que el
+                # analista, no hay objetivo en el que apoyarse.
+                if (up_dcf < 0) == (up_pe < 0) and (up_dcf < 0) != (up_analista < 0):
+                    return None
 
-        # Fundamental target (PE-based)
-        pe_ratio = fundamental_data.get('pe_ratio')
-        if pe_ratio and pe_ratio > 0:
-            # Target PE of 25-30 for growth stocks
-            sector_avg_pe = 25
-            if pe_ratio < sector_avg_pe:
-                # Undervalued - price could expand to sector avg
-                fundamental_target = current_price * (sector_avg_pe / pe_ratio)
-                # Cap at 100% upside
-                fundamental_target = min(fundamental_target, current_price * 2.0)
-            else:
-                # Already at or above sector avg
-                fundamental_target = current_price * 1.20  # 20% upside
-        else:
-            fundamental_target = current_price * 1.25  # Default 25%
-
-        # Analyst target (if available)
-        # Note: This would come from validation or analyst data
-        analyst_target = current_price * 1.30  # Placeholder
-
-        # Take weighted average of targets
-        weights = {
-            'technical': 0.40,
-            'fundamental': 0.40,
-            'analyst': 0.20
-        }
-
-        exit_price = (
-            technical_target * weights['technical'] +
-            fundamental_target * weights['fundamental'] +
-            analyst_target * weights['analyst']
-        )
-
-        # Ensure minimum return (at least 20%)
-        min_target = current_price * 1.20
-        exit_price = max(exit_price, min_target)
-
-        return exit_price
+        return analista
 
     def _get_entry_timing(
         self,

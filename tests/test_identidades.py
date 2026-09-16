@@ -106,3 +106,89 @@ def test_el_pipeline_lo_ejecuta():
     src = (Path(__file__).parent.parent / 'coherence_check.py').read_text()
     assert 'identidades_rotas' in src
     assert 'import identidades' in src
+
+
+class TestObjetivoPorValoracion:
+    """El «precio de salida» de la ficha no era una valoración.
+
+    `_calculate_exit_price` lo componía así:
+
+        40%  «un 10% por encima del máximo de 52 semanas»
+        40%  «suponer que toda empresa merece un PER de 25»
+        20%  `current_price * 1.30`  ← un placeholder fijo; el comentario del
+                                        propio código decía "Placeholder"
+        y un suelo de `max(exit, precio × 1.20)`, "asegurar al menos un 20%"
+
+    Medido el 16-sep-2026 sobre las 34 filas del VALUE filtrado: quedaba POR
+    ENCIMA del consenso de analistas en 33 de 34, desvío mediano +10,5%, hasta
+    +35% en INTU. Y los objetivos de verdad —consenso, DCF, modelo P/E— estaban
+    ya calculados en la fila de al lado, sin mirarse.
+
+    El suelo del 20% era además lo contrario de lo que el usuario hace: vende a
+    precio objetivo POR VALORACIÓN, nunca a un porcentaje fijo. Con ese suelo
+    ningún pick podía tener un objetivo por debajo de +20% ni estando caro.
+    """
+
+    def _calc(self):
+        from entry_exit_calculator import EntryExitCalculator
+        return EntryExitCalculator()
+
+    def test_el_objetivo_es_el_consenso_no_un_invento(self):
+        c = self._calc()
+        v = c._calculate_exit_price(100.0, None, {}, {'target_price_analyst': 118.0})
+        assert v == 118.0
+
+    def test_sin_consenso_no_hay_objetivo(self):
+        """Antes devolvía `precio × 1.20` pasara lo que pasara."""
+        c = self._calc()
+        assert c._calculate_exit_price(100.0, None, {}, {}) is None
+        assert c._calculate_exit_price(100.0, None, {}, {'target_price_analyst': 0}) is None
+
+    def test_si_los_modelos_propios_desmienten_al_analista_no_hay_objetivo(self):
+        """Misma política que `upside_divergence` en el integrator: si DCF y P/E
+        contradicen al sell-side, su objetivo no es argumento."""
+        c = self._calc()
+        v = c._calculate_exit_price(100.0, None, {}, {
+            'target_price_analyst': 118.0,     # +18%
+            'target_price_dcf': 60.0,          # -40%
+            'target_price_pe': 55.0,           # -45%
+        })
+        assert v is None
+
+    def test_pero_si_coinciden_en_direccion_el_objetivo_se_mantiene(self):
+        c = self._calc()
+        v = c._calculate_exit_price(100.0, None, {}, {
+            'target_price_analyst': 118.0, 'target_price_dcf': 130.0, 'target_price_pe': 112.0,
+        })
+        assert v == 118.0
+
+    def test_no_se_promedian_respuestas_contrarias(self):
+        """Promediar un +8% del consenso con un −59% de los modelos daba 224,90
+        sobre un precio de 301 (VRSN). Eso no es una valoración: es la media de
+        un sí y un no — el mismo error que `upside_triangulated_pct`."""
+        import inspect
+
+        import ast
+
+        from entry_exit_calculator import EntryExitCalculator
+        fuente = inspect.getsource(EntryExitCalculator._calculate_exit_price)
+        # Fuera el docstring: ahí SÍ se nombra el placeholder, para explicar
+        # por qué se quitó.
+        import textwrap
+        fn = ast.parse(textwrap.dedent(fuente)).body[0]
+        if (fn.body and isinstance(fn.body[0], ast.Expr)
+                and isinstance(fn.body[0].value, ast.Constant)):
+            fn.body = fn.body[1:]
+        codigo = ast.unparse(fn)
+        assert 'current_price * 1.3' not in codigo, 'volvió el placeholder'
+        fuente = codigo
+        assert 'min_target' not in fuente, 'volvió el suelo del 20%'
+        assert 'sector_avg_pe' not in fuente, 'volvió el «PER 25 para todos»'
+
+    def test_sin_objetivo_tampoco_hay_rr(self):
+        """Una operación sin objetivo no tiene riesgo/recompensa que medir."""
+        import inspect
+
+        from entry_exit_calculator import EntryExitCalculator
+        fuente = inspect.getsource(EntryExitCalculator.calculate_entry_exit)
+        assert 'risk_reward = (reward / risk) if (reward is not None' in fuente

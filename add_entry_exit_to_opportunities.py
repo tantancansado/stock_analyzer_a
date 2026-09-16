@@ -302,7 +302,16 @@ def _enrich_csv_with_entry_exit(input_file: str):
             entry_exit = calc.calculate_entry_exit(
                 ticker=ticker, current_price=current_price, hist=hist,
                 vcp_analysis=vcp_analysis, fundamental_data=fundamental_data,
-                validation={'price_vs_ath': price_vs_ath}
+                # Los objetivos REALES que el pipeline ya ha calculado. Sin
+                # esto, `_calculate_exit_price` se los inventaba: un 20% de
+                # «precio × 1,30» que el propio código llamaba "Placeholder",
+                # un 40% de «suponer PER 25 para todos», y un suelo de +20%.
+                # El resultado quedaba por encima del consenso de analistas en
+                # 33 de 34 filas.
+                validation={'price_vs_ath': price_vs_ath,
+                            'target_price_analyst': row.get('target_price_analyst'),
+                            'target_price_dcf': row.get('target_price_dcf'),
+                            'target_price_pe': row.get('target_price_pe')}
             )
 
             df.at[idx, 'entry_price'] = entry_exit['entry_price']
@@ -331,10 +340,11 @@ def _enrich_csv_with_entry_exit(input_file: str):
             # cambiarle el significado en silencio sería el mismo error otra vez.
             entrada = entry_exit['entry_price']
             riesgo = entrada - entry_exit['stop_loss']
-            if riesgo > 0:
-                df.at[idx, 'rr_operativo'] = round(
-                    (entry_exit['exit_price'] - entrada) / riesgo, 2)
-            print(f"  [{idx+1}] {ticker}: Entry ${entry_exit['entry_price']:.2f} → Target ${entry_exit['exit_price']:.2f}")
+            salida = entry_exit['exit_price']
+            if riesgo > 0 and salida is not None:
+                df.at[idx, 'rr_operativo'] = round((salida - entrada) / riesgo, 2)
+            destino = f"Target ${salida:.2f}" if salida is not None else "sin objetivo por valoración"
+            print(f"  [{idx+1}] {ticker}: Entry ${entrada:.2f} → {destino}")
 
         except Exception as e:
             print(f"  [{idx+1}] {ticker}: Error {str(e)[:60]}")

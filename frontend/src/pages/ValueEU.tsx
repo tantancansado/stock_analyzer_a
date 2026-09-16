@@ -337,7 +337,7 @@ export default function ValueEU() {
     const cls = v >= 5 ? 'text-emerald-400' : v >= 3 ? 'text-amber-400' : v < 0 ? 'text-red-400' : ''
     return <span className={cls}>{v.toFixed(1)}%</span>
   }
-  const fmtRR = (v?: number) => {
+  const fmtRR = (v?: number | null) => {
     if (v == null) return <span className="text-muted-foreground">—</span>
     const cls = v >= 2 ? 'text-emerald-400' : v >= 1 ? 'text-amber-400' : 'text-red-400'
     return <span className={cls}>{v.toFixed(1)}</span>
@@ -670,7 +670,7 @@ export default function ValueEU() {
               {/* Row 4: FCF / R:R / Market / Sector */}
               <div className="flex gap-3 mt-2 text-mini text-muted-foreground">
                 {d.fcf_yield_pct != null && <span>FCF {d.fcf_yield_pct.toFixed(1)}%</span>}
-                {(d.rr_operativo ?? d.risk_reward_ratio) != null && <span>R:R {(d.rr_operativo ?? d.risk_reward_ratio)!.toFixed(1)}x</span>}
+                {d.rr_operativo != null && <span>R:R {d.rr_operativo.toFixed(1)}x</span>}
                 {d.market && <span>{MARKET_FLAGS[d.market] ?? ''} {d.market}</span>}
                 {d.sector && <span className="truncate">{d.sector}</span>}
               </div>
@@ -896,7 +896,7 @@ export default function ValueEU() {
                       )}
                     </TableCell>
                     <TableCell className="hidden sm:table-cell">{fmtFcf(d.fcf_yield_pct)}</TableCell>
-                    <TableCell className={compact ? 'hidden' : ''}>{fmtRR(d.rr_operativo ?? d.risk_reward_ratio)}</TableCell>
+                    <TableCell className={compact ? 'hidden' : ''}>{fmtRR(d.rr_operativo)}</TableCell>
                     <TableCell className={compact ? 'hidden' : 'hidden sm:table-cell'}>
                       <OeAiBadge verdict={d.oe_ai_verdict} adjustment={d.oe_ai_adjustment} />
                     </TableCell>
