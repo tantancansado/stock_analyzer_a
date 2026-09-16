@@ -72,9 +72,22 @@ export default function BroadBounceView() {
   // los setups ya se avisaron hace poco, devuelve vacío si no hay saldo, y
   // lleva `continue-on-error` en el workflow.
   const allSetups: BounceBroadSetup[] = resp?.setups ?? []
+  // Un veredicto de catalizador CADUCA. Es una lectura de noticias, no un dato
+  // estructural: «limpio» hace cinco semanas no dice nada de hoy.
+  //
+  // `bounce_alerts` ya los expira a DEDUP_DAYS, pero solo cuando REESCRIBE el
+  // fichero — y solo lo reescribe si ese día hubo setups que comprobar, que es
+  // ~1 vez por semana. El 16-sep-2026 `bounce_catalyst_flags.json` llevaba 36
+  // días sin tocarse con un único flag del 11 de agosto, y aquí se leía como
+  // vigente. Caducado no es un veredicto: es «nadie lo ha mirado».
+  const VETO_VIGENCIA_DIAS = 5
   const estadoVeto = (t: string): 'PELIGRO' | 'LIMPIO' | 'SIN_COMPROBAR' => {
     const f = catalystFlags[t.toUpperCase()]
     if (!f) return 'SIN_COMPROBAR'
+    if (f.checked_at) {
+      const dias = (Date.now() - new Date(f.checked_at).getTime()) / 86_400_000
+      if (!Number.isNaN(dias) && dias > VETO_VIGENCIA_DIAS) return 'SIN_COMPROBAR'
+    }
     // Los flags viejos no llevaban `veredicto` y solo se guardaban los peligros.
     return f.veredicto ?? 'PELIGRO'
   }

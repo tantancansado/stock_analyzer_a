@@ -386,6 +386,19 @@ def main() -> None:
     print('[bounce_alerts] Buscando setups de rebote nuevos...')
     today = date.today().isoformat()
 
+    # La purga de flags caducados va ANTES de los early return, no al final.
+    #
+    # `_save_catalyst_flags` ya los expiraba a DEDUP_DAYS, pero solo se llamaba
+    # al final de main() — y main() sale antes seis días de cada siete (sin
+    # setups, o todos ya avisados). Así que el fichero se quedaba sin tocar y
+    # los veredictos viejos seguían dentro pareciendo vigentes: el 16-sep-2026
+    # `bounce_catalyst_flags.json` llevaba 36 días con un único flag del 11 de
+    # agosto, y la app lo leía como si fuera de hoy.
+    #
+    # Un veredicto de catalizador es una lectura de noticias, no un dato
+    # estructural: «limpio» hace cinco semanas no dice nada de hoy.
+    _save_catalyst_flags([], today)
+
     setups = load_broad_setups() + load_curated_setups()
     if not setups:
         print('  0 setups en ambos universos — nada que avisar (normal la mayoría de días)')

@@ -142,3 +142,59 @@ class TestSaveCatalystFlags:
         ba._save_catalyst_flags([], '2026-07-02')  # 1 día después, dentro de DEDUP_DAYS
         data = json.loads(flags_path.read_text())
         assert 'RECENT' in data['flags']
+
+
+class TestVetoQueCaduca:
+    """Un veredicto de catalizador es una lectura de NOTICIAS, no un dato
+    estructural: «limpio» hace cinco semanas no dice nada de hoy.
+
+    `_save_catalyst_flags` ya los expiraba a DEDUP_DAYS, pero solo se llamaba al
+    FINAL de main() — y main() sale antes seis días de cada siete (sin setups, o
+    todos ya avisados). El fichero se quedaba sin tocar y los veredictos viejos
+    seguían dentro pareciendo vigentes: el 16-sep-2026 `bounce_catalyst_flags.json`
+    llevaba 36 días con un único flag del 11 de agosto, y la app lo leía como si
+    fuera de hoy.
+    """
+
+    def test_la_purga_va_antes_de_los_early_return(self):
+        import ast
+        import inspect
+        import textwrap
+
+        import bounce_alerts as ba
+        arbol = ast.parse(textwrap.dedent(inspect.getsource(ba.main)))
+        fn = next(n for n in ast.walk(arbol)
+                  if isinstance(n, ast.FunctionDef) and n.name == 'main')
+        purgas = [n.lineno for n in ast.walk(fn) if isinstance(n, ast.Call)
+                  and ast.unparse(n).startswith('_save_catalyst_flags([]')]
+        salidas = [n.lineno for n in ast.walk(fn) if isinstance(n, ast.Return)]
+        assert purgas, 'no hay purga incondicional en main()'
+        assert not salidas or min(purgas) < min(salidas), \
+            'si la purga va despues del primer return, no corre los dias sin setups'
+
+    def test_purga_lo_caducado_y_conserva_lo_vigente(self, tmp_path, monkeypatch):
+        import json
+        from datetime import date, timedelta
+
+        import bounce_alerts as ba
+        f = tmp_path / 'flags.json'
+        viejo = (date.today() - timedelta(days=36)).isoformat()
+        hoy = date.today().isoformat()
+        f.write_text(json.dumps({'generated_at': 'x', 'flags': {
+            'ADM': {'veredicto': 'PELIGRO', 'checked_at': viejo},
+            'XYZ': {'veredicto': 'LIMPIO', 'checked_at': hoy},
+        }}))
+        monkeypatch.setattr(ba, 'CATALYST_FLAGS_PATH', f)
+        ba._save_catalyst_flags([], hoy)
+        quedan = json.loads(f.read_text())['flags']
+        assert 'ADM' not in quedan, 'un veredicto de hace 36 días no es un veredicto'
+        assert 'XYZ' in quedan
+
+    def test_la_app_tambien_lo_comprueba(self):
+        """El backend purga al escribir; la app tiene que desconfiar al leer.
+        Si solo lo mira uno de los dos, basta con que el otro no corra."""
+        from pathlib import Path
+        src = (Path(__file__).parent.parent / 'frontend' / 'src' / 'pages'
+               / 'BroadBounceView.tsx').read_text()
+        assert 'VETO_VIGENCIA_DIAS' in src
+        assert 'f.checked_at' in src
