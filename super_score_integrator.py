@@ -1266,20 +1266,32 @@ class SuperScoreIntegrator:
             print(f"   📐 Upside tiers: {n_golden} golden [10,25) (+5pts) · {n_trap} trap ≥30% (-5pts)")
             df.drop(columns=['upside_bonus', '_up'], inplace=True, errors='ignore')
 
-        # RISK/REWARD CHECK: Calculate R:R ratio and penalize poor risk/reward
+        # `risk_reward_ratio` = upside / stop estándar del 8%. NO es un factor
+        # propio: es `analyst_upside_pct` reescalado, y su correlación con el
+        # upside medida sobre 1479 señales reales es +1.0000 EXACTO.
+        #
+        # Se sigue calculando porque media app lo enseña, pero ya no suma al
+        # score. El bonus que había aquí premiaba la banda R:R [1.25, 3.0),
+        # que en upside es [10, 24) — la banda dorada [10, 25) de value_bands
+        # otra vez, escrita inline y disfrazada de otra variable, justo lo que
+        # CLAUDE.md prohíbe. El bloque de arriba ya le da +5 a esa banda; este
+        # le sumaba otros +2. Medido sobre el CSV del 16-sep-2026: 24 de las 25
+        # filas en zona dorada cobraban los dos.
+        #
+        # El -3 por R:R < 1 era lo mismo por abajo: R:R < 1 es upside < 8%, y
+        # por debajo de UPSIDE_MIN (10) el upside_bonus ya no premia. Contar
+        # dos veces el mismo hecho no lo hace más cierto, solo desplaza el
+        # score de quien ya iba bien y ensancha la diferencia sin motivo nuevo.
+        #
+        # `portfolio_tracker` y `conviction_filter` ya quitaron sus copias de
+        # este mismo filtro disfrazado; el integrador era el que quedaba.
         if 'analyst_upside_pct' in df.columns and 'current_price' in df.columns:
             stop_loss_pct = 8.0  # Standard 8% stop loss (Minervini/Lynch)
             df['_upside'] = pd.to_numeric(df['analyst_upside_pct'], errors='coerce')
             df['risk_reward_ratio'] = (df['_upside'] / stop_loss_pct).round(2)
-            # R:R is upside/8%, so R:R≥3 ⇒ upside≥24% — i.e. the value-trap zone.
-            # Cap the bonus at the golden R:R band [1.25, 3.0) (upside 10-24%); do NOT
-            # reward R:R≥3, which the real data shows is the losing tier.
-            df['rr_bonus'] = 0.0
-            df.loc[(df['risk_reward_ratio'] >= 1.25) & (df['risk_reward_ratio'] < 3.0), 'rr_bonus'] = 2.0
-            df.loc[(df['risk_reward_ratio'] < 1.0) & df['risk_reward_ratio'].notna(), 'rr_bonus'] = -3.0
-            df['value_score'] += df['rr_bonus']
             good_rr = int((df['risk_reward_ratio'] >= 2.0).sum())
-            print(f"   📐 Risk/Reward applied ({good_rr} tickers with R:R ≥ 2:1)")
+            print(f"   📐 Risk/Reward calculado, informativo ({good_rr} con R:R ≥ 2:1) "
+                  f"— no suma al score: es el upside reescalado")
             df.drop(columns=['_upside'], inplace=True, errors='ignore')
 
         # UPSIDE CREDIBILITY CHECK: penalize implausibly high upside with low/no conviction

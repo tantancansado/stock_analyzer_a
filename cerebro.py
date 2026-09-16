@@ -25,6 +25,7 @@ import numpy as np
 from pathlib import Path
 from datetime import date, datetime
 from curated_tickers import get_universe as _get_curated_tickers
+from value_bands import UPSIDE_GOLDEN_MAX, UPSIDE_MIN
 
 try:
     from groq import Groq
@@ -805,8 +806,26 @@ def scan_entry_signals(convergence: dict) -> dict:
             sig("Value score ≥80",     10, vscore >= 80,              "Value score <80")
             sig("Value score ≥70",      5, 70 <= vscore < 80)         # bonus, no missing
             sig("FCF yield ≥5%",       10, fcf is not None and fcf >= 5,   "FCF yield <5%")
-            sig("R:R ≥2",              10, rr is not None and rr >= 2,     "R:R <2")
-            sig("Upside ≥20%",          8, upside is not None and upside >= 20, "Upside <20%")
+            # Una sola señal de upside, y con la banda calibrada.
+            #
+            # Antes había dos —"R:R ≥2" (10 pts) y "Upside ≥20%" (8 pts)— que
+            # miden EXACTAMENTE lo mismo: `risk_reward_ratio` es
+            # `analyst_upside_pct / 8`, así que "R:R ≥2" es "upside ≥16%".
+            # Eran 18 puntos por un único hecho contado dos veces.
+            #
+            # Y las dos premiaban hacia arriba sin techo: con upside del 35% —
+            # zona de HARD REJECT, 0% de acierto en 55 señales reales— cobraba
+            # las dos. Además "R:R <2" salía como CARENCIA para un pick con
+            # upside del 14%, o sea que se le reprochaba estar en la banda que
+            # mejor ha funcionado.
+            #
+            # Se queda en 10 (el mayor de los dos pesos, no la suma): el upside
+            # pesa menos que antes en el score, que es la dirección conservadora
+            # y la que dice la calibración — premiar la banda, no el upside alto.
+            en_banda = upside is not None and UPSIDE_MIN <= upside < UPSIDE_GOLDEN_MAX
+            sig(f"Upside en banda dorada [{UPSIDE_MIN:.0f},{UPSIDE_GOLDEN_MAX:.0f})",
+                10, en_banda,
+                "Upside fuera de la banda dorada" if upside is not None else "")
 
             # Timing / catalysts
             sig("Insider buying",      25, t in insider_tickers,        "Sin insider buying (espera)")

@@ -19,15 +19,29 @@ from typing import Optional
 
 import pandas as pd
 
+from value_bands import UPSIDE_GOLDEN_MAX, UPSIDE_MIN
+
 DOCS = Path('docs')
 
 # ── Parámetros por régimen ────────────────────────────────────────────────────
+# Fuera `require_rr`. `risk_reward_ratio` es `analyst_upside_pct / 8`, así que
+# exigir R:R ≥ 3,0 en CRISIS era exigir un upside ≥ 24% — una banda de upside
+# escrita inline y disfrazada de otra variable, que es justo lo que CLAUDE.md
+# prohíbe ("las bandas viven en value_bands.py, NUNCA inline").
+#
+# Y apuntaba al revés: la banda dorada es [10, 25) y a partir de 30 hay HARD
+# REJECT, así que en CRISIS el filtro solo dejaba pasar upside 24-30% — la
+# franja pegada a la trampa, y nada más. Cuanto más peligroso el mercado, más
+# estrecho el embudo hacia lo único que la calibración desaconseja.
+#
+# La severidad del régimen ya la lleva `min_score` (55 → 75), que sí es un
+# factor propio y no el upside otra vez.
 REGIME_PARAMS = {
-    'CALM':   {'n_picks': 7, 'min_score': 55, 'cash_pct': 5,  'require_rr': 1.5},
-    'WATCH':  {'n_picks': 6, 'min_score': 60, 'cash_pct': 10, 'require_rr': 1.5},
-    'STRESS': {'n_picks': 5, 'min_score': 65, 'cash_pct': 20, 'require_rr': 2.0},
-    'ALERT':  {'n_picks': 4, 'min_score': 70, 'cash_pct': 30, 'require_rr': 2.5},
-    'CRISIS': {'n_picks': 3, 'min_score': 75, 'cash_pct': 50, 'require_rr': 3.0},
+    'CALM':   {'n_picks': 7, 'min_score': 55, 'cash_pct': 5},
+    'WATCH':  {'n_picks': 6, 'min_score': 60, 'cash_pct': 10},
+    'STRESS': {'n_picks': 5, 'min_score': 65, 'cash_pct': 20},
+    'ALERT':  {'n_picks': 4, 'min_score': 70, 'cash_pct': 30},
+    'CRISIS': {'n_picks': 3, 'min_score': 75, 'cash_pct': 50},
 }
 
 GRADE_WEIGHT = {'A': 1.0, 'B': 0.88, 'C': 0.75}
@@ -101,11 +115,18 @@ def _rank_score(row: pd.Series, regime_name: str) -> float:
     val   = _sf(row.get('value_score'), 0) or 0
     grade = str(row.get('conviction_grade', 'C'))
     gw    = GRADE_WEIGHT.get(grade, 0.7)
-    rr    = _sf(row.get('risk_reward_ratio'), 1) or 1
     fcf   = _sf(row.get('fcf_yield_pct'), 0) or 0
     up    = _sf(row.get('analyst_upside_pct'), 0) or 0
 
-    rr_bonus = min(1.3, 1 + max(0, rr - 1) * 0.1)
+    # El bonus premiaba el R:R de forma monótona hasta su tope en R:R 4, que es
+    # un upside del 32% — pasado el HARD REJECT. Ordenaba mejor cuanto más se
+    # acercaba el pick a la trampa, al revés de la banda calibrada.
+    #
+    # Se conserva la magnitud que tenía (tope 1,3) y se cambia a qué se aplica:
+    # la banda dorada de value_bands, que es donde la calibración dice que está
+    # el rendimiento. No es un umbral nuevo — es el que ya estaba declarado.
+    en_banda_dorada = UPSIDE_MIN <= up < UPSIDE_GOLDEN_MAX
+    rr_bonus = 1.3 if en_banda_dorada else 1.0
     fcf_bonus = 1.05 if fcf >= 5 else 1.02 if fcf >= 3 else 1.0
 
     # In danger regimes, upside matters more
@@ -117,7 +138,6 @@ def _rank_score(row: pd.Series, regime_name: str) -> float:
 def _select_picks(df: pd.DataFrame, regime: str, params: dict, trap_tickers: set) -> list:
     """Filter, rank and select final picks respecting sector limits."""
     min_score = params['min_score']
-    min_rr    = params['require_rr']
     n_picks   = params['n_picks']
 
     # ── Hard filters ─────────────────────────────────────────────────────
@@ -129,9 +149,6 @@ def _select_picks(df: pd.DataFrame, regime: str, params: dict, trap_tickers: set
             (df['earnings_warning'].fillna(False).astype(bool)) &
             (~df.get('earnings_catalyst', pd.Series(False, index=df.index)).fillna(False).astype(bool))
         )
-
-    if 'risk_reward_ratio' in df.columns:
-        mask &= df['risk_reward_ratio'].fillna(0) >= min_rr
 
     # Exclude dividend traps
     mask &= ~df['ticker'].isin(trap_tickers)
@@ -297,7 +314,11 @@ def _build_risk_notes(picks: list, regime: dict, params: dict, trap_count: int) 
     avg_rr = sum(p['risk_reward_ratio'] or 0 for p in picks) / len(picks) if picks else 0
     avg_fcf = sum(p['fcf_yield_pct'] or 0 for p in picks) / len(picks) if picks else 0
     if avg_rr > 0:
-        notes.append(f"R:R medio de la cartera: {avg_rr:.1f}x | FCF yield medio: {avg_fcf:.1f}%")
+        # No se llama R:R: es `analyst_upside_pct / 8`, el upside reescalado
+        # contra un stop del 8% que estas fichas no usan. Decirle R:R hacía
+        # leer como gestión del riesgo lo que es una segunda copia del upside.
+        notes.append(f"Upside medio de la cartera: {avg_rr * 8:.0f}% "
+                     f"| FCF yield medio: {avg_fcf:.1f}%")
 
     return notes
 

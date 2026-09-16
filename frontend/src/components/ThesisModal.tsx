@@ -408,7 +408,13 @@ export default function ThesisModal({ row, thesisText, onClose, currency = '$' }
               <Chip label="PEG" value={row.peg_ratio.toFixed(2)} color={row.peg_ratio < 1 ? 'text-emerald-400' : row.peg_ratio < 2 ? 'text-amber-400' : 'text-red-400'} />
             )}
             {rr != null && (
-              <Chip label="R:R" value={rr.toFixed(1)} color={rr >= 2 ? 'text-emerald-400' : rr >= 1 ? 'text-amber-400' : 'text-red-400'} />
+              /* El color sale de la banda de upside, no de la magnitud del R:R.
+                 `risk_reward_ratio` es `analyst_upside_pct / 8`, así que pintar
+                 verde a partir de 2 dejaba en verde todo el upside ≥16% —
+                 incluido el que pasa de 25% y el que roza el HARD REJECT de 30. */
+              <Chip label="R:R" value={rr.toFixed(1)}
+                color={upside != null && upside >= 10 && upside < 25 ? 'text-emerald-400'
+                     : upside != null && upside >= 30 ? 'text-red-400' : 'text-amber-400'} />
             )}
             {fcf != null && (
               <Chip label="FCF%" value={`${fcf.toFixed(1)}%`} color={fcf >= 5 ? 'text-emerald-400' : fcf >= 3 ? 'text-amber-400' : fcf < 0 ? 'text-red-400' : ''} />

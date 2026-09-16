@@ -120,8 +120,14 @@ function oneLiner(sig: EntrySignal): string {
   if (fired.includes('FCF alto') && fired.includes('Piotroski fuerte')) return 'Balance sólido con alta generación de caja'
   if (fired.includes('Piotroski fuerte'))                                return 'Balance financiero entre los más fuertes del universo'
   if (fired.includes('FCF alto'))                                        return `FCF ${sig.fcf_yield_pct?.toFixed(1)}% — se paga a sí misma`
-  if (fired.includes('Upside > 30%') || (sig.analyst_upside_pct ?? 0) > 30) return `${sig.analyst_upside_pct?.toFixed(0)}% de upside validado por analistas`
-  if (sig.risk_reward_ratio && sig.risk_reward_ratio >= 4)               return `R:R ${sig.risk_reward_ratio.toFixed(1)}x — riesgo asimétrico excepcional`
+  // Aquí había dos titulares que vendían la zona de trampa como virtud:
+  // «X% de upside validado por analistas» con upside >30 —el HARD REJECT, 0%
+  // de acierto en 55 señales reales— y «R:R 4x — riesgo asimétrico
+  // excepcional», que es upside ≥32%, todavía más adentro. `risk_reward_ratio`
+  // no es gestión del riesgo: el integrator lo calcula como
+  // `analyst_upside_pct / 8`. Mismo fallo que CatalystScreener ya corrigió.
+  const up = sig.analyst_upside_pct ?? null
+  if (up != null && up >= 10 && up < 25) return `${up.toFixed(0)}% de upside, dentro de la banda que funciona`
   return `${sig.signals_fired.slice(0, 2).join(' · ')}`
 }
 
@@ -182,7 +188,7 @@ function IdeasHoy({ signals, onVerDetalle }: { signals: EntrySignal[]; onVerDeta
                 {sig.risk_reward_ratio != null && (
                   <span className="text-mini">
                     <span className="text-muted-foreground">R:R</span>{' '}
-                    <strong className={sig.risk_reward_ratio >= 3 ? 'text-emerald-400' : 'text-foreground'}>{sig.risk_reward_ratio.toFixed(1)}x</strong>
+                    <strong className="text-foreground">{sig.risk_reward_ratio.toFixed(1)}x</strong>
                   </span>
                 )}
                 {sig.fcf_yield_pct != null && (

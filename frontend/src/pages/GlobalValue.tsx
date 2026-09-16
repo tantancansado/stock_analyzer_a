@@ -387,7 +387,7 @@ export default function GlobalValue() {
                     <Th k="sector" label="Sector" />
                     <Th k="analyst_upside_pct" label="Potencial" tooltip="Upside implícito según precio objetivo consenso analistas" />
                     <Th k="fcf_yield_pct" label="FCF%" tooltip="Free Cash Flow Yield = FCF / Market Cap" />
-                    <Th k="risk_reward_ratio" label="R:R" tooltip="Risk/Reward = upside / 8% stop loss" />
+                    <Th k="risk_reward_ratio" label="R:R" tooltip="Risk/Reward = upside del analista / stop estándar del 8%. Es el upside reescalado, no un factor propio: R:R 3 es upside 24%, ya fuera de la banda [10,25) que funciona." />
                     {!compact && <Th k="pe_forward" label="P/E fwd" />}
                     {!compact && <Th k="roe_pct" label="ROE%" />}
                     <Th k="pct_from_52w_high" label="vs Max" tooltip="Distancia al máximo de 52 semanas. Negativo = caído del máximo → posible oportunidad de entrada." />
@@ -447,8 +447,12 @@ export default function GlobalValue() {
                             ) : '—'}
                           </TableCell>
                           <TableCell>
+                            {/* Sin verde por R:R alto: R:R es `upside / 8`, así que
+                                R:R ≥3 es upside ≥24% — la banda pegada al HARD REJECT,
+                                la que peor rinde. Se pintaba de verde lo que la
+                                calibración desaconseja. */}
                             {row.risk_reward_ratio != null ? (
-                              <span className={`font-semibold text-cuerpo tabular-nums ${row.risk_reward_ratio >= 3 ? 'text-emerald-400' : row.risk_reward_ratio >= 2 ? 'text-foreground' : 'text-muted-foreground'}`}>
+                              <span className="font-semibold text-cuerpo tabular-nums text-foreground">
                                 {row.risk_reward_ratio.toFixed(1)}x
                               </span>
                             ) : '—'}

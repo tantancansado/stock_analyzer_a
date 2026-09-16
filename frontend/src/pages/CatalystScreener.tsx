@@ -372,8 +372,11 @@ export default function CatalystScreener() {
                       ) : '—'}
                     </TableCell>
                     <TableCell className="hidden lg:table-cell tabular-nums text-cuerpo">
+                      {/* El filtro «Upside en zona buena» de esta misma página ya
+                          explica que R:R ≥3 es upside ≥24% y que ahí el retorno se
+                          hunde. La columna seguía pintándolo de verde. */}
                       {d.risk_reward_ratio != null ? (
-                        <span className={d.risk_reward_ratio >= 3 ? 'text-emerald-400' : d.risk_reward_ratio >= 2 ? 'text-amber-400' : 'text-red-400'}>
+                        <span className="text-foreground">
                           {d.risk_reward_ratio.toFixed(1)}x
                         </span>
                       ) : '—'}
