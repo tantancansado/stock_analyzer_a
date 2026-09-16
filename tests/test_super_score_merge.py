@@ -151,3 +151,49 @@ def test_collision_coalesce_belt_and_braces():
     assert 'current_price_x' not in result.columns
     assert 'current_price_y' not in result.columns
     assert result.iloc[0]['current_price'] == 11.0
+
+
+def test_el_motivo_del_timing_no_afirma_una_pendiente_que_no_ha_mirado():
+    """«En caída (bajo MA200 descendente)» se emitía sin comprobar la pendiente.
+
+    `_compute_tech_stage` calculaba `ma200_trending_up` pero solo lo usaba en la
+    rama de «precio POR ENCIMA de la MA200». Debajo, todo era stage4, subiera o
+    bajara la media — y el motivo afirmaba «descendente».
+
+    CBOE el 16-sep-2026: cotizaba un 6% por debajo de una MA200 que subía un
+    1,6% en el mes y un 4,5% en el trimestre. El veredicto (ESPERAR) es el
+    mismo —el tracker midió esa banda con esta definición y no hay muestra para
+    separar los dos casos— pero lo que se le dice al usuario no puede ser falso:
+    una caída con la media girada a la baja y una corrección brusca dentro de
+    una tendencia intacta no son la misma situación.
+    """
+    from technical_filter import _entry_readiness
+
+    caida, motivo_caida = _entry_readiness('stage4', 'sideways', -10, False)
+    correc, motivo_correc = _entry_readiness('stage4_ma_alcista', 'sideways', -10, False)
+
+    assert caida == correc == 'ESPERAR', 'el veredicto no cambia: no hay muestra para separarlos'
+    assert 'descendente' in motivo_caida
+    assert 'descendente' not in motivo_correc, 'no se afirma una pendiente que aquí sube'
+    assert 'sigue subiendo' in motivo_correc
+
+
+def test_bajo_una_ma200_que_sube_no_se_clasifica_como_caida():
+    import numpy as np
+    import pandas as pd
+
+    from technical_filter import _compute_tech_stage
+
+    # Tendencia alcista larga y un desplome reciente: la MA200 sigue subiendo
+    # porque arrastra 200 sesiones, pero el precio ya está por debajo.
+    subida = np.linspace(100, 300, 240)
+    desplome = np.linspace(300, 195, 20)
+    close = pd.Series(np.concatenate([subida, desplome]))
+    precio = float(close.iloc[-1])
+    ma200_4sem = float(close.rolling(200).mean().iloc[-21])
+    ma200_hoy = float(close.rolling(200).mean().iloc[-1])
+    assert precio < ma200_hoy and ma200_hoy > ma200_4sem, 'el caso que se quiere probar'
+
+    etapa = _compute_tech_stage(close, precio, ma200_4sem,
+                                pct_from_52w_high=-35.0, pct_from_52w_low=60.0)
+    assert etapa == 'stage4_ma_alcista', etapa

@@ -190,7 +190,18 @@ def _compute_tech_stage(
         ma200_trending_up = (ma200 > ma200_4wk) if ma200_4wk is not None else False
 
         if not above_ma200:
-            return "stage1" if (pct_from_52w_low is not None and pct_from_52w_low < 15) else "stage4"
+            if pct_from_52w_low is not None and pct_from_52w_low < 15:
+                return "stage1"
+            # Bajo la MA200. Que la media SUBA o BAJE no cambia el veredicto
+            # —el tracker midió ESPERAR con esta definición y no hay muestra
+            # para separar los dos casos— pero sí cambia lo que se puede DECIR:
+            # el motivo afirmaba "bajo MA200 descendente" sin haber mirado
+            # nunca la pendiente. CBOE el 16-sep-2026 cotizaba un 6% por debajo
+            # de una MA200 que subía un 1,6% en el mes y un 4,5% en el
+            # trimestre, y la app le decía al usuario que estaba descendente.
+            # Son dos situaciones distintas: una caída con la media girada a la
+            # baja, y una corrección brusca dentro de una tendencia intacta.
+            return "stage4" if not ma200_trending_up else "stage4_ma_alcista"
 
         if not ma200_trending_up:
             return "stage1"
@@ -210,7 +221,7 @@ def _entry_readiness(tech_stage: str, trend: str, rs_6m: float | None,
     Motivación (tracker real): comprar el día que entra en el screen dio
     alpha -11.9% a 30d — cuchillos cayendo. La misma zona dorada a 90d da
     73% win: la tesis es buena, la entrada era mala. Esto separa ambas cosas:
-      ESPERAR  → sigue cayendo (stage 4 / bajo MAs descendentes)
+      ESPERAR  → sigue cayendo (stage 4, con o sin la MA200 girada)
       VIGILAR  → construyendo base o extendida — en el radar, aún no
       ENTRADA  → stage 2 Weinstein: suelo confirmado, tendencia a favor
 
@@ -222,6 +233,9 @@ def _entry_readiness(tech_stage: str, trend: str, rs_6m: float | None,
     dos motores en desacuerdo no hay suelo confirmado: hay desacuerdo.
     """
     rs_weak = rs_6m is not None and rs_6m < -25
+    if tech_stage == "stage4_ma_alcista":
+        return "ESPERAR", ("Ha perdido la MA200, aunque la media sigue subiendo — "
+                           "corrección dentro de tendencia, espera a que la recupere")
     if tech_stage == "stage4" or trend == "downtrend":
         return "ESPERAR", "En caída (bajo MA200 descendente) — espera a que haga suelo"
     if tech_stage == "stage2":
