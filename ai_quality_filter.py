@@ -897,6 +897,8 @@ def filter_opportunities(input_path: Path, strategy_name: str, score_field: str,
         check_fn = claude_data_check if usar_claude else groq_data_check
         print(f"\n🔎 {quien} data-check sobre {len(df_filtered)} picks filtrados (gate estricto)...")
         verificado_mask = []
+        rechazados: list[str] = []
+        no_evaluados: list[str] = []
         data_warnings = []
         for _, row in df_filtered.iterrows():
             # Aplanar lo que claude_data_check espera como claves simples:
@@ -945,6 +947,13 @@ def filter_opportunities(input_path: Path, strategy_name: str, score_field: str,
                 verdict_cache.guardar(row_d, ok, dc)
             else:
                 motivo = dc or f'{quien} no pudo verificar (sin saldo o fallo de API)'
+                # DOS motivos distintos de exclusión, y hay que poder contarlos
+                # por separado. «Rechazado porque el dato no cuadra» es el gate
+                # haciendo su trabajo; «no se pudo mirar» es una avería. Los dos
+                # dejaban al pick fuera con la misma cara, y MCO —score 83,1, el
+                # más alto de la lista— desapareció el 16-sep-2026 sin que nadie
+                # supiera cuál de los dos había sido.
+                (rechazados if dc else no_evaluados).append(row["ticker"])
                 print(f"  🚫 {row['ticker']}: excluido — {motivo[:90]}")
                 # Un veredicto REAL sí se guarda; un "no pude" no: congelarlo 30
                 # días dejaría el pick fuera sin que nadie volviera a mirarlo.
@@ -960,6 +969,13 @@ def filter_opportunities(input_path: Path, strategy_name: str, score_field: str,
         antes = len(df_filtered)
         df_filtered = df_filtered[df_filtered['ai_verified']].copy()
         print(f"   {len(df_filtered)}/{antes} pasan el gate de Claude")
+        if rechazados:
+            print(f"   🔍 {len(rechazados)} rechazados por el dato: {', '.join(rechazados[:8])}")
+        if no_evaluados:
+            print(f"   🔌 {len(no_evaluados)} NO EVALUADOS (sin saldo o fallo de API), "
+                  f"no rechazados: {', '.join(no_evaluados[:8])}")
+            print("      No es lo mismo: un rechazo es el gate funcionando, esto es una avería. "
+                  "Si se repite, mirar el saldo y la caché de veredictos.")
 
     print("\n" + "=" * 100)
     print("FILTERING RESULTS")

@@ -38,17 +38,54 @@ ESTADO = Path(__file__).parent / 'docs' / 'ai_verdicts_cache.json'
 # empresa hace algo que no se refleja en estas cifras.
 TTL_DIAS = 30
 
-# Los fundamentales solo se mueven con resultados: un decimal basta y evita que
-# el ruido de coma flotante invalide la caché.
-_CAMPOS_FUNDAMENTALES = ('roe', 'profit_margin', 'debt_to_equity',
-                         'rev_growth', 'fcf_yield_pct')
+# ── Cómo se agrupa cada campo ────────────────────────────────────────────────
+#
+# Medido sobre los 32 días de `docs/history` (1.488 pares ticker-día), el
+# acierto real de esta caché era del **16%**, no del 86% que decía el diseño.
+# Ese 86% contaba TICKERS que se repetían; lo que decide es que se repita la
+# HUELLA, y casi nunca se repetía.
+#
+# El culpable, campo a campo:
+#
+#     analyst_upside_pct   cambiaba de banda el 75% de los días
+#     pct_from_52w_high                       el 69%
+#     fcf_yield_pct                           el 39%
+#     current_price                           el 21%
+#     roe / margen / deuda                  el 0-1%   ← como estaba previsto
+#
+# El fallo estaba en aplicar una banda RELATIVA del 5% a magnitudes que ya son
+# porcentajes. Un 5% relativo sobre un precio de 267 son 13 puntos —el precio
+# casi nunca los cruza—, pero sobre un upside de 16,7 son 0,8 puntos, que los
+# cruza cualquier movimiento diario. Cuanto más pequeño el número, más sensible
+# la banda: exactamente al revés de lo que hace falta.
+#
+# Y no era solo dinero. La caché existe sobre todo para que el gate fail-closed
+# no vacíe la página cuando falla la API o se acaba el saldo: con un 16% de
+# acierto, el 84% de los picks no tenía veredicto al que caer. Por ahí se cayó
+# MCO el 16-sep-2026 —score 83,1, el más alto de la lista— que había pasado el
+# gate el día anterior.
+#
+# Con bandas ABSOLUTAS para los porcentajes el acierto sube al 55%. Los cortes
+# del upside caen además en 10/25/30, que son las fronteras que de verdad
+# significan algo (`value_bands`), así que un pick no puede cambiar de banda
+# dorada sin invalidar su veredicto.
 
-# El precio SÍ cambia a diario, pero la pregunta es si es plausible para la
-# empresa — y eso no cambia porque suba un 1%. Se redondea a bandas del 5%: la
-# caché sobrevive al goteo diario y se invalida ante un movimiento que sí
-# merece revisarse.
-_CAMPOS_EN_BANDAS = ('current_price', 'target_price_analyst',
-                     'analyst_upside_pct', 'pct_from_52w_high')
+# Bandas absolutas, en las unidades del propio campo (puntos porcentuales,
+# salvo deuda/capital que es un ratio).
+_CAMPOS_EN_BANDAS_ABSOLUTAS = {
+    'roe': 5.0,
+    'profit_margin': 5.0,
+    'debt_to_equity': 0.5,
+    'rev_growth': 5.0,
+    'fcf_yield_pct': 1.0,
+    'analyst_upside_pct': 5.0,
+    'pct_from_52w_high': 5.0,
+}
+
+# Precios: aquí sí, una banda relativa del 5%. Un precio no tiene escala
+# natural —hay acciones a 17 y a 2.800— y lo que importa es el movimiento
+# proporcional.
+_CAMPOS_EN_BANDAS = ('current_price', 'target_price_analyst')
 BANDA_PCT = 5.0
 
 
@@ -81,6 +118,20 @@ def _banda(v):
     return signo * math.floor(math.log(abs(f)) / math.log(1 + BANDA_PCT / 100))
 
 
+def _banda_absoluta(v, paso: float):
+    """Índice de la banda de ancho `paso` en las unidades del propio campo.
+
+    Un ROE del 26,3% y otro del 27,1% caen en la misma (paso 5), y el auditor
+    diría lo mismo de los dos. La banda RELATIVA que había antes los separaba,
+    porque un 5% de 26,3 es 1,3 puntos.
+    """
+    f = _num(v)
+    if f is None:
+        return None
+    import math
+    return int(math.floor(f / paso))
+
+
 def huella(ticker_data: dict) -> str:
     """Identidad del DATO auditado, no del ticker.
 
@@ -90,9 +141,9 @@ def huella(ticker_data: dict) -> str:
     """
     partes = [str(ticker_data.get('ticker', '')).upper().strip(),
               str(ticker_data.get('sector', '') or '').strip()]
-    for c in _CAMPOS_FUNDAMENTALES:
-        v = _num(ticker_data.get(c))
-        partes.append('n/d' if v is None else f'{v:.1f}')
+    for c, paso in _CAMPOS_EN_BANDAS_ABSOLUTAS.items():
+        v = _banda_absoluta(ticker_data.get(c), paso)
+        partes.append('n/d' if v is None else str(v))
     for c in _CAMPOS_EN_BANDAS:
         v = _banda(ticker_data.get(c))
         partes.append('n/d' if v is None else str(v))
