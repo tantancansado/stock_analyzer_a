@@ -32,6 +32,7 @@ FICHA_FIELDS = (
     'value_score', 'fundamental_score', 'piotroski_score',
     'analyst_upside_pct', 'target_price_dcf_upside_pct', 'target_price_pe_upside_pct',
     'upside_triangulated_pct', 'upside_divergence',
+    'modelos_dispersion_pts', 'modelos_acuerdo',
     'fcf_yield_pct', 'ebit_ev_yield', 'peg_ratio', 'dividend_yield_pct',
     'proximity_to_52w_high', 'relative_strength_6m',
     'entry_readiness', 'entry_readiness_reason', 'ma_filter_pass', 'ma_filter_reason',

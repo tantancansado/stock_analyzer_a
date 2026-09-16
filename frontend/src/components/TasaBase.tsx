@@ -1,4 +1,4 @@
-import { History, TriangleAlert } from 'lucide-react'
+import { History, LifeBuoy, TriangleAlert } from 'lucide-react'
 
 /**
  * Qué hizo ESTE valor las otras veces que estuvo ASÍ.
@@ -17,11 +17,14 @@ export interface TasaBaseProps {
   frase?: string | null
   n?: number | null
   bimodal?: boolean | null
+  /** Soporte real, con fecha e historial (soportes.py). */
+  soporte?: string | null
+  soporteAntiguo?: boolean | null
   /** Sin tarjeta, para meterla debajo de otra cosa. */
   plano?: boolean
 }
 
-export default function TasaBase({ frase, n, bimodal, plano }: TasaBaseProps) {
+export default function TasaBase({ frase, n, bimodal, soporte, soporteAntiguo, plano }: TasaBaseProps) {
   if (!frase) return null
 
   const pocaMuestra = n != null && n < 5
@@ -44,6 +47,12 @@ export default function TasaBase({ frase, n, bimodal, plano }: TasaBaseProps) {
           Sin casos intermedios: una orden a medio camino queda donde
           históricamente no ha pasado nada.
         </p>
+      )}
+      {soporte && (
+        <div className="mt-2.5 pt-2.5 border-t border-border/20 flex items-start gap-1.5">
+          <LifeBuoy size={12} className={`mt-0.5 shrink-0 ${soporteAntiguo ? 'text-amber-400' : 'text-muted-foreground'}`} />
+          <p className="text-mini text-muted-foreground leading-relaxed">{soporte}</p>
+        </div>
       )}
     </>
   )

@@ -93,7 +93,13 @@ def test_broken_currency_models_are_discarded():
     df = pd.DataFrame({
         'ticker': ['ATLKY', 'SANE'],
         'analyst_upside_pct': [22.5, 22.5],
-        'target_price_dcf_upside_pct': [569.9, 30.0],
+        # SANE llevaba DCF +30 y P/E −72,2, que se contradicen en el SIGNO —
+        # y desde el 16-sep-2026 eso anula la triangulación igual que la anula
+        # no tener ningún modelo válido (ver test_modelos_que_se_contradicen).
+        # Para seguir probando lo que este test quiere probar —que el vecino
+        # con los dos modelos EN RANGO se evalúa con normalidad— los dos
+        # apuntan ahora al mismo lado.
+        'target_price_dcf_upside_pct': [569.9, -10.0],
         'target_price_pe_upside_pct': [-72.2, -72.2],
     })
     out = add_upside_triangulation(df).set_index('ticker')
@@ -101,10 +107,10 @@ def test_broken_currency_models_are_discarded():
     # El DCF delira → se invalidan ambos modelos, no queda veredicto
     assert out.loc['ATLKY', 'upside_divergence'] == ''
     assert pd.isna(out.loc['ATLKY', 'upside_triangulated_pct'])
-    # El de al lado tiene los dos modelos en rango: se evalúa con normalidad
-    # (analista 22.5 vs mediana propia -21.1 → gap 43.6)
+    # El de al lado tiene los dos modelos en rango y de acuerdo en el signo:
+    # se evalúa con normalidad (analista 22.5 vs mediana propia -41.1)
     assert out.loc['SANE', 'upside_divergence'] == 'ALTA'
-    assert out.loc['SANE', 'upside_triangulated_pct'] == 22.5
+    assert out.loc['SANE', 'upside_triangulated_pct'] == -10.0
 
 
 def test_entry_readiness_classifier():

@@ -157,6 +157,12 @@ export interface ValueOpportunity {
   upside_triangulated_pct?: number | null
   upside_divergence_pts?: number | null
   upside_divergence?: 'ALTA' | 'MEDIA' | ''
+  target_price_dcf_upside_pct?: number | null
+  target_price_pe_upside_pct?: number | null
+  /** |DCF − P/E|: cuánto se separan los modelos propios ENTRE ELLOS. */
+  modelos_dispersion_pts?: number | null
+  /** CONTRADICEN = uno la ve barata y el otro cara: no hay valoración propia. */
+  modelos_acuerdo?: 'CONTRADICEN' | 'DISPERSOS' | 'COHERENTES' | ''
   // Timing de entrada (technical_filter._entry_readiness)
   entry_readiness?: 'ESPERAR' | 'VIGILAR' | 'ENTRADA'
   entry_readiness_reason?: string
@@ -167,6 +173,15 @@ export interface ValueOpportunity {
   tasa_base_caida_peor_pct?: number | null
   tasa_base_arriba_pct?: number | null
   tasa_base_bimodal?: boolean | null
+  // Soporte con FECHA e historial de si aguantó (soportes.py). Un nodo de
+  // volumen no dice cuándo se formó ni si defendió el nivel al ponerse a prueba.
+  soporte_frase?: string | null
+  soporte_nivel?: number | null
+  soporte_distancia_pct?: number | null
+  soporte_dias?: number | null
+  soporte_aguanto?: number | null
+  soporte_roto?: number | null
+  soporte_antiguo?: boolean | null
   tech_stage?: string
   relative_strength_6m?: number | null
   // Por qué está barata (why_cheap_analyzer): lo genera Claude con búsqueda web
@@ -474,6 +489,7 @@ export const VALUE_NUMERIC = new Set([
   'upside_triangulated_pct','upside_divergence_pts','relative_strength_6m',
   // Tasa base (tasa_base.py). Sin esto llegarían como cadena y `n < 5` compararía texto.
   'tasa_base_n','tasa_base_caida_mediana_pct','tasa_base_caida_peor_pct','tasa_base_arriba_pct',
+  'modelos_dispersion_pts',
 ])
 
 const VALUE_BOOLEAN = new Set([

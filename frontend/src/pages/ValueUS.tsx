@@ -1016,7 +1016,18 @@ export default function ValueUS() {
                         {d.analyst_upside_pct > 0 ? '+' : ''}{d.analyst_upside_pct.toFixed(0)}%
                       </span>
                     )}
-                    {(d.upside_divergence === 'ALTA' || d.upside_divergence === 'MEDIA') && (
+                    {/* Dos avisos distintos, y el orden importa: si tus propios
+                        modelos se contradicen ENTRE ELLOS, no hay con qué
+                        contrastar el target del analista, así que ese aviso
+                        manda sobre el de divergencia. */}
+                    {d.modelos_acuerdo === 'CONTRADICEN' ? (
+                      <span
+                        className="ml-1 text-micro font-bold text-red-400"
+                        title={`Tus dos modelos se contradicen: el DCF dice ${(d.target_price_dcf_upside_pct ?? 0) > 0 ? 'barata' : 'cara'} (${d.target_price_dcf_upside_pct?.toFixed(0) ?? '?'}%) y el P/E lo contrario (${d.target_price_pe_upside_pct?.toFixed(0) ?? '?'}%). No hay valoración propia que respalde ni desmienta el target del analista — por eso no se publica un upside triangulado.`}
+                      >
+                        ⇅
+                      </span>
+                    ) : (d.upside_divergence === 'ALTA' || d.upside_divergence === 'MEDIA') && (
                       <span
                         className={`ml-1 text-micro font-bold ${d.upside_divergence === 'ALTA' ? 'text-red-400' : 'text-amber-400'}`}
                         title={`Los modelos propios (DCF/P-E) no respaldan el target de analistas — se separan ${d.upside_divergence_pts?.toFixed(0) ?? '?'}pts. Upside triangulado (mediana de las 3 estimaciones): ${d.upside_triangulated_pct != null ? `${d.upside_triangulated_pct > 0 ? '+' : ''}${d.upside_triangulated_pct.toFixed(0)}%` : 'n/d'}`}

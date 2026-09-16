@@ -460,6 +460,8 @@ export default function ThesisModal({ row, thesisText, onClose, currency = '$' }
                   frase={row.tasa_base_frase}
                   n={row.tasa_base_n}
                   bimodal={row.tasa_base_bimodal}
+                  soporte={row.soporte_frase}
+                  soporteAntiguo={row.soporte_antiguo}
                 />
 
                 {/* Conviction */}

@@ -244,6 +244,27 @@ def _rule_verdict(row: pd.Series, regime: str) -> dict:
         if tb_bimodal and tb_peor is not None:
             blockers.append(f'sin término medio histórico: o para aquí o se va a {tb_peor:.0f}%')
 
+    # ── ¿Se ponen de acuerdo los modelos propios entre ellos? ──────────
+    # Distinto de `upside_divergence`, que solo mira analista-contra-modelos.
+    # Cuando el DCF dice BARATA y el P/E dice CARA no hay valoración en la que
+    # apoyarse: el "upside triangulado" que se publicaba en esos casos era, 14
+    # de 20 veces, el número del analista clavado. Ver upside_triangulation.
+    acuerdo = str(row.get('modelos_acuerdo') or '').strip()
+    disp = _safe_float(row.get('modelos_dispersion_pts'))
+    sop_dist = _safe_float(row.get('soporte_distancia_pct'))
+    sop_antiguo = str(row.get('soporte_antiguo') or '').strip().lower() in ('true', '1')
+    sop_roto = _safe_float(row.get('soporte_roto'))
+    sop_aguanto = _safe_float(row.get('soporte_aguanto'))
+    if sop_dist is not None and sop_dist > -2.0 and not sop_antiguo:
+        reasons.append(f'apoyado en soporte vivo a {abs(sop_dist):.1f}%')
+    if sop_roto is not None and sop_aguanto is not None and sop_roto > sop_aguanto:
+        blockers.append('su soporte más cercano se rompe más veces de las que aguanta')
+
+    if acuerdo == 'CONTRADICEN':
+        blockers.append('tus modelos se contradicen (uno la ve barata y el otro cara)')
+    elif acuerdo == 'DISPERSOS' and disp is not None:
+        blockers.append(f'DCF y P/E se separan {disp:.0f} pts: valoración poco firme')
+
     # ── Technical warnings (not dealbreakers) ──────────────────────────
     if ma_passes is False:
         blockers.append('por debajo de MAs')
@@ -349,6 +370,8 @@ CONTEXTO:
 - Timing técnico: {row.get('entry_readiness') or row.get('tech_stage') or '?'}
 - RS percentile: {_safe_float(row.get('rs_line_percentile'))}
 - Upside analistas: {_safe_float(row.get('analyst_upside_pct'))}%
+- Tus dos modelos propios: DCF {_safe_float(row.get('target_price_dcf_upside_pct'))}% · P/E {_safe_float(row.get('target_price_pe_upside_pct'))}% → {row.get('modelos_acuerdo') or 'sin ambos modelos'}
+  (si CONTRADICEN, uno la ve barata y el otro cara: no hay valoración propia en la que apoyarse y el upside del analista no queda respaldado por nada)
 - FCF yield: {_safe_float(row.get('fcf_yield_pct'))}%
 - ROE: {health.get('roe_pct','?')}%
 - Margen operativo: {health.get('operating_margin_pct','?')}%
@@ -359,6 +382,11 @@ CONTEXTO:
 QUÉ PASÓ LAS OTRAS VECES QUE ESTE VALOR ESTUVO ASÍ (tasa base propia, calculada
 sobre 10 años de su precio — no es una predicción, es cómo se ha repartido):
   {row.get('tasa_base_frase') or 'sin histórico suficiente para comparar'}
+
+SOPORTE REAL (con fecha e historial de si aguantó, no solo «hay volumen ahí»):
+  {row.get('soporte_frase') or 'sin soportes identificables'}
+  Un nivel «sin visitar desde hace N meses» es de un rango viejo: no sirve para
+  poner una orden. Uno que se ha roto más veces de las que ha aguantado tampoco.
 
 Úsalo así: si la muestra es pequeña (n<5) dilo y no te apoyes en ella. Si dice
 que no hay término medio —o para cerca de aquí o se desploma— eso NO es un
@@ -372,7 +400,7 @@ Blockers: {'; '.join(rule_verdict['blockers']) or '-'}
 Devuelve SOLO JSON con:
 - verdict: ENTRY | WAIT | AVOID
 - confidence: 0-100
-- trigger: una frase concreta en español con la CONDICIÓN que convertiría esto en ENTRY (ej: "Entra si cierra sobre MA50 con volumen tras earnings"). Si la tasa base dice que no hay término medio, el trigger tiene que nombrar el nivel — no un porcentaje a ojo.
+- trigger: una frase concreta en español con la CONDICIÓN que convertiría esto en ENTRY (ej: "Entra si cierra sobre MA50 con volumen tras earnings"). Si la tasa base dice que no hay término medio, el trigger tiene que nombrar el nivel — y ese nivel sale del SOPORTE REAL de arriba, no de un porcentaje a ojo ni de un nodo de volumen antiguo.
 
 JSON:"""
 

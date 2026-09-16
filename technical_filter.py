@@ -50,6 +50,8 @@ TECH_COLS = [
     "entry_readiness", "entry_readiness_reason",
     "tasa_base_frase", "tasa_base_n", "tasa_base_caida_mediana_pct",
     "tasa_base_caida_peor_pct", "tasa_base_arriba_pct", "tasa_base_bimodal",
+    "soporte_frase", "soporte_nivel", "soporte_distancia_pct", "soporte_dias",
+    "soporte_aguanto", "soporte_roto", "soporte_antiguo",
 ]
 
 
@@ -274,6 +276,13 @@ def compute_technical_signals(ticker: str, spy_6m_return: float) -> dict:
         "tasa_base_caida_peor_pct": None,
         "tasa_base_arriba_pct": None,
         "tasa_base_bimodal": None,
+        "soporte_frase": None,
+        "soporte_nivel": None,
+        "soporte_distancia_pct": None,
+        "soporte_dias": None,
+        "soporte_aguanto": None,
+        "soporte_roto": None,
+        "soporte_antiguo": None,
         "computed_at": _now_utc(),
         "error": None,
     }
@@ -327,6 +336,25 @@ def compute_technical_signals(ticker: str, spy_6m_return: float) -> dict:
         # No se traga el fallo en silencio: sin tasa base los campos quedan a
         # None y el motivo se ve en el log.
         log.warning("tasa base falló para %s: %s", ticker, exc)
+
+    # Soportes CON FECHA. Un nodo de volumen no dice cuándo se formó, ni si
+    # aguantó cuando se puso a prueba — y esas dos cosas separan un suelo de
+    # una marca en el gráfico. Ver soportes.py.
+    try:
+        import soportes as _sop
+        niveles = _sop.soportes(df, price)
+        base["soporte_frase"] = _sop.frase(niveles)
+        vivos = [n for n in niveles if not n["antiguo"] and n["veces_aguanto"] > 0]
+        elegido = vivos[0] if vivos else (niveles[0] if niveles else None)
+        if elegido:
+            base["soporte_nivel"] = elegido["nivel"]
+            base["soporte_distancia_pct"] = elegido["distancia_pct"]
+            base["soporte_dias"] = elegido["dias_desde_prueba"]
+            base["soporte_aguanto"] = elegido["veces_aguanto"]
+            base["soporte_roto"] = elegido["veces_roto"]
+            base["soporte_antiguo"] = elegido["antiguo"]
+    except Exception as exc:
+        log.warning("soportes falló para %s: %s", ticker, exc)
     base["entry_readiness"], base["entry_readiness_reason"] = _entry_readiness(
         base["tech_stage"], base["trend_direction"], base["relative_strength_6m"],
         base["is_stage2"])

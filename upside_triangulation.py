@@ -19,6 +19,12 @@ import pandas as pd
 # convertir en ADR), no una valoración: se descarta al triangular.
 MODEL_UPSIDE_SANE_MAX = 200.0
 
+# Dos modelos del MISMO signo pero muy separados siguen siendo una valoración
+# floja. 45 puntos es el percentil 75 de |DCF − P/E| entre las filas que sí
+# coinciden en signo (63 filas, 16-sep-2026) — o sea, el cuarto peor. No hay
+# calibración de rendimiento detrás: es un aviso al usuario, no un filtro.
+DISPERSION_ALTA_PTS = 45.0
+
 
 def add_upside_triangulation(df: pd.DataFrame) -> pd.DataFrame:
     """Triangula el upside de analistas con los modelos propios (DCF y P/E).
@@ -28,6 +34,8 @@ def add_upside_triangulation(df: pd.DataFrame) -> pd.DataFrame:
     propio -38%, P/E -48%) y nada lo reconciliaba. Columnas nuevas:
       upside_triangulated_pct — mediana de las tres estimaciones disponibles
       upside_divergence_pts   — analistas menos la mediana de DCF/P/E
+      modelos_dispersion_pts  — |DCF − P/E|: cuánto se separan ENTRE ELLOS
+      modelos_acuerdo         — CONTRADICEN / DISPERSOS / COHERENTES
       upside_divergence       — ALTA (>=40pts) / MEDIA (>=20) / '' — cuánto
                                 se separa el sell-side de tus propios modelos
 
@@ -56,8 +64,38 @@ def add_upside_triangulation(df: pd.DataFrame) -> pd.DataFrame:
         print(f"   ⚠️  Modelos propios fuera de rango (divisa rota?) — sin triangular: {_bt[:12]}")
     _dcf = _dcf.where(~_broken)
     _pe  = _pe.where(~_broken)
+    # ── ¿Se ponen de acuerdo los modelos ENTRE ELLOS? ────────────────────────
+    # La divergencia de abajo solo mira analista-contra-modelos. El desacuerdo
+    # de los modelos entre sí no lo miraba nadie, y es la mitad del universo:
+    # medido sobre las 63 filas con ambos modelos el 16-sep-2026, la mediana de
+    # |DCF − P/E| es de 38,8 puntos de upside, y en el 32% de los casos uno dice
+    # BARATA y el otro CARA.
+    #
+    # Ahí la "triangulación" es una ficción. Cuando el analista cae entre los
+    # dos modelos —que es lo que pasa cuando se contradicen— la mediana de tres
+    # ES el analista: ocurría en 14 de esas 20 filas. La columna se llama
+    # `upside_triangulated_pct` y en esos casos no aporta ni un dato más que
+    # `analyst_upside_pct`. EQIX: DCF +54,3% y P/E −55,1%, triangulado 22,5 =
+    # el analista clavado.
+    #
+    # El corte no es un umbral inventado: es el signo. No existe un valor
+    # verdadero entre "un 50% barata" y "un 45% cara" — son dos respuestas a la
+    # misma pregunta, no dos medidas del mismo número. La línea de abajo ya
+    # aplicaba exactamente este razonamiento al caso de CERO modelos válidos;
+    # dos modelos que se contradicen son, para esto, lo mismo.
+    _disp = (_dcf - _pe).abs()
+    df['modelos_dispersion_pts'] = _disp.round(1)
+    _contradicen = (np.sign(_dcf) != np.sign(_pe)) & _dcf.notna() & _pe.notna()
+    _dispersos = (~_contradicen) & (_disp > DISPERSION_ALTA_PTS)
+    df['modelos_acuerdo'] = np.select(
+        [_contradicen, _dispersos, _dcf.notna() & _pe.notna()],
+        ['CONTRADICEN', 'DISPERSOS', 'COHERENTES'], default='')
+
     df['upside_triangulated_pct'] = pd.concat([_an, _dcf, _pe], axis=1).median(axis=1, skipna=True).round(1)
     own = pd.concat([_dcf, _pe], axis=1).median(axis=1, skipna=True)
+    # Si se contradicen en el signo, su mediana no estima nada: se anula igual
+    # que cuando no hay ningún modelo válido.
+    own = own.where(~_contradicen)
     # Sin ningún modelo propio válido no hay triangulación: dejarlo en NaN en vez
     # de devolver el upside del analista disfrazado de mediana de tres fuentes.
     df.loc[own.isna(), 'upside_triangulated_pct'] = np.nan
