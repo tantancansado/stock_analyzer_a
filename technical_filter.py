@@ -48,6 +48,8 @@ TECH_COLS = [
     "pct_from_52w_high", "pct_from_52w_low", "relative_strength_6m",
     "trend_direction", "tech_stage",
     "entry_readiness", "entry_readiness_reason",
+    "tasa_base_frase", "tasa_base_n", "tasa_base_caida_mediana_pct",
+    "tasa_base_caida_peor_pct", "tasa_base_arriba_pct", "tasa_base_bimodal",
 ]
 
 
@@ -266,11 +268,21 @@ def compute_technical_signals(ticker: str, spy_6m_return: float) -> dict:
         "tech_stage": "unknown",
         "entry_readiness": None,
         "entry_readiness_reason": None,
+        "tasa_base_frase": None,
+        "tasa_base_n": None,
+        "tasa_base_caida_mediana_pct": None,
+        "tasa_base_caida_peor_pct": None,
+        "tasa_base_arriba_pct": None,
+        "tasa_base_bimodal": None,
         "computed_at": _now_utc(),
         "error": None,
     }
 
-    df = _fetch_history(ticker, period="1y")
+    # 10 años, no 1: la tasa base necesita episodios anteriores y el resto de
+    # cálculos usa ventanas fijas (`.iloc[-252:]`, `.rolling(...)`), así que
+    # ninguno cambia de valor. Es la misma petición a yfinance con más filas —
+    # no son más llamadas, que es lo que hace saltar el rate-limit.
+    df = _fetch_history(ticker, period="10y")
     if df is None:
         base["error"] = "no_data"
         return base
@@ -298,6 +310,23 @@ def compute_technical_signals(ticker: str, spy_6m_return: float) -> dict:
     base["relative_strength_6m"] = _compute_rs(close, price, spy_6m_return)
     base["trend_direction"] = _compute_trend(close, price)
     base["tech_stage"] = _compute_tech_stage(close, price, ma200_4wk, pct_hi, pct_lo)
+
+    # Qué hizo ESTE valor las otras veces que estuvo ASÍ. Todo lo demás de este
+    # fichero calcula un ESTADO; esto es lo único que mira el DESENLACE. Ver
+    # tasa_base.py para por qué faltaba.
+    try:
+        import tasa_base as _tb
+        t = _tb.tasa_base(close)
+        base["tasa_base_frase"] = t.get("frase")
+        base["tasa_base_n"] = t.get("n")
+        base["tasa_base_caida_mediana_pct"] = t.get("caida_extra_mediana_pct")
+        base["tasa_base_caida_peor_pct"] = t.get("caida_extra_peor_pct")
+        base["tasa_base_arriba_pct"] = t.get("pct_arriba_al_horizonte")
+        base["tasa_base_bimodal"] = t.get("bimodal")
+    except Exception as exc:
+        # No se traga el fallo en silencio: sin tasa base los campos quedan a
+        # None y el motivo se ve en el log.
+        log.warning("tasa base falló para %s: %s", ticker, exc)
     base["entry_readiness"], base["entry_readiness_reason"] = _entry_readiness(
         base["tech_stage"], base["trend_direction"], base["relative_strength_6m"],
         base["is_stage2"])

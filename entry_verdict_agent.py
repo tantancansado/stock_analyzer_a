@@ -227,6 +227,23 @@ def _rule_verdict(row: pd.Series, regime: str) -> dict:
     if target_chg_7d is not None and target_chg_7d >= 1:
         reasons.append(f'analistas subiendo target (+{target_chg_7d:.1f}% 7d)')
 
+    # ── Lo que pasó las otras veces que estuvo así ─────────────────────
+    # Todo lo de arriba describe un ESTADO. Esto es lo único que dice qué pasó
+    # DESPUÉS, y va como razón o como aviso según lo que diga, no siempre en la
+    # misma columna. Ver tasa_base.py.
+    tb_n = _safe_float(row.get('tasa_base_n'))
+    tb_frase = str(row.get('tasa_base_frase') or '').strip()
+    tb_arriba = _safe_float(row.get('tasa_base_arriba_pct'))
+    tb_peor = _safe_float(row.get('tasa_base_caida_peor_pct'))
+    tb_bimodal = str(row.get('tasa_base_bimodal') or '').strip().lower() in ('true', '1', 'sí', 'si')
+    if tb_n and tb_n >= 5 and tb_arriba is not None:
+        if tb_arriba >= 70:
+            reasons.append(f'{tb_arriba:.0f}% de sus {tb_n:.0f} episodios iguales acabaron arriba')
+        elif tb_arriba <= 40:
+            blockers.append(f'solo {tb_arriba:.0f}% de sus {tb_n:.0f} episodios iguales acabó arriba')
+        if tb_bimodal and tb_peor is not None:
+            blockers.append(f'sin término medio histórico: o para aquí o se va a {tb_peor:.0f}%')
+
     # ── Technical warnings (not dealbreakers) ──────────────────────────
     if ma_passes is False:
         blockers.append('por debajo de MAs')
@@ -339,6 +356,15 @@ CONTEXTO:
 - Días a earnings: {_safe_float(row.get('days_to_earnings'))}
 - Target change 7d: {_safe_float(row.get('target_change_7d_pct'))}%
 
+QUÉ PASÓ LAS OTRAS VECES QUE ESTE VALOR ESTUVO ASÍ (tasa base propia, calculada
+sobre 10 años de su precio — no es una predicción, es cómo se ha repartido):
+  {row.get('tasa_base_frase') or 'sin histórico suficiente para comparar'}
+
+Úsalo así: si la muestra es pequeña (n<5) dilo y no te apoyes en ella. Si dice
+que no hay término medio —o para cerca de aquí o se desploma— eso NO es un
+argumento para entrar ni para no entrar: es un argumento para no poner la orden
+a medio camino, y el `trigger` debe reflejarlo con un nivel concreto.
+
 Veredicto reglas: {rule_verdict['verdict']} (conf {rule_verdict['confidence']})
 Razones: {'; '.join(rule_verdict['reasons']) or '-'}
 Blockers: {'; '.join(rule_verdict['blockers']) or '-'}
@@ -346,7 +372,7 @@ Blockers: {'; '.join(rule_verdict['blockers']) or '-'}
 Devuelve SOLO JSON con:
 - verdict: ENTRY | WAIT | AVOID
 - confidence: 0-100
-- trigger: una frase concreta en español con la CONDICIÓN que convertiría esto en ENTRY (ej: "Entra si cierra sobre MA50 con volumen tras earnings")
+- trigger: una frase concreta en español con la CONDICIÓN que convertiría esto en ENTRY (ej: "Entra si cierra sobre MA50 con volumen tras earnings"). Si la tasa base dice que no hay término medio, el trigger tiene que nombrar el nivel — no un porcentaje a ojo.
 
 JSON:"""
 

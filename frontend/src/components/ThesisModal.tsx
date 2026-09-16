@@ -11,6 +11,7 @@ import type { ValueOpportunity, TechnicalSignal } from '../api/client'
 import { useTechnicalSignals } from '../hooks/useTechnicalSignals'
 import CapaModal from './CapaModal'
 import { colorUpside } from '../lib/bandasUpside'
+import TasaBase from './TasaBase'
 
 // ── Technical signals panel ───────────────────────────────────────────────────
 
@@ -453,6 +454,13 @@ export default function ThesisModal({ row, thesisText, onClose, currency = '$' }
 
                 {/* Technical Signals */}
                 <TechnicalPanel ticker={row.ticker} />
+
+                {/* Qué hizo las otras veces que estuvo así */}
+                <TasaBase
+                  frase={row.tasa_base_frase}
+                  n={row.tasa_base_n}
+                  bimodal={row.tasa_base_bimodal}
+                />
 
                 {/* Conviction */}
                 <ConvictionPanel row={row} />

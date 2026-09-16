@@ -160,6 +160,13 @@ export interface ValueOpportunity {
   // Timing de entrada (technical_filter._entry_readiness)
   entry_readiness?: 'ESPERAR' | 'VIGILAR' | 'ENTRADA'
   entry_readiness_reason?: string
+  // Tasa base: qué hizo este valor las otras veces que estuvo así (tasa_base.py)
+  tasa_base_frase?: string | null
+  tasa_base_n?: number | null
+  tasa_base_caida_mediana_pct?: number | null
+  tasa_base_caida_peor_pct?: number | null
+  tasa_base_arriba_pct?: number | null
+  tasa_base_bimodal?: boolean | null
   tech_stage?: string
   relative_strength_6m?: number | null
   // Por qué está barata (why_cheap_analyzer): lo genera Claude con búsqueda web
@@ -465,11 +472,14 @@ export const VALUE_NUMERIC = new Set([
   'hv_30d','atm_iv','iv_ratio','iv_premium_pts',
   'ml_win_probability','ml_score',
   'upside_triangulated_pct','upside_divergence_pts','relative_strength_6m',
+  // Tasa base (tasa_base.py). Sin esto llegarían como cadena y `n < 5` compararía texto.
+  'tasa_base_n','tasa_base_caida_mediana_pct','tasa_base_caida_peor_pct','tasa_base_arriba_pct',
 ])
 
 const VALUE_BOOLEAN = new Set([
   'buyback_active','earnings_warning','earnings_catalyst','trend_template_pass',
   'eps_accelerating','rev_accelerating','rs_line_at_new_high','short_squeeze_potential',
+  'tasa_base_bimodal',
 ])
 
 export function parseValueRows(text: string): ValueOpportunity[] {
