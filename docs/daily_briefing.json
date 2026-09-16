@@ -1,144 +1,44 @@
 {
-  "fecha": "2026-09-15",
-  "texto": "<b>Hoy hay tres compras claras en zona de entrada.</b>\n\n<b>Nordson (NDSN)</b> a 308: cae un 9% desde máximos, analistas le ven un 13% de recorrido y genera caja de sobra (yield 3,6%). Es la más limpia de las tres.\n\n<b>Occidental (OXY)</b> a 62: cae un 8% desde máximos. Los analistas solo ven un 9% de subida pero el cálculo cruzado dispara eso a un 64%, algo llamativo — entra, pero no le pongas todo el peso hasta ver si se confirma.\n\n<b>Nucor (NUE)</b> a 254: 11% de upside y fuerza relativa muy sólida (+43% en 6 meses), aunque genera poca caja libre (1,2%).\n\nPara vigilar, sin entrar todavía: <b>SPGI</b> sigue barata (24% de recorrido) tras el susto de febrero por un beneficio algo flojo con ingresos fuertes — caída explicada y sin gravedad, toca esperar el momento. <b>CBOE</b> también aguanta con un 11% de upside, aunque no hay explicación clara de por qué cae.\n\nCuidado con <b>Intuit</b> y <b>Costco</b>: caen fuerte (-52% y -16% desde máximos) y los analistas les ven mucho recorrido, pero el cálculo cruzado apenas ve un 3% en Intuit y sale negativo en Costco. Barato todavía no es comprable — huele a trampa de valor. <b>Broadridge</b> tiene el mismo aviso, más suave: analistas ven 22%, el cruce solo 9%.\n\nEl sistema acierta un 61,5% con ganancia media del 3,15%, pero es una cifra provisional a 90 días, sin histórico suficiente todavía para el veredicto real a 180. Dimensiona las posiciones con esa cautela en mente.\n\n🟡 Claude: $9.86 de $10 (99%) · lo que más gasta: ai_quality_filter ($3.07)",
-  "hechos": {
-    "fecha": "2026-09-15",
-    "total_lista": 49,
-    "datos_incompletos": [],
-    "comprables": [
-      {
-        "ticker": "NDSN",
-        "empresa": "Nordson Corporation",
-        "score": 60.00999999999999,
-        "precio": 308.31,
-        "upside_analista": 13.4,
-        "upside_triangulado": 13.4,
-        "divergencia": "",
-        "fcf_yield": 3.57,
-        "del_maximo_pct": -9.1,
-        "rs_6m": 1.43,
-        "timing": "ENTRADA",
-        "por_que_cae": "",
-        "por_que_cae_detalle": ""
-      },
-      {
-        "ticker": "OXY",
-        "empresa": "Occidental Petroleum Corporati",
-        "score": 48.16,
-        "precio": 61.78,
-        "upside_analista": 9.4,
-        "upside_triangulado": 64.6,
-        "divergencia": "",
-        "fcf_yield": 6.13,
-        "del_maximo_pct": -8.4,
-        "rs_6m": -5.42,
-        "timing": "ENTRADA",
-        "por_que_cae": "",
-        "por_que_cae_detalle": ""
-      },
-      {
-        "ticker": "NUE",
-        "empresa": "Nucor Corporation",
-        "score": 34.12,
-        "precio": 254.63,
-        "upside_analista": 11.4,
-        "upside_triangulado": 11.4,
-        "divergencia": "",
-        "fcf_yield": 1.18,
-        "del_maximo_pct": -9.1,
-        "rs_6m": 43.05,
-        "timing": "ENTRADA",
-        "por_que_cae": "",
-        "por_que_cae_detalle": ""
-      }
-    ],
-    "vigilar": [
-      {
-        "ticker": "INTU",
-        "empresa": "Intuit Inc.",
-        "score": 67.525,
-        "precio": 339.15,
-        "upside_analista": 19.6,
-        "upside_triangulado": 3.2,
-        "divergencia": "ALTA",
-        "fcf_yield": 7.01,
-        "del_maximo_pct": -51.9,
-        "rs_6m": -38.79,
-        "timing": "ESPERAR",
-        "por_que_cae": "",
-        "por_que_cae_detalle": ""
-      },
-      {
-        "ticker": "COST",
-        "empresa": "Costco Wholesale Corporation",
-        "score": 54.48,
-        "precio": 918.91,
-        "upside_analista": 16.7,
-        "upside_triangulado": -27.6,
-        "divergencia": "ALTA",
-        "fcf_yield": 1.71,
-        "del_maximo_pct": -16.2,
-        "rs_6m": -22.32,
-        "timing": "ESPERAR",
-        "por_que_cae": "",
-        "por_que_cae_detalle": ""
-      },
-      {
-        "ticker": "CBOE",
-        "empresa": "Cboe Global Markets, Inc.",
-        "score": 67.955,
-        "precio": 284.5,
-        "upside_analista": 10.9,
-        "upside_triangulado": 10.9,
-        "divergencia": "",
-        "fcf_yield": 2.28,
-        "del_maximo_pct": -23.4,
-        "rs_6m": -16.35,
-        "timing": "ESPERAR",
-        "por_que_cae": "SIN_DATOS",
-        "por_que_cae_detalle": ""
-      },
-      {
-        "ticker": "BR",
-        "empresa": "Broadridge Financial Solutions",
-        "score": 79.61,
-        "precio": 174.39,
-        "upside_analista": 22.4,
-        "upside_triangulado": 9.3,
-        "divergencia": "ALTA",
-        "fcf_yield": 5.92,
-        "del_maximo_pct": -31.2,
-        "rs_6m": -15.42,
-        "timing": "VIGILAR",
-        "por_que_cae": "SIN_DATOS",
-        "por_que_cae_detalle": ""
-      },
-      {
-        "ticker": "SPGI",
-        "empresa": "S&P Global Inc.",
-        "score": 50.92,
-        "precio": 418.54,
-        "upside_analista": 24.3,
-        "upside_triangulado": 18.3,
-        "divergencia": "MEDIA",
-        "fcf_yield": 4.42,
-        "del_maximo_pct": -19.9,
-        "rs_6m": -10.15,
-        "timing": "ESPERAR",
-        "por_que_cae": "SENTIMIENTO",
-        "por_que_cae_detalle": "En febrero de 2026 SPGI cayó ~10% tras publicar resultados del Q4 2025 con un BPA ajustado apenas por debajo del consenso, mientras los ingresos superaron expectativas (+9% interan"
-      }
-    ],
-    "tesis_rotas": [],
-    "rotas_son_tuyas": true,
-    "regimen_cambio": null,
-    "rendimiento_sistema": {
-      "horizonte": "90d",
-      "es_horizonte_definitivo": false,
-      "nota": "A 180 días aún no hay muestra (la señal más antigua es de feb-2026); este 90d es provisional, no el veredicto",
-      "acierto_pct": 61.5,
-      "retorno_medio": 3.15,
-      "n": 39
+  "date": "2026-09-16",
+  "timestamp": "2026-09-16T05:35:27.521272",
+  "narrative": "",
+  "macro_regime": "CALM",
+  "picks_count": 8,
+  "top_picks": [
+    {
+      "ticker": "BR",
+      "sector": "Technology",
+      "value_score": 82.41,
+      "analyst_upside_pct": 25.3,
+      "conviction_grade": null
+    },
+    {
+      "ticker": "INTU",
+      "sector": "Technology",
+      "value_score": 74.775,
+      "analyst_upside_pct": 23.2,
+      "conviction_grade": null
+    },
+    {
+      "ticker": "CBOE",
+      "sector": "Financial Services",
+      "value_score": 66.755,
+      "analyst_upside_pct": 16.7,
+      "conviction_grade": null
+    },
+    {
+      "ticker": "FHN",
+      "sector": "Financial Services",
+      "value_score": 60.525000000000006,
+      "analyst_upside_pct": 15.2,
+      "conviction_grade": null
+    },
+    {
+      "ticker": "AXP",
+      "sector": "Financial Services",
+      "value_score": 57.80500000000001,
+      "analyst_upside_pct": 15.9,
+      "conviction_grade": null
     }
-  }
+  ]
 }
