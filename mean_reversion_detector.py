@@ -73,6 +73,35 @@ def setup_coherente(setup: dict) -> tuple[bool, str]:
     if rr is not None and rr < RR_MINIMO:
         return False, f'risk_reward {rr} < {RR_MINIMO} (arriesga más de lo que puede ganar)'
 
+    # El R:R tiene que salir del objetivo que se publica y del precio de
+    # entrada que se pide. Parece obvio; durante meses no fue así: se publicaba
+    # `target` = resistencia y se calculaba el R:R contra el objetivo de rebote
+    # (+7% fijo). El 16-sep-2026 no cuadraba NINGUNA de las 12 fichas. Nada
+    # fallaba: los dos números eran correctos por separado y juntos mentían.
+    entrada = setup.get('entry_ref') or precio
+    objetivo = setup.get('target')
+
+    # La zona de entrada tiene que ser alcanzable. Si te dice «entra a 311»
+    # cuando cotiza a 296,85 no es una zona de entrada, es un precio que hoy no
+    # existe — y ocurría cuando el soporte del que colgaba la zona ya estaba
+    # roto. Se admite hasta un 2% por encima porque el Bull Flag Pullback
+    # define su zona como el precio ±2%.
+    if entrada > precio * 1.02:
+        return False, (f'la zona de entrada llega a {entrada} con el precio en {precio} '
+                       f'(+{100 * (entrada / precio - 1):.1f}%): no es alcanzable')
+
+    if None not in (rr, objetivo, stop) and entrada > stop:
+        rr_real = (objetivo - entrada) / (entrada - stop)
+        if abs(rr_real - rr) > 0.05:
+            return False, (f'R:R {rr} no sale de sus propios números '
+                           f'(objetivo {objetivo}, entrada {entrada}, stop {stop} → {rr_real:.2f})')
+
+    # El techo técnico es hasta dónde PODRÍA llegar. Si queda por debajo del
+    # objetivo, uno de los dos está mal calculado.
+    techo = setup.get('techo_tecnico')
+    if techo is not None and objetivo is not None and techo < objetivo:
+        return False, f'techo técnico {techo} por debajo del objetivo {objetivo}'
+
     return True, ''
 
 
@@ -520,14 +549,44 @@ class MeanReversionDetector:
 
             # Stop basado en ATR: más preciso que % fijo (adapta a la volatilidad real)
             # Estructura: soporte - 1.5x ATR (academia y LuxAlgo)
+            # ── La zona de entrada ES la operación ───────────────────────
+            # El stop, el objetivo y el R:R se calculaban desde `current_price`
+            # mientras la ficha decía «entra entre X e Y». Quien siguiera la
+            # instrucción operaba con números que no eran los suyos.
+            #
+            # HEI salió el 16-sep-2026 cotizando a 296,85 con la zona en
+            # 299,38-311,60 y un R:R de 3,21 — cierto solo si entras a 296,85.
+            # Entrando arriba de la zona, que es lo que la ficha te manda, el
+            # R:R real era 0,28. Y la zona estaba POR ENCIMA del precio porque
+            # el soporte ya estaba roto (el precio 2,8% por debajo de él).
+            #
+            # Dos consecuencias:
+            #  · si el soporte está por encima del precio, está roto: no hay
+            #    rebote que hacer desde ahí y el setup se descarta;
+            #  · todo se calcula desde `entrada_ref`, lo peor que pagarías
+            #    siguiendo la instrucción. Si el número sale peor, es que
+            #    siempre lo fue.
+            if support > current_price:
+                return None
+            zona_baja = round(support * 0.98, 2)
+            zona_alta = round(min(support * 1.02, current_price), 2)
+            entrada_ref = zona_alta
+
             atr_stop = round(support - 1.5 * atr14, 2)
             pct_stop  = round(support * 0.95, 2)
             # Usar el más conservador de los dos (el más cercano al precio)
             stop_loss = max(atr_stop, pct_stop)
-            stop_pct = round((stop_loss / current_price - 1) * 100, 1)
+            if stop_loss >= entrada_ref:
+                return None
+            stop_pct = round((stop_loss / entrada_ref - 1) * 100, 1)
 
-            # Target largo (técnico a resistencia)
-            full_target = round(resistance, 2)
+            # Techo técnico: hasta dónde llegaría si el rebote se extendiera.
+            # Es CONTEXTO, no el objetivo de la operación. Durante meses se
+            # publicó como `target` —que es lo que leen la app, el tracker y
+            # Telegram— mientras el R:R se calculaba contra el objetivo de
+            # rebote. Ninguna ficha cuadraba: 0 de 12 el 16-sep-2026. HEI decía
+            # «objetivo +19,5%, R:R 3,21» y ese 3,21 correspondía a +7,0%.
+            techo_tecnico = round(resistance, 2)
 
             # Target corto: rebote realista 1-3 días (+7% o resistencia, lo menor).
             #
@@ -541,12 +600,12 @@ class MeanReversionDetector:
             # estaba un 22-37% POR ENCIMA del soporte: no hay rebote que hacer
             # desde ahí. Se descarta el setup entero, que es lo honesto — el
             # usuario prefiere 0 señales antes que señales falsas.
-            if resistance <= current_price:
+            if resistance <= entrada_ref:
                 return None
-            bounce_target = round(min(current_price * 1.07, resistance), 2)
-            bounce_usd = round(bounce_target - current_price, 2)
-            bounce_pct = round((bounce_target / current_price - 1) * 100, 1)
-            bounce_rr = round(bounce_usd / (current_price - stop_loss), 2) if (current_price - stop_loss) > 0 else 0
+            bounce_target = round(min(entrada_ref * 1.07, resistance), 2)
+            bounce_usd = round(bounce_target - entrada_ref, 2)
+            bounce_pct = round((bounce_target / entrada_ref - 1) * 100, 1)
+            bounce_rr = round(bounce_usd / (entrada_ref - stop_loss), 2) if (entrada_ref - stop_loss) > 0 else 0
 
             return {
                 'ticker': ticker,
@@ -562,8 +621,10 @@ class MeanReversionDetector:
                 'volume_ratio': round(volume_ratio, 2),
                 'reversion_score': round(score, 1),
                 'quality': self._get_quality_label(score),
-                'entry_zone': f"${round(support * 0.98, 2)} - ${round(support * 1.02, 2)}",
-                'target': full_target,
+                'entry_zone': f"${zona_baja} - ${zona_alta}",
+                'entry_ref': entrada_ref,
+                'target': bounce_target,
+                'techo_tecnico': techo_tecnico,
                 'bounce_target': bounce_target,
                 'bounce_usd': bounce_usd,
                 'bounce_pct': bounce_pct,
@@ -691,20 +752,27 @@ class MeanReversionDetector:
             # media de 50, el stop queda por encima de la entrada — y además
             # deja de ser un bull flag, que por definición retrocede SOBRE la
             # media. UNH salió así el 20-ago: precio 388,61 y stop 402,08.
+            # Misma regla que en Oversold Bounce: la zona de entrada es la
+            # operación. Aquí la zona es el precio ±2%, así que `entrada_ref`
+            # es +2% — lo máximo que pagarías sin salirte de la instrucción.
+            zona_baja_bf = round(current_price * 0.98, 2)
+            zona_alta_bf = round(current_price * 1.02, 2)
+            entrada_ref_bf = zona_alta_bf
+
             stop_loss_bf = round(sma_50 * 0.97, 2)
-            if stop_loss_bf >= current_price:
+            if stop_loss_bf >= entrada_ref_bf:
                 return None
-            stop_pct_bf = round((stop_loss_bf / current_price - 1) * 100, 1)
-            full_target_bf = round(high_60d, 2)
+            stop_pct_bf = round((stop_loss_bf / entrada_ref_bf - 1) * 100, 1)
+            techo_tecnico_bf = round(high_60d, 2)
             # Mismo `min` peligroso que en Oversold Bounce: si el máximo de 60
             # días queda por debajo del precio de hoy —el ticker acaba de hacer
             # nuevo máximo— el target saldría por debajo del precio.
-            if high_60d <= current_price:
+            if high_60d <= entrada_ref_bf:
                 return None
-            bounce_target_bf = round(min(current_price * 1.07, high_60d), 2)
-            bounce_usd_bf = round(bounce_target_bf - current_price, 2)
-            bounce_pct_bf = round((bounce_target_bf / current_price - 1) * 100, 1)
-            bounce_rr_bf = round(bounce_usd_bf / (current_price - stop_loss_bf), 2) if (current_price - stop_loss_bf) > 0 else 0
+            bounce_target_bf = round(min(entrada_ref_bf * 1.07, high_60d), 2)
+            bounce_usd_bf = round(bounce_target_bf - entrada_ref_bf, 2)
+            bounce_pct_bf = round((bounce_target_bf / entrada_ref_bf - 1) * 100, 1)
+            bounce_rr_bf = round(bounce_usd_bf / (entrada_ref_bf - stop_loss_bf), 2) if (entrada_ref_bf - stop_loss_bf) > 0 else 0
 
             return {
                 'ticker': ticker,
@@ -721,8 +789,10 @@ class MeanReversionDetector:
                 'volume_decrease': volume_decrease,
                 'reversion_score': round(score, 1),
                 'quality': self._get_quality_label(score),
-                'entry_zone': f"${round(current_price * 0.98, 2)} - ${round(current_price * 1.02, 2)}",
-                'target': full_target_bf,
+                'entry_zone': f"${zona_baja_bf} - ${zona_alta_bf}",
+                'entry_ref': entrada_ref_bf,
+                'target': bounce_target_bf,
+                'techo_tecnico': techo_tecnico_bf,
                 'bounce_target': bounce_target_bf,
                 'bounce_usd': bounce_usd_bf,
                 'bounce_pct': bounce_pct_bf,
@@ -735,6 +805,46 @@ class MeanReversionDetector:
         except Exception as e:
             print(f"   ⚠️  Error analizando {ticker}: {e}")
             return None
+
+    def _aplicar_veredicto_ia(self, opportunities: list) -> list:
+        """El veredicto del gate manda. Hasta hoy no mandaba nada.
+
+        El 16-sep-2026 el CSV publicaba 12 setups. Diez tenían el veredicto en
+        contra —ocho "NO" y uno "CAUTION"— y salían igualmente, etiquetados por
+        `quality` como "⭐⭐⭐ EXCELENTE" y "⭐⭐ MUY BUENA". Los dos primeros de
+        la lista, los dos marcados EXCELENTE, eran los dos rechazados.
+
+        `quality` se calculaba solo desde `reversion_score`, que mide si el
+        PATRÓN está bien formado. Eso es una cosa; si el setup es operable hoy,
+        otra. Mezclarlas en una sola etiqueta hacía que el sistema se
+        contradijera a sí mismo en la misma fila.
+
+        Ahora: "NO" no se publica —el usuario prefiere 0 señales antes que
+        señales falsas— y lo que se publica lleva una etiqueta que no puede
+        decir más de lo que el gate respalda.
+        """
+        publicables, rechazados = [], []
+        for o in opportunities:
+            veredicto = o.get('ai_confirmation')
+            if veredicto == 'NO':
+                rechazados.append(f"{o['ticker']} ({o.get('ai_reason') or 'sin motivo'})")
+                continue
+            o['quality'] = self._etiqueta_calidad(o.get('reversion_score', 0), veredicto)
+            publicables.append(o)
+        if rechazados:
+            print(f"   🚫 {len(rechazados)} descartados por el filtro IA: "
+                  f"{', '.join(rechazados[:6])}{'…' if len(rechazados) > 6 else ''}")
+        return publicables
+
+    def _etiqueta_calidad(self, score: float, veredicto: str | None) -> str:
+        """La etiqueta no puede afirmar más de lo que el veredicto respalda."""
+        if veredicto is None:
+            # El gate no llegó a correr (sin GROQ_API_KEY, o más de 20 setups).
+            # Que se note: un hueco silencioso se lee como aprobación.
+            return "SIN VERIFICAR"
+        if veredicto == 'CAUTION':
+            return "⭐ CON DUDAS"
+        return self._get_quality_label(score)
 
     def _get_quality_label(self, score: float) -> str:
         """Retorna etiqueta de calidad según score"""
@@ -819,6 +929,7 @@ class MeanReversionDetector:
         # Enrich with historical win rate + AI validation
         self._add_win_rates(opportunities)
         self._ai_filter_batch(opportunities)
+        opportunities = self._aplicar_veredicto_ia(opportunities)
 
         # Enrich bounce setups with PCR, short interest, dark pool proxy
         bounce_opps = [o for o in opportunities if o.get('strategy') == 'Oversold Bounce']
@@ -919,27 +1030,80 @@ class MeanReversionDetector:
 
         lines = []
         for o in batch:
-            lines.append(
-                f"- {o['ticker']} | {o['strategy']} | score={o.get('reversion_score',0):.0f}"
-                f" | RSI={o.get('rsi','?')} | drawdown={o.get('drawdown_pct',0):.0f}%"
-                f" | R:R={o.get('risk_reward',0):.1f} | win_rate_hist={o.get('historical_win_rate',0):.0f}%"
-            )
+            campos = [
+                f"- {o['ticker']} | {o['strategy']}",
+                f"score={o.get('reversion_score', 0):.0f}",
+                f"RSI={o.get('rsi', '?')}",
+                f"objetivo={o.get('bounce_pct', 0):.1f}%",
+                f"stop={o.get('stop_pct', 0):.1f}%",
+                f"R:R={o.get('risk_reward', 0):.1f}",
+            ]
+            if o.get('strategy') == 'Oversold Bounce':
+                campos += [
+                    f"caída20d={o.get('drawdown_pct', 0):.0f}%",
+                    f"al soporte={o.get('distance_to_support_pct', 0):.1f}%",
+                    f"vol={o.get('volume_ratio', 0):.2f}x",
+                ]
+            else:
+                campos += [
+                    f"rally60d={o.get('rally_pct', 0):.0f}%",
+                    f"pullback={o.get('pullback_pct', 0):.1f}%",
+                    f"tendencia={o.get('trend', '?')}",
+                    f"vol secándose={'sí' if o.get('volume_decrease') else 'no'}",
+                ]
+            wr = o.get('historical_win_rate')
+            campos.append(f"acierto histórico={wr:.0f}%" if wr else "acierto histórico=sin muestra")
+            lines.append(' | '.join(campos))
         setups_text = '\n'.join(lines)
 
-        prompt = f"""Eres un analista técnico experto en mean reversion. Valida estos setups de rebote en el contexto actual del mercado.
+        # Cada estrategia, por su criterio.
+        #
+        # La regla anterior era una sola para las dos: «en mercado bajista o
+        # corrección, solo YES si RSI<25 y R:R>2.5». Un Bull Flag Pullback es
+        # por definición un retroceso SUAVE dentro de una tendencia alcista
+        # (-15% a -10% desde máximos): no tiene ni puede tener RSI<25. Así que
+        # en cuanto el mercado entraba en corrección, el gate rechazaba el
+        # 100% de los bull flags — no por débiles, sino por no ser algo que no
+        # pretenden ser. El 16-sep-2026 los 8 bull flags salieron "NO", todos
+        # con el mismo motivo literal: "RSI >25 y R:R bajo".
+        #
+        # Y ese motivo era falso además de genérico: AJG tenía R:R 11,9 y ROP
+        # 4,1. El modelo repetía la plantilla de la regla en vez de mirar el
+        # dato. Se le pide ahora que el motivo cite un número concreto.
+        #
+        # Esto no afloja ningún umbral: el listón del bull flag (tendencia
+        # mayor intacta, retroceso dentro de banda, volumen secándose) es el
+        # que define el patrón, y en corrección se exige entero.
+        prompt = f"""Eres un analista técnico. Valida estos setups de entrada a corto plazo (1-5 días) en el contexto actual del mercado.
 
 Régimen de mercado actual: {regime_str}
+
 Setups a validar:
 {setups_text}
 
-Responde ÚNICAMENTE con JSON válido con esta estructura:
-{{"results": [{{"ticker":"X","confirmation":"YES","confidence":85,"reason":"RSI extremo + soporte claro"}}, ...]}}
+Cada estrategia se juzga por SU criterio, no por el de la otra:
+
+· "Oversold Bounce" — agotamiento de una caída. Buscas RSI bajo (<25 es
+  extremo), precio cerca del soporte por ENCIMA de él, y volumen de capitulación.
+  Un RSI alto lo invalida.
+
+· "Bull Flag Pullback" — respiro dentro de una tendencia alcista. Un RSI de 30-45
+  es lo NORMAL y lo correcto aquí: un RSI de 20 significaría que la tendencia se
+  ha roto, no que el setup sea mejor. Buscas tendencia mayor intacta (Bullish),
+  retroceso contenido (-15% a -10%) y volumen secándose en el retroceso. NO
+  penalices un RSI>25 en esta estrategia.
+
+En mercado BAJISTA o CORRECCIÓN sé más exigente con las dos: el Oversold necesita
+RSI<25, y el Bull Flag necesita la tendencia mayor intacta Y el volumen secándose.
+
+Responde ÚNICAMENTE con JSON válido:
+{{"results": [{{"ticker":"X","confirmation":"YES","confidence":85,"reason":"RSI 18 y soporte a 1,2%"}}, ...]}}
 
 Reglas:
 - confirmation: "YES" si el setup es válido, "CAUTION" si hay dudas, "NO" si hay razones para evitarlo
 - confidence: 0-100 (cuánta convicción tienes)
-- reason: máximo 8 palabras en español, explica el veredicto
-- En mercado BAJISTA o CORRECCIÓN, sé más exigente (solo YES si RSI<25 y R:R>2.5)"""
+- reason: máximo 8 palabras en español y DEBE citar un número concreto de la ficha.
+  Nada de motivos genéricos: si dices "R:R bajo", el R:R tiene que ser bajo de verdad"""
 
         try:
             from groq import Groq

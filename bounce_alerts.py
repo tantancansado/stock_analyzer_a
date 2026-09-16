@@ -186,15 +186,37 @@ def load_curated_setups() -> list[dict]:
             # 16-sep-2026 como «Target $308,62 · R:R 1,1», cuando con ese
             # objetivo el R:R es 2,25 y el 1,1 corresponde a 289,37. Los dos
             # números eran correctos por separado y el par era falso.
+            #
+            # Desde el 16-sep-2026 el detector publica un solo objetivo —el de
+            # rebote— y la resistencia va aparte en `techo_tecnico`. Se sigue
+            # leyendo `bounce_target` primero para que un CSV antiguo, generado
+            # antes de ese cambio, no vuelva a anunciar la resistencia.
             objetivo = r.get('bounce_target')
             if objetivo is None or pd.isna(objetivo):
                 objetivo = r.get('target')
+            # El R:R sale del techo de la zona de entrada, que es el precio que
+            # la ficha manda pagar, no del precio de pantalla. Si el aviso
+            # enseñara el precio de pantalla junto a ese R:R volveríamos al
+            # mismo par falso, solo que por el otro lado.
+            entrada = r.get('entry_ref')
+            if entrada is None or pd.isna(entrada):
+                entrada = r.get('current_price')
+            techo = r.get('techo_tecnico')
+            if techo is None or pd.isna(techo):
+                techo = r.get('resistance_level')
+            if techo is None or pd.isna(techo):
+                # CSV anterior al cambio: allí la resistencia vivía en `target`.
+                viejo_target = r.get('target')
+                if viejo_target is not None and not pd.isna(viejo_target) \
+                   and objetivo is not None and float(viejo_target) > float(objetivo):
+                    techo = viejo_target
             out.append({
                 'ticker':  t,
                 'source':  'CURADO',
-                'price':   r.get('current_price'),
+                'price':   entrada,
+                'precio_pantalla': r.get('current_price'),
                 'target':  objetivo,
-                'techo':   r.get('target'),      # la resistencia, como contexto
+                'techo':   techo,                # la resistencia, como contexto
                 'stop':    r.get('stop_loss'),
                 'rr':      r.get('risk_reward'),
                 'rsi':     r.get('rsi'),
@@ -331,8 +353,20 @@ def build_message(setups: list[dict], today: str) -> str:
                 techo = f" · techo {_fmt(s['techo'])}"
         except (TypeError, ValueError):
             pass
+        # El precio que encabeza la línea es el de ENTRADA (contra el que se
+        # calcula el R:R). Si cotiza más abajo se dice, porque entonces la
+        # entrada es una orden a la espera, no una compra de ahora.
+        cotiza = ''
+        try:
+            pantalla = s.get('precio_pantalla')
+            entrada = float(s.get('price') or 0)
+            if pantalla is not None and not pd.isna(pantalla) and entrada > 0 \
+               and abs(float(pantalla) / entrada - 1) > 0.005:
+                cotiza = f" (cotiza {_fmt(pantalla)})"
+        except (TypeError, ValueError):
+            pass
         lines.append(
-            f"{tag} <b>{s['ticker']}</b> [{s['source']}] {_fmt(s.get('price'))}\n"
+            f"{tag} <b>{s['ticker']}</b> [{s['source']}] entrada {_fmt(s.get('price'))}{cotiza}\n"
             f"   Target {_fmt(s.get('target'))} · Stop {_fmt(s.get('stop'))}{rr}{techo}\n"
             f"   {s.get('note', '')}"
         )

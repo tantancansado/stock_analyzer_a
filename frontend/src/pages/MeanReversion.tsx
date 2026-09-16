@@ -88,14 +88,25 @@ interface MRItem {
   [key: string]: unknown
 }
 
+// Las dos últimas las pone el filtro IA, no el score del patrón: un setup con
+// el veredicto en duda, o uno que el filtro no llegó a mirar. Antes no existían
+// —el veredicto no ataba nada y todo salía etiquetado por su score— y sin
+// pastilla propia no se podrían ni ver ni contar.
 const QUALITY_LEVELS = [
-  { label: 'EXCELENTE', match: 'EXCELENTE' },
-  { label: 'MUY BUENA', match: 'MUY BUENA' },
-  { label: 'BUENA',     match: 'BUENA' },
+  { label: 'EXCELENTE',     match: 'EXCELENTE' },
+  { label: 'MUY BUENA',     match: 'MUY BUENA' },
+  { label: 'BUENA',         match: 'BUENA' },
+  { label: 'CON DUDAS',     match: 'CON DUDAS' },
+  { label: 'SIN VERIFICAR', match: 'SIN VERIFICAR' },
 ]
 
 function qualMatch(q: string, match: string) {
-  return (q || '').toUpperCase().includes(match)
+  const upper = (q || '').toUpperCase()
+  // 'MUY BUENA'.includes('BUENA') es cierto, así que la pastilla BUENA contaba
+  // también las MUY BUENA y su número nunca cuadraba con lo que salía al
+  // pulsarla. Se compara con el escalón exacto.
+  if (match === 'BUENA') return upper.includes('BUENA') && !upper.includes('MUY BUENA')
+  return upper.includes(match)
 }
 
 const MR_PAGE_SIZE = 30
@@ -189,8 +200,9 @@ export default function MeanReversion() {
   const thCls = (key: string) =>
     `cursor-pointer select-none whitespace-nowrap transition-colors hover:text-foreground ${sortKey === key ? 'text-primary' : ''}`
 
-  const qualVariant = (q: string): 'green' | 'blue' | 'yellow' => {
+  const qualVariant = (q: string): 'green' | 'blue' | 'yellow' | 'gray' => {
     const upper = (q || '').toUpperCase()
+    if (upper.includes('SIN VERIFICAR')) return 'gray'
     if (upper.includes('EXCELENTE')) return 'green'
     if (upper.includes('MUY BUENA') || upper.includes('BUENA')) return 'blue'
     return 'yellow'

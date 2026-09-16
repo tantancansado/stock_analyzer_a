@@ -61,9 +61,14 @@ class TestTargetNuncaPorDebajoDelPrecio:
         from pathlib import Path
         import mean_reversion_detector as mrd
         src = Path(mrd.__file__).read_text()
-        # el guard tiene que estar ANTES de calcular el target, en ambos setups
-        assert 'if resistance <= current_price:' in src
-        assert 'if high_60d <= current_price:' in src
+        # El guard tiene que estar ANTES de calcular el target, en ambos setups.
+        # La referencia dejó de ser `current_price` el 16-sep-2026: ahora es
+        # `entrada_ref`, el techo de la zona de entrada, que es el precio que la
+        # ficha te manda pagar. Para el Oversold queda igual o por debajo del
+        # precio y para el Bull Flag un 2% por encima, así que el guard es más
+        # estricto que antes, no menos. Ver test_rebotes_coherentes.
+        assert 'if resistance <= entrada_ref:' in src
+        assert 'if high_60d <= entrada_ref_bf:' in src
 
     def test_ninguna_señal_publicada_pide_comprar_caro_para_vender_barato(self):
         """Sobre el CSV real: es la comprobación que habría cazado el fallo."""
