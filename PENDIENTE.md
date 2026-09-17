@@ -102,9 +102,12 @@ aparecido en TIKR, en el health del pipeline y en el veto de rebotes:
 
 ## Riesgo conocido, sin arreglar
 
-- [ ] **`core-scoring` roza su timeout de 90 min.** 54-117 min en las últimas
-      ejecuciones, con dos canceladas y dos fallidas de las últimas ocho. Cuando
-      se corta, se corta en silencio y la app publica lo que hubiera.
+- [ ] **`core-scoring` y su timeout de 90 min.** Medido bien el 17-sep: el JOB
+      tarda 54-56 min (los 117 de antes eran del workflow entero, varios jobs).
+      Con el universo curado completo pasa de 130 a 163 tickers, ~70 min
+      estimados. Margen de 20 min. **Comprobar el tiempo real mañana**; si se
+      acerca a 90, subir el techo antes de que se corte — cuando se corta, se
+      corta en silencio y la app publica lo que hubiera.
 - [ ] **`learner_config.json`**: fósil de abril (157 días) que nadie escribe ni
       lee, y publica "reglas de alta convicción" con n=9 y dos que exigen upside
       ≥30% — la banda que hoy es HARD REJECT. Decisión del usuario: borrarlo o no.
