@@ -43,6 +43,11 @@ import pandas as pd
 import yfinance as yf
 from scipy.stats import norm
 
+# La banda vive en value_bands y en ningún otro sitio: estaba escrita a mano
+# aquí, y el día que se mueva el corte este módulo se queda con el viejo sin
+# avisar. Lo prohíbe CLAUDE.md desde antes de que yo la hardcodeara.
+from value_bands import UPSIDE_HARD_REJECT
+
 DOCS = Path('docs')
 OUTPUT = DOCS / 'leaps_opportunities.json'
 
@@ -630,7 +635,7 @@ def analyze_ticker_leaps(ticker: str, sig: dict, rate: float) -> Optional[dict]:
         if not target or target <= 0:
             return None                       # sin tesis de upside validable
         upside = (target - spot) / spot * 100
-        if upside >= 30:
+        if upside >= UPSIDE_HARD_REJECT:
             return None                       # value-trap (regla del proyecto)
 
         # Filtro de valoración: un múltiplo caro no es value — ni se muestra.

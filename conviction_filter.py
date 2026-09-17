@@ -611,7 +611,7 @@ def calculate_conviction_score(row) -> dict:
     strong_consensus = (
         analyst_count_dcf >= 15
         and analyst_rec_dcf in ('strong_buy', 'strongbuy', 'buy')
-        and analyst_upside_dcf >= 30
+        and analyst_upside_dcf >= UPSIDE_HARD_REJECT
     )
 
     dcf_upside_stored = _sf(row.get('target_price_dcf_upside_pct'))

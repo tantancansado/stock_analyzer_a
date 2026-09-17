@@ -10,6 +10,8 @@ Markets selected because their CAPE ratios are below historical averages
 Output: docs/global_value_opportunities.csv
 """
 import pandas as pd
+
+from value_bands import UPSIDE_HARD_REJECT, UPSIDE_MIN
 import numpy as np
 import yfinance as yf
 from pathlib import Path
@@ -322,15 +324,23 @@ def _score_ticker(ticker: str, market: str):
             score += 5
 
     # 3. Analyst upside (25 pts) — conviction from sell-side
+    #
+    # ESTABA AL REVÉS. Daba los 25 puntos, el máximo, a la banda >=30%: la que
+    # en 100 señales reales acierta el 28% y pierde un 3,26% de media. Y la
+    # zona que sí funciona —[10,30), 61-62% de acierto— se llevaba 10.
+    #
+    # Es el mismo fallo que el integrator tiene vigilado con un test desde
+    # hace meses (`test_upside_golden_zone_not_inverted`); aquí no lo miraba
+    # nadie porque el corte estaba escrito a mano y no se parecía a una banda.
+    # Salió el 17-sep-2026 al centralizar las bandas en `value_bands`.
     if analyst_upside is not None:
         if analyst_count == 0:
             score *= 0.85  # No coverage penalty
-        elif analyst_upside >= 30:
+        elif analyst_upside >= UPSIDE_HARD_REJECT:
+            score += 0     # trampa: el gap enorme es la señal de que algo va mal
+            reasons.append(f"Upside +{analyst_upside:.0f}% — demasiado alto para fiarse")
+        elif analyst_upside >= UPSIDE_MIN:
             score += 25; reasons.append(f"Potencial +{analyst_upside:.0f}% analistas")
-        elif analyst_upside >= 20:
-            score += 18; reasons.append(f"Potencial +{analyst_upside:.0f}%")
-        elif analyst_upside >= 10:
-            score += 10; reasons.append(f"Potencial +{analyst_upside:.0f}%")
         elif analyst_upside >= 0:
             score += 4
         else:
