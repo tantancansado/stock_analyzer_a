@@ -1791,7 +1791,7 @@ export default function PersonalPortfolio() {
                           {isOver ? 'SOBRE' : isUnder ? 'INFRA' : 'OK'}
                         </span>
                       </div>
-                      <div className="relative h-2 rounded-full bg-muted/30 overflow-hidden">
+                      <div className="relative h-2 rounded-full barra-pista overflow-hidden">
                         <div className="absolute inset-y-0 left-0 rounded-full bg-primary/50" style={{ width: `${(optimal / maxBar) * 100}%` }} />
                         <div className={`absolute inset-y-0 left-0 rounded-full ${isOver ? 'bg-red-400/60' : 'bg-emerald-400/60'}`} style={{ width: `${(actual / maxBar) * 100}%`, height: '50%', top: '25%' }} />
                       </div>

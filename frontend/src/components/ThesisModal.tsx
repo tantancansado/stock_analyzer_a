@@ -103,7 +103,7 @@ function ConvictionPanel({ row }: { row: ValueOpportunity }) {
       <div className="flex items-center gap-4 mb-3">
         <div className="flex items-center gap-2 flex-1">
           <span className="text-micro text-emerald-400 font-semibold shrink-0">+{pos}</span>
-          <div className="flex-1 h-1.5 rounded-full bg-muted/30 overflow-hidden flex">
+          <div className="flex-1 h-1.5 rounded-full barra-pista overflow-hidden flex">
             {pos > 0 && <div className="h-full bg-emerald-500/60 rounded-full" style={{ width: `${(pos / (pos + flags || 1)) * 100}%` }} />}
             {flags > 0 && <div className="h-full bg-red-500/60 rounded-full" style={{ width: `${(flags / (pos + flags || 1)) * 100}%` }} />}
           </div>

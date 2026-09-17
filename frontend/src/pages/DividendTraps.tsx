@@ -24,7 +24,7 @@ function TrapScoreBar({ score }: { score: number }) {
   const color = score >= 50 ? '#ef4444' : score >= 25 ? '#f97316' : '#f59e0b'
   return (
     <div className="flex items-center gap-2">
-      <div className="h-1.5 w-24 rounded-full bg-muted/30 overflow-hidden">
+      <div className="h-1.5 w-24 rounded-full barra-pista overflow-hidden">
         <div className="h-full rounded-full transition-all" style={{ width: `${score}%`, backgroundColor: color }} />
       </div>
       <span className="text-mini font-bold" style={{ color }}>{score}</span>

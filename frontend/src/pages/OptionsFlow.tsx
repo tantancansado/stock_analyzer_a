@@ -85,7 +85,7 @@ function CallPutBar({ callPct }: { callPct: number }) {
   const putPct = 100 - callPct
   return (
     <div className="flex items-center gap-1.5 min-w-[90px]">
-      <div className="flex-1 h-1.5 rounded-full overflow-hidden bg-muted/30 flex">
+      <div className="flex-1 h-1.5 rounded-full overflow-hidden barra-pista flex">
         <div className="bg-emerald-500/70 h-full" style={{ width: `${callPct}%` }} />
         <div className="bg-red-500/70 h-full" style={{ width: `${putPct}%` }} />
       </div>
@@ -323,7 +323,7 @@ export default function OptionsFlow() {
                     <TableCell className="tabular-nums text-muted-foreground">{fmtPremium(r.max_single_premium)}</TableCell>
                     <TableCell>
                       <div className="flex items-center gap-1.5">
-                        <div className="h-1.5 w-16 rounded-full bg-muted/20 overflow-clip">
+                        <div className="h-1.5 w-16 rounded-full barra-pista overflow-clip">
                           <div className="h-full bg-primary/60 rounded-full" style={{ width: `${r.unusual_score}%` }} />
                         </div>
                         <span className="text-micro tabular-nums text-muted-foreground">{r.unusual_score}</span>

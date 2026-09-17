@@ -681,7 +681,7 @@ function MacroPlayRow({ play }: { play: MacroPlay }) {
       </div>
       <div className="shrink-0 text-right">
         <div className="text-apoyo font-bold tabular-nums text-foreground">{play.score}</div>
-        <div className="w-10 h-1 rounded-full bg-muted/20 mt-1 overflow-hidden">
+        <div className="w-10 h-1 rounded-full barra-pista mt-1 overflow-hidden">
           <div
             className={`h-full rounded-full ${play.score >= 80 ? 'bg-emerald-500' : play.score >= 65 ? 'bg-amber-500' : 'bg-blue-500'}`}
             style={{ width: `${play.score}%` }}

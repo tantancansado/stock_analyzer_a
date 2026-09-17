@@ -547,7 +547,7 @@ function YieldCalculator({ bonds }: { bonds: BondOpportunity[] }) {
                     </td>
                     <td className="py-2 text-right">
                       <div className="flex items-center justify-end gap-1.5">
-                        <div className="h-1 w-16 rounded-full bg-muted/20 overflow-hidden">
+                        <div className="h-1 w-16 rounded-full barra-pista overflow-hidden">
                           <div
                             className="h-full rounded-full bg-emerald-500/60"
                             style={{ width: `${Math.min((effectiveYield / (calcBonds[0]?.yield_pct ?? 1)) * (months / 12) * 100, 100)}%` }}
@@ -609,7 +609,7 @@ function DurationBar({ years }: { years: number | null | undefined }) {
   const color = years >= 15 ? '#ef4444' : years >= 8 ? '#f97316' : years >= 4 ? '#eab308' : '#10b981'
   return (
     <div className="flex items-center gap-2">
-      <div className="h-1 w-16 rounded-full bg-muted/30 overflow-hidden">
+      <div className="h-1 w-16 rounded-full barra-pista overflow-hidden">
         <div className="h-full rounded-full" style={{ width: `${pct}%`, backgroundColor: color }} />
       </div>
       <span className="text-mini font-mono" style={{ color }}>{years < 1 ? `${(years * 12).toFixed(0)}m` : `${years}y`}</span>
@@ -861,7 +861,7 @@ function PreferredCalculator({ prefs }: { prefs: PreferredStock[] }) {
                     </td>
                     <td className="py-2 text-right">
                       <div className="flex items-center justify-end gap-1.5">
-                        <div className="h-1 w-16 rounded-full bg-muted/20 overflow-hidden">
+                        <div className="h-1 w-16 rounded-full barra-pista overflow-hidden">
                           <div
                             className="h-full rounded-full bg-emerald-500/60"
                             style={{ width: `${Math.min((effectiveYield / (calcPrefs[0]?.current_yield ?? 1)) * (months / 12) * 100, 100)}%` }}

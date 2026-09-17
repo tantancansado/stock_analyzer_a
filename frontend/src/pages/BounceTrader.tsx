@@ -198,7 +198,7 @@ function BounceCard({ s, isConviction }: { s: BounceSetup; isConviction: boolean
           <span className="etiqueta-seccion">Confianza rebote</span>
           <span className={`text-micro font-bold ${conf.color.replace('bg-', 'text-')}`}>{conf.label} {conf.pct}%</span>
         </div>
-        <div className="h-1 bg-muted/20 rounded-full overflow-clip">
+        <div className="h-1 barra-pista rounded-full overflow-clip">
           <div className={`h-full rounded-full transition-all ${conf.color}`} style={{ width: `${conf.pct}%` }} />
         </div>
         {(s.bounce_signals?.length ?? 0) > 0 && (

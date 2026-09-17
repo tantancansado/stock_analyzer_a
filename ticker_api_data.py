@@ -78,7 +78,19 @@ def load_static_datasets(docs_root="docs", logger: Optional[logging.Logger] = No
     df_ins_eu = load_csv_file(docs / "eu_recurring_insiders.csv", logger=logger)
     if not df_ins_us.empty and "market" not in df_ins_us.columns:
         df_ins_us["market"] = "US"
-    df_insiders = pd.concat([df_ins_us, df_ins_eu], ignore_index=True) if not df_ins_eu.empty else df_ins_us
+    # SIN `ignore_index=True`: `load_csv_file` pone el TICKER como índice, y
+    # ese flag lo tira. El resultado no tenía ticker ni en el índice ni en las
+    # columnas, así que:
+    #
+    #   · el endpoint `/api/recurring-insiders` devolvía filas sin ticker y la
+    #     página los pintaba con un «?» en lugar del logo y sin símbolo;
+    #   · y `_row(DF_INSIDERS, ticker)` —que busca POR ÍNDICE— no encontraba
+    #     nunca nada, así que la ficha de cada valor salía sin datos de insiders.
+    #
+    # Solo pasaba con la lista europea presente: sin ella el `else` devuelve
+    # `df_ins_us` intacto, con su índice. Por eso apareció cuando empezó a
+    # haber insiders EU y no antes.
+    df_insiders = pd.concat([df_ins_us, df_ins_eu]) if not df_ins_eu.empty else df_ins_us
     df_reversion = load_csv_file(docs / "mean_reversion_opportunities.csv", logger=logger)
     df_options = load_csv_file(docs / "options_flow.csv", logger=logger)
     df_prices = load_csv_file(docs / "super_opportunities_with_prices.csv", logger=logger)

@@ -256,7 +256,13 @@ export default function SectorRotation() {
             <h3 className="text-cuerpo font-semibold">Alertas de Rotación</h3>
             <span className="text-micro font-bold px-2 py-0.5 rounded-full bg-primary/15 text-primary border border-primary/30">{alerts.length}</span>
           </div>
-          <div className="overflow-x-auto">
+          {/* `.table-x-wrap`, no `overflow-x-auto` a pelo: un scroll container
+              rompe el `position: sticky` del thead y la cabecera se despega,
+              que es como se veía esta tabla. El envoltorio canónico usa
+              `overflow-x: clip` en escritorio —mismo efecto visual, sin crear
+              scroll container— y pasa a `auto` con el thead estático solo en
+              móvil. Está en CLAUDE.md y es la tercera vez que aparece. */}
+          <div className="table-x-wrap">
             <Table>
               <TableHeader>
                 <TableRow className="border-border/50 hover:bg-transparent">

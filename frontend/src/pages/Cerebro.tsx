@@ -613,7 +613,7 @@ function EntryScoreBar({ score }: { score: number }) {
   const color = score >= 75 ? 'bg-emerald-500' : score >= 50 ? 'bg-amber-500' : score >= 30 ? 'bg-blue-500' : 'bg-muted/40'
   return (
     <div className="flex items-center gap-2">
-      <div className="flex-1 h-2 rounded-full bg-muted/20 overflow-hidden">
+      <div className="flex-1 h-2 rounded-full barra-pista overflow-hidden">
         <div className={`h-full rounded-full transition-all ${color}`} style={{ width: `${score}%` }} />
       </div>
       <span className="tabular-nums text-cuerpo font-extrabold w-8 text-right">{score}</span>
@@ -1062,7 +1062,7 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
                         <div key={ticker} className="flex items-center gap-2">
                           <TickerLogo ticker={ticker} size="xs" className="shrink-0" />
                           <Link to={`/search?q=${ticker}`} className="font-mono font-bold text-primary text-apoyo hover:underline w-12">{ticker}</Link>
-                          <div className="flex-1 h-1.5 rounded-full bg-muted/20 overflow-hidden">
+                          <div className="flex-1 h-1.5 rounded-full barra-pista overflow-hidden">
                             <div className="h-full rounded-full bg-emerald-500" style={{ width: `${score}%` }} />
                           </div>
                           <span className="tabular-nums text-mini text-muted-foreground w-6 text-right">{score}</span>
@@ -1884,7 +1884,7 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
                     {stressData.sector_breakdown.map(s => (
                       <div key={s.sector} className="flex items-center gap-2">
                         <span className="text-mini text-muted-foreground w-36 truncate">{s.sector}</span>
-                        <div className="flex-1 h-1.5 rounded-full bg-muted/20 overflow-hidden">
+                        <div className="flex-1 h-1.5 rounded-full barra-pista overflow-hidden">
                           <div className="h-full rounded-full bg-primary/50" style={{ width: `${s.pct}%` }} />
                         </div>
                         <span className="text-micro text-muted-foreground w-10 text-right tabular-nums">{s.pct}%</span>

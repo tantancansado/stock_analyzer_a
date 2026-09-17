@@ -53,7 +53,7 @@ function RangeBar({ position }: { position: number | null }) {
   const color = position < 0.3 ? 'var(--success)' : position > 0.7 ? 'var(--danger)' : 'var(--warn)'
   return (
     <div className="flex items-center gap-2 min-w-[90px]">
-      <div className="flex-1 h-1.5 rounded-full bg-muted relative">
+      <div className="flex-1 h-1.5 rounded-full barra-pista relative">
         <div className="absolute h-1.5 rounded-full" style={{ width: `${pct}%`, background: color }} />
       </div>
       <span className="text-mini font-mono text-muted-foreground">{pct.toFixed(0)}%</span>

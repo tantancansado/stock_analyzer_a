@@ -193,7 +193,7 @@ function ScoreGauge({ score, max }: { score: number; max: number }) {
         <span>Neutro</span>
         <span>Calma</span>
       </div>
-      <div className="h-2 w-full rounded-full bg-muted/30" style={{ overflow: 'clip' }}>
+      <div className="h-2 w-full rounded-full barra-pista" style={{ overflow: 'clip' }}>
         <div
           className="h-full rounded-full transition-all duration-700"
           style={{ width: `${pct}%`, backgroundColor: color }}
@@ -228,7 +228,7 @@ function SignalCard({ id, signal, stagger }: { id: string; signal: SignalData; s
 
         {/* Score bar */}
         <div className="mb-2">
-          <div className="h-1.5 w-full rounded-full bg-muted/30" style={{ overflow: 'clip' }}>
+          <div className="h-1.5 w-full rounded-full barra-pista" style={{ overflow: 'clip' }}>
             <div
               className="h-full rounded-full transition-all duration-700"
               style={{
@@ -861,7 +861,7 @@ function HistoricalAnalogsPanel({ analogs }: { analogs: HistoricalAnalog[] }) {
                 </div>
 
                 {/* Similarity bar */}
-                <div className="h-1 w-full rounded-full bg-muted/30 mb-3" style={{ overflow: 'clip' }}>
+                <div className="h-1 w-full rounded-full barra-pista mb-3" style={{ overflow: 'clip' }}>
                   <div
                     className="h-full rounded-full transition-all duration-700"
                     style={{
