@@ -207,7 +207,8 @@ def add_entry_exit_prices(input_file: str = None, output_file: str = None):
                 'entry_range': f"${entry_exit['entry_range_low']}-${entry_exit['entry_range_high']}",
                 'stop_loss': entry_exit['stop_loss'],
                 'exit_price': entry_exit['exit_price'],
-                'exit_range': f"${entry_exit['exit_range_low']}-${entry_exit['exit_range_high']}",
+                'exit_range': (f"${entry_exit['exit_range_low']}-${entry_exit['exit_range_high']}"
+                               if entry_exit['exit_range_low'] is not None else None),
                 'risk_reward': entry_exit['risk_reward_ratio'],
                 'risk_pct': entry_exit['risk_pct'],
                 'reward_pct': entry_exit['reward_pct'],
@@ -216,7 +217,20 @@ def add_entry_exit_prices(input_file: str = None, output_file: str = None):
             })
 
             results.append(result)
-            print(f"   ✅ ${entry_exit['current_price']:.2f} → Entry: ${entry_exit['entry_price']:.2f} | Stop: ${entry_exit['stop_loss']:.2f} | Target: ${entry_exit['exit_price']:.2f} (R/R: {entry_exit['risk_reward_ratio']:.1f}:1)")
+            # El objetivo puede no existir: desde el 16-sep-2026 sale del
+            # consenso de analistas y vale None cuando los modelos propios lo
+            # desmienten. Formatearlo a ciegas tumbó el pipeline entero el 17
+            # ("unsupported format string passed to NoneType.__format__"), y
+            # como este paso es [CRITICAL] se llevó por delante todo lo que va
+            # detrás: technical_filter, portfolio_tracker, entry_verdicts,
+            # cerebro. Nueve pasos sin correr por un `:.2f`.
+            _salida = entry_exit['exit_price']
+            _rr = entry_exit['risk_reward_ratio']
+            _destino = (f"Target ${_salida:.2f} (R/R: {_rr:.1f}:1)"
+                        if _salida is not None and _rr is not None
+                        else "sin objetivo por valoración")
+            print(f"   ✅ ${entry_exit['current_price']:.2f} → Entry: ${entry_exit['entry_price']:.2f}"
+                  f" | Stop: ${entry_exit['stop_loss']:.2f} | {_destino}")
 
         except Exception as e:
             print(f"   ❌ Error: {str(e)}")
@@ -245,18 +259,30 @@ def add_entry_exit_prices(input_file: str = None, output_file: str = None):
             print(f"⚠️  Failed ({len(failed)}): {', '.join(failed)}")
         print(f"{'='*80}\n")
 
-        # Show summary
+        # Con objetivos que pueden faltar, la columna llega como `object` y
+        # `nlargest` levanta un TypeError — fue la segunda mitad de la caída del
+        # 17-sep. Se convierte a número y las filas sin objetivo se cuentan
+        # aparte en vez de colarse en las medias.
+        result_df['risk_reward'] = pd.to_numeric(result_df['risk_reward'], errors='coerce')
+        for c in ('risk_pct', 'reward_pct'):
+            result_df[c] = pd.to_numeric(result_df[c], errors='coerce')
+        con_objetivo = result_df[result_df['risk_reward'].notna()]
+
         print("📊 SUMMARY:")
         print(f"   Processed: {len(result_df)}/{total}")
-        print(f"   Average R/R Ratio: {result_df['risk_reward'].mean():.2f}:1")
-        print(f"   Meets Criteria (3:1): {result_df['meets_risk_reward'].sum()}/{len(result_df)}")
-        print(f"   Average Risk: {result_df['risk_pct'].mean():.1f}%")
-        print(f"   Average Reward: {result_df['reward_pct'].mean():.1f}%")
+        print(f"   Con objetivo por valoración: {len(con_objetivo)}/{len(result_df)}")
+        if len(con_objetivo):
+            print(f"   Average R/R Ratio: {con_objetivo['risk_reward'].mean():.2f}:1")
+            print(f"   Meets Criteria (3:1): {int(result_df['meets_risk_reward'].sum())}/{len(result_df)}")
+            print(f"   Average Risk: {result_df['risk_pct'].mean():.1f}%")
+            print(f"   Average Reward: {con_objetivo['reward_pct'].mean():.1f}%")
 
-        # Show top 10
-        print(f"\n🏆 TOP 10 BY RISK/REWARD:")
-        top_10 = result_df.nlargest(10, 'risk_reward')[['ticker', 'current_price', 'entry_price', 'exit_price', 'risk_reward', 'entry_timing']]
-        print(top_10.to_string(index=False))
+            print(f"\n🏆 TOP 10 BY RISK/REWARD:")
+            top_10 = con_objetivo.nlargest(min(10, len(con_objetivo)), 'risk_reward')[
+                ['ticker', 'current_price', 'entry_price', 'exit_price', 'risk_reward', 'entry_timing']]
+            print(top_10.to_string(index=False))
+        else:
+            print("   Ninguna con objetivo: los modelos propios desmienten al consenso en todas.")
 
     else:
         print(f"\n❌ No opportunities processed successfully")
