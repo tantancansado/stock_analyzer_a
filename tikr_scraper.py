@@ -1318,14 +1318,59 @@ def run(tickers: list, dry_run: bool = False, force: bool = False) -> dict:
         else:
             financials_history = fetch_tf_financials(session, token, cid, tid=tid)
             n_fin = len(financials_history.get('metrics', {}))
-            print(f" {n_fin}fin", end='', flush=True)
+
+            # Si la petición vuelve vacía, se conserva lo de la semana pasada en
+            # vez de machacarlo con nada.
+            #
+            # `fetch_tf_financials` devuelve {} ante cualquier fallo, y ese {}
+            # se escribía encima. Como el scraper corre los domingos y la
+            # ventana de reuso son 7 días, el reuso no llegaba a activarse casi
+            # nunca: cada semana se volvía a pedir todo y a ~un 38% le fallaba
+            # la petición y perdía sus cuentas. La semana siguiente le tocaba a
+            # otro 38% distinto.
+            #
+            # Medido sobre 10 semanas de histórico: la cobertura oscilaba entre
+            # el 47% y el 81% (media 62%), y el FCF de un año YA CERRADO
+            # aparecía y desaparecía el 41% de las semanas. Eso no es que el
+            # dato cambie: es que se tira y se vuelve a pedir. La unión de esas
+            # 10 semanas cubre el 99% de los tickers — o sea que el dato SÍ se
+            # había descargado, solo que no se guardaba.
+            #
+            # Un año fiscal cerrado es un hecho, no una cotización. Si la
+            # petición de hoy trae datos, mandan ellos (así se recogen las
+            # reexpresiones); si vuelve vacía, sigue valiendo lo de antes.
+            if not financials_history.get('metrics'):
+                previo = (existing.get(ticker) or {}).get('financials_history') or {}
+                if previo.get('metrics'):
+                    financials_history = dict(previo)
+                    financials_history['conservado_de'] = (
+                        (existing.get(ticker) or {}).get('fetched_at', ''))
+                    n_fin = len(financials_history.get('metrics', {}))
+                    print(f" {n_fin}fin(conservado)", end='', flush=True)
+                else:
+                    print(" 0fin(sin datos)", end='', flush=True)
+            else:
+                print(f" {n_fin}fin", end='', flush=True)
             human_delay(2.0, 4.0)
 
         # Analyst estimates (/est — cid+tid)
         analyst_estimates = fetch_est(session, token, cid, tid)
+        # Mismo problema que arriba: `fetch_est` devuelve {} ante cualquier
+        # fallo y se escribía encima. Pero aquí hay un matiz: las estimaciones
+        # SÍ se revisan, así que conservar las de la semana pasada no es
+        # gratis. Se conservan igualmente —sin ellas, `owner_earnings` cae a
+        # proyectar el FCF a ojo, que es peor que una estimación de hace una
+        # semana— pero se marca DE CUÁNDO son para que se pueda ver.
+        if not analyst_estimates.get('forward'):
+            previo_est = (existing.get(ticker) or {}).get('analyst_estimates') or {}
+            if previo_est.get('forward'):
+                analyst_estimates = dict(previo_est)
+                analyst_estimates['conservado_de'] = (
+                    (existing.get(ticker) or {}).get('fetched_at', ''))
         n_fwd = len(analyst_estimates.get('forward', {}))
         rev   = analyst_estimates.get('revision_flag', '')
-        print(f" {n_fwd}fwd({rev})", end='', flush=True)
+        marca = '·conservado' if analyst_estimates.get('conservado_de') else ''
+        print(f" {n_fwd}fwd({rev}){marca}", end='', flush=True)
         human_delay(2.0, 4.0)
 
         # Headlines + SigDevs + Shareholders + Reports (all use RIC format)

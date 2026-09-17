@@ -57,6 +57,26 @@ jobs:
                   print(f'  - {e}')
           if total < 50:
               print('WARNING: fewer than 50 tickers — check run')
+
+          # Comprobar el CONTENIDO, no solo el recuento.
+          #
+          # Este paso miraba `total` (137 ✅) y `errors` (0 ✅) y daba el visto
+          # bueno. Pero `fetch_tf_financials` devuelve {} ante cualquier fallo
+          # SIN registrar error, así que durante cuatro meses la cobertura de
+          # cuentas osciló entre el 47% y el 81% —media 62%— y nadie lo supo.
+          # El scraper 'funcionaba': 137 tickers, cero errores, y a 5 de cada 13
+          # les faltaban las cuentas.
+          d = data.get('data', {})
+          con_fin = sum(1 for v in d.values() if (v or {}).get('financials_history', {}).get('metrics'))
+          con_est = sum(1 for v in d.values() if (v or {}).get('analyst_estimates', {}).get('forward'))
+          conservados = sum(1 for v in d.values() if (v or {}).get('financials_history', {}).get('conservado_de'))
+          print(f'Con cuentas:      {con_fin}/{len(d)} ({100*con_fin//max(1,len(d))}%)  [{conservados} conservados de semanas anteriores]')
+          print(f'Con estimaciones: {con_est}/{len(d)} ({100*con_est//max(1,len(d))}%)')
+          if len(d) and con_fin / len(d) < 0.75:
+              print(f'ERROR: solo el {100*con_fin//len(d)}% tiene cuentas. Con el arrastre de')
+              print('semanas anteriores esto deberia rondar el 99%: si baja del 75% es que')
+              print('algo pasa con /tf o con el fichero anterior.')
+              sys.exit(1)
           "
 
       - name: Commit enriched data

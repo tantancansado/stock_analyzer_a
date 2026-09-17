@@ -26,11 +26,12 @@ Lo de arriba es lo que está en curso; lo de abajo, lo que espera a tener datos.
       byte idéntico (TIKR se refresca los domingos, el batch cambia los lunes).
       Arreglado con huella de la entrada: se revalida cuando cambian las cuentas,
       ese mismo día, no por calendario.
-- [ ] **TIKR solo trae las cuentas del 62% de los tickers cada semana**, y son
-      tickers distintos cada vez (oscila 47-81% desde mayo). Por eso el FCF de un
-      año CERRADO aparece y desaparece el 41% de las semanas. La unión de 10
-      semanas cubre el 99%: guardando lo ya descargado se pasa del 62% al 99%
-      sin una petición más. Un año fiscal cerrado es un hecho, no una cotización.
+- [x] ~~**TIKR solo traía las cuentas del 62% de los tickers cada semana.**~~
+      Arreglado el 17-sep: una petición vacía ya no borra lo de la semana
+      anterior. Con una sola semana de arrastre la cobertura pasa del 53% al
+      89%, y crece hacia el 99% (la unión de 10 semanas). Y el paso de
+      verificación ahora mira el CONTENIDO, no solo `total` y `errors` — que es
+      lo que permitió que esto durara cuatro meses.
 - [ ] `fundamental_scorer`: 8,2 min/día y sus campos cambian el 1-5% de los días
       (lo que cambia el 90% —precio, upside— es lo barato). Mismo tratamiento
       pendiente de decidir.
