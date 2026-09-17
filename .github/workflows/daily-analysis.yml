@@ -1051,7 +1051,15 @@ jobs:
                       entry['min_rows'] = min_rows
               modules[name] = entry
 
+          # De DÓNDE sale este fichero. Sin esto, un health escrito desde un
+          # portátil es indistinguible de uno del pipeline: el 17-sep-2026
+          # ejecute el bloque en local para probar un cambio, se colo en un
+          # commit con `git add -A` y el watchdog mando a Telegram un aviso
+          # fechado a las 22:10 como si el pipeline hubiera corrido entonces.
+          # El contenido era correcto; la procedencia, no.
           health = {
+            'origen': os.environ.get('GITHUB_ACTIONS') and 'github-actions' or 'local',
+            'run_id': os.environ.get('GITHUB_RUN_ID'),
             'generated_at': NOW_STR,
             'pipeline_date': TODAY,
             'ok_count': ok_count,

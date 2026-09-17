@@ -88,6 +88,7 @@ MODULE_LABELS = {
     "economic_cal": "Calendario económico",
     "mean_reversion": "Mean reversion",
     "value_global": "Value global",
+    "value_eu_filt": "Value EU (filtrado — lo que ves en la app)",
     "value_opportunities:excluidos": "Picks buenos fuera de la lista",
     "value_opportunities:motivo_repetido": "Muchos fuera por el mismo motivo",
 }
@@ -136,6 +137,22 @@ def find_problems() -> tuple[list[dict], bool]:
 
     problems: list[dict] = []
     health_stale = False
+
+    # ¿Lo ha escrito el pipeline o un portátil? Sin esto, un health generado en
+    # local es indistinguible de uno de CI: el 17-sep-2026 una prueba local se
+    # coló en un commit y el watchdog mandó a Telegram un aviso fechado a las
+    # 22:10, como si el pipeline hubiera corrido entonces. El contenido era
+    # correcto; la procedencia, no, y eso convierte el aviso en un rumor.
+    origen = health.get("origen")
+    if origen and origen != "github-actions":
+        problems.append({
+            "module": "pipeline_health",
+            "status": "origen_local",
+            "critical": False,
+            "detail": (f"este informe lo escribió «{origen}», no el pipeline: dice lo "
+                       f"que hay en los ficheros, pero no prueba que el run de hoy "
+                       f"haya ocurrido"),
+        })
 
     # 0. Saldo de la API de Claude. Va aquí y no solo en el briefing porque el
     #    briefing lo redacta la propia Claude: si el fallo es de saldo, el

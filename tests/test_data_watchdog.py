@@ -360,3 +360,35 @@ class TestContratoDeContenido:
         assert 'continue-on-error: true' in bloque, \
             'un paso que solo AÑADE columnas no puede tumbar a los que generan datos'
         assert '[CRITICAL]' not in yml[i:i + 60]
+
+
+def test_el_health_dice_quien_lo_escribio(tmp_path, monkeypatch):
+    """Un health de un portátil no puede pasar por uno del pipeline.
+
+    17-sep-2026: ejecuté el bloque del health en local para probar un cambio,
+    se coló en un commit con `git add -A`, y el watchdog mandó a Telegram un
+    aviso fechado a las 22:10 como si el pipeline hubiera corrido entonces. El
+    contenido era correcto —describía bien los ficheros— pero la procedencia
+    no, y un aviso sin procedencia es un rumor.
+    """
+    import data_freshness_watchdog as wd
+    p = tmp_path / 'pipeline_health.json'
+    p.write_text(json.dumps({
+        'origen': 'local', 'generated_at': _iso(wd._now()),
+        'ok_count': 21, 'total': 21, 'modules': {},
+    }))
+    monkeypatch.setattr(wd, 'HEALTH_PATH', p)
+    problemas, _ = wd.find_problems()
+    assert any(x['status'] == 'origen_local' for x in problemas)
+
+
+def test_un_health_de_ci_no_levanta_ese_aviso(tmp_path, monkeypatch):
+    import data_freshness_watchdog as wd
+    p = tmp_path / 'pipeline_health.json'
+    p.write_text(json.dumps({
+        'origen': 'github-actions', 'run_id': '123', 'generated_at': _iso(wd._now()),
+        'ok_count': 21, 'total': 21, 'modules': {},
+    }))
+    monkeypatch.setattr(wd, 'HEALTH_PATH', p)
+    problemas, _ = wd.find_problems()
+    assert not any(x['status'] == 'origen_local' for x in problemas)
