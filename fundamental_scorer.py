@@ -75,6 +75,48 @@ TECHO_CRECIMIENTO = 0.15
 SUELO_CRECIMIENTO = 0.03
 
 
+# Coste del capital propio por CAPM: tipo sin riesgo + beta × prima de riesgo.
+# El tipo del bono a 10 años y la prima se revisan a mano; no valen un dato de
+# mercado porque son supuestos del modelo, no observaciones.
+TIPO_SIN_RIESGO = 0.043
+PRIMA_DE_RIESGO = 0.045
+# Suelo y techo. El suelo NO es el CAPM puro: con beta 0,41 el CAPM da 6,2%, y
+# a ese descuento el valor terminal se dispara (con un terminal del 3%, el
+# múltiplo implícito es 29x y CBOE salía valorada en 897$ cotizando a 270$).
+# 7,5% es el orden del retorno histórico de la renta variable, y es el suelo de
+# lo que tiene sentido exigirle a una acción por muy estable que sea.
+DESCUENTO_MIN, DESCUENTO_MAX = 0.075, 0.12
+
+# El crecimiento no se mantiene cinco años y se corta de golpe: decae hacia el
+# terminal. Sin este desvanecimiento, proyectar el 12-15% actual durante un
+# lustro y luego pegarle una perpetuidad daba valores del doble del precio.
+CRECIMIENTO_TERMINAL = 0.025
+MARGEN_SOBRE_TERMINAL = 0.04   # r - g_terminal nunca por debajo de esto
+
+
+def coste_del_capital(info: Dict) -> float:
+    """Lo que hay que exigirle a ESTA empresa, no a todas por igual.
+
+    El DCF descontaba al 10% fijo. A McDonald's, con beta 0,414, le exigía lo
+    mismo que a una tecnológica: su coste por CAPM es 6,2%, y con el 10% su
+    valoración salía un 31% por debajo del precio. Ese "está cara" era el
+    descuento, no la empresa. Me pasó a mí haciendo el análisis a mano el
+    17-sep-2026 y llegué a decirle al usuario que McDonald's cotizaba por
+    encima de su valor; la beta lo desmintió.
+
+    Sin beta utilizable se usa 1,0, que devuelve el 8,8% — más exigente que la
+    media del universo y por tanto conservador.
+    """
+    beta = info.get('beta')
+    try:
+        b = float(beta) if beta is not None else 1.0
+    except (TypeError, ValueError):
+        b = 1.0
+    if not (0.1 < b < 3.0):
+        b = 1.0
+    return max(DESCUENTO_MIN, min(TIPO_SIN_RIESGO + b * PRIMA_DE_RIESGO, DESCUENTO_MAX))
+
+
 def crecimiento_sostenible(info: Dict) -> Optional[float]:
     """La tasa que se puede proyectar cinco años, no la del último trimestre.
 
@@ -1765,16 +1807,17 @@ class FundamentalScorer:
             if _per_share_ok and fcf and shares and float(shares) > 0 and growth_rate:
                 fcf_ps = float(fcf) / float(shares)  # FCF per share
                 g = float(growth_rate)   # ya viene acotado y sin contaminar
-                discount = 0.10
-                terminal_g = 0.03
+                discount = coste_del_capital(info)
+                terminal_g = min(CRECIMIENTO_TERMINAL, discount - MARGEN_SOBRE_TERMINAL)
 
-                # PV of 5 years FCF
-                pv_fcf = sum(
-                    fcf_ps * (1 + g) ** t / (1 + discount) ** t
-                    for t in range(1, 6)
-                )
-                # Terminal value at year 5
-                fcf_y5 = fcf_ps * (1 + g) ** 5
+                # El crecimiento decae linealmente hacia el terminal en vez de
+                # mantenerse cinco años y cortarse de golpe.
+                pv_fcf, f = 0.0, fcf_ps
+                for t in range(1, 6):
+                    g_t = g + (terminal_g - g) * (t - 1) / 4
+                    f *= (1 + g_t)
+                    pv_fcf += f / (1 + discount) ** t
+                fcf_y5 = f
                 terminal_value = fcf_y5 * (1 + terminal_g) / (discount - terminal_g)
                 pv_terminal = terminal_value / (1 + discount) ** 5
 

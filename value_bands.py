@@ -1,10 +1,19 @@
 """Banda canónica de analyst_upside_pct para señales VALUE — única fuente.
 
-Calibrada con señales reales (86 clean-period + 55 del tier ≥30%):
-  [10, 25)  → +4.73% / 83% win   (zona dorada)
-  [25, 30)  → transición (n pequeño, sin evidencia clara)
-  >= 30     → 0% win / -8.28% avg (value trap: si el gap con el target es
-              enorme, el precio se desplomó por algo que el modelo no ve)
+Calibrada con señales reales. Recalibrada el 17-sep-2026 sobre 152 señales
+del periodo limpio con retorno a 90 días ya cerrado:
+
+  [10, 25)  → 61% win / +2.78% media   (28 señales)
+  [25, 30)  → 62% win / +3.73% media   (24 señales)   ← IGUAL que la dorada
+  >= 30     → 28% win / -3.26% media  (100 señales)   ← la trampa, y es real
+
+El corte de la zona dorada estaba en 25 por un «n pequeño, sin evidencia
+clara» que ya no es cierto: con 24 señales cerradas, [25,30) rinde lo mismo
+que [10,25). No es que sea mejor — es que no hay NINGUNA diferencia, así que
+penalizarla no tenía respaldo. El usuario lo dijo antes que los datos: «si
+está barata está barata, no sospechamos porque sí». Tenía razón.
+
+Lo que sigue en pie, y con la muestra más grande de las tres, es el ≥30%.
 
 Antes cada consumidor tenía su propia banda (integrator ≥30 reject,
 portfolio_tracker 10-45, conviction_filter 10-55) y el mismo ticker podía
@@ -15,8 +24,11 @@ AQUÍ y en ningún otro sitio.
 # Por debajo: upside demasiado justo para compensar el riesgo de la posición
 UPSIDE_MIN = 10.0
 
-# Fin de la zona dorada [10, 25): el bonus de score solo premia esta banda
-UPSIDE_GOLDEN_MAX = 25.0
+# Fin de la zona dorada [10, 30): el bonus de score premia esta banda. Estaba
+# en 25 y se sube a 30 el 17-sep-2026 — ver la nota de arriba: [25,30) rinde
+# igual que [10,25) sobre 24 señales cerradas, y el corte dejaba fuera del
+# bonus a picks indistinguibles de los premiados.
+UPSIDE_GOLDEN_MAX = 30.0
 
 # Hard reject: >= 30% es señal de trampa, no de oportunidad
 UPSIDE_HARD_REJECT = 30.0

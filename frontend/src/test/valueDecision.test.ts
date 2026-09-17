@@ -244,7 +244,11 @@ describe('getValueDecision — ready (isReady path)', () => {
   })
 
   it('un upside fuera de la banda dorada no está listo', () => {
-    expect(getValueDecision({ row: makeRow({ analyst_upside_pct: 27 }) }).kind).not.toBe('ready')
+    // El techo pasó de 25 a 30 el 17-sep-2026: [25,30) acierta el 62% contra
+    // el 61% de [10,25) sobre las señales con 90 días cerrados, así que un 27
+    // SÍ está listo. Lo que este test protege es que siga habiendo techo.
+    expect(getValueDecision({ row: makeRow({ analyst_upside_pct: 27 }) }).kind).toBe('ready')
+    expect(getValueDecision({ row: makeRow({ analyst_upside_pct: 31 }) }).kind).not.toBe('ready')
     expect(getValueDecision({ row: makeRow({ analyst_upside_pct: 5 }) }).kind).not.toBe('ready')
     expect(getValueDecision({ row: makeRow({ analyst_upside_pct: 24.9 }) }).kind).toBe('ready')
   })
@@ -485,7 +489,8 @@ describe('getValueDecision — edge cases', () => {
 
   it('el borde de la banda dorada es inclusivo por abajo y exclusivo por arriba', () => {
     expect(getValueDecision({ row: makeRow({ analyst_upside_pct: 10 }) }).kind).toBe('ready')
-    expect(getValueDecision({ row: makeRow({ analyst_upside_pct: 25 }) }).kind).toBe('watch')
+    expect(getValueDecision({ row: makeRow({ analyst_upside_pct: 29.9 }) }).kind).toBe('ready')
+    expect(getValueDecision({ row: makeRow({ analyst_upside_pct: 30 }) }).kind).toBe('watch')
   })
 
   it('value_score defaults to 0 when undefined/null', () => {

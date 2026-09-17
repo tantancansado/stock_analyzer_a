@@ -29,7 +29,12 @@ describe('bandasUpside', () => {
     expect(bandaUpside(5)).toBe('flojo')
     expect(bandaUpside(10)).toBe('dorada')
     expect(bandaUpside(24.9)).toBe('dorada')
-    expect(bandaUpside(25)).toBe('transicion')
+    // 25 era 'transicion' hasta el 17-sep-2026. Medido sobre las señales con
+    // 90 días cerrados, [25,30) acierta el 62% y [10,25) el 61%: la misma
+    // banda. Se unificaron y el estado 'transicion' desapareció.
+    expect(bandaUpside(25)).toBe('dorada')
+    expect(bandaUpside(29.9)).toBe('dorada')
+    expect(bandaUpside(30)).toBe('trampa')
     expect(bandaUpside(30)).toBe('trampa')
     expect(bandaUpside(120)).toBe('trampa')
   })
@@ -37,8 +42,11 @@ describe('bandasUpside', () => {
   it('un upside alto no es verde', () => {
     // El fallo que se repetía en media app: pintar verde a partir de un suelo,
     // sin techo, premiando justo la franja que peor rinde.
+    // El techo está en 30, no en 25: 27 sí es verde desde el 17-sep-2026.
+    // Lo que el test protege es que EXISTA un techo, no dónde está.
     expect(colorUpside(18)).toBe('text-emerald-400')
-    expect(colorUpside(27)).not.toBe('text-emerald-400')
+    expect(colorUpside(27)).toBe('text-emerald-400')
+    expect(colorUpside(35)).not.toBe('text-emerald-400')
     expect(colorUpside(35)).toBe('text-red-400')
     expect(enZonaDorada(35)).toBe(false)
   })

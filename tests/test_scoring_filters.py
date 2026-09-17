@@ -258,11 +258,19 @@ class TestSourceCodeAlignment:
         from pathlib import Path
         import super_score_integrator as ssi
         from value_bands import UPSIDE_MIN, UPSIDE_GOLDEN_MAX, UPSIDE_HARD_REJECT
-        # La banda canónica vive en value_bands — estos valores vienen del
-        # backtest (golden [10,25) = 83% win; >=30 = 0% win). Si cambian,
-        # que sea a propósito.
+        # La banda canónica vive en value_bands. Si cambia, que sea a propósito
+        # y con datos — este assert existe para forzar esa conversación.
+        #
+        # 17-sep-2026: GOLDEN_MAX sube de 25 a 30. Medido sobre las señales del
+        # periodo limpio con 90 días ya cerrados:
+        #     [10,25)  61% acierto  +2,78%  (28 señales)
+        #     [25,30)  62% acierto  +3,73%  (24 señales)   <- igual
+        #     >=30     28% acierto  -3,26% (100 señales)   <- la trampa
+        # El corte en 25 venía de un «n pequeño, sin evidencia clara» que dejó
+        # de ser cierto. No es que [25,30) sea mejor: es que es indistinguible
+        # de la dorada, y penalizarla no tenía respaldo.
         assert UPSIDE_MIN == 10.0
-        assert UPSIDE_GOLDEN_MAX == 25.0
+        assert UPSIDE_GOLDEN_MAX == 30.0
         assert UPSIDE_HARD_REJECT == 30.0
         src = Path(ssi.__file__).read_text()
         # Golden zone bonus is positive, trap zone is a penalty, via constants.
