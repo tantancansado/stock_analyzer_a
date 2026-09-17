@@ -285,6 +285,77 @@ def identidades_rotas(nombres: tuple[str, ...]) -> list[str]:
     return fuera
 
 
+def identidad_de_los_tickers() -> list[str]:
+    """¿Cada ticker trae los datos de la empresa que dice?
+
+    El mismo ticker aparece en varios ficheros, cada uno de una descarga
+    distinta. Si dos no coinciden en el nombre, en el precio o en la divisa que
+    corresponde a su bolsa, una de las dos tiene OTRA empresa.
+
+    El 17-sep-2026 salieron tres registros completos, plausibles y equivocados:
+
+        AI.PA   debería ser L'Air Liquide  →  TIKR traía C3.ai, Inc.
+        BRK-B   Berkshire Hathaway         →  Direxion Daily BRKB Bull 2X ETF
+        MMC     Marsh & McLennan           →  MM Conferences S.A. (Polonia)
+
+    Es el fallo más difícil de ver del repo: los demás dejan un hueco, este deja
+    un dato lleno. Ver identidad_ticker.py.
+    """
+    try:
+        import json as _json
+
+        import pandas as pd
+
+        import identidad_ticker
+    except ImportError as exc:
+        return [f'no se pudo comprobar la identidad de los tickers: {exc}']
+
+    fuentes: dict[str, list[dict]] = {}
+    for nombre in ('value_opportunities.csv', 'european_value_opportunities.csv',
+                   'fundamental_scores.csv', 'momentum_opportunities.csv',
+                   'global_value_opportunities.csv'):
+        ruta = DOCS / nombre
+        if not ruta.exists():
+            continue
+        try:
+            d = pd.read_csv(ruta)
+        except Exception:
+            continue
+        if 'ticker' not in d.columns:
+            continue
+        for _, r in d.iterrows():
+            t = str(r['ticker']).upper().strip()
+            fuentes.setdefault(t, []).append({
+                'fuente': nombre.replace('.csv', '')[:18],
+                'nombre': str(r.get('company_name') or '') or None,
+                'precio': pd.to_numeric(pd.Series([r.get('current_price')]),
+                                        errors='coerce').iloc[0],
+                'divisa': None,   # los CSV no la traen; la divisa la aporta TIKR
+            })
+
+    ruta_tikr = DOCS / 'tikr_earnings_data.json'
+    if ruta_tikr.exists():
+        try:
+            for t, v in _json.loads(ruta_tikr.read_text()).get('data', {}).items():
+                pr = (v or {}).get('price') or {}
+                c = pr.get('c')
+                fuentes.setdefault(str(t).upper(), []).append({
+                    'fuente': 'tikr',
+                    'nombre': str((v or {}).get('company_name') or '') or None,
+                    'precio': float(c) if c else None,
+                    'divisa': pr.get('curr'),
+                })
+        except Exception:
+            pass
+
+    fallos: list[str] = []
+    for t, fs in sorted(fuentes.items()):
+        if len(fs) < 2 and not any(f.get('divisa') for f in fs):
+            continue
+        fallos.extend(identidad_ticker.revisar(t, fs))
+    return fallos
+
+
 def run() -> int:
     print('[coherence_check] Cruzando lo publicado consigo mismo...')
 
@@ -319,6 +390,7 @@ def run() -> int:
         ('commodities: rating contra narrativa IA',   commodity_rating_vs_narrativa(commodities)),
         ('postmortem contra el win rate del tracker', postmortem_vs_tracker_summary(postmortem, tracker_summary)),
         ('precio LEAPS contra precio VALUE',           leaps_precio_vs_value(value, value_eu, leaps)),
+        ('identidad de los tickers (¿es esta empresa?)', identidad_de_los_tickers()),
         ('identidades aritméticas de lo publicado',   identidades_rotas((
             'value_opportunities.csv', 'value_opportunities_filtered.csv',
             'european_value_opportunities.csv', 'european_value_opportunities_filtered.csv',

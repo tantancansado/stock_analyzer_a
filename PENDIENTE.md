@@ -58,10 +58,13 @@ aparecido en TIKR, en el health del pipeline y en el veto de rebotes:
       daba luz verde mientras a 5 de cada 13 les faltaban las cuentas, cuatro
       meses. Y «20/20 módulos OK» el día que fallaron nueve pasos. Arreglados
       los dos; hay que mirar si algún otro paso verifica solo el tamaño.
-- [ ] **Un registro completo pero de OTRA empresa.** `MMC` resolvía a una
-      polaca de 8,90 PLN en vez de Marsh & McLennan. Ya hay chequeo de divisa
-      en TIKR; falta ver si el resto de resolvedores de ticker pueden confundir
-      empresa igual.
+- [x] ~~**Un registro completo pero de OTRA empresa.**~~ Cruzando las fuentes
+      del mismo ticker salieron CUATRO de 137, y tres son fondos, no empresas:
+      `AI.PA`→C3.ai, `BRK-B`→Direxion Daily BRKB Bull 2X ETF, `EXPN.L`→Horizon
+      Expansion Leaders ETF, `MMC`→MM Conferences S.A. (Polonia). Chequeo nuevo
+      (`identidad_ticker.py`) en `coherence_check`: divisa contra la bolsa del
+      sufijo, nombre contra nombre y precio contra precio. Falta DECIDIR qué
+      hacer con los cuatro: excluirlos del universo o arreglar el resolvedor.
 - [ ] `valuation_model` de TIKR viene vacío en 125 de 137 tickers **las dos
       semanas**: no es intermitente, ese endpoint no funciona. Nadie lo usa
       todavía, pero está ahí.
