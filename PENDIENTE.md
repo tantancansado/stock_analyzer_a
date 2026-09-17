@@ -49,6 +49,13 @@ Lo de arriba es lo que está en curso; lo de abajo, lo que espera a tener datos.
       cuando no podía leer la cartera, y entonces se pisaba el último snapshot
       bueno con uno vacío.
 
+- [ ] **Confirmar mañana que vuelven los once.** El verificador IA sacó de la
+      lista a BR, SPGI, AXP, MSFT, MA, KO, INTU, DSGX, BRO, COST y VEEV — 11 de
+      25 fichas, el 17-sep— por un vacío que pusimos a propósito la tarde
+      anterior y que la ficha no explicaba. Arreglado; sin clave local no se
+      puede probar contra el modelo real, así que se comprueba en la ejecución
+      de mañana.
+
 ## Esperando a que corra el pipeline
 
 - [ ] `fcf_per_share` en peniques y clases de acción — arreglado en

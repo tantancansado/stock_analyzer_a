@@ -66,3 +66,57 @@ class TestApplyVerdicts:
         df = pd.DataFrame(ROWS)
         out, blocked = v.apply_verdicts(df, {})
         assert len(out) == 2 and blocked == []
+
+
+class TestElVacioDeliberado:
+    """El auditor sacó de la lista a BR, MSFT, MA, COST, V, INTU y cinco más.
+
+    17-sep-2026: once de veinticinco fichas bloqueadas, y once veces el mismo
+    motivo — «upside_triangulated_pct es NaN pero modelos_acuerdo dice
+    CONTRADICEN». Tenía razón en que el hueco estaba; lo que no sabía es que lo
+    habíamos puesto nosotros la tarde anterior, a propósito: cuando el DCF dice
+    barata y el P/E dice cara, su mediana no estima nada y no se publica.
+
+    BR sacaba 87,8/100, la segunda mejor de la lista. No eran once empresas
+    malas: era un campo de la ficha sin explicar.
+    """
+
+    def test_el_hueco_a_proposito_va_explicado_no_vacio(self):
+        import ai_pick_verifier as v
+        f = v._ficha({'ticker': 'BR', 'modelos_acuerdo': 'CONTRADICEN',
+                      'upside_triangulated_pct': float('nan')})
+        assert 'a propósito' in f['upside_triangulated_pct']
+
+    def test_un_hueco_sin_motivo_se_calla_no_se_inventa(self):
+        """Si los modelos NO se contradicen, el NaN no tiene excusa: se omite
+        en vez de mandar una explicación que no aplica."""
+        import ai_pick_verifier as v
+        f = v._ficha({'ticker': 'BR', 'modelos_acuerdo': 'COHERENTES',
+                      'upside_triangulated_pct': float('nan')})
+        assert 'upside_triangulated_pct' not in f
+
+    def test_ningun_nan_llega_al_modelo(self):
+        """`json.dumps` escribe el NaN como el literal `NaN`, que ni es JSON
+        válido ni significa nada para quien lo lee."""
+        import json
+
+        import ai_pick_verifier as v
+        f = v._ficha({'ticker': 'BR', 'peg_ratio': float('nan'),
+                      'fcf_yield_pct': 6.2, 'dividend_yield_pct': None})
+        crudo = json.dumps([f], ensure_ascii=False, allow_nan=False)
+        assert 'NaN' not in crudo
+        assert f['fcf_yield_pct'] == 6.2
+
+    def test_el_prompt_le_cuenta_que_los_dos_flags_miden_cosas_distintas(self):
+        """`modelos_acuerdo` es DCF contra P/E; `upside_divergence` es el
+        analista contra los dos. KO y COST se bloquearon por leerlos como si
+        fueran el mismo."""
+        import ai_pick_verifier as v
+        assert 'modelos_acuerdo' in v.SYSTEM and 'upside_divergence' in v.SYSTEM
+        assert 'CONTRADICEN' in v.SYSTEM
+
+    def test_los_campos_con_vacio_deliberado_se_le_ensenan_al_auditor(self):
+        """Explicar un campo que la ficha no manda no sirve de nada."""
+        import ai_pick_verifier as v
+        for campo in v._VACIO_DELIBERADO:
+            assert campo in v.FICHA_FIELDS

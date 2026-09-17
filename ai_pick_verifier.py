@@ -25,6 +25,10 @@ from typing import Any
 
 from groq_utils import CLAUDE_HAIKU, claude_chat
 
+# Por encima de esta proporción de fichas bloqueadas, el sospechoso es el
+# formato de la ficha, no la lista de valores.
+BLOQUEO_MASIVO = 0.25
+
 # Campos que se le enseñan al verificador. Solo lectura: ninguno se sustituye
 # con lo que responda.
 FICHA_FIELDS = (
@@ -55,6 +59,17 @@ Buscas exactamente esto:
 - Un score alto que no se sostiene en los fundamentales de la propia ficha.
 - Valoraciones que se contradicen entre sí sin que nada lo señale.
 
+Qué NO es un problema (contrato de la ficha, respétalo):
+- `modelos_acuerdo` compara los dos modelos PROPIOS entre sí (DCF contra P/E).
+  `upside_divergence` compara el analista contra esos modelos. Miden cosas
+  distintas: que una diga COHERENTES y la otra ALTA no es una contradicción.
+- Cuando `modelos_acuerdo` es CONTRADICEN, `upside_triangulated_pct` viene
+  vacío A PROPÓSITO, y el propio campo lo explica. No hay valor verdadero entre
+  «un 50% barata» y «un 45% cara», así que no se publica ninguno. Eso es el
+  sistema funcionando, no un dato que falte.
+- Un campo ausente de la ficha es un dato que no se pudo obtener. Señálalo solo
+  si su ausencia invalida la recomendación, no por estar ausente.
+
 Severidad:
 - "BLOCK": el dato es erróneo o la contradicción invalida la recomendación.
 - "WARN": llamativo pero defendible.
@@ -64,8 +79,39 @@ Respondes SOLO con un JSON válido, sin markdown ni explicación fuera del JSON:
 {"resultados": [{"ticker": "XXX", "veredicto": "OK|WARN|BLOCK", "problemas": ["..."]}]}"""
 
 
+# Vacíos que son una DECISIÓN, no un dato que falte. Sin esto el auditor los
+# lee como avería y bloquea la ficha: el 17-sep-2026 sacó de la lista a BR
+# (87,8/100, la segunda mejor), MSFT, MA, COST, V, INTU y cinco más — once de
+# veinticinco fichas— todas con el mismo motivo, «upside_triangulated_pct es
+# NaN pero modelos_acuerdo dice CONTRADICEN». Y tenía razón en que el hueco
+# estaba: lo que no sabía es que lo pusimos nosotros a propósito.
+_VACIO_DELIBERADO = {
+    'upside_triangulated_pct': (
+        lambda r: str(r.get('modelos_acuerdo') or '') == 'CONTRADICEN',
+        'sin triangular a propósito: DCF y P/E se contradicen en el signo y su '
+        'mediana no estimaría nada',
+    ),
+}
+
+
+def _es_nan(v) -> bool:
+    return isinstance(v, float) and v != v
+
+
 def _ficha(row: dict) -> dict:
-    return {k: row.get(k) for k in FICHA_FIELDS if row.get(k) not in (None, '')}
+    ficha = {}
+    for k in FICHA_FIELDS:
+        v = row.get(k)
+        if v is None or v == '' or _es_nan(v):
+            # Un NaN no puede ir tal cual: `json.dumps` lo escribe como el
+            # literal NaN, que no es JSON válido, y el modelo lo ve como un
+            # agujero sin explicar.
+            regla = _VACIO_DELIBERADO.get(k)
+            if regla and regla[0](row):
+                ficha[k] = regla[1]
+            continue
+        ficha[k] = v
+    return ficha
 
 
 def verify_picks(rows: list[dict], model: str = CLAUDE_HAIKU,
@@ -116,6 +162,14 @@ def verify_picks(rows: list[dict], model: str = CLAUDE_HAIKU,
     n_block = sum(1 for v in out.values() if v['veredicto'] == 'BLOCK')
     n_warn  = sum(1 for v in out.values() if v['veredicto'] == 'WARN')
     print(f'   🤖 Verificador IA: {len(out)} fichas · {n_block} bloqueadas · {n_warn} con avisos')
+    if out and n_block / len(out) >= BLOQUEO_MASIVO:
+        # Once de veinticinco el 17-sep-2026, y las once por el mismo motivo:
+        # no eran once empresas malas, era un campo de la ficha mal explicado.
+        # Cuando se bloquea a este ritmo, sospecha de la ficha antes que de los
+        # valores.
+        print(f'   🔔 ATENCIÓN: bloqueado el {n_block / len(out):.0%} de la lista. '
+              f'Cuando el auditor veta a este ritmo suele fallar la FICHA, no los valores '
+              f'— mira si el motivo se repite.')
     for t, v in out.items():
         if v['veredicto'] != 'OK':
             for p in v['problemas'][:2]:
