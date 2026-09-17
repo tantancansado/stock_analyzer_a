@@ -139,6 +139,42 @@ def fcf_del_estado_de_flujos(stock):
     return fcf, capex
 
 
+
+def crecimiento_ingresos_3y(stock) -> float | None:
+    """Crecimiento anual compuesto de ingresos a 3 años, del estado anual.
+
+    `revenueGrowth` de yfinance es el crecimiento de UN trimestre contra el
+    mismo del año anterior. Proyectar cinco años con eso da resultados
+    absurdos en cuanto el trimestre es atípico:
+
+        OXY   revenueGrowth +53,4%   ->  DCF 123 $ cotizando a 59 $  (+109%)
+        CVX   revenueGrowth +51,4%   ->  DCF 386 $ cotizando a 211 $  (+84%)
+
+    Los dos números son ciertos y salen de las cuentas; lo que no es cierto es
+    que una petrolera crezca al 15% anual durante un lustro porque un trimestre
+    rebotara con el crudo. Es el mismo error que cometí yo al describir a
+    McDonald's con un solo trimestre.
+
+    Tres años suaviza el ciclo sin llegar a describir otra empresa.
+    """
+    try:
+        fin = stock.income_stmt
+    except Exception:
+        return None
+    if fin is None or getattr(fin, 'empty', True) or 'Total Revenue' not in fin.index:
+        return None
+    try:
+        r = fin.loc['Total Revenue'].dropna().sort_index(ascending=False)
+        if len(r) < 4:
+            return None
+        ini, fin_ = float(r.iloc[3]), float(r.iloc[0])
+        if ini <= 0 or fin_ <= 0:
+            return None
+        return (fin_ / ini) ** (1 / 3) - 1
+    except Exception:
+        return None
+
+
 def derive_from_statements(stock, info: dict, fields: list[str] | None = None) -> tuple[dict, list[str]]:
     """Rellena campos ausentes en `info` desde los estados financieros.
 
@@ -200,6 +236,14 @@ def derive_from_statements(stock, info: dict, fields: list[str] | None = None) -
                           f'declarado {float(declarado):,.0f} — {desvio:.0%} de desvío)')
         elif desvio:
             filled.append(f'freeCashflow(OCF-capex, {desvio:.0%} sobre el declarado)')
+
+    # Crecimiento de ingresos a 3 AÑOS: el `revenueGrowth` de yfinance es de un
+    # trimestre, y proyectarlo cinco años dispara el DCF en cualquier negocio
+    # cíclico. Se añade como campo aparte para que el que valore elija.
+    g3 = crecimiento_ingresos_3y(stock)
+    if g3 is not None:
+        out['revenueGrowth3y'] = g3
+        filled.append(f'revenueGrowth3y({g3:.1%})')
 
     if filled:
         print(f"   📄 Estados financieros aportan: {', '.join(filled)}")

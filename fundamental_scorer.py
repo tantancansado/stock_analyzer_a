@@ -72,7 +72,13 @@ def _company_name(info: dict, fallback: str) -> str:
 # anterior era del 30-35%: nadie crece un 30% anual durante cinco años, y la
 # fuente del dato lo empeoraba (ver `crecimiento_sostenible`).
 TECHO_CRECIMIENTO = 0.15
-SUELO_CRECIMIENTO = 0.03
+# El suelo estaba en +3%: a un negocio cuyos ingresos CAEN se le proyectaba
+# crecimiento positivo igualmente. OXY, 17-sep-2026: ingresos -16,2% anual a
+# tres años y el DCF la valoraba un 60% por encima del precio, porque el suelo
+# le regalaba un +3%. Un negocio puede decrecer, y el modelo tiene que poder
+# decirlo. -10% como suelo: por debajo, la empresa se está apagando y un DCF
+# no es la herramienta para valorar eso.
+SUELO_CRECIMIENTO = -0.10
 
 
 # Coste del capital propio por CAPM: tipo sin riesgo + beta × prima de riesgo.
@@ -134,7 +140,16 @@ def crecimiento_sostenible(info: Dict) -> Optional[float]:
     Comprobación: con esto el DCF de YUM da ~130$ contra los 132$ que sale de
     hacerlo a mano con el flujo de caja real. Antes daba 266$.
     """
+    # El crecimiento de ingresos a 3 AÑOS manda sobre el trimestral cuando está
+    # disponible: `revenueGrowth` es de un trimestre y en un cíclico dispara la
+    # proyección (OXY +53,4% trimestral -> DCF de 123 $ con la acción a 59 $).
     candidatos = []
+    g3 = info.get('revenueGrowth3y')
+    if g3 is not None:
+        try:
+            candidatos.append(float(g3))
+        except (TypeError, ValueError):
+            pass
     for clave in ('earningsGrowth', 'revenueGrowth'):
         v = info.get(clave)
         try:
