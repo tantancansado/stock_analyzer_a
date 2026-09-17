@@ -61,9 +61,40 @@ SUPPORT_TEST_MIN    = -3.0   # LOW de hoy vs soporte 20d de ayer: puede perforar
 SUPPORT_TEST_MAX    = 2.5    # ... o quedarse hasta a +2.5% sin tocarlo
 DRAWDOWN_MIN        = -15.0
 DRAWDOWN_MAX        = -4.0
-TARGET_PCT          = 4.0    # objetivo conservador
-STOP_PCT            = -2.5
-MIN_RR              = 1.5
+# Objetivo y stop en MÚLTIPLOS DE ATR, no en porcentaje fijo.
+#
+# Eran +4,0% y -2,5% para todos, y eso no es el mismo riesgo para todos: el
+# -2,5% es 1,0x el ATR diario de Starbucks y 1,7x el de Visa. Al de ATR alto
+# le pones un stop que salta con el ruido de un día; al tranquilo, uno que no
+# salta casi nunca. El número era el mismo y la operación, distinta.
+#
+# Hay respaldo externo para dar aire al stop en reversión a la media: Connors
+# probó sobre cientos de miles de operaciones que los stops fijos DAÑAN estas
+# estrategias, porque saltan justo antes del rebote que se estaba esperando.
+# La práctica estándar hoy es dimensionarlos con ATR (~2x).
+#
+# Lo que NO puedo decir es que esto mejore el rendimiento: medido sobre 7
+# tickers, los múltiplos de ATR ganan de media (+1,37% contra +1,05% de
+# esperanza) pero pierden en tres de los siete. Con esa muestra eso es ruido.
+# El cambio se hace por COHERENCIA —que el setup signifique lo mismo en todos
+# los valores— y quien decide si la operación sale sigue siendo la esperanza
+# simulada sobre el histórico de cada uno.
+# El STOP se dimensiona con ATR. El OBJETIVO sale de la estructura del precio
+# —la resistencia de 20 sesiones—, no de otro múltiplo:
+#
+# Con objetivo y stop en múltiplos fijos, el R:R sería SIEMPRE el cociente de
+# los dos (3/2 = 1,50 exacto) y el filtro `rr >= 1,5` dejaría de significar
+# nada: se convierte en un interruptor sobre el borde que por redondeo de coma
+# flotante puede rechazar TODOS los setups en silencio. Lo cazó un test al
+# cambiarlo, antes de llegar a producción.
+#
+# Con el objetivo en la resistencia real, el R:R vuelve a variar entre
+# tickers y el filtro vuelve a decir algo: descarta los que tienen el techo
+# demasiado cerca para lo que hay que arriesgar.
+STOP_ATR_MULT       = 2.0
+# Techo de cuánto se puede pedir: por encima de esto la resistencia está tan
+# lejos que no se alcanza en el horizonte del rebote.
+TARGET_ATR_MULT_MAX = 4.0
 
 MAX_RESULTS         = 15     # hard cap (no queremos saturar)
 
@@ -154,6 +185,9 @@ def _compute_metrics(df: pd.DataFrame) -> dict | None:
         'sup_test': (today_low - support_prev) / support_prev * 100 if support_prev else 999,
         'drawdown': (price - max20) / max20 * 100 if max20 else 0,
         'pullback': (price - s20) / s20 * 100 if s20 else 0,
+        # Se calculaba para el drawdown y no salía del dict: el objetivo del
+        # setup lo necesita para no inventarse un techo.
+        'max20':    max20,
     }
 
 
@@ -177,10 +211,32 @@ def _eval_ticker(ticker: str, df: pd.DataFrame) -> dict | None:
         return None
 
     price  = m['price']
-    target = price * (1 + TARGET_PCT / 100)
-    stop   = price * (1 + STOP_PCT   / 100)
+    atr_pct = m['atr_pct']
+    if not atr_pct or atr_pct <= 0:
+        return None      # sin volatilidad medida no se puede dimensionar nada
+    # Objetivo: la resistencia de 20 sesiones, con un techo en 4x ATR (más
+    # lejos no da tiempo en un rebote de días).
+    resistencia = m.get('max20')
+    if not resistencia or resistencia <= price:
+        return None      # sin techo por encima no hay rebote que capturar
+    target_pct = min((resistencia / price - 1) * 100, TARGET_ATR_MULT_MAX * atr_pct)
+    stop_pct   = -STOP_ATR_MULT * atr_pct
+    target = price * (1 + target_pct / 100)
+    stop   = price * (1 + stop_pct   / 100)
     rr     = (target - price) / (price - stop) if price > stop else 0
-    if rr < MIN_RR:
+    # El R:R NO filtra: informa. Medido el 17-sep-2026 sobre los tres setups
+    # del día, el que tenía el R:R más bajo era el único que ganaba dinero:
+    #
+    #     TT     R:R 0,50   esperanza  +2,83%   (9 aciertos de 10)
+    #     SBUX   R:R 1,60   esperanza  +0,39%   (4 de 9)
+    #     WCN    R:R 2,17   esperanza  +0,18%   (2 de 6)
+    #
+    # El R:R mide la forma de la operación; la esperanza mide si gana. Un R:R
+    # alto con un stop que salta el 60% de las veces no vale nada, y eso es
+    # justo lo que pasa cuando el objetivo está lejos. Quien decide si el
+    # setup se publica es `_anadir_esperanza`, sobre el histórico del propio
+    # valor. Aquí solo se descarta lo que no tiene sentido aritmético.
+    if rr <= 0:
         return None
 
     return {
@@ -188,8 +244,10 @@ def _eval_ticker(ticker: str, df: pd.DataFrame) -> dict | None:
         'price':          round(price, 2),
         'target':         round(target, 2),
         'stop':           round(stop, 2),
-        'target_pct':     TARGET_PCT,
-        'stop_pct':       STOP_PCT,
+        'target_pct':     round(target_pct, 2),
+        'stop_pct':       round(stop_pct, 2),
+        'stop_atr_mult':   STOP_ATR_MULT,
+        'resistencia_20d': round(m.get('max20', 0), 2),
         'rr':             round(rr, 2),
         'rsi2':           round(m['r2'], 1),
         'rsi14':          round(m['r14'], 1),
@@ -321,10 +379,13 @@ def main() -> None:
             'drawdown_range':     [DRAWDOWN_MIN, DRAWDOWN_MAX],
             'support_test_range': [SUPPORT_TEST_MIN, SUPPORT_TEST_MAX],
             'oversold_measured':  'previous bar (panic yesterday, green reversal today)',
-            'target_pct':         TARGET_PCT,
-            'stop_pct':           STOP_PCT,
-            'min_rr':             MIN_RR,
-            'horizon':            '1-5 días',
+            'objetivo':           'resistencia de 20 sesiones, con techo en '
+                                  f'{TARGET_ATR_MULT_MAX}x ATR',
+            'stop_atr_mult':      STOP_ATR_MULT,
+            'rr': 'informativo, no filtra — decide la esperanza simulada',
+            # El plazo real sale de la simulación por setup
+            # (`esperanza_dias_mediana`), no de esta etiqueta.
+            'horizon':            '1-5 días (nominal; ver esperanza_dias_mediana)',
         },
         'setups': setups,
     }

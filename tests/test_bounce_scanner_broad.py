@@ -12,6 +12,7 @@ import os
 import sys
 
 import numpy as np
+import pytest
 import pandas as pd
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -66,7 +67,17 @@ class TestBounceFilters:
         setup = bsb._eval_ticker('TEST', df)
         assert setup is not None
         assert setup['setup_type'] == 'BOUNCE_OVERSOLD'
-        assert setup['rr'] >= bsb.MIN_RR
+        # El R:R ya no filtra (17-sep-2026): informa. De los tres setups de
+        # ese día, el del R:R más bajo era el único que ganaba dinero —TT con
+        # 0,50 y esperanza +2,83%, contra WCN con 2,17 y +0,18%—. Quien decide
+        # si el setup se publica es la esperanza simulada sobre el histórico
+        # del propio valor. Aquí solo se comprueba que el número es coherente.
+        assert setup['rr'] > 0
+        assert setup['stop'] < setup['price'] < setup['target']
+        # El stop se dimensiona con la volatilidad del valor, no con un
+        # porcentaje igual para todos.
+        assert abs(setup['stop_pct']) == pytest.approx(
+            bsb.STOP_ATR_MULT * setup['atr_pct'], abs=0.05)
 
     def test_red_day_fails(self):
         # Sin vela verde hoy no hay reversión — debe rechazar
