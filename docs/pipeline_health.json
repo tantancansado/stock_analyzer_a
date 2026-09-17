@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-17T17:08:49Z",
+  "generated_at": "2026-09-17T17:13:14Z",
   "pipeline_date": "2026-09-17",
   "ok_count": 16,
   "total": 20,
@@ -9,7 +9,7 @@
       "date": "2026-09-17",
       "days_ago": 0,
       "stale_threshold_days": 2,
-      "columna_requerida": "entry_readiness",
+      "columna_requerida": "entry_readiness, rr_operativo",
       "columna_poblada": false,
       "rows": 43,
       "min_rows": 20
@@ -19,7 +19,7 @@
       "date": "2026-09-17",
       "days_ago": 0,
       "stale_threshold_days": 2,
-      "columna_requerida": "entry_readiness",
+      "columna_requerida": "entry_readiness, rr_operativo",
       "columna_poblada": false,
       "rows": 37,
       "min_rows": 10
@@ -37,7 +37,7 @@
       "date": "2026-09-17",
       "days_ago": 0,
       "stale_threshold_days": 3,
-      "columna_requerida": "entry_readiness",
+      "columna_requerida": "entry_readiness, rr_operativo",
       "columna_poblada": false,
       "rows": 32,
       "min_rows": 10

@@ -229,19 +229,27 @@ class TestContratoDeContenido:
         exec(self._script(), ns)
         raiz = Path(__file__).resolve().parent.parent
         rutas = {n: p for n, (p, *_r) in ns['MODULES'].items()}
-        productor = {'entry_readiness': 'technical_filter'}   # la escribe un paso posterior
+        # Columnas que NO están en el CSV base porque las escribe un paso
+        # posterior, con el módulo que las produce.
+        productor = {
+            'entry_readiness': 'technical_filter',
+            'rr_operativo': 'add_entry_exit_to_opportunities',
+        }
         for modulo, col in ns['COLUMNA_REQUERIDA'].items():
             ruta = raiz / rutas[modulo]
             if not ruta.exists():
                 continue
             with ruta.open() as fh:
                 cabeceras = next(csv.reader(fh), [])
-            if col in cabeceras:
-                continue
-            # No esta en el CSV: solo vale si la escribe un paso posterior
-            assert col in productor, f'{modulo}: «{col}» no existe en {rutas[modulo]}'
-            from technical_filter import TECH_COLS
-            assert col in TECH_COLS, f'{modulo}: nadie escribe «{col}»'
+            # Puede ser una lista: la cadena de VALUE la escriben dos pasos.
+            for c in (col if isinstance(col, list) else [col]):
+                if c in cabeceras:
+                    continue
+                # No está en el CSV: solo vale si la escribe un paso posterior
+                assert c in productor, f'{modulo}: «{c}» no existe en {rutas[modulo]}'
+                fuente = (raiz / f'{productor[c]}.py').read_text()
+                assert f"'{c}'" in fuente or f'"{c}"' in fuente, \
+                    f'{modulo}: nadie escribe «{c}» en {productor[c]}.py'
 
     def test_la_clave_exigida_existe_en_su_json(self):
         """Lo mismo para los JSON: la clave tiene que estar, aunque venga vacia
@@ -306,3 +314,49 @@ class TestContratoDeContenido:
             assert modulo in ns['MODULES'], f'{modulo} no es un módulo'
             assert modulo in ns['CLAVE_REQUERIDA'], (
                 f'{modulo} se excusa de un contrato que no tiene')
+
+    def test_el_contrato_puede_exigir_varias_columnas(self):
+        """La cadena de VALUE la escriben DOS pasos distintos.
+
+        Con una sola columna se vigilaba medio camino: el 17-sep-2026
+        `add_entry_exit` murió y la lista salió sin precio de entrada ni stop,
+        pero el fallo se vio porque technical_filter tampoco llegó a correr. Si
+        llega a correr uno solo de los dos, el health habría dado luz verde
+        con la lista coja.
+        """
+        import csv
+        import tempfile
+        from pathlib import Path
+        ns: dict = {}
+        exec(self._script(), ns)
+        poblada = ns['_columna_poblada']
+        with tempfile.TemporaryDirectory() as tmp:
+            f = Path(tmp) / 'v.csv'
+
+            def _escribir(filas, campos):
+                with f.open('w', newline='') as fh:
+                    w = csv.DictWriter(fh, fieldnames=campos)
+                    w.writeheader()
+                    w.writerows(filas)
+
+            campos = ['ticker', 'entry_readiness', 'rr_operativo']
+            _escribir([{'ticker': 'MCO', 'entry_readiness': 'ESPERAR', 'rr_operativo': '2.1'}], campos)
+            assert poblada(str(f), ['entry_readiness', 'rr_operativo']) is True
+
+            # una de las dos vacía: la lista está coja y tiene que cantarlo
+            _escribir([{'ticker': 'MCO', 'entry_readiness': 'ESPERAR', 'rr_operativo': ''}], campos)
+            assert poblada(str(f), ['entry_readiness', 'rr_operativo']) is False
+
+            # y sigue funcionando con una sola columna, como antes
+            assert poblada(str(f), 'entry_readiness') is True
+
+    def test_entry_exit_ya_no_es_un_tapon(self):
+        """Era [CRITICAL] sin red y se llevó once pasos por delante."""
+        from pathlib import Path
+        yml = (Path(__file__).resolve().parent.parent / '.github' / 'workflows'
+               / 'daily-analysis.yml').read_text()
+        i = yml.index('Calculate Entry/Exit Prices')
+        bloque = yml[i:i + 700]
+        assert 'continue-on-error: true' in bloque, \
+            'un paso que solo AÑADE columnas no puede tumbar a los que generan datos'
+        assert '[CRITICAL]' not in yml[i:i + 60]

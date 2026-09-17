@@ -242,7 +242,18 @@ jobs:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: python3 ai_quality_filter.py --european
 
-      - name: Calculate Entry/Exit Prices (all strategies) [CRITICAL]
+      # ENRIQUECE, no genera: si falla, los picks siguen existiendo sin su
+      # precio de entrada. Era [CRITICAL] y sin red, y el 17-sep-2026 murió
+      # con un TypeError al imprimir su top 10 —cosmético— llevándose por
+      # delante ONCE pasos posteriores: Owner Earnings, Conviction Filter,
+      # TECHNICAL FILTER (de ahí el `entry_readiness` vacío en las 43 filas),
+      # Generate AI Insights, Portfolio Tracker, Thesis Drift, Entry Verdict...
+      #
+      # Un paso que añade columnas no puede ser un tapón para los que generan
+      # datos. Si se queda sin precios de entrada, lo canta el contrato de
+      # contenido del health (`rr_operativo`), que es donde se ve.
+      - name: Calculate Entry/Exit Prices (all strategies)
+        continue-on-error: true
         run: python3 add_entry_exit_to_opportunities.py --all
 
       # Owner Earnings va ANTES de Conviction Filter a propósito: antes corría
@@ -854,9 +865,15 @@ jobs:
           # sin motivo ensena a ignorarlo — le paso al umbral de insiders, tres
           # bloques mas arriba.
           COLUMNA_REQUERIDA = {
-              'value_us':       'entry_readiness',   # la escribe technical_filter
-              'value_filtered': 'entry_readiness',
-              'value_eu':       'entry_readiness',
+              # Puede ser una LISTA: la cadena de VALUE la escriben DOS pasos
+              # distintos y con una sola columna se vigilaba medio camino. El
+              # 17-sep-2026 entry_exit murió y la lista salió sin precio de
+              # entrada ni stop, pero como technical_filter tampoco corrio el
+              # fallo se vio por `entry_readiness`. Si llega a correr uno solo
+              # de los dos, el health habria dado luz verde con la lista coja.
+              'value_us':       ['entry_readiness', 'rr_operativo'],
+              'value_filtered': ['entry_readiness', 'rr_operativo'],
+              'value_eu':       ['entry_readiness', 'rr_operativo'],
               'value_global':   'value_score',
               'fundamental':    'fundamental_score',
               'technical':      'bias',
@@ -924,15 +941,19 @@ jobs:
           def _columna_poblada(path, col):
               if not col or not path.endswith('.csv'):
                   return None
+              columnas = col if isinstance(col, list) else [col]
               try:
                   import csv as _csv
                   with open(path) as fh:
                       filas = list(_csv.DictReader(fh))
                   if not filas:
                       return False
-                  if col not in filas[0]:
-                      return False
-                  return any((r.get(col) or '').strip() for r in filas)
+                  for c in columnas:
+                      if c not in filas[0]:
+                          return False
+                      if not any((r.get(c) or '').strip() for r in filas):
+                          return False
+                  return True
               except Exception:
                   return None
 
@@ -1002,7 +1023,8 @@ jobs:
               entry = {'status': module_status, 'date': file_date, 'days_ago': days_ago,
                        'stale_threshold_days': stale_days}
               if col_req:
-                  entry['columna_requerida'] = col_req
+                  entry['columna_requerida'] = (', '.join(col_req)
+                                                if isinstance(col_req, list) else col_req)
                   entry['columna_poblada'] = poblada
               if motivo:
                   entry['vacio_explicado'] = motivo
