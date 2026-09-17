@@ -118,10 +118,21 @@ class MeanReversionDetector:
         self._market_regime_cache: Dict = {}  # caché para no repetir llamadas
 
     def get_market_regime(self) -> Dict:
-        """
-        Calcula el régimen de mercado actual usando SPY.
-        Devuelve dict con spy_above_ma50 (bool), spy_above_ma200 (bool),
-        spy_price, spy_ma50, spy_ma200 y regime_label.
+        """Régimen de CORTO PLAZO: SPY contra sus medias de 50 y 200 sesiones.
+
+        OJO, no es el mismo que publica `market_regime_detector.py`, y el
+        17-sep-2026 dieron respuestas opuestas el mismo día:
+
+            market_regime_detector  CONFIRMED_UPTREND   (SPY/QQQ/VIX, fondo)
+            este                    CORRECCIÓN          (SPY 754,05 < MA50 759,19)
+
+        Los dos son correctos para lo suyo: para una posición de meses manda
+        la tendencia de fondo, y para un rebote de días manda la MA50. Lo que
+        no puede ser es que la app enseñe las dos etiquetas con el mismo
+        nombre en pantallas distintas, porque entonces una de las dos parece
+        un error. Por eso lo que se publica lleva SIEMPRE su horizonte y su
+        criterio pegados.
+
         Resultado cacheado en memoria para el ciclo de scan.
         """
         if self._market_regime_cache:
@@ -157,6 +168,12 @@ class MeanReversionDetector:
                 'spy_above_ma50':  above_50,
                 'spy_above_ma200': above_200,
                 'regime_label': label,
+                'regime_horizonte': 'corto plazo (días)',
+                'regime_criterio': ('SPY sobre su MA50 y su MA200' if above_50 and above_200
+                                    else 'SPY bajo su MA50' if above_200
+                                    else 'SPY bajo su MA200'),
+                'regime_nota': ('etiqueta de CORTO PLAZO para rebotes: no es la misma '
+                                'que la tendencia de fondo de la página de Value'),
                 'bounce_ok': above_50,  # solo operar rebotes si SPY > MA50
             }
         except Exception as e:
@@ -165,6 +182,8 @@ class MeanReversionDetector:
                 'spy_price': None, 'spy_ma50': None, 'spy_ma200': None,
                 'spy_above_ma50': None, 'spy_above_ma200': None,
                 'regime_label': 'DESCONOCIDO', 'bounce_ok': None,
+                'regime_horizonte': 'corto plazo (días)',
+                'regime_criterio': None, 'regime_nota': None,
             }
 
         self._market_regime_cache = result
@@ -649,7 +668,12 @@ class MeanReversionDetector:
                 'hammer_candle': hammer_candle,
                 'engulfing_candle': engulfing_candle,
                 'obv_divergence': obv_divergence,
+                # Con su horizonte pegado: la página de Value publica otra
+                # etiqueta de régimen, calculada sobre la tendencia de fondo, y
+                # las dos pueden discrepar el mismo día sin que ninguna falle.
                 'market_regime': regime.get('regime_label', 'DESCONOCIDO'),
+                'market_regime_horizonte': regime.get('regime_horizonte'),
+                'market_regime_criterio': regime.get('regime_criterio'),
                 'market_ok': market_ok,
                 'vix': round(vix_now, 1) if vix_now else None,
                 # Earnings

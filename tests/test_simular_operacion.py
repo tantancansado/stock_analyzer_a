@@ -137,3 +137,26 @@ class TestLaEsperanzaDecide:
         r = d._filtrar_por_esperanza([
             {'ticker': 'SBUX', 'esperanza_pct': 0.39, 'esperanza_muestra_ok': True, 'esperanza_n': 9}])
         assert r == []
+
+
+def test_el_regimen_de_rebotes_dice_a_que_plazo_se_refiere():
+    """Dos etiquetas de «régimen» con el mismo nombre en pantallas distintas.
+
+    17-sep-2026, el mismo día:
+        market_regime_detector  CONFIRMED_UPTREND  (SPY/QQQ/VIX, tendencia de fondo)
+        mean_reversion          CORRECCIÓN         (SPY 754,05 < su MA50 759,19)
+
+    Las dos son correctas para lo suyo —para una posición de meses manda el
+    fondo, para un rebote de días manda la MA50— pero presentadas con el mismo
+    nombre una de las dos parece un error, y el usuario no sabe cuál creer.
+    """
+    from mean_reversion_detector import MeanReversionDetector
+    d = MeanReversionDetector()
+    d._market_regime_cache = {
+        'regime_label': 'CORRECCIÓN', 'bounce_ok': False,
+        'regime_horizonte': 'corto plazo (días)',
+        'regime_criterio': 'SPY bajo su MA50',
+    }
+    r = d.get_market_regime()
+    assert r['regime_horizonte'], 'la etiqueta tiene que decir a qué plazo aplica'
+    assert r['regime_criterio'], 'y de qué sale'
