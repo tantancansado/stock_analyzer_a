@@ -43,6 +43,30 @@ Lo de arriba es lo que está en curso; lo de abajo, lo que espera a tener datos.
 - [ ] R:R de los rebotes — arreglado en `mean_reversion_detector`, igual.
 - [ ] Comprobar que `coherence_check` baja a 0 incoherencias.
 
+## El patrón que hay que barrer en TODAS las fuentes
+
+Los dos fallos que más daño hacen son el mismo visto desde dos sitios, y ya han
+aparecido en TIKR, en el health del pipeline y en el veto de rebotes:
+
+- [ ] **Escribir encima con las manos vacías.** Una petición que falla devuelve
+      `{}` o `[]`, y ese vacío se guarda sobre datos buenos. Arreglado en TIKR
+      (regla general `_conservar_lo_que_ya_habia`). Queda revisar: el resto de
+      scrapers con `except: return {}` que escriben a `docs/` — 65 ficheros dan
+      positivo en la forma, hay que separar los peligrosos (una petición cuyo
+      resultado se guarda entero) de los inofensivos (un helper que devuelve un
+      valor suelto).
+- [ ] **Verificar el recuento en vez del contenido.** «137 tickers, 0 errores»
+      daba luz verde mientras a 5 de cada 13 les faltaban las cuentas, cuatro
+      meses. Y «20/20 módulos OK» el día que fallaron nueve pasos. Arreglados
+      los dos; hay que mirar si algún otro paso verifica solo el tamaño.
+- [ ] **Un registro completo pero de OTRA empresa.** `MMC` resolvía a una
+      polaca de 8,90 PLN en vez de Marsh & McLennan. Ya hay chequeo de divisa
+      en TIKR; falta ver si el resto de resolvedores de ticker pueden confundir
+      empresa igual.
+- [ ] `valuation_model` de TIKR viene vacío en 125 de 137 tickers **las dos
+      semanas**: no es intermitente, ese endpoint no funciona. Nadie lo usa
+      todavía, pero está ahí.
+
 ## Riesgo conocido, sin arreglar
 
 - [ ] **`core-scoring` roza su timeout de 90 min.** 54-117 min en las últimas

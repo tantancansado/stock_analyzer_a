@@ -1216,6 +1216,56 @@ def _tf_is_fresh(existing: dict, ticker: str, max_age_days: int = 7) -> bool:
         return False
 
 
+# Bloques que NO se conservan de la semana anterior, pase lo que pase: son
+# datos de mercado del momento. Arrastrar un precio viejo es el bug del "precio
+# fósil" que ya apareció en el tracker — un número que parece de hoy y es de
+# hace una semana.
+_NUNCA_SE_CONSERVAN = {'price', 'ntm', 'multiples', 'fetched_at', 'ticker',
+                       'tikr_ticker', 'cid', 'tid', 'ric_id'}
+
+
+def _conservar_lo_que_ya_habia(registro: dict, previo: dict) -> dict:
+    """Si un bloque vuelve VACÍO, se queda el de la semana pasada.
+
+    Todas las funciones `fetch_*` devuelven {} o [] ante cualquier fallo, y ese
+    vacío se escribía encima de datos buenos. Como el scraper corre los domingos
+    y la ventana de reuso son 7 días, el reuso nunca llegaba a activarse: cada
+    semana se pedía todo, a una parte le fallaba, y esa parte perdía lo que
+    tenía. La semana siguiente le tocaba a otros.
+
+    Medido sobre 10 semanas de histórico, la cobertura de cuentas oscilaba entre
+    el 47% y el 81% (media 62%) mientras la UNIÓN de esas semanas cubría el 99%.
+    El dato SÍ se había descargado; no se guardaba. Y con las cuentas bailando,
+    el FCF de un año YA CERRADO aparecía y desaparecía el 41% de las semanas,
+    moviendo detrás el múltiplo, el precio objetivo y el veredicto.
+
+    Al 17-sep-2026 los bloques que llegaban vacíos eran: valuation_model (91%),
+    sigdevs (56%), headlines (55%), shareholders (55%), financials_history y
+    analyst_estimates (~38-45%).
+
+    Lo fresco SIEMPRE manda —así entran las reexpresiones y las revisiones—;
+    esto solo rellena huecos. Y deja marca de cuándo viene el dato conservado,
+    porque un dato de la semana pasada sin avisar es otra forma de mentir.
+    """
+    if not previo:
+        return registro
+    conservados = []
+    for clave, valor in registro.items():
+        if clave in _NUNCA_SE_CONSERVAN:
+            continue
+        if valor not in ({}, [], None, ''):
+            continue
+        anterior = previo.get(clave)
+        if anterior in ({}, [], None, '') or anterior is None:
+            continue
+        registro[clave] = anterior
+        conservados.append(clave)
+    if conservados:
+        registro['conservado_de'] = previo.get('fetched_at', '')
+        registro['conservado_bloques'] = conservados
+    return registro
+
+
 def run(tickers: list, dry_run: bool = False, force: bool = False) -> dict:
     # Shufflear orden: evita patrón fijo detectable por TIKR
     tickers = list(tickers)
@@ -1319,58 +1369,14 @@ def run(tickers: list, dry_run: bool = False, force: bool = False) -> dict:
             financials_history = fetch_tf_financials(session, token, cid, tid=tid)
             n_fin = len(financials_history.get('metrics', {}))
 
-            # Si la petición vuelve vacía, se conserva lo de la semana pasada en
-            # vez de machacarlo con nada.
-            #
-            # `fetch_tf_financials` devuelve {} ante cualquier fallo, y ese {}
-            # se escribía encima. Como el scraper corre los domingos y la
-            # ventana de reuso son 7 días, el reuso no llegaba a activarse casi
-            # nunca: cada semana se volvía a pedir todo y a ~un 38% le fallaba
-            # la petición y perdía sus cuentas. La semana siguiente le tocaba a
-            # otro 38% distinto.
-            #
-            # Medido sobre 10 semanas de histórico: la cobertura oscilaba entre
-            # el 47% y el 81% (media 62%), y el FCF de un año YA CERRADO
-            # aparecía y desaparecía el 41% de las semanas. Eso no es que el
-            # dato cambie: es que se tira y se vuelve a pedir. La unión de esas
-            # 10 semanas cubre el 99% de los tickers — o sea que el dato SÍ se
-            # había descargado, solo que no se guardaba.
-            #
-            # Un año fiscal cerrado es un hecho, no una cotización. Si la
-            # petición de hoy trae datos, mandan ellos (así se recogen las
-            # reexpresiones); si vuelve vacía, sigue valiendo lo de antes.
-            if not financials_history.get('metrics'):
-                previo = (existing.get(ticker) or {}).get('financials_history') or {}
-                if previo.get('metrics'):
-                    financials_history = dict(previo)
-                    financials_history['conservado_de'] = (
-                        (existing.get(ticker) or {}).get('fetched_at', ''))
-                    n_fin = len(financials_history.get('metrics', {}))
-                    print(f" {n_fin}fin(conservado)", end='', flush=True)
-                else:
-                    print(" 0fin(sin datos)", end='', flush=True)
-            else:
-                print(f" {n_fin}fin", end='', flush=True)
+            print(f" {n_fin}fin", end='', flush=True)
             human_delay(2.0, 4.0)
 
         # Analyst estimates (/est — cid+tid)
         analyst_estimates = fetch_est(session, token, cid, tid)
-        # Mismo problema que arriba: `fetch_est` devuelve {} ante cualquier
-        # fallo y se escribía encima. Pero aquí hay un matiz: las estimaciones
-        # SÍ se revisan, así que conservar las de la semana pasada no es
-        # gratis. Se conservan igualmente —sin ellas, `owner_earnings` cae a
-        # proyectar el FCF a ojo, que es peor que una estimación de hace una
-        # semana— pero se marca DE CUÁNDO son para que se pueda ver.
-        if not analyst_estimates.get('forward'):
-            previo_est = (existing.get(ticker) or {}).get('analyst_estimates') or {}
-            if previo_est.get('forward'):
-                analyst_estimates = dict(previo_est)
-                analyst_estimates['conservado_de'] = (
-                    (existing.get(ticker) or {}).get('fetched_at', ''))
         n_fwd = len(analyst_estimates.get('forward', {}))
         rev   = analyst_estimates.get('revision_flag', '')
-        marca = '·conservado' if analyst_estimates.get('conservado_de') else ''
-        print(f" {n_fwd}fwd({rev}){marca}", end='', flush=True)
+        print(f" {n_fwd}fwd({rev})", end='', flush=True)
         human_delay(2.0, 4.0)
 
         # Headlines + SigDevs + Shareholders + Reports (all use RIC format)
@@ -1415,6 +1421,9 @@ def run(tickers: list, dry_run: bool = False, force: bool = False) -> dict:
             'reports':          reports,
             'fetched_at':       datetime.now(timezone.utc).isoformat(),
         }
+        results[ticker] = _conservar_lo_que_ya_habia(results[ticker], existing.get(ticker) or {})
+        if results[ticker].get('conservado_bloques'):
+            print(f"  ↩ conservado: {', '.join(results[ticker]['conservado_bloques'])}", end='')
 
         _save_output(results, errors)
         human_delay()

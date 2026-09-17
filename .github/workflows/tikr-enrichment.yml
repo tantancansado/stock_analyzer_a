@@ -72,6 +72,23 @@ jobs:
           conservados = sum(1 for v in d.values() if (v or {}).get('financials_history', {}).get('conservado_de'))
           print(f'Con cuentas:      {con_fin}/{len(d)} ({100*con_fin//max(1,len(d))}%)  [{conservados} conservados de semanas anteriores]')
           print(f'Con estimaciones: {con_est}/{len(d)} ({100*con_est//max(1,len(d))}%)')
+          # Un ticker US que resuelve a divisa no-USD es OTRA EMPRESA.
+          # 'MMC' resolvia a 'MM Conferences S.A.', polaca, a 8,90 PLN — en vez
+          # de Marsh & McLennan. Todos sus numeros serian de otra compania, y
+          # nada lo delataria: el registro esta completo y es plausible.
+          impostores = []
+          for t, v in d.items():
+              pr = (v or {}).get('price') or {}
+              cur = pr.get('curr')
+              es_us = '.' not in t and not t.endswith('Y')
+              if es_us and cur and cur != 'USD':
+                  impostores.append(f\"{t}={(v or {}).get('company_name','?')[:28]} ({cur})\")
+          if impostores:
+              print(f'ERROR: {len(impostores)} tickers US resueltos a otra empresa:')
+              for x in impostores[:10]:
+                  print(f'  - {x}')
+              sys.exit(1)
+
           if len(d) and con_fin / len(d) < 0.75:
               print(f'ERROR: solo el {100*con_fin//len(d)}% tiene cuentas. Con el arrastre de')
               print('semanas anteriores esto deberia rondar el 99%: si baja del 75% es que')

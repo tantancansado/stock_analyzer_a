@@ -40,28 +40,65 @@ def _fuente_run() -> str:
     return src[i:i + 10 + fin]
 
 
-def test_una_peticion_vacia_no_borra_las_cuentas_anteriores():
-    f = _fuente_run()
-    assert "if not financials_history.get('metrics'):" in f
-    assert "previo.get('metrics')" in f
-    assert 'conservado_de' in f, 'hay que marcar que el dato viene de antes'
+def _regla():
+    """`_conservar_lo_que_ya_habia`, extraída como texto.
+
+    `tikr_scraper` no se puede importar aquí (depende de `pycognito`, que solo
+    está en el runner), así que se ejecuta solo el bloque que interesa."""
+    import textwrap
+    src = (RAIZ / 'tikr_scraper.py').read_text()
+    i = src.index('_NUNCA_SE_CONSERVAN = {')
+    j = src.index('def run(tickers: list')
+    ns: dict = {}
+    exec(textwrap.dedent(src[i:j]), ns)
+    return ns['_conservar_lo_que_ya_habia'], ns['_NUNCA_SE_CONSERVAN']
+
+
+def test_un_bloque_vacio_se_rellena_con_el_de_la_semana_pasada():
+    conservar, _ = _regla()
+    previo = {'financials_history': {'metrics': {'shares_diluted': {'2024': 100}}},
+              'fetched_at': '2026-09-10T00:00:00+00:00'}
+    hoy = {'financials_history': {}, 'price': {'c': '270'}, 'fetched_at': 'ahora'}
+    r = conservar(dict(hoy), previo)
+    assert r['financials_history']['metrics'], 'se ha perdido lo que ya se tenía'
+    assert r['conservado_de'] == '2026-09-10T00:00:00+00:00'
+    assert 'financials_history' in r['conservado_bloques']
 
 
 def test_lo_fresco_manda_sobre_lo_conservado():
-    """Si la petición trae datos, se usan: así entran las reexpresiones."""
-    f = _fuente_run()
-    i_fetch = f.index('financials_history = fetch_tf_financials')
-    i_fallback = f.index("if not financials_history.get('metrics'):")
-    assert i_fetch < i_fallback, 'el fallback solo actúa DESPUÉS de intentar la petición'
+    """Si la petición trae datos, se usan: así entran reexpresiones y revisiones."""
+    conservar, _ = _regla()
+    previo = {'financials_history': {'metrics': {'x': 1}}, 'fetched_at': 'antes'}
+    hoy = {'financials_history': {'metrics': {'x': 999}}, 'fetched_at': 'ahora'}
+    r = conservar(dict(hoy), previo)
+    assert r['financials_history']['metrics']['x'] == 999
+    assert 'conservado_bloques' not in r
 
 
-def test_las_estimaciones_conservadas_llevan_su_fecha():
-    """Las estimaciones sí se revisan, a diferencia de un año cerrado. Se
-    conservan igual —sin ellas `owner_earnings` proyecta el FCF a ojo— pero
-    tienen que llevar de cuándo son."""
-    f = _fuente_run()
-    assert "previo_est.get('forward')" in f
-    assert "analyst_estimates['conservado_de']" in f
+def test_el_precio_nunca_se_conserva():
+    """Arrastrar un precio viejo es el bug del «precio fósil» que ya apareció en
+    el tracker: un número que parece de hoy y es de hace una semana."""
+    conservar, nunca = _regla()
+    for campo in ('price', 'ntm', 'multiples', 'fetched_at'):
+        assert campo in nunca
+    previo = {'price': {'c': '100'}, 'fetched_at': 'antes'}
+    r = conservar({'price': {}, 'fetched_at': 'ahora'}, previo)
+    assert r['price'] == {}, 'un precio que no se ha podido leer se queda vacío'
+
+
+def test_sin_nada_previo_no_inventa():
+    conservar, _ = _regla()
+    r = conservar({'financials_history': {}, 'fetched_at': 'ahora'}, {})
+    assert r['financials_history'] == {}
+    assert 'conservado_de' not in r
+
+
+def test_la_marca_dice_de_cuando_viene():
+    """Un dato de la semana pasada sin avisar es otra forma de mentir."""
+    conservar, _ = _regla()
+    r = conservar({'headlines': [], 'fetched_at': 'ahora'},
+                  {'headlines': ['x'], 'fetched_at': '2026-09-10T00:00:00+00:00'})
+    assert r['conservado_de'] == '2026-09-10T00:00:00+00:00'
 
 
 class TestVerificacionDelWorkflow:
@@ -90,3 +127,12 @@ class TestVerificacionDelWorkflow:
         s = self._script()
         assert "financials_history', {}).get('metrics')" in s
         assert 'sys.exit(1)' in s, 'y falla si la cobertura se hunde'
+
+    def test_caza_un_ticker_resuelto_a_otra_empresa(self):
+        """«MMC» resolvía a «MM Conferences S.A.», polaca, a 8,90 PLN — en vez
+        de Marsh & McLennan. Todos sus números serían de otra compañía, y nada
+        lo delataría: el registro está completo y es plausible. Un ticker US que
+        cotiza en una divisa que no es el dólar es otra empresa."""
+        s = self._script()
+        assert 'impostores' in s
+        assert "cur != 'USD'" in s
