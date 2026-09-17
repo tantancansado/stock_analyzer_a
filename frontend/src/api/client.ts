@@ -493,6 +493,13 @@ export const VALUE_NUMERIC = new Set([
   // Tasa base (tasa_base.py). Sin esto llegarían como cadena y `n < 5` compararía texto.
   'tasa_base_n','tasa_base_caida_mediana_pct','tasa_base_caida_peor_pct','tasa_base_arriba_pct',
   'modelos_dispersion_pts',
+  // Soportes con fechas (soportes.py) y R:R de la ficha (entry_exit).
+  // `rr_operativo` faltaba aquí y tumbaba la página entera en el móvil:
+  // llegaba como cadena, `!= null` daba true y `.toFixed` no existe en un
+  // string. El tipo decía `number`, el dato era texto.
+  'rr_operativo',
+  'soporte_nivel','soporte_distancia_pct','soporte_aguanto','soporte_roto','soporte_dias',
+  'ai_confidence','ml_confidence','ml_win_prob','magic_formula_rank',
 ])
 
 const VALUE_BOOLEAN = new Set([
