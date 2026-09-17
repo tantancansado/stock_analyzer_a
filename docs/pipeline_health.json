@@ -1,22 +1,26 @@
 {
-  "generated_at": "2026-09-17T05:42:13Z",
+  "generated_at": "2026-09-17T07:10:10Z",
   "pipeline_date": "2026-09-17",
-  "ok_count": 20,
+  "ok_count": 16,
   "total": 20,
   "modules": {
     "value_us": {
-      "status": "ok",
+      "status": "incompleto",
       "date": "2026-09-17",
       "days_ago": 0,
       "stale_threshold_days": 2,
+      "columna_requerida": "entry_readiness",
+      "columna_poblada": false,
       "rows": 43,
       "min_rows": 20
     },
     "value_filtered": {
-      "status": "ok",
+      "status": "incompleto",
       "date": "2026-09-17",
       "days_ago": 0,
       "stale_threshold_days": 2,
+      "columna_requerida": "entry_readiness",
+      "columna_poblada": false,
       "rows": 37,
       "min_rows": 10
     },
@@ -27,10 +31,12 @@
       "stale_threshold_days": 3
     },
     "value_eu": {
-      "status": "ok",
+      "status": "incompleto",
       "date": "2026-09-17",
       "days_ago": 0,
       "stale_threshold_days": 3,
+      "columna_requerida": "entry_readiness",
+      "columna_poblada": false,
       "rows": 32,
       "min_rows": 10
     },
@@ -47,13 +53,15 @@
       "date": "2026-09-17",
       "days_ago": 0,
       "stale_threshold_days": 2,
+      "columna_requerida": "fundamental_score",
+      "columna_poblada": true,
       "rows": 130,
       "min_rows": 50
     },
     "technical": {
       "status": "ok",
-      "date": "2026-09-17",
-      "days_ago": 0,
+      "date": "2026-09-16",
+      "days_ago": 1,
       "stale_threshold_days": 2,
       "rows": 152,
       "min_rows": 30
@@ -86,8 +94,8 @@
     },
     "portfolio": {
       "status": "ok",
-      "date": "2026-09-17",
-      "days_ago": 0,
+      "date": "2026-09-16",
+      "days_ago": 1,
       "stale_threshold_days": 2,
       "rows": 1794,
       "min_rows": 1
@@ -131,10 +139,8 @@
       "stale_threshold_days": 3
     },
     "strategies": {
-      "status": "ok",
-      "date": "2026-09-17",
-      "days_ago": 0,
-      "stale_threshold_days": 3
+      "status": "missing",
+      "date": null
     },
     "earnings_opts": {
       "status": "ok",

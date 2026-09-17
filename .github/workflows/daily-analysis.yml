@@ -835,6 +835,48 @@ jobs:
             'earnings_opts':  ('docs/earnings_options.json',                     'generated_at', None, 3),
           }
 
+          # COLUMNA que tiene que venir POBLADA para que el módulo cuente como OK.
+          #
+          # Sin esto, el health mide que el fichero sea RECIENTE y tenga filas —
+          # que es un proxy de «el paso corrió», no el paso. El 17-sep-2026
+          # fallaron NUEVE pasos de core-scoring y la app decía «20/20 módulos
+          # OK»: value_opportunities.csv estaba fresco, con 43 filas, y con
+          # `entry_readiness` VACÍO en las 43, porque technical_filter nunca
+          # llegó a ejecutarse. Fichero nuevo, contenido a medias, luz verde.
+          #
+          # La columna elegida es siempre la que escribe un paso POSTERIOR al
+          # que genera el fichero: así el contrato cubre la cadena entera y no
+          # solo el primer eslabón.
+          COLUMNA_REQUERIDA = {
+              'value_us':       'entry_readiness',   # la escribe technical_filter
+              'value_filtered': 'entry_readiness',
+              'value_eu':       'entry_readiness',
+              # `fundamental_scores.csv` NO tiene `value_score` — ese vive en los
+              # CSV de VALUE. Puesto mal en el primer intento: habría marcado
+              # 'incompleto' todos los días para siempre, y un vigía que grita
+              # sin motivo enseña a ignorarlo (ver el umbral de insiders, tres
+              # bloques más arriba, que ya pasó por esto).
+              'fundamental':    'fundamental_score',
+          }
+
+          # ¿Tiene la columna algún valor no vacío? None si no aplica.
+          # (Sin docstring: este script va embebido entre comillas dobles y unas
+          # comillas triples cerrarían la cadena del shell a media función.)
+          def _columna_poblada(path, col):
+              if not col or not path.endswith('.csv'):
+                  return None
+              try:
+                  import csv as _csv
+                  with open(path) as fh:
+                      filas = list(_csv.DictReader(fh))
+                  if not filas:
+                      return False
+                  if col not in filas[0]:
+                      return False
+                  return any((r.get(col) or '').strip() for r in filas)
+              except Exception:
+                  return None
+
           def _csv_rows(path):
               try:
                   with open(path) as fh:
@@ -875,8 +917,14 @@ jobs:
               row_count = _csv_rows(path) if path.endswith('.csv') else None
               too_few = (min_rows is not None and row_count is not None and row_count < min_rows)
 
+              col_req = COLUMNA_REQUERIDA.get(name)
+              poblada = _columna_poblada(path, col_req)
+
               if too_few:
                   module_status = 'empty'
+              elif poblada is False:
+                  # Fichero fresco, pero un paso de la cadena no llegó a correr.
+                  module_status = 'incompleto'
               elif days_ago <= stale_days:
                   module_status = 'ok'
                   ok_count += 1
@@ -885,6 +933,9 @@ jobs:
 
               entry = {'status': module_status, 'date': file_date, 'days_ago': days_ago,
                        'stale_threshold_days': stale_days}
+              if col_req:
+                  entry['columna_requerida'] = col_req
+                  entry['columna_poblada'] = poblada
               if row_count is not None:
                   entry['rows'] = row_count
                   if min_rows is not None:

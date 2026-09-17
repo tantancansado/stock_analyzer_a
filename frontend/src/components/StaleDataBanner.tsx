@@ -149,13 +149,17 @@ export default function StaleDataBanner({ module, dataDate, className = '' }: St
         <AlertTriangle size={16} className="text-amber-400 shrink-0 mt-0.5" />
         <div className="flex-1 min-w-0">
           <div className="text-cuerpo font-bold text-amber-400 mb-0.5">
-            {mod?.status === 'missing' ? 'Módulo sin datos' : 'Módulo no actualizado hoy'}
+            {mod?.status === 'missing' ? 'Módulo sin datos'
+              : mod?.status === 'incompleto' ? 'Datos de hoy, pero incompletos'
+              : 'Módulo no actualizado hoy'}
             {daysOld != null && daysOld > 0 && (
               <span className="font-normal ml-1.5 text-apoyo">— última actualización hace {daysOld} días</span>
             )}
           </div>
           <div className="text-mini text-muted-foreground">
-            El pipeline corrió hoy pero este módulo no generó datos nuevos — puede haber fallado o no tener datos disponibles.
+            {mod?.status === 'incompleto'
+              ? <>El fichero es de hoy, pero le falta <code className="font-mono">{mod.columna_requerida}</code>: algún paso de la cadena no llegó a ejecutarse. Lo que ves está a medias.</>
+              : 'El pipeline corrió hoy pero este módulo no generó datos nuevos — puede haber fallado o no tener datos disponibles.'}
           </div>
         </div>
         <a href={ACTIONS_URL} target="_blank" rel="noopener noreferrer"

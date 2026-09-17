@@ -1439,10 +1439,18 @@ export interface PipelineStatus {
 }
 
 export interface ModuleHealth {
-  status: 'ok' | 'stale' | 'missing' | 'empty'
+  /** `incompleto` = el fichero está fresco pero un paso de su cadena no llegó
+   *  a correr, así que le falta contenido. No es lo mismo que `stale` (el dato
+   *  es viejo) ni que `empty` (hay pocas filas): aquí hay filas de hoy con
+   *  columnas vacías. El 17-sep-2026 fallaron nueve pasos del pipeline y la app
+   *  decía «20/20 módulos OK» porque solo se miraba la fecha del fichero. */
+  status: 'ok' | 'stale' | 'missing' | 'empty' | 'incompleto'
   date: string | null
   days_ago?: number
   rows?: number
+  /** Columna que tiene que venir poblada para que el módulo cuente como OK. */
+  columna_requerida?: string
+  columna_poblada?: boolean | null
 }
 
 export interface PipelineHealth {

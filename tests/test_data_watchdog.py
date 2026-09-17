@@ -144,3 +144,102 @@ def test_signature_stable_regardless_of_order():
     a = [{"module": "cerebro", "status": "missing"}, {"module": "value_us", "status": "stale"}]
     b = [{"module": "value_us", "status": "stale"}, {"module": "cerebro", "status": "missing"}]
     assert wd._signature(a) == wd._signature(b)
+
+
+class TestContratoDeContenido:
+    """El health decía «20/20 módulos OK» el día que fallaron NUEVE pasos.
+
+    Comprobaba que el fichero fuera RECIENTE y tuviera filas — un proxy de «el
+    paso corrió», no el paso. El 17-sep-2026 `value_opportunities.csv` estaba
+    fresco, con 43 filas, y con `entry_readiness` VACÍO en las 43, porque
+    `technical_filter` nunca llegó a ejecutarse: el paso anterior era [CRITICAL]
+    y abortó el job. Fichero nuevo, contenido a medias, luz verde.
+
+    La columna exigida es siempre la que escribe un paso POSTERIOR al que genera
+    el fichero, para que el contrato cubra la cadena y no el primer eslabón.
+    """
+
+    def _script(self):
+        """El bloque de Python embebido en el workflow, tal cual lo ve el shell."""
+        import textwrap
+        from pathlib import Path
+        yml = (Path(__file__).resolve().parent.parent / '.github' / 'workflows'
+               / 'daily-analysis.yml').read_text()
+        i = yml.index('COLUMNA_REQUERIDA = {')
+        ini = yml.rindex('python3 -c "', 0, i)
+        fin = yml.index('\n          "\n', i)
+        return textwrap.dedent(yml[yml.index('\n', ini) + 1:fin]).replace('\\"', '"')
+
+    def test_el_script_embebido_compila(self):
+        """Va dentro de `python3 -c "..."`, asi que una comilla doble sin
+        escapar lo parte a media funcion y el paso muere en CI, no aqui."""
+        import re
+        import textwrap
+        from pathlib import Path
+        compile(self._script(), 'health', 'exec')
+
+        # Sobre el YAML CRUDO, no sobre el codigo ya des-escapado: si se mira el
+        # des-escapado se encuentran justo las comillas que uno acaba de
+        # convertir. (Me pasó al escribir este test.)
+        yml = (Path(__file__).resolve().parent.parent / '.github' / 'workflows'
+               / 'daily-analysis.yml').read_text()
+        i = yml.index('COLUMNA_REQUERIDA = {')
+        ini = yml.rindex('python3 -c "', 0, i)
+        fin = yml.index('\n          "\n', i)
+        crudo = yml[yml.index('\n', ini) + 1:fin]
+        crudas = [l.strip() for l in crudo.split('\n') if re.search(r'(?<!\\)"', l)]
+        assert not crudas, f'comillas dobles sin escapar: {crudas[:2]}'
+
+    def test_un_csv_fresco_con_la_columna_vacia_no_es_ok(self):
+        import csv
+        import tempfile
+        from pathlib import Path
+        ns: dict = {}
+        exec(self._script(), ns)
+        poblada = ns['_columna_poblada']
+        with tempfile.TemporaryDirectory() as tmp:
+            f = Path(tmp) / 'v.csv'
+            with f.open('w', newline='') as fh:
+                w = csv.DictWriter(fh, fieldnames=['ticker', 'entry_readiness'])
+                w.writeheader()
+                w.writerows([{'ticker': 'MCO', 'entry_readiness': ''},
+                             {'ticker': 'CBOE', 'entry_readiness': ''}])
+            assert poblada(str(f), 'entry_readiness') is False
+
+            with f.open('w', newline='') as fh:
+                w = csv.DictWriter(fh, fieldnames=['ticker', 'entry_readiness'])
+                w.writeheader()
+                w.writerow({'ticker': 'MCO', 'entry_readiness': 'ESPERAR'})
+            assert poblada(str(f), 'entry_readiness') is True
+
+    def test_la_columna_exigida_la_escribe_alguien(self):
+        """Un vigia que grita sin motivo ensena a ignorarlo. En el primer
+        intento puse `value_score` para `fundamental_scores.csv`, que no la
+        tiene: habria marcado 'incompleto' todos los dias para siempre.
+
+        Se comprueba contra el PRODUCTOR, no contra el CSV de hoy: hoy la
+        columna no esta porque el paso fallo, que es justo el caso que el
+        contrato existe para detectar. Un test que mira el artefacto del dia
+        pasaria o fallaria segun el estado del pipeline, no del codigo.
+        """
+        ns: dict = {}
+        exec(self._script(), ns)
+        from technical_filter import TECH_COLS
+        productores = {
+            'entry_readiness': set(TECH_COLS),
+        }
+        import pandas as pd
+        from pathlib import Path
+        fund = Path(__file__).resolve().parent.parent / 'docs' / 'fundamental_scores.csv'
+        if fund.exists():
+            productores['fundamental_score'] = set(pd.read_csv(fund, nrows=0).columns)
+        for modulo, col in ns['COLUMNA_REQUERIDA'].items():
+            assert col in productores, f'{modulo}: nadie declara quien escribe «{col}»'
+            assert col in productores[col], f'{modulo}: «{col}» no la escribe su productor'
+
+    def test_la_app_conoce_el_estado_nuevo(self):
+        """Si el frontend no lo contempla, un 'incompleto' se pinta como si nada."""
+        from pathlib import Path
+        src = Path(__file__).resolve().parent.parent / 'frontend' / 'src'
+        assert "'incompleto'" in (src / 'api' / 'client.ts').read_text()
+        assert 'incompleto' in (src / 'components' / 'StaleDataBanner.tsx').read_text()
