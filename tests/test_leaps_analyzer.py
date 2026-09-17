@@ -570,3 +570,60 @@ class TestGateDeClaudeFailClosed:
         tickers = [o['ticker'] for o in escrito['data']['opportunities']]
         assert 'BUENA' in tickers
         assert 'MALA' not in tickers
+
+
+class TestLaVentajaNetaDecide:
+    """Tres de once se publicaban sin ventaja sobre comprar la acción.
+
+    17-sep-2026, sobre las oportunidades publicadas:
+
+        SAP    -2,9%  (-230 $)   pagabas por arriesgar la prima entera
+        CBOE   +0,1%  (+10 $)    diez dólares por poner 6.900 en riesgo
+        FHN    +4,0%  (+24 $)
+
+    El dato estaba calculado, bien calculado y publicado dentro de
+    `profit_at_target`. Solo que no decidía nada: SAP salía con un
+    opportunity_score de 81 sobre 100.
+    """
+
+    def test_el_umbral_no_es_cero(self):
+        """La comparación se hace AL PRECIO OBJETIVO, que es el escenario
+        bueno. Si no se llega, la opción pierde mucho más que la acción, y esa
+        asimetría se cobra por adelantado."""
+        import ast
+        from pathlib import Path
+        src = (Path(__file__).resolve().parent.parent / 'leaps_analyzer.py').read_text()
+        umbral = None
+        for n in ast.walk(ast.parse(src)):
+            if isinstance(n, ast.Assign) and getattr(n.targets[0], 'id', '') == 'VENTAJA_NETA_MINIMA_PCT':
+                umbral = n.value.value
+        assert umbral is not None, 'la constante desapareció'
+        assert umbral >= 3.0, 'por debajo de 3 puntos el LEAPS no compensa a la acción'
+
+    def test_el_filtro_esta_conectado_donde_se_acepta_la_oportunidad(self):
+        """Que la constante exista no sirve si nadie la mira. Este test falla
+        si alguien vuelve a dejarla como dato informativo."""
+        from pathlib import Path
+        src = (Path(__file__).resolve().parent.parent / 'leaps_analyzer.py').read_text()
+        i = src.index('results.append(opp)')
+        bloque = src[max(0, i - 900):i]
+        assert 'VENTAJA_NETA_MINIMA_PCT' in bloque, \
+            'la ventaja neta no filtra nada antes de aceptar la oportunidad'
+
+    def test_las_identidades_del_contrato_cuadran(self):
+        """Verificado a mano sobre UNH el 17-sep: intrínseco = spot - strike,
+        extrínseco = mid - intrínseco, breakeven = strike + mid, y el
+        apalancamiento = (spot/mid) x delta."""
+        import json
+        from pathlib import Path
+        f = Path(__file__).resolve().parent.parent / 'docs' / 'leaps_opportunities.json'
+        if not f.exists():
+            import pytest
+            pytest.skip('sin fichero de LEAPS')
+        d = json.loads(f.read_text())
+        for o in d.get('opportunities', [])[:6]:
+            c, spot = o['recommended_contract'], o['spot']
+            assert abs(c['intrinsic'] - max(0.0, spot - c['strike'])) < 0.02, o['ticker']
+            assert abs(c['extrinsic'] - (c['mid'] - c['intrinsic'])) < 0.02, o['ticker']
+            assert abs(c['breakeven'] - (c['strike'] + c['mid'])) < 0.02, o['ticker']
+            assert abs(c['cost_per_contract'] - c['mid'] * 100) < 1.0, o['ticker']

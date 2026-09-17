@@ -53,6 +53,22 @@ DELTA_MAX        = 0.92     # demasiado deep = apalancamiento inútil, capital m
 DELTA_SWEET      = 0.80     # centro ideal para stock-replacement
 MIN_OPEN_INT     = 50       # liquidez mínima del contrato
 MAX_SPREAD_PCT   = 20.0     # spread bid/ask máximo tolerable (%)
+
+# Ventaja mínima sobre comprar la acción, ya pagado el spread de ida y vuelta.
+# Por debajo de esto el LEAPS no compensa: la acción no caduca y la prima sí.
+#
+# Medido el 17-sep-2026 sobre las 11 oportunidades publicadas, TRES no la
+# tenían y salían igual:
+#     SAP    -2,9%  (-230 $)   <- pagabas por el privilegio de arriesgar más
+#     CBOE   +0,1%  (+10 $)    <- diez dólares por poner 6.900 en riesgo
+#     FHN    +4,0%  (+24 $)
+# El dato estaba calculado, bien calculado y publicado. Solo que no decidía
+# nada: SAP salía con score 81 sobre 100.
+#
+# El listón son 5 puntos porcentuales porque la comparación se hace AL PRECIO
+# OBJETIVO, que es el escenario bueno. Si no se llega, la opción pierde mucho
+# más que la acción, y esa asimetría hay que cobrarla por adelantado.
+VENTAJA_NETA_MINIMA_PCT = 5.0
 MAX_CARRY_PCT    = 14.0     # carry anualizado por encima → demasiado caro
 MIN_TARGET_RETURN_PCT = 10.0  # el LEAPS debe rendir al menos esto en el escenario
                               # alcista (target del analista); si ni así compensa,
@@ -891,8 +907,16 @@ def main():
             continue
         print(f"  [{i}/{len(universe)}] {ticker} (calidad {q})...")
         opp = analyze_ticker_leaps(ticker, sig, rate)
-        if opp and opp['opportunity_score'] > 0:
-            results.append(opp)
+        if not opp or opp['opportunity_score'] <= 0:
+            continue
+        # La ventaja neta decide, no solo informa. Ver VENTAJA_NETA_MINIMA_PCT.
+        v = (opp.get('profit_at_target') or {}).get('ventaja_neta_pct')
+        if v is not None and v < VENTAJA_NETA_MINIMA_PCT:
+            usd = (opp.get('profit_at_target') or {}).get('ventaja_neta_usd')
+            print(f"      🚫 {ticker} fuera: ventaja neta {v:+.1f}% ({usd} $) sobre "
+                  f"comprar la acción — no cubre el riesgo de que la prima caduque")
+            continue
+        results.append(opp)
 
     results.sort(key=lambda x: -x['opportunity_score'])
     top = results[:TOP_N]
