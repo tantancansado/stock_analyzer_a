@@ -847,17 +847,53 @@ jobs:
           # La columna elegida es siempre la que escribe un paso POSTERIOR al
           # que genera el fichero: así el contrato cubre la cadena entera y no
           # solo el primer eslabón.
+          # OJO al elegir la columna: tiene que ser una que el fichero SIEMPRE
+          # trae cuando el paso ha ido bien. Puse `value_score` para
+          # `fundamental_scores.csv` en el primer intento y no la tiene: habria
+          # marcado 'incompleto' todos los dias para siempre. Un vigia que grita
+          # sin motivo ensena a ignorarlo — le paso al umbral de insiders, tres
+          # bloques mas arriba.
           COLUMNA_REQUERIDA = {
               'value_us':       'entry_readiness',   # la escribe technical_filter
               'value_filtered': 'entry_readiness',
               'value_eu':       'entry_readiness',
-              # `fundamental_scores.csv` NO tiene `value_score` — ese vive en los
-              # CSV de VALUE. Puesto mal en el primer intento: habría marcado
-              # 'incompleto' todos los días para siempre, y un vigía que grita
-              # sin motivo enseña a ignorarlo (ver el umbral de insiders, tres
-              # bloques más arriba, que ya pasó por esto).
+              'value_global':   'value_score',
               'fundamental':    'fundamental_score',
+              'technical':      'bias',
+              'insiders':       'purchase_count',
+              'portfolio':      'signal_date',
+              'options_flow':   'flow_score',
           }
+
+          # Para los JSON: la clave de dentro que tiene que venir con algo.
+          # Un JSON con `generated_at` de hoy y la lista vacia es el mismo
+          # enganio que un CSV fresco con las columnas en blanco.
+          CLAVE_REQUERIDA = {
+              'vcp':            'patterns',
+              'cerebro':        'sections',
+              'mean_reversion': 'opportunities',
+              'macro':          'signals',
+              'earnings':       'data',
+              'catalysts':      'events',
+              'economic_cal':   'events',
+              'bounce_broad':   'setups',
+              'earnings_opts':  'snapshots',
+          }
+
+          def _clave_poblada(path, clave):
+              if not clave or not path.endswith('.json'):
+                  return None
+              try:
+                  with open(path) as fh:
+                      d = json.load(fh)
+                  if not isinstance(d, dict):
+                      return None
+                  v = d.get(clave)
+                  if v is None:
+                      return False
+                  return len(v) > 0 if hasattr(v, '__len__') else bool(v)
+              except Exception:
+                  return None
 
           # ¿Tiene la columna algún valor no vacío? None si no aplica.
           # (Sin docstring: este script va embebido entre comillas dobles y unas
@@ -919,6 +955,9 @@ jobs:
 
               col_req = COLUMNA_REQUERIDA.get(name)
               poblada = _columna_poblada(path, col_req)
+              if poblada is None:
+                  col_req = CLAVE_REQUERIDA.get(name)
+                  poblada = _clave_poblada(path, col_req)
 
               if too_few:
                   module_status = 'empty'

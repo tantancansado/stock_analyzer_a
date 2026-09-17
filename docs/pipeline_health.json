@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-09-17T09:50:47Z",
+  "generated_at": "2026-09-17T09:53:40Z",
   "pipeline_date": "2026-09-17",
-  "ok_count": 16,
+  "ok_count": 15,
   "total": 20,
   "modules": {
     "value_us": {
@@ -28,7 +28,9 @@
       "status": "ok",
       "date": "2026-09-17",
       "days_ago": 0,
-      "stale_threshold_days": 3
+      "stale_threshold_days": 3,
+      "columna_requerida": "patterns",
+      "columna_poblada": true
     },
     "value_eu": {
       "status": "incompleto",
@@ -45,6 +47,8 @@
       "date": "2026-09-17",
       "days_ago": 0,
       "stale_threshold_days": 3,
+      "columna_requerida": "value_score",
+      "columna_poblada": true,
       "rows": 31,
       "min_rows": 5
     },
@@ -63,6 +67,8 @@
       "date": "2026-09-16",
       "days_ago": 1,
       "stale_threshold_days": 2,
+      "columna_requerida": "bias",
+      "columna_poblada": true,
       "rows": 152,
       "min_rows": 30
     },
@@ -70,25 +76,33 @@
       "status": "ok",
       "date": "2026-09-17",
       "days_ago": 0,
-      "stale_threshold_days": 3
+      "stale_threshold_days": 3,
+      "columna_requerida": "sections",
+      "columna_poblada": true
     },
     "mean_reversion": {
       "status": "ok",
       "date": "2026-09-17",
       "days_ago": 0,
-      "stale_threshold_days": 3
+      "stale_threshold_days": 3,
+      "columna_requerida": "opportunities",
+      "columna_poblada": true
     },
     "macro": {
       "status": "ok",
       "date": "2026-09-17",
       "days_ago": 0,
-      "stale_threshold_days": 2
+      "stale_threshold_days": 2,
+      "columna_requerida": "signals",
+      "columna_poblada": true
     },
     "insiders": {
       "status": "ok",
       "date": "2026-09-17",
       "days_ago": 0,
       "stale_threshold_days": 3,
+      "columna_requerida": "purchase_count",
+      "columna_poblada": true,
       "rows": 11,
       "min_rows": 1
     },
@@ -97,6 +111,8 @@
       "date": "2026-09-16",
       "days_ago": 1,
       "stale_threshold_days": 2,
+      "columna_requerida": "signal_date",
+      "columna_poblada": true,
       "rows": 1794,
       "min_rows": 1
     },
@@ -104,7 +120,9 @@
       "status": "ok",
       "date": "2026-09-13",
       "days_ago": 4,
-      "stale_threshold_days": 7
+      "stale_threshold_days": 7,
+      "columna_requerida": "data",
+      "columna_poblada": true
     },
     "theses": {
       "status": "ok",
@@ -116,19 +134,25 @@
       "status": "ok",
       "date": "2026-09-17",
       "days_ago": 0,
-      "stale_threshold_days": 7
+      "stale_threshold_days": 7,
+      "columna_requerida": "events",
+      "columna_poblada": true
     },
     "economic_cal": {
       "status": "ok",
       "date": "2026-09-17",
       "days_ago": 0,
-      "stale_threshold_days": 7
+      "stale_threshold_days": 7,
+      "columna_requerida": "events",
+      "columna_poblada": true
     },
     "options_flow": {
       "status": "ok",
       "date": "2026-09-17",
       "days_ago": 0,
       "stale_threshold_days": 3,
+      "columna_requerida": "flow_score",
+      "columna_poblada": true,
       "rows": 25,
       "min_rows": 1
     },
@@ -136,17 +160,21 @@
       "status": "ok",
       "date": "2026-09-17",
       "days_ago": 0,
-      "stale_threshold_days": 3
+      "stale_threshold_days": 3,
+      "columna_requerida": "setups",
+      "columna_poblada": true
     },
     "strategies": {
       "status": "missing",
       "date": null
     },
     "earnings_opts": {
-      "status": "ok",
+      "status": "incompleto",
       "date": "2026-09-17",
       "days_ago": 0,
-      "stale_threshold_days": 3
+      "stale_threshold_days": 3,
+      "columna_requerida": "snapshots",
+      "columna_poblada": false
     }
   }
 }

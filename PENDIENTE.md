@@ -36,6 +36,10 @@ Lo de arriba es lo que está en curso; lo de abajo, lo que espera a tener datos.
       (lo que cambia el 90% —precio, upside— es lo barato). Mismo tratamiento
       pendiente de decidir.
 
+- [ ] **`earnings_options` produce 0 snapshots** con 6 earnings a menos de 14
+      días (AZO 5d, CTAS 6d, PAYX 6d, COST 7d, FDS 13d, MKC 14d). Lleva así al
+      menos 5 días. Lo cazó el contrato de contenido ampliado el 17-sep.
+
 ## Esperando a que corra el pipeline
 
 - [ ] `fcf_per_share` en peniques y clases de acción — arreglado en
