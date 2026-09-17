@@ -747,12 +747,26 @@ def _avisar_de_los_que_desaparecen(df_nuevo, output_path) -> None:
         scores = dict(zip(anterior['ticker'].astype(str),
                           _pd.to_numeric(anterior['value_score'], errors='coerce')))
 
+    # El motivo lo sabe quien lo echó, no este paso. Si consta en el registro
+    # se dice aquí, para no tener que bajarse el log de CI a leerlo — que es lo
+    # que hubo que hacer el 17-sep para averiguar por qué faltaba BR.
+    try:
+        from picks_excluidos import motivo_de
+    except Exception:
+        motivo_de = lambda _t: None   # noqa: E731
+
     print(f"\n⚠️  {len(caidos)} que ayer estaban verificados y hoy NO salen:")
     for t in sorted(caidos, key=lambda x: -(scores.get(x) or 0)):
         sc = scores.get(t)
         marca = '  ← era el mejor de la lista' if sc is not None and sc == max(
             (v for v in scores.values() if v == v), default=None) else ''
         print(f"     {t:<8} score de ayer {sc if sc == sc else 'n/d'}{marca}")
+        try:
+            m = motivo_de(t)
+        except Exception:
+            m = None
+        if m and m.get('motivo'):
+            print(f"              por qué: [{m.get('paso')}] {str(m['motivo'])[:150]}")
     print("     Si esto se repite, mirar arriba por qué: sin veredicto, dato "
           "cambiado de banda, o sin saldo.")
 

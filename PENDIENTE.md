@@ -56,6 +56,14 @@ Lo de arriba es lo que está en curso; lo de abajo, lo que espera a tener datos.
       puede probar contra el modelo real, así que se comprueba en la ejecución
       de mañana.
 
+- [x] ~~**Un valor que desaparece no dejaba rastro.**~~ Para saber por qué
+      faltaba BR hubo que bajarse el log de CI y leerlo a mano. Ahora los dos
+      guards apuntan a quién echan y por qué (`picks_excluidos.json`), el aviso
+      de desaparecidos lo dice, y el watchdog avisa por Telegram si se cae un
+      pick con score ≥60 o si tres o más se caen por el MISMO motivo — que es la
+      señal de que falla la ficha y no los valores. Ensayado con los datos del
+      17-sep: habría avisado de BR e INTU y de los once por el mismo motivo.
+
 ## Esperando a que corra el pipeline
 
 - [ ] `fcf_per_share` en peniques y clases de acción — arreglado en

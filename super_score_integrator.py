@@ -28,6 +28,7 @@ from opportunity_validator import OpportunityValidator
 from value_bands import UPSIDE_MIN, UPSIDE_GOLDEN_MAX, UPSIDE_HARD_REJECT, VALUE_SCORE_MIN
 from data_integrity import filter_dataframe
 from ai_pick_verifier import verify_picks, apply_verdicts
+from picks_excluidos import registrar as registrar_excluidos
 # why_cheap_analyzer NO se importa aquí a propósito: vive en enrich_why_cheap.py,
 # que corre después. Importarlo arrastraría su dependencia al paso crítico sin
 # que este lo use para nada.
@@ -1814,11 +1815,35 @@ class SuperScoreIntegrator:
         # (determinista) y coherencia de la ficha (Claude). Lo que no se puede
         # verificar no se recomienda — ver data_integrity y ai_pick_verifier.
         if filename == 'value_opportunities' and not df.empty:
-            df, _ = filter_dataframe(df, label='value_opportunities')
+            candidatas = len(df)
+            _scores = dict(zip(df['ticker'].astype(str),
+                               pd.to_numeric(df.get(score_column), errors='coerce')))
+            df, informe = filter_dataframe(df, label='value_opportunities')
             verdicts = verify_picks(df.to_dict('records'))
             df, blocked = apply_verdicts(df, verdicts)
             if blocked:
                 print(f"   🚫 Verificador IA saca de la lista: {blocked}")
+
+            # Antes esto se imprimía y se perdía. El CSV publicado no deja
+            # rastro de lo que NO contiene, así que «lo echamos por un dato
+            # incoherente» y «nunca estuvo» se veían igual, y averiguar por qué
+            # faltaba un valor exigía bajarse el log de CI.
+            fuera = [
+                {'ticker': d.get('ticker'), 'paso': 'rangos_imposibles',
+                 'motivo': d.get('reason'), 'score': _scores.get(str(d.get('ticker')))}
+                for d in (informe or {}).get('detail', [])
+            ]
+            fuera += [
+                {'ticker': t, 'paso': 'verificador_ia',
+                 'motivo': ' · '.join(str(x) for x in verdicts.get(t, {}).get('problemas', [])[:2]),
+                 'score': _scores.get(str(t))}
+                for t in blocked
+            ]
+            try:
+                registrar_excluidos('value_opportunities', fuera,
+                                    candidatas=candidatas, publicadas=len(df))
+            except Exception as exc:
+                print(f"   ⚠️  No se pudo registrar quién quedó fuera: {exc}")
 
             # El "por qué está barata" NO va aquí: son búsquedas web que pueden
             # tardar minutos cada una, y este paso es CRÍTICO — el 3-ago-2026 se

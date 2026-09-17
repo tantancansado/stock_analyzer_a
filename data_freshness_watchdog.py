@@ -88,6 +88,8 @@ MODULE_LABELS = {
     "economic_cal": "Calendario económico",
     "mean_reversion": "Mean reversion",
     "value_global": "Value global",
+    "value_opportunities:excluidos": "Picks buenos fuera de la lista",
+    "value_opportunities:motivo_repetido": "Muchos fuera por el mismo motivo",
 }
 
 
@@ -195,6 +197,13 @@ def find_problems() -> tuple[list[dict], bool]:
             detail = f"último dato {m.get('date')} (hace {m.get('days_ago')}d, umbral {m.get('stale_threshold_days')}d)"
         elif status == "empty":
             detail = f"{m.get('rows')} filas (mínimo {m.get('min_rows')})"
+        elif status == "incompleto":
+            # Estado creado el 17-sep en el health y que aquí no se contempló:
+            # los tres módulos de VALUE salieron 'incompleto' ese mismo día y el
+            # aviso habría viajado con el detalle en blanco.
+            col = m.get("columna_requerida")
+            detail = (f"fichero de hoy pero «{col}» viene vacía — un paso de la cadena "
+                      f"no llegó a correr") if col else "fichero de hoy con el contenido a medias"
         elif status == "missing":
             detail = "archivo no encontrado"
         problems.append({
@@ -204,7 +213,76 @@ def find_problems() -> tuple[list[dict], bool]:
             "detail": detail,
         })
 
+    # 3. Picks de calidad que se quedaron fuera de la lista publicada.
+    #
+    #    El 17-sep-2026 el verificador de fichas echó a once de veinticinco,
+    #    Broadridge entre ellas con el segundo mejor score del día — y por un
+    #    hueco que habíamos puesto nosotros a propósito la tarde anterior sin
+    #    explicárselo. El aviso existía, pero solo en el log de CI: el usuario
+    #    se enteró preguntando. Lo que sigue lo saca de ahí.
+    problems.extend(_picks_de_calidad_fuera())
+
     return problems, health_stale
+
+
+# Un value_score de 60 es raro (8 de 252 el 17-sep-2026): perder uno es noticia.
+EXCLUIDO_SCORE_ALTO = 60.0
+# Y un mismo motivo repetido tantas veces ya no habla de las empresas, habla
+# del formato de la ficha que se les pasa.
+MOTIVO_REPETIDO_MIN = 3
+
+
+def _picks_de_calidad_fuera() -> list[dict]:
+    try:
+        from picks_excluidos import leer
+        datos = leer()
+    except Exception:
+        return []
+    if not datos:
+        return []   # None = no se pudo leer; no se inventa que salió todo
+
+    problems: list[dict] = []
+    for lista, cuerpo in (datos.get("listas") or {}).items():
+        excluidos = (cuerpo or {}).get("excluidos") or []
+        if not excluidos:
+            continue
+
+        buenos = []
+        for e in excluidos:
+            try:
+                sc = float(e.get("score"))
+            except (TypeError, ValueError):
+                continue
+            if sc == sc and sc >= EXCLUIDO_SCORE_ALTO:
+                buenos.append((str(e.get("ticker")), sc, str(e.get("paso") or "")))
+        if buenos:
+            buenos.sort(key=lambda x: -x[1])
+            detalle = ", ".join(f"{t} ({sc:.0f}, {paso})" for t, sc, paso in buenos[:5])
+            problems.append({
+                "module": f"{lista}:excluidos",
+                "status": "pick_bueno_fuera",
+                "critical": False,
+                "detail": f"fuera de la lista con score alto: {detalle}",
+            })
+
+        # ¿Se repite el motivo? Se compara por las primeras palabras: el texto
+        # completo trae el ticker y las cifras de cada uno, y nunca coincide.
+        conteo: dict[str, int] = {}
+        for e in excluidos:
+            clave = " ".join(str(e.get("motivo") or "").split()[:6]).lower()
+            if clave:
+                conteo[clave] = conteo.get(clave, 0) + 1
+        repetidos = [(k, n) for k, n in conteo.items() if n >= MOTIVO_REPETIDO_MIN]
+        if repetidos:
+            k, n = max(repetidos, key=lambda x: x[1])
+            problems.append({
+                "module": f"{lista}:motivo_repetido",
+                "status": "mismo_motivo_en_varios",
+                "critical": False,
+                "detail": (f"{n} valores fuera por lo mismo («{k}…»). A ese ritmo "
+                           f"suele fallar la ficha, no los valores"),
+            })
+    return problems
 
 
 def _signature(problems: list[dict]) -> str:
