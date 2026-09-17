@@ -625,6 +625,14 @@ class MeanReversionDetector:
             bounce_usd = round(bounce_target - entrada_ref, 2)
             bounce_pct = round((bounce_target / entrada_ref - 1) * 100, 1)
             bounce_rr = round(bounce_usd / (entrada_ref - stop_loss), 2) if (entrada_ref - stop_loss) > 0 else 0
+            # Y el R:R que tendrías comprando AHORA, al precio de mercado. No
+            # es lo mismo: TT el 17-sep-2026 publicaba 1,24 con la entrada de
+            # referencia en 410,11 mientras cotizaba a 421,68. Comprando hoy tu
+            # R:R era 0,49 — un 60% menos. El número publicado describía una
+            # entrada que ya no estaba disponible.
+            rr_hoy = (round((bounce_target - current_price) / (current_price - stop_loss), 2)
+                      if current_price > stop_loss and bounce_target > current_price else 0.0)
+            precio_sobre_zona = current_price > zona_alta
 
             return {
                 'ticker': ticker,
@@ -649,7 +657,10 @@ class MeanReversionDetector:
                 'bounce_pct': bounce_pct,
                 'stop_loss': stop_loss,
                 'stop_pct': stop_pct,
-                'risk_reward': bounce_rr,
+                # El accionable va primero: es el que se usa para decidir.
+                'risk_reward': rr_hoy,
+                'risk_reward_en_zona': bounce_rr,
+                'precio_sobre_zona_entrada': bool(precio_sobre_zona),
                 # Bounce confidence
                 'bounce_confidence': bounce_confidence,
                 'bounce_signals': bounce_signals,
@@ -997,7 +1008,10 @@ class MeanReversionDetector:
         print(f"📐 Simulando {len(opportunities)} setups sobre su propio histórico...")
         for o in opportunities:
             t = o.get('ticker')
-            entrada = o.get('entry_ref') or o.get('current_price')
+            # Al precio de MERCADO, no al de la zona de entrada: si la acción
+            # ya se ha movido por encima de la zona, la operación que puedes
+            # hacer hoy es otra y su esperanza también.
+            entrada = o.get('current_price') or o.get('entry_ref')
             objetivo, stop = o.get('target'), o.get('stop_loss')
             if not (t and entrada and objetivo and stop):
                 continue

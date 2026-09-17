@@ -160,3 +160,31 @@ def test_el_regimen_de_rebotes_dice_a_que_plazo_se_refiere():
     r = d.get_market_regime()
     assert r['regime_horizonte'], 'la etiqueta tiene que decir a qué plazo aplica'
     assert r['regime_criterio'], 'y de qué sale'
+
+
+def test_el_rr_publicado_es_el_de_comprar_hoy():
+    """TT, 17-sep-2026: publicaba R:R 1,24 y el real era 0,49.
+
+    El setup fijaba la entrada de referencia en 410,11 mientras la acción
+    cotizaba a 421,68. El 1,24 describía una entrada que ya no estaba
+    disponible: comprando al precio de mercado, arriesgas 34,78 para ganar
+    17,14. Un 60% menos de lo anunciado, y lo cazó `coherence_check`
+    comparando el número publicado con la identidad que debería cumplir.
+    """
+    precio, objetivo, stop, zona = 421.68, 438.82, 386.90, 410.11
+    rr_zona = (objetivo - zona) / (zona - stop)
+    rr_hoy = (objetivo - precio) / (precio - stop)
+    assert round(rr_zona, 2) == 1.24
+    assert round(rr_hoy, 2) == 0.49
+    assert rr_hoy < rr_zona / 2, 'la diferencia es de más del doble, no un matiz'
+
+
+def test_la_esperanza_se_simula_al_precio_de_mercado():
+    """Misma razón: si la acción se ha ido por encima de la zona, la operación
+    que puedes hacer hoy es otra."""
+    from pathlib import Path
+    src = (Path(__file__).resolve().parent.parent / 'mean_reversion_detector.py').read_text()
+    i = src.index('_anadir_esperanza_historica')
+    bloque = src[i:i + 2500]
+    assert "o.get('current_price') or o.get('entry_ref')" in bloque, \
+        'la esperanza vuelve a simularse sobre una entrada que quizá no existe'
