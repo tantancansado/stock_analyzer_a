@@ -829,6 +829,12 @@ jobs:
             # sidecar latest_meta.json (frescura por contenido, no mtime).
             'vcp':            ('docs/reports/vcp/latest_meta.json',      'generated_at', None, 3),
             'value_eu':       ('docs/european_value_opportunities.csv',          None, 10, 3),
+            # El FILTRADO europeo, que es lo que se publica. Se vigilaba solo
+            # el crudo, y el 17-sep-2026 el gate europeo excluyó los 32 picks
+            # (modelo de Groq caducado) dejando el fichero con la cabecera y
+            # nada más: el crudo tenía sus 32 filas, así que el health dio luz
+            # verde mientras la página europea estaba vacía.
+            'value_eu_filt':  ('docs/european_value_opportunities_filtered.csv',  None, 1, 3),
             'value_global':   ('docs/global_value_opportunities.csv',            None,  5, 3),
             'fundamental':    ('docs/fundamental_scores.csv',                    None, 50, 2),
             'technical':      ('docs/technical_signals_summary.csv',             None, 30, 2),

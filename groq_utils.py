@@ -36,7 +36,17 @@ FALLBACK_MODELS = [
 # Modelo con cupo separado del primario, para diversificar cuando el
 # primario está agotado — no puede ser el mismo que PRIMARY_MODEL o pierde
 # el sentido de tener un segundo nivel.
-SCOUT_PRIMARY  = "qwen/qwen3.6-27b"
+#
+# El 17-sep-2026 este nombre estaba caducado (`qwen3.6-27b`) y Groq devolvía
+# 404 model_not_found en CADA llamada. Efecto: el gate europeo excluyó los 32
+# picks —«no pude verificar» es exclusión, por diseño fail-closed— y
+# `european_value_opportunities_filtered.csv` se publicó con la cabecera y
+# nada más. El sistema lo dijo con todas las letras en el log («25 NO
+# EVALUADOS, no rechazados: esto es una avería») y nadie lo leyó.
+#
+# Un nombre de modelo caduca sin avisar: los proveedores los retiran. Por eso
+# la cadena de respaldo de abajo importa más que el nombre de arriba.
+SCOUT_PRIMARY  = "qwen/qwen3.8-27b"
 SCOUT_FALLBACK = ["openai/gpt-oss-20b", PRIMARY_MODEL]
 
 
@@ -64,6 +74,18 @@ def _is_rate_limit(exc: Exception) -> bool:
 # Como groq_chat hace fallback qwen -> gpt-oss sobre la marcha, el valor se
 # resuelve por modelo dentro del bucle, nunca una sola vez fuera.
 _ESFUERZO_MINIMO = {'qwen': 'none', 'openai/gpt-oss': 'low'}
+
+
+def _es_modelo_inexistente(exc: Exception) -> bool:
+    """404 model_not_found: el nombre ha caducado, no es un fallo pasajero.
+
+    Se distingue del rate-limit a propósito: ante un 429 tiene sentido esperar
+    y reintentar con el mismo modelo; ante un 404 no, hay que saltar al
+    siguiente de la cadena ya. Mezclarlos fue lo que dejó la lista europea
+    vacía un día entero.
+    """
+    msg = str(exc)
+    return 'model_not_found' in msg or 'does not exist' in msg
 
 # Suelo cuando se pide JSON. Groq documenta 1024 como tope por defecto para
 # tareas de razonamiento; se deja margen por encima. No cuesta nada: lo que
@@ -130,6 +152,16 @@ def groq_chat(
             if _is_rate_limit(exc):
                 print(f"  ⚠️  {m} rate-limited — {'trying next model' if attempt + 1 < len(models_to_try) else 'all models exhausted'}")
                 time.sleep(1)
+                continue
+            # Un nombre de modelo caducado TAMBIÉN pasa al siguiente. Antes se
+            # propagaba como cualquier otro error, así que la cadena de
+            # respaldo no servía de nada justo en el caso para el que existe:
+            # el 17-sep-2026 `qwen3.6-27b` dejó de existir y las 32 llamadas
+            # del gate europeo murieron con el mismo 404 sin llegar a probar
+            # gpt-oss. La lista europea se publicó vacía.
+            if _es_modelo_inexistente(exc):
+                print(f"  ⚠️  {m} ya no existe en Groq (404) — "
+                      f"{'probando el siguiente' if attempt + 1 < len(models_to_try) else 'no queda ninguno'}")
                 continue
             raise  # non-rate-limit error → propagate immediately
 

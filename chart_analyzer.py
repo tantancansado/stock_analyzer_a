@@ -30,8 +30,8 @@ FILTERED_CSV = DOCS / "value_opportunities_filtered.csv"
 # Groq vision model. 31-ago-2026: llama-4-scout retirado 17-jul-2026;
 # verificado contra console.groq.com/docs/vision que qwen3.6/3.8 son los
 # únicos modelos vigentes con soporte de imagen (hasta 5 y 3 por request).
-MODEL = "qwen/qwen3.6-27b"
-MODEL_FALLBACK = "qwen/qwen3.8-27b"
+MODEL = "qwen/qwen3.8-27b"
+MODEL_FALLBACK = "openai/gpt-oss-20b"
 ANALYSIS_PROMPT = """\
 You are a professional technical analyst reviewing a daily candlestick chart.
 The chart shows 6 months of price + volume with 50-day (orange), 150-day (blue),

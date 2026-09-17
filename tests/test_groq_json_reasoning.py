@@ -48,7 +48,7 @@ class TestEsfuerzoPorModelo:
     """Los conjuntos válidos son disjuntos — cruzarlos es un 400."""
 
     def test_qwen_solo_acepta_none(self):
-        assert gu._esfuerzo_para('qwen/qwen3.6-27b') == 'none'
+        assert gu._esfuerzo_para(gu.SCOUT_PRIMARY) == 'none'
 
     @pytest.mark.parametrize('modelo', ['openai/gpt-oss-120b', 'openai/gpt-oss-20b'])
     def test_gpt_oss_no_puede_recibir_none(self, modelo):
@@ -57,7 +57,7 @@ class TestEsfuerzoPorModelo:
         assert v != 'none', 'gpt-oss NO acepta "none" — sería un 400'
 
     def test_qwen_no_puede_recibir_low(self):
-        assert gu._esfuerzo_para('qwen/qwen3.6-27b') not in ('low', 'medium', 'high'), \
+        assert gu._esfuerzo_para(gu.SCOUT_PRIMARY) not in ('low', 'medium', 'high'), \
             'qwen NO acepta low/medium/high — sería un 400'
 
     def test_modelo_desconocido_no_lleva_parametro(self):
@@ -92,7 +92,7 @@ class TestFallbackEntreFamilias:
 
     def test_el_esfuerzo_se_recalcula_al_cambiar_de_modelo(self):
         # qwen agotado -> cae a gpt-oss-20b, que NO acepta el 'none' de qwen
-        c = _Cliente(fallan={'qwen/qwen3.6-27b'})
+        c = _Cliente(fallan={gu.SCOUT_PRIMARY})
         gu.groq_chat(c, [{'role': 'user', 'content': 'x'}],
                      model=gu.SCOUT_PRIMARY, max_tokens=500, response_format=JSON)
         assert len(c.llamadas) == 2
@@ -102,7 +102,7 @@ class TestFallbackEntreFamilias:
             'arrastrar el "none" de qwen a gpt-oss cambia un 400 por otro'
 
     def test_el_suelo_tambien_se_aplica_al_de_reserva(self):
-        c = _Cliente(fallan={'qwen/qwen3.6-27b'})
+        c = _Cliente(fallan={gu.SCOUT_PRIMARY})
         gu.groq_chat(c, [{'role': 'user', 'content': 'x'}],
                      model=gu.SCOUT_PRIMARY, max_tokens=200, response_format=JSON)
         assert all(l['max_tokens'] >= gu.MIN_TOKENS_JSON for l in c.llamadas)
