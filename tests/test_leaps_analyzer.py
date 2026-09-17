@@ -627,3 +627,46 @@ class TestLaVentajaNetaDecide:
             assert abs(c['extrinsic'] - (c['mid'] - c['intrinsic'])) < 0.02, o['ticker']
             assert abs(c['breakeven'] - (c['strike'] + c['mid'])) < 0.02, o['ticker']
             assert abs(c['cost_per_contract'] - c['mid'] * 100) < 1.0, o['ticker']
+
+
+class TestLaIvDeepItmNoEsUtilizable:
+    """Catorce puntos de IV entre dos strikes contiguos no es volatilidad.
+
+    UNH, expiración 2028-01-21, el 17-sep-2026:
+
+        strike 210   IV 64,8%   extrínseco 25,33   el spread es el 26% de él
+        strike 220   IV 50,7%   extrínseco 11,58   el spread es el 78%
+        strike 230   IV 48,7%   extrínseco 12,58   el spread es el 71%
+        strike 270   IV 44,2%   extrínseco 22,20   el spread es el 23%
+
+    En una call muy dentro del dinero el valor temporal es pequeño y la
+    horquilla se lo come, así que la IV que sale de ese precio es ruido.
+    Etiquetarla «cara» es inventarse una conclusión, y pasaba en un tercio de
+    los 36 contratos publicados ese día.
+    """
+
+    def test_el_umbral_existe_y_es_razonable(self):
+        import ast
+        from pathlib import Path
+        src = (Path(__file__).resolve().parent.parent / 'leaps_analyzer.py').read_text()
+        v = None
+        for n in ast.walk(ast.parse(src)):
+            if isinstance(n, ast.Assign) and getattr(n.targets[0], 'id', '') == 'IV_SPREAD_MAX_SOBRE_EXTRINSECO':
+                v = n.value.value
+        assert v is not None, 'la constante desapareció'
+        assert 0.2 <= v <= 0.6, 'ni tan estricto que descarte todo ni tan laxo que no filtre'
+
+    def test_el_filtro_esta_dentro_de_la_etiqueta_de_iv(self):
+        from pathlib import Path
+        src = (Path(__file__).resolve().parent.parent / 'leaps_analyzer.py').read_text()
+        i = src.index('def _iv_tag')
+        assert 'IV_SPREAD_MAX_SOBRE_EXTRINSECO' in src[i:i + 1400], \
+            'la IV se vuelve a etiquetar sin comprobar si el precio la soporta'
+
+    def test_no_se_publica_richness_sin_iv_fiable(self):
+        """Si la IV no vale, no puede haber veredicto sobre ella."""
+        from pathlib import Path
+        src = (Path(__file__).resolve().parent.parent / 'leaps_analyzer.py').read_text()
+        i = src.index('def _iv_tag')
+        bloque = src[i:i + 1400]
+        assert "c['iv_richness'] = None" in bloque and 'iv_nota' in bloque

@@ -120,9 +120,16 @@ Todos afectaban a números que se usan para decidir una compra.
 | «COHERENTES» solo miraba el signo | NYT con 44,7 puntos de diferencia salía coherente | arreglado |
 | La divergencia se perdía si los modelos contradecían | 24 de 43 picks sin aviso | arreglado |
 | FCF yield publicado ≠ cuentas | **24 de 60 tickers auditados** | arreglado |
-| El DCF sigue dando valores imposibles en cíclicas | OXY +109%, CVX +84% | **pendiente** |
-| Dos definiciones de «régimen de mercado» conviviendo | value dice UPTREND y rebotes dicen CORRECCIÓN el mismo día | **pendiente** |
-| Los setups de rebote anuncian 1-5 días | sus objetivos se alcanzan en 45 sesiones | **pendiente** |
+| El DCF proyectaba con el crecimiento de UN trimestre | OXY +109% → +16,5%; CVX +84% → +8,0% | arreglado |
+| El suelo de crecimiento era +3% | a OXY, con ingresos cayendo 16,2%/año, se le proyectaba +3% | arreglado |
+| Dos definiciones de «régimen de mercado» conviviendo | ahora cada etiqueta lleva su horizonte y su criterio | arreglado |
+| Un setup se juzgaba por el estado, no por la operación | SBUX: 89% de estado, +0,39% de esperanza real | arreglado |
+| El stop era un % fijo igual para todos | -2,5% = 1,0x el ATR de SBUX y 1,7x el de Visa | arreglado |
+| El R:R filtraba y engañaba | el del R:R más bajo (TT, 0,50) era el único que ganaba | arreglado |
+| LEAPS sin ventaja sobre comprar la acción | 3 de 11; SAP costaba -230 $ | arreglado |
+| La IV de contratos muy dentro del dinero no es utilizable | la horquilla se come el 78% del valor temporal; 12 de 36 contratos | arreglado |
+| El rendimiento real no se veía en Value US | alfa -3,09% a 90 días, solo visible en otra página | arreglado |
+| `earnings_quality_score` satura | 22 de 130 en el tope exacto | **pendiente** (recalibración, necesita datos) |
 
 ---
 

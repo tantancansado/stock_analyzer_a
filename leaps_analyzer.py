@@ -69,6 +69,10 @@ MAX_SPREAD_PCT   = 20.0     # spread bid/ask máximo tolerable (%)
 # OBJETIVO, que es el escenario bueno. Si no se llega, la opción pierde mucho
 # más que la acción, y esa asimetría hay que cobrarla por adelantado.
 VENTAJA_NETA_MINIMA_PCT = 5.0
+
+# Por encima de esta proporción del valor temporal, la horquilla domina el
+# precio y la volatilidad implícita que sale de él no es utilizable.
+IV_SPREAD_MAX_SOBRE_EXTRINSECO = 0.40
 MAX_CARRY_PCT    = 14.0     # carry anualizado por encima → demasiado caro
 MIN_TARGET_RETURN_PCT = 10.0  # el LEAPS debe rendir al menos esto en el escenario
                               # alcista (target del analista); si ni así compensa,
@@ -732,8 +736,33 @@ def analyze_ticker_leaps(ticker: str, sig: dict, rate: float) -> Optional[dict]:
         pct_from_high, ytd_pct, hv_1y_pct = _get_price_context(t)
 
         # IV vs vol realizada: ¿estás pagando la volatilidad cara o barata?
+        #
+        # Con una salvedad que antes faltaba: en una call muy dentro del dinero
+        # el valor temporal es pequeño y la horquilla se lo come, así que la IV
+        # que sale de ese precio es ruido. UNH, 2028-01-21, el 17-sep-2026:
+        #
+        #   strike 210   IV 64,8%   extrínseco 25,33   el spread es el 26% de él
+        #   strike 220   IV 50,7%   extrínseco 11,58   el spread es el 78%
+        #   strike 230   IV 48,7%   extrínseco 12,58   el spread es el 71%
+        #   strike 270   IV 44,2%   extrínseco 22,20   el spread es el 23%
+        #
+        # Catorce puntos de IV entre dos strikes contiguos de la misma
+        # expiración no es información sobre la volatilidad: es la horquilla.
+        # Etiquetar eso como «cara» es inventarse una conclusión.
         def _iv_tag(c: dict) -> None:
-            if hv_1y_pct and hv_1y_pct > 0 and c.get('iv_pct'):
+            ext = c.get('extrinsic')
+            mid, spr = c.get('mid'), c.get('spread_pct')
+            fiable = True
+            if ext and mid and spr is not None and ext > 0:
+                proporcion = (spr / 100.0 * mid) / ext
+                c['spread_sobre_extrinseco_pct'] = round(proporcion * 100, 0)
+                fiable = proporcion <= IV_SPREAD_MAX_SOBRE_EXTRINSECO
+            if not fiable:
+                c['iv_vs_hv'] = None
+                c['iv_richness'] = None
+                c['iv_nota'] = ('la horquilla se come el valor temporal: esta IV '
+                                'no dice nada sobre si la volatilidad está cara')
+            elif hv_1y_pct and hv_1y_pct > 0 and c.get('iv_pct'):
                 ratio = c['iv_pct'] / hv_1y_pct
                 c['iv_vs_hv'] = round(ratio, 2)
                 c['iv_richness'] = ('barata' if ratio < 0.9
