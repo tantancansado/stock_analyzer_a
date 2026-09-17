@@ -116,7 +116,27 @@ def fcf_del_estado_de_flujos(stock):
     capex = _ttm(qc, 'Capital Expenditure')
     if ocf is None or capex is None:
         return None, None
-    return ocf - abs(capex), capex
+    fcf = ocf - abs(capex)
+
+    # El capital circulante es un movimiento de BALANCE, no dinero que genere
+    # el negocio, y puede revertir al año siguiente. Distorsiona en las dos
+    # direcciones (datos del 17-sep-2026, último año fiscal):
+    #
+    #     CBOE   flujo 1.753M   circulante  +529M  (+30%)  -> lo INFLA
+    #     V      flujo 23.059M  circulante -15.172M (-66%) -> lo DEPRIME
+    #     ADP    flujo 5.441M   circulante  -1.106M (-20%)
+    #
+    # Con el de CBOE dentro, su FCF yield salía 6,04% cuando el real es 4,14%,
+    # y parecía crecer al 27,6% cuando sus ingresos crecen al 6,0%.
+    #
+    # Se toma el MENOR entre el FCF con circulante y sin él. Es conservador en
+    # los dos sentidos: a quien se lo infla se le quita, y a quien se lo
+    # deprime no se le regala un flujo que no ha entrado en caja.
+    wc = _ttm(qc, 'Change In Working Capital')
+    if wc is not None:
+        fcf = min(fcf, ocf - wc - abs(capex))
+
+    return fcf, capex
 
 
 def derive_from_statements(stock, info: dict, fields: list[str] | None = None) -> tuple[dict, list[str]]:

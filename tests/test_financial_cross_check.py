@@ -152,3 +152,53 @@ class TestElFcfDelEstadoDeFlujosManda:
             balance_sheet = pd.DataFrame()
         info, _ = derive_from_statements(_S(), {'freeCashflow': 900e6})
         assert info['freeCashflow'] == 900e6, 'sin TTM se respeta lo que había'
+
+
+class TestElCapitalCirculanteNoEsFlujoDelNegocio:
+    """Un movimiento de balance no es dinero que genere la empresa.
+
+    Medido el 17-sep-2026 sobre el último año fiscal:
+
+        CBOE   flujo 1.753M   circulante  +529M  (+30%)   -> lo INFLA
+        V      flujo 23.059M  circulante -15.172M (-66%)  -> lo DEPRIME
+        ADP    flujo  5.441M  circulante  -1.106M (-20%)
+
+    Con el circulante de CBOE dentro, su FCF yield salía 6,04% cuando el real
+    ronda el 4-5%, y parecía crecer al 27,6% cuando sus ingresos crecen al
+    6,0%. Sobre eso la recomendé como el mejor candidato del día.
+
+    Se toma el MENOR de los dos: al que se lo infla se le quita, y al que se lo
+    deprime no se le regala un flujo que no ha entrado en caja.
+    """
+
+    def _stock(self, ocf, capex, wc):
+        import pandas as pd
+        cols = pd.to_datetime(['2026-06-30', '2026-03-31', '2025-12-31', '2025-09-30'])
+        filas = {'Operating Cash Flow': ocf, 'Capital Expenditure': capex}
+        if wc is not None:
+            filas['Change In Working Capital'] = wc
+        qc = pd.DataFrame(list(filas.values()), columns=cols, index=list(filas))
+
+        class _S:
+            quarterly_cashflow = qc
+            cashflow = pd.DataFrame()
+            financials = pd.DataFrame()
+            balance_sheet = pd.DataFrame()
+        return _S()
+
+    def test_cuando_el_circulante_infla_se_quita(self):
+        st = self._stock([500e6]*4, [-25e6]*4, [150e6]*4)   # +30% del flujo
+        info, _ = derive_from_statements(st, {'freeCashflow': None})
+        assert info['freeCashflow'] == (2000e6 - 600e6 - 100e6)
+
+    def test_cuando_el_circulante_deprime_no_se_regala(self):
+        """Visa: el circulante le resta 15.172M. Sumárselo daría un FCF que no
+        ha entrado en caja."""
+        st = self._stock([500e6]*4, [-25e6]*4, [-150e6]*4)
+        info, _ = derive_from_statements(st, {'freeCashflow': None})
+        assert info['freeCashflow'] == (2000e6 - 100e6)
+
+    def test_sin_el_dato_de_circulante_se_usa_el_fcf_normal(self):
+        st = self._stock([500e6]*4, [-25e6]*4, None)
+        info, _ = derive_from_statements(st, {'freeCashflow': None})
+        assert info['freeCashflow'] == (2000e6 - 100e6)
