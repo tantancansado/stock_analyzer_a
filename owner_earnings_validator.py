@@ -261,8 +261,72 @@ def load_batch() -> list[dict]:
     return raw.get("results", []) or []
 
 
-def run(ticker_filter: Optional[str] = None, dry_run: bool = False) -> None:
+# Cuánto puede pasar sin revalidar aunque la entrada no cambie. No es por el
+# dato —si la entrada es idéntica el veredicto también lo es— sino por si cambia
+# el criterio del validador o el modelo detrás.
+REVALIDAR_CADA_DIAS = 30
+
+
+def _huella_entrada(results: list[dict]) -> str:
+    """Huella de lo que el validador va a leer. Si no cambia, su salida tampoco.
+
+    No es una heurística: el validador es determinista respecto a su entrada.
+    Mismo `owner_earnings_batch.json` → mismo prompt por ticker → mismo veredicto.
+    """
+    import hashlib
+    crudo = json.dumps(results, sort_keys=True, default=str).encode()
+    return hashlib.sha256(crudo).hexdigest()[:16]
+
+
+def _ya_validado(results: list[dict]) -> str | None:
+    """Fecha de la validación anterior si sirve para esta entrada, o None."""
+    if not OUT_JSON.exists():
+        return None
+    try:
+        previo = json.loads(OUT_JSON.read_text())
+    except Exception:
+        return None
+    if previo.get("huella_entrada") != _huella_entrada(results):
+        return None
+    if previo.get("model") != MODEL:
+        return None          # otro modelo, otro veredicto posible
+    try:
+        cuando = datetime.fromisoformat(str(previo.get("validated_at")))
+        if cuando.tzinfo is None:
+            cuando = cuando.replace(tzinfo=timezone.utc)
+    except Exception:
+        return None
+    if (datetime.now(timezone.utc) - cuando).days > REVALIDAR_CADA_DIAS:
+        return None
+    return cuando.date().isoformat()
+
+
+def run(ticker_filter: Optional[str] = None, dry_run: bool = False,
+        forzar: bool = False) -> None:
     results = load_batch()
+
+    # El paso más caro del pipeline: 13,5 min al día más tokens de Groq. Y su
+    # entrada solo cambia cuando se refresca TIKR, que es SEMANAL — medido:
+    # `owner_earnings_batch.json` tiene un commit por semana desde julio, los
+    # lunes, un día después de que TIKR se actualice los domingos.
+    #
+    # Los otros seis días el fichero de entrada es byte a byte el mismo, así que
+    # el veredicto no es que rara vez cambie: es que NO PUEDE cambiar. Se
+    # volvía a preguntar igualmente.
+    #
+    # Esto no cachea por ticker ni adivina nada: compara la huella de la entrada
+    # entera. O es la misma —y entonces la salida anterior ya es la respuesta— o
+    # no lo es y se valida todo.
+    if not forzar and not ticker_filter:
+        desde = _ya_validado(results)
+        if desde:
+            print(f"✅ La entrada no ha cambiado desde {desde}: el veredicto anterior "
+                  f"sigue siendo el de estas cifras.")
+            print(f"   {len(results)} tickers · sin llamadas a {MODEL} · "
+                  f"se revalida solo si cambian las cuentas o pasan "
+                  f"{REVALIDAR_CADA_DIAS} días.")
+            print(f"   (--force para revalidar igualmente)")
+            return
     if ticker_filter:
         results = [r for r in results if r.get("ticker", "").upper() == ticker_filter.upper()]
         if not results:
@@ -330,6 +394,8 @@ def run(ticker_filter: Optional[str] = None, dry_run: bool = False) -> None:
     OUT_JSON.write_text(json.dumps({
         "model": MODEL,
         "validated_at": validated_at,
+        # Sin esto no se puede saber si la validación de mañana sobra.
+        "huella_entrada": _huella_entrada(results),
         "total": len(rows),
         "results": by_ticker,
     }, ensure_ascii=False, indent=2))
@@ -342,8 +408,10 @@ def main():
     parser = argparse.ArgumentParser(description="AI validator para owner_earnings_batch.json")
     parser.add_argument("--ticker", type=str, default=None, help="Validar un único ticker")
     parser.add_argument("--dry-run", action="store_true", help="No escribir archivos de salida")
+    parser.add_argument("--force", action="store_true",
+                        help="Revalidar aunque la entrada no haya cambiado")
     args = parser.parse_args()
-    run(ticker_filter=args.ticker, dry_run=args.dry_run)
+    run(ticker_filter=args.ticker, dry_run=args.dry_run, forzar=args.force)
 
 
 if __name__ == "__main__":

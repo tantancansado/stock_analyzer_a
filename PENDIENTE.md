@@ -19,6 +19,22 @@ Lo de arriba es lo que está en curso; lo de abajo, lo que espera a tener datos.
       thead sticky, y 14 tablas sin `.table-x-wrap` (se cortan en móvil, sin
       scroll posible).
 
+## Optimización de cadencia (en curso)
+
+- [x] ~~**Owner Earnings se revalidaba a diario sin que su entrada cambiara.**~~
+      13,5 min/día + tokens de Groq, 6 de cada 7 días sobre un fichero byte a
+      byte idéntico (TIKR se refresca los domingos, el batch cambia los lunes).
+      Arreglado con huella de la entrada: se revalida cuando cambian las cuentas,
+      ese mismo día, no por calendario.
+- [ ] **TIKR solo trae las cuentas del 62% de los tickers cada semana**, y son
+      tickers distintos cada vez (oscila 47-81% desde mayo). Por eso el FCF de un
+      año CERRADO aparece y desaparece el 41% de las semanas. La unión de 10
+      semanas cubre el 99%: guardando lo ya descargado se pasa del 62% al 99%
+      sin una petición más. Un año fiscal cerrado es un hecho, no una cotización.
+- [ ] `fundamental_scorer`: 8,2 min/día y sus campos cambian el 1-5% de los días
+      (lo que cambia el 90% —precio, upside— es lo barato). Mismo tratamiento
+      pendiente de decidir.
+
 ## Esperando a que corra el pipeline
 
 - [ ] `fcf_per_share` en peniques y clases de acción — arreglado en
