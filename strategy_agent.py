@@ -389,8 +389,11 @@ def _validate_strategy(raw: dict, position: dict, current_price: float, signals:
     except Exception:
         next_check = (datetime.now() + timedelta(days=14)).strftime('%Y-%m-%d')
 
-    confidence = _safe_float(raw.get('confidence')) or 50
-    confidence = max(0, min(100, int(confidence)))
+    # Sin confianza declarada no se inventa un 50: un «50% de confianza» se lee
+    # como una medición tibia, no como un hueco. Mismo caso que el score 50 que
+    # CLAUDE.md declara «dato ausente».
+    confidence = _safe_float(raw.get('confidence'))
+    confidence = max(0, min(100, int(confidence))) if confidence is not None else None
 
     return {
         'current_action':    action,

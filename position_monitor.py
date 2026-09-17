@@ -141,7 +141,7 @@ def _get_market_context() -> dict:
     import yfinance as yf
 
     spy_pct = 0.0
-    vix_now = 20.0
+    vix_now = None          # None = no se ha podido leer, NO «volatilidad normal»
     regime  = 'NORMAL'
 
     macro_path = DOCS / 'macro_radar.json'
@@ -149,7 +149,7 @@ def _get_market_context() -> dict:
         try:
             raw    = json.loads(macro_path.read_text())
             regime = raw.get('regime', {}).get('name', 'NORMAL').upper()
-            vix_now = raw.get('signals', {}).get('vix', {}).get('current', 20.0)
+            vix_now = raw.get('signals', {}).get('vix', {}).get('current')
         except Exception:
             pass
 
@@ -162,11 +162,18 @@ def _get_market_context() -> dict:
     except Exception:
         pass
 
-    if vix_now == 20.0:
+    # Si el VIX no se puede leer, se dice — no se supone un 20.
+    #
+    # 20 es volatilidad NORMAL, así que un fallo de descarga se leía como
+    # «mercado tranquilo» y podía apagar un aviso de riesgo real. Y además 20.0
+    # se usaba a la vez de centinela («si vale 20, reintenta») y de valor
+    # posible: un VIX que de verdad esté en 20 disparaba el reintento.
+    if vix_now is None:
         try:
-            vix_now = float(yf.Ticker('^VIX').fast_info.get('lastPrice') or 20.0)
+            crudo = yf.Ticker('^VIX').fast_info.get('lastPrice')
+            vix_now = float(crudo) if crudo else None
         except Exception:
-            pass
+            vix_now = None
 
     return {'spy_pct': spy_pct, 'vix': vix_now, 'regime': regime}
 
@@ -591,8 +598,10 @@ def _assess_risk(
         reasons.append(f"Flujo bajista fresco {prem_fmt} sobre posición activa")
         risk_level = _level_up(risk_level, 'WATCH')
 
-    # 3. VIX crisis
-    if vix >= VIX_CRISIS and pct_entry < -2.0:
+    # 3. VIX crisis — solo si se ha podido leer. Antes valía 20 por defecto, así
+    #    que un fallo de descarga se leía como «volatilidad normal» y apagaba
+    #    este aviso sin decirlo.
+    if vix is not None and vix >= VIX_CRISIS and pct_entry < -2.0:
         reasons.append(f"VIX {vix:.0f} + posición en pérdida — deterioro macro severo")
         risk_level = _level_up(risk_level, 'WATCH')
 
@@ -748,7 +757,8 @@ def _groq_verdict(
             f"ahora ${metrics['current']:.2f} ({pct_entry:+.1f}%), "
             f"stop a {pct_stop:.1f}% de distancia, target a {metrics['pct_to_target']:.1f}%. "
             f"RSI {rsi:.0f}. Lleva {hours:.1f}h abierta. "
-            f"Mercado: SPY {spy_pct:+.1f}% hoy, VIX {vix:.0f}. "
+            f"Mercado: SPY {spy_pct:+.1f}% hoy, "
+            f"{'VIX ' + format(vix, '.0f') + '. ' if vix is not None else 'VIX no disponible. '}"
             f"{flow_ctx}"
             f"Amenazas: {threats}. "
             f"Contexto tranquilizador: {ctx_list}. "
@@ -870,7 +880,9 @@ def run_monitor(dry_run: bool = False):
     print('  Cargando contexto de mercado...')
     market = _get_market_context()
     opex_w, opex_d = _is_opex_period()
-    print(f"  SPY {market['spy_pct']:+.1f}%  VIX {market['vix']:.0f}  "
+    _vix = market['vix']
+    print(f"  SPY {market['spy_pct']:+.1f}%  "
+          f"VIX {format(_vix, '.0f') if _vix is not None else 'n/d'}  "
           f"Régimen {market['regime']}{'  📅 '+opex_d if opex_w else ''}")
 
     flow_signals = _load_flow_signals()

@@ -180,10 +180,15 @@ function StrategyCard({ s }: { s: PortfolioStrategy }) {
             Próximo check: <b className="text-foreground tabular-nums">{s.next_check_date}</b>
             {s.next_check_reason && <span className="text-muted-foreground">— {s.next_check_reason}</span>}
           </div>
+          {/* Sin confianza declarada se dice, no se pinta «null%» ni un 50
+              inventado: un «50% de confianza» se lee como una medición tibia y
+              no como un hueco. */}
           <div className="flex items-center gap-1.5 text-micro">
             <Target size={12} className="text-muted-foreground" />
             <span className="text-muted-foreground">Confianza</span>
-            <b className="text-foreground tabular-nums">{s.confidence}%</b>
+            <b className="text-foreground tabular-nums">
+              {s.confidence != null ? `${s.confidence}%` : 'sin declarar'}
+            </b>
           </div>
         </div>
       </CardContent>
