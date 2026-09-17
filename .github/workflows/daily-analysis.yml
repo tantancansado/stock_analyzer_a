@@ -666,6 +666,13 @@ jobs:
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
         run: python3 portfolio_price_alerts.py
 
+      # Niveles que el usuario decidió vigilar tras estudiar un valor, con el
+      # motivo pegado. Las alertas de arriba son genéricas (objetivo del
+      # analista, stop del 8%) y no responden a «me interesa a 127, avísame».
+      - name: Niveles vigilados (los que el usuario eligió, con su porqué)
+        continue-on-error: true
+        run: python3 niveles_vigilados.py
+
       # ── El único mensaje del día ───────────────────────────────────────────
       # Va al final a propósito: lee lo que han dejado todos los pasos
       # anteriores (ya verificado por data_integrity, currency_normalizer y
