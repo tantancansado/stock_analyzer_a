@@ -381,22 +381,47 @@ def _enrich_csv_with_entry_exit(input_file: str):
     print(f"  Saved {input_file}")
 
 
-def add_entry_exit_all():
-    """Run entry/exit for all opportunity types: momentum, US VALUE, EU VALUE"""
+def add_entry_exit_all() -> int:
+    """Entry/exit para momentum, VALUE US y VALUE EU. Cada uno por su cuenta.
+
+    Iban encadenados, y el 17-sep-2026 momentum murió con un TypeError al
+    imprimir su top 10 —cosmético— y se llevó por delante a los otros dos. El
+    resultado: `value_opportunities.csv` publicado SIN precio de entrada, sin
+    stop y sin `rr_operativo`, que es justo lo que se mira para comprar. Nadie
+    se enteró porque las columnas no estaban: no había un hueco visible, había
+    una lista más corta de columnas.
+
+    Ahora un fallo en una lista no toca a las demás, y el proceso devuelve
+    cuántas fallaron para que el paso del pipeline pueda avisar.
+    """
+    fallos = []
+
+    def _intentar(nombre, fn, *a):
+        try:
+            fn(*a)
+        except Exception as exc:
+            fallos.append(nombre)
+            print(f"  ⚠️  {nombre}: falló ({type(exc).__name__}: {str(exc)[:120]})")
+            print(f"      las otras listas siguen — no se arrastran entre sí")
+
     # 1. Momentum (original behavior — separate output file)
-    add_entry_exit_prices()
+    _intentar('momentum', add_entry_exit_prices)
 
     # 2. US VALUE — enrich in-place (preserves all rows)
     for vf in ['docs/value_opportunities_filtered.csv', 'docs/value_opportunities.csv']:
         if Path(vf).exists() and pd.read_csv(vf).shape[0] > 0:
-            _enrich_csv_with_entry_exit(vf)
+            _intentar(f'VALUE US ({vf})', _enrich_csv_with_entry_exit, vf)
             break
 
     # 3. EU VALUE — enrich in-place (preserves all rows)
     for ef in ['docs/european_value_opportunities_filtered.csv', 'docs/european_value_opportunities.csv']:
         if Path(ef).exists() and pd.read_csv(ef).shape[0] > 0:
-            _enrich_csv_with_entry_exit(ef)
+            _intentar(f'VALUE EU ({ef})', _enrich_csv_with_entry_exit, ef)
             break
+
+    if fallos:
+        print(f"\n❌ {len(fallos)} de 3 listas se quedaron sin entrada/stop: {', '.join(fallos)}")
+    return len(fallos)
 
 
 if __name__ == "__main__":
@@ -409,6 +434,8 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     if args.all:
-        add_entry_exit_all()
+        # Código de salida distinto de cero si alguna lista se quedó sin
+        # entrada/stop: el paso del pipeline tiene que poder enterarse.
+        sys.exit(1 if add_entry_exit_all() else 0)
     else:
         add_entry_exit_prices(args.input, args.output)
