@@ -116,56 +116,62 @@ export default function Insiders() {
                 <span className="etiqueta-seccion text-primary">Insiders en Mi Cartera</span>
                 <span className="text-micro px-1.5 py-0.5 rounded-full bg-primary/15 text-primary font-bold">{myInsiders.length}</span>
               </div>
-              <Table>
-                <TableHeader>
-                  <TableRow className="border-border/50 hover:bg-transparent">
-                    <TableHead>Ticker / Empresa</TableHead>
-                    <TableHead className="hidden sm:table-cell">Mercado</TableHead>
-                    <TableHead>Compras</TableHead>
-                    <TableHead>Direct.</TableHead>
-                    <TableHead className="hidden md:table-cell">Acciones</TableHead>
-                    <TableHead className="hidden sm:table-cell">Última Compra</TableHead>
-                    <TableHead>Confianza</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {myInsiders.map(d => {
-                    const company = getCompany(d)
-                    const normConf = normScore(d.confidence_score, maxScore)
-                    const isEu = d.market && d.market !== 'US'
-                    return (
-                      <TableRow key={d.ticker}>
-                        <TableCell>
-                          <div className="flex items-center gap-1.5">
-                            <TickerLogo ticker={d.ticker} size="sm" />
-                            <div>
-                              <div className="font-mono font-bold text-primary text-apoyo tracking-wide">{d.ticker}</div>
-                              {company !== d.ticker && (
-                                <div className="text-micro text-muted-foreground truncate max-w-[180px]">{company}</div>
-                              )}
+              {/* `.table-x-wrap`: en escritorio recorta sin crear scroll
+                  container (el thead sticky sigue funcionando) y en móvil pasa a
+                  scroll horizontal. Sin él la tabla se corta y no hay manera de
+                  llegar a las columnas de la derecha. */}
+              <div className="table-x-wrap">
+                <Table>
+                  <TableHeader>
+                    <TableRow className="border-border/50 hover:bg-transparent">
+                      <TableHead>Ticker / Empresa</TableHead>
+                      <TableHead className="hidden sm:table-cell">Mercado</TableHead>
+                      <TableHead>Compras</TableHead>
+                      <TableHead>Direct.</TableHead>
+                      <TableHead className="hidden md:table-cell">Acciones</TableHead>
+                      <TableHead className="hidden sm:table-cell">Última Compra</TableHead>
+                      <TableHead>Confianza</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {myInsiders.map(d => {
+                      const company = getCompany(d)
+                      const normConf = normScore(d.confidence_score, maxScore)
+                      const isEu = d.market && d.market !== 'US'
+                      return (
+                        <TableRow key={d.ticker}>
+                          <TableCell>
+                            <div className="flex items-center gap-1.5">
+                              <TickerLogo ticker={d.ticker} size="sm" />
+                              <div>
+                                <div className="font-mono font-bold text-primary text-apoyo tracking-wide">{d.ticker}</div>
+                                {company !== d.ticker && (
+                                  <div className="text-micro text-muted-foreground truncate max-w-[180px]">{company}</div>
+                                )}
+                              </div>
                             </div>
-                          </div>
-                        </TableCell>
-                        <TableCell className="hidden sm:table-cell"><Badge variant={marketVariant(d.market)}>{d.market ?? 'US'}</Badge></TableCell>
-                        <TableCell className="font-bold tabular-nums">{d.purchase_count}</TableCell>
-                        <TableCell>
-                          <span className={d.unique_insiders >= 3 ? 'text-emerald-400 font-bold' : d.unique_insiders >= 2 ? 'text-amber-400 font-semibold' : ''}>
-                            {d.unique_insiders}
-                          </span>
-                        </TableCell>
-                        <TableCell className="hidden md:table-cell tabular-nums text-muted-foreground">{fmtQty(d.total_shares ?? d.total_qty)}</TableCell>
-                        <TableCell className="hidden sm:table-cell text-muted-foreground text-mini">{d.last_purchase}</TableCell>
-                        <TableCell>
-                          {isEu && d.confidence_label
-                            ? <Badge variant={confVariant(d.confidence_score, maxScore)}>{d.confidence_label}</Badge>
-                            : <Badge variant={confVariant(d.confidence_score, maxScore)}>{normConf}</Badge>
-                          }
-                        </TableCell>
-                      </TableRow>
-                    )
-                  })}
-                </TableBody>
-              </Table>
+                          </TableCell>
+                          <TableCell className="hidden sm:table-cell"><Badge variant={marketVariant(d.market)}>{d.market ?? 'US'}</Badge></TableCell>
+                          <TableCell className="font-bold tabular-nums">{d.purchase_count}</TableCell>
+                          <TableCell>
+                            <span className={d.unique_insiders >= 3 ? 'text-emerald-400 font-bold' : d.unique_insiders >= 2 ? 'text-amber-400 font-semibold' : ''}>
+                              {d.unique_insiders}
+                            </span>
+                          </TableCell>
+                          <TableCell className="hidden md:table-cell tabular-nums text-muted-foreground">{fmtQty(d.total_shares ?? d.total_qty)}</TableCell>
+                          <TableCell className="hidden sm:table-cell text-muted-foreground text-mini">{d.last_purchase}</TableCell>
+                          <TableCell>
+                            {isEu && d.confidence_label
+                              ? <Badge variant={confVariant(d.confidence_score, maxScore)}>{d.confidence_label}</Badge>
+                              : <Badge variant={confVariant(d.confidence_score, maxScore)}>{normConf}</Badge>
+                            }
+                          </TableCell>
+                        </TableRow>
+                      )
+                    })}
+                  </TableBody>
+                </Table>
+              </div>
             </CardContent>
           </Card>
         )

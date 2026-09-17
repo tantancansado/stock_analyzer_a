@@ -243,7 +243,7 @@ export default function SectorComparison() {
           {filtered.length === 0 ? (
             <Card><CardContent className="p-0"><EmptyState compact title="Sin resultados con los filtros actuales" /></CardContent></Card>
           ) : (
-            <div className="rounded-xl border border-border/40 overflow-clip">
+            <div className="rounded-xl border border-border/40 table-x-wrap">
               <Table>
                 <TableHeader>
                   <TableRow className="border-border/40">

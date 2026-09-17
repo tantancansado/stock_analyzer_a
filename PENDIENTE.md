@@ -11,13 +11,17 @@ Lo de arriba es lo que está en curso; lo de abajo, lo que espera a tener datos.
       que cubra la cadena y no el primer eslabón. Estado nuevo `incompleto`
       (fichero de hoy, contenido a medias) distinto de `stale` y de `empty`.
       Sobre los datos de hoy pasa de decir 20/20 a **16/20**.
-- [ ] **El hover del Centro de mando se ve raro.** Reportado con captura.
-- [ ] **Repaso de tablas tipo Apple.** No un parche por página: el usuario lleva
-      semanas reportando "las tablas no se ven bien" y cada vez es una causa
-      distinta. Hay que barrer por patrón. Ya salieron tres:
-      pista de barra invisible (22 barras), `overflow-x-auto` crudo rompiendo el
-      thead sticky, y 14 tablas sin `.table-x-wrap` (se cortan en móvil, sin
-      scroll posible).
+- [x] ~~**El hover del Centro de mando.**~~ `.liquid-glass:hover` levantaba el
+      elemento 2px y le pintaba un borde interior casi blanco (74% arriba). No
+      se usa en nada pulsable —los siete sitios son modales, banners y tarjetas
+      líder— así que el movimiento prometía una acción que no existe. Fuera, en
+      los dos temas.
+- [x] ~~**Tablas: barrido por patrón.**~~ Cuatro causas distintas, las cuatro
+      con test que impide la reincidencia: pista de barra invisible (22 barras),
+      `overflow-x-auto` crudo rompiendo el thead sticky, `overflow-hidden` en
+      ThesisBody (lo mismo), y 6 tablas visibles en móvil sin `.table-x-wrap`.
+      Las otras 13 sin envoltorio están dentro de un `hidden sm:block`: en móvil
+      no se pintan, así que no necesitan nada.
 
 ## Optimización de cadencia (en curso)
 

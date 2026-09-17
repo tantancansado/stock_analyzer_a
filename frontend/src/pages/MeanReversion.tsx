@@ -363,41 +363,47 @@ export default function MeanReversion() {
                 <span className="etiqueta-seccion text-primary">Mis Posiciones en Zona Oversold</span>
                 <span className="text-micro px-1.5 py-0.5 rounded-full bg-primary/15 text-primary font-bold">{myMR.length}</span>
               </div>
-              <Table>
-                <TableHeader>
-                  <TableRow className="border-border/50 hover:bg-transparent">
-                    <TableHead>Ticker</TableHead>
-                    <TableHead>Calidad</TableHead>
-                    <TableHead>Score</TableHead>
-                    <TableHead>Soporte</TableHead>
-                    <TableHead>Target</TableHead>
-                    <TableHead>Stop</TableHead>
-                    <TableHead>R:R</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {myMR.map(d => (
-                    <TableRow key={d.ticker}>
-                      <TableCell>
-                        <div className="flex items-center gap-1.5">
-                          <TickerLogo ticker={d.ticker} size="xs" />
-                          <span className="font-mono font-bold text-primary text-apoyo tracking-wide">{d.ticker}</span>
-                        </div>
-                      </TableCell>
-                      <TableCell><Badge variant={qualVariant(d.quality)}>{d.quality}</Badge></TableCell>
-                      <TableCell><ScoreBar score={d.reversion_score} /></TableCell>
-                      <TableCell className="tabular-nums text-amber-400">{precio(d.support_level, d.ticker)}</TableCell>
-                      <TableCell className="tabular-nums">{precio(d.target, d.ticker)}</TableCell>
-                      <TableCell className="tabular-nums">{precio(d.stop_loss, d.ticker)}</TableCell>
-                      <TableCell className="tabular-nums">
-                        {d.risk_reward != null && Number(d.risk_reward) > 0
-                          ? <span className={(d.risk_reward as number) >= 2 ? 'text-emerald-400' : (d.risk_reward as number) >= 1 ? 'text-amber-400' : 'text-red-400'}>{Number(d.risk_reward).toFixed(1)}</span>
-                          : <span className="text-muted-foreground">—</span>}
-                      </TableCell>
+              {/* `.table-x-wrap`: en escritorio recorta sin crear scroll
+                  container (el thead sticky sigue funcionando) y en móvil pasa a
+                  scroll horizontal. Sin él la tabla se corta y no hay manera de
+                  llegar a las columnas de la derecha. */}
+              <div className="table-x-wrap">
+                <Table>
+                  <TableHeader>
+                    <TableRow className="border-border/50 hover:bg-transparent">
+                      <TableHead>Ticker</TableHead>
+                      <TableHead>Calidad</TableHead>
+                      <TableHead>Score</TableHead>
+                      <TableHead>Soporte</TableHead>
+                      <TableHead>Target</TableHead>
+                      <TableHead>Stop</TableHead>
+                      <TableHead>R:R</TableHead>
                     </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
+                  </TableHeader>
+                  <TableBody>
+                    {myMR.map(d => (
+                      <TableRow key={d.ticker}>
+                        <TableCell>
+                          <div className="flex items-center gap-1.5">
+                            <TickerLogo ticker={d.ticker} size="xs" />
+                            <span className="font-mono font-bold text-primary text-apoyo tracking-wide">{d.ticker}</span>
+                          </div>
+                        </TableCell>
+                        <TableCell><Badge variant={qualVariant(d.quality)}>{d.quality}</Badge></TableCell>
+                        <TableCell><ScoreBar score={d.reversion_score} /></TableCell>
+                        <TableCell className="tabular-nums text-amber-400">{precio(d.support_level, d.ticker)}</TableCell>
+                        <TableCell className="tabular-nums">{precio(d.target, d.ticker)}</TableCell>
+                        <TableCell className="tabular-nums">{precio(d.stop_loss, d.ticker)}</TableCell>
+                        <TableCell className="tabular-nums">
+                          {d.risk_reward != null && Number(d.risk_reward) > 0
+                            ? <span className={(d.risk_reward as number) >= 2 ? 'text-emerald-400' : (d.risk_reward as number) >= 1 ? 'text-amber-400' : 'text-red-400'}>{Number(d.risk_reward).toFixed(1)}</span>
+                            : <span className="text-muted-foreground">—</span>}
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
             </CardContent>
           </Card>
         )

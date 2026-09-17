@@ -161,8 +161,11 @@ function InsiderSection({ preamble, bullets }: { preamble: string; bullets: stri
           ))}
         </div>
       )}
+      {/* `overflow-hidden` creaba un scroll container y rompía el thead sticky;
+          `.table-x-wrap` recorta igual sin crearlo, y en móvil deja desplazar
+          en horizontal. */}
       {txs.length > 0 && (
-        <div className="rounded-lg border border-border/20 overflow-hidden">
+        <div className="rounded-lg border border-border/20 table-x-wrap">
           <table className="w-full text-mini">
             <thead>
               <tr className="bg-muted/30">

@@ -711,22 +711,20 @@ button:active:not(:disabled) { transform: scale(0.97); }
   transition: opacity 0.3s ease;
 }
 
-.liquid-glass:hover {
-  transform: translateY(-2px);
-  box-shadow:
-    0 32px 72px -12px hsl(0 0% 0% / 0.62),
-    0 10px 28px -8px hsl(0 0% 0% / 0.40),
-    inset 0  1.5px 0 hsl(0 0% 100% / 0.74),
-    inset 1.5px 0 0 hsl(0 0% 100% / 0.40),
-    inset 0 -1px 0 hsl(0 0% 0% / 0.20),
-    inset -1px 0 0 hsl(0 0% 0% / 0.12),
-    inset 0 0 32px hsl(0 0% 100% / 0.07);
-}
+/* Aquí había un `:hover` que levantaba el elemento 2px y le pintaba un borde
+   interior casi blanco (74% arriba, 40% a la izquierda), más un barrido de luz.
+   En un botón eso es respuesta al gesto; en un panel de contenido es una
+   tarjeta que salta y se enmarca sola al pasar el ratón por encima — que es lo
+   que se veía en el «Plan del Día» del Centro de mando.
 
-.liquid-glass:hover::before {
-  transform: translateX(2%);
-  opacity: 1;
-}
+   Y `.liquid-glass` NO se usa en nada pulsable: los siete sitios donde está son
+   modales, banners y tarjetas líder. Ninguno reacciona a un clic, así que
+   ninguno debería reaccionar a un hover: el movimiento promete una acción que
+   no existe.
+
+   Si algún día hay un `.liquid-glass` que sí se pulse, el hover se le añade a
+   él —`a.liquid-glass:hover`, `button.liquid-glass:hover`— y no a la clase
+   entera. */
 
 /* Optional tints — same recipe, different cast */
 
@@ -737,9 +735,6 @@ button:active:not(:disabled) { transform: scale(0.97); }
   .liquid-glass::before,
   .liquid-glass::after {
     transition: none;
-  }
-  .liquid-glass:hover {
-    transform: none;
   }
 }
 
@@ -1833,12 +1828,9 @@ tr[class*="cursor-pointer"]:hover td:first-child {
     0 2px 4px   hsl(240 6% 10% / 0.04),
     0 12px 32px hsl(240 6% 10% / 0.10);
 }
-:root:not(.dark) .liquid-glass:hover {
-  transform: none;
-  box-shadow:
-    0 2px 4px   hsl(240 6% 10% / 0.05),
-    0 16px 40px hsl(240 6% 10% / 0.13);
-}
+/* Aquí había un `:hover` que subía la sombra. Existía sobre todo para anular el
+   salto de 2px del modo oscuro, que ya no existe; lo que quedaba era un panel
+   de contenido cambiando al pasar el ratón, igual que en oscuro. */
 :root:not(.dark) .liquid-glass::before,
 :root:not(.dark) .liquid-glass::after,
 :root:not(.dark) .glass::before,

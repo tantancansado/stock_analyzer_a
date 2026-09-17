@@ -73,6 +73,9 @@ function SkeletonTable() {
           <Skeleton className="h-6 w-24 rounded" />
         </div>
       </div>
+      {/* El esqueleto imita la tabla de verdad, envoltorio incluido: si no,
+          al cargar la página el ancho salta. */}
+      <div className="table-x-wrap">
       <table className="w-full text-cuerpo">
         <thead>
           <tr className="border-b border-border/40">
@@ -89,6 +92,7 @@ function SkeletonTable() {
           ))}
         </tbody>
       </table>
+      </div>
     </Card>
   )
 }

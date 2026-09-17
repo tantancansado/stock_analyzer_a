@@ -104,3 +104,49 @@ def test_la_clase_de_la_pista_existe_y_lleva_sus_numeros():
     assert '.barra-pista {' in css
     assert 'muted-foreground) 25%' in css, 'el valor medido, no otro'
     assert '1,08' in css, 'los números de la medición se quedan escritos'
+
+
+def test_ninguna_tabla_visible_en_movil_se_queda_sin_scroll():
+    """Sin `.table-x-wrap` la tabla se corta en móvil y no hay forma de llegar a
+    las columnas de la derecha.
+
+    Las que están dentro de un `hidden sm:block` no cuentan: en móvil no se
+    pintan (esas páginas enseñan tarjetas en su lugar), así que envolverlas no
+    aportaría nada. La comprobación mira el contenedor antes de exigir nada —
+    un chequeo que pide envoltorio donde no hace falta acaba ignorado.
+    """
+    oculta = re.compile(r'hidden\s+(?:sm|md|lg):(?:block|table|flex|grid)')
+    tabla = re.compile(r'<Table\b(?!Head|Body|Row|Cell)|<table\b')
+    culpables = []
+    for f in sorted(SRC.rglob('*.tsx')):
+        if 'test' in f.parts:
+            continue
+        s = f.read_text()
+        if 'table-x-wrap' in s:
+            continue
+        lineas = s.split('\n')
+        for i, l in enumerate(lineas):
+            if not tabla.search(l):
+                continue
+            contexto = '\n'.join(lineas[max(0, i - 8):i])
+            if oculta.search(contexto):
+                continue
+            culpables.append(f'{f.relative_to(SRC)}:{i + 1}')
+    assert not culpables, (
+        'tablas visibles en móvil sin .table-x-wrap (se cortan sin scroll): '
+        + ', '.join(culpables))
+
+
+def test_el_cristal_liquido_no_reacciona_al_raton():
+    """`.liquid-glass` no se usa en nada pulsable —los siete sitios son modales,
+    banners y tarjetas líder— así que no debe moverse al pasar el ratón: el
+    movimiento promete una acción que no existe.
+
+    Tenía un `:hover` que levantaba el elemento 2px y le pintaba un borde
+    interior casi blanco (74% arriba). En el «Plan del Día» del Centro de mando
+    se veía como una tarjeta que salta y se enmarca sola.
+    """
+    css = (SRC / 'index.css').read_text()
+    sin_comentarios = re.sub(r'/\*.*?\*/', '', css, flags=re.S)
+    assert '.liquid-glass:hover' not in sin_comentarios, \
+        'volvió el hover sobre la clase entera; si algo es pulsable, dáselo a él'
