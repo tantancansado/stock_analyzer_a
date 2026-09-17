@@ -709,6 +709,10 @@ jobs:
 
           for f in \
             docs/value_opportunities.csv \
+            docs/value_opportunities_filtered.csv \
+            docs/european_value_opportunities_filtered.csv \
+            docs/leaps_opportunities.json \
+            docs/picks_excluidos.json \
             docs/european_value_opportunities.csv \
             docs/global_value_opportunities.csv \
             docs/mean_reversion_opportunities.csv \

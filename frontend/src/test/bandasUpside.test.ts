@@ -58,14 +58,24 @@ describe('nadie escribe la banda a mano', () => {
     // propia versión y no todas coincidían: unas usaban la banda entera y otras
     // solo el suelo, pintando de verde cualquier upside por encima de 10 —o sea
     // premiando también la franja pegada al HARD REJECT.
-    const { glob } = await import('node:fs/promises')
+    // Recorrido propio en vez de `glob` de node:fs/promises: esa API es
+    // experimental y cambió entre versiones — en el Node 24 de CI reventaba
+    // con «glob(...) is not a function or its return value is not async
+    // iterable» mientras en local pasaba. `readdirSync` es estable en todas.
+    const { readdirSync } = await import('node:fs')
+    const ficheros = (dir: string): string[] =>
+      readdirSync(dir, { withFileTypes: true }).flatMap(e => {
+        const ruta = join(dir, e.name)
+        if (e.isDirectory()) return e.name === 'node_modules' ? [] : ficheros(ruta)
+        return /\.tsx?$/.test(e.name) ? [ruta] : []
+      })
     // Un identificador que contenga "upside", una comparación, y uno de los
     // tres números de la banda. Verificado contra los seis casos reales que se
     // corrigieron y contra los que NO deben saltar (`>= UPSIDE_HARD_REJECT`,
     // `colorUpside(upside)`, `enZonaDorada(...)`).
     const inline = /[A-Za-z_.]*upside\w*[^\n;]{0,40}?(?:>=|<=|>|<|===?|!==?)\s*(?:10|25|30)\b/i
     const culpables: string[] = []
-    for await (const f of glob(join(__dirname, '..', '**/*.{ts,tsx}'))) {
+    for (const f of ficheros(join(__dirname, '..'))) {
       if (f.includes('/test/') || f.endsWith('bandasUpside.ts')) continue
       const src = readFileSync(f, 'utf8')
       src.split('\n').forEach((l, i) => {
