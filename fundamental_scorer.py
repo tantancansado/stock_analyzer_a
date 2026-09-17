@@ -68,6 +68,19 @@ def _company_name(info: dict, fallback: str) -> str:
     return str(info.get('longName') or info.get('shortName') or fallback).strip()
 
 
+# Cuánto puede crecer el BPA por encima del resultado operativo sin que la
+# diferencia sea contable: recompras (~2-3%/año), apalancamiento operativo e
+# impuestos. Por encima de esta holgura, el exceso no cuenta como calidad de
+# beneficios. Ver la nota de YUM en `_calculate_earnings_quality_score`.
+HOLGURA_BPA_SOBRE_OPERATIVO = 25.0
+
+
+# Techo del score de calidad de beneficios cuando el crecimiento no viene del
+# negocio. No es un castigo: es que el máximo significa «beneficios de máxima
+# calidad» y eso no se puede decir de una venta de activos.
+CALIDAD_MAX_SIN_RESPALDO = 85.0
+
+
 class FundamentalScorer:
     """Sistema de scoring fundamental completo"""
 
@@ -306,6 +319,16 @@ class FundamentalScorer:
             series = qi.loc[ni_row].sort_index(ascending=False)
             earnings = pd.DataFrame({'Earnings': series.values}, index=series.index)
 
+            # El resultado OPERATIVO, para poder saber si el beneficio viene
+            # del negocio o de debajo de esa línea. Sin esto, un beneficio neto
+            # MAYOR que el operativo —venta de activos, ajuste fiscal,
+            # refranquiciamiento— puntuaba como calidad de beneficios.
+            for cand in ('Operating Income', 'EBIT', 'Total Operating Income As Reported'):
+                if cand in qi.index:
+                    op = qi.loc[cand].sort_index(ascending=False)
+                    earnings['Operating'] = pd.Series(op.values, index=op.index).reindex(earnings.index)
+                    break
+
             # FIX LOOK-AHEAD BIAS: solo datos hasta as_of_date
             if self.as_of_date and isinstance(earnings.index, pd.DatetimeIndex):
                 earnings = earnings[earnings.index <= self.as_of_date_dt]
@@ -393,6 +416,7 @@ class FundamentalScorer:
         eps_growth_yoy = None
         eps_accelerating = None
         eps_accel_quarters = 0
+        tope_sin_respaldo = None
 
         try:
             if not quarterly_earnings.empty and 'Earnings' in quarterly_earnings.columns:
@@ -416,12 +440,65 @@ class FundamentalScorer:
                         eps_growth_yoy = round(eps_growth, 1)
                         details['eps_growth_yoy'] = eps_growth_yoy
 
+                        # El beneficio no puede crecer sosteniblemente más
+                        # rápido que el negocio que lo produce. YUM, 17-sep-2026:
+                        # ingresos +12,3%, resultado operativo +9,6%, beneficio
+                        # neto +128% — y el neto por ENCIMA del operativo, que
+                        # solo pasa con algo de fuera del negocio. Ese +128%
+                        # le daba 100/100 en calidad de beneficios, un PEG de
+                        # 0,15 y un PER que la hacía parecer más barata que
+                        # McDonald's cuando por EV/EBITDA está más cara.
+                        #
+                        # Le pasaba a 15 del universo: OXY +808%, BRK-B +457%
+                        # (revalorización de su cartera, no el negocio), CVX
+                        # +384%, TECK +314%... todos con 95-100 de calidad.
+                        #
+                        # Se puntúa el crecimiento que el operativo respalda.
+                        # El resto no se resta ni se castiga: simplemente no
+                        # cuenta como calidad.
+                        crecimiento_puntuable = eps_growth
+                        if 'Operating' in quarterly_earnings.columns:
+                            op = quarterly_earnings['Operating'].dropna().sort_index(ascending=False)
+                            if len(op) >= 5 and op.iloc[4] > 0:
+                                op_growth = (op.iloc[0] - op.iloc[4]) / op.iloc[4] * 100
+                                details['op_growth_yoy'] = round(op_growth, 1)
+                                # Holgura de 25 puntos: el BPA puede crecer algo
+                                # más que el operativo sin que sea contable —las
+                                # recompras bajan el denominador, y hay
+                                # apalancamiento operativo e impuestos. Lo que se
+                                # corta es la brecha ENORME (YUM: 118 puntos),
+                                # no la diferencia normal.
+                                techo = max(op_growth, 0.0) + HOLGURA_BPA_SOBRE_OPERATIVO
+                                if eps_growth > techo:
+                                    crecimiento_puntuable = techo
+                                    details['crecimiento_respaldado'] = False
+                                    details['crecimiento_puntuado'] = round(techo, 1)
+                                    # Restar puntos no basta: este score satura.
+                                    # 22 de 130 tickers marcaban 100 EXACTO
+                                    # (contra 1 y 0 en los demás componentes),
+                                    # así que quitar diez del bonus no bajaba
+                                    # del tope y el recorte no cambiaba nada —
+                                    # medido, cero efecto en los doce casos.
+                                    #
+                                    # Así que es un TECHO, no una resta: unos
+                                    # beneficios que no vienen del negocio no
+                                    # pueden puntuar el máximo en «calidad de
+                                    # beneficios», por bien que estén el resto
+                                    # de componentes. Solo cuando el operativo
+                                    # no justifica ya por sí solo el bonus
+                                    # máximo: OXY y CVX crecen +359% y +252% de
+                                    # operativo, ahí el negocio SÍ acompaña.
+                                    if op_growth < 50:
+                                        tope_sin_respaldo = CALIDAD_MAX_SIN_RESPALDO
+                                else:
+                                    details['crecimiento_respaldado'] = True
+
                         # IBD-style: buscar growth >25%
-                        if eps_growth >= 50:
+                        if crecimiento_puntuable >= 50:
                             score += 30
-                        elif eps_growth >= 25:
+                        elif crecimiento_puntuable >= 25:
                             score += 20
-                        elif eps_growth >= 10:
+                        elif crecimiento_puntuable >= 10:
                             score += 10
                         elif eps_growth < 0:
                             score -= 20
@@ -475,6 +552,8 @@ class FundamentalScorer:
                     score += 5
 
             score = max(0, min(100, score))
+            if tope_sin_respaldo is not None:
+                score = min(score, tope_sin_respaldo)
 
         except Exception as e:
             print(f"      ⚠️ Earnings quality error: {e}")

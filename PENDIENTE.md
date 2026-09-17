@@ -64,6 +64,14 @@ Lo de arriba es lo que está en curso; lo de abajo, lo que espera a tener datos.
       señal de que falla la ficha y no los valores. Ensayado con los datos del
       17-sep: habría avisado de BR e INTU y de los once por el mismo motivo.
 
+- [ ] **`earnings_quality_score` satura.** 22 de 130 marcan 100 EXACTO y el 42%
+      pasa de 90, contra 1 y 0 en los demás componentes. Un score que da el
+      máximo al 17% del universo no ordena nada. Hoy se le ha puesto un techo
+      para el crecimiento no respaldado por el negocio, pero la saturación de
+      fondo sigue: la suma de bonus (30+15+20+10 sobre una base de 50) se pasa
+      de 100 en cuanto dos componentes van bien. Recalibrarlo es otra cosa y
+      necesita datos — ver [[value-recalibration-plan]].
+
 ## Esperando a que corra el pipeline
 
 - [ ] `fcf_per_share` en peniques y clases de acción — arreglado en
