@@ -1911,13 +1911,32 @@ class SuperScoreIntegrator:
         vcp_tickers = set(df['ticker'].tolist())
         all_tickers = df['ticker'].tolist()
 
+        # El universo CURADO va siempre, pase lo que pase con Wikipedia. Es lo
+        # que el usuario puede pinchar en la app, así que es lo que tiene que
+        # tener ficha.
+        #
+        # El 17-sep-2026 Wikipedia devolvió un 403 y la lista del S&P 500 se
+        # quedó vacía. Resultado: el cache salió con 60 tickers de 163 — el
+        # 63% del universo sin ficha, incluidas posiciones del usuario como
+        # ABT. Y sin ruido: el aviso era una línea de log entre mil.
+        try:
+            from curated_tickers import get_universe
+            curados = [t for t in get_universe(include_hf_watch=True)
+                       if t not in vcp_tickers]
+            all_tickers = all_tickers + curados
+            vcp_tickers |= set(curados)
+            print(f"📋 {len(df)} con score + {len(curados)} del universo curado")
+        except Exception as exc:
+            print(f"⚠️  No se pudo leer el universo curado: {exc}")
+
         if include_all_sp500:
             sp500_list = self._get_sp500_tickers()
             extra_tickers = [t for t in sp500_list if t not in vcp_tickers]
             all_tickers = all_tickers + extra_tickers
-            print(f"📋 {len(vcp_tickers)} tickers VCP + {len(extra_tickers)} tickers S&P500 adicionales")
-        else:
-            print(f"📋 {len(vcp_tickers)} tickers VCP (solo patrón VCP)")
+            if not sp500_list:
+                print("   (el S&P 500 no se pudo leer — el universo curado ya está dentro, "
+                      "así que la app no se queda sin fichas)")
+            print(f"📋 + {len(extra_tickers)} tickers S&P500 adicionales")
 
         print(f"📊 Total a cachear: {len(all_tickers)} tickers")
         print("Esto puede tardar varios minutos...\n")

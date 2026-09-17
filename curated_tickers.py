@@ -129,6 +129,12 @@ TIER_3 = [
     'GWW',     # W.W. Grainger
     'JKHY',    # Jack Henry & Associates
     'ISRG',    # Intuitive Surgical
+    # Añadida el 17-sep-2026: es una POSICIÓN del usuario y no estaba en el
+    # universo, así que no se puntuaba, no tenía ficha y no salía en ningún
+    # análisis. Una acción que se tiene en cartera tiene que poder analizarse.
+    # Perfil: dispositivos médicos, 63.000 M$, margen operativo 22,9%,
+    # ingresos +7,5%, beta 0,57, PER 17,6 (12,7 adelantado).
+    'BSX',     # Boston Scientific
     # Movida desde TIER_4 el 17-sep-2026 a petición del usuario, que la ve «igual
     # o más interesante» que McDonald's. Estaba en TIER_4 desde que se creó el
     # universo (13-abr) y nadie había escrito por qué: de los 33 del tier, solo
