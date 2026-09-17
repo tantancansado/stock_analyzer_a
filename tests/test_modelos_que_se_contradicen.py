@@ -23,6 +23,7 @@ se contradicen son, para esto, lo mismo.
 """
 import numpy as np
 import pandas as pd
+import pytest
 
 from upside_triangulation import DISPERSION_ALTA_PTS, add_upside_triangulation
 
@@ -41,14 +42,41 @@ def test_si_discrepan_en_el_signo_no_hay_triangulacion():
         'la mediana de dos respuestas contrarias no estima nada'
 
 
-def test_y_tampoco_hay_divergencia_que_medir():
-    """Si los modelos no tienen una opinión conjunta, no se puede medir cuánto
-    se separa el analista de ella."""
+def test_aunque_no_haya_triangulacion_el_aviso_sigue_saliendo():
+    """Escrito al revés el 16-sep («si los modelos no tienen opinión conjunta,
+    no hay divergencia que medir») y corregido el 17.
+
+    Con el criterio viejo, un pick cuyos modelos se contradecían perdía DOS
+    cosas: el número consolidado Y el aviso de que el analista dice algo
+    distinto que tus propios modelos. Doble silencio sobre el mismo problema,
+    y en 24 de los 43 picks publicados ese día.
+
+    No poder promediar dos respuestas contrarias no significa no tener nada que
+    decir. AXP: el analista dice +15,9% y uno de tus modelos dice -44,7%. Eso
+    es exactamente lo que hay que avisar, y se mide contra el MÁS PRUDENTE de
+    los dos.
+    """
     r = add_upside_triangulation(_df([{
         'ticker': 'AXP', 'analyst_upside_pct': 15.9,
         'target_price_dcf_upside_pct': 50.0, 'target_price_pe_upside_pct': -44.7,
     }]))
-    assert (r.loc[0, 'upside_divergence'] or '') == ''
+    assert pd.isna(r.loc[0, 'upside_triangulated_pct']), 'la triangulación sí se anula'
+    assert r.loc[0, 'upside_divergence'] == 'ALTA', 'pero el aviso no'
+    assert r.loc[0, 'upside_divergence_pts'] == pytest.approx(60.6, abs=0.1)
+
+
+def test_coherentes_exige_magnitud_no_solo_signo():
+    """«COHERENTES» con 44,7 puntos de diferencia es una etiqueta que miente.
+
+    NYT el 17-sep: DCF -8,3% y P/E -53,0%. Los dos negativos, así que el
+    criterio del signo los daba por coincidentes. Con el umbral en 45 se
+    libraba por tres décimas.
+    """
+    r = add_upside_triangulation(_df([{
+        'ticker': 'NYT', 'analyst_upside_pct': 12.0,
+        'target_price_dcf_upside_pct': -8.3, 'target_price_pe_upside_pct': -53.0,
+    }]))
+    assert r.loc[0, 'modelos_acuerdo'] == 'DISPERSOS'
 
 
 def test_si_coinciden_la_triangulacion_se_mantiene():
@@ -61,9 +89,9 @@ def test_si_coinciden_la_triangulacion_se_mantiene():
 
 
 def test_mismo_signo_pero_muy_separados_es_un_aviso_no_una_anulacion():
-    """45 puntos es el percentil 75 de |DCF − P/E| entre las que sí coinciden en
-    signo. Es un aviso al usuario, no un filtro: la mediana sigue estimando algo
-    cuando los dos apuntan al mismo lado."""
+    """Es un aviso al usuario, no un filtro: la mediana sigue estimando algo
+    cuando los dos apuntan al mismo lado. El umbral bajó de 45 a 20 puntos el
+    17-sep — ver `test_coherentes_exige_magnitud_no_solo_signo`."""
     r = add_upside_triangulation(_df([{
         'ticker': 'BBB', 'analyst_upside_pct': 20.0,
         'target_price_dcf_upside_pct': 5.0,

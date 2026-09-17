@@ -20,10 +20,17 @@ import pandas as pd
 MODEL_UPSIDE_SANE_MAX = 200.0
 
 # Dos modelos del MISMO signo pero muy separados siguen siendo una valoración
-# floja. 45 puntos es el percentil 75 de |DCF − P/E| entre las filas que sí
-# coinciden en signo (63 filas, 16-sep-2026) — o sea, el cuarto peor. No hay
-# calibración de rendimiento detrás: es un aviso al usuario, no un filtro.
-DISPERSION_ALTA_PTS = 45.0
+# floja. Estaba en 45 (el percentil 75 de |DCF − P/E| entre las que coinciden
+# en signo) y se baja a 20 el 17-sep-2026, porque con 45 la etiqueta mentía:
+#
+#   NYT   DCF  -8,3%  ·  P/E -53,0%  ·  44,7 pts  ->  decía COHERENTES
+#   CBOE  DCF  +1,8%  ·  P/E +42,2%  ·  40,4 pts  ->  decía COHERENTES
+#   MCO   DCF +35,7%  ·  P/E  +1,1%  ·  34,6 pts  ->  decía COHERENTES
+#
+# Decirle al usuario que sus dos modelos «coinciden» cuando difieren en 45
+# puntos de upside es peor que no decirle nada. Coincidir en el signo no es
+# coincidir: con 20 puntos de diferencia ya son dos respuestas distintas.
+DISPERSION_ALTA_PTS = 20.0
 
 
 def add_upside_triangulation(df: pd.DataFrame) -> pd.DataFrame:
@@ -99,7 +106,19 @@ def add_upside_triangulation(df: pd.DataFrame) -> pd.DataFrame:
     # Sin ningún modelo propio válido no hay triangulación: dejarlo en NaN en vez
     # de devolver el upside del analista disfrazado de mediana de tres fuentes.
     df.loc[own.isna(), 'upside_triangulated_pct'] = np.nan
-    gap = _an - own
+
+    # La DIVERGENCIA no se pierde aunque no haya triangulación. Antes sí: con
+    # `own` en NaN el gap salía NaN y la bandera se quedaba vacía, así que el
+    # usuario no veía ni el número consolidado NI el aviso de que su analista
+    # y sus modelos dicen cosas distintas. Doble silencio sobre el mismo
+    # problema, y en 24 de los 43 picks publicados el 17-sep-2026.
+    #
+    # Cuando los modelos se contradicen se mide contra el MÁS PRUDENTE de los
+    # dos: si uno dice +50% y el otro -45%, lo que hay que contrastar con el
+    # +26% del analista es el -45%, no una media que no significa nada.
+    _prudente = pd.concat([_dcf, _pe], axis=1).min(axis=1, skipna=True)
+    _referencia = own.fillna(_prudente)
+    gap = _an - _referencia
     df['upside_divergence_pts'] = gap.round(1)
     df['upside_divergence'] = np.select([gap >= 40, gap >= 20], ['ALTA', 'MEDIA'], default='')
     df.loc[gap.isna(), 'upside_divergence'] = ''
