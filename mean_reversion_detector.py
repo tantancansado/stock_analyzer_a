@@ -938,8 +938,93 @@ class MeanReversionDetector:
             self._enrich_bounce_signals(bounce_opps)
             self._tag_conviction_tier(bounce_opps)
 
+        # Lo último, y sobre los pocos que quedan: qué habría pasado con ESTE
+        # stop y ESTE objetivo las otras veces que el valor estuvo así.
+        self._anadir_esperanza_historica(opportunities)
+        opportunities = self._filtrar_por_esperanza(opportunities)
+
         self.results = opportunities
         return opportunities
+
+    # ── La esperanza real del setup, no la del estado ────────────────────────
+
+    def _anadir_esperanza_historica(self, opportunities: List[Dict]) -> None:
+        """Simula el setup —su objetivo y su stop— sobre los episodios análogos.
+
+        La tasa base dice dónde ESTÁ el precio a 45 sesiones. Una operación con
+        stop no llega al final: la cierra lo primero que toca. Starbucks el
+        17-sep-2026 tenía un 89% de episodios en positivo y una esperanza de
+        +0,39%, porque lo típico era caer otro 4% antes de girar y el stop
+        estaba a -2,5%. Publicar el 89% al lado de ese setup es enseñar un
+        número cierto que responde a otra pregunta.
+
+        Hace falta histórico largo (diez años) y con máximos y mínimos: un stop
+        salta intradía. Son pocas descargas porque a estas alturas quedan dos o
+        tres candidatos, no el universo entero.
+        """
+        if not opportunities:
+            return
+        try:
+            from tasa_base import simular_operacion
+        except Exception as exc:
+            print(f"   ⚠️  esperanza histórica no disponible: {exc}")
+            return
+
+        print(f"📐 Simulando {len(opportunities)} setups sobre su propio histórico...")
+        for o in opportunities:
+            t = o.get('ticker')
+            entrada = o.get('entry_ref') or o.get('current_price')
+            objetivo, stop = o.get('target'), o.get('stop_loss')
+            if not (t and entrada and objetivo and stop):
+                continue
+            try:
+                h = yf.Ticker(t).history(period='10y')
+                if h is None or h.empty:
+                    continue
+                if getattr(h.index, 'tz', None) is not None:
+                    h.index = h.index.tz_localize(None)
+                r = simular_operacion(h, (objetivo / entrada - 1) * 100,
+                                      (stop / entrada - 1) * 100)
+            except Exception as exc:
+                print(f"   ⚠️  {t}: no se pudo simular ({exc})")
+                continue
+            # Se publica siempre, también cuando no hay muestra: «no lo sé» es
+            # un dato, y callarlo deja al usuario creyendo que no se miró.
+            o['esperanza_pct'] = r.get('esperanza_pct')
+            o['esperanza_n'] = r.get('n')
+            o['esperanza_aciertos'] = r.get('aciertos')
+            o['esperanza_stops'] = r.get('stops')
+            o['esperanza_dias_mediana'] = r.get('dias_mediana_al_objetivo')
+            o['esperanza_muestra_ok'] = r.get('muestra_suficiente')
+            o['esperanza_frase'] = r.get('frase')
+            if r.get('esperanza_pct') is not None:
+                signo = '✅' if r['esperanza_pct'] > 0 else '🚫'
+                print(f"   {signo} {t}: esperanza {r['esperanza_pct']:+.2f}% "
+                      f"({r['aciertos']}/{r['n']} aciertos"
+                      f"{'' if r['muestra_suficiente'] else ', muestra corta'})")
+
+    def _filtrar_por_esperanza(self, opportunities: List[Dict]) -> List[Dict]:
+        """Fuera los setups cuya esperanza medida no cubre ni los costes.
+
+        Solo se descarta con MUESTRA SUFICIENTE: sin episodios anteriores no se
+        sabe, y «no lo sé» no es motivo para tirar una señal — se publica con
+        el aviso puesto. El usuario prefiere 0 señales antes que señales
+        falsas, pero eso no es lo mismo que 0 señales antes que señales
+        inciertas.
+        """
+        from tasa_base import ESPERANZA_MINIMA_PCT
+        fuera, dentro = [], []
+        for o in opportunities:
+            e, ok = o.get('esperanza_pct'), o.get('esperanza_muestra_ok')
+            if ok and e is not None and e < ESPERANZA_MINIMA_PCT:
+                fuera.append((o.get('ticker'), e, o.get('esperanza_n')))
+            else:
+                dentro.append(o)
+        if fuera:
+            detalle = ', '.join(f'{t} ({e:+.2f}% en {n} casos)' for t, e, n in fuera)
+            print(f"   🚫 {len(fuera)} fuera por esperanza < {ESPERANZA_MINIMA_PCT}%: {detalle}")
+        return dentro
+
 
     # ── Win rate: del tracker real, o nada ───────────────────────────────────
 
@@ -1308,6 +1393,10 @@ Reglas:
         cols_order = [
             'ticker', 'company_name', 'strategy', 'quality', 'reversion_score',
             'current_price', 'entry_zone', 'target', 'stop_loss', 'risk_reward',
+            # La esperanza va junto al R:R y antes que el veredicto de la IA:
+            # es el número que decide si la operación merece el dinero.
+            'esperanza_pct', 'esperanza_n', 'esperanza_aciertos', 'esperanza_stops',
+            'esperanza_dias_mediana', 'esperanza_muestra_ok',
             'ai_confirmation', 'ai_confidence', 'ai_reason', 'historical_win_rate',
             'detected_date'
         ]

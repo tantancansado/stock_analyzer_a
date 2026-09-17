@@ -70,6 +70,14 @@ MUESTRA_MINIMA = 5
 # Umbrales de «cayó bastante más» sobre los que se reparte la muestra.
 CORTES_CAIDA = (-4.0, -8.0)
 
+# Esperanza mínima para que un setup con muestra suficiente se publique. Una
+# operación cuya esperanza medida es negativa no es una oportunidad: es pagar
+# por participar. El listón no es cero porque cero no cubre comisión ni
+# horquilla — con 0,25% de coste de ida y vuelta, un setup de +0,39% (el de
+# Starbucks del 17-sep-2026) devuelve +0,14% por operación, que no compensa ni
+# el riesgo ni la atención.
+ESPERANZA_MINIMA_PCT = 0.5
+
 
 def _rsi(close: pd.Series, n: int = 14) -> pd.Series:
     d = close.diff()
@@ -130,12 +138,8 @@ def tasa_base(close: pd.Series, horizonte: int = HORIZONTE_SESIONES) -> dict:
     if hoy is None:
         return vacio
 
-    episodios, ultimo = [], -10 ** 9
-    for i in range(200 + PENDIENTE_MA200_SESIONES, len(close) - horizonte - 1):
-        if i - ultimo <= SEPARACION_MINIMA_SESIONES:
-            continue
-        if describir_estado(close, i) != hoy:
-            continue
+    episodios = []
+    for i in _indices_analogos(close, hoy, horizonte):
         p0 = float(close.iloc[i])
         futuro = close.iloc[i + 1: i + 1 + horizonte]
         if p0 <= 0 or futuro.empty:
@@ -147,7 +151,6 @@ def tasa_base(close: pd.Series, horizonte: int = HORIZONTE_SESIONES) -> dict:
             'minimo': round(float(futuro.min()), 2),
             'retorno_pct': round(100 * (float(futuro.iloc[-1]) / p0 - 1), 1),
         })
-        ultimo = i
 
     n = len(episodios)
     out = {
@@ -176,6 +179,138 @@ def tasa_base(close: pd.Series, horizonte: int = HORIZONTE_SESIONES) -> dict:
     })
     out['frase'] = _frase(out)
     return out
+
+
+
+def _indices_analogos(close: pd.Series, estado: dict,
+                      horizonte: int = HORIZONTE_SESIONES) -> list[int]:
+    """Posiciones del histórico en que el valor estuvo en `estado`.
+
+    Separadas por `SEPARACION_MINIMA_SESIONES` para no contar la misma caída
+    tres veces, y con `horizonte` sesiones por delante para poder medir el
+    desenlace.
+    """
+    out, ultimo = [], -10 ** 9
+    for i in range(200 + PENDIENTE_MA200_SESIONES, len(close) - horizonte - 1):
+        if i - ultimo <= SEPARACION_MINIMA_SESIONES:
+            continue
+        if describir_estado(close, i) != estado:
+            continue
+        out.append(i)
+        ultimo = i
+    return out
+
+
+def _pct(v, signo: int) -> float | None:
+    try:
+        return round(signo * abs(float(v)), 2)
+    except (TypeError, ValueError):
+        return None
+
+
+def simular_operacion(hist: pd.DataFrame, objetivo_pct: float, stop_pct: float,
+                      horizonte: int = HORIZONTE_SESIONES) -> dict:
+    """Qué habría pasado con ESTE stop y ESTE objetivo en los episodios análogos.
+
+    `tasa_base` mide dónde está el precio AL FINAL del horizonte. Una operación
+    con stop no llega al final: la cierra lo primero que toca. Y no es un
+    matiz — es la diferencia entre ganar y perder:
+
+        Starbucks, 17-sep-2026, 9 episodios con su estado de hoy
+          · a 45 sesiones estaba en positivo el 89%
+          · con el stop del setup (-2,5%), el objetivo (+4%) llegaba antes
+            solo en el 44%, porque lo típico es caer otro 4% primero
+          · esperanza real de la operación: +0,69%
+
+    Publicar el 89% al lado de ese setup es enseñar un número cierto que
+    responde a otra pregunta. Esta función responde a la que importa.
+
+    `hist` necesita High y Low: un stop salta con el mínimo del día, no con el
+    cierre. Con solo cierres se subestiman los stops y todo parece mejor.
+
+    Devuelve n, aciertos, stops, esperanza_pct y los días hasta el objetivo.
+    """
+    # Un único juego de claves pase lo que pase: quien consuma esto no debe
+    # tener que comprobar si la clave existe según por qué camino salió.
+    def _vacio(motivo: str) -> dict:
+        return {'n': 0, 'aciertos': 0, 'stops': 0, 'ni_stop_ni_objetivo': 0,
+                'muestra_suficiente': False,
+                'objetivo_pct': _pct(objetivo_pct, signo=1),
+                'stop_pct': _pct(stop_pct, signo=-1),
+                'esperanza_pct': None, 'pct_acierto': None,
+                'dias_mediana_al_objetivo': None,
+                'horizonte_sesiones': horizonte, 'estado_frase': None,
+                'frase': motivo}
+
+    if hist is None or len(hist) < 200 + PENDIENTE_MA200_SESIONES + horizonte:
+        return _vacio('sin histórico suficiente para simular')
+    for col in ('Close', 'High', 'Low'):
+        if col not in hist.columns:
+            return _vacio(f'falta la columna {col}: sin máximos y mínimos no se '
+                          f'sabe si el stop saltó intradía')
+    if objetivo_pct is None or stop_pct is None:
+        return _vacio('sin objetivo o sin stop no hay operación que simular')
+
+    obj = abs(float(objetivo_pct)) / 100.0
+    stop = -abs(float(stop_pct)) / 100.0
+    close, high, low = hist['Close'], hist['High'], hist['Low']
+
+    hoy = describir_estado(close)
+    if hoy is None:
+        return _vacio('no se puede describir el estado de hoy')
+
+    aciertos = stops = ninguno = 0
+    dias = []
+    for i in _indices_analogos(close, hoy, horizonte):
+        p0 = float(close.iloc[i])
+        if p0 <= 0:
+            continue
+        t_stop = t_obj = None
+        for j in range(i + 1, min(i + 1 + horizonte, len(close))):
+            if t_stop is None and float(low.iloc[j]) / p0 - 1 <= stop:
+                t_stop = j
+            if t_obj is None and float(high.iloc[j]) / p0 - 1 >= obj:
+                t_obj = j
+            if t_stop is not None and t_obj is not None:
+                break
+        if t_stop is not None and (t_obj is None or t_stop < t_obj):
+            stops += 1
+        elif t_obj is not None:
+            aciertos += 1
+            dias.append(t_obj - i)
+        else:
+            ninguno += 1
+
+    n = aciertos + stops + ninguno
+    if not n:
+        return {**_vacio(f'nunca había estado así ({_frase_estado(hoy)})'),
+                'estado_frase': _frase_estado(hoy)}
+
+    # Lo que ni toca stop ni objetivo se cierra al final del horizonte; se
+    # cuenta como cero, que es conservador respecto a medir su retorno real.
+    esperanza = (aciertos * obj + stops * stop) / n * 100
+    out = {
+        'n': n, 'aciertos': aciertos, 'stops': stops, 'ni_stop_ni_objetivo': ninguno,
+        'muestra_suficiente': n >= MUESTRA_MINIMA,
+        'objetivo_pct': round(obj * 100, 2), 'stop_pct': round(stop * 100, 2),
+        'esperanza_pct': round(esperanza, 2),
+        'pct_acierto': round(100 * aciertos / n),
+        'dias_mediana_al_objetivo': int(np.median(dias)) if dias else None,
+        'horizonte_sesiones': horizonte,
+        'estado_frase': _frase_estado(hoy),
+    }
+    out['frase'] = _frase_operacion(out)
+    return out
+
+
+def _frase_operacion(o: dict) -> str:
+    aviso = '' if o['muestra_suficiente'] else f" (solo {o['n']} casos, no decide nada)"
+    dias = (f", y cuando llegó tardó {o['dias_mediana_al_objetivo']} sesiones de mediana"
+            if o.get('dias_mediana_al_objetivo') is not None else '')
+    return (f"en los {o['n']} episodios iguales, el objetivo (+{o['objetivo_pct']:.1f}%) "
+            f"llegó antes que el stop ({o['stop_pct']:.1f}%) {o['aciertos']} veces "
+            f"y el stop saltó primero {o['stops']}{dias}. Esperanza "
+            f"{o['esperanza_pct']:+.2f}% por operación{aviso}.")
 
 
 def _es_bimodal(caidas: np.ndarray) -> bool:

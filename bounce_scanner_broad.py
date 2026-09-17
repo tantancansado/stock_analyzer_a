@@ -223,6 +223,7 @@ def scan() -> list[dict]:
     # Ordenar por mejor setup: RSI2 más bajo + mejor R/R
     setups.sort(key=lambda s: (s['rsi2'], -s['rr']))
     setups = setups[:MAX_RESULTS]
+    _anadir_esperanza(setups)
     print(f'\nEvaluated {evaluated}/{len(tickers)} — {len(setups)} setups que pasan TODOS los filtros')
     stats = get_stats()
     if stats['rate_limited'] or stats['other_errors']:
@@ -230,6 +231,58 @@ def scan() -> list[dict]:
               f"missing={stats['data_missing']} other={stats['other_errors']} "
               f"ok_rate={stats['ok_rate']}")
     return setups
+
+
+
+def _anadir_esperanza(setups: list[dict]) -> None:
+    """Qué habría pasado con ESTE stop y ESTE objetivo las otras veces.
+
+    El scan trabaja con un año de histórico, que sirve para detectar el estado
+    pero no para contar episodios anteriores. Aquí se bajan diez años, y solo
+    de los pocos que han pasado todos los filtros.
+
+    Por qué importa: Starbucks salió el 17-sep-2026 con un 89% de episodios en
+    positivo a 45 sesiones y una esperanza real de +0,39%, porque lo típico era
+    caer otro 4% antes de girar y el stop estaba a -2,5%. El estado era bueno y
+    la operación no.
+    """
+    if not setups:
+        return
+    try:
+        import yfinance as yf
+        from tasa_base import simular_operacion
+    except Exception as exc:
+        print(f'  esperanza histórica no disponible: {exc}')
+        return
+
+    print(f'Simulando {len(setups)} setups sobre su propio histórico...')
+    for s in setups:
+        precio, objetivo, stop = s.get('price'), s.get('target'), s.get('stop')
+        if not (precio and objetivo and stop):
+            continue
+        try:
+            h = yf.Ticker(s['ticker']).history(period='10y')
+            if h is None or h.empty:
+                continue
+            if getattr(h.index, 'tz', None) is not None:
+                h.index = h.index.tz_localize(None)
+            r = simular_operacion(h, (objetivo / precio - 1) * 100,
+                                  (stop / precio - 1) * 100)
+        except Exception as exc:
+            print(f"  {s['ticker']}: no se pudo simular ({exc})")
+            continue
+        # Se publica también cuando no hay muestra: «no lo sé» es un dato.
+        s['esperanza_pct'] = r.get('esperanza_pct')
+        s['esperanza_n'] = r.get('n')
+        s['esperanza_aciertos'] = r.get('aciertos')
+        s['esperanza_stops'] = r.get('stops')
+        s['esperanza_dias_mediana'] = r.get('dias_mediana_al_objetivo')
+        s['esperanza_muestra_ok'] = r.get('muestra_suficiente')
+        s['esperanza_frase'] = r.get('frase')
+        if r.get('esperanza_pct') is not None:
+            marca = 'OK' if r['esperanza_pct'] > 0 else 'NEGATIVA'
+            print(f"  {s['ticker']}: esperanza {r['esperanza_pct']:+.2f}% "
+                  f"({r['aciertos']}/{r['n']}) {marca}")
 
 
 def main() -> None:
@@ -245,6 +298,7 @@ def main() -> None:
     else:
         # Escribir CSV vacío con cabecera para que el frontend no rompa
         headers = ['scan_date', 'ticker', 'price', 'target', 'stop',
+                   'esperanza_pct', 'esperanza_n', 'esperanza_aciertos', 'esperanza_stops',
                    'target_pct', 'stop_pct', 'rr', 'rsi2', 'rsi14', 'atr_pct', 'vol_ratio',
                    'dist_support', 'drawdown_20d', 'sma20_distance', 'above_sma200',
                    'horizon_days', 'setup_type']
