@@ -68,6 +68,76 @@ def _company_name(info: dict, fallback: str) -> str:
     return str(info.get('longName') or info.get('shortName') or fallback).strip()
 
 
+# Techo de crecimiento proyectable a cinco años en el DCF y el P/E justo. El
+# anterior era del 30-35%: nadie crece un 30% anual durante cinco años, y la
+# fuente del dato lo empeoraba (ver `crecimiento_sostenible`).
+TECHO_CRECIMIENTO = 0.15
+SUELO_CRECIMIENTO = 0.03
+
+
+def crecimiento_sostenible(info: Dict) -> Optional[float]:
+    """La tasa que se puede proyectar cinco años, no la del último trimestre.
+
+    `earningsGrowth` es el crecimiento del BENEFICIO, y se contamina con
+    cualquier apunte de debajo de la línea operativa. YUM, 17-sep-2026: +131,6%
+    — un crédito fiscal de 320M en un trimestre. Con el tope antiguo del 30%,
+    el DCF proyectaba cinco años al 30% y valoraba la acción en 266$ cotizando
+    a 137$. Ese +93,7% de upside era enteramente un apunte contable.
+
+    El crecimiento de INGRESOS no tiene esa contaminación: una venta de activos
+    o un ajuste fiscal no aparece en la línea de arriba. Se toma el MENOR de los
+    dos, que es lo conservador: si el beneficio crece menos que las ventas, los
+    márgenes se están estrechando y eso también hay que recogerlo.
+
+    Comprobación: con esto el DCF de YUM da ~130$ contra los 132$ que sale de
+    hacerlo a mano con el flujo de caja real. Antes daba 266$.
+    """
+    candidatos = []
+    for clave in ('earningsGrowth', 'revenueGrowth'):
+        v = info.get(clave)
+        try:
+            if v is not None:
+                candidatos.append(float(v))
+        except (TypeError, ValueError):
+            continue
+    if not candidatos:
+        return None
+    return max(SUELO_CRECIMIENTO, min(min(candidatos), TECHO_CRECIMIENTO))
+
+
+def fcf_fiable(info: Dict) -> Optional[float]:
+    """El flujo de caja libre, prefiriendo el que sale del estado de flujos.
+
+    `freeCashflow` de yfinance es un campo CALCULADO por ellos, y se desvía del
+    estado de flujos con frecuencia y sin patrón. Medido el 17-sep-2026:
+
+        YUM   declarado   833M   ·  operativo - capex  1.679M   (la MITAD)
+        MCD   declarado 6.262M   ·  operativo - capex  7.761M   (-19%)
+
+    No es un detalle: con 833M el FCF yield de YUM salía 2,22% cuando el real
+    es 4,48%, y el DCF partía de la mitad del flujo — por eso decía que estaba
+    un 5,7% cara mientras el modelo de P/E decía +73,7%. Los dos modelos se
+    contradecían porque los dos tenían el input roto.
+
+    `financial_cross_check` YA detectaba esta discrepancia y la imprimía; luego
+    se usaba el dato malo igualmente. Detectar sin actuar no sirve de nada.
+
+    Operativo menos capex es la definición, y sale de cifras que la empresa
+    reporta. Ese manda; el declarado solo se usa si no hay estado de flujos.
+    """
+    ocf, capex = info.get('operatingCashflow'), info.get('capitalExpenditure')
+    declarado = info.get('freeCashflow')
+    try:
+        if ocf and capex:
+            return float(ocf) - abs(float(capex))
+    except (TypeError, ValueError):
+        pass
+    try:
+        return float(declarado) if declarado else None
+    except (TypeError, ValueError):
+        return None
+
+
 # Cuánto puede crecer el BPA por encima del resultado operativo sin que la
 # diferencia sea contable: recompras (~2-3%/año), apalancamiento operativo e
 # impuestos. Por encima de esta holgura, el exceso no cuenta como calidad de
@@ -1354,7 +1424,7 @@ class FundamentalScorer:
             market_cap = info.get('marketCap')
 
             # ── FCF YIELD ──────────────────────────────────────────────
-            fcf = info.get('freeCashflow')
+            fcf = fcf_fiable(info)
             shares = info.get('sharesOutstanding')
             if fcf and market_cap and market_cap > 0:
                 result['fcf_yield_pct'] = round((float(fcf) / float(market_cap)) * 100, 2)
@@ -1635,9 +1705,9 @@ class FundamentalScorer:
                 result['analyst_recommendation']    = str(rec)
 
             # ── 2. DCF simplificado ───────────────────────────────────────────
-            fcf         = info.get('freeCashflow')
+            fcf         = fcf_fiable(info)
             shares      = info.get('sharesOutstanding')
-            growth_rate = info.get('earningsGrowth') or info.get('revenueGrowth')
+            growth_rate = crecimiento_sostenible(info)
 
             # ── AI fallback for missing DCF/P/E inputs ────────────────────────
             _ai_missing = []
@@ -1694,8 +1764,7 @@ class FundamentalScorer:
 
             if _per_share_ok and fcf and shares and float(shares) > 0 and growth_rate:
                 fcf_ps = float(fcf) / float(shares)  # FCF per share
-                g = float(growth_rate)
-                g = max(0.03, min(g, 0.30))  # clip 3%-30%
+                g = float(growth_rate)   # ya viene acotado y sin contaminar
                 discount = 0.10
                 terminal_g = 0.03
 
@@ -1719,14 +1788,13 @@ class FundamentalScorer:
             # ── 3. P/E justo ─────────────────────────────────────────────────
             eps_fwd = info.get('epsForwardTwelveMonths')
             eps_ttm = info.get('epsTrailingTwelveMonths')
-            g_eps   = info.get('earningsGrowth') or growth_rate
+            g_eps   = growth_rate   # la misma tasa que el DCF, y por lo mismo
 
             eps = float(eps_fwd) if eps_fwd and float(eps_fwd) > 0 else (
                   float(eps_ttm) if eps_ttm and float(eps_ttm) > 0 else None)
 
             if _per_share_ok and eps and eps > 0 and g_eps:
                 g_annual = float(g_eps)
-                g_annual = max(0.03, min(g_annual, 0.35))
                 # Fair P/E = PEG 1.0 × growth% (e.g. 15% growth → P/E 15), capped 10-30
                 fair_pe = max(10, min(g_annual * 100, 30))
                 pe_target = round(eps * fair_pe, 2)

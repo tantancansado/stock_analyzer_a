@@ -87,3 +87,68 @@ class TestDeriveFromStatements:
     def test_estados_vacios_no_rompen(self):
         info, filled = derive_from_statements(_FakeStock(), {'freeCashflow': None})
         assert info['freeCashflow'] is None and filled == []
+
+
+class TestElFcfDelEstadoDeFlujosManda:
+    """`freeCashflow` de yfinance es un campo calculado por ellos, y se desvía.
+
+    Medido el 17-sep-2026:
+        YUM   declarado   833M  ·  operativo-capex  1.679M   (la MITAD)
+        MCD   declarado 6.262M  ·  operativo-capex  7.761M   (-19%)
+        CBOE  declarado   678M  ·  operativo-capex  1.874M
+
+    Con 833M el FCF yield de YUM salía 2,22% cuando el real es 4,48%, y el DCF
+    partía de la mitad del flujo — por eso decía «un 5,7% cara» mientras el
+    modelo de P/E decía «+73,7% barata». Los dos modelos se contradecían porque
+    los dos tenían el input roto, y el sistema respondía descartando los dos.
+
+    `check_coherence` YA detectaba la discrepancia y la imprimía; luego se usaba
+    el dato malo igualmente. Detectar sin actuar no sirve de nada.
+    """
+
+    def _stock(self, ocf_trim, capex_trim):
+        import pandas as pd
+        cols = pd.to_datetime(['2026-06-30', '2026-03-31', '2025-12-31', '2025-09-30'])
+        qc = pd.DataFrame([ocf_trim, capex_trim], columns=cols,
+                          index=['Operating Cash Flow', 'Capital Expenditure'])
+
+        class _S:
+            quarterly_cashflow = qc
+            cashflow = pd.DataFrame()
+            financials = pd.DataFrame()
+            balance_sheet = pd.DataFrame()
+        return _S()
+
+    def test_el_caso_yum(self):
+        st = self._stock([507e6, 416e6, 617e6, 543e6], [-100e6, -75e6, -135e6, -94e6])
+        info, filled = derive_from_statements(st, {'freeCashflow': 833.25e6})
+        assert info['freeCashflow'] == 1679e6
+        assert any('833' in f for f in filled), 'el cambio tiene que quedar dicho'
+
+    def test_tambien_cuando_el_desvio_es_pequeno(self):
+        """MCD se colaba por poco: 19% de desvío contra un umbral del 25%, y
+        seguía valorándose con un flujo un quinto más bajo del que genera."""
+        st = self._stock([2807e6, 2412e6, 2697e6, 3428e6], [-831e6, -682e6, -1059e6, -1011e6])
+        info, _ = derive_from_statements(st, {'freeCashflow': 6262e6})
+        assert info['freeCashflow'] == 7761e6
+
+    def test_suma_cuatro_trimestres_no_coge_el_ultimo(self):
+        """El valor «más reciente» de un estado trimestral es un trimestre
+        suelto, no un año."""
+        st = self._stock([500e6]*4, [-100e6]*4)
+        info, _ = derive_from_statements(st, {'freeCashflow': None})
+        assert info['freeCashflow'] == 1600e6
+
+    def test_con_menos_de_cuatro_trimestres_no_se_inventa_un_ttm(self):
+        import pandas as pd
+        cols = pd.to_datetime(['2026-06-30', '2026-03-31'])
+        qc = pd.DataFrame([[500e6, 400e6], [-100e6, -80e6]], columns=cols,
+                          index=['Operating Cash Flow', 'Capital Expenditure'])
+
+        class _S:
+            quarterly_cashflow = qc
+            cashflow = pd.DataFrame()
+            financials = pd.DataFrame()
+            balance_sheet = pd.DataFrame()
+        info, _ = derive_from_statements(_S(), {'freeCashflow': 900e6})
+        assert info['freeCashflow'] == 900e6, 'sin TTM se respeta lo que había'

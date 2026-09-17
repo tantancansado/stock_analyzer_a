@@ -36,6 +36,11 @@ from typing import Any
 # Holgura para recompras y acciones emitidas entre el cierre y el dato.
 SHARES_PRICE_TOLERANCE = 0.05
 
+# A partir de esta diferencia con el estado de flujos, el `freeCashflow` de
+# yfinance se descarta y manda el derivado. Mismo umbral que ya usaba el aviso
+# de `check_coherence`, que detectaba el problema sin actuar.
+TOLERANCIA_FCF = 0.25
+
 # Filas de los estados financieros por campo de `info`
 STATEMENT_ROWS = {
     'freeCashflow':      ('cashflow', 'Free Cash Flow'),
@@ -64,6 +69,56 @@ def _latest(df, row_name: str):
         return None
 
 
+def _ttm(df, row_name: str):
+    """Suma de los cuatro últimos trimestres de una fila, o None.
+
+    El valor «más reciente» de un estado TRIMESTRAL es un trimestre suelto, no
+    un año. Para comparar contra `info` —que da magnitudes anuales— hay que
+    sumar cuatro.
+    """
+    if df is None or getattr(df, 'empty', True):
+        return None
+    try:
+        if row_name not in df.index:
+            return None
+        serie = df.loc[row_name].dropna().sort_index(ascending=False)
+        if len(serie) < 4:
+            return None
+        return float(serie.iloc[:4].sum())
+    except Exception:
+        return None
+
+
+def fcf_del_estado_de_flujos(stock):
+    """FCF de los últimos doce meses: flujo operativo menos capex.
+
+    `freeCashflow` de yfinance es un campo calculado por ellos y se desvía sin
+    patrón. Medido el 17-sep-2026:
+
+        YUM   declarado   833M   ·  operativo - capex  1.679M   (la MITAD)
+        MCD   declarado 6.262M   ·  operativo - capex  7.761M   (-19%)
+
+    Con 833M, el FCF yield de YUM salía 2,22% cuando el real es 4,48%, y el DCF
+    partía de la mitad del flujo: por eso decía que estaba un 5,7% cara mientras
+    el modelo de P/E decía +73,7%. Los dos modelos se contradecían porque los
+    dos tenían el input roto, y el sistema respondía descartando los dos en vez
+    de mirar cuál estaba mal.
+
+    Por qué no bastaba `info`: `capitalExpenditure` viene None en ambas, así
+    que el cuadre de abajo ni siquiera podía compararlos. Aquí se va al estado
+    de flujos trimestral, que es donde el dato está de verdad.
+    """
+    try:
+        qc = stock.quarterly_cashflow
+    except Exception:
+        return None, None
+    ocf = _ttm(qc, 'Operating Cash Flow')
+    capex = _ttm(qc, 'Capital Expenditure')
+    if ocf is None or capex is None:
+        return None, None
+    return ocf - abs(capex), capex
+
+
 def derive_from_statements(stock, info: dict, fields: list[str] | None = None) -> tuple[dict, list[str]]:
     """Rellena campos ausentes en `info` desde los estados financieros.
 
@@ -89,12 +144,42 @@ def derive_from_statements(stock, info: dict, fields: list[str] | None = None) -
             out[field] = val
             filled.append(field)
 
-    # FCF derivado: flujo operativo menos capex (capex viene en negativo)
-    if out.get('freeCashflow') is None:
-        ocf, capex = out.get('operatingCashflow'), out.get('capitalExpenditure')
-        if ocf is not None and capex is not None:
-            out['freeCashflow'] = float(ocf) - abs(float(capex))
+    # FCF: el del estado de flujos MANDA sobre el declarado, no solo lo
+    # completa. Antes esto solo rellenaba el hueco cuando faltaba, y cuando
+    # estaba presente pero mal —YUM: 833M contra 1.679M reales— se usaba el
+    # malo y el desajuste se quedaba en un aviso por pantalla.
+    derivado, capex_ttm = fcf_del_estado_de_flujos(stock)
+    if capex_ttm is not None and out.get('capitalExpenditure') is None:
+        out['capitalExpenditure'] = capex_ttm
+        filled.append('capitalExpenditure(TTM)')
+    if derivado is None:
+        # Sin cuatro trimestres no hay TTM, pero puede haber anual: es lo que
+        # había antes de mirar al trimestral, y quitarlo dejaba sin FCF a quien
+        # solo publica cuentas anuales.
+        ocf_a, capex_a = out.get('operatingCashflow'), out.get('capitalExpenditure')
+        if out.get('freeCashflow') is None and ocf_a is not None and capex_a is not None:
+            out['freeCashflow'] = float(ocf_a) - abs(float(capex_a))
             filled.append('freeCashflow(derivado OCF-capex)')
+
+    if derivado is not None:
+        # El derivado manda SIEMPRE, no solo cuando el desvío es escandaloso.
+        # Con un umbral del 25% MCD se colaba por poco (19%: 6.262M declarados
+        # contra 7.761M reales) y seguía valorándose con un flujo un quinto más
+        # bajo del que genera. O el dato bueno es el del estado de flujos o no
+        # lo es; no puede serlo solo a partir de cierta diferencia.
+        declarado = out.get('freeCashflow')
+        out['freeCashflow'] = derivado
+        try:
+            desvio = abs(float(declarado) - derivado) / abs(derivado) if declarado else None
+        except (TypeError, ValueError, ZeroDivisionError):
+            desvio = None
+        if declarado is None:
+            filled.append('freeCashflow(OCF-capex)')
+        elif desvio is not None and desvio > TOLERANCIA_FCF:
+            filled.append(f'freeCashflow(OCF-capex {derivado:,.0f} en vez del '
+                          f'declarado {float(declarado):,.0f} — {desvio:.0%} de desvío)')
+        elif desvio:
+            filled.append(f'freeCashflow(OCF-capex, {desvio:.0%} sobre el declarado)')
 
     if filled:
         print(f"   📄 Estados financieros aportan: {', '.join(filled)}")
