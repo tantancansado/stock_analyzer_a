@@ -63,8 +63,11 @@ aparecido en TIKR, en el health del pipeline y en el veto de rebotes:
       `AI.PA`→C3.ai, `BRK-B`→Direxion Daily BRKB Bull 2X ETF, `EXPN.L`→Horizon
       Expansion Leaders ETF, `MMC`→MM Conferences S.A. (Polonia). Chequeo nuevo
       (`identidad_ticker.py`) en `coherence_check`: divisa contra la bolsa del
-      sufijo, nombre contra nombre y precio contra precio. Falta DECIDIR qué
-      hacer con los cuatro: excluirlos del universo o arreglar el resolvedor.
+      sufijo, nombre contra nombre y precio contra precio. Y ARREGLADO el
+      resolvedor —nunca excluir, siempre arreglar—: buscaba con el sufijo
+      puesto, comparaba mal el símbolo, y al fallar se quedaba con el primer
+      resultado de una búsqueda difusa. Ahora exige símbolo Y bolsa, y sin
+      candidato válido devuelve None en vez de otra empresa.
 - [ ] `valuation_model` de TIKR viene vacío en 125 de 137 tickers **las dos
       semanas**: no es intermitente, ese endpoint no funciona. Nadie lo usa
       todavía, pero está ahí.

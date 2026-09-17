@@ -108,3 +108,83 @@ def test_el_pipeline_lo_ejecuta():
     from pathlib import Path
     src = (Path(__file__).resolve().parent.parent / 'coherence_check.py').read_text()
     assert 'identidad_de_los_tickers' in src
+
+
+class TestElResolvedorDeTikr:
+    """La causa de los cuatro registros equivocados, arreglada en el origen.
+
+    Tres bugs encadenados en `algolia_resolve_ticker`:
+
+      1. buscaba con el sufijo puesto («AI.PA»), y Algolia indexa «AI»;
+      2. comparaba el símbolo del resultado contra el ticker CON sufijo, así
+         que la comparación exacta no acertaba nunca;
+      3. y al no acertar caía en `primary = hits[0]` — el primer resultado que
+         devolviera la búsqueda difusa, coincidiera o no.
+
+    De ahí salían C3.ai por Air Liquide y un ETF apalancado por Berkshire.
+
+    El discriminador de verdad es la BOLSA, no el símbolo: «AI» es C3.ai en
+    NYSE y Air Liquide en París. Con el símbolo solo no se pueden distinguir.
+    """
+
+    def _modulo(self):
+        """`tikr_scraper` depende de `pycognito`, que solo está en el runner:
+        se ejecutan solo los bloques que interesan."""
+        import textwrap
+        from pathlib import Path
+        src = (Path(__file__).resolve().parent.parent / 'tikr_scraper.py').read_text()
+        ns: dict = {}
+        for ini, fin in (('EXCHANGE_RIC = {', '\n}\n'),
+                         ('TIKR_TICKER_MAP = {', 'def build_ric_id'),
+                         ('BOLSAS_US = {', '# Stealth timing')):
+            i = src.index(ini)
+            j = src.index(fin, i) + (3 if fin == '\n}\n' else 0)
+            exec(textwrap.dedent(src[i:j]), ns)
+        return ns
+
+    def test_se_busca_sin_el_sufijo(self):
+        f = self._modulo()['tikr_ticker']
+        assert f('AI.PA') == 'AI'
+        assert f('SAP.DE') == 'SAP'
+        assert f('4684.T') == '4684'
+        assert f('MCO') == 'MCO', 'sin sufijo se queda igual'
+
+    def test_los_casos_especiales_siguen_mandando(self):
+        assert self._modulo()['tikr_ticker']('BRK-B') == 'BRK/B'
+
+    def test_un_ticker_nuevo_no_depende_del_mapa_a_mano(self):
+        """El mapa cubre los 9 tickers con sufijo de hoy. El décimo que se
+        añada no estaría, y antes se buscaba con el sufijo puesto."""
+        ns = self._modulo()
+        assert 'NUEVO.PA' not in ns['TIKR_TICKER_MAP']
+        assert ns['tikr_ticker']('NUEVO.PA') == 'NUEVO'
+
+    def test_un_ticker_con_sufijo_no_puede_resolver_a_una_bolsa_de_eeuu(self):
+        coherente = self._modulo()['_bolsa_coherente']
+        assert not coherente('AI.PA', 'NYSE'), 'C3.ai en NYSE no es Air Liquide'
+        assert not coherente('EXPN.L', 'NasdaqGM'), 'un fondo US no es Experian'
+        assert coherente('AI.PA', 'ENXTPA')
+        assert coherente('AUTO.L', 'LSE')
+
+    def test_y_uno_sin_sufijo_tiene_que_resolver_a_una(self):
+        coherente = self._modulo()['_bolsa_coherente']
+        assert not coherente('MMC', 'WSE'), 'MM Conferences (Varsovia) no es Marsh & McLennan'
+        assert coherente('MCO', 'NYSE')
+
+    def test_sin_poder_juzgar_no_se_desmiente(self):
+        """Se valida por exclusión: las bolsas de EE.UU. las conoce el mapa, las
+        de París o Ámsterdam no, y no se van a adivinar. Desmentir sin dato es
+        tan malo como afirmar sin dato."""
+        coherente = self._modulo()['_bolsa_coherente']
+        assert coherente('XX.ZZ', 'BolsaQueNoConozco')
+        assert coherente('XX.ZZ', '')
+
+    def test_sin_candidato_valido_no_se_devuelve_el_primero(self):
+        from pathlib import Path
+        src = (Path(__file__).resolve().parent.parent / 'tikr_scraper.py').read_text()
+        i = src.index('def algolia_resolve_ticker')
+        cuerpo = src[i:src.index('\ndef ', i + 10)]
+        codigo = '\n'.join(l.split('#')[0] for l in cuerpo.split('\n'))
+        assert 'primary = hits[0]' not in codigo, \
+            'volvió el fallback que devolvía cualquier resultado parecido'
+        assert 'return None' in codigo

@@ -98,6 +98,35 @@ EXCHANGE_RIC = {
     'BVL':       'LM',  # Bolsa de Valores de Lima
 }
 
+# Bolsas de EE.UU., derivadas del mapa de arriba: son las que tienen sufijo RIC
+# 'O' (Nasdaq), 'N' (NYSE/ARCA) o 'A' (AMEX).
+BOLSAS_US = {nombre for nombre, ric in EXCHANGE_RIC.items() if ric in ('O', 'N', 'A')}
+
+
+def _bolsa_coherente(ticker: str, exchange: str) -> bool:
+    """¿La bolsa donde ha resuelto cuadra con el sufijo que se pidió?
+
+    Se valida por EXCLUSIÓN y no por inclusión: las bolsas de EE.UU. las conoce
+    el mapa `EXCHANGE_RIC`, pero los nombres que usa Algolia para París,
+    Ámsterdam o Madrid no están ahí y no se van a adivinar. Con esto basta:
+
+      · un ticker SIN sufijo es estadounidense → tiene que resolver a una bolsa
+        de EE.UU.  (`MMC` resolvía a una polaca: MM Conferences S.A.)
+      · un ticker CON sufijo no lo es → NO puede resolver a una de EE.UU.
+        (`AI.PA` resolvía a C3.ai en NYSE, `EXPN.L` a un fondo estadounidense)
+
+    Devuelve True cuando no se puede juzgar —bolsa desconocida y ticker con
+    sufijo— porque desmentir sin dato es tan malo como afirmar sin dato.
+    """
+    if not exchange:
+        return True
+    es_us = BOLSAS_US and exchange in BOLSAS_US
+    tiene_sufijo = '.' in ticker
+    if tiene_sufijo:
+        return not es_us
+    return es_us
+
+
 # Stealth timing
 DELAY_MIN        = 4.0
 DELAY_MAX        = 9.0
@@ -209,7 +238,21 @@ TIKR_TICKER_MAP = {
 }
 
 def tikr_ticker(ticker: str) -> str:
-    return TIKR_TICKER_MAP.get(ticker, ticker)
+    """Símbolo tal y como lo indexa TIKR: sin el sufijo de bolsa.
+
+    El mapa de arriba cubre los casos que no son un simple recorte (`BRK-B` es
+    `BRK/B` para TIKR). Para el resto se quita el sufijo, que es lo que hace
+    falta para buscar: Algolia indexa `SAP`, no `SAP.DE`.
+
+    Antes se devolvía el ticker tal cual cuando no estaba en el mapa, así que se
+    buscaba «SAP.DE» y la búsqueda difusa devolvía lo que se le pareciera. El
+    mapa se mantiene a mano: hoy cubre los 9 tickers con sufijo del universo,
+    pero el décimo que se añada no estaría, y este recorte lo cubre.
+    """
+    if ticker in TIKR_TICKER_MAP:
+        return TIKR_TICKER_MAP[ticker]
+    punto = ticker.rfind('.')
+    return ticker[:punto] if punto > 0 else ticker
 
 
 def build_ric_id(tikr_symbol: str, exchange_symbol: str) -> Optional[str]:
@@ -239,10 +282,14 @@ def algolia_resolve_ticker(ticker: str) -> Optional[dict]:
         f"&x-algolia-api-key={ALGOLIA_API_KEY}"
         f"&x-algolia-application-id={ALGOLIA_APP_ID}"
     )
+    # Se busca por el símbolo SIN sufijo: Algolia indexa 'AI', no 'AI.PA'.
+    # Con el sufijo dentro, la búsqueda era difusa y el primer resultado podía
+    # ser cualquier cosa parecida.
+    simbolo = tikr_ticker(ticker)
     payload = {
         "requests": [{
             "indexName": ALGOLIA_INDEX,
-            "query":     ticker,
+            "query":     simbolo,
             "hitsPerPage": 10,
         }]
     }
@@ -254,21 +301,43 @@ def algolia_resolve_ticker(ticker: str) -> Optional[dict]:
         if not hits:
             return None
 
-        # Preferir el hit con usprimaryexchange=True y tickersymbol exacto
-        t_upper = ticker.upper()
-        primary = None
+        # El símbolo tiene que coincidir Y la bolsa tiene que cuadrar con el
+        # sufijo. Lo segundo es lo que de verdad discrimina: el símbolo 'AI' es
+        # C3.ai en NYSE y Air Liquide en París — con el símbolo solo no se
+        # pueden distinguir.
+        t_upper = simbolo.upper()
+        candidatos = []
         for hit in hits:
             sym = (hit.get('tikrSymbol') or hit.get('tickersymbol', '')).upper()
             if sym != t_upper:
                 continue
+            if not _bolsa_coherente(ticker, hit.get('exchangesymbol', '')):
+                continue
+            candidatos.append(hit)
+
+        primary = None
+        for hit in candidatos:
             if hit.get('usprimaryexchange'):
                 primary = hit
                 break
             if primary is None and hit.get('primaryflag') == 3:
                 primary = hit
+        if primary is None and candidatos:
+            primary = candidatos[0]
 
         if primary is None:
-            primary = hits[0]  # fallback: primer resultado
+            # Antes aquí había `primary = hits[0]`: el primer resultado que
+            # devolviera Algolia, coincidiera o no. De ahí salían los cuatro
+            # registros completos pero de otra empresa —AI.PA→C3.ai,
+            # BRK-B→un ETF apalancado, EXPN.L→otro ETF, MMC→una polaca—, y no
+            # dejaban rastro: el registro estaba entero y los números eran
+            # plausibles. Mejor sin datos que con los de otra compañía.
+            nombres = ', '.join(
+                f"{(h.get('tikrSymbol') or h.get('tickersymbol','?'))}@{h.get('exchangesymbol','?')}"
+                for h in hits[:4])
+            print(f"    ⚠️  {ticker}: ningún resultado cuadra con el símbolo y la bolsa "
+                  f"(Algolia devolvió {nombres}) — sin resolver")
+            return None
 
         cid = str(primary.get('companyid', ''))
         tid = str(primary.get('tradingitemid', ''))
