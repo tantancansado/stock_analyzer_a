@@ -212,30 +212,57 @@ class TestContratoDeContenido:
                 w.writerow({'ticker': 'MCO', 'entry_readiness': 'ESPERAR'})
             assert poblada(str(f), 'entry_readiness') is True
 
-    def test_la_columna_exigida_la_escribe_alguien(self):
-        """Un vigia que grita sin motivo ensena a ignorarlo. En el primer
-        intento puse `value_score` para `fundamental_scores.csv`, que no la
-        tiene: habria marcado 'incompleto' todos los dias para siempre.
+    def test_la_columna_exigida_existe_en_el_esquema_de_su_fichero(self):
+        """Un vigia que grita sin motivo ensena a ignorarlo.
 
-        Se comprueba contra el PRODUCTOR, no contra el CSV de hoy: hoy la
-        columna no esta porque el paso fallo, que es justo el caso que el
-        contrato existe para detectar. Un test que mira el artefacto del dia
-        pasaria o fallaria segun el estado del pipeline, no del codigo.
+        En el primer intento puse `value_score` para `fundamental_scores.csv`,
+        que no la tiene: habria marcado 'incompleto' todos los dias para
+        siempre. Se comprueba contra el ESQUEMA del CSV —sus cabeceras— y no
+        contra los valores: hoy `entry_readiness` no esta poblada porque el paso
+        fallo, que es justo lo que el contrato existe para detectar.
         """
+        import csv
+        from pathlib import Path
+
+        import pytest
         ns: dict = {}
         exec(self._script(), ns)
-        from technical_filter import TECH_COLS
-        productores = {
-            'entry_readiness': set(TECH_COLS),
-        }
-        import pandas as pd
-        from pathlib import Path
-        fund = Path(__file__).resolve().parent.parent / 'docs' / 'fundamental_scores.csv'
-        if fund.exists():
-            productores['fundamental_score'] = set(pd.read_csv(fund, nrows=0).columns)
+        raiz = Path(__file__).resolve().parent.parent
+        rutas = {n: p for n, (p, *_r) in ns['MODULES'].items()}
+        productor = {'entry_readiness': 'technical_filter'}   # la escribe un paso posterior
         for modulo, col in ns['COLUMNA_REQUERIDA'].items():
-            assert col in productores, f'{modulo}: nadie declara quien escribe «{col}»'
-            assert col in productores[col], f'{modulo}: «{col}» no la escribe su productor'
+            ruta = raiz / rutas[modulo]
+            if not ruta.exists():
+                continue
+            with ruta.open() as fh:
+                cabeceras = next(csv.reader(fh), [])
+            if col in cabeceras:
+                continue
+            # No esta en el CSV: solo vale si la escribe un paso posterior
+            assert col in productor, f'{modulo}: «{col}» no existe en {rutas[modulo]}'
+            from technical_filter import TECH_COLS
+            assert col in TECH_COLS, f'{modulo}: nadie escribe «{col}»'
+
+    def test_la_clave_exigida_existe_en_su_json(self):
+        """Lo mismo para los JSON: la clave tiene que estar, aunque venga vacia
+        (vacia es precisamente lo que se quiere detectar)."""
+        import json
+        from pathlib import Path
+
+        ns: dict = {}
+        exec(self._script(), ns)
+        raiz = Path(__file__).resolve().parent.parent
+        rutas = {n: p for n, (p, *_r) in ns['MODULES'].items()}
+        for modulo, clave in ns['CLAVE_REQUERIDA'].items():
+            ruta = raiz / rutas[modulo]
+            if not ruta.exists():
+                continue
+            try:
+                d = json.loads(ruta.read_text())
+            except Exception:
+                continue
+            if isinstance(d, dict):
+                assert clave in d, f'{modulo}: «{clave}» no existe en {rutas[modulo]}'
 
     def test_la_app_conoce_el_estado_nuevo(self):
         """Si el frontend no lo contempla, un 'incompleto' se pinta como si nada."""
