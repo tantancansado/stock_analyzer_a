@@ -192,3 +192,85 @@ class TestObjetivoPorValoracion:
         from entry_exit_calculator import EntryExitCalculator
         fuente = inspect.getsource(EntryExitCalculator.calculate_entry_exit)
         assert 'risk_reward = (reward / risk) if (reward is not None' in fuente
+
+
+class TestBonosYMateriasPrimas:
+    """El precio contra su propio rango de 52 semanas. Cuatro relaciones que se
+    cumplen por definición y que ningún sitio miraba."""
+
+    def _df(self, **k):
+        import pandas as pd
+        n = len(next(iter(k.values())))
+        return pd.DataFrame({'ticker': [f'T{i}' for i in range(n)], **k})
+
+    def test_el_precio_no_puede_salirse_de_su_rango(self):
+        r = idn.revisar_rango_52s(self._df(price=[120.], week52_high=[100.], week52_low=[80.]), 'x')
+        assert any('por encima de su máximo' in i.identidad and i.grave for i in r)
+        r = idn.revisar_rango_52s(self._df(price=[70.], week52_high=[100.], week52_low=[80.]), 'x')
+        assert any('por debajo de su mínimo' in i.identidad for i in r)
+
+    def test_la_distancia_al_maximo_sale_del_maximo(self):
+        r = idn.revisar_rango_52s(self._df(price=[90.], week52_high=[100.],
+                                           week52_low=[80.], pct_from_high=[-40.]), 'x')
+        assert any('distancia al máximo' in i.identidad for i in r)
+
+    def test_la_posicion_en_el_rango_sale_del_rango(self):
+        r = idn.revisar_rango_52s(self._df(price=[90.], week52_high=[100.],
+                                           week52_low=[80.], range_position=[0.9]), 'x')
+        assert any('posición en el rango' in i.identidad for i in r)
+
+    def test_lo_correcto_no_salta(self):
+        assert idn.revisar_rango_52s(self._df(
+            price=[90.], week52_high=[100.], week52_low=[80.],
+            pct_from_high=[-10.], pct_from_low=[12.5], range_position=[0.5]), 'x') == []
+
+
+class TestFlujoDeOpciones:
+
+    def _df(self, **k):
+        import pandas as pd
+        n = len(next(iter(k.values())))
+        return pd.DataFrame({'ticker': [f'T{i}' for i in range(n)], **k})
+
+    def test_la_prima_total_es_la_suma(self):
+        r = idn.revisar_opciones(self._df(call_premium=[100.], put_premium=[50.],
+                                          total_premium=[900.]), 'x')
+        assert any('prima total' in i.identidad for i in r)
+
+    def test_el_ratio_sale_de_las_primas(self):
+        r = idn.revisar_opciones(self._df(call_premium=[100.], put_premium=[50.],
+                                          put_call_ratio=[5.0]), 'x')
+        assert any('ratio put/call' in i.identidad for i in r)
+
+    def test_lo_correcto_no_salta(self):
+        assert idn.revisar_opciones(self._df(
+            call_premium=[100.], put_premium=[50.], total_premium=[150.],
+            unusual_calls=[3], unusual_puts=[2], total_unusual=[5],
+            put_call_ratio=[0.5]), 'x') == []
+
+
+class TestLeaps:
+    """Una call profunda ITM no puede valer menos que su valor intrínseco. Es
+    aritmética de opciones: si la prima es menor que (spot − strike), o hay
+    dinero gratis sobre la mesa o el dato está mal."""
+
+    def test_caza_la_prima_imposible(self):
+        r = idn.revisar_leaps([{'ticker': 'X', 'spot': 100.0,
+                                'recommended_contract': {'strike': 60.0, 'premium': 20.0}}], 'x')
+        assert r and r[0].grave and 'intrínseco' in r[0].identidad
+
+    def test_una_prima_normal_no_salta(self):
+        assert idn.revisar_leaps([{'ticker': 'X', 'spot': 100.0,
+                                   'recommended_contract': {'strike': 60.0, 'premium': 44.0}}], 'x') == []
+
+    def test_sin_datos_no_inventa(self):
+        assert idn.revisar_leaps([], 'x') == []
+        assert idn.revisar_leaps([{'ticker': 'X'}], 'x') == []
+
+
+def test_el_pipeline_revisa_tambien_estos():
+    from pathlib import Path
+    src = (Path(__file__).resolve().parent.parent / 'coherence_check.py').read_text()
+    for x in ('revisar_rango_52s', 'revisar_opciones', 'leaps_incoherentes',
+              'bonds_opportunities.csv', 'commodity_opportunities.csv'):
+        assert x in src, f'falta {x} en coherence_check'

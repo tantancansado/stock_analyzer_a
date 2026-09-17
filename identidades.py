@@ -123,6 +123,102 @@ def revisar(d: pd.DataFrame, fichero: str = '') -> list[Incumplimiento]:
     return [f for f in fuera if f is not None]
 
 
+def revisar_rango_52s(d, fichero: str = '') -> list[Incumplimiento]:
+    """Bonos y materias primas: el precio contra su propio rango de 52 semanas.
+
+    Cuatro relaciones que se cumplen por definición y que ningún sitio miraba:
+    el precio no puede estar fuera de su rango, la distancia al máximo ES
+    (precio − máx)/máx, y la posición en el rango ES (precio − mín)/(máx − mín).
+    """
+    if d is None or d.empty:
+        return []
+    p = _num(d, 'price')
+    hi, lo = _num(d, 'week52_high'), _num(d, 'week52_low')
+    fuera = []
+
+    for nombre, mal in (
+        ('precio por encima de su máximo de 52 semanas', (p > hi * 1.001) & p.notna() & hi.notna()),
+        ('precio por debajo de su mínimo de 52 semanas', (p < lo * 0.999) & p.notna() & lo.notna()),
+        ('máximo de 52 semanas por debajo del mínimo', (hi < lo) & hi.notna() & lo.notna()),
+    ):
+        if mal.any():
+            t = d.loc[mal, 'ticker'].astype(str).tolist() if 'ticker' in d.columns else []
+            fuera.append(Incumplimiento(fichero, nombre, int(mal.sum()), len(d), 100.0, t, True))
+
+    i = _comparar(d, fichero, 'distancia al máximo = (precio − máx) / máx',
+                  (p / hi - 1) * 100, _num(d, 'pct_from_high'))
+    if i:
+        fuera.append(i)
+    i = _comparar(d, fichero, 'distancia al mínimo = (precio − mín) / mín',
+                  (p / lo - 1) * 100, _num(d, 'pct_from_low'))
+    if i:
+        fuera.append(i)
+
+    rango = (hi - lo).where(hi > lo)
+    i = _comparar(d, fichero, 'posición en el rango = (precio − mín) / (máx − mín)',
+                  (p - lo) / rango, _num(d, 'range_position'), 5.0)
+    if i:
+        fuera.append(i)
+    return fuera
+
+
+def revisar_opciones(d, fichero: str = '') -> list[Incumplimiento]:
+    """Flujo de opciones: las primas y el ratio put/call tienen que cuadrar."""
+    if d is None or d.empty:
+        return []
+    fuera = []
+    call, put = _num(d, 'call_premium'), _num(d, 'put_premium')
+    i = _comparar(d, fichero, 'prima total = prima de calls + prima de puts',
+                  call + put, _num(d, 'total_premium'), 5.0)
+    if i:
+        fuera.append(i)
+    i = _comparar(d, fichero, 'total inusual = calls + puts inusuales',
+                  _num(d, 'unusual_calls') + _num(d, 'unusual_puts'),
+                  _num(d, 'total_unusual'), 1.0)
+    if i:
+        fuera.append(i)
+    # El ratio put/call sale de las primas, no de otro sitio.
+    i = _comparar(d, fichero, 'ratio put/call = prima de puts / prima de calls',
+                  put / call.where(call > 0), _num(d, 'put_call_ratio'), 10.0)
+    if i:
+        fuera.append(i)
+    return fuera
+
+
+def revisar_leaps(oportunidades: list[dict], fichero: str = '') -> list[Incumplimiento]:
+    """LEAPS: una call profunda ITM no puede valer menos que su valor intrínseco.
+
+    Es aritmética de opciones, no una heurística: si la prima es menor que
+    (spot − strike), hay dinero gratis sobre la mesa — o el dato está mal.
+    """
+    if not oportunidades:
+        return []
+    fuera = []
+    rotos, ejemplos = 0, []
+    for o in oportunidades:
+        c = (o or {}).get('recommended_contract') or {}
+        spot = _numero(o.get('spot'))
+        strike, prima = _numero(c.get('strike')), _numero(c.get('premium') or c.get('ask'))
+        if None in (spot, strike, prima):
+            continue
+        intrinseco = max(0.0, spot - strike)
+        if prima < intrinseco * 0.98:
+            rotos += 1
+            ejemplos.append(f"{o.get('ticker')} (prima {prima:.2f} < intrínseco {intrinseco:.2f})")
+    if rotos:
+        fuera.append(Incumplimiento(fichero, 'prima de la call por debajo de su valor intrínseco',
+                                    rotos, len(oportunidades), 100.0, ejemplos, True))
+    return fuera
+
+
+def _numero(v):
+    try:
+        f = float(v)
+        return None if f != f else f
+    except (TypeError, ValueError):
+        return None
+
+
 def revisar_operacion(d: pd.DataFrame, fichero: str = '',
                       col_entrada: str = 'entry_price') -> list[Incumplimiento]:
     """Identidades de una ficha operativa: entrada, stop, salida y su R:R.

@@ -275,7 +275,14 @@ def identidades_rotas(nombres: tuple[str, ...]) -> list[str]:
         except Exception as exc:
             fuera.append(f'{nombre}: no se pudo leer ({exc})')
             continue
-        for i in identidades.revisar(d, nombre) + identidades.revisar_operacion(d, nombre):
+        revisiones = identidades.revisar(d, nombre) + identidades.revisar_operacion(d, nombre)
+        # Bonos y materias primas tienen su propia aritmética (rango de 52
+        # semanas); el flujo de opciones, la suya (primas y ratio put/call).
+        if nombre in ('bonds_opportunities.csv', 'commodity_opportunities.csv'):
+            revisiones += identidades.revisar_rango_52s(d, nombre)
+        if nombre == 'options_flow.csv':
+            revisiones += identidades.revisar_opciones(d, nombre)
+        for i in revisiones:
             # Los desvíos pequeños son desfase entre el momento de capturar el
             # precio y el de calcular un derivado: se informan como ⏳ para que
             # no cuenten como incoherencia — un check que salta en rojo sin
@@ -356,6 +363,21 @@ def identidad_de_los_tickers() -> list[str]:
     return fallos
 
 
+def leaps_incoherentes() -> list[str]:
+    """Una call profunda ITM no puede valer menos que su valor intrínseco.
+
+    Es aritmética de opciones, no una heurística: si la prima es menor que
+    (spot − strike), o hay dinero gratis sobre la mesa o el dato está mal.
+    """
+    try:
+        import identidades
+    except ImportError as exc:
+        return [f'no se pudo comprobar los LEAPS: {exc}']
+    d = _json('leaps_opportunities.json')
+    ops = d.get('opportunities', []) if isinstance(d, dict) else []
+    return [str(i) for i in identidades.revisar_leaps(ops, 'leaps_opportunities.json')]
+
+
 def run() -> int:
     print('[coherence_check] Cruzando lo publicado consigo mismo...')
 
@@ -396,7 +418,10 @@ def run() -> int:
             'european_value_opportunities.csv', 'european_value_opportunities_filtered.csv',
             'momentum_opportunities.csv', 'mean_reversion_opportunities.csv',
             'bounce_setups_broad.csv',
+            'bonds_opportunities.csv', 'commodity_opportunities.csv',
+            'options_flow.csv',
         ))),
+        ('aritmética de los LEAPS',                   leaps_incoherentes()),
     ]
 
     total = 0
