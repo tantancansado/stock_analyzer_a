@@ -264,10 +264,16 @@ TIER_CHINA = [
 # Sufijos de bolsas nórdicas (no incluidos en market_configs.py original)
 NORDIC_SUFFIXES = {'.CO', '.ST', '.HE', '.OL'}
 
-def get_eu_universe(include_tier4: bool = False, include_china: bool = False) -> list:
+def get_eu_universe(include_tier4: bool = True, include_china: bool = False) -> list:
     """
-    Retorna el universo europeo curado.
-    Por defecto Tier 1+2+3 (excluye Tier 4 y China).
+    Retorna el universo europeo curado: Tier 1+2+3+4.
+
+    Mismo criterio que el universo US (`curated_tickers.get_universe`): el tier
+    es una etiqueta de CALIDAD, no un filtro de entrada. Lo que decide si algo
+    se recomienda es el score y los guards, no el tier.
+
+    China sigue fuera por defecto: está como referencia de mercado, no como
+    selección propia.
     """
     universe = TIER_1_EU + TIER_2_EU + TIER_3_EU
     if include_tier4:
@@ -304,7 +310,7 @@ def get_eu_tier_label(tier: str) -> str:
 
 
 ALL_EU_TICKERS = get_eu_universe(include_tier4=True, include_china=True)
-SCORED_EU_TICKERS = get_eu_universe(include_tier4=False, include_china=False)
+SCORED_EU_TICKERS = get_eu_universe(include_china=False)   # T1+T2+T3+T4
 
 
 if __name__ == '__main__':

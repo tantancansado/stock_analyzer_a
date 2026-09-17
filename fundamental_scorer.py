@@ -1781,9 +1781,9 @@ def main():
                        help='Score VALUE tickers from value_opportunities.csv (target prices, ROE)')
     parser.add_argument('--all', action='store_true', help='Score todas las fuentes (VCP + ML + VALUE)')
     parser.add_argument('--curated', action='store_true',
-                       help='Score curated universe from curated_tickers.py (Tier 1+2+3, ~90 tickers)')
+                       help='Score curated universe from curated_tickers.py (Tier 1+2+3+4 + HF watch)')
     parser.add_argument('--curated-all', action='store_true',
-                       help='Score full curated universe including Tier 4 (~120 tickers)')
+                       help='Alias de --curated (desde el 17-sep-2026 el curado se puntúa entero)')
     parser.add_argument('--as-of-date', type=str, default=None,
                        help='Historical date for scoring (YYYY-MM-DD). Only use earnings/financials reported before this date. '
                             'Prevents look-ahead bias in backtesting.')
@@ -1827,9 +1827,15 @@ def main():
 
     elif args.curated or args.curated_all:
         from curated_tickers import get_universe
-        include_t4 = bool(args.curated_all)
-        tickers = get_universe(include_tier4=include_t4, include_hf_watch=True)
-        tier_label = 'T1+T2+T3+T4+HF' if include_t4 else 'T1+T2+T3+HF'
+        # El curado se puntúa ENTERO. El tier es una etiqueta de calidad, no un
+        # filtro de entrada: hasta el 17-sep-2026 `--curated` excluía el TIER_4
+        # y dejaba sin medir a 32 empresas de la propia lista curada (YUM, AAPL,
+        # AMZN, GOOG, META, ORCL, AVGO, HD, UNP, BLK, ASML...). No es que no
+        # pasaran el filtro: no se medían, y por eso la app no sabía decir por
+        # qué faltaban. Lo que decide si algo se recomienda es el score y los
+        # guards. `--curated-all` se queda como alias, ya no distingue.
+        tickers = get_universe(include_hf_watch=True)
+        tier_label = 'T1+T2+T3+T4+HF'
         print(f"🎯 Universo curado ({tier_label}): {len(tickers)} tickers")
         print(f"📊 Scoring {len(tickers)} tickers únicos...")
         results_df = scorer.score_batch(tickers)

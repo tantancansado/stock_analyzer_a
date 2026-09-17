@@ -129,6 +129,25 @@ TIER_3 = [
     'GWW',     # W.W. Grainger
     'JKHY',    # Jack Henry & Associates
     'ISRG',    # Intuitive Surgical
+    # Movida desde TIER_4 el 17-sep-2026 a petición del usuario, que la ve «igual
+    # o más interesante» que McDonald's. Estaba en TIER_4 desde que se creó el
+    # universo (13-abr) y nadie había escrito por qué: de los 33 del tier, solo
+    # AVGO tenía motivo.
+    #
+    # El cambio es de CLASIFICACIÓN, no de visibilidad: desde el mismo día el
+    # curado se puntúa entero, así que habría entrado igual quedándose en
+    # TIER_4.
+    #
+    # A favor: crece al 12,2% contra el 3,7% de McDonald's, PER 17,3 contra
+    # 20,3, y un consenso a +26,6% con 22 analistas en una horquilla estrecha
+    # (147-200, 1,36x).
+    #
+    # QUÉ VIGILAR: su PER adelantado (19,6) es PEOR que el de hoy (17,3), o
+    # sea que se espera que el beneficio BAJE. El crecimiento de BPA de +131%
+    # huele a extraordinario, y mientras esté ahí el PER de hoy la hace
+    # parecer más barata de lo que está. Si el scoring la premia por múltiplo
+    # bajo, es ese extraordinario el que está puntuando.
+    'YUM',     # Yum! Brands
 ]
 
 # ── TIER 4 — No apta para portfolios apalancados (★★☆☆☆) ─────────────────────
@@ -167,7 +186,6 @@ TIER_4 = [
     'AMZN',    # Amazon
     'CRH',     # CRH plc
     'MLM',     # Martin Marietta Materials
-    'YUM',     # Yum! Brands
     'FTNT',    # Fortinet
     'HLT',     # Hilton Worldwide
     'LMT',     # Lockheed Martin
@@ -228,10 +246,23 @@ HF_WATCH = [
 
 # ── Helpers ────────────────────────────────────────────────────────────────────
 
-def get_universe(include_tier4: bool = False, include_hf_watch: bool = False) -> list:
+def get_universe(include_tier4: bool = True, include_hf_watch: bool = False) -> list:
     """
-    Retorna el universo de tickers para scoring.
-    Por defecto Tier 1+2+3 (excluye Tier 4 'No apta' y HF_WATCH).
+    Retorna el universo de tickers para scoring: el curado ENTERO.
+
+    El tier es una etiqueta de CALIDAD, no un filtro de entrada. Hasta el
+    17-sep-2026 el TIER_4 no se puntuaba, y eso hacía invisibles a 32 empresas
+    del universo curado —YUM, AAPL, AMZN, GOOG, META, ORCL, AVGO, HD, UNP,
+    BLK, ASML...—: no es que no pasaran el filtro, es que no se medían, y la
+    app no podía decir por qué faltaban porque nunca habían estado.
+
+    Lo que decide si algo se recomienda es el `value_score` y los guards, no la
+    pertenencia a un tier. Una TIER_4 con números malos sale con score bajo y
+    no se publica, que es el resultado correcto; una TIER_4 que un día esté
+    barata de verdad ahora se puede ver.
+
+    HF_WATCH sigue fuera por defecto: es una lista de seguimiento de lo que
+    compran los fondos, no una selección propia de calidad.
     """
     universe = TIER_1 + TIER_2 + TIER_3
     if include_tier4:
@@ -274,7 +305,7 @@ def get_tier_label(tier: str) -> str:
 # cubiertas al 100% por las listas EU, que es donde les toca; volver a meterlas
 # aquí es añadir la línea otra vez.
 ALL_TICKERS    = get_universe(include_tier4=True)
-SCORED_TICKERS = get_universe(include_tier4=False)  # default scoring universe
+SCORED_TICKERS = get_universe()   # el curado entero: T1+T2+T3+T4
 HF_UNIVERSE    = get_universe(include_tier4=False, include_hf_watch=True)
 
 if __name__ == '__main__':
