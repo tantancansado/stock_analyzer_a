@@ -161,17 +161,34 @@ def _save_seen(seen: set[str]) -> None:
     SEEN_PATH.write_text(json.dumps(existing))
 
 
-def _load_signals() -> list[dict]:
+def _load_signals() -> list[dict] | None:
+    """Señales acumuladas. `[]` = todavía no hay; `None` = NO SE PUDO LEER.
+
+    La diferencia importa porque el llamador reescribe el fichero entero. Antes
+    los dos casos devolvían `[]`, así que un fallo de lectura —JSON a medias,
+    error de disco— hacía que se guardaran encima solo las señales de hoy,
+    borrando el resto. Hay 314 acumuladas.
+
+    Es el mismo fallo que en el scraper de TIKR: escribir encima con las manos
+    vacías porque no se distingue «no hay nada» de «no he podido mirar».
+    """
     if not SIGNALS_PATH.exists():
         return []
     try:
-        return json.loads(SIGNALS_PATH.read_text())
-    except Exception:
-        return []
+        d = json.loads(SIGNALS_PATH.read_text())
+        return d if isinstance(d, list) else None
+    except Exception as exc:
+        print(f'   ⚠️  no se pudo leer {SIGNALS_PATH.name}: {exc} — no se sobrescribe')
+        return None
 
 
 def _save_signal(signal: dict) -> None:
     signals = _load_signals()
+    if signals is None:
+        # No se pudo leer lo que ya había: guardar ahora significaría dejar el
+        # fichero con una sola señal. Mejor perder la de hoy que las 314.
+        print('   ⚠️  señal no guardada: no se pudo leer el histórico')
+        return
     # Deduplicate by id
     ids = {s["id"] for s in signals}
     if signal["id"] not in ids:

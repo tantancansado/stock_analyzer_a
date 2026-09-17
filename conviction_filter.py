@@ -309,11 +309,23 @@ def analizar_tesis_value(ticker: str, precio: float | None = None) -> dict:
         return r
 
 
-def _cache_tesis_leer() -> dict:
-    try:
-        return json.loads(CACHE_TESIS.read_text())
-    except (OSError, ValueError):
+def _cache_tesis_leer() -> dict | None:
+    """Caché de tesis. `{}` = aún no hay; `None` = NO SE PUDO LEER.
+
+    Los dos casos devolvían `{}`, y el llamador reescribe el fichero entero: un
+    fallo de lectura tiraba las 110 tesis cacheadas y las volvía a pedir todas
+    al modelo. No es un problema de veracidad —las tesis se regeneran igual—
+    pero sí de dinero y de tiempo, y es el mismo fallo de forma que en TIKR:
+    no distinguir «no hay nada» de «no he podido mirar».
+    """
+    if not CACHE_TESIS.exists():
         return {}
+    try:
+        d = json.loads(CACHE_TESIS.read_text())
+        return d if isinstance(d, dict) else None
+    except (OSError, ValueError) as exc:
+        print(f'   ⚠️  no se pudo leer la caché de tesis: {exc} — no se sobrescribe')
+        return None
 
 
 def enriquecer_con_tesis(df: pd.DataFrame) -> pd.DataFrame:
@@ -325,6 +337,11 @@ def enriquecer_con_tesis(df: pd.DataFrame) -> pd.DataFrame:
     if df.empty or 'ticker' not in df.columns:
         return df
     cache = _cache_tesis_leer()
+    # Si no se pudo leer, se trabaja sin caché pero NO se reescribe el fichero:
+    # eso borraría las tesis buenas que hay dentro.
+    sobrescribir = cache is not None
+    if cache is None:
+        cache = {}
     hoy = dt.date.today()
     filas, nuevos = [], 0
     for _, row in df.iterrows():
@@ -342,11 +359,12 @@ def enriquecer_con_tesis(df: pd.DataFrame) -> pd.DataFrame:
             nuevos += 1
         filas.append({f'tesis_{k}': v for k, v in e.items()
                       if k not in ('ticker', 'fecha', 'motivo')})
-    try:
-        CACHE_TESIS.parent.mkdir(parents=True, exist_ok=True)
-        CACHE_TESIS.write_text(json.dumps(cache, ensure_ascii=False, indent=1, default=str))
-    except OSError as exc:
-        print(f'   no se pudo guardar la caché de tesis: {exc}')
+    if sobrescribir:
+        try:
+            CACHE_TESIS.parent.mkdir(parents=True, exist_ok=True)
+            CACHE_TESIS.write_text(json.dumps(cache, ensure_ascii=False, indent=1, default=str))
+        except OSError as exc:
+            print(f'   no se pudo guardar la caché de tesis: {exc}')
     print(f"  Tesis value: {len(df)} analizadas ({nuevos} nuevas, "
           f"{len(df) - nuevos} de caché <{CACHE_TESIS_DIAS}d)")
     return pd.concat([df.reset_index(drop=True),

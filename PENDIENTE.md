@@ -48,13 +48,12 @@ Lo de arriba es lo que está en curso; lo de abajo, lo que espera a tener datos.
 Los dos fallos que más daño hacen son el mismo visto desde dos sitios, y ya han
 aparecido en TIKR, en el health del pipeline y en el veto de rebotes:
 
-- [ ] **Escribir encima con las manos vacías.** Una petición que falla devuelve
-      `{}` o `[]`, y ese vacío se guarda sobre datos buenos. Arreglado en TIKR
-      (regla general `_conservar_lo_que_ya_habia`). Queda revisar: el resto de
-      scrapers con `except: return {}` que escriben a `docs/` — 65 ficheros dan
-      positivo en la forma, hay que separar los peligrosos (una petición cuyo
-      resultado se guarda entero) de los inofensivos (un helper que devuelve un
-      valor suelto).
+- [x] ~~**Escribir encima con las manos vacías.**~~ Barrido el 17-sep. De los
+      65 ficheros que dan positivo en la forma, solo 2 eran peligrosos de verdad
+      (el resto son helpers que devuelven un valor suelto): `political_scanner`
+      (314 señales) y `conviction_filter` (110 tesis cacheadas). Los dos
+      arreglados con la misma regla que TIKR: distinguir «no hay nada» de «no he
+      podido leer», y no sobrescribir en el segundo caso.
 - [ ] **Verificar el recuento en vez del contenido.** «137 tickers, 0 errores»
       daba luz verde mientras a 5 de cada 13 les faltaban las cuentas, cuatro
       meses. Y «20/20 módulos OK» el día que fallaron nueve pasos. Arreglados
