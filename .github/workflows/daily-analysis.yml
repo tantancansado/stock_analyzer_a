@@ -880,6 +880,29 @@ jobs:
               'earnings_opts':  'snapshots',
           }
 
+          # Un vacio LEGITIMO tiene que poder declararse, o el contrato grita en
+          # falso. `earnings_options` solo mira la cartera: con las 7 posiciones
+          # sanas y sus earnings a 26 dias, 0 snapshots es la respuesta
+          # correcta. El 17-sep-2026 marque ese modulo como roto por eso. La
+          # regla: el modulo escribe POR QUE esta vacio, y el contrato acepta el
+          # vacio solo si viene con ese motivo. Callarse sigue siendo un fallo.
+          VACIO_EXPLICADO = {
+              'earnings_opts': 'motivo_vacio',
+          }
+
+          def _motivo_del_vacio(path, clave):
+              if not clave or not path.endswith('.json'):
+                  return None
+              try:
+                  with open(path) as fh:
+                      d = json.load(fh)
+                  if not isinstance(d, dict):
+                      return None
+                  v = d.get(clave)
+                  return str(v) if v else None
+              except Exception:
+                  return None
+
           def _clave_poblada(path, clave):
               if not clave or not path.endswith('.json'):
                   return None
@@ -959,6 +982,12 @@ jobs:
                   col_req = CLAVE_REQUERIDA.get(name)
                   poblada = _clave_poblada(path, col_req)
 
+              motivo = None
+              if poblada is False:
+                  motivo = _motivo_del_vacio(path, VACIO_EXPLICADO.get(name))
+                  if motivo:
+                      poblada = True
+
               if too_few:
                   module_status = 'empty'
               elif poblada is False:
@@ -975,6 +1004,8 @@ jobs:
               if col_req:
                   entry['columna_requerida'] = col_req
                   entry['columna_poblada'] = poblada
+              if motivo:
+                  entry['vacio_explicado'] = motivo
               if row_count is not None:
                   entry['rows'] = row_count
                   if min_rows is not None:

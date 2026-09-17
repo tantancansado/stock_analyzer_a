@@ -270,3 +270,39 @@ class TestContratoDeContenido:
         src = Path(__file__).resolve().parent.parent / 'frontend' / 'src'
         assert "'incompleto'" in (src / 'api' / 'client.ts').read_text()
         assert 'incompleto' in (src / 'components' / 'StaleDataBanner.tsx').read_text()
+
+    def test_un_vacio_sin_motivo_sigue_siendo_un_fallo(self):
+        """El escape que acepta el vacío no puede convertirse en un colador.
+
+        `earnings_options` solo mira la cartera: con las 7 posiciones sanas y
+        sus earnings a 26 días, 0 snapshots es la respuesta correcta, y el
+        17-sep-2026 lo marqué como roto por eso. Pero el permiso vale solo si el
+        módulo DICE por qué está vacío. Callarse sigue contando como avería.
+        """
+        import json
+        import tempfile
+        from pathlib import Path
+        ns: dict = {}
+        exec(self._script(), ns)
+        motivo = ns['_motivo_del_vacio']
+        with tempfile.TemporaryDirectory() as tmp:
+            f = Path(tmp) / 'earnings_options.json'
+
+            f.write_text(json.dumps({'count': 0, 'snapshots': {}}))
+            assert motivo(str(f), 'motivo_vacio') is None, 'vacío mudo = avería'
+
+            f.write_text(json.dumps({
+                'count': 0, 'snapshots': {},
+                'motivo_vacio': 'ninguna posición tiene earnings dentro de 14d',
+            }))
+            assert motivo(str(f), 'motivo_vacio')
+
+    def test_solo_los_modulos_declarados_pueden_excusarse(self):
+        """Cada excusa es un agujero en el contrato: que estén contadas y que
+        cada una apunte a un módulo que existe."""
+        ns: dict = {}
+        exec(self._script(), ns)
+        for modulo in ns['VACIO_EXPLICADO']:
+            assert modulo in ns['MODULES'], f'{modulo} no es un módulo'
+            assert modulo in ns['CLAVE_REQUERIDA'], (
+                f'{modulo} se excusa de un contrato que no tiene')

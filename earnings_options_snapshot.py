@@ -43,12 +43,20 @@ def _safe_float(v: Any) -> Optional[float]:
         return None
 
 
-def _load_positions() -> list[dict]:
+def _load_positions() -> Optional[list[dict]]:
     """Reusa el loader de portfolio_news_monitor.
 
-    None (Supabase no disponible) → fallback a portfolio_watch.json.
-    [] (cartera realmente vacía) → NO caer al watch file: generaría
-    análisis de opciones para tickers que no son posiciones.
+    Tres respuestas distintas, no dos:
+      - lista con elementos → la cartera.
+      - []   → la cartera está REALMENTE vacía.
+      - None → no se pudo leer (Supabase caído y sin fichero de respaldo
+               legible). El que llama NO debe publicar nada: un snapshot
+               vacío por avería es indistinguible de uno vacío de verdad,
+               y pisaría el último bueno.
+
+    Supabase None (no disponible) → se prueba portfolio_watch.json. Supabase
+    [] (cartera vacía de verdad) → NO se cae al watch file: generaría análisis
+    de opciones para tickers que no son posiciones.
     """
     try:
         from portfolio_news_monitor import _load_portfolio_from_supabase
@@ -56,19 +64,20 @@ def _load_positions() -> list[dict]:
     except Exception:
         positions = None
 
-    if positions is None:
-        positions = []
-        cfg = DOCS / 'portfolio_watch.json'
-        if cfg.exists():
-            try:
-                data = json.loads(cfg.read_text())
-                positions = [
-                    t for t in data.get('tickers', [])
-                    if isinstance(t, dict) and t.get('ticker')
-                ]
-            except Exception:
-                positions = []
-    return positions
+    if positions is not None:
+        return positions
+
+    cfg = DOCS / 'portfolio_watch.json'
+    if not cfg.exists():
+        return None
+    try:
+        data = json.loads(cfg.read_text())
+    except Exception:
+        return None
+    return [
+        t for t in data.get('tickers', [])
+        if isinstance(t, dict) and t.get('ticker')
+    ]
 
 
 def _next_earnings_date(tk: yf.Ticker) -> Optional[date]:
@@ -253,9 +262,15 @@ def _expirations_post_earnings(tk: yf.Ticker, edate: date) -> list[str]:
     return [e for e in exps if e > cutoff][:4]
 
 
-def _build_snapshot(ticker: str) -> Optional[dict]:
-    tk = yf.Ticker(ticker)
-    edate = _next_earnings_date(tk)
+def _build_snapshot(
+    ticker: str,
+    *,
+    tk: Optional[yf.Ticker] = None,
+    edate: Optional[date] = None,
+) -> Optional[dict]:
+    tk = tk or yf.Ticker(ticker)
+    if edate is None:
+        edate = _next_earnings_date(tk)
     if edate is None:
         return None
     days_to = (edate - date.today()).days
@@ -335,48 +350,100 @@ def main(
             positions = list_user_positions(user_id)
         except Exception as exc:
             print(f'[fatal] cannot load positions for user {user_id}: {exc}', file=sys.stderr)
-            return 0
+            return 1
     else:
         positions = _load_positions()
 
+    # None = no se pudo leer la cartera. Publicar un snapshot vacío aquí
+    # pisaría el último bueno con una avería disfrazada de «no hay nada».
+    if positions is None:
+        print('[fatal] no se pudo leer la cartera — no se publica nada', file=sys.stderr)
+        return 1
+
     if not positions:
-        print('[info] no hay posiciones — nada que hacer')
+        print('[info] la cartera está vacía — nada que analizar')
         if user_id is None:
             OUT.write_text(json.dumps({
                 'generated_at': datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'),
                 'horizon_days': HORIZON_DAYS,
                 'count': 0,
                 'snapshots': {},
+                'posiciones_revisadas': 0,
+                'motivo_vacio': 'la cartera está vacía',
             }, indent=2))
         return 0
 
     print(f'Earnings Options Snapshot — escaneando {len(positions)} posiciones...')
     out: dict[str, dict] = {}
+    revisadas = 0
+    dias_por_ticker: dict[str, int] = {}
+    sin_fecha: list[str] = []
+    sin_datos: list[str] = []
 
     for i, pos in enumerate(positions, 1):
         ticker = str(pos.get('ticker', '')).upper().strip()
         if not ticker:
             continue
+        revisadas += 1
         print(f'  [{i}/{len(positions)}] {ticker}...', flush=True)
         try:
-            snap = _build_snapshot(ticker)
+            tk = yf.Ticker(ticker)
+            edate = _next_earnings_date(tk)
+            if edate is None:
+                sin_fecha.append(ticker)
+                print('    sin fecha de earnings conocida — skip')
+                continue
+            dias = (edate - date.today()).days
+            dias_por_ticker[ticker] = dias
+            if dias < 0 or dias > HORIZON_DAYS:
+                print(f'    earnings el {edate} ({dias}d) — fuera de los {HORIZON_DAYS}d')
+                continue
+            snap = _build_snapshot(ticker, tk=tk, edate=edate)
         except Exception as e:
             print(f'    error: {e}', file=sys.stderr)
             continue
         if snap is None:
-            print(f'    sin earnings en próximos {HORIZON_DAYS}d — skip')
+            # Earnings SÍ está dentro del horizonte: esto es un fallo de datos,
+            # no un «no toca». Se anota para no confundirlo con lo otro.
+            sin_datos.append(ticker)
+            print(f'    earnings el {edate} ({dias}d) pero sin precio — no se pudo construir',
+                  file=sys.stderr)
             continue
         out[ticker] = snap
         print(f'    OK · earnings {snap["earnings_date"]} ({snap["days_to_earnings"]}d) · '
               f'{len(snap.get("term_structure", []))} expirations')
         time.sleep(0.5)
 
+    # Un cero tiene que decir POR QUÉ es cero. Sin esto, «0 snapshots» con la
+    # cartera sana y sus earnings a 26 días se lee igual que «0 snapshots»
+    # porque el módulo se rompió — y el watchdog del pipeline dio esa falsa
+    # alarma el 17-sep-2026.
+    proximos = [d for d in dias_por_ticker.values() if d >= 0]
     payload = {
         'generated_at': datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'),
         'horizon_days': HORIZON_DAYS,
         'count': len(out),
         'snapshots': out,
+        'posiciones_revisadas': revisadas,
+        'proxima_earnings_dias': min(proximos) if proximos else None,
+        'sin_fecha_de_earnings': sin_fecha,
+        'en_horizonte_sin_datos': sin_datos,
     }
+    if not out:
+        if sin_datos:
+            payload['motivo_vacio'] = (
+                f'{len(sin_datos)} posiciones con earnings dentro de {HORIZON_DAYS}d '
+                f'pero sin datos de mercado: {", ".join(sin_datos)}'
+            )
+        elif proximos:
+            payload['motivo_vacio'] = (
+                f'ninguna posición tiene earnings dentro de {HORIZON_DAYS}d '
+                f'(los más próximos, a {min(proximos)}d)'
+            )
+        else:
+            payload['motivo_vacio'] = (
+                f'ninguna de las {revisadas} posiciones tiene fecha de earnings conocida'
+            )
     # JSON estático solo en modo global
     if user_id is None:
         OUT.write_text(json.dumps(payload, indent=2, default=str))
