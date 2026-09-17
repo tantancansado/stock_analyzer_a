@@ -1,20 +1,21 @@
 {
-  "total_problemas": 4,
+  "total_problemas": 3,
   "desfases_conocidos": [
-    "⏳ ⚠️  value_opportunities.csv: upside DCF = (objetivo − precio) / precio — 1/40 filas, peor desvío 3% (CBOE)",
-    "⏳ ⚠️  value_opportunities.csv: upside P/E = (objetivo − precio) / precio — 1/40 filas, peor desvío 2% (MCO)",
-    "⏳ ⚠️  value_opportunities_filtered.csv: upside DCF = (objetivo − precio) / precio — 1/31 filas, peor desvío 3% (CBOE)",
-    "⏳ ⚠️  european_value_opportunities.csv: upside DCF = (objetivo − precio) / precio — 1/23 filas, peor desvío 2% (DB1.DE)",
-    "⏳ ⚠️  momentum_opportunities.csv: upside analista = (objetivo − precio) / precio — 1/2 filas, peor desvío 4% (FAST)"
+    "⏳ ⚠️  value_opportunities.csv: upside DCF = (objetivo − precio) / precio — 2/36 filas, peor desvío 4% (CBOE, MRSH)",
+    "⏳ ⚠️  value_opportunities_filtered.csv: upside DCF = (objetivo − precio) / precio — 2/32 filas, peor desvío 4% (MRSH, CBOE)",
+    "⏳ ⚠️  european_value_opportunities.csv: distancia al máximo 52s — 1/32 filas, peor desvío 3% (DEMANT.CO)"
   ],
   "detalle": {
+    "columnas obligatorias (US)": [
+      "value_opportunities.csv: la columna entry_readiness está vacía en las 43 filas"
+    ],
+    "columnas obligatorias (EU)": [
+      "european_value_opportunities.csv: la columna entry_readiness está vacía en las 32 filas"
+    ],
     "identidades aritméticas de lo publicado": [
-      "🛑 value_opportunities.csv: FCF yield = FCF por acción / precio — 4/44 filas, peor desvío 52% (FCNCA, ASAZY, V, BRK-B)",
-      "🛑 value_opportunities_filtered.csv: FCF yield = FCF por acción / precio — 3/34 filas, peor desvío 52% (V, BRK-B, FCNCA)",
-      "🛑 european_value_opportunities.csv: FCF yield = FCF por acción / precio — 8/31 filas, peor desvío 99% (SGE.L, NOVO-B.CO, AUTO.L, LIFCO-B.ST, RMV.L)",
-      "🛑 mean_reversion_opportunities.csv: R:R = (salida − entrada) / (entrada − stop) — 11/12 filas, peor desvío 187% (FDS, TECK, HEI, INTU, JKHY)"
+      "🛑 mean_reversion_opportunities.csv: R:R = (salida − entrada) / (entrada − stop) — 1/2 filas, peor desvío 60% (TT)"
     ]
   },
-  "tickers_value": 44,
+  "tickers_value": 43,
   "tickers_verdicts": 78
 }
