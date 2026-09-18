@@ -478,8 +478,14 @@ class SuperScoreIntegrator:
             vcp   = row['vcp_score']
             ml    = row['ml_score']
             fund  = row['fundamental_score']
-            ml_real   = ml   != DEFAULT
-            fund_real = fund != DEFAULT
+            # `!= DEFAULT` no basta: un NaN también es distinto de 50, así
+            # que un score AUSENTE se colaba como real, entraba en la media
+            # ponderada y el super score entero salía NaN. Antes casi no
+            # pasaba porque un fundamental sin datos acababa valiendo 0.0 —por
+            # el bug del print que lo convertía en ERROR—; desde que el scorer
+            # emite vacío de verdad, son 16 filas de 164.
+            ml_real   = pd.notna(ml)   and ml   != DEFAULT
+            fund_real = pd.notna(fund) and fund != DEFAULT
             # Redistribuir el peso de los componentes con default entre los reales
             extra_ml   = ml_w   if not ml_real   else 0.0
             extra_fund = fund_w if not fund_real else 0.0
@@ -499,8 +505,8 @@ class SuperScoreIntegrator:
 
         # Calcular componentes individuales para display (NaN cuando es default)
         df['vcp_contribution']          = (df['vcp_score'] * vcp_w).round(1)
-        df['ml_contribution']           = df.apply(lambda r: round(r['ml_score'] * ml_w, 1) if r['ml_score'] != DEFAULT else None, axis=1)
-        df['fundamental_contribution']  = df.apply(lambda r: round(r['fundamental_score'] * fund_w, 1) if r['fundamental_score'] != DEFAULT else None, axis=1)
+        df['ml_contribution']           = df.apply(lambda r: round(r['ml_score'] * ml_w, 1) if pd.notna(r['ml_score']) and r['ml_score'] != DEFAULT else None, axis=1)
+        df['fundamental_contribution']  = df.apply(lambda r: round(r['fundamental_score'] * fund_w, 1) if pd.notna(r['fundamental_score']) and r['fundamental_score'] != DEFAULT else None, axis=1)
 
         # 🔴 FIX LOOK-AHEAD BIAS: Agregar timestamps
         df['score_timestamp'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
