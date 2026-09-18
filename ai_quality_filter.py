@@ -30,6 +30,28 @@ def analyze_with_ai(ticker_data: dict, strategy: str = "VALUE") -> dict:
     try:
         client = Groq(api_key=GROQ_API_KEY)
 
+        def _piotroski(td) -> str:
+            """El Piotroski con su denominador de verdad.
+
+            Los nueve criterios suman solo si su dato existe, así que a un
+            banco —que no reporta activo corriente ni margen bruto— nunca le
+            pueden sumar F6 ni F8: su techo real es 7. Enseñar «5/9 (low =
+            weak fundamentals)» a quien decide es pedirle que castigue una
+            empresa por un dato que su sector no publica.
+            """
+            sc = td.get('piotroski_score')
+            if sc is None:
+                return 'N/A'
+            ev = td.get('piotroski_evaluables')
+            try:
+                ev = int(ev)
+            except (TypeError, ValueError):
+                ev = None
+            if ev and ev < 9:
+                return (f'{sc:.0f}/{ev} criterios calculables '
+                        f'(los otros {9 - ev} no aplican a esta empresa)')
+            return f'{sc:.0f}/9'
+
         def _nd(val, suffix=''):
             """Devuelve el valor formateado o 'N/A' si es None/NaN."""
             if val is None:
@@ -104,7 +126,7 @@ ROE: {_nd(td.get('roe_pct'), '%')}
 FCF yield: {_nd(td.get('fcf_yield_pct'), '%')}
 Debt/Equity: {_nd(td.get('debt_to_equity'))}
 Operating margin: {_nd(td.get('operating_margin'), '%')}
-Piotroski score: {_nd(td.get('piotroski_score'), '/9')} (low = weak fundamentals)
+Piotroski score: {_piotroski(td)} (low = weak fundamentals; un denominador menor de 9 significa que el resto no es calculable, NO que falle)
 
 ANALYST CONSENSUS:
 Analyst target: {_nd(td.get('analyst_target'))} (upside from current: {_nd(td.get('analyst_upside_pct'), '%')})
@@ -143,7 +165,7 @@ EPS growth YoY: {_nd(td.get('eps_growth_yoy'), '%')} | Accelerating: {_nd(td.get
 Revenue growth YoY: {_nd(td.get('rev_growth_yoy'), '%')} | Accelerating: {_nd(td.get('rev_accelerating'))}
 
 FINANCIAL HEALTH:
-Piotroski score: {_nd(td.get('piotroski_score'), '/9')} (>=7 = strong)
+Piotroski score: {_piotroski(td)} (>=7 de 9 = strong; si el denominador es menor, el resto no es calculable en esta empresa)
 FCF yield: {_nd(td.get('fcf_yield_pct'), '%')}
 Interest coverage: {_nd(td.get('interest_coverage'), 'x')}
 Financial health score: {_nd(td.get('financial_health_score'), '/25')}
@@ -1085,6 +1107,7 @@ def filter_shorts():
             'debt_to_equity': s.get('debt_to_equity'),
             'operating_margin': s.get('operating_margin'),
             'piotroski_score': s.get('piotroski_score'),
+            'piotroski_evaluables': s.get('piotroski_evaluables'),
             'analyst_target': s.get('analyst_target'),
             'analyst_upside_pct': s.get('analyst_upside_pct'),
             'short_interest_pct': s.get('short_interest_pct'),
@@ -1199,6 +1222,7 @@ def filter_micro_cap():
             'tier': r.get('tier', ''),
             # Numeric fields — fallback_analysis expects float or None
             'piotroski_score': _f('piotroski_score'),
+            'piotroski_evaluables': _f('piotroski_evaluables'),
             'fcf_yield_pct': _f('fcf_yield_pct'),
             'eps_growth_yoy': _f('eps_growth_yoy'),
             'rev_growth_yoy': _f('rev_growth_yoy'),

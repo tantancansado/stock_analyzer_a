@@ -293,7 +293,7 @@ class SuperScoreIntegrator:
             'days_to_earnings', 'earnings_date', 'earnings_warning', 'earnings_catalyst',
             'risk_reward_ratio',
             # Piotroski F-Score (proven +13.4% annual alpha filter)
-            'piotroski_score', 'piotroski_label',
+            'piotroski_score', 'piotroski_label', 'piotroski_evaluables', 'piotroski_motivo',
             # Magic Formula (Greenblatt: EBIT/EV + ROIC) + PEG (Lynch)
             'ebit_ev_yield', 'roic_greenblatt', 'peg_ratio',
         ]

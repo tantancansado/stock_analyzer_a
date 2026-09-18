@@ -1224,6 +1224,8 @@ class FundamentalScorer:
             'buyback_active': None,
             'shares_change_pct': None,
             'ai_descartados': None,
+            'piotroski_evaluables': None,
+            'piotroski_motivo': None,
             'interest_coverage': None,
             'interest_coverage_base': None,
             'interest_coverage_ebit': None,
@@ -1400,40 +1402,81 @@ class FundamentalScorer:
             roa_y1 = ni_y1 / ta_y1 if ni_y1 is not None else None
             roa_y2 = ni_y2 / ta_y2 if ni_y2 is not None else None
 
+            # Cada criterio suma solo `if dato is not None`, así que un dato
+            # que falta RESTA: un 5/9 por falta de datos se lee igual que un
+            # 5/9 real. Y el 5/9 va al prompt del gate de Claude con la
+            # coletilla «low = weak fundamentals», o sea que decide.
+            #
+            # A un banco, F6 (ratio corriente) y F8 (margen bruto) no se le
+            # pueden calcular nunca: no reporta activo corriente ni margen
+            # bruto. Su techo real es 7, no 9, y nadie lo decía.
+            #
+            # Así que se cuenta también cuántos criterios eran EVALUABLES. El
+            # score se deja tal cual para no romper la calibración; lo que se
+            # añade es el denominador de verdad.
             score = 0
+            evaluables = 0
+
+            def _criterio(se_puede: bool, se_cumple: bool) -> None:
+                nonlocal score, evaluables
+                if not se_puede:
+                    return
+                evaluables += 1
+                if se_cumple:
+                    score += 1
 
             # ── GROUP 1: Profitability ──────────────────────────────────
-            if roa_y1 is not None and roa_y1 > 0:                score += 1  # F1: ROA > 0
-            if cfo_y1 is not None and cfo_y1 > 0:                score += 1  # F2: CFO > 0
-            if roa_y1 is not None and roa_y2 is not None and roa_y1 > roa_y2: score += 1  # F3: ΔROA+
+            _criterio(roa_y1 is not None, bool(roa_y1 is not None and roa_y1 > 0))
+            _criterio(cfo_y1 is not None, bool(cfo_y1 is not None and cfo_y1 > 0))
+            _criterio(roa_y1 is not None and roa_y2 is not None,
+                      bool(roa_y1 is not None and roa_y2 is not None and roa_y1 > roa_y2))
             # F4: Accruals — cash earnings > accounting earnings
-            if cfo_y1 is not None and roa_y1 is not None and (cfo_y1 / ta_y1) > roa_y1:
-                score += 1
+            _criterio(cfo_y1 is not None and roa_y1 is not None,
+                      bool(cfo_y1 is not None and roa_y1 is not None
+                           and (cfo_y1 / ta_y1) > roa_y1))
 
             # ── GROUP 2: Leverage / Liquidity ──────────────────────────
             # F5: Long-term debt ratio decreasing
             lr_y1 = lt_y1 / ta_y1
             lr_y2 = lt_y2 / ta_y2
-            if lr_y1 < lr_y2:                                     score += 1
-            # F6: Current ratio improving
+            _criterio(True, lr_y1 < lr_y2)
+            # F6: Current ratio improving — un banco no tiene activo corriente
             cr_y1 = (ca_y1 / cl_y1) if ca_y1 and cl_y1 and cl_y1 > 0 else None
             cr_y2 = (ca_y2 / cl_y2) if ca_y2 and cl_y2 and cl_y2 > 0 else None
-            if cr_y1 is not None and cr_y2 is not None and cr_y1 > cr_y2: score += 1  # F6
-            # F7: No new share issuance (tolerance 1%)
-            if sh_y1 is None or sh_y2 is None or sh_y1 <= sh_y2 * 1.01: score += 1
+            _criterio(cr_y1 is not None and cr_y2 is not None,
+                      bool(cr_y1 is not None and cr_y2 is not None and cr_y1 > cr_y2))
+            # F7: No new share issuance (tolerance 1%). Era el ÚNICO que daba
+            # el beneficio de la duda cuando faltaba el dato; ahora, como los
+            # demás, si no se sabe no cuenta ni a favor ni en contra.
+            _criterio(sh_y1 is not None and sh_y2 is not None,
+                      bool(sh_y1 is not None and sh_y2 is not None
+                           and sh_y1 <= sh_y2 * 1.01))
 
             # ── GROUP 3: Operating Efficiency ──────────────────────────
-            # F8: Gross margin improving
+            # F8: Gross margin improving — tampoco lo reporta un banco
             gm_y1 = gp_y1 / rev_y1 if gp_y1 and rev_y1 and rev_y1 > 0 else None
             gm_y2 = gp_y2 / rev_y2 if gp_y2 and rev_y2 and rev_y2 > 0 else None
-            if gm_y1 is not None and gm_y2 is not None and gm_y1 > gm_y2: score += 1
+            _criterio(gm_y1 is not None and gm_y2 is not None,
+                      bool(gm_y1 is not None and gm_y2 is not None and gm_y1 > gm_y2))
             # F9: Asset turnover improving
             at_y1 = rev_y1 / ta_y1 if rev_y1 else None
             at_y2 = rev_y2 / ta_y2 if rev_y2 else None
-            if at_y1 is not None and at_y2 is not None and at_y1 > at_y2: score += 1
+            _criterio(at_y1 is not None and at_y2 is not None,
+                      bool(at_y1 is not None and at_y2 is not None and at_y1 > at_y2))
 
             result['piotroski_score'] = score
-            result['piotroski_label'] = 'STRONG' if score >= 8 else ('WEAK' if score <= 2 else 'NEUTRAL')
+            result['piotroski_evaluables'] = evaluables
+            # Sin al menos siete criterios el score no se puede etiquetar: un
+            # 5 sobre 6 evaluables no es lo mismo que un 5 sobre 9, y poner
+            # «NEUTRAL» a los dos es afirmar algo que no se sabe.
+            if evaluables >= 7:
+                result['piotroski_label'] = (
+                    'STRONG' if score >= 8 else ('WEAK' if score <= 2 else 'NEUTRAL'))
+            else:
+                result['piotroski_label'] = None
+                result['piotroski_motivo'] = (
+                    f'solo {evaluables} de los 9 criterios son calculables con '
+                    f'los estados de esta empresa')
 
         except Exception:
             pass
@@ -1548,6 +1591,8 @@ class FundamentalScorer:
             'shares_change_pct': None,
             # Debt quality
             'ai_descartados': None,
+            'piotroski_evaluables': None,
+            'piotroski_motivo': None,
             'interest_coverage': None,
             'interest_coverage_base': None,
             'interest_coverage_ebit': None,
