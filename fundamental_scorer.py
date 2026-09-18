@@ -716,9 +716,29 @@ class FundamentalScorer:
                 elif profit_margin >= 0.10:
                     score += 5
 
+            # El score sale de 50 + bonus que suman hasta +75, así que el
+            # máximo teórico son 125 y el tope de 100 aplasta todo lo que pase
+            # de ahí: el 18-sep-2026, 25 de 164 empataban en 100 EXACTO y
+            # dejaban de distinguirse entre sí. Este componente pesa el 30% del
+            # fundamental score, o sea que ese empate se propaga.
+            #
+            # NO se recalibran los pesos. Medido contra el retorno real con lo
+            # que hay de histórico (33 días, 170 tickers), la correlación de
+            # rangos es +0,019 a 10 sesiones y +0,031 a 21, y los cuartiles ni
+            # se ordenan. Pero ese plazo no dice nada: el horizonte del sistema
+            # es 90 días y a corto ya está medido que el edge no existe.
+            # Cambiar un 30% del score con una medición al plazo equivocado es
+            # cambiar por cambiar.
+            #
+            # Lo que sí se puede hacer ya es guardar el bruto SIN capar, que no
+            # entra en ninguna decisión y permite responder la pregunta cuando
+            # haya 90 días de historia: ¿discrimina mejor el que no satura?
+            bruto = max(0.0, score)
             score = max(0, min(100, score))
             if tope_sin_respaldo is not None:
                 score = min(score, tope_sin_respaldo)
+            details['score_bruto_sin_capar'] = round(bruto, 1)
+            details['satura'] = bruto > 100
 
         except Exception as e:
             print(f"      ⚠️ Earnings quality error: {e}")
