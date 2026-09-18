@@ -1,0 +1,1241 @@
+{
+  "model": "openai/gpt-oss-120b",
+  "validated_at": "2026-09-18T05:23:30+00:00",
+  "huella_entrada": "3174b34d92340f7e",
+  "total": 137,
+  "results": {
+    "RSG": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "Los datos clave de FCF histórico y proyectado están ausentes, lo que impide validar el modelo Owner Earnings. Sin información fiable de flujos de caja, no se puede confirmar la tesis implícita.",
+      "confidence": 85,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "FAST": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "El modelo carece de datos clave de FCF histórico y proyectado, así como de ROIC y otros supuestos críticos, lo que impide validar cualquier valoración. Sin información suficiente, la tesis implícita no puede evaluarse.",
+      "confidence": 90,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "MSI": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre son consistentes y el historial es suficiente, pero el modelo muestra un precio objetivo de 263,68 frente al actual 466,16, lo que implica un downside del 43 % y un margen de seguridad negativo, confirmando la tesis de sobrevaloración.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "CB": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "No se dispone de datos de FCF histórico ni proyecciones, ni de métricas clave como ROIC o EV/FCF, lo que impide validar la fiabilidad del modelo. Sin información suficiente, no se puede confirmar ni descartar la tesis implícita.",
+      "confidence": 85,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "CHD": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre son consistentes y el historial es suficiente; sin embargo, el precio objetivo calculado está muy por debajo del precio actual, indicando una sobrevaloración significativa.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "ROP": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre son consistentes y el historial es suficiente; el modelo muestra un precio objetivo muy por debajo del actual y un margen de seguridad negativo, reforzado por un ROIC inferior al costo de capital.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "CBOE": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "No se dispone de datos de FCF histórico ni proyecciones, lo que impide validar el modelo Owner Earnings. Sin información clave, la tesis implícita no puede evaluarse.",
+      "confidence": 90,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "7741.T": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "Los valores de EV/FCF aparecen negativos, lo que es incoherente con la capitalización y el FCF positivo; además faltan datos clave como el número de acciones y el precio de compra calculado, lo que impide validar el modelo.",
+      "confidence": 85,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "ISRG": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "No se dispone de datos de FCF histórico ni proyecciones, lo que impide validar el modelo Owner Earnings. Sin información clave, la tesis implícita NO_DATA no puede evaluarse.",
+      "confidence": 85,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "BRK-B": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "No se dispone de datos de FCF histórico ni proyecciones, y la capitalización y precio del ETF no concuerdan con la lógica de un modelo basado en Owner Earnings. Sin información clave, el modelo no puede ser fiable ni validar la tesis.",
+      "confidence": 85,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "CNI": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "Los datos clave de FCF histórico y proyectado están ausentes, impidiendo validar el modelo Owner Earnings. Sin información fiable no se puede confirmar la tesis implícita.",
+      "confidence": 90,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "SYK": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "Los datos clave de FCF histórico y proyectado están ausentes, impidiendo validar el modelo Owner Earnings. Sin información fiable de flujos de caja y ROIC, no se puede confirmar la tesis implícita.",
+      "confidence": 90,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "ERIE": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "Los flujos de caja libres históricos son positivos y consistentes, pero falta proyección de FCF y datos clave como EV/FCF objetivo, lo que limita la valoración. Además, la cobertura de analistas es muy baja, lo que aumenta la incertidumbre.",
+      "confidence": 68,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "MSFT": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "WATCH",
+      "reasoning": "Los datos de FCF son consistentes y cuentan con varios años históricos, pero la caída sostenida y los múltiplos de EV/FCF extremadamente altos generan incertidumbre sobre la valoración implícita. La tesis BUY parece sobreoptimista dado el riesgo de deterioro del flujo de caja.",
+      "confidence": 78,
+      "score_adjustment": 2,
+      "oe_ai_verdict": "RELIABLE/WATCH (+2)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "AUTO.L": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre son consistentes y el histórico supera los 3 años, pero el modelo muestra un precio objetivo de 0.65 frente al actual 4.89, lo que implica una caída del 86 % y un margen de seguridad negativo, confirmando la sobrevaloración.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "RELX": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre son consistentes y el historial es amplio; sin embargo, el modelo muestra un precio objetivo de 2.86 frente al precio actual de 33.80, indicando una sobrevaloración extrema. La señal de overvalued es consistente con el gran margen de seguridad negativo, por lo que se recomienda evitar la acción.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "AJG": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre son consistentes y el historial es suficiente, aunque presentan caídas y una dilución moderada. El modelo muestra un precio objetivo muy por debajo del precio actual, indicando sobrevaloración significativa.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "LRLCY": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "No se dispone de datos de FCF histórico ni proyecciones, lo que impide validar el modelo Owner Earnings. Sin información clave, la tesis implícita NO_DATA no puede evaluarse.",
+      "confidence": 90,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "CP": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre son consistentes y el historial es suficiente, pero el modelo muestra un precio objetivo muy por debajo del actual y los indicadores de ROIC y rendimientos son débiles, lo que confirma la sobrevaloración.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "ZTS": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "No se dispone de datos de FCF histórico ni proyecciones, lo que impide validar el modelo Owner Earnings. Sin información clave, cualquier conclusión sería especulativa.",
+      "confidence": 85,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "NOW": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "El modelo muestra un precio objetivo de compra por debajo del precio actual y un upside negativo del -15.3%, además de un margen de seguridad negativo del -18%, lo que indica sobrevaloración. No se detectan red flags, pero los indicadores de valoración no respaldan la tesis de HOLD.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "INTU": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "No se dispone de datos de FCF histórico ni proyecciones, lo que impide validar el modelo Owner Earnings. Sin información clave, la tesis implícita no puede evaluarse.",
+      "confidence": 90,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "SPGI": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "No se dispone de datos de FCF histórico ni proyecciones, y faltan métricas clave como ROIC. Sin información básica, el modelo de Owner Earnings no puede validar la tesis.",
+      "confidence": 90,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "LSEG.L": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja son razonables y el histórico tiene más de tres años, pero los resultados del modelo (precio objetivo de 1.86 y upside de -97,7%) son incoherentes con la capitalización y el precio actual, indicando problemas de cálculo o supuestos. La señal de sobrevaloración parece válida, pero la calidad de los datos del modelo es dudosa.",
+      "confidence": 78,
+      "score_adjustment": -5,
+      "oe_ai_verdict": "MIXED/AVOID (-5)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "CME": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre presentan una anomalía (2022 = 345 M vs 2023 = 3 377 M), lo que sugiere posible error de reporte o inconsistencia. Aun asumiendo los números, el modelo muestra un precio objetivo de 146 USD frente a 275 USD, indicando sobrevaloración.",
+      "confidence": 78,
+      "score_adjustment": -5,
+      "oe_ai_verdict": "MIXED/AVOID (-5)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "FICO": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "Los datos clave de FCF histórico y proyectado están ausentes, al igual que ROIC y otros supuestos críticos, lo que impide validar el modelo. Sin información suficiente no se puede confirmar ni la fiabilidad del dato ni la tesis implícita.",
+      "confidence": 85,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "ITW": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los datos de FCF son consistentes y cubren varios años, aunque hay una ligera caída reciente. El modelo muestra un precio objetivo muy por debajo del precio actual, indicando sobrevaloración significativa.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "DHR": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "No se dispone de datos de FCF histórico ni proyecciones, y faltan métricas clave como ROIC. Sin información básica el modelo no puede validar la tesis.",
+      "confidence": 85,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "ETN": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "No se dispone de datos de FCF histórico ni proyecciones, ni de ROIC, lo que impide validar el modelo Owner Earnings. Sin información clave, cualquier conclusión sería especulativa.",
+      "confidence": 85,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "CSU.TO": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "No se dispone de datos de FCF histórico ni proyecciones, lo que impide validar la consistencia del modelo ni calcular métricas clave. Sin información básica, cualquier conclusión sería especulativa.",
+      "confidence": 85,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "CLPBY": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "El ratio 63.27x se explica mejor por una combinación de divisa (DKK vs USD) y un factor de conversión de ADR de aproximadamente 10 acciones ordinarias por ADR, ya que 63.27/≈6.3≈10. Por tanto, los datos de capitalización y FCF están en DKK mientras el precio está en USD, lo que invalida directamente el modelo de Owner Earnings. Sin una reconciliación fiable, no se puede evaluar la solidez del negocio en su moneda nativa, aunque los FCF históricos parecen estables.",
+      "confidence": 92,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "V": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "No se dispone de datos de FCF histórico ni proyecciones, lo que impide validar el modelo Owner Earnings. Sin información clave, cualquier conclusión sería especulativa.",
+      "confidence": 85,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "BRO": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre son consistentes y el historial es suficiente; sin embargo, el modelo muestra un precio objetivo de compra muy por debajo del precio actual y un margen de seguridad negativo, indicando que la acción está sobrevalorada.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "PGR": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "No se dispone de datos de FCF histórico ni proyecciones, lo que impide validar el modelo Owner Earnings. Sin información clave, la tesis implícita no puede evaluarse.",
+      "confidence": 85,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "EXPN.L": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "No se dispone de datos de FCF histórico ni proyectado, ni de métricas clave como ROIC o EV/FCF, lo que impide validar el modelo. Sin información básica, la tesis implícita no puede evaluarse.",
+      "confidence": 85,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "PEP": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre son consistentes y el historial es amplio; sin embargo, el precio objetivo calculado está muy por debajo del precio actual, indicando una sobrevaloración significativa. La falta de red flags no compensa el amplio margen negativo.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "IT": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "No se dispone de datos históricos ni de proyecciones de FCF, lo que impide validar el modelo Owner Earnings. Sin información clave como ROIC o CapEx, la valoración carece de base fiable.",
+      "confidence": 85,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "AI.PA": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "Los datos de flujo de caja libre son inexistentes (n/d) y no hay historial ni proyecciones, lo que impide validar el modelo Owner Earnings. Sin información fiable no se puede confirmar ni descartar la tesis implícita.",
+      "confidence": 95,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "HEI": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre presentan una trayectoria consistente y los supuestos de valoración son razonables, por lo que los datos son fiables. El modelo indica un precio objetivo de 191 USD frente al precio actual de 316 USD, lo que implica un downside del ~40 % y un margen de seguridad negativo, confirmando la tesis de sobrevaloración.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "CDNS": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre históricos y proyectados son consistentes y el número de años es suficiente; sin embargo, el modelo muestra un precio objetivo de compra muy por debajo del precio actual y un margen de seguridad negativo, indicando que la acción está sobrevalorada según los supuestos.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "ESLOY": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre son consistentes y el historial es suficiente, pero el modelo muestra un precio objetivo muy por debajo del actual y un margen de seguridad negativo, indicando sobrevaloración. Además, el ROIC está por debajo del costo de capital, reforzando la conclusión.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "WST": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "No se dispone de datos de FCF histórico ni proyecciones, lo que impide validar el modelo Owner Earnings. Sin información clave como ROIC, CapEx o rendimientos, el análisis carece de base fiable.",
+      "confidence": 85,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "LIN": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre son consistentes y el historial es amplio, pero el modelo muestra un precio objetivo muy por debajo del actual y un margen de seguridad negativo, indicando sobrevaloración.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "SBGSY": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "No se dispone de datos de FCF histórico ni proyecciones, lo que impide validar el modelo Owner Earnings. Sin información clave, cualquier valoración sería especulativa.",
+      "confidence": 85,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "MTD": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "No se dispone de datos de FCF histórico ni proyecciones, lo que impide validar la consistencia del modelo Owner Earnings. Sin información clave, la tesis implícita no puede evaluarse.",
+      "confidence": 90,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "ROL": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre son consistentes y el historial es amplio, pero el precio objetivo calculado está muy por debajo del precio actual, indicando una sobrevaloración significativa. El margen de seguridad negativo refuerza la necesidad de evitar la compra.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "TNE.AX": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "No se dispone de datos de flujo de caja libre histórico ni de proyecciones, lo que impide validar el modelo Owner Earnings. Sin esa información clave, la tesis implícita no puede evaluarse.",
+      "confidence": 85,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "TYL": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre son consistentes y el historial es suficiente; sin embargo, el modelo muestra un precio objetivo de compra muy inferior al actual y un margen de seguridad negativo, indicando sobrevaloración.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "GVDNY": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "No se dispone de datos de FCF histórico ni proyecciones, lo que impide validar el modelo Owner Earnings. Sin información clave como ROIC, CapEx y flujo de caja libre, la valoración carece de base fiable.",
+      "confidence": 85,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "HESAY": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "El ratio 8.63x se explica mejor por un desajuste de ADR: HESAY cotiza en USD mientras los datos de TIKR están en EUR y cada ADR representa varias acciones ordinarias (aprox. 8‑9 acciones), lo que inflaciona la capitalización reportada. Aunque el FCF histórico y el ROIC son sólidos en la divisa nativa, la inconsistencia de precios impide usar esos números para una valoración fiable en USD.",
+      "confidence": 85,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "VLTO": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre son consistentes y el historial es suficiente, por lo que los datos son fiables. Sin embargo, el modelo muestra un precio objetivo muy por debajo del actual, indicando que la acción está sobrevalorada según los supuestos, por lo que la recomendación es evitarla.",
+      "confidence": 85,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "DBOEY": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "El ratio 8.5x probablemente proviene de una desalineación entre la divisa y la relación ADR: el precio está en USD por ADR mientras que la capitalización reportada por TIKR está en EUR (o usa una cantidad de acciones distinta). Esta incongruencia impide validar los FCF y demás métricas, ya que no sabemos si los flujos están expresados en la misma moneda o con el factor de conversión correcto. Sin una confirmación del factor de conversión, no se puede evaluar la solidez del negocio en su divisa nativa, aunque los FCF históricos parecen crecientes.",
+      "confidence": 92,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "MCD": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "No se dispone de datos de FCF histórico ni proyecciones, lo que impide validar el modelo Owner Earnings. Sin información clave como ROIC, CapEx y flujo de caja libre, la calidad de los datos es insuficiente para cualquier análisis fiable.",
+      "confidence": 85,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "AON": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre son consistentes y el historial es suficiente, pero el modelo muestra un precio objetivo de compra muy por debajo del precio actual, generando un upside negativo del -37.7% y un margen de seguridad negativo, lo que confirma la sobrevaloración implícita.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "ASAZY": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "El ratio 19.5x entre la capitalización implícita (precio×acciones) y la reportada por TIKR indica que los datos están en divisas distintas o que se trata de un ADR con un factor de conversión de aproximadamente 19,5 (p.ej., 1 ADR = 20 acciones ordinarias). Esta discrepancia impide confiar en los valores de FCF y demás métricas tal como están presentados, aunque el flujo de caja histórico parece estable en la moneda local. Por tanto, la fiabilidad de los datos es insuficiente para validar la tesis.",
+      "confidence": 85,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "EQIX": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "No se dispone de datos de FCF histórico ni proyecciones, lo que impide validar el modelo Owner Earnings. Sin información clave como ROIC, EV/FCF o rendimientos, el análisis carece de base fiable.",
+      "confidence": 85,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "VRSN": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "No se dispone de datos de FCF histórico ni proyecciones, lo que impide validar el modelo Owner Earnings. Sin información clave como ROIC o flujos de caja, cualquier conclusión sería especulativa.",
+      "confidence": 85,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "ADP": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "No se dispone de datos de FCF histórico ni proyecciones, lo que impide validar el modelo Owner Earnings. Sin información clave, cualquier conclusión sería especulativa.",
+      "confidence": 85,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "PAYX": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "No se dispone de datos de FCF histórico ni proyecciones, lo que impide validar el modelo Owner Earnings. Sin información clave, la tesis implícita NO_DATA no puede evaluarse.",
+      "confidence": 90,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "WMT": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "No se dispone de datos de FCF histórico ni proyecciones, lo que impide validar la consistencia del modelo ni calcular precios objetivo. Sin información clave, cualquier conclusión sería especulativa.",
+      "confidence": 85,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "SAP": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre son consistentes y el histórico tiene más de tres años; sin embargo, el modelo indica un precio objetivo de compra de 6,07 frente al precio actual de 206,36, lo que implica una caída del 97 % y un margen de seguridad negativo, confirmando que la acción está sobrevalorada.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "WTKWY": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre son consistentes y el historial es suficiente; sin embargo, el modelo indica un precio objetivo de compra de 5.24 frente al precio actual de 77, lo que implica una caída del 93% y un margen de seguridad negativo, confirmando la tesis de sobrevaloración.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "CPRT": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre son consistentes y el historial es suficiente, pero el modelo muestra un precio objetivo de compra muy por debajo del precio actual y un margen de seguridad negativo, indicando sobrevaloración.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "AXP": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "No se dispone de datos de FCF histórico ni proyecciones, lo que impide validar el modelo Owner Earnings. Sin información clave, cualquier conclusión sería especulativa.",
+      "confidence": 30,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "AWK": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libres presentan una tendencia negativa en los últimos tres años y la proyección forward carece de consenso sólido, lo que genera incertidumbre. Además, la alta deuda neta/EBITDA y un ROIC inferior al costo de capital refuerzan la idea de sobrevaloración.",
+      "confidence": 78,
+      "score_adjustment": -5,
+      "oe_ai_verdict": "MIXED/AVOID (-5)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "TW": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre son consistentes y el historial es amplio; sin embargo, el modelo indica un precio objetivo de compra de 60,27 frente al actual 101,44, lo que implica un downside del 40 % y un margen de seguridad negativo, confirmando la tesis de sobrevaloración.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "SHW": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre son consistentes y el historial es amplio; sin embargo, el modelo indica un precio objetivo de 136.94 frente al actual 323.31, lo que implica un downside del 57 % y un margen de seguridad negativo, confirmando la tesis de sobrevaloración.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "FDS": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre son consistentes y el historial es amplio, pero el modelo indica un precio objetivo de compra de 152.59 frente al actual 259.71, lo que implica un downside del 41 % y un margen de seguridad negativo. La valoración sugiere que la acción está significativamente sobrevalorada.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "TT": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre son consistentes y el historial es suficiente, pero el modelo muestra un precio objetivo de compra muy por debajo del precio actual, generando un upside negativo del -22.5% y un margen de seguridad negativo, lo que confirma la sobrevaloración implícita.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "ATLKY": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "El ratio 9.27x se explica mejor por una diferencia de divisa: TIKR muestra la capitalización en coronas suecas (≈946 000 M SEK) mientras el precio y el número de acciones están expresados en dólares, lo que implica un tipo de cambio implícito de ~9,3 SEK/USD. Por tanto los fundamentales (FCF, ROIC, etc.) están en la moneda nativa y son coherentes entre sí, pero no pueden compararse directamente con los valores en USD sin ajustar la conversión. Dado este desajuste, la fiabilidad del modelo de valoración basada en los datos actuales es muy baja.",
+      "confidence": 85,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "CTAS": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "Los datos de flujo de caja libre histórico y proyectado están ausentes, impidiendo validar el modelo Owner Earnings. Sin FCF no se puede estimar valor ni margen de seguridad.",
+      "confidence": 90,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "VRSK": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "No se dispone de datos históricos ni proyectados de FCF, ni de ROIC, lo que impide validar el modelo Owner Earnings. Sin información clave, cualquier conclusión sería especulativa.",
+      "confidence": 85,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "VEEV": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "No se dispone de datos históricos ni proyecciones de FCF, lo que impide validar el modelo Owner Earnings. Sin información clave como ROIC o CapEx, la valoración carece de base fiable.",
+      "confidence": 85,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "DSGX": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "No se dispone de datos de FCF histórico ni proyecciones, ni de ROIC, lo que impide validar el modelo Owner Earnings. Sin información clave el análisis es inviable.",
+      "confidence": 90,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "WM": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre son consistentes y el historial es suficiente; sin embargo, el precio objetivo calculado está muy por debajo del precio actual, indicando una sobrevaloración significativa y un margen de seguridad negativo.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "G24.DE": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "Los datos de FCF son consistentes y el historial es suficiente, pero el modelo produce valores de precio objetivo extremadamente bajos que no concuerdan con la capitalización y el múltiplo EV/FCF real, indicando un posible error de cálculo. Por ello no se puede confirmar la tesis de sobrevaloración con la información disponible.",
+      "confidence": 78,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "RELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "IDXX": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre son consistentes y el historial es suficiente, pero el modelo muestra un precio objetivo de compra muy por debajo del precio actual y un margen de seguridad negativo, indicando sobrevaloración.",
+      "confidence": 85,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "ICE": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre son consistentes y el historial es amplio; sin embargo, el modelo muestra un precio objetivo de compra muy por debajo del precio actual y un margen de seguridad negativo, indicando sobrevaloración.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "AZO": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "No se dispone de datos de FCF histórico ni proyecciones, lo que impide validar el modelo Owner Earnings. Sin información clave, cualquier conclusión sería especulativa.",
+      "confidence": 85,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "ECL": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "Los datos clave de FCF histórico y proyectado están ausentes, impidiendo validar el modelo Owner Earnings. Sin información fiable de flujos de caja, no se puede confirmar ni refutar la tesis implícita.",
+      "confidence": 85,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "PG": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "Los datos de FCF histórico y proyectado están ausentes, al igual que el ROIC y otros supuestos clave, lo que impide validar el modelo Owner Earnings. Sin información suficiente, no se puede confirmar ni descartar la tesis implícita.",
+      "confidence": 85,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "AME": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre son consistentes y el historial es suficiente, pero el modelo muestra un precio objetivo de compra de 129 $, muy por debajo del precio actual de 241,87 $, lo que implica un upside negativo del -46,7 % y un margen de seguridad negativo. La valoración indica que la acción está significativamente sobrevaluada.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "RACE": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los datos de FCF histórico y proyecciones son consistentes y cubren varios años, sin red flags evidentes, por lo que la calidad es fiable. Sin embargo, el modelo genera un precio objetivo extremadamente bajo (11,21 USD) frente al precio actual (413,78 USD), lo que indica una sobrevaloración drástica; la conclusión de OVERVALUED es consistente y sugiere evitar la acción.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "GWW": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre están bien documentados y el historial supera los tres años, aunque presentan cierta volatilidad. El modelo indica un precio objetivo por debajo del actual y un margen de seguridad negativo, confirmando la tesis de sobrevaloración.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "JNJ": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "No se dispone de datos de FCF histórico ni proyecciones, lo que impide validar el modelo Owner Earnings. Sin información clave, la tesis implícita NO_DATA no puede evaluarse.",
+      "confidence": 90,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "TJX": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "No se dispone de datos de FCF histórico ni proyecciones, lo que impide validar el modelo Owner Earnings. Sin información clave como ROIC o CapEx, la valoración carece de base fiable.",
+      "confidence": 85,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "MKC": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "No se dispone de datos de FCF histórico ni proyecciones, lo que impide validar el modelo Owner Earnings. Sin información clave como ROIC o flujos de caja, cualquier conclusión sería especulativa.",
+      "confidence": 85,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "MSCI": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "No se dispone de datos de FCF histórico ni proyecciones, ni de ROIC, lo que impide validar el modelo Owner Earnings. Sin información clave, la valoración carece de base fiable.",
+      "confidence": 85,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "WCN": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre son consistentes y el historial es suficiente; sin embargo, el modelo indica un precio objetivo de compra de 92.87 frente al actual 159.74, lo que implica un downside del 42% y un margen de seguridad negativo, confirmando la tesis de sobrevaloración.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "MA": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "No se dispone de datos de FCF histórico ni proyecciones, lo que impide validar el modelo Owner Earnings. Sin información clave como ROIC o CapEx, la valoración carece de base fiable.",
+      "confidence": 85,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "ORLY": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre presentan inconsistencias (caída reciente y ROE negativo que no corresponde al perfil de O'Reilly), lo que genera dudas sobre la fiabilidad completa de los datos. Aun asumiendo los números, el modelo muestra un precio objetivo por debajo del actual y un margen de seguridad negativo, apoyando la conclusión de sobrevaloración.",
+      "confidence": 78,
+      "score_adjustment": -5,
+      "oe_ai_verdict": "MIXED/AVOID (-5)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "SXYAY": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "El ratio 8.18x probablemente se debe a que el precio está expresado en USD para un ADR mientras que la capitalización reportada por TIKR está en CHF y/o a un factor de conversión de ADR (≈8 acciones ordinarias por ADR). Esta discrepancia impide confiar en los valores de mercado y, por tanto, en los múltiplos derivados; sin embargo, el FCF histórico muestra crecimiento y estabilidad, sin señales claras de deterioro en la divisa nativa.",
+      "confidence": 85,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "MMC": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "No se dispone de datos de FCF histórico ni proyectado, ni de múltiplos clave; la información es insuficiente para validar el modelo ni la tesis implícita. Además, la falta de datos impide evaluar la consistencia del precio y la capitalización.",
+      "confidence": 95,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "KO": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre presentan alta volatilidad y una caída brusca en 2024, lo que genera incertidumbre en las proyecciones forward. Además, la valoración muestra un precio objetivo muy por debajo del actual, indicando sobrevaloración.",
+      "confidence": 78,
+      "score_adjustment": -5,
+      "oe_ai_verdict": "MIXED/AVOID (-5)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "ABT": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "No se dispone de datos históricos ni de proyecciones de FCF, ni de ROIC, lo que impide validar la consistencia del modelo Owner Earnings. Sin información clave, la tesis implícita NO_DATA no puede evaluarse.",
+      "confidence": 85,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "NDSN": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "No se dispone de datos de FCF histórico ni proyecciones, ni de ROIC, lo que impide validar el modelo Owner Earnings. Sin información clave, la calidad de los datos es insuficiente para un análisis fiable.",
+      "confidence": 85,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "BR": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "No se dispone de datos de FCF histórico ni proyecciones, lo que impide validar el modelo Owner Earnings. Sin información clave, la tesis implícita no puede evaluarse.",
+      "confidence": 90,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "TMO": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre son consistentes y el historial es suficiente, pero el modelo muestra un precio objetivo de compra muy por debajo del precio actual y un margen de seguridad negativo, indicando sobrevaloración.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "NDAQ": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre son consistentes y el historial es suficiente; sin embargo, el modelo indica un precio objetivo de compra de 46,58 frente al actual 91,19, lo que implica un downside del ~49% y un margen de seguridad negativo, confirmando la sobrevaloración.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "CL": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre son consistentes y el historial es suficiente; sin embargo, el modelo muestra un precio objetivo de compra de 50.17 frente al precio actual de 86.80, indicando un upside negativo del 42 % y un margen de seguridad muy bajo, lo que confirma la tesis de sobrevaloración.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "COST": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "No se dispone de datos de FCF histórico ni proyecciones, lo que impide validar el modelo Owner Earnings. Sin información clave, cualquier conclusión sería especulativa.",
+      "confidence": 85,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "MCO": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "Los datos de FCF histórico y proyectado están ausentes, al igual que el ROIC y otros indicadores clave, lo que impide validar el modelo Owner Earnings. Sin información suficiente, no se puede confirmar ni refutar la tesis implícita.",
+      "confidence": 95,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "OTIS": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre son consistentes, pero el ROE negativo y un ROIC del 97.9% son incoherentes y sugieren problemas de calidad de los datos. Además, la valoración muestra un amplio margen de seguridad negativo, indicando sobrevaloración.",
+      "confidence": 78,
+      "score_adjustment": -5,
+      "oe_ai_verdict": "MIXED/AVOID (-5)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "JKHY": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "No se dispone de datos de FCF histórico ni proyecciones, lo que impide validar el modelo Owner Earnings. Sin información clave como ROIC o CapEx, la valoración carece de base fiable.",
+      "confidence": 25,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "ITRK.L": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre son consistentes y el histórico supera los 3 años, pero el modelo muestra un precio objetivo de 2.51 frente al precio actual de 58.50, lo que implica un sobreprecio extremo. La señal de overvalued es coherente con los indicadores y el margen de seguridad negativo.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "TEVA": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "No se dispone de datos de FCF histórico ni proyecciones, lo que impide validar el modelo Owner Earnings. Sin información clave como ROIC o flujo de caja libre, cualquier conclusión sería especulativa.",
+      "confidence": 85,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "NVR": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre son consistentes y el histórico supera los 3 años, aunque muestra una ligera caída reciente. El modelo indica un precio objetivo de 4240 USD frente al actual 6160 USD, lo que implica un downside del 31 % y un margen de seguridad negativo, confirmando la tesis de sobrevaloración.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "COF": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "Capital One es una entidad financiera donde el Owner Earnings basado en FCF es poco representativo; además los datos de FCF presentan inconsistencias y la valoración con múltiplos de EV/FCF no es adecuada para bancos.",
+      "confidence": 85,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "LPX": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "WATCH",
+      "reasoning": "Los flujos de caja libre presentan alta volatilidad y caídas abruptas, lo que genera incertidumbre en las proyecciones forward. Aunque el modelo muestra upside, los red flags y la falta de consistencia hacen prudente esperar confirmación antes de comprar.",
+      "confidence": 68,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/WATCH (0)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "CVX": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre históricos y proyectados son consistentes con la escala de Chevron y el número de años es suficiente; sin embargo, el modelo muestra un precio objetivo muy por debajo del precio actual, indicando sobrevaloración y un margen de seguridad negativo.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "DVA": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "No se dispone de datos de FCF histórico ni proyecciones, lo que impide validar la consistencia del modelo Owner Earnings. Sin información clave como ROIC, EV/FCF o rendimientos, la calidad de los datos es insuficiente para cualquier conclusión.",
+      "confidence": 85,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "GPK": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "No se dispone de datos de FCF histórico ni proyecciones, lo que impide validar el modelo Owner Earnings. Sin información clave, la tesis implícita no puede evaluarse.",
+      "confidence": 85,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "KD": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "No se dispone de datos de FCF histórico ni proyecciones, y faltan métricas clave como ROIC y shares. Sin información básica el modelo no puede ser fiable ni validar la tesis.",
+      "confidence": 85,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "BN": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre son extremadamente volátiles, con un valor negativo en 2025 y una proyección forward de 6.6 bn que no tiene consenso y parece desproporcionada respecto al histórico. Además, la alta deuda neta/EBITDA y el bajo ROIC refuerzan la falta de fiabilidad del modelo.",
+      "confidence": 85,
+      "score_adjustment": -10,
+      "oe_ai_verdict": "UNRELIABLE/AVOID (-10)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "UBER": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libres históricos son volátiles y negativos hasta 2022, y las proyecciones forward carecen de consenso sólido, lo que reduce la fiabilidad del modelo. Además, el cálculo muestra un precio objetivo muy por debajo del actual, indicando sobrevaloración.",
+      "confidence": 78,
+      "score_adjustment": -5,
+      "oe_ai_verdict": "MIXED/AVOID (-5)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "HHH": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "No se dispone de datos de FCF histórico ni proyecciones, lo que impide validar el modelo Owner Earnings. Sin información clave, la tesis implícita no puede evaluarse.",
+      "confidence": 90,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "NUE": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre son muy volátiles, con un salto a negativo en 2025 y proyecciones forward que dependen de supuestos poco sólidos; además la caída de FCF en tres años consecutivos y una conversión FCF/EBITDA baja generan incertidumbre. Dada la valoración implícita que indica un precio de compra de $163 frente al actual $259, la tesis de sobrevaloración parece justificada.",
+      "confidence": 78,
+      "score_adjustment": -5,
+      "oe_ai_verdict": "MIXED/AVOID (-5)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "DPZ": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "No se dispone de datos de FCF histórico ni proyecciones, lo que impide validar el modelo Owner Earnings. Sin información clave, cualquier conclusión sería especulativa.",
+      "confidence": 85,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "OXY": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "Los datos clave de FCF histórico y proyectado están ausentes, impidiendo validar el modelo Owner Earnings. Sin información fiable de flujos de caja, no se puede confirmar la tesis implícita.",
+      "confidence": 90,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "CHTR": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "Los flujos de caja libre históricos son coherentes pero la enorme diferencia entre market cap y TEV indica un nivel de deuda muy alto, lo que genera incertidumbre en la valoración basada en FCF. Además, la proyección forward carece de consenso claro y los red flags de apalancamiento y baja conversión FCF/EBITDA limitan la confianza.",
+      "confidence": 78,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "FCNCA": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "Los datos de FCF histórico y proyectado no están disponibles, lo que impide validar el modelo Owner Earnings. Además, la falta de métricas clave como EV/FCF y ROIC hace que la valoración sea imposible de evaluar.",
+      "confidence": 90,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "BAC": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "No se dispone de datos de FCF histórico ni proyecciones, ni de métricas clave como ROIC o EV/FCF, lo que impide validar el modelo. Sin información suficiente, cualquier conclusión sería especulativa.",
+      "confidence": 85,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "KVUE": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "No se dispone de datos de FCF histórico ni proyecciones, lo que impide validar la consistencia del modelo ni calcular métricas clave. Sin información financiera básica, el modelo no es fiable para tomar decisiones.",
+      "confidence": 85,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "FHN": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "No se dispone de datos de flujo de caja libre histórico ni proyecciones, lo que impide validar la calidad del modelo ni la tesis implícita. Sin información clave, cualquier conclusión sería especulativa.",
+      "confidence": 85,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "TECK": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "No se dispone de datos de FCF histórico ni proyecciones, ni de ROIC, lo que impide validar el modelo Owner Earnings. Sin información clave, la calidad de los datos es insuficiente para cualquier análisis.",
+      "confidence": 90,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "NYT": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre son consistentes y el historial supera los 3 años, pero el modelo muestra un precio objetivo de compra de 34,44 frente al precio actual de 66,88, lo que implica un upside negativo del 48,5% y un margen de seguridad extremadamente bajo, confirmando la sobrevaloración.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "KR": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "No se dispone de datos de FCF histórico ni proyecciones, lo que impide validar el modelo Owner Earnings. Sin información clave, cualquier conclusión sería especulativa.",
+      "confidence": 85,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "THC": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre presentan alta volatilidad y los valores proyectados por acción son extremadamente altos respecto al precio actual, lo que sugiere inconsistencias en los supuestos. La conclusión de sobrevaloración es coherente con el amplio desfase entre el precio de mercado y el valor implícito del modelo.",
+      "confidence": 78,
+      "score_adjustment": -5,
+      "oe_ai_verdict": "MIXED/AVOID (-5)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "QSR": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "No se dispone de datos de FCF histórico ni proyecciones, lo que impide validar el modelo Owner Earnings. Sin información clave, cualquier conclusión sería especulativa.",
+      "confidence": 85,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "HRI": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre son muy volátiles (FCF negativo en 2023) y las proyecciones forward carecen de consenso sólido, lo que reduce la fiabilidad del modelo. Además, los indicadores de deuda y bajo ROIC refuerzan la conclusión de sobrevaloración.",
+      "confidence": 78,
+      "score_adjustment": -5,
+      "oe_ai_verdict": "MIXED/AVOID (-5)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "LEN": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre presentan una caída drástica e inexplicable entre 2024 y 2025, lo que sugiere datos inconsistentes o problemas operativos; además, la proyección forward muestra valores muy volátiles y poco realistas. Dada la alta incertidumbre, la tesis BUY no está justificada.",
+      "confidence": 78,
+      "score_adjustment": -5,
+      "oe_ai_verdict": "MIXED/AVOID (-5)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "UNH": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre son consistentes y el historial es amplio, pero el modelo muestra un precio objetivo mucho menor al actual y un margen de seguridad negativo, indicando sobrevaloración. Además, la caída del FCF en los últimos años refuerza la cautela.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "POOL": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre históricos son consistentes y cubren más de tres años, aunque muestran una caída sostenida que genera dudas sobre la sostenibilidad del crecimiento. El modelo indica un precio objetivo muy por debajo del precio actual, lo que respalda la conclusión de sobrevaloración.",
+      "confidence": 85,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "STZ": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre son consistentes y el histórico tiene suficiente longitud; sin embargo, el modelo muestra un precio objetivo muy por debajo del precio actual, indicando sobrevaloración significativa.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "ALLY": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Ally Financial es una entidad financiera donde el flujo de caja libre es volátil y a menudo negativo, lo que dificulta una valoración fiable basada en FCF; además, los supuestos de EV/FCF y el target return no reflejan adecuadamente el costo de capital bancario.",
+      "confidence": 85,
+      "score_adjustment": -10,
+      "oe_ai_verdict": "UNRELIABLE/AVOID (-10)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "KHC": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre presentan historial suficiente y cifras coherentes, aunque el ROE negativo y el ROIC bajo el costo de capital son señales de debilidad. El modelo muestra un precio objetivo por debajo del actual, indicando sobrevaloración.",
+      "confidence": 85,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    },
+    "MRSH": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre son consistentes y el histórico cubre más de tres años; sin embargo, el modelo muestra un precio objetivo de compra muy por debajo del precio actual y un upside negativo del -44%, indicando que la acción está sobrevalorada según los supuestos.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-09-18T05:23:30+00:00"
+    }
+  }
+}

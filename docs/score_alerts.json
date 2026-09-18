@@ -1,181 +1,121 @@
 {
-  "generated_at": "2026-09-17",
+  "generated_at": "2026-09-18",
   "alerts": [
     {
       "type": "SCORE_UP",
-      "ticker": "MSCI",
-      "company_name": "MSCI Inc.",
-      "sector": "Financial Services",
-      "score_today": 54.5,
-      "score_prev": 39.2,
-      "delta": 15.4,
-      "grade": "🟡 Average"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "V",
-      "company_name": "Visa Inc.",
-      "sector": "Financial Services",
-      "score_today": 44.7,
-      "score_prev": 33.8,
-      "delta": 10.9,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "OXY",
-      "company_name": "Occidental Petroleum Corporation",
-      "sector": "Energy",
-      "score_today": 55.8,
-      "score_prev": 46.7,
-      "delta": 9.2,
-      "grade": "🟡 Good"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "BRK-B",
-      "company_name": "Berkshire Hathaway Inc.",
-      "sector": "Financial Services",
-      "score_today": 40.7,
-      "score_prev": 33.2,
-      "delta": 7.6,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "FCNCA",
-      "company_name": "First Citizens BancShares, Inc.",
-      "sector": "Financial Services",
-      "score_today": 50.8,
-      "score_prev": 43.8,
-      "delta": 7.0,
-      "grade": "🟡 Average"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "SAP",
-      "company_name": "SAP SE",
-      "sector": "Technology",
-      "score_today": 43.8,
-      "score_prev": 37.3,
-      "delta": 6.5,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "SBGSY",
-      "company_name": "Schneider Electric S.E.",
-      "sector": "Industrials",
-      "score_today": 38.0,
-      "score_prev": 31.5,
-      "delta": 6.5,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "NDSN",
-      "company_name": "Nordson Corporation",
-      "sector": "Industrials",
-      "score_today": 60.8,
-      "score_prev": 55.0,
-      "delta": 5.8,
-      "grade": "🟡 Good"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "CVX",
-      "company_name": "Chevron Corporation",
-      "sector": "Energy",
-      "score_today": 36.3,
-      "score_prev": 30.6,
-      "delta": 5.7,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "ROP",
-      "company_name": "Roper Technologies, Inc.",
-      "sector": "Technology",
-      "score_today": 47.2,
-      "score_prev": 41.9,
-      "delta": 5.4,
-      "grade": "🟡 Average"
-    },
-    {
-      "type": "NEW_ENTRY",
-      "ticker": "PAYX",
-      "company_name": "Paychex, Inc.",
-      "sector": "Technology",
-      "score_today": 66.4,
-      "score_prev": null,
-      "delta": null,
-      "grade": "🟢 Excellent"
-    },
-    {
-      "type": "NEW_ENTRY",
-      "ticker": "QSR",
-      "company_name": "Restaurant Brands International Inc.",
+      "ticker": "DPZ",
+      "company_name": "Domino's Pizza, Inc.",
       "sector": "Consumer Cyclical",
-      "score_today": 56.8,
+      "score_today": 46.8,
+      "score_prev": 38.6,
+      "delta": 8.2,
+      "grade": "🟡 Average"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "MKC",
+      "company_name": "McCormick & Company, Incorporated",
+      "sector": "Consumer Defensive",
+      "score_today": 53.4,
+      "score_prev": 47.2,
+      "delta": 6.1,
+      "grade": "🟡 Average"
+    },
+    {
+      "type": "NEW_ENTRY",
+      "ticker": "GOOG",
+      "company_name": "Alphabet Inc.",
+      "sector": "Communication Services",
+      "score_today": 77.1,
       "score_prev": null,
-      "delta": null,
-      "grade": "🟡 Good"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "FHN",
-      "company_name": "First Horizon Corporation",
-      "sector": "Financial Services",
-      "score_today": 55.2,
-      "score_prev": 60.5,
-      "delta": -5.3,
-      "grade": "🟡 Good"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "CNI",
-      "company_name": "Canadian National Railway Company",
-      "sector": "Industrials",
-      "score_today": 35.8,
-      "score_prev": 42.1,
-      "delta": -6.3,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "EXITED",
-      "ticker": "AXP",
-      "company_name": "American Express Company",
-      "sector": "Financial Services",
-      "score_today": null,
-      "score_prev": 57.8,
-      "delta": null,
-      "grade": "🟡 Good"
-    },
-    {
-      "type": "EXITED",
-      "ticker": "BR",
-      "company_name": "Broadridge Financial Solutions, Inc.",
-      "sector": "Technology",
-      "score_today": null,
-      "score_prev": 82.4,
       "delta": null,
       "grade": "🟢 Elite"
     },
     {
-      "type": "EXITED",
-      "ticker": "INTU",
-      "company_name": "Intuit Inc.",
-      "sector": "Technology",
-      "score_today": null,
-      "score_prev": 74.8,
+      "type": "NEW_ENTRY",
+      "ticker": "META",
+      "company_name": "Meta Platforms, Inc.",
+      "sector": "Communication Services",
+      "score_today": 63.7,
+      "score_prev": null,
       "delta": null,
-      "grade": "🟢 Excellent"
+      "grade": "🟡 Good"
+    },
+    {
+      "type": "NEW_ENTRY",
+      "ticker": "BR",
+      "company_name": "Broadridge Financial Solutions, Inc.",
+      "sector": "Technology",
+      "score_today": 60.0,
+      "score_prev": null,
+      "delta": null,
+      "grade": "🟡 Good"
+    },
+    {
+      "type": "NEW_ENTRY",
+      "ticker": "LMT",
+      "company_name": "Lockheed Martin Corporation",
+      "sector": "Industrials",
+      "score_today": 56.1,
+      "score_prev": null,
+      "delta": null,
+      "grade": "🟡 Good"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "PAYX",
+      "company_name": "Paychex, Inc.",
+      "sector": "Technology",
+      "score_today": 60.4,
+      "score_prev": 66.4,
+      "delta": -6.0,
+      "grade": "🟡 Good"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "ROP",
+      "company_name": "Roper Technologies, Inc.",
+      "sector": "Technology",
+      "score_today": 37.6,
+      "score_prev": 47.2,
+      "delta": -9.7,
+      "grade": "🟡 Average"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "BAC",
+      "company_name": "Bank of America Corporation",
+      "sector": "Financial Services",
+      "score_today": 45.0,
+      "score_prev": 55.6,
+      "delta": -10.6,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "NDSN",
+      "company_name": "Nordson Corporation",
+      "sector": "Industrials",
+      "score_today": 48.0,
+      "score_prev": 60.8,
+      "delta": -12.8,
+      "grade": "🟡 Average"
+    },
+    {
+      "type": "EXITED",
+      "ticker": "MCO",
+      "company_name": "Moody's Corporation",
+      "sector": "Financial Services",
+      "score_today": null,
+      "score_prev": 88.0,
+      "delta": null,
+      "grade": "🔥 Legendary"
     }
   ],
   "counts": {
-    "new_entries": 2,
-    "exited": 3,
-    "score_up": 10,
-    "score_down": 2
+    "new_entries": 4,
+    "exited": 1,
+    "score_up": 2,
+    "score_down": 4
   }
 }

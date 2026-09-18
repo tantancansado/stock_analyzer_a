@@ -1,32 +1,22 @@
 {
-  "total_problemas": 12,
+  "total_problemas": 9,
   "desfases_conocidos": [
-    "⏳ ⚠️  value_opportunities.csv: upside DCF = (objetivo − precio) / precio — 2/36 filas, peor desvío 4% (CBOE, MRSH)",
-    "⏳ ⚠️  value_opportunities_filtered.csv: upside DCF = (objetivo − precio) / precio — 2/32 filas, peor desvío 4% (MRSH, CBOE)",
-    "⏳ ⚠️  european_value_opportunities.csv: distancia al máximo 52s — 1/32 filas, peor desvío 3% (DEMANT.CO)"
+    "⏳ ⚠️  value_opportunities.csv: upside DCF = (objetivo − precio) / precio — 1/44 filas, peor desvío 2% (ICE)",
+    "⏳ ⚠️  value_opportunities_filtered.csv: upside DCF = (objetivo − precio) / precio — 1/36 filas, peor desvío 2% (ICE)"
   ],
   "detalle": {
-    "columnas obligatorias (US)": [
-      "value_opportunities.csv: la columna entry_readiness está vacía en las 43 filas"
-    ],
-    "columnas obligatorias (EU)": [
-      "european_value_opportunities.csv: la columna entry_readiness está vacía en las 32 filas"
-    ],
     "identidad de los tickers (¿es esta empresa?)": [
       "AI.PA: tikr lo da en USD y PA cotiza en EUR — no es esa acción",
       "AI.PA: european_value_opp dice «L'Air Liquide S.A.» y tikr dice «C3.ai, Inc.» — no es la misma empresa",
-      "AI.PA: european_value_opp=166.42 y tikr=10.54 (1479% de diferencia)",
+      "AI.PA: european_value_opp=165.24 y tikr=10.54 (1468% de diferencia)",
       "BRK-B: value_opportunitie dice «Berkshire Hathaway Inc.» y tikr dice «Direxion Shares ETF Trust - Direxion Daily BRKB Bull 2X ETF» — no es la misma empresa",
       "BRK-B: fundamental_scores dice «Berkshire Hathaway Inc.» y tikr dice «Direxion Shares ETF Trust - Direxion Daily BRKB Bull 2X ETF» — no es la misma empresa",
-      "BRK-B: value_opportunitie=519.80 y tikr=23.38 (2124% de diferencia)",
-      "BRK-B: fundamental_scores=519.80 y tikr=23.38 (2124% de diferencia)",
+      "BRK-B: value_opportunitie=509.20 y tikr=23.38 (2078% de diferencia)",
+      "BRK-B: fundamental_scores=509.20 y tikr=23.38 (2078% de diferencia)",
       "EXPN.L: tikr lo da en USD y L cotiza en GBp — no es esa acción",
       "MMC: tikr lo da en PLN y US cotiza en USD — no es esa acción"
-    ],
-    "identidades aritméticas de lo publicado": [
-      "🛑 mean_reversion_opportunities.csv: R:R = (salida − entrada) / (entrada − stop) — 1/2 filas, peor desvío 60% (TT)"
     ]
   },
-  "tickers_value": 43,
-  "tickers_verdicts": 78
+  "tickers_value": 52,
+  "tickers_verdicts": 72
 }

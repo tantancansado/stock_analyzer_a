@@ -1,0 +1,113 @@
+{
+  "listas": {
+    "value_opportunities": {
+      "candidatas": 73,
+      "publicadas": 59,
+      "excluidos": [
+        {
+          "ticker": "COF",
+          "paso": "rangos_imposibles",
+          "motivo": "FCF yield fuera de rango: por encima del 20% suele ser divisa sin convertir (visto 24.1, esperado entre -50 y 20)",
+          "score": 50.480000000000004
+        },
+        {
+          "ticker": "COF",
+          "paso": "rangos_imposibles",
+          "motivo": "DCF fuera de rango: no es una valoración, es un dato roto (visto 410.9, esperado entre -95 y 200)",
+          "score": 50.480000000000004
+        },
+        {
+          "ticker": "ASAZY",
+          "paso": "rangos_imposibles",
+          "motivo": "FCF yield fuera de rango: por encima del 20% suele ser divisa sin convertir (visto 47.89, esperado entre -50 y 20)",
+          "score": 48.0
+        },
+        {
+          "ticker": "ERIE",
+          "paso": "rangos_imposibles",
+          "motivo": "Falta analyst_upside_pct: no se recomienda lo que no se puede evaluar",
+          "score": 41.209999999999994
+        },
+        {
+          "ticker": "KYCCF",
+          "paso": "rangos_imposibles",
+          "motivo": "FCF yield fuera de rango: por encima del 20% suele ser divisa sin convertir (visto 337.17, esperado entre -50 y 20)",
+          "score": 40.867999999999995
+        },
+        {
+          "ticker": "KYCCF",
+          "paso": "rangos_imposibles",
+          "motivo": "DCF fuera de rango: no es una valoración, es un dato roto (visto 6129.3, esperado entre -95 y 200)",
+          "score": 40.867999999999995
+        },
+        {
+          "ticker": "KYCCF",
+          "paso": "rangos_imposibles",
+          "motivo": "Falta analyst_upside_pct: no se recomienda lo que no se puede evaluar",
+          "score": 40.867999999999995
+        },
+        {
+          "ticker": "ATLKY",
+          "paso": "rangos_imposibles",
+          "motivo": "FCF yield fuera de rango: por encima del 20% suele ser divisa sin convertir (visto 26.71, esperado entre -50 y 20)",
+          "score": 40.400000000000006
+        },
+        {
+          "ticker": "MCO",
+          "paso": "verificador_ia",
+          "motivo": "upside_divergence='ALTA' pero modelos_acuerdo='COHERENTES': si los modelos son coherentes (ambos negativos en -39.2 y -58.7), la divergencia debería ser BAJA o NULA, no ALTA. upside_triangulated_pct=-39.2 refleja coherencia, no divergencia alta. · analyst_upside_pct=21.7% contradice fuertemente upside_triangulated_pct=-39.2%: el analista ve +21.7% pero los modelos ven -39.2%. Eso es ALTA divergencia, no acuerdo entre modelos.",
+          "score": 84.00999999999999
+        },
+        {
+          "ticker": "THC",
+          "paso": "verificador_ia",
+          "motivo": "fcf_yield_pct=14.25% es extremadamente alto (típicamente 2-6%) y sugiere error de escala o unidad de medida. Esto invalida la credibilidad de los yields reportados. · value_score=62.24 con fcf_yield=14.25% es incoherente: yields tan altos deberían traducirse en value_score mucho más alto (>75), no tan bajo.",
+          "score": 62.239999999999995
+        },
+        {
+          "ticker": "UNP",
+          "paso": "verificador_ia",
+          "motivo": "upside_divergence='ALTA' pero modelos_acuerdo='COHERENTES': idéntico problema que MCO. Si modelos son COHERENTES (ambos negativos: -40.0 y -56.0), no hay ALTA divergencia. analyst_upside_pct=17.0% versus upside_triangulated_pct=-40.0% es ALTA divergencia, pero el campo modelos_acuerdo debería ser CONTRADICEN, no COHERENTES.",
+          "score": 60.519999999999996
+        },
+        {
+          "ticker": "MSCI",
+          "paso": "verificador_ia",
+          "motivo": "modelos_acuerdo='DISPERSOS' pero upside_triangulated_pct=-35.3 y modelos_dispersion_pts=25.1: DISPERSOS debería indicar desacuerdo significativo. Con dispersión de 25.1 pts entre DCF (-35.3) y P/E (-60.4), la etiqueta correcta sería CONTRADICEN o al menos DISPERSOS debería ir acompañado de ausencia de upside_triangulated_pct (como en PAYX, BR, etc.). Aquí hay valor triangulado sin coherencia etiquetada.",
+          "score": 56.49000000000001
+        },
+        {
+          "ticker": "APH",
+          "paso": "verificador_ia",
+          "motivo": "upside_divergence='ALTA' pero analyst_upside_pct=26.7% versus upside_triangulated_pct=-54.0%: eso es ALTA divergencia. Sin embargo, modelos_acuerdo='COHERENTES' (dispersión solo 7.1 pts, ambos negativos). El problema: analyst ve +26.7% pero modelos ven -54.0%; eso es incoherencia entre analista y modelos, y upside_divergence lo marca correctamente. Pero la recomendación global (value_score=55.37 bajo + upside negativo + ALTA divergencia) es débil y contradice el pase del Minervini Template.",
+          "score": 55.37
+        },
+        {
+          "ticker": "DVA",
+          "paso": "verificador_ia",
+          "motivo": "fcf_yield_pct=13.76% es anómalamente alto (típicamente 2-6%). Sugiere error de escala/unidad. · value_score=54.7 con fcf_yield=13.76% es incoherente: yields tan altos deberían reflejarse en scores mucho más altos.",
+          "score": 54.7
+        },
+        {
+          "ticker": "VCISY",
+          "paso": "verificador_ia",
+          "motivo": "fcf_yield_pct=14.09% es extremadamente alto (típicamente 2-6%). Sugiere error de escala o unidad. · target_price_dcf_upside_pct=182.5% versus analyst_upside_pct=20.0%: el modelo DCF ve +182.5% pero el analista solo +20.0%. Eso es ALTA divergencia registrada correctamente, pero upside_divergence='MEDIA' está subestimado.",
+          "score": 49.12
+        },
+        {
+          "ticker": "BLK",
+          "paso": "verificador_ia",
+          "motivo": "upside_divergence='ALTA' pero modelos_acuerdo='COHERENTES': si ambos modelos son negativos (-67.5% DCF, -57.2% P/E), están en coherencia. analyst_upside_pct=25.6% versus upside_triangulated_pct=-57.2% es ALTA divergencia entre analista y modelos, pero modelos_acuerdo debería reflejar eso. La etiqueta 'ALTA' se justifica por la divergencia analista-modelos, pero la incoherencia de etiquetas sugiere confusión del sistema: upside_divergence mide analista vs modelos, modelos_acuerdo mide DCF vs P/E. Están bien definidos pero la comunicación es confusa.",
+          "score": 49.08
+        },
+        {
+          "ticker": "PGR",
+          "paso": "verificador_ia",
+          "motivo": "fcf_yield_pct=12.72% es extremadamente alto (típicamente 2-6%). Sugiere error de escala/unidad. · value_score=48.64 bajo con fcf_yield=12.72% y ebit_ev_yield=10.99% tan altos: esos yields deberían traducirse en value_score >70, no <50. Incoherencia fundamental.",
+          "score": 48.644999999999996
+        }
+      ]
+    }
+  },
+  "generated_at": "2026-09-18T05:02:08Z"
+}

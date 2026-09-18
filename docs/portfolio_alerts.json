@@ -1,36 +1,27 @@
 {
-  "generated_at": "2026-09-17",
+  "generated_at": "2026-09-18",
   "alerts": [
     {
       "type": "STOP_TRIGGERED",
-      "ticker": "DX",
-      "current": 12.16,
-      "entry": 13.33,
-      "target": null,
-      "pct_change": -8.8,
-      "pct_to_target": null
-    },
-    {
-      "type": "STOP_TRIGGERED",
       "ticker": "IVR",
-      "current": 6.46,
+      "current": 6.54,
       "entry": 7.91,
       "target": null,
-      "pct_change": -18.3,
+      "pct_change": -17.3,
       "pct_to_target": null
     },
     {
       "type": "STOP_TRIGGERED",
       "ticker": "CHTR",
-      "current": 135.0,
+      "current": 133.37,
       "entry": 151.96,
       "target": null,
-      "pct_change": -11.2,
+      "pct_change": -12.2,
       "pct_to_target": null
     }
   ],
   "counts": {
-    "stop_triggered": 3,
+    "stop_triggered": 2,
     "target_reached": 0,
     "near_target": 0
   }
