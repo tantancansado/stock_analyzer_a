@@ -1463,11 +1463,28 @@ class FundamentalScorer:
                         return float(v) if v is not None and not pd.isna(v) else None
                 return None
 
-            # ── EBIT (from annual income statement) ────────────────────
+            # ── Resultado operativo anual (numerador de Greenblatt) ────
+            # El operativo antes que el «EBIT», por lo mismo que en la
+            # cobertura de intereses: el EBIT de yfinance arrastra las
+            # partidas extraordinarias. Kraft Heinz salía con un rendimiento
+            # de -9,83% —el ÚLTIMO de 149— por un deterioro de marcas de
+            # 9,31 B que no es caja; con el operativo da +10,13%, el sexto
+            # mejor del universo.
+            #
+            # Y hay una razón que va más allá del caso raro: el valor de
+            # empresa ya resta la caja, así que el numerador tiene que ser lo
+            # que produce el NEGOCIO, no los intereses que cobra esa caja. Por
+            # eso los que bajan al cambiar (JNJ 4,94→3,77, CVX 4,67→3,71,
+            # CME 5,55→4,27, TW 5,79→4,16) también quedan mejor medidos.
+            #
+            # Efecto en el conjunto: 32 de 149 difieren más de un 10%, el
+            # salto mediano en el ranking son 4 puestos y solo dos tickers
+            # entran o salen del top-20. Mueve los casos rotos y poco más.
             ebit = None
             if fin is not None and not fin.empty:
-                ebit = _val(fin, ['EBIT', 'Operating Income', 'Total Operating Income As Reported',
-                                   'Normalized EBITDA'])  # last resort
+                ebit = _val(fin, ['Operating Income', 'Total Operating Income As Reported'])
+                if ebit is None:
+                    ebit = _val(fin, ['EBIT', 'Normalized EBITDA'])  # last resort
 
             ev = info.get('enterpriseValue')
 

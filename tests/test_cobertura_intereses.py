@@ -67,3 +67,38 @@ def test_los_umbrales_que_dependen_de_esto_siguen_donde_estaban():
     trap = (RAIZ / 'dividend_trap_scanner.py').read_text()
     assert 'interest < 2' in trap
     assert 'interest < 3' in trap
+
+
+class TestElMismoEbitEnElMagicFormula:
+    """`ebit_ev_yield` y `roic_greenblatt` salen del mismo EBIT contaminado.
+
+    Kraft Heinz aparecía con un rendimiento EBIT/EV de -9,83%, el ÚLTIMO de
+    149 del universo, por el mismo deterioro de 9,31 B. Con el resultado
+    operativo da +10,13%: el sexto mejor.
+
+    Hay una razón que va más allá del caso raro. El valor de empresa ya resta
+    la caja, así que el numerador tiene que ser lo que produce el negocio y no
+    los intereses que cobra esa caja — por eso los que BAJAN al cambiar
+    (JNJ 4,94→3,77, CVX 4,67→3,71, CME 5,55→4,27, TW 5,79→4,16) también quedan
+    mejor medidos, no peor.
+
+    Efecto medido: 32 de 149 difieren más de un 10%, el salto mediano en el
+    ranking son 4 puestos y solo dos tickers entran o salen del top-20.
+    """
+
+    BLOQUE = FUENTE[FUENTE.index('Resultado operativo anual'):
+                    FUENTE.index('── PEG Ratio')]
+
+    def test_el_operativo_va_primero(self):
+        i = self.BLOQUE.index("_val(fin, ['Operating Income'")
+        j = self.BLOQUE.index("_val(fin, ['EBIT'")
+        assert i < j
+
+    def test_el_ebit_queda_de_reserva(self):
+        assert "if ebit is None:" in self.BLOQUE
+        assert "'Normalized EBITDA'" in self.BLOQUE, 'el último recurso sigue ahí'
+
+    def test_el_roic_usa_el_mismo_numerador(self):
+        """Si se separan, dos métricas de la misma familia dejan de cuadrar."""
+        assert 'roic_greenblatt' in self.BLOQUE
+        assert 'ebit / invested_capital' in self.BLOQUE
