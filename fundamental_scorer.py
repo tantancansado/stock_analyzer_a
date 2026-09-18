@@ -1854,8 +1854,20 @@ class FundamentalScorer:
             eps_ttm = info.get('epsTrailingTwelveMonths')
             g_eps   = growth_rate   # la misma tasa que el DCF, y por lo mismo
 
-            eps = float(eps_fwd) if eps_fwd and float(eps_fwd) > 0 else (
-                  float(eps_ttm) if eps_ttm and float(eps_ttm) > 0 else None)
+            # El BPA normalizado manda: un crédito fiscal de un trimestre
+            # infla el reportado y el objetivo sale disparado. YUM, 18-sep-2026:
+            # BPA reportado 7,82 (tasa efectiva -0,9% por un crédito de 320 M$)
+            # contra 5,99 normalizado — el objetivo por P/E pasaba de 152 $ a
+            # 199 $, de +12,4% a +46,8%, sin que la empresa hubiera cambiado.
+            eps_norm = info.get('epsNormalizado')
+            if eps_norm and float(eps_norm) > 0:
+                eps = float(eps_norm)
+                result['pe_eps_usado'] = 'normalizado'
+                result['pe_eps_motivo'] = info.get('epsNormalizadoMotivo')
+            else:
+                eps = float(eps_fwd) if eps_fwd and float(eps_fwd) > 0 else (
+                      float(eps_ttm) if eps_ttm and float(eps_ttm) > 0 else None)
+                result['pe_eps_usado'] = 'reportado'
 
             if _per_share_ok and eps and eps > 0 and g_eps:
                 g_annual = float(g_eps)

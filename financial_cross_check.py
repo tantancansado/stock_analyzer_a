@@ -232,6 +232,61 @@ def per_mediano_historico(stock) -> float | None:
         return None
 
 
+
+# Tasa fiscal con la que se normaliza el BPA cuando la efectiva es anómala.
+# No es un invento: es el orden de la tasa efectiva de una empresa grande de
+# EE.UU. y coincide con la que estas mismas empresas pagan en los trimestres
+# normales.
+TASA_FISCAL_NORMAL = 0.245
+# A partir de esta desviación de la tasa efectiva, el beneficio del periodo no
+# es representativo y el BPA se normaliza.
+DESVIO_FISCAL_ANOMALO = 0.12
+
+
+def bpa_normalizado(stock) -> tuple[float | None, str | None]:
+    """BPA de los últimos doce meses con una tasa fiscal normal.
+
+    YUM, 18-sep-2026: un crédito fiscal de 320 M$ en un trimestre dejó la tasa
+    efectiva de los últimos doce meses en -0,9%, y el BPA reportado en 7,82
+    cuando el normalizado es 5,99. Sobre ese BPA inflado, el modelo de P/E
+    daba un objetivo de 199 $ (+46,8%) cuando con el BPA real da 152 $
+    (+12,4%).
+
+    Es el mismo apunte que ya se detecta para el CRECIMIENTO —comparar el
+    beneficio neto contra el operativo— pero aplicado al nivel, no a la
+    variación. Se arreglaron por separado porque son dos usos distintos del
+    mismo número contaminado.
+
+    Devuelve (bpa, motivo) y (None, None) si no hace falta normalizar.
+    """
+    try:
+        q = stock.quarterly_income_stmt
+    except Exception:
+        return None, None
+    if q is None or getattr(q, 'empty', True):
+        return None, None
+    for fila in ('Pretax Income', 'Tax Provision', 'Diluted Average Shares'):
+        if fila not in q.index:
+            return None, None
+    try:
+        pre = q.loc['Pretax Income'].dropna().sort_index(ascending=False).iloc[:4]
+        tax = q.loc['Tax Provision'].dropna().sort_index(ascending=False).iloc[:4]
+        acc = q.loc['Diluted Average Shares'].dropna().sort_index(ascending=False).iloc[0]
+        if len(pre) < 4 or len(tax) < 4 or not acc or float(acc) <= 0:
+            return None, None
+        pre_ttm, tax_ttm = float(pre.sum()), float(tax.sum())
+        if pre_ttm <= 0:
+            return None, None
+        efectiva = tax_ttm / pre_ttm
+        if abs(efectiva - TASA_FISCAL_NORMAL) <= DESVIO_FISCAL_ANOMALO:
+            return None, None     # tasa normal: el BPA reportado vale
+        bpa = pre_ttm * (1 - TASA_FISCAL_NORMAL) / float(acc)
+        return bpa, (f'tasa fiscal efectiva {efectiva:.1%} — el beneficio del '
+                     f'periodo no es representativo')
+    except Exception:
+        return None, None
+
+
 def derive_from_statements(stock, info: dict, fields: list[str] | None = None) -> tuple[dict, list[str]]:
     """Rellena campos ausentes en `info` desde los estados financieros.
 
@@ -308,6 +363,16 @@ def derive_from_statements(stock, info: dict, fields: list[str] | None = None) -
     if per_hist is not None:
         out['perMedianoHistorico'] = per_hist
         filled.append(f'perMedianoHistorico({per_hist:.1f})')
+
+    # BPA sin apuntes fiscales de un trimestre. Va DESPUÉS del múltiplo propio
+    # porque los dos alimentan el mismo objetivo por P/E, y multiplicar un
+    # múltiplo alto por un BPA inflado es equivocarse dos veces en el mismo
+    # número.
+    bpa, motivo = bpa_normalizado(stock)
+    if bpa is not None:
+        out['epsNormalizado'] = bpa
+        out['epsNormalizadoMotivo'] = motivo
+        filled.append(f'epsNormalizado({bpa:.2f}: {motivo})')
 
     if filled:
         print(f"   📄 Estados financieros aportan: {', '.join(filled)}")
