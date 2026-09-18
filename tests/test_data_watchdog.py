@@ -392,3 +392,21 @@ def test_un_health_de_ci_no_levanta_ese_aviso(tmp_path, monkeypatch):
     monkeypatch.setattr(wd, 'HEALTH_PATH', p)
     problemas, _ = wd.find_problems()
     assert not any(x['status'] == 'origen_local' for x in problemas)
+
+    def test_no_se_vigila_lo_que_no_se_publica_a_proposito(self):
+        """`portfolio_strategies.json` está en .gitignore por privacidad: lleva
+        la cartera real y el repo puede ser público. El paso corre y escribe el
+        fichero en CI, pero nunca llega al repo, así que pedirle al health que
+        lo encuentre era garantizar un rojo eterno — y lo estuvo dando en el
+        mensaje de Telegram durante días.
+        """
+        from pathlib import Path
+        raiz = Path(__file__).resolve().parent.parent
+        ignorados = {l.strip() for l in (raiz / '.gitignore').read_text().split('\n')
+                     if l.strip() and not l.startswith('#')}
+        ns: dict = {}
+        exec(self._script(), ns)
+        for modulo, (ruta, *_r) in ns['MODULES'].items():
+            assert ruta not in ignorados, (
+                f'{modulo} vigila «{ruta}», que está en .gitignore: no puede '
+                f'llegar nunca al repo y el aviso será permanente')

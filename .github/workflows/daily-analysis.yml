@@ -859,7 +859,14 @@ jobs:
             'economic_cal':   ('docs/economic_calendar.json',                    'generated_at', None, 7),
             'options_flow':   ('docs/options_flow.csv',                          None,  1, 3),
             'bounce_broad':   ('docs/bounce_setups_broad.json',                  'generated_at', None, 3),
-            'strategies':     ('docs/portfolio_strategies.json',                 'generated_at', None, 3),
+            # 'strategies' NO se vigila aquí. `portfolio_strategies.json` está
+            # en .gitignore A PROPÓSITO desde el commit de privacidad: lleva la
+            # cartera real del usuario y el repo puede ser público. El paso
+            # corre y escribe el fichero en CI —se ve en el log: «Wrote
+            # docs/portfolio_strategies.json»— pero nunca llega al repo, así
+            # que pedirle al health que lo encuentre es garantizar un rojo
+            # eterno. Un vigía que grita sin motivo enseña a ignorarlo, y este
+            # llevaba días haciéndolo en el mensaje de Telegram.
             'earnings_opts':  ('docs/earnings_options.json',                     'generated_at', None, 3),
           }
 
@@ -886,11 +893,18 @@ jobs:
               # distintos y con una sola columna se vigilaba medio camino. El
               # 17-sep-2026 entry_exit murió y la lista salió sin precio de
               # entrada ni stop, pero como technical_filter tampoco corrio el
-              # fallo se vio por `entry_readiness`. Si llega a correr uno solo
-              # de los dos, el health habria dado luz verde con la lista coja.
-              'value_us':       ['entry_readiness', 'rr_operativo'],
+              # fallo se vio por `entry_readiness`.
+              #
+              # OJO A CUAL SE LE PIDE QUE: `add_entry_exit_to_opportunities`
+              # enriquece el FILTRADO y para ahi (hace break), asi que el
+              # crudo NUNCA tiene `rr_operativo`. Se lo pedi a los tres el
+              # 17-sep y el 18 salieron 'incompleto' los dos crudos: el mismo
+              # vigia que grita sin motivo contra el que avisa el comentario
+              # de arriba, cometido por segunda vez el dia siguiente.
+              'value_us':       'entry_readiness',
               'value_filtered': ['entry_readiness', 'rr_operativo'],
-              'value_eu':       ['entry_readiness', 'rr_operativo'],
+              'value_eu':       'entry_readiness',
+              'value_eu_filt':  ['entry_readiness', 'rr_operativo'],
               'value_global':   'value_score',
               'fundamental':    'fundamental_score',
               'technical':      'bias',
