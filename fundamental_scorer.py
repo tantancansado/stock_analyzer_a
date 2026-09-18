@@ -353,9 +353,31 @@ class FundamentalScorer:
             # un 50 centinela: un número que hay que saber interpretar es un
             # número que alguien interpretará mal. Los sub-scores van vacíos por
             # lo mismo — eran cinco 50 igual de inventados.
+            # El mismo razonamiento, un paso más allá: no hace falta que
+            # falle TODO. Sin trimestres se van a su neutro la calidad de
+            # beneficios (30%) y la aceleración del crecimiento (25%), o sea
+            # el 55% del peso, y el 53 que sale de ahí se publica como una
+            # empresa mediocre. El 18-sep-2026 le pasaba a 16 de 164, todos
+            # ADR y valores no estadounidenses.
+            #
+            # El corte es la mitad del peso: por debajo de eso el número lo
+            # decide lo que SÍ se midió; por encima, lo decide el relleno.
+            _peso_sin_respaldo = sum(
+                self.weights[clave]
+                for clave, comp in (('earnings_quality', earnings_score),
+                                    ('growth_acceleration', growth_score))
+                if not comp.get('con_datos', True)
+            )
             _price = info.get('currentPrice') or info.get('regularMarketPrice') or 0
             _sin_datos = not _price or float(_price) <= 0
-            if _sin_datos:
+            _sin_respaldo = _peso_sin_respaldo > 0.5
+            if _sin_respaldo and not _sin_datos:
+                result_motivo = (
+                    f'el {_peso_sin_respaldo * 100:.0f}% del score se apoyaría en '
+                    f'valores por defecto: no hay estados trimestrales para este valor')
+            else:
+                result_motivo = None
+            if _sin_datos or _sin_respaldo:
                 fundamental_score = None
                 tier = '❓ SIN DATOS'
                 quality = '⚪ Sin datos'
@@ -369,6 +391,7 @@ class FundamentalScorer:
                 'ticker': ticker,
                 'company_name': _company_name(info, ticker),
                 'fundamental_score': None if fundamental_score is None else round(fundamental_score, 1),
+                'sin_score_motivo': result_motivo,
                 'tier': tier,
                 'quality': quality,
 
@@ -449,7 +472,17 @@ class FundamentalScorer:
                 'analyzed_at': datetime.now().isoformat()
             }
 
-            print(f"   ✅ Score: {fundamental_score:.1f}/100 - {quality}")
+            # `fundamental_score` es None a propósito cuando no hay datos
+            # con los que puntuar, y este print lo formateaba con `:.1f`. Eso
+            # lanzaba un TypeError que caía al `except` de abajo, así que el
+            # ticker acababa en `_get_empty_result` —score 0.0, tier ❌ ERROR—
+            # en vez del ❓ SIN DATOS que el bloque de arriba había decidido.
+            # La protección estaba escrita y documentada (el caso MMC) y no
+            # llegaba a publicarse nunca por una línea de log.
+            if fundamental_score is None:
+                print(f"   ⚪ Sin score: {result_motivo or 'sin datos de cotización'}")
+            else:
+                print(f"   ✅ Score: {fundamental_score:.1f}/100 - {quality}")
             return result
 
         except Exception as e:
@@ -745,6 +778,12 @@ class FundamentalScorer:
 
         return {
             'score': round(score, 1),
+            # Sin trimestres el score se queda en su neutro (50) más el bonus
+            # del margen, y ese 50-60 se lee como «empresa del montón». El
+            # propio código ya razonaba así para el caso sin precio: «un
+            # número que hay que saber interpretar es un número que alguien
+            # interpretará mal».
+            'con_datos': eps_growth_yoy is not None or 'positive_quarters' in details,
             'details': details,
             'eps_growth_yoy':    eps_growth_yoy,
             'eps_accelerating':  eps_accelerating,
@@ -847,6 +886,7 @@ class FundamentalScorer:
 
         return {
             'score': round(score, 1),
+            'con_datos': rev_growth_yoy is not None or bool(details),
             'details': details,
             'rev_growth_yoy':    rev_growth_yoy,
             'rev_accelerating':  rev_accelerating,
@@ -1165,6 +1205,7 @@ class FundamentalScorer:
             'ticker': ticker,
             'company_name': ticker,
             'fundamental_score': 0.0,
+            'sin_score_motivo': 'error al puntuar el valor',
             'tier': '❌ ERROR',
             'quality': '🔴 Error',
             'earnings_quality_score': 0.0,
@@ -1233,6 +1274,13 @@ class FundamentalScorer:
             'days_to_earnings': None,
             'earnings_date': None,
             'earnings_warning': False,
+            # False significa «comprobado y no hay resultados cerca». Cuando
+            # la consulta falla —7 de 164 el 18-sep-2026, todos ADR y no
+            # estadounidenses— queda también en False y se publica como si se
+            # hubiera comprobado. El estado real va aquí, en un campo aparte:
+            # poner None en `earnings_warning` no valdría, porque en pandas un
+            # NaN es truthy y `if row['earnings_warning']` avisaría en todos.
+            'earnings_fecha_conocida': False,
             'earnings_catalyst': False,
             # Piotroski F-Score
             'piotroski_score': None,
@@ -1602,6 +1650,7 @@ class FundamentalScorer:
             'days_to_earnings': None,
             'earnings_date': None,
             'earnings_warning': False,    # <7 days = danger
+            'earnings_fecha_conocida': False,
             'earnings_catalyst': False,   # 7-21 days = catalyst
         }
 
@@ -1799,6 +1848,7 @@ class FundamentalScorer:
                         result['earnings_date'] = next_date.strftime('%Y-%m-%d')
                         result['earnings_warning'] = days_until <= 7
                         result['earnings_catalyst'] = 7 < days_until <= 21
+                        result['earnings_fecha_conocida'] = True
             except Exception:
                 pass
 

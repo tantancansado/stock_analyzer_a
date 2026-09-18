@@ -264,7 +264,7 @@ class SuperScoreIntegrator:
             # Minervini Trend Template
             'trend_template_score', 'trend_template_pass',
             # Profitability details (CRITICAL for gates)
-            'health_details', 'earnings_details',
+            'health_details', 'earnings_details', 'sin_score_motivo',
             # Target Prices (analyst + DCF + P/E)
             'target_price_analyst', 'target_price_analyst_high', 'target_price_analyst_low',
             'analyst_count', 'analyst_recommendation', 'analyst_upside_pct',
@@ -290,7 +290,7 @@ class SuperScoreIntegrator:
             'buyback_active', 'shares_change_pct',
             'interest_coverage', 'interest_coverage_base', 'interest_coverage_ebit',
             'analyst_revision_momentum',
-            'days_to_earnings', 'earnings_date', 'earnings_warning', 'earnings_catalyst',
+            'days_to_earnings', 'earnings_date', 'earnings_warning', 'earnings_fecha_conocida', 'earnings_catalyst',
             'risk_reward_ratio',
             # Piotroski F-Score (proven +13.4% annual alpha filter)
             'piotroski_score', 'piotroski_label', 'piotroski_evaluables', 'piotroski_motivo',
