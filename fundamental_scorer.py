@@ -1188,6 +1188,12 @@ class FundamentalScorer:
             'target_price_dcf_upside_pct': None,
             'target_price_pe':             None,
             'target_price_pe_upside_pct':  None,
+            # Declarados aquí a propósito: si solo se asignan dentro del try,
+            # la columna existe o no según qué tickers hayan pasado por esa
+            # rama, y una columna que a veces está es peor que una vacía.
+            'pe_ancla':                    None,
+            'pe_sin_ancla_motivo':         None,
+            'dcf_no_aplicable':            None,
             # Value Quality Metrics
             'fcf_yield_pct': None,
             'fcf_per_share': None,

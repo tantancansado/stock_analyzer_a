@@ -270,6 +270,20 @@ class SuperScoreIntegrator:
             'analyst_count', 'analyst_recommendation', 'analyst_upside_pct',
             'target_price_dcf', 'target_price_dcf_upside_pct',
             'target_price_pe', 'target_price_pe_upside_pct',
+            # Por qué ese objetivo, y si es fiable. El scorer los calculaba y
+            # esta lista blanca los dejaba fuera, así que no llegaban a nadie:
+            # ni a LEAPS, ni al frontend, ni al usuario. Un objetivo sin decir
+            # de dónde sale no se puede auditar, y cuando falta —un DCF sobre
+            # un banco, un P/E sin múltiplo propio— el hueco se lee como «no
+            # hay dato» en vez de «aquí ese modelo no aplica».
+            'pe_ancla', 'pe_sin_ancla_motivo', 'pe_eps_usado', 'pe_eps_motivo',
+            'dcf_no_aplicable',
+            # Qué campos vienen de una IA y de qué fuente: trazabilidad.
+            'ai_filled_fields', 'ai_sources',
+            # La bandera del bug de recompras: «cambio de acciones» medía el
+            # dinero gastado, no las acciones.
+            'shares_change_es_gasto',
+            'dividend_rate',
             # Value Quality Metrics (FCF, dividends, buyback, earnings timing)
             'fcf_yield_pct', 'fcf_per_share',
             'dividend_yield_pct', 'payout_ratio_pct', 'five_yr_avg_dividend_yield_pct',

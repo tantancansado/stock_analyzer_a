@@ -405,6 +405,18 @@ def load_app_signals() -> dict:
         s = signals.setdefault(t, {})
         s.setdefault('company_name', r.get('company_name'))
         s['analyst_upside_pct'] = _num(r.get('analyst_upside_pct'))
+        # La valoración PROPIA de la app. Estaba en el mismo CSV y LEAPS no la
+        # leía: el 17-sep, de los 8 LEAPS publicados, en 4 los modelos decían
+        # que la acción está CARA (MSFT: DCF -64%, P/E -45%, los dos de
+        # acuerdo) mientras la ficha enseñaba «upside 15,8%» del analista. Un
+        # LEAPS apalanca la caída igual que la subida.
+        s['target_price_dcf'] = _num(r.get('target_price_dcf'))
+        s['target_price_pe'] = _num(r.get('target_price_pe'))
+        s['upside_dcf_pct'] = _num(r.get('target_price_dcf_upside_pct'))
+        s['upside_pe_pct'] = _num(r.get('target_price_pe_upside_pct'))
+        s['upside_triangulated_pct'] = _num(r.get('upside_triangulated_pct'))
+        s['modelos_acuerdo'] = (r.get('modelos_acuerdo')
+                                if pd.notna(r.get('modelos_acuerdo')) else None)
         s['trend_direction'] = r.get('trend_direction')
         s['is_stage2'] = bool(r.get('is_stage2')) if pd.notna(r.get('is_stage2')) else None
         s['ml_win_probability'] = _num(r.get('ml_win_probability'))
@@ -589,6 +601,72 @@ def _get_analyst_target(t: 'yf.Ticker', sig: dict) -> Optional[float]:
     return None
 
 
+def valoracion_propia(sig: dict, spot: float, upside_analista: Optional[float]) -> dict:
+    """Lo que dicen los modelos de la casa, y si contradicen al consenso.
+
+    No descarta nada. El usuario lo dejó claro el 18-sep: un consenso alto no
+    es bandera roja a priori, es algo que investigar. Pero el caso de aquí es
+    el contrario y sí hay que enseñarlo — el consenso dice que sube y TUS
+    PROPIOS modelos dicen que está cara. Ocultarlo detrás de un único número
+    optimista es lo que convierte una ficha en publicidad.
+
+    `target_prudente` es el objetivo más bajo de los que hay, y sirve para
+    contestar la pregunta que de verdad importa en un LEAPS: si la acción no
+    llega al objetivo del analista sino al de tu modelo, ¿qué pasa con la
+    opción.
+    """
+    # El upside se RECALCULA contra el spot de hoy a partir del objetivo. El
+    # que viene en el CSV se midió contra el precio de aquella ejecución, y
+    # basta con que el precio se haya movido para que deje de ser comparable.
+    #
+    # El 18-sep esto no era teórico: los CSV eran de las 08:06 y el ancla del
+    # P/E se arregló a las 12:36. Leyendo el upside publicado, MSFT salía «un
+    # 45% cara» y el aviso se disparaba; con el objetivo recalculado sobre su
+    # múltiplo propio sale un 27% BARATA. Cuatro de los ocho LEAPS habrían
+    # llevado un aviso falso.
+    def _up(objetivo, publicado):
+        if objetivo and objetivo > 0 and spot > 0:
+            return (float(objetivo) - spot) / spot * 100
+        return publicado
+
+    dcf = _up(sig.get('target_price_dcf'), sig.get('upside_dcf_pct'))
+    pe = _up(sig.get('target_price_pe'), sig.get('upside_pe_pct'))
+    tri = sig.get('upside_triangulated_pct')
+    propios = [x for x in (dcf, pe) if x is not None]
+
+    out = {
+        'upside_dcf_pct': round(dcf, 1) if dcf is not None else None,
+        'upside_pe_pct': round(pe, 1) if pe is not None else None,
+        'upside_triangulado_pct': round(tri, 1) if tri is not None else None,
+        'modelos_acuerdo': sig.get('modelos_acuerdo'),
+        'contradice_al_analista': False,
+        'aviso': None,
+        'target_prudente': None,
+        'upside_prudente_pct': None,
+    }
+    if not propios:
+        out['aviso'] = ('sin modelos propios para este valor: el único objetivo '
+                        'es el del analista, sin segunda opinión')
+        return out
+
+    objetivos = [v for v in (sig.get('target_price_dcf'), sig.get('target_price_pe'))
+                 if v and v > 0]
+    if objetivos:
+        peor = min(objetivos)
+        out['target_prudente'] = round(peor, 2)
+        out['upside_prudente_pct'] = round((peor - spot) / spot * 100, 1)
+
+    if upside_analista is not None and upside_analista > 0 and max(propios) < 0:
+        out['contradice_al_analista'] = True
+        detalle = ' y '.join(
+            f'{n} {v:+.0f}%' for n, v in (('DCF', dcf), ('P/E propio', pe))
+            if v is not None)
+        out['aviso'] = (f'el analista da {upside_analista:+.0f}% pero tus modelos '
+                        f'dicen que está cara ({detalle}). Un LEAPS apalanca '
+                        f'también la caída.')
+    return out
+
+
 def _fetch_with_retry(fn, *args, retries=3):
     for attempt in range(retries):
         try:
@@ -726,8 +804,10 @@ def analyze_ticker_leaps(ticker: str, sig: dict, rate: float) -> Optional[dict]:
         # Es la cifra que decide, y la que faltaba: ver ventaja_neta_pct().
         v_neta = ventaja_neta_pct(best.get('cost_per_contract'), ret_pct, stock_ret,
                                   best.get('roundtrip_spread_usd'))
+        propia = valoracion_propia(sig, spot, upside)
         profit_at_target = {
             'target_price': round(target, 2),
+            'target_origen': 'consenso de analistas',
             'stock_return_pct': round(stock_ret, 1),
             'option_return_pct': round(ret_pct, 1),
             'leverage_realized': round(ret_pct / stock_ret, 1) if stock_ret else None,
@@ -735,6 +815,28 @@ def analyze_ticker_leaps(ticker: str, sig: dict, rate: float) -> Optional[dict]:
             'ventaja_neta_usd': (round(best['cost_per_contract'] * v_neta / 100)
                                  if v_neta is not None and best.get('cost_per_contract') else None),
         }
+
+        # El mismo contrato contra el objetivo más prudente que tenga la casa.
+        # «Si llega al target del analista rindes un 180%» es cierto y a la vez
+        # inútil cuando tus dos modelos sitúan el valor un 45% por debajo del
+        # precio de hoy: la pregunta que hay que poder contestar es qué pasa en
+        # ESE escenario, no solo en el bueno.
+        prudente = propia.get('target_prudente')
+        if prudente:
+            strike = best.get('strike')
+            coste = best.get('cost_per_contract')
+            if strike is not None and coste:
+                valor_intrinseco = max(prudente - strike, 0.0) * 100
+                profit_at_target['escenario_prudente'] = {
+                    'target_price': prudente,
+                    'target_origen': 'el más bajo de tus modelos (DCF / P/E)',
+                    'stock_return_pct': propia.get('upside_prudente_pct'),
+                    # Al vencimiento la call vale su intrínseco: sin valor
+                    # temporal que rescatar, que es lo que hace de un LEAPS una
+                    # apuesta distinta a la acción.
+                    'option_return_pct': round((valor_intrinseco - coste) / coste * 100, 1),
+                    'nota': 'al vencimiento, la opción vale solo su valor intrínseco',
+                }
 
         # Situación: ¿por qué está a este precio? (filosofía value aplicada a LEAPS)
         # forward_pe ya validado arriba (los caros ni llegan aquí).
@@ -811,6 +913,7 @@ def analyze_ticker_leaps(ticker: str, sig: dict, rate: float) -> Optional[dict]:
             'recommended_contract': best,
             'alternative_contracts': alternatives,
             'profit_at_target': profit_at_target,
+            'valoracion_propia': propia,
             'in_value_list': bool(sig.get('in_value_list')),
         }
     except Exception as e:

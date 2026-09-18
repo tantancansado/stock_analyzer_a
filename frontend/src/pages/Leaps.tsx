@@ -174,6 +174,17 @@ function OpportunityCard({ o, rank }: { o: LeapsOpportunity; rank?: number }) {
           </div>
         )}
 
+        {/* Tus propios modelos, al lado del consenso. No descarta el pick:
+            lo enseña. Un LEAPS apalanca la caída igual que la subida, así que
+            que el DCF y el P/E propio digan lo contrario que el analista es
+            exactamente lo que hay que ver antes de poner dinero. */}
+        {o.valoracion_propia?.contradice_al_analista && o.valoracion_propia.aviso && (
+          <div className="rounded-md border border-amber-500/40 bg-amber-500/10 px-3 py-2 mb-3 text-mini text-amber-300 flex items-start gap-1.5">
+            <AlertTriangle className="w-3.5 h-3.5 shrink-0 mt-0.5" />
+            <span><strong>Tus modelos no lo ven igual:</strong> {o.valoracion_propia.aviso}</span>
+          </div>
+        )}
+
         {/* Claude's honest verdict: ¿oportunidad value real o no? */}
         {o.situation_verdict && VERDICT_CONFIG[o.situation_verdict.verdict] && (
           <div className={cn('rounded-md border px-3 py-2 mb-3', VERDICT_CONFIG[o.situation_verdict.verdict].cls)}>
@@ -252,7 +263,7 @@ function OpportunityCard({ o, rank }: { o: LeapsOpportunity; rank?: number }) {
         <div className="grid grid-cols-3 sm:grid-cols-6 gap-3 mb-3 text-muted-foreground">
           <Metric label="Calidad" value={o.quality_score?.toFixed(0) ?? '—'} className={o.quality_score ? scoreColor(o.quality_score) : ''} />
           <Metric label="Momento" value={o.timing_score.toFixed(0)} className={scoreColor(o.timing_score)} />
-          <Metric label="Upside" value={o.analyst_upside_pct != null ? `${o.analyst_upside_pct.toFixed(0)}%` : '—'} />
+          <Metric label="Upside analista" value={o.analyst_upside_pct != null ? `${o.analyst_upside_pct.toFixed(0)}%` : '—'} hint="Consenso de analistas. Los modelos propios van debajo" />
           <Metric label="Extrínseco" value={c.extrinsic_pct != null ? `${c.extrinsic_pct.toFixed(1)}%` : '—'} hint="Prima temporal sobre el precio de la acción" />
           <Metric
             label="IV vs real"

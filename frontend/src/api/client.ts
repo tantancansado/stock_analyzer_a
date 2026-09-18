@@ -2434,6 +2434,20 @@ export interface LeapsVerdict {
   reason: string
 }
 
+/** Lo que dicen los modelos de la casa, al lado del consenso del analista. */
+export interface LeapsValoracionPropia {
+  upside_dcf_pct: number | null
+  upside_pe_pct: number | null
+  upside_triangulado_pct: number | null
+  modelos_acuerdo: string | null
+  /** El consenso dice que sube y los modelos propios que está cara. */
+  contradice_al_analista: boolean
+  aviso: string | null
+  /** El objetivo más bajo de los modelos propios. */
+  target_prudente: number | null
+  upside_prudente_pct: number | null
+}
+
 export interface LeapsOpportunity {
   ticker: string
   company_name: string
@@ -2456,6 +2470,7 @@ export interface LeapsOpportunity {
   recommended_contract: LeapsContract
   alternative_contracts?: LeapsContract[]
   profit_at_target?: LeapsProfitAtTarget | null
+  valoracion_propia?: LeapsValoracionPropia | null
   in_value_list: boolean
   ai_narrative?: string
   situation_verdict?: LeapsVerdict
