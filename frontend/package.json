@@ -10,7 +10,8 @@
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:coverage": "vitest run --coverage"
+    "test:coverage": "vitest run --coverage",
+    "prebuild": "cd .. && python3 frescura_modelos.py || true"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.2.4",

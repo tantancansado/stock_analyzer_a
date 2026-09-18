@@ -30,6 +30,7 @@ import EntryVerdictBadge from '../components/EntryVerdictBadge'
 import { useEntryVerdicts } from '../hooks/useEntryVerdicts'
 import type { TechnicalSummary } from '../api/client'
 import PageHeader from '../components/PageHeader'
+import AvisoDatosViejos from '@/components/AvisoDatosViejos'
 import RendimientoReal from '../components/RendimientoReal'
 import { LogoCandleBull } from '../components/BrandLogos'
 import { useValueExperienceMode } from '../hooks/useValueExperienceMode'
@@ -424,6 +425,8 @@ export default function ValueUS() {
         <CsvDownload dataset="value-us-full" label="CSV Full" />
         <LogoCandleBull size={44} className="ml-1 opacity-80 hidden sm:block" />
       </PageHeader>
+
+      <AvisoDatosViejos clave="value" />
 
       {/* Lo primero tras la cabecera: si esta lista bate al índice o no. Estaba
           solo en la página de Cartera, o sea en cualquier sitio menos donde se

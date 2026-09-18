@@ -5,6 +5,7 @@ import { useApi } from '../hooks/useApi'
 import TickerLogo from '../components/TickerLogo'
 import EmptyState from '../components/EmptyState'
 import PageHeader from '@/components/PageHeader'
+import AvisoDatosViejos from '@/components/AvisoDatosViejos'
 import PageShell from '@/components/PageShell'
 
 function Card({ s }: Readonly<{ s: BounceBroadSetup }>) {
@@ -107,6 +108,8 @@ export default function BroadBounceView() {
             {scanDate && <span className="text-muted-foreground ml-2">· Scan {scanDate}</span>}
           </>}
         />
+
+        <AvisoDatosViejos clave="rebotes" />
         <div className="flex flex-wrap gap-2 mt-3">
           <div className="text-micro px-2.5 py-1 rounded-lg bg-purple-500/8 border border-purple-500/20 text-purple-300">
             Universo: <b>{universeSize}</b> tickers

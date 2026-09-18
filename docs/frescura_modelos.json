@@ -1,0 +1,89 @@
+{
+  "generated_at": "2026-09-18T20:36:48Z",
+  "modelos": {
+    "value": {
+      "etiqueta": "oportunidades VALUE",
+      "fichero": "value_opportunities.csv",
+      "datos_del": "2026-09-18T05:44:29Z",
+      "desfasado": true,
+      "modulos_mas_nuevos": [
+        {
+          "modulo": "financial_cross_check.py",
+          "cambiado_el": "2026-09-18T18:02:01+02:00"
+        },
+        {
+          "modulo": "fundamental_scorer.py",
+          "cambiado_el": "2026-09-18T22:33:52+02:00"
+        },
+        {
+          "modulo": "super_score_integrator.py",
+          "cambiado_el": "2026-09-18T22:33:52+02:00"
+        }
+      ]
+    },
+    "leaps": {
+      "etiqueta": "LEAPS",
+      "fichero": "leaps_opportunities.json",
+      "datos_del": "2026-09-17T18:49:51.610277Z",
+      "desfasado": true,
+      "modulos_mas_nuevos": [
+        {
+          "modulo": "fundamental_scorer.py",
+          "cambiado_el": "2026-09-18T22:33:52+02:00"
+        },
+        {
+          "modulo": "leaps_analyzer.py",
+          "cambiado_el": "2026-09-18T22:33:52+02:00"
+        }
+      ]
+    },
+    "rebotes": {
+      "etiqueta": "rebotes",
+      "fichero": "bounce_setups_broad.json",
+      "datos_del": "2026-09-18T06:01:33Z",
+      "desfasado": true,
+      "modulos_mas_nuevos": [
+        {
+          "modulo": "bounce_scanner_broad.py",
+          "cambiado_el": "2026-09-18T08:08:49+02:00"
+        },
+        {
+          "modulo": "tasa_base.py",
+          "cambiado_el": "2026-09-18T17:56:48+02:00"
+        }
+      ]
+    },
+    "reversion": {
+      "etiqueta": "reversión a la media",
+      "fichero": "mean_reversion_opportunities.json",
+      "datos_del": "2026-09-18 06:00:21Z",
+      "desfasado": true,
+      "modulos_mas_nuevos": [
+        {
+          "modulo": "tasa_base.py",
+          "cambiado_el": "2026-09-18T17:56:48+02:00"
+        }
+      ]
+    },
+    "catalizadores": {
+      "etiqueta": "calendario de catalizadores",
+      "fichero": "catalysts.json",
+      "datos_del": "2026-09-18T06:04:33Z",
+      "desfasado": true,
+      "modulos_mas_nuevos": [
+        {
+          "modulo": "catalyst_scanner.py",
+          "cambiado_el": "2026-09-18T22:28:59+02:00"
+        }
+      ]
+    }
+  },
+  "hay_desfase": true,
+  "desfasados": [
+    "value",
+    "leaps",
+    "rebotes",
+    "reversion",
+    "catalizadores"
+  ]
+}

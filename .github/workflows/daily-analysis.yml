@@ -706,6 +706,15 @@ jobs:
           SUPABASE_MONITOR_USER_ID: ${{ secrets.SUPABASE_MONITOR_USER_ID }}
         run: python3 daily_briefing.py
 
+      # Acaban de generarse los datos con el código de este checkout, así que
+      # aquí el desfase se pone a cero. Lo vuelve a escribir el build del
+      # frontend, que es cuando puede aparecer: un arreglo entra a mediodía y
+      # los datos siguen siendo los de la madrugada hasta la próxima vuelta.
+      - name: Frescura de los modelos (¿el dato es del código de ahora?)
+        if: always()
+        continue-on-error: true
+        run: python3 frescura_modelos.py
+
       # ── Archive + status ───────────────────────────────────────────────────
       - name: Archive daily CSV snapshot
         if: always()

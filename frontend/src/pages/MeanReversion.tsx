@@ -17,6 +17,7 @@ import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '@
 import { RefreshCw, Wallet, Check, TriangleAlert, X} from 'lucide-react'
 import EmptyState from '../components/EmptyState'
 import PageHeader from '@/components/PageHeader'
+import AvisoDatosViejos from '@/components/AvisoDatosViejos'
 import PageShell from '@/components/PageShell'
 import { precio } from '../lib/moneda'
 
@@ -234,6 +235,8 @@ export default function MeanReversion() {
         </button>
         <CsvDownload dataset="mean-reversion" label="CSV" />
       </PageHeader>
+
+      <AvisoDatosViejos clave="reversion" />
 
       {(raw?.ai_narrative as string | null | undefined) && (
         <AiNarrativeCard narrative={raw.ai_narrative as string} label="Análisis del Batch Actual" className="mb-5" />

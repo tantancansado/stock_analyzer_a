@@ -3,6 +3,7 @@ import type { LucideIcon } from 'lucide-react'
 import useIsMobile from '../hooks/useIsMobile'
 import { fetchLeaps, fetchLeapsTicker, type LeapsData, type LeapsOpportunity, type LeapsContract, type LeapsSituation } from '../api/client'
 import PageHeader from '../components/PageHeader'
+import AvisoDatosViejos from '@/components/AvisoDatosViejos'
 import TickerLogo from '../components/TickerLogo'
 import LeapsPayoffLine from '../components/LeapsPayoffLine'
 import Loading, { ErrorState } from '../components/Loading'
@@ -427,6 +428,8 @@ export default function Leaps() {
         title={<span className="flex items-center gap-2"><Rocket className="w-6 h-6 text-purple-400" /> LEAPS deep-ITM</span>}
         subtitle="Calls 2027-2028 como sustituto apalancado de acciones"
       />
+
+      <AvisoDatosViejos clave="leaps" />
 
       {/* Qué es esto. Cerrado en móvil: son ~700 caracteres y en 390px se
           comían media pantalla ANTES de la primera oportunidad, así que había

@@ -1490,6 +1490,38 @@ export const fetchPipelineHealth = async (): Promise<PipelineHealth | null> => {
   }
 }
 
+/** ¿Los datos que ves se generaron con el modelo de ahora?
+ *
+ * El pipeline corre de madrugada y los arreglos entran durante el día. Entre
+ * una cosa y otra la app sirve números calculados con el código de antes, y
+ * un número viejo se lee igual que uno nuevo. `frescura_modelos.py` compara
+ * la fecha del dato con la del último commit del módulo que lo produce. */
+export interface FrescuraModelo {
+  etiqueta: string
+  fichero: string
+  datos_del: string | null
+  /** null = no se pudo determinar (≠ está al día) */
+  desfasado: boolean | null
+  modulos_mas_nuevos: { modulo: string; cambiado_el: string }[]
+}
+
+export interface Frescura {
+  generated_at: string
+  hay_desfase: boolean
+  desfasados: string[]
+  modelos: Record<string, FrescuraModelo>
+}
+
+export const fetchFrescura = async (): Promise<Frescura | null> => {
+  try {
+    const res = await fetch(`${_csvBase()}/frescura_modelos.json`, { cache: 'no-store' })
+    if (!res.ok) return null
+    return await res.json() as Frescura
+  } catch {
+    return null
+  }
+}
+
 export const fetchDailyBriefing = () =>
   apiClient.get<{ narrative: string | null; date: string | null; macro_regime?: string; picks_count?: number; top_picks?: unknown[] }>('/api/daily-briefing')
 
