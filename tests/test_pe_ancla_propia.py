@@ -23,17 +23,23 @@ import pytest
 RAIZ = Path(__file__).resolve().parent.parent
 
 
-def test_el_ancla_es_el_multiplo_propio():
+def _bloque_pe() -> str:
+    """El trozo del P/E justo, delimitado por marcadores y no por una ventana
+    de N caracteres: la primera versión de estos tests miraba los 2.500
+    siguientes y se rompió en cuanto se añadió un comentario largo — el código
+    estaba bien y el test decía que no."""
     src = (RAIZ / 'fundamental_scorer.py').read_text()
     i = src.index('# ── 3. P/E justo')
-    bloque = src[i:i + 2500]
-    assert 'perMedianoHistorico' in bloque, 'vuelve el PEG=1 para todos'
+    fin = src.index('except Exception', i)
+    return src[i:fin]
+
+
+def test_el_ancla_es_el_multiplo_propio():
+    assert 'perMedianoHistorico' in _bloque_pe(), 'vuelve el PEG=1 para todos'
 
 
 def test_sin_ancla_no_se_publica_numero():
-    src = (RAIZ / 'fundamental_scorer.py').read_text()
-    i = src.index('# ── 3. P/E justo')
-    bloque = src[i:i + 2500]
+    bloque = _bloque_pe()
     assert 'pe_target = round(eps * fair_pe, 2) if fair_pe else None' in bloque
     assert 'pe_sin_ancla_motivo' in bloque, 'y se dice POR QUÉ no lo hay'
 
