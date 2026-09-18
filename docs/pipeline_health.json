@@ -1,9 +1,9 @@
 {
-  "origen": "local",
-  "run_id": null,
-  "generated_at": "2026-09-18T06:08:23Z",
+  "origen": "github-actions",
+  "run_id": "35307777018",
+  "generated_at": "2026-09-18T06:10:22Z",
   "pipeline_date": "2026-09-18",
-  "ok_count": 18,
+  "ok_count": 19,
   "total": 21,
   "modules": {
     "value_us": {
@@ -84,16 +84,16 @@
     },
     "cerebro": {
       "status": "ok",
-      "date": "2026-09-17",
-      "days_ago": 1,
+      "date": "2026-09-18",
+      "days_ago": 0,
       "stale_threshold_days": 3,
       "columna_requerida": "sections",
       "columna_poblada": true
     },
     "mean_reversion": {
       "status": "ok",
-      "date": "2026-09-17",
-      "days_ago": 1,
+      "date": "2026-09-18",
+      "days_ago": 0,
       "stale_threshold_days": 3,
       "columna_requerida": "opportunities",
       "columna_poblada": true
@@ -108,12 +108,12 @@
     },
     "insiders": {
       "status": "ok",
-      "date": "2026-09-17",
-      "days_ago": 1,
+      "date": "2026-09-18",
+      "days_ago": 0,
       "stale_threshold_days": 3,
       "columna_requerida": "purchase_count",
       "columna_poblada": true,
-      "rows": 11,
+      "rows": 12,
       "min_rows": 1
     },
     "portfolio": {
@@ -136,56 +136,58 @@
     },
     "theses": {
       "status": "ok",
-      "date": "2026-09-17",
-      "days_ago": 1,
+      "date": "2026-09-18",
+      "days_ago": 0,
       "stale_threshold_days": 7
     },
     "catalysts": {
       "status": "ok",
-      "date": "2026-09-17",
-      "days_ago": 1,
+      "date": "2026-09-18",
+      "days_ago": 0,
       "stale_threshold_days": 7,
       "columna_requerida": "events",
       "columna_poblada": true
     },
     "economic_cal": {
       "status": "ok",
-      "date": "2026-09-17",
-      "days_ago": 1,
+      "date": "2026-09-18",
+      "days_ago": 0,
       "stale_threshold_days": 7,
       "columna_requerida": "events",
       "columna_poblada": true
     },
     "options_flow": {
       "status": "ok",
-      "date": "2026-09-17",
-      "days_ago": 1,
+      "date": "2026-09-18",
+      "days_ago": 0,
       "stale_threshold_days": 3,
       "columna_requerida": "flow_score",
       "columna_poblada": true,
-      "rows": 25,
+      "rows": 27,
       "min_rows": 1
     },
     "bounce_broad": {
       "status": "ok",
-      "date": "2026-09-17",
-      "days_ago": 1,
+      "date": "2026-09-18",
+      "days_ago": 0,
       "stale_threshold_days": 3,
       "columna_requerida": "setups",
       "columna_poblada": true
     },
     "strategies": {
-      "status": "missing",
-      "date": null
+      "status": "ok",
+      "date": "2026-09-18",
+      "days_ago": 0,
+      "stale_threshold_days": 3
     },
     "earnings_opts": {
       "status": "ok",
-      "date": "2026-09-17",
-      "days_ago": 1,
+      "date": "2026-09-18",
+      "days_ago": 0,
       "stale_threshold_days": 3,
       "columna_requerida": "snapshots",
       "columna_poblada": true,
-      "vacio_explicado": "ninguna posici\u00f3n tiene earnings dentro de 14d (los m\u00e1s pr\u00f3ximos, a 26d)"
+      "vacio_explicado": "ninguna posici\u00f3n tiene earnings dentro de 14d (los m\u00e1s pr\u00f3ximos, a 31d)"
     }
   }
 }
