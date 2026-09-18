@@ -125,8 +125,27 @@ def analyze_position(pos: dict, signals: dict) -> dict:
     breakeven = pos['strike'] + avg if avg else None
     sig = signals.get(pos['ticker'], {})
     target = la._get_analyst_target(t, sig)
+    # Tres estados, no dos. Con `fund` en NaN la cadena de comparaciones
+    # daba `fund_ok = True`, porque CUALQUIER comparación con NaN es False:
+    #
+    #     fund is not None  → True
+    #     fund != 50.0      → True
+    #     fund < COLLAPSE   → False   ← aquí se caía
+    #
+    # O sea que «no sé cómo está el negocio» se publicaba como «el negocio
+    # está bien», y un monitor cuyo único trabajo es avisar de una tesis rota
+    # se quedaba callado. Desde que el scorer emite vacío cuando más de la
+    # mitad del score no tiene respaldo, esto pasó a ser posible de verdad.
     fund = sig.get('fundamental_score')
-    fund_ok = not (fund is not None and fund != 50.0 and fund < FUND_COLLAPSE)
+    try:
+        fund = float(fund) if fund is not None else None
+        if fund is not None and fund != fund:      # NaN
+            fund = None
+    except (TypeError, ValueError):
+        fund = None
+    # 50.0 es el centinela de «dato ausente» del repo, no una nota mediocre.
+    fund_desconocido = fund is None or fund == 50.0
+    fund_roto = (not fund_desconocido) and fund < FUND_COLLAPSE
 
     alerts = []
     if pnl_pct is not None and pnl_pct >= TAKE_PROFIT_PCT:
@@ -137,8 +156,15 @@ def analyze_position(pos: dict, signals: dict) -> dict:
         alerts.append(('ROLL', f'quedan {dte}d (<9 meses) — rola a un vencimiento más largo antes de que el valor temporal se acelere'))
     if breakeven and target and target <= breakeven:
         alerts.append(('THESIS_BREAK', f'el target del analista (${target:.0f}) ya no supera tu break-even (${breakeven:.2f}) — sin recorrido'))
-    if not fund_ok:
+    if fund_roto:
         alerts.append(('THESIS_BREAK', f'fundamental_score se ha deteriorado a {fund:.0f} — vigila el negocio'))
+    elif fund_desconocido:
+        # No es una alarma sobre la empresa: es que esta vigilancia concreta
+        # está ciega. Callarlo daría a entender que el negocio se ha revisado
+        # y está bien, que es justo lo contrario.
+        alerts.append(('SIN_VIGILANCIA',
+                       'sin fundamental_score utilizable: el deterioro del '
+                       'negocio NO se está vigilando en esta posición'))
     if delta is not None and delta < DELTA_FLOOR:
         alerts.append(('DELTA_DRIFT',
                        f'delta {delta:.2f} < {DELTA_FLOOR} — el LEAPS ya no replica la acción, '
@@ -191,7 +217,11 @@ def _send_telegram(text: str) -> None:
         print(f'  Telegram falló: {e}')
 
 
-EMOJI = {'TAKE_PROFIT': '🟢', 'STOP': '🔴', 'ROLL': '🟡', 'THESIS_BREAK': '🔴'}
+# SIN_VIGILANCIA no es rojo a propósito: no dice que la empresa vaya mal,
+# dice que este control no puede opinar. Pintarlo de alarma sería inventar
+# un juicio igual que callarlo sería inventar el contrario.
+EMOJI = {'TAKE_PROFIT': '🟢', 'STOP': '🔴', 'ROLL': '🟡', 'THESIS_BREAK': '🔴',
+         'DELTA_DRIFT': '🟡', 'SIN_VIGILANCIA': '⚪'}
 
 
 def alertar_oportunidades_nuevas(sent: dict) -> int:
