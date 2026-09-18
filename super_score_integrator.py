@@ -25,6 +25,12 @@ import json
 import time
 import argparse
 from opportunity_validator import OpportunityValidator
+# Lo que se resta a un upside por encima del hard reject. No es cero (un
+# gap enorme suele tener un motivo) ni una sentencia (la muestra que lo
+# justificaba eran 14 empresas de un solo sector). Ver la nota larga en
+# `_calculate_value_score`.
+PENALIZACION_UPSIDE_ALTO = 8.0
+
 from value_bands import UPSIDE_MIN, UPSIDE_GOLDEN_MAX, UPSIDE_HARD_REJECT, VALUE_SCORE_MIN
 from data_integrity import filter_dataframe
 from ai_pick_verifier import verify_picks, apply_verdicts
@@ -1215,15 +1221,40 @@ class SuperScoreIntegrator:
                 print(f"🚫 Rejected from VALUE (analyst upside < 0%): {overvalued_tickers}")
                 df.loc[overvalued, 'value_score'] = 0.0
 
-            # VALUE-TRAP HARD REJECT: upside >= 30% is a falling knife, not a bargain.
-            # Real data (86 clean signals): the >=30% tier had 0% win across 55 signals
-            # and -8.28% avg 30d. A huge analyst gap means the price collapsed for a
-            # reason the model doesn't see. Consistent with "0 signals > false signals".
+            # UPSIDE ALTO: se MARCA para verificar, ya no se rechaza de plano.
+            #
+            # El rechazo automático decía apoyarse en «100 señales, 28% de
+            # acierto». Al desglosarlas el 18-sep-2026 resultó que esas 100
+            # señales son CATORCE empresas, y una sola (EXPN.L) aporta 24:
+            #
+            #   EXPN.L 24 · WTKWY 13 · SAP.DE 12 · BR 11 · JKHY 8 · RMV.L 8
+            #   SGE.L 8 · RELX 4 · AUTO.L 3 · INTU 3 · CLPBY 2 · SAP 2 ...
+            #
+            # Y las catorce son software, datos o información profesional
+            # (Technology 45 señales, Industrials 41 — Experian, Wolters
+            # Kluwer, RELX). Eso no mide «el upside alto es trampa»: mide «en
+            # 2026 el software de datos cayó por miedo a la IA». Contando una
+            # vez cada empresa quedan 3 de 14 en positivo, que con esa muestra
+            # no justifica tirar una banda entera del universo.
+            #
+            # El usuario lo dijo antes que los datos: «si una empresa tiene un
+            # 50% de consenso podemos estar ante la operación del año si es
+            # cierta; hay empresas que cayeron por miedo a la IA y siguen
+            # facturando». Un upside alto es algo que hay que INVESTIGAR, no
+            # una sentencia.
+            #
+            # Se penaliza (sigue siendo un aviso: un gap enorme suele tener un
+            # motivo) y se marca para que el verificador de fichas lo mire con
+            # el contexto delante — si los ingresos crecen, el descuento puede
+            # ser real.
+            df['upside_requiere_verificacion'] = False
             value_trap = _up.notna() & (_up >= UPSIDE_HARD_REJECT)
             if value_trap.sum() > 0:
                 trap_tickers = df[value_trap]['ticker'].tolist()
-                print(f"🚫 Rejected from VALUE (upside ≥30% — value trap, 0% win in backtest): {trap_tickers}")
-                df.loc[value_trap, 'value_score'] = 0.0
+                print(f"🔍 Upside ≥{UPSIDE_HARD_REJECT:.0f}% — a verificar, no rechazados: {trap_tickers}")
+                df.loc[value_trap, 'upside_requiere_verificacion'] = True
+                df.loc[value_trap, 'value_score'] = (
+                    df.loc[value_trap, 'value_score'] - PENALIZACION_UPSIDE_ALTO).clip(lower=0)
 
             # Recalibrated on 86 real clean-period VALUE signals (2026-04-08+):
             # analyst upside is a VALUE-TRAP indicator, not a conviction signal.

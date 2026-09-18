@@ -37,6 +37,10 @@ FICHA_FIELDS = (
     'analyst_upside_pct', 'target_price_dcf_upside_pct', 'target_price_pe_upside_pct',
     'upside_triangulated_pct', 'upside_divergence',
     'modelos_dispersion_pts', 'modelos_acuerdo',
+    'upside_requiere_verificacion',
+    # Para poder juzgar si un descuento grande es real: si los ingresos
+    # crecen, el mercado puede estar castigando un miedo y no un deterioro.
+    'revenue_growth_pct', 'rev_growth_yoy',
     'fcf_yield_pct', 'ebit_ev_yield', 'peg_ratio', 'dividend_yield_pct',
     'proximity_to_52w_high', 'relative_strength_6m',
     'entry_readiness', 'entry_readiness_reason', 'ma_filter_pass', 'ma_filter_reason',
@@ -69,6 +73,17 @@ Qué NO es un problema (contrato de la ficha, respétalo):
   sistema funcionando, no un dato que falte.
 - Un campo ausente de la ficha es un dato que no se pudo obtener. Señálalo solo
   si su ausencia invalida la recomendación, no por estar ausente.
+
+Cuando `upside_requiere_verificacion` es verdadero, el analista ve un descuento
+grande (>=30%). Eso NO es motivo de rechazo por sí solo: puede ser la
+oportunidad, y puede ser una trampa. Lo que se te pide es mirar si la propia
+ficha lo sostiene o lo desmiente:
+- lo SOSTIENE si los ingresos siguen creciendo, el margen aguanta y los
+  modelos propios no lo contradicen — un negocio que factura y crece con el
+  precio hundido es un descuento, no una avería;
+- lo DESMIENTE si el crecimiento se ha dado la vuelta, el margen se hunde o
+  los múltiplos solo cuadran con un beneficio que la ficha no enseña.
+Marca BLOCK solo en el segundo caso, y di cuál de los dos ves.
 
 Severidad:
 - "BLOCK": el dato es erróneo o la contradicción invalida la recomendación.

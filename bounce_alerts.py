@@ -88,6 +88,9 @@ def load_broad_setups() -> list[dict]:
                 'rr':      s.get('rr'),
                 'rsi':     s.get('rsi2'),
                 'note':    f"RSI2 ayer {s.get('rsi2')} · vol {s.get('vol_ratio')}x",
+                'esperanza_pct':   s.get('esperanza_pct'),
+                'esperanza_n':     s.get('esperanza_n'),
+                'esperanza_dias':  s.get('esperanza_dias_mediana'),
             })
         return out
     except FileNotFoundError:
@@ -223,6 +226,9 @@ def load_curated_setups() -> list[dict]:
                 'regimen_ok': r.get('market_ok'),
                 'regimen':    r.get('market_regime'),
                 'note':    f"RSI {r.get('rsi')} · score MR {score}" if pd.notna(score) else f"RSI {r.get('rsi')}",
+                'esperanza_pct':   _num(r.get('esperanza_pct')),
+                'esperanza_n':     _num(r.get('esperanza_n')),
+                'esperanza_dias':  _num(r.get('esperanza_dias_mediana')),
             })
         return out
     except FileNotFoundError:
@@ -327,7 +333,7 @@ def _fmt(v, prefix='$') -> str:
 
 def build_message(setups: list[dict], today: str) -> str:
     lines = [f'🎯 <b>Setup de Rebote detectado</b> — {today}',
-             '<i>Es raro (~1/semana): merece un vistazo hoy, horizonte 1-5 días</i>', '']
+             '<i>Es raro (~1/semana): merece un vistazo hoy</i>', '']
     # El régimen, arriba del todo y una sola vez. El detector ya lo calcula
     # («SPY < MA50 → rebotes de alto riesgo») y el aviso lo ignoraba: CBOE se
     # avisó el 16-sep-2026 con `market_regime: CORRECCIÓN` y `market_ok: False`
@@ -365,10 +371,20 @@ def build_message(setups: list[dict], today: str) -> str:
                 cotiza = f" (cotiza {_fmt(pantalla)})"
         except (TypeError, ValueError):
             pass
+        # Cuánto tarda de mediana en llegar al objetivo, medido sobre los
+        # episodios en que ESE valor estuvo igual. Es el dato que faltaba: el
+        # 18-sep-2026 la alerta anunciaba «1-5 días» para un setup de GS que
+        # históricamente tarda 33 SESIONES en llegar. Sin esto, uno entra
+        # esperando una semana y sale antes de que la operación ocurra.
+        hist = ''
+        e, n, dias = s.get('esperanza_pct'), s.get('esperanza_n'), s.get('esperanza_dias')
+        if e is not None and n:
+            tarda = f" · suele tardar {int(dias)} sesiones" if dias else ''
+            hist = f"\n   Histórico: {e:+.1f}% de esperanza en {int(n)} casos iguales{tarda}"
         lines.append(
             f"{tag} <b>{s['ticker']}</b> [{s['source']}] entrada {_fmt(s.get('price'))}{cotiza}\n"
             f"   Target {_fmt(s.get('target'))} · Stop {_fmt(s.get('stop'))}{rr}{techo}\n"
-            f"   {s.get('note', '')}"
+            f"   {s.get('note', '')}{hist}"
         )
         lines.append('')
 
