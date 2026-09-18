@@ -213,6 +213,12 @@ Todos afectaban a números que se usan para decidir una compra.
 | La cobertura de intereses usaba el EBIT de yfinance | KHC −4,7x por un deterioro de 9,31 B que no es caja; real 4,9x. TEVA 1,79x en vez de 3,63x, disparando la trampa de dividendo | arreglado |
 | El Magic Formula, el mismo EBIT | KHC el ÚLTIMO de 149 con −9,83% cuando es el sexto con +10,13% | arreglado |
 | El escáner de cortos inicializaba la cobertura con el EBITDA | sin las filas del estado financiero, «cobertura 5.000.000.000» | arreglado |
+| Los datos de la IA no pasaban por ningún cuadre | se valida la URL y el periodo, no la magnitud; `check_coherence` corre ANTES del relleno | arreglado |
+| El Piotroski castigaba por datos que un sector no publica | un banco no puede sumar F6 ni F8: su techo real es 7 de 9, y el número va al gate de Claude | arreglado |
+| 16 tickers con el 55% del score en valores por defecto | sin trimestrales, calidad y crecimiento se van al neutro; el 53 resultante parece una empresa mediocre | arreglado |
+| La protección del caso MMC nunca llegaba a publicarse | un `print` formateaba con `:.1f` un score None; el TypeError lo convertía en ❌ ERROR en vez de ❓ SIN DATOS | arreglado |
+| Un score ausente hacía NaN al super score | `!= 50` da True para un NaN, así que el ausente entraba en la media ponderada | arreglado |
+| El monitor de LEAPS daba por buena una tesis que no podía mirar | con el fundamental en NaN la cadena de comparaciones daba «está bien» y se callaba | arreglado |
 
 ---
 
