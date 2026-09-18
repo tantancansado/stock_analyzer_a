@@ -136,7 +136,7 @@ class TestElResolvedorDeTikr:
         ns: dict = {}
         for ini, fin in (('EXCHANGE_RIC = {', '\n}\n'),
                          ('TIKR_TICKER_MAP = {', 'def build_ric_id'),
-                         ('BOLSAS_US = {', '# Stealth timing')):
+                         ('BOLSAS_US = (', '# Stealth timing')):
             i = src.index(ini)
             j = src.index(fin, i) + (3 if fin == '\n}\n' else 0)
             exec(textwrap.dedent(src[i:j]), ns)
@@ -150,7 +150,10 @@ class TestElResolvedorDeTikr:
         assert f('MCO') == 'MCO', 'sin sufijo se queda igual'
 
     def test_los_casos_especiales_siguen_mandando(self):
-        assert self._modulo()['tikr_ticker']('BRK-B') == 'BRK/B'
+        # 'BRK.B' con PUNTO desde el 18-sep-2026: con la barra, Algolia no
+        # devolvía ningún resultado que cuadrara y Berkshire se quedaba sin
+        # datos de TIKR. Comprobado contra las cuatro variantes.
+        assert self._modulo()['tikr_ticker']('BRK-B') == 'BRK.B'
 
     def test_un_ticker_nuevo_no_depende_del_mapa_a_mano(self):
         """El mapa cubre los 9 tickers con sufijo de hoy. El décimo que se

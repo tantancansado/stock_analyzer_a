@@ -98,9 +98,25 @@ EXCHANGE_RIC = {
     'BVL':       'LM',  # Bolsa de Valores de Lima
 }
 
-# Bolsas de EE.UU., derivadas del mapa de arriba: son las que tienen sufijo RIC
-# 'O' (Nasdaq), 'N' (NYSE/ARCA) o 'A' (AMEX).
-BOLSAS_US = {nombre for nombre, ric in EXCHANGE_RIC.items() if ric in ('O', 'N', 'A')}
+# Bolsas de EE.UU. Derivarlas del mapa de arriba NO basta: ese mapa existe para
+# construir el RIC de las que interesan, no para enumerar el mercado
+# estadounidense. El 18-sep-2026 `EXPN.L` seguía resolviendo al «Horizon
+# Expansion Leaders ETF» —un fondo americano— porque cotiza en BATS, que no
+# estaba en el mapa: el guardia lo daba por bolsa extranjera y lo dejaba pasar.
+#
+# Aquí van explícitas, incluidas las que no necesitan RIC. Una bolsa de EE.UU.
+# que falte en esta lista es un agujero por el que entra otra empresa.
+BOLSAS_US = (
+    {nombre for nombre, ric in EXCHANGE_RIC.items() if ric in ('O', 'N', 'A')}
+    | {
+        'BATS',        # Cboe BZX — donde cotizan muchos ETF
+        'CboeBZX', 'CboeBYX', 'CboeEDGA', 'CboeEDGX',
+        'NasdaqBX', 'NasdaqPHLX', 'NasdaqNM',
+        'NYSEAM', 'NYSEArca', 'NYSEAmerican', 'NYSEMKT',
+        'OTCPK', 'OTCBB', 'OTCQB', 'OTCQX', 'PINX',   # OTC: también EE.UU.
+        'IEX',
+    }
+)
 
 
 def _bolsa_coherente(ticker: str, exchange: str) -> bool:
@@ -222,7 +238,11 @@ def save_id_cache(cache: dict):
 # Nuestro formato → formato TIKR para búsqueda Algolia
 TIKR_TICKER_MAP = {
     'AI.PA':  'AI',
-    'BRK-B':  'BRK/B',
+    # BRK.B con PUNTO, no con barra. Con 'BRK/B' Algolia no devolvía nada que
+    # cuadrara y el guardia lo dejaba sin resolver —correcto, pero sin dato—;
+    # con 'BRK.B' devuelve Berkshire Hathaway Inc. en NYSE. Comprobado
+    # ticker a ticker el 18-sep-2026 contra las cuatro variantes.
+    'BRK-B':  'BRK.B',
     'CSU.TO': 'CSU',
     'LSEG.L': 'LSEG',
     'EXPN.L': 'EXPN',
