@@ -175,6 +175,63 @@ def crecimiento_ingresos_3y(stock) -> float | None:
         return None
 
 
+
+def per_mediano_historico(stock) -> float | None:
+    """PER mediano de los últimos años de la PROPIA empresa.
+
+    El modelo de «P/E justo» usaba PEG = 1, o sea PER justo = crecimiento en
+    porcentaje. Para una empresa de calidad que crece poco eso da disparates:
+
+        MCD   cotiza a 20,2 · su PER mediano de 4 años es 24,7 · PEG=1 dice 10
+        V     cotiza a 31,5 · mediano 32,8                     · PEG=1 dice 14
+        ADSK  cotiza a 28,6 · mediano 58,8                     · PEG=1 dice 16
+
+    Con ese ancla, la mitad del universo salía «un 50% cara» (77 de 148 con
+    |upside| > 60% el 18-sep-2026). Un PER de 10 para McDonald's no es una
+    valoración, es el modelo diciendo que no sabe.
+
+    La mediana del múltiplo propio es el ancla estándar para esto: la empresa
+    vuelve a lo que el mercado le ha pagado históricamente. No sirve cuando no
+    hay histórico o el beneficio fue negativo; ahí se devuelve None y el que
+    llama decide.
+    """
+    try:
+        fin, hist = stock.income_stmt, stock.history(period='5y')
+    except Exception:
+        return None
+    if fin is None or getattr(fin, 'empty', True) or hist is None or hist.empty:
+        return None
+    if 'Net Income' not in fin.index or 'Diluted Average Shares' not in fin.index:
+        return None
+    try:
+        ni = fin.loc['Net Income'].dropna()
+        sh = fin.loc['Diluted Average Shares'].dropna()
+        idx = hist.index
+        if getattr(idx, 'tz', None) is not None:
+            idx = idx.tz_localize(None)
+        cierres = hist['Close']
+        cierres.index = idx
+        pers = []
+        for fecha in ni.index:
+            if fecha not in sh.index:
+                continue
+            acciones = float(sh[fecha])
+            if acciones <= 0:
+                continue
+            bpa = float(ni[fecha]) / acciones
+            if bpa <= 0:
+                continue
+            px = cierres[cierres.index <= fecha]
+            if len(px):
+                pers.append(float(px.iloc[-1]) / bpa)
+        if len(pers) < 3:
+            return None
+        import statistics
+        return float(statistics.median(pers))
+    except Exception:
+        return None
+
+
 def derive_from_statements(stock, info: dict, fields: list[str] | None = None) -> tuple[dict, list[str]]:
     """Rellena campos ausentes en `info` desde los estados financieros.
 
@@ -244,6 +301,13 @@ def derive_from_statements(stock, info: dict, fields: list[str] | None = None) -
     if g3 is not None:
         out['revenueGrowth3y'] = g3
         filled.append(f'revenueGrowth3y({g3:.1%})')
+
+    # Múltiplo propio, para anclar el «P/E justo» a lo que el mercado le ha
+    # pagado a ESTA empresa y no a un PEG = 1 que no distingue calidad.
+    per_hist = per_mediano_historico(stock)
+    if per_hist is not None:
+        out['perMedianoHistorico'] = per_hist
+        filled.append(f'perMedianoHistorico({per_hist:.1f})')
 
     if filled:
         print(f"   📄 Estados financieros aportan: {', '.join(filled)}")

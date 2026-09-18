@@ -208,6 +208,11 @@ HOLGURA_BPA_SOBRE_OPERATIVO = 25.0
 # calidad» y eso no se puede decir de una venta de activos.
 CALIDAD_MAX_SIN_RESPALDO = 85.0
 
+# Rango en que el múltiplo histórico propio sirve de ancla para el «P/E
+# justo». Por encima es burbuja (NOW tiene 123 de mediana) y por debajo suele
+# ser un beneficio contable raro: en los dos casos se cae al método viejo.
+PER_ANCLA_MIN, PER_ANCLA_MAX = 8.0, 45.0
+
 
 class FundamentalScorer:
     """Sistema de scoring fundamental completo"""
@@ -1854,12 +1859,37 @@ class FundamentalScorer:
 
             if _per_share_ok and eps and eps > 0 and g_eps:
                 g_annual = float(g_eps)
-                # Fair P/E = PEG 1.0 × growth% (e.g. 15% growth → P/E 15), capped 10-30
-                fair_pe = max(10, min(g_annual * 100, 30))
-                pe_target = round(eps * fair_pe, 2)
-                if gbp_pence:
+                # El PER justo sale del MÚLTIPLO PROPIO de la empresa, no de un
+                # PEG = 1. Con PEG = 1, a McDonald's —que lleva años cotizando
+                # a 24,7 de mediana— se le asignaba un PER justo de 10 por
+                # crecer poco, y el modelo la declaraba «un 50% cara». Le
+                # pasaba a 77 de 148 tickers el 18-sep-2026.
+                #
+                # La mediana del múltiplo propio es el ancla estándar: la
+                # empresa vuelve a lo que el mercado le ha pagado. Se acota
+                # arriba porque un múltiplo de burbuja tampoco es un ancla
+                # (NOW tiene 123 de mediana), y abajo por lo mismo.
+                # Sin múltiplo propio utilizable NO se publica objetivo por
+                # P/E. El PEG = 1 de antes daba un número para todos y ese era
+                # el problema: ADSK salía «un 55% cara» porque su crecimiento
+                # de ingresos implica un PER justo de 16 cuando el mercado le
+                # ha pagado 58 de mediana. Un número malo es peor que ninguno,
+                # porque el que lo lee no sabe que es malo.
+                per_propio = info.get('perMedianoHistorico')
+                fair_pe = None
+                if per_propio and PER_ANCLA_MIN <= float(per_propio) <= PER_ANCLA_MAX:
+                    fair_pe = float(per_propio)
+                    result['pe_ancla'] = 'múltiplo propio'
+                else:
+                    result['pe_ancla'] = None
+                    result['pe_sin_ancla_motivo'] = (
+                        f'múltiplo propio {float(per_propio):.0f}x fuera del rango '
+                        f'{PER_ANCLA_MIN:.0f}-{PER_ANCLA_MAX:.0f}' if per_propio
+                        else 'sin histórico de múltiplo (beneficio negativo o pocos años)')
+                pe_target = round(eps * fair_pe, 2) if fair_pe else None
+                if pe_target and gbp_pence:
                     pe_target = round(pe_target * 100, 2)
-                if pe_target > 0:
+                if pe_target and pe_target > 0:
                     result['target_price_pe']            = pe_target
                     result['target_price_pe_upside_pct'] = _upside(pe_target)
 
