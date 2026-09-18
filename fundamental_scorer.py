@@ -213,6 +213,32 @@ CALIDAD_MAX_SIN_RESPALDO = 85.0
 # ser un beneficio contable raro: en los dos casos se cae al método viejo.
 PER_ANCLA_MIN, PER_ANCLA_MAX = 8.0, 45.0
 
+# Negocios donde el «flujo de caja operativo» NO es flujo libre para el
+# accionista: en un banco incluye el movimiento de depósitos y préstamos, y en
+# una aseguradora las primas cobradas y las reservas. Descontar eso como si
+# fuera caja disponible da resultados sin sentido — el 18-sep-2026 había 22
+# financieras con DCF publicado y once con más del 40% de desviación:
+#
+#     COF +411%   ·   PGR +176%   ·   FHN +83%   ·   BLK -68%   ·   BAC -51%
+#
+# No se descarta el sector entero: las bolsas y los proveedores de datos
+# (CBOE, ICE, SPGI, MSCI, MCO, NDAQ, FDS) son negocios normales que cobran por
+# un servicio, y ahí el DCF sí dice algo.
+INDUSTRIAS_SIN_DCF = (
+    'bank', 'insurance', 'asset management', 'credit services',
+    'capital markets', 'mortgage', 'financial conglomerates',
+)
+
+
+def dcf_aplicable(info: Dict) -> tuple[bool, Optional[str]]:
+    """¿Tiene sentido descontar flujos en este negocio?"""
+    industria = str(info.get('industry') or '').lower()
+    for clave in INDUSTRIAS_SIN_DCF:
+        if clave in industria:
+            return False, (f'{info.get("industry")}: el flujo operativo son depósitos, '
+                           f'préstamos o primas, no caja libre para el accionista')
+    return True, None
+
 
 class FundamentalScorer:
     """Sistema de scoring fundamental completo"""
@@ -1825,7 +1851,10 @@ class FundamentalScorer:
             if not _per_share_ok:
                 print(f"   ⏭️  DCF/P·E omitidos: datos por acción incoherentes con la capitalización")
 
-            if _per_share_ok and fcf and shares and float(shares) > 0 and growth_rate:
+            _dcf_ok, _dcf_motivo = dcf_aplicable(info)
+            if not _dcf_ok:
+                result['dcf_no_aplicable'] = _dcf_motivo
+            if _dcf_ok and _per_share_ok and fcf and shares and float(shares) > 0 and growth_rate:
                 fcf_ps = float(fcf) / float(shares)  # FCF per share
                 g = float(growth_rate)   # ya viene acotado y sin contaminar
                 discount = coste_del_capital(info)
