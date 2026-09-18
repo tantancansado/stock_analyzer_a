@@ -288,7 +288,7 @@ class SuperScoreIntegrator:
             'fcf_yield_pct', 'fcf_per_share',
             'dividend_yield_pct', 'payout_ratio_pct', 'five_yr_avg_dividend_yield_pct',
             'buyback_active', 'shares_change_pct',
-            'interest_coverage',
+            'interest_coverage', 'interest_coverage_base', 'interest_coverage_ebit',
             'analyst_revision_momentum',
             'days_to_earnings', 'earnings_date', 'earnings_warning', 'earnings_catalyst',
             'risk_reward_ratio',

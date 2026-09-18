@@ -1224,6 +1224,8 @@ class FundamentalScorer:
             'buyback_active': None,
             'shares_change_pct': None,
             'interest_coverage': None,
+            'interest_coverage_base': None,
+            'interest_coverage_ebit': None,
             'analyst_revision_momentum': None,
             'days_to_earnings': None,
             'earnings_date': None,
@@ -1528,6 +1530,8 @@ class FundamentalScorer:
             'shares_change_pct': None,
             # Debt quality
             'interest_coverage': None,
+            'interest_coverage_base': None,
+            'interest_coverage_ebit': None,
             # Analyst revisions
             'analyst_revision_momentum': None,  # positive = upgrades
             # Earnings calendar
@@ -1636,20 +1640,51 @@ class FundamentalScorer:
             try:
                 financials = stock.quarterly_financials
                 if financials is not None and not financials.empty:
-                    ebit_val = None
-                    for label in ['EBIT', 'Operating Income', 'Total Operating Income As Reported']:
-                        if label in financials.index:
-                            ebit_val = financials.loc[label].head(4).sum()
-                            break
-                    # Interest from income statement
-                    interest_val = None
-                    for label in ['Interest Expense', 'InterestExpense']:
-                        if label in financials.index:
-                            val = financials.loc[label].head(4).sum()
-                            interest_val = abs(float(val)) if val else None
-                            break
-                    if ebit_val and interest_val and interest_val > 0:
-                        result['interest_coverage'] = round(float(ebit_val) / float(interest_val), 1)
+                    # El resultado OPERATIVO va primero, no el EBIT. La
+                    # definición de libro del ratio usa EBIT, pero el «EBIT»
+                    # que publica yfinance arrastra las partidas
+                    # extraordinarias, y la pregunta que contesta este número
+                    # es si el NEGOCIO da para pagar la deuda.
+                    #
+                    # Kraft Heinz, ejercicio 2025: operativo +4,64 B, EBIT
+                    # -4,50 B, y la diferencia es un deterioro de 9,31 B de
+                    # marcas que no sale de la caja. Con EBIT la cobertura es
+                    # -4,7x, como si no pudiera pagar; con el operativo es
+                    # 4,9x, que es lo que de verdad pasa.
+                    #
+                    # Medido sobre 126 del universo: 27 difieren más de un 10%
+                    # y solo uno cambia una decisión — TEVA, 1,79x con EBIT
+                    # (dispara los +20 puntos de trampa de dividendo) contra
+                    # 3,63x con el operativo. Los demás casos grandes (GOOG
+                    # 134 vs 66, TW 634 vs 474) están tan por encima de
+                    # cualquier umbral que da igual cuál se use.
+                    def _ttm(*etiquetas):
+                        for label in etiquetas:
+                            if label in financials.index:
+                                serie = financials.loc[label].dropna()
+                                # Hacen falta los cuatro trimestres: sumar dos
+                                # y compararlos con intereses de dos sale
+                                # parecido por casualidad, y con tres no.
+                                if len(serie) >= 4:
+                                    return float(serie.head(4).sum()), label
+                        return None, None
+
+                    operativo, base = _ttm('Operating Income',
+                                           'Total Operating Income As Reported')
+                    if operativo is None:
+                        operativo, base = _ttm('EBIT')
+                    ebit, _ = _ttm('EBIT')
+                    interest_val, _ = _ttm('Interest Expense', 'InterestExpense')
+                    interest_val = abs(interest_val) if interest_val else None
+
+                    if operativo is not None and interest_val and interest_val > 0:
+                        result['interest_coverage'] = round(operativo / interest_val, 1)
+                        result['interest_coverage_base'] = base
+                        # El del EBIT se publica al lado: cuando los dos se
+                        # separan mucho, esa distancia ES la información (hay
+                        # extraordinarios de por medio).
+                        if ebit is not None:
+                            result['interest_coverage_ebit'] = round(ebit / interest_val, 1)
             except Exception:
                 pass
 
