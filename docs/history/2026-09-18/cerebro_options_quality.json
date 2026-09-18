@@ -1,10 +1,31 @@
 {
   "generated_at": "2026-09-18",
-  "total": 27,
+  "total": 13,
   "tier1": 0,
-  "tier2": 0,
-  "tier3": 6,
-  "noise_filtered": 21,
-  "actionable": [],
-  "narrative": null
+  "tier2": 1,
+  "tier3": 2,
+  "noise_filtered": 10,
+  "actionable": [
+    {
+      "ticker": "INTU",
+      "company_name": "Intuit Inc.",
+      "sentiment": "BEARISH",
+      "tier": "TIER2",
+      "quality_score": 55,
+      "value_score": 37.7,
+      "fcf_yield": 10.3,
+      "insider_confirmation": false,
+      "in_value": true,
+      "quality_factors": [
+        "VALUE weak (38pts)",
+        "FCF 10.3%",
+        "DIRECTIONAL (100% puts)",
+        "Grade A"
+      ],
+      "flow_score": 80.0,
+      "total_premium": 3260195.0,
+      "detected_date": "2026-09-18"
+    }
+  ],
+  "narrative": "Porque las opciones reflejan la percepci\u00f3n del mercado sobre el riesgo y la rentabilidad futura, solo se activan de manera consistente cuando el precio del activo subyacente est\u00e1 respaldado por fundamentos s\u00f3lidos que justifican esa expectativa. Cuando los fundamentos y la valoraci\u00f3n est\u00e1n alineados"
 }

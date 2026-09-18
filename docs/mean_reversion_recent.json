@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-18T06:00:27.943520",
+  "generated_at": "2026-09-18T23:36:55.139080",
   "tickers": {
     "AON": {
       "ticker": "AON",
@@ -13,9 +13,9 @@
       "target": 339.51,
       "stop_loss": 298.76,
       "rsi_at_signal": 26.6,
-      "current_price": 296.04998779296875,
+      "current_price": 295.6400146484375,
       "status": "STOP_ALCANZADO",
-      "ai_note": "Stop alcanzado."
+      "ai_note": ""
     },
     "HEI": {
       "ticker": "HEI",
@@ -29,7 +29,7 @@
       "target": 354.72,
       "stop_loss": 290.59,
       "rsi_at_signal": 10.5,
-      "current_price": 296.4800109863281,
+      "current_price": 298.2200012207031,
       "status": "VENTANA_EXPIRADA",
       "ai_note": ""
     },
@@ -45,7 +45,7 @@
       "target": 19.87,
       "stop_loss": 16.59,
       "rsi_at_signal": 27.0,
-      "current_price": 17.520000457763672,
+      "current_price": 17.639999389648438,
       "status": "EN_VENTANA",
       "ai_note": ""
     },
@@ -61,7 +61,7 @@
       "target": 166.91,
       "stop_loss": 129.77,
       "rsi_at_signal": 28.0,
-      "current_price": 138.75999450683594,
+      "current_price": 135.25999450683594,
       "status": "EN_VENTANA",
       "ai_note": ""
     },
@@ -77,9 +77,9 @@
       "target": 167.46,
       "stop_loss": 151.45,
       "rsi_at_signal": 23.6,
-      "current_price": 155.22999572753906,
+      "current_price": 155.3300018310547,
       "status": "EN_VENTANA",
-      "ai_note": ""
+      "ai_note": "Estado EN_VENT"
     },
     "TT": {
       "ticker": "TT",
@@ -93,7 +93,23 @@
       "target": 438.82,
       "stop_loss": 386.9,
       "rsi_at_signal": 19.1,
-      "current_price": 423.3299865722656,
+      "current_price": 429.1099853515625,
+      "status": "EN_VENTANA",
+      "ai_note": ""
+    },
+    "ADSK": {
+      "ticker": "ADSK",
+      "company_name": "Autodesk, Inc.",
+      "strategy": "Oversold Bounce",
+      "quality": "MODERADA",
+      "signal_date": "2026-09-18",
+      "days_since_signal": 0,
+      "window_days": 3,
+      "entry_zone": "$214.17 - $218.64",
+      "target": 233.94,
+      "stop_loss": 207.62,
+      "rsi_at_signal": 23.1,
+      "current_price": 216.9499969482422,
       "status": "EN_VENTANA",
       "ai_note": ""
     }

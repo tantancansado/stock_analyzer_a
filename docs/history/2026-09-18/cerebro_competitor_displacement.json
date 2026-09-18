@@ -1,64 +1,9 @@
 {
   "generated_at": "2026-09-18",
-  "total": 8,
-  "dropped_count": 4,
-  "narrative": "1. Rotar dentro de un sector es m\u00e1s acertado cuando varios peers est\u00e1n saliendo de la categor\u00eda \u201cVALUE\u201d y el impulso de precios ya se refleja en los l\u00edderes, lo que indica que el resto del sector est\u00e1 listo para beneficiarse de la revalorizaci\u00f3n.  \n\n2. Esperar tiene menos sentido cuando la divergencia entre los movimientos",
+  "total": 5,
+  "dropped_count": 0,
+  "narrative": "1. Rotar dentro de un sector es m\u00e1s conveniente cuando los indicadores de impulso (como el \u201ctailwind\u201d sectorial) se\u00f1alan una ventaja competitiva clara y sostenida, mientras que los pares de referencia siguen mostrando debilidad o sobrevaloraci\u00f3n.  \n\n2. Tambi\u00e9n tiene sentido cambiar de posici\u00f3n en el mismo sector cuando los eventos de salida a pares (EXIT_TO_PEER",
   "displacements": [
-    {
-      "type": "COMPETITOR_RISE",
-      "dropped_ticker": "MCO",
-      "sector": "Financial Services",
-      "prev_score": 88.0,
-      "replacements": [
-        "CBOE",
-        "FHN",
-        "FCNCA"
-      ],
-      "top_replacement": "CBOE",
-      "top_replacement_score": 70.32999999999998,
-      "detail": "MCO sali\u00f3 de VALUE (88pts); peers en Financial Services: CBOE, FHN"
-    },
-    {
-      "type": "COMPETITOR_RISE",
-      "dropped_ticker": "AUTO.L",
-      "sector": "Communication Services",
-      "prev_score": 55.6,
-      "replacements": [
-        "GOOG",
-        "META"
-      ],
-      "top_replacement": "GOOG",
-      "top_replacement_score": 77.07,
-      "detail": "AUTO.L sali\u00f3 de VALUE (56pts); peers en Communication Services: GOOG, META"
-    },
-    {
-      "type": "COMPETITOR_RISE",
-      "dropped_ticker": "NDSN",
-      "sector": "Industrials",
-      "prev_score": 60.83,
-      "replacements": [
-        "WKL.AS",
-        "LR.PA",
-        "ASSA-B.ST"
-      ],
-      "top_replacement": "WKL.AS",
-      "top_replacement_score": 60.8,
-      "detail": "NDSN sali\u00f3 de VALUE (61pts); peers en Industrials: WKL.AS, LR.PA"
-    },
-    {
-      "type": "COMPETITOR_RISE",
-      "dropped_ticker": "BAC",
-      "sector": "Financial Services",
-      "prev_score": 55.55500000000001,
-      "replacements": [
-        "CBOE",
-        "FHN",
-        "FCNCA"
-      ],
-      "top_replacement": "CBOE",
-      "top_replacement_score": 70.32999999999998,
-      "detail": "BAC sali\u00f3 de VALUE (56pts); peers en Financial Services: CBOE, FHN"
-    },
     {
       "type": "EXIT_TO_PEER",
       "exiting_ticker": "BAC",
@@ -66,6 +11,14 @@
       "replacement": "CBOE",
       "replacement_score": 70.32999999999998,
       "detail": "Exit BAC (Financial Services) \u2192 rotar a peer CBOE (70pts)"
+    },
+    {
+      "type": "EXIT_TO_PEER",
+      "exiting_ticker": "AXP",
+      "sector": "Financial Services",
+      "replacement": "CBOE",
+      "replacement_score": 70.32999999999998,
+      "detail": "Exit AXP (Financial Services) \u2192 rotar a peer CBOE (70pts)"
     },
     {
       "type": "SECTOR_TAILWIND",

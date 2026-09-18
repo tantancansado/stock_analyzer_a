@@ -4,7 +4,7 @@
   "tier1": 1,
   "tier2": 4,
   "tier3": 12,
-  "narrative": "",
+  "narrative": "Esta confluencia de capital inteligente indica que tanto los fondos de cobertura (HF) como los insiders est\u00e1n alineados en su evaluaci\u00f3n positiva de varios valores, lo que sugiere una fuerte convicci\u00f3n del mercado en su potencial de apreciaci\u00f3n. Cuando varios indicadores de \u201csmart money\u201d coinciden \u2014por ejemplo, altas puntuaciones de score y value_score\u2014 aumenta la probabilidad de que esas acciones experimenten movimientos alcistas sostenidos.",
   "signals": [
     {
       "ticker": "VRSN",
@@ -144,6 +144,22 @@
       "in_value": true
     },
     {
+      "ticker": "FCNCA",
+      "company_name": "First Citizens BancShares, Inc.",
+      "sector": "Financial Services",
+      "value_score": 51.92499999999999,
+      "tier": 3,
+      "tier_label": "HF+Value",
+      "n_hedge_funds": 1,
+      "hedge_funds": [
+        "Appaloosa (Tepper)"
+      ],
+      "n_insiders": 0,
+      "insider_purchases": 0,
+      "convergence_score": 31,
+      "in_value": true
+    },
+    {
       "ticker": "OXY",
       "company_name": "Occidental Petroleum Corporation",
       "sector": "Energy",
@@ -160,19 +176,19 @@
       "in_value": true
     },
     {
-      "ticker": "FCNCA",
-      "company_name": "First Citizens BancShares, Inc.",
+      "ticker": "BAC",
+      "company_name": "Bank of America Corporation",
       "sector": "Financial Services",
-      "value_score": 51.92499999999999,
+      "value_score": 44.95,
       "tier": 3,
       "tier_label": "HF+Value",
       "n_hedge_funds": 1,
       "hedge_funds": [
-        "Appaloosa (Tepper)"
+        "Berkshire Hathaway (Buffett)"
       ],
       "n_insiders": 0,
       "insider_purchases": 0,
-      "convergence_score": 31,
+      "convergence_score": 28,
       "in_value": true
     },
     {
@@ -212,22 +228,6 @@
       "company_name": "American Express Company",
       "sector": "Financial Services",
       "value_score": 43.0,
-      "tier": 3,
-      "tier_label": "HF+Value",
-      "n_hedge_funds": 1,
-      "hedge_funds": [
-        "Berkshire Hathaway (Buffett)"
-      ],
-      "n_insiders": 0,
-      "insider_purchases": 0,
-      "convergence_score": 28,
-      "in_value": true
-    },
-    {
-      "ticker": "BAC",
-      "company_name": "Bank of America Corporation",
-      "sector": "Financial Services",
-      "value_score": 44.95,
       "tier": 3,
       "tier_label": "HF+Value",
       "n_hedge_funds": 1,

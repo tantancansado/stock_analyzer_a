@@ -1,6 +1,6 @@
 {
   "generated_at": "2026-09-18",
-  "total_convergences": 18,
+  "total_convergences": 11,
   "triple_or_more": 1,
   "convergences": [
     {
@@ -10,11 +10,10 @@
       "strategies": [
         "VALUE",
         "INSIDERS",
-        "OPTIONS",
         "MOMENTUM"
       ],
-      "strategy_count": 4,
-      "convergence_score": 100,
+      "strategy_count": 3,
+      "convergence_score": 86,
       "value_score": 33.44,
       "conviction_grade": "nan",
       "analyst_upside_pct": 7.4,
@@ -23,7 +22,7 @@
       "streak_days": 13,
       "earnings_warning": false,
       "days_to_earnings": 34.0,
-      "analysis": "La convergencia de los cuatro indicadores (VALUE, INSIDERS, OPTIONS y MOMENTUM) durante 13 d\u00edas consecutivos sugiere que diferentes m\u00e9tricas \u2014valoraci\u00f3n, actividad de insiders, presi\u00f3n de opciones y fuerza del precio \u2014 est\u00e1n alineadas, lo que refuerza la se\u00f1al alcista y aumenta la confianza en el potencial upside del 7,4\u202f% de VRSN. Sin embargo, es prudente vigilar la volatilidad impl\u00edcita de las opciones, confirmar que el flujo de insiders sea sostenible y validar que"
+      "analysis": "La coincidencia de las tres estrategias (VALUE,"
     },
     {
       "ticker": "SYK",
@@ -43,27 +42,7 @@
       "streak_days": 6,
       "earnings_warning": false,
       "days_to_earnings": null,
-      "analysis": "Convergencia de 2 estrategias: INSIDERS, OPTIONS."
-    },
-    {
-      "ticker": "MSCI",
-      "company_name": "",
-      "sector": "",
-      "strategies": [
-        "INSIDERS",
-        "OPTIONS"
-      ],
-      "strategy_count": 2,
-      "convergence_score": 60,
-      "value_score": null,
-      "conviction_grade": "",
-      "analyst_upside_pct": null,
-      "fcf_yield_pct": null,
-      "current_price": null,
-      "streak_days": 6,
-      "earnings_warning": false,
-      "days_to_earnings": null,
-      "analysis": "La convergencia sostenida de actividad de insiders y de opciones durante seis d\u00edas seguidos suele se\u00f1alar que tanto los ejecutivos como los participantes del mercado"
+      "analysis": "La convergencia de insiders y opciones durante seis d\u00edas seguidos sugiere que los ejecutivos de SYK est\u00e1n alineando sus movimientos de compra/venta con la actividad de los"
     },
     {
       "ticker": "CME",
@@ -83,27 +62,7 @@
       "streak_days": 5,
       "earnings_warning": false,
       "days_to_earnings": null,
-      "analysis": null
-    },
-    {
-      "ticker": "LIN",
-      "company_name": "",
-      "sector": "",
-      "strategies": [
-        "INSIDERS",
-        "OPTIONS"
-      ],
-      "strategy_count": 2,
-      "convergence_score": 60,
-      "value_score": null,
-      "conviction_grade": "",
-      "analyst_upside_pct": null,
-      "fcf_yield_pct": null,
-      "current_price": null,
-      "streak_days": 3,
-      "earnings_warning": false,
-      "days_to_earnings": null,
-      "analysis": null
+      "analysis": "La convergencia de insiders y opciones durante cinco d\u00edas consecutivos indica que tanto los participantes con informaci\u00f3n privilegiada como los operadores de derivados est\u00e1n alineando sus expectativas sobre el movimiento futuro del precio, lo que puede anticipar una ruptura o un fuerte soporte/resistencia. Sin embargo, es crucial validar que el volumen y la actividad sean consistentes, evitar sobre\u2011exponer la posici\u00f3n y combinar este se\u00f1al con an\u00e1lisis t\u00e9cnico y fundamental para confirmar la direcci\u00f3n antes de operar."
     },
     {
       "ticker": "MKC",
@@ -123,26 +82,6 @@
       "streak_days": 2,
       "earnings_warning": false,
       "days_to_earnings": 13.0,
-      "analysis": null
-    },
-    {
-      "ticker": "V",
-      "company_name": "Visa Inc.",
-      "sector": "Financial Services",
-      "strategies": [
-        "VALUE",
-        "OPTIONS"
-      ],
-      "strategy_count": 2,
-      "convergence_score": 59,
-      "value_score": 48.32499999999999,
-      "conviction_grade": "B",
-      "analyst_upside_pct": 13.4,
-      "fcf_yield_pct": 3.04,
-      "current_price": 369.93,
-      "streak_days": 5,
-      "earnings_warning": false,
-      "days_to_earnings": 39.0,
       "analysis": null
     },
     {
@@ -206,26 +145,6 @@
       "analysis": null
     },
     {
-      "ticker": "MA",
-      "company_name": "Mastercard Incorporated",
-      "sector": "Financial Services",
-      "strategies": [
-        "VALUE",
-        "OPTIONS"
-      ],
-      "strategy_count": 2,
-      "convergence_score": 49,
-      "value_score": 46.92,
-      "conviction_grade": "nan",
-      "analyst_upside_pct": 17.9,
-      "fcf_yield_pct": 3.27,
-      "current_price": 565.73,
-      "streak_days": 1,
-      "earnings_warning": false,
-      "days_to_earnings": 41.0,
-      "analysis": null
-    },
-    {
       "ticker": "MSFT",
       "company_name": "Microsoft Corporation",
       "sector": "Technology",
@@ -266,46 +185,6 @@
       "analysis": null
     },
     {
-      "ticker": "PG",
-      "company_name": "The Procter & Gamble Company",
-      "sector": "Consumer Defensive",
-      "strategies": [
-        "VALUE",
-        "OPTIONS"
-      ],
-      "strategy_count": 2,
-      "convergence_score": 47,
-      "value_score": 39.11000000000001,
-      "conviction_grade": "nan",
-      "analyst_upside_pct": 8.9,
-      "fcf_yield_pct": 4.42,
-      "current_price": 147.55,
-      "streak_days": 2,
-      "earnings_warning": false,
-      "days_to_earnings": 34.0,
-      "analysis": null
-    },
-    {
-      "ticker": "SPGI",
-      "company_name": "S&P Global Inc.",
-      "sector": "Financial Services",
-      "strategies": [
-        "VALUE",
-        "OPTIONS"
-      ],
-      "strategy_count": 2,
-      "convergence_score": 47,
-      "value_score": 38.8,
-      "conviction_grade": "B",
-      "analyst_upside_pct": 28.8,
-      "fcf_yield_pct": 4.65,
-      "current_price": 404.11,
-      "streak_days": 1,
-      "earnings_warning": false,
-      "days_to_earnings": 41.0,
-      "analysis": null
-    },
-    {
       "ticker": "INTU",
       "company_name": "Intuit Inc.",
       "sector": "Technology",
@@ -323,26 +202,6 @@
       "streak_days": 1,
       "earnings_warning": false,
       "days_to_earnings": 62.0,
-      "analysis": null
-    },
-    {
-      "ticker": "KO",
-      "company_name": "The Coca-Cola Company",
-      "sector": "Consumer Defensive",
-      "strategies": [
-        "VALUE",
-        "OPTIONS"
-      ],
-      "strategy_count": 2,
-      "convergence_score": 47,
-      "value_score": 36.88,
-      "conviction_grade": "nan",
-      "analyst_upside_pct": 7.5,
-      "fcf_yield_pct": 3.76,
-      "current_price": 88.06,
-      "streak_days": 1,
-      "earnings_warning": false,
-      "days_to_earnings": 32.0,
       "analysis": null
     },
     {

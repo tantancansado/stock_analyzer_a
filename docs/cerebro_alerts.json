@@ -1,7 +1,7 @@
 {
   "generated_at": "2026-09-18",
-  "total": 71,
-  "high_count": 39,
+  "total": 60,
+  "high_count": 37,
   "alerts": [
     {
       "ticker": "AAL.L",
@@ -216,21 +216,6 @@
       }
     },
     {
-      "ticker": "MSCI",
-      "type": "STREAK",
-      "severity": "HIGH",
-      "title": "MSCI \u2014 6 d\u00edas en convergencia",
-      "message": "Lleva 6 d\u00edas consecutivos en 2 estrategias. Se\u00f1al persistente de alta convicci\u00f3n.",
-      "date": "2026-09-18",
-      "data": {
-        "streak_days": 6,
-        "strategies": [
-          "INSIDERS",
-          "OPTIONS"
-        ]
-      }
-    },
-    {
       "ticker": "NG.L",
       "type": "INSIDER_BUYING",
       "severity": "HIGH",
@@ -415,21 +400,6 @@
       }
     },
     {
-      "ticker": "V",
-      "type": "STREAK",
-      "severity": "HIGH",
-      "title": "V \u2014 5 d\u00edas en convergencia",
-      "message": "Lleva 5 d\u00edas consecutivos en 2 estrategias. Se\u00f1al persistente de alta convicci\u00f3n.",
-      "date": "2026-09-18",
-      "data": {
-        "streak_days": 5,
-        "strategies": [
-          "VALUE",
-          "OPTIONS"
-        ]
-      }
-    },
-    {
       "ticker": "VEEV",
       "type": "SCORE_DRIFT",
       "severity": "HIGH",
@@ -472,14 +442,13 @@
       "type": "STREAK",
       "severity": "HIGH",
       "title": "VRSN \u2014 13 d\u00edas en convergencia",
-      "message": "Lleva 13 d\u00edas consecutivos en 4 estrategias. Se\u00f1al persistente de alta convicci\u00f3n.",
+      "message": "Lleva 13 d\u00edas consecutivos en 3 estrategias. Se\u00f1al persistente de alta convicci\u00f3n.",
       "date": "2026-09-18",
       "data": {
         "streak_days": 13,
         "strategies": [
           "VALUE",
           "INSIDERS",
-          "OPTIONS",
           "MOMENTUM"
         ]
       }
@@ -558,21 +527,6 @@
       }
     },
     {
-      "ticker": "CNI",
-      "type": "NEW_CONVERGENCE",
-      "severity": "MEDIUM",
-      "title": "Nueva convergencia: CNI",
-      "message": "Aparece en 2 estrategias: VALUE, OPTIONS. Score convergencia: 47.",
-      "date": "2026-09-18",
-      "data": {
-        "strategies": [
-          "VALUE",
-          "OPTIONS"
-        ],
-        "convergence_score": 47
-      }
-    },
-    {
       "ticker": "COST",
       "type": "EARNINGS_WARNING",
       "severity": "MEDIUM",
@@ -582,21 +536,6 @@
       "data": {
         "days_to_earnings": 6.0,
         "value_score": 41.0
-      }
-    },
-    {
-      "ticker": "COST",
-      "type": "NEW_CONVERGENCE",
-      "severity": "MEDIUM",
-      "title": "Nueva convergencia: COST",
-      "message": "Aparece en 2 estrategias: VALUE, OPTIONS. Score convergencia: 48.",
-      "date": "2026-09-18",
-      "data": {
-        "strategies": [
-          "VALUE",
-          "OPTIONS"
-        ],
-        "convergence_score": 48
       }
     },
     {
@@ -663,21 +602,6 @@
       }
     },
     {
-      "ticker": "GOOG",
-      "type": "NEW_CONVERGENCE",
-      "severity": "MEDIUM",
-      "title": "Nueva convergencia: GOOG",
-      "message": "Aparece en 2 estrategias: VALUE, MOMENTUM. Score convergencia: 55.",
-      "date": "2026-09-18",
-      "data": {
-        "strategies": [
-          "VALUE",
-          "MOMENTUM"
-        ],
-        "convergence_score": 55
-      }
-    },
-    {
       "ticker": "ICE",
       "type": "SCORE_DRIFT",
       "severity": "MEDIUM",
@@ -706,36 +630,6 @@
       }
     },
     {
-      "ticker": "INTU",
-      "type": "NEW_CONVERGENCE",
-      "severity": "MEDIUM",
-      "title": "Nueva convergencia: INTU",
-      "message": "Aparece en 2 estrategias: VALUE, OPTIONS. Score convergencia: 47.",
-      "date": "2026-09-18",
-      "data": {
-        "strategies": [
-          "VALUE",
-          "OPTIONS"
-        ],
-        "convergence_score": 47
-      }
-    },
-    {
-      "ticker": "KO",
-      "type": "NEW_CONVERGENCE",
-      "severity": "MEDIUM",
-      "title": "Nueva convergencia: KO",
-      "message": "Aparece en 2 estrategias: VALUE, OPTIONS. Score convergencia: 47.",
-      "date": "2026-09-18",
-      "data": {
-        "strategies": [
-          "VALUE",
-          "OPTIONS"
-        ],
-        "convergence_score": 47
-      }
-    },
-    {
       "ticker": "LIN",
       "type": "INSIDER_BUYING",
       "severity": "MEDIUM",
@@ -745,36 +639,6 @@
       "data": {
         "purchase_count": 4.0,
         "unique_insiders": 1.0
-      }
-    },
-    {
-      "ticker": "LIN",
-      "type": "STREAK",
-      "severity": "MEDIUM",
-      "title": "LIN \u2014 3 d\u00edas en convergencia",
-      "message": "Lleva 3 d\u00edas consecutivos en 2 estrategias. Se\u00f1al persistente de alta convicci\u00f3n.",
-      "date": "2026-09-18",
-      "data": {
-        "streak_days": 3,
-        "strategies": [
-          "INSIDERS",
-          "OPTIONS"
-        ]
-      }
-    },
-    {
-      "ticker": "MA",
-      "type": "NEW_CONVERGENCE",
-      "severity": "MEDIUM",
-      "title": "Nueva convergencia: MA",
-      "message": "Aparece en 2 estrategias: VALUE, OPTIONS. Score convergencia: 49.",
-      "date": "2026-09-18",
-      "data": {
-        "strategies": [
-          "VALUE",
-          "OPTIONS"
-        ],
-        "convergence_score": 49
       }
     },
     {
@@ -799,21 +663,6 @@
       "data": {
         "purchase_count": 3.0,
         "unique_insiders": 1.0
-      }
-    },
-    {
-      "ticker": "MSFT",
-      "type": "NEW_CONVERGENCE",
-      "severity": "MEDIUM",
-      "title": "Nueva convergencia: MSFT",
-      "message": "Aparece en 2 estrategias: VALUE, OPTIONS. Score convergencia: 48.",
-      "date": "2026-09-18",
-      "data": {
-        "strategies": [
-          "VALUE",
-          "OPTIONS"
-        ],
-        "convergence_score": 48
       }
     },
     {
@@ -851,21 +700,6 @@
       "data": {
         "purchase_count": 46.0,
         "unique_insiders": 1.0
-      }
-    },
-    {
-      "ticker": "SPGI",
-      "type": "NEW_CONVERGENCE",
-      "severity": "MEDIUM",
-      "title": "Nueva convergencia: SPGI",
-      "message": "Aparece en 2 estrategias: VALUE, OPTIONS. Score convergencia: 47.",
-      "date": "2026-09-18",
-      "data": {
-        "strategies": [
-          "VALUE",
-          "OPTIONS"
-        ],
-        "convergence_score": 47
       }
     },
     {

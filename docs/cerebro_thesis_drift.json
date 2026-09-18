@@ -1,8 +1,8 @@
 {
   "generated_at": "2026-09-18",
-  "baseline_date": "2026-08-03",
-  "days_tracked": 46,
-  "total": 20,
+  "baseline_date": "2026-08-04",
+  "days_tracked": 45,
+  "total": 19,
   "high_count": 0,
   "narrative": "",
   "drifts": [
@@ -12,29 +12,13 @@
       "sector": "Technology",
       "severity": "MEDIUM",
       "drift_score": 5,
-      "days_tracked": 46,
-      "baseline_date": "2026-08-03",
+      "days_tracked": 45,
+      "baseline_date": "2026-08-04",
       "value_score_now": 44.8,
-      "value_score_prev": 67.2,
+      "value_score_prev": 59.7,
       "drift_flags": [
-        "Score cay\u00f3 22pts en 46d (67\u219245)",
-        "Piotroski cay\u00f3 2pts en 46d"
-      ],
-      "improvements": []
-    },
-    {
-      "ticker": "DBOEY",
-      "company_name": "Deutsche B\u00f6rse AG",
-      "sector": "Financial Services",
-      "severity": "MEDIUM",
-      "drift_score": 5,
-      "days_tracked": 46,
-      "baseline_date": "2026-08-03",
-      "value_score_now": 34.6,
-      "value_score_prev": 49.6,
-      "drift_flags": [
-        "Score cay\u00f3 15pts en 46d (50\u219235)",
-        "Upside analistas cay\u00f3 10pp (17%\u21927%)"
+        "Score cay\u00f3 15pts en 45d (60\u219245)",
+        "Piotroski cay\u00f3 2pts en 45d"
       ],
       "improvements": []
     },
@@ -44,8 +28,8 @@
       "sector": "Technology",
       "severity": "MEDIUM",
       "drift_score": 4,
-      "days_tracked": 46,
-      "baseline_date": "2026-08-03",
+      "days_tracked": 45,
+      "baseline_date": "2026-08-04",
       "value_score_now": 37.7,
       "value_score_prev": 31.6,
       "drift_flags": [
@@ -57,81 +41,15 @@
       ]
     },
     {
-      "ticker": "MA",
-      "company_name": "Mastercard Incorporated",
-      "sector": "Financial Services",
-      "severity": "MEDIUM",
-      "drift_score": 3,
-      "days_tracked": 46,
-      "baseline_date": "2026-08-03",
-      "value_score_now": 46.9,
-      "value_score_prev": 61.3,
-      "drift_flags": [
-        "Score cay\u00f3 14pts en 46d (61\u219247)"
-      ],
-      "improvements": []
-    },
-    {
-      "ticker": "ROP",
-      "company_name": "Roper Technologies, Inc.",
-      "sector": "Technology",
-      "severity": "MEDIUM",
-      "drift_score": 3,
-      "days_tracked": 46,
-      "baseline_date": "2026-08-03",
-      "value_score_now": 37.6,
-      "value_score_prev": 49.5,
-      "drift_flags": [
-        "Score cay\u00f3 12pts en 46d (49\u219238)"
-      ],
-      "improvements": [
-        "Upside analistas subi\u00f3 6pp"
-      ]
-    },
-    {
-      "ticker": "BAC",
-      "company_name": "Bank of America Corporation",
-      "sector": "Financial Services",
-      "severity": "MEDIUM",
-      "drift_score": 3,
-      "days_tracked": 46,
-      "baseline_date": "2026-08-03",
-      "value_score_now": 45.0,
-      "value_score_prev": 55.9,
-      "drift_flags": [
-        "Score cay\u00f3 11pts en 46d (56\u219245)"
-      ],
-      "improvements": [
-        "Upside analistas subi\u00f3 7pp"
-      ]
-    },
-    {
-      "ticker": "AXP",
-      "company_name": "American Express Company",
-      "sector": "Financial Services",
-      "severity": "MEDIUM",
-      "drift_score": 3,
-      "days_tracked": 46,
-      "baseline_date": "2026-08-03",
-      "value_score_now": 43.0,
-      "value_score_prev": 60.4,
-      "drift_flags": [
-        "Score cay\u00f3 17pts en 46d (60\u219243)"
-      ],
-      "improvements": [
-        "Upside analistas subi\u00f3 9pp"
-      ]
-    },
-    {
       "ticker": "BRK-B",
       "company_name": "Berkshire Hathaway Inc.",
       "sector": "Financial Services",
       "severity": "MEDIUM",
       "drift_score": 3,
-      "days_tracked": 46,
-      "baseline_date": "2026-08-03",
+      "days_tracked": 45,
+      "baseline_date": "2026-08-04",
       "value_score_now": 42.3,
-      "value_score_prev": 38.3,
+      "value_score_prev": 38.0,
       "drift_flags": [
         "FCF yield cay\u00f3 3.2pp (5.5%\u21922.4%)"
       ],
@@ -140,17 +58,49 @@
       ]
     },
     {
+      "ticker": "KO",
+      "company_name": "The Coca-Cola Company",
+      "sector": "Consumer Defensive",
+      "severity": "MEDIUM",
+      "drift_score": 3,
+      "days_tracked": 45,
+      "baseline_date": "2026-08-04",
+      "value_score_now": 36.9,
+      "value_score_prev": 67.0,
+      "drift_flags": [
+        "Score cay\u00f3 30pts en 45d (67\u219237)"
+      ],
+      "improvements": [
+        "FCF yield mejor\u00f3 2.4pp"
+      ]
+    },
+    {
       "ticker": "ICE",
       "company_name": "Intercontinental Exchange, Inc.",
       "sector": "Financial Services",
       "severity": "MEDIUM",
       "drift_score": 3,
-      "days_tracked": 46,
-      "baseline_date": "2026-08-03",
+      "days_tracked": 45,
+      "baseline_date": "2026-08-04",
       "value_score_now": 33.2,
-      "value_score_prev": 53.1,
+      "value_score_prev": 46.4,
       "drift_flags": [
-        "Score cay\u00f3 20pts en 46d (53\u219233)"
+        "Score cay\u00f3 13pts en 45d (46\u219233)"
+      ],
+      "improvements": []
+    },
+    {
+      "ticker": "KVUE",
+      "company_name": "Kenvue Inc.",
+      "sector": "Consumer Defensive",
+      "severity": "MEDIUM",
+      "drift_score": 3,
+      "days_tracked": 45,
+      "baseline_date": "2026-08-04",
+      "value_score_now": 40.2,
+      "value_score_prev": 55.1,
+      "drift_flags": [
+        "Score cay\u00f3 15pts en 45d (55\u219240)"
       ],
       "improvements": []
     },
@@ -160,12 +110,42 @@
       "sector": "Technology",
       "severity": "MEDIUM",
       "drift_score": 3,
-      "days_tracked": 46,
-      "baseline_date": "2026-08-03",
+      "days_tracked": 45,
+      "baseline_date": "2026-08-04",
       "value_score_now": 42.0,
-      "value_score_prev": 90.8,
+      "value_score_prev": 99.6,
       "drift_flags": [
-        "Score cay\u00f3 49pts en 46d (91\u219242)"
+        "Score cay\u00f3 58pts en 45d (100\u219242)"
+      ],
+      "improvements": []
+    },
+    {
+      "ticker": "TW",
+      "company_name": "Tradeweb Markets Inc.",
+      "sector": "Financial Services",
+      "severity": "MEDIUM",
+      "drift_score": 3,
+      "days_tracked": 45,
+      "baseline_date": "2026-08-04",
+      "value_score_now": 31.2,
+      "value_score_prev": 43.0,
+      "drift_flags": [
+        "Score cay\u00f3 12pts en 45d (43\u219231)"
+      ],
+      "improvements": []
+    },
+    {
+      "ticker": "SPGI",
+      "company_name": "S&P Global Inc.",
+      "sector": "Financial Services",
+      "severity": "MEDIUM",
+      "drift_score": 3,
+      "days_tracked": 45,
+      "baseline_date": "2026-08-04",
+      "value_score_now": 38.8,
+      "value_score_prev": 52.3,
+      "drift_flags": [
+        "Score cay\u00f3 14pts en 45d (52\u219239)"
       ],
       "improvements": []
     },
@@ -175,16 +155,29 @@
       "sector": "Industrials",
       "severity": "MEDIUM",
       "drift_score": 3,
-      "days_tracked": 46,
-      "baseline_date": "2026-08-03",
+      "days_tracked": 45,
+      "baseline_date": "2026-08-04",
       "value_score_now": 35.9,
-      "value_score_prev": 58.1,
+      "value_score_prev": 60.2,
       "drift_flags": [
-        "Score cay\u00f3 22pts en 46d (58\u219236)"
+        "Score cay\u00f3 24pts en 45d (60\u219236)"
       ],
-      "improvements": [
-        "Upside analistas subi\u00f3 7pp"
-      ]
+      "improvements": []
+    },
+    {
+      "ticker": "DBOEY",
+      "company_name": "Deutsche B\u00f6rse AG",
+      "sector": "Financial Services",
+      "severity": "MEDIUM",
+      "drift_score": 3,
+      "days_tracked": 45,
+      "baseline_date": "2026-08-04",
+      "value_score_now": 34.6,
+      "value_score_prev": 48.0,
+      "drift_flags": [
+        "Score cay\u00f3 13pts en 45d (48\u219235)"
+      ],
+      "improvements": []
     },
     {
       "ticker": "AMS.MC",
@@ -192,10 +185,10 @@
       "sector": "Technology",
       "severity": "MEDIUM",
       "drift_score": 3,
-      "days_tracked": 46,
-      "baseline_date": "2026-08-03",
+      "days_tracked": 45,
+      "baseline_date": "2026-08-04",
       "value_score_now": 55.8,
-      "value_score_prev": 54.2,
+      "value_score_prev": 53.8,
       "drift_flags": [
         "FCF yield cay\u00f3 6.4pp (12.3%\u21925.9%)"
       ],
@@ -207,27 +200,12 @@
       "sector": "Financial Services",
       "severity": "MEDIUM",
       "drift_score": 3,
-      "days_tracked": 46,
-      "baseline_date": "2026-08-03",
+      "days_tracked": 45,
+      "baseline_date": "2026-08-04",
       "value_score_now": 51.2,
-      "value_score_prev": 70.4,
+      "value_score_prev": 68.4,
       "drift_flags": [
-        "Score cay\u00f3 19pts en 46d (70\u219251)"
-      ],
-      "improvements": []
-    },
-    {
-      "ticker": "WST",
-      "company_name": "West Pharmaceutical Services, Inc.",
-      "sector": "Healthcare",
-      "severity": "LOW",
-      "drift_score": 2,
-      "days_tracked": 46,
-      "baseline_date": "2026-08-03",
-      "value_score_now": 41.1,
-      "value_score_prev": 38.8,
-      "drift_flags": [
-        "Upside analistas cay\u00f3 8pp (19%\u219211%)"
+        "Score cay\u00f3 17pts en 45d (68\u219251)"
       ],
       "improvements": []
     },
@@ -237,14 +215,16 @@
       "sector": "Healthcare",
       "severity": "LOW",
       "drift_score": 2,
-      "days_tracked": 46,
-      "baseline_date": "2026-08-03",
+      "days_tracked": 45,
+      "baseline_date": "2026-08-04",
       "value_score_now": 31.9,
-      "value_score_prev": 32.7,
+      "value_score_prev": 33.2,
       "drift_flags": [
         "Deuda/equity subi\u00f3 100% (0.0\u21920.0x)"
       ],
-      "improvements": []
+      "improvements": [
+        "Upside analistas subi\u00f3 10pp"
+      ]
     },
     {
       "ticker": "SAP.DE",
@@ -252,10 +232,10 @@
       "sector": "Technology",
       "severity": "LOW",
       "drift_score": 2,
-      "days_tracked": 46,
-      "baseline_date": "2026-08-03",
+      "days_tracked": 45,
+      "baseline_date": "2026-08-04",
       "value_score_now": 72.2,
-      "value_score_prev": 56.4,
+      "value_score_prev": 56.0,
       "drift_flags": [
         "Upside analistas cay\u00f3 11pp (22%\u219211%)"
       ],
@@ -269,10 +249,10 @@
       "sector": "Healthcare",
       "severity": "LOW",
       "drift_score": 2,
-      "days_tracked": 46,
-      "baseline_date": "2026-08-03",
+      "days_tracked": 45,
+      "baseline_date": "2026-08-04",
       "value_score_now": 55.8,
-      "value_score_prev": 48.0,
+      "value_score_prev": 49.2,
       "drift_flags": [
         "Margen op. cay\u00f3 19.1pp (61.6%\u219242.5%)"
       ],
@@ -287,10 +267,10 @@
       "sector": "Communication Services",
       "severity": "LOW",
       "drift_score": 2,
-      "days_tracked": 46,
-      "baseline_date": "2026-08-03",
+      "days_tracked": 45,
+      "baseline_date": "2026-08-04",
       "value_score_now": 48.2,
-      "value_score_prev": 52.8,
+      "value_score_prev": 52.4,
       "drift_flags": [
         "Upside analistas cay\u00f3 9pp (17%\u21928%)"
       ],
@@ -302,10 +282,10 @@
       "sector": "Financial Services",
       "severity": "LOW",
       "drift_score": 2,
-      "days_tracked": 46,
-      "baseline_date": "2026-08-03",
+      "days_tracked": 45,
+      "baseline_date": "2026-08-04",
       "value_score_now": 47.6,
-      "value_score_prev": 47.3,
+      "value_score_prev": 48.9,
       "drift_flags": [
         "Deuda/equity subi\u00f3 69% (1.1\u21921.9x)"
       ],
@@ -320,15 +300,15 @@
       "sector": "Industrials",
       "severity": "LOW",
       "drift_score": 2,
-      "days_tracked": 46,
-      "baseline_date": "2026-08-03",
+      "days_tracked": 45,
+      "baseline_date": "2026-08-04",
       "value_score_now": 43.7,
-      "value_score_prev": 34.8,
+      "value_score_prev": 34.5,
       "drift_flags": [
         "Deuda/equity subi\u00f3 51% (0.9\u21921.3x)"
       ],
       "improvements": [
-        "Score mejor\u00f3 9pts (35\u219244)"
+        "Score mejor\u00f3 9pts (34\u219244)"
       ]
     }
   ]
