@@ -262,7 +262,7 @@ class SuperScoreIntegrator:
             'short_percent_float', 'short_ratio', 'short_squeeze_potential',
             'fifty_two_week_high', 'proximity_to_52w_high',
             # Minervini Trend Template
-            'trend_template_score', 'trend_template_pass',
+            'trend_template_score', 'trend_template_pass', 'dist_ma50_pct',
             # Profitability details (CRITICAL for gates)
             'health_details', 'earnings_details', 'sin_score_motivo',
             # Target Prices (analyst + DCF + P/E)

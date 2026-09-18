@@ -249,12 +249,28 @@ def timing_score(sig: dict) -> float:
     elif verdict == 'AVOID':
         score -= 20
 
-    # No perseguir extremos: muy pegado al máximo de 52s resta un poco
+    # No perseguir extremos: muy pegado al máximo de 52s resta un poco.
+    #
+    # Los cortes eran 98 y 70-92, escritos para una escala 0-100 donde 100
+    # sería «en el máximo». El campo no es eso: es `precio/máximo52s - 1` en
+    # porcentaje, va de -59,6 a -0,8 y nunca pasa de 0. Con esos números
+    # ninguna de las dos ramas se disparó jamás, así que este ajuste de
+    # timing llevaba desde siempre sin tocar ni un score de LEAPS.
+    #
+    # Traducidos a la escala real: 98 → -2 (a menos de un 2% del máximo),
+    # 70-92 → -30 a -8. Son los mismos cortes, no unos nuevos. Sobre el
+    # universo del 19-sep-2026 eso deja 3 tickers en el techo y 103 en la
+    # banda buena: el bonus lo cobran dos tercios del universo, así que
+    # discrimina poco y habrá que estrecharlo cuando haya con qué medirlo.
     prox = sig.get('proximity_to_52w_high')
-    if prox is not None and not math.isnan(prox):
-        if prox >= 98:
+    # Un valor positivo es imposible —el máximo de 52 semanas incluye hoy, así
+    # que precio/máximo nunca pasa de 1— y delata que alguien ha vuelto a
+    # escribir la escala 0-100. Se ignora en vez de tratarlo como «en el
+    # techo», que es lo que haría `99 >= -2`.
+    if prox is not None and not math.isnan(prox) and prox <= 0:
+        if prox >= -2:
             score -= 8          # comprar LEAPS en el techo = mal timing
-        elif 70 <= prox <= 92:
+        elif -30 <= prox <= -8:
             score += 6          # subiendo con recorrido = buen momento
 
     return round(max(0.0, min(100.0, score)), 1)

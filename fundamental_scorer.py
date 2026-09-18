@@ -1239,6 +1239,7 @@ class FundamentalScorer:
             'proximity_to_52w_high': None,
             'trend_template_score': None,
             'trend_template_pass': None,
+            'dist_ma50_pct': None,
             'target_price_analyst':        None,
             'target_price_analyst_high':   None,
             'target_price_analyst_low':    None,
@@ -1312,7 +1313,8 @@ class FundamentalScorer:
 
         Returns flat keys: trend_template_score (0-8), trend_template_pass (bool).
         """
-        empty = {'trend_template_score': None, 'trend_template_pass': None}
+        empty = {'trend_template_score': None, 'trend_template_pass': None,
+                 'dist_ma50_pct': None}
 
         if price_history.empty or len(price_history) < 200:
             return empty
@@ -1353,6 +1355,15 @@ class FundamentalScorer:
             return {
                 'trend_template_score': score,
                 'trend_template_pass':  score >= 7,
+                # Cuánto se ha separado el precio de su media de 50 sesiones.
+                # ESTO es la sobreextensión, y no existía: el control de
+                # «climax top» de ai_quality_filter la buscaba en
+                # `proximity_to_52w_high`, comparándolo contra 1,25 como si
+                # fuera un múltiplo. Ese campo es `precio/máximo52s - 1` en
+                # porcentaje, o sea que va de -59,6 a -0,8 y NUNCA puede pasar
+                # de 0 —el máximo de 52 semanas incluye el día de hoy—, así
+                # que ninguna de sus tres ramas se disparó jamás.
+                'dist_ma50_pct': round((price / ma50 - 1) * 100, 1) if ma50 else None,
             }
         except Exception:
             return empty

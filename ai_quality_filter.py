@@ -569,20 +569,34 @@ def fallback_analysis(ticker_data: dict, strategy: str = "VALUE") -> dict:
     # ========================================================================
     if strategy == "MOMENTUM":
         # 9. OVER-EXTENSION CHECK (critical - avoid buying climax tops)
-        proximity = ticker_data.get('proximity_to_52w_high')
-        if pd.notna(proximity):
-            if proximity > 1.25:
+        # Este control comparaba `proximity_to_52w_high` contra 1,25 / 1,15 /
+        # 1,05 / 0,85 como si fuera un múltiplo del máximo de 52 semanas. No
+        # lo es: el campo es `precio / máximo52s - 1` EN PORCENTAJE, va de
+        # -59,6 a -0,8 sobre el universo real, y no puede pasar de 0 porque el
+        # máximo de 52 semanas incluye el día de hoy. Ninguna de las cuatro
+        # ramas se disparó nunca: el chequeo de «climax top» llevaba desde
+        # siempre sin hacer nada, y no se notaba porque su trabajo es RESTAR
+        # confianza — un control que no salta parece un valor que está bien.
+        #
+        # La sobreextensión no se mide contra el máximo de 52 semanas sino
+        # contra la media móvil, que es de donde el precio se separa. Ese dato
+        # no existía y ahora lo calcula el scorer: `dist_ma50_pct`. Los cortes
+        # son los mismos de antes traducidos a la nueva escala — 1,25x pasa a
+        # +25% sobre la media—, no umbrales nuevos.
+        extension = ticker_data.get('dist_ma50_pct')
+        if pd.notna(extension):
+            if extension > 25:
                 confidence -= 30
-                concerns.append(f"OVER-EXTENDED ({proximity:.2f}x 52w high)")
-            elif proximity > 1.15:
+                concerns.append(f"OVER-EXTENDED ({extension:+.0f}% sobre su MA50)")
+            elif extension > 15:
                 confidence -= 15
-                concerns.append(f"near over-extension ({proximity:.2f}x)")
-            elif proximity > 1.05 and proximity <= 1.15:
+                concerns.append(f"near over-extension ({extension:+.0f}% sobre su MA50)")
+            elif 5 < extension <= 15:
                 confidence += 10
-                strengths.append(f"healthy momentum ({proximity:.2f}x)")
-            elif proximity < 0.85:
+                strengths.append(f"healthy momentum ({extension:+.0f}% sobre su MA50)")
+            elif extension < -15:
                 confidence -= 10
-                concerns.append("too far from highs")
+                concerns.append(f"por debajo de su MA50 ({extension:+.0f}%)")
 
         # 10. EARNINGS ACCELERATION (sustainable momentum requires this)
         eps_accel = ticker_data.get('eps_accelerating')
@@ -873,6 +887,7 @@ def filter_opportunities(input_path: Path, strategy_name: str, score_field: str,
             'institutional_score': row.get('institutional_score', 0),
             # MOMENTUM-specific fields
             'proximity_to_52w_high': row.get('proximity_to_52w_high'),
+            'dist_ma50_pct': row.get('dist_ma50_pct'),
             'eps_accelerating': row.get('eps_accelerating'),
             'rev_accelerating': row.get('rev_accelerating'),
             'industry_group_percentile': row.get('industry_group_percentile'),

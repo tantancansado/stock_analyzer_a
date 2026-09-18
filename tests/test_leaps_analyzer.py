@@ -183,14 +183,29 @@ class TestTimingScore:
         assert 45 <= la.timing_score({}) <= 55
 
     def test_at_52w_high_penalized(self):
-        chasing = la.timing_score({'proximity_to_52w_high': 99})
-        healthy = la.timing_score({'proximity_to_52w_high': 85})
+        """El campo es `precio/máximo52s - 1` en porcentaje: va de -59,6 a
+        -0,8 y nunca pasa de 0, porque el máximo de 52 semanas incluye hoy.
+
+        Este test usaba 99 y 85, de una escala 0-100 que no existe. Pasaba en
+        verde porque con esos números sí se disparaban las ramas del código
+        —que estaban escritas para la misma escala equivocada—, así que
+        confirmaba un camino por el que no pasa nunca un dato real. Un test
+        verde sobre una entrada imposible no protege nada.
+        """
+        chasing = la.timing_score({'proximity_to_52w_high': -1})     # en el techo
+        healthy = la.timing_score({'proximity_to_52w_high': -15})    # con recorrido
         assert chasing < healthy
+
+    def test_los_valores_de_la_escala_vieja_ya_no_hacen_nada(self):
+        """Si alguien vuelve a escribir 98 o 85, que no parezca que funciona."""
+        neutro = la.timing_score({})
+        assert la.timing_score({'proximity_to_52w_high': 99}) == neutro
+        assert la.timing_score({'proximity_to_52w_high': 85}) == neutro
 
     def test_bounded_0_100(self):
         # Acumular todos los negativos no baja de 0
         t = la.timing_score({'trend_direction': 'downtrend', 'technical_bias': 'bearish',
-                            'entry_verdict': 'AVOID', 'proximity_to_52w_high': 99})
+                            'entry_verdict': 'AVOID', 'proximity_to_52w_high': -1})
         assert 0 <= t <= 100
 
 
