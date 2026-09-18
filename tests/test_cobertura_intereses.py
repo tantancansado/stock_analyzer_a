@@ -102,3 +102,35 @@ class TestElMismoEbitEnElMagicFormula:
         """Si se separan, dos métricas de la misma familia dejan de cuadrar."""
         assert 'roic_greenblatt' in self.BLOQUE
         assert 'ebit / invested_capital' in self.BLOQUE
+
+
+class TestElEscanerDeCortos:
+    """Tres cosas mal en el mismo bloque de `short_scanner`.
+
+    1. La partida se elegía con una lista por comprensión y `[0]`, así que
+       cuál se usaba dependía del ORDEN en que yfinance devolviera el índice.
+    2. El `abs()` envolvía todo el cociente: un resultado operativo negativo
+       —que es justo lo que busca un escáner de cortos— salía como cobertura
+       positiva y sana.
+    3. `int_cover` arrancaba con el EBITDA, que no es una cobertura sino una
+       cantidad de dinero. Sin las filas del estado financiero, una empresa
+       con 5.000 M de EBITDA se quedaba con «cobertura 5.000.000.000». Hoy no
+       rompe nada porque la variable no se consume, pero es la clase de cosa
+       que alguien recoge más adelante dándola por buena.
+    """
+
+    FUENTE = (RAIZ / 'short_scanner.py').read_text()
+
+    def test_la_partida_se_pide_por_orden_de_preferencia(self):
+        assert "for etiqueta in ('Operating Income'" in self.FUENTE
+        assert "'EBIT' == str(r)" not in self.FUENTE, \
+            'volvió la lista por comprensión que depende del orden del índice'
+
+    def test_el_abs_solo_va_en_el_denominador(self):
+        assert 'ebit_val / abs(ie_val)' in self.FUENTE
+        assert 'abs(ebit_val / ie_val)' not in self.FUENTE, \
+            'un operativo negativo no puede salir como cobertura sana'
+
+    def test_la_cobertura_no_arranca_con_el_ebitda(self):
+        assert "int_cover   = _safe_float(info.get('ebitda'))" not in self.FUENTE
+        assert 'int_cover   = None' in self.FUENTE

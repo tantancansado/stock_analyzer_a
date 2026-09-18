@@ -454,18 +454,43 @@ def _score_ticker(ticker: str, fund_row: Optional[dict] = None) -> Optional[dict
         de_ratio    = _safe_float(info.get('debtToEquity'))
         op_margin   = _safe_float(info.get('operatingMargins'))
         profit_mg   = _safe_float(info.get('profitMargins'))
-        int_cover   = _safe_float(info.get('ebitda'))
+        # `int_cover` arrancaba con el EBITDA, que no es una cobertura sino
+        # una cantidad de dinero: si el bloque de abajo no encontraba las
+        # filas, una empresa con 5.000 M de EBITDA se quedaba con una
+        # «cobertura de intereses» de 5.000.000.000. Hoy no rompe nada porque
+        # la variable no se consume en ningún sitio, pero es exactamente la
+        # clase de trampa que alguien recoge más adelante dándola por buena.
+        int_cover   = None
         int_exp     = None
         try:
             fin = tk.financials
             if fin is not None and not fin.empty:
                 ie_row = [r for r in fin.index if 'Interest' in str(r) and 'Expense' in str(r)]
-                ebit_row = [r for r in fin.index if 'EBIT' == str(r) or 'Operating Income' in str(r)]
-                if ie_row and ebit_row:
-                    ie_val   = float(fin.loc[ie_row[0]].iloc[0])
-                    ebit_val = float(fin.loc[ebit_row[0]].iloc[0])
+                # Antes esto era una lista por comprensión que cogía la
+                # primera fila que encajara, o sea que la partida elegida
+                # dependía del ORDEN en que yfinance devolviera el índice.
+                # Ahora se pide por orden de preferencia, igual que en
+                # fundamental_scorer: el operativo primero, porque el «EBIT»
+                # arrastra las partidas extraordinarias (Kraft Heinz: -4,50 B
+                # de EBIT contra +4,64 B de operativo, por un deterioro de
+                # marcas de 9,31 B que no sale de la caja).
+                ebit_val = None
+                for etiqueta in ('Operating Income', 'Total Operating Income As Reported',
+                                 'EBIT'):
+                    if etiqueta in fin.index:
+                        v = fin.loc[etiqueta].iloc[0]
+                        if v is not None and not pd.isna(v):
+                            ebit_val = float(v)
+                            break
+                if ie_row and ebit_val is not None:
+                    ie_val = float(fin.loc[ie_row[0]].iloc[0])
                     if ie_val != 0:
-                        int_cover = abs(ebit_val / ie_val)
+                        # El abs() va SOLO en el denominador. Antes envolvía
+                        # todo el cociente, así que un resultado operativo
+                        # negativo —una empresa que no cubre nada, que es
+                        # justo lo que busca un escáner de cortos— salía como
+                        # una cobertura positiva y sana.
+                        int_cover = ebit_val / abs(ie_val)
         except Exception:
             pass
 
