@@ -171,6 +171,89 @@ def to_scalar(fetched: Dict[str, Optional[Dict]], target_currency: str) -> Dict[
     return out
 
 
+# Márgenes de plausibilidad. No son «rangos típicos»: son los límites a
+# partir de los cuales el número CONTRADICE algo que ya sabemos de la
+# empresa por otra vía. Un FCF mayor que los ingresos, o unas acciones que
+# no cuadran con la capitalización, no es un dato raro: es un dato mal
+# leído — el error clásico es confundir miles con millones en un informe.
+TOLERANCIA_ACCIONES = 0.25      # acciones × precio contra la capitalización
+MULTIPLO_FCF_SOBRE_INGRESOS = 1.0
+PER_MIN_PLAUSIBLE, PER_MAX_PLAUSIBLE = 1.0, 500.0
+CRECIMIENTO_MIN, CRECIMIENTO_MAX = -1.0, 3.0    # -100% a +300%
+
+
+def contrastar(datos: Dict[str, Optional[float]], info: Dict) -> tuple[Dict, Dict]:
+    """Descarta lo que contradice lo que ya se sabe de la empresa.
+
+    `_validated_entry` comprueba la PROCEDENCIA —URL, periodo, valor— y eso
+    evita el número que el modelo recordó en vez de buscar. Lo que no mira es
+    la MAGNITUD: un FCF con la coma tres sitios a la derecha llega con su URL
+    impecable y entra en el DCF como si tal cosa.
+
+    Y no lo cazaba nadie más: `check_coherence` hace justo estas cuentas, pero
+    se ejecuta sobre `info` ANTES de que la IA rellene los huecos, así que los
+    campos recuperados no pasaban por ningún cuadre.
+
+    Criterio ante la duda: si falta la referencia con la que contrastar, el
+    dato se acepta —descartarlo sería tirar lo único que hay—, pero si la
+    referencia existe y el número la contradice, fuera. Devuelve
+    (aceptados, rechazados_con_motivo).
+    """
+    precio = info.get('currentPrice') or info.get('regularMarketPrice')
+    mcap = info.get('marketCap')
+    ingresos = info.get('totalRevenue')
+
+    def _num(x):
+        try:
+            v = float(x)
+            return v if v == v else None
+        except (TypeError, ValueError):
+            return None
+
+    precio, mcap, ingresos = _num(precio), _num(mcap), _num(ingresos)
+    ok: Dict[str, Optional[float]] = {}
+    fuera: Dict[str, str] = {}
+
+    for campo, valor in (datos or {}).items():
+        v = _num(valor)
+        if v is None:
+            ok[campo] = None
+            continue
+        motivo = None
+
+        if campo == 'sharesOutstanding' and precio and mcap and v > 0:
+            ratio = v * precio / mcap
+            if abs(ratio - 1.0) > TOLERANCIA_ACCIONES:
+                motivo = (f'{v:,.0f} acciones × {precio:,.2f} no cuadra con la '
+                          f'capitalización (ratio {ratio:.2f})')
+
+        elif campo == 'freeCashflow' and ingresos and ingresos > 0:
+            if abs(v) > ingresos * MULTIPLO_FCF_SOBRE_INGRESOS:
+                motivo = (f'flujo libre {v:,.0f} por encima de los ingresos '
+                          f'{ingresos:,.0f}: casi seguro un error de escala')
+
+        elif campo in ('epsTrailingTwelveMonths', 'epsForwardTwelveMonths') and precio:
+            if v > 0:
+                per = precio / v
+                if not (PER_MIN_PLAUSIBLE <= per <= PER_MAX_PLAUSIBLE):
+                    motivo = (f'BPA {v:,.2f} da un PER de {per:,.0f} sobre un '
+                              f'precio de {precio:,.2f}')
+
+        elif campo in ('earningsGrowth', 'revenueGrowth'):
+            if not (CRECIMIENTO_MIN <= v <= CRECIMIENTO_MAX):
+                motivo = f'crecimiento de {v * 100:,.0f}% fuera de lo posible'
+
+        if motivo:
+            fuera[campo] = motivo
+            ok[campo] = None
+        else:
+            ok[campo] = v
+
+    for campo, motivo in fuera.items():
+        print(f'   🚫 {campo}: descartado — {motivo}')
+    return ok, fuera
+
+
 def fetch_missing_financials(
     ticker: str,
     missing_fields: list,

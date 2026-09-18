@@ -1223,6 +1223,7 @@ class FundamentalScorer:
             'five_yr_avg_dividend_yield_pct': None,
             'buyback_active': None,
             'shares_change_pct': None,
+            'ai_descartados': None,
             'interest_coverage': None,
             'interest_coverage_base': None,
             'interest_coverage_ebit': None,
@@ -1546,6 +1547,7 @@ class FundamentalScorer:
             'buyback_active': None,
             'shares_change_pct': None,
             # Debt quality
+            'ai_descartados': None,
             'interest_coverage': None,
             'interest_coverage_base': None,
             'interest_coverage_ebit': None,
@@ -1919,8 +1921,18 @@ class FundamentalScorer:
                 # procedencia comprobable ya lo descarta ai_data_fetcher.
                 _fin_ccy = (info.get('financialCurrency') or currency or '').strip()
                 _ai_raw = _ai_fetch(ticker or info.get('symbol', ''), _ai_missing, _fin_ccy, company)
-                from ai_data_fetcher import to_scalar
+                from ai_data_fetcher import contrastar, to_scalar
                 _ai_data = to_scalar(_ai_raw, str(currency or _fin_ccy))
+                # Contra lo que ya se sabe de la empresa. `_validated_entry`
+                # comprueba la procedencia; esto comprueba la magnitud, que es
+                # lo que nadie miraba: un FCF con la coma tres sitios a la
+                # derecha llega con su URL impecable y entra en el DCF.
+                # check_coherence hace estas mismas cuentas pero corre sobre
+                # `info` ANTES de este relleno, así que no los veía.
+                _ai_data, _ai_fuera = contrastar(_ai_data, info)
+                if _ai_fuera:
+                    result['ai_descartados'] = '; '.join(
+                        f'{k}: {v}' for k, v in _ai_fuera.items())[:500]
                 _ai_used = sorted(k for k, v in _ai_data.items() if v is not None)
                 if _ai_used:
                     result['ai_filled_fields'] = ','.join(_ai_used)
@@ -1931,8 +1943,14 @@ class FundamentalScorer:
                     fcf = _ai_data['freeCashflow']
                 if not shares and _ai_data.get('sharesOutstanding'):
                     shares = _ai_data['sharesOutstanding']
-                if not growth_rate:
-                    growth_rate = _ai_data.get('earningsGrowth') or _ai_data.get('revenueGrowth')
+                if growth_rate is None:
+                    # `is None`, no `not`: un crecimiento de 0 es plano, que es
+                    # un dato, y con `not` se sobrescribía con el de la IA.
+                    # Y dentro, tampoco `or`: si la IA devuelve un crecimiento
+                    # de beneficios de 0 —plano— caía al de INGRESOS, que es
+                    # otra magnitud, y el DCF proyectaba cinco años con ella.
+                    _g = _ai_data.get('earningsGrowth')
+                    growth_rate = _g if _g is not None else _ai_data.get('revenueGrowth')
                 if (not info.get('epsForwardTwelveMonths') and _ai_data.get('epsForwardTwelveMonths')) or \
                    (not info.get('epsTrailingTwelveMonths') and _ai_data.get('epsTrailingTwelveMonths')):
                     info = dict(info)
