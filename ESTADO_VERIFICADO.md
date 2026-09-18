@@ -1,4 +1,4 @@
-# Estado verificado — 17 de septiembre de 2026
+# Estado verificado — 18 de septiembre de 2026
 
 Qué se ha comprobado, contra qué fuente, y qué lo cambiaría. Existe porque en
 una sola sesión tuve que corregirme seis veces y el usuario no puede depender
@@ -35,16 +35,51 @@ como tal.
 - **Qué rompería la tesis**: resultados del Q3 (noviembre). Si las comparables
   de Taco Bell siguen negativas y las promociones de 1$ se vuelven permanentes,
   el 8,4% no llega.
+- **Historia (8 episodios)**: acaba bien 6 de 8. El peor caso (−39%) fue el
+  covid; el segundo peor, octubre de 2019, NO lo fue: cayó 21% y acabó 21%
+  abajo. Esperanza de la operación +0,92% contra +10,87% de MCD.
+- **Nivel vigilado**: 127, donde coinciden el soporte de 126,49 (aguantó 3 de
+  4, sin visitar en 20 meses) y la valoración con crecimiento del 6%. La app
+  avisa sola al acercarse.
+- **Su P/E por múltiplo propio da +12,4%**, no el +46,8% que salía con el BPA
+  reportado: ese lleva dentro el crédito fiscal de 320 M$ del Q2.
 
-### MCD — McDonald's · 249,50
-**Ni cara ni barata. No es mejor alternativa que YUM.**
+### MCD y YUM juntas
+Son el mismo negocio y el mismo cliente. El problema de MCD —el consumidor de
+renta baja agotado— es el que presiona a Taco Bell, y parte de la competencia
+en precio que sufre MCD viene de YUM. Teniendo las dos no son dos apuestas:
+es una doblada.
 
-- **Corrección**: dije que cotizaba por encima de su valor con un DCF de 217.
-  Ese era el escenario más pesimista de un rango de 202 a 321.
-- **Corrección**: dije que crecía al 1,3%. Eso era **un trimestre**. Su flujo
-  de caja operativo crece al **+4,8% anual desde 2023**.
-- Beta 0,414 → su coste de capital es 6,2%, no el 8% que le apliqué.
-- A r=7,5% su precio exige crecer 4,9% y ha crecido 4,8%: justo, sin margen.
+### MCD — McDonald's · 248,48
+**Oportunidad. El mejor cuadro de los revisados.**
+
+| | |
+|---|---|
+| analistas | 312,84 · **+25,9%** (31 analistas) |
+| P/E (múltiplo propio 24,7x) | 304,24 · **+22,4%** |
+| DCF | 237,76 · −4,3% |
+| FCF yield | 4,54% · dividendo 2,99% |
+| margen operativo | 46,5% · deuda 3,66x · beta 0,41 |
+| desde máximo 52s | **−27,3%** |
+
+- **Historia (7 episodios en el mismo estado): 7 de 7 acabaron en positivo**,
+  mediana +19,6%, y la peor caída adicional fue **−7,2%** — incluido marzo de
+  2020, que apenas cayó más y acabó +47,6%.
+- Objetivo 280 / stop 225: 6 aciertos de 7, **esperanza +10,87%**.
+- **Por qué cae**: el consumidor de renta baja. Tras años subiendo precios ya
+  no mueve el tráfico, y el CEO **admitió fallo de ejecución** — el menú de
+  valor dio tanta libertad a los franquiciados que un tercio puso precios más
+  altos de lo previsto. Yum y Restaurant Brands le compiten en precio.
+- **Avisos**: n=7 (un 100% con siete casos puede ser suerte); el DCF, que es
+  el que usa el flujo real, dice −4,3%; y no tiene soportes identificables por
+  debajo.
+
+### Correcciones sobre MCD (17-sep)
+- Dije que «cotizaba por encima de su valor» con un DCF de 217. Era el
+  escenario más pesimista de un rango de 202 a 321.
+- Dije que «crecía al 1,3%». Eso era **un trimestre**: su flujo operativo
+  crece al +4,8% anual desde 2023.
+- Su beta es 0,414, así que su coste de capital es 6,2% y yo le aplicaba 8%.
 
 ### SPGI — S&P Global · 407
 **Buen rebote. Mala inversión a largo. Las dos cosas a la vez.**
@@ -130,6 +165,18 @@ Todos afectaban a números que se usan para decidir una compra.
 | La IV de contratos muy dentro del dinero no es utilizable | la horquilla se come el 78% del valor temporal; 12 de 36 contratos | arreglado |
 | El rendimiento real no se veía en Value US | alfa -3,09% a 90 días, solo visible en otra página | arreglado |
 | `earnings_quality_score` satura | 22 de 130 en el tope exacto | **pendiente** (recalibración, necesita datos) |
+| **18-sep** El modelo de Groq del gate europeo ya no existía | la lista europea se publicó vacía; 0 de 32 picks | arreglado |
+| La cadena de respaldo no saltaba ante un 404 | las 32 llamadas murieron sin probar el segundo modelo | arreglado |
+| El 63% del universo sin ficha (Wikipedia dio 403) | 60 de 163 tickers | arreglado |
+| BSX era posición y no estaba en el universo | no se puntuaba ni tenía ficha | arreglado |
+| El «P/E justo» usaba PEG=1 | 77 de 148 con más del 60% de desviación; MCD «un 50% cara» | arreglado |
+| El BPA reportado llevaba dentro un crédito fiscal | YUM: objetivo por P/E de 199 $ en vez de 152 $ | arreglado |
+| El escáner de rebotes calculaba la esperanza y no la usaba | GS y SYY salieron con esperanza negativa | arreglado |
+| La simulación medía una cohorte más ancha que el setup | de 25 episodios de GS, solo 2 eran comparables | arreglado |
+| El R:R publicado era el de una entrada ya inalcanzable | TT: 1,24 publicado contra 0,49 real | arreglado |
+| El rechazo por upside ≥30% se apoyaba en 14 empresas | una sola aportaba 24 de las 100 señales | arreglado |
+| El health vigilaba un fichero que está en .gitignore | `strategies: missing` en rojo permanente | arreglado |
+| Tres pruebas locales del health se colaron en commits | una llegó a Telegram fechada como si fuera del pipeline | arreglado |
 
 ---
 
