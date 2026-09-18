@@ -205,6 +205,14 @@ Todos afectaban a números que se usan para decidir una compra.
 | El rechazo por upside ≥30% se apoyaba en 14 empresas | una sola aportaba 24 de las 100 señales | arreglado |
 | El health vigilaba un fichero que está en .gitignore | `strategies: missing` en rojo permanente | arreglado |
 | Tres pruebas locales del health se colaron en commits | una llegó a Telegram fechada como si fuera del pipeline | arreglado |
+| LEAPS publicaba solo el objetivo del analista | los tres modelos estaban en el CSV que ya leía; MSFT «+15,8%» con el DCF y el P/E propio diciendo −64% y −45% | arreglado |
+| Trece campos del scorer no llegaban al CSV | `dcf_no_aplicable`, `pe_ancla`, `ai_sources`… el integrador los tiraba por el camino | arreglado |
+| El calendario no veía los Investor Days | MCD celebraba el suyo en 5 días con objetivos a 2030 y la app solo conocía los resultados de noviembre | arreglado |
+| Los datos se sirven con el modelo anterior | el pipeline corre de madrugada, los arreglos entran a mediodía; MSFT «45% cara» siendo 27% barata | arreglado (aviso en la app) |
+| El score de calidad satura | 25 de 164 en 100 exacto; máximo teórico 125 capado a 100, y pesa el 30% | medido, sin recalibrar: hace falta histórico a 90 días |
+| La cobertura de intereses usaba el EBIT de yfinance | KHC −4,7x por un deterioro de 9,31 B que no es caja; real 4,9x. TEVA 1,79x en vez de 3,63x, disparando la trampa de dividendo | arreglado |
+| El Magic Formula, el mismo EBIT | KHC el ÚLTIMO de 149 con −9,83% cuando es el sexto con +10,13% | arreglado |
+| El escáner de cortos inicializaba la cobertura con el EBITDA | sin las filas del estado financiero, «cobertura 5.000.000.000» | arreglado |
 
 ---
 
