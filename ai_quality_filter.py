@@ -91,7 +91,7 @@ Market regime: {_nd(td.get('market_regime'))}
 
 FUNDAMENTALS (safety check):
 ROE: {_nd(td.get('roe'), '%')}
-Margin: {_nd(td.get('profit_margin'), '%')}
+Margin ({'operating' if td.get('profit_margin_es_operativo') else 'net'}): {_nd(td.get('profit_margin'), '%')}
 Growth: {_nd(td.get('rev_growth'), '%')}
 
 CRITICAL SAFETY CHECKS:
@@ -202,7 +202,7 @@ Upside: {_nd(td.get('analyst_upside_pct'), '%')}
 
 FUNDAMENTALS:
 ROE: {_nd(td.get('roe'), '%')}
-Margin: {_nd(td.get('profit_margin'), '%')}
+Margin ({'operating' if td.get('profit_margin_es_operativo') else 'net'}): {_nd(td.get('profit_margin'), '%')}
 Debt/Eq: {_nd(td.get('debt_to_equity'))}
 Growth: {_nd(td.get('rev_growth'), '%')}
 
@@ -252,7 +252,7 @@ def _prompt_data_check(ticker_data: dict) -> str:
 
 {ticker_data['ticker']} ({ticker_data.get('company_name', '')}) — sector {_nd(ticker_data.get('sector'))}
 Precio: ${_nd(ticker_data.get('current_price'))} · Target analistas: ${_nd(ticker_data.get('target_price_analyst'))} ({_nd(ticker_data.get('analyst_count'))} analistas) · Upside: {_nd(ticker_data.get('analyst_upside_pct'), '%')}
-ROE: {_nd(ticker_data.get('roe'), '%')} · Margen neto: {_nd(ticker_data.get('profit_margin'), '%')} · Deuda/Capital: {_nd(ticker_data.get('debt_to_equity'))}
+ROE: {_nd(ticker_data.get('roe'), '%')} · Margen {'operativo' if ticker_data.get('profit_margin_es_operativo') else 'neto'}: {_nd(ticker_data.get('profit_margin'), '%')} · Deuda/Capital: {_nd(ticker_data.get('debt_to_equity'))}
 Crecimiento ingresos YoY: {_nd(ticker_data.get('rev_growth'), '%')} · FCF yield: {_nd(ticker_data.get('fcf_yield_pct'), '%')} · Distancia máx. 52 sem: {_nd(ticker_data.get('pct_from_52w_high'), '%')}
 
 Ejemplos de lo que buscas: un ROE o margen absurdo para el sector, un upside/target inconsistente con el precio, una caída del 52w-high que no cuadra con fundamentales "intactos", deuda/capital imposible para el tipo de empresa.
@@ -1256,7 +1256,17 @@ def filter_micro_cap():
             'earnings_warning': r.get('earnings_warning', 'N/A'),
             # Standard fallback keys
             'roe': _f('roe_pct'),
-            'profit_margin': _f('operating_margin_pct'),
+            # El otro camino (`extract_fundamentals`) rellena este mismo campo
+            # con `profit_margin_pct`, que es el margen NETO. Aquí se ponía el
+            # OPERATIVO, y el prompt lo enseña en los dos casos como «Margen
+            # neto». El operativo es siempre mayor —en MCD, 46,5% contra un
+            # 31% neto—, así que según por dónde entrara el ticker el modelo
+            # juzgaba un margen inflado creyendo que era el neto. Se prefiere
+            # el neto y, si no está, se dice que lo que va es el operativo.
+            'profit_margin': _f('profit_margin_pct') if _f('profit_margin_pct') is not None
+                             else _f('operating_margin_pct'),
+            'profit_margin_es_operativo': (_f('profit_margin_pct') is None
+                                           and _f('operating_margin_pct') is not None),
             'debt_to_equity': _f('debt_to_equity'),
             'rev_growth': _f('rev_growth_yoy'),
             'target_price_analyst': _f('target_price_analyst'),
