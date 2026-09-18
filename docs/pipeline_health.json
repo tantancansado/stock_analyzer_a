@@ -1,18 +1,18 @@
 {
-  "origen": "local",
-  "run_id": null,
-  "generated_at": "2026-09-18T10:32:32Z",
+  "origen": "github-actions",
+  "run_id": "35307777018",
+  "generated_at": "2026-09-18T06:10:22Z",
   "pipeline_date": "2026-09-18",
-  "ok_count": 20,
-  "total": 20,
+  "ok_count": 19,
+  "total": 21,
   "modules": {
     "value_us": {
-      "status": "ok",
+      "status": "incompleto",
       "date": "2026-09-18",
       "days_ago": 0,
       "stale_threshold_days": 2,
-      "columna_requerida": "entry_readiness",
-      "columna_poblada": true,
+      "columna_requerida": "entry_readiness, rr_operativo",
+      "columna_poblada": false,
       "rows": 52,
       "min_rows": 20
     },
@@ -35,12 +35,12 @@
       "columna_poblada": true
     },
     "value_eu": {
-      "status": "ok",
+      "status": "incompleto",
       "date": "2026-09-18",
       "days_ago": 0,
       "stale_threshold_days": 3,
-      "columna_requerida": "entry_readiness",
-      "columna_poblada": true,
+      "columna_requerida": "entry_readiness, rr_operativo",
+      "columna_poblada": false,
       "rows": 40,
       "min_rows": 10
     },
@@ -49,8 +49,6 @@
       "date": "2026-09-18",
       "days_ago": 0,
       "stale_threshold_days": 3,
-      "columna_requerida": "entry_readiness, rr_operativo",
-      "columna_poblada": true,
       "rows": 26,
       "min_rows": 1
     },
@@ -175,6 +173,12 @@
       "stale_threshold_days": 3,
       "columna_requerida": "setups",
       "columna_poblada": true
+    },
+    "strategies": {
+      "status": "ok",
+      "date": "2026-09-18",
+      "days_ago": 0,
+      "stale_threshold_days": 3
     },
     "earnings_opts": {
       "status": "ok",
