@@ -188,3 +188,54 @@ def test_la_esperanza_se_simula_al_precio_de_mercado():
     bloque = src[i:i + 2500]
     assert "o.get('current_price') or o.get('entry_ref')" in bloque, \
         'la esperanza vuelve a simularse sobre una entrada que quizá no existe'
+
+
+class TestLaCohorteTieneQueSerLaDelSetup:
+    """Medir «comprar un día normal» y llamarlo «comprar tras un desplome».
+
+    18-sep-2026. Llegaron por Telegram tres setups y dos tenían esperanza
+    negativa según la simulación. Al comprobarlo salió que la simulación usaba
+    el estado genérico de `describir_estado` —tramo de RSI14 y posición
+    respecto a la MA200— que es mucho más ancho que el setup: de los 25
+    episodios que midió para GS, solo DOS tenían el RSI2 por debajo de 15 que
+    define la señal.
+
+    Con la cohorte correcta el resultado se da la vuelta en los dos:
+
+        GS    -1,02%  ->  +1,68%   (pasa)
+        SYY   -0,37%  ->  -2,12%   (fuera)
+
+    O sea que la medida mala habría tirado el bueno y dejado pasar al malo.
+    """
+
+    def test_se_puede_pasar_una_cohorte_propia(self):
+        import inspect
+
+        from tasa_base import simular_operacion
+        params = inspect.signature(simular_operacion).parameters
+        assert 'cohorte' in params, 'sin esto la simulación mide otra operación'
+        assert 'nombre_cohorte' in params, 'y hay que poder decir cuál se midió'
+
+    def test_la_cohorte_del_escaner_exige_el_panico(self):
+        """Los criterios de la cohorte tienen que ser los del setup."""
+        from pathlib import Path
+        src = (Path(__file__).resolve().parent.parent / 'bounce_scanner_broad.py').read_text()
+        i = src.index('def _mismo_setup')
+        bloque = src[i:i + 1500]
+        assert 'RSI2_MAX' in bloque, 'la cohorte no exige el pánico previo'
+        assert 'RSI14_MAX' in bloque
+        assert 'rolling(200)' in bloque, 'ni que estuviera sobre la MA200'
+
+    def test_el_escaner_la_usa(self):
+        from pathlib import Path
+        src = (Path(__file__).resolve().parent.parent / 'bounce_scanner_broad.py').read_text()
+        i = src.index('def _anadir_esperanza')
+        assert 'cohorte=_mismo_setup' in src[i:i + 2000], \
+            'vuelve a medirse con el estado genérico'
+
+    def test_y_el_escaner_filtra_con_ella(self):
+        """Calcular la esperanza y no usarla fue lo que dejó salir a GS y SYY."""
+        from pathlib import Path
+        src = (Path(__file__).resolve().parent.parent / 'bounce_scanner_broad.py').read_text()
+        i = src.index('_anadir_esperanza(setups)')
+        assert '_filtrar_por_esperanza(setups)' in src[i:i + 300]

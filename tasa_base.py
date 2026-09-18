@@ -209,7 +209,8 @@ def _pct(v, signo: int) -> float | None:
 
 
 def simular_operacion(hist: pd.DataFrame, objetivo_pct: float, stop_pct: float,
-                      horizonte: int = HORIZONTE_SESIONES) -> dict:
+                      horizonte: int = HORIZONTE_SESIONES,
+                      cohorte=None, nombre_cohorte: str | None = None) -> dict:
     """Qué habría pasado con ESTE stop y ESTE objetivo en los episodios análogos.
 
     `tasa_base` mide dónde está el precio AL FINAL del horizonte. Una operación
@@ -227,6 +228,17 @@ def simular_operacion(hist: pd.DataFrame, objetivo_pct: float, stop_pct: float,
 
     `hist` necesita High y Low: un stop salta con el mínimo del día, no con el
     cierre. Con solo cierres se subestiman los stops y todo parece mejor.
+
+    `cohorte` permite definir QUÉ episodios son comparables. Por defecto se usa
+    el estado de `describir_estado` (tramo de RSI14, posición y pendiente de la
+    MA200), que sirve para una tesis de valoración pero NO para un setup de
+    pánico: el 18-sep-2026, de los 25 episodios que se midieron para GS, solo
+    DOS tenían el RSI2 por debajo de 15 que define el setup. Se estaba midiendo
+    «comprar GS un día normal sobre su MA200», no «comprar tras un desplome», y
+    con eso el filtro puede descartar setups buenos.
+
+    Quien conoce los criterios del setup los pasa aquí como función
+    `(hist, i) -> bool`.
 
     Devuelve n, aciertos, stops, esperanza_pct y los días hasta el objetivo.
     """
@@ -255,13 +267,29 @@ def simular_operacion(hist: pd.DataFrame, objetivo_pct: float, stop_pct: float,
     stop = -abs(float(stop_pct)) / 100.0
     close, high, low = hist['Close'], hist['High'], hist['Low']
 
-    hoy = describir_estado(close)
-    if hoy is None:
-        return _vacio('no se puede describir el estado de hoy')
+    if cohorte is None:
+        hoy = describir_estado(close)
+        if hoy is None:
+            return _vacio('no se puede describir el estado de hoy')
+        indices = _indices_analogos(close, hoy, horizonte)
+        etiqueta = _frase_estado(hoy)
+    else:
+        indices, ultimo = [], -10 ** 9
+        for i in range(200 + PENDIENTE_MA200_SESIONES, len(close) - horizonte - 1):
+            if i - ultimo <= SEPARACION_MINIMA_SESIONES:
+                continue
+            try:
+                if not cohorte(hist, i):
+                    continue
+            except Exception:
+                continue
+            indices.append(i)
+            ultimo = i
+        etiqueta = nombre_cohorte or 'cohorte propia del setup'
 
     aciertos = stops = ninguno = 0
     dias = []
-    for i in _indices_analogos(close, hoy, horizonte):
+    for i in indices:
         p0 = float(close.iloc[i])
         if p0 <= 0:
             continue
@@ -283,8 +311,7 @@ def simular_operacion(hist: pd.DataFrame, objetivo_pct: float, stop_pct: float,
 
     n = aciertos + stops + ninguno
     if not n:
-        return {**_vacio(f'nunca había estado así ({_frase_estado(hoy)})'),
-                'estado_frase': _frase_estado(hoy)}
+        return {**_vacio(f'nunca había estado así ({etiqueta})'), 'estado_frase': etiqueta}
 
     # Lo que ni toca stop ni objetivo se cierra al final del horizonte; se
     # cuenta como cero, que es conservador respecto a medir su retorno real.
@@ -297,7 +324,7 @@ def simular_operacion(hist: pd.DataFrame, objetivo_pct: float, stop_pct: float,
         'pct_acierto': round(100 * aciertos / n),
         'dias_mediana_al_objetivo': int(np.median(dias)) if dias else None,
         'horizonte_sesiones': horizonte,
-        'estado_frase': _frase_estado(hoy),
+        'estado_frase': etiqueta,
     }
     out['frase'] = _frase_operacion(out)
     return out

@@ -282,6 +282,7 @@ def scan() -> list[dict]:
     setups.sort(key=lambda s: (s['rsi2'], -s['rr']))
     setups = setups[:MAX_RESULTS]
     _anadir_esperanza(setups)
+    setups = _filtrar_por_esperanza(setups)
     print(f'\nEvaluated {evaluated}/{len(tickers)} — {len(setups)} setups que pasan TODOS los filtros')
     stats = get_stats()
     if stats['rate_limited'] or stats['other_errors']:
@@ -290,6 +291,39 @@ def scan() -> list[dict]:
               f"ok_rate={stats['ok_rate']}")
     return setups
 
+
+
+
+def _mismo_setup(hist: 'pd.DataFrame', i: int) -> bool:
+    """¿El día `i` cumplía los criterios de ESTE setup?
+
+    Sin esto, la simulación comparaba contra el estado genérico de
+    `describir_estado` —tramo de RSI14 y posición respecto a la MA200— que es
+    mucho más ancho que el setup. El 18-sep-2026, de los 25 episodios que se
+    midieron para GS, solo DOS tenían el RSI2 por debajo de 15. Se estaba
+    midiendo «comprar GS un día normal», no «comprar tras un desplome», y con
+    esa medida el filtro puede tirar setups buenos.
+
+    Se piden los mismos criterios que `_passes_filters`, salvo los que no se
+    pueden reconstruir hacia atrás sin recalcular el universo entero.
+    """
+    close, high, low = hist['Close'], hist['High'], hist['Low']
+    if i < 201 or i >= len(close):
+        return False
+    r2 = _rsi(close.iloc[:i + 1], 2)
+    r14 = _rsi(close.iloc[:i + 1], 14)
+    if len(r2) < 3:
+        return False
+    # pánico AYER (mismo criterio que el escáner: la vela verde de hoy ya
+    # resetea el RSI2 de hoy)
+    if float(r2.iloc[-2]) > RSI2_MAX or float(r14.iloc[-2]) > RSI14_MAX:
+        return False
+    # vela verde hoy
+    if float(close.iloc[i]) <= float(close.iloc[i - 1]):
+        return False
+    # sobre la MA200
+    ma200 = float(close.iloc[:i + 1].rolling(200).mean().iloc[-1])
+    return float(close.iloc[i]) > ma200
 
 
 def _anadir_esperanza(setups: list[dict]) -> None:
@@ -325,7 +359,10 @@ def _anadir_esperanza(setups: list[dict]) -> None:
             if getattr(h.index, 'tz', None) is not None:
                 h.index = h.index.tz_localize(None)
             r = simular_operacion(h, (objetivo / precio - 1) * 100,
-                                  (stop / precio - 1) * 100)
+                                  (stop / precio - 1) * 100,
+                                  cohorte=_mismo_setup,
+                                  nombre_cohorte=f'pánico previo (RSI2<={RSI2_MAX:.0f}) '
+                                                 f'sobre la MA200')
         except Exception as exc:
             print(f"  {s['ticker']}: no se pudo simular ({exc})")
             continue
@@ -341,6 +378,38 @@ def _anadir_esperanza(setups: list[dict]) -> None:
             marca = 'OK' if r['esperanza_pct'] > 0 else 'NEGATIVA'
             print(f"  {s['ticker']}: esperanza {r['esperanza_pct']:+.2f}% "
                   f"({r['aciertos']}/{r['n']}) {marca}")
+
+
+
+def _filtrar_por_esperanza(setups: list[dict]) -> list[dict]:
+    """Fuera los setups cuya esperanza medida no cubre ni los costes.
+
+    Esto estaba en `mean_reversion_detector` y AQUÍ NO: el escáner calculaba
+    la esperanza, la publicaba y no la miraba. El 18-sep-2026 salieron por
+    Telegram dos setups con esperanza negativa:
+
+        GS    6 aciertos de 25 · el stop saltó 15 veces · -1,02%
+        SYY   8 de 29                                   · -0,37%
+
+    Los datos eran correctos —precio, RSI2, volumen y aritmética cuadraban al
+    céntimo— y el stop ya se dimensionaba con la volatilidad. Lo que faltaba
+    era usar el número que decide.
+
+    Solo se descarta con MUESTRA SUFICIENTE: sin episodios anteriores no se
+    sabe, y «no lo sé» no es motivo para tirar una señal.
+    """
+    from tasa_base import ESPERANZA_MINIMA_PCT
+    dentro, fuera = [], []
+    for s in setups:
+        e, ok = s.get('esperanza_pct'), s.get('esperanza_muestra_ok')
+        if ok and e is not None and e < ESPERANZA_MINIMA_PCT:
+            fuera.append((s['ticker'], e, s.get('esperanza_n')))
+        else:
+            dentro.append(s)
+    if fuera:
+        detalle = ', '.join(f'{t} ({e:+.2f}% en {n} casos)' for t, e, n in fuera)
+        print(f'  {len(fuera)} fuera por esperanza < {ESPERANZA_MINIMA_PCT}%: {detalle}')
+    return dentro
 
 
 def main() -> None:
