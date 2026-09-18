@@ -391,7 +391,14 @@ def _frase(t: dict) -> str:
     else:
         cuerpo = (f'cayó otro {abs(t["caida_extra_mediana_pct"]):.0f}% de mediana '
                   f'(peor caso {t["caida_extra_peor_pct"]:.0f}%)')
-    cola = (f'; a {t["horizonte_sesiones"]} sesiones el {t["pct_arriba_al_horizonte"]}% '
+    # El plazo en meses, no en sesiones: «a 252 sesiones» no se lee, y el plazo
+    # es la mitad del mensaje — YUM pasa del 73% de episodios en positivo a
+    # cuatro meses al 93% a un año.
+    hz = t["horizonte_sesiones"]
+    plazo = ('al año' if 240 <= hz <= 264 else
+             f'a {hz // 21} meses' if hz >= 42 else
+             f'a {hz} sesiones')
+    cola = (f'; {plazo} el {t["pct_arriba_al_horizonte"]}% '
             f'estaba en positivo (mediana {t["retorno_mediano_pct"]:+.0f}%)')
     aviso = '' if t['muestra_suficiente'] else f' ⚠ solo {n} casos, no decide nada'
     return f'{veces} ({t["estado_frase"]}) {cuerpo}{cola}.{aviso}'

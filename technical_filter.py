@@ -308,7 +308,11 @@ def compute_technical_signals(ticker: str, spy_6m_return: float) -> dict:
     # cálculos usa ventanas fijas (`.iloc[-252:]`, `.rolling(...)`), así que
     # ninguno cambia de valor. Es la misma petición a yfinance con más filas —
     # no son más llamadas, que es lo que hace saltar el rate-limit.
-    df = _fetch_history(ticker, period="10y")
+    # 15 años, no 10. La tasa base de un pick VALUE se mide a UN AÑO, y cada
+    # episodio consume 252 sesiones de futuro más las 221 que necesita el
+    # estado: con 10 años quedan cuatro episodios para MCD y con 15 quedan
+    # trece. Cuatro casos no son una tasa base, son una anécdota.
+    df = _fetch_history(ticker, period="15y")
     if df is None:
         base["error"] = "no_data"
         return base
@@ -346,7 +350,13 @@ def compute_technical_signals(ticker: str, spy_6m_return: float) -> dict:
     # tasa_base.py para por qué faltaba.
     try:
         import tasa_base as _tb
-        t = _tb.tasa_base(close)
+        from horizontes import HORIZONTE_CONVICCION_SESIONES
+        # A UN AÑO, no a 45 sesiones. Esto acompaña a un pick VALUE, y el
+        # usuario compra a doce meses: «si suben antes pues mejor, pero son
+        # ideas de convicción». El plazo cambia la respuesta, no la matiza —
+        # YUM el 18-sep-2026 pasaba del 73% de episodios en positivo a 4 meses
+        # al 93% a un año, y su peor caso de -21% a -6%.
+        t = _tb.tasa_base(close, horizonte=HORIZONTE_CONVICCION_SESIONES)
         base["tasa_base_frase"] = t.get("frase")
         base["tasa_base_n"] = t.get("n")
         base["tasa_base_caida_mediana_pct"] = t.get("caida_extra_mediana_pct")

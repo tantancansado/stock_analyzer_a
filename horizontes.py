@@ -23,7 +23,17 @@ rebotes técnicos y setups de entrada—, donde 30 días es el horizonte natural
 y 90 sería igual de equivocado en el otro sentido.
 """
 
-# Horizonte principal para todo lo que no sea corto plazo por diseño.
+# El plazo al que el usuario COMPRA, dicho por él el 18-sep-2026: «mis compras
+# suelen ser a 12 meses vista, si suben antes pues mejor, pero son ideas de
+# convicción». Todo lo que describa una idea VALUE debería medirse aquí; el
+# tracker todavía no tiene señales con 365 días cerrados (el periodo limpio
+# empezó en abril), así que de momento es el objetivo y no la métrica.
+OBJETIVO_USUARIO = '365d'
+HORIZONTE_CONVICCION_SESIONES = 252   # un año bursátil
+
+# Horizonte principal para todo lo que no sea corto plazo por diseño. Sigue en
+# 90d porque es el plazo más largo con muestra suficiente EN EL TRACKER; no
+# porque sea el plazo al que se invierte.
 PRINCIPAL = '90d'
 
 # El secundario da la lectura a plazo completo. Tiene menos muestra (844 vs
