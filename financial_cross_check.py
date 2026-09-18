@@ -287,6 +287,43 @@ def bpa_normalizado(stock) -> tuple[float | None, str | None]:
         return None, None
 
 
+
+def cambio_de_acciones_pct(stock) -> float | None:
+    """Cuánto ha cambiado el NÚMERO de acciones en un año, en porcentaje.
+
+    Negativo = la empresa ha reducido su capital. Es lo que le importa al
+    accionista: su trozo de la empresa es mayor.
+
+    No es lo mismo que el gasto en recompras, que es lo que se publicaba con
+    este nombre (importe recomprado / capitalización). La diferencia es lo que
+    se recompra solo para tapar la emisión a empleados, y es sistemática
+    (18-sep-2026):
+
+        BAC    publicaba -6,18%   ·  acciones reales -4,67%
+        SPGI              -4,36%  ·                  -3,46%
+        MCD               -1,32%  ·                  -0,91%
+
+    Siempre exagera a favor. Un campo llamado «cambio de acciones» que mide
+    otra cosa es peor que no tenerlo: nadie va a comprobarlo.
+    """
+    try:
+        q = stock.quarterly_income_stmt
+    except Exception:
+        return None
+    if q is None or getattr(q, 'empty', True) or 'Diluted Average Shares' not in q.index:
+        return None
+    try:
+        sh = q.loc['Diluted Average Shares'].dropna().sort_index(ascending=False)
+        if len(sh) < 5:
+            return None
+        hoy, hace_un_ano = float(sh.iloc[0]), float(sh.iloc[4])
+        if hoy <= 0 or hace_un_ano <= 0:
+            return None
+        return (hoy / hace_un_ano - 1) * 100
+    except Exception:
+        return None
+
+
 def derive_from_statements(stock, info: dict, fields: list[str] | None = None) -> tuple[dict, list[str]]:
     """Rellena campos ausentes en `info` desde los estados financieros.
 
@@ -368,6 +405,11 @@ def derive_from_statements(stock, info: dict, fields: list[str] | None = None) -
     # porque los dos alimentan el mismo objetivo por P/E, y multiplicar un
     # múltiplo alto por un BPA inflado es equivocarse dos veces en el mismo
     # número.
+    cambio_acc = cambio_de_acciones_pct(stock)
+    if cambio_acc is not None:
+        out['cambioAccionesPct'] = cambio_acc
+        filled.append(f'cambioAccionesPct({cambio_acc:+.2f}%)')
+
     bpa, motivo = bpa_normalizado(stock)
     if bpa is not None:
         out['epsNormalizado'] = bpa

@@ -213,6 +213,12 @@ CALIDAD_MAX_SIN_RESPALDO = 85.0
 # ser un beneficio contable raro: en los dos casos se cae al método viejo.
 PER_ANCLA_MIN, PER_ANCLA_MAX = 8.0, 45.0
 
+# Reducción anual de acciones a partir de la cual la recompra cuenta como
+# «activa». Con cualquier recompra valía y la etiqueta salía True en 41 de 42
+# picks: casi toda empresa grande recompra algo, aunque solo sea para tapar la
+# emisión a empleados.
+RECOMPRA_MATERIAL_PCT = 1.0
+
 # Negocios donde el «flujo de caja operativo» NO es flujo libre para el
 # accionista: en un banco incluye el movimiento de depósitos y préstamos, y en
 # una aseguradora las primas cobradas y las reservas. Descontar eso como si
@@ -1572,10 +1578,25 @@ class FundamentalScorer:
                     if buyback_row is not None:
                         # Sum last 4 quarters of buybacks (negative = buying back)
                         recent_buybacks = buyback_row.head(4).sum()
-                        if recent_buybacks < 0 and market_cap and market_cap > 0:
+                        # El cambio REAL del número de acciones manda sobre el
+                        # gasto en recompras. Lo que importa al accionista es
+                        # si su trozo crece, no cuánto dinero se gastó: parte
+                        # de lo recomprado solo tapa la emisión a empleados, y
+                        # la diferencia es sistemática y siempre a favor (BAC
+                        # publicaba -6,18% con las acciones cayendo -4,67%).
+                        cambio_real = info.get('cambioAccionesPct')
+                        if cambio_real is not None:
+                            result['shares_change_pct'] = round(float(cambio_real), 2)
+                            # «Activa» exige que sea MATERIAL. Con cualquier
+                            # recompra valía, y salía True en 41 de 42 picks:
+                            # una etiqueta que se cumple en el 98% no informa
+                            # de nada y regalaba 3 puntos de score a todos.
+                            result['buyback_active'] = bool(cambio_real <= -RECOMPRA_MATERIAL_PCT)
+                        elif recent_buybacks < 0 and market_cap and market_cap > 0:
                             buyback_pct = abs(float(recent_buybacks)) / float(market_cap) * 100
-                            result['buyback_active'] = True
+                            result['buyback_active'] = buyback_pct >= RECOMPRA_MATERIAL_PCT
                             result['shares_change_pct'] = round(-buyback_pct, 2)
+                            result['shares_change_es_gasto'] = True
                         else:
                             result['buyback_active'] = False
                             if recent_buybacks > 0 and market_cap and market_cap > 0:
