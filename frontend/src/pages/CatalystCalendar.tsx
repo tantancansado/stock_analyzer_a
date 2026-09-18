@@ -5,7 +5,7 @@ import PageHeader from '../components/PageHeader'
 import EmptyState from '../components/EmptyState'
 import StaleDataBanner from '../components/StaleDataBanner'
 import { Card } from '@/components/ui/card'
-import { CalendarDays, ChevronDown, ChevronRight, SearchX, AlarmClock, Banknote, ChartColumn, Pill, TrendingUp} from 'lucide-react'
+import { CalendarDays, ChevronDown, ChevronRight, SearchX, AlarmClock, Banknote, ChartColumn, Pill, Presentation, TrendingUp} from 'lucide-react'
 import PageShell from '@/components/PageShell'
 import CifrasClave from '../components/CifrasClave'
 
@@ -17,6 +17,7 @@ const CATEGORY_CONFIG = {
   FDA:            { label: 'FDA', color: '#f97316', bg: 'bg-orange-500/15', border: 'border-orange-500/30', text: 'text-orange-400', icon: Pill },
   OPTIONS_EXPIRY: { label: 'OpEx', color: '#a855f7', bg: 'bg-purple-500/15',  border: 'border-purple-500/30',  text: 'text-purple-400',  icon: AlarmClock },
   DIVIDEND:       { label: 'Dividendo', color: '#f59e0b', bg: 'bg-amber-500/15',  border: 'border-amber-500/30',  text: 'text-amber-400',  icon: Banknote },
+  COMPANY_EVENT:  { label: 'Investor Day', color: '#14b8a6', bg: 'bg-teal-500/15',  border: 'border-teal-500/30',  text: 'text-teal-400',  icon: Presentation },
 } as const
 
 const DIRECTION_CONFIG = {
@@ -258,7 +259,7 @@ export default function CatalystCalendar() {
       <StaleDataBanner module="catalysts" />
       <PageHeader
         title="Catalyst Calendar"
-        subtitle={`Próximos ${data?.horizon_days ?? 90} días · Earnings, Macro, FDA, OpEx y Dividendos`}
+        subtitle={`Próximos ${data?.horizon_days ?? 90} días · Earnings, Macro, FDA, OpEx, Dividendos e Investor Days`}
       />
 
       {/* Summary cards */}
@@ -324,7 +325,7 @@ export default function CatalystCalendar() {
 
       {data && (
         <p className="text-center text-micro text-muted-foreground mt-6">
-          Generado {new Date(data.generated_at).toLocaleDateString('es-ES')} · Fuentes: BLS, Fed, yfinance, FDA.gov
+          Generado {new Date(data.generated_at).toLocaleDateString('es-ES')} · Fuentes: BLS, Fed, yfinance, FDA.gov, SEC EDGAR
         </p>
       )}
     </>
