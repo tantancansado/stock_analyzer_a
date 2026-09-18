@@ -33,7 +33,26 @@ from typing import Any
 MODEL = 'claude-sonnet-5'
 MODEL_HAIKU = 'claude-haiku-4-5'             # clasificación cerrada, sin razonar en cadena
 MODEL_ANALISIS_PROFUNDO = 'claude-opus-5'   # para análisis abierto, no clasificación
-WEB_SEARCH_TOOL = {'type': 'web_search_20260209', 'name': 'web_search'}
+# `allowed_callers: ['direct']` NO es opcional aquí.
+#
+# Desde `web_search_20260209` ese campo vale por defecto
+# ['code_execution_20260120']: la búsqueda corre dentro de la ejecución de
+# código (filtrado dinámico) en vez de llamarse directamente. Y la doc lo dice
+# con todas las letras: «Models that don't support programmatic tool calling
+# require this setting. Without it, the API returns a 400 error that tells you
+# to set it.»
+#
+# Es lo que rompió el pipeline del 18-sep-2026: 400 invalid_request_error en
+# TODAS las llamadas, y GOOG, META, LMT, GGG, SYY, GS y ADSK publicados como
+# «SIN_DATOS · 0 fuentes». Nadie se enteró porque `ask_with_search` devuelve
+# vacío ante cualquier excepción y quien llama lo trata como «este ticker no
+# tiene datos» — el mismo resultado que si la empresa no tuviera noticias.
+#
+# Y aunque no diera 400, seguiría sin funcionar: con filtrado dinámico los
+# resultados llegan ANIDADOS dentro de los bloques de la ejecución de código,
+# y `_extract` solo mira los de primer nivel. De ahí el «0 fuentes».
+WEB_SEARCH_TOOL = {'type': 'web_search_20260209', 'name': 'web_search',
+                   'allowed_callers': ['direct']}
 
 # Haiku 4.5 no soporta `output_config.effort` — confirmado el 8-sep-2026
 # contra la doc oficial, no adivinado. Mandarlo sería el mismo 400 que ya
@@ -191,8 +210,55 @@ def ask_with_search(prompt: str, system: str, max_tokens: int = 2000,
             registrar_fallo_credito(str(e))
             print(f'   🔴 CLAUDE SIN SALDO — se avisará en el briefing ({str(e)[:80]})')
         else:
-            print(f'   ⚠️  Claude no disponible ({str(e)[:80]})')
+            # El mensaje iba cortado a 80 caracteres, y un 400 de la API gasta
+            # los primeros ochenta en la envoltura: el log del 18-sep-2026
+            # repetía 164 veces «Error code: 400 - {'type': 'error', 'error':
+            # {'type': 'invalid_request_error', ')» y se cortaba justo antes
+            # del motivo. Un error truncado donde empieza lo útil cuesta un
+            # día entero de diagnóstico.
+            print(f'   ⚠️  Claude no disponible ({_resumen_error(e)})')
+            _anotar_fallo(e)
         return '', []
+
+
+# Un 400 no es «este ticker no tiene datos»: es que la petición está mal
+# formada, y entonces falla PARA TODOS. `ask_with_search` devuelve '' ante
+# cualquier excepción y quien llama lo trata como «sin datos», así que una
+# configuración rota se publica como 164 tickers sin información y el
+# pipeline termina en verde. Pasó el 18-sep-2026 con GOOG, META, LMT, GGG,
+# SYY, GS, ADSK… y los rebotes se enviaron por Telegram igualmente.
+_FALLOS: dict[str, int] = {}
+_AVISADO: set[str] = set()
+FALLOS_PARA_SOSPECHAR = 5
+
+
+def _resumen_error(e: Exception) -> str:
+    """El tipo del error y el motivo, sin la envoltura que se come el log."""
+    texto = str(e)
+    import re
+    motivo = re.search(r"'message':\s*'([^']{0,200})", texto)
+    tipo = re.search(r"'type':\s*'([a-z_]+_error)'", texto)
+    partes = [p for p in (tipo.group(1) if tipo else None,
+                          motivo.group(1) if motivo else None) if p]
+    return ' · '.join(partes) if partes else texto[:200]
+
+
+def _anotar_fallo(e: Exception) -> None:
+    """Cuenta los fallos por tipo y grita cuando dejan de ser puntuales."""
+    clave = _resumen_error(e)[:120]
+    _FALLOS[clave] = _FALLOS.get(clave, 0) + 1
+    n = _FALLOS[clave]
+    if n >= FALLOS_PARA_SOSPECHAR and clave not in _AVISADO:
+        _AVISADO.add(clave)
+        print(f'\n   🔴 {n} llamadas seguidas fallando con el MISMO error: '
+              f'{clave}\n      Esto no es «sin datos» de un ticker, es la '
+              f'petición mal formada. Todo lo que dependa de Claude va a '
+              f'salir vacío en esta ejecución.\n')
+
+
+def fallos_sistematicos() -> dict[str, int]:
+    """Errores que se han repetido lo bastante como para no ser casualidad."""
+    return {k: v for k, v in _FALLOS.items() if v >= FALLOS_PARA_SOSPECHAR}
 
 
 def parse_json(texto: str) -> dict:

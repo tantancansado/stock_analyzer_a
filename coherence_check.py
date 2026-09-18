@@ -355,11 +355,52 @@ def identidad_de_los_tickers() -> list[str]:
         except Exception:
             pass
 
+    # ¿El fichero de TIKR es anterior al último arreglo del resolvedor?
+    #
+    # El 19-sep-2026 este control tumbaba el pipeline entero todos los días
+    # por NUEVE incoherencias que ya estaban arregladas: el guardia de bolsa
+    # de `tikr_scraper` entró el 17-sep a las 11:51 y el fichero de TIKR es
+    # del 13-sep. TIKR solo corre los domingos, así que hasta entonces no hay
+    # nada que hacer — y el paso, sin `continue-on-error`, se llevaba por
+    # delante el briefing, el archivado, el informe de estado y el commit de
+    # los datos. Ciento cincuenta y cinco tickers buenos sin publicar por
+    # nueve que ya no fallan.
+    #
+    # Se marcan como ⏳: el mecanismo ya existía para los desfases entre
+    # artefactos de distinta cadencia, y esto es exactamente eso.
+    tikr_desfasado = False
+    if ruta_tikr.exists():
+        try:
+            import subprocess
+            from datetime import datetime, timezone
+
+            def _commit(ruta: str):
+                r = subprocess.run(['git', 'log', '-1', '--format=%cI', '--', ruta],
+                                   capture_output=True, text=True, timeout=20)
+                t = r.stdout.strip()
+                if not t:
+                    return None
+                d = datetime.fromisoformat(t.replace('Z', '+00:00'))
+                return d if d.tzinfo else d.replace(tzinfo=timezone.utc)
+
+            dato = _commit(str(ruta_tikr))
+            codigo = _commit('tikr_scraper.py')
+            tikr_desfasado = bool(dato and codigo and codigo > dato)
+        except Exception:
+            tikr_desfasado = False
+
     fallos: list[str] = []
     for t, fs in sorted(fuentes.items()):
         if len(fs) < 2 and not any(f.get('divisa') for f in fs):
             continue
-        fallos.extend(identidad_ticker.revisar(t, fs))
+        for f in identidad_ticker.revisar(t, fs):
+            # Solo los que señalan a TIKR: si la contradicción es entre dos
+            # CSV del pipeline diario, ahí no hay desfase que valga.
+            if tikr_desfasado and 'tikr' in str(f).lower():
+                fallos.append(f'⏳ {f} — el resolvedor se arregló después de '
+                              f'este volcado; TIKR corre los domingos')
+            else:
+                fallos.append(f)
     return fallos
 
 

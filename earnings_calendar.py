@@ -160,10 +160,22 @@ class EarningsCalendar:
         print("\n📊 EARNINGS CALENDAR SUMMARY")
         print("=" * 70)
 
+        # Un DataFrame vacío no tiene columnas, así que `df['has_upcoming_
+        # earnings']` lanzaba KeyError y el paso moría con exit 1. Y cero
+        # oportunidades no es un error en esta app: es el estado normal
+        # cuando el día no da ninguna, que es justo lo que se prefiere sobre
+        # una señal falsa. El 18-sep-2026 tumbó el paso del pipeline.
         total = len(df)
+        if total == 0 or 'has_upcoming_earnings' not in df.columns:
+            print(f"\n📈 ESTADÍSTICAS:")
+            print(f"   Total Oportunidades: {total}")
+            print("   (sin oportunidades que revisar hoy)" if total == 0
+                  else "   ⚠️  el CSV no trae 'has_upcoming_earnings'")
+            return
+
         with_earnings = len(df[df['has_upcoming_earnings'] == True])
-        warnings = len(df[df['warning'] == True])
-        safe = len(df[df['warning'] == False])
+        warnings = len(df[df['warning'] == True]) if 'warning' in df.columns else 0
+        safe = len(df[df['warning'] == False]) if 'warning' in df.columns else 0
 
         print(f"\n📈 ESTADÍSTICAS:")
         print(f"   Total Oportunidades: {total}")

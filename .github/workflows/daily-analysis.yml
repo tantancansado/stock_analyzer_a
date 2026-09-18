@@ -684,6 +684,16 @@ jobs:
       # — si algo se contradice el job sale en rojo y se ve. Los tres bugs
       # graves del 5-ago-2026 vivían entre piezas, donde ningún test unitario
       # mira, y estuvieron meses sin detectarse.
+      # SIGUE SIENDO GATE DURO, y hay un test que lo vigila
+      # (test_coherence_check_es_gate_duro). El 19-sep-2026 estuvo a punto de
+      # llevarse un `continue-on-error` porque el paso tumbaba el pipeline
+      # entero todos los días —briefing, archivado, estado y commit de datos—
+      # por nueve incoherencias de identidad de TIKR. Pero eso era tapar: las
+      # nueve ya estaban arregladas en el código y solo esperaban a que TIKR
+      # volviera a correr el domingo, así que lo que fallaba era la
+      # CLASIFICACIÓN, no el gate. Ahora coherence_check las marca como ⏳
+      # (desfase conocido entre artefactos de distinta cadencia) y deja de
+      # contarlas como contradicción.
       - name: Coherence Check — ¿se contradice la app consigo misma?
         run: python3 coherence_check.py
 
