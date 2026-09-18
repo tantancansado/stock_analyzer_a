@@ -58,7 +58,7 @@ es una doblada.
 | analistas | 312,84 · **+25,9%** (31 analistas) |
 | P/E (múltiplo propio 24,7x) | 304,24 · **+22,4%** |
 | DCF | 237,76 · −4,3% |
-| FCF yield | 4,54% · dividendo 2,99% |
+| FCF yield | 4,54% · dividendo **3,10%** (subido el 18-sep) |
 | margen operativo | 46,5% · deuda 3,66x · beta 0,41 |
 | desde máximo 52s | **−27,3%** |
 
@@ -73,6 +73,34 @@ es una doblada.
 - **Avisos**: n=7 (un 100% con siete casos puede ser suerte); el DCF, que es
   el que usa el flujo real, dice −4,3%; y no tiene soportes identificables por
   debajo.
+
+**Novedades del 18-sep** (verificadas, no de la app):
+- **Dividendo trimestral 1,86 → 1,93 (+3,8%)**, anual 7,72, yield **3,10%**.
+  Cincuenta años seguidos subiéndolo: entra en los Dividend Kings. Fuente
+  primaria: comunicado en PR Newswire. La app seguirá diciendo 7,44 y 2,99%
+  hasta que yfinance registre el pago de diciembre; no es un fallo, es el
+  desfase de la fuente.
+  - Lo que cuesta: **199 M$ más al año**. Payout sobre BPA 60% → 62%, sobre
+    flujo libre 68% → **71%**. Tras pagarlo quedan 2.271 M$ de caja libre y el
+    año pasado recompró 2.056 M$: la subida está cubierta, pero entre dividendo
+    y recompra se va casi todo el flujo. No hay colchón para que el FCF caiga.
+- **Investor Day el 23-sep en Chicago**, con objetivos financieros nuevos
+  hasta 2030 y la presentación en profundidad de «McDonald's > NEXT» (releva a
+  «Accelerating the Arches», introducida el 1-jun-2026).
+  - El evento **no es un catalizador de precio**: medido sobre 2.483 investor
+    days reales, mediana +0,37% a una semana. No es motivo para entrar ni para
+    esperar.
+  - Lo que sí dicen los datos: en empresas de calidad que llegan al evento
+    castigadas más de un 25% —el caso de MCD, a −27,3%— los 9 episodios
+    análogos dieron mediana +31,6% a doce meses, 89% en verde y peor caso
+    −4,1%. En empresas mediocres el signo se invierte (+3,4%, 53%). Nueve
+    casos no son una tasa base: lo sólido es la inversión del signo, no el
+    número.
+- **Recupera el «compra uno, llévate otro por 1 $»**, que había retirado en
+  julio. Ataca justo el problema de la tesis: el tráfico de renta baja cae
+  cerca de un 10% mientras el de renta alta sube casi lo mismo, y quien sí
+  compra las ofertas **gasta más por visita** — el problema es de frecuencia,
+  no de ticket.
 
 ### Correcciones sobre MCD (17-sep)
 - Dije que «cotizaba por encima de su valor» con un DCF de 217. Era el
