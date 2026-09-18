@@ -1,8 +1,8 @@
 {
-  "total_signals": 88,
-  "unique_tickers": 52,
-  "date_range": "2026-04-08 to 2026-09-10",
-  "active_signals": 13,
+  "total_signals": 91,
+  "unique_tickers": 54,
+  "date_range": "2026-04-08 to 2026-09-18",
+  "active_signals": 16,
   "completed_signals": 75,
   "overall": {
     "90d": {
@@ -38,24 +38,24 @@
   },
   "long_hist_reference": {
     "90d": {
-      "count": 830,
-      "win_rate": 49.0,
-      "ci_low": 45.6,
-      "ci_high": 52.4,
-      "avg_return": 1.38,
-      "median_return": -0.33,
+      "count": 869,
+      "win_rate": 49.1,
+      "ci_low": 45.8,
+      "ci_high": 52.5,
+      "avg_return": 1.36,
+      "median_return": -0.29,
       "best": 57.29,
-      "worst": -25.82
+      "worst": -37.59
     },
     "180d": {
-      "count": 620,
+      "count": 738,
       "win_rate": 66.0,
-      "ci_low": 62.1,
-      "ci_high": 69.6,
-      "avg_return": 7.91,
-      "median_return": 9.85,
+      "ci_low": 62.5,
+      "ci_high": 69.3,
+      "avg_return": 7.4,
+      "median_return": 9.23,
       "best": 89.88,
-      "worst": -36.24
+      "worst": -43.74
     },
     "365d": {
       "count": 0,
@@ -71,7 +71,7 @@
   "stats_basis": {
     "clean_period": "se\u00f1ales VALUE+EU_VALUE desde 2026-04-08 (filtrado correcto) Y que el sistema emitir\u00eda HOY: fuera las de upside >=30%, que hoy son hard-reject. Eran 59 de 120 y las peores con diferencia (1,7% de acierto a 30d, -8,28% medio): describen una pol\u00edtica muerta",
     "clean_period_us_value": "US VALUE desde 2026-04-08 \u2014 base del ajuste sectorial del integrator. Antes usaba golden_zone_hist (contaminado): su win-rate sectorial no predice al limpio (corr +0,26 a 30d) y lo infla en bloque",
-    "golden_zone_hist": "hist\u00f3rico US VALUE retroactivo: score>=60 y upside en [10, 25) \u2014 misma poblaci\u00f3n que se emite hoy. Incluye el periodo contaminado: es el \u00fanico con datos 30d/90d suficientes",
+    "golden_zone_hist": "hist\u00f3rico US VALUE retroactivo: score>=60 y upside en [10, 30) \u2014 misma poblaci\u00f3n que se emite hoy. Incluye el periodo contaminado: es el \u00fanico con datos 30d/90d suficientes",
     "long_hist": "golden zone US + hist\u00f3rico EU completo \u2014 incluye el periodo contaminado; m\u00e1s muestra, otra poblaci\u00f3n",
     "sections": {
       "overall": "clean_period",
@@ -85,14 +85,14 @@
   },
   "conviction": {
     "7d": {
-      "count": 110,
-      "win_rate": 40.9,
-      "avg_return": -0.46,
+      "count": 149,
+      "win_rate": 38.9,
+      "avg_return": -0.52,
       "basis": "golden_zone_hist"
     }
   },
   "value_strategy": {
-    "count": 76,
+    "count": 79,
     "90d": {
       "count": 27,
       "win_rate": 66.7,
@@ -132,14 +132,14 @@
       "basis": "eu_full_hist"
     },
     "180d": {
-      "count": 534,
-      "win_rate": 62.9,
-      "ci_low": 58.7,
-      "ci_high": 66.9,
-      "avg_return": 5.54,
-      "median_return": 7.43,
+      "count": 626,
+      "win_rate": 63.4,
+      "ci_low": 59.6,
+      "ci_high": 67.1,
+      "avg_return": 5.33,
+      "median_return": 7.4,
       "best": 39.33,
-      "worst": -31.6,
+      "worst": -33.25,
       "basis": "eu_full_hist"
     },
     "365d": {
@@ -155,32 +155,32 @@
     }
   },
   "momentum_strategy": {
-    "count": 22
+    "count": 23
   },
   "bounce_strategies": {
     "BOUNCE_BROAD": {
-      "count": 20,
+      "count": 21,
       "7d": {
-        "count": 12,
-        "win_rate": 41.7,
-        "ci_low": 19.3,
-        "ci_high": 68.0,
-        "avg_return": -0.53,
-        "median_return": -0.8,
+        "count": 13,
+        "win_rate": 38.5,
+        "ci_low": 17.7,
+        "ci_high": 64.5,
+        "avg_return": -0.72,
+        "median_return": -0.84,
         "best": 4.07,
         "worst": -4.24
       },
       "nota": "horizonte real 1-5 d\u00edas: el 7d es la medida m\u00e1s cercana disponible, no el criterio del setup (target vs stop)"
     },
     "MEAN_REVERSION": {
-      "count": 79,
+      "count": 81,
       "7d": {
-        "count": 28,
-        "win_rate": 35.7,
-        "ci_low": 20.7,
-        "ci_high": 54.2,
-        "avg_return": -3.07,
-        "median_return": -1.92,
+        "count": 37,
+        "win_rate": 32.4,
+        "ci_low": 19.6,
+        "ci_high": 48.5,
+        "avg_return": -2.9,
+        "median_return": -1.38,
         "best": 4.54,
         "worst": -14.93
       },
@@ -188,7 +188,7 @@
     }
   },
   "leaps_strategy": {
-    "count": 102,
+    "count": 110,
     "subyacente": {
       "90d": {
         "count": 0,
@@ -233,9 +233,9 @@
         "ci_high": null
       }
     },
-    "edad_max_dias": 27,
-    "dias_hasta_primera_lectura": 63,
-    "con_contrato": 65,
+    "edad_max_dias": 29,
+    "dias_hasta_primera_lectura": 61,
+    "con_contrato": 73,
     "nota": "el contrato se sigue por su s\u00edmbolo OCC; son opciones poco l\u00edquidas, as\u00ed que un checkpoint sin cotizaci\u00f3n en 10 d\u00edas se queda vac\u00edo en vez de arrastrar un precio viejo"
   },
   "sector_performance": {
@@ -275,7 +275,7 @@
       "win_rate_30d": 33.3
     }
   },
-  "score_correlation": 0.07,
+  "score_correlation": 0.064,
   "top_performers": [
     {
       "ticker": "BBY",
@@ -373,6 +373,39 @@
   "performers_horizon": "90d",
   "recent_signals": [
     {
+      "ticker": "META",
+      "company_name": "Meta Platforms, Inc.",
+      "strategy": "VALUE",
+      "signal_date": "2026-09-18",
+      "signal_price": 682.31,
+      "sector": "Communication Services",
+      "value_score": 63.72,
+      "days_active": 0,
+      "first_result_date": "2026-09-25"
+    },
+    {
+      "ticker": "OXY",
+      "company_name": "Occidental Petroleum Corporation",
+      "strategy": "VALUE",
+      "signal_date": "2026-09-18",
+      "signal_price": 59.29,
+      "sector": "Energy",
+      "value_score": 53.155,
+      "days_active": 0,
+      "first_result_date": "2026-09-25"
+    },
+    {
+      "ticker": "FCNCA",
+      "company_name": "First Citizens BancShares, Inc.",
+      "strategy": "VALUE",
+      "signal_date": "2026-09-18",
+      "signal_price": 2120.58,
+      "sector": "Financial Services",
+      "value_score": 51.92499999999999,
+      "days_active": 0,
+      "first_result_date": "2026-09-25"
+    },
+    {
       "ticker": "QSR",
       "company_name": "Restaurant Brands International Inc.",
       "strategy": "VALUE",
@@ -380,7 +413,7 @@
       "signal_price": 77.01,
       "sector": "Consumer Cyclical",
       "value_score": 59.09,
-      "days_active": 6,
+      "days_active": 8,
       "first_result_date": "2026-09-17"
     },
     {
@@ -391,7 +424,7 @@
       "signal_price": 314.4,
       "sector": "Industrials",
       "value_score": 59.72,
-      "days_active": 14,
+      "days_active": 16,
       "first_result_date": "2026-09-09"
     },
     {
@@ -402,7 +435,7 @@
       "signal_price": 435.84,
       "sector": "Financial Services",
       "value_score": 58.14,
-      "days_active": 15,
+      "days_active": 17,
       "first_result_date": "2026-09-08"
     },
     {
@@ -413,7 +446,7 @@
       "signal_price": 108.815,
       "sector": "Financial Services",
       "value_score": 57.05500000000001,
-      "days_active": 19,
+      "days_active": 21,
       "first_result_date": "2026-09-04"
     },
     {
@@ -424,7 +457,7 @@
       "signal_price": 127.08,
       "sector": "Industrials",
       "value_score": 50.06999999999999,
-      "days_active": 20,
+      "days_active": 22,
       "first_result_date": "2026-09-03"
     },
     {
@@ -435,7 +468,7 @@
       "signal_price": 7.26,
       "sector": "Healthcare",
       "value_score": 59.59,
-      "days_active": 21,
+      "days_active": 23,
       "first_result_date": "2026-09-02"
     },
     {
@@ -446,7 +479,7 @@
       "signal_price": 351.05,
       "sector": "Industrials",
       "value_score": 56.375,
-      "days_active": 21,
+      "days_active": 23,
       "first_result_date": "2026-09-02"
     },
     {
@@ -457,7 +490,7 @@
       "signal_price": 455.25,
       "sector": "Industrials",
       "value_score": 51.95,
-      "days_active": 21,
+      "days_active": 23,
       "first_result_date": "2026-09-02"
     },
     {
@@ -468,7 +501,7 @@
       "signal_price": 355.11,
       "sector": "Financial Services",
       "value_score": 51.13,
-      "days_active": 23,
+      "days_active": 25,
       "first_result_date": "2026-08-31"
     },
     {
@@ -479,7 +512,7 @@
       "signal_price": 2966.0,
       "sector": "Industrials",
       "value_score": 60.88499999999999,
-      "days_active": 26,
+      "days_active": 28,
       "first_result_date": "2026-08-28"
     },
     {
@@ -490,7 +523,7 @@
       "signal_price": 496.86,
       "sector": "Financial Services",
       "value_score": 55.370000000000005,
-      "days_active": 26,
+      "days_active": 28,
       "first_result_date": "2026-08-28"
     },
     {
@@ -501,7 +534,7 @@
       "signal_price": 60.09,
       "sector": "Energy",
       "value_score": 62.24000000000001,
-      "days_active": 27,
+      "days_active": 29,
       "first_result_date": "2026-08-27"
     },
     {
@@ -512,11 +545,11 @@
       "signal_price": 24.87,
       "sector": "Financial Services",
       "value_score": 51.305,
-      "days_active": 27,
+      "days_active": 29,
       "first_result_date": "2026-08-27"
     }
   ],
-  "avg_max_drawdown": -2.59,
+  "avg_max_drawdown": -2.63,
   "alpha": {
     "365d": {
       "count": 0,
@@ -551,20 +584,20 @@
       "worst_alpha": -20.53
     },
     "14d": {
-      "count": 86,
+      "count": 87,
       "avg_alpha": -0.34,
-      "avg_signal_return": 0.47,
-      "avg_benchmark_return": 0.81,
-      "positive_alpha_rate": 48.8,
+      "avg_signal_return": 0.45,
+      "avg_benchmark_return": 0.79,
+      "positive_alpha_rate": 48.3,
       "best_alpha": 12.76,
       "worst_alpha": -12.78
     },
     "7d": {
-      "count": 87,
-      "avg_alpha": -0.37,
-      "avg_signal_return": 0.36,
+      "count": 88,
+      "avg_alpha": -0.42,
+      "avg_signal_return": 0.3,
       "avg_benchmark_return": 0.73,
-      "positive_alpha_rate": 44.8,
+      "positive_alpha_rate": 44.3,
       "best_alpha": 11.23,
       "worst_alpha": -12.04
     }
@@ -578,22 +611,22 @@
       "avg_benchmark_return": null
     },
     "180d": {
-      "count": 86,
-      "avg_alpha": 8.39,
-      "avg_signal_return": 22.64,
-      "avg_benchmark_return": 14.24,
-      "positive_alpha_rate": 74.4,
+      "count": 112,
+      "avg_alpha": 4.43,
+      "avg_signal_return": 18.98,
+      "avg_benchmark_return": 14.55,
+      "positive_alpha_rate": 67.0,
       "best_alpha": 75.56,
-      "worst_alpha": -49.58
+      "worst_alpha": -57.59
     },
     "90d": {
-      "count": 103,
-      "avg_alpha": 4.54,
-      "avg_signal_return": 15.93,
-      "avg_benchmark_return": 11.39,
-      "positive_alpha_rate": 62.1,
+      "count": 142,
+      "avg_alpha": 0.82,
+      "avg_signal_return": 11.82,
+      "avg_benchmark_return": 11.0,
+      "positive_alpha_rate": 52.1,
       "best_alpha": 44.58,
-      "worst_alpha": -32.09
+      "worst_alpha": -51.85
     },
     "30d": {
       "count": 63,
@@ -605,11 +638,11 @@
       "worst_alpha": -20.53
     },
     "14d": {
-      "count": 74,
+      "count": 75,
       "avg_alpha": -0.43,
-      "avg_signal_return": 0.76,
-      "avg_benchmark_return": 1.19,
-      "positive_alpha_rate": 47.3,
+      "avg_signal_return": 0.73,
+      "avg_benchmark_return": 1.16,
+      "positive_alpha_rate": 46.7,
       "best_alpha": 12.76,
       "worst_alpha": -12.78
     }
@@ -623,13 +656,13 @@
       "avg_benchmark_return": null
     },
     "180d": {
-      "count": 534,
-      "avg_alpha": -3.75,
-      "avg_signal_return": 5.54,
-      "avg_benchmark_return": 9.28,
-      "positive_alpha_rate": 46.3,
+      "count": 626,
+      "avg_alpha": -4.37,
+      "avg_signal_return": 5.33,
+      "avg_benchmark_return": 9.69,
+      "positive_alpha_rate": 44.9,
       "best_alpha": 31.03,
-      "worst_alpha": -43.42
+      "worst_alpha": -46.32
     },
     "90d": {
       "count": 727,
@@ -659,5 +692,5 @@
       "worst_alpha": -4.98
     }
   },
-  "generated_at": "2026-09-16T05:38:33.605974"
+  "generated_at": "2026-09-18T05:43:25.874086"
 }
