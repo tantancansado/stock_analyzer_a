@@ -355,11 +355,12 @@ class TestContratoDeContenido:
         from pathlib import Path
         yml = (Path(__file__).resolve().parent.parent / '.github' / 'workflows'
                / 'daily-analysis.yml').read_text()
-        i = yml.index('Calculate Entry/Exit Prices')
-        bloque = yml[i:i + 700]
+        from conftest import bloque_de_codigo
+        bloque = bloque_de_codigo(yml, 'Calculate Entry/Exit Prices')
         assert 'continue-on-error: true' in bloque, \
             'un paso que solo AÑADE columnas no puede tumbar a los que generan datos'
-        assert '[CRITICAL]' not in yml[i:i + 60]
+        assert '[CRITICAL]' not in bloque.splitlines()[0], \
+            'el nombre del paso no puede seguir marcándolo como crítico'
 
 
 def test_el_health_dice_quien_lo_escribio(tmp_path, monkeypatch):

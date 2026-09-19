@@ -60,6 +60,7 @@ def test_la_recompra_activa_exige_ser_material():
 def test_el_scorer_prefiere_el_cambio_real():
     from pathlib import Path
     src = (Path(__file__).resolve().parent.parent / 'fundamental_scorer.py').read_text()
-    i = src.index("result['buyback_active']")
-    bloque = src[max(0, i - 1200):i + 600]
+    from conftest import bloque_de_codigo
+    # todo el bloque de recompras, delimitado por código
+    bloque = bloque_de_codigo(src, '── BUYBACK', '── INTEREST COVERAGE')
     assert 'cambioAccionesPct' in bloque

@@ -184,8 +184,8 @@ def test_la_esperanza_se_simula_al_precio_de_mercado():
     que puedes hacer hoy es otra."""
     from pathlib import Path
     src = (Path(__file__).resolve().parent.parent / 'mean_reversion_detector.py').read_text()
-    i = src.index('_anadir_esperanza_historica')
-    bloque = src[i:i + 2500]
+    from conftest import bloque_de_codigo
+    bloque = bloque_de_codigo(src, 'def _anadir_esperanza_historica')
     assert "o.get('current_price') or o.get('entry_ref')" in bloque, \
         'la esperanza vuelve a simularse sobre una entrada que quizá no existe'
 
@@ -220,8 +220,8 @@ class TestLaCohorteTieneQueSerLaDelSetup:
         """Los criterios de la cohorte tienen que ser los del setup."""
         from pathlib import Path
         src = (Path(__file__).resolve().parent.parent / 'bounce_scanner_broad.py').read_text()
-        i = src.index('def _mismo_setup')
-        bloque = src[i:i + 1500]
+        from conftest import bloque_de_codigo
+        bloque = bloque_de_codigo(src, 'def _mismo_setup')
         assert 'RSI2_MAX' in bloque, 'la cohorte no exige el pánico previo'
         assert 'RSI14_MAX' in bloque
         assert 'rolling(200)' in bloque, 'ni que estuviera sobre la MA200'
@@ -229,13 +229,14 @@ class TestLaCohorteTieneQueSerLaDelSetup:
     def test_el_escaner_la_usa(self):
         from pathlib import Path
         src = (Path(__file__).resolve().parent.parent / 'bounce_scanner_broad.py').read_text()
-        i = src.index('def _anadir_esperanza')
-        assert 'cohorte=_mismo_setup' in src[i:i + 2000], \
+        from conftest import bloque_de_codigo
+        assert 'cohorte=_mismo_setup' in bloque_de_codigo(src, 'def _anadir_esperanza'), \
             'vuelve a medirse con el estado genérico'
 
     def test_y_el_escaner_filtra_con_ella(self):
         """Calcular la esperanza y no usarla fue lo que dejó salir a GS y SYY."""
         from pathlib import Path
         src = (Path(__file__).resolve().parent.parent / 'bounce_scanner_broad.py').read_text()
-        i = src.index('_anadir_esperanza(setups)')
-        assert '_filtrar_por_esperanza(setups)' in src[i:i + 300]
+        from conftest import bloque_de_codigo
+        assert '_filtrar_por_esperanza(setups)' in bloque_de_codigo(
+            src, '_anadir_esperanza(setups)', 'return setups')

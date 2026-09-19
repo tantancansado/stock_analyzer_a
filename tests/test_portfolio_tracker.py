@@ -1148,8 +1148,10 @@ class TestAjusteSectorialSaleDeDatosLimpios:
         from pathlib import Path
         import portfolio_tracker as pt
         src = Path(pt.__file__).read_text()
-        i = src.index('sector_perf = {}')
-        bloque = src[i:i + 600]
+        from conftest import bloque_de_codigo
+        # hasta el comentario del bloque siguiente: el cálculo sectorial
+        # termina ahí y lo de abajo SÍ usa golden_hist a propósito
+        bloque = bloque_de_codigo(src, 'sector_perf = {}', '# Score correlation')
         codigo = '\n'.join(l for l in bloque.splitlines()
                            if not l.lstrip().startswith('#'))
         assert 'golden_hist' not in codigo, \
@@ -1159,8 +1161,8 @@ class TestAjusteSectorialSaleDeDatosLimpios:
         from pathlib import Path
         import portfolio_tracker as pt
         src = Path(pt.__file__).read_text()
-        i = src.index('sector_perf = {}')
-        assert 'value_core[' in src[i:i + 400], \
+        from conftest import bloque_de_codigo
+        assert 'value_core[' in bloque_de_codigo(src, 'sector_perf = {}'), \
             'la base del ajuste sectorial debe ser value_core (periodo limpio)'
 
     def test_stats_basis_declara_la_base_nueva(self):
@@ -1183,8 +1185,8 @@ class TestAjusteSectorialSaleDeDatosLimpios:
         from pathlib import Path
         import portfolio_tracker as pt
         src = Path(pt.__file__).read_text()
-        i = src.index('golden_hist = _hist_us[')
-        expr = src[i:i + 260]
+        from conftest import bloque_de_codigo
+        expr = bloque_de_codigo(src, 'golden_hist = _hist_us[')
         assert 'UPSIDE_GOLDEN_MAX' in expr, \
             'golden_hist debe cortar en la banda dorada, no en el hard reject'
         assert '_rr' not in expr, \
@@ -1265,8 +1267,12 @@ class TestSueloDeCaida:
         from pathlib import Path
         import portfolio_tracker as pt
         src = Path(pt.__file__).read_text()
-        i = src.index('_CAIDA_MAX_PCT = ')
-        valor = float(src[i:i + 40].split('=')[1].split('\n')[0].strip())
+        # con regex: recortar 40 caracteres se rompe si alguien añade un
+        # comentario al final de la línea o cambia el formato del número
+        import re as _re
+        m = _re.search(r'_CAIDA_MAX_PCT\s*=\s*(-?\d+(?:\.\d+)?)', src)
+        assert m, 'no se encontró _CAIDA_MAX_PCT'
+        valor = float(m.group(1))
         assert -40.0 <= valor <= -25.0, \
             f'suelo en {valor}: fuera del rango que respaldan los datos'
 

@@ -34,8 +34,8 @@ class TestLaHerramienta:
     def test_el_motivo_queda_escrito_junto_al_parametro(self):
         """Sin el porqué, el siguiente que lo vea lo quita por parecer de más."""
         fuente = open(cr.__file__).read()
-        i = fuente.index('WEB_SEARCH_TOOL = ')
-        cabecera = fuente[max(0, i - 1400):i]
+        from conftest import cabecera_de
+        cabecera = cabecera_de(fuente, 'WEB_SEARCH_TOOL = ')
         assert 'allowed_callers' in cabecera
         assert '400' in cabecera
 

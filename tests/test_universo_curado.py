@@ -65,6 +65,6 @@ def test_el_scorer_no_vuelve_a_excluir_el_tier4():
     cambio. Aquí se fija que ese `False` no vuelva."""
     from pathlib import Path
     src = (Path(__file__).resolve().parent.parent / 'fundamental_scorer.py').read_text()
-    i = src.index('elif args.curated or args.curated_all:')
-    bloque = src[i:i + 1200]
+    from conftest import bloque_de_codigo
+    bloque = bloque_de_codigo(src, 'elif args.curated or args.curated_all:')
     assert 'include_tier4=' not in bloque, 'el scorer vuelve a decidir el tier por su cuenta'

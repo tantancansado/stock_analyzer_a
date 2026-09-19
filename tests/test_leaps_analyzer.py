@@ -620,8 +620,10 @@ class TestLaVentajaNetaDecide:
         si alguien vuelve a dejarla como dato informativo."""
         from pathlib import Path
         src = (Path(__file__).resolve().parent.parent / 'leaps_analyzer.py').read_text()
-        i = src.index('results.append(opp)')
-        bloque = src[max(0, i - 900):i]
+        from conftest import bloque_de_codigo
+        # desde donde se filtra hasta donde se acepta: si la constante no
+        # aparece en medio, no está filtrando nada
+        bloque = bloque_de_codigo(src, 'def main(', 'results.append(opp)')
         assert 'VENTAJA_NETA_MINIMA_PCT' in bloque, \
             'la ventaja neta no filtra nada antes de aceptar la oportunidad'
 
@@ -674,14 +676,14 @@ class TestLaIvDeepItmNoEsUtilizable:
     def test_el_filtro_esta_dentro_de_la_etiqueta_de_iv(self):
         from pathlib import Path
         src = (Path(__file__).resolve().parent.parent / 'leaps_analyzer.py').read_text()
-        i = src.index('def _iv_tag')
-        assert 'IV_SPREAD_MAX_SOBRE_EXTRINSECO' in src[i:i + 1400], \
+        from conftest import bloque_de_codigo
+        assert 'IV_SPREAD_MAX_SOBRE_EXTRINSECO' in bloque_de_codigo(src, 'def _iv_tag'), \
             'la IV se vuelve a etiquetar sin comprobar si el precio la soporta'
 
     def test_no_se_publica_richness_sin_iv_fiable(self):
         """Si la IV no vale, no puede haber veredicto sobre ella."""
         from pathlib import Path
         src = (Path(__file__).resolve().parent.parent / 'leaps_analyzer.py').read_text()
-        i = src.index('def _iv_tag')
-        bloque = src[i:i + 1400]
+        from conftest import bloque_de_codigo
+        bloque = bloque_de_codigo(src, 'def _iv_tag')
         assert "c['iv_richness'] = None" in bloque and 'iv_nota' in bloque

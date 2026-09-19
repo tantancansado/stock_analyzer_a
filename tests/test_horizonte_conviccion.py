@@ -26,8 +26,8 @@ def test_existe_el_horizonte_al_que_compra_el_usuario():
 
 def test_la_tasa_base_de_value_se_mide_a_un_año():
     src = (RAIZ / 'technical_filter.py').read_text()
-    i = src.index('import tasa_base as _tb')
-    bloque = src[i:i + 900]
+    from conftest import bloque_de_codigo
+    bloque = bloque_de_codigo(src, 'import tasa_base as _tb')
     assert 'HORIZONTE_CONVICCION_SESIONES' in bloque, \
         'la tasa base de un pick VALUE vuelve a medirse a 45 sesiones'
 

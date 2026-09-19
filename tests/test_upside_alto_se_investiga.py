@@ -26,8 +26,8 @@ RAIZ = Path(__file__).resolve().parent.parent
 
 def test_ya_no_se_pone_el_score_a_cero_por_upside_alto():
     src = (RAIZ / 'super_score_integrator.py').read_text()
-    i = src.index('value_trap = _up.notna()')
-    bloque = src[i:i + 900]
+    from conftest import bloque_de_codigo
+    bloque = bloque_de_codigo(src, 'value_trap = _up.notna()')
     assert "'value_score'] = 0.0" not in bloque, \
         'vuelve el rechazo automático: un descuento grande no es una sentencia'
 

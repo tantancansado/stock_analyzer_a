@@ -56,8 +56,8 @@ class TestQueSeDistingue:
 def test_el_404_salta_al_siguiente_modelo_en_el_bucle():
     from pathlib import Path
     src = Path(g.__file__).read_text()
-    i = src.index('if _is_rate_limit(exc):')
-    bloque = src[i:i + 1200]
+    from conftest import bloque_de_codigo
+    bloque = bloque_de_codigo(src, 'if _is_rate_limit(exc):')
     assert '_es_modelo_inexistente' in bloque, \
         'un modelo caducado vuelve a propagarse sin probar el respaldo'
     # y antes del `raise` final, no después

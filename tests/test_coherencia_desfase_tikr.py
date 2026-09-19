@@ -72,8 +72,9 @@ def test_el_indulto_lleva_el_motivo():
 
 def test_se_marcan_con_el_simbolo_que_el_contador_ya_entiende():
     """⏳ es el prefijo que `run()` usa para no sumarlos al total."""
-    i = FUENTE.index('tikr_desfasado and')
-    assert "f'⏳ {f}" in FUENTE[i:i + 400]
+    from conftest import bloque_de_codigo
+    assert "f'⏳ {f}" in bloque_de_codigo(
+        FUENTE, 'tikr_desfasado and', 'return fallos')
 
 
 def test_el_gate_sigue_siendo_duro():
@@ -88,9 +89,11 @@ def test_el_gate_sigue_siendo_duro():
 def test_sin_fecha_legible_no_se_indulta_nada():
     """Si no se puede saber cuándo se generó, el hallazgo cuenta como real:
     ante la duda, el gate aprieta."""
+    from conftest import bloque_de_codigo
     assert 'tikr_desfasado = False' in FUENTE
-    i = FUENTE.index('except Exception:', FUENTE.index('tikr_desfasado = False'))
-    assert 'tikr_desfasado = False' in FUENTE[i:i + 120]
+    # el `except` que envuelve la lectura del volcado vuelve a poner False
+    rama = bloque_de_codigo(FUENTE, 'except Exception:\n            tikr_desfasado = False')
+    assert 'tikr_desfasado = False' in rama
 
 
 class TestElHelperDeDesfase:

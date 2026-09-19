@@ -38,8 +38,8 @@ class TestElCorte:
         assert '_sin_respaldo = _peso_sin_respaldo > 0.5' in FUENTE
 
     def test_solo_cuentan_los_dos_que_dependen_de_los_trimestres(self):
-        i = FUENTE.index('_peso_sin_respaldo = sum(')
-        bloque = FUENTE[i:i + 500]
+        from conftest import bloque_de_codigo
+        bloque = bloque_de_codigo(FUENTE, '_peso_sin_respaldo = sum(')
         assert "'earnings_quality'" in bloque
         assert "'growth_acceleration'" in bloque
         assert "'relative_strength'" not in bloque, \
@@ -72,8 +72,8 @@ class TestLoQueSePublica:
 class TestElPrintQueRompiaLaProteccion:
     def test_no_formatea_un_none(self):
         assert 'if fundamental_score is None:' in FUENTE
-        i = FUENTE.index('if fundamental_score is None:')
-        bloque = FUENTE[i:i + 400]
+        from conftest import bloque_de_codigo
+        bloque = bloque_de_codigo(FUENTE, 'if fundamental_score is None:')
         assert 'Sin score' in bloque
         assert 'Score: {fundamental_score:.1f}' in bloque, \
             'la rama con score sigue imprimiendo el número'

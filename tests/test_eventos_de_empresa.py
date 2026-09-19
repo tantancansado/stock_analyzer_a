@@ -88,8 +88,9 @@ class TestElEventoNoEsUnaSenal:
         """Medido: mediana +0,37% a una semana sobre 2.483 eventos reales."""
         fuente = open(cs.__file__).read()
         assert '2.483' in fuente, 'la muestra que respalda el número, escrita'
-        i = fuente.index('FRASES_EVENTO = ')
-        cabecera = fuente[max(0, i - 2000):i]
+        from conftest import cabecera_de
+        # el comentario grande del módulo, donde está la medición
+        cabecera = fuente[:fuente.index('FRASES_EVENTO = ')]
         assert 'no mueve el precio' in cabecera
 
 

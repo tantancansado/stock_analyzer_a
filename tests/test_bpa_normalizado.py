@@ -57,7 +57,7 @@ def test_con_perdidas_no_se_normaliza():
 def test_el_scorer_prefiere_el_normalizado():
     from pathlib import Path
     src = (Path(__file__).resolve().parent.parent / 'fundamental_scorer.py').read_text()
-    i = src.index('# ── 3. P/E justo')
-    bloque = src[i:i + 2500]
+    from conftest import bloque_de_codigo
+    bloque = bloque_de_codigo(src, '# ── 3. P/E justo')
     assert 'epsNormalizado' in bloque
     assert bloque.index('epsNormalizado') < bloque.index('eps_fwd) if eps_fwd')

@@ -23,8 +23,8 @@ RAIZ = Path(__file__).resolve().parent.parent
 
 def test_el_universo_curado_entra_aunque_wikipedia_falle():
     src = (RAIZ / 'super_score_integrator.py').read_text()
-    i = src.index('def export_ticker_data_cache')
-    bloque = src[i:i + 3000]
+    from conftest import bloque_de_codigo
+    bloque = bloque_de_codigo(src, 'def export_ticker_data_cache')
     assert 'get_universe' in bloque, \
         'el cache vuelve a depender de que Wikipedia responda'
     # y el curado se añade ANTES de mirar el S&P 500
@@ -35,8 +35,9 @@ def test_wikipedia_caida_no_es_motivo_para_quedarse_sin_fichas():
     """Si la lista externa falla, el aviso tiene que decir que no pasa nada
     porque el curado ya está dentro — no dejar al lector pensando."""
     src = (RAIZ / 'super_score_integrator.py').read_text()
-    i = src.index('def export_ticker_data_cache')
-    assert 'no se queda sin fichas' in src[i:i + 3000]
+    from conftest import bloque_de_codigo
+    assert 'no se queda sin fichas' in bloque_de_codigo(
+        src, 'def export_ticker_data_cache')
 
 
 @pytest.mark.parametrize('ticker', ['ABT', 'BR', 'BSX', 'MSFT', 'OTIS', 'UNH', 'V'])

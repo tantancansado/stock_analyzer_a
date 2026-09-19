@@ -30,8 +30,8 @@ class TestLaCategoriaQueFaltaba:
         """`_interpretar` convierte a SIN_DATOS cualquier veredicto fuera de
         VEREDICTOS: añadirla solo al system la habría hecho desaparecer."""
         fuente = Path(cna.__file__).read_text()
-        i = fuente.index('VEREDICTOS = (')
-        assert 'PRECIO_EXIGENTE' in fuente[i:i + 220]
+        from conftest import bloque_de_codigo
+        assert 'PRECIO_EXIGENTE' in bloque_de_codigo(fuente, 'VEREDICTOS = (', ')')
 
     def test_el_system_la_describe_como_lo_contrario_de_barato(self):
         assert 'PRECIO_EXIGENTE' in cna.SYSTEM

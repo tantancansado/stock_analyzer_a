@@ -47,8 +47,8 @@ def test_el_tope_por_falta_de_respaldo_sigue_puesto():
     le daba 100/100 en «calidad de beneficios».
     """
     assert 'tope_sin_respaldo' in FUENTE
-    i = FUENTE.index('score = max(0, min(100, score))')
-    resto = FUENTE[i:i + 400]
+    from conftest import bloque_de_codigo
+    resto = bloque_de_codigo(FUENTE, 'score = max(0, min(100, score))')
     assert 'min(score, tope_sin_respaldo)' in resto
 
 

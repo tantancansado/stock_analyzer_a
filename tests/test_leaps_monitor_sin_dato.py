@@ -60,8 +60,8 @@ def test_se_avisa_de_que_no_se_esta_vigilando():
 
 def test_ese_aviso_no_se_pinta_como_alarma():
     """No dice que la empresa vaya mal: dice que este control no puede opinar."""
-    i = FUENTE.index('EMOJI = {')
-    bloque = FUENTE[i:i + 300]
+    from conftest import bloque_de_codigo
+    bloque = bloque_de_codigo(FUENTE, 'EMOJI = {')
     assert "'SIN_VIGILANCIA': '⚪'" in bloque
     assert "'SIN_VIGILANCIA': '🔴'" not in bloque
 

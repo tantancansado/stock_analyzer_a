@@ -405,8 +405,9 @@ class TestInteresCorto:
         from pathlib import Path
         import super_score_integrator as ssi
         src = Path(ssi.__file__).read_text()
-        i = src.index("df['short_bonus']")
-        bloque = src[i:i + 400]
+        from conftest import bloque_de_codigo
+        # solo el bloque del bonus, no lo que venga detrás
+        bloque = bloque_de_codigo(src, "df['short_bonus']", '\n\n')
         assert '+= 3.0' not in bloque and '+= 1.0' not in bloque, \
             'vuelve a premiarse el interés corto sin evidencia'
 
