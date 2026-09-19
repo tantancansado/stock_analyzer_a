@@ -49,3 +49,18 @@ jobs:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID:   ${{ secrets.TELEGRAM_CHAT_ID }}
         run: python3 daily_briefing.py
+
+      # El contador de gasto de Claude vive en el repo: lo que no se commitea
+      # no existe, y el tope de $20 se calcula sobre él. Este workflow es
+      # manual y gasta poco, pero gastaba sin dejar rastro — y un contador que
+      # marca de menos deja de ser un tope.
+      - name: Guardar el gasto de Claude
+        if: always()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add docs/claude_budget.json 2>/dev/null || true
+          git diff --cached --quiet || \
+            git commit -m "chore(budget): gasto del briefing manual $(date -u +%Y-%m-%d)"
+          git pull --rebase origin main || true
+          git push || true

@@ -133,7 +133,36 @@ def coste_de(respuesta, modelo: str, descuento: float = 1.0) -> float:
     u = getattr(respuesta, 'usage', None)
     if u is None:
         return 0.0
-    tin = (getattr(u, 'input_tokens', 0) or 0) + (getattr(u, 'cache_read_input_tokens', 0) or 0)
+    # Las tres partidas de entrada son SEPARADAS y cada una tiene su precio
+    # (no se solapan: total = input + cache_read + cache_creation).
+    #
+    #   input_tokens                  1x
+    #   cache_creation_input_tokens   1,25x con TTL de 5 min, 2x con el de 1 h
+    #   cache_read_input_tokens       0,1x
+    #
+    # Antes se sumaba `cache_read` al precio COMPLETO —diez veces de más— y
+    # `cache_creation` no se contaba en absoluto. Hoy los dos valen 0 porque
+    # el repo no manda `cache_control`, así que no explica ningún descuadre;
+    # se arregla ahora porque el día que alguien active la caché para ahorrar,
+    # el contador empezaría a mentir sin que nada lo avise.
+    #
+    # Se usa 1,25 para la creación: es el TTL por defecto. Si la API devuelve
+    # el desglose por TTL, se cobra el de una hora al doble, que es lo que
+    # vale.
+    base = getattr(u, 'input_tokens', 0) or 0
+    lectura = getattr(u, 'cache_read_input_tokens', 0) or 0
+    creacion = getattr(u, 'cache_creation_input_tokens', 0) or 0
+    desglose = getattr(u, 'cache_creation', None)
+    if desglose is not None:
+        c5 = getattr(desglose, 'ephemeral_5m_input_tokens', 0) or 0
+        c1h = getattr(desglose, 'ephemeral_1h_input_tokens', 0) or 0
+        if c5 or c1h:
+            creacion_ponderada = c5 * 1.25 + c1h * 2.0
+        else:
+            creacion_ponderada = creacion * 1.25
+    else:
+        creacion_ponderada = creacion * 1.25
+    tin = base + lectura * 0.1 + creacion_ponderada
     tout = getattr(u, 'output_tokens', 0) or 0
     # Las búsquedas web se cobran aparte de los tokens
     busq = 0

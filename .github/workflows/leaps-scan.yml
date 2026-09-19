@@ -45,6 +45,9 @@ jobs:
         run: python3 leaps_monitor.py || echo "LEAPS monitor failed"
 
       - name: Commit LEAPS outputs
+        # `if: always()`: el contador de gasto tiene que guardarse aunque el
+        # escaneo falle a mitad. Las llamadas ya se han pagado.
+        if: always()
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
@@ -53,6 +56,13 @@ jobs:
           git add docs/leaps_opportunities.json || true
           git add docs/leaps_positions_status.json 2>/dev/null || true
           git add docs/.leaps_alerts_sent.json 2>/dev/null || true
+          # El contador de gasto de Claude. Faltaba, y este workflow corre de
+          # lunes a viernes: ~22 ejecuciones al mes gastando en la API sin que
+          # nada lo apuntara. El contador vive en el repo, así que lo que no se
+          # commitea no existe — y el tope de $20 se calcula sobre él, o sea
+          # que además dejaba de proteger. En agosto el gasto real fueron
+          # $29,52 contra $7,30 registrados.
+          git add docs/claude_budget.json 2>/dev/null || true
           # Commit ANTES de pull para no perder cambios en el autostash
           git diff --cached --quiet || git commit -m "chore: LEAPS scan + monitor $(date -u +%Y-%m-%d)"
           git pull --rebase origin main || true
