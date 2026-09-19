@@ -1,15 +1,29 @@
 {
   "generated_at": "2026-09-19",
-  "total": 5,
-  "dropped_count": 0,
-  "narrative": "1. Rotar dentro de un sector resulta m\u00e1s acertado cuando los indicadores de impulso (como el RS\u202f100) se\u00f1alan que los l\u00edderes est\u00e1n sobrevalorados y los valores \u201cVALUE\u201d presentan m\u00e1rgenes de beneficio m\u00e1s amplios y menor volatilidad, lo que permite capturar ganancias antes de que el sector se corrija.  \n\n2. Tambi\u00e9n es conveniente cambiar de posici\u00f3n cuando los eventos de salida a pares (EXIT_TO_PEER) generan una rotaci\u00f3n de flujos de capital hacia empresas con",
+  "total": 7,
+  "dropped_count": 1,
+  "narrative": "1. Rotar dentro de un sector es m\u00e1s conveniente cuando la rotaci\u00f3n de capital entre pares genera un diferencial de puntos de valor (por ejemplo, +70\u202fpts al pasar de BAC o AXP a CBOE) que supera el potencial de recuperaci\u00f3n del activo original.  \n\n2. Tambi\u00e9n tiene sentido hacerlo cuando el impulso del sector est\u00e1 respaldado por eventos espec\u00edficos (como la salida de QSR de VALUE con +57\u202fpts) que indican una revaluaci\u00f3n inmediata, mientras que esperar podr\u00eda resultar en",
   "displacements": [
+    {
+      "type": "COMPETITOR_RISE",
+      "dropped_ticker": "QSR",
+      "sector": "Consumer Cyclical",
+      "prev_score": 56.81,
+      "replacements": [
+        "ITX.MC",
+        "YUM",
+        "DPZ"
+      ],
+      "top_replacement": "ITX.MC",
+      "top_replacement_score": 57.5,
+      "detail": "QSR sali\u00f3 de VALUE (57pts); peers en Consumer Cyclical: ITX.MC, YUM"
+    },
     {
       "type": "EXIT_TO_PEER",
       "exiting_ticker": "BAC",
       "sector": "Financial Services",
       "replacement": "CBOE",
-      "replacement_score": 70.32999999999998,
+      "replacement_score": 70.045,
       "detail": "Exit BAC (Financial Services) \u2192 rotar a peer CBOE (70pts)"
     },
     {
@@ -17,8 +31,16 @@
       "exiting_ticker": "AXP",
       "sector": "Financial Services",
       "replacement": "CBOE",
-      "replacement_score": 70.32999999999998,
+      "replacement_score": 70.045,
       "detail": "Exit AXP (Financial Services) \u2192 rotar a peer CBOE (70pts)"
+    },
+    {
+      "type": "EXIT_TO_PEER",
+      "exiting_ticker": "JKHY",
+      "sector": "Technology",
+      "replacement": "BR",
+      "replacement_score": 73.875,
+      "detail": "Exit JKHY (Technology) \u2192 rotar a peer BR (74pts)"
     },
     {
       "type": "SECTOR_TAILWIND",
@@ -29,7 +51,7 @@
         "META"
       ],
       "top_ticker": "GOOG",
-      "top_score": 77.07,
+      "top_score": 78.08,
       "detail": "Sector Communication Services l\u00edder (RS 100) \u2014 GOOG, META son los picks VALUE"
     },
     {
@@ -37,25 +59,26 @@
       "sector": "Technology",
       "rotation_score": 100.0,
       "beneficiaries": [
+        "BR",
         "SAP.DE",
-        "PAYX",
-        "BR"
+        "PAYX"
       ],
-      "top_ticker": "SAP.DE",
-      "top_score": 72.2,
-      "detail": "Sector Technology l\u00edder (RS 100) \u2014 SAP.DE, PAYX, BR son los picks VALUE"
+      "top_ticker": "BR",
+      "top_score": 73.875,
+      "detail": "Sector Technology l\u00edder (RS 100) \u2014 BR, SAP.DE, PAYX son los picks VALUE"
     },
     {
       "type": "SECTOR_TAILWIND",
       "sector": "Healthcare",
       "rotation_score": 100.0,
       "beneficiaries": [
+        "RMD",
         "NOVO-B.CO",
         "AZN.L"
       ],
-      "top_ticker": "NOVO-B.CO",
-      "top_score": 55.8,
-      "detail": "Sector Healthcare l\u00edder (RS 100) \u2014 NOVO-B.CO, AZN.L son los picks VALUE"
+      "top_ticker": "RMD",
+      "top_score": 69.455,
+      "detail": "Sector Healthcare l\u00edder (RS 100) \u2014 RMD, NOVO-B.CO, AZN.L son los picks VALUE"
     }
   ]
 }

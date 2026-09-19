@@ -1,37 +1,33 @@
 {
   "generated_at": "2026-09-19",
   "regime": "NEUTRAL",
-  "narrative": "1. Mant\u00e9n posici\u00f3n larga en BR, SAP.DE y ULVR.L, ya que sus scores siguen en 50 y cuentan con apoyo de \u201csmart money\u201d.  \n2. Observa de cerca los vol\u00famenes y cualquier se\u00f1al de insider buying en AAL.L y BA.L; una reactivaci\u00f3n reforzar\u00e1 la convicci\u00f3n.  \n3. Sal de BAC y AXP si sus scores siguen deterior\u00e1ndose (ya cayeron >40 pts) y no aparecen compras internas; considera cubrir con opciones protectoras.  \n4. Vigila el precio del crudo WTI (actual 95.2) ya que cualquier subida brusca puede presionar a OXY y a los sectores energ\u00e9ticos.  \n5. Evita abrir nuevas posiciones en OXY hasta confirmar si la ausencia de insider buying es temporal o refleja un cambio de estrategia de Berkshire.",
+  "narrative": "Mantenga posici\u00f3n larga en ULVR.L y SAP.DE, que siguen con puntuaciones de 50 y cuentan con convergencia MSCI\u2011VRSN\u2011MKC. Vigile de cerca los vol\u00famenes de insider buying en AAL.L y BA.L, ya que podr\u00edan anticipar revalorizaciones positivas. Evite a\u00f1adir exposici\u00f3n a BAC, AXP y OXY tras la p\u00e9rdida de",
   "sections": {
     "regime": "NEUTRAL",
     "strong_buy_count": 0,
-    "buy_count": 3,
+    "buy_count": 2,
     "top_entries": [
       [
-        "BR",
+        "ULVR.L",
         50
       ],
       [
         "SAP.DE",
         50
-      ],
-      [
-        "ULVR.L",
-        50
       ]
     ],
     "top_convergences": [
       [
+        "MSCI",
+        79
+      ],
+      [
         "VRSN",
-        86
+        71
       ],
       [
         "MKC",
-        70
-      ],
-      [
-        "CME",
-        60
+        71
       ]
     ],
     "high_alerts": [
@@ -52,24 +48,24 @@
     "exit_warnings": [
       [
         "BAC",
-        "Score cay\u00f3 49pts (94 \u2192 45); Sin insider buying activo \u2014 se\u00f1al de convicci\u00f3n perdida",
-        "Score fundamental en DB sigue siendo s\u00f3lido (69.3/100), consistente con un banco grande estable sin eventos negativos mayores recientes conocidos.",
+        "Score cay\u00f3 42pts (94 \u2192 52); Sin insider buying activo \u2014 se\u00f1al de convicci\u00f3n perdida",
+        "No hay evidence de earnings miss, guidance cut o cambio de management relevante conocido; la se\u00f1al parece impulsada por movimiento de precio y falta de insider buying m\u00e1s que por deterioro del negocio.",
         94.0,
-        44.95
+        52.16499999999999
       ],
       [
         "AXP",
-        "Score cay\u00f3 47pts (90 \u2192 43); Sin insider buying activo \u2014 se\u00f1al de convicci\u00f3n perdida",
-        "American Express manten\u00eda m\u00e9tricas s\u00f3lidas (crecimiento de gasto de clientes premium, buena calidad crediticia) sin misses de earnings ni recortes de guidance significativos reportados hasta la fecha de corte.",
+        "Score cay\u00f3 40pts (90 \u2192 51); Sin insider buying activo \u2014 se\u00f1al de convicci\u00f3n perdida",
+        "AXP manten\u00eda crecimiento s\u00f3lido en gasto de tarjetahabientes premium y buena calidad crediticia seg\u00fan reportes previos al cutoff, sin se\u00f1ales de deterioro estructural.",
         90.3,
-        43.0
+        50.6
       ],
       [
         "OXY",
-        "Score cay\u00f3 32pts (85 \u2192 53); Sin insider buying activo \u2014 se\u00f1al de convicci\u00f3n perdida",
-        "Berkshire Hathaway ha sido comprador constante de OXY; una pausa o ausencia de nuevas compras insider puede interpretarse como p\u00e9rdida de convicci\u00f3n, pero no equivale necesariamente a deterioro del negocio.",
+        "Score cay\u00f3 35pts (85 \u2192 49); Sin insider buying activo \u2014 se\u00f1al de convicci\u00f3n perdida",
+        "P\u00e9rdida de se\u00f1al de insider buying combinada con fuerte ca\u00edda de score sugiere reducci\u00f3n de convicci\u00f3n/valoraci\u00f3n m\u00e1s que un evento fundamental negativo confirmado, aunque OXY sigue expuesta a volatilidad de precios del crudo y a su alta carga de deuda post-adquisici\u00f3n de CrownRock.",
         84.8,
-        53.155
+        49.365
       ]
     ],
     "smart_money": [
@@ -92,7 +88,7 @@
     "macro_stress": [
       {
         "market": "Petr\u00f3leo (WTI)",
-        "score": 95.2,
+        "score": 90.1,
         "regime": "DISLOCATED",
         "exposed": [
           "USO",

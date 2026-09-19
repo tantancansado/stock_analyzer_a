@@ -1,32 +1,31 @@
 {
   "generated_at": "2026-09-19",
-  "total": 6,
+  "total": 7,
   "strong_buy": 0,
-  "buy": 3,
-  "monitor": 2,
-  "wait": 1,
-  "narrative": "Estas tres acciones obtienen la m\u00e1xima puntuaci\u00f3n de entrada (50) porque combinan un alto potencial de revalorizaci\u00f3n (upside\u202f10\u201130\u202f% en la banda dorada) con indicadores de calidad de valor: Broadridge y Unilever muestran un FCF\u202fyield\u202f\u2265\u202f5\u202f% y SAP supera el value\u202fscore\u202f\u2265\u202f70, lo que indica generaci\u00f3n de efectivo y valoraci\u00f3n atractiva. Adem\u00e1s, cada ticker cuenta con confirmaciones de flujo positivo: Broadridge tiene un options flow alcista y revisiones de analistas al alza; SAP registra compras de insiders y tambi\u00e9n revisiones alcistas; Unilever combina compras de insiders con varios d\u00edas consecutivos de se\u00f1al VALUE, reforzando la confianza del mercado. En conjunto,",
+  "buy": 2,
+  "monitor": 3,
+  "wait": 2,
+  "narrative": "",
   "signals": [
     {
-      "ticker": "BR",
-      "company_name": "Broadridge Financial Solutions, Inc.",
-      "region": "US",
-      "sector": "Technology",
-      "value_score": 60.03999999999999,
-      "conviction_grade": "B",
-      "current_price": 164.31,
-      "analyst_upside_pct": 29.9,
-      "fcf_yield_pct": 6.49,
-      "risk_reward_ratio": 3.74,
-      "days_in_value": 3,
+      "ticker": "ULVR.L",
+      "company_name": "Unilever PLC",
+      "region": "EU",
+      "sector": "Consumer Defensive",
+      "value_score": 62.5,
+      "conviction_grade": "D",
+      "current_price": 4632.5,
+      "analyst_upside_pct": 14.0,
+      "fcf_yield_pct": 5.84,
+      "risk_reward_ratio": 1.75,
+      "days_in_value": 4,
       "streak_days": 1,
       "entry_score": 50,
       "signal": "BUY",
       "signals_fired": [
         "FCF yield \u22655%",
         "Upside en banda dorada [10,30)",
-        "Options flow alcista",
-        "Analyst revision \u2191",
+        "Insider buying",
         "En VALUE \u22653 d\u00edas"
       ],
       "signals_pts": [
@@ -39,12 +38,8 @@
           "pts": 10
         },
         {
-          "name": "Options flow alcista",
-          "pts": 15
-        },
-        {
-          "name": "Analyst revision \u2191",
-          "pts": 5
+          "name": "Insider buying",
+          "pts": 25
         },
         {
           "name": "En VALUE \u22653 d\u00edas",
@@ -53,14 +48,14 @@
       ],
       "signals_missing": [
         "Value score <80",
-        "Sin insider buying (espera)",
         "Sin se\u00f1al MR oversold",
+        "Sin opciones alcistas",
         "Sector no l\u00edder",
         "R\u00e9gimen no alcista"
       ],
       "rsi": null,
       "earnings_warning": false,
-      "days_to_earnings": 46
+      "days_to_earnings": 144
     },
     {
       "ticker": "SAP.DE",
@@ -73,7 +68,7 @@
       "analyst_upside_pct": 11.1,
       "fcf_yield_pct": 4.02,
       "risk_reward_ratio": 1.39,
-      "days_in_value": 3,
+      "days_in_value": 4,
       "streak_days": 1,
       "entry_score": 50,
       "signal": "BUY",
@@ -119,38 +114,43 @@
       "days_to_earnings": 33
     },
     {
-      "ticker": "ULVR.L",
-      "company_name": "Unilever PLC",
-      "region": "EU",
-      "sector": "Consumer Defensive",
-      "value_score": 62.5,
-      "conviction_grade": "D",
-      "current_price": 4632.5,
-      "analyst_upside_pct": 14.0,
-      "fcf_yield_pct": 5.84,
-      "risk_reward_ratio": 1.75,
-      "days_in_value": 3,
+      "ticker": "BR",
+      "company_name": "Broadridge Financial Solutions, Inc.",
+      "region": "US",
+      "sector": "Technology",
+      "value_score": 73.875,
+      "conviction_grade": "nan",
+      "current_price": 163.13,
+      "analyst_upside_pct": 30.8,
+      "fcf_yield_pct": 6.63,
+      "risk_reward_ratio": 3.85,
+      "days_in_value": 4,
       "streak_days": 1,
-      "entry_score": 50,
-      "signal": "BUY",
+      "entry_score": 45,
+      "signal": "MONITOR",
       "signals_fired": [
+        "Value score \u226570",
         "FCF yield \u22655%",
-        "Upside en banda dorada [10,30)",
-        "Insider buying",
+        "Options flow alcista",
+        "Analyst revision \u2191",
         "En VALUE \u22653 d\u00edas"
       ],
       "signals_pts": [
+        {
+          "name": "Value score \u226570",
+          "pts": 5
+        },
         {
           "name": "FCF yield \u22655%",
           "pts": 10
         },
         {
-          "name": "Upside en banda dorada [10,30)",
-          "pts": 10
+          "name": "Options flow alcista",
+          "pts": 15
         },
         {
-          "name": "Insider buying",
-          "pts": 25
+          "name": "Analyst revision \u2191",
+          "pts": 5
         },
         {
           "name": "En VALUE \u22653 d\u00edas",
@@ -159,27 +159,28 @@
       ],
       "signals_missing": [
         "Value score <80",
+        "Upside fuera de la banda dorada",
+        "Sin insider buying (espera)",
         "Sin se\u00f1al MR oversold",
-        "Sin opciones alcistas",
         "Sector no l\u00edder",
         "R\u00e9gimen no alcista"
       ],
       "rsi": null,
       "earnings_warning": false,
-      "days_to_earnings": 144
+      "days_to_earnings": 45
     },
     {
       "ticker": "CBOE",
       "company_name": "Cboe Global Markets, Inc.",
       "region": "US",
       "sector": "Financial Services",
-      "value_score": 70.32999999999998,
+      "value_score": 70.045,
       "conviction_grade": "A",
-      "current_price": 266.67,
-      "analyst_upside_pct": 18.4,
-      "fcf_yield_pct": 6.79,
-      "risk_reward_ratio": 2.3,
-      "days_in_value": 7,
+      "current_price": 272.86,
+      "analyst_upside_pct": 15.7,
+      "fcf_yield_pct": 6.64,
+      "risk_reward_ratio": 1.96,
+      "days_in_value": 8,
       "streak_days": 1,
       "entry_score": 40,
       "signal": "MONITOR",
@@ -222,20 +223,20 @@
       ],
       "rsi": null,
       "earnings_warning": false,
-      "days_to_earnings": 42
+      "days_to_earnings": 41
     },
     {
       "ticker": "GOOG",
       "company_name": "Alphabet Inc.",
       "region": "US",
       "sector": "Communication Services",
-      "value_score": 77.07,
+      "value_score": 78.08,
       "conviction_grade": "B",
-      "current_price": 343.68,
-      "analyst_upside_pct": 22.9,
+      "current_price": 344.41,
+      "analyst_upside_pct": 22.6,
       "fcf_yield_pct": 2.24,
-      "risk_reward_ratio": 2.86,
-      "days_in_value": 3,
+      "risk_reward_ratio": 2.82,
+      "days_in_value": 4,
       "streak_days": 2,
       "entry_score": 30,
       "signal": "MONITOR",
@@ -274,28 +275,80 @@
       ],
       "rsi": null,
       "earnings_warning": false,
-      "days_to_earnings": 40
+      "days_to_earnings": 39
+    },
+    {
+      "ticker": "GGG",
+      "company_name": "Graco Inc.",
+      "region": "US",
+      "sector": "Industrials",
+      "value_score": 64.41,
+      "conviction_grade": "C",
+      "current_price": 76.26,
+      "analyst_upside_pct": 19.7,
+      "fcf_yield_pct": 5.08,
+      "risk_reward_ratio": 2.46,
+      "days_in_value": 1,
+      "streak_days": 1,
+      "entry_score": 25,
+      "signal": "WAIT",
+      "signals_fired": [
+        "FCF yield \u22655%",
+        "Upside en banda dorada [10,30)",
+        "Analyst revision \u2191"
+      ],
+      "signals_pts": [
+        {
+          "name": "FCF yield \u22655%",
+          "pts": 10
+        },
+        {
+          "name": "Upside en banda dorada [10,30)",
+          "pts": 10
+        },
+        {
+          "name": "Analyst revision \u2191",
+          "pts": 5
+        }
+      ],
+      "signals_missing": [
+        "Value score <80",
+        "Sin insider buying (espera)",
+        "Sin se\u00f1al MR oversold",
+        "Sin opciones alcistas",
+        "Sector no l\u00edder",
+        "R\u00e9gimen no alcista",
+        "Solo 1d en VALUE"
+      ],
+      "rsi": null,
+      "earnings_warning": false,
+      "days_to_earnings": 32
     },
     {
       "ticker": "META",
       "company_name": "Meta Platforms, Inc.",
       "region": "US",
       "sector": "Communication Services",
-      "value_score": 63.72,
+      "value_score": 71.61,
       "conviction_grade": "C",
-      "current_price": 682.31,
-      "analyst_upside_pct": 10.7,
-      "fcf_yield_pct": 3.49,
-      "risk_reward_ratio": 1.34,
-      "days_in_value": 3,
+      "current_price": 665.75,
+      "analyst_upside_pct": 13.4,
+      "fcf_yield_pct": 3.57,
+      "risk_reward_ratio": 1.68,
+      "days_in_value": 4,
       "streak_days": 1,
-      "entry_score": 15,
+      "entry_score": 20,
       "signal": "WAIT",
       "signals_fired": [
+        "Value score \u226570",
         "Upside en banda dorada [10,30)",
         "En VALUE \u22653 d\u00edas"
       ],
       "signals_pts": [
+        {
+          "name": "Value score \u226570",
+          "pts": 5
+        },
         {
           "name": "Upside en banda dorada [10,30)",
           "pts": 10
@@ -316,7 +369,7 @@
       ],
       "rsi": null,
       "earnings_warning": false,
-      "days_to_earnings": 40
+      "days_to_earnings": 39
     }
   ]
 }

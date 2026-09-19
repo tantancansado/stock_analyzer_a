@@ -1,10 +1,211 @@
 {
   "generated_at": "2026-09-19",
-  "alerts": [],
+  "alerts": [
+    {
+      "type": "SCORE_UP",
+      "ticker": "VRSN",
+      "company_name": "VeriSign, Inc.",
+      "sector": "Technology",
+      "score_today": 57.1,
+      "score_prev": 33.4,
+      "delta": 23.6,
+      "grade": "🟡 Good"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "RMD",
+      "company_name": "ResMed Inc.",
+      "sector": "Healthcare",
+      "score_today": 69.5,
+      "score_prev": 48.4,
+      "delta": 21.0,
+      "grade": "🟢 Excellent"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "INTU",
+      "company_name": "Intuit Inc.",
+      "sector": "Technology",
+      "score_today": 53.1,
+      "score_prev": 37.7,
+      "delta": 15.4,
+      "grade": "🟡 Average"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "BR",
+      "company_name": "Broadridge Financial Solutions, Inc.",
+      "sector": "Technology",
+      "score_today": 73.9,
+      "score_prev": 60.0,
+      "delta": 13.8,
+      "grade": "🟢 Excellent"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "LMT",
+      "company_name": "Lockheed Martin Corporation",
+      "sector": "Industrials",
+      "score_today": 67.7,
+      "score_prev": 56.1,
+      "delta": 11.6,
+      "grade": "🟢 Excellent"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "GGG",
+      "company_name": "Graco Inc.",
+      "sector": "Industrials",
+      "score_today": 64.4,
+      "score_prev": 54.2,
+      "delta": 10.2,
+      "grade": "🟡 Good"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "V",
+      "company_name": "Visa Inc.",
+      "sector": "Financial Services",
+      "score_today": 57.8,
+      "score_prev": 48.3,
+      "delta": 9.5,
+      "grade": "🟡 Good"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "ICE",
+      "company_name": "Intercontinental Exchange, Inc.",
+      "sector": "Financial Services",
+      "score_today": 42.2,
+      "score_prev": 33.2,
+      "delta": 9.0,
+      "grade": "🟡 Average"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "META",
+      "company_name": "Meta Platforms, Inc.",
+      "sector": "Communication Services",
+      "score_today": 71.6,
+      "score_prev": 63.7,
+      "delta": 7.9,
+      "grade": "🟢 Excellent"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "AXP",
+      "company_name": "American Express Company",
+      "sector": "Financial Services",
+      "score_today": 50.6,
+      "score_prev": 43.0,
+      "delta": 7.6,
+      "grade": "🟡 Average"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "BAC",
+      "company_name": "Bank of America Corporation",
+      "sector": "Financial Services",
+      "score_today": 52.2,
+      "score_prev": 45.0,
+      "delta": 7.2,
+      "grade": "🟡 Average"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "MA",
+      "company_name": "Mastercard Incorporated",
+      "sector": "Financial Services",
+      "score_today": 54.0,
+      "score_prev": 46.9,
+      "delta": 7.1,
+      "grade": "🟡 Average"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "KO",
+      "company_name": "The Coca-Cola Company",
+      "sector": "Consumer Defensive",
+      "score_today": 43.9,
+      "score_prev": 36.9,
+      "delta": 7.0,
+      "grade": "🟡 Average"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "YUM",
+      "company_name": "Yum! Brands, Inc.",
+      "sector": "Consumer Cyclical",
+      "score_today": 54.0,
+      "score_prev": 47.7,
+      "delta": 6.3,
+      "grade": "🟡 Average"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "DPZ",
+      "company_name": "Domino's Pizza, Inc.",
+      "sector": "Consumer Cyclical",
+      "score_today": 52.6,
+      "score_prev": 46.8,
+      "delta": 5.9,
+      "grade": "🟡 Average"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "DOL.TO",
+      "company_name": "Dollarama Inc.",
+      "sector": "Consumer Defensive",
+      "score_today": 48.7,
+      "score_prev": 43.0,
+      "delta": 5.6,
+      "grade": "🟡 Average"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "SPGI",
+      "company_name": "S&P Global Inc.",
+      "sector": "Financial Services",
+      "score_today": 44.0,
+      "score_prev": 38.8,
+      "delta": 5.2,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "MCD",
+      "company_name": "McDonald's Corporation",
+      "sector": "Consumer Cyclical",
+      "score_today": 43.4,
+      "score_prev": 38.4,
+      "delta": 5.0,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "NEW_ENTRY",
+      "ticker": "ADSK",
+      "company_name": "Autodesk, Inc.",
+      "sector": "Technology",
+      "score_today": 55.1,
+      "score_prev": null,
+      "delta": null,
+      "grade": "🟡 Good"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "PG",
+      "company_name": "The Procter & Gamble Company",
+      "sector": "Consumer Defensive",
+      "score_today": 32.5,
+      "score_prev": 39.1,
+      "delta": -6.6,
+      "grade": "🔴 Weak"
+    }
+  ],
   "counts": {
-    "new_entries": 0,
+    "new_entries": 1,
     "exited": 0,
-    "score_up": 0,
-    "score_down": 0
+    "score_up": 18,
+    "score_down": 1
   }
 }

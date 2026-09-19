@@ -1,20 +1,15 @@
 {
   "generated_at": "2026-09-19",
-  "systemic_risk": "HIGH",
-  "correlation_score": 6,
-  "universe_breadth_pct": 3.3,
-  "breadth_change": -0.6,
+  "systemic_risk": "MODERATE",
+  "correlation_score": 4,
+  "universe_breadth_pct": 6.9,
+  "breadth_change": 3.0,
   "signals": [
-    {
-      "type": "MULTI_SECTOR_DECAY",
-      "severity": "MEDIUM",
-      "detail": "Quality decay en 2 sectores simult\u00e1neamente"
-    },
     {
       "type": "EXIT_SIGNAL_SURGE",
       "severity": "HIGH",
-      "detail": "27 se\u00f1ales salida HIGH simult\u00e1neas \u2192 deterioro sist\u00e9mico"
+      "detail": "24 se\u00f1ales salida HIGH simult\u00e1neas \u2192 deterioro sist\u00e9mico"
     }
   ],
-  "narrative": ""
+  "narrative": "Cuando todos los valores del universo\u202fVALUE se mueven en la misma direcci\u00f3n, la diversificaci\u00f3n se reduce y el riesgo de que una ca\u00edda generalizada afecte a toda la cartera aumenta significativamente. Este comportamiento indica una mayor correlaci\u00f3n sist\u00e9mica,"
 }

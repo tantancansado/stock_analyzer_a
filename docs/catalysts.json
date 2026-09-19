@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-19T00:26:54Z",
+  "generated_at": "2026-09-19T09:11:29Z",
   "scan_date": "2026-09-19",
   "horizon_days": 90,
   "total_events": 127,
@@ -33,9 +33,9 @@
       "date": "2026-09-22",
       "days_away": 3,
       "title": "AZO \u2014 Earnings Q",
-      "description": "Resultados mixtos \u2014 bate 50% del tiempo",
+      "description": "Sin historial disponible",
       "impact": "HIGH",
-      "direction_bias": "VOLATILE",
+      "direction_bias": "UNKNOWN",
       "avg_move_pct": null,
       "affected_tickers": [
         "AZO"
@@ -47,45 +47,9 @@
       "company": "AutoZone, Inc.",
       "sector": "Consumer Cyclical",
       "current_price": 2855.31,
-      "market_cap": 46613950464,
+      "market_cap": null,
       "eps_estimate": 54.09,
-      "earnings_history": {
-        "beat_count": 2,
-        "miss_count": 2,
-        "total_quarters": 4,
-        "avg_surprise_pct": -0.4,
-        "beat_rate": 50.0,
-        "last_quarters": [
-          {
-            "date": "2025-08-31",
-            "eps_est": 50.68,
-            "eps_act": 48.71,
-            "surprise_pct": -3.9,
-            "beat": "False"
-          },
-          {
-            "date": "2025-11-30",
-            "eps_est": 32.35,
-            "eps_act": 31.04,
-            "surprise_pct": -4.0,
-            "beat": "False"
-          },
-          {
-            "date": "2026-02-28",
-            "eps_est": 27.29,
-            "eps_act": 27.63,
-            "surprise_pct": 1.2,
-            "beat": "True"
-          },
-          {
-            "date": "2026-05-31",
-            "eps_est": 36.17,
-            "eps_act": 38.07,
-            "surprise_pct": 5.3,
-            "beat": "True"
-          }
-        ]
-      },
+      "earnings_history": {},
       "earnings_warning": true
     },
     {
@@ -829,7 +793,7 @@
       "company": "Abbott Laboratories",
       "sector": "Healthcare",
       "current_price": 102.61,
-      "market_cap": 178727452672,
+      "market_cap": 177554636800,
       "eps_estimate": 1.42,
       "earnings_history": {
         "beat_count": 4,
@@ -953,7 +917,7 @@
       "company": "Progressive Corporation (The)",
       "sector": "Financial Services",
       "current_price": 213.48,
-      "market_cap": 124053233664,
+      "market_cap": 123903787008,
       "eps_estimate": 4.08,
       "earnings_history": {
         "beat_count": 3,
@@ -1567,7 +1531,7 @@
       "company": "Capital One Financial Corporati",
       "sector": "Financial Services",
       "current_price": 202.43,
-      "market_cap": 124190810112,
+      "market_cap": 124187738112,
       "eps_estimate": 5.3,
       "earnings_history": {
         "beat_count": 2,
@@ -2001,7 +1965,7 @@
       "company": "NVR, Inc.",
       "sector": "Consumer Cyclical",
       "current_price": 6150.47,
-      "market_cap": 16390141952,
+      "market_cap": 16471900160,
       "eps_estimate": 104.43,
       "earnings_history": {
         "beat_count": 2,
@@ -2187,7 +2151,7 @@
       "company": "Procter & Gamble Company (The)",
       "sector": "Consumer Defensive",
       "current_price": 146.39,
-      "market_cap": 340273758208,
+      "market_cap": 340016005120,
       "eps_estimate": 1.89,
       "earnings_history": {
         "beat_count": 4,
@@ -2683,7 +2647,7 @@
       "company": "Cadence Design Systems, Inc.",
       "sector": "Technology",
       "current_price": 282.9,
-      "market_cap": 78028341248,
+      "market_cap": 77908672512,
       "eps_estimate": 2.05,
       "earnings_history": {
         "beat_count": 4,
@@ -3110,7 +3074,7 @@
       "company": "Verisk Analytics, Inc.",
       "sector": "Industrials",
       "current_price": 175.41,
-      "market_cap": 22982541312,
+      "market_cap": 22830667776,
       "eps_estimate": 1.93,
       "earnings_history": {
         "beat_count": 4,
@@ -3854,7 +3818,7 @@
       "company": "DaVita Inc.",
       "sector": "Healthcare",
       "current_price": 183.86,
-      "market_cap": 11801054208,
+      "market_cap": 11730268160,
       "eps_estimate": 3.58,
       "earnings_history": {
         "beat_count": 3,
@@ -4260,7 +4224,7 @@
       "company": "Tradeweb Markets Inc.",
       "sector": "Financial Services",
       "current_price": 103.97,
-      "market_cap": 22668165120,
+      "market_cap": 22460459008,
       "eps_estimate": 0.99,
       "earnings_history": {
         "beat_count": 4,
@@ -4570,7 +4534,7 @@
       "company": "AMETEK, Inc.",
       "sector": "Industrials",
       "current_price": 237.64,
-      "market_cap": 54467801088,
+      "market_cap": 54481641472,
       "eps_estimate": 2.1,
       "earnings_history": {
         "beat_count": 4,
@@ -5249,7 +5213,7 @@
       "company": "IDEXX Laboratories, Inc.",
       "sector": "Healthcare",
       "current_price": 511.65,
-      "market_cap": 40360484864,
+      "market_cap": 40308359168,
       "eps_estimate": 3.71,
       "earnings_history": {
         "beat_count": 4,
@@ -5311,7 +5275,7 @@
       "company": "Broadridge Financial Solutions,",
       "sector": "Technology",
       "current_price": 163.13,
-      "market_cap": 18867339264,
+      "market_cap": 18600376320,
       "eps_estimate": 1.37,
       "earnings_history": {
         "beat_count": 4,
@@ -5497,7 +5461,7 @@
       "company": "Eaton Corporation, PLC",
       "sector": "Industrials",
       "current_price": 424.77,
-      "market_cap": 164938186752,
+      "market_cap": 164980670464,
       "eps_estimate": 3.53,
       "earnings_history": {
         "beat_count": 4,
@@ -5807,7 +5771,7 @@
       "company": "W.W. Grainger, Inc.",
       "sector": "Industrials",
       "current_price": 1266.61,
-      "market_cap": 59800608768,
+      "market_cap": 59658526720,
       "eps_estimate": 11.68,
       "earnings_history": {
         "beat_count": 3,
@@ -6347,7 +6311,7 @@
       "company": "TJX Companies, Inc. (The)",
       "sector": "Consumer Cyclical",
       "current_price": 127.24,
-      "market_cap": 140562579456,
+      "market_cap": 139960696832,
       "dividend_yield": 1.52,
       "dividend_rate": 1.92,
       "earnings_history": {},
@@ -6460,7 +6424,7 @@
       "company": "TJX Companies, Inc. (The)",
       "sector": "Consumer Cyclical",
       "current_price": 127.24,
-      "market_cap": 140562579456,
+      "market_cap": 139960696832,
       "eps_estimate": 1.34,
       "earnings_history": {
         "beat_count": 4,
@@ -6522,7 +6486,7 @@
       "company": "Copart, Inc.",
       "sector": "Industrials",
       "current_price": 29.28,
-      "market_cap": 28205670400,
+      "market_cap": 27107760128,
       "eps_estimate": 0.4,
       "earnings_history": {
         "beat_count": 3,
@@ -6646,7 +6610,7 @@
       "company": "Walmart Inc.",
       "sector": "Consumer Defensive",
       "current_price": 106.73,
-      "market_cap": 846768766976,
+      "market_cap": 849365827584,
       "eps_estimate": 0.64,
       "earnings_history": {
         "beat_count": 4,

@@ -1,5 +1,5 @@
 {
-  "scan_date": "2026-09-19T00:28:38.466736+00:00",
+  "scan_date": "2026-09-19T09:13:02.459966+00:00",
   "total_tickers_with_flow": 150,
   "unusual_count": 98,
   "bullish_count": 68,
@@ -10,7 +10,7 @@
       "signal": "BULLISH",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
-      "current_price": 721.45,
+      "current_price": 721.4500122070312,
       "drawdown_from_high_pct": -3.6,
       "call_pct": 83.3,
       "total_call_premium": 264931982.0,
@@ -70,14 +70,14 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 41618380.0,
-      "detected_at": "2026-09-19T00:28:31.526914+00:00"
+      "detected_at": "2026-09-19T09:12:56.178942+00:00"
     },
     {
       "ticker": "SPY",
       "signal": "BULLISH",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
-      "current_price": 761.69,
+      "current_price": 761.6900024414062,
       "drawdown_from_high_pct": -2.3,
       "call_pct": 72.3,
       "total_call_premium": 201044179.0,
@@ -137,7 +137,7 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 28404432.0,
-      "detected_at": "2026-09-19T00:28:33.112467+00:00"
+      "detected_at": "2026-09-19T09:12:57.817561+00:00"
     },
     {
       "ticker": "META",
@@ -145,7 +145,7 @@
       "flow_interpretation": "FRESH_BULLISH",
       "interpretation_reason": "Calls OTM (1% sobre precio). Apuesta nueva alcista desde nivel actual.",
       "current_price": 665.75,
-      "drawdown_from_high_pct": -15.8,
+      "drawdown_from_high_pct": -15.3,
       "call_pct": 70.8,
       "total_call_premium": 89995573.0,
       "total_put_premium": 37054059.0,
@@ -204,14 +204,14 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 5383280.0,
-      "detected_at": "2026-09-19T00:28:26.870809+00:00"
+      "detected_at": "2026-09-19T09:12:52.333233+00:00"
     },
     {
       "ticker": "AMZN",
       "signal": "BULLISH",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
-      "current_price": 253.71,
+      "current_price": 253.7100067138672,
       "drawdown_from_high_pct": -11.7,
       "call_pct": 73.7,
       "total_call_premium": 77894190.0,
@@ -271,23 +271,23 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 10552443.0,
-      "detected_at": "2026-09-19T00:28:11.153758+00:00"
+      "detected_at": "2026-09-19T09:12:38.079025+00:00"
     },
     {
       "ticker": "XLE",
       "signal": "BULLISH",
       "flow_interpretation": "CALL_COVERING",
       "interpretation_reason": "Calls 18% ITM con acción +52% desde mínimos anuales. Posible recogida de beneficios en calls largas.",
-      "current_price": 64.31,
+      "current_price": 64.30999755859375,
       "drawdown_from_high_pct": -2.8,
       "call_pct": 98.9,
-      "total_call_premium": 84154853.0,
-      "total_put_premium": 910470.0,
-      "total_premium": 85065323.0,
-      "net_premium": 83244383.0,
-      "total_call_volume": 97736,
-      "total_put_volume": 22645,
-      "avg_iv": 1.02,
+      "total_call_premium": 84141403.0,
+      "total_put_premium": 910896.0,
+      "total_premium": 85052299.0,
+      "net_premium": 83230507.0,
+      "total_call_volume": 97726,
+      "total_put_volume": 22651,
+      "avg_iv": 1.028,
       "unusual_score": 100,
       "top_contracts": [
         {
@@ -338,14 +338,14 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 27552000.0,
-      "detected_at": "2026-09-19T00:28:38.226924+00:00"
+      "detected_at": "2026-09-19T09:13:02.298140+00:00"
     },
     {
       "ticker": "AAPL",
       "signal": "BULLISH",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
-      "current_price": 336.13,
+      "current_price": 336.1300048828125,
       "drawdown_from_high_pct": -2.4,
       "call_pct": 71.0,
       "total_call_premium": 54828847.0,
@@ -405,14 +405,14 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 5356750.0,
-      "detected_at": "2026-09-19T00:28:10.713114+00:00"
+      "detected_at": "2026-09-19T09:12:37.600663+00:00"
     },
     {
       "ticker": "GOOG",
       "signal": "BULLISH",
       "flow_interpretation": "FRESH_BULLISH",
       "interpretation_reason": "Calls OTM (0% sobre precio). Apuesta nueva alcista desde nivel actual.",
-      "current_price": 344.41,
+      "current_price": 344.4100036621094,
       "drawdown_from_high_pct": -14.8,
       "call_pct": 68.6,
       "total_call_premium": 51098009.0,
@@ -472,14 +472,14 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 3987192.0,
-      "detected_at": "2026-09-19T00:28:20.607320+00:00"
+      "detected_at": "2026-09-19T09:12:46.759713+00:00"
     },
     {
       "ticker": "ORCL",
       "signal": "BULLISH",
       "flow_interpretation": "FRESH_BULLISH",
       "interpretation_reason": "Calls OTM (2% sobre precio). Apuesta nueva alcista desde nivel actual.",
-      "current_price": 147.61,
+      "current_price": 147.61000061035156,
       "drawdown_from_high_pct": -55.2,
       "call_pct": 65.6,
       "total_call_premium": 31811098.0,
@@ -539,22 +539,22 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 3261280.0,
-      "detected_at": "2026-09-19T00:28:29.502360+00:00"
+      "detected_at": "2026-09-19T09:12:54.422406+00:00"
     },
     {
       "ticker": "ASML",
       "signal": "MIXED",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
-      "current_price": 1679.92,
+      "current_price": 1679.9200439453125,
       "drawdown_from_high_pct": -16.0,
       "call_pct": 48.9,
       "total_call_premium": 22792043.0,
-      "total_put_premium": 23836838.0,
-      "total_premium": 46628881.0,
-      "net_premium": -1044795.0,
+      "total_put_premium": 23836593.0,
+      "total_premium": 46628636.0,
+      "net_premium": -1044550.0,
       "total_call_volume": 6369,
-      "total_put_volume": 6545,
+      "total_put_volume": 6544,
       "avg_iv": 0.702,
       "unusual_score": 100,
       "top_contracts": [
@@ -606,14 +606,14 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 1194160.0,
-      "detected_at": "2026-09-19T00:28:12.434511+00:00"
+      "detected_at": "2026-09-19T09:12:39.263854+00:00"
     },
     {
       "ticker": "JNJ",
       "signal": "BULLISH",
       "flow_interpretation": "CALL_COVERING",
-      "interpretation_reason": "Calls 34% ITM con acción +56% desde mínimos anuales. Posible recogida de beneficios en calls largas.",
-      "current_price": 269.99,
+      "interpretation_reason": "Calls 34% ITM con acción +55% desde mínimos anuales. Posible recogida de beneficios en calls largas.",
+      "current_price": 269.989990234375,
       "drawdown_from_high_pct": -3.9,
       "call_pct": 97.0,
       "total_call_premium": 44236156.0,
@@ -622,7 +622,7 @@
       "net_premium": 42872240.0,
       "total_call_volume": 11482,
       "total_put_volume": 15375,
-      "avg_iv": 0.442,
+      "avg_iv": 0.443,
       "unusual_score": 100,
       "top_contracts": [
         {
@@ -673,14 +673,14 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 31860120.0,
-      "detected_at": "2026-09-19T00:28:23.851871+00:00"
+      "detected_at": "2026-09-19T09:12:49.646122+00:00"
     },
     {
       "ticker": "AVGO",
       "signal": "BULLISH",
       "flow_interpretation": "FRESH_BULLISH",
       "interpretation_reason": "Calls OTM (0% sobre precio). Apuesta nueva alcista desde nivel actual.",
-      "current_price": 357.61,
+      "current_price": 357.6099853515625,
       "drawdown_from_high_pct": -27.8,
       "call_pct": 70.2,
       "total_call_premium": 31547429.0,
@@ -740,14 +740,14 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 3688000.0,
-      "detected_at": "2026-09-19T00:28:12.362883+00:00"
+      "detected_at": "2026-09-19T09:12:39.368046+00:00"
     },
     {
       "ticker": "MSFT",
       "signal": "BULLISH",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
-      "current_price": 493.78,
+      "current_price": 493.7799987792969,
       "drawdown_from_high_pct": -10.8,
       "call_pct": 67.7,
       "total_call_premium": 20822766.0,
@@ -807,22 +807,22 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 1658205.0,
-      "detected_at": "2026-09-19T00:28:27.913887+00:00"
+      "detected_at": "2026-09-19T09:12:53.260701+00:00"
     },
     {
       "ticker": "COST",
       "signal": "MIXED",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
-      "current_price": 895.31,
+      "current_price": 895.3099975585938,
       "drawdown_from_high_pct": -18.3,
       "call_pct": 41.6,
       "total_call_premium": 11409396.0,
-      "total_put_premium": 15992603.0,
-      "total_premium": 27401999.0,
-      "net_premium": -4583207.0,
+      "total_put_premium": 16026023.0,
+      "total_premium": 27435419.0,
+      "net_premium": -4616627.0,
       "total_call_volume": 13745,
-      "total_put_volume": 13817,
+      "total_put_volume": 13822,
       "avg_iv": 0.416,
       "unusual_score": 100,
       "top_contracts": [
@@ -874,14 +874,14 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 1651650.0,
-      "detected_at": "2026-09-19T00:28:16.635009+00:00"
+      "detected_at": "2026-09-19T09:12:43.151825+00:00"
     },
     {
       "ticker": "IWM",
       "signal": "MIXED",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
-      "current_price": 284.1,
+      "current_price": 284.1000061035156,
       "drawdown_from_high_pct": -6.9,
       "call_pct": 49.7,
       "total_call_premium": 5707988.0,
@@ -941,14 +941,14 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 1204450.0,
-      "detected_at": "2026-09-19T00:28:23.532246+00:00"
+      "detected_at": "2026-09-19T09:12:49.355325+00:00"
     },
     {
       "ticker": "NOW",
       "signal": "MIXED",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
-      "current_price": 135.47,
+      "current_price": 135.47000122070312,
       "drawdown_from_high_pct": -30.4,
       "call_pct": 58.3,
       "total_call_premium": 6577886.0,
@@ -1008,7 +1008,7 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 928785.0,
-      "detected_at": "2026-09-19T00:28:28.648373+00:00"
+      "detected_at": "2026-09-19T09:12:53.888630+00:00"
     },
     {
       "ticker": "KO",
@@ -1075,14 +1075,14 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 7770240.0,
-      "detected_at": "2026-09-19T00:28:24.269750+00:00"
+      "detected_at": "2026-09-19T09:12:50.144720+00:00"
     },
     {
       "ticker": "UNH",
       "signal": "MIXED",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
-      "current_price": 376.9,
+      "current_price": 376.8999938964844,
       "drawdown_from_high_pct": -18.4,
       "call_pct": 56.1,
       "total_call_premium": 5317064.0,
@@ -1142,7 +1142,7 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 538510.0,
-      "detected_at": "2026-09-19T00:28:35.931260+00:00"
+      "detected_at": "2026-09-19T09:13:00.251333+00:00"
     },
     {
       "ticker": "TLT",
@@ -1209,14 +1209,14 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 1436286.0,
-      "detected_at": "2026-09-19T00:28:34.934485+00:00"
+      "detected_at": "2026-09-19T09:12:59.485937+00:00"
     },
     {
       "ticker": "BLK",
       "signal": "BULLISH",
       "flow_interpretation": "FRESH_BULLISH",
       "interpretation_reason": "Calls OTM (7% sobre precio). Apuesta nueva alcista desde nivel actual.",
-      "current_price": 1069.78,
+      "current_price": 1069.780029296875,
       "drawdown_from_high_pct": -12.3,
       "call_pct": 84.4,
       "total_call_premium": 6303876.0,
@@ -1246,14 +1246,14 @@
       ],
       "has_large_premium": false,
       "max_single_premium": 36580.0,
-      "detected_at": "2026-09-19T00:28:13.169924+00:00"
+      "detected_at": "2026-09-19T09:12:39.842442+00:00"
     },
     {
       "ticker": "GLD",
       "signal": "MIXED",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
-      "current_price": 401.17,
+      "current_price": 401.1700134277344,
       "drawdown_from_high_pct": -21.3,
       "call_pct": 60.9,
       "total_call_premium": 3816504.0,
@@ -1313,7 +1313,7 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 860298.0,
-      "detected_at": "2026-09-19T00:28:20.551934+00:00"
+      "detected_at": "2026-09-19T09:12:46.741999+00:00"
     },
     {
       "ticker": "UBER",
@@ -1380,14 +1380,14 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 1553193.0,
-      "detected_at": "2026-09-19T00:28:35.717121+00:00"
+      "detected_at": "2026-09-19T09:13:00.172589+00:00"
     },
     {
       "ticker": "MCD",
       "signal": "MIXED",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
-      "current_price": 248.24,
+      "current_price": 248.24000549316406,
       "drawdown_from_high_pct": -27.4,
       "call_pct": 53.4,
       "total_call_premium": 3013619.0,
@@ -1447,23 +1447,23 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 486387.0,
-      "detected_at": "2026-09-19T00:28:26.407227+00:00"
+      "detected_at": "2026-09-19T09:12:51.818470+00:00"
     },
     {
       "ticker": "GWW",
       "signal": "BULLISH",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
-      "current_price": 1266.61,
+      "current_price": 1266.6099853515625,
       "drawdown_from_high_pct": -10.8,
-      "call_pct": 93.0,
+      "call_pct": 92.8,
       "total_call_premium": 4809892.0,
-      "total_put_premium": 359818.0,
-      "total_premium": 5169710.0,
-      "net_premium": 4450074.0,
+      "total_put_premium": 370826.0,
+      "total_premium": 5180718.0,
+      "net_premium": 4439066.0,
       "total_call_volume": 512,
-      "total_put_volume": 420,
-      "avg_iv": 0.495,
+      "total_put_volume": 484,
+      "avg_iv": 0.498,
       "unusual_score": 100,
       "top_contracts": [
         {
@@ -1514,14 +1514,14 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 3157440.0,
-      "detected_at": "2026-09-19T00:28:19.903895+00:00"
+      "detected_at": "2026-09-19T09:12:45.919926+00:00"
     },
     {
       "ticker": "WMT",
       "signal": "MIXED",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
-      "current_price": 106.73,
+      "current_price": 106.7300033569336,
       "drawdown_from_high_pct": -21.0,
       "call_pct": 62.8,
       "total_call_premium": 3110511.0,
@@ -1581,14 +1581,14 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 655056.0,
-      "detected_at": "2026-09-19T00:28:38.023304+00:00"
+      "detected_at": "2026-09-19T09:13:02.069928+00:00"
     },
     {
       "ticker": "XLK",
       "signal": "BULLISH",
       "flow_interpretation": "FRESH_BULLISH",
       "interpretation_reason": "Calls OTM (1% sobre precio). Apuesta nueva alcista desde nivel actual.",
-      "current_price": 189.6,
+      "current_price": 189.60000610351562,
       "drawdown_from_high_pct": -4.6,
       "call_pct": 82.8,
       "total_call_premium": 3953486.0,
@@ -1648,14 +1648,14 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 1470000.0,
-      "detected_at": "2026-09-19T00:28:38.463947+00:00"
+      "detected_at": "2026-09-19T09:13:02.457106+00:00"
     },
     {
       "ticker": "AZO",
       "signal": "MIXED",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
-      "current_price": 2855.31,
+      "current_price": 2855.31005859375,
       "drawdown_from_high_pct": -34.1,
       "call_pct": 46.3,
       "total_call_premium": 2201820.0,
@@ -1715,14 +1715,14 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 384800.0,
-      "detected_at": "2026-09-19T00:28:11.723816+00:00"
+      "detected_at": "2026-09-19T09:12:38.605078+00:00"
     },
     {
       "ticker": "INTU",
       "signal": "BEARISH",
       "flow_interpretation": "FRESH_BEARISH",
       "interpretation_reason": "Puts OTM (1% bajo precio). Apuesta nueva a caída desde nivel actual.",
-      "current_price": 303.19,
+      "current_price": 303.19000244140625,
       "drawdown_from_high_pct": -57.0,
       "call_pct": 22.7,
       "total_call_premium": 1070916.0,
@@ -1782,15 +1782,15 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 279750.0,
-      "detected_at": "2026-09-19T00:28:22.375218+00:00"
+      "detected_at": "2026-09-19T09:12:48.359241+00:00"
     },
     {
       "ticker": "HD",
       "signal": "BEARISH",
       "flow_interpretation": "PUT_COVERING",
       "interpretation_reason": "Puts 13% ITM con acción ya -28% desde máximos. Probable recogida de beneficios, no apuesta bajista nueva. Posible zona de suelo.",
-      "current_price": 299.98,
-      "drawdown_from_high_pct": -28.3,
+      "current_price": 299.9800109863281,
+      "drawdown_from_high_pct": -27.7,
       "call_pct": 23.2,
       "total_call_premium": 1066527.0,
       "total_put_premium": 3528658.0,
@@ -1849,14 +1849,14 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 729855.0,
-      "detected_at": "2026-09-19T00:28:21.372731+00:00"
+      "detected_at": "2026-09-19T09:12:47.505958+00:00"
     },
     {
       "ticker": "BRK-B",
       "signal": "BULLISH",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
-      "current_price": 509.77,
+      "current_price": 509.7699890136719,
       "drawdown_from_high_pct": -5.2,
       "call_pct": 76.0,
       "total_call_premium": 3487194.0,
@@ -1916,7 +1916,7 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 248448.0,
-      "detected_at": "2026-09-19T00:28:14.225247+00:00"
+      "detected_at": "2026-09-19T09:12:40.884815+00:00"
     },
     {
       "ticker": "PEP",
@@ -1983,14 +1983,14 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 562737.0,
-      "detected_at": "2026-09-19T00:28:30.082752+00:00"
+      "detected_at": "2026-09-19T09:12:55.218584+00:00"
     },
     {
       "ticker": "FICO",
       "signal": "MIXED",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
-      "current_price": 949.68,
+      "current_price": 949.6799926757812,
       "drawdown_from_high_pct": -52.5,
       "call_pct": 44.3,
       "total_call_premium": 1859287.0,
@@ -2035,14 +2035,14 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 340524.0,
-      "detected_at": "2026-09-19T00:28:19.023033+00:00"
+      "detected_at": "2026-09-19T09:12:45.322028+00:00"
     },
     {
       "ticker": "CVX",
       "signal": "BULLISH",
       "flow_interpretation": "CALL_COVERING",
       "interpretation_reason": "Calls 13% ITM con acción +43% desde mínimos anuales. Posible recogida de beneficios en calls largas.",
-      "current_price": 209.51,
+      "current_price": 209.50999450683594,
       "drawdown_from_high_pct": -3.8,
       "call_pct": 70.4,
       "total_call_premium": 2910341.0,
@@ -2102,14 +2102,14 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 665600.0,
-      "detected_at": "2026-09-19T00:28:17.694554+00:00"
+      "detected_at": "2026-09-19T09:12:44.177048+00:00"
     },
     {
       "ticker": "BAC",
       "signal": "MIXED",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
-      "current_price": 57.73,
+      "current_price": 57.72999954223633,
       "drawdown_from_high_pct": -11.5,
       "call_pct": 45.7,
       "total_call_premium": 1805775.0,
@@ -2169,14 +2169,14 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 684000.0,
-      "detected_at": "2026-09-19T00:28:12.967564+00:00"
+      "detected_at": "2026-09-19T09:12:39.970074+00:00"
     },
     {
       "ticker": "ISRG",
       "signal": "MIXED",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
-      "current_price": 393.33,
+      "current_price": 393.3299865722656,
       "drawdown_from_high_pct": -34.9,
       "call_pct": 60.6,
       "total_call_premium": 2327880.0,
@@ -2236,14 +2236,14 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 103630.0,
-      "detected_at": "2026-09-19T00:28:22.634853+00:00"
+      "detected_at": "2026-09-19T09:12:48.479799+00:00"
     },
     {
       "ticker": "V",
       "signal": "MIXED",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
-      "current_price": 368.29,
+      "current_price": 368.2900085449219,
       "drawdown_from_high_pct": -4.5,
       "call_pct": 57.1,
       "total_call_premium": 2072839.0,
@@ -2303,14 +2303,14 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 242420.0,
-      "detected_at": "2026-09-19T00:28:36.368389+00:00"
+      "detected_at": "2026-09-19T09:13:00.845044+00:00"
     },
     {
       "ticker": "APH",
       "signal": "MIXED",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
-      "current_price": 77.55,
+      "current_price": 77.55000305175781,
       "drawdown_from_high_pct": -13.1,
       "call_pct": 43.6,
       "total_call_premium": 1248525.0,
@@ -2370,14 +2370,14 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 1001984.0,
-      "detected_at": "2026-09-19T00:28:11.035383+00:00"
+      "detected_at": "2026-09-19T09:12:38.100763+00:00"
     },
     {
       "ticker": "TJX",
       "signal": "MIXED",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
-      "current_price": 127.24,
+      "current_price": 127.23999786376953,
       "drawdown_from_high_pct": -25.2,
       "call_pct": 45.6,
       "total_call_premium": 1258780.0,
@@ -2437,14 +2437,14 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 548514.0,
-      "detected_at": "2026-09-19T00:28:34.621524+00:00"
+      "detected_at": "2026-09-19T09:12:59.208765+00:00"
     },
     {
       "ticker": "AXP",
       "signal": "MIXED",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
-      "current_price": 311.56,
+      "current_price": 311.55999755859375,
       "drawdown_from_high_pct": -19.6,
       "call_pct": 50.7,
       "total_call_premium": 1311172.0,
@@ -2504,14 +2504,14 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 508804.0,
-      "detected_at": "2026-09-19T00:28:12.816232+00:00"
+      "detected_at": "2026-09-19T09:12:39.753609+00:00"
     },
     {
       "ticker": "ETN",
       "signal": "BULLISH",
       "flow_interpretation": "FRESH_BULLISH",
       "interpretation_reason": "Calls OTM (3% sobre precio). Apuesta nueva alcista desde nivel actual.",
-      "current_price": 424.77,
+      "current_price": 424.7699890136719,
       "drawdown_from_high_pct": -11.1,
       "call_pct": 71.8,
       "total_call_premium": 1708211.0,
@@ -2571,14 +2571,14 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 289170.0,
-      "detected_at": "2026-09-19T00:28:19.568052+00:00"
+      "detected_at": "2026-09-19T09:12:45.940652+00:00"
     },
     {
       "ticker": "DVA",
       "signal": "BULLISH",
       "flow_interpretation": "FRESH_BULLISH",
       "interpretation_reason": "Calls OTM (7% sobre precio). Apuesta nueva alcista desde nivel actual.",
-      "current_price": 183.86,
+      "current_price": 183.86000061035156,
       "drawdown_from_high_pct": -25.7,
       "call_pct": 97.8,
       "total_call_premium": 2294183.0,
@@ -2638,14 +2638,14 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 1510500.0,
-      "detected_at": "2026-09-19T00:28:17.672474+00:00"
+      "detected_at": "2026-09-19T09:12:44.115048+00:00"
     },
     {
       "ticker": "LMT",
       "signal": "BULLISH",
       "flow_interpretation": "FRESH_BULLISH",
       "interpretation_reason": "Calls OTM (3% sobre precio). Apuesta nueva alcista desde nivel actual.",
-      "current_price": 533.38,
+      "current_price": 533.3800048828125,
       "drawdown_from_high_pct": -22.9,
       "call_pct": 66.4,
       "total_call_premium": 1553417.0,
@@ -2705,23 +2705,23 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 391560.0,
-      "detected_at": "2026-09-19T00:28:25.946531+00:00"
+      "detected_at": "2026-09-19T09:12:51.593118+00:00"
     },
     {
       "ticker": "CHTR",
       "signal": "BEARISH",
       "flow_interpretation": "PUT_COVERING",
       "interpretation_reason": "Puts 19% ITM con acción ya -55% desde máximos. Probable recogida de beneficios, no apuesta bajista nueva. Posible zona de suelo.",
-      "current_price": 128.17,
+      "current_price": 128.1699981689453,
       "drawdown_from_high_pct": -55.2,
-      "call_pct": 33.8,
+      "call_pct": 33.9,
       "total_call_premium": 782951.0,
-      "total_put_premium": 1531832.0,
-      "total_premium": 2314783.0,
-      "net_premium": -748881.0,
+      "total_put_premium": 1525062.0,
+      "total_premium": 2308013.0,
+      "net_premium": -742111.0,
       "total_call_volume": 2110,
-      "total_put_volume": 1622,
-      "avg_iv": 1.034,
+      "total_put_volume": 1611,
+      "avg_iv": 1.027,
       "unusual_score": 59,
       "top_contracts": [
         {
@@ -2772,14 +2772,14 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 226037.0,
-      "detected_at": "2026-09-19T00:28:15.383869+00:00"
+      "detected_at": "2026-09-19T09:12:42.007005+00:00"
     },
     {
       "ticker": "MA",
       "signal": "BULLISH",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
-      "current_price": 565.24,
+      "current_price": 565.239990234375,
       "drawdown_from_high_pct": -6.0,
       "call_pct": 68.2,
       "total_call_premium": 1470048.0,
@@ -2824,23 +2824,23 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 238500.0,
-      "detected_at": "2026-09-19T00:28:26.391601+00:00"
+      "detected_at": "2026-09-19T09:12:51.747231+00:00"
     },
     {
       "ticker": "LIN",
       "signal": "BEARISH",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
-      "current_price": 460.4,
+      "current_price": 460.3999938964844,
       "drawdown_from_high_pct": -16.0,
-      "call_pct": 28.0,
+      "call_pct": 27.9,
       "total_call_premium": 498129.0,
-      "total_put_premium": 1278865.0,
-      "total_premium": 1776994.0,
-      "net_premium": -780736.0,
+      "total_put_premium": 1286915.0,
+      "total_premium": 1785044.0,
+      "net_premium": -788786.0,
       "total_call_volume": 524,
-      "total_put_volume": 679,
-      "avg_iv": 0.388,
+      "total_put_volume": 680,
+      "avg_iv": 0.383,
       "unusual_score": 73,
       "top_contracts": [
         {
@@ -2891,21 +2891,21 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 373590.0,
-      "detected_at": "2026-09-19T00:28:24.466158+00:00"
+      "detected_at": "2026-09-19T09:12:50.204047+00:00"
     },
     {
       "ticker": "FTNT",
       "signal": "MIXED",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
-      "current_price": 169.84,
+      "current_price": 169.83999633789062,
       "drawdown_from_high_pct": -3.6,
       "call_pct": 60.1,
-      "total_call_premium": 1065725.0,
+      "total_call_premium": 1064597.0,
       "total_put_premium": 706517.0,
-      "total_premium": 1772242.0,
-      "net_premium": 359208.0,
-      "total_call_volume": 1503,
+      "total_premium": 1771114.0,
+      "net_premium": 358080.0,
+      "total_call_volume": 1501,
       "total_put_volume": 1332,
       "avg_iv": 0.725,
       "unusual_score": 45,
@@ -2958,14 +2958,14 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 131493.0,
-      "detected_at": "2026-09-19T00:28:20.220356+00:00"
+      "detected_at": "2026-09-19T09:12:46.408531+00:00"
     },
     {
       "ticker": "LEN",
       "signal": "BEARISH",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
-      "current_price": 76.43,
+      "current_price": 76.43000030517578,
       "drawdown_from_high_pct": -42.9,
       "call_pct": 20.5,
       "total_call_premium": 337947.0,
@@ -3025,14 +3025,14 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 294120.0,
-      "detected_at": "2026-09-19T00:28:25.327669+00:00"
+      "detected_at": "2026-09-19T09:12:50.970874+00:00"
     },
     {
       "ticker": "TMO",
       "signal": "MIXED",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
-      "current_price": 651.45,
+      "current_price": 651.4500122070312,
       "drawdown_from_high_pct": -1.8,
       "call_pct": 40.5,
       "total_call_premium": 666544.0,
@@ -3092,14 +3092,14 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 853367.0,
-      "detected_at": "2026-09-19T00:28:34.964464+00:00"
+      "detected_at": "2026-09-19T09:12:59.524932+00:00"
     },
     {
       "ticker": "KHC",
       "signal": "BULLISH",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
-      "current_price": 24.43,
+      "current_price": 24.43000030517578,
       "drawdown_from_high_pct": -13.0,
       "call_pct": 88.8,
       "total_call_premium": 1376667.0,
@@ -3159,14 +3159,14 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 714385.0,
-      "detected_at": "2026-09-19T00:28:24.144866+00:00"
+      "detected_at": "2026-09-19T09:12:49.961745+00:00"
     },
     {
       "ticker": "HLT",
       "signal": "BULLISH",
       "flow_interpretation": "CALL_COVERING",
       "interpretation_reason": "Calls 18% ITM con acción +21% desde mínimos anuales. Posible recogida de beneficios en calls largas.",
-      "current_price": 305.73,
+      "current_price": 305.7300109863281,
       "drawdown_from_high_pct": -14.6,
       "call_pct": 93.9,
       "total_call_premium": 1391390.0,
@@ -3196,22 +3196,22 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 841820.0,
-      "detected_at": "2026-09-19T00:28:21.868022+00:00"
+      "detected_at": "2026-09-19T09:12:47.974628+00:00"
     },
     {
       "ticker": "NUE",
       "signal": "BULLISH",
       "flow_interpretation": "FRESH_BULLISH",
       "interpretation_reason": "Calls OTM (3% sobre precio). Apuesta nueva alcista desde nivel actual.",
-      "current_price": 248.38,
+      "current_price": 248.3800048828125,
       "drawdown_from_high_pct": -11.3,
-      "call_pct": 69.2,
+      "call_pct": 69.3,
       "total_call_premium": 991843.0,
-      "total_put_premium": 442458.0,
-      "total_premium": 1434301.0,
-      "net_premium": 549385.0,
+      "total_put_premium": 440128.0,
+      "total_premium": 1431971.0,
+      "net_premium": 551715.0,
       "total_call_volume": 1349,
-      "total_put_volume": 1000,
+      "total_put_volume": 999,
       "avg_iv": 0.767,
       "unusual_score": 76,
       "top_contracts": [
@@ -3263,14 +3263,14 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 420083.0,
-      "detected_at": "2026-09-19T00:28:27.702283+00:00"
+      "detected_at": "2026-09-19T09:12:52.813373+00:00"
     },
     {
       "ticker": "NYT",
       "signal": "MIXED",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
-      "current_price": 70.21,
+      "current_price": 70.20999908447266,
       "drawdown_from_high_pct": -19.4,
       "call_pct": 41.6,
       "total_call_premium": 547499.0,
@@ -3330,14 +3330,14 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 470400.0,
-      "detected_at": "2026-09-19T00:28:27.678296+00:00"
+      "detected_at": "2026-09-19T09:12:52.899661+00:00"
     },
     {
       "ticker": "FDS",
       "signal": "BULLISH",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
-      "current_price": 283.83,
+      "current_price": 283.8299865722656,
       "drawdown_from_high_pct": -11.4,
       "call_pct": 69.7,
       "total_call_premium": 886932.0,
@@ -3397,14 +3397,14 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 763103.0,
-      "detected_at": "2026-09-19T00:28:18.663741+00:00"
+      "detected_at": "2026-09-19T09:12:44.820225+00:00"
     },
     {
       "ticker": "PG",
       "signal": "BULLISH",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
-      "current_price": 146.39,
+      "current_price": 146.38999938964844,
       "drawdown_from_high_pct": -12.5,
       "call_pct": 76.0,
       "total_call_premium": 952513.0,
@@ -3464,23 +3464,23 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 257010.0,
-      "detected_at": "2026-09-19T00:28:30.150172+00:00"
+      "detected_at": "2026-09-19T09:12:55.193866+00:00"
     },
     {
       "ticker": "EQIX",
       "signal": "MIXED",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
-      "current_price": 1021.34,
+      "current_price": 1021.3400268554688,
       "drawdown_from_high_pct": -9.5,
       "call_pct": 59.1,
-      "total_call_premium": 704526.0,
-      "total_put_premium": 487183.0,
-      "total_premium": 1191709.0,
-      "net_premium": 217343.0,
-      "total_call_volume": 252,
-      "total_put_volume": 222,
-      "avg_iv": 0.399,
+      "total_call_premium": 705396.0,
+      "total_put_premium": 488963.0,
+      "total_premium": 1194359.0,
+      "net_premium": 216433.0,
+      "total_call_volume": 253,
+      "total_put_volume": 223,
+      "avg_iv": 0.403,
       "unusual_score": 14,
       "top_contracts": [
         {
@@ -3516,14 +3516,14 @@
       ],
       "has_large_premium": false,
       "max_single_premium": 42750.0,
-      "detected_at": "2026-09-19T00:28:18.251694+00:00"
+      "detected_at": "2026-09-19T09:12:44.623662+00:00"
     },
     {
       "ticker": "SPGI",
       "signal": "MIXED",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
-      "current_price": 405.32,
+      "current_price": 405.32000732421875,
       "drawdown_from_high_pct": -22.4,
       "call_pct": 57.2,
       "total_call_premium": 661285.0,
@@ -3583,14 +3583,14 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 249964.0,
-      "detected_at": "2026-09-19T00:28:32.869368+00:00"
+      "detected_at": "2026-09-19T09:12:57.625918+00:00"
     },
     {
       "ticker": "MSI",
       "signal": "BULLISH",
       "flow_interpretation": "CALL_COVERING",
       "interpretation_reason": "Calls 12% ITM con acción +28% desde mínimos anuales. Posible recogida de beneficios en calls largas.",
-      "current_price": 458.67,
+      "current_price": 458.6700134277344,
       "drawdown_from_high_pct": -7.3,
       "call_pct": 93.6,
       "total_call_premium": 1055108.0,
@@ -3635,14 +3635,14 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 612792.0,
-      "detected_at": "2026-09-19T00:28:27.014899+00:00"
+      "detected_at": "2026-09-19T09:12:52.307566+00:00"
     },
     {
       "ticker": "MTD",
       "signal": "MIXED",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
-      "current_price": 1392.32,
+      "current_price": 1392.3199462890625,
       "drawdown_from_high_pct": -8.7,
       "call_pct": 55.6,
       "total_call_premium": 614945.0,
@@ -3672,14 +3672,14 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 245000.0,
-      "detected_at": "2026-09-19T00:28:27.056351+00:00"
+      "detected_at": "2026-09-19T09:12:52.290895+00:00"
     },
     {
       "ticker": "MCO",
       "signal": "BEARISH",
       "flow_interpretation": "FRESH_BEARISH",
       "interpretation_reason": "Puts OTM (5% bajo precio). Apuesta nueva a caída desde nivel actual.",
-      "current_price": 468.59,
+      "current_price": 468.5899963378906,
       "drawdown_from_high_pct": -14.3,
       "call_pct": 4.8,
       "total_call_premium": 49954.0,
@@ -3739,14 +3739,14 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 533460.0,
-      "detected_at": "2026-09-19T00:28:25.430964+00:00"
+      "detected_at": "2026-09-19T09:12:51.157108+00:00"
     },
     {
       "ticker": "CBOE",
       "signal": "MIXED",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
-      "current_price": 272.86,
+      "current_price": 272.8599853515625,
       "drawdown_from_high_pct": -26.5,
       "call_pct": 39.4,
       "total_call_premium": 400313.0,
@@ -3806,14 +3806,14 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 141246.0,
-      "detected_at": "2026-09-19T00:28:14.704417+00:00"
+      "detected_at": "2026-09-19T09:12:41.498264+00:00"
     },
     {
       "ticker": "STZ",
       "signal": "BEARISH",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
-      "current_price": 118.97,
+      "current_price": 118.97000122070312,
       "drawdown_from_high_pct": -29.4,
       "call_pct": 27.4,
       "total_call_premium": 277214.0,
@@ -3873,7 +3873,7 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 124614.0,
-      "detected_at": "2026-09-19T00:28:33.268040+00:00"
+      "detected_at": "2026-09-19T09:12:57.901000+00:00"
     },
     {
       "ticker": "ALLY",
@@ -3940,14 +3940,14 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 496730.0,
-      "detected_at": "2026-09-19T00:28:09.313376+00:00"
+      "detected_at": "2026-09-19T09:12:36.471324+00:00"
     },
     {
       "ticker": "ABT",
       "signal": "BULLISH",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
-      "current_price": 102.61,
+      "current_price": 102.61000061035156,
       "drawdown_from_high_pct": -25.4,
       "call_pct": 74.2,
       "total_call_premium": 742844.0,
@@ -4007,14 +4007,14 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 241878.0,
-      "detected_at": "2026-09-19T00:28:10.509036+00:00"
+      "detected_at": "2026-09-19T09:12:37.631747+00:00"
     },
     {
       "ticker": "SAP",
       "signal": "BEARISH",
       "flow_interpretation": "FRESH_BEARISH",
       "interpretation_reason": "Puts OTM (3% bajo precio). Apuesta nueva a caída desde nivel actual.",
-      "current_price": 209.45,
+      "current_price": 209.4499969482422,
       "drawdown_from_high_pct": -25.6,
       "call_pct": 28.5,
       "total_call_premium": 282313.0,
@@ -4074,14 +4074,14 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 254340.0,
-      "detected_at": "2026-09-19T00:28:32.500785+00:00"
+      "detected_at": "2026-09-19T09:12:57.385574+00:00"
     },
     {
       "ticker": "VEEV",
       "signal": "BEARISH",
       "flow_interpretation": "PUT_COVERING",
       "interpretation_reason": "Puts 15% ITM con acción ya -16% desde máximos. Probable recogida de beneficios, no apuesta bajista nueva. Posible zona de suelo.",
-      "current_price": 260.21,
+      "current_price": 260.2099914550781,
       "drawdown_from_high_pct": -16.2,
       "call_pct": 25.5,
       "total_call_premium": 252005.0,
@@ -4141,14 +4141,14 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 672970.0,
-      "detected_at": "2026-09-19T00:28:35.547887+00:00"
+      "detected_at": "2026-09-19T09:12:59.987491+00:00"
     },
     {
       "ticker": "OXY",
       "signal": "BULLISH",
       "flow_interpretation": "FRESH_BULLISH",
       "interpretation_reason": "Calls OTM (1% sobre precio). Apuesta nueva alcista desde nivel actual.",
-      "current_price": 58.84,
+      "current_price": 58.84000015258789,
       "drawdown_from_high_pct": -12.8,
       "call_pct": 77.8,
       "total_call_premium": 714765.0,
@@ -4208,14 +4208,14 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 132184.0,
-      "detected_at": "2026-09-19T00:28:29.719601+00:00"
+      "detected_at": "2026-09-19T09:12:54.956888+00:00"
     },
     {
       "ticker": "COF",
       "signal": "MIXED",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
-      "current_price": 202.43,
+      "current_price": 202.42999267578125,
       "drawdown_from_high_pct": -22.0,
       "call_pct": 43.1,
       "total_call_premium": 392845.0,
@@ -4275,14 +4275,14 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 238700.0,
-      "detected_at": "2026-09-19T00:28:16.455923+00:00"
+      "detected_at": "2026-09-19T09:12:43.129043+00:00"
     },
     {
       "ticker": "CDNS",
       "signal": "MIXED",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
-      "current_price": 282.9,
+      "current_price": 282.8999938964844,
       "drawdown_from_high_pct": -32.1,
       "call_pct": 36.0,
       "total_call_premium": 325590.0,
@@ -4312,14 +4312,14 @@
       ],
       "has_large_premium": false,
       "max_single_premium": 42024.0,
-      "detected_at": "2026-09-19T00:28:14.726802+00:00"
+      "detected_at": "2026-09-19T09:12:41.484972+00:00"
     },
     {
       "ticker": "BSX",
       "signal": "BEARISH",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
-      "current_price": 43.34,
+      "current_price": 43.34000015258789,
       "drawdown_from_high_pct": -59.0,
       "call_pct": 9.5,
       "total_call_premium": 85219.0,
@@ -4379,14 +4379,14 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 301200.0,
-      "detected_at": "2026-09-19T00:28:14.496664+00:00"
+      "detected_at": "2026-09-19T09:12:41.311983+00:00"
     },
     {
       "ticker": "WM",
       "signal": "BEARISH",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
-      "current_price": 211.1,
+      "current_price": 211.10000610351562,
       "drawdown_from_high_pct": -14.9,
       "call_pct": 12.0,
       "total_call_premium": 103734.0,
@@ -4446,23 +4446,23 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 434238.0,
-      "detected_at": "2026-09-19T00:28:36.518504+00:00"
+      "detected_at": "2026-09-19T09:13:00.769861+00:00"
     },
     {
       "ticker": "ECL",
       "signal": "BULLISH",
       "flow_interpretation": "FRESH_BULLISH",
       "interpretation_reason": "Calls OTM (4% sobre precio). Apuesta nueva alcista desde nivel actual.",
-      "current_price": 269.46,
+      "current_price": 269.4599914550781,
       "drawdown_from_high_pct": -12.9,
-      "call_pct": 67.3,
+      "call_pct": 66.1,
       "total_call_premium": 562214.0,
-      "total_put_premium": 273442.0,
-      "total_premium": 835656.0,
-      "net_premium": 288772.0,
+      "total_put_premium": 287942.0,
+      "total_premium": 850156.0,
+      "net_premium": 274272.0,
       "total_call_volume": 4426,
-      "total_put_volume": 921,
-      "avg_iv": 0.42,
+      "total_put_volume": 923,
+      "avg_iv": 0.393,
       "unusual_score": 63,
       "top_contracts": [
         {
@@ -4513,14 +4513,14 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 256455.0,
-      "detected_at": "2026-09-19T00:28:17.792474+00:00"
+      "detected_at": "2026-09-19T09:12:44.205833+00:00"
     },
     {
       "ticker": "ADP",
       "signal": "BULLISH",
       "flow_interpretation": "FRESH_BULLISH",
       "interpretation_reason": "Calls OTM (1% sobre precio). Apuesta nueva alcista desde nivel actual.",
-      "current_price": 271.22,
+      "current_price": 271.2200012207031,
       "drawdown_from_high_pct": -7.9,
       "call_pct": 91.4,
       "total_call_premium": 750382.0,
@@ -4580,23 +4580,23 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 351267.0,
-      "detected_at": "2026-09-19T00:28:10.435466+00:00"
+      "detected_at": "2026-09-19T09:12:37.551469+00:00"
     },
     {
       "ticker": "RACE",
       "signal": "BULLISH",
       "flow_interpretation": "CALL_COVERING",
       "interpretation_reason": "Calls 14% ITM con acción +30% desde mínimos anuales. Posible recogida de beneficios en calls largas.",
-      "current_price": 406.69,
+      "current_price": 406.69000244140625,
       "drawdown_from_high_pct": -19.4,
-      "call_pct": 73.0,
-      "total_call_premium": 580139.0,
+      "call_pct": 73.1,
+      "total_call_premium": 582869.0,
       "total_put_premium": 214545.0,
-      "total_premium": 794684.0,
-      "net_premium": 365594.0,
-      "total_call_volume": 300,
+      "total_premium": 797414.0,
+      "net_premium": 368324.0,
+      "total_call_volume": 303,
       "total_put_volume": 420,
-      "avg_iv": 0.456,
+      "avg_iv": 0.461,
       "unusual_score": 72,
       "top_contracts": [
         {
@@ -4632,14 +4632,14 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 368880.0,
-      "detected_at": "2026-09-19T00:28:31.778088+00:00"
+      "detected_at": "2026-09-19T09:12:56.542410+00:00"
     },
     {
       "ticker": "ROP",
       "signal": "BEARISH",
       "flow_interpretation": "PUT_COVERING",
       "interpretation_reason": "Puts 18% ITM con acción ya -28% desde máximos. Probable recogida de beneficios, no apuesta bajista nueva. Posible zona de suelo.",
-      "current_price": 372.74,
+      "current_price": 372.739990234375,
       "drawdown_from_high_pct": -28.5,
       "call_pct": 5.2,
       "total_call_premium": 34551.0,
@@ -4669,14 +4669,14 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 607940.0,
-      "detected_at": "2026-09-19T00:28:31.109545+00:00"
+      "detected_at": "2026-09-19T09:12:55.994531+00:00"
     },
     {
       "ticker": "CB",
       "signal": "MIXED",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
-      "current_price": 340.64,
+      "current_price": 340.6400146484375,
       "drawdown_from_high_pct": -6.9,
       "call_pct": 48.5,
       "total_call_premium": 318627.0,
@@ -4736,14 +4736,14 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 283969.0,
-      "detected_at": "2026-09-19T00:28:13.503050+00:00"
+      "detected_at": "2026-09-19T09:12:40.403801+00:00"
     },
     {
       "ticker": "MLM",
       "signal": "BEARISH",
       "flow_interpretation": "PUT_COVERING",
       "interpretation_reason": "Puts 16% ITM con acción ya -31% desde máximos. Probable recogida de beneficios, no apuesta bajista nueva. Posible zona de suelo.",
-      "current_price": 490.64,
+      "current_price": 490.6400146484375,
       "drawdown_from_high_pct": -31.0,
       "call_pct": 17.1,
       "total_call_premium": 111580.0,
@@ -4788,14 +4788,14 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 385560.0,
-      "detected_at": "2026-09-19T00:28:26.089574+00:00"
+      "detected_at": "2026-09-19T09:12:51.666142+00:00"
     },
     {
       "ticker": "THC",
       "signal": "BULLISH",
       "flow_interpretation": "FRESH_BULLISH",
       "interpretation_reason": "Calls OTM (3% sobre precio). Apuesta nueva alcista desde nivel actual.",
-      "current_price": 261.99,
+      "current_price": 261.989990234375,
       "drawdown_from_high_pct": -7.4,
       "call_pct": 88.9,
       "total_call_premium": 554965.0,
@@ -4825,14 +4825,14 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 529200.0,
-      "detected_at": "2026-09-19T00:28:33.119894+00:00"
+      "detected_at": "2026-09-19T09:12:57.887133+00:00"
     },
     {
       "ticker": "RMD",
       "signal": "BULLISH",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
-      "current_price": 224.99,
+      "current_price": 224.99000549316406,
       "drawdown_from_high_pct": -21.0,
       "call_pct": 94.5,
       "total_call_premium": 587777.0,
@@ -4877,15 +4877,15 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 145000.0,
-      "detected_at": "2026-09-19T00:28:30.717836+00:00"
+      "detected_at": "2026-09-19T09:12:55.704236+00:00"
     },
     {
       "ticker": "ADSK",
       "signal": "MIXED",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
-      "current_price": 216.95,
-      "drawdown_from_high_pct": -33.6,
+      "current_price": 216.9499969482422,
+      "drawdown_from_high_pct": -33.5,
       "call_pct": 43.7,
       "total_call_premium": 267388.0,
       "total_put_premium": 344260.0,
@@ -4914,14 +4914,14 @@
       ],
       "has_large_premium": false,
       "max_single_premium": 41040.0,
-      "detected_at": "2026-09-19T00:28:10.516595+00:00"
+      "detected_at": "2026-09-19T09:12:37.587048+00:00"
     },
     {
       "ticker": "DHR",
       "signal": "BULLISH",
       "flow_interpretation": "FRESH_BULLISH",
       "interpretation_reason": "Calls OTM (1% sobre precio). Apuesta nueva alcista desde nivel actual.",
-      "current_price": 211.81,
+      "current_price": 211.80999755859375,
       "drawdown_from_high_pct": -12.8,
       "call_pct": 85.9,
       "total_call_premium": 521694.0,
@@ -4981,7 +4981,7 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 171828.0,
-      "detected_at": "2026-09-19T00:28:17.883629+00:00"
+      "detected_at": "2026-09-19T09:12:44.281777+00:00"
     },
     {
       "ticker": "KR",
@@ -5048,14 +5048,14 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 219648.0,
-      "detected_at": "2026-09-19T00:28:24.394235+00:00"
+      "detected_at": "2026-09-19T09:12:50.165076+00:00"
     },
     {
       "ticker": "ZTS",
       "signal": "MIXED",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
-      "current_price": 71.4,
+      "current_price": 71.4000015258789,
       "drawdown_from_high_pct": -52.0,
       "call_pct": 46.3,
       "total_call_premium": 270999.0,
@@ -5115,14 +5115,14 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 168140.0,
-      "detected_at": "2026-09-19T00:28:37.344460+00:00"
+      "detected_at": "2026-09-19T09:13:01.481890+00:00"
     },
     {
       "ticker": "TEVA",
       "signal": "BULLISH",
       "flow_interpretation": "CALL_COVERING",
       "interpretation_reason": "Calls 26% ITM con acción +114% desde mínimos anuales. Posible recogida de beneficios en calls largas.",
-      "current_price": 38.98,
+      "current_price": 38.97999954223633,
       "drawdown_from_high_pct": -1.8,
       "call_pct": 66.4,
       "total_call_premium": 373009.0,
@@ -5167,14 +5167,14 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 247500.0,
-      "detected_at": "2026-09-19T00:28:33.959566+00:00"
+      "detected_at": "2026-09-19T09:12:58.635937+00:00"
     },
     {
       "ticker": "CNI",
       "signal": "BEARISH",
       "flow_interpretation": "FRESH_BEARISH",
       "interpretation_reason": "Puts 20% ITM pero acción solo -10% desde máximos. Posición bajista activa.",
-      "current_price": 118.95,
+      "current_price": 118.94999694824219,
       "drawdown_from_high_pct": -9.6,
       "call_pct": 28.1,
       "total_call_premium": 145730.0,
@@ -5219,14 +5219,14 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 277350.0,
-      "detected_at": "2026-09-19T00:28:15.142339+00:00"
+      "detected_at": "2026-09-19T09:12:41.824037+00:00"
     },
     {
       "ticker": "CTAS",
       "signal": "BULLISH",
       "flow_interpretation": "FRESH_BULLISH",
       "interpretation_reason": "Calls OTM (1% sobre precio). Apuesta nueva alcista desde nivel actual.",
-      "current_price": 197.64,
+      "current_price": 197.63999938964844,
       "drawdown_from_high_pct": -9.8,
       "call_pct": 73.5,
       "total_call_premium": 361236.0,
@@ -5286,14 +5286,14 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 307726.0,
-      "detected_at": "2026-09-19T00:28:17.570537+00:00"
+      "detected_at": "2026-09-19T09:12:44.104058+00:00"
     },
     {
       "ticker": "CME",
       "signal": "BULLISH",
       "flow_interpretation": "FRESH_BULLISH",
       "interpretation_reason": "Calls OTM (1% sobre precio). Apuesta nueva alcista desde nivel actual.",
-      "current_price": 276.01,
+      "current_price": 276.010009765625,
       "drawdown_from_high_pct": -16.1,
       "call_pct": 68.7,
       "total_call_premium": 308314.0,
@@ -5338,14 +5338,14 @@
       ],
       "has_large_premium": false,
       "max_single_premium": 30954.0,
-      "detected_at": "2026-09-19T00:28:16.043157+00:00"
+      "detected_at": "2026-09-19T09:12:42.612352+00:00"
     },
     {
       "ticker": "UNP",
       "signal": "MIXED",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
-      "current_price": 279.37,
+      "current_price": 279.3699951171875,
       "drawdown_from_high_pct": -11.6,
       "call_pct": 64.8,
       "total_call_premium": 289411.0,
@@ -5390,7 +5390,7 @@
       ],
       "has_large_premium": false,
       "max_single_premium": 48972.0,
-      "detected_at": "2026-09-19T00:28:36.253813+00:00"
+      "detected_at": "2026-09-19T09:13:00.588595+00:00"
     },
     {
       "ticker": "ODFL",
@@ -5406,19 +5406,19 @@
       "net_premium": 162561.0,
       "total_call_volume": 201,
       "total_put_volume": 257,
-      "avg_iv": 1.151,
+      "avg_iv": 1.173,
       "unusual_score": 0,
       "top_contracts": [],
       "has_large_premium": false,
       "max_single_premium": 0,
-      "detected_at": "2026-09-19T00:28:27.768519+00:00"
+      "detected_at": "2026-09-19T09:12:53.078109+00:00"
     },
     {
       "ticker": "ERIE",
       "signal": "BULLISH",
       "flow_interpretation": "FRESH_BULLISH",
       "interpretation_reason": "Calls OTM (0% sobre precio). Apuesta nueva alcista desde nivel actual.",
-      "current_price": 239.05,
+      "current_price": 239.0500030517578,
       "drawdown_from_high_pct": -27.7,
       "call_pct": 98.1,
       "total_call_premium": 384608.0,
@@ -5448,14 +5448,14 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 379546.0,
-      "detected_at": "2026-09-19T00:28:18.235478+00:00"
+      "detected_at": "2026-09-19T09:12:44.641303+00:00"
     },
     {
       "ticker": "MKC",
       "signal": "BULLISH",
       "flow_interpretation": "FRESH_BULLISH",
       "interpretation_reason": "Calls OTM (3% sobre precio). Apuesta nueva alcista desde nivel actual.",
-      "current_price": 48.72,
+      "current_price": 48.720001220703125,
       "drawdown_from_high_pct": -32.7,
       "call_pct": 79.4,
       "total_call_premium": 304300.0,
@@ -5515,14 +5515,14 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 278180.0,
-      "detected_at": "2026-09-19T00:28:25.908119+00:00"
+      "detected_at": "2026-09-19T09:12:51.475006+00:00"
     },
     {
       "ticker": "FAST",
       "signal": "BULLISH",
       "flow_interpretation": "FRESH_BULLISH",
       "interpretation_reason": "Calls OTM (2% sobre precio). Apuesta nueva alcista desde nivel actual.",
-      "current_price": 49.01,
+      "current_price": 49.0099983215332,
       "drawdown_from_high_pct": -7.4,
       "call_pct": 83.7,
       "total_call_premium": 318810.0,
@@ -5552,14 +5552,51 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 307622.0,
-      "detected_at": "2026-09-19T00:28:18.374817+00:00"
+      "detected_at": "2026-09-19T09:12:44.806169+00:00"
+    },
+    {
+      "ticker": "AON",
+      "signal": "MIXED",
+      "flow_interpretation": "STANDARD",
+      "interpretation_reason": "",
+      "current_price": 295.6400146484375,
+      "drawdown_from_high_pct": -22.7,
+      "call_pct": 41.5,
+      "total_call_premium": 155679.0,
+      "total_put_premium": 219268.0,
+      "total_premium": 374947.0,
+      "net_premium": -63589.0,
+      "total_call_volume": 301,
+      "total_put_volume": 290,
+      "avg_iv": 0.537,
+      "unusual_score": 29,
+      "top_contracts": [
+        {
+          "side": "CALL",
+          "strike": 310.0,
+          "expiry": "2026-10-16",
+          "dte": 27,
+          "volume": 210,
+          "open_interest": 85,
+          "vol_oi_ratio": 2.47,
+          "last_price": 3.51,
+          "last_trade_date": "2026-09-18 19:54",
+          "premium_usd": 73710.0,
+          "iv": 0.277,
+          "itm": false,
+          "speculative": false
+        }
+      ],
+      "has_large_premium": false,
+      "max_single_premium": 73710.0,
+      "detected_at": "2026-09-19T09:12:37.615783+00:00"
     },
     {
       "ticker": "MANH",
       "signal": "BULLISH",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
-      "current_price": 211.46,
+      "current_price": 211.4600067138672,
       "drawdown_from_high_pct": -6.9,
       "call_pct": 74.1,
       "total_call_premium": 273231.0,
@@ -5589,51 +5626,14 @@
       ],
       "has_large_premium": false,
       "max_single_premium": 40200.0,
-      "detected_at": "2026-09-19T00:28:25.027530+00:00"
-    },
-    {
-      "ticker": "AON",
-      "signal": "MIXED",
-      "flow_interpretation": "STANDARD",
-      "interpretation_reason": "",
-      "current_price": 295.64,
-      "drawdown_from_high_pct": -22.7,
-      "call_pct": 43.1,
-      "total_call_premium": 155679.0,
-      "total_put_premium": 205708.0,
-      "total_premium": 361387.0,
-      "net_premium": -50029.0,
-      "total_call_volume": 301,
-      "total_put_volume": 289,
-      "avg_iv": 0.549,
-      "unusual_score": 29,
-      "top_contracts": [
-        {
-          "side": "CALL",
-          "strike": 310.0,
-          "expiry": "2026-10-16",
-          "dte": 27,
-          "volume": 210,
-          "open_interest": 85,
-          "vol_oi_ratio": 2.47,
-          "last_price": 3.51,
-          "last_trade_date": "2026-09-18 19:54",
-          "premium_usd": 73710.0,
-          "iv": 0.277,
-          "itm": false,
-          "speculative": false
-        }
-      ],
-      "has_large_premium": false,
-      "max_single_premium": 73710.0,
-      "detected_at": "2026-09-19T00:28:10.494618+00:00"
+      "detected_at": "2026-09-19T09:12:50.685268+00:00"
     },
     {
       "ticker": "SHW",
       "signal": "BULLISH",
       "flow_interpretation": "FRESH_BULLISH",
       "interpretation_reason": "Calls OTM (3% sobre precio). Apuesta nueva alcista desde nivel actual.",
-      "current_price": 320.73,
+      "current_price": 320.7300109863281,
       "drawdown_from_high_pct": -15.1,
       "call_pct": 90.1,
       "total_call_premium": 323823.0,
@@ -5678,15 +5678,15 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 286011.0,
-      "detected_at": "2026-09-19T00:28:31.564243+00:00"
+      "detected_at": "2026-09-19T09:12:56.501634+00:00"
     },
     {
       "ticker": "POOL",
       "signal": "BEARISH",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
-      "current_price": 167.96,
-      "drawdown_from_high_pct": -48.4,
+      "current_price": 167.9600067138672,
+      "drawdown_from_high_pct": -46.8,
       "call_pct": 18.0,
       "total_call_premium": 60833.0,
       "total_put_premium": 276387.0,
@@ -5715,14 +5715,14 @@
       ],
       "has_large_premium": false,
       "max_single_premium": 31500.0,
-      "detected_at": "2026-09-19T00:28:29.399296+00:00"
+      "detected_at": "2026-09-19T09:12:54.401619+00:00"
     },
     {
       "ticker": "BRO",
       "signal": "BULLISH",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
-      "current_price": 65.02,
+      "current_price": 65.0199966430664,
       "drawdown_from_high_pct": -32.7,
       "call_pct": 99.1,
       "total_call_premium": 332087.0,
@@ -5752,14 +5752,14 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 323232.0,
-      "detected_at": "2026-09-19T00:28:13.033100+00:00"
+      "detected_at": "2026-09-19T09:12:39.935434+00:00"
     },
     {
       "ticker": "NDSN",
       "signal": "BULLISH",
       "flow_interpretation": "FRESH_BULLISH",
       "interpretation_reason": "Calls OTM (6% sobre precio). Apuesta nueva alcista desde nivel actual.",
-      "current_price": 311.57,
+      "current_price": 311.57000732421875,
       "drawdown_from_high_pct": -8.1,
       "call_pct": 98.1,
       "total_call_premium": 327238.0,
@@ -5804,15 +5804,15 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 261495.0,
-      "detected_at": "2026-09-19T00:28:27.093261+00:00"
+      "detected_at": "2026-09-19T09:12:52.592572+00:00"
     },
     {
       "ticker": "BR",
       "signal": "BULLISH",
       "flow_interpretation": "FRESH_BULLISH",
       "interpretation_reason": "Calls OTM (9% sobre precio). Apuesta nueva alcista desde nivel actual.",
-      "current_price": 163.13,
-      "drawdown_from_high_pct": -33.1,
+      "current_price": 163.1300048828125,
+      "drawdown_from_high_pct": -32.7,
       "call_pct": 85.3,
       "total_call_premium": 280093.0,
       "total_put_premium": 48250.0,
@@ -5856,14 +5856,14 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 229976.0,
-      "detected_at": "2026-09-19T00:28:12.934115+00:00"
+      "detected_at": "2026-09-19T09:12:39.825884+00:00"
     },
     {
       "ticker": "HHH",
       "signal": "MIXED",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
-      "current_price": 60.22,
+      "current_price": 60.220001220703125,
       "drawdown_from_high_pct": -33.9,
       "call_pct": 52.6,
       "total_call_premium": 171612.0,
@@ -5908,14 +5908,14 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 150400.0,
-      "detected_at": "2026-09-19T00:28:20.540702+00:00"
+      "detected_at": "2026-09-19T09:12:46.485102+00:00"
     },
     {
       "ticker": "ICE",
       "signal": "BULLISH",
       "flow_interpretation": "FRESH_BULLISH",
       "interpretation_reason": "Calls OTM (2% sobre precio). Apuesta nueva alcista desde nivel actual.",
-      "current_price": 155.47,
+      "current_price": 155.47000122070312,
       "drawdown_from_high_pct": -11.7,
       "call_pct": 68.0,
       "total_call_premium": 219820.0,
@@ -5975,7 +5975,7 @@
       ],
       "has_large_premium": false,
       "max_single_premium": 67584.0,
-      "detected_at": "2026-09-19T00:28:22.245548+00:00"
+      "detected_at": "2026-09-19T09:12:48.039987+00:00"
     },
     {
       "ticker": "CHD",
@@ -6027,14 +6027,14 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 236289.0,
-      "detected_at": "2026-09-19T00:28:13.778343+00:00"
+      "detected_at": "2026-09-19T09:12:40.485847+00:00"
     },
     {
       "ticker": "AJG",
       "signal": "BULLISH",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
-      "current_price": 239.48,
+      "current_price": 239.47999572753906,
       "drawdown_from_high_pct": -23.6,
       "call_pct": 92.0,
       "total_call_premium": 288274.0,
@@ -6048,14 +6048,14 @@
       "top_contracts": [],
       "has_large_premium": false,
       "max_single_premium": 0,
-      "detected_at": "2026-09-19T00:28:09.374509+00:00"
+      "detected_at": "2026-09-19T09:12:36.485185+00:00"
     },
     {
       "ticker": "ATO",
       "signal": "BULLISH",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
-      "current_price": 160.3,
+      "current_price": 160.3000030517578,
       "drawdown_from_high_pct": -16.7,
       "call_pct": 77.2,
       "total_call_premium": 241744.0,
@@ -6085,14 +6085,14 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 173432.0,
-      "detected_at": "2026-09-19T00:28:11.163077+00:00"
+      "detected_at": "2026-09-19T09:12:38.231116+00:00"
     },
     {
       "ticker": "IDXX",
       "signal": "BEARISH",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
-      "current_price": 511.65,
+      "current_price": 511.6499938964844,
       "drawdown_from_high_pct": -33.6,
       "call_pct": 34.5,
       "total_call_premium": 107541.0,
@@ -6106,14 +6106,14 @@
       "top_contracts": [],
       "has_large_premium": false,
       "max_single_premium": 0,
-      "detected_at": "2026-09-19T00:28:21.118186+00:00"
+      "detected_at": "2026-09-19T09:12:47.242875+00:00"
     },
     {
       "ticker": "WST",
       "signal": "BULLISH",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
-      "current_price": 362.31,
+      "current_price": 362.30999755859375,
       "drawdown_from_high_pct": -6.1,
       "call_pct": 98.1,
       "total_call_premium": 299868.0,
@@ -6143,14 +6143,14 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 293280.0,
-      "detected_at": "2026-09-19T00:28:36.755108+00:00"
+      "detected_at": "2026-09-19T09:13:00.990069+00:00"
     },
     {
       "ticker": "CL",
       "signal": "BULLISH",
       "flow_interpretation": "FRESH_BULLISH",
       "interpretation_reason": "Calls OTM (0% sobre precio). Apuesta nueva alcista desde nivel actual.",
-      "current_price": 87.47,
+      "current_price": 87.47000122070312,
       "drawdown_from_high_pct": -11.9,
       "call_pct": 92.1,
       "total_call_premium": 272920.0,
@@ -6180,14 +6180,14 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 227054.0,
-      "detected_at": "2026-09-19T00:28:15.581814+00:00"
+      "detected_at": "2026-09-19T09:12:42.081540+00:00"
     },
     {
       "ticker": "DPZ",
       "signal": "BEARISH",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
-      "current_price": 294.2,
+      "current_price": 294.20001220703125,
       "drawdown_from_high_pct": -33.5,
       "call_pct": 24.4,
       "total_call_premium": 70801.0,
@@ -6217,14 +6217,14 @@
       ],
       "has_large_premium": false,
       "max_single_premium": 30800.0,
-      "detected_at": "2026-09-19T00:28:17.108882+00:00"
+      "detected_at": "2026-09-19T09:12:43.647063+00:00"
     },
     {
       "ticker": "VRSN",
       "signal": "BULLISH",
       "flow_interpretation": "FRESH_BULLISH",
       "interpretation_reason": "Calls OTM (1% sobre precio). Apuesta nueva alcista desde nivel actual.",
-      "current_price": 303.12,
+      "current_price": 303.1199951171875,
       "drawdown_from_high_pct": -3.0,
       "call_pct": 98.4,
       "total_call_premium": 279189.0,
@@ -6269,14 +6269,14 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 163701.0,
-      "detected_at": "2026-09-19T00:28:36.165035+00:00"
+      "detected_at": "2026-09-19T09:13:00.486857+00:00"
     },
     {
       "ticker": "MSCI",
       "signal": "MIXED",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
-      "current_price": 552.87,
+      "current_price": 552.8699951171875,
       "drawdown_from_high_pct": -14.3,
       "call_pct": 51.7,
       "total_call_premium": 145781.0,
@@ -6321,15 +6321,15 @@
       ],
       "has_large_premium": false,
       "max_single_premium": 95000.0,
-      "detected_at": "2026-09-19T00:28:26.516001+00:00"
+      "detected_at": "2026-09-19T09:12:52.083149+00:00"
     },
     {
       "ticker": "PAYX",
       "signal": "BEARISH",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
-      "current_price": 116.14,
-      "drawdown_from_high_pct": -12.0,
+      "current_price": 116.13999938964844,
+      "drawdown_from_high_pct": -11.3,
       "call_pct": 16.6,
       "total_call_premium": 42152.0,
       "total_put_premium": 211911.0,
@@ -6358,21 +6358,21 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 175560.0,
-      "detected_at": "2026-09-19T00:28:28.810751+00:00"
+      "detected_at": "2026-09-19T09:12:53.901779+00:00"
     },
     {
       "ticker": "SYK",
       "signal": "MIXED",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
-      "current_price": 275.12,
+      "current_price": 275.1199951171875,
       "drawdown_from_high_pct": -29.9,
-      "call_pct": 51.0,
-      "total_call_premium": 123854.0,
+      "call_pct": 50.8,
+      "total_call_premium": 122525.0,
       "total_put_premium": 118791.0,
-      "total_premium": 242645.0,
-      "net_premium": 5063.0,
-      "total_call_volume": 305,
+      "total_premium": 241316.0,
+      "net_premium": 3734.0,
+      "total_call_volume": 288,
       "total_put_volume": 212,
       "avg_iv": 0.462,
       "unusual_score": 36,
@@ -6395,14 +6395,14 @@
       ],
       "has_large_premium": false,
       "max_single_premium": 95634.0,
-      "detected_at": "2026-09-19T00:28:32.268790+00:00"
+      "detected_at": "2026-09-19T09:12:57.063145+00:00"
     },
     {
       "ticker": "PGR",
       "signal": "MIXED",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
-      "current_price": 213.48,
+      "current_price": 213.47999572753906,
       "drawdown_from_high_pct": -14.0,
       "call_pct": 42.8,
       "total_call_premium": 100647.0,
@@ -6432,14 +6432,14 @@
       ],
       "has_large_premium": false,
       "max_single_premium": 27300.0,
-      "detected_at": "2026-09-19T00:28:30.536333+00:00"
+      "detected_at": "2026-09-19T09:12:55.489433+00:00"
     },
     {
       "ticker": "VRSK",
       "signal": "BULLISH",
       "flow_interpretation": "FRESH_BULLISH",
       "interpretation_reason": "Calls OTM (5% sobre precio). Apuesta nueva alcista desde nivel actual.",
-      "current_price": 175.41,
+      "current_price": 175.41000366210938,
       "drawdown_from_high_pct": -30.8,
       "call_pct": 84.6,
       "total_call_premium": 196835.0,
@@ -6469,14 +6469,14 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 185885.0,
-      "detected_at": "2026-09-19T00:28:36.156027+00:00"
+      "detected_at": "2026-09-19T09:13:00.466929+00:00"
     },
     {
       "ticker": "ITW",
       "signal": "BULLISH",
       "flow_interpretation": "FRESH_BULLISH",
       "interpretation_reason": "Calls OTM (0% sobre precio). Apuesta nueva alcista desde nivel actual.",
-      "current_price": 269.42,
+      "current_price": 269.4200134277344,
       "drawdown_from_high_pct": -11.1,
       "call_pct": 84.3,
       "total_call_premium": 184809.0,
@@ -6521,14 +6521,14 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 175350.0,
-      "detected_at": "2026-09-19T00:28:21.977073+00:00"
+      "detected_at": "2026-09-19T09:12:48.063100+00:00"
     },
     {
       "ticker": "TECK",
       "signal": "BULLISH",
       "flow_interpretation": "CALL_COVERING",
       "interpretation_reason": "Calls 24% ITM con acción +72% desde mínimos anuales. Posible recogida de beneficios en calls largas.",
-      "current_price": 65.52,
+      "current_price": 65.5199966430664,
       "drawdown_from_high_pct": -9.7,
       "call_pct": 79.8,
       "total_call_premium": 156649.0,
@@ -6558,14 +6558,14 @@
       ],
       "has_large_premium": false,
       "max_single_premium": 79900.0,
-      "detected_at": "2026-09-19T00:28:33.547039+00:00"
+      "detected_at": "2026-09-19T09:12:58.118983+00:00"
     },
     {
       "ticker": "TT",
       "signal": "MIXED",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
-      "current_price": 429.11,
+      "current_price": 429.1099853515625,
       "drawdown_from_high_pct": -15.2,
       "call_pct": 54.3,
       "total_call_premium": 93049.0,
@@ -6579,14 +6579,14 @@
       "top_contracts": [],
       "has_large_premium": false,
       "max_single_premium": 0,
-      "detected_at": "2026-09-19T00:28:33.989480+00:00"
+      "detected_at": "2026-09-19T09:12:58.453810+00:00"
     },
     {
       "ticker": "BN",
       "signal": "BEARISH",
       "flow_interpretation": "PUT_COVERING",
       "interpretation_reason": "Puts 23% ITM con acción ya -24% desde máximos. Probable recogida de beneficios, no apuesta bajista nueva. Posible zona de suelo.",
-      "current_price": 37.51,
+      "current_price": 37.5099983215332,
       "drawdown_from_high_pct": -24.3,
       "call_pct": 25.4,
       "total_call_premium": 42358.0,
@@ -6631,22 +6631,22 @@
       ],
       "has_large_premium": false,
       "max_single_premium": 79000.0,
-      "detected_at": "2026-09-19T00:28:12.327518+00:00"
+      "detected_at": "2026-09-19T09:12:39.185934+00:00"
     },
     {
       "ticker": "XLF",
       "signal": "MIXED",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
-      "current_price": 55.86,
+      "current_price": 55.86000061035156,
       "drawdown_from_high_pct": -4.7,
       "call_pct": 50.0,
       "total_call_premium": 79280.0,
-      "total_put_premium": 79237.0,
-      "total_premium": 158517.0,
-      "net_premium": 43.0,
+      "total_put_premium": 79239.0,
+      "total_premium": 158519.0,
+      "net_premium": 41.0,
       "total_call_volume": 5670,
-      "total_put_volume": 2883,
+      "total_put_volume": 2882,
       "avg_iv": 0.632,
       "unusual_score": 15,
       "top_contracts": [
@@ -6698,15 +6698,15 @@
       ],
       "has_large_premium": false,
       "max_single_premium": 44726.0,
-      "detected_at": "2026-09-19T00:28:38.285438+00:00"
+      "detected_at": "2026-09-19T09:13:02.281257+00:00"
     },
     {
       "ticker": "EFX",
       "signal": "MIXED",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
-      "current_price": 158.87,
-      "drawdown_from_high_pct": -39.4,
+      "current_price": 158.8699951171875,
+      "drawdown_from_high_pct": -38.5,
       "call_pct": 47.3,
       "total_call_premium": 73411.0,
       "total_put_premium": 81873.0,
@@ -6719,14 +6719,14 @@
       "top_contracts": [],
       "has_large_premium": false,
       "max_single_premium": 0,
-      "detected_at": "2026-09-19T00:28:18.087179+00:00"
+      "detected_at": "2026-09-19T09:12:44.304789+00:00"
     },
     {
       "ticker": "NDAQ",
       "signal": "MIXED",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
-      "current_price": 93.54,
+      "current_price": 93.54000091552734,
       "drawdown_from_high_pct": -8.1,
       "call_pct": 56.7,
       "total_call_premium": 86326.0,
@@ -6740,14 +6740,14 @@
       "top_contracts": [],
       "has_large_premium": false,
       "max_single_premium": 0,
-      "detected_at": "2026-09-19T00:28:28.216820+00:00"
+      "detected_at": "2026-09-19T09:12:53.578882+00:00"
     },
     {
       "ticker": "KVUE",
       "signal": "BULLISH",
       "flow_interpretation": "FRESH_BULLISH",
       "interpretation_reason": "Calls OTM (1% sobre precio). Apuesta nueva alcista desde nivel actual.",
-      "current_price": 17.81,
+      "current_price": 17.809999465942383,
       "drawdown_from_high_pct": -11.5,
       "call_pct": 86.1,
       "total_call_premium": 121257.0,
@@ -6777,14 +6777,14 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 119232.0,
-      "detected_at": "2026-09-19T00:28:24.536350+00:00"
+      "detected_at": "2026-09-19T09:12:50.108891+00:00"
     },
     {
       "ticker": "TW",
       "signal": "BEARISH",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
-      "current_price": 103.97,
+      "current_price": 103.97000122070312,
       "drawdown_from_high_pct": -18.6,
       "call_pct": 27.2,
       "total_call_premium": 37521.0,
@@ -6793,7 +6793,7 @@
       "net_premium": -62651.0,
       "total_call_volume": 43,
       "total_put_volume": 118,
-      "avg_iv": 0.582,
+      "avg_iv": 0.584,
       "unusual_score": 31,
       "top_contracts": [
         {
@@ -6814,15 +6814,15 @@
       ],
       "has_large_premium": false,
       "max_single_premium": 80190.0,
-      "detected_at": "2026-09-19T00:28:34.164171+00:00"
+      "detected_at": "2026-09-19T09:12:58.607681+00:00"
     },
     {
       "ticker": "VLTO",
       "signal": "BULLISH",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
-      "current_price": 94.49,
-      "drawdown_from_high_pct": -12.5,
+      "current_price": 94.48999786376953,
+      "drawdown_from_high_pct": -12.4,
       "call_pct": 98.9,
       "total_call_premium": 136176.0,
       "total_put_premium": 1515.0,
@@ -6851,14 +6851,14 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 102960.0,
-      "detected_at": "2026-09-19T00:28:35.539094+00:00"
+      "detected_at": "2026-09-19T09:13:00.001159+00:00"
     },
     {
       "ticker": "CP",
       "signal": "BULLISH",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
-      "current_price": 87.48,
+      "current_price": 87.4800033569336,
       "drawdown_from_high_pct": -9.7,
       "call_pct": 89.9,
       "total_call_premium": 104969.0,
@@ -6888,14 +6888,14 @@
       ],
       "has_large_premium": false,
       "max_single_premium": 88480.0,
-      "detected_at": "2026-09-19T00:28:15.778985+00:00"
+      "detected_at": "2026-09-19T09:12:42.453149+00:00"
     },
     {
       "ticker": "RSG",
       "signal": "BULLISH",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
-      "current_price": 218.07,
+      "current_price": 218.07000732421875,
       "drawdown_from_high_pct": -6.6,
       "call_pct": 69.1,
       "total_call_premium": 78476.0,
@@ -6909,14 +6909,14 @@
       "top_contracts": [],
       "has_large_premium": false,
       "max_single_premium": 0,
-      "detected_at": "2026-09-19T00:28:31.225474+00:00"
+      "detected_at": "2026-09-19T09:12:56.311055+00:00"
     },
     {
       "ticker": "FCNCA",
       "signal": "BEARISH",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
-      "current_price": 2111.89,
+      "current_price": 2111.889892578125,
       "drawdown_from_high_pct": -8.0,
       "call_pct": 12.1,
       "total_call_premium": 13675.0,
@@ -6930,15 +6930,15 @@
       "top_contracts": [],
       "has_large_premium": false,
       "max_single_premium": 0,
-      "detected_at": "2026-09-19T00:28:18.530322+00:00"
+      "detected_at": "2026-09-19T09:12:44.833385+00:00"
     },
     {
       "ticker": "CPRT",
       "signal": "BEARISH",
       "flow_interpretation": "PUT_COVERING",
-      "interpretation_reason": "Puts 11% ITM con acción ya -37% desde máximos. Probable recogida de beneficios, no apuesta bajista nueva. Posible zona de suelo.",
-      "current_price": 29.28,
-      "drawdown_from_high_pct": -36.6,
+      "interpretation_reason": "Puts 11% ITM con acción ya -36% desde máximos. Probable recogida de beneficios, no apuesta bajista nueva. Posible zona de suelo.",
+      "current_price": 29.280000686645508,
+      "drawdown_from_high_pct": -36.3,
       "call_pct": 19.6,
       "total_call_premium": 20239.0,
       "total_put_premium": 83249.0,
@@ -6982,14 +6982,14 @@
       ],
       "has_large_premium": false,
       "max_single_premium": 33264.0,
-      "detected_at": "2026-09-19T00:28:15.939039+00:00"
+      "detected_at": "2026-09-19T09:12:42.485845+00:00"
     },
     {
       "ticker": "CRH",
       "signal": "MIXED",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
-      "current_price": 86.15,
+      "current_price": 86.1500015258789,
       "drawdown_from_high_pct": -34.5,
       "call_pct": 40.1,
       "total_call_premium": 37322.0,
@@ -7003,7 +7003,7 @@
       "top_contracts": [],
       "has_large_premium": false,
       "max_single_premium": 0,
-      "detected_at": "2026-09-19T00:28:17.495237+00:00"
+      "detected_at": "2026-09-19T09:12:43.687779+00:00"
     },
     {
       "ticker": "TYL",
@@ -7024,14 +7024,14 @@
       "top_contracts": [],
       "has_large_premium": false,
       "max_single_premium": 0,
-      "detected_at": "2026-09-19T00:28:34.520029+00:00"
+      "detected_at": "2026-09-19T09:12:58.969840+00:00"
     },
     {
       "ticker": "YUM",
       "signal": "BEARISH",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
-      "current_price": 137.99,
+      "current_price": 137.99000549316406,
       "drawdown_from_high_pct": -18.9,
       "call_pct": 28.8,
       "total_call_premium": 25724.0,
@@ -7045,14 +7045,14 @@
       "top_contracts": [],
       "has_large_premium": false,
       "max_single_premium": 0,
-      "detected_at": "2026-09-19T00:28:37.162418+00:00"
+      "detected_at": "2026-09-19T09:13:01.342124+00:00"
     },
     {
       "ticker": "ROL",
       "signal": "BULLISH",
       "flow_interpretation": "FRESH_BULLISH",
       "interpretation_reason": "Calls OTM (8% sobre precio). Apuesta nueva alcista desde nivel actual.",
-      "current_price": 32.43,
+      "current_price": 32.43000030517578,
       "drawdown_from_high_pct": -51.0,
       "call_pct": 69.0,
       "total_call_premium": 60860.0,
@@ -7082,14 +7082,14 @@
       ],
       "has_large_premium": false,
       "max_single_premium": 54025.0,
-      "detected_at": "2026-09-19T00:28:30.853450+00:00"
+      "detected_at": "2026-09-19T09:12:55.904619+00:00"
     },
     {
       "ticker": "ORLY",
       "signal": "BEARISH",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
-      "current_price": 84.71,
+      "current_price": 84.70999908447266,
       "drawdown_from_high_pct": -22.1,
       "call_pct": 27.0,
       "total_call_premium": 21494.0,
@@ -7119,14 +7119,14 @@
       ],
       "has_large_premium": false,
       "max_single_premium": 25654.0,
-      "detected_at": "2026-09-19T00:28:28.231049+00:00"
+      "detected_at": "2026-09-19T09:12:53.376727+00:00"
     },
     {
       "ticker": "IT",
       "signal": "BEARISH",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
-      "current_price": 185.78,
+      "current_price": 185.77999877929688,
       "drawdown_from_high_pct": -30.1,
       "call_pct": 26.5,
       "total_call_premium": 19624.0,
@@ -7140,14 +7140,14 @@
       "top_contracts": [],
       "has_large_premium": false,
       "max_single_premium": 0,
-      "detected_at": "2026-09-19T00:28:21.669627+00:00"
+      "detected_at": "2026-09-19T09:12:47.708092+00:00"
     },
     {
       "ticker": "OTIS",
       "signal": "BEARISH",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
-      "current_price": 68.52,
+      "current_price": 68.5199966430664,
       "drawdown_from_high_pct": -27.5,
       "call_pct": 25.9,
       "total_call_premium": 18389.0,
@@ -7177,14 +7177,14 @@
       ],
       "has_large_premium": false,
       "max_single_premium": 30160.0,
-      "detected_at": "2026-09-19T00:28:28.387816+00:00"
+      "detected_at": "2026-09-19T09:12:53.565074+00:00"
     },
     {
       "ticker": "PSA",
       "signal": "BEARISH",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
-      "current_price": 296.31,
+      "current_price": 296.30999755859375,
       "drawdown_from_high_pct": -11.7,
       "call_pct": 32.1,
       "total_call_premium": 22433.0,
@@ -7198,14 +7198,14 @@
       "top_contracts": [],
       "has_large_premium": false,
       "max_single_premium": 0,
-      "detected_at": "2026-09-19T00:28:30.045244+00:00"
+      "detected_at": "2026-09-19T09:12:54.909587+00:00"
     },
     {
       "ticker": "FERG",
       "signal": "BEARISH",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
-      "current_price": 214.43,
+      "current_price": 214.42999267578125,
       "drawdown_from_high_pct": -21.1,
       "call_pct": 12.5,
       "total_call_premium": 7589.0,
@@ -7219,14 +7219,14 @@
       "top_contracts": [],
       "has_large_premium": false,
       "max_single_premium": 0,
-      "detected_at": "2026-09-19T00:28:18.801694+00:00"
+      "detected_at": "2026-09-19T09:12:45.116622+00:00"
     },
     {
       "ticker": "MRSH",
       "signal": "MIXED",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
-      "current_price": 175.01,
+      "current_price": 175.00999450683594,
       "drawdown_from_high_pct": -15.8,
       "call_pct": 55.4,
       "total_call_premium": 29019.0,
@@ -7240,14 +7240,14 @@
       "top_contracts": [],
       "has_large_premium": false,
       "max_single_premium": 0,
-      "detected_at": "2026-09-19T00:28:26.526805+00:00"
+      "detected_at": "2026-09-19T09:12:52.001265+00:00"
     },
     {
       "ticker": "AME",
       "signal": "MIXED",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
-      "current_price": 237.64,
+      "current_price": 237.63999938964844,
       "drawdown_from_high_pct": -9.0,
       "call_pct": 36.0,
       "total_call_premium": 18597.0,
@@ -7261,14 +7261,14 @@
       "top_contracts": [],
       "has_large_premium": false,
       "max_single_premium": 0,
-      "detected_at": "2026-09-19T00:28:09.893637+00:00"
+      "detected_at": "2026-09-19T09:12:37.019580+00:00"
     },
     {
       "ticker": "HEI",
       "signal": "BEARISH",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
-      "current_price": 298.22,
+      "current_price": 298.2200012207031,
       "drawdown_from_high_pct": -20.9,
       "call_pct": 11.7,
       "total_call_premium": 5547.0,
@@ -7282,14 +7282,14 @@
       "top_contracts": [],
       "has_large_premium": false,
       "max_single_premium": 0,
-      "detected_at": "2026-09-19T00:28:20.162765+00:00"
+      "detected_at": "2026-09-19T09:12:46.436624+00:00"
     },
     {
       "ticker": "KD",
       "signal": "MIXED",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
-      "current_price": 12.07,
+      "current_price": 12.069999694824219,
       "drawdown_from_high_pct": -62.4,
       "call_pct": 38.1,
       "total_call_premium": 15879.0,
@@ -7303,14 +7303,14 @@
       "top_contracts": [],
       "has_large_premium": false,
       "max_single_premium": 0,
-      "detected_at": "2026-09-19T00:28:22.844250+00:00"
+      "detected_at": "2026-09-19T09:12:48.559492+00:00"
     },
     {
       "ticker": "AWK",
       "signal": "MIXED",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
-      "current_price": 135.9,
+      "current_price": 135.89999389648438,
       "drawdown_from_high_pct": -6.7,
       "call_pct": 59.7,
       "total_call_premium": 21890.0,
@@ -7324,14 +7324,14 @@
       "top_contracts": [],
       "has_large_premium": false,
       "max_single_premium": 0,
-      "detected_at": "2026-09-19T00:28:11.283011+00:00"
+      "detected_at": "2026-09-19T09:12:38.215562+00:00"
     },
     {
       "ticker": "QSR",
       "signal": "BULLISH",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
-      "current_price": 72.88,
+      "current_price": 72.87999725341797,
       "drawdown_from_high_pct": -11.1,
       "call_pct": 72.4,
       "total_call_premium": 21600.0,
@@ -7345,14 +7345,14 @@
       "top_contracts": [],
       "has_large_premium": false,
       "max_single_premium": 0,
-      "detected_at": "2026-09-19T00:28:30.291099+00:00"
+      "detected_at": "2026-09-19T09:12:55.395412+00:00"
     },
     {
       "ticker": "HRI",
       "signal": "MIXED",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
-      "current_price": 135.26,
+      "current_price": 135.25999450683594,
       "drawdown_from_high_pct": -28.2,
       "call_pct": 57.5,
       "total_call_premium": 14860.0,
@@ -7366,14 +7366,14 @@
       "top_contracts": [],
       "has_large_premium": false,
       "max_single_premium": 0,
-      "detected_at": "2026-09-19T00:28:20.836748+00:00"
+      "detected_at": "2026-09-19T09:12:46.920604+00:00"
     },
     {
       "ticker": "DSGX",
       "signal": "MIXED",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
-      "current_price": 77.3,
+      "current_price": 77.30000305175781,
       "drawdown_from_high_pct": -26.0,
       "call_pct": 45.2,
       "total_call_premium": 9099.0,
@@ -7387,14 +7387,14 @@
       "top_contracts": [],
       "has_large_premium": false,
       "max_single_premium": 0,
-      "detected_at": "2026-09-19T00:28:17.209823+00:00"
+      "detected_at": "2026-09-19T09:12:43.662133+00:00"
     },
     {
       "ticker": "RELX",
       "signal": "BULLISH",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
-      "current_price": 33.41,
+      "current_price": 33.40999984741211,
       "drawdown_from_high_pct": -30.4,
       "call_pct": 79.9,
       "total_call_premium": 10471.0,
@@ -7408,14 +7408,14 @@
       "top_contracts": [],
       "has_large_premium": false,
       "max_single_premium": 0,
-      "detected_at": "2026-09-19T00:28:30.648534+00:00"
+      "detected_at": "2026-09-19T09:12:55.691026+00:00"
     },
     {
       "ticker": "WCN",
       "signal": "BEARISH",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
-      "current_price": 155.33,
+      "current_price": 155.3300018310547,
       "drawdown_from_high_pct": -13.6,
       "call_pct": 29.4,
       "total_call_premium": 3376.0,
@@ -7429,14 +7429,14 @@
       "top_contracts": [],
       "has_large_premium": false,
       "max_single_premium": 0,
-      "detected_at": "2026-09-19T00:28:36.412971+00:00"
+      "detected_at": "2026-09-19T09:13:00.665472+00:00"
     },
     {
       "ticker": "JKHY",
       "signal": "BULLISH",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
-      "current_price": 154.85,
+      "current_price": 154.85000610351562,
       "drawdown_from_high_pct": -19.9,
       "call_pct": 70.7,
       "total_call_premium": 7082.0,
@@ -7450,15 +7450,15 @@
       "top_contracts": [],
       "has_large_premium": false,
       "max_single_premium": 0,
-      "detected_at": "2026-09-19T00:28:22.439701+00:00"
+      "detected_at": "2026-09-19T09:12:48.506051+00:00"
     },
     {
       "ticker": "GPK",
       "signal": "BEARISH",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
-      "current_price": 9.31,
-      "drawdown_from_high_pct": -53.5,
+      "current_price": 9.3100004196167,
+      "drawdown_from_high_pct": -53.0,
       "call_pct": 16.0,
       "total_call_premium": 840.0,
       "total_put_premium": 4395.0,
@@ -7471,14 +7471,14 @@
       "top_contracts": [],
       "has_large_premium": false,
       "max_single_premium": 0,
-      "detected_at": "2026-09-19T00:28:19.577252+00:00"
+      "detected_at": "2026-09-19T09:12:45.841065+00:00"
     },
     {
       "ticker": "FHN",
       "signal": "BEARISH",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
-      "current_price": 23.94,
+      "current_price": 23.940000534057617,
       "drawdown_from_high_pct": -9.9,
       "call_pct": 16.4,
       "total_call_premium": 791.0,
@@ -7492,14 +7492,14 @@
       "top_contracts": [],
       "has_large_premium": false,
       "max_single_premium": 0,
-      "detected_at": "2026-09-19T00:28:18.821852+00:00"
+      "detected_at": "2026-09-19T09:12:45.140110+00:00"
     },
     {
       "ticker": "LPX",
       "signal": "BEARISH",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
-      "current_price": 65.32,
+      "current_price": 65.31999969482422,
       "drawdown_from_high_pct": -34.9,
       "call_pct": 25.6,
       "total_call_premium": 834.0,
@@ -7513,14 +7513,14 @@
       "top_contracts": [],
       "has_large_premium": false,
       "max_single_premium": 0,
-      "detected_at": "2026-09-19T00:28:24.852424+00:00"
+      "detected_at": "2026-09-19T09:12:50.663522+00:00"
     },
     {
       "ticker": "GGG",
       "signal": "BEARISH",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
-      "current_price": 76.26,
+      "current_price": 76.26000213623047,
       "drawdown_from_high_pct": -20.3,
       "call_pct": 15.3,
       "total_call_premium": 464.0,
@@ -7534,7 +7534,7 @@
       "top_contracts": [],
       "has_large_premium": false,
       "max_single_premium": 0,
-      "detected_at": "2026-09-19T00:28:19.235468+00:00"
+      "detected_at": "2026-09-19T09:12:45.337832+00:00"
     }
   ]
 }
