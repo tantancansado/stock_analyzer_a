@@ -31,8 +31,41 @@ DOCS = Path('docs')
 # conocido —AI.PA resolviendo a C3.ai, BRK-B a un ETF apalancado— y sus
 # incoherencias no son contradicciones de la app: son datos viejos esperando
 # a que TIKR vuelva a correr, cosa que hace los domingos.
-from datetime import date as _date_tipo
-RESOLVEDOR_TIKR_ARREGLADO = _date_tipo(2026, 9, 17)
+from datetime import datetime as _dt_tipo, timezone as _tz
+# Con fecha Y HORA: la primera versión comparaba solo el día y no distinguía
+# un artefacto generado a las 00:18 de un arreglo commiteado a las 10:01 del
+# mismo día — que es exactamente el caso de los commodities.
+RESOLVEDOR_TIKR_ARREGLADO = _dt_tipo(2026, 9, 17, 11, 51, tzinfo=_tz.utc)
+
+# Commit d671709bf, 19-sep-2026 10:01. Hasta entonces las tres categorías del
+# clasificador de commodities describían todas un precio BAJO y no había
+# ninguna para un precio alto, así que un commodity CARO acababa en
+# OPORTUNIDAD_ESTRUCTURAL por no tener dónde caer. Los veredictos anteriores
+# a esa fecha arrastran el sesgo y no describen una contradicción de la app.
+CATEGORIA_COMMODITY_CARO = _dt_tipo(2026, 9, 19, 8, 1, tzinfo=_tz.utc)  # 10:01 CEST
+
+
+def _artefacto_anterior_al_arreglo(generated_at, arreglado_el) -> bool:
+    """¿El dato se produjo con el código de antes del arreglo?
+
+    Es el patrón que ya hacía falta dos veces —TIKR y commodities— y va a
+    hacer falta más: el pipeline publica artefactos de cadencias distintas
+    (TIKR los domingos, commodities a diario) y un arreglo de mediodía deja
+    todos los anteriores contradiciendo a un código que ya no existe.
+
+    La fecha del dato sale de su propio `generated_at`, NO de `git log`: en CI
+    el checkout es superficial y el historial de un fichero viene vacío. Ante
+    la duda devuelve False — el gate aprieta.
+    """
+    if not generated_at:
+        return False
+    try:
+        d = _dt_tipo.fromisoformat(str(generated_at).replace('Z', '+00:00'))
+        if d.tzinfo is None:
+            d = d.replace(tzinfo=_tz.utc)
+    except Exception:
+        return False
+    return d < arreglado_el
 
 
 def _rows(nombre: str) -> list[dict]:
@@ -220,11 +253,24 @@ def leaps_precio_vs_value(value: list[dict], value_eu: list[dict], leaps: list[d
 def commodity_rating_vs_narrativa(commodities: list[dict]) -> list[str]:
     """value_rating (determinista) contra ai_narrative_veredicto (Claude+búsqueda).
 
-    Un commodity CARO no debería salir con veredicto OPORTUNIDAD_ESTRUCTURAL,
-    ni uno MUY_ATRACTIVO/ATRACTIVO con TRAMPA_DE_VALOR — mismo modelo de
-    contradicción que ya cazaba `entry_verdicts_vs_valoracion`, aplicado a
-    `enrich_commodity_narrative.py`.
+    Solo cuenta como contradicción cuando los dos hablan DEL PRECIO y
+    discrepan: un commodity CARO con veredicto OPORTUNIDAD_ESTRUCTURAL (esa
+    categoría se define sobre un precio bajo), o uno barato con
+    PRECIO_EXIGENTE.
+
+    Lo que NO es contradicción, aunque lo parezca: barato + TRAMPA_DE_VALOR.
+    La trampa de valor se define como «EL PRECIO BAJO refleja un cambio
+    estructural que no se va a revertir» — parece barata por definición, si no
+    no engañaría a nadie. Ahí los dos coinciden en el precio y la IA añade el
+    porqué, que es justo lo que se le pide.
     """
+    # Mismo indulto que en TIKR, por el mismo motivo: los veredictos de antes
+    # de que existiera PRECIO_EXIGENTE no contradicen a la app de hoy, solo
+    # son de ayer. Se marcan ⏳ y dejan de contar como incoherencia.
+    viejo = _artefacto_anterior_al_arreglo(
+        (commodities[0].get('generated_at') if commodities else None),
+        CATEGORIA_COMMODITY_CARO)
+
     problemas = []
     for r in commodities:
         ticker = r.get('ticker') or r.get('sector') or '?'
@@ -233,9 +279,23 @@ def commodity_rating_vs_narrativa(commodities: list[dict]) -> list[str]:
         if not veredicto or veredicto == 'SIN_DATOS':
             continue
         if rating == 'CARO' and veredicto == 'OPORTUNIDAD_ESTRUCTURAL':
-            problemas.append(f'{ticker}: value_rating=CARO pero ai_narrative_veredicto=OPORTUNIDAD_ESTRUCTURAL')
-        elif rating in ('MUY_ATRACTIVO', 'ATRACTIVO') and veredicto == 'TRAMPA_DE_VALOR':
-            problemas.append(f'{ticker}: value_rating={rating} pero ai_narrative_veredicto=TRAMPA_DE_VALOR')
+            aviso = (f'{ticker}: value_rating=CARO pero '
+                     f'ai_narrative_veredicto=OPORTUNIDAD_ESTRUCTURAL')
+            problemas.append(
+                f'⏳ {aviso} — clasificado antes de que existiera '
+                f'PRECIO_EXIGENTE; se corrige al reenriquecer' if viejo else aviso)
+        # «barato + TRAMPA_DE_VALOR» NO es una contradicción, y contarlo como
+        # tal era un error de concepto que además tumbaba el pipeline. La
+        # categoría se define en el system como «EL PRECIO BAJO refleja un
+        # cambio estructural que no se va a revertir»: una trampa de valor
+        # parece barata por definición, si no, no engañaría a nadie.
+        #
+        # Los dos están diciendo lo mismo desde ángulos distintos —el
+        # cuantitativo ve el precio bajo, la IA ve por qué— y eso es
+        # justamente lo que se le pide a la IA: avisar de lo que el múltiplo
+        # no puede saber. PALL el 19-sep-2026: ATRACTIVO por precio y trampa
+        # por la caída estructural de demanda de paladio con la
+        # electrificación. El control lo marcaba en rojo.
         # El simétrico del primero. PRECIO_EXIGENTE se añadió el 19-sep-2026
         # porque las tres categorías de entonces describían todas un precio
         # BAJO —«el precio bajo responde a…», «está barato dentro de…»— y un
@@ -397,10 +457,9 @@ def identidad_de_los_tickers() -> list[str]:
     tikr_desfasado = False
     if ruta_tikr.exists():
         try:
-            from datetime import date as _date, datetime as _dt
             crudo = _json.loads(ruta_tikr.read_text()).get('generated_at')
-            volcado = _dt.fromisoformat(str(crudo).replace('Z', '+00:00')).date()
-            tikr_desfasado = volcado < RESOLVEDOR_TIKR_ARREGLADO
+            tikr_desfasado = _artefacto_anterior_al_arreglo(
+                crudo, RESOLVEDOR_TIKR_ARREGLADO)
         except Exception:
             tikr_desfasado = False
 

@@ -75,6 +75,18 @@ class TestElControlDeCoherencia:
             [{'ticker': 'WEAT', 'value_rating': 'CARO',
               'ai_narrative_veredicto': 'PRECIO_EXIGENTE'}]) == []
 
+    def test_barato_con_trampa_de_valor_NO_es_contradiccion(self):
+        """Una trampa de valor parece barata por definición: «el precio bajo
+        refleja un cambio estructural que no se va a revertir». El control lo
+        contaba como error y tumbaba el pipeline — PALL el 19-sep-2026,
+        ATRACTIVO por precio y trampa por la caída estructural de demanda de
+        paladio con la electrificación. Los dos dicen lo mismo desde ángulos
+        distintos, y el de la IA es el que aporta."""
+        import coherence_check as cc
+        assert cc.commodity_rating_vs_narrativa(
+            [{'ticker': 'PALL', 'value_rating': 'ATRACTIVO',
+              'ai_narrative_veredicto': 'TRAMPA_DE_VALOR'}]) == []
+
     def test_barato_con_precio_exigente_es_el_error_simetrico(self):
         import coherence_check as cc
         p = cc.commodity_rating_vs_narrativa(

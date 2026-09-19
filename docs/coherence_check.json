@@ -1,5 +1,5 @@
 {
-  "total_problemas": 1,
+  "total_problemas": 0,
   "desfases_conocidos": [
     "⏳ AI.PA: tikr lo da en USD y PA cotiza en EUR — no es esa acción — el resolvedor se arregló después de este volcado; TIKR corre los domingos",
     "⏳ AI.PA: european_value_opp dice «L'Air Liquide S.A.» y tikr dice «C3.ai, Inc.» — no es la misma empresa — el resolvedor se arregló después de este volcado; TIKR corre los domingos",
@@ -14,11 +14,7 @@
     "⏳ ⚠️  value_opportunities_filtered.csv: upside DCF = (objetivo − precio) / precio — 2/40 filas, peor desvío 2% (YUM, VRSK)",
     "⏳ ⚠️  value_opportunities_filtered.csv: upside P/E = (objetivo − precio) / precio — 2/40 filas, peor desvío 3% (ECL, CB)"
   ],
-  "detalle": {
-    "commodities: rating contra narrativa IA": [
-      "PALL: value_rating=ATRACTIVO pero ai_narrative_veredicto=TRAMPA_DE_VALOR"
-    ]
-  },
+  "detalle": {},
   "tickers_value": 62,
   "tickers_verdicts": 81
 }

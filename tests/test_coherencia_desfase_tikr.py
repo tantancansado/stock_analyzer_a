@@ -91,3 +91,43 @@ def test_sin_fecha_legible_no_se_indulta_nada():
     assert 'tikr_desfasado = False' in FUENTE
     i = FUENTE.index('except Exception:', FUENTE.index('tikr_desfasado = False'))
     assert 'tikr_desfasado = False' in FUENTE[i:i + 120]
+
+
+class TestElHelperDeDesfase:
+    """La comparación necesita la HORA, no solo el día.
+
+    La primera versión comparaba fechas, y con TIKR colaba porque el volcado
+    era del 13 y el arreglo del 17. Con los commodities no: el CSV se generó
+    a las 00:18 y la categoría PRECIO_EXIGENTE se commiteó a las 10:01 del
+    MISMO día, así que `d < arreglado` daba False y el indulto no se aplicaba
+    — el pipeline seguía cayéndose.
+    """
+
+    def test_el_mismo_dia_pero_antes_cuenta_como_desfasado(self):
+        import coherence_check as cc
+        assert cc._artefacto_anterior_al_arreglo(
+            '2026-09-19T00:18:02+00:00', cc.CATEGORIA_COMMODITY_CARO) is True
+
+    def test_despues_del_arreglo_no_se_indulta(self):
+        import coherence_check as cc
+        assert cc._artefacto_anterior_al_arreglo(
+            '2026-09-19T23:00:00+00:00', cc.CATEGORIA_COMMODITY_CARO) is False
+
+    def test_sin_fecha_no_se_indulta(self):
+        """Ante la duda, el gate aprieta."""
+        import coherence_check as cc
+        assert cc._artefacto_anterior_al_arreglo(None, cc.CATEGORIA_COMMODITY_CARO) is False
+        assert cc._artefacto_anterior_al_arreglo('vete a saber',
+                                                 cc.CATEGORIA_COMMODITY_CARO) is False
+
+    def test_una_fecha_sin_zona_se_toma_como_utc(self):
+        import coherence_check as cc
+        assert cc._artefacto_anterior_al_arreglo(
+            '2026-09-19T00:18:02', cc.CATEGORIA_COMMODITY_CARO) is True
+
+    def test_las_dos_constantes_llevan_hora(self):
+        """Un `date` a secas vuelve a perder el caso del mismo día."""
+        import coherence_check as cc
+        for c in (cc.RESOLVEDOR_TIKR_ARREGLADO, cc.CATEGORIA_COMMODITY_CARO):
+            assert hasattr(c, 'hour'), 'tiene que ser datetime, no date'
+            assert c.tzinfo is not None, 'sin zona, la comparación es ambigua'

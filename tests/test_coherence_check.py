@@ -125,9 +125,29 @@ class TestCommodityRatingContraNarrativa:
         problemas = commodity_rating_vs_narrativa(commodities)
         assert len(problemas) == 1 and 'UNG' in problemas[0]
 
-    def test_atractivo_con_trampa_de_valor_es_contradiccion(self):
-        commodities = [{'ticker': 'GLD', 'value_rating': 'MUY_ATRACTIVO',
+    def test_atractivo_con_trampa_de_valor_NO_es_contradiccion(self):
+        """Escrito al revés por simetría con el caso de arriba, sin mirar la
+        definición de la categoría.
+
+        El system la define como «EL PRECIO BAJO refleja un cambio estructural
+        de demanda u oferta que no se va a revertir». Una trampa de valor
+        parece barata por definición — si no, no engañaría a nadie. Así que el
+        rating y la IA no se contradicen: coinciden en que el precio es bajo y
+        la IA añade POR QUÉ, que es exactamente lo que se le pide y lo que el
+        múltiplo no puede saber.
+
+        Costó un pipeline entero: el 19-sep-2026 PALL salió ATRACTIVO por
+        precio y TRAMPA_DE_VALOR por la caída estructural de demanda de
+        paladio con la electrificación, y este control lo puso en rojo.
+        """
+        commodities = [{'ticker': 'PALL', 'value_rating': 'MUY_ATRACTIVO',
                         'ai_narrative_veredicto': 'TRAMPA_DE_VALOR'}]
+        assert commodity_rating_vs_narrativa(commodities) == []
+
+    def test_barato_con_precio_exigente_sigue_siendo_contradiccion(self):
+        """El que SÍ lo es: los dos hablan del precio y dicen lo contrario."""
+        commodities = [{'ticker': 'GLD', 'value_rating': 'MUY_ATRACTIVO',
+                        'ai_narrative_veredicto': 'PRECIO_EXIGENTE'}]
         problemas = commodity_rating_vs_narrativa(commodities)
         assert len(problemas) == 1 and 'GLD' in problemas[0]
 
