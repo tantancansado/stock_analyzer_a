@@ -42,7 +42,12 @@ UNIVERSE = [
     # ── US Treasury medio/largo ───────────────────────────────────────────────
     ("IEF",     "iShares 7-10yr Treasury",        "Treasury",   8.5,  "USD"),
     ("TLT",     "iShares 20+yr Treasury",         "Treasury",  17.0,  "USD"),
-    ("TIPS",    "iShares TIPS Bond",              "TIPS",       7.5,  "USD"),
+    # "TIP", no "TIPS". El ETF de iShares es TIP; el símbolo TIPS es Tianrong
+    # Internet Products and Services, una acción china que cotiza a 0,0001 $.
+    # El escáner llevaba analizándola como si fuera deuda del Tesoro ligada a
+    # la inflación y publicando un veredicto: «Precio justo — mantener si ya
+    # en cartera», sobre un precio de 0,0001 y un yield de -98,67%.
+    ("TIP",     "iShares TIPS Bond",              "TIPS",       7.5,  "USD"),
     ("STIP",    "iShares 0-5yr TIPS Bond",        "TIPS",       2.5,  "USD"),
     # ── US Aggregate / IG Corp ────────────────────────────────────────────────
     ("AGG",     "iShares Core US Aggregate",      "Aggregate",  6.2,  "USD"),
@@ -70,6 +75,13 @@ UNIVERSE = [
 ]
 
 # Historical average yields for VALUE comparison (approximate long-term averages)
+# Un ETF de bonos por debajo de esto no es un ETF de bonos: el símbolo
+# resuelve a otra cosa. El más barato del universo real cotiza a 9,56.
+MIN_PRECIO_ETF = 1.0
+# Ni un fondo de deuda largo se deja esto en doce meses. TLT, en el peor año
+# de bonos de la historia reciente, cayó un 31%.
+CAIDA_IMPOSIBLE_PCT = -60.0
+
 HIST_AVG_YIELD = {
     "BIL":     3.8,
     "SHV":     3.8,
@@ -211,19 +223,34 @@ def _fetch_bond_data(ticker: str, duration_hint: float, currency: str) -> dict |
         # Modified duration ≈ duration (approximate for ETFs)
         modified_duration = duration_years
 
-        # 30-day SEC yield if available (more accurate)
+        # El SEC yield a 30 días sería más preciso que el de distribución,
+        # pero yfinance NO lo da: `secYield` no existe en su `info` y devuelve
+        # None siempre. La rama que lo prefería llevaba muerta desde que se
+        # escribió, y la columna `sec_yield_pct` salía vacía en las 25 filas
+        # sin que nada lo dijera — el frontend pinta «—» y parece que ese
+        # bono no lo publica.
+        #
+        # Se deja el campo, porque el día que la fuente lo dé vuelve a
+        # funcionar solo, pero sin fingir que se intenta.
         sec_yield = _safe(info.get("secYield"))
-        if sec_yield is not None and sec_yield < 0.20:
-            sec_yield = round(sec_yield * 100, 2)
-        elif sec_yield is not None:
-            sec_yield = round(sec_yield, 2)
+        if sec_yield is not None:
+            sec_yield = round(sec_yield * 100, 2) if sec_yield < 0.20 else round(sec_yield, 2)
 
         effective_yield = sec_yield if sec_yield else yield_pct
 
-        # Credit quality from name/type context
-        expense_ratio = _safe(info.get("annualReportExpenseRatio"))
+        # `netExpenseRatio`, no `annualReportExpenseRatio`: yfinance renombró
+        # el campo y el viejo devuelve None siempre, así que la columna salía
+        # vacía en las 25 filas y el frontend pintaba «—». El coste anual no
+        # es un detalle al comparar deuda: AGG cobra 0,03% y TLT 0,15%, cinco
+        # veces más, y en un bono a 20 años eso se nota.
+        #
+        # Ya viene en porcentaje (0,15 = 0,15%). El ×100 se conserva para el
+        # caso de que la fuente vuelva a darlo en decimal.
+        expense_ratio = _safe(info.get("netExpenseRatio"))
+        if expense_ratio is None:
+            expense_ratio = _safe(info.get("annualReportExpenseRatio"))
         if expense_ratio and expense_ratio < 0.005:
-            expense_ratio = round(expense_ratio * 100, 3)  # convert to %
+            expense_ratio = round(expense_ratio * 100, 3)  # venía en decimal
         elif expense_ratio:
             expense_ratio = round(expense_ratio, 3)
 
@@ -334,12 +361,37 @@ def _recommendation(bond_type: str, value_rating: str, duration_years: float) ->
 
 def scan() -> pd.DataFrame:
     rows = []
+    descartados: list[dict] = []
     for ticker, name, bond_type, duration, currency in UNIVERSE:
         print(f"Fetching {ticker}...")
         data = _fetch_bond_data(ticker, duration, currency)
         time.sleep(0.4)   # gentle rate limiting
 
         if data is None:
+            continue
+
+        # Guardia de realidad: un ETF de bonos no cotiza a céntimos ni pierde
+        # el 90% en un año. Cuando el símbolo resuelve a otra cosa, los
+        # números salen absurdos y el escáner los puntuaba igual — «TIPS» era
+        # Tianrong Internet Products (0,0001 $, yield -98,67%) y se publicaba
+        # con rating NEUTRAL y «Precio justo — mantener si ya en cartera».
+        #
+        # No se corrige el dato ni se adivina: se deja fuera y se dice. Una
+        # recomendación sobre un precio que no existe es peor que una fila de
+        # menos, y la próxima errata de símbolo saldrá por aquí sin que nadie
+        # la busque.
+        _sospechas = []
+        if data.get("price") is not None and data["price"] < MIN_PRECIO_ETF:
+            _sospechas.append(f'cotiza a {data["price"]:.4f}')
+        if data.get("pct_from_high") is not None and data["pct_from_high"] < CAIDA_IMPOSIBLE_PCT:
+            _sospechas.append(f'{data["pct_from_high"]:.0f}% desde su máximo')
+        if data.get("yield_pct") is not None and not (-1.0 <= data["yield_pct"] <= 25.0):
+            _sospechas.append(f'yield {data["yield_pct"]:.1f}%')
+        if _sospechas:
+            print(f"   [fuera] {ticker} ({name}): {', '.join(_sospechas)} — "
+                  f"el símbolo no resuelve a lo que dice ser")
+            descartados.append({"ticker": ticker, "name": name,
+                                "motivo": "; ".join(_sospechas)})
             continue
 
         y = data["yield_pct"]
@@ -375,6 +427,16 @@ def scan() -> pd.DataFrame:
             "liquidity_note":    data["liquidity_note"],
             "generated_at":      datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         })
+
+    if descartados:
+        # El aviso va también al disco: un print en el log de CI no lo lee
+        # nadie, y un símbolo mal escrito puede estar meses así.
+        import json as _json
+        from pathlib import Path as _Path
+        _Path('docs/bonds_descartados.json').write_text(
+            _json.dumps({'descartados': descartados}, indent=2, ensure_ascii=False))
+        print(f"  {len(descartados)} instrumento(s) fuera por datos imposibles "
+              f"— ver docs/bonds_descartados.json")
 
     return pd.DataFrame(rows)
 

@@ -261,9 +261,16 @@ def _fetch_commodity_data(ticker: str) -> dict | None:
         change_1d  = round((price / prev_close - 1) * 100, 2) if prev_close and prev_close > 0 else None
 
         short_name  = _safe(info.get("shortName") or info.get("longName"), ticker)
-        expense_ratio = _safe(info.get("annualReportExpenseRatio"))
+        # `netExpenseRatio`: yfinance renombró el campo y el viejo
+        # (`annualReportExpenseRatio`) devuelve None siempre, así que la
+        # columna salía vacía y la ficha pintaba «—». En un ETF de materias
+        # primas el coste importa más que en una acción: no hay beneficio que
+        # lo compense, sale entero del rendimiento.
+        expense_ratio = _safe(info.get("netExpenseRatio"))
+        if expense_ratio is None:
+            expense_ratio = _safe(info.get("annualReportExpenseRatio"))
         if expense_ratio and expense_ratio < 0.005:
-            expense_ratio = round(expense_ratio * 100, 3)
+            expense_ratio = round(expense_ratio * 100, 3)   # venía en decimal
         elif expense_ratio:
             expense_ratio = round(expense_ratio, 3)
 
