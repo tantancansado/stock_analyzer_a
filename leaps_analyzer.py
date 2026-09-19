@@ -832,6 +832,31 @@ def analyze_ticker_leaps(ticker: str, sig: dict, rate: float) -> Optional[dict]:
                                  if v_neta is not None and best.get('cost_per_contract') else None),
         }
 
+        # Lo que pasa si NO pasa nada.
+        #
+        # Se publicaba el escenario bueno (si llega al objetivo) y, desde
+        # ayer, el prudente (si llega al objetivo más bajo de tus modelos).
+        # Faltaba el más probable de los tres: que la acción siga donde está.
+        # Un LEAPS que no se mueve pierde TODO su valor temporal, y eso no es
+        # poco — medido sobre los once publicados el 18-sep-2026, entre un
+        # -12% (BAC) y un -46,3% (MA).
+        #
+        # Es la cara b del apalancamiento y la que no se ve: de MA se
+        # publicaba «ventaja neta +13,49%» sin decir que quedarse quieta
+        # cuesta casi la mitad del contrato. Comprar la acción, en ese mismo
+        # escenario, cuesta cero.
+        _coste = best.get('cost_per_contract')
+        _strike = best.get('strike')
+        if _coste and _strike is not None:
+            _plano = max(spot - _strike, 0.0) * 100
+            profit_at_target['si_no_se_mueve'] = {
+                'precio': round(spot, 2),
+                'option_return_pct': round((_plano - _coste) / _coste * 100, 1),
+                'stock_return_pct': 0.0,
+                'nota': ('al vencimiento la opción vale solo su intrínseco: '
+                         'el valor temporal se pierde entero'),
+            }
+
         # El mismo contrato contra el objetivo más prudente que tenga la casa.
         # «Si llega al target del analista rindes un 180%» es cierto y a la vez
         # inútil cuando tus dos modelos sitúan el valor un 45% por debajo del

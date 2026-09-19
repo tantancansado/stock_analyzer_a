@@ -312,6 +312,21 @@ function OpportunityCard({ o, rank }: { o: LeapsOpportunity; rank?: number }) {
                 )}
               </div>
             )}
+
+            {/* Y si no pasa nada. Se publicaba el escenario bueno y el
+                prudente; faltaba el más probable de los tres. Un LEAPS que no
+                se mueve pierde TODO su valor temporal —de MA, el 46%— y la
+                acción en ese mismo caso no pierde nada. Es la cara b del
+                apalancamiento y la que no se ve. */}
+            {pat.si_no_se_mueve != null && (
+              <div className="mt-1.5 pt-1.5 border-t border-border/20">
+                <span className="text-muted-foreground">Si la acción se queda donde está: </span>
+                <span className="font-bold text-red-400">
+                  {pat.si_no_se_mueve.option_return_pct.toFixed(1)}%
+                </span>
+                <span className="text-muted-foreground"> · la acción, 0%</span>
+              </div>
+            )}
           </div>
         )}
 

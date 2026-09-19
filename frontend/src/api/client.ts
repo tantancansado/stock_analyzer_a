@@ -2451,6 +2451,23 @@ export interface LeapsProfitAtTarget {
    *  2,5x y dejaba $7 netos sobre una prima de $11.018). */
   ventaja_neta_pct?: number | null
   ventaja_neta_usd?: number | null
+  /** Lo que pasa si la acción NO se mueve: el LEAPS pierde todo su valor
+   *  temporal y la acción no pierde nada. Es el desenlace más probable de
+   *  los tres y el único que no se publicaba. */
+  si_no_se_mueve?: {
+    precio: number
+    option_return_pct: number
+    stock_return_pct: number
+    nota?: string
+  } | null
+  /** El mismo contrato contra el objetivo más bajo de tus propios modelos. */
+  escenario_prudente?: {
+    target_price: number
+    target_origen?: string
+    stock_return_pct?: number | null
+    option_return_pct: number
+    nota?: string
+  } | null
 }
 
 export interface LeapsExitPlan {
