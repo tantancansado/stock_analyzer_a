@@ -51,15 +51,49 @@ def test_el_rango_del_ancla_es_razonable():
     assert 30 <= fs.PER_ANCLA_MAX <= 60
 
 
+# Los dos de abajo buscaban su texto (`len(pers) < 3`, `bpa <= 0`) dentro de
+# una ventana de 2.200 caracteres a partir de `per_mediano_historico`. La
+# lógica se movió a `serie_per_historica` el 19-sep-2026 y los tests se
+# pusieron rojos sin que nada se hubiera roto: seguían comprobando DÓNDE
+# estaba escrito el código en vez de QUÉ hace. Ahora ejercitan el
+# comportamiento, que es lo que hay que proteger.
+
+def _stock_falso(bpas, precio=100.0):
+    """Un `stock` mínimo con los BPA que se le pidan."""
+    import pandas as pd
+
+    fechas = pd.to_datetime([f'{2022 + i}-12-31' for i in range(len(bpas))])
+    acciones = 100.0
+
+    class _Fin:
+        index = ['Net Income', 'Diluted Average Shares']
+        empty = False
+        _d = pd.DataFrame([[b * acciones for b in bpas], [acciones] * len(bpas)],
+                          index=index, columns=fechas)
+        loc = _d.loc
+
+    class _S:
+        income_stmt = _Fin()
+        def history(self, period='5y'):
+            f = pd.date_range('2021-01-01', '2026-12-31', freq='D')
+            return pd.DataFrame({'Close': [precio] * len(f)}, index=f)
+
+    return _S()
+
+
 def test_el_calculo_del_multiplo_necesita_varios_años():
     """Con uno o dos años la mediana no es una mediana."""
-    src = (RAIZ / 'financial_cross_check.py').read_text()
-    i = src.index('def per_mediano_historico')
-    assert 'len(pers) < 3' in src[i:i + 2200]
+    from financial_cross_check import per_mediano_historico
+    assert per_mediano_historico(_stock_falso([10.0, 11.0])) is None
+    assert per_mediano_historico(_stock_falso([10.0, 11.0, 12.0])) is not None
 
 
 def test_no_se_ancla_con_beneficio_negativo():
     """Un PER con BPA negativo no significa nada."""
-    src = (RAIZ / 'financial_cross_check.py').read_text()
-    i = src.index('def per_mediano_historico')
-    assert 'bpa <= 0' in src[i:i + 2200]
+    from financial_cross_check import per_mediano_historico, serie_per_historica
+    # tres años buenos y uno en pérdidas: el de pérdidas no entra
+    r = serie_per_historica(_stock_falso([10.0, 11.0, -5.0, 12.0]))
+    assert r['n'] == 3, 'el año en pérdidas no puede contar'
+    assert all(p > 0 for p in r['pers'])
+    # todos negativos: no hay ancla
+    assert per_mediano_historico(_stock_falso([-1.0, -2.0, -3.0, -4.0])) is None

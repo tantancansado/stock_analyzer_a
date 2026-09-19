@@ -276,7 +276,8 @@ class SuperScoreIntegrator:
             # de dónde sale no se puede auditar, y cuando falta —un DCF sobre
             # un banco, un P/E sin múltiplo propio— el hueco se lee como «no
             # hay dato» en vez de «aquí ese modelo no aplica».
-            'pe_ancla', 'pe_sin_ancla_motivo', 'pe_eps_usado', 'pe_eps_motivo',
+            'pe_ancla', 'pe_ancla_n', 'pe_ancla_dispersion', 'pe_ancla_fragil',
+            'pe_ancla_excluidos', 'pe_sin_ancla_motivo', 'pe_eps_usado', 'pe_eps_motivo',
             'dcf_no_aplicable',
             # Qué campos vienen de una IA y de qué fuente: trazabilidad.
             'ai_filled_fields', 'ai_sources', 'ai_descartados',

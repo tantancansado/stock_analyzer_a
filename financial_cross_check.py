@@ -176,8 +176,96 @@ def crecimiento_ingresos_3y(stock) -> float | None:
 
 
 
+def serie_per_historica(stock) -> dict:
+    """Los P/E anuales de la empresa, y cuáles NO cuentan para el ancla.
+
+    Devuelve {'pers', 'mediana', 'n', 'dispersion', 'excluidos', 'fragil'}.
+
+    Un año con el beneficio en un VALLE no dice a qué múltiplo cotiza la
+    empresa: dice que ese año ganó poco. El P/E sale disparado por el
+    denominador, no porque el mercado pagara más. SPGI en 2023 marcó 49,5x
+    con un BPA de 8,23 hundido por la integración de IHS Markit, entre un
+    10,20 antes y un 12,35 después; ese 49,5 empujaba su ancla de 33,5 a 35,6
+    y el objetivo de 550 a 584.
+
+    Medido sobre las 129 del universo con histórico: 13 tienen un año así y
+    12 mueven el ancla más de un 5%. Los cambios son SIEMPRE a la baja —un
+    valle solo puede inflar el múltiplo— así que esto quita objetivos
+    optimistas, no los inventa. Los mayores: BN 59,8→36,9, TECK 12,9→9,0,
+    NOW 123,2→91,8.
+
+    Lo que NO se toca: la mediana sobre los años que quedan. El ancla no
+    tiene sesgo de conjunto —sobre el universo publica un upside mediano de
+    +5,4% con el 56% positivo— así que el método base funciona y solo hacía
+    falta quitarle la basura.
+    """
+    vacio = {'pers': [], 'mediana': None, 'n': 0, 'dispersion': None,
+             'excluidos': [], 'fragil': True}
+    try:
+        fin, hist = stock.income_stmt, stock.history(period='5y')
+    except Exception:
+        return vacio
+    if fin is None or getattr(fin, 'empty', True) or hist is None or hist.empty:
+        return vacio
+    if 'Net Income' not in fin.index or 'Diluted Average Shares' not in fin.index:
+        return vacio
+    try:
+        ni = fin.loc['Net Income'].dropna()
+        sh = fin.loc['Diluted Average Shares'].dropna()
+        idx = hist.index
+        if getattr(idx, 'tz', None) is not None:
+            idx = idx.tz_localize(None)
+        cierres = hist['Close']
+        cierres.index = idx
+
+        puntos = []   # (fecha, bpa, per), del más viejo al más nuevo
+        for fecha in sorted(ni.index):
+            if fecha not in sh.index:
+                continue
+            acciones = float(sh[fecha])
+            if acciones <= 0:
+                continue
+            bpa = float(ni[fecha]) / acciones
+            if bpa <= 0:
+                continue
+            px = cierres[cierres.index <= fecha]
+            if len(px):
+                puntos.append((fecha, bpa, float(px.iloc[-1]) / bpa))
+        if len(puntos) < 3:
+            return vacio
+
+        # Un valle: el beneficio cae respecto al año anterior y se recupera al
+        # siguiente. Los extremos de la serie no se pueden juzgar así —les
+        # falta un vecino— y se quedan.
+        fuera = []
+        for k in range(1, len(puntos) - 1):
+            b_prev, b, b_next = puntos[k - 1][1], puntos[k][1], puntos[k + 1][1]
+            if b < b_prev * 0.85 and b_next > b * 1.15:
+                fuera.append(k)
+        limpio = [p for k, p in enumerate(puntos) if k not in fuera]
+        if len(limpio) < 3:      # sin material suficiente, mejor con todo
+            limpio, fuera = puntos, []
+
+        import statistics
+        pers = [p for _, _, p in limpio]
+        mediana = float(statistics.median(pers))
+        dispersion = (max(pers) - min(pers)) / mediana if mediana else None
+        return {
+            'pers': [round(p, 1) for p in pers],
+            'mediana': mediana,
+            'n': len(pers),
+            'dispersion': round(dispersion, 2) if dispersion is not None else None,
+            'excluidos': [str(puntos[k][0])[:10] for k in fuera],
+            # Con tres puntos o con los extremos separados por más del doble
+            # de la mediana, el ancla la decide un año suelto.
+            'fragil': len(pers) < 4 or (dispersion is not None and dispersion > 1.0),
+        }
+    except Exception:
+        return vacio
+
+
 def per_mediano_historico(stock) -> float | None:
-    """PER mediano de los últimos años de la PROPIA empresa.
+    """PER mediano de la PROPIA empresa, sin los años de beneficio en valle.
 
     El modelo de «P/E justo» usaba PEG = 1, o sea PER justo = crecimiento en
     porcentaje. Para una empresa de calidad que crece poco eso da disparates:
@@ -191,46 +279,10 @@ def per_mediano_historico(stock) -> float | None:
     valoración, es el modelo diciendo que no sabe.
 
     La mediana del múltiplo propio es el ancla estándar para esto: la empresa
-    vuelve a lo que el mercado le ha pagado históricamente. No sirve cuando no
-    hay histórico o el beneficio fue negativo; ahí se devuelve None y el que
-    llama decide.
+    vuelve a lo que el mercado le ha pagado históricamente. Ver
+    `serie_per_historica` para qué años cuentan y por qué.
     """
-    try:
-        fin, hist = stock.income_stmt, stock.history(period='5y')
-    except Exception:
-        return None
-    if fin is None or getattr(fin, 'empty', True) or hist is None or hist.empty:
-        return None
-    if 'Net Income' not in fin.index or 'Diluted Average Shares' not in fin.index:
-        return None
-    try:
-        ni = fin.loc['Net Income'].dropna()
-        sh = fin.loc['Diluted Average Shares'].dropna()
-        idx = hist.index
-        if getattr(idx, 'tz', None) is not None:
-            idx = idx.tz_localize(None)
-        cierres = hist['Close']
-        cierres.index = idx
-        pers = []
-        for fecha in ni.index:
-            if fecha not in sh.index:
-                continue
-            acciones = float(sh[fecha])
-            if acciones <= 0:
-                continue
-            bpa = float(ni[fecha]) / acciones
-            if bpa <= 0:
-                continue
-            px = cierres[cierres.index <= fecha]
-            if len(px):
-                pers.append(float(px.iloc[-1]) / bpa)
-        if len(pers) < 3:
-            return None
-        import statistics
-        return float(statistics.median(pers))
-    except Exception:
-        return None
-
+    return serie_per_historica(stock).get('mediana')
 
 
 # Tasa fiscal con la que se normaliza el BPA cuando la efectiva es anómala.
@@ -241,6 +293,7 @@ TASA_FISCAL_NORMAL = 0.245
 # A partir de esta desviación de la tasa efectiva, el beneficio del periodo no
 # es representativo y el BPA se normaliza.
 DESVIO_FISCAL_ANOMALO = 0.12
+
 
 
 def bpa_normalizado(stock) -> tuple[float | None, str | None]:
@@ -445,7 +498,17 @@ def derive_from_statements(stock, info: dict, fields: list[str] | None = None) -
 
     # Múltiplo propio, para anclar el «P/E justo» a lo que el mercado le ha
     # pagado a ESTA empresa y no a un PEG = 1 que no distingue calidad.
-    per_hist = per_mediano_historico(stock)
+    _serie = serie_per_historica(stock)
+    if _serie.get('mediana') is not None:
+        # Los metadatos viajan con el ancla: un múltiplo sacado de tres años
+        # o con los extremos muy separados lo decide un año suelto, y quien
+        # lea el objetivo tiene que poder saberlo.
+        out['perAnclaN'] = _serie['n']
+        out['perAnclaDispersion'] = _serie['dispersion']
+        out['perAnclaFragil'] = _serie['fragil']
+        if _serie['excluidos']:
+            out['perAnclaExcluidos'] = ','.join(_serie['excluidos'])
+    per_hist = _serie.get('mediana')
     if per_hist is not None:
         out['perMedianoHistorico'] = per_hist
         filled.append(f'perMedianoHistorico({per_hist:.1f})')

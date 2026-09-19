@@ -1301,6 +1301,10 @@ class FundamentalScorer:
             # la columna existe o no según qué tickers hayan pasado por esa
             # rama, y una columna que a veces está es peor que una vacía.
             'pe_ancla':                    None,
+            'pe_ancla_n':                  None,
+            'pe_ancla_dispersion':         None,
+            'pe_ancla_fragil':             None,
+            'pe_ancla_excluidos':          None,
             'pe_sin_ancla_motivo':         None,
             'dcf_no_aplicable':            None,
             # Value Quality Metrics
@@ -2207,6 +2211,14 @@ class FundamentalScorer:
                 if per_propio and PER_ANCLA_MIN <= float(per_propio) <= PER_ANCLA_MAX:
                     fair_pe = float(per_propio)
                     result['pe_ancla'] = 'múltiplo propio'
+                    # Con cuántos años y cuánto se separan entre sí. Un ancla
+                    # de tres puntos la decide un año suelto, y el objetivo
+                    # hereda esa fragilidad sin que se note en el número.
+                    result['pe_ancla_n'] = info.get('perAnclaN')
+                    result['pe_ancla_dispersion'] = info.get('perAnclaDispersion')
+                    result['pe_ancla_fragil'] = info.get('perAnclaFragil')
+                    if info.get('perAnclaExcluidos'):
+                        result['pe_ancla_excluidos'] = info['perAnclaExcluidos']
                 else:
                     result['pe_ancla'] = None
                     result['pe_sin_ancla_motivo'] = (
