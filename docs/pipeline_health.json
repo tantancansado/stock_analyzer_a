@@ -1,9 +1,9 @@
 {
   "origen": "github-actions",
-  "run_id": "35405660133",
-  "generated_at": "2026-09-19T00:31:37Z",
+  "run_id": "35430898981",
+  "generated_at": "2026-09-19T09:16:05Z",
   "pipeline_date": "2026-09-19",
-  "ok_count": 18,
+  "ok_count": 19,
   "total": 20,
   "modules": {
     "value_us": {
@@ -13,23 +13,23 @@
       "stale_threshold_days": 2,
       "columna_requerida": "entry_readiness",
       "columna_poblada": true,
-      "rows": 52,
+      "rows": 62,
       "min_rows": 20
     },
     "value_filtered": {
       "status": "ok",
-      "date": "2026-09-18",
-      "days_ago": 1,
+      "date": "2026-09-19",
+      "days_ago": 0,
       "stale_threshold_days": 2,
       "columna_requerida": "entry_readiness, rr_operativo",
       "columna_poblada": true,
-      "rows": 44,
+      "rows": 52,
       "min_rows": 10
     },
     "vcp": {
       "status": "ok",
-      "date": "2026-09-18",
-      "days_ago": 1,
+      "date": "2026-09-19",
+      "days_ago": 0,
       "stale_threshold_days": 3,
       "columna_requerida": "patterns",
       "columna_poblada": true
@@ -51,7 +51,7 @@
       "stale_threshold_days": 3,
       "columna_requerida": "entry_readiness, rr_operativo",
       "columna_poblada": true,
-      "rows": 26,
+      "rows": 27,
       "min_rows": 1
     },
     "value_global": {
@@ -81,7 +81,7 @@
       "stale_threshold_days": 2,
       "columna_requerida": "bias",
       "columna_poblada": true,
-      "rows": 164,
+      "rows": 176,
       "min_rows": 30
     },
     "cerebro": {
@@ -102,8 +102,8 @@
     },
     "macro": {
       "status": "ok",
-      "date": "2026-09-18",
-      "days_ago": 1,
+      "date": "2026-09-19",
+      "days_ago": 0,
       "stale_threshold_days": 2,
       "columna_requerida": "signals",
       "columna_poblada": true
@@ -125,7 +125,7 @@
       "stale_threshold_days": 2,
       "columna_requerida": "signal_date",
       "columna_poblada": true,
-      "rows": 1809,
+      "rows": 1820,
       "min_rows": 1
     },
     "earnings": {
@@ -169,12 +169,12 @@
       "min_rows": 1
     },
     "bounce_broad": {
-      "status": "incompleto",
+      "status": "ok",
       "date": "2026-09-19",
       "days_ago": 0,
       "stale_threshold_days": 3,
       "columna_requerida": "setups",
-      "columna_poblada": false
+      "columna_poblada": true
     },
     "earnings_opts": {
       "status": "ok",
