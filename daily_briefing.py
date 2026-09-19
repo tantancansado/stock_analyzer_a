@@ -189,10 +189,35 @@ def gather_facts() -> dict:
     definitivo = bool(h180.get('count'))
     horizonte = h180 if definitivo else h90
 
+    # Qué acaba de aparecer y qué se ha caído.
+    #
+    # El paso «New VALUE Picks Alert» del workflow está silenciado
+    # delegando en este briefing —«silenciado → daily_briefing»— y es lo
+    # correcto, un solo mensaje al día. Pero el briefing nunca recogió esta
+    # parte: mandaba la lista entera sin decir cuál es nueva, y saber qué
+    # acaba de entrar es justo lo que se le pedía a esa alerta. La
+    # funcionalidad se perdió en la consolidación.
+    #
+    # `base_de_comparacion` devuelve None cuando no hay contra qué comparar
+    # —o cuando el día anterior el pipeline no terminó—, y entonces no se
+    # dice nada: sin base, «nuevo» no significa nada.
+    nuevos, se_van = [], []
+    try:
+        from new_value_alerts import _load_value_csv, base_de_comparacion
+        _base = base_de_comparacion()
+        if _base:
+            _hoy = _load_value_csv(DOCS / 'value_opportunities_filtered.csv')
+            nuevos = sorted(_hoy - _base)
+            se_van = sorted(_base - _hoy)
+    except Exception as exc:
+        print(f'  [warn] no se pudo comparar con ayer: {exc}')
+
     return {
         'fecha': date.today().isoformat(),
         'total_lista': len(rows),
         'datos_incompletos': datos_incompletos(rows),
+        'picks_nuevos': nuevos,
+        'picks_que_se_van': se_van,
         'comprables': comprables[:MAX_CANDIDATOS],
         'vigilar': vigilar[:MAX_VIGILAR],
         'tesis_rotas': tesis_rotas,
@@ -232,8 +257,14 @@ Estructura, en este orden y omitiendo lo que esté vacío:
    tenga, así que di "la señal de X se ha roto" y nunca "tu posición" ni "sal".
 3. Qué vigilar: baratas que aún caen. Una línea cada una, con el porqué de su caída
    si lo tienes.
-4. El régimen de mercado SOLO si te lo paso (significa que cambió hoy).
-5. Cierra con el acierto real del sistema como recordatorio de tamaño de posición.
+4. Lo que ACABA DE APARECER en la lista (`picks_nuevos`) y lo que se ha caído de
+   ella (`picks_que_se_van`), si los hay. Una línea, sin repetir lo que ya has
+   dicho arriba: es lo que cambia respecto a ayer y por eso importa. Si las dos
+   listas vienen vacías, no menciones el tema — que no haya movimiento no es
+   noticia. Si el campo no viene, tampoco: significa que no había con qué
+   comparar, no que nada se haya movido.
+5. El régimen de mercado SOLO si te lo paso (significa que cambió hoy).
+6. Cierra con el acierto real del sistema como recordatorio de tamaño de posición.
 
 Reglas de escritura — esto importa tanto como el contenido:
 - Escribe como le hablarías a un colega por teléfono, en frases completas. NO como

@@ -70,6 +70,47 @@ def _load_value_df(path: Path) -> pd.DataFrame:
         return pd.DataFrame()
 
 
+def base_de_comparacion() -> set | None:
+    """Los tickers de la lista VALUE de hasta tres días atrás, o None.
+
+    Extraído para que lo use también `daily_briefing`. El paso de alertas se
+    silenció en el workflow delegando en el briefing («silenciado →
+    daily_briefing»), que es lo correcto —un solo mensaje al día— pero el
+    briefing nunca recogió esta parte: manda la lista entera sin decir cuál
+    acaba de aparecer, y saber qué es NUEVO es justo lo que se pide de esa
+    alerta.
+
+    None significa «no hay con qué comparar», que no es lo mismo que «no hay
+    nuevos»: sin base, todo parecería nuevo y saldría la lista entera como si
+    acabara de aparecer.
+    """
+    for delta in (1, 2, 3):
+        candidate = (datetime.now() - timedelta(days=delta)).strftime('%Y-%m-%d')
+        hist_path = HISTORY / candidate / 'value_opportunities_filtered.csv'
+        if not hist_path.exists():
+            hist_path = HISTORY / candidate / 'value_opportunities.csv'
+        previos = _load_value_csv(hist_path)
+        if not previos:
+            continue
+        # Una lista MUCHO más corta que la de hoy no es una base: es un día
+        # en que el pipeline no terminó, y comparar contra ella convierte en
+        # «nuevos» a los que ya estaban. `if not previos` no basta —el
+        # 19-sep-2026 la base tenía 7 y hoy 12, así que cero no era— y el
+        # corte va en la mitad porque una lista sana no se reduce a la mitad
+        # de un día para otro.
+        #
+        # Las dos listas se cargan con el MISMO filtro de score. Medir una
+        # filtrada contra otra sin filtrar da un susto que no es real: 7
+        # contra 52 parecen 46 picks nuevos y con la misma vara son 6.
+        hoy = _load_value_csv(DOCS / 'value_opportunities_filtered.csv')
+        if hoy and len(previos) < len(hoy) * 0.5:
+            print(f"  {candidate} tenía {len(previos)} picks contra {len(hoy)} de hoy: "
+                  f"ese día el pipeline no terminó, no sirve de base")
+            continue
+        return previos
+    return None
+
+
 def run_new_value_alerts():
     print("=== NEW VALUE ALERTS ===")
     today = datetime.now().strftime('%Y-%m-%d')

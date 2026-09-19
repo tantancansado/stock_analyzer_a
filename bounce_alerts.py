@@ -73,10 +73,45 @@ def _send_telegram(text: str) -> bool:
         return False
 
 
+# Un setup de rebote vive 1-5 días: pasado eso, el precio de entrada, el
+# stop y el objetivo ya no describen nada. Si el escáner falla y el fichero
+# se queda del día anterior, la deduplicación por ticker no lo detiene —
+# solo mira si YA se avisó de ese ticker, no si el setup sigue vivo— y saldría
+# una alerta sobre un precio que no existe.
+MAX_DIAS_SETUP = 1
+
+
+def _setup_caducado(generated_at, nombre: str) -> bool:
+    """¿El fichero es de hoy? None o ilegible cuentan como caducado.
+
+    Al revés que en el resto de la app: aquí «no lo sé» sí bloquea, porque
+    mandar un mensaje es irreversible y no mandarlo solo cuesta un día.
+    """
+    if not generated_at:
+        print(f"  [fuera] {nombre}: sin fecha de generación")
+        return True
+    try:
+        from datetime import datetime as _dt, timezone as _tz
+        d = _dt.fromisoformat(str(generated_at).replace('Z', '+00:00'))
+        if d.tzinfo is None:
+            d = d.replace(tzinfo=_tz.utc)
+        dias = (_dt.now(_tz.utc) - d).days
+    except Exception:
+        print(f"  [fuera] {nombre}: fecha ilegible ({generated_at})")
+        return True
+    if dias > MAX_DIAS_SETUP:
+        print(f"  [fuera] {nombre}: el fichero es de hace {dias} días — "
+              f"un setup de rebote no dura tanto")
+        return True
+    return False
+
+
 def load_broad_setups() -> list[dict]:
     """Setups del scanner ampliado (ya vienen filtrados y ordenados)."""
     try:
         data = json.loads(BROAD_JSON.read_text())
+        if _setup_caducado(data.get('generated_at'), BROAD_JSON.name):
+            return []
         out = []
         for s in data.get('setups', []):
             out.append({
@@ -169,6 +204,18 @@ def load_curated_setups() -> list[dict]:
     try:
         df = pd.read_csv(MR_CSV)
         if df.empty or 'strategy' not in df.columns:
+            return []
+        # Mismo control que en el fichero ancho: el CSV no trae cabecera con
+        # fecha, así que se usa la del JSON hermano, que el detector escribe
+        # en la misma pasada.
+        _meta = DOCS / 'mean_reversion_opportunities.json'
+        _gen = None
+        if _meta.exists():
+            try:
+                _gen = json.loads(_meta.read_text()).get('generated_at')
+            except Exception:
+                _gen = None
+        if _setup_caducado(_gen, MR_CSV.name):
             return []
         ob = df[df['strategy'] == 'Oversold Bounce']
         out = []
