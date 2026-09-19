@@ -212,6 +212,9 @@ CALIDAD_MAX_SIN_RESPALDO = 85.0
 # justo». Por encima es burbuja (NOW tiene 123 de mediana) y por debajo suele
 # ser un beneficio contable raro: en los dos casos se cae al método viejo.
 PER_ANCLA_MIN, PER_ANCLA_MAX = 8.0, 45.0
+# Tope de sensatez del objetivo por P/E. No es una banda de inversión: es el
+# punto a partir del cual el número dice más del dato que de la empresa.
+UPSIDE_PE_ABSURDO = 150.0
 
 # Reducción anual de acciones a partir de la cual la recompra cuenta como
 # «activa». Con cualquier recompra valía y la etiqueta salía True en 41 de 42
@@ -231,9 +234,31 @@ RECOMPRA_MATERIAL_PCT = 1.0
 # (CBOE, ICE, SPGI, MSCI, MCO, NDAQ, FDS) son negocios normales que cobran por
 # un servicio, y ahí el DCF sí dice algo.
 INDUSTRIAS_SIN_DCF = (
-    'bank', 'insurance', 'asset management', 'credit services',
+    'bank', 'insurance', 'asset management',
     'capital markets', 'mortgage', 'financial conglomerates',
 )
+
+# «Credit Services» mete en la misma etiqueta dos negocios que no se parecen:
+#
+#     V, MA        cobran una comisión por transacción, no prestan
+#     COF, ALLY    prestan y viven del diferencial de tipos
+#     AXP          presta y además tiene banco
+#
+# Excluir a Visa y Mastercard del DCF porque comparten etiqueta con Capital
+# One es un error de clasificación: su flujo operativo SÍ es caja libre para
+# el accionista. Son dos de las mejores del universo por margen y se quedaban
+# sin uno de los tres modelos de valoración.
+#
+# La industria no los separa, pero el dato sí: ingreso neto por intereses
+# sobre ingresos totales, medido el 19-sep-2026.
+#
+#     V   -1%    MA   -2%          |   AXP  35%   COF 110%   ALLY 154%
+#
+# Quien presta lo tiene positivo y grande; una red de pagos lo tiene
+# NEGATIVO, porque paga intereses por su deuda y no cobra por prestar. El
+# corte en 25% deja a AXP fuera del DCF, que es lo correcto.
+INDUSTRIAS_AMBIGUAS = ('credit services',)
+PESO_INTERESES_PRESTAMISTA = 0.25
 
 
 def dcf_aplicable(info: Dict) -> tuple[bool, Optional[str]]:
@@ -243,6 +268,28 @@ def dcf_aplicable(info: Dict) -> tuple[bool, Optional[str]]:
         if clave in industria:
             return False, (f'{info.get("industry")}: el flujo operativo son depósitos, '
                            f'préstamos o primas, no caja libre para el accionista')
+
+    for clave in INDUSTRIAS_AMBIGUAS:
+        if clave not in industria:
+            continue
+        peso = info.get('netInterestIncomeShare')
+        if peso is None:
+            # Sin el dato no se puede distinguir una red de pagos de un
+            # prestamista, y equivocarse hacia el DCF publica una valoración
+            # inventada. Se mantiene la exclusión, diciendo por qué.
+            return False, (f'{info.get("industry")}: no se ha podido comprobar si '
+                           f'vive del diferencial de tipos; sin ese dato no se '
+                           f'descuentan flujos')
+        try:
+            peso = float(peso)
+        except (TypeError, ValueError):
+            return False, f'{info.get("industry")}: peso de intereses ilegible'
+        if peso >= PESO_INTERESES_PRESTAMISTA:
+            return False, (f'{info.get("industry")}: el {peso:.0%} de sus ingresos es '
+                           f'margen de intereses — presta, no cobra comisiones')
+        # Red de pagos: el flujo operativo sí es caja libre.
+        return True, None
+
     return True, None
 
 
@@ -1266,6 +1313,8 @@ class FundamentalScorer:
             'buyback_active': None,
             'shares_change_pct': None,
             'ai_descartados': None,
+            'per_share_no_fiable': None,
+            'acciones_efectivas': None,
             'piotroski_evaluables': None,
             'piotroski_motivo': None,
             'interest_coverage': None,
@@ -2070,9 +2119,23 @@ class FundamentalScorer:
             # números no están en la misma unidad y el resultado es basura
             # (ATLKY 3-ago-2026: +568.9% de upside). Mejor sin DCF que con uno
             # falso — ver financial_cross_check.
-            _per_share_ok = check_coherence(info).get('per_share_reliable', True)
+            _coh = check_coherence(info)
+            _per_share_ok = _coh.get('per_share_reliable', True)
             if not _per_share_ok:
-                print(f"   ⏭️  DCF/P·E omitidos: datos por acción incoherentes con la capitalización")
+                # El motivo se imprimía y no se publicaba: GOOG, META y MKC
+                # salían sin DCF ni P/E y con los dos campos de motivo
+                # vacíos, así que el hueco no se distinguía de un fallo.
+                print("   ⏭️  DCF/P·E omitidos: datos por acción incoherentes "
+                      "con la capitalización")
+                result['per_share_no_fiable'] = '; '.join(_coh.get('issues') or [])[:300]
+
+            # Clases múltiples: las declaradas son de UNA clase y el flujo es
+            # de la empresa entera, así que dividir por ellas infla el dato
+            # por acción. GOOG: 5.527 M declaradas contra 12.230 M reales.
+            _efectivas = _coh.get('shares_efectivas')
+            if _efectivas:
+                shares = _efectivas
+                result['acciones_efectivas'] = round(float(_efectivas))
 
             _dcf_ok, _dcf_motivo = dcf_aplicable(info)
             if not _dcf_ok:
@@ -2153,9 +2216,30 @@ class FundamentalScorer:
                 pe_target = round(eps * fair_pe, 2) if fair_pe else None
                 if pe_target and gbp_pence:
                     pe_target = round(pe_target * 100, 2)
+                # Guardia de sensatez. El objetivo es ancla × BPA, y si el
+                # BPA viene inflado el objetivo sale disparado sin que nada
+                # lo note: MKC el 19-sep-2026 daba 145,54 sobre un precio de
+                # 48,72 —un +199%— porque su `trailingEps` (5,89) es el doble
+                # del que se deduce de su beneficio anual (2,93 × 269 M de
+                # acciones ≈ los 790 M que reportó).
+                #
+                # No se puede decidir cuál de los dos es el bueno desde aquí
+                # —los estados trimestrales de yfinance mezclan trimestres
+                # sueltos con acumulados, así que tampoco sirven de árbitro—,
+                # pero sí se puede no publicar un número que ningún múltiplo
+                # razonable justifica. Un valor que cotiza a menos de la
+                # mitad o a más del doble de lo que su propio historial dice
+                # no es una oportunidad detectada: es un dato que no cuadra.
                 if pe_target and pe_target > 0:
-                    result['target_price_pe']            = pe_target
-                    result['target_price_pe_upside_pct'] = _upside(pe_target)
+                    _up_pe = _upside(pe_target)
+                    if _up_pe is not None and abs(float(_up_pe)) > UPSIDE_PE_ABSURDO:
+                        result['pe_sin_ancla_motivo'] = (
+                            f'objetivo {pe_target:.0f} sobre un precio de '
+                            f'{current_price:.0f} ({float(_up_pe):+.0f}%): el BPA '
+                            f'no cuadra con el múltiplo histórico, no se publica')
+                    else:
+                        result['target_price_pe']            = pe_target
+                        result['target_price_pe_upside_pct'] = _up_pe
 
         except Exception:
             pass  # Return partial results on error

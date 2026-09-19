@@ -280,6 +280,7 @@ class SuperScoreIntegrator:
             'dcf_no_aplicable',
             # Qué campos vienen de una IA y de qué fuente: trazabilidad.
             'ai_filled_fields', 'ai_sources', 'ai_descartados',
+            'per_share_no_fiable', 'acciones_efectivas',
             # La bandera del bug de recompras: «cambio de acciones» medía el
             # dinero gastado, no las acciones.
             'shares_change_es_gasto',

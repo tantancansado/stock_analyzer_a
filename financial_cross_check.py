@@ -324,6 +324,35 @@ def cambio_de_acciones_pct(stock) -> float | None:
         return None
 
 
+def peso_del_margen_de_intereses(stock) -> float | None:
+    """Ingreso neto por intereses sobre ingresos totales. None si no se sabe.
+
+    Separa a quien vive del diferencial de tipos de quien cobra comisiones,
+    que es la distinción que la etiqueta de industria no hace. Ver la nota en
+    `derive_from_statements`.
+    """
+    try:
+        fin = stock.income_stmt
+    except Exception:
+        return None
+    if fin is None or getattr(fin, 'empty', True):
+        return None
+
+    def _fila(*claves):
+        for c in claves:
+            if c in fin.index:
+                v = fin.loc[c].dropna()
+                if len(v):
+                    return float(v.iloc[0])
+        return None
+
+    ingresos = _fila('Total Revenue')
+    intereses = _fila('Net Interest Income', 'Total Interest Income', 'Interest Income')
+    if not ingresos or ingresos <= 0 or intereses is None:
+        return None
+    return intereses / ingresos
+
+
 def derive_from_statements(stock, info: dict, fields: list[str] | None = None) -> tuple[dict, list[str]]:
     """Rellena campos ausentes en `info` desde los estados financieros.
 
@@ -394,6 +423,26 @@ def derive_from_statements(stock, info: dict, fields: list[str] | None = None) -
         out['revenueGrowth3y'] = g3
         filled.append(f'revenueGrowth3y({g3:.1%})')
 
+    # ¿Vive del diferencial de tipos? Es lo que separa a un prestamista de
+    # una red de pagos, y la industria de yfinance no lo distingue: Visa,
+    # Mastercard, Capital One, Ally y American Express comparten la etiqueta
+    # «Credit Services». Los tres últimos prestan; los dos primeros cobran
+    # una comisión por transacción y no asumen riesgo de crédito.
+    #
+    # El dato lo separa sin ambigüedad — ingreso neto por intereses sobre
+    # ingresos totales, medido el 19-sep-2026:
+    #
+    #     V     -1%     MA    -2%          redes de pago
+    #     AXP   35%     COF  110%          prestan
+    #     JPM  106%     BAC  123%   ALLY 154%
+    #
+    # Un prestamista lo tiene positivo y grande; una red de pagos lo tiene
+    # NEGATIVO, porque paga intereses por su deuda y no cobra por prestar.
+    peso = peso_del_margen_de_intereses(stock)
+    if peso is not None:
+        out['netInterestIncomeShare'] = peso
+        filled.append(f'netInterestIncomeShare({peso:.0%})')
+
     # Múltiplo propio, para anclar el «P/E justo» a lo que el mercado le ha
     # pagado a ESTA empresa y no a un PEG = 1 que no distingue calidad.
     per_hist = per_mediano_historico(stock)
@@ -431,6 +480,7 @@ def check_coherence(info: dict, ticker: str = '') -> dict:
     per_share_ok = True
     aggregate_ok = True
     ratio = None
+    shares_efectivas = None
 
     shares = info.get('sharesOutstanding')
     price  = info.get('currentPrice') or info.get('regularMarketPrice')
@@ -440,13 +490,53 @@ def check_coherence(info: dict, ticker: str = '') -> dict:
         try:
             ratio = (float(shares) * float(price)) / float(mcap)
             if abs(ratio - 1.0) > SHARES_PRICE_TOLERANCE:
-                per_share_ok = False
-                issues.append(
-                    f'acciones × precio no cuadra con la capitalización '
-                    f'(ratio {ratio:.4f}): el dato por acción y el precio no '
-                    f'están en la misma unidad — típico de ADR. Los ratios por '
-                    f'acción (EPS, FCF/acción, DCF) no son utilizables'
-                )
+                # Dos causas distintas con el mismo síntoma, y solo una es
+                # irrecuperable:
+                #
+                #   CLASES MÚLTIPLES — `sharesOutstanding` trae UNA clase y
+                #   `marketCap` es de la empresa entera. GOOG 0,4519 (A+B+C),
+                #   META 0,8656, MKC 0,9450 (con y sin voto). Aquí el dato por
+                #   acción sí se puede calcular: las acciones de verdad son
+                #   capitalización ÷ precio, y para GOOG eso da 12.230 M, que
+                #   es su cifra real. Bloquearlo dejaba a tres de los mejores
+                #   picks del universo sin DCF ni P/E — y sin decir por qué.
+                #
+                #   ADR — el precio es el del ADS y los estados van en otra
+                #   divisa (ATLKY 0,6801, estados en SEK y cotización en USD).
+                #   Ahí el número de acciones no es lo único que baila, así
+                #   que sigue bloqueado.
+                #
+                # La divisa los separa: si los estados y la cotización están
+                # en la misma, el desajuste es de clases y se puede corregir.
+                fin_ccy = str(info.get('financialCurrency') or '').upper()
+                cot_ccy = str(info.get('currency') or '').upper()
+                # Las DOS tienen que estar y coincidir. Si falta alguna no se
+                # puede descartar que sea un ADR, y dar por bueno el dato por
+                # acción sin saberlo es equivocarse hacia el lado caro: un
+                # DCF publicado sobre una unidad equivocada. Lo cazó el test
+                # de ATLKY, que no declara divisas.
+                misma_divisa = bool(fin_ccy and cot_ccy and fin_ccy == cot_ccy)
+                efectivas = float(mcap) / float(price)
+                if misma_divisa and efectivas > 0:
+                    shares_efectivas = efectivas
+                    issues.append(
+                        f'acciones × precio no cuadra (ratio {ratio:.4f}) pero la '
+                        f'divisa sí: son clases múltiples. Se usan '
+                        f'{efectivas / 1e6:,.0f} M de acciones efectivas '
+                        f'(capitalización ÷ precio) en vez de las '
+                        f'{float(shares) / 1e6:,.0f} M declaradas'
+                    )
+                else:
+                    per_share_ok = False
+                    donde = (f'los estados van en {fin_ccy} mientras cotiza en '
+                             f'{cot_ccy}' if (fin_ccy and cot_ccy)
+                             else 'no consta en qué divisa van los estados')
+                    issues.append(
+                        f'acciones × precio no cuadra con la capitalización '
+                        f'(ratio {ratio:.4f}) y {donde} — puede ser un ADR. Los '
+                        f'ratios por acción (EPS, FCF/acción, DCF) no son '
+                        f'utilizables'
+                    )
         except (TypeError, ValueError, ZeroDivisionError):
             pass
 
@@ -471,5 +561,8 @@ def check_coherence(info: dict, ticker: str = '') -> dict:
         'per_share_reliable': per_share_ok,
         'aggregate_reliable': aggregate_ok,
         'shares_price_ratio': round(ratio, 4) if ratio is not None else None,
+        # Las que hay que usar para los ratios por acción cuando las
+        # declaradas son de una sola clase. None = valen las declaradas.
+        'shares_efectivas': shares_efectivas,
         'issues': issues,
     }
