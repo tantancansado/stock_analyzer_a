@@ -1,19 +1,27 @@
 {
-  "total_problemas": 0,
+  "total_problemas": 12,
   "desfases_conocidos": [
-    "⏳ AI.PA: tikr lo da en USD y PA cotiza en EUR — no es esa acción — el resolvedor se arregló después de este volcado; TIKR corre los domingos",
-    "⏳ AI.PA: european_value_opp dice «L'Air Liquide S.A.» y tikr dice «C3.ai, Inc.» — no es la misma empresa — el resolvedor se arregló después de este volcado; TIKR corre los domingos",
-    "⏳ AI.PA: european_value_opp=165.24 y tikr=10.54 (1468% de diferencia) — el resolvedor se arregló después de este volcado; TIKR corre los domingos",
-    "⏳ BRK-B: value_opportunitie dice «Berkshire Hathaway Inc.» y tikr dice «Direxion Shares ETF Trust - Direxion Daily BRKB Bull 2X ETF» — no es la misma empresa — el resolvedor se arregló después de este volcado; TIKR corre los domingos",
-    "⏳ BRK-B: fundamental_scores dice «Berkshire Hathaway Inc.» y tikr dice «Direxion Shares ETF Trust - Direxion Daily BRKB Bull 2X ETF» — no es la misma empresa — el resolvedor se arregló después de este volcado; TIKR corre los domingos",
-    "⏳ BRK-B: value_opportunitie=509.20 y tikr=23.38 (2078% de diferencia) — el resolvedor se arregló después de este volcado; TIKR corre los domingos",
-    "⏳ BRK-B: fundamental_scores=509.20 y tikr=23.38 (2078% de diferencia) — el resolvedor se arregló después de este volcado; TIKR corre los domingos",
-    "⏳ EXPN.L: tikr lo da en USD y L cotiza en GBp — no es esa acción — el resolvedor se arregló después de este volcado; TIKR corre los domingos",
-    "⏳ MMC: tikr lo da en PLN y US cotiza en USD — no es esa acción — el resolvedor se arregló después de este volcado; TIKR corre los domingos",
     "⏳ ⚠️  value_opportunities.csv: upside DCF = (objetivo − precio) / precio — 1/44 filas, peor desvío 2% (ICE)",
     "⏳ ⚠️  value_opportunities_filtered.csv: upside DCF = (objetivo − precio) / precio — 1/36 filas, peor desvío 2% (ICE)"
   ],
-  "detalle": {},
+  "detalle": {
+    "commodities: rating contra narrativa IA": [
+      "WEAT: value_rating=CARO pero ai_narrative_veredicto=OPORTUNIDAD_ESTRUCTURAL",
+      "CANE: value_rating=CARO pero ai_narrative_veredicto=OPORTUNIDAD_ESTRUCTURAL",
+      "BAL: value_rating=CARO pero ai_narrative_veredicto=OPORTUNIDAD_ESTRUCTURAL"
+    ],
+    "identidad de los tickers (¿es esta empresa?)": [
+      "AI.PA: tikr lo da en USD y PA cotiza en EUR — no es esa acción",
+      "AI.PA: european_value_opp dice «L'Air Liquide S.A.» y tikr dice «C3.ai, Inc.» — no es la misma empresa",
+      "AI.PA: european_value_opp=165.24 y tikr=10.54 (1468% de diferencia)",
+      "BRK-B: value_opportunitie dice «Berkshire Hathaway Inc.» y tikr dice «Direxion Shares ETF Trust - Direxion Daily BRKB Bull 2X ETF» — no es la misma empresa",
+      "BRK-B: fundamental_scores dice «Berkshire Hathaway Inc.» y tikr dice «Direxion Shares ETF Trust - Direxion Daily BRKB Bull 2X ETF» — no es la misma empresa",
+      "BRK-B: value_opportunitie=509.20 y tikr=23.38 (2078% de diferencia)",
+      "BRK-B: fundamental_scores=509.20 y tikr=23.38 (2078% de diferencia)",
+      "EXPN.L: tikr lo da en USD y L cotiza en GBp — no es esa acción",
+      "MMC: tikr lo da en PLN y US cotiza en USD — no es esa acción"
+    ]
+  },
   "tickers_value": 52,
   "tickers_verdicts": 72
 }
