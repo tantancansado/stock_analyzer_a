@@ -1,12 +1,25 @@
 {
-  "generated_at": "2026-09-19T09:22:25Z",
+  "generated_at": "2026-09-19T11:21:46Z",
   "modelos": {
     "value": {
       "etiqueta": "oportunidades VALUE",
       "fichero": "value_opportunities.csv",
       "datos_del": "2026-09-19T08:47:34Z",
-      "desfasado": false,
-      "modulos_mas_nuevos": []
+      "desfasado": true,
+      "modulos_mas_nuevos": [
+        {
+          "modulo": "financial_cross_check.py",
+          "cambiado_el": "2026-09-19T13:21:37+02:00"
+        },
+        {
+          "modulo": "fundamental_scorer.py",
+          "cambiado_el": "2026-09-19T13:21:37+02:00"
+        },
+        {
+          "modulo": "super_score_integrator.py",
+          "cambiado_el": "2026-09-19T13:21:37+02:00"
+        }
+      ]
     },
     "leaps": {
       "etiqueta": "LEAPS",
@@ -16,7 +29,7 @@
       "modulos_mas_nuevos": [
         {
           "modulo": "fundamental_scorer.py",
-          "cambiado_el": "2026-09-19T01:18:19+02:00"
+          "cambiado_el": "2026-09-19T13:21:37+02:00"
         },
         {
           "modulo": "leaps_analyzer.py",
@@ -48,6 +61,7 @@
   },
   "hay_desfase": true,
   "desfasados": [
+    "value",
     "leaps"
   ]
 }
