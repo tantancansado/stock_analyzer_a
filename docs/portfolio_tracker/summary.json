@@ -1,8 +1,8 @@
 {
-  "total_signals": 91,
-  "unique_tickers": 54,
-  "date_range": "2026-04-08 to 2026-09-18",
-  "active_signals": 16,
+  "total_signals": 92,
+  "unique_tickers": 55,
+  "date_range": "2026-04-08 to 2026-09-19",
+  "active_signals": 17,
   "completed_signals": 75,
   "overall": {
     "90d": {
@@ -92,7 +92,7 @@
     }
   },
   "value_strategy": {
-    "count": 79,
+    "count": 80,
     "90d": {
       "count": 27,
       "win_rate": 66.7,
@@ -161,12 +161,12 @@
     "BOUNCE_BROAD": {
       "count": 21,
       "7d": {
-        "count": 13,
-        "win_rate": 38.5,
-        "ci_low": 17.7,
-        "ci_high": 64.5,
-        "avg_return": -0.72,
-        "median_return": -0.84,
+        "count": 14,
+        "win_rate": 35.7,
+        "ci_low": 16.3,
+        "ci_high": 61.2,
+        "avg_return": -0.89,
+        "median_return": -0.94,
         "best": 4.07,
         "worst": -4.24
       },
@@ -175,12 +175,12 @@
     "MEAN_REVERSION": {
       "count": 81,
       "7d": {
-        "count": 37,
-        "win_rate": 32.4,
-        "ci_low": 19.6,
-        "ci_high": 48.5,
-        "avg_return": -2.9,
-        "median_return": -1.38,
+        "count": 46,
+        "win_rate": 32.6,
+        "ci_low": 20.9,
+        "ci_high": 47.0,
+        "avg_return": -2.87,
+        "median_return": -2.06,
         "best": 4.54,
         "worst": -14.93
       },
@@ -188,7 +188,7 @@
     }
   },
   "leaps_strategy": {
-    "count": 110,
+    "count": 120,
     "subyacente": {
       "90d": {
         "count": 0,
@@ -233,9 +233,9 @@
         "ci_high": null
       }
     },
-    "edad_max_dias": 29,
-    "dias_hasta_primera_lectura": 61,
-    "con_contrato": 73,
+    "edad_max_dias": 30,
+    "dias_hasta_primera_lectura": 60,
+    "con_contrato": 83,
     "nota": "el contrato se sigue por su s\u00edmbolo OCC; son opciones poco l\u00edquidas, as\u00ed que un checkpoint sin cotizaci\u00f3n en 10 d\u00edas se queda vac\u00edo en vez de arrastrar un precio viejo"
   },
   "sector_performance": {
@@ -373,14 +373,25 @@
   "performers_horizon": "90d",
   "recent_signals": [
     {
-      "ticker": "META",
-      "company_name": "Meta Platforms, Inc.",
+      "ticker": "BLK",
+      "company_name": "BlackRock, Inc.",
+      "strategy": "VALUE",
+      "signal_date": "2026-09-19",
+      "signal_price": 1069.78,
+      "sector": "Financial Services",
+      "value_score": 54.08,
+      "days_active": 0,
+      "first_result_date": "2026-09-26"
+    },
+    {
+      "ticker": "FCNCA",
+      "company_name": "First Citizens BancShares, Inc.",
       "strategy": "VALUE",
       "signal_date": "2026-09-18",
-      "signal_price": 682.31,
-      "sector": "Communication Services",
-      "value_score": 63.72,
-      "days_active": 0,
+      "signal_price": 2120.58,
+      "sector": "Financial Services",
+      "value_score": 51.92499999999999,
+      "days_active": 1,
       "first_result_date": "2026-09-25"
     },
     {
@@ -391,18 +402,18 @@
       "signal_price": 59.29,
       "sector": "Energy",
       "value_score": 53.155,
-      "days_active": 0,
+      "days_active": 1,
       "first_result_date": "2026-09-25"
     },
     {
-      "ticker": "FCNCA",
-      "company_name": "First Citizens BancShares, Inc.",
+      "ticker": "META",
+      "company_name": "Meta Platforms, Inc.",
       "strategy": "VALUE",
       "signal_date": "2026-09-18",
-      "signal_price": 2120.58,
-      "sector": "Financial Services",
-      "value_score": 51.92499999999999,
-      "days_active": 0,
+      "signal_price": 682.31,
+      "sector": "Communication Services",
+      "value_score": 63.72,
+      "days_active": 1,
       "first_result_date": "2026-09-25"
     },
     {
@@ -413,7 +424,7 @@
       "signal_price": 77.01,
       "sector": "Consumer Cyclical",
       "value_score": 59.09,
-      "days_active": 8,
+      "days_active": 9,
       "first_result_date": "2026-09-17"
     },
     {
@@ -424,7 +435,7 @@
       "signal_price": 314.4,
       "sector": "Industrials",
       "value_score": 59.72,
-      "days_active": 16,
+      "days_active": 17,
       "first_result_date": "2026-09-09"
     },
     {
@@ -435,7 +446,7 @@
       "signal_price": 435.84,
       "sector": "Financial Services",
       "value_score": 58.14,
-      "days_active": 17,
+      "days_active": 18,
       "first_result_date": "2026-09-08"
     },
     {
@@ -446,7 +457,7 @@
       "signal_price": 108.815,
       "sector": "Financial Services",
       "value_score": 57.05500000000001,
-      "days_active": 21,
+      "days_active": 22,
       "first_result_date": "2026-09-04"
     },
     {
@@ -457,18 +468,18 @@
       "signal_price": 127.08,
       "sector": "Industrials",
       "value_score": 50.06999999999999,
-      "days_active": 22,
+      "days_active": 23,
       "first_result_date": "2026-09-03"
     },
     {
-      "ticker": "CLPBY",
-      "company_name": "Coloplast A/S",
+      "ticker": "TT",
+      "company_name": "Trane Technologies plc",
       "strategy": "VALUE",
       "signal_date": "2026-08-26",
-      "signal_price": 7.26,
-      "sector": "Healthcare",
-      "value_score": 59.59,
-      "days_active": 23,
+      "signal_price": 455.25,
+      "sector": "Industrials",
+      "value_score": 51.95,
+      "days_active": 24,
       "first_result_date": "2026-09-02"
     },
     {
@@ -479,18 +490,18 @@
       "signal_price": 351.05,
       "sector": "Industrials",
       "value_score": 56.375,
-      "days_active": 23,
+      "days_active": 24,
       "first_result_date": "2026-09-02"
     },
     {
-      "ticker": "TT",
-      "company_name": "Trane Technologies plc",
+      "ticker": "CLPBY",
+      "company_name": "Coloplast A/S",
       "strategy": "VALUE",
       "signal_date": "2026-08-26",
-      "signal_price": 455.25,
-      "sector": "Industrials",
-      "value_score": 51.95,
-      "days_active": 23,
+      "signal_price": 7.26,
+      "sector": "Healthcare",
+      "value_score": 59.59,
+      "days_active": 24,
       "first_result_date": "2026-09-02"
     },
     {
@@ -501,19 +512,8 @@
       "signal_price": 355.11,
       "sector": "Financial Services",
       "value_score": 51.13,
-      "days_active": 25,
+      "days_active": 26,
       "first_result_date": "2026-08-31"
-    },
-    {
-      "ticker": "EXPN.L",
-      "company_name": "Experian plc",
-      "strategy": "VALUE",
-      "signal_date": "2026-08-21",
-      "signal_price": 2966.0,
-      "sector": "Industrials",
-      "value_score": 60.88499999999999,
-      "days_active": 28,
-      "first_result_date": "2026-08-28"
     },
     {
       "ticker": "BRK-B",
@@ -523,19 +523,19 @@
       "signal_price": 496.86,
       "sector": "Financial Services",
       "value_score": 55.370000000000005,
-      "days_active": 28,
+      "days_active": 29,
       "first_result_date": "2026-08-28"
     },
     {
-      "ticker": "OXY",
-      "company_name": "Occidental Petroleum Corporation",
+      "ticker": "EXPN.L",
+      "company_name": "Experian plc",
       "strategy": "VALUE",
-      "signal_date": "2026-08-20",
-      "signal_price": 60.09,
-      "sector": "Energy",
-      "value_score": 62.24000000000001,
+      "signal_date": "2026-08-21",
+      "signal_price": 2966.0,
+      "sector": "Industrials",
+      "value_score": 60.88499999999999,
       "days_active": 29,
-      "first_result_date": "2026-08-27"
+      "first_result_date": "2026-08-28"
     },
     {
       "ticker": "FHN",
@@ -545,7 +545,18 @@
       "signal_price": 24.87,
       "sector": "Financial Services",
       "value_score": 51.305,
-      "days_active": 29,
+      "days_active": 30,
+      "first_result_date": "2026-08-27"
+    },
+    {
+      "ticker": "OXY",
+      "company_name": "Occidental Petroleum Corporation",
+      "strategy": "VALUE",
+      "signal_date": "2026-08-20",
+      "signal_price": 60.09,
+      "sector": "Energy",
+      "value_score": 62.24000000000001,
+      "days_active": 30,
       "first_result_date": "2026-08-27"
     }
   ],
@@ -692,5 +703,5 @@
       "worst_alpha": -4.98
     }
   },
-  "generated_at": "2026-09-18T05:43:25.874086"
+  "generated_at": "2026-09-19T08:46:25.033909"
 }

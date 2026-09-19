@@ -1,7 +1,7 @@
 {
-  "date": "2026-09-18",
-  "timestamp": "2026-09-18T05:40:17.020340",
-  "narrative": "Los tickers con mayor actividad se concentran en sectores defensivos y de consumo b\u00e1sico (telecomunicaciones, energ\u00eda, servicios p\u00fablicos y retail), lo que sugiere una apuesta de los insiders por negocios con flujo de caja estable y menor exposici\u00f3n c\u00edclica. Cuando varios insiders diferentes adquieren acciones del mismo ticker en un lapso corto, indica confianza colectiva en la valoraci\u00f3n y en la perspectiva operativa de la compa\u00f1\u00eda, reduciendo la probabilidad de que la compra sea motivada por necesidades personales. Para un inversor value/GARP, este patr\u00f3n constituye una se\u00f1al complementaria de \u201ccorteza interna\u201d que justifica una revisi\u00f3n de la valoraci\u00f3n y, potencialmente, una posici\u00f3n de compra con margen de",
+  "date": "2026-09-19",
+  "timestamp": "2026-09-19T08:44:55.740037",
+  "narrative": "Los tickers con mayor actividad pertenecen mayormente a sectores defensivos y de salud (GSK, BP, BATS, BA) y a energ\u00eda/industria (RSG, BSX), lo que indica un clustering tem\u00e1tico en empresas con flujos de caja estables y exposici\u00f3n a la recuperaci\u00f3n post\u2011pandemia. Cuando varios insiders diferentes compran simult\u00e1neamente, sugiere informaci\u00f3n no p\u00fablica compartida sobre perspectivas positivas de la compa\u00f1\u00eda y refuerza la credibilidad de la se\u00f1al, pues no se trata de una \u00fanica apuesta personal. Para un inversor value/GARP, estas compras pueden servir como un filtro adicional para identificar acciones subvaloradas con",
   "total_tickers": 16,
   "total_us": 8,
   "total_eu": 8,
@@ -9,10 +9,18 @@
     {
       "ticker": "RSG",
       "market": "US",
-      "purchase_count": 45,
+      "purchase_count": 47,
       "unique_insiders": 1,
       "confidence_score": 100.0,
-      "days_span": 35
+      "days_span": 37
+    },
+    {
+      "ticker": "BSX",
+      "market": "US",
+      "purchase_count": 15,
+      "unique_insiders": 2,
+      "confidence_score": 100.0,
+      "days_span": 28
     },
     {
       "ticker": "AAL.L",
@@ -23,26 +31,18 @@
       "days_span": 52
     },
     {
-      "ticker": "MNDI.L",
+      "ticker": "BA.L",
       "market": "EU",
-      "purchase_count": 6,
-      "unique_insiders": 2,
+      "purchase_count": 21,
+      "unique_insiders": 11,
       "confidence_score": 100.0,
-      "days_span": 62
+      "days_span": 31
     },
     {
-      "ticker": "VOD.L",
+      "ticker": "BARC.L",
       "market": "EU",
-      "purchase_count": 9,
-      "unique_insiders": 9,
-      "confidence_score": 100.0,
-      "days_span": 40
-    },
-    {
-      "ticker": "UNA.AS",
-      "market": "EU",
-      "purchase_count": 13,
-      "unique_insiders": 9,
+      "purchase_count": 10,
+      "unique_insiders": 10,
       "confidence_score": 100.0,
       "days_span": 0
     }
