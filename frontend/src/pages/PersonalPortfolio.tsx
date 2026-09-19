@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback, useMemo } from 'react'
+import { precio } from '@/lib/moneda'
 import { Plus, RefreshCw, TrendingUp, TrendingDown, Wallet, AlertTriangle, X, Loader2, BookOpen, Send, Trash2, ChevronDown, ChevronUp, Zap, Brain, Pencil, Check, Landmark, Star,
          Target, Gem, Anchor, OctagonAlert, Bell, CalendarRange, CalendarDays, Clock } from 'lucide-react'
 import SignalBadge from '../components/SignalBadge'
@@ -1852,7 +1853,7 @@ export default function PersonalPortfolio() {
                         <div className="flex items-center justify-between text-micro">
                           <span className="text-muted-foreground">Target medio</span>
                           <span className="font-semibold text-foreground tabular-nums">
-                            {target != null ? `$${target.toFixed(0)}` : '—'}
+                            {precio(target, pos.ticker, null, 0)}
                             {upsidePct != null && (
                               <span className={`ml-1 ${upsidePct > 0 ? 'text-emerald-400' : 'text-red-400'}`}>
                                 {upsidePct > 0 ? '+' : ''}{upsidePct.toFixed(0)}%

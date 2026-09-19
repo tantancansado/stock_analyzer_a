@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { precio } from '@/lib/moneda'
 import api from '../api/client'
 import { useApi } from '../hooks/useApi'
 import { useKeyboardNav } from '../hooks/useKeyboardNav'
@@ -274,7 +275,7 @@ export default function PositionSizing() {
                           </div>
                         </TableCell>
                         <TableCell className="tabular-nums text-apoyo">
-                          {r.current_price != null ? `$${r.current_price.toFixed(2)}` : '—'}
+                          {precio(r.current_price, r.ticker)}
                         </TableCell>
                         <TableCell>
                           <div className="flex items-center gap-2">
@@ -293,7 +294,7 @@ export default function PositionSizing() {
                         <TableCell className="tabular-nums text-apoyo">{scaledShares}</TableCell>
                         {!compact && (
                           <TableCell className="tabular-nums text-apoyo text-red-400">
-                            {r.stop_loss_price != null ? `$${r.stop_loss_price.toFixed(2)}` : '—'}
+                            {precio(r.stop_loss_price, r.ticker)}
                           </TableCell>
                         )}
                         <TableCell className="tabular-nums text-apoyo text-red-400">

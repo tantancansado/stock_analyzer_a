@@ -1,4 +1,5 @@
 import { Fragment, useState, useEffect, useRef } from 'react'
+import { precio } from '@/lib/moneda'
 import axios from 'axios'
 import { GitCompare, Plus, X, Loader2, TrendingUp, TrendingDown, Minus } from 'lucide-react'
 import { searchTickers, type SearchResult } from '../api/client'
@@ -16,7 +17,9 @@ type TickerData = Record<string, any>
 interface Metric {
   key: string
   label: string
-  format: (v: number | null) => string
+  // El formateador recibe el ticker: el precio de una acción de Londres
+  // va en peniques, y `$` a pelo lo enseñaba 100 veces más caro.
+  format: (v: number | null, ticker?: string) => string
   color?: (v: number | null, all: (number | null)[]) => string
   section?: string
 }
@@ -36,8 +39,8 @@ const bad = (v: number | null, all: (number | null)[]) => {
 
 const pct = (v: number | null) => v != null ? `${v >= 0 ? '+' : ''}${v.toFixed(1)}%` : '—'
 const x   = (v: number | null) => v != null ? `${v.toFixed(1)}x` : '—'
-const p2  = (v: number | null) => v != null ? `$${v.toFixed(2)}` : '—'
-const p0  = (v: number | null) => v != null ? `$${v.toFixed(0)}` : '—'
+const p2  = (v: number | null, t?: string) => precio(v, t)
+const p0  = (v: number | null, t?: string) => precio(v, t, null, 0)
 const n1  = (v: number | null) => v != null ? v.toFixed(1) : '—'
 const n0  = (v: number | null) => v != null ? v.toFixed(0) : '—'
 
@@ -96,7 +99,7 @@ function Cell({ metric, data, allData }: { metric: Metric; data: TickerData; all
   const num  = typeof raw === 'number' ? raw : null
   const nums = allData.map(d => getNum(d, metric.key))
   const cls  = metric.color ? metric.color(num, nums) : ''
-  const text = raw != null ? metric.format(raw as number) : '—'
+  const text = raw != null ? metric.format(raw as number, data.ticker) : '—'
 
   const isUpside = metric.key === 'analyst_upside_pct' || metric.key === 'target_price_dcf_upside_pct'
   const isGrowth = metric.key === 'revenue_growth' || metric.key === 'roe' || metric.key === 'roic_greenblatt'

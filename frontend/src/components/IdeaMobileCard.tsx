@@ -1,4 +1,5 @@
 import type React from 'react'
+import { precio } from '@/lib/moneda'
 import { AlertTriangle, CalendarClock, ChevronRight } from 'lucide-react'
 import type { ValueOpportunity } from '@/api/client'
 import TickerLogo from './TickerLogo'
@@ -85,7 +86,9 @@ export default function IdeaMobileCard({ d, onOpen, extra }: Readonly<Props>) {
       )}
 
       <div className="mt-3 grid grid-cols-3 gap-2">
-        <Dato etiqueta="Precio" valor={d.current_price != null ? `$${d.current_price.toFixed(2)}` : '—'} />
+        {/* `precio()`, no `$` a pelo: deduce la divisa del sufijo de bolsa.
+            Es la tarjeta que se ve en el móvil, que es donde más se mira. */}
+        <Dato etiqueta="Precio" valor={precio(d.current_price, d.ticker)} />
         <Dato
           etiqueta="Potencial"
           valor={upside != null ? `${upside > 0 ? '+' : ''}${upside.toFixed(0)}%` : '—'}

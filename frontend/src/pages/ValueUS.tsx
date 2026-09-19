@@ -1019,7 +1019,7 @@ export default function ValueUS() {
                   </TableCell>
                   <TableCell className={compact ? 'hidden' : 'hidden md:table-cell max-w-[120px] truncate text-muted-foreground text-mini'}>{d.sector}</TableCell>
                   <TableCell className="tabular-nums">
-                    {d.target_price_analyst ? `$${d.target_price_analyst.toFixed(0)}` : '—'}
+                    {precio(d.target_price_analyst, d.ticker, null, 0)}
                     {d.analyst_upside_pct != null && (
                       <span className={`ml-1.5 text-mini font-semibold ${d.analyst_upside_pct > 0 ? 'text-emerald-400' : 'text-red-400'}`}>
                         {d.analyst_upside_pct > 0 ? '+' : ''}{d.analyst_upside_pct.toFixed(0)}%

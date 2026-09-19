@@ -1,4 +1,5 @@
 import { ClipboardList, Hourglass } from 'lucide-react'
+import { precio } from '@/lib/moneda'
 import { useState, lazy, Suspense } from 'react'
 import api, { fetchPortfolioTracker, fetchCorrelationMatrix, fetchPortfolioInsight, fetchCalibration, type PortfolioSummary, type CorrelationData, type CalibrationData } from '../api/client'
 import { useApi } from '../hooks/useApi'
@@ -597,7 +598,7 @@ export default function Portfolio() {
                         </TableCell>
                         <TableCell className="text-mini text-muted-foreground tabular-nums">{s.signal_date ?? '—'}</TableCell>
                         <TableCell className="text-apoyo tabular-nums">
-                          {s.signal_price != null ? `$${s.signal_price.toFixed(2)}` : '—'}
+                          {precio(s.signal_price, s.ticker)}
                         </TableCell>
                         <TableCell className="tabular-nums text-apoyo text-primary">
                           {s.value_score != null ? s.value_score.toFixed(0) : '—'}

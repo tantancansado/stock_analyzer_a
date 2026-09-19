@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { AreaChart, Area, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
 import { fetchPriceHistory, type PricePoint } from '@/api/client'
+import { precio } from '@/lib/moneda'
 import { Loader2 } from 'lucide-react'
 
 interface Props {
@@ -65,7 +66,7 @@ export default function PriceChart({ ticker, data: external, height = 200, mini 
             <YAxis
               domain={['auto', 'auto']}
               tick={{ fontSize: 10, fill: '#64748b' }}
-              tickFormatter={v => `$${v}`}
+              tickFormatter={v => precio(Number(v), ticker, null, 0)}
               width={50}
               axisLine={false}
               tickLine={false}
@@ -81,7 +82,11 @@ export default function PriceChart({ ticker, data: external, height = 200, mini 
                 padding: '8px 12px',
               }}
               labelStyle={{ color: '#94a3b8', marginBottom: '2px' }}
-              formatter={(v) => [`$${Number(v ?? 0).toFixed(2)}`, 'Precio']}
+              // `$` a pelo: el gráfico de Auto Trader enseñaba «$489.80»
+              // cuando son 489,80 PENIQUES, o sea 4,90 £. `precio()` deduce la
+              // divisa del sufijo de bolsa. Y `?? 0` pintaba «$0.00» sobre un
+              // hueco del histórico, que se lee como que la acción valió cero.
+              formatter={(v) => [precio(v == null ? null : Number(v), ticker), 'Precio']}
               labelFormatter={l => l as string}
             />
           )}
