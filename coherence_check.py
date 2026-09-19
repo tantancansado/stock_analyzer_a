@@ -26,6 +26,14 @@ from pathlib import Path
 
 DOCS = Path('docs')
 
+# Commit aed71672f, 17-sep-2026 11:51: «fix(tikr): arreglado el resolvedor que
+# devolvía otra empresa». Un volcado anterior a esa fecha arrastra el bug
+# conocido —AI.PA resolviendo a C3.ai, BRK-B a un ETF apalancado— y sus
+# incoherencias no son contradicciones de la app: son datos viejos esperando
+# a que TIKR vuelva a correr, cosa que hace los domingos.
+from datetime import date as _date_tipo
+RESOLVEDOR_TIKR_ARREGLADO = _date_tipo(2026, 9, 17)
+
 
 def _rows(nombre: str) -> list[dict]:
     p = DOCS / nombre
@@ -228,6 +236,14 @@ def commodity_rating_vs_narrativa(commodities: list[dict]) -> list[str]:
             problemas.append(f'{ticker}: value_rating=CARO pero ai_narrative_veredicto=OPORTUNIDAD_ESTRUCTURAL')
         elif rating in ('MUY_ATRACTIVO', 'ATRACTIVO') and veredicto == 'TRAMPA_DE_VALOR':
             problemas.append(f'{ticker}: value_rating={rating} pero ai_narrative_veredicto=TRAMPA_DE_VALOR')
+        # El simétrico del primero. PRECIO_EXIGENTE se añadió el 19-sep-2026
+        # porque las tres categorías de entonces describían todas un precio
+        # BAJO —«el precio bajo responde a…», «está barato dentro de…»— y un
+        # commodity caro no tenía dónde caer: la IA lo metía en
+        # OPORTUNIDAD_ESTRUCTURAL, que era la que mejor sonaba. Ahora que
+        # existe la categoría, usarla sobre algo barato es el error contrario.
+        elif rating in ('MUY_ATRACTIVO', 'ATRACTIVO') and veredicto == 'PRECIO_EXIGENTE':
+            problemas.append(f'{ticker}: value_rating={rating} pero ai_narrative_veredicto=PRECIO_EXIGENTE')
     return problemas
 
 
@@ -368,24 +384,23 @@ def identidad_de_los_tickers() -> list[str]:
     #
     # Se marcan como ⏳: el mecanismo ya existía para los desfases entre
     # artefactos de distinta cadencia, y esto es exactamente eso.
+    # La primera versión de esto preguntaba a `git log` por la fecha del
+    # volcado y la del resolvedor. En local funcionaba; en CI no, porque
+    # actions/checkout clona en superficie (fetch-depth 1 por defecto) y
+    # `git log` de un fichero devuelve vacío. El indulto no se aplicaba y el
+    # pipeline volvió a caerse igual.
+    #
+    # Las dos fechas se pueden saber sin git: el volcado trae su propio
+    # `generated_at`, y la del arreglo se escribe aquí. Una constante a mano
+    # es fea, pero es un hecho que no cambia —el commit está citado— y
+    # funciona en cualquier checkout.
     tikr_desfasado = False
     if ruta_tikr.exists():
         try:
-            import subprocess
-            from datetime import datetime, timezone
-
-            def _commit(ruta: str):
-                r = subprocess.run(['git', 'log', '-1', '--format=%cI', '--', ruta],
-                                   capture_output=True, text=True, timeout=20)
-                t = r.stdout.strip()
-                if not t:
-                    return None
-                d = datetime.fromisoformat(t.replace('Z', '+00:00'))
-                return d if d.tzinfo else d.replace(tzinfo=timezone.utc)
-
-            dato = _commit(str(ruta_tikr))
-            codigo = _commit('tikr_scraper.py')
-            tikr_desfasado = bool(dato and codigo and codigo > dato)
+            from datetime import date as _date, datetime as _dt
+            crudo = _json.loads(ruta_tikr.read_text()).get('generated_at')
+            volcado = _dt.fromisoformat(str(crudo).replace('Z', '+00:00')).date()
+            tikr_desfasado = volcado < RESOLVEDOR_TIKR_ARREGLADO
         except Exception:
             tikr_desfasado = False
 

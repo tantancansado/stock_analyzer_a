@@ -27,7 +27,11 @@ from claude_research import ask_with_search, ask_with_search_lote, parse_json
 MAX_COMMODITIES = 10   # universo entero cabe de sobra en el presupuesto
 PRESUPUESTO_SEG = 300  # 5 min como mucho — enrichment opcional, no crítico
 
-VEREDICTOS = ('OPORTUNIDAD_ESTRUCTURAL', 'MINIMO_CICLICO', 'TRAMPA_DE_VALOR', 'SIN_DATOS')
+# PRECIO_EXIGENTE tiene que estar aquí, no solo en el system: `_interpretar`
+# convierte a SIN_DATOS cualquier veredicto que no esté en esta tupla, así que
+# añadir la categoría solo al prompt la habría hecho desaparecer en silencio.
+VEREDICTOS = ('OPORTUNIDAD_ESTRUCTURAL', 'MINIMO_CICLICO', 'TRAMPA_DE_VALOR',
+              'PRECIO_EXIGENTE', 'SIN_DATOS')
 
 SYSTEM = """Eres un analista de materias primas. Te preguntan por una en concreto y
 tienes que explicar qué está moviendo su precio ESTA semana — no el driver genérico
@@ -46,22 +50,39 @@ Clasifica en una de estas categorías:
 - TRAMPA_DE_VALOR: el precio bajo refleja un cambio estructural de demanda u
   oferta que no se va a revertir (sustitución tecnológica, exceso de
   capacidad permanente).
+- PRECIO_EXIGENTE: NO está barato. Cotiza por encima de su rango normal y lo
+  que sostiene el precio es un factor alcista concreto (sequía, recorte de
+  producción, choque de oferta). Puede ser una historia interesante, pero no
+  es una compra por precio.
 - SIN_DATOS: no encuentras información suficiente y reciente. Es una
   respuesta válida, mejor que forzar una categoría.
 
+Las tres primeras categorías describen un precio BAJO. Si la materia prima no
+está barata, la respuesta es PRECIO_EXIGENTE — no metas un precio alto en
+«oportunidad» porque la historia de fondo sea buena. Te damos abajo la
+valoración cuantitativa: si tu conclusión se aparta de ella, dilo en el
+resumen y explica por qué, que para eso buscas.
+
 Responde SOLO con este JSON, sin markdown alrededor:
-{"veredicto": "OPORTUNIDAD_ESTRUCTURAL|MINIMO_CICLICO|TRAMPA_DE_VALOR|SIN_DATOS",
+{"veredicto": "OPORTUNIDAD_ESTRUCTURAL|MINIMO_CICLICO|TRAMPA_DE_VALOR|PRECIO_EXIGENTE|SIN_DATOS",
  "resumen": "<máximo dos frases en español: qué está pasando y por qué mueve el precio>",
  "confianza": 0-100}"""
 
+# El `value_rating` iba fuera del prompt, así que se le pedía a la IA que
+# fuera coherente con un número que no veía. El 18-sep-2026 WEAT, CANE y BAL
+# salieron con rating CARO y veredicto OPORTUNIDAD_ESTRUCTURAL, y el control
+# de coherencia tumbó el pipeline. No era la IA contradiciéndose: era que
+# ninguna de las categorías servía para un precio alto.
 PROMPT = """{sector} ({ticker}) cotiza a {price} {currency}, un {pct_from_high:.1f}% por
 debajo de su máximo de 52 semanas y un {pct_vs_2y:.1f}% respecto a su media de 2 años.
+Valoración cuantitativa de la app: {rating}.
 
 ¿Qué está pasando con {sector} ahora mismo que explique este precio?"""
 
 
 def analyze_commodity(ticker: str, sector: str, price: float, currency: str,
-                      pct_from_high: float, pct_vs_2y_avg: float) -> dict:
+                      pct_from_high: float, pct_vs_2y_avg: float,
+                      value_rating: str = 'sin valorar') -> dict:
     """Devuelve {veredicto, resumen, confianza, fuentes}. SIN_DATOS si no puede."""
     vacio = {'veredicto': 'SIN_DATOS', 'resumen': '', 'confianza': 0, 'fuentes': []}
 
@@ -75,7 +96,8 @@ def analyze_commodity(ticker: str, sector: str, price: float, currency: str,
     texto, fuentes = ask_with_search(
         PROMPT.format(sector=sector, ticker=ticker, price=price or 0,
                       currency=currency or 'USD', pct_from_high=pct_from_high or 0,
-                      pct_vs_2y=pct_vs_2y_avg or 0),
+                      pct_vs_2y=pct_vs_2y_avg or 0,
+                      rating=value_rating or 'sin valorar'),
         system=SYSTEM, max_tokens=1200, max_searches=2,
         model=claude_research.MODEL_HAIKU,
     )
@@ -141,7 +163,8 @@ def enrich(rows: list[dict], max_commodities: int = MAX_COMMODITIES) -> dict[str
             sector=str(r.get('sector', '')), ticker=ticker,
             price=_f(r.get('price')) or 0, currency=str(r.get('currency', 'USD')),
             pct_from_high=_f(r.get('pct_from_high')) or 0,
-            pct_vs_2y=_f(r.get('pct_vs_2y_avg')) or 0)
+            pct_vs_2y=_f(r.get('pct_vs_2y_avg')) or 0,
+            rating=str(r.get('value_rating') or 'sin valorar'))
 
     crudos = ask_with_search_lote(
         prompts, system=SYSTEM, max_tokens=1200, max_searches=2,
@@ -152,7 +175,8 @@ def enrich(rows: list[dict], max_commodities: int = MAX_COMMODITIES) -> dict[str
         res = _interpretar(*crudos[ticker])
         out[ticker] = res
         icono = {'OPORTUNIDAD_ESTRUCTURAL': '🟢', 'MINIMO_CICLICO': '🟡',
-                 'TRAMPA_DE_VALOR': '🔴', 'SIN_DATOS': '❓'}.get(res['veredicto'], '❓')
+                 'TRAMPA_DE_VALOR': '🔴', 'PRECIO_EXIGENTE': '🔵',
+                 'SIN_DATOS': '❓'}.get(res['veredicto'], '❓')
         eu = r.get('eu_alternative') or ''
         compra = f" · comprable en IBKR Ireland vía {eu}" if eu else " · sin equivalente UCITS conocido"
         print(f"   {icono} {ticker} ({r.get('sector')}): {res['veredicto']}{compra}")

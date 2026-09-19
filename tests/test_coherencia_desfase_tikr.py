@@ -26,8 +26,38 @@ FUENTE = (RAIZ / 'coherence_check.py').read_text()
 
 
 def test_compara_la_fecha_del_volcado_con_la_del_resolvedor():
-    assert "_commit('tikr_scraper.py')" in FUENTE
+    """Sin git. La primera versión preguntaba a `git log` por las dos fechas
+    y funcionaba en local, pero en CI no: actions/checkout clona en
+    superficie (fetch-depth 1 por defecto) y `git log` de un fichero devuelve
+    vacío. El indulto no se aplicaba y el pipeline volvió a caerse igual —lo
+    vimos en la ejecución 35405660133, con las nueve incoherencias contando
+    otra vez como reales.
+
+    Las dos fechas se saben sin git: el volcado trae su propio
+    `generated_at` y la del arreglo está escrita aquí.
+    """
+    assert 'RESOLVEDOR_TIKR_ARREGLADO' in FUENTE
+    assert "get('generated_at')" in FUENTE
     assert 'tikr_desfasado' in FUENTE
+    # Se comprueba el CÓDIGO, no la prosa: el comentario de arriba menciona
+    # `git log` justo para explicar por qué ya no se usa, y una búsqueda de
+    # texto plano lo cazaría.
+    import ast
+    arbol = ast.parse(FUENTE)
+    llamadas_git = [
+        n for n in ast.walk(arbol)
+        if isinstance(n, ast.Call)
+        and any(isinstance(a, ast.List)
+                and any(isinstance(e, ast.Constant) and e.value == 'git' for e in a.elts)
+                for a in n.args)
+    ]
+    assert not llamadas_git, 'en CI el historial está truncado: git no sirve aquí'
+
+
+def test_la_fecha_del_arreglo_cita_su_commit():
+    """Una constante a mano sin la referencia es un número que nadie sabe si
+    sigue valiendo."""
+    assert 'aed71672f' in FUENTE
 
 
 def test_solo_se_indultan_los_hallazgos_que_señalan_a_tikr():
@@ -55,9 +85,9 @@ def test_el_gate_sigue_siendo_duro():
     assert m and 'continue-on-error' not in m.group(1)
 
 
-def test_sin_git_no_se_indulta_nada():
-    """Si no se puede saber la fecha, el hallazgo cuenta como real: ante la
-    duda, el gate aprieta."""
+def test_sin_fecha_legible_no_se_indulta_nada():
+    """Si no se puede saber cuándo se generó, el hallazgo cuenta como real:
+    ante la duda, el gate aprieta."""
     assert 'tikr_desfasado = False' in FUENTE
     i = FUENTE.index('except Exception:', FUENTE.index('tikr_desfasado = False'))
     assert 'tikr_desfasado = False' in FUENTE[i:i + 120]
