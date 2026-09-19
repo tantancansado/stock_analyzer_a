@@ -264,6 +264,24 @@ def _rule_verdict(row: pd.Series, regime: str) -> dict:
         blockers.append('tus modelos se contradicen (uno la ve barata y el otro cara)')
     elif acuerdo == 'DISPERSOS' and disp is not None:
         blockers.append(f'DCF y P/E se separan {disp:.0f} pts: valoración poco firme')
+    elif not acuerdo:
+        # Sin modelos propios no hay acuerdo NI desacuerdo, y la cadena de
+        # arriba se caía en silencio: el ticker pasaba como si los dos
+        # coincidieran. El 19-sep-2026 GOOG era el único ENTRY de 81
+        # veredictos y lo era por esto — no tenía ni DCF ni P/E (las clases
+        # A+B+C rompían el cuadre de acciones y se omitían los dos), así que
+        # su entrada se apoyaba solo en el consenso del analista sin que
+        # nada lo dijera.
+        #
+        # No bloquea la entrada: la falta de un modelo no es una señal en
+        # contra. Pero tiene que constar, porque un ENTRY respaldado por una
+        # sola fuente no es el mismo ENTRY.
+        _falta = [n for n, c in (('DCF', 'target_price_dcf_upside_pct'),
+                                 ('P/E propio', 'target_price_pe_upside_pct'))
+                  if _safe_float(row.get(c)) is None]
+        if _falta:
+            reasons.append(f'sin {" ni ".join(_falta)}: la entrada se apoya '
+                           f'solo en el consenso de analistas')
 
     # ── Technical warnings (not dealbreakers) ──────────────────────────
     if ma_passes is False:
