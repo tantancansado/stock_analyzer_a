@@ -1,8 +1,8 @@
 {
-  "total_signals": 92,
-  "unique_tickers": 55,
-  "date_range": "2026-04-08 to 2026-09-19",
-  "active_signals": 17,
+  "total_signals": 93,
+  "unique_tickers": 56,
+  "date_range": "2026-04-08 to 2026-09-21",
+  "active_signals": 18,
   "completed_signals": 75,
   "overall": {
     "90d": {
@@ -92,7 +92,7 @@
     }
   },
   "value_strategy": {
-    "count": 80,
+    "count": 81,
     "90d": {
       "count": 27,
       "win_rate": 66.7,
@@ -159,7 +159,7 @@
   },
   "bounce_strategies": {
     "BOUNCE_BROAD": {
-      "count": 21,
+      "count": 27,
       "7d": {
         "count": 14,
         "win_rate": 35.7,
@@ -188,7 +188,7 @@
     }
   },
   "leaps_strategy": {
-    "count": 120,
+    "count": 130,
     "subyacente": {
       "90d": {
         "count": 0,
@@ -233,9 +233,9 @@
         "ci_high": null
       }
     },
-    "edad_max_dias": 30,
-    "dias_hasta_primera_lectura": 60,
-    "con_contrato": 83,
+    "edad_max_dias": 32,
+    "dias_hasta_primera_lectura": 58,
+    "con_contrato": 93,
     "nota": "el contrato se sigue por su s\u00edmbolo OCC; son opciones poco l\u00edquidas, as\u00ed que un checkpoint sin cotizaci\u00f3n en 10 d\u00edas se queda vac\u00edo en vez de arrastrar un precio viejo"
   },
   "sector_performance": {
@@ -373,6 +373,17 @@
   "performers_horizon": "90d",
   "recent_signals": [
     {
+      "ticker": "UNP",
+      "company_name": "Union Pacific Corporation",
+      "strategy": "VALUE",
+      "signal_date": "2026-09-21",
+      "signal_price": 279.37,
+      "sector": "Industrials",
+      "value_score": 57.52,
+      "days_active": 0,
+      "first_result_date": "2026-09-28"
+    },
+    {
       "ticker": "BLK",
       "company_name": "BlackRock, Inc.",
       "strategy": "VALUE",
@@ -380,7 +391,7 @@
       "signal_price": 1069.78,
       "sector": "Financial Services",
       "value_score": 54.08,
-      "days_active": 0,
+      "days_active": 2,
       "first_result_date": "2026-09-26"
     },
     {
@@ -391,7 +402,7 @@
       "signal_price": 2120.58,
       "sector": "Financial Services",
       "value_score": 51.92499999999999,
-      "days_active": 1,
+      "days_active": 3,
       "first_result_date": "2026-09-25"
     },
     {
@@ -402,7 +413,7 @@
       "signal_price": 59.29,
       "sector": "Energy",
       "value_score": 53.155,
-      "days_active": 1,
+      "days_active": 3,
       "first_result_date": "2026-09-25"
     },
     {
@@ -413,7 +424,7 @@
       "signal_price": 682.31,
       "sector": "Communication Services",
       "value_score": 63.72,
-      "days_active": 1,
+      "days_active": 3,
       "first_result_date": "2026-09-25"
     },
     {
@@ -424,7 +435,7 @@
       "signal_price": 77.01,
       "sector": "Consumer Cyclical",
       "value_score": 59.09,
-      "days_active": 9,
+      "days_active": 11,
       "first_result_date": "2026-09-17"
     },
     {
@@ -435,7 +446,7 @@
       "signal_price": 314.4,
       "sector": "Industrials",
       "value_score": 59.72,
-      "days_active": 17,
+      "days_active": 19,
       "first_result_date": "2026-09-09"
     },
     {
@@ -446,7 +457,7 @@
       "signal_price": 435.84,
       "sector": "Financial Services",
       "value_score": 58.14,
-      "days_active": 18,
+      "days_active": 20,
       "first_result_date": "2026-09-08"
     },
     {
@@ -457,7 +468,7 @@
       "signal_price": 108.815,
       "sector": "Financial Services",
       "value_score": 57.05500000000001,
-      "days_active": 22,
+      "days_active": 24,
       "first_result_date": "2026-09-04"
     },
     {
@@ -468,7 +479,7 @@
       "signal_price": 127.08,
       "sector": "Industrials",
       "value_score": 50.06999999999999,
-      "days_active": 23,
+      "days_active": 25,
       "first_result_date": "2026-09-03"
     },
     {
@@ -479,7 +490,7 @@
       "signal_price": 455.25,
       "sector": "Industrials",
       "value_score": 51.95,
-      "days_active": 24,
+      "days_active": 26,
       "first_result_date": "2026-09-02"
     },
     {
@@ -490,7 +501,7 @@
       "signal_price": 351.05,
       "sector": "Industrials",
       "value_score": 56.375,
-      "days_active": 24,
+      "days_active": 26,
       "first_result_date": "2026-09-02"
     },
     {
@@ -501,7 +512,7 @@
       "signal_price": 7.26,
       "sector": "Healthcare",
       "value_score": 59.59,
-      "days_active": 24,
+      "days_active": 26,
       "first_result_date": "2026-09-02"
     },
     {
@@ -512,7 +523,7 @@
       "signal_price": 355.11,
       "sector": "Financial Services",
       "value_score": 51.13,
-      "days_active": 26,
+      "days_active": 28,
       "first_result_date": "2026-08-31"
     },
     {
@@ -523,7 +534,7 @@
       "signal_price": 496.86,
       "sector": "Financial Services",
       "value_score": 55.370000000000005,
-      "days_active": 29,
+      "days_active": 31,
       "first_result_date": "2026-08-28"
     },
     {
@@ -534,7 +545,7 @@
       "signal_price": 2966.0,
       "sector": "Industrials",
       "value_score": 60.88499999999999,
-      "days_active": 29,
+      "days_active": 31,
       "first_result_date": "2026-08-28"
     },
     {
@@ -545,7 +556,7 @@
       "signal_price": 24.87,
       "sector": "Financial Services",
       "value_score": 51.305,
-      "days_active": 30,
+      "days_active": 32,
       "first_result_date": "2026-08-27"
     },
     {
@@ -556,7 +567,7 @@
       "signal_price": 60.09,
       "sector": "Energy",
       "value_score": 62.24000000000001,
-      "days_active": 30,
+      "days_active": 32,
       "first_result_date": "2026-08-27"
     }
   ],
@@ -703,5 +714,5 @@
       "worst_alpha": -4.98
     }
   },
-  "generated_at": "2026-09-19T08:46:25.033909"
+  "generated_at": "2026-09-21T05:56:01.372582"
 }

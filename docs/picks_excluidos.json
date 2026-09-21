@@ -1,8 +1,8 @@
 {
   "listas": {
     "value_opportunities": {
-      "candidatas": 84,
-      "publicadas": 74,
+      "candidatas": 87,
+      "publicadas": 81,
       "excluidos": [
         {
           "ticker": "COF",
@@ -31,41 +31,17 @@
         {
           "ticker": "THC",
           "paso": "verificador_ia",
-          "motivo": "Incoherencia crítica: fcf_yield_pct=14.24% es extraordinariamente alto (típicamente <7% incluso en baratas), sugiere error de factor 10 o de unidades. Si es correcto, valida el descuento masivo; si es un error, invalida toda la ficha. Además, modelos_acuerdo=DISPERSOS con DCF 104.0% vs P/E 27.4% (dispersión 76.6 pts), pero upside_requiere_verificacion=false y upside_triangulated_pct=27.4%, ignorando un conflicto enorme. Finalmente, analyst_upside_pct=9.0% vs target_price_pe_upside_pct=27.4% es una contradicción no explicada. Estos problemas concatenados hacen la ficha no fiable.",
+          "motivo": "Divergencia extrema entre DCF (104.0%) y P/E (27.3%) con dispersion de 76.7 pts, etiquetada DISPERSOS sin causar upside_requiere_verificacion=true, pero analyst_upside es solo 9% y upside_triangulated es 27.3%; la ficha no sostiene un descuento tan grande como DCF sugiere · FCF yield de 14.24% es inusualmente alto para un healthcare/hospital; si es correcto, DCF debería estar validado, pero P/E lo contradict tajantemente; falta claridad sobre cuál modelo es fiable",
           "score": 65.24
         },
         {
           "ticker": "DVA",
           "paso": "verificador_ia",
-          "motivo": "Contradicción extrema entre modelos: DCF 171.6% (enormemente alcista) vs P/E -14.0% (bajista), dispersión 185.6 pts. upside_triangulated_pct correctamente vacío, pero entonces analyst_upside_pct=19.6% y upside_requiere_verificacion=false están insostenibles sin datos que elijan entre los dos polos. Además, fcf_yield_pct=13.79% es excepcionalmente alto, similar a THC, sugiriendo error sistemático de factor o unidad. Sin resolver esto, no se puede validar la recomendación.",
+          "motivo": "target_price_dcf_upside_pct de 171.6% es extremadamente alto y contradice target_price_pe_upside_pct de -14.3% con una dispersión de 185.9 pts; modelos etiquetados CONTRADICEN pero upside_requiere_verificacion=false · analyst_upside_pct de solo 19.6% no sostiene un descuento tan gigantesco como DCF; la ficha no desmiente el descuento pero tampoco lo valida; falta claridad sobre qué modelo confiar",
           "score": 57.7
-        },
-        {
-          "ticker": "UNP",
-          "paso": "verificador_ia",
-          "motivo": "Contradicción frontal: analyst_upside_pct=18.3% pero ambos modelos propios son bajistas (DCF -39.4%, P/E -15.2%, upside_triangulated_pct=-15.2%). Piotroski=8.0 es fuerte pero no justifica que el analista vea +18.3% cuando sus propios valuadores dicen -15.2%. Además, ma_filter_pass=true entra en tensión con upside_divergence=ALTA y los modelos bajistas. Esto invalida la coherencia de la recomendación.",
-          "score": 57.519999999999996
-        },
-        {
-          "ticker": "AMZN",
-          "paso": "verificador_ia",
-          "motivo": "Incoherencia severa: analyst_upside_pct=29.4% pero modelos propios CONTRADICEN radicalmente (DCF -83.6% vs P/E 96.5%, dispersión 180.1 pts). upside_triangulated_pct correctamente vacío, pero entonces upside_requiere_verificacion=false es indefendible: una dispersión de 180 pts es la antítesis de un descuento verificable. Además, fcf_yield_pct=1.08% es muy bajo incluso para AMZN, y no se muestra ebit_ev_yield en contexto comparativo. La recomendación de +29.4% no se sustenta cuando los modelos internos se contradicen tan críticamente.",
-          "score": 55.92
-        },
-        {
-          "ticker": "MSFT",
-          "paso": "verificador_ia",
-          "motivo": "analyst_upside_pct=16.0% vs modelos CONTRADICEN (DCF -63.7% vs P/E 27.1%, dispersión 90.8 pts). upside_triangulated_pct correctamente vacío, pero upside_requiere_verificacion=false: una dispersión de 90+ pts invalida cualquier descuento como verificable. FCF yield muy bajo (1.83%) no justifica que se ignore una brecha tan amplia entre valuadores. La recomendación alcista no está soportada cuando los modelos propios están en conflicto irreconciliable.",
-          "score": 55.78999999999999
-        },
-        {
-          "ticker": "HD",
-          "paso": "verificador_ia",
-          "motivo": "analyst_upside_pct=25.7% pero modelos CONTRADICEN (DCF -17.1% vs P/E 12.2%, dispersión 29.3 pts). upside_triangulated_pct correctamente vacío, pero upside_requiere_verificacion=false: no se puede llamar descuento verificable cuando uno de los dos pilares (DCF) es claramente bajista. Además, rev_growth_yoy=5.7% es débil, margen de crecimiento bajo, y peg_ratio=4.07 es muy alto, todo lo cual desafía la viabilidad del +25.7%. La recomendación no está soportada internamente.",
-          "score": 53.32
         }
       ]
     }
   },
-  "generated_at": "2026-09-19T08:24:21Z"
+  "generated_at": "2026-09-21T05:13:28Z"
 }

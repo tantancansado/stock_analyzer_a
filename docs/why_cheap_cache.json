@@ -56,18 +56,28 @@
   "fecha": "2026-09-17"
  },
  "MKC": {
-  "veredicto": "SIN_DATOS",
-  "resumen": "",
-  "confianza": 0,
-  "fuentes": [],
-  "fecha": "2026-09-07"
+  "veredicto": "EVENTO",
+  "resumen": "Recortes múltiples de guidance 2025-2026 (EPS y ventas) por presiones inflacionarias y de costos persistentes. Márgenes operativos bajo presión. Analysts reset expectations con cut targets, pero negocio de base (volúmenes, cuota) sigue intacto.",
+  "confianza": 72,
+  "fuentes": [
+   "https://mx.investing.com/news/transcripts/informe-de-resultados-mccormick--co-3er-trimestre-2024-supera-las-previsiones-de-bpa-las-acciones-caen-93CH-3023389",
+   "https://es.tradingview.com/news/reuters.com,2025:newsml_L5N3Q71P1:0/",
+   "https://ir.mccormick.com/news-releases/news-release-details/mccormick-reports-strong-2024-financial-results-and-provides",
+   "https://es.investing.com/news/transcripts/transcripcion-del-informe-de-resultados-las-ventas-de-mccormick-en-el-primer-trimestre-de-2025-aumentan-en-medio-de-preocupaciones-inflacionarias-93CH-3071000"
+  ],
+  "fecha": "2026-09-21"
  },
  "NYT": {
-  "veredicto": "SIN_DATOS",
-  "resumen": "",
-  "confianza": 0,
-  "fuentes": [],
-  "fecha": "2026-09-07"
+  "veredicto": "EVENTO",
+  "resumen": "<cite index=\"1-6\">La caída fue gatillada por un miss en el crecimiento de suscriptores digitales y una reset de guidance</cite> en Q2 2026 (agosto). <cite index=\"5-16,6-3\">El free cash flow margin se derrumbó a 1.3% desde 15.1% YoY</cite>, lo que disparó una venta masiva del 14-15% en un día.",
+  "confianza": 75,
+  "fuentes": [
+   "https://weissratings.com/en/instant-news-alerts/the-new-york-times-company-nyt-down-14-6-should-i-pull-back-now",
+   "https://finance.yahoo.com/markets/stocks/articles/nyt-stock-fell-12-8-173000308.html",
+   "https://stockanalysis.com/stocks/nyt/",
+   "https://simplywall.st/stocks/us/media/nyse-nyt/new-york-times/news/new-york-times-nyt-stock-drops-hard-despite-digital-subscrip"
+  ],
+  "fecha": "2026-09-21"
  },
  "SGE.L": {
   "veredicto": "SIN_DATOS",
@@ -247,5 +257,41 @@
    "https://en.wikipedia.org/wiki/Yum_China"
   ],
   "fecha": "2026-09-19"
+ },
+ "SPGI": {
+  "veredicto": "EVENTO",
+  "resumen": "Miss de EPS en Q2 2026 (14.1% bajo consenso) a pesar de revenue beat; ingresos y márgenes fundamentales siguen sólidos, Ratings/Indices crecen fuerte pero Energy débil por geopolítica. Castigo es por sorpresa de ejecución acotada, no deterioro estructural.",
+  "confianza": 72,
+  "fuentes": [
+   "https://simplywall.st/es/stocks/us/diversified-financials/nyse-spgi/sp-global/news/has-sp-global-spgi-fallen-far-enough-to-look-cheap",
+   "https://www.rava.com/perfil/SPGI",
+   "https://www.investing.com/equities/mcgraw-hill",
+   "https://fernandodefrutos.substack.com/p/radar-quant-institucional-s-and-p"
+  ],
+  "fecha": "2026-09-21"
+ },
+ "DPZ": {
+  "veredicto": "EVENTO",
+  "resumen": "Q1 2026: ventas comparables US 0.9% vs. 2.3% esperado, obligó a management a recortar guidance a crecimiento de un dígito bajo. Deterioro puntual atribuible a presión competitiva macro intensa y promociones, no a quiebra del modelo (márgenes operativos siguen expandiéndose, Q2 recovery).",
+  "confianza": 72,
+  "fuentes": [
+   "https://www.tikr.com/es/blog/dominos-pizza-stock-is-down-15-in-2026-heres-what-the-valuation-model-says",
+   "https://www.tikr.com/es/blog/dominos-pizza-has-fallen-26-from-its-highs-heres-where-the-stock-could-go-in-2026",
+   "https://mx.investing.com/news/analyst-ratings/evercore-isi-recorta-precio-objetivo-de-dominos-pizza-por-menor-perspectiva-93CH-3583450",
+   "https://es.finance.yahoo.com/noticias/acciones-domino-s-pizza-decepcionantes-101000031.html"
+  ],
+  "fecha": "2026-09-21"
+ },
+ "JKHY": {
+  "veredicto": "SENTIMIENTO",
+  "resumen": "<cite index=\"4-4\">La caída responde a comentarios de gestión sobre presión de márgenes futura y crecimiento más lento en H2, junto con recompras ampliadas, señales mixtas que preocupan a inversores</cite>. <cite index=\"2-6,2-7\">En Q4 FY2026 (reportado agosto 2026) JKHY superó EPS (1.57 vs 1.44 est.)",
+  "confianza": 72,
+  "fuentes": [
+   "https://robinhood.com/us/en/stocks/JKHY/",
+   "https://www.investing.com/equities/jack-henry---asso",
+   "https://www.mexc.com/stocks/jkhy",
+   "https://finance.yahoo.com/markets/stocks/articles/why-jack-henry-jkhy-down-111254889.html"
+  ],
+  "fecha": "2026-09-21"
  }
 }

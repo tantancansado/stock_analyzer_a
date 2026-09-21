@@ -1,18 +1,18 @@
 {
-  "timestamp": "2026-09-19T08:37:00.543141",
-  "date": "2026-09-19",
+  "timestamp": "2026-09-21T05:24:15.873699",
+  "date": "2026-09-21",
   "regime": {
     "name": "CALM",
     "color": "#10b981",
     "description": "Mercado en calma. Condiciones favorables para operar."
   },
-  "composite_score": 8.5,
-  "composite_pct": 64.2,
+  "composite_score": 9.0,
+  "composite_pct": 65.0,
   "max_score": 30,
   "signals": {
     "vix": {
       "current": 14.81,
-      "percentile": 7.9,
+      "percentile": 8.0,
       "score": 1,
       "change_5d": -6.5,
       "interpretation": "VIX 14.8 (bajo)",
@@ -21,7 +21,7 @@
     },
     "yield_curve": {
       "current": 102.0,
-      "percentile": 93.5,
+      "percentile": 93.4,
       "score": 1.5,
       "interpretation": "Spread 2s10s: 102bps (empinada)",
       "label": "Curva Tipos (2s10s)",
@@ -49,7 +49,7 @@
     },
     "gold_spy": {
       "current": 0.5267,
-      "percentile": 29.1,
+      "percentile": 28.8,
       "score": 1,
       "change_5d": 0.7,
       "change_20d": -3.5,
@@ -58,12 +58,12 @@
       "description": "Gold outperformance signals safe-haven rotation"
     },
     "oil": {
-      "current": 100.3,
-      "percentile": 92.0,
-      "score": -0.5,
-      "change_5d": 0.2,
-      "change_20d": 14.2,
-      "interpretation": "Petroleo $100.3 (precio elevado)",
+      "current": 94.34,
+      "percentile": 81.1,
+      "score": 0,
+      "change_5d": -7.0,
+      "change_20d": 8.4,
+      "interpretation": "Petroleo $94.3 (rango normal)",
       "label": "Petr\u00f3leo (Geopol\u00edtico)",
       "description": "Fastest commodity to price geopolitical conflicts. Spike = risk"
     },
@@ -78,22 +78,22 @@
       "description": "ITA/XAR vs SPY. Outperformance precedes geopolitical escalations"
     },
     "dollar": {
-      "current": 100.22,
-      "percentile": 87.3,
+      "current": 100.31,
+      "percentile": 88.4,
       "score": -1,
-      "change_5d": 1.11,
-      "change_20d": 1.33,
-      "interpretation": "DXY 100.2 (dolar muy fuerte)",
+      "change_5d": 0.85,
+      "change_20d": 1.53,
+      "interpretation": "DXY 100.3 (dolar muy fuerte)",
       "label": "D\u00f3lar (DXY)",
       "description": "Rising USD = EM stress, global risk-off. Spike = dollar squeeze"
     },
     "yen": {
-      "current": 156.85,
-      "percentile": 47.4,
+      "current": 157.01,
+      "percentile": 50.4,
       "score": 0.5,
-      "change_5d": 2.24,
-      "change_20d": -1.29,
-      "interpretation": "USD/JPY 156.9 (rango neutro)",
+      "change_5d": 2.34,
+      "change_20d": -1.19,
+      "interpretation": "USD/JPY 157.0 (rango neutro)",
       "label": "Yen (Safe Haven)",
       "description": "USDJPY falling = yen strengthening = risk-off / fear"
     },
@@ -111,7 +111,7 @@
     },
     "skew": {
       "current": 148.1,
-      "percentile": 69.5,
+      "percentile": 69.7,
       "score": -2,
       "change_5d": -4.1,
       "interpretation": "SKEW 148 (crash insurance extremo)",
@@ -129,21 +129,21 @@
     },
     "regional_banks": {
       "current": 0.0955,
-      "percentile": 32.7,
+      "percentile": 32.5,
       "score": -0.5,
       "change_5d": -1.5,
       "change_20d": -2.7,
-      "interpretation": "KRE/SPY rezagado (p33, -2.7% 20d)",
+      "interpretation": "KRE/SPY rezagado (p32, -2.7% 20d)",
       "label": "Bancos Regionales (KRE)",
       "description": "KRE vs SPY. Regional banks lead credit stress. SVB was -40% before collapse. Underperformance = systemic risk brewing."
     },
     "small_cap": {
       "current": 0.373,
-      "percentile": 36.7,
+      "percentile": 36.5,
       "score": -0.5,
       "change_5d": -1.3,
       "change_20d": -4.4,
-      "interpretation": "IWM/SPY en l\u00ednea (p37)",
+      "interpretation": "IWM/SPY en l\u00ednea (p36)",
       "label": "Small Cap vs Large (IWM)",
       "description": "IWM/SPY ratio. Small caps access credit differently. Divergence = liquidity concentrating = late cycle signal."
     },
@@ -159,14 +159,14 @@
     }
   },
   "errors": [],
-  "ai_narrative": "**Interpretaci\u00f3n del r\u00e9gimen:** El puntaje compuesto de 8.5/20 indica un entorno **CALM**: la volatilidad est\u00e1 baja (VIX\u202f14.8) y la curva de tipos empinada (2s\u201110s\u202f102\u202fbps) respaldan una tendencia alcista moderada. Los spreads de cr\u00e9dito HY/IG est\u00e1n apretados y el cobre supera al oro (+1.6\u202f% en 5\u202fd), se\u00f1alando apoyo a la actividad real, mientras que el d\u00f3lar sigue fuerte (DXY\u202f100.2) y el SKEW elevado (148) muestra una alta demanda de protecci\u00f3n",
+  "ai_narrative": "**Interpretaci\u00f3n del r\u00e9gimen:** La puntuaci\u00f3n compuesta de 9\u202f/\u202f20 indica un entorno **CALM**. La volatilidad est\u00e1 en niveles bajos (VIX\u202f14.8, VVIX\u202f87) y la curva de tipos es empinada (2s\u201110s\u202f+102\u202fbps), lo que sugiere confianza en el crecimiento. Los spreads de cr\u00e9dito (HYG/LQD) y el cobre\u2011oro estrechos, junto con la amplitud del mercado (SPY\u202f+6.9\u202f% sobre MA200), refuerzan la visi\u00f3n de un mercado alcista moderado, aunque el d\u00f3lar fuerte (DXY",
   "historical_analogs": [
     {
       "id": "ukraine_war_2022",
       "name": "Guerra Ucrania",
       "date": "Feb 2022",
       "duration_days": 20,
-      "similarity": 61.3,
+      "similarity": 60.0,
       "outcome": {
         "spy_30d": -8,
         "spy_90d": -15,
@@ -176,8 +176,8 @@
       "key_difference": "Geopol\u00edtica + inflaci\u00f3n estructural. No fue shock temporal \u2014 dio paso al ciclo bajista completo.",
       "closest_signals": [
         "small_cap",
-        "oil",
-        "real_yields"
+        "real_yields",
+        "regional_banks"
       ],
       "diverging_signals": [
         "vix",
@@ -189,7 +189,7 @@
       "name": "Mercado Bajista 2022",
       "date": "Ene-Dic 2022",
       "duration_days": 280,
-      "similarity": 56.9,
+      "similarity": 57.2,
       "outcome": {
         "spy_30d": -8,
         "spy_90d": -18,
@@ -198,8 +198,8 @@
       },
       "key_difference": "Impulsado por yields reales al alza. Las growth stocks sufrieron m\u00e1s.",
       "closest_signals": [
-        "small_cap",
         "oil",
+        "small_cap",
         "regional_banks"
       ],
       "diverging_signals": [
@@ -212,7 +212,7 @@
       "name": "Crisis SVB",
       "date": "Mar 2023",
       "duration_days": 14,
-      "similarity": 55.8,
+      "similarity": 57.0,
       "outcome": {
         "spy_30d": 5,
         "spy_90d": 12,

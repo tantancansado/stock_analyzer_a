@@ -41,6 +41,18 @@
   "ok": true,
   "ticker": "AMS.MC"
  },
+ "AMZN|Consumer Cyclical|6|3|0|3|1|5|-3|113|118|59": {
+  "aviso": "",
+  "fecha": "2026-09-21T05:19:52.558674+00:00",
+  "ok": true,
+  "ticker": "AMZN"
+ },
+ "AON|Financial Services|8|4|3|0|5|5|-5|116|121|19": {
+  "aviso": "",
+  "fecha": "2026-09-21T05:19:43.290949+00:00",
+  "ok": true,
+  "ticker": "AON"
+ },
  "APH|Technology|7|3|2|11|2|5|-3|89|94|17": {
   "aviso": "",
   "fecha": "2026-09-19T08:30:22.922704+00:00",
@@ -484,6 +496,12 @@
   "fecha": "2026-09-18T05:19:08.108207+00:00",
   "ok": true,
   "ticker": "HLMA.L"
+ },
+ "HLT|Consumer Cyclical|n/d|6|n/d|1|2|3|-3|117|120|26": {
+  "aviso": "Claude dudaba de profit_margin, pero la fuente lo confirma (31.0 publicado vs 31.0 real (0.0pp de desv\u00edo))",
+  "fecha": "2026-09-21T05:19:59.408149+00:00",
+  "ok": true,
+  "ticker": "HLT"
  },
  "HLT|Consumer Cyclical|n/d|6|n/d|1|2|3|-4|117|120|26": {
   "aviso": "",
@@ -995,6 +1013,12 @@
   "ok": true,
   "ticker": "RMD"
  },
+ "RMD|Healthcare|4|5|0|1|5|2|-5|111|112|16": {
+  "aviso": "",
+  "fecha": "2026-09-21T05:19:45.194024+00:00",
+  "ok": true,
+  "ticker": "RMD"
+ },
  "RMV.L|Communication Services|56|9|0|n/d|6|1|-7|127|128|20": {
   "aviso": "Groq dudaba de current_price, pero la fuente lo confirma (496.90 publicado vs 501.40 real (0.9% de desv\u00edo))",
   "fecha": "2026-09-18T05:19:35.271460+00:00",
@@ -1097,6 +1121,12 @@
   "ok": true,
   "ticker": "STMN.SW"
  },
+ "STZ|Consumer Defensive|4|4|2|-1|8|8|-6|97|105|23": {
+  "aviso": "",
+  "fecha": "2026-09-21T05:20:02.403703+00:00",
+  "ok": true,
+  "ticker": "STZ"
+ },
  "SU.PA|Industrials|3|2|1|n/d|3|2|-2|116|118|24": {
   "aviso": "",
   "fecha": "2026-09-18T05:19:34.803451+00:00",
@@ -1156,6 +1186,12 @@
   "fecha": "2026-09-18T05:19:39.723408+00:00",
   "ok": true,
   "ticker": "ULVR.L"
+ },
+ "UNP|Industrials|7|5|3|2|3|3|-3|115|118|24": {
+  "aviso": "",
+  "fecha": "2026-09-21T05:19:48.849361+00:00",
+  "ok": true,
+  "ticker": "UNP"
  },
  "VEEV|Healthcare|14.4|29.3|0.0|17.6|2.9|114|116|50|-54|27": {
   "aviso": "",
