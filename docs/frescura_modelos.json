@@ -1,25 +1,12 @@
 {
-  "generated_at": "2026-09-19T12:59:54Z",
+  "generated_at": "2026-09-21T06:39:36Z",
   "modelos": {
     "value": {
       "etiqueta": "oportunidades VALUE",
       "fichero": "value_opportunities.csv",
-      "datos_del": "2026-09-19T08:47:34Z",
-      "desfasado": true,
-      "modulos_mas_nuevos": [
-        {
-          "modulo": "financial_cross_check.py",
-          "cambiado_el": "2026-09-19T13:21:37+02:00"
-        },
-        {
-          "modulo": "fundamental_scorer.py",
-          "cambiado_el": "2026-09-19T13:21:37+02:00"
-        },
-        {
-          "modulo": "super_score_integrator.py",
-          "cambiado_el": "2026-09-19T13:21:37+02:00"
-        }
-      ]
+      "datos_del": "2026-09-21T05:57:04Z",
+      "desfasado": false,
+      "modulos_mas_nuevos": []
     },
     "leaps": {
       "etiqueta": "LEAPS",
@@ -29,39 +16,42 @@
       "modulos_mas_nuevos": [
         {
           "modulo": "fundamental_scorer.py",
-          "cambiado_el": "2026-09-19T13:21:37+02:00"
+          "cambiado_el": "2026-09-21T05:57:04Z"
         },
         {
           "modulo": "leaps_analyzer.py",
-          "cambiado_el": "2026-09-19T01:18:19+02:00"
+          "cambiado_el": "2026-09-21T05:57:04Z"
+        },
+        {
+          "modulo": "upside_triangulation.py",
+          "cambiado_el": "2026-09-21T05:57:04Z"
         }
       ]
     },
     "rebotes": {
       "etiqueta": "rebotes",
       "fichero": "bounce_setups_broad.json",
-      "datos_del": "2026-09-19T09:09:17Z",
+      "datos_del": "2026-09-21T06:19:53Z",
       "desfasado": false,
       "modulos_mas_nuevos": []
     },
     "reversion": {
       "etiqueta": "reversión a la media",
       "fichero": "mean_reversion_opportunities.json",
-      "datos_del": "2026-09-19 09:07:36Z",
+      "datos_del": "2026-09-21 06:18:12Z",
       "desfasado": false,
       "modulos_mas_nuevos": []
     },
     "catalizadores": {
       "etiqueta": "calendario de catalizadores",
       "fichero": "catalysts.json",
-      "datos_del": "2026-09-19T09:11:29Z",
+      "datos_del": "2026-09-21T06:33:20Z",
       "desfasado": false,
       "modulos_mas_nuevos": []
     }
   },
   "hay_desfase": true,
   "desfasados": [
-    "value",
     "leaps"
   ]
 }

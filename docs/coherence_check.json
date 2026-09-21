@@ -1,20 +1,31 @@
 {
-  "total_problemas": 0,
+  "total_problemas": 14,
   "desfases_conocidos": [
-    "⏳ AI.PA: tikr lo da en USD y PA cotiza en EUR — no es esa acción — el resolvedor se arregló después de este volcado; TIKR corre los domingos",
-    "⏳ AI.PA: european_value_opp dice «L'Air Liquide S.A.» y tikr dice «C3.ai, Inc.» — no es la misma empresa — el resolvedor se arregló después de este volcado; TIKR corre los domingos",
-    "⏳ AI.PA: european_value_opp=165.24 y tikr=10.54 (1468% de diferencia) — el resolvedor se arregló después de este volcado; TIKR corre los domingos",
-    "⏳ BRK-B: fundamental_scores dice «Berkshire Hathaway Inc.» y tikr dice «Direxion Shares ETF Trust - Direxion Daily BRKB Bull 2X ETF» — no es la misma empresa — el resolvedor se arregló después de este volcado; TIKR corre los domingos",
-    "⏳ BRK-B: fundamental_scores=509.77 y tikr=23.38 (2081% de diferencia) — el resolvedor se arregló después de este volcado; TIKR corre los domingos",
-    "⏳ CHTR: fundamental_scores=128.17 y tikr=145.77 (14% de diferencia) — el resolvedor se arregló después de este volcado; TIKR corre los domingos",
-    "⏳ EXPN.L: tikr lo da en USD y L cotiza en GBp — no es esa acción — el resolvedor se arregló después de este volcado; TIKR corre los domingos",
-    "⏳ MMC: tikr lo da en PLN y US cotiza en USD — no es esa acción — el resolvedor se arregló después de este volcado; TIKR corre los domingos",
-    "⏳ ⚠️  value_opportunities.csv: upside DCF = (objetivo − precio) / precio — 2/48 filas, peor desvío 2% (YUM, VRSK)",
-    "⏳ ⚠️  value_opportunities.csv: upside P/E = (objetivo − precio) / precio — 3/47 filas, peor desvío 4% (CB, COST, ECL)",
-    "⏳ ⚠️  value_opportunities_filtered.csv: upside DCF = (objetivo − precio) / precio — 2/40 filas, peor desvío 2% (YUM, VRSK)",
-    "⏳ ⚠️  value_opportunities_filtered.csv: upside P/E = (objetivo − precio) / precio — 2/40 filas, peor desvío 3% (ECL, CB)"
+    "⏳ ⚠️  value_opportunities.csv: upside DCF = (objetivo − precio) / precio — 2/57 filas, peor desvío 2% (VRSK, YUM)",
+    "⏳ ⚠️  value_opportunities.csv: upside P/E = (objetivo − precio) / precio — 3/55 filas, peor desvío 4% (ECL, CB, COST)",
+    "⏳ ⚠️  value_opportunities_filtered.csv: upside DCF = (objetivo − precio) / precio — 2/46 filas, peor desvío 2% (VRSK, YUM)",
+    "⏳ ⚠️  value_opportunities_filtered.csv: upside P/E = (objetivo − precio) / precio — 2/45 filas, peor desvío 3% (CB, ECL)"
   ],
-  "detalle": {},
-  "tickers_value": 62,
+  "detalle": {
+    "commodities: rating contra narrativa IA": [
+      "WEAT: value_rating=CARO pero ai_narrative_veredicto=OPORTUNIDAD_ESTRUCTURAL"
+    ],
+    "identidad de los tickers (¿es esta empresa?)": [
+      "AI.PA: tikr lo da en USD y PA cotiza en EUR — no es esa acción",
+      "AI.PA: european_value_opp dice «L'Air Liquide S.A.» y tikr dice «C3.ai, Inc.» — no es la misma empresa",
+      "AI.PA: european_value_opp=165.24 y tikr=10.54 (1468% de diferencia)",
+      "BRK-B: tikr lo da en GBP y US cotiza en USD — no es esa acción",
+      "BRK-B: fundamental_scores dice «Berkshire Hathaway Inc.» y tikr dice «Brooks Macdonald Group plc» — no es la misma empresa",
+      "BRK-B: fundamental_scores=509.77 y tikr=16.40 (3008% de diferencia)",
+      "DOL.TO: tikr lo da en USD y TO cotiza en CAD — no es esa acción",
+      "DOL.TO: value_opportunitie dice «Dollarama Inc.» y tikr dice «WisdomTree Trust - WisdomTree True Developed International Fund» — no es la misma empresa",
+      "DOL.TO: fundamental_scores dice «Dollarama Inc.» y tikr dice «WisdomTree Trust - WisdomTree True Developed International Fund» — no es la misma empresa",
+      "DOL.TO: value_opportunitie=174.18 y tikr=75.66 (130% de diferencia)",
+      "DOL.TO: fundamental_scores=174.18 y tikr=75.66 (130% de diferencia)",
+      "EXPN.L: tikr lo da en USD y L cotiza en GBp — no es esa acción",
+      "MMC: tikr lo da en PLN y US cotiza en USD — no es esa acción"
+    ]
+  },
+  "tickers_value": 64,
   "tickers_verdicts": 81
 }

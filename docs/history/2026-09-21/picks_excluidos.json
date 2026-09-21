@@ -1,0 +1,47 @@
+{
+  "listas": {
+    "value_opportunities": {
+      "candidatas": 87,
+      "publicadas": 81,
+      "excluidos": [
+        {
+          "ticker": "COF",
+          "paso": "rangos_imposibles",
+          "motivo": "FCF yield fuera de rango: por encima del 20% suele ser divisa sin convertir (visto 24.06, esperado entre -50 y 20)",
+          "score": 52.480000000000004
+        },
+        {
+          "ticker": "ERIE",
+          "paso": "rangos_imposibles",
+          "motivo": "Falta analyst_upside_pct: no se recomienda lo que no se puede evaluar",
+          "score": 49.94799999999999
+        },
+        {
+          "ticker": "ASAZY",
+          "paso": "rangos_imposibles",
+          "motivo": "FCF yield fuera de rango: por encima del 20% suele ser divisa sin convertir (visto 47.56, esperado entre -50 y 20)",
+          "score": 45.0
+        },
+        {
+          "ticker": "ATLKY",
+          "paso": "rangos_imposibles",
+          "motivo": "FCF yield fuera de rango: por encima del 20% suele ser divisa sin convertir (visto 26.85, esperado entre -50 y 20)",
+          "score": 40.400000000000006
+        },
+        {
+          "ticker": "THC",
+          "paso": "verificador_ia",
+          "motivo": "Divergencia extrema entre DCF (104.0%) y P/E (27.3%) con dispersion de 76.7 pts, etiquetada DISPERSOS sin causar upside_requiere_verificacion=true, pero analyst_upside es solo 9% y upside_triangulated es 27.3%; la ficha no sostiene un descuento tan grande como DCF sugiere · FCF yield de 14.24% es inusualmente alto para un healthcare/hospital; si es correcto, DCF debería estar validado, pero P/E lo contradict tajantemente; falta claridad sobre cuál modelo es fiable",
+          "score": 65.24
+        },
+        {
+          "ticker": "DVA",
+          "paso": "verificador_ia",
+          "motivo": "target_price_dcf_upside_pct de 171.6% es extremadamente alto y contradice target_price_pe_upside_pct de -14.3% con una dispersión de 185.9 pts; modelos etiquetados CONTRADICEN pero upside_requiere_verificacion=false · analyst_upside_pct de solo 19.6% no sostiene un descuento tan gigantesco como DCF; la ficha no desmiente el descuento pero tampoco lo valida; falta claridad sobre qué modelo confiar",
+          "score": 57.7
+        }
+      ]
+    }
+  },
+  "generated_at": "2026-09-21T05:13:28Z"
+}

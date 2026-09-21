@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-14T20:49:19.303698",
+  "generated_at": "2026-09-21T06:39:32.453382",
   "resumen": {
     "n": 39,
     "win_rate": 61.5,
@@ -85,7 +85,38 @@
     ]
   },
   "analisis": {
-    "hipotesis": [],
-    "nota": "verificador no disponible"
+    "hipotesis": [
+      {
+        "patron": "Sector Financial Services supera a Technology en win rate (66.7% vs 53.3%) y retorno medio (2.76% vs 1.13%)",
+        "evidencia": "Dos grupos de n=15 cada uno, diferencia consistente en ambas métricas (win rate y retorno)",
+        "como_validarlo": "Verificar si las señales de cada sector se concentraron en ventanas temporales distintas (ej. Financial Services en periodo de tipos altos favorable al sector). Si coinciden en fechas con un régimen macro que benefició a financieras independientemente de VALUE, el efecto es del mercado, no de la señal. Repetir el corte en otro periodo con exposición sectorial equilibrada.",
+        "confianza": "media"
+      },
+      {
+        "patron": "Régimen CORRECTION muestra win rate y retorno muy superiores a CONFIRMED_UPTREND (83.3% y 7.11% vs 58.1% y 2.5%)",
+        "evidencia": "El efecto es grande pero el grupo CORRECTION tiene solo n=6 señales, altamente susceptible a un par de outliers positivos",
+        "como_validarlo": "Revisar las 6 señales individualmente: si 1-2 con retornos extremos explican la mayoría del promedio, el patrón es ruido. Necesita acumular n>=20 en régimen CORRECTION en distintos ciclos de mercado para confirmar mean-reversion real en VALUE.",
+        "confianza": "baja"
+      },
+      {
+        "patron": "La banda de score >=70 tiene el peor win rate (40%) de todos los grupos, incluso peor que 50-60 y 60-70",
+        "evidencia": "Relación no monótona entre score y desempeño (60-70 es el mejor grupo, no >=70). n=5 en la banda superior es extremadamente pequeño",
+        "como_validarlo": "No usar esto para ajustar el scoring aún. Simplemente acumular más señales en banda >=70 (objetivo n>=20) y verificar si la no-monotonicidad persiste o era casualidad de 5 casos. También revisar si estas 5 señales comparten otra característica (sector, régimen) que explique el bajo desempeño en vez del score en sí.",
+        "confianza": "baja"
+      },
+      {
+        "patron": "Banda RR >=3 supera a banda RR 2-3 en win rate (66.7% vs 50%) y retorno (4.87% vs 2.71%)",
+        "evidencia": "n=27 vs n=6, la banda con más muestra tiene mejor resultado, pero la banda pequeña podría no ser representativa",
+        "como_validarlo": "Comprobar si RR alto correlaciona con otra variable subyacente (ej. volatilidad implícita, distancia al stop, sector) que sea la verdadera causa del retorno, no el RR en sí. Aumentar n en banda 2-3 antes de sacar conclusiones.",
+        "confianza": "media"
+      },
+      {
+        "patron": "Banda upside 20-25% (n=5) tiene retorno medio más alto (5.36%) que 25-30% (n=24) con 3.73%, pese a win rate similar",
+        "evidencia": "Diferencia de retorno impulsada por muestra muy pequeña (n=5)",
+        "como_validarlo": "Con n=5 cualquier outlier individual puede mover el promedio varios puntos. Ignorar este patrón hasta tener n>=15-20 en esa banda.",
+        "confianza": "baja"
+      }
+    ],
+    "nota": "Con n=39 señales totales y subgrupos de 5-15, casi todos los cortes están en zona de alta varianza muestral: un par de operaciones extremas puede cambiar completamente el ranking de un grupo. Además, las señales no son necesariamente independientes entre sí (pueden compartir ventana temporal), por lo que diferencias de sector o régimen podrían reflejar simplemente 'qué pasaba en el mercado esos meses' y no una propiedad estructural de VALUE. Antes de interpretar cualquier patrón como señal real, recomiendo: (1) reportar rangos de fecha por grupo para detectar confusión temporal, (2) aumentar el tamaño de muestra en las bandas con n<15, y (3) aplicar corrección por comparaciones múltiples dado que se están probando ~12 cortes simultáneamente sobre la misma muestra de 39 señales, lo que infla la probabilidad de encontrar 'patrones' por azar."
   }
 }
