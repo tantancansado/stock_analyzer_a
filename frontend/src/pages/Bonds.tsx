@@ -1193,15 +1193,21 @@ export default function Bonds() {
     : 0
   const generatedAt = bonds[0]?.generated_at
 
-  if (loading) return <Loading />
-  if (error) return <ErrorState message="No se pudo cargar datos de bonos" />
+  // La cabecera va ANTES del early return: si no, al fallar la API la
+  // pantalla se queda con el mensaje de error y sin decir en qué sección
+  // estás. Ver PageShell, que existe justo por esto.
+  const cabecera = (
+    <PageHeader
+      title="Bonos & Renta Fija"
+      subtitle={<>ETFs de renta fija con análisis VALUE — yield vs histórico, duración y dislocation de precio{generatedAt && <span className="ml-2 opacity-60">· {new Date(generatedAt).toLocaleDateString('es-ES')}</span>}</>}
+    />
+  )
+  if (loading) return <div className="space-y-6">{cabecera}<Loading conCabecera={false} /></div>
+  if (error) return <div className="space-y-6">{cabecera}<ErrorState message="No se pudo cargar datos de bonos" /></div>
 
   return (
     <div className="space-y-6">
-      <PageHeader
-        title="Bonos & Renta Fija"
-        subtitle={<>ETFs de renta fija con análisis VALUE — yield vs histórico, duración y dislocation de precio{generatedAt && <span className="ml-2 opacity-60">· {new Date(generatedAt).toLocaleDateString('es-ES')}</span>}</>}
-      />
+      {cabecera}
 
       {/* Summary cards */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">

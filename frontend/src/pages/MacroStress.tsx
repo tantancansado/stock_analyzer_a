@@ -20,6 +20,7 @@ import {
   type MacroStressSignal,
 } from '../api/client'
 import { useApi } from '../hooks/useApi'
+import PageHeader from '../components/PageHeader'
 import Loading, { ErrorState } from '../components/Loading'
 import StaleDataBanner from '../components/StaleDataBanner'
 import CifrasClave from '../components/CifrasClave'
@@ -351,15 +352,25 @@ export default function MacroStress() {
     }
   }, [markets, selectedId])
 
-  if (loading) return <Loading />
+  // Cabecera también en los caminos de carga y error: si no, al fallar la
+  // API la pantalla se queda con un mensaje suelto y sin decir en qué
+  // sección estás. Ver PageShell.
+  const conCabecera = (cuerpo: React.ReactNode) => (
+    <div className="space-y-6">
+      <PageHeader title="Macro Stress Radar"
+        subtitle="Heatmap de dislocaciones macro por mercado" />
+      {cuerpo}
+    </div>
+  )
+  if (loading) return conCabecera(<Loading conCabecera={false} />)
   if (error) {
     const friendly = error.includes('404')
       ? 'Macro Stress Radar aún no está generado. Se poblará cuando corra el pipeline diario.'
       : error
-    return <ErrorState message={friendly} />
+    return conCabecera(<ErrorState message={friendly} />)
   }
   if (!markets.length) {
-    return <ErrorState message="No hay mercados configurados todavía." />
+    return conCabecera(<ErrorState message="No hay mercados configurados todavía." />)
   }
 
   const selected = data!.markets[selectedId] ?? markets[0][1]
