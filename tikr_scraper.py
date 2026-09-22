@@ -288,6 +288,14 @@ def build_ric_id(tikr_symbol: str, exchange_symbol: str) -> Optional[str]:
 
 # ── Algolia ticker resolution (sin auth) ──────────────────────────────────────
 
+# Algolia contestó y ninguno de sus resultados es esta empresa. No es lo mismo
+# que no haber podido preguntar: aquí ya hay respuesta, y es que no. Sin esta
+# distinción, `resolve_ticker` trataba los dos casos igual y pasaba al
+# fallback /trkdids, que no comprueba símbolo, bolsa ni nombre — y devolvía
+# Brooks Macdonald para BRK-B o un ETF de WisdomTree para DOL.TO.
+SIN_COINCIDENCIA = object()
+
+
 def algolia_resolve_ticker(ticker: str) -> Optional[dict]:
     """
     Busca un ticker en el índice Algolia de TIKR (sin autenticación).
@@ -319,7 +327,7 @@ def algolia_resolve_ticker(ticker: str) -> Optional[dict]:
             return None
         hits = r.json().get('results', [{}])[0].get('hits', [])
         if not hits:
-            return None
+            return SIN_COINCIDENCIA
 
         # El símbolo tiene que coincidir Y la bolsa tiene que cuadrar con el
         # sufijo. Lo segundo es lo que de verdad discrimina: el símbolo 'AI' es
@@ -357,7 +365,7 @@ def algolia_resolve_ticker(ticker: str) -> Optional[dict]:
                 for h in hits[:4])
             print(f"    ⚠️  {ticker}: ningún resultado cuadra con el símbolo y la bolsa "
                   f"(Algolia devolvió {nombres}) — sin resolver")
-            return None
+            return SIN_COINCIDENCIA
 
         cid = str(primary.get('companyid', ''))
         tid = str(primary.get('tradingitemid', ''))
@@ -465,7 +473,17 @@ def resolve_ticker(
         return cached
 
     result = algolia_resolve_ticker(ticker)
+    if result is SIN_COINCIDENCIA:
+        # Algolia ya contestó: ninguno es esta empresa. Preguntar a /trkdids
+        # no aporta una segunda opinión, porque ese endpoint no comprueba
+        # nada — devuelve el primer registro que encuentre para el símbolo
+        # pelado. De ahí salían BRK-B→Brooks Macdonald (GBP), DOL.TO→un ETF
+        # de WisdomTree y MMC→MM Conferences de Varsovia: fichas completas,
+        # números plausibles, otra compañía. Mejor sin dato.
+        return None
     if not result:
+        # Aquí sí: Algolia no pudo responder (HTTP o red). El fallback es lo
+        # único que queda, y su resultado se valida al guardar.
         result = resolve_ticker_api(session, token, ticker)
     if not result:
         return None
@@ -1510,6 +1528,22 @@ def run(tickers: list, dry_run: bool = False, force: bool = False) -> dict:
             'reports':          reports,
             'fetched_at':       datetime.now(timezone.utc).isoformat(),
         }
+        # Última comprobación antes de guardar: ¿la divisa cuadra con la bolsa
+        # del sufijo? Si `.PA` vuelve en USD o un ticker de Toronto en dólares
+        # americanos, no es esa acción. El resolvedor ya no debería dejar pasar
+        # ninguno, pero el fallback /trkdids sigue ahí para cuando Algolia no
+        # responde, y ese no valida nada. Esta red es la que impide que un
+        # registro entero y plausible de OTRA empresa llegue al fichero — que
+        # es justo lo que sobrevivió al arreglo de septiembre, porque el merge
+        # de `_save_output` conserva lo que no se vuelve a escribir.
+        mal = _divisa_incoherente(ticker, results[ticker])
+        if mal:
+            print(f"\n    ⚠️  {ticker}: {mal} — descartado, no se publica")
+            del results[ticker]
+            errors.append(ticker)
+            _save_output(results, errors)
+            continue
+
         results[ticker] = _conservar_lo_que_ya_habia(results[ticker], existing.get(ticker) or {})
         if results[ticker].get('conservado_bloques'):
             print(f"  ↩ conservado: {', '.join(results[ticker]['conservado_bloques'])}", end='')
@@ -1528,6 +1562,30 @@ def run(tickers: list, dry_run: bool = False, force: bool = False) -> dict:
         print(f"  Errores: {errors}")
     print(f"  Guardado: {OUTPUT_FILE}")
     return results
+
+
+def _divisa_incoherente(ticker: str, registro: dict) -> Optional[str]:
+    """Motivo por el que este registro no puede ser de este ticker, o None.
+
+    Solo afirma cuando puede probarlo: si no se sabe qué divisa tocaría, o el
+    registro no trae ninguna, no hay contradicción que demostrar y pasa. Un
+    dato ausente no es un dato equivocado — el filtro que confunde las dos
+    cosas acaba tirando compañías buenas por no tener el campo.
+    """
+    try:
+        from identidad_ticker import SUBUNIDAD, divisa_esperada
+    except ImportError:
+        return None
+    esperada = divisa_esperada(ticker)
+    real = (registro.get('price') or {}).get('curr')
+    if not esperada or not real:
+        return None
+    real_norm = SUBUNIDAD.get(real, real).upper()
+    if real_norm == esperada.upper():
+        return None
+    nombre = registro.get('company_name') or '?'
+    return (f"el precio viene en {real} y {ticker} cotiza en {esperada} "
+            f"(el registro dice «{nombre}»)")
 
 
 def _save_output(results: dict, errors: list):

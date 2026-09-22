@@ -191,3 +191,76 @@ class TestElResolvedorDeTikr:
         assert 'primary = hits[0]' not in codigo, \
             'volvió el fallback que devolvía cualquier resultado parecido'
         assert 'return None' in codigo
+
+
+# ─── La puerta de atrás del resolvedor ────────────────────────────────────────
+
+class TestFallbackNoInventaEmpresa:
+    """El arreglo del 17-sep-2026 blindó el resolvedor de Algolia, y funciona.
+    Pero dejó abierto el fallback `/trkdids`, que no comprueba símbolo, bolsa
+    ni nombre: cuando Algolia rechazaba un ticker, el código preguntaba allí y
+    se quedaba con lo primero que le dieran. Los datos del 20-sep publicaban
+    BRK-B=Brooks Macdonald (GBP), DOL.TO=un ETF de WisdomTree y MMC=MM
+    Conferences de Varsovia. Fichas completas, números plausibles, otra
+    compañía.
+    """
+
+    def test_rechazo_de_algolia_no_cae_al_fallback(self, monkeypatch):
+        import tikr_scraper as ts
+        llamado = []
+        monkeypatch.setattr(ts, "algolia_resolve_ticker",
+                            lambda t: ts.SIN_COINCIDENCIA)
+        monkeypatch.setattr(ts, "resolve_ticker_api",
+                            lambda *a: llamado.append(a) or {"cid": "malo", "tid": "malo"})
+
+        out = ts.resolve_ticker(None, "tok", "BRK-B", {})
+        assert out is None, "un rechazo con motivo no se reintenta a ciegas"
+        assert not llamado, "no debe preguntarse al endpoint que no valida nada"
+
+    def test_fallo_tecnico_si_usa_el_fallback(self, monkeypatch):
+        """Distinto caso: Algolia no pudo responder. Ahí el fallback es lo
+        único que hay, y usarlo es correcto."""
+        import tikr_scraper as ts
+        monkeypatch.setattr(ts, "algolia_resolve_ticker", lambda t: None)
+        monkeypatch.setattr(ts, "resolve_ticker_api",
+                            lambda *a: {"cid": "1", "tid": "2"})
+        monkeypatch.setattr(ts, "_fetch_oa_perm_id", lambda *a: None)
+        monkeypatch.setattr(ts, "save_id_cache", lambda c: None)
+
+        out = ts.resolve_ticker(None, "tok", "AAPL", {})
+        assert out is not None and out["cid"] == "1"
+
+
+class TestDivisaIncoherenteAntesDePublicar:
+    """Red de seguridad al guardar: aunque algo se cuele, un registro cuya
+    divisa contradice la bolsa del sufijo no llega al fichero."""
+
+    CASOS_MALOS = [
+        ("AI.PA",  "USD", "C3.ai, Inc."),
+        ("BRK-B",  "GBP", "Brooks Macdonald Group plc"),
+        ("DOL.TO", "USD", "WisdomTree Trust"),
+    ]
+
+    def test_descarta_los_tres_casos_reales(self):
+        import tikr_scraper as ts
+        for ticker, divisa, nombre in self.CASOS_MALOS:
+            motivo = ts._divisa_incoherente(
+                ticker, {"price": {"curr": divisa}, "company_name": nombre})
+            assert motivo, f"{ticker} en {divisa} tendria que descartarse"
+            assert divisa in motivo and nombre in motivo
+
+    def test_deja_pasar_lo_correcto(self):
+        import tikr_scraper as ts
+        buenos = [("AI.PA", "EUR"), ("AAPL", "USD"), ("DOL.TO", "CAD"),
+                  ("AZN.L", "GBp")]   # Londres cotiza en peniques
+        for ticker, divisa in buenos:
+            assert ts._divisa_incoherente(
+                ticker, {"price": {"curr": divisa}}) is None, f"{ticker}/{divisa}"
+
+    def test_dato_ausente_no_es_dato_equivocado(self):
+        """Sin divisa, o con un sufijo que no conocemos, no hay nada que
+        probar. Descartar ahí sería tirar empresas buenas por un hueco."""
+        import tikr_scraper as ts
+        assert ts._divisa_incoherente("AAPL", {"price": {}}) is None
+        assert ts._divisa_incoherente("AAPL", {}) is None
+        assert ts._divisa_incoherente("XYZ.ZZ", {"price": {"curr": "USD"}}) is None
