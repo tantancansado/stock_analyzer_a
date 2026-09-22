@@ -948,6 +948,13 @@ def fetch_tf_financials(
         reverse=True,
     )[:lookback_years]
     if not annual_years:
+        # Mudo hasta el 22-sep-2026, y es la salida que más se usa: la
+        # petición va bien (HTTP 200) y aun así no hay ejercicios anuales.
+        # Devolver {} sin decir nada es lo que dejó la cobertura de cuentas
+        # oscilando entre el 47% y el 81% durante cuatro meses sin que
+        # figurara un solo error en ningún sitio.
+        print(f"    /tf cid={cid}: respuesta sin ejercicios anuales "
+              f"({len(date_entries)} periodos, ninguno FY) — sin cuentas")
         return {}
 
     # Construir claves esperadas (ej: "2024##FY")
@@ -1002,6 +1009,8 @@ def fetch_tf_financials(
     _walk(data.get('financials', []))
 
     if not extracted:
+        print(f"    /tf cid={cid}: {len(annual_years)} ejercicios pero ninguna "
+              f"métrica reconocible en el árbol — sin cuentas")
         return {}
 
     # `priceclose` de TIKR NO es un precio de cierre: es el TIPO DE CAMBIO del

@@ -147,3 +147,30 @@ class TestVerificacionDelWorkflow:
         s = self._script()
         assert 'impostores' in s
         assert "cur != 'USD'" in s
+
+
+class TestLaMarcaDeConservadoViveEnLaRaiz:
+    """`_conservar_lo_que_ya_habia` pone `conservado_de` en la raíz del
+    registro. El contador del workflow la buscaba dentro de
+    `financials_history`, así que imprimía «0 conservados» siempre — incluido
+    el 20-sep-2026, con 30 registros arrastrados. El único indicador de que
+    el arrastre funciona marcaba cero justo cuando empezó a funcionar.
+    """
+
+    def test_la_marca_va_en_la_raiz(self):
+        from tikr_scraper import _conservar_lo_que_ya_habia
+        r = _conservar_lo_que_ya_habia(
+            {'ticker': 'X', 'financials_history': {}},
+            {'financials_history': {'metrics': {'2025': 1}},
+             'fetched_at': '2026-09-13T00:00:00+00:00'})
+        assert r['conservado_de'] == '2026-09-13T00:00:00+00:00'
+        assert 'conservado_de' not in r['financials_history'], \
+            'la marca no se anida dentro del bloque conservado'
+
+    def test_el_workflow_la_cuenta_donde_esta(self):
+        yml = (RAIZ / '.github' / 'workflows' / 'tikr-enrichment.yml').read_text()
+        linea = next(l for l in yml.split('\n')
+                     if 'conservados = sum' in l)
+        assert "(v or {}).get('conservado_de')" in linea, \
+            f'el contador mira donde no esta: {linea.strip()}'
+        assert "financials_history', {}).get('conservado_de')" not in linea

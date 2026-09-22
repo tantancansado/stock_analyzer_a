@@ -76,7 +76,12 @@ jobs:
           d = data.get('data', {})
           con_fin = sum(1 for v in d.values() if (v or {}).get('financials_history', {}).get('metrics'))
           con_est = sum(1 for v in d.values() if (v or {}).get('analyst_estimates', {}).get('forward'))
-          conservados = sum(1 for v in d.values() if (v or {}).get('financials_history', {}).get('conservado_de'))
+          # La marca la pone `_conservar_lo_que_ya_habia` en la RAIZ del
+          # registro, no dentro de financials_history. Buscandola ahi dentro
+          # este contador decia «0 conservados» siempre, incluso el 20-sep con
+          # 30 registros arrastrados: el unico indicador de que el arrastre
+          # funciona marcaba cero justo cuando empezo a funcionar.
+          conservados = sum(1 for v in d.values() if (v or {}).get('conservado_de'))
           print(f'Con cuentas:      {con_fin}/{len(d)} ({100*con_fin//max(1,len(d))}%)  [{conservados} conservados de semanas anteriores]')
           print(f'Con estimaciones: {con_est}/{len(d)} ({100*con_est//max(1,len(d))}%)')
           # Un ticker US que resuelve a divisa no-USD es OTRA EMPRESA.
