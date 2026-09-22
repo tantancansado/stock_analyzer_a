@@ -199,10 +199,23 @@ def apply_to_dataframe(df, veredictos: dict[str, dict]):
 
     tickers = df['ticker'].astype(str).str.upper()
     df = df.copy()
-    df['why_cheap']         = tickers.map(lambda t: veredictos.get(t, {}).get('veredicto', ''))
-    df['why_cheap_resumen'] = tickers.map(lambda t: veredictos.get(t, {}).get('resumen', ''))
-    df['why_cheap_fuentes'] = tickers.map(
-        lambda t: ' | '.join(veredictos.get(t, {}).get('fuentes', []))[:400])
+
+    # Se escribe SOLO donde hay veredicto, conservando lo que ya hubiera.
+    #
+    # Antes se asignaba la columna entera con un `map`, así que todo ticker
+    # fuera del lote recibía '' — el docstring decía «lo no analizado se
+    # queda» y el código lo borraba. Con una sola llamada no se notaba; en
+    # cuanto se aplica más de un lote (los de caché y los nuevos, o dos CSV),
+    # el segundo se llevaba por delante el primero.
+    def _col(nombre, saca):
+        if nombre not in df.columns:
+            df[nombre] = ''
+        nuevo = tickers.map(lambda t: saca(veredictos[t]) if t in veredictos else None)
+        df[nombre] = nuevo.where(nuevo.notna(), df[nombre])
+
+    _col('why_cheap',         lambda v: v.get('veredicto', ''))
+    _col('why_cheap_resumen', lambda v: v.get('resumen', ''))
+    _col('why_cheap_fuentes', lambda v: ' | '.join(v.get('fuentes', []))[:400])
 
     bloqueados = [t for t, v in veredictos.items() if v.get('veredicto') in BLOQUEANTES]
     if bloqueados:

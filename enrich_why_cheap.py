@@ -136,6 +136,34 @@ def _aplicar(frames: dict, veredictos_por_csv: dict) -> None:
               + (f' · fuera por deterioro: {deteriorados}' if deteriorados else ''))
 
 
+
+def _reaplicar_lo_ya_pagado(frames: dict, cache: dict) -> None:
+    """Vuelca a cada CSV todos los veredictos de caché de sus tickers.
+
+    Sin mirar si hoy son candidatos: el análisis ya está comprado y esconderlo
+    no ahorra nada. Solo se aplica lo que tiene veredicto de verdad — una
+    entrada SIN_DATOS no tapa una columna que otro paso pudiera rellenar.
+    """
+    for csv_path, df in frames.items():
+        if 'ticker' not in df.columns:
+            continue
+        veredictos = {}
+        for t in df['ticker'].dropna().astype(str).str.upper():
+            e = cache.get(t)
+            if e and (e.get('veredicto') or '').strip() not in ('', 'SIN_DATOS'):
+                veredictos[t] = {'veredicto': e.get('veredicto'),
+                                 'resumen': e.get('resumen', ''),
+                                 'fuentes': e.get('fuentes', [])}
+        if veredictos:
+            frames[csv_path], _ = apply_to_dataframe(df, veredictos)
+            print(f'   ↩ {csv_path}: {len(veredictos)} veredictos ya pagados reaplicados')
+
+
+def _guardar_frames(frames: dict) -> None:
+    for csv_path, df in frames.items():
+        df.to_csv(csv_path, index=False)
+
+
 def main() -> None:
     frames = {str(csv): pd.read_csv(csv) for csv in TARGET_CSVS if csv.exists()}
     if not frames:
@@ -143,11 +171,23 @@ def main() -> None:
         return
 
     candidatos = pd.concat([_candidatos(csv) for csv in TARGET_CSVS], ignore_index=True)
-    if candidatos.empty:
-        print('[enrich_why_cheap] ningún candidato con caída que explicar')
-        return
-
     cache = _leer_cache()
+
+    # Lo YA PAGADO se muestra a todos, sea candidato hoy o no.
+    #
+    # El filtro de candidatos (score >= 50 y caída >= 12%) decide en quién se
+    # GASTA presupuesto de Claude, y para eso está bien. Pero también decidía
+    # a quién se le ENSEÑA lo que ya está comprado, y eso escondía análisis
+    # hechos: el 22-sep-2026 MKC tenía en caché «EVENTO — recortes múltiples
+    # de guidance 2025-2026» y salía con el motivo en blanco, porque su score
+    # había bajado a 39,8. Justo el tipo de deterioro que hay que ver antes de
+    # comprar una caída del 31%.
+    _reaplicar_lo_ya_pagado(frames, cache)
+
+    if candidatos.empty:
+        print('[enrich_why_cheap] ningún candidato NUEVO con caída que explicar')
+        _guardar_frames(frames)
+        return
     orden = candidatos.sort_values('value_score', ascending=False)
 
     # Sin presupuesto NO se apaga la sección: se deja de comprar análisis
