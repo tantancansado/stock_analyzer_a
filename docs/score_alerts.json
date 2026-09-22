@@ -1,74 +1,44 @@
 {
-  "generated_at": "2026-09-21",
+  "generated_at": "2026-09-22",
   "alerts": [
     {
       "type": "SCORE_UP",
-      "ticker": "JKHY",
-      "company_name": "Jack Henry & Associates, Inc.",
+      "ticker": "BR",
+      "company_name": "Broadridge Financial Solutions, Inc.",
       "sector": "Technology",
-      "score_today": 51.3,
-      "score_prev": 33.0,
-      "delta": 18.4,
-      "grade": "🟡 Average"
+      "score_today": 88.0,
+      "score_prev": 72.9,
+      "delta": 15.1,
+      "grade": "🔥 Legendary"
     },
     {
       "type": "SCORE_UP",
-      "ticker": "MSCI",
-      "company_name": "MSCI Inc.",
-      "sector": "Financial Services",
-      "score_today": 56.1,
-      "score_prev": 45.3,
-      "delta": 10.8,
-      "grade": "🟡 Good"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "RMD",
-      "company_name": "ResMed Inc.",
-      "sector": "Healthcare",
-      "score_today": 79.7,
-      "score_prev": 69.5,
-      "delta": 10.2,
-      "grade": "🟢 Elite"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "ADSK",
-      "company_name": "Autodesk, Inc.",
+      "ticker": "VRSN",
+      "company_name": "VeriSign, Inc.",
       "sector": "Technology",
-      "score_today": 64.9,
-      "score_prev": 55.1,
-      "delta": 9.8,
-      "grade": "🟡 Good"
+      "score_today": 62.5,
+      "score_prev": 51.3,
+      "delta": 11.2,
+      "grade": "🟢 Excellent"
     },
     {
       "type": "SCORE_UP",
-      "ticker": "VCISY",
-      "company_name": "Vinci SA",
-      "sector": "Industrials",
-      "score_today": 45.2,
-      "score_prev": 36.0,
-      "delta": 9.2,
-      "grade": "🟡 Average"
+      "ticker": "PG",
+      "company_name": "The Procter & Gamble Company",
+      "sector": "Consumer Defensive",
+      "score_today": 41.8,
+      "score_prev": 31.8,
+      "delta": 10.0,
+      "grade": "🔴 Weak"
     },
     {
       "type": "SCORE_UP",
-      "ticker": "SPGI",
-      "company_name": "S&P Global Inc.",
-      "sector": "Financial Services",
-      "score_today": 51.5,
-      "score_prev": 44.0,
-      "delta": 7.6,
-      "grade": "🟡 Good"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "ICE",
-      "company_name": "Intercontinental Exchange, Inc.",
-      "sector": "Financial Services",
-      "score_today": 49.1,
-      "score_prev": 42.2,
-      "delta": 6.9,
+      "ticker": "KO",
+      "company_name": "The Coca-Cola Company",
+      "sector": "Consumer Defensive",
+      "score_today": 52.1,
+      "score_prev": 43.2,
+      "delta": 9.0,
       "grade": "🟡 Good"
     },
     {
@@ -76,149 +46,119 @@
       "ticker": "MCO",
       "company_name": "Moody's Corporation",
       "sector": "Financial Services",
-      "score_today": 51.4,
-      "score_prev": 44.6,
+      "score_today": 59.2,
+      "score_prev": 51.4,
+      "delta": 7.9,
+      "grade": "🟡 Good"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "HD",
+      "company_name": "The Home Depot, Inc.",
+      "sector": "Consumer Cyclical",
+      "score_today": 54.1,
+      "score_prev": 47.3,
       "delta": 6.8,
       "grade": "🟡 Average"
     },
     {
       "type": "SCORE_UP",
-      "ticker": "CRH",
-      "company_name": "CRH plc",
-      "sector": "Basic Materials",
-      "score_today": 40.7,
-      "score_prev": 34.8,
-      "delta": 5.8,
-      "grade": "🔴 Weak"
+      "ticker": "ICE",
+      "company_name": "Intercontinental Exchange, Inc.",
+      "sector": "Financial Services",
+      "score_today": 54.5,
+      "score_prev": 49.1,
+      "delta": 5.5,
+      "grade": "🟡 Good"
     },
     {
       "type": "SCORE_UP",
-      "ticker": "CSU.TO",
-      "company_name": "Constellation Software Inc.",
-      "sector": "Technology",
-      "score_today": 37.6,
-      "score_prev": 31.9,
-      "delta": 5.7,
+      "ticker": "RMD",
+      "company_name": "ResMed Inc.",
+      "sector": "Healthcare",
+      "score_today": 84.8,
+      "score_prev": 79.7,
+      "delta": 5.2,
+      "grade": "🟢 Elite"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "MTD",
+      "company_name": "Mettler-Toledo International Inc.",
+      "sector": "Healthcare",
+      "score_today": 35.3,
+      "score_prev": 30.3,
+      "delta": 5.0,
       "grade": "🔴 Weak"
     },
     {
       "type": "NEW_ENTRY",
-      "ticker": "UNP",
-      "company_name": "Union Pacific Corporation",
-      "sector": "Industrials",
-      "score_today": 57.5,
+      "ticker": "THC",
+      "company_name": "Tenet Healthcare Corporation",
+      "sector": "Healthcare",
+      "score_today": 58.9,
       "score_prev": null,
       "delta": null,
-      "grade": "🟡 Good"
-    },
-    {
-      "type": "NEW_ENTRY",
-      "ticker": "MSFT",
-      "company_name": "Microsoft Corporation",
-      "sector": "Technology",
-      "score_today": 57.0,
-      "score_prev": null,
-      "delta": null,
-      "grade": "🟡 Good"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "MRSH",
-      "company_name": "Marsh & McLennan Companies, Inc.",
-      "sector": "Financial Services",
-      "score_today": 32.1,
-      "score_prev": 37.5,
-      "delta": -5.3,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "VRSN",
-      "company_name": "VeriSign, Inc.",
-      "sector": "Technology",
-      "score_today": 51.3,
-      "score_prev": 57.1,
-      "delta": -5.8,
-      "grade": "🟡 Good"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "INTU",
-      "company_name": "Intuit Inc.",
-      "sector": "Technology",
-      "score_today": 46.7,
-      "score_prev": 53.1,
-      "delta": -6.4,
-      "grade": "🟡 Average"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "CBOE",
-      "company_name": "Cboe Global Markets, Inc.",
-      "sector": "Financial Services",
-      "score_today": 62.6,
-      "score_prev": 70.0,
-      "delta": -7.4,
       "grade": "🟢 Excellent"
     },
     {
       "type": "SCORE_DOWN",
-      "ticker": "MKC",
-      "company_name": "McCormick & Company, Incorporated",
-      "sector": "Consumer Defensive",
-      "score_today": 48.4,
-      "score_prev": 56.0,
-      "delta": -7.6,
-      "grade": "🟡 Good"
+      "ticker": "NYT",
+      "company_name": "The New York Times Company",
+      "sector": "Communication Services",
+      "score_today": 39.6,
+      "score_prev": 44.6,
+      "delta": -5.0,
+      "grade": "🟡 Average"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "BSX",
+      "company_name": "Boston Scientific Corporation",
+      "sector": "Healthcare",
+      "score_today": 37.3,
+      "score_prev": 42.4,
+      "delta": -5.1,
+      "grade": "🟡 Average"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "MCD",
+      "company_name": "McDonald's Corporation",
+      "sector": "Consumer Cyclical",
+      "score_today": 34.1,
+      "score_prev": 39.9,
+      "delta": -5.8,
+      "grade": "🔴 Weak"
     },
     {
       "type": "SCORE_DOWN",
       "ticker": "GGG",
       "company_name": "Graco Inc.",
       "sector": "Industrials",
-      "score_today": 56.6,
-      "score_prev": 64.4,
-      "delta": -7.8,
+      "score_today": 48.4,
+      "score_prev": 56.6,
+      "delta": -8.2,
       "grade": "🟡 Good"
     },
     {
       "type": "SCORE_DOWN",
-      "ticker": "WST",
-      "company_name": "West Pharmaceutical Services, Inc.",
-      "sector": "Healthcare",
-      "score_today": 33.1,
-      "score_prev": 41.0,
-      "delta": -7.9,
-      "grade": "🔴 Weak"
+      "ticker": "CBOE",
+      "company_name": "Cboe Global Markets, Inc.",
+      "sector": "Financial Services",
+      "score_today": 54.3,
+      "score_prev": 62.6,
+      "delta": -8.3,
+      "grade": "🟡 Good"
     },
     {
       "type": "SCORE_DOWN",
-      "ticker": "NDSN",
-      "company_name": "Nordson Corporation",
-      "sector": "Industrials",
-      "score_today": 38.4,
-      "score_prev": 46.4,
-      "delta": -8.0,
-      "grade": "🟡 Average"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "COST",
-      "company_name": "Costco Wholesale Corporation",
+      "ticker": "MKC",
+      "company_name": "McCormick & Company, Incorporated",
       "sector": "Consumer Defensive",
-      "score_today": 30.7,
-      "score_prev": 39.8,
-      "delta": -9.1,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "ASML",
-      "company_name": "ASML Holding N.V.",
-      "sector": "Technology",
-      "score_today": 37.1,
-      "score_prev": 46.9,
-      "delta": -9.8,
+      "score_today": 39.8,
+      "score_prev": 48.4,
+      "delta": -8.6,
       "grade": "🟡 Average"
     },
     {
@@ -226,66 +166,56 @@
       "ticker": "PAYX",
       "company_name": "Paychex, Inc.",
       "sector": "Technology",
-      "score_today": 48.4,
-      "score_prev": 59.5,
-      "delta": -11.1,
-      "grade": "🟡 Good"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "V",
-      "company_name": "Visa Inc.",
-      "sector": "Financial Services",
-      "score_today": 46.1,
-      "score_prev": 57.8,
-      "delta": -11.8,
-      "grade": "🟡 Average"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "META",
-      "company_name": "Meta Platforms, Inc.",
-      "sector": "Communication Services",
-      "score_today": 58.1,
-      "score_prev": 71.6,
-      "delta": -13.5,
-      "grade": "🟡 Good"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "MA",
-      "company_name": "Mastercard Incorporated",
-      "sector": "Financial Services",
-      "score_today": 39.1,
-      "score_prev": 54.0,
-      "delta": -14.9,
-      "grade": "🟡 Average"
+      "score_today": 36.0,
+      "score_prev": 48.4,
+      "delta": -12.4,
+      "grade": "🔴 Weak"
     },
     {
       "type": "SCORE_DOWN",
       "ticker": "GOOG",
       "company_name": "Alphabet Inc.",
       "sector": "Communication Services",
-      "score_today": 60.1,
-      "score_prev": 78.1,
-      "delta": -18.0,
-      "grade": "🟢 Excellent"
+      "score_today": 44.8,
+      "score_prev": 60.1,
+      "delta": -15.3,
+      "grade": "🟡 Average"
     },
     {
-      "type": "SCORE_DOWN",
-      "ticker": "YUM",
-      "company_name": "Yum! Brands, Inc.",
-      "sector": "Consumer Cyclical",
-      "score_today": 35.5,
-      "score_prev": 54.0,
-      "delta": -18.5,
-      "grade": "🔴 Weak"
+      "type": "EXITED",
+      "ticker": "META",
+      "company_name": "Meta Platforms, Inc.",
+      "sector": "Communication Services",
+      "score_today": null,
+      "score_prev": 58.1,
+      "delta": null,
+      "grade": "🟡 Good"
+    },
+    {
+      "type": "EXITED",
+      "ticker": "MSCI",
+      "company_name": "MSCI Inc.",
+      "sector": "Financial Services",
+      "score_today": null,
+      "score_prev": 56.1,
+      "delta": null,
+      "grade": "🟡 Good"
+    },
+    {
+      "type": "EXITED",
+      "ticker": "UNP",
+      "company_name": "Union Pacific Corporation",
+      "sector": "Industrials",
+      "score_today": null,
+      "score_prev": 57.5,
+      "delta": null,
+      "grade": "🟡 Good"
     }
   ],
   "counts": {
-    "new_entries": 2,
-    "exited": 0,
-    "score_up": 10,
-    "score_down": 16
+    "new_entries": 1,
+    "exited": 3,
+    "score_up": 9,
+    "score_down": 8
   }
 }

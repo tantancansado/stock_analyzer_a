@@ -1,9 +1,29 @@
 {
   "descartados": [
     {
+      "ticker": "IB01.L",
+      "name": "iShares $ Treasury Bond 0-1yr UCITS",
+      "motivo": "yield nan%"
+    },
+    {
+      "ticker": "XEON.DE",
+      "name": "Xtrackers EUR Overnight Rate",
+      "motivo": "yield nan%"
+    },
+    {
+      "ticker": "IBTS.MI",
+      "name": "iShares EUR Govt 1-3yr",
+      "motivo": "yield nan%"
+    },
+    {
       "ticker": "IEAG.MI",
       "name": "iShares EUR IG Corporate",
-      "motivo": "yield -1.8%"
+      "motivo": "yield nan%"
+    },
+    {
+      "ticker": "IEMB.MI",
+      "name": "iShares EUR Emerging Mkts Bond",
+      "motivo": "yield nan%"
     }
   ]
 }

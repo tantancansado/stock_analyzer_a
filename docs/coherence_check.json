@@ -1,14 +1,12 @@
 {
-  "total_problemas": 14,
+  "total_problemas": 15,
   "desfases_conocidos": [
-    "⏳ ⚠️  value_opportunities.csv: upside DCF = (objetivo − precio) / precio — 2/57 filas, peor desvío 2% (VRSK, YUM)",
-    "⏳ ⚠️  value_opportunities.csv: upside P/E = (objetivo − precio) / precio — 3/55 filas, peor desvío 4% (ECL, CB, COST)",
-    "⏳ ⚠️  value_opportunities_filtered.csv: upside DCF = (objetivo − precio) / precio — 2/46 filas, peor desvío 2% (VRSK, YUM)",
-    "⏳ ⚠️  value_opportunities_filtered.csv: upside P/E = (objetivo − precio) / precio — 2/45 filas, peor desvío 3% (CB, ECL)"
+    "⏳ ⚠️  value_opportunities.csv: upside P/E = (objetivo − precio) / precio — 1/46 filas, peor desvío 3% (ADP)",
+    "⏳ ⚠️  value_opportunities_filtered.csv: upside P/E = (objetivo − precio) / precio — 1/38 filas, peor desvío 3% (ADP)"
   ],
   "detalle": {
-    "commodities: rating contra narrativa IA": [
-      "WEAT: value_rating=CARO pero ai_narrative_veredicto=OPORTUNIDAD_ESTRUCTURAL"
+    "columnas obligatorias (EU)": [
+      "european_value_opportunities.csv: la columna entry_readiness está vacía en las 40 filas"
     ],
     "identidad de los tickers (¿es esta empresa?)": [
       "AI.PA: tikr lo da en USD y PA cotiza en EUR — no es esa acción",
@@ -16,16 +14,17 @@
       "AI.PA: european_value_opp=165.24 y tikr=10.54 (1468% de diferencia)",
       "BRK-B: tikr lo da en GBP y US cotiza en USD — no es esa acción",
       "BRK-B: fundamental_scores dice «Berkshire Hathaway Inc.» y tikr dice «Brooks Macdonald Group plc» — no es la misma empresa",
-      "BRK-B: fundamental_scores=509.77 y tikr=16.40 (3008% de diferencia)",
+      "BRK-B: fundamental_scores=502.01 y tikr=16.40 (2961% de diferencia)",
       "DOL.TO: tikr lo da en USD y TO cotiza en CAD — no es esa acción",
       "DOL.TO: value_opportunitie dice «Dollarama Inc.» y tikr dice «WisdomTree Trust - WisdomTree True Developed International Fund» — no es la misma empresa",
       "DOL.TO: fundamental_scores dice «Dollarama Inc.» y tikr dice «WisdomTree Trust - WisdomTree True Developed International Fund» — no es la misma empresa",
-      "DOL.TO: value_opportunitie=174.18 y tikr=75.66 (130% de diferencia)",
-      "DOL.TO: fundamental_scores=174.18 y tikr=75.66 (130% de diferencia)",
+      "DOL.TO: value_opportunitie=178.70 y tikr=75.66 (136% de diferencia)",
+      "DOL.TO: fundamental_scores=178.70 y tikr=75.66 (136% de diferencia)",
       "EXPN.L: tikr lo da en USD y L cotiza en GBp — no es esa acción",
+      "META: fundamental_scores=741.25 y tikr=665.75 (11% de diferencia)",
       "MMC: tikr lo da en PLN y US cotiza en USD — no es esa acción"
     ]
   },
-  "tickers_value": 64,
-  "tickers_verdicts": 81
+  "tickers_value": 54,
+  "tickers_verdicts": 75
 }
