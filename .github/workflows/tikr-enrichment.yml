@@ -38,7 +38,14 @@ jobs:
 
       - name: Verify output
         run: |
-          python3 -c "
+          # Heredoc con el delimitador entre comillas simples, en vez de pasar
+          # el script como argumento entrecomillado de python3.
+          # Dentro de comillas dobles bash hace sustitución de comandos con los
+          # backticks, y este bloque tiene varios en los comentarios: los de
+          # `total` y `errors` se ejecutaban como órdenes y el paso moría con
+          # «total: command not found». El scraper había terminado bien y hasta
+          # commiteaba, pero el run salía en rojo y tapaba los fallos de verdad.
+          python3 - <<'VERIFICA'
           import json, sys
           from pathlib import Path
           p = Path('docs/tikr_earnings_data.json')
@@ -82,7 +89,7 @@ jobs:
               cur = pr.get('curr')
               es_us = '.' not in t and not t.endswith('Y')
               if es_us and cur and cur != 'USD':
-                  impostores.append(f\"{t}={(v or {}).get('company_name','?')[:28]} ({cur})\")
+                  impostores.append(f"{t}={(v or {}).get('company_name','?')[:28]} ({cur})")
           if impostores:
               print(f'ERROR: {len(impostores)} tickers US resueltos a otra empresa:')
               for x in impostores[:10]:
@@ -94,7 +101,7 @@ jobs:
               print('semanas anteriores esto deberia rondar el 99%: si baja del 75% es que')
               print('algo pasa con /tf o con el fichero anterior.')
               sys.exit(1)
-          "
+          VERIFICA
 
       - name: Commit enriched data
         if: always()

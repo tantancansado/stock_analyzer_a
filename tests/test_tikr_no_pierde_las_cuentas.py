@@ -106,22 +106,33 @@ class TestVerificacionDelWorkflow:
     el visto bueno. Durante cuatro meses la cobertura osciló entre el 47% y el
     81% sin que nadie lo supiera: el scraper 'funcionaba'."""
 
+    DELIMITADOR = "VERIFICA"
+
     def _script(self) -> str:
         yml = (RAIZ / '.github' / 'workflows' / 'tikr-enrichment.yml').read_text()
         i = yml.index('con_fin = sum')
-        ini = yml.rindex('python3 -c "', 0, i)
-        fin = yml.index('\n          "\n', i)
-        return textwrap.dedent(yml[yml.index('\n', ini) + 1:fin]).replace('\\"', '"')
+        ini = yml.rindex(f"<<'{self.DELIMITADOR}'", 0, i)
+        fin = yml.index(f'\n          {self.DELIMITADOR}\n', i)
+        return textwrap.dedent(yml[yml.index('\n', ini) + 1:fin])
 
     def test_compila_y_no_rompe_la_cadena_del_shell(self):
+        """Antes esto exigía escapar las comillas dobles, porque el bloque iba
+        dentro de `python3 -c "..."`. Pero las comillas no eran lo único que
+        bash interpretaba ahí dentro: el 20-sep-2026 el paso murió con
+        «total: command not found» por los backticks de un comentario, que
+        bash ejecuta como orden. Escapar caracteres uno a uno es perseguir la
+        lista; el heredoc con el delimitador entre comillas simples no
+        interpreta nada, y eso es lo que se comprueba aquí.
+        """
         yml = (RAIZ / '.github' / 'workflows' / 'tikr-enrichment.yml').read_text()
-        i = yml.index('con_fin = sum')
-        ini = yml.rindex('python3 -c "', 0, i)
-        fin = yml.index('\n          "\n', i)
         compile(self._script(), 'verify', 'exec')
-        crudo = yml[yml.index('\n', ini) + 1:fin]
-        crudas = [l.strip() for l in crudo.split('\n') if re.search(r'(?<!\\)"', l)]
-        assert not crudas, f'comillas dobles sin escapar: {crudas[:2]}'
+
+        assert f"<<'{self.DELIMITADOR}'" in yml, (
+            "el bloque tiene que ir en un heredoc con el delimitador entre "
+            "comillas simples: sin ellas bash expande $, backticks y \\")
+        assert 'python3 -c "' not in yml, (
+            'volver a `python3 -c "…"` reabre la puerta a que bash interprete '
+            'el contenido del script')
 
     def test_mide_el_contenido_no_solo_el_recuento(self):
         s = self._script()
