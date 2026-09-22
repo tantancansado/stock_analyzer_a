@@ -105,13 +105,53 @@ class EarningsCalendar:
                 'error': str(e)
             }
 
-    def scan_opportunities(self, opportunities_csv: str) -> pd.DataFrame:
-        """Escanea oportunidades y añade earnings info"""
+
+    # Orden de preferencia: lo que la app publica, luego el universo completo.
+    FUENTES = (
+        ('docs/value_opportunities_filtered.csv', 'lista VALUE publicada'),
+        ('docs/value_opportunities.csv',          'universo VALUE sin filtrar'),
+        ('docs/fundamental_scores.csv',           'fundamentales'),
+    )
+
+    def _universo_vigente(self, forzado: str = None) -> pd.DataFrame:
+        from pathlib import Path
+        candidatas = [(forzado, 'fichero indicado')] if forzado else list(self.FUENTES)
+        for ruta, que_es in candidatas:
+            p = Path(ruta)
+            if not p.exists():
+                continue
+            df = pd.read_csv(p)
+            if 'ticker' not in df.columns or df.empty:
+                continue
+            # Un fichero que no se regenera es peor que no tenerlo: se avisa.
+            from datetime import datetime, timezone
+            edad = (datetime.now(timezone.utc)
+                    - datetime.fromtimestamp(p.stat().st_mtime, timezone.utc)).days
+            if edad > 7:
+                print(f"   ⚠️  {ruta} tiene {edad} días — puede estar congelado")
+            print(f"   Fuente: {ruta} ({que_es}, {len(df)} tickers)")
+            return df.copy()
+        raise FileNotFoundError(
+            'No hay ningún universo de tickers vigente que escanear: '
+            + ', '.join(r for r, _ in self.FUENTES))
+
+    def scan_opportunities(self, opportunities_csv: str = None) -> pd.DataFrame:
+        """Escanea los picks VIGENTES y añade su próxima fecha de resultados.
+
+        Antes leía `super_opportunities_5d_complete.csv`, un fichero que dejó
+        de regenerarse en marzo de 2026. Seis meses después este paso seguía
+        corriendo cada día sobre esos mismos 20 tickers: el 22-sep solo UNO
+        (ROP) seguía en la lista VALUE, y solo cuatro estaban siquiera en el
+        universo de fundamentales. Diecinueve de veinte avisos eran sobre
+        acciones que ya no se siguen, y los picks de verdad no se vigilaban.
+
+        Ahora la fuente es la lista publicada —la filtrada, que es la que ha
+        pasado el gate— y si no estuviera, el universo de fundamentales.
+        """
         print("\n📅 EARNINGS CALENDAR SCAN")
         print("=" * 70)
 
-        df = pd.read_csv(opportunities_csv)
-        df = df[df['super_score_5d'] >= 55].copy()
+        df = self._universo_vigente(opportunities_csv)
 
         print(f"   Escaneando earnings para {len(df)} oportunidades...")
 
@@ -217,7 +257,7 @@ class EarningsCalendar:
 def main():
     """Main execution"""
     calendar = EarningsCalendar(warning_days=7)
-    df = calendar.scan_opportunities("docs/super_opportunities_5d_complete.csv")
+    df = calendar.scan_opportunities()
     alerts = calendar.generate_alerts(df)
     calendar.print_summary(df, alerts)
     calendar.save_results(df, alerts)
