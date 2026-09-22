@@ -264,3 +264,47 @@ class TestDivisaIncoherenteAntesDePublicar:
         assert ts._divisa_incoherente("AAPL", {"price": {}}) is None
         assert ts._divisa_incoherente("AAPL", {}) is None
         assert ts._divisa_incoherente("XYZ.ZZ", {"price": {"curr": "USD"}}) is None
+
+
+class TestPrecioDistintoNoEsOtraEmpresa:
+    """El 22-sep-2026 META tumbó el pipeline con «fundamental_scores=741,25 y
+    tikr=665,75 (11% de diferencia)». Las dos fuentes decían «Meta Platforms,
+    Inc.» y las dos en dólares: no era otra compañía, era que TIKR se refresca
+    los domingos y el resto del pipeline a diario. A mitad de semana cualquier
+    valor movido pasa del 10%. Un desfase se vigila con la frescura.
+    """
+
+    @staticmethod
+    def _dos(nombre_a, precio_a, nombre_b, precio_b, divisa='USD'):
+        return [{'fuente': 'fund', 'nombre': nombre_a, 'precio': precio_a, 'divisa': divisa},
+                {'fuente': 'tikr', 'nombre': nombre_b, 'precio': precio_b, 'divisa': divisa}]
+
+    def test_mismo_nombre_y_precio_movido_no_salta(self):
+        from identidad_ticker import revisar
+        fuentes = self._dos('Meta Platforms, Inc.', 741.25,
+                            'Meta Platforms, Inc.', 665.75)
+        assert revisar('META', fuentes) == []
+
+    def test_mismo_nombre_pero_precio_disparatado_sigue_saltando(self):
+        """Tolerar el desfase no es dejar de mirar: el doble de precio ya no
+        se explica por unos días de diferencia."""
+        from identidad_ticker import revisar
+        fallos = revisar('X', self._dos('Apple Inc.', 100.0, 'Apple Inc.', 900.0))
+        assert fallos and '800%' in fallos[0]
+
+    def test_sin_nombre_el_precio_vuelve_a_ser_la_prueba(self):
+        """Si no hay nombre con el que comparar, el precio es lo único que
+        queda y el listón vuelve a estar bajo."""
+        from identidad_ticker import revisar
+        fuentes = [{'fuente': 'a', 'nombre': None, 'precio': 100.0, 'divisa': 'USD'},
+                   {'fuente': 'b', 'nombre': None, 'precio': 130.0, 'divisa': 'USD'}]
+        assert revisar('X', fuentes), 'un 30% sin nombre que lo respalde sí es sospechoso'
+
+    def test_los_impostores_reales_se_siguen_cazando(self):
+        from identidad_ticker import revisar
+        assert revisar('AI.PA', [
+            {'fuente': 'eu', 'nombre': "L'Air Liquide S.A.", 'precio': 165.24, 'divisa': 'EUR'},
+            {'fuente': 'tikr', 'nombre': 'C3.ai, Inc.', 'precio': 10.54, 'divisa': 'USD'}])
+        assert revisar('BRK-B', [
+            {'fuente': 'f', 'nombre': 'Berkshire Hathaway Inc.', 'precio': 502.01, 'divisa': 'USD'},
+            {'fuente': 'tikr', 'nombre': 'Brooks Macdonald Group plc', 'precio': 16.40, 'divisa': 'GBP'}])

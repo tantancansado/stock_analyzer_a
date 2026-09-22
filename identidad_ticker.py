@@ -126,12 +126,27 @@ def revisar(ticker: str, fuentes: list[dict]) -> list[str]:
                 fallos.append(f"{t}: {nombres[i][0]} dice «{nombres[i][1]}» y "
                               f"{nombres[j][0]} dice «{nombres[j][1]}» — no es la misma empresa")
 
+    # El precio solo prueba identidad cuando no hay nombre con el que
+    # compararla. Si las dos fuentes dicen que es la misma empresa, un precio
+    # distinto no dice «otra compañía», dice «fechas distintas»: TIKR se
+    # refresca los domingos y el resto del pipeline a diario, así que a
+    # mitad de semana hay días de desfase y cualquier valor movido pasa del
+    # 10%. META saltó el 22-sep-2026 con un 11% teniendo el mismo nombre en
+    # ambas fuentes, y eso tumbó el pipeline entero. Un desfase se vigila con
+    # la frescura, no acusando a la acción de ser otra.
+    nombres_concuerdan = bool(nombres) and all(
+        mismo_nombre(nombres[i][1], nombres[j][1])
+        for i in range(len(nombres)) for j in range(i + 1, len(nombres)))
+    # Con el nombre confirmado hace falta un disparate para hablar de otra
+    # acción: el doble de precio ya no es volatilidad de unos días.
+    tolerancia = 2.0 if nombres_concuerdan else 1.10
+
     precios = [(f['fuente'], float(f['precio'])) for f in fuentes
                if f.get('precio') and float(f['precio']) > 0]
     for i in range(len(precios)):
         for j in range(i + 1, len(precios)):
             a, b = precios[i][1], precios[j][1]
-            if max(a, b) / min(a, b) <= 1.10 or _factor_unidad(a, b):
+            if max(a, b) / min(a, b) <= tolerancia or _factor_unidad(a, b):
                 continue
             fallos.append(f"{t}: {precios[i][0]}={a:.2f} y {precios[j][0]}={b:.2f} "
                           f"({100 * (max(a, b) / min(a, b) - 1):.0f}% de diferencia)")
