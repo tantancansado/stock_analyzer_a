@@ -264,6 +264,15 @@
   --info:      hsl(210 100% 39%);  /* el mismo azul: un solo acento, 4,64 */
   --special:   hsl(259 37% 48%);   /* morado iOS apagado, 5,88 */
 
+  /* Escala de PLAZO de la página de bonos: corto, medio y largo. Tienen que
+     seguir distinguiéndose entre sí, así que no valen los tokens de rol.
+     Los tonos -500 de Tailwind (teal, blue, indigo) están pensados para
+     fondo oscuro: sobre blanco daban 2,49 / 3,68 / 4,47. Bajados hasta la
+     luminosidad que pasa AA en los tres fondos de la app. */
+  --plazo-corto: hsl(174 84% 24%);   /* 5,41 sobre #f5f5f7 · 4,69 sobre relleno */
+  --plazo-medio: hsl(217 91% 46%);   /* 5,33 · 4,62 */
+  --plazo-largo: hsl(239 60% 50%);   /* 7,59 · 6,58 */
+
   --background:             hsl(240 11% 96%);   /* #f5f5f7, el gris de apple.com */
   --foreground:             hsl(240 3% 12%);    /* #1d1d1f, casi negro — no negro */
   --card:                   hsl(0 0% 100%);
@@ -325,6 +334,10 @@
     inset -1px 0 0 hsl(0 0% 0%   / 0.03);
   /* Color semántico — equivalentes a los tonos -400 de Tailwind, que es lo
      que el modo oscuro venía usando de facto. */
+  /* En oscuro los -500 de Tailwind sí contrastan: se dejan como estaban. */
+  --plazo-corto: #14b8a6;
+  --plazo-medio: #3b82f6;
+  --plazo-largo: #6366f1;
   --success: hsl(158 64% 52%);
   --danger: hsl(0 91% 71%);
   --warn: hsl(43 96% 56%);

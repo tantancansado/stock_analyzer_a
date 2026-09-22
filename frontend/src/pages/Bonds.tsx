@@ -154,7 +154,7 @@ function buildRecommendation(
       tesis: `Para 3 meses no tiene sentido asumir ningún riesgo. XEON replica el tipo overnight del BCE (ahora ~${eurYield.toFixed(1)}%) con liquidez total. Tu dinero trabaja como si estuviera en cuenta corriente pero cobrando. No hay riesgo de precio porque la duración es prácticamente cero.`,
       riskNote: 'Riesgo casi inexistente. El único escenario negativo es que el BCE baje tipos de golpe, lo que reduciría el yield pero no haría bajar el precio.',
       rateCutNote: `Si el BCE baja tipos -1%, el yield pasaría a ~${(eurYield - 1).toFixed(1)}%. A 3 meses la diferencia sería mínima (~${fmtEur(g * 0.08)} menos).`,
-      color: '#14b8a6',
+      color: 'var(--plazo-corto)',
     }
   }
 
@@ -177,7 +177,7 @@ function buildRecommendation(
       tesis: `A 6 meses puedes capturar el diferencial Fed vs BCE (~1.5% más yield en USD). Los T-Bills de menos de 1 año tienen duración mínima, así que aunque la Fed mueva tipos, el impacto en precio es marginal. Disponible en IBKR Ireland como IBTU cotizando en Londres en USD.`,
       riskNote: 'Riesgo de divisa EUR/USD. Si el dólar se deprecia un 2% contra el euro, parte de la ganancia se erosiona. Si tienes gastos en USD no es un riesgo.',
       rateCutNote: `Si la Fed baja -0.5%, el yield pasaría a ~${(yld6 - 0.5).toFixed(1)}%. Ganarías ${fmtUsd(gCut)} en vez de ${fmtUsd(g)} — diferencia pequeña a 6 meses.`,
-      color: '#3b82f6',
+      color: 'var(--plazo-medio)',
     }
   }
 
@@ -201,7 +201,7 @@ function buildRecommendation(
       tesis: `A 1 año tiene sentido apostar a que la Fed empezará a bajar tipos. Con duración ~${dur}y, cada 1% de bajada de tipos suma aproximadamente un ${dur}% extra de ganancia de precio encima del cupón del ${yld.toFixed(1)}%. Es el trade más claro del ciclo actual si Trump presiona a Powell.`,
       riskNote: `Si los tipos suben 1% en vez de bajar, el precio caería ~${dur}% y perderías dinero neto ese año. Es el riesgo principal. Por eso horizonte mínimo recomendado: 12 meses.`,
       rateCutNote: `Si la Fed baja -1%: ganarías ${fmtUsd(gCut)} (${((gCut / capital) * 100).toFixed(1)}% total) — el cupón más la revalorización del precio. Este es el escenario base.`,
-      color: '#6366f1',
+      color: 'var(--plazo-largo)',
     }
   }
 
@@ -229,7 +229,7 @@ function buildRecommendation(
     tesis: `A 2 años las preferred stocks de bancos sistémicos o REITs de calidad ofrecen el mejor binomio yield/riesgo. Cobras ~${prefYield.toFixed(1)}% anual fijo mientras esperas. Están un ${Math.abs(pctFromPar).toFixed(0)}% por debajo de su valor nominal ($25), así que si los tipos bajan y la empresa decide "llamarlas", cobrarías $25 por acción — un ${Math.abs(pctFromPar).toFixed(0)}% extra de golpe sobre lo que pagaste.`,
     riskNote: 'Si los tipos suben más, el precio puede caer otro 5-10%. Con horizonte 2 años el cupón cubre casi cualquier caída razonable. Riesgo real solo en quiebra del emisor (JPM, BAC, PSA — muy improbable).',
     rateCutNote: `Si la Fed baja -1%: el precio se acercaría al par, ganando ~${(potentialParGain * 50).toFixed(0)}% de upside adicional sobre el cupón. Total estimado: ${fmtUsd(g2Cut)} (${((g2Cut / capital) * 100).toFixed(1)}%).`,
-    color: '#f59e0b',
+    color: 'var(--warn)',
   }
 }
 
@@ -244,10 +244,10 @@ function GainBar({ base, rateCut, rateHike, capital }: { base: number; rateCut: 
         <div className="flex-1 h-2 rounded-full" style={{ background: 'rgba(255,255,255,0.06)' }}>
           <div className="h-2 rounded-full transition-all" style={{
             width: `${pct}%`,
-            background: isNeg ? '#ef4444' : color,
+            background: isNeg ? 'var(--danger)' : color,
           }} />
         </div>
-        <span className="w-20 text-right font-mono shrink-0" style={{ color: isNeg ? '#ef4444' : color }}>
+        <span className="w-20 text-right font-mono shrink-0" style={{ color: isNeg ? 'var(--danger)' : color }}>
           {isNeg ? '' : '+'}{val >= 0 ? fmtEur(val) : fmtEur(val)}
         </span>
         <span className="w-12 text-right font-mono text-muted-foreground text-[11px] shrink-0">
@@ -258,9 +258,9 @@ function GainBar({ base, rateCut, rateHike, capital }: { base: number; rateCut: 
   }
   return (
     <div className="space-y-1.5 mt-3">
-      {bar(rateCut, '#10b981', 'Tipos bajan')}
-      {bar(base,    '#22d3ee', 'Escenario base')}
-      {bar(rateHike,'#f59e0b', 'Tipos suben')}
+      {bar(rateCut, 'var(--success)', 'Tipos bajan')}
+      {bar(base,    'var(--info)', 'Escenario base')}
+      {bar(rateHike,'var(--warn)', 'Tipos suben')}
     </div>
   )
 }
@@ -285,7 +285,7 @@ function AdvisorCard({ label, rec, capital }: {
           </div>
           <div className="text-right shrink-0">
             <div className="text-seccion font-bold font-mono text-foreground">{fmtEur(rec.gainBase)}</div>
-            <div className="text-mini font-mono mt-0.5" style={{ color: pctBase >= 0 ? '#10b981' : '#ef4444' }}>
+            <div className="text-mini font-mono mt-0.5" style={{ color: pctBase >= 0 ? 'var(--success)' : 'var(--danger)' }}>
               +{pctBase.toFixed(2)}% total
             </div>
           </div>
@@ -606,7 +606,7 @@ function DurationBar({ years }: { years: number | null | undefined }) {
   if (years == null) return <span className="text-muted-foreground">—</span>
   const max = 20
   const pct = Math.min((years / max) * 100, 100)
-  const color = years >= 15 ? '#ef4444' : years >= 8 ? '#f97316' : years >= 4 ? '#eab308' : '#10b981'
+  const color = years >= 15 ? 'var(--danger)' : years >= 8 ? 'var(--warn)' : years >= 4 ? 'var(--warn)' : 'var(--success)'
   return (
     <div className="flex items-center gap-2">
       <div className="h-1 w-16 rounded-full barra-pista overflow-hidden">
