@@ -94,3 +94,43 @@ class TestOrdenGeneralDelPipeline:
             assert 'continue-on-error: true' not in m.group(2), (
                 f'paso CRITICAL con continue-on-error: {m.group(1)}'
             )
+
+
+class TestElMensajeDelDiaLlegaIgual:
+    """El Coherence Check es un gate duro a propósito, pero al fallar se
+    llevaba por delante el Daily Briefing, que es lo ÚNICO que el usuario
+    recibe sin abrir la app.
+
+    El 22-sep-2026 el pipeline hizo todo su trabajo —scoring, scanners,
+    commit de resultados y deploy en verde— y lo único que se perdió fue el
+    aviso de Telegram, dos días seguidos. El día que algo va mal es justo el
+    día en que hace falta que avise.
+    """
+
+    def test_el_briefing_corre_aunque_falle_el_gate(self):
+        src = WORKFLOW.read_text()
+        m = re.search(r'- name: Daily Briefing[^\n]*\n((?:\s+[^\n]*\n)*?)\s+run:', src)
+        assert m, 'no se encontró el paso Daily Briefing'
+        bloque = m.group(1)
+        assert 'if: always()' in bloque, (
+            'sin always(), un fallo en el Coherence Check deja al usuario sin '
+            'el único mensaje del día — que es cuando más falta hace')
+
+    def test_sigue_sin_publicar_datos_que_se_contradicen(self):
+        """Que el mensaje llegue no significa relajar el gate: el Coherence
+        Check sigue siendo un fallo duro y el run sale en rojo."""
+        src = WORKFLOW.read_text()
+        m = re.search(r'- name: Coherence Check[^\n]*\n((?:\s+[^\n]*\n)*?)\s+run:', src)
+        assert m and 'continue-on-error' not in m.group(1)
+
+    def test_el_briefing_sabe_avisar_de_lo_que_falta(self):
+        """always() es seguro porque el briefing no publica a ciegas: mira las
+        columnas que el pipeline debía rellenar y abre con ellas."""
+        import daily_briefing as db
+        vacias = [{'ticker': 'AAPL', 'entry_readiness': '', 'value_score': '50',
+                   'current_price': '100'}]
+        fallos = db.datos_incompletos(vacias)
+        assert any('entry_readiness' in f for f in fallos), fallos
+        llenas = [{'ticker': 'AAPL', 'entry_readiness': 'ENTRADA',
+                   'value_score': '50', 'current_price': '100'}]
+        assert db.datos_incompletos(llenas) == []

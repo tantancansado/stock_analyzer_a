@@ -698,6 +698,23 @@ jobs:
         run: python3 coherence_check.py
 
       - name: Daily Briefing (el único mensaje del día)
+        # always(), como los cinco pasos que vienen detrás.
+        #
+        # El Coherence Check es un gate duro a propósito: si la app se
+        # contradice, no se publica. Pero al fallar se llevaba por delante
+        # el único mensaje que el usuario recibe, y eso invierte el
+        # resultado — el día que algo va mal es justo el día en que hace
+        # falta que avise, y en su lugar se queda callado.
+        #
+        # El 22-sep-2026 el pipeline entero hizo su trabajo —scoring,
+        # scanners, commit de resultados y deploy, todo en verde— y lo único
+        # que se perdió fue el aviso de Telegram, dos días seguidos.
+        #
+        # No publica a ciegas: el briefing ya mira `datos_incompletos()` y
+        # tiene orden de abrir con eso en negrita cuando algo falta. Un
+        # mensaje que empieza diciendo qué falta es más útil que ningún
+        # mensaje.
+        if: always()
         continue-on-error: true
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
