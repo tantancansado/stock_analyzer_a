@@ -166,7 +166,7 @@ function RegimeSweepComposition({ data }: { data: RegimeSweepData }) {
       {/* Right: signal bars */}
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 14 }}>
         <div style={{
-          fontSize: 10, fontWeight: 700, color: 'rgba(6,182,212,0.7)',
+          fontSize: 11, fontWeight: 700, color: 'rgba(6,182,212,0.7)',
           textTransform: 'uppercase', letterSpacing: '0.15em', marginBottom: 4,
           opacity: interpolate(frame, [5, 20], [0, 1], { extrapolateRight: 'clamp' }),
         }}>

@@ -510,10 +510,13 @@ export default function Portfolio() {
 
         return (
           <div className="mt-6">
-            <div className="flex items-center gap-3 mb-3">
+            {/* flex-wrap: título + contador + tres filtros + «N señales» no
+                caben en 390px, y el contador de la derecha (ml-auto) acababa
+                en 442px, fuera de la pantalla. */}
+            <div className="flex flex-wrap items-center gap-3 mb-3">
               <h3 className="text-cuerpo font-semibold">Historial de Señales</h3>
               <Badge variant="gray" className="text-micro">{signalsData.count}</Badge>
-              <div className="flex gap-1 ml-2">
+              <div className="flex flex-wrap gap-1 ml-2">
                 {(['ALL', 'ACTIVE', 'COMPLETED'] as const).map(f => (
                   <button
                     key={f}
@@ -916,8 +919,8 @@ export default function Portfolio() {
                 <p className="etiqueta-seccion mb-3">Win rate por régimen de mercado</p>
                 <ResponsiveContainer width="100%" height={160}>
                   <BarChart data={calibData.regime_analysis} layout="vertical" margin={{ left: 8, right: 32 }}>
-                    <XAxis type="number" domain={[0, 100]} tickFormatter={v => `${v}%`} tick={{ fontSize: 10 }} />
-                    <YAxis type="category" dataKey="regime" tick={{ fontSize: 10 }} width={120} />
+                    <XAxis type="number" domain={[0, 100]} tickFormatter={v => `${v}%`} tick={{ fontSize: 11 }} />
+                    <YAxis type="category" dataKey="regime" tick={{ fontSize: 11 }} width={120} />
                     <Tooltip formatter={fmtPct} contentStyle={{ background: 'var(--card)', border: '1px solid color-mix(in oklab, var(--border) 50%, transparent)', fontSize: 12 }} />
                     <ReferenceLine x={50} stroke="rgba(255,255,255,0.2)" strokeDasharray="4 2" />
                     <Bar dataKey="win_rate" radius={[0, 4, 4, 0]} fill="#06b6d4"
@@ -944,8 +947,8 @@ export default function Portfolio() {
                     layout="vertical"
                     margin={{ left: 8, right: 32 }}
                   >
-                    <XAxis type="number" domain={[0, 100]} tickFormatter={v => `${v}%`} tick={{ fontSize: 10 }} />
-                    <YAxis type="category" dataKey="sector" tick={{ fontSize: 9 }} width={130} />
+                    <XAxis type="number" domain={[0, 100]} tickFormatter={v => `${v}%`} tick={{ fontSize: 11 }} />
+                    <YAxis type="category" dataKey="sector" tick={{ fontSize: 11 }} width={130} />
                     <Tooltip formatter={fmtPct} contentStyle={{ background: 'var(--card)', border: '1px solid color-mix(in oklab, var(--border) 50%, transparent)', fontSize: 12 }} />
                     <ReferenceLine x={50} stroke="rgba(255,255,255,0.2)" strokeDasharray="4 2" />
                     <Bar dataKey="win_rate" radius={[0, 4, 4, 0]} fill="#06b6d4"
@@ -966,10 +969,10 @@ export default function Portfolio() {
               <p className="text-mini text-muted-foreground mb-3">Cada punto = rango de value_score. Por encima de la línea 50% = el score añade valor real.</p>
               <ResponsiveContainer width="100%" height={180}>
                 <LineChart data={calibData.score_buckets} margin={{ left: 8, right: 16, top: 8 }}>
-                  <XAxis dataKey="range" tick={{ fontSize: 10 }} />
-                  <YAxis domain={[0, 100]} tickFormatter={v => `${v}%`} tick={{ fontSize: 10 }} />
+                  <XAxis dataKey="range" tick={{ fontSize: 11 }} />
+                  <YAxis domain={[0, 100]} tickFormatter={v => `${v}%`} tick={{ fontSize: 11 }} />
                   <Tooltip formatter={fmtPct} contentStyle={{ background: 'var(--card)', border: '1px solid color-mix(in oklab, var(--border) 50%, transparent)', fontSize: 12 }} />
-                  <ReferenceLine y={50} stroke="rgba(255,255,255,0.25)" strokeDasharray="4 2" label={{ value: '50%', position: 'insideTopRight', fontSize: 10, fill: 'rgba(255,255,255,0.3)' }} />
+                  <ReferenceLine y={50} stroke="rgba(255,255,255,0.25)" strokeDasharray="4 2" label={{ value: '50%', position: 'insideTopRight', fontSize: 11, fill: 'rgba(255,255,255,0.3)' }} />
                   <Line type="monotone" dataKey="win_rate" stroke="#06b6d4" strokeWidth={2} dot={{ fill: '#06b6d4', r: 4 }} activeDot={{ r: 6 }} />
                 </LineChart>
               </ResponsiveContainer>
@@ -984,8 +987,8 @@ export default function Portfolio() {
                 <p className="text-mini text-muted-foreground mb-3">El modelo ML detectó FCF Yield como la feature más importante (26.8%). Aquí la evidencia.</p>
                 <ResponsiveContainer width="100%" height={160}>
                   <BarChart data={calibData.fcf_yield_buckets} margin={{ left: 8, right: 16 }}>
-                    <XAxis dataKey="range" tick={{ fontSize: 10 }} />
-                    <YAxis domain={[0, 100]} tickFormatter={v => `${v}%`} tick={{ fontSize: 10 }} />
+                    <XAxis dataKey="range" tick={{ fontSize: 11 }} />
+                    <YAxis domain={[0, 100]} tickFormatter={v => `${v}%`} tick={{ fontSize: 11 }} />
                     <Tooltip formatter={fmtPct} contentStyle={{ background: 'var(--card)', border: '1px solid color-mix(in oklab, var(--border) 50%, transparent)', fontSize: 12 }} />
                     <ReferenceLine y={50} stroke="rgba(255,255,255,0.25)" strokeDasharray="4 2" />
                     <Bar dataKey="win_rate" radius={[4, 4, 0, 0]} fill="#06b6d4"

@@ -104,7 +104,7 @@ function PeriodCard({ period, index, frame, isBest }: {
           <div style={{ fontSize: 22, fontWeight: 900, color, lineHeight: 1 }}>
             <CountUp target={period.win_rate} frame={frame} from={delay + 8} to={delay + 40} />%
           </div>
-          <div style={{ fontSize: 10, color: 'rgba(148,163,184,0.6)', marginTop: 2 }}>win rate</div>
+          <div style={{ fontSize: 11, color: 'rgba(148,163,184,0.6)', marginTop: 2 }}>win rate</div>
         </div>
       </div>
 
@@ -113,7 +113,7 @@ function PeriodCard({ period, index, frame, isBest }: {
         display: 'flex', alignItems: 'center', gap: 6,
       }}>
         <span style={{ fontSize: 18, fontWeight: 800, color: '#f1f5f9' }}>{period.label}</span>
-        {isBest && <span style={{ fontSize: 10, fontWeight: 700, color: '#10b981', background: 'rgba(16,185,129,0.15)', border: '1px solid rgba(16,185,129,0.3)', borderRadius: 6, padding: '2px 6px' }}>BEST</span>}
+        {isBest && <span style={{ fontSize: 11, fontWeight: 700, color: '#10b981', background: 'rgba(16,185,129,0.15)', border: '1px solid rgba(16,185,129,0.3)', borderRadius: 6, padding: '2px 6px' }}>BEST</span>}
       </div>
 
       {/* Return */}

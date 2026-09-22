@@ -179,7 +179,7 @@ function PriceStressChart({
             <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.06)" />
             <XAxis
               dataKey="date"
-              tick={{ fontSize: 10, fill: '#94a3b8' }}
+              tick={{ fontSize: 11, fill: '#94a3b8' }}
               tickFormatter={(value) => String(value).slice(2, 7)}
               axisLine={false}
               tickLine={false}
@@ -188,7 +188,7 @@ function PriceStressChart({
             <YAxis
               yAxisId="price"
               orientation="left"
-              tick={{ fontSize: 10, fill: '#f8fafc' }}
+              tick={{ fontSize: 11, fill: '#f8fafc' }}
               axisLine={false}
               tickLine={false}
               width={54}
@@ -197,7 +197,7 @@ function PriceStressChart({
               yAxisId="stress"
               orientation="right"
               domain={[0, 100]}
-              tick={{ fontSize: 10, fill: '#94a3b8' }}
+              tick={{ fontSize: 11, fill: '#94a3b8' }}
               axisLine={false}
               tickLine={false}
               width={38}

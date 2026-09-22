@@ -286,7 +286,9 @@ function HistoryChart({ points, maxScore }: { points: HistoryPoint[]; maxScore: 
     )
   }
 
-  const W = 600, H = 100, PAD = { t: 8, b: 20, l: 28, r: 8 }
+  // Márgenes al alza junto con el fontSize: con 28 a la izquierda «+30»
+  // tocaba el borde y con 8 a la derecha la última fecha se salía.
+  const W = 600, H = 110, PAD = { t: 10, b: 26, l: 46, r: 30 }
   const innerW = W - PAD.l - PAD.r
   const innerH = H - PAD.t - PAD.b
 
@@ -302,7 +304,7 @@ function HistoryChart({ points, maxScore }: { points: HistoryPoint[]; maxScore: 
   const labelIdxs = [0, Math.floor(points.length / 2), points.length - 1]
 
   return (
-    <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ maxHeight: 100 }}>
+    <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ maxHeight: 110 }}>
       {/* Zero line */}
       <line x1={PAD.l} y1={y0} x2={W - PAD.r} y2={y0} stroke="currentColor" strokeOpacity="0.15" strokeDasharray="3,3" />
 
@@ -335,16 +337,22 @@ function HistoryChart({ points, maxScore }: { points: HistoryPoint[]; maxScore: 
       ))}
 
       {/* X-axis labels */}
+      {/* fontSize 16, no 7: el texto de un <svg> con viewBox escala con el
+          contenedor. Aquí el viewBox es 600 de ancho y en un móvil el svg
+          mide unos 350, así que todo se dibuja a 0,58x — un fontSize 7 se
+          veía a 4px reales, y encima al 40% de opacidad. */}
       {labelIdxs.map(i => (
-        <text key={i} x={xScale(i)} y={H - 4} textAnchor="middle" fontSize="7" fill="currentColor" fillOpacity="0.4">
+        <text key={i} x={xScale(i)} y={H - 6}
+              textAnchor={i === 0 ? 'start' : i === points.length - 1 ? 'end' : 'middle'}
+              fontSize="16" fill="currentColor" fillOpacity="0.65">
           {points[i].date.slice(5)}
         </text>
       ))}
 
       {/* Y-axis labels */}
-      <text x={PAD.l - 2} y={PAD.t + 4} textAnchor="end" fontSize="7" fill="currentColor" fillOpacity="0.4">+{maxScore}</text>
-      <text x={PAD.l - 2} y={y0 + 3} textAnchor="end" fontSize="7" fill="currentColor" fillOpacity="0.4">0</text>
-      <text x={PAD.l - 2} y={H - PAD.b + 2} textAnchor="end" fontSize="7" fill="currentColor" fillOpacity="0.4">-{maxScore}</text>
+      <text x={PAD.l - 2} y={PAD.t + 4} textAnchor="end" fontSize="16" fill="currentColor" fillOpacity="0.65">+{maxScore}</text>
+      <text x={PAD.l - 2} y={y0 + 3} textAnchor="end" fontSize="16" fill="currentColor" fillOpacity="0.65">0</text>
+      <text x={PAD.l - 2} y={H - PAD.b + 2} textAnchor="end" fontSize="16" fill="currentColor" fillOpacity="0.65">-{maxScore}</text>
     </svg>
   )
 }

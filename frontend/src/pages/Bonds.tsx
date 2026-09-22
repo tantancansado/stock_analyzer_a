@@ -250,7 +250,7 @@ function GainBar({ base, rateCut, rateHike, capital }: { base: number; rateCut: 
         <span className="w-20 text-right font-mono shrink-0" style={{ color: isNeg ? '#ef4444' : color }}>
           {isNeg ? '' : '+'}{val >= 0 ? fmtEur(val) : fmtEur(val)}
         </span>
-        <span className="w-12 text-right font-mono text-muted-foreground text-[10px] shrink-0">
+        <span className="w-12 text-right font-mono text-muted-foreground text-[11px] shrink-0">
           {isNeg ? '' : '+'}{((val / capital) * 100).toFixed(1)}%
         </span>
       </div>
@@ -404,7 +404,7 @@ function FixedIncomeAdvisor({ bonds, prefs }: { bonds: BondOpportunity[]; prefs:
             </div>
 
             {/* Nota disclaimer */}
-            <p className="text-[10px] text-muted-foreground text-center">
+            <p className="text-[11px] text-muted-foreground text-center">
               Proyecciones basadas en yields actuales del scanner diario · No es asesoramiento financiero · Rendimientos pasados no garantizan futuros
             </p>
           </CardContent>

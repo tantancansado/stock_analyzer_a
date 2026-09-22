@@ -55,7 +55,7 @@ export default function PriceChart({ ticker, data: external, height = 200, mini 
           {!mini && (
             <XAxis
               dataKey="date"
-              tick={{ fontSize: 10, fill: '#64748b' }}
+              tick={{ fontSize: 11, fill: '#64748b' }}
               tickFormatter={d => d.slice(5)}
               interval="preserveStartEnd"
               axisLine={false}
@@ -65,7 +65,7 @@ export default function PriceChart({ ticker, data: external, height = 200, mini 
           {!mini && (
             <YAxis
               domain={['auto', 'auto']}
-              tick={{ fontSize: 10, fill: '#64748b' }}
+              tick={{ fontSize: 11, fill: '#64748b' }}
               tickFormatter={v => precio(Number(v), ticker, null, 0)}
               width={50}
               axisLine={false}

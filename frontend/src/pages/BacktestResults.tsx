@@ -201,8 +201,8 @@ export default function BacktestResults() {
                   </linearGradient>
                 </defs>
                 <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
-                <XAxis dataKey="week" tick={{ fontSize: 10, fill: 'rgba(255,255,255,0.35)' }} />
-                <YAxis tick={{ fontSize: 10, fill: 'rgba(255,255,255,0.35)' }} tickFormatter={v => `${v}%`} />
+                <XAxis dataKey="week" tick={{ fontSize: 11, fill: 'rgba(255,255,255,0.35)' }} />
+                <YAxis tick={{ fontSize: 11, fill: 'rgba(255,255,255,0.35)' }} tickFormatter={v => `${v}%`} />
                 <ReferenceLine y={0} stroke="rgba(255,255,255,0.15)" />
                 <Tooltip
                   contentStyle={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 8, fontSize: 12 }}
@@ -226,8 +226,8 @@ export default function BacktestResults() {
             <ResponsiveContainer width="100%" height={180}>
               <BarChart data={regimeStats} layout="vertical" margin={{ top: 0, right: 8, left: 0, bottom: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" horizontal={false} />
-                <XAxis type="number" tick={{ fontSize: 10, fill: 'rgba(255,255,255,0.35)' }} tickFormatter={v => `${v}%`} />
-                <YAxis dataKey="regime" type="category" tick={{ fontSize: 10, fill: 'rgba(255,255,255,0.45)' }} width={70} />
+                <XAxis type="number" tick={{ fontSize: 11, fill: 'rgba(255,255,255,0.35)' }} tickFormatter={v => `${v}%`} />
+                <YAxis dataKey="regime" type="category" tick={{ fontSize: 11, fill: 'rgba(255,255,255,0.45)' }} width={70} />
                 <ReferenceLine x={0} stroke="rgba(255,255,255,0.15)" />
                 <Tooltip
                   contentStyle={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 8, fontSize: 12 }}
@@ -252,8 +252,8 @@ export default function BacktestResults() {
             <ResponsiveContainer width="100%" height={180}>
               <BarChart data={scoreQuartiles} margin={{ top: 4, right: 8, left: -20, bottom: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
-                <XAxis dataKey="label" tick={{ fontSize: 10, fill: 'rgba(255,255,255,0.45)' }} />
-                <YAxis tick={{ fontSize: 10, fill: 'rgba(255,255,255,0.35)' }} tickFormatter={v => `${v}%`} />
+                <XAxis dataKey="label" tick={{ fontSize: 11, fill: 'rgba(255,255,255,0.45)' }} />
+                <YAxis tick={{ fontSize: 11, fill: 'rgba(255,255,255,0.35)' }} tickFormatter={v => `${v}%`} />
                 <ReferenceLine y={0} stroke="rgba(255,255,255,0.15)" />
                 <Tooltip
                   contentStyle={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 8, fontSize: 12 }}
@@ -281,8 +281,8 @@ export default function BacktestResults() {
             <ResponsiveContainer width="100%" height={200}>
               <BarChart data={sectorStats} layout="vertical" margin={{ top: 0, right: 8, left: 10, bottom: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" horizontal={false} />
-                <XAxis type="number" tick={{ fontSize: 10, fill: 'rgba(255,255,255,0.35)' }} tickFormatter={v => `${v}%`} />
-                <YAxis dataKey="sector" type="category" tick={{ fontSize: 9, fill: 'rgba(255,255,255,0.45)' }} width={90} />
+                <XAxis type="number" tick={{ fontSize: 11, fill: 'rgba(255,255,255,0.35)' }} tickFormatter={v => `${v}%`} />
+                <YAxis dataKey="sector" type="category" tick={{ fontSize: 11, fill: 'rgba(255,255,255,0.45)' }} width={90} />
                 <ReferenceLine x={0} stroke="rgba(255,255,255,0.15)" />
                 <Tooltip
                   contentStyle={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 8, fontSize: 12 }}

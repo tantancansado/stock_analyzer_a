@@ -23,7 +23,10 @@ export default function ScoreRing({ score, size = 'md', showLabel = true }: {
   const r = (px - stroke * 2) / 2
   const cx = px / 2
   const circumference = 2 * Math.PI * r
-  const fontSize = size === 'lg' ? 18 : size === 'md' ? 13 : 10
+  // 11 en `sm`, no 10: es el score, el número que se lee de cada fila, y
+  // 10px queda por debajo del suelo tipográfico de la app en móvil.
+  // En un anillo de 36px cabe de sobra.
+  const fontSize = size === 'lg' ? 18 : size === 'md' ? 13 : 11
 
   if (score == null) {
     return (
