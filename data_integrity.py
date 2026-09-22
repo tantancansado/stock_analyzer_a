@@ -23,6 +23,43 @@ Severidades:
 """
 from __future__ import annotations
 
+# Negocios en los que el FCF no es caja libre para el accionista, así que su
+# «FCF yield» no mide lo que mide en el resto y no se puede usar ni a favor ni
+# en contra.
+#
+#   Bancos y prestamistas  el flujo operativo son depósitos y préstamos. COF
+#                          salía con un 23,8% y el filtro lo tomaba por divisa
+#                          sin convertir: es estadounidense y cotiza en
+#                          dólares, no había nada que convertir.
+#   Aseguradoras           el flujo son primas cobradas por adelantado.
+#   REIT                   se miden por FFO/AFFO. El capex de construir va
+#                          contra caja siempre, así que un REIT en expansión
+#                          da FCF negativo por diseño: EQIX se comía los −5
+#                          puntos de «cash burn» por levantar centros de datos.
+#
+# «Credit Services» mete en la misma etiqueta a V y MA —que cobran comisión y
+# sí generan caja libre— junto a COF y ALLY, que prestan. Por eso esa industria
+# no entra aquí a ciegas: la resuelve `dcf_no_aplicable`, que el scorer calcula
+# mirando cuánto de sus ingresos es margen de intereses.
+INDUSTRIAS_SIN_FCF_INTERPRETABLE = (
+    'bank', 'insurance', 'asset management', 'capital markets',
+    'mortgage', 'financial conglomerates', 'reit',
+)
+
+
+def fcf_es_caja_libre(pick: dict) -> bool:
+    """¿El FCF de este negocio significa lo que significa en los demás?
+
+    Cuando no, el FCF yield no se usa: ni bloquea el pick por «imposible», ni
+    suma bonus, ni resta por quemar caja. Un dato que no es comparable no se
+    vuelve comparable por usarlo con cuidado.
+    """
+    if (pick.get('dcf_no_aplicable') or '').strip():
+        return False
+    industria = str(pick.get('industry') or '').lower()
+    return not any(c in industria for c in INDUSTRIAS_SIN_FCF_INTERPRETABLE)
+
+
 # (campo, mínimo, máximo, severidad, por qué)
 # Los rangos son deliberadamente anchos: buscamos lo imposible, no lo raro.
 RULES = (
@@ -74,6 +111,11 @@ def check_row(row: dict, require_value_fields: bool = True) -> dict:
     for field, lo, hi, severity, why in RULES:
         val = _num(row.get(field))
         if val is None:
+            continue
+        if field == 'fcf_yield_pct' and not fcf_es_caja_libre(row):
+            # En un banco o un REIT este número no mide caja libre, así que
+            # salirse del rango no prueba que esté mal convertido. Bloquear
+            # por eso echa de la lista a una empresa por su sector.
             continue
         if val < lo or val > hi:
             issues.append({

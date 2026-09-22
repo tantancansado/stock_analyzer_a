@@ -1119,6 +1119,14 @@ class SuperScoreIntegrator:
         # FCF Yield bonus (8 pts max) — cash generation is king for value
         if 'fcf_yield_pct' in df.columns:
             df['_fcf'] = pd.to_numeric(df['fcf_yield_pct'], errors='coerce')
+            # En bancos, aseguradoras y REIT el FCF no es caja libre, así que
+            # ni premia ni penaliza: EQIX se comía los −5 de «cash burn» por
+            # construir centros de datos —que es a lo que se dedica— y un
+            # prestamista cobraría los +8 por un número que no mide eso.
+            from data_integrity import fcf_es_caja_libre
+            _interpretable = df.apply(
+                lambda r: fcf_es_caja_libre(r.to_dict()), axis=1)
+            df.loc[~_interpretable, '_fcf'] = pd.NA
             df['fcf_bonus'] = 0.0
             df.loc[df['_fcf'] >= 8, 'fcf_bonus'] = 8.0   # Very high FCF yield
             df.loc[(df['_fcf'] >= 5) & (df['_fcf'] < 8), 'fcf_bonus'] = 6.0

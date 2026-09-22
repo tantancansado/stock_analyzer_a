@@ -579,9 +579,14 @@ def calculate_conviction_score(row) -> dict:
             red_flags.append(f"Deuda alta ({debt_eq:.1f})")
 
     # ─── 3. FCF Yield (max 12pts) ───
-    max_score += 12
-    fcf = _sf(row.get('fcf_yield_pct'))
+    # En bancos, aseguradoras y REIT el FCF no es caja libre para el
+    # accionista, así que no puntúa. Y no cuenta para el máximo: dejarlo
+    # sumando 12 puntos inalcanzables hundiría el porcentaje de todo un
+    # sector por una métrica que no le aplica.
+    from data_integrity import fcf_es_caja_libre
+    fcf = _sf(row.get('fcf_yield_pct')) if fcf_es_caja_libre(row) else None
     if fcf is not None:
+        max_score += 12
         if fcf >= 8:
             score += 12
             reasons.append(f"FCF Yield {fcf:.1f}% (excelente)")
