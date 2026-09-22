@@ -1,72 +1,72 @@
 {
   "origen": "github-actions",
-  "run_id": "35562449035",
-  "generated_at": "2026-09-21T06:39:37Z",
-  "pipeline_date": "2026-09-21",
-  "ok_count": 19,
+  "run_id": "35688399091",
+  "generated_at": "2026-09-22T06:12:32Z",
+  "pipeline_date": "2026-09-22",
+  "ok_count": 17,
   "total": 20,
   "modules": {
     "value_us": {
       "status": "ok",
-      "date": "2026-09-21",
+      "date": "2026-09-22",
       "days_ago": 0,
       "stale_threshold_days": 2,
       "columna_requerida": "entry_readiness",
       "columna_poblada": true,
-      "rows": 64,
+      "rows": 54,
       "min_rows": 20
     },
     "value_filtered": {
       "status": "ok",
-      "date": "2026-09-21",
+      "date": "2026-09-22",
       "days_ago": 0,
       "stale_threshold_days": 2,
       "columna_requerida": "entry_readiness, rr_operativo",
       "columna_poblada": true,
-      "rows": 53,
+      "rows": 45,
       "min_rows": 10
     },
     "vcp": {
       "status": "ok",
-      "date": "2026-09-21",
+      "date": "2026-09-22",
       "days_ago": 0,
       "stale_threshold_days": 3,
       "columna_requerida": "patterns",
       "columna_poblada": true
     },
     "value_eu": {
-      "status": "ok",
-      "date": "2026-09-21",
+      "status": "incompleto",
+      "date": "2026-09-22",
       "days_ago": 0,
       "stale_threshold_days": 3,
       "columna_requerida": "entry_readiness",
-      "columna_poblada": true,
+      "columna_poblada": false,
       "rows": 40,
       "min_rows": 10
     },
     "value_eu_filt": {
-      "status": "ok",
-      "date": "2026-09-21",
+      "status": "incompleto",
+      "date": "2026-09-22",
       "days_ago": 0,
       "stale_threshold_days": 3,
       "columna_requerida": "entry_readiness, rr_operativo",
-      "columna_poblada": true,
-      "rows": 26,
+      "columna_poblada": false,
+      "rows": 28,
       "min_rows": 1
     },
     "value_global": {
       "status": "ok",
-      "date": "2026-09-21",
+      "date": "2026-09-22",
       "days_ago": 0,
       "stale_threshold_days": 3,
       "columna_requerida": "value_score",
       "columna_poblada": true,
-      "rows": 26,
+      "rows": 27,
       "min_rows": 5
     },
     "fundamental": {
       "status": "ok",
-      "date": "2026-09-21",
+      "date": "2026-09-22",
       "days_ago": 0,
       "stale_threshold_days": 2,
       "columna_requerida": "fundamental_score",
@@ -76,17 +76,17 @@
     },
     "technical": {
       "status": "ok",
-      "date": "2026-09-21",
+      "date": "2026-09-22",
       "days_ago": 0,
       "stale_threshold_days": 2,
       "columna_requerida": "bias",
       "columna_poblada": true,
-      "rows": 183,
+      "rows": 178,
       "min_rows": 30
     },
     "cerebro": {
       "status": "ok",
-      "date": "2026-09-21",
+      "date": "2026-09-22",
       "days_ago": 0,
       "stale_threshold_days": 3,
       "columna_requerida": "sections",
@@ -94,7 +94,7 @@
     },
     "mean_reversion": {
       "status": "incompleto",
-      "date": "2026-09-21",
+      "date": "2026-09-22",
       "days_ago": 0,
       "stale_threshold_days": 3,
       "columna_requerida": "opportunities",
@@ -102,7 +102,7 @@
     },
     "macro": {
       "status": "ok",
-      "date": "2026-09-21",
+      "date": "2026-09-22",
       "days_ago": 0,
       "stale_threshold_days": 2,
       "columna_requerida": "signals",
@@ -110,7 +110,7 @@
     },
     "insiders": {
       "status": "ok",
-      "date": "2026-09-21",
+      "date": "2026-09-22",
       "days_ago": 0,
       "stale_threshold_days": 3,
       "columna_requerida": "purchase_count",
@@ -120,31 +120,31 @@
     },
     "portfolio": {
       "status": "ok",
-      "date": "2026-09-21",
+      "date": "2026-09-22",
       "days_ago": 0,
       "stale_threshold_days": 2,
       "columna_requerida": "signal_date",
       "columna_poblada": true,
-      "rows": 1837,
+      "rows": 1853,
       "min_rows": 1
     },
     "earnings": {
       "status": "ok",
       "date": "2026-09-20",
-      "days_ago": 1,
+      "days_ago": 2,
       "stale_threshold_days": 7,
       "columna_requerida": "data",
       "columna_poblada": true
     },
     "theses": {
       "status": "ok",
-      "date": "2026-09-21",
+      "date": "2026-09-22",
       "days_ago": 0,
       "stale_threshold_days": 7
     },
     "catalysts": {
       "status": "ok",
-      "date": "2026-09-21",
+      "date": "2026-09-22",
       "days_ago": 0,
       "stale_threshold_days": 7,
       "columna_requerida": "events",
@@ -152,7 +152,7 @@
     },
     "economic_cal": {
       "status": "ok",
-      "date": "2026-09-21",
+      "date": "2026-09-22",
       "days_ago": 0,
       "stale_threshold_days": 7,
       "columna_requerida": "events",
@@ -160,17 +160,17 @@
     },
     "options_flow": {
       "status": "ok",
-      "date": "2026-09-21",
+      "date": "2026-09-22",
       "days_ago": 0,
       "stale_threshold_days": 3,
       "columna_requerida": "flow_score",
       "columna_poblada": true,
-      "rows": 32,
+      "rows": 29,
       "min_rows": 1
     },
     "bounce_broad": {
       "status": "ok",
-      "date": "2026-09-21",
+      "date": "2026-09-22",
       "days_ago": 0,
       "stale_threshold_days": 3,
       "columna_requerida": "setups",
@@ -178,12 +178,12 @@
     },
     "earnings_opts": {
       "status": "ok",
-      "date": "2026-09-21",
+      "date": "2026-09-22",
       "days_ago": 0,
       "stale_threshold_days": 3,
       "columna_requerida": "snapshots",
       "columna_poblada": true,
-      "vacio_explicado": "ninguna posici\u00f3n tiene earnings dentro de 14d (los m\u00e1s pr\u00f3ximos, a 28d)"
+      "vacio_explicado": "ninguna posici\u00f3n tiene earnings dentro de 14d (los m\u00e1s pr\u00f3ximos, a 27d)"
     }
   }
 }
