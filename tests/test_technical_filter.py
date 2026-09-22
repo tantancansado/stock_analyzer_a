@@ -69,6 +69,16 @@ def _make_ohlcv(
     return pd.DataFrame({"Open": close, "High": high, "Low": low, "Close": close, "Volume": volume})
 
 
+@pytest.fixture(autouse=True)
+def _sin_esperas_de_reintento(monkeypatch):
+    """Los reintentos de _fetch_history duermen entre intentos. En los tests
+    que simulan una respuesta vacía eso son segundos de espera real y nada
+    más: el comportamiento que se comprueba es el número de intentos, no el
+    reloj."""
+    import technical_filter as _tf
+    monkeypatch.setattr(_tf, "_ESPERA_REINTENTO", 0)
+
+
 # ─── 1. _now_utc ──────────────────────────────────────────────────────────────
 
 class TestNowUtc:
@@ -698,8 +708,13 @@ class TestComputeTechnicalSignals:
         with patch("technical_filter._fetch_history", return_value=None):
             result = compute_technical_signals("AAPL", spy_6m_return=5.0)
         assert result["error"] == "no_data"
-        assert result["is_stage2"] is False
-        assert result["ma_score"] == 0
+        # Hasta el 22-sep-2026 esto exigía `is_stage2 is False` y
+        # `ma_score == 0`, que es el valor de arranque del diccionario, no una
+        # medida. El test daba por bueno publicar un 0 sin precio detrás — y
+        # así salieron las 40 filas europeas, con ma_score 0 y trend
+        # «sideways» idénticos, sin que nada lo señalara. Sin dato, vacío.
+        assert result["is_stage2"] is None
+        assert result["ma_score"] is None
 
     def test_error_insufficient_data_when_less_than_60_bars(self):
         with patch("technical_filter._fetch_history", return_value=self._mock_fetch(n=40)):
@@ -897,3 +912,107 @@ class TestRunTechnicalFilterMultiUniverso:
 
         tf.run_technical_filter()  # no debe lanzar excepción
         assert pd.read_csv(existe)["entry_readiness"].iloc[0] == "ENTRADA"
+
+
+# ─── Sin precio: vacío, no valores neutros ────────────────────────────────────
+
+class TestSinPrecioNoInventaLectura:
+    """El 22-sep-2026 las 40 filas europeas salieron con ma_score 0,
+    tech_stage 'unknown' y trend_direction 'sideways' — las 40 idénticas —
+    porque yfinance no dio precios en CI. Ninguno era una medida: eran los
+    valores de arranque del diccionario publicados tal cual. Y `error` venía
+    a None, así que no quedaba ni rastro del fallo.
+    """
+
+    @staticmethod
+    def _sin_precios(n: int = 400) -> pd.DataFrame:
+        """Lo que devuelve yfinance cuando no tiene datos: el calendario de
+        sesiones con las columnas a NaN."""
+        return pd.DataFrame({c: [np.nan] * n for c in
+                             ("Open", "High", "Low", "Close", "Volume")})
+
+    def test_fetch_history_rechaza_calendario_sin_precios(self):
+        with patch("technical_filter.yf.download", return_value=self._sin_precios()):
+            from technical_filter import _fetch_history
+            assert _fetch_history("AI.PA", period="15y") is None
+
+    def test_fetch_history_descarta_solo_las_filas_sin_precio(self):
+        df = _make_ohlcv(100)
+        df.loc[df.index[-3:], "Close"] = np.nan   # las últimas sesiones sin cerrar
+        with patch("technical_filter.yf.download", return_value=df):
+            from technical_filter import _fetch_history
+            out = _fetch_history("AI.PA")
+        assert len(out) == 97
+        assert out["Close"].notna().all()
+
+    def test_columnas_vacias_no_valores_neutros(self):
+        import technical_filter as tf
+        with patch("technical_filter.yf.download", return_value=self._sin_precios()):
+            s = tf.compute_technical_signals("AI.PA", 11.9)
+
+        assert s["error"] == "no_data", "el motivo tiene que quedar registrado"
+        # Un 0 es un número y 'sideways' es una tendencia: publicados sin dato
+        # detrás, mienten. Vacío se distingue de cero; neutro, no.
+        for col in tf.TECH_COLS:
+            assert s[col] is None, f"{col} deberia estar vacio y vale {s[col]!r}"
+
+    def test_precio_nan_con_historico_valido_tampoco_pasa(self):
+        """El caso real: hay histórico, pero la última sesión viene sin cerrar
+        y `price` sale NaN. Las comparaciones dan False en silencio."""
+        import technical_filter as tf
+        df = _make_ohlcv(400)
+        with patch("technical_filter.yf.download", return_value=df), \
+             patch("technical_filter._fetch_history") as fake:
+            df_nan = df.copy()
+            df_nan.loc[df_nan.index[-1], "Close"] = np.nan
+            fake.return_value = df_nan          # esquiva la limpieza a propósito
+            s = tf.compute_technical_signals("AI.PA", 11.9)
+
+        assert s["error"] == "precio_no_valido"
+        assert s["ma_score"] is None
+        assert s["trend_direction"] is None
+
+    def test_un_ticker_con_datos_sigue_calculando(self):
+        """La red de seguridad no puede tragarse el camino bueno."""
+        import technical_filter as tf
+        with patch("technical_filter.yf.download", return_value=_make_ohlcv(400)):
+            s = tf.compute_technical_signals("AAPL", 10.0)
+        assert s["error"] is None
+        assert s["ma_score"] is not None
+        assert s["tech_stage"] not in (None, "unknown")
+
+
+class TestReintentaCuandoLaFuenteFalla:
+    """El fallo de Yahoo con las bolsas europeas es intermitente: el
+    21-sep-2026 las 40 filas de Europa salieron completas, el 19 y el 22
+    llegaron vacías. Sin reintento, un tropiezo puntual deja a todo un
+    universo sin timing técnico durante el día entero."""
+
+    @staticmethod
+    def _sin_precios(n: int = 400) -> pd.DataFrame:
+        return pd.DataFrame({c: [np.nan] * n for c in
+                             ("Open", "High", "Low", "Close", "Volume")})
+
+    def test_reintenta_y_se_queda_con_el_intento_bueno(self):
+        import technical_filter as tf
+        respuestas = [self._sin_precios(), _make_ohlcv(400)]
+        with patch("technical_filter.yf.download", side_effect=respuestas):
+            out = tf._fetch_history("AI.PA", period="15y")
+        assert out is not None, "el segundo intento traia precios"
+        assert len(out) == 400
+
+    def test_se_rinde_tras_agotar_los_intentos(self):
+        import technical_filter as tf
+        with patch("technical_filter.yf.download",
+                   return_value=self._sin_precios()) as fake:
+            out = tf._fetch_history("AI.PA", period="15y")
+        assert out is None
+        assert fake.call_count == tf._REINTENTOS_FETCH
+
+    def test_no_gasta_llamadas_si_la_primera_va_bien(self):
+        """El reintento solo se paga cuando hace falta."""
+        import technical_filter as tf
+        with patch("technical_filter.yf.download",
+                   return_value=_make_ohlcv(400)) as fake:
+            tf._fetch_history("AAPL", period="15y")
+        assert fake.call_count == 1

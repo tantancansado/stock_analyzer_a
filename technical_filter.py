@@ -43,6 +43,12 @@ TARGET_CSVS: list[tuple[Path, Path]] = [
 
 RATE_DELAY = 0.2  # seconds between yfinance calls
 
+# Reintentos cuando Yahoo contesta pero sin precios. Solo se gastan en el
+# ticker que falla, no en todos: si la primera respuesta trae datos, no hay
+# llamada extra.
+_REINTENTOS_FETCH = 3
+_ESPERA_REINTENTO = 1.5  # segundos, creciente en cada intento
+
 TECH_COLS = [
     "is_stage2", "ma_score", "atr_ratio", "volume_dryup",
     "pct_from_52w_high", "pct_from_52w_low", "relative_strength_6m",
@@ -62,13 +68,43 @@ def _now_utc() -> str:
 # ─── Data fetching ─────────────────────────────────────────────────────────────
 
 def _fetch_history(ticker: str, period: str = "1y") -> pd.DataFrame | None:
-    """Download daily OHLCV history. Returns None on any error."""
+    """Download daily OHLCV history. Returns None on any error.
+
+    Reintenta cuando la respuesta llega sin precios. No es un fallo fijo de
+    Yahoo con las bolsas europeas: el 21-sep-2026 las 40 filas de Europa
+    salieron completas y el 19 y el 22 llegaron vacías. Es intermitente, y un
+    segundo intento con margen lo resuelve — que es mejor que publicar la
+    lista sin timing técnico un día de cada tres.
+    """
+    for intento in range(_REINTENTOS_FETCH):
+        df = _descargar_una_vez(ticker, period)
+        if df is not None:
+            return df
+        if intento + 1 < _REINTENTOS_FETCH:
+            espera = _ESPERA_REINTENTO * (intento + 1)
+            log.info("%s: respuesta sin precios, reintento %d/%d en %.1fs",
+                     ticker, intento + 2, _REINTENTOS_FETCH, espera)
+            time.sleep(espera)
+    return None
+
+
+def _descargar_una_vez(ticker: str, period: str) -> pd.DataFrame | None:
     try:
         df = yf.download(ticker, period=period, interval="1d", progress=False, auto_adjust=True)
-        if df is None or df.empty or len(df) < 30:
+        if df is None or df.empty:
             return None
         if isinstance(df.columns, pd.MultiIndex):
             df.columns = [col[0] for col in df.columns]
+        # Contar filas no basta: yfinance devuelve el calendario de sesiones
+        # aunque no tenga precios, y esas filas vienen con Close a NaN. Con el
+        # filtro puesto solo en `len(df)` pasaban de largo, y entonces las
+        # medias salían NaN, `price` salía NaN, y de ahí todo el bloque técnico
+        # a sus valores por defecto —ma_score 0, trend «sideways», etapa
+        # «unknown»— publicados como si fueran medidas. Le pasaba a las 40
+        # filas europeas del 22-sep-2026 mientras las de US iban bien.
+        df = df[df["Close"].notna()]
+        if len(df) < 30:
+            return None
         return df
     except Exception as exc:
         log.warning("yfinance error for %s: %s", ticker, exc)
@@ -272,6 +308,25 @@ def _entry_readiness(tech_stage: str, trend: str, rs_6m: float | None,
 
 # ─── Main signal computation ───────────────────────────────────────────────────
 
+def _sin_datos(base: dict, motivo: str) -> dict:
+    """Sin precio no hay lectura técnica: deja TODAS las columnas vacías.
+
+    El diccionario de arranque trae valores neutros —`ma_score` 0,
+    `trend_direction` «sideways», `tech_stage` «unknown», `is_stage2` False—
+    que están bien como punto de partida de un cálculo, pero publicados tal
+    cual se leen como una medida: un 0 es un número y «sideways» es una
+    tendencia. El 22-sep-2026 las 40 filas europeas salieron así —idénticas
+    las 40— porque yfinance no dio precios en CI, y nadie lo vio: el fallo ni
+    siquiera quedaba en `error`. Vacío se distingue de cero; neutro, no.
+    """
+    for col in TECH_COLS:
+        base[col] = None
+    base["error"] = motivo
+    log.warning("%s: sin lectura técnica (%s) — columnas vacías, no por defecto",
+                base.get("ticker"), motivo)
+    return base
+
+
 def compute_technical_signals(ticker: str, spy_6m_return: float) -> dict:
     """Compute all technical signals for a single ticker."""
     base: dict = {
@@ -314,8 +369,7 @@ def compute_technical_signals(ticker: str, spy_6m_return: float) -> dict:
     # trece. Cuatro casos no son una tasa base, son una anécdota.
     df = _fetch_history(ticker, period="15y")
     if df is None:
-        base["error"] = "no_data"
-        return base
+        return _sin_datos(base, "no_data")
 
     close = df["Close"].squeeze()
     high = df["High"].squeeze()
@@ -327,10 +381,14 @@ def compute_technical_signals(ticker: str, spy_6m_return: float) -> dict:
     # (solo rechaza <30) y aquí se calculaba lo que se podía: el resultado era
     # media ficha con los huecos en blanco y una etapa inventada.
     if len(close) < 220:
-        base["error"] = "insufficient_data"
-        return base
+        return _sin_datos(base, "insufficient_data")
 
     price = float(close.iloc[-1])
+    # `price` alimenta la etapa, la tendencia y las distancias a máximos. Si
+    # llega NaN no falla nada: las comparaciones dan False en silencio y sale
+    # una ficha entera de valores por defecto que parecen medidos.
+    if not np.isfinite(price):
+        return _sin_datos(base, "precio_no_valido")
 
     is_stage2, ma_score, ma200_4wk = _compute_ma_signals(close, price)
     pct_hi, pct_lo = _compute_52w(high, low, price)
@@ -459,6 +517,25 @@ def run_technical_filter() -> None:
         benchmark_return = vgk_return if ticker in eu_tickers else spy_return
         signals[ticker] = compute_technical_signals(ticker, benchmark_return)
         time.sleep(RATE_DELAY)
+
+    # Un ticker sin datos es un incidente; un universo entero sin datos es un
+    # fallo de la fuente, y hay que decirlo aquí. El 22-sep-2026 las 40 filas
+    # europeas salieron sin lectura técnica y el script terminó diciendo
+    # «Updated ... with technical columns» — el único rastro estaba dentro del
+    # CSV, en 40 valores idénticos que nadie compara entre sí.
+    sin_lectura = [t for t, s in signals.items() if s.get("error")]
+    if sin_lectura:
+        log.warning("%d/%d tickers sin lectura técnica: %s",
+                    len(sin_lectura), len(signals), ", ".join(sorted(sin_lectura)[:15]))
+    for main_csv, _ in TARGET_CSVS:
+        if main_csv not in frames:
+            continue
+        universo = list(frames[main_csv]["ticker"].dropna().astype(str))
+        fallidos = [t for t in universo if signals.get(t, {}).get("error")]
+        if universo and len(fallidos) > len(universo) / 2:
+            log.error("%s: %d de %d tickers sin precio — el universo se queda "
+                      "sin timing técnico, no es un dato neutro",
+                      csv_path.name, len(fallidos), len(universo))
 
     tech_json_out = {
         "generated_at": _now_utc(),
