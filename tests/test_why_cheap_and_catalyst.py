@@ -87,9 +87,13 @@ class TestWhyCheap:
         with patch.object(wc, 'ask_with_search_lote',
                           lambda prompts, **_: {t: (j, [URL]) for t in prompts}):
             out = wc.analyze_picks(rows)
-        # Ni la que está en máximos (nada que explicar) ni la de score bajo
-        # (no se compraría igualmente) consumen una búsqueda
-        assert list(out) == ['BUENA']
+        # La que está en máximos no consume búsqueda: no hay caída que
+        # explicar. La de score bajo SÍ, desde el 22-sep-2026: cae un 30%, y
+        # el score baja JUSTO porque ha caído, así que exigirle 50 excluía a
+        # las que más necesitan explicación. De 54 picks había 36 sin analizar
+        # y a ninguno le llegaba el turno — BSX llevaba un -58,6%. Separar
+        # castigo de deterioro es para lo que existe este módulo.
+        assert list(out) == ['BUENA', 'FLOJA']
         assert out['BUENA']['veredicto'] == 'CICLICO'
 
     def test_cada_veredicto_va_a_su_ticker(self):

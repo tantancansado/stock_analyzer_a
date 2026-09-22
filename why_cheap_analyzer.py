@@ -40,6 +40,25 @@ BLOQUEANTES = ('DETERIORO',)
 # gasta una búsqueda en explicar su caída.
 MIN_SCORE_CANDIDATO = 50.0
 
+# ...salvo que haya caído MUCHO. El score baja cuando la acción cae —lo
+# penalizan varios factores a la vez—, así que exigir score alto excluía justo
+# a las que más necesitan explicación. Medido el 22-sep-2026: de 54 picks, 36
+# no se habían analizado nunca y a NINGUNO le iba a llegar el turno, todos
+# fuera por score. Entre ellos BSX con un -58,6% desde máximos.
+#
+# Y separar castigo de deterioro es exactamente para lo que existe este
+# módulo: en una caída del 30% la pregunta no es si el score da 50, es si la
+# empresa se ha roto. El coste es puntual, porque la respuesta se cachea y la
+# tesis de por qué una empresa está barata no cambia de un día para otro.
+CAIDA_QUE_MERECE_EXPLICACION = 25.0
+
+
+def es_candidato(drop_pct: float, score: float) -> bool:
+    """¿Merece gastarse una búsqueda en explicar esta caída?"""
+    if drop_pct >= CAIDA_QUE_MERECE_EXPLICACION:
+        return True
+    return score >= MIN_SCORE_CANDIDATO
+
 SYSTEM = """Eres un analista value evaluando si una caída de precio es una oportunidad
 o una trampa. El criterio del inversor: comprar buenas empresas castigadas solo si el
 castigo NO es deterioro real del negocio.
@@ -149,7 +168,7 @@ def analyze_picks(rows: list[dict], min_drop_pct: float = 8.0,
             score = float(r.get('value_score') or 0)
         except (TypeError, ValueError):
             continue
-        if drop >= min_drop_pct and score >= MIN_SCORE_CANDIDATO:
+        if drop >= min_drop_pct and es_candidato(drop, score):
             candidatos.append((score, drop, r))
 
     candidatos.sort(key=lambda x: -x[0])

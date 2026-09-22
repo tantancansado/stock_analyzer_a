@@ -82,3 +82,40 @@ class TestLoYaPagadoSeEnsenaATodos:
                                       'why_cheap_resumen': 'bueno'}])}
         e._reaplicar_lo_ya_pagado(frames, {'AAA': {'veredicto': 'SIN_DATOS', 'resumen': ''}})
         assert frames['x'].set_index('ticker').loc['AAA', 'why_cheap'] == 'EVENTO'
+
+
+class TestUnaCaidaGrandeSeExplicaAunqueElScoreSeaBajo:
+    """El score BAJA cuando la acción cae —lo penalizan varios factores a la
+    vez—, así que exigir score >= 50 excluía justo a las que más necesitan
+    explicación.
+
+    Medido el 22-sep-2026: de 54 picks, 36 no se habían analizado nunca y a
+    NINGUNO le iba a llegar el turno. Entre ellos BSX con un -58,6% desde
+    máximos. Separar castigo de deterioro es para lo que existe el módulo: en
+    una caída del 30% la pregunta no es si el score llega a 50, es si la
+    empresa se ha roto.
+    """
+
+    def test_el_caso_de_bsx(self):
+        from why_cheap_analyzer import es_candidato
+        assert es_candidato(58.6, 37.3) is True
+
+    def test_el_corte_de_score_sigue_valiendo_para_caidas_normales(self):
+        """Una caída del 15% con score 30 no merece gastarse una búsqueda."""
+        from why_cheap_analyzer import es_candidato
+        assert es_candidato(15.0, 30.0) is False
+        assert es_candidato(15.0, 55.0) is True
+
+    def test_el_umbral_de_caida_grande(self):
+        from why_cheap_analyzer import es_candidato, CAIDA_QUE_MERECE_EXPLICACION
+        justo = CAIDA_QUE_MERECE_EXPLICACION
+        assert es_candidato(justo, 10.0) is True
+        assert es_candidato(justo - 0.1, 10.0) is False
+
+    def test_los_dos_ficheros_usan_el_mismo_criterio(self):
+        """Si el enriquecedor filtrara distinto que el analizador, la cola y
+        lo que se analiza dejarían de coincidir."""
+        from pathlib import Path
+        src = (Path(__file__).resolve().parents[1] / 'enrich_why_cheap.py').read_text()
+        assert 'es_candidato' in src, (
+            'enrich_why_cheap tiene que reutilizar el criterio, no copiarlo')

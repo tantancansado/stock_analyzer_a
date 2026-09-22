@@ -119,7 +119,12 @@ def _candidatos(csv: Path) -> pd.DataFrame:
         return pd.DataFrame()
     caida = pd.to_numeric(df.get('proximity_to_52w_high'), errors='coerce').abs()
     score = pd.to_numeric(df.get('value_score'), errors='coerce')
-    cand = df[(caida >= MIN_CAIDA_PCT) & (score >= MIN_SCORE_CANDIDATO)].copy()
+    # Mismo criterio que `why_cheap_analyzer.es_candidato`: una caída grande
+    # entra aunque el score sea bajo, porque el score BAJA cuando la acción
+    # cae y así se excluía justo a las que hay que explicar.
+    from why_cheap_analyzer import es_candidato
+    merece = [es_candidato(c, s) for c, s in zip(caida.fillna(0), score.fillna(0))]
+    cand = df[(caida >= MIN_CAIDA_PCT) & pd.Series(merece, index=df.index)].copy()
     cand['origen_csv'] = str(csv)
     return cand
 
