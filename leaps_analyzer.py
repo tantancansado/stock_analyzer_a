@@ -435,6 +435,16 @@ def load_app_signals() -> dict:
                                 if pd.notna(r.get('modelos_acuerdo')) else None)
         s['trend_direction'] = r.get('trend_direction')
         s['is_stage2'] = bool(r.get('is_stage2')) if pd.notna(r.get('is_stage2')) else None
+        # El timing de entrada de la ACCIÓN, que LEAPS calcula por su cuenta y
+        # puede contradecir. El 22-sep-2026 FHN salía con LEAPS recomendado
+        # (timing_score 68) mientras su ficha VALUE decía ESPERAR — «ha
+        # perdido la MA200». Un LEAPS deep-ITM apalanca la caída igual que la
+        # subida, así que el desacuerdo entre los dos motores tiene que verse:
+        # no se bloquea nada, se enseña.
+        s['entry_readiness'] = (r.get('entry_readiness')
+                                if pd.notna(r.get('entry_readiness')) else None)
+        s['entry_readiness_reason'] = (r.get('entry_readiness_reason')
+                                       if pd.notna(r.get('entry_readiness_reason')) else None)
         s['ml_win_probability'] = _num(r.get('ml_win_probability'))
         s['in_value_list'] = True
 
@@ -956,6 +966,8 @@ def analyze_ticker_leaps(ticker: str, sig: dict, rate: float) -> Optional[dict]:
             'profit_at_target': profit_at_target,
             'valoracion_propia': propia,
             'in_value_list': bool(sig.get('in_value_list')),
+            'entry_readiness': sig.get('entry_readiness'),
+            'entry_readiness_reason': sig.get('entry_readiness_reason'),
         }
     except Exception as e:
         print(f"  ⚠️  {ticker}: {e}")

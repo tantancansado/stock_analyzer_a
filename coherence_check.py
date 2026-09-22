@@ -220,6 +220,33 @@ def postmortem_vs_tracker_summary(postmortem: dict | None, summary: dict | None,
             f'el tracker dice {tracker_win}% — diferencia de {diff:.1f}pts']
 
 
+def leaps_vs_timing_de_la_accion(leaps: list[dict]) -> list[str]:
+    """¿Recomienda LEAPS una acción cuyo propio timing dice que espere?
+
+    LEAPS calcula su `timing_score` por su cuenta y puede contradecir al
+    `entry_readiness` de la ficha VALUE. El 22-sep-2026 FHN salía con
+    timing_score 68 mientras su ficha decía ESPERAR: «ha perdido la MA200».
+    Un LEAPS deep-ITM apalanca la caída igual que la subida, así que dos
+    motores en desacuerdo sobre el mismo valor no es un detalle.
+
+    No bloquea nada — el horizonte de un LEAPS es 2028 y el de
+    `entry_readiness` es corto — pero el desacuerdo tiene que estar dicho.
+    """
+    fallos = []
+    for o in leaps:
+        if not o.get('in_value_list'):
+            continue
+        timing = (o.get('entry_readiness') or '').strip().upper()
+        if timing != 'ESPERAR':
+            continue
+        motivo = (o.get('entry_readiness_reason') or '').strip()
+        fallos.append(
+            f"{o.get('ticker')}: LEAPS lo recomienda (timing_score "
+            f"{o.get('timing_score')}) y su ficha VALUE dice ESPERAR"
+            + (f" — {motivo[:60]}" if motivo else ""))
+    return fallos
+
+
 def leaps_precio_vs_value(value: list[dict], value_eu: list[dict], leaps: list[dict],
                           umbral_pct: float = 8.0) -> list[str]:
     """El spot de LEAPS y el current_price de VALUE deberían ser casi el mismo precio.
@@ -522,6 +549,7 @@ def run() -> int:
         ('etiqueta ML contra su probabilidad',       etiqueta_ml_vs_probabilidad(value)),
         ('columnas obligatorias (US)',                columnas_obligatorias(value, 'value_opportunities.csv')),
         ('columnas obligatorias (EU)',                columnas_obligatorias(value_eu, 'european_value_opportunities.csv')),
+        ('LEAPS contra el timing de la acción',       leaps_vs_timing_de_la_accion(leaps)),
         ('LEAPS contra why_cheap de VALUE (US)',      leaps_vs_why_cheap(value, leaps)),
         ('LEAPS contra why_cheap de VALUE (EU)',      leaps_vs_why_cheap(value_eu, leaps)),
         ('commodities: rating contra narrativa IA',   commodity_rating_vs_narrativa(commodities)),
