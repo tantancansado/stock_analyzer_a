@@ -193,6 +193,24 @@ class TestElResolvedorDeTikr:
         assert 'return None' in codigo
 
 
+def _tikr():
+    """Importa tikr_scraper sin exigir pycognito.
+
+    Esa dependencia solo se usa para el login de TIKR; nada de lo que se
+    comprueba aquí la toca. En CI no está instalada, así que importar el
+    módulo a secas rompía estos tests sin que fallara nada real.
+    """
+    import sys as _sys, types as _types
+    if 'pycognito' not in _sys.modules:
+        _m = _types.ModuleType('pycognito')
+        _s = _types.ModuleType('pycognito.aws_srp')
+        _s.AWSSRP = object
+        _m.aws_srp = _s
+        _sys.modules['pycognito'] = _m
+        _sys.modules['pycognito.aws_srp'] = _s
+    import tikr_scraper
+    return tikr_scraper
+
 # ─── La puerta de atrás del resolvedor ────────────────────────────────────────
 
 class TestFallbackNoInventaEmpresa:
@@ -206,7 +224,7 @@ class TestFallbackNoInventaEmpresa:
     """
 
     def test_rechazo_de_algolia_no_cae_al_fallback(self, monkeypatch):
-        import tikr_scraper as ts
+        ts = _tikr()
         llamado = []
         monkeypatch.setattr(ts, "algolia_resolve_ticker",
                             lambda t: ts.SIN_COINCIDENCIA)
@@ -220,7 +238,7 @@ class TestFallbackNoInventaEmpresa:
     def test_fallo_tecnico_si_usa_el_fallback(self, monkeypatch):
         """Distinto caso: Algolia no pudo responder. Ahí el fallback es lo
         único que hay, y usarlo es correcto."""
-        import tikr_scraper as ts
+        ts = _tikr()
         monkeypatch.setattr(ts, "algolia_resolve_ticker", lambda t: None)
         monkeypatch.setattr(ts, "resolve_ticker_api",
                             lambda *a: {"cid": "1", "tid": "2"})
@@ -242,7 +260,7 @@ class TestDivisaIncoherenteAntesDePublicar:
     ]
 
     def test_descarta_los_tres_casos_reales(self):
-        import tikr_scraper as ts
+        ts = _tikr()
         for ticker, divisa, nombre in self.CASOS_MALOS:
             motivo = ts._divisa_incoherente(
                 ticker, {"price": {"curr": divisa}, "company_name": nombre})
@@ -250,7 +268,7 @@ class TestDivisaIncoherenteAntesDePublicar:
             assert divisa in motivo and nombre in motivo
 
     def test_deja_pasar_lo_correcto(self):
-        import tikr_scraper as ts
+        ts = _tikr()
         buenos = [("AI.PA", "EUR"), ("AAPL", "USD"), ("DOL.TO", "CAD"),
                   ("AZN.L", "GBp")]   # Londres cotiza en peniques
         for ticker, divisa in buenos:
@@ -260,7 +278,7 @@ class TestDivisaIncoherenteAntesDePublicar:
     def test_dato_ausente_no_es_dato_equivocado(self):
         """Sin divisa, o con un sufijo que no conocemos, no hay nada que
         probar. Descartar ahí sería tirar empresas buenas por un hueco."""
-        import tikr_scraper as ts
+        ts = _tikr()
         assert ts._divisa_incoherente("AAPL", {"price": {}}) is None
         assert ts._divisa_incoherente("AAPL", {}) is None
         assert ts._divisa_incoherente("XYZ.ZZ", {"price": {"curr": "USD"}}) is None
