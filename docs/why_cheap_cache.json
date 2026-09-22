@@ -80,11 +80,16 @@
   "fecha": "2026-09-21"
  },
  "SGE.L": {
-  "veredicto": "SIN_DATOS",
-  "resumen": "",
-  "confianza": 0,
-  "fuentes": [],
-  "fecha": "2026-09-08"
+  "veredicto": "SENTIMIENTO",
+  "resumen": "<cite index=\"8-10\">Sage es valuada como un nombre de software maduro en lugar de una historia de revaluación de crecimiento rápido</cite>. <cite index=\"16-3,16-4\">La compañía reportó crecimiento robusto en H1 FY2026 con márgenes operativos en expansión y guidance de crecimiento por encima del 9%</ci",
+  "confianza": 78,
+  "fuentes": [
+   "https://www.stockopedia.com/share-prices/sage-group-LON:SGE/",
+   "https://www.stockopedia.com/share-prices/sage-LON:SGE/",
+   "https://finance.yahoo.com/quote/SGE.L/history/",
+   "https://finance.yahoo.com/markets/stocks/articles/sage-group-lse-sge-stock-120719837.html"
+  ],
+  "fecha": "2026-09-22"
  },
  "MCO": {
   "veredicto": "SIN_DATOS",
@@ -293,5 +298,53 @@
    "https://finance.yahoo.com/markets/stocks/articles/why-jack-henry-jkhy-down-111254889.html"
   ],
   "fecha": "2026-09-21"
+ },
+ "AZN.L": {
+  "veredicto": "EVENTO",
+  "resumen": "Caída causada por fracaso de conversaciones de fusión con Bristol-Myers Squibb (agosto 2026) y fallos en ensayos clínicos (Ultomiris no cumplió objetivo principal). Los resultados Q2 superaron expectativas y guidance se mantiene; negocio operativo aguanta.",
+  "confianza": 72,
+  "fuentes": [
+   "https://www.bloomberglinea.com/quote/AZN:UN/",
+   "https://www.rava.com/perfil/AZN",
+   "https://theofficer.es/las-acciones-de-astrazeneca-se-desploman-688-y-cierran-en-15797-dolares/",
+   "https://theofficer.es/las-acciones-de-astrazeneca-bajan-194-y-cierran-en-17875-dolares/"
+  ],
+  "fecha": "2026-09-22"
+ },
+ "HD": {
+  "veredicto": "CICLICO",
+  "resumen": "Mercado inmobiliario congelado reduce demanda de proyectos mayores (menos transacciones), pero negocio aguanta con crecimiento de ventas 4.8-5.7% YoY en Q1-Q2 2026 impulsado por M&A (SRS, GMS). Guidance reafirmado sin recortes — presión es coyuntural, no deterioro estructural.",
+  "confianza": 72,
+  "fuentes": [
+   "https://www.prnewswire.com/news-releases/the-home-depot-anuncia-resultados-del-primer-trimestre-del-ano-fiscal-2026-reafirma-guia-para-el-ano-fiscal-2026-883664380.html",
+   "https://www.cnbc.com/2026/08/18/home-depot-hd-q2-2026-earnings.html",
+   "https://www.sec.gov/Archives/edgar/data/0000354950/000035495026000101/hd_exhibit991x05032026.htm",
+   "https://www.sec.gov/Archives/edgar/data/0000354950/000162828026038247/hd-20260503.htm"
+  ],
+  "fecha": "2026-09-22"
+ },
+ "DGE.L": {
+  "veredicto": "DETERIORO",
+  "resumen": "<cite index=\"14-10\">Diageo recortó su dividendo intermedio en más de la mitad y rebajó sus previsiones de ventas y beneficios para el año fiscal completo tras caída de 6,8% en ventas orgánicas de América del Norte en el primer semestre 2026</cite>. <cite index=\"12-3\">Caída del 11,1% en ventas orgáni",
+  "confianza": 92,
+  "fuentes": [
+   "https://www.investing.com/equities/diageo-earnings",
+   "https://www.investing.com/equities/diageo-plc-earnings",
+   "https://www.moncloa.com/2024/07/30/diageo-caida-beneficios-netos-2800617/",
+   "https://mx.investing.com/news/stock-market-news/informe-de-resultados-diageo-mantiene-el-foco-en-el-crecimiento-en-medio-de-los-retos-fiscales-93CH-2853426"
+  ],
+  "fecha": "2026-09-22"
+ },
+ "HEXA-B.ST": {
+  "veredicto": "EVENTO",
+  "resumen": "Hexagon sufrió una caída inicial de 10.21% en abril de 2026 tras reportar márgenes brutos comprimidos (-150 pb) y un cargo por deterioro de EUR 186M en Q1, aunque la empresa mantiene crecimiento orgánico sostenido (8%) y márgenes operativos resilientes (26%+). El descenso adicional desde entonces re",
+  "confianza": 72,
+  "fuentes": [
+   "https://es.investing.com/news/transcripts/hexagon-ab-reporta-crecimiento-de-ingresos-en-el-primer-trimestre-de-2026-en-medio-de-vientos-en-contra-cambiarios-93CH-3616879",
+   "https://finance.yahoo.com/quote/HEXA-B.ST/",
+   "https://www.tradingview.com/symbols/OMXSTO-HEXA_B/",
+   "https://finance.yahoo.com/quote/HEXA-B.ST/key-statistics/"
+  ],
+  "fecha": "2026-09-22"
  }
 }

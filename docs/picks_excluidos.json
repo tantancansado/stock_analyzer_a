@@ -1,47 +1,59 @@
 {
   "listas": {
     "value_opportunities": {
-      "candidatas": 87,
-      "publicadas": 81,
+      "candidatas": 84,
+      "publicadas": 76,
       "excluidos": [
-        {
-          "ticker": "COF",
-          "paso": "rangos_imposibles",
-          "motivo": "FCF yield fuera de rango: por encima del 20% suele ser divisa sin convertir (visto 24.06, esperado entre -50 y 20)",
-          "score": 52.480000000000004
-        },
         {
           "ticker": "ERIE",
           "paso": "rangos_imposibles",
           "motivo": "Falta analyst_upside_pct: no se recomienda lo que no se puede evaluar",
-          "score": 49.94799999999999
+          "score": 48.894
+        },
+        {
+          "ticker": "COF",
+          "paso": "rangos_imposibles",
+          "motivo": "FCF yield fuera de rango: por encima del 20% suele ser divisa sin convertir (visto 23.76, esperado entre -50 y 20)",
+          "score": 47.480000000000004
         },
         {
           "ticker": "ASAZY",
           "paso": "rangos_imposibles",
-          "motivo": "FCF yield fuera de rango: por encima del 20% suele ser divisa sin convertir (visto 47.56, esperado entre -50 y 20)",
-          "score": 45.0
+          "motivo": "FCF yield fuera de rango: por encima del 20% suele ser divisa sin convertir (visto 46.58, esperado entre -50 y 20)",
+          "score": 45.2
         },
         {
           "ticker": "ATLKY",
           "paso": "rangos_imposibles",
-          "motivo": "FCF yield fuera de rango: por encima del 20% suele ser divisa sin convertir (visto 26.85, esperado entre -50 y 20)",
+          "motivo": "FCF yield fuera de rango: por encima del 20% suele ser divisa sin convertir (visto 26.24, esperado entre -50 y 20)",
           "score": 40.400000000000006
         },
         {
-          "ticker": "THC",
+          "ticker": "UNP",
           "paso": "verificador_ia",
-          "motivo": "Divergencia extrema entre DCF (104.0%) y P/E (27.3%) con dispersion de 76.7 pts, etiquetada DISPERSOS sin causar upside_requiere_verificacion=true, pero analyst_upside es solo 9% y upside_triangulated es 27.3%; la ficha no sostiene un descuento tan grande como DCF sugiere · FCF yield de 14.24% es inusualmente alto para un healthcare/hospital; si es correcto, DCF debería estar validado, pero P/E lo contradict tajantemente; falta claridad sobre cuál modelo es fiable",
-          "score": 65.24
+          "motivo": "analyst_upside_pct (22.3%) contradice rotundamente los modelos propios (DCF -37.2%, P/E -11.1%): el analista ve un 22% de upside pero ambos modelos ven downside, sin que upside_requiere_verificacion esté marcado como true · upside_divergence=ALTA pero la ficha sigue recomendando sin alertar: esto sugiere o un error de entrada o una contradicción del sistema",
+          "score": 61.410000000000004
+        },
+        {
+          "ticker": "IT",
+          "paso": "verificador_ia",
+          "motivo": "analyst_upside_pct (1.0%) vs upside_triangulated_pct (71.5%): una diferencia de 70 puntos es abismal y no se marca como verificación requerida · rev_growth_yoy es negativo (-0.6%) pero se reportan targets de 71.5% y 94.3%: esto solo es consistente si se espera una reversión muy fuerte no documentada en la ficha",
+          "score": 59.96
         },
         {
           "ticker": "DVA",
           "paso": "verificador_ia",
-          "motivo": "target_price_dcf_upside_pct de 171.6% es extremadamente alto y contradice target_price_pe_upside_pct de -14.3% con una dispersión de 185.9 pts; modelos etiquetados CONTRADICEN pero upside_requiere_verificacion=false · analyst_upside_pct de solo 19.6% no sostiene un descuento tan gigantesco como DCF; la ficha no desmiente el descuento pero tampoco lo valida; falta claridad sobre qué modelo confiar",
-          "score": 57.7
+          "motivo": "analyst_upside_pct (20.6%) vs modelos contradictorios (DCF 173.9% vs P/E -13.6%): la dispersión de 187.5 pts es abismal y sugiere un error de cálculo fundamental en uno de los modelos · fcf_yield_pct 13.9% es extraordinariamente alto (entre los máximos del dataset) con rev_growth solo 5.2%: inconsistencia sugiere posible error de escala o divisa",
+          "score": 56.900000000000006
+        },
+        {
+          "ticker": "META",
+          "paso": "verificador_ia",
+          "motivo": "analyst_upside_pct (2.3%) vs upside_triangulated_pct (-14.0%): el analista ve upside mínimo pero el triangular ve downside, sin coherencia interna documentada · modelos_acuerdo DISPERSOS (53.0 pts) pero upside_divergence ALTA: estas etiquetas deberían alinearse mejor",
+          "score": 51.25
         }
       ]
     }
   },
-  "generated_at": "2026-09-21T05:13:28Z"
+  "generated_at": "2026-09-22T05:14:48Z"
 }

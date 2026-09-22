@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-09-21T05:56:01",
-  "positions_checked": 19,
-  "total": 4,
-  "high_count": 4,
+  "generated_at": "2026-09-22T05:39:23",
+  "positions_checked": 17,
+  "total": 5,
+  "high_count": 5,
   "alerts": [
     {
       "ticker": "CRH.L",
@@ -23,6 +23,15 @@
       "severity": "HIGH"
     },
     {
+      "ticker": "AON",
+      "company_name": "Aon plc",
+      "strategy": "VALUE",
+      "signal_date": "2026-08-24",
+      "type": "THESIS_BROKEN",
+      "reason": "analyst_upside salt\u00f3 a 32% \u2014 value trap (0% win hist\u00f3rico)",
+      "severity": "HIGH"
+    },
+    {
       "ticker": "HEI",
       "company_name": "HEICO Corporation",
       "strategy": "VALUE",
@@ -37,7 +46,7 @@
       "strategy": "VALUE",
       "signal_date": "2026-08-26",
       "type": "THESIS_BROKEN",
-      "reason": "analyst_upside salt\u00f3 a 32% \u2014 value trap (0% win hist\u00f3rico)",
+      "reason": "analyst_upside salt\u00f3 a 30% \u2014 value trap (0% win hist\u00f3rico)",
       "severity": "HIGH"
     }
   ]
