@@ -13,6 +13,7 @@ Output: docs/catalysts.json
 """
 
 import json
+import math
 import re
 import time
 import urllib.error
@@ -97,6 +98,17 @@ MACRO_SECTOR_IMPACT = {
 }
 
 # ─── Helpers ──────────────────────────────────────────────────────────────────
+
+def _sin_nan(o):
+    """NaN/Infinity -> None. No son JSON válido y el navegador los rechaza."""
+    if isinstance(o, float):
+        return None if (math.isnan(o) or math.isinf(o)) else o
+    if isinstance(o, dict):
+        return {k: _sin_nan(v) for k, v in o.items()}
+    if isinstance(o, (list, tuple)):
+        return [_sin_nan(v) for v in o]
+    return o
+
 
 def days_until(date_str: str) -> int:
     try:
@@ -980,7 +992,13 @@ def main():
 
     out_path = DOCS / 'catalysts.json'
     with open(out_path, 'w') as f:
-        json.dump(output, f, indent=2, default=str)
+        # allow_nan=False: NaN e Infinity NO son JSON válido. Python los
+        # escribe y los relee sin quejarse, así que el fichero parece bueno
+        # desde aquí, pero `JSON.parse` del navegador falla entero y la app
+        # recibe 118 KB que no puede leer. El 22-sep-2026 tres NaN en
+        # `surprise_pct` dejaron el Calendario a «Total eventos 0» con 128
+        # eventos dentro. Se escriben como null, que es lo que significan.
+        json.dump(_sin_nan(output), f, indent=2, default=str, allow_nan=False)
 
     print(f"\n{'=' * 60}")
     print(f"OUTPUT: {out_path}")

@@ -34,6 +34,7 @@ PRINCIPIO: null si no hay dato, nunca 50 inventado.
 """
 
 from flask import Flask, jsonify, request
+from flask.json.provider import DefaultJSONProvider
 from flask_cors import CORS
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
@@ -44,6 +45,7 @@ import time
 import re
 import os
 import logging
+import math
 from pathlib import Path
 from datetime import datetime
 
@@ -67,6 +69,47 @@ from ticker_api_helpers import (
 _logger = logging.getLogger(__name__)
 
 app = Flask(__name__)
+
+
+class _JSONSinNaN(DefaultJSONProvider):
+    """NaN e Infinity no son JSON válido, y el navegador no los perdona.
+
+    Python los serializa sin rechistar —`json.dumps` los escribe tal cual y
+    `json.load` los relee— así que desde el lado del servidor todo parece
+    correcto. Pero `JSON.parse` del navegador falla con «Unexpected token 'N'»
+    y axios entrega la respuesta sin parsear: la petición sale 200, llegan
+    118 KB, y la página se queda a cero sin un solo error en consola.
+
+    Le pasaba al Calendario de catalizadores el 22-sep-2026: la API devolvía
+    128 eventos y la pantalla decía «Total eventos 0 · Generado Invalid Date»
+    por tres NaN en `surprise_pct`, `eps_act` y `avg_surprise_pct`.
+
+    Se convierten a null, que es lo que significan: no hay dato.
+    """
+
+    @staticmethod
+    def default(o):
+        if isinstance(o, float) and (math.isnan(o) or math.isinf(o)):
+            return None
+        return DefaultJSONProvider.default(o)
+
+    def dumps(self, obj, **kwargs):
+        kwargs.setdefault('allow_nan', False)
+        return super().dumps(_sin_nan(obj), **kwargs)
+
+
+def _sin_nan(o):
+    """Recorre la respuesta cambiando NaN/Infinity por None."""
+    if isinstance(o, float):
+        return None if (math.isnan(o) or math.isinf(o)) else o
+    if isinstance(o, dict):
+        return {k: _sin_nan(v) for k, v in o.items()}
+    if isinstance(o, (list, tuple)):
+        return [_sin_nan(v) for v in o]
+    return o
+
+
+app.json = _JSONSinNaN(app)
 
 _RUNTIME = load_runtime_config()
 _IS_PRODUCTION = _RUNTIME.is_production
