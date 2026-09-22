@@ -208,7 +208,13 @@ def load_curated_setups() -> list[dict]:
         # Mismo control que en el fichero ancho: el CSV no trae cabecera con
         # fecha, así que se usa la del JSON hermano, que el detector escribe
         # en la misma pasada.
-        _meta = DOCS / 'mean_reversion_opportunities.json'
+        #
+        # El hermano se deriva del CSV que se está leyendo, no de una ruta
+        # fija bajo DOCS. Con la ruta fija, leer otro CSV seguía fechándolo
+        # con el JSON de producción: la fecha venía de un fichero distinto al
+        # que se estaba comprobando, que es exactamente lo que este control
+        # existe para evitar.
+        _meta = MR_CSV.with_suffix('.json')
         _gen = None
         if _meta.exists():
             try:

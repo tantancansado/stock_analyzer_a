@@ -316,9 +316,17 @@ class TestAvisoDeRebote:
         return base
 
     def _cargar(self, filas, tmp_path, monkeypatch):
+        import json
+        from datetime import datetime, timezone
         import pandas as pd, bounce_alerts as ba
         csv = tmp_path / 'mr.csv'
         pd.DataFrame(filas).to_csv(csv, index=False)
+        # El JSON hermano lleva la fecha, y sin él un setup cuenta como
+        # caducado. Antes no se creaba: la fecha salía del fichero real del
+        # repo, así que estos tests pasaban o fallaban según lo vieja que
+        # estuviera la copia de trabajo, no según lo que comprueban.
+        (tmp_path / 'mr.json').write_text(json.dumps(
+            {'generated_at': datetime.now(timezone.utc).isoformat()}))
         monkeypatch.setattr(ba, 'MR_CSV', csv)
         return ba.load_curated_setups()
 
