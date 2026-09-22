@@ -118,6 +118,37 @@ function EntryQualityBadge({ quality, confidence, analyzedAt }: {
 type SortKey = keyof ValueOpportunity
 type SortDir = 'asc' | 'desc'
 
+/** Orden de accionabilidad: lo que se puede comprar hoy, primero. Sin dato va
+ *  al final — no se sabe el timing, así que no se promociona. */
+export const ORDEN_TIMING: Record<string, number> = {
+  ENTRADA: 0, VIGILAR: 1, ESPERAR: 2, '': 9,
+}
+
+/** Compara dos ideas por timing y, a igual timing, por score.
+ *
+ *  Es el orden con el que se abre la lista. La lista sale del screen de
+ *  valoración, pero lo primero que quieres saber al entrar es cuáles se
+ *  pueden comprar HOY: un ENTRADA con score 52 es más accionable que un
+ *  ESPERAR con 68, que por definición sigue cayendo. Dentro del grupo manda
+ *  el score, para que un ENTRADA flojo no encabece la pantalla — EQIX salía
+ *  con 30,9 el 22-sep-2026 y es el último de los suyos, no el primero. */
+export function comparaPorTiming(
+  a: Pick<ValueOpportunity, 'entry_readiness' | 'value_score'>,
+  b: Pick<ValueOpportunity, 'entry_readiness' | 'value_score'>,
+  dir: SortDir = 'desc',
+): number {
+  const ra = ORDEN_TIMING[a.entry_readiness ?? ''] ?? 9
+  const rb = ORDEN_TIMING[b.entry_readiness ?? ''] ?? 9
+  if (ra !== rb) return dir === 'desc' ? ra - rb : rb - ra
+  return (b.value_score ?? 0) - (a.value_score ?? 0)
+}
+const TIMING_FILTROS: { clave: string; etiqueta: string }[] = [
+  { clave: 'ALL',     etiqueta: 'Todos' },
+  { clave: 'ENTRADA', etiqueta: 'Entra' },
+  { clave: 'VIGILAR', etiqueta: 'Vigila' },
+  { clave: 'ESPERAR', etiqueta: 'Espera' },
+]
+
 export default function ValueUS() {
   const { data, loading, error } = useApi(() => fetchValueOpportunities(), [])
   const { data: regime } = useApi(() => fetchMarketRegime(), [])
@@ -128,7 +159,7 @@ export default function ValueUS() {
   const cerebro = useCerebroSignals()
   const chartSignals = useChartSignals()
   const verdicts = useEntryVerdicts()
-  const [sortKey, setSortKey] = useState<SortKey>('value_score')
+  const [sortKey, setSortKey] = useState<SortKey>('entry_readiness')
   const [sortDir, setSortDir] = useState<SortDir>('desc')
   const [expandedRow, setExpandedRow] = useState<ValueOpportunity | null>(null)
   const [thesisText, setThesisText] = useState<string>('')
@@ -191,6 +222,7 @@ export default function ValueUS() {
     }, { replace: true })
   }
 
+  const [filterTiming, setFilterTiming] = useState('ALL')
   const [hideEarnings, setHideEarnings] = useState(false)
   const [hideTraps, setHideTraps] = useState(true)
   const [hideExits, setHideExits] = useState(true)
@@ -233,7 +265,7 @@ export default function ValueUS() {
   }, [])
 
   // Reset page + scroll to top when any filter changes
-  useEffect(() => { setPage(1); setFocusedIdx(-1) }, [filterGrade, filterSector, minScore, minFcf, minRr, hideEarnings, hideTraps, hideExits, onlyOwned, onlyHf])
+  useEffect(() => { setPage(1); setFocusedIdx(-1) }, [filterGrade, filterSector, filterTiming, minScore, minFcf, minRr, hideEarnings, hideTraps, hideExits, onlyOwned, onlyHf])
   // Scroll to top when page changes
   useEffect(() => { window.scrollTo({ top: 0, behavior: 'smooth' }) }, [page])
 
@@ -281,6 +313,7 @@ export default function ValueUS() {
   const filtered = useMemo(() => rows.filter(r => {
     if (filterGrade !== 'ALL' && r.conviction_grade !== filterGrade) return false
     if (filterSector !== 'ALL' && r.sector !== filterSector) return false
+    if (filterTiming !== 'ALL' && r.entry_readiness !== filterTiming) return false
     // El umbral de score mira value_score (métrica rápida), pero conviction_grade
     // sale de un análisis más profundo (ROE, deuda, DCF, R:R) que puede discrepar
     // — un A/B de alta convicción no debe desaparecer solo porque el value_score
@@ -298,9 +331,12 @@ export default function ValueUS() {
     if (onlyOwned && !isOwned(r.ticker)) return false
     if (onlyHf && (r.hedge_fund_count ?? 0) < 1) return false
     return true
-  }), [rows, filterGrade, filterSector, deferredMinScore, deferredMinFcf, deferredMinRr, hideEarnings, hideTraps, hideExits, onlyOwned, onlyHf, cerebro.trapMap, cerebro.exitMap, isOwned])
+  }), [rows, filterGrade, filterSector, filterTiming, deferredMinScore, deferredMinFcf, deferredMinRr, hideEarnings, hideTraps, hideExits, onlyOwned, onlyHf, cerebro.trapMap, cerebro.exitMap, isOwned])
 
   const sorted = useMemo(() => [...filtered].sort((a, b) => {
+    // Por defecto manda el timing (ver comparaPorTiming). Pulsar cualquier
+    // cabecera cambia a ese criterio.
+    if (sortKey === 'entry_readiness') return comparaPorTiming(a, b, sortDir)
     const av = a[sortKey] ?? 0
     const bv = b[sortKey] ?? 0
     if (av < bv) return sortDir === 'asc' ? -1 : 1
@@ -523,8 +559,26 @@ export default function ValueUS() {
       <Card className="liquid-glass px-4 py-3 mb-3 animate-fade-in-up rounded-xl">
         <div className="flex flex-wrap gap-x-4 gap-y-2 items-center">
 
+          {/* Timing de entrada — lo primero: qué se puede comprar hoy */}
+          <div className="flex items-center gap-1 flex-wrap">
+            <span className="filter-label mr-0.5">Timing</span>
+            {TIMING_FILTROS.map(({ clave, etiqueta }) => (
+              <button
+                key={clave}
+                onClick={() => setFilterTiming(clave)}
+                title={clave === 'ALL' ? 'Todas las ideas'
+                  : clave === 'ENTRADA' ? 'Suelo técnico confirmado — comprable hoy'
+                  : clave === 'VIGILAR' ? 'Construyendo base o extendida — en el radar'
+                  : 'Todavía cayendo — espera a que haga suelo'}
+                className={`filter-btn ${filterTiming === clave ? 'active' : ''}`}
+              >{etiqueta}</button>
+            ))}
+          </div>
+
+          <div className="w-px h-4 bg-border/40 self-center" />
+
           {/* Min Score */}
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-1 flex-wrap">
             <span className="filter-label mr-0.5">Score≥</span>
             {[['ALL', ''], ['50+', '50'], ['55+', '55'], ['60+', '60'], ['65+', '65']].map(([label, val]) => (
               <button key={val} onClick={() => setMinScore(val)} className={`filter-btn ${minScore === val ? 'active' : ''}`}>{label}</button>
