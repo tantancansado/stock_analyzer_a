@@ -1070,8 +1070,14 @@ jobs:
               else:
                   module_status = 'stale'
 
+              # El path viaja con el informe para que quien lo lea después
+              # pueda volver a mirar el fichero. Este health es una foto del
+              # momento del pipeline: si a mediodía se arregla el dato, el
+              # informe sigue diciendo lo de la madrugada y el watchdog manda
+              # un aviso de algo ya resuelto. Pasó el 22-sep-2026 con
+              # `entry_readiness` de Europa.
               entry = {'status': module_status, 'date': file_date, 'days_ago': days_ago,
-                       'stale_threshold_days': stale_days}
+                       'stale_threshold_days': stale_days, 'path': path}
               if col_req:
                   entry['columna_requerida'] = (', '.join(col_req)
                                                 if isinstance(col_req, list) else col_req)

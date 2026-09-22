@@ -31,6 +31,7 @@ Env: TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID
 """
 from __future__ import annotations
 
+import csv
 import json
 import os
 import sys
@@ -92,6 +93,63 @@ MODULE_LABELS = {
     "value_opportunities:excluidos": "Picks buenos fuera de la lista",
     "value_opportunities:motivo_repetido": "Muchos fuera por el mismo motivo",
 }
+
+
+def _ya_esta_poblada(path: str | None, columnas) -> bool:
+    """¿La columna que el informe dio por vacía ya tiene datos?
+
+    El health es una foto del momento del pipeline y este watchdog corre
+    horas después. Sin volver a mirar el fichero, un arreglo de mediodía se
+    sigue anunciando como avería hasta la pasada del día siguiente.
+
+    Devuelve True solo si puede comprobarlo. Si no hay path, no es un CSV o
+    falla la lectura, devuelve False y el aviso sale: ante la duda se avisa,
+    que es el sentido de un vigilante.
+    """
+    if not path or not columnas or not str(path).endswith('.csv'):
+        return False
+    nombres = columnas if isinstance(columnas, list) else [
+        c.strip() for c in str(columnas).split(',') if c.strip()]
+    try:
+        with open(path, newline='') as fh:
+            filas = list(csv.DictReader(fh))
+    except Exception:
+        return False
+    if not filas:
+        return False
+    return all(
+        c in filas[0] and any((r.get(c) or '').strip() for r in filas)
+        for c in nombres)
+
+
+
+def _corrio_y_no_encontro(path: str | None) -> bool:
+    """¿El escáner corrió hoy y devolvió cero, o es que no llegó a correr?
+
+    No es lo mismo y el aviso decía siempre lo segundo. Un JSON con fecha de
+    generación fresca y un contador explícito a 0 es una AFIRMACIÓN del
+    escáner —«hoy no hay setups»—, no un hueco: mean reversion y los rebotes
+    pasan semanas enteras sin emitir, y eso es lo esperado. Avisar de un cero
+    legítimo es el ruido que hace que se dejen de leer los avisos.
+    """
+    if not path or not str(path).endswith('.json'):
+        return False
+    try:
+        with open(path) as fh:
+            d = json.load(fh)
+    except Exception:
+        return False
+    if not isinstance(d, dict):
+        return False
+    fecha = _parse_iso(str(d.get('generated_at') or '').replace(' ', 'T'))
+    if not fecha:
+        return False
+    if fecha.tzinfo is None:
+        fecha = fecha.replace(tzinfo=timezone.utc)
+    if (_now() - fecha).total_seconds() > 36 * 3600:
+        return False
+    # Un contador a 0 es explícito; la ausencia de contador, no.
+    return any(k.startswith('total_') and v == 0 for k, v in d.items())
 
 
 def _now() -> datetime:
@@ -219,6 +277,14 @@ def find_problems() -> tuple[list[dict], bool]:
             # los tres módulos de VALUE salieron 'incompleto' ese mismo día y el
             # aviso habría viajado con el detalle en blanco.
             col = m.get("columna_requerida")
+            if _ya_esta_poblada(m.get("path"), col) or _corrio_y_no_encontro(m.get("path")):
+                # El health es una foto del momento del pipeline. Si el dato se
+                # arregló después, el informe sigue diciendo lo de la madrugada.
+                # El 22-sep-2026 salieron dos avisos —uno rojo— de una columna
+                # que llevaba cuatro horas rellena. Avisar de algo ya resuelto
+                # gasta la confianza en el resto de avisos, que es lo único que
+                # los hace útiles.
+                continue
             detail = (f"fichero de hoy pero «{col}» viene vacía — un paso de la cadena "
                       f"no llegó a correr") if col else "fichero de hoy con el contenido a medias"
         elif status == "missing":
