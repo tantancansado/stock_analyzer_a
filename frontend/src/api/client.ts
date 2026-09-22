@@ -2521,6 +2521,10 @@ export interface LeapsOpportunity {
   profit_at_target?: LeapsProfitAtTarget | null
   valoracion_propia?: LeapsValoracionPropia | null
   in_value_list: boolean
+  /** Timing de entrada de la ACCIÓN (technical_filter). Puede contradecir
+   *  al `timing_score` del propio LEAPS — ver el aviso en la ficha. */
+  entry_readiness?: 'ESPERAR' | 'VIGILAR' | 'ENTRADA' | null
+  entry_readiness_reason?: string | null
   ai_narrative?: string
   situation_verdict?: LeapsVerdict
   exit_plan?: LeapsExitPlan

@@ -186,6 +186,26 @@ function OpportunityCard({ o, rank }: { o: LeapsOpportunity; rank?: number }) {
           </div>
         )}
 
+        {/* Los dos motores de timing no siempre coinciden. LEAPS calcula el
+            suyo (`timing_score`) y la ficha VALUE el suyo
+            (`entry_readiness`): el 22-sep-2026 FHN salía recomendado con 68
+            mientras su ficha decía ESPERAR — «ha perdido la MA200». Un
+            deep-ITM apalanca la caída igual que la subida, así que el
+            desacuerdo se enseña. No bloquea: los horizontes son distintos. */}
+        {o.in_value_list && o.entry_readiness === 'ESPERAR' && (
+          <div className="rounded-md border px-3 py-2 mb-3 border-[var(--warn)]/40 bg-[color-mix(in_oklab,var(--warn)_12%,transparent)]">
+            <div className="flex items-center gap-1.5 text-mini font-extrabold tracking-wide mb-0.5 text-[var(--warn)]">
+              <AlertTriangle className="w-3 h-3" /> LA ACCIÓN DICE ESPERAR
+            </div>
+            <div className="text-mini opacity-90 leading-snug">
+              {o.entry_readiness_reason
+                ? `${o.entry_readiness_reason}. `
+                : 'Su ficha VALUE marca ESPERAR. '}
+              Una call apalanca la caída igual que la subida.
+            </div>
+          </div>
+        )}
+
         {/* Claude's honest verdict: ¿oportunidad value real o no? */}
         {o.situation_verdict && VERDICT_CONFIG[o.situation_verdict.verdict] && (
           <div className={cn('rounded-md border px-3 py-2 mb-3', VERDICT_CONFIG[o.situation_verdict.verdict].cls)}>
