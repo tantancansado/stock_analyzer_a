@@ -172,14 +172,14 @@ function PriceStressChart({
           <AreaChart data={data} margin={{ top: 12, right: 8, bottom: 0, left: 0 }}>
             <defs>
               <linearGradient id="macro-price-fill" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#f97316" stopOpacity={0.24} />
-                <stop offset="95%" stopColor="#f97316" stopOpacity={0} />
+                <stop offset="5%" stopColor="var(--warn)" stopOpacity={0.24} />
+                <stop offset="95%" stopColor="var(--warn)" stopOpacity={0} />
               </linearGradient>
             </defs>
             <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.06)" />
             <XAxis
               dataKey="date"
-              tick={{ fontSize: 11, fill: '#94a3b8' }}
+              tick={{ fontSize: 11, fill: 'var(--muted-foreground)' }}
               tickFormatter={(value) => String(value).slice(2, 7)}
               axisLine={false}
               tickLine={false}
@@ -197,7 +197,7 @@ function PriceStressChart({
               yAxisId="stress"
               orientation="right"
               domain={[0, 100]}
-              tick={{ fontSize: 11, fill: '#94a3b8' }}
+              tick={{ fontSize: 11, fill: 'var(--muted-foreground)' }}
               axisLine={false}
               tickLine={false}
               width={38}
@@ -239,7 +239,7 @@ function PriceStressChart({
                   x={item.date}
                   y={price}
                   r={5}
-                  fill={item.forward_30d_return != null && item.forward_30d_return < 0 ? '#ef4444' : '#facc15'}
+                  fill={item.forward_30d_return != null && item.forward_30d_return < 0 ? 'var(--danger)' : '#facc15'}
                   stroke="rgba(15,17,23,0.9)"
                 />
               )

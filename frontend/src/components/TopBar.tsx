@@ -37,10 +37,10 @@ function PipelineStatus() {
   const today     = new Date().toISOString().slice(0, 10)
   const yesterday = new Date(Date.now() - 86_400_000).toISOString().slice(0, 10)
 
-  let color = '#ef4444'
+  let color = 'var(--danger)'
   let label = status.run_date
-  if (status.run_date === today)      { color = '#22c55e'; label = 'Hoy' }
-  else if (status.run_date === yesterday) { color = '#f59e0b'; label = 'Ayer' }
+  if (status.run_date === today)      { color = 'var(--success)'; label = 'Hoy' }
+  else if (status.run_date === yesterday) { color = 'var(--warn)'; label = 'Ayer' }
 
   return (
     <span

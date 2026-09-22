@@ -39,7 +39,7 @@ export default function PriceChart({ ticker, data: external, height = 200, mini 
   const first  = data[0]?.close ?? 0
   const last   = data[data.length - 1]?.close ?? 0
   const isUp   = last >= first
-  const color  = isUp ? '#10b981' : '#ef4444'
+  const color  = isUp ? 'var(--success)' : 'var(--danger)'
   const gradId = `pg-${ticker.replace(/[^a-zA-Z0-9]/g, '')}`
 
   return (
@@ -81,7 +81,7 @@ export default function PriceChart({ ticker, data: external, height = 200, mini 
                 fontSize: '12px',
                 padding: '8px 12px',
               }}
-              labelStyle={{ color: '#94a3b8', marginBottom: '2px' }}
+              labelStyle={{ color: 'var(--muted-foreground)', marginBottom: '2px' }}
               // `$` a pelo: el gráfico de Auto Trader enseñaba «$489.80»
               // cuando son 489,80 PENIQUES, o sea 4,90 £. `precio()` deduce la
               // divisa del sufijo de bolsa. Y `?? 0` pintaba «$0.00» sobre un

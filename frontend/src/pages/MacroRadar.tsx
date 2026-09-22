@@ -185,7 +185,7 @@ function regimeBadgeVariant(name: string): string {
 function ScoreGauge({ score, max }: { score: number; max: number }) {
   // score range: -max to +max → normalize to 0-100
   const pct = ((score + max) / (2 * max)) * 100
-  const color = score >= 6 ? '#10b981' : score >= 0 ? '#84cc16' : score >= -6 ? '#f59e0b' : score >= -12 ? '#f97316' : '#ef4444'
+  const color = score >= 6 ? 'var(--success)' : score >= 0 ? 'var(--success)' : score >= -6 ? 'var(--warn)' : score >= -12 ? 'var(--warn)' : 'var(--danger)'
   return (
     <div className="relative w-full">
       <div className="flex justify-between text-micro text-muted-foreground mb-1">
@@ -233,7 +233,7 @@ function SignalCard({ id, signal, stagger }: { id: string; signal: SignalData; s
               className="h-full rounded-full transition-all duration-700"
               style={{
                 width: `${((score + 2) / 4) * 100}%`,
-                backgroundColor: score >= 1 ? '#10b981' : score >= 0 ? '#84cc16' : score >= -1 ? '#f97316' : '#ef4444',
+                backgroundColor: score >= 1 ? 'var(--success)' : score >= 0 ? 'var(--success)' : score >= -1 ? 'var(--warn)' : 'var(--danger)',
               }}
             />
           </div>
@@ -274,7 +274,7 @@ interface HistoryPoint {
 }
 
 const REGIME_COLORS: Record<string, string> = {
-  CALM: '#10b981', WATCH: '#84cc16', STRESS: '#f59e0b', ALERT: '#f97316', CRISIS: '#ef4444',
+  CALM: 'var(--success)', WATCH: 'var(--success)', STRESS: 'var(--warn)', ALERT: 'var(--warn)', CRISIS: 'var(--danger)',
 }
 
 function HistoryChart({ points, maxScore }: { points: HistoryPoint[]; maxScore: number }) {
@@ -309,7 +309,7 @@ function HistoryChart({ points, maxScore }: { points: HistoryPoint[]; maxScore: 
       <line x1={PAD.l} y1={y0} x2={W - PAD.r} y2={y0} stroke="currentColor" strokeOpacity="0.15" strokeDasharray="3,3" />
 
       {/* Danger zone shading (below 0) */}
-      <rect x={PAD.l} y={y0} width={innerW} height={innerH - (y0 - PAD.t)} fill="#ef4444" fillOpacity="0.04" />
+      <rect x={PAD.l} y={y0} width={innerW} height={innerH - (y0 - PAD.t)} fill="var(--danger)" fillOpacity="0.04" />
 
       {/* Area fill */}
       <polyline
@@ -318,7 +318,7 @@ function HistoryChart({ points, maxScore }: { points: HistoryPoint[]; maxScore: 
           ...points.map((p, i) => `${xScale(i)},${yScale(p.composite_score)}`),
           `${xScale(points.length - 1)},${y0}`,
         ].join(' ')}
-        fill={points[points.length - 1].composite_score >= 0 ? '#10b981' : '#f97316'}
+        fill={points[points.length - 1].composite_score >= 0 ? 'var(--success)' : 'var(--warn)'}
         fillOpacity="0.08"
       />
 
@@ -332,7 +332,7 @@ function HistoryChart({ points, maxScore }: { points: HistoryPoint[]; maxScore: 
           cx={xScale(i)}
           cy={yScale(p.composite_score)}
           r={points.length > 20 ? 1.5 : 2.5}
-          fill={REGIME_COLORS[p.regime] ?? '#94a3b8'}
+          fill={REGIME_COLORS[p.regime] ?? 'var(--muted-foreground)'}
         />
       ))}
 
@@ -860,7 +860,7 @@ function HistoricalAnalogsPanel({ analogs }: { analogs: HistoricalAnalog[] }) {
                   <div className="text-right shrink-0">
                     <div
                       className="text-mini font-bold"
-                      style={{ color: analog.similarity > 75 ? '#f97316' : analog.similarity > 60 ? '#f59e0b' : '#94a3b8' }}
+                      style={{ color: analog.similarity > 75 ? 'var(--warn)' : analog.similarity > 60 ? 'var(--warn)' : 'var(--muted-foreground)' }}
                     >
                       {analog.similarity.toFixed(0)}%
                     </div>
@@ -874,7 +874,7 @@ function HistoricalAnalogsPanel({ analogs }: { analogs: HistoricalAnalog[] }) {
                     className="h-full rounded-full transition-all duration-700"
                     style={{
                       width: `${analog.similarity}%`,
-                      backgroundColor: analog.similarity > 75 ? '#f97316' : analog.similarity > 60 ? '#f59e0b' : '#94a3b8',
+                      backgroundColor: analog.similarity > 75 ? 'var(--warn)' : analog.similarity > 60 ? 'var(--warn)' : 'var(--muted-foreground)',
                     }}
                   />
                 </div>
@@ -1130,11 +1130,11 @@ export default function MacroRadar() {
           <p className="etiqueta-seccion mb-2">Guía de regímenes</p>
           <div className="flex flex-wrap gap-3">
             {[
-              { name: 'CALM',   color: '#10b981', desc: 'Favorable' },
-              { name: 'WATCH',  color: '#84cc16', desc: 'Vigilancia' },
-              { name: 'STRESS', color: '#f59e0b', desc: 'Estrés moderado' },
-              { name: 'ALERT',  color: '#f97316', desc: 'Alerta elevada' },
-              { name: 'CRISIS', color: '#ef4444', desc: 'Capital protection' },
+              { name: 'CALM',   color: 'var(--success)', desc: 'Favorable' },
+              { name: 'WATCH',  color: 'var(--success)', desc: 'Vigilancia' },
+              { name: 'STRESS', color: 'var(--warn)', desc: 'Estrés moderado' },
+              { name: 'ALERT',  color: 'var(--warn)', desc: 'Alerta elevada' },
+              { name: 'CRISIS', color: 'var(--danger)', desc: 'Capital protection' },
             ].map(r => (
               <div key={r.name} className="flex items-center gap-1.5">
                 <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: r.color }} />

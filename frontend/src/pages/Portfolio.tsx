@@ -18,7 +18,7 @@ import CifrasClave from '../components/CifrasClave'
 
 const mkFmtPct = (horizonte: string) =>
   (v: unknown) => [`${Number(v).toFixed(1)}%`, `Win rate ${horizonte}`] as [string, string]
-const winColor = (wr: number) => wr >= 55 ? '#10b981' : wr >= 45 ? '#f59e0b' : '#ef4444'
+const winColor = (wr: number) => wr >= 55 ? 'var(--success)' : wr >= 45 ? 'var(--warn)' : 'var(--danger)'
 
 /** El tracker marca de qué población sale cada cifra. Traducirlo importa: no
  *  es lo mismo "lo que el sistema emite hoy" que "todo lo que emitió nunca",

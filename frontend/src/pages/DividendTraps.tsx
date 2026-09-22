@@ -21,7 +21,7 @@ const RISK_CONFIG = {
 }
 
 function TrapScoreBar({ score }: { score: number }) {
-  const color = score >= 50 ? '#ef4444' : score >= 25 ? '#f97316' : '#f59e0b'
+  const color = score >= 50 ? 'var(--danger)' : score >= 25 ? 'var(--warn)' : 'var(--warn)'
   return (
     <div className="flex items-center gap-2">
       <div className="h-1.5 w-24 rounded-full barra-pista overflow-hidden">

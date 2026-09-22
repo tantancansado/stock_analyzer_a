@@ -164,7 +164,7 @@ function CountryCard({ c }: { c: CountryData }) {
             <span>Macro salud</span>
             <span className="text-foreground font-mono">{c.macro_score.toFixed(0)}/100</span>
           </div>
-          <ScoreBar value={c.macro_score} color="#22d3ee" />
+          <ScoreBar value={c.macro_score} color="var(--info)" />
           <div className="flex items-center justify-between text-micro text-muted-foreground">
             <span>Oportunidad mercado</span>
             <span className="text-foreground font-mono">{c.market_score.toFixed(0)}/100</span>

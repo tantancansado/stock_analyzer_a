@@ -9,7 +9,7 @@ import { nlRegimen } from '@/lib/nl'
 function WinBar({ value, max = 80 }: { value: number | null | undefined; max?: number }) {
   const v = value ?? 0
   const pct = Math.min((v / max) * 100, 100)
-  const color = v >= 50 ? '#10b981' : v >= 35 ? '#f59e0b' : '#ef4444'
+  const color = v >= 50 ? 'var(--success)' : v >= 35 ? 'var(--warn)' : 'var(--danger)'
   return (
     <div className="flex items-center gap-2">
       <div className="flex-1 h-2 rounded-full" style={{ background: 'rgba(255,255,255,0.08)' }}>
@@ -22,7 +22,7 @@ function WinBar({ value, max = 80 }: { value: number | null | undefined; max?: n
 
 function ReturnBadge({ value }: { value: number | null | undefined }) {
   const v = value ?? 0
-  const color = v > 0 ? '#10b981' : v > -3 ? '#f59e0b' : '#ef4444'
+  const color = v > 0 ? 'var(--success)' : v > -3 ? 'var(--warn)' : 'var(--danger)'
   return <span style={{ color }} className="text-mini font-mono">{v > 0 ? '+' : ''}{v.toFixed(2)}%</span>
 }
 
@@ -201,7 +201,7 @@ export default function Calibration() {
             <CardContent className="p-4">
               <div className="text-mini text-muted-foreground mb-1">Mejor rango de score</div>
               <div className="text-seccion font-semibold text-foreground">{bestScore.range} pts</div>
-              <Badge variant="outline" className="mt-1 text-mini" style={{ color: '#10b981', borderColor: '#10b98144' }}>
+              <Badge variant="outline" className="mt-1 text-mini" style={{ color: 'var(--success)', borderColor: '#10b98144' }}>
                 {bestScore.win_rate}% win rate
               </Badge>
               <div className="mt-1 text-micro text-muted-foreground tabular-nums">
@@ -215,7 +215,7 @@ export default function Calibration() {
             <CardContent className="p-4">
               <div className="text-mini text-muted-foreground mb-1">Sector más fiable</div>
               <div className="text-seccion font-semibold text-foreground truncate">{bestSector.sector}</div>
-              <Badge variant="outline" className="mt-1 text-mini" style={{ color: '#10b981', borderColor: '#10b98144' }}>
+              <Badge variant="outline" className="mt-1 text-mini" style={{ color: 'var(--success)', borderColor: '#10b98144' }}>
                 {bestSector.win_rate}% win rate
               </Badge>
               <div className="mt-1 text-micro text-muted-foreground tabular-nums">
@@ -229,7 +229,7 @@ export default function Calibration() {
             <CardContent className="p-4">
               <div className="text-mini text-muted-foreground mb-1">Régimen más favorable</div>
               <div className="text-seccion font-semibold text-foreground">{nlRegimen(bestRegime.regime) || bestRegime.regime}</div>
-              <Badge variant="outline" className="mt-1 text-mini" style={{ color: '#10b981', borderColor: '#10b98144' }}>
+              <Badge variant="outline" className="mt-1 text-mini" style={{ color: 'var(--success)', borderColor: '#10b98144' }}>
                 {bestRegime.win_rate}% win rate
               </Badge>
               <div className="mt-1 text-micro text-muted-foreground tabular-nums">

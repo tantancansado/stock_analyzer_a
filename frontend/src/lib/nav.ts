@@ -9,19 +9,19 @@ export const NAV_CATEGORIES: NavCategory[] = [
     name: 'Portfolio',
     items: [
       { path: '/dashboard',      icon: LayoutDashboard, label: 'Centro de mando', color: '#6366f1', logo: 'llama-charts.png',        keywords: ['inicio', 'home', 'resumen', 'dashboard', 'centro de mando', 'cerebro', 'ia', 'agente', 'proactivo', 'convergencia', 'entrada'] },
-      { path: '/my-portfolio',   icon: Wallet,          label: 'Mi cartera',     color: '#10b981', logo: 'llama-safe.png',          keywords: ['mis posiciones', 'personal', 'posiciones', 'mi cartera'] },
-      { path: '/portfolio',        icon: BarChart2,      label: 'Portfolio tracker', color: '#10b981', keywords: ['portfolio', 'tracker', 'señales', 'rendimiento', 'win rate', 'estadísticas'] },
+      { path: '/my-portfolio',   icon: Wallet,          label: 'Mi cartera',     color: 'var(--success)', logo: 'llama-safe.png',          keywords: ['mis posiciones', 'personal', 'posiciones', 'mi cartera'] },
+      { path: '/portfolio',        icon: BarChart2,      label: 'Portfolio tracker', color: 'var(--success)', keywords: ['portfolio', 'tracker', 'señales', 'rendimiento', 'win rate', 'estadísticas'] },
       { path: '/signal-stats',     icon: Activity,      label: 'Estadísticas',      color: '#06b6d4', keywords: ['estadisticas', 'señales', 'semana', 'mes', 'quarter', 'historico', 'rendimiento'], adminOnly: true },
     ]
   },
   {
     name: 'Discovery',
     items: [
-      { path: '/value',          icon: DollarSign,      label: 'Value',          color: '#10b981', logo: 'llama-glasses-arrow.png', keywords: ['value', 'fundamental', 'us', 'eu', 'europa', 'global', 'acciones'] },
-      { path: '/entry-setups',    icon: TrendingUp,    label: 'Entry setups',    color: '#f97316', keywords: ['momentum', 'vcp', 'mean reversion', 'rebote', 'oversold', 'tendencia'] },
-      { path: '/bounce',         icon: Crosshair,       label: 'Rebotes técnicos', color: '#f97316', logo: 'llama-shield.png',      keywords: ['bounce', 'rebote', 'corto plazo', 'oversold', 'rsi extremo'] },
+      { path: '/value',          icon: DollarSign,      label: 'Value',          color: 'var(--success)', logo: 'llama-glasses-arrow.png', keywords: ['value', 'fundamental', 'us', 'eu', 'europa', 'global', 'acciones'] },
+      { path: '/entry-setups',    icon: TrendingUp,    label: 'Entry setups',    color: 'var(--warn)', keywords: ['momentum', 'vcp', 'mean reversion', 'rebote', 'oversold', 'tendencia'] },
+      { path: '/bounce',         icon: Crosshair,       label: 'Rebotes técnicos', color: 'var(--warn)', logo: 'llama-shield.png',      keywords: ['bounce', 'rebote', 'corto plazo', 'oversold', 'rsi extremo'] },
       { path: '/options',         icon: Activity,      label: 'Options flow',    color: '#ec4899', keywords: ['options', 'opciones', 'flujo', 'institucional'] },
-      { path: '/leaps',           icon: Rocket,        label: 'LEAPS',           color: '#a855f7', keywords: ['leaps', 'opciones largas', 'deep itm', 'call', 'apalancamiento', 'sustituto acciones', '2028'] },
+      { path: '/leaps',           icon: Rocket,        label: 'LEAPS',           color: 'var(--special)', keywords: ['leaps', 'opciones largas', 'deep itm', 'call', 'apalancamiento', 'sustituto acciones', '2028'] },
       { path: '/sectors',         icon: PieChart,      label: 'Sectores',        color: '#6366f1', keywords: ['sector', 'rotacion', 'sectorial'] },
       { path: '/insiders',       icon: Users,           label: 'Insiders',       color: '#8b5cf6', logo: 'llama-bags.png',          keywords: ['insiders', 'directivos', 'compras'] },
     ]
@@ -31,11 +31,11 @@ export const NAV_CATEGORIES: NavCategory[] = [
     items: [
       { path: '/macro-radar',    icon: Radar,           label: 'Macro',          color: '#e11d48', logo: 'llama-network.png',       keywords: ['macro', 'radar', 'economía', 'países', 'pib', 'global', 'country'] },
       { path: '/bonds',          icon: Landmark,        label: 'Bonos',          color: '#06b6d4',                                 keywords: ['bonos', 'renta fija', 'yield', 'treasury', 'etf', 'corporativo', 'tlt', 'ief'] },
-      { path: '/commodities',    icon: Wheat,           label: 'Materias primas', color: '#f59e0b',                                keywords: ['materias primas', 'commodities', 'oro', 'plata', 'petroleo', 'trigo', 'cobre', 'cafe', 'cacao', 'gas'] },
-      { path: '/earnings',        icon: CalendarDays,  label: 'Calendario',      color: '#f59e0b', keywords: ['earnings', 'resultados', 'calendario', 'catalyst', 'catalizador', 'fda', 'pdufa'] },
-      { path: '/dividend-traps',  icon: AlertTriangle, label: 'Dividend traps',  color: '#ef4444', keywords: ['dividendo', 'trampa', 'yield trap'] },
+      { path: '/commodities',    icon: Wheat,           label: 'Materias primas', color: 'var(--warn)',                                keywords: ['materias primas', 'commodities', 'oro', 'plata', 'petroleo', 'trigo', 'cobre', 'cafe', 'cacao', 'gas'] },
+      { path: '/earnings',        icon: CalendarDays,  label: 'Calendario',      color: 'var(--warn)', keywords: ['earnings', 'resultados', 'calendario', 'catalyst', 'catalizador', 'fda', 'pdufa'] },
+      { path: '/dividend-traps',  icon: AlertTriangle, label: 'Dividend traps',  color: 'var(--danger)', keywords: ['dividendo', 'trampa', 'yield trap'] },
       { path: '/compare',         icon: Shuffle,       label: 'Comparar',        color: '#0ea5e9', keywords: ['comparar', 'comparador', 'compare'] },
-      { path: '/corrupcion',    icon: AlertTriangle, label: 'Corrupción inst.', color: '#ef4444', keywords: ['corrupcion', 'contrato', 'gobierno', 'señal', 'politica', 'congreso'] },
+      { path: '/corrupcion',    icon: AlertTriangle, label: 'Corrupción inst.', color: 'var(--danger)', keywords: ['corrupcion', 'contrato', 'gobierno', 'señal', 'politica', 'congreso'] },
     ]
   },
   {
@@ -43,10 +43,10 @@ export const NAV_CATEGORIES: NavCategory[] = [
     items: [
 
       { path: '/owner-earnings', icon: Calculator,      label: 'Valoración',     color: '#06b6d4', logo: 'llama-plant.png',         keywords: ['owner earnings', 'valoracion', 'compra', 'buffett', 'fcf', 'precio objetivo', 'dcf'] },
-      { path: '/position-sizing', icon: Ruler,         label: 'Position sizing', color: '#f59e0b', keywords: ['position', 'tamaño', 'kelly', 'sizing'] },
+      { path: '/position-sizing', icon: Ruler,         label: 'Position sizing', color: 'var(--warn)', keywords: ['position', 'tamaño', 'kelly', 'sizing'] },
       { path: '/backtest',        icon: FlaskConical,  label: 'Backtest',        color: '#6366f1', keywords: ['backtest', 'historico', 'simulacion'] },
       { path: '/datos',           icon: Database,      label: 'Exportar datos',  color: '#64748b', keywords: ['datos', 'historial', 'csv', 'descarga', 'exportar'] },
-      { path: '/manual',          icon: BookOpen,      label: 'Manual',          color: '#94a3b8', keywords: ['manual', 'ayuda', 'help', 'guia', 'documentacion', 'como funciona'] },
+      { path: '/manual',          icon: BookOpen,      label: 'Manual',          color: 'var(--muted-foreground)', keywords: ['manual', 'ayuda', 'help', 'guia', 'documentacion', 'como funciona'] },
       { path: '/admin/usage',     icon: Users,         label: 'Admin',           color: '#e11d48', keywords: ['admin', 'usuarios', 'uso'], adminOnly: true },
     ]
   }

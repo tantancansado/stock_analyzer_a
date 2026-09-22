@@ -54,7 +54,7 @@ function ActivityBar({ value, max }: { value: number; max: number }) {
   return (
     <div className="flex items-center gap-2">
       <div className="flex-1 h-1.5 rounded-full" style={{ background: 'rgba(255,255,255,0.08)' }}>
-        <div className="h-1.5 rounded-full transition-all" style={{ width: `${pct}%`, background: '#22d3ee' }} />
+        <div className="h-1.5 rounded-full transition-all" style={{ width: `${pct}%`, background: 'var(--info)' }} />
       </div>
       <span className="text-mini font-mono text-muted-foreground w-4 text-right">{value}</span>
     </div>
@@ -147,7 +147,7 @@ export default function AdminUsage() {
                 style={{
                   width: `${Math.min(data.claude_budget.pct, 100)}%`,
                   background: data.claude_budget.sin_credito || data.claude_budget.pct >= 90
-                    ? '#ef4444' : data.claude_budget.pct >= 60 ? '#f59e0b' : '#34d399',
+                    ? 'var(--danger)' : data.claude_budget.pct >= 60 ? 'var(--warn)' : '#34d399',
                 }}
               />
             </div>
@@ -201,7 +201,7 @@ export default function AdminUsage() {
                     <div className="flex flex-wrap gap-1 mt-2">
                       {u.tickers.map(t => (
                         <span key={t} className="px-1.5 py-0.5 rounded text-mini font-mono"
-                          style={{ background: 'rgba(34,211,238,0.1)', color: '#22d3ee' }}>{t}</span>
+                          style={{ background: 'rgba(34,211,238,0.1)', color: 'var(--info)' }}>{t}</span>
                       ))}
                     </div>
                   )}

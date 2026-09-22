@@ -13,10 +13,10 @@ import CifrasClave from '../components/CifrasClave'
 
 const CATEGORY_CONFIG = {
   MACRO:          { label: 'Macro', color: '#6366f1', bg: 'bg-indigo-500/15',  border: 'border-indigo-500/30',  text: 'text-indigo-400',  icon: ChartColumn },
-  EARNINGS:       { label: 'Earnings', color: '#10b981', bg: 'bg-emerald-500/15', border: 'border-emerald-500/30', text: 'text-emerald-400', icon: TrendingUp },
-  FDA:            { label: 'FDA', color: '#f97316', bg: 'bg-orange-500/15', border: 'border-orange-500/30', text: 'text-orange-400', icon: Pill },
-  OPTIONS_EXPIRY: { label: 'OpEx', color: '#a855f7', bg: 'bg-purple-500/15',  border: 'border-purple-500/30',  text: 'text-purple-400',  icon: AlarmClock },
-  DIVIDEND:       { label: 'Dividendo', color: '#f59e0b', bg: 'bg-amber-500/15',  border: 'border-amber-500/30',  text: 'text-amber-400',  icon: Banknote },
+  EARNINGS:       { label: 'Earnings', color: 'var(--success)', bg: 'bg-emerald-500/15', border: 'border-emerald-500/30', text: 'text-emerald-400', icon: TrendingUp },
+  FDA:            { label: 'FDA', color: 'var(--warn)', bg: 'bg-orange-500/15', border: 'border-orange-500/30', text: 'text-orange-400', icon: Pill },
+  OPTIONS_EXPIRY: { label: 'OpEx', color: 'var(--special)', bg: 'bg-purple-500/15',  border: 'border-purple-500/30',  text: 'text-purple-400',  icon: AlarmClock },
+  DIVIDEND:       { label: 'Dividendo', color: 'var(--warn)', bg: 'bg-amber-500/15',  border: 'border-amber-500/30',  text: 'text-amber-400',  icon: Banknote },
   COMPANY_EVENT:  { label: 'Investor Day', color: '#14b8a6', bg: 'bg-teal-500/15',  border: 'border-teal-500/30',  text: 'text-teal-400',  icon: Presentation },
 } as const
 

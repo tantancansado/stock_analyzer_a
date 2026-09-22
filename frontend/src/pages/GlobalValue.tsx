@@ -52,10 +52,10 @@ type GlobalOpportunity = ValueOpportunity & {
 }
 
 const MARKET_META: Record<string, { flag: string; cape: number; label: string; color: string }> = {
-  Brazil:   { flag: '🇧🇷', cape: 9.0,  label: 'Brasil',      color: '#22c55e' },
-  Korea:    { flag: '🇰🇷', cape: 21.2, label: 'Corea',       color: '#3b82f6' },
-  Japan:    { flag: '🇯🇵', cape: 29.4, label: 'Japón',       color: '#f97316' },
-  HongKong: { flag: '🇭🇰', cape: 10.7, label: 'Hong Kong',   color: '#a855f7' },
+  Brazil:   { flag: '🇧🇷', cape: 9.0,  label: 'Brasil',      color: 'var(--success)' },
+  Korea:    { flag: '🇰🇷', cape: 21.2, label: 'Corea',       color: 'var(--info)' },
+  Japan:    { flag: '🇯🇵', cape: 29.4, label: 'Japón',       color: 'var(--warn)' },
+  HongKong: { flag: '🇭🇰', cape: 10.7, label: 'Hong Kong',   color: 'var(--special)' },
 }
 
 const CURRENCY_SYMBOLS: Record<string, string> = {

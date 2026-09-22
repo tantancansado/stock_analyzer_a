@@ -20,17 +20,17 @@ const TABS: { id: Tab; label: string }[] = [
 
 function ReturnBadge({ v }: { v: number | null }) {
   if (v === null || v === undefined) return <span className="text-muted-foreground text-mini">—</span>
-  const color = v > 0 ? '#10b981' : v > -2 ? '#f59e0b' : '#ef4444'
+  const color = v > 0 ? 'var(--success)' : v > -2 ? 'var(--warn)' : 'var(--danger)'
   return <span className="text-mini font-mono" style={{ color }}>{v > 0 ? '+' : ''}{v.toFixed(2)}%</span>
 }
 
 function WinBadge({ v }: { v: number | null }) {
   if (v === null || v === undefined) return <span className="text-muted-foreground text-mini">—</span>
-  const color = v >= 50 ? '#10b981' : v >= 35 ? '#f59e0b' : '#ef4444'
+  const color = v >= 50 ? 'var(--success)' : v >= 35 ? 'var(--warn)' : 'var(--danger)'
   return <span className="text-mini font-mono font-semibold" style={{ color }}>{v.toFixed(1)}%</span>
 }
 
-function MiniBar({ value, max, color = '#22d3ee' }: { value: number; max: number; color?: string }) {
+function MiniBar({ value, max, color = 'var(--info)' }: { value: number; max: number; color?: string }) {
   const pct = max > 0 ? Math.min((value / max) * 100, 100) : 0
   return (
     <div className="flex items-center gap-2">
@@ -45,7 +45,7 @@ function MiniBar({ value, max, color = '#22d3ee' }: { value: number; max: number
 function WinBar({ value, max = 80 }: { value: number | null; max?: number }) {
   const v = value ?? 0
   const pct = Math.min((v / max) * 100, 100)
-  const color = v >= 50 ? '#10b981' : v >= 35 ? '#f59e0b' : '#ef4444'
+  const color = v >= 50 ? 'var(--success)' : v >= 35 ? 'var(--warn)' : 'var(--danger)'
   return (
     <div className="flex items-center gap-2">
       <div className="flex-1 h-1.5 rounded-full" style={{ background: 'rgba(255,255,255,0.07)' }}>
@@ -126,7 +126,7 @@ function WinRateTrend({ rows, tab }: { rows: TimeseriesRow[]; tab: Tab }) {
             labelStyle={{ color: 'rgba(255,255,255,0.6)' }}
             formatter={(v, name) => [`${Number(v).toFixed(1)}%`, name === 'principal' ? `Win ${h1}` : `Win ${h2}`]}
           />
-          <Line type="monotone" dataKey="principal" stroke="#22d3ee" strokeWidth={2} dot={false} connectNulls />
+          <Line type="monotone" dataKey="principal" stroke="var(--info)" strokeWidth={2} dot={false} connectNulls />
           <Line type="monotone" dataKey="secundario" stroke="#a78bfa" strokeWidth={2} dot={false} connectNulls />
         </LineChart>
       </ResponsiveContainer>
@@ -352,7 +352,7 @@ export default function SignalStats() {
         </Card>
         <Card className="glass">
           <CardContent className="p-4 text-center">
-            <div className="text-pagina font-bold font-mono" style={{ color: (winGlobal ?? 0) >= 50 ? '#10b981' : '#f59e0b' }}>
+            <div className="text-pagina font-bold font-mono" style={{ color: (winGlobal ?? 0) >= 50 ? 'var(--success)' : 'var(--warn)' }}>
               {winGlobal != null ? `${winGlobal.toFixed(1)}%` : '—'}
             </div>
             <div className="text-mini text-muted-foreground mt-0.5">Win rate global {horizonteGlobal}</div>
@@ -405,7 +405,7 @@ export default function SignalStats() {
               <div className="mb-4 pb-4 border-b border-foreground/5">
                 <div className="flex items-center gap-4 mb-2 text-micro">
                   <span className="inline-flex items-center gap-1.5 text-muted-foreground">
-                    <span className="w-2.5 h-0.5 rounded-full" style={{ background: '#22d3ee' }} /> Win {rows.find(r => r.horizonte)?.horizonte ?? '90d'}
+                    <span className="w-2.5 h-0.5 rounded-full" style={{ background: 'var(--info)' }} /> Win {rows.find(r => r.horizonte)?.horizonte ?? '90d'}
                   </span>
                   <span className="inline-flex items-center gap-1.5 text-muted-foreground">
                     <span className="w-2.5 h-0.5 rounded-full" style={{ background: '#a78bfa' }} /> Win {rows.find(r => r.horizonte_2)?.horizonte_2 ?? '180d'}
