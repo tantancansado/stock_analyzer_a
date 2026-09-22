@@ -162,6 +162,21 @@ def score_european_tickers(max_tickers: int = None, use_curated: bool = False) -
 
     df = pd.DataFrame(results)
 
+    # Una ficha sin precio no es una empresa mala, es una empresa que no se
+    # ha podido leer. `score_ticker` devuelve ceros en vez de fallar cuando
+    # yfinance no da nada, y esos ceros se publicaban como si fueran medidas:
+    # ROG.SW —Roche, que cotiza a unos 250 CHF— salía el 22-sep-2026 con
+    # precio 0, market cap 0, sector «N/A» y fundamental_score 0,0. Un score
+    # de 0 dice «pésima»; lo que pasaba es que no había dato.
+    if 'current_price' in df.columns:
+        precio = pd.to_numeric(df['current_price'], errors='coerce')
+        sin_leer = df[precio.isna() | (precio <= 0)]
+        if not sin_leer.empty:
+            print(f"   ⚠️  {len(sin_leer)} sin precio, fuera del fichero: "
+                  f"{', '.join(sin_leer['ticker'].astype(str).head(8))}")
+            errors += len(sin_leer)
+            df = df[~(precio.isna() | (precio <= 0))]
+
     # Save fundamental scores
     output_path = Path('docs/european_fundamental_scores.csv')
     output_path.parent.mkdir(parents=True, exist_ok=True)
