@@ -443,7 +443,7 @@ function YieldCalculator({ bonds }: { bonds: BondOpportunity[] }) {
           {/* Capital */}
           <div>
             <label className="text-mini text-muted-foreground block mb-1.5">Capital a invertir ($)</label>
-            <div className="flex items-center gap-1.5">
+            <div className="flex flex-wrap items-center gap-1.5">
               <input
                 type="text"
                 inputMode="numeric"
@@ -758,7 +758,7 @@ function PreferredCalculator({ prefs }: { prefs: PreferredStock[] }) {
           {/* Capital */}
           <div>
             <label className="text-mini text-muted-foreground block mb-1.5">Capital a invertir ($)</label>
-            <div className="flex items-center gap-1.5">
+            <div className="flex flex-wrap items-center gap-1.5">
               <input
                 type="text"
                 inputMode="numeric"

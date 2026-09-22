@@ -2593,3 +2593,11 @@ select:focus {
   letter-spacing: 0.12em;
   color: var(--muted-foreground);
 }
+
+/* Las rutas de fichero dentro de <code> no tienen espacios donde partir, así
+   que `docs/portfolio_tracker/recommendations.csv` se salía de la pantalla en
+   el Manual. `anywhere` deja romperlas por donde haga falta en vez de
+   desbordar; en un nombre de fichero no hay ambigüedad que respetar. */
+code {
+  overflow-wrap: anywhere;
+}

@@ -24,8 +24,11 @@ export default function PaginationBar({ page, totalPages, onPage }: Props) {
     pages.push(totalPages)
   }
 
+  // flex-wrap: con muchas páginas, los números más «Anterior» y «Siguiente»
+  // no caben en 390px y el último botón se salía por la derecha, fuera de
+  // alcance.
   return (
-    <div className="flex items-center justify-center gap-2 pt-4">
+    <div className="flex flex-wrap items-center justify-center gap-2 pt-4">
       <button
         onClick={() => goTo(page - 1)}
         disabled={page === 1}

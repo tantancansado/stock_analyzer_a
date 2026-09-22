@@ -273,7 +273,13 @@ export default function CatalystCalendar() {
       {/* Filter bar */}
       <Card className="liquid-glass px-4 py-3 mb-4 rounded-xl">
         <div className="flex flex-wrap gap-x-4 gap-y-2 items-center">
-          <div className="flex items-center gap-1">
+          {/* flex-wrap: son un label y siete botones (Todos, Macro, Earnings,
+              FDA, OpEx, Dividendo, Investor Day). Sin envolver medían 599px
+              en una pantalla de 390 y los últimos quedaban fuera, sin scroll
+              con el que alcanzarlos: no se podía filtrar por dividendos ni
+              por Investor Days. La regla del repo es que toda fila flex con
+              3+ hermanos lleva flex-wrap — la de fuera lo tenía, esta no. */}
+          <div className="flex flex-wrap items-center gap-1">
             <span className="filter-label mr-0.5">Tipo</span>
             <button onClick={() => setFilterCategory('ALL')} className={`filter-btn ${filterCategory === 'ALL' ? 'active' : ''}`}>Todos</button>
             {Object.entries(CATEGORY_CONFIG).map(([key, cfg]) => (
@@ -284,7 +290,7 @@ export default function CatalystCalendar() {
             ))}
           </div>
           <div className="w-px h-4 bg-border/40 self-center" />
-          <div className="flex items-center gap-1">
+          <div className="flex flex-wrap items-center gap-1">
             <span className="filter-label mr-0.5">Impacto</span>
             {['ALL', 'HIGH', 'MEDIUM', 'LOW'].map(v => (
               <button key={v} onClick={() => setFilterImpact(v)} className={`filter-btn ${filterImpact === v ? 'active' : ''}`}>{v === 'ALL' ? 'Todos' : v}</button>

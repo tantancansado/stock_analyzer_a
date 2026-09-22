@@ -76,7 +76,14 @@ function RegimeTable({ rows }: { rows: CalibrationRegime[] }) {
         <tbody>
           {rows.map(r => (
             <tr key={r.regime} className="border-b border-foreground/5 hover:bg-foreground/5 transition-colors">
-              <td className="py-2.5 font-medium text-foreground">{r.regime}</td>
+              {/* `nlRegimen`, igual que la tarjeta de «Régimen más favorable»
+                  ocho líneas más arriba: la misma página enseñaba «Alcista
+                  confirmada» en un sitio y «CONFIRMED_UPTREND» en el otro. Y
+                  el SNAKE_CASE en inglés era, además, la columna que empujaba
+                  la tabla fuera de una pantalla de 390px. */}
+              <td className="py-2.5 font-medium text-foreground">
+                {nlRegimen(r.regime) || r.regime}
+              </td>
               <td className="py-2.5 text-right text-muted-foreground">{r.count}</td>
               <td className="py-2.5 pl-4 min-w-[160px]">
                 <WinBar value={r.win_rate} />
@@ -133,9 +140,13 @@ function ScoreInsight({ buckets }: { buckets: CalibrationBucket[] }) {
   )
   return (
     <div className="mt-4 p-3 rounded-lg text-mini text-foreground/70" style={{ background: 'rgba(255,255,255,0.04)' }}>
+      {/* En JSX, no en una plantilla de texto: React escapa las cadenas, así
+          que el `<b>` se leía literal en pantalla —«Mejor bucket: <b>70-75</b>
+          (100% win rate)»— en vez de poner el rango en negrita. */}
       {hasMonotone
         ? 'El score es monotónico: a mayor score, mayor win rate.'
-        : `Mejor bucket: <b>${best.range}</b> (${best.win_rate}% win rate) · Peor: ${worst.range} (${worst.win_rate}%)`
+        : <>Mejor bucket: <b>{best.range}</b> ({best.win_rate}% win rate) · Peor:{' '}
+            {worst.range} ({worst.win_rate}%)</>
       }
       {' '}El sistema es más fiable con score {'>'}={buckets.find(b => b.win_rate >= 35)?.range?.split('-')[0] || 65}pts.
     </div>
@@ -186,7 +197,7 @@ export default function Calibration() {
       {/* Summary KPIs */}
       <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
         {bestScore && (
-          <Card className="glass border-foreground/10">
+          <Card className="glass border-foreground/10 min-w-0">
             <CardContent className="p-4">
               <div className="text-mini text-muted-foreground mb-1">Mejor rango de score</div>
               <div className="text-seccion font-semibold text-foreground">{bestScore.range} pts</div>
@@ -200,7 +211,7 @@ export default function Calibration() {
           </Card>
         )}
         {bestSector && (
-          <Card className="glass border-foreground/10">
+          <Card className="glass border-foreground/10 min-w-0">
             <CardContent className="p-4">
               <div className="text-mini text-muted-foreground mb-1">Sector más fiable</div>
               <div className="text-seccion font-semibold text-foreground truncate">{bestSector.sector}</div>
@@ -214,7 +225,7 @@ export default function Calibration() {
           </Card>
         )}
         {bestRegime && (
-          <Card className="glass border-foreground/10">
+          <Card className="glass border-foreground/10 min-w-0">
             <CardContent className="p-4">
               <div className="text-mini text-muted-foreground mb-1">Régimen más favorable</div>
               <div className="text-seccion font-semibold text-foreground">{nlRegimen(bestRegime.regime) || bestRegime.regime}</div>
@@ -240,7 +251,7 @@ export default function Calibration() {
 
       {/* Score Calibration */}
       {data.score_buckets?.length > 0 && (
-        <Card className="glass border-foreground/10">
+        <Card className="glass border-foreground/10 min-w-0">
           <CardContent className="p-5">
             <h2 className="text-cuerpo font-semibold text-foreground mb-4">Calibración por Score VALUE</h2>
             <ScoreBucketsTable buckets={data.score_buckets} />
@@ -250,9 +261,16 @@ export default function Calibration() {
       )}
 
       {/* Regime + Sector side by side */}
+      {/* `min-w-0` en las tarjetas: un grid item vale `min-width: auto`, así
+          que NO se encoge por debajo de su contenido. Las dos tablas medían
+          517px dentro de una pantalla de 390 y el Card se estiraba con ellas,
+          de modo que `.table-x-wrap` —que sí tiene overflow-x: auto en
+          móvil— nunca llegaba a ser más estrecho que su tabla y no había
+          scroll que hacer. La columna del win rate quedaba fuera y sin forma
+          de alcanzarla. */}
       <div className="grid md:grid-cols-2 gap-4">
         {data.regime_analysis?.length > 0 && (
-          <Card className="glass border-foreground/10">
+          <Card className="glass border-foreground/10 min-w-0">
             <CardContent className="p-5">
               <h2 className="text-cuerpo font-semibold text-foreground mb-4">Por Régimen de Mercado</h2>
               <RegimeTable rows={data.regime_analysis} />
@@ -260,7 +278,7 @@ export default function Calibration() {
           </Card>
         )}
         {data.fcf_yield_buckets?.length > 0 && (
-          <Card className="glass border-foreground/10">
+          <Card className="glass border-foreground/10 min-w-0">
             <CardContent className="p-5">
               <h2 className="text-cuerpo font-semibold text-foreground mb-4">Por FCF Yield</h2>
               <ScoreBucketsTable buckets={data.fcf_yield_buckets} />
@@ -271,7 +289,7 @@ export default function Calibration() {
 
       {/* Sector Calibration */}
       {data.sector_calibration?.length > 0 && (
-        <Card className="glass border-foreground/10">
+        <Card className="glass border-foreground/10 min-w-0">
           <CardContent className="p-5">
             <h2 className="text-cuerpo font-semibold text-foreground mb-4">Calibración por Sector</h2>
             <SectorTable rows={data.sector_calibration} />

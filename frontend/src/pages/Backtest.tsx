@@ -255,7 +255,10 @@ export default function Backtest() {
       </div>
 
       {/* Main tabs */}
-      <div className="flex gap-2 p-1 rounded-xl bg-muted/20 border border-border/30 w-fit">
+      {/* flex-wrap y max-w-full: las tres pestañas medían 392px en una
+          pantalla de 390 y la última se salía por 2px. `w-fit` deja que
+          la fila crezca con su contenido sin mirar el ancho de la caja. */}
+      <div className="flex flex-wrap gap-2 p-1 rounded-xl bg-muted/20 border border-border/30 w-fit max-w-full">
         <button onClick={() => setTab('value')}
           className={`flex items-center gap-2 px-4 py-2 rounded-lg text-cuerpo font-semibold transition-all ${tab === 'value' ? 'bg-background text-primary border border-primary/40 shadow-sm' : 'text-muted-foreground hover:text-foreground border border-transparent'}`}>
           <ChartColumn size={16} strokeWidth={2} />Value ({signals.length})

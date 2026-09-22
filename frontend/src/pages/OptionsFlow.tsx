@@ -121,8 +121,13 @@ function InterpretationBadge({ interp, reason, drawdown }: {
       <span className={`inline-flex items-center gap-1 text-micro font-bold px-1.5 py-0.5 rounded border cursor-help ${c.cls}`}>
         <c.icon size={12} strokeWidth={2.25} className="shrink-0" /> {c.label}{drawdownStr}
       </span>
+      {/* El tooltip va centrado sobre el badge y con el ancho atado al
+          viewport, en vez de `left-0 w-64` fijo. Anclado a la izquierda, un
+          badge de la mitad derecha empujaba sus 256px hasta 428 en una
+          pantalla de 390: el texto se cortaba y no había forma de leerlo,
+          porque además se activa con hover y en un móvil no hay hover. */}
       {reason && (
-        <div className="absolute bottom-full left-0 mb-1.5 z-50 w-64 p-2.5 rounded-lg bg-popover border border-border/60 shadow-xl text-micro text-muted-foreground leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5 z-50 w-64 max-w-[calc(100vw-2rem)] p-2.5 rounded-lg bg-popover border border-border/60 shadow-xl text-micro text-muted-foreground leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
           {reason}
         </div>
       )}
