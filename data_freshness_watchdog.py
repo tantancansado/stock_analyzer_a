@@ -320,7 +320,41 @@ def find_problems() -> tuple[list[dict], bool]:
     #    se enteró preguntando. Lo que sigue lo saca de ahí.
     problems.extend(_picks_de_calidad_fuera())
 
+    # 4. La app contradiciéndose consigo misma.
+    problems.extend(_contradicciones_publicadas())
+
     return problems, health_stale
+
+
+def _contradicciones_publicadas() -> list[dict]:
+    """Lo que encontró `coherence_check` y no leía nadie.
+
+    El check escribía su informe y devolvía 1, y ese 1 tumbaba el paso —y con
+    él el archivo del día, el informe de salud y el commit de los escáneres—.
+    O sea que la única consecuencia de encontrar una contradicción era
+    destruir el trabajo del día, y el hallazgo en sí no salía de los logs de
+    CI. Ahora el paso no tumba nada y el aviso llega por aquí.
+    """
+    ruta = DOCS / 'coherence_check.json'
+    try:
+        datos = json.loads(ruta.read_text())
+    except Exception:
+        return []
+    total = datos.get('total_problemas') or 0
+    if not total:
+        return []
+    detalle = datos.get('detalle') or {}
+    ejemplos = []
+    for nombre, casos in list(detalle.items())[:3]:
+        if casos:
+            ejemplos.append(f'{nombre}: {str(casos[0])[:90]}')
+    return [{
+        "module": "coherencia",
+        "status": "incoherente",
+        "critical": True,
+        "detail": (f'{total} contradicción(es) entre lo que publica la app y sus '
+                   f'propios datos — ' + ' · '.join(ejemplos)),
+    }]
 
 
 # Un value_score de 60 es raro (8 de 252 el 17-sep-2026): perder uno es noticia.

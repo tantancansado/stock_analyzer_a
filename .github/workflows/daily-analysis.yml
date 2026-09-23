@@ -113,6 +113,11 @@ jobs:
       # ── Heartbeat: escribe pipeline_status.json via GitHub API al inicio ──
       # Esto garantiza que el banner muestre "corrió hoy" aunque el push final falle
       - name: Pipeline Heartbeat (API push)
+        # Un latido que mata al paciente. Este paso solo AVISA de que el
+        # pipeline ha arrancado; si su `base64` o su `gh api` fallan, no hay
+        # ninguna razón para que se lleve por delante los treinta pasos que
+        # vienen detrás.
+        continue-on-error: true
         if: always()
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -176,7 +181,11 @@ jobs:
 
       - name: Sync VCP outputs from parallel job
         run: |
-          git fetch origin main
+          # El `git checkout` ya estaba protegido con `||`, el `fetch` no: un
+          # corte de red al traer los patrones VCP —que son técnicos y no
+          # entran en el score de VALUE— tumbaba core-scoring entero con
+          # veintitrés pasos por detrás.
+          git fetch origin main || echo "VCP fetch failed (non-critical)"
           git checkout origin/main -- docs/reports/vcp/ 2>/dev/null && echo "VCP outputs synced" || echo "VCP sync skipped (not yet available)"
 
       # ANTHROPIC_API_KEY: save_results() verifica la coherencia de las fichas
@@ -708,6 +717,13 @@ jobs:
       # (desfase conocido entre artefactos de distinta cadencia) y deja de
       # contarlas como contradicción.
       - name: Coherence Check — ¿se contradice la app consigo misma?
+        # Informa; no destruye. Devolvía 1 al encontrar una contradicción, y
+        # ese 1 tumbaba el job antes del archivo del día, del informe de salud
+        # y del commit de los escáneres: la única consecuencia de detectar una
+        # incoherencia era tirar el trabajo del día, y el hallazgo se quedaba
+        # en los logs de CI porque `coherence_check.json` no lo leía nadie.
+        # Ahora lo lee el watchdog y sale por Telegram.
+        continue-on-error: true
         run: python3 coherence_check.py
 
       - name: Daily Briefing (el único mensaje del día)
