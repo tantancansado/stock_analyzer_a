@@ -71,9 +71,16 @@ def _texto(v) -> str:
     """
     if v is None:
         return ''
-    if isinstance(v, float) and v != v:      # NaN
-        return ''
-    return str(v).strip()
+    try:
+        if v != v:                  # NaN: el único valor distinto de sí mismo
+            return ''
+    except (TypeError, ValueError):
+        pass                        # pd.NA lanza al evaluarse como bool
+    texto = str(v).strip()
+    # pd.NA, pd.NaT y los NaN que ya vienen convertidos a texto. Este módulo
+    # es deliberadamente «sin red y sin dependencias», así que se reconocen
+    # por su representación en vez de importar pandas para preguntarlo.
+    return '' if texto.lower() in ('nan', 'none', '<na>', 'nat', 'null') else texto
 
 
 # (campo, mínimo, máximo, severidad, por qué)
