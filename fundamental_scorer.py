@@ -360,6 +360,16 @@ def dcf_aplicable(info: Dict) -> tuple[bool, Optional[str]]:
     return True, None
 
 
+def _paso_interanual(periodo: str) -> int:
+    """Cuántas filas hay que retroceder para comparar con el año anterior.
+
+    Con trimestres, cuatro. Con años, una. Todo el scorer indexaba por
+    posición dando por hecho lo primero, y con estados anuales `iloc[4]`
+    compara contra hace CUATRO años.
+    """
+    return 1 if periodo == 'anual' else 4
+
+
 class FundamentalScorer:
     """Sistema de scoring fundamental completo"""
 
@@ -506,6 +516,13 @@ class FundamentalScorer:
                 'company_name': _company_name(info, ticker),
                 'fundamental_score': None if fundamental_score is None else round(fundamental_score, 1),
                 'sin_score_motivo': result_motivo,
+                # Sobre qué estados se ha medido el crecimiento. En Europa se
+                # reporta semestral y para 36 de las 58 del universo curado
+                # solo hay anuales: el interanual sale igual de bien, pero
+                # quien lea «eps_growth_yoy» tiene derecho a saber si compara
+                # trimestre contra trimestre o año contra año.
+                'base_periodos': quarterly_earnings.attrs.get('periodo', 'trimestral')
+                                 if hasattr(quarterly_earnings, 'attrs') else 'trimestral',
                 'tier': tier,
                 'quality': quality,
 
@@ -604,14 +621,38 @@ class FundamentalScorer:
             return self._get_empty_result(ticker)
 
     def _get_quarterly_earnings(self, stock) -> pd.DataFrame:
-        """Obtiene earnings trimestrales (Net Income por quarter).
+        """Beneficio por periodo. Trimestral si lo hay; si no, anual.
 
         Usa quarterly_income_stmt (API actual) para construir un DataFrame
         con columna 'Earnings' compatible con el resto del código.
         quarterly_earnings está deprecated en yfinance reciente y devuelve None.
+
+        EN EUROPA SE REPORTA SEMESTRAL, no trimestral, así que yfinance no
+        tiene `quarterly_income_stmt` para la mayoría. Medido el 23-sep-2026:
+        36 de las 58 del universo curado europeo —L'Oréal, Air Liquide,
+        Hermès, Nestlé, Unilever, Diageo, ASML…— no lo tienen.
+
+        Sin este respaldo, el guardia de «más de la mitad del score sería
+        relleno» (19-sep-2026) las dejaba a TODAS sin score. No se notó
+        porque el scanner europeo reutilizaba el CSV del 18 mirando el mtime,
+        que en CI siempre parece de hoy: un bug tapaba al otro.
+
+        El periodo viaja en `.attrs['periodo']` para que quien mida un
+        interanual sepa cuántas filas tiene que retroceder — 4 con trimestres,
+        1 con años.
         """
         try:
             qi = stock.quarterly_income_stmt
+            periodo = 'trimestral'
+            # Cinco columnas, no una: para un interanual hace falta el mismo
+            # trimestre del año pasado, que está cuatro atrás. Air Liquide
+            # devuelve UN trimestre suelto —ni vacío ni utilizable—, y con
+            # `.empty` como única comprobación se quedaba en el camino
+            # trimestral y salía sin score igual que si no hubiera nada.
+            if qi is None or qi.empty or getattr(qi, 'shape', (0, 0))[1] < 5:
+                anual = stock.income_stmt
+                if anual is not None and not anual.empty:
+                    qi, periodo = anual, 'anual'
             if qi is None or qi.empty:
                 return pd.DataFrame()
 
@@ -645,6 +686,7 @@ class FundamentalScorer:
             if self.as_of_date and isinstance(earnings.index, pd.DatetimeIndex):
                 earnings = earnings[earnings.index <= self.as_of_date_dt]
 
+            earnings.attrs['periodo'] = periodo
             return earnings
         except:
             pass
@@ -659,6 +701,20 @@ class FundamentalScorer:
         try:
             quarterly_financials = stock.quarterly_financials
             quarterly_balance_sheet = stock.quarterly_balance_sheet
+            # Ver la nota de `_get_quarterly_earnings`: en Europa se reporta
+            # semestral y yfinance no trae trimestrales para 36 de las 58 del
+            # universo curado. Con los anuales el interanual se mide igual de
+            # bien —mejor, de hecho: no hay estacionalidad que corregir—, solo
+            # hay que retroceder 1 fila en vez de 4.
+            periodo = 'trimestral'
+            if (quarterly_financials is None
+                    or getattr(quarterly_financials, 'empty', True)
+                    or getattr(quarterly_financials, 'shape', (0, 0))[1] < 5):
+                anual = stock.financials
+                if anual is not None and not getattr(anual, 'empty', True):
+                    quarterly_financials, periodo = anual, 'anual'
+            if quarterly_balance_sheet is None or getattr(quarterly_balance_sheet, 'empty', True):
+                quarterly_balance_sheet = stock.balance_sheet
 
             # 🔴 FIX LOOK-AHEAD BIAS: Filter financials by date
             if self.as_of_date:
@@ -675,11 +731,13 @@ class FundamentalScorer:
             return {
                 'quarterly_financials': quarterly_financials,
                 'quarterly_balance_sheet': quarterly_balance_sheet,
+                'periodo': periodo,
             }
         except:
             return {
                 'quarterly_financials': pd.DataFrame(),
                 'quarterly_balance_sheet': pd.DataFrame(),
+                'periodo': 'trimestral',
             }
 
     def _get_price_history(self, stock) -> pd.DataFrame:
@@ -738,14 +796,18 @@ class FundamentalScorer:
                 # invertido sin avisar. Ordenar aqui lo hace independiente.
                 earnings = quarterly_earnings['Earnings'].dropna().sort_index(ascending=False)
 
-                # >= 5, no >= 4: el mismo trimestre del ano anterior esta 4
-                # posiciones atras, asi que hacen falta 5 trimestres.
-                if len(earnings) >= 5:
+                # El mismo periodo del año anterior está `paso` filas atrás:
+                # cuatro con trimestres, una con años (Europa reporta
+                # semestral y yfinance solo da anuales para 36 de las 58 del
+                # universo curado europeo).
+                paso = _paso_interanual(quarterly_earnings.attrs.get('periodo', 'trimestral'))
+                if len(earnings) >= paso + 1:
                     # 1. EPS Growth YoY
                     latest_eps = earnings.iloc[0]
-                    # iloc[4], no iloc[3]. Ver la nota del bug en el bloque de
-                    # ingresos: iloc[3] compara contra hace TRES trimestres.
-                    prev_eps = earnings.iloc[4]
+                    # iloc[paso], no iloc[paso-1]. Ver la nota del bug en el
+                    # bloque de ingresos: iloc[3] comparaba contra hace TRES
+                    # trimestres.
+                    prev_eps = earnings.iloc[paso]
 
                     if prev_eps > 0:
                         eps_growth = ((latest_eps - prev_eps) / prev_eps) * 100
@@ -771,8 +833,8 @@ class FundamentalScorer:
                         crecimiento_puntuable = eps_growth
                         if 'Operating' in quarterly_earnings.columns:
                             op = quarterly_earnings['Operating'].dropna().sort_index(ascending=False)
-                            if len(op) >= 5 and op.iloc[4] > 0:
-                                op_growth = (op.iloc[0] - op.iloc[4]) / op.iloc[4] * 100
+                            if len(op) >= paso + 1 and op.iloc[paso] > 0:
+                                op_growth = (op.iloc[0] - op.iloc[paso]) / op.iloc[paso] * 100
                                 details['op_growth_yoy'] = round(op_growth, 1)
                                 # Holgura de 25 puntos: el BPA puede crecer algo
                                 # más que el operativo sin que sea contable —las
@@ -946,9 +1008,14 @@ class FundamentalScorer:
                     # No es cosmetico: alimenta growth_acceleration_score (que
                     # suma +30 si el crecimiento pasa de 30%), y de ahi al
                     # fundamental_score y al value_score.
-                    if len(revenue) >= 5:
+                    # `paso` en vez de 4 fijo: con estados anuales —los
+                    # únicos que hay para 36 de las 58 europeas, que reportan
+                    # semestral— el mismo periodo del año anterior está UNA
+                    # fila atrás, no cuatro.
+                    paso = _paso_interanual(financials.get('periodo', 'trimestral'))
+                    if len(revenue) >= paso + 1:
                         latest_rev = revenue.iloc[0]
-                        prev_rev = revenue.iloc[4]
+                        prev_rev = revenue.iloc[paso]
 
                         if prev_rev > 0:
                             rev_growth = ((latest_rev - prev_rev) / prev_rev) * 100

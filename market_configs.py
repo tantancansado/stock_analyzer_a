@@ -196,7 +196,7 @@ SMI20_SYMBOLS = [
     # Switzerland SMI 20 - Top 20 Swiss companies (SIX)
     "NESN.SW",      # Nestle
     "NOVN.SW",      # Novartis
-    "ROG.SW",       # Roche
+    "ROP.SW",       # Roche (era ROG.SW: Yahoo dejó de resolverlo, 404 limpio)
     "UBSG.SW",      # UBS Group
     "BAER.SW",      # Julius Baer Group AG
     "ZURN.SW",      # Zurich Insurance

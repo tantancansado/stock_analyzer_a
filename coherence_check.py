@@ -395,6 +395,57 @@ def identidades_rotas(nombres: tuple[str, ...]) -> list[str]:
     return fuera
 
 
+def universo_curado_que_no_llega(minimo_pct: float = 0.80) -> list[str]:
+    """Empresas del universo curado que NO aparecen en lo publicado.
+
+    Es el punto ciego de todas las demás comprobaciones: cruzan entre sí lo
+    que SÍ se publicó. Un ticker que deja de resolverse no publica nada, así
+    que no contradice a nadie y desaparece en silencio.
+
+    Ha pasado dos veces. MMC -> MRSH en la lista estadounidense, quince
+    corridas seguidas antes de verlo. Y ROG.SW, Roche: Yahoo dejó de
+    resolverlo —404 limpio, «Quote not found»— y el bono de participación
+    figura ahora como ROP.SW. Salió a la luz el 23-sep-2026 al arreglar OTRA
+    cosa, no porque nada avisara.
+
+    No se comprueba ticker a ticker: un rate-limit suelto deja fuera a
+    cualquiera un día. Se comprueba la COBERTURA del universo, y se nombran
+    los que faltan para poder mirarlos.
+    """
+    import pandas as pd
+
+    casos = []
+    try:
+        from curated_tickers_eu import SCORED_EU_TICKERS
+        universos = [('EU', SCORED_EU_TICKERS, 'european_fundamental_scores.csv')]
+    except ImportError:
+        universos = []
+    try:
+        import curated_tickers as ct
+        us = getattr(ct, 'ALL_TICKERS', None) or getattr(ct, 'SCORED_TICKERS', None)
+        if us:
+            universos.append(('US', us, 'fundamental_scores.csv'))
+    except ImportError:
+        pass
+
+    for etiqueta, universo, fichero in universos:
+        ruta = DOCS / fichero
+        if not ruta.exists():
+            continue
+        try:
+            publicados = set(pd.read_csv(ruta)['ticker'].astype(str).str.upper())
+        except Exception:
+            continue
+        faltan = sorted({str(t).upper() for t in universo} - publicados)
+        cobertura = 1 - len(faltan) / max(len(universo), 1)
+        if cobertura < minimo_pct:
+            casos.append(
+                f'{etiqueta}: solo {cobertura:.0%} del universo curado llega a '
+                f'{fichero} ({len(faltan)} sin publicar). Faltan: {", ".join(faltan[:15])}'
+                + (' …' if len(faltan) > 15 else ''))
+    return casos
+
+
 def identidad_de_los_tickers() -> list[str]:
     """¿Cada ticker trae los datos de la empresa que dice?
 
@@ -556,6 +607,7 @@ def run() -> int:
         ('postmortem contra el win rate del tracker', postmortem_vs_tracker_summary(postmortem, tracker_summary)),
         ('precio LEAPS contra precio VALUE',           leaps_precio_vs_value(value, value_eu, leaps)),
         ('identidad de los tickers (¿es esta empresa?)', identidad_de_los_tickers()),
+        ('el universo curado llega a publicarse',      universo_curado_que_no_llega()),
         ('identidades aritméticas de lo publicado',   identidades_rotas((
             'value_opportunities.csv', 'value_opportunities_filtered.csv',
             'european_value_opportunities.csv', 'european_value_opportunities_filtered.csv',

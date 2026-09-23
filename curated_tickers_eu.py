@@ -211,8 +211,20 @@ TIER_4_EU = [
                  # semis largo (downcycles -60%) + dependencia cliente TSMC/Samsung concentrada
     'NESN.SW',   # Nestlé — 2000+ marcas, distribución global, pero: restructuring en curso,
                  # crecimiento orgánico <3%, pérdida de cuota a marcas privadas, moat erosionándose
-    'ROG.SW',    # Roche — diagnóstico #1 global + farmacéutica oncología, pero: presión
-                 # biosimilares en Avastin/Herceptin/MabThera, pipeline dependiente de aprobaciones
+    'ROP.SW',    # Roche — diagnóstico #1 global + farmacéutica oncología, pero: presión
+                 # biosimilares en Avastin/Herceptin/MabThera, pipeline dependiente de aprobaciones.
+                 #
+                 # Era 'ROG.SW' y Yahoo dejó de resolverlo: devuelve un 404
+                 # limpio («Quote not found»), no un rate limit. El bono de
+                 # participación —que es el título líquido y el que usan los
+                 # índices— figura ahora como ROP.SW; la acción nominativa es
+                 # RO.SW. Verificado el 23-sep-2026: ROP.SW da 364,70 CHF,
+                 # 290.660 M de capitalización y cinco años de estados.
+                 #
+                 # Llevaba cayéndose del universo sin que nada avisara, igual
+                 # que MMC -> MRSH en la lista estadounidense: el ticker que
+                 # NUNCA llega a publicarse no aparece en ninguna comprobación
+                 # de lo publicado.
     'DGE.L',     # Diageo — spirits premium global #1 (Johnnie Walker, Guinness, Tanqueray),
                  # pero: destocking sistémico 2023-2025, retos volúmenes mercados emergentes
     'ULVR.L',    # Unilever — consumer goods global, pero: reformando portfolio (venta Elida
