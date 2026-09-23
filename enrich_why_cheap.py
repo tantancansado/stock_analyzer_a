@@ -36,6 +36,20 @@ TARGET_CSVS: list[Path] = [
     DOCS / 'european_value_opportunities.csv',
 ]
 
+# Los que sirve la app. No se compran análisis mirándolos —para eso están los
+# de arriba, que son el universo completo— pero SÍ se les reaplica lo ya
+# pagado, porque un paso posterior puede haberlos reescrito sin las columnas.
+#
+# Es lo que pasaba con Europa: `enrich_why_cheap` corre en el paso 11 del job
+# y `european_value_scanner.py` reescribe entero
+# `european_value_opportunities.csv` en el paso 14. Los veredictos europeos se
+# compraban —la llamada más cara de la app, Claude con búsqueda web— y tres
+# pasos después se borraban. El CSV europeo publicado no tiene ni la columna.
+CSVS_SOLO_REAPLICAR: list[Path] = [
+    DOCS / 'value_opportunities_filtered.csv',
+    DOCS / 'european_value_opportunities_filtered.csv',
+]
+
 # El presupuesto es un tope REAL, no orientativo: antes se comprobaba sólo
 # "¿me he pasado ya?" antes de arrancar cada ticker, así que siempre se podía
 # desbordar por el coste entero del último. El 7-ago-2026 gastó 527s con
@@ -169,6 +183,22 @@ def _guardar_frames(frames: dict) -> None:
         df.to_csv(csv_path, index=False)
 
 
+def solo_reaplicar() -> None:
+    """Vuelca la caché a todos los CSV y no compra nada.
+
+    Pensado para correr DESPUÉS del paso que reescribe un universo. Es gratis
+    —no hay ni una llamada a la API— así que puede ir tantas veces como haga
+    falta en el pipeline.
+    """
+    rutas = [c for c in (*TARGET_CSVS, *CSVS_SOLO_REAPLICAR) if c.exists()]
+    if not rutas:
+        print('[why_cheap] ningún CSV que reaplicar')
+        return
+    frames = {str(c): pd.read_csv(c) for c in rutas}
+    _reaplicar_lo_ya_pagado(frames, _leer_cache())
+    _guardar_frames(frames)
+
+
 def main() -> None:
     frames = {str(csv): pd.read_csv(csv) for csv in TARGET_CSVS if csv.exists()}
     if not frames:
@@ -264,4 +294,8 @@ def main() -> None:
 
 
 if __name__ == '__main__':
-    main()
+    import sys
+    if '--solo-cache' in sys.argv:
+        solo_reaplicar()
+    else:
+        main()

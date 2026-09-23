@@ -242,6 +242,19 @@ jobs:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: python3 ai_quality_filter.py --european
 
+      # El escáner europeo reescribe `european_value_opportunities.csv` ENTERO
+      # tres pasos después de que «Why Cheap» haya pagado sus veredictos, así
+      # que el motivo de la caída de cada empresa europea se compraba —Claude
+      # con búsqueda web, la llamada más cara de la app— y se borraba en el
+      # mismo job. El CSV europeo publicado no tenía ni la columna.
+      #
+      # Esto NO compra nada: solo vuelca la caché a los cuatro CSV, incluidos
+      # los FILTRADOS, que son los que sirve la página. Es gratis, así que
+      # puede ir después de cualquiera que reescriba un universo.
+      - name: Why Cheap — reaplicar lo ya pagado (sin gasto)
+        continue-on-error: true
+        run: python3 enrich_why_cheap.py --solo-cache
+
       # ENRIQUECE, no genera: si falla, los picks siguen existiendo sin su
       # precio de entrada. Era [CRITICAL] y sin red, y el 17-sep-2026 murió
       # con un TypeError al imprimir su top 10 —cosmético— llevándose por

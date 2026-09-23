@@ -19,6 +19,7 @@ import os
 import sys
 
 import pandas as pd
+import pytest
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
@@ -119,3 +120,83 @@ class TestUnaCaidaGrandeSeExplicaAunqueElScoreSeaBajo:
         src = (Path(__file__).resolve().parents[1] / 'enrich_why_cheap.py').read_text()
         assert 'es_candidato' in src, (
             'enrich_why_cheap tiene que reutilizar el criterio, no copiarlo')
+
+
+class TestLoQueSeCompraLlegaALaPagina:
+    """El veredicto se pagaba y otro paso lo borraba tres pasos después.
+
+    `enrich_why_cheap` corre en el paso 11 de core-scoring y
+    `european_value_scanner.py` reescribe ENTERO
+    `european_value_opportunities.csv` en el paso 14. Resultado medido el
+    23-sep-2026: el CSV europeo publicado no tenía ni la columna `why_cheap`,
+    mientras la caché guardaba veredictos europeos ya comprados —Claude con
+    búsqueda web, la llamada más cara de la app— y volvía a comprarlos al
+    caducar cada 14 días.
+    """
+
+    @staticmethod
+    def _csvs_publicados():
+        import csv
+        raiz = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        for nombre in ('value_opportunities.csv', 'value_opportunities_filtered.csv',
+                       'european_value_opportunities.csv',
+                       'european_value_opportunities_filtered.csv'):
+            ruta = os.path.join(raiz, 'docs', nombre)
+            if os.path.exists(ruta):
+                with open(ruta) as fh:
+                    yield nombre, list(csv.DictReader(fh))
+
+    def test_si_hay_veredicto_comprado_esta_en_el_csv(self):
+        """Contra la caché publicada y los CSV publicados."""
+        import json
+        raiz = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        ruta_cache = os.path.join(raiz, 'docs', 'why_cheap_cache.json')
+        if not os.path.exists(ruta_cache):
+            pytest.skip('sin caché publicada')
+        with open(ruta_cache) as fh:
+            cache = json.load(fh)
+        util = {t: e for t, e in cache.items()
+                if (e.get('veredicto') or '').strip() not in ('', 'SIN_DATOS')}
+
+        perdidos = []
+        for nombre, filas in self._csvs_publicados():
+            if not filas:
+                continue
+            if 'why_cheap' not in filas[0]:
+                # Sin la columna, cualquier ticker con veredicto está perdido.
+                con_veredicto = [r['ticker'] for r in filas if r.get('ticker', '').upper() in util]
+                if con_veredicto:
+                    perdidos.append(f'{nombre}: sin columna why_cheap y {len(con_veredicto)} '
+                                    f'tickers con veredicto comprado')
+                continue
+            for r in filas:
+                t = (r.get('ticker') or '').upper()
+                if t in util and not (r.get('why_cheap') or '').strip():
+                    perdidos.append(f'{nombre}:{t}')
+        assert not perdidos, (
+            'Veredictos comprados que no llegan al CSV que sirve la app '
+            f'(alguien reescribe el fichero después de enriquecerlo): {perdidos[:12]}'
+        )
+
+    def test_el_workflow_reaplica_despues_de_quien_reescribe(self):
+        """El paso gratuito tiene que ir DESPUÉS del escáner europeo."""
+        yaml = pytest.importorskip('yaml')
+        raiz = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        with open(os.path.join(raiz, '.github/workflows/daily-analysis.yml')) as fh:
+            wf = yaml.safe_load(fh)
+        pasos = wf['jobs']['core-scoring']['steps']
+        def indice(fragmento):
+            for i, s in enumerate(pasos):
+                if fragmento in str(s.get('run', '')):
+                    return i
+            return None
+        escaner = indice('european_value_scanner.py')
+        reaplica = None
+        for i, s in enumerate(pasos):
+            if '--solo-cache' in str(s.get('run', '')):
+                reaplica = i
+        assert reaplica is not None, 'falta el paso que reaplica la caché sin gastar'
+        assert escaner is None or reaplica > escaner, (
+            'el escáner europeo reescribe el CSV después de reaplicar: los '
+            'veredictos europeos se vuelven a perder'
+        )
