@@ -83,6 +83,34 @@ class TestCeroNoEsLoMismoQueNoHaberCorrido:
         ruta = self._json(tmp_path, {"generated_at": ahora, "total_opportunities": 5})
         assert w._corrio_y_no_encontro(ruta) is False
 
+    def test_el_contador_no_siempre_se_llama_total_algo(self, tmp_path):
+        """`bounce_setups_broad.json` lo llama `count`.
+
+        Solo se reconocía el prefijo `total_`, así que el escáner de rebotes
+        anchos —que encuentra ≈1 setup a la semana, o sea que el cero es su
+        estado normal— salía como «un paso no llegó a correr» casi todos los
+        días. Un vigía que grita sin motivo enseña a ignorarlo.
+        """
+        ahora = datetime.now(timezone.utc).isoformat()
+        ruta = self._json(tmp_path, {"generated_at": ahora, "count": 0,
+                                     "universe_size": 403, "setups": []})
+        assert w._corrio_y_no_encontro(ruta) is True
+
+    def test_los_dos_escaneres_reales_declaran_su_cero(self, tmp_path):
+        """Contra los ficheros publicados, no contra un dict inventado."""
+        import os
+        raiz = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        for nombre in ('mean_reversion_opportunities.json', 'bounce_setups_broad.json'):
+            ruta = os.path.join(raiz, 'docs', nombre)
+            if not os.path.exists(ruta):
+                continue
+            with open(ruta) as fh:
+                d = json.load(fh)
+            tiene_contador = any(w._es_contador(k) for k in d)
+            assert tiene_contador, (
+                f"{nombre} no declara cuántos ha encontrado; sin eso el watchdog "
+                "no puede distinguir «hoy no hay nada» de «no he llegado a mirar»")
+
 
 class TestElHealthLlevaElPath:
     """La revalidación necesita saber qué fichero mirar, y eso lo pone el

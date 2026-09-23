@@ -109,6 +109,26 @@ def detect_european_market_regime() -> dict:
         return {'regime': 'UNKNOWN', 'recommendation': 'CAUTION'}
 
 
+def _antiguedad_horas(path):
+    """Horas desde que se generó el CSV, según su columna `analyzed_at`.
+
+    Devuelve None si no se puede saber — y entonces se recalcula, que es lo
+    seguro. NO se usa el mtime: en CI el checkout lo pone a la hora del run y
+    cualquier fichero parece recién hecho.
+    """
+    import csv as _csv
+    from datetime import datetime as _dt
+    try:
+        with open(path, newline='') as fh:
+            fechas = [r.get('analyzed_at') for r in _csv.DictReader(fh) if r.get('analyzed_at')]
+        if not fechas:
+            return None
+        mas_nueva = max(fechas)
+        return (_dt.now() - _dt.fromisoformat(str(mas_nueva).replace('Z', ''))).total_seconds() / 3600
+    except Exception:
+        return None
+
+
 def score_european_tickers(max_tickers: int = None, use_curated: bool = False) -> pd.DataFrame:
     """
     Escanea y puntua tickers europeos usando fundamental_scorer
@@ -457,15 +477,24 @@ def run_european_scanner(max_tickers: int = None, skip_scoring: bool = False,
     # el universo completo (~100 tickers) en lugar de perpetuar el truncado.
     auto_skip = False
     if scores_path.exists() and not skip_scoring:
-        import os
-        file_age_hours = (time.time() - os.path.getmtime(scores_path)) / 3600
+        # La antigüedad se mide por el CONTENIDO (`analyzed_at`), no por el
+        # mtime del fichero.
+        #
+        # En CI el checkout reescribe todos los ficheros, así que el mtime es
+        # siempre de hace minutos y esta comprobación daba «CSV reciente
+        # (0,6h)» todos los días. Resultado: el scanner no recalculaba NUNCA
+        # y los fundamentales europeos se quedaron congelados el 18-sep-2026
+        # — cinco días de scores viejos mientras el paso salía en verde.
+        file_age_hours = _antiguedad_horas(scores_path)
         try:
             rows = sum(1 for _ in open(scores_path)) - 1  # excluir header
         except Exception:
             rows = 0
-        if file_age_hours < 24 and rows >= 50:
+        if file_age_hours is not None and file_age_hours < 24 and rows >= 50:
             auto_skip = True
             print(f"\nCSV reciente ({file_age_hours:.1f}h, {rows} filas) — reutilizando scores existentes")
+        elif file_age_hours is None:
+            print("\nCSV sin fecha por dentro — se recalcula (no se fía del mtime)")
         elif file_age_hours < 24 and rows < 50:
             print(f"\n⚠️  CSV reciente ({file_age_hours:.1f}h) pero TRUNCADO ({rows} filas). Forzando re-scoring completo.")
 

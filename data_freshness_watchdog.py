@@ -123,6 +123,15 @@ def _ya_esta_poblada(path: str | None, columnas) -> bool:
 
 
 
+def _es_contador(clave: str) -> bool:
+    """¿Esta clave es el «cuántos he encontrado» del escáner?
+
+    Al añadir un escáner nuevo, que su JSON traiga uno de estos nombres: es lo
+    que distingue «hoy no hay nada» de «no he llegado a mirar».
+    """
+    return clave == 'count' or clave.startswith('total_') or clave.startswith('num_')
+
+
 def _corrio_y_no_encontro(path: str | None) -> bool:
     """¿El escáner corrió hoy y devolvió cero, o es que no llegó a correr?
 
@@ -149,7 +158,13 @@ def _corrio_y_no_encontro(path: str | None) -> bool:
     if (_now() - fecha).total_seconds() > 36 * 3600:
         return False
     # Un contador a 0 es explícito; la ausencia de contador, no.
-    return any(k.startswith('total_') and v == 0 for k, v in d.items())
+    #
+    # Cada escáner llama al suyo como quiere: `total_opportunities` en mean
+    # reversion, `count` en los rebotes anchos. Solo se miraba el primer
+    # patrón, así que `bounce_setups_broad.json` —que pasa semanas enteras
+    # con cero setups porque ESO ES LO NORMAL (≈1 a la semana)— salía como
+    # «un paso no llegó a correr» un día sí y otro también.
+    return any(_es_contador(k) and v == 0 for k, v in d.items())
 
 
 def _now() -> datetime:
