@@ -31,6 +31,7 @@ Reglas del proyecto respetadas:
   - sin fallbacks silenciosos: dato que falla → se omite, no se inventa
 """
 import json
+import re
 import math
 import time
 import random
@@ -978,6 +979,54 @@ def analyze_ticker_leaps(ticker: str, sig: dict, rate: float) -> Optional[dict]:
 # NARRATIVA AI
 # ═════════════════════════════════════════════════════════════════════════════
 
+# Formas de decir «vende cuando hayas ganado X», que es justo lo que el
+# usuario no hace. Su criterio es el precio objetivo por valoración, modulado
+# por la calidad del negocio — nunca un porcentaje ni un nivel del gráfico.
+_SALIDA_PROHIBIDA = re.compile(
+    r'(duplic\w*|triplic\w*|doble de (?:su|la)\s+\w+|x\s?2\b'
+    r'|sube\s*\+?\s?\d{1,3}\s?%|\+\s?\d{1,3}\s?%'
+    r'|zona de m[áa]ximos|recupera\w*\s+(?:la\s+)?zona|resistencia|soporte'
+    r'|media m[óo]vil|ruptura)', re.I)
+
+
+def _salida_por_valoracion(texto: str) -> str:
+    """Quita del plan de salida la parte que vende por ganancia o por gráfico.
+
+    Los modelos lo añaden solos: el 22-sep-2026, NUEVE de los once LEAPS
+    publicados remataban el take-profit con «o la opción duplica su valor»,
+    y UNH además con «(recupera zona de máximos)». El usuario lo desmintió el
+    11-ago-2026 y está en CLAUDE.md, pero el prompt pedía «precio/ganancia
+    concreta» y el modelo entregaba las dos.
+
+    La frase casi siempre tiene la forma «objetivo de valoración O ganancia»,
+    así que se corta por la conjunción y se conserva la mitad buena. Si al
+    cortar no queda un objetivo, se dice que no lo hay en vez de inventarlo.
+    """
+    if not texto:
+        return texto
+    # Se parte por las conjunciones conservándolas: casi siempre la frase es
+    # «objetivo de valoración O/Y ganancia», y hay que quedarse con la mitad
+    # buena sin cambiar cómo estaba escrita la otra.
+    partes = re.split(r'(\s*[,;]?\s+\b(?:o|y)\b\s+)', texto)
+    trozos, sep = [], ''
+    for i, parte in enumerate(partes):
+        if i % 2:                       # separador
+            sep = parte
+            continue
+        if parte and not _SALIDA_PROHIBIDA.search(parte):
+            trozos.append((sep if trozos else '', parte))
+        sep = ''
+    if not trozos:
+        return ('Sin objetivo de valoración utilizable: el plan propuesto salía por '
+                'ganancia o por nivel técnico, que no es el criterio de esta cartera.')
+    salida = ''.join(s_ + t for s_, t in trozos).strip()
+    # Restos de puntuación al cortar («… $450-460 (target).» -> «… $450-460 (target)»)
+    salida = re.sub(r'[\s,;]+$', '', salida)
+    if not salida.endswith('.'):
+        salida += '.'
+    return salida
+
+
 def _valoracion_para_prompt(opp: dict) -> str:
     """Los objetivos de la casa, en texto, para que el plan de salida los cite.
 
@@ -1095,6 +1144,8 @@ IMPORTANTE: sé CONCISO. Cada campo, máximo 2 frases cortas. No te extiendas.
             opp['data_warning'] = dc
         exit_plan = {k: str(data[k]).strip() for k in ('take_profit', 'roll', 'thesis_break')
                      if data.get(k)}
+        if exit_plan.get('take_profit'):
+            exit_plan['take_profit'] = _salida_por_valoracion(exit_plan['take_profit'])
         if exit_plan:
             opp['exit_plan'] = exit_plan
         return verdict in ('OPORTUNIDAD', 'RAZONABLE') and dc.upper().startswith('OK')

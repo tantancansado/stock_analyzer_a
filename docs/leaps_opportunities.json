@@ -217,7 +217,7 @@
         "reason": "La caída mezcla ciclo (aumento de costos médicos/utilización) con señales de deterioro real (guidance cuts repetidos, investigación DOJ, cambio de CEO) que erosionan la confianza en el modelo. Calidad fundamental de 64.2/100 es mediocre, no la 'empresa excelente' típica de esta tesis."
       },
       "exit_plan": {
-        "take_profit": "Tomar beneficios parciales si la acción se acerca a $450-460 (recupera zona de máximos) o la opción duplica su valor.",
+        "take_profit": "Sin objetivo de valoración utilizable: el plan propuesto salía por ganancia o por nivel técnico, que no es el criterio de esta cartera.",
         "roll": "Rolar a vencimiento 2029 si a mediados de 2027 la tesis sigue viva pero el valor temporal se acelera y delta empieza a caer por debajo de 0.70.",
         "thesis_break": "Un nuevo recorte de guidance por costos médicos estructuralmente más altos, o desenlace adverso de la investigación DOJ, rompería la tesis y obligaría a cerrar."
       }
@@ -431,7 +431,7 @@
         "reason": "La caída del 11% desde máximos parece más ciclo/sentimiento que deterioro: calidad 73/100 y forward P/E 24.6x son razonables para AMZN, no señales de negocio roto."
       },
       "exit_plan": {
-        "take_profit": "Tomar beneficios parciales si AMZN se acerca a $329 (target analistas) o la opción duplica su valor.",
+        "take_profit": "Tomar beneficios parciales si AMZN se acerca a $329 (target analistas).",
         "roll": "Rolar a vencimiento 2029 cuando falten ~6 meses (mediados 2027) o si delta sube >0.90 y el carry se vuelve ineficiente.",
         "thesis_break": "Cerrar si aparece deterioro real (caída de márgenes AWS, pérdida de cuota estructural) o guía de crecimiento revisada a la baja de forma sostenida, no por ruido macro puntual."
       }
@@ -645,7 +645,7 @@
         "reason": "La caída del 13.7% parece ligada a temores cíclicos/regulatorios y competencia en IA, no a deterioro del negocio; forward P/E 23.4 es razonable para la calidad (81.4/100). No es ganga extrema, pero sí calidad a precio justo."
       },
       "exit_plan": {
-        "take_profit": "Tomar beneficios si GOOG se acerca a $422 (target analistas) o la opción duplica valor antes de 2027.",
+        "take_profit": "Tomar beneficios si GOOG se acerca a $422 (target analistas).",
         "roll": "Rolar a vencimiento 2029+ cuando falten ~4-6 meses para expiración si la tesis sigue intacta, para evitar decay acelerado de delta/theta.",
         "thesis_break": "Deterioro real: pérdida de cuota en búsqueda/cloud por IA competidora, caída sostenida de márgenes o guías negativas recurrentes."
       }
@@ -859,7 +859,7 @@
         "reason": "Caída de -9.4% es rotación/ciclo de mercado, no deterioro: calidad 77.8 y forward P/E 21x siguen siendo sólidos para MSFT. No es ganga profunda, pero tampoco está cara para su crecimiento."
       },
       "exit_plan": {
-        "take_profit": "Tomar beneficios si la acción se acerca a $575 (target analistas) o la opción duplica prima antes de 2027.",
+        "take_profit": "Tomar beneficios si la acción se acerca a $575 (target analistas).",
         "roll": "Rolar a vencimiento 2029+ cuando quede menos de 6 meses o el time value residual caiga por debajo del 10%.",
         "thesis_break": "Deterioro real en crecimiento de Azure/nube o cambio estructural en márgenes de IA que baje la calidad fundamental, no una simple caída de múltiplo."
       }
@@ -1254,7 +1254,7 @@
         "reason": "La caída del 6.6% es ciclo normal del sector energía (precios del crudo), no deterioro: calidad 84.2/100 y P/E razonable lo confirman. Upside de solo 9.4% indica que no está barata, sino correctamente valorada."
       },
       "exit_plan": {
-        "take_profit": "Considera recoger beneficios si CVX supera el target de analistas ($222.67) y la opción duplica el rendimiento de la acción.",
+        "take_profit": "Considera recoger beneficios si CVX supera el target de analistas ($222.67).",
         "roll": "Rolar a vencimiento más largo cuando falten ~6-9 meses para 2028-12-15 si la tesis sigue intacta, para evitar aceleración de la pérdida de valor temporal.",
         "thesis_break": "Un deterioro estructural (no cíclico) del negocio de Chevron —pérdida de reservas, recorte drástico de capex/dividendo por problemas propios— rompería la tesis y obligaría a cerrar."
       }
@@ -1440,7 +1440,7 @@
         "reason": "La caída del 12.7% desde máximos parece ligada a ciclo de tasas/sector bancario, no a deterioro propio; pero calidad fundamental de solo 62/100 limita la convicción value fuerte."
       },
       "exit_plan": {
-        "take_profit": "Tomar beneficios si la acción se acerca al target de $68.86 (ganancia ~48.6% en la opción) o antes si el múltiplo se estira sin soporte de resultados.",
+        "take_profit": "Tomar beneficios si la acción se acerca al target de $68.86 (ganancia ~48.6% en la opción).",
         "roll": "Rolar a 2029 cuando falten ~6 meses para vencimiento (mediados de 2027) si la tesis sigue intacta, para evitar decaimiento theta acelerado.",
         "thesis_break": "Deterioro real de fundamentales (caída de calidad por debajo de ~50, morosidad al alza o guía de EPS a la baja) rompería la tesis y obligaría a cerrar, no solo una caída de precio."
       }
@@ -1647,7 +1647,7 @@
         "reason": "La caída del 6% es ruido cíclico/de mercado, no deterioro: Visa mantiene calidad fundamental sólida (70.8) y forward P/E 24.1 razonable para su crecimiento. No es una oportunidad de pánico extremo, es una calidad a precio justo, no regalada."
       },
       "exit_plan": {
-        "take_profit": "Tomar beneficios parciales si V se acerca a $419 (target analistas) o la opción duplica valor, dado el 2x de apalancamiento sobre el upside.",
+        "take_profit": "Tomar beneficios parciales si V se acerca a $419 (target analistas).",
         "roll": "Rolar a vencimiento 2029 cuando falten ~6 meses (mediados 2027) para evitar aceleración de la erosión temporal (theta) cerca del vencimiento.",
         "thesis_break": "Deterioro real del negocio (pérdida de cuota frente a competidores, regulación adversa que golpee comisiones estructuralmente) o ruptura clara bajo $270 con caída de fundamentales, no solo corrección de múltiplo."
       }
@@ -1740,7 +1740,7 @@
         "reason": "La caída de -20% parece ligada a temores macro/consumo (ciclo), no a deterioro: forward P/E 15.2 es bajo para la calidad histórica de AXP. Sin embargo la opción es cara (IV 39.8% vs 27% realizada) y poco líquida, lo que erosiona el atractivo del apalancamiento."
       },
       "exit_plan": {
-        "take_profit": "Vender si la acción se acerca a $378 (target analistas) o la opción sube +50% antes de vencimiento.",
+        "take_profit": "Vender si la acción se acerca a $378 (target analistas).",
         "roll": "Rolar a 2029 si a mediados de 2027 la tesis sigue intacta pero el valor temporal empieza a decaer con fuerza.",
         "thesis_break": "Si surge deterioro real (deterioro de calidad crediticia de la cartera, caída sostenida del gasto de clientes premium o guía a la baja), cerrar la posición."
       }
@@ -1857,7 +1857,7 @@
         "reason": "La caída de -7.2% es leve y coherente con ciclo/rotación sectorial, no con deterioro: fundamentales de red de pagos siguen intactos. El forward P/E 24.2x es razonable para su crecimiento, pero no es una ganga profunda."
       },
       "exit_plan": {
-        "take_profit": "Considerar recoger beneficios si la acción se acerca a $666 (target analistas) o si el contrato duplica la prima pagada.",
+        "take_profit": "Considerar recoger beneficios si la acción se acerca a $666 (target analistas).",
         "roll": "Rolar a vencimiento 2029 cuando falten ~6 meses (mediados 2027) para evitar decaimiento theta acelerado.",
         "thesis_break": "Si surge deterioro real (pérdida de cuota frente a Visa/regulación adversa dura) o el múltiplo se dispara sin justificación de crecimiento, cerrar posición."
       }
