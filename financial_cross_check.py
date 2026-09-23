@@ -176,6 +176,60 @@ def crecimiento_ingresos_3y(stock) -> float | None:
 
 
 
+def crecimiento_bpa_3y(stock) -> float | None:
+    """Crecimiento anual compuesto del BPA a 3 años, del estado anual.
+
+    Existe por el mismo motivo que `crecimiento_ingresos_3y`, y para el mismo
+    modelo: el DCF necesita una tasa que se pueda proyectar un lustro, y
+    `earningsGrowth` de yfinance es UN trimestre contra el mismo del año
+    anterior. Medido el 23-sep-2026 sobre 22 empresas del universo, en nueve
+    de ellas el crecimiento que acababa usando el DCF salía de ese trimestre,
+    y en cinco lo mandaba al suelo del -10%:
+
+        WMT   ingresos 3a  +5,3%   ·  un trimestre de beneficio  -9,1%
+        CP    ingresos 3a +19,6%   ·  un trimestre               -13,5%
+        ETN   ingresos 3a  +9,8%   ·  un trimestre               -15,9%
+        LEN   ingresos 3a  +0,5%   ·  un trimestre               -48,0%
+
+    Con eso el DCF proyectaba a Walmart encogiendo un 9% anual cinco años y la
+    valoraba en 31,64 $ cotizando a 110 $.
+
+    Tomar el MENOR de ingresos y beneficio sigue siendo lo correcto —si el
+    beneficio crece menos que las ventas, los márgenes se estrechan y eso hay
+    que recogerlo—. Lo que no se puede es comparar tres años contra un
+    trimestre y quedarse con el peor: no miden lo mismo.
+
+    Usa el beneficio NETO por acción diluida, que es la misma base con la que
+    `serie_per_historica` calcula los múltiplos.
+    """
+    try:
+        fin = stock.income_stmt
+    except Exception:
+        return None
+    if fin is None or getattr(fin, 'empty', True):
+        return None
+    if 'Net Income' not in fin.index or 'Diluted Average Shares' not in fin.index:
+        return None
+    try:
+        ni = fin.loc['Net Income'].dropna()
+        sh = fin.loc['Diluted Average Shares'].dropna()
+        fechas = sorted(set(ni.index) & set(sh.index), reverse=True)
+        if len(fechas) < 4:
+            return None
+        def _bpa(f):
+            acciones = float(sh[f])
+            return float(ni[f]) / acciones if acciones > 0 else None
+        fin_, ini = _bpa(fechas[0]), _bpa(fechas[3])
+        # Un BPA negativo en cualquiera de los dos extremos no da un CAGR: la
+        # raíz cúbica de un cociente negativo no existe, y forzarla inventaría
+        # una tasa. Sin dato es mejor que con uno falso.
+        if ini is None or fin_ is None or ini <= 0 or fin_ <= 0:
+            return None
+        return (fin_ / ini) ** (1 / 3) - 1
+    except Exception:
+        return None
+
+
 def serie_per_historica(stock) -> dict:
     """Los P/E anuales de la empresa, y cuáles NO cuentan para el ancla.
 
@@ -475,6 +529,14 @@ def derive_from_statements(stock, info: dict, fields: list[str] | None = None) -
     if g3 is not None:
         out['revenueGrowth3y'] = g3
         filled.append(f'revenueGrowth3y({g3:.1%})')
+
+    # Lo mismo para el beneficio: sin esto, la única medida de beneficio que
+    # tenía el DCF era de un trimestre, y comparar tres años contra un
+    # trimestre y quedarse con el peor no es ser conservador.
+    ge3 = crecimiento_bpa_3y(stock)
+    if ge3 is not None:
+        out['earningsGrowth3y'] = ge3
+        filled.append(f'earningsGrowth3y({ge3:.1%})')
 
     # ¿Vive del diferencial de tipos? Es lo que separa a un prestamista de
     # una red de pagos, y la industria de yfinance no lo distingue: Visa,

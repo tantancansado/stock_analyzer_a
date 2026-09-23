@@ -978,6 +978,37 @@ def analyze_ticker_leaps(ticker: str, sig: dict, rate: float) -> Optional[dict]:
 # NARRATIVA AI
 # ═════════════════════════════════════════════════════════════════════════════
 
+def _valoracion_para_prompt(opp: dict) -> str:
+    """Los objetivos de la casa, en texto, para que el plan de salida los cite.
+
+    Sin esto el prompt solo llevaba el upside del analista, y cuando el modelo
+    tenía que decir «cuándo tomar beneficios» se agarraba a lo único que le
+    quedaba: un porcentaje de ganancia o un nivel del gráfico. UNH salió con
+    «tomar parciales si se acerca a 450-460 (recupera zona de máximos) o la
+    opción duplica su valor» — las dos cosas que el usuario lleva diciendo que
+    no desde el 11-ago-2026.
+    """
+    v = opp.get('valoracion_propia') or {}
+    spot = opp.get('spot')
+    lineas = []
+    up_an = opp.get('analyst_upside_pct')
+    if spot and up_an is not None:
+        lineas.append(f"  Objetivo del consenso de analistas: ${spot * (1 + up_an / 100):.2f} ({up_an:+.1f}%)")
+    if v.get('target_prudente'):
+        lineas.append(f"  Objetivo PRUDENTE de la casa (el más bajo de DCF/P-E): "
+                      f"${v['target_prudente']:.2f} ({v.get('upside_prudente_pct'):+.1f}%)")
+    for etiqueta, clave in (('DCF propio', 'upside_dcf_pct'), ('P/E propio', 'upside_pe_pct'),
+                            ('triangulado', 'upside_triangulado_pct')):
+        if v.get(clave) is not None:
+            lineas.append(f"  {etiqueta}: {v[clave]:+.1f}% sobre el precio de hoy")
+    if v.get('aviso'):
+        lineas.append(f"  AVISO: {v['aviso']}")
+    if not lineas:
+        lineas.append('  No hay ningún objetivo calculado para este valor. '
+                      'Dilo en take_profit en vez de inventar un nivel.')
+    return '\n'.join(lineas)
+
+
 def add_ai_narrative(opp: dict) -> bool:
     """Interpretación de Claude + plan de salida estructurado para una oportunidad.
 
@@ -1025,6 +1056,9 @@ CONTRATO RECOMENDADO (deep ITM, sustituto de acciones):
 {f"  ⚠️ EARNINGS EN {opp.get('days_to_earnings')} DÍAS: la IV estará inflada — valora esperar a después del evento" if opp.get('earnings_warning') else ""}
 {f"  Si la acción llega al target ${pat.get('target_price')}: la opción rinde {pat.get('option_return_pct')}% vs {pat.get('stock_return_pct')}% la acción ({pat.get('leverage_realized')}x)" if pat else ""}
 
+VALORACIÓN PROPIA DE LA CASA (esto es lo que tienes que usar para el objetivo de salida):
+{_valoracion_para_prompt(opp)}
+
 Responde SOLO con JSON válido (sin markdown, sin texto extra), en español:
 IMPORTANTE: sé CONCISO. Cada campo, máximo 2 frases cortas. No te extiendas.
 {{
@@ -1032,7 +1066,7 @@ IMPORTANTE: sé CONCISO. Cada campo, máximo 2 frases cortas. No te extiendas.
   "verdict": "OPORTUNIDAD | RAZONABLE | EVITAR",
   "verdict_reason": "HONESTO, máx 2 frases: ¿por qué está a este precio? Causa (externa/cíclica vs deterioro) y si los fundamentales aguantan. Si NO es buena oportunidad value, dilo.",
   "narrative": "Máx 60 palabras: qué significa este contrato y el riesgo real (máximo = la prima).",
-  "take_profit": "1 frase: cuándo tomar beneficios (precio/ganancia concreta).",
+  "take_profit": "1 frase con un PRECIO DE LA ACCIÓN concreto, sacado de la valoración de arriba. PROHIBIDO salir por porcentaje ganado ('cuando duplique', 'un +50%') y PROHIBIDO salir por nivel técnico ('cuando recupere máximos', 'en la resistencia'): el usuario vende cuando la empresa vale lo que vale, no cuando la posición ha subido X. La calidad modula el objetivo: en un negocio excepcional se aguanta hasta el objetivo completo; en uno del montón se vende antes de llegar. Di también a qué objetivo te refieres (el prudente de la casa o el del analista).",
   "roll": "1 frase: cuándo rolar a vencimiento más largo.",
   "thesis_break": "1 frase: qué rompería la tesis y obligaría a cerrar."
 }}"""

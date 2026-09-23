@@ -94,6 +94,26 @@ PRIMA_DE_RIESGO = 0.045
 # lo que tiene sentido exigirle a una acción por muy estable que sea.
 DESCUENTO_MIN, DESCUENTO_MAX = 0.075, 0.12
 
+# Cuánto del flujo operativo se puede comer el capex antes de que el «flujo de
+# caja libre» deje de ser lo que gana el dueño.
+#
+# Un DCF sobre el FCF de los últimos doce meses trata el capex de CRECER como
+# si fuera el de MANTENERSE. En una empresa en pleno ciclo inversor eso no
+# valora el negocio: valora lo que sobra después de una decisión de inversión
+# que precisamente se toma porque se espera que rente.
+#
+# Medido el 23-sep-2026 sobre una muestra aleatoria de 45 del universo:
+#
+#     capex/flujo operativo mediano   18%      (p75: 30%)
+#     por encima del 50%              16% de las empresas · DCF mediano -77,4%
+#     por debajo del 50%              84% de las empresas · DCF mediano -13,0%
+#
+# O sea: la sensación de que «el DCF dice que todo está caro» la producía ese
+# 16%. MSFT (capex 63% del operativo) salía valorada en 179 $ cotizando a 498;
+# AMZN (82%) en 41,51 $ cotizando a 255. El resto del universo da un -13%
+# mediano, que es una postura conservadora normal, no un modelo roto.
+CAPEX_SOBRE_OPERATIVO_MAX = 0.50
+
 # El crecimiento no se mantiene cinco años y se corta de golpe: decae hacia el
 # terminal. Sin este desvanecimiento, proyectar el 12-15% actual durante un
 # lustro y luego pegarle una perpetuidad daba valores del doble del precio.
@@ -140,24 +160,43 @@ def crecimiento_sostenible(info: Dict) -> Optional[float]:
 
     Comprobación: con esto el DCF de YUM da ~130$ contra los 132$ que sale de
     hacerlo a mano con el flujo de caja real. Antes daba 266$.
+
+    Lo que el mínimo NO puede hacer es mezclar horizontes. Tres años contra un
+    trimestre no miden lo mismo, y quedarse con el peor de los dos no es ser
+    conservador: es dejar que un trimestre malo decida un lustro. Por eso los
+    trimestrales solo votan cuando no hay ninguna serie anual.
     """
-    # El crecimiento de ingresos a 3 AÑOS manda sobre el trimestral cuando está
-    # disponible: `revenueGrowth` es de un trimestre y en un cíclico dispara la
-    # proyección (OXY +53,4% trimestral -> DCF de 123 $ con la acción a 59 $).
-    candidatos = []
-    g3 = info.get('revenueGrowth3y')
-    if g3 is not None:
-        try:
-            candidatos.append(float(g3))
-        except (TypeError, ValueError):
-            pass
-    for clave in ('earningsGrowth', 'revenueGrowth'):
+    # Tres años manda sobre el trimestre, y en los DOS sentidos.
+    #
+    # Esto ya estaba escrito para el lado de arriba: `revenueGrowth` es de un
+    # trimestre y en un cíclico dispara la proyección (OXY +53,4% trimestral ->
+    # DCF de 123 $ con la acción a 59 $). La solución de entonces fue meter
+    # `revenueGrowth3y` como un candidato MÁS del mínimo, y eso solo arregla
+    # el lado optimista: el mínimo sigue cogiendo el trimestre en cuanto el
+    # trimestre es malo.
+    #
+    # Medido el 23-sep-2026 sobre 22 empresas, en NUEVE decidía un trimestre
+    # suelto y en cinco lo mandaba al suelo del -10%. WMT crece un 5,3% anual
+    # a tres años; un trimestre de beneficio a -9,1% hacía que el DCF la
+    # proyectara encogiendo un lustro y la valorara en 31,64 $ cotizando a
+    # 110 $. Lo mismo CP (+19,6% a tres años, -13,5% en un trimestre) y ETN
+    # (+9,8% contra -15,9%).
+    #
+    # Coger el MENOR de ingresos y beneficio se mantiene, porque si el
+    # beneficio crece menos que las ventas los márgenes se estrechan y eso hay
+    # que recogerlo. Lo que no vale es comparar tres años contra un trimestre:
+    # no miden lo mismo, así que el trimestral solo vota cuando no hay serie
+    # anual con la que medir.
+    largos, trimestrales = [], []
+    for clave, destino in (('revenueGrowth3y', largos), ('earningsGrowth3y', largos),
+                           ('earningsGrowth', trimestrales), ('revenueGrowth', trimestrales)):
         v = info.get(clave)
         try:
             if v is not None:
-                candidatos.append(float(v))
+                destino.append(float(v))
         except (TypeError, ValueError):
             continue
+    candidatos = largos or trimestrales
     if not candidatos:
         return None
     return max(SUELO_CRECIMIENTO, min(min(candidatos), TECHO_CRECIMIENTO))
@@ -280,6 +319,17 @@ PESO_INTERESES_PRESTAMISTA = 0.25
 
 def dcf_aplicable(info: Dict) -> tuple[bool, Optional[str]]:
     """¿Tiene sentido descontar flujos en este negocio?"""
+    ocf, capex = info.get('operatingCashflow'), info.get('capitalExpenditure')
+    try:
+        if ocf and capex and float(ocf) > 0:
+            peso = abs(float(capex)) / float(ocf)
+            if peso >= CAPEX_SOBRE_OPERATIVO_MAX:
+                return False, (f'el capex se lleva el {peso:.0%} del flujo operativo: '
+                               f'lo que queda no es lo que gana el dueño, es lo que '
+                               f'sobra tras decidir invertir')
+    except (TypeError, ValueError, ZeroDivisionError):
+        pass
+
     industria = str(info.get('industry') or '').lower()
     for clave in INDUSTRIAS_SIN_DCF:
         if clave in industria:
