@@ -18,6 +18,22 @@ import json
 import time
 
 
+def _sin_nan(o):
+    """NaN/Infinity -> None: no son JSON válido y el navegador los rechaza.
+
+    Python los escribe y los relee sin quejarse, así que el fichero parece
+    bueno desde aquí; `JSON.parse` falla entero y la página se queda a cero
+    sin un error en consola. Ver tests/test_json_valido_para_el_navegador.py.
+    """
+    if isinstance(o, float):
+        return None if (o != o or o in (float('inf'), float('-inf'))) else o
+    if isinstance(o, dict):
+        return {k: _sin_nan(v) for k, v in o.items()}
+    if isinstance(o, (list, tuple)):
+        return [_sin_nan(v) for v in o]
+    return o
+
+
 class OpportunityValidator:
     """Valida oportunidades con web research"""
 
@@ -138,7 +154,7 @@ class OpportunityValidator:
 
             # Save to cache
             with open(cache_file, 'w') as f:
-                json.dump(validation, f, indent=2)
+                json.dump(_sin_nan(validation), f, indent=2, allow_nan=False)
 
         except Exception as e:
             print(f"   ⚠️  Validation error: {str(e)}")
@@ -300,7 +316,7 @@ class OpportunityValidator:
         }
 
         with open(output_file, 'w') as f:
-            json.dump(report, f, indent=2)
+            json.dump(_sin_nan(report), f, indent=2, allow_nan=False)
 
         print(f"\n✅ Validation report saved: {output_file}")
         print(f"   BUY: {report['summary']['buy']} | HOLD: {report['summary']['hold']} | AVOID: {report['summary']['avoid']}")

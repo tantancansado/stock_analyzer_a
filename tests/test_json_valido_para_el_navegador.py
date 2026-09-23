@@ -24,6 +24,26 @@ RAIZ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CRUDO = re.compile(r':\s*(NaN|-?Infinity)\b')
 
 
+
+def _publicados():
+    """Los docs/*.json que de verdad se sirven.
+
+    Los que git ignora no llegan a GitHub Pages, así que su contenido no
+    puede romper ninguna página: `validation_report.json` es un informe local
+    del validador y está en .gitignore.
+    """
+    import subprocess
+    todos = glob.glob(os.path.join(RAIZ, 'docs', '*.json'))
+    try:
+        ignorados = subprocess.run(
+            ['git', 'check-ignore'] + todos, cwd=RAIZ,
+            capture_output=True, text=True).stdout.split('\n')
+        fuera = {os.path.realpath(os.path.join(RAIZ, p)) for p in ignorados if p.strip()}
+    except Exception:
+        fuera = set()
+    return [p for p in todos if os.path.realpath(p) not in fuera]
+
+
 def _estricto(raw: str):
     """json.loads como lo haría un navegador: sin las extensiones de Python."""
     def rechaza(c):
@@ -33,8 +53,7 @@ def _estricto(raw: str):
 
 class TestLosJsonPublicadosSonLeiblesPorElNavegador:
 
-    @pytest.mark.parametrize('ruta', sorted(
-        glob.glob(os.path.join(RAIZ, 'docs', '*.json'))))
+    @pytest.mark.parametrize('ruta', sorted(_publicados()))
     def test_sin_nan_ni_infinity(self, ruta):
         raw = open(ruta, encoding='utf-8').read()
         encontrados = CRUDO.findall(raw)

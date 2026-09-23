@@ -35,6 +35,22 @@ WINDOW_DAYS = 3  # horizonte esperado del setup Oversold Bounce
 TRACKED_STRATEGIES = {"Oversold Bounce"}
 
 
+def _sin_nan(o):
+    """NaN/Infinity -> None: no son JSON válido y el navegador los rechaza.
+
+    Python los escribe y los relee sin quejarse, así que el fichero parece
+    bueno desde aquí; `JSON.parse` falla entero y la página se queda a cero
+    sin un error en consola. Ver tests/test_json_valido_para_el_navegador.py.
+    """
+    if isinstance(o, float):
+        return None if (o != o or o in (float('inf'), float('-inf'))) else o
+    if isinstance(o, dict):
+        return {k: _sin_nan(v) for k, v in o.items()}
+    if isinstance(o, (list, tuple)):
+        return [_sin_nan(v) for v in o]
+    return o
+
+
 def _recent_csv_paths() -> list[Path]:
     """Últimos LOOKBACK_DAYS archivos mean_reversion_opportunities.csv, del más
     antiguo al más reciente (incluye el de docs/ de hoy si existe)."""
@@ -207,7 +223,8 @@ def main():
     print("=" * 80)
     index = build_recent_index()
     with open(OUTPUT_PATH, "w") as f:
-        json.dump({"generated_at": datetime.now().isoformat(), "tickers": index}, f, indent=2)
+        json.dump(_sin_nan({"generated_at": datetime.now().isoformat(), "tickers": index}),
+                  f, indent=2, allow_nan=False)
     print(f"💾 Guardado en {OUTPUT_PATH} ({len(index)} tickers)")
 
 
