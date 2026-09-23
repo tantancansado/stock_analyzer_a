@@ -1092,10 +1092,10 @@ export default function ValueUS() {
                       </span>
                     ) : (d.upside_divergence === 'ALTA' || d.upside_divergence === 'MEDIA') && (
                       <span
-                        className={`ml-1 text-micro font-bold ${d.upside_divergence === 'ALTA' ? 'text-red-400' : 'text-amber-400'}`}
+                        className={`ml-1 inline-flex align-middle ${d.upside_divergence === 'ALTA' ? 'text-red-400' : 'text-amber-400'}`}
                         title={`Los modelos propios (DCF/P-E) no respaldan el target de analistas — se separan ${d.upside_divergence_pts?.toFixed(0) ?? '?'}pts. Upside triangulado (mediana de las 3 estimaciones): ${d.upside_triangulated_pct != null ? `${d.upside_triangulated_pct > 0 ? '+' : ''}${d.upside_triangulated_pct.toFixed(0)}%` : 'n/d'}`}
                       >
-                        
+                        <TriangleAlert size={12} aria-label="los modelos propios no respaldan el target" />
                       </span>
                     )}
                   </TableCell>
