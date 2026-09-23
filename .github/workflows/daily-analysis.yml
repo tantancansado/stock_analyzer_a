@@ -1203,5 +1203,56 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      # Si un job del pipeline se cae, decirlo. Hasta el 23-sep-2026 no había
+      # ningún aviso de fallo: el run salía en rojo en Actions y nadie se
+      # enteraba salvo entrando a mirar. Ese día murió `Run Super Score
+      # Integration [CRITICAL]` y con él veinte pasos —conviction filter,
+      # filtro técnico, portfolio tracker, veredictos de entrada—, y la app
+      # siguió sirviendo los datos del día anterior con buena cara. Tres días
+      # seguidos en rojo sin un solo aviso por este canal.
+      #
+      # No sustituye al watchdog de frescura: ese mira si el DATO está viejo,
+      # horas después. Esto dice que el run de hoy se ha roto, en cuanto pasa.
+      - name: Avisar si el pipeline se ha roto
+        if: failure() || contains(needs.*.result, 'failure')
+        continue-on-error: true
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID:   ${{ secrets.TELEGRAM_CHAT_ID }}
+          VCP:    ${{ needs.vcp-scan.result }}
+          CORE:   ${{ needs.core-scoring.result }}
+          SCAN:   ${{ needs.scanners.result }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          python3 - <<'AVISO'
+          import os, json, urllib.request, urllib.parse
+
+          jobs = {'Scoring (core)': os.environ.get('CORE', '?'),
+                  'Escáneres':      os.environ.get('SCAN', '?'),
+                  'VCP':            os.environ.get('VCP', '?')}
+          rotos = [n for n, r in jobs.items() if r == 'failure']
+          if not rotos:
+              print('ningún job en failure — no se avisa'); raise SystemExit(0)
+
+          icono = {'success': '✅', 'failure': '❌', 'skipped': '⏭', 'cancelled': '⏹'}
+          lineas = [f"{icono.get(r, '·')} {n}: {r}" for n, r in jobs.items()]
+          texto = ('🚨 <b>El pipeline de hoy se ha roto</b>\n\n'
+                   + '\n'.join(lineas)
+                   + '\n\nLa app sigue sirviendo los datos de la pasada anterior: '
+                     'lo que veas hoy puede ser de ayer.\n'
+                   + f"\n<a href=\"{os.environ['RUN_URL']}\">Ver el run</a>")
+
+          bot = os.environ.get('TELEGRAM_BOT_TOKEN', '')
+          chat = os.environ.get('TELEGRAM_CHAT_ID', '')
+          if not bot or not chat:
+              print('sin credenciales de Telegram — solo por log'); print(texto); raise SystemExit(0)
+          datos = urllib.parse.urlencode({
+              'chat_id': chat, 'text': texto,
+              'parse_mode': 'HTML', 'disable_web_page_preview': 'true'}).encode()
+          with urllib.request.urlopen(
+                  f'https://api.telegram.org/bot{bot}/sendMessage', data=datos, timeout=20) as r:
+              print('aviso enviado:', r.status)
+          AVISO
+
 env:
   PYTHONUNBUFFERED: 1
