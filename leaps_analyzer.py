@@ -874,6 +874,22 @@ def analyze_ticker_leaps(ticker: str, sig: dict, rate: float) -> Optional[dict]:
         # precio de hoy: la pregunta que hay que poder contestar es qué pasa en
         # ESE escenario, no solo en el bueno.
         prudente = propia.get('target_prudente')
+        # Un «escenario prudente» POR ENCIMA del objetivo del consenso no es
+        # prudente: es el caso alcista con otra etiqueta.
+        #
+        # `target_prudente` es el menor de DCF y P/E, y el 23-sep-2026, al
+        # retirar los DCF construidos sobre un FCF que se comía el capex, a
+        # AMZN le quedó solo el P/E (493 $ con la acción a 255) y a MSFT solo
+        # el suyo (632 con la acción a 498). El bloque seguía publicando «si
+        # la acción llega a 493…» bajo el rótulo de escenario prudente.
+        objetivo_consenso = None
+        if upside is not None and spot:
+            objetivo_consenso = spot * (1 + float(upside) / 100)
+        if prudente and objetivo_consenso and prudente >= objetivo_consenso:
+            propia['sin_escenario_prudente'] = (
+                'tus modelos propios no son más prudentes que el consenso: el más '
+                'bajo de ellos queda por encima del objetivo del analista')
+            prudente = None
         if prudente:
             strike = best.get('strike')
             coste = best.get('cost_per_contract')

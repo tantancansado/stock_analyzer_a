@@ -198,17 +198,24 @@
           "option_return_pct": -16.8,
           "stock_return_pct": 0.0,
           "nota": "al vencimiento la opción vale solo su intrínseco: el valor temporal se pierde entero"
+        },
+        "escenario_prudente": {
+          "target_price": 371.1,
+          "target_origen": "el más bajo de tus modelos (DCF / P/E)",
+          "stock_return_pct": -0.7,
+          "option_return_pct": -18.9,
+          "nota": "al vencimiento, la opción vale solo su valor intrínseco"
         }
       },
       "valoracion_propia": {
-        "upside_dcf_pct": null,
-        "upside_pe_pct": null,
+        "upside_dcf_pct": 36.1,
+        "upside_pe_pct": -0.7,
         "upside_triangulado_pct": null,
-        "modelos_acuerdo": null,
+        "modelos_acuerdo": "CONTRADICEN",
         "contradice_al_analista": false,
-        "aviso": "sin modelos propios para este valor: el único objetivo es el del analista, sin segunda opinión",
-        "target_prudente": null,
-        "upside_prudente_pct": null
+        "aviso": null,
+        "target_prudente": 371.1,
+        "upside_prudente_pct": -0.7
       },
       "in_value_list": false,
       "ai_narrative": "Sustituto apalancado 2.4x de la acción con riesgo limitado a la prima ($12465). Necesitas +5.6% en la acción solo para empatar; coste real de holding 6.68%/año y liquidez muy pobre (spread $140, volumen 3) penalizan si hay que salir antes de vencimiento.",
@@ -405,24 +412,18 @@
           "option_return_pct": -26.0,
           "stock_return_pct": 0.0,
           "nota": "al vencimiento la opción vale solo su intrínseco: el valor temporal se pierde entero"
-        },
-        "escenario_prudente": {
-          "target_price": 41.51,
-          "target_origen": "el más bajo de tus modelos (DCF / P/E)",
-          "stock_return_pct": -83.7,
-          "option_return_pct": -100.0,
-          "nota": "al vencimiento, la opción vale solo su valor intrínseco"
         }
       },
       "valoracion_propia": {
-        "upside_dcf_pct": -83.7,
+        "upside_dcf_pct": null,
         "upside_pe_pct": 93.2,
-        "upside_triangulado_pct": null,
-        "modelos_acuerdo": "CONTRADICEN",
+        "upside_triangulado_pct": 59.2,
+        "modelos_acuerdo": null,
         "contradice_al_analista": false,
         "aviso": null,
-        "target_prudente": 41.51,
-        "upside_prudente_pct": -83.7
+        "target_prudente": 493.46,
+        "upside_prudente_pct": 93.2,
+        "sin_escenario_prudente": "tus modelos propios no son más prudentes que el consenso: el más bajo de ellos queda por encima del objetivo del analista"
       },
       "in_value_list": true,
       "ai_narrative": "Sustituto apalancado (2.36x) de la acción con delta 0.816; controlas exposición similar con menos capital. Riesgo máximo = prima ($8840), y el carry 6.76%/año + IV cara castigan si la acción se queda plana.",
@@ -833,24 +834,18 @@
           "option_return_pct": -22.1,
           "stock_return_pct": 0.0,
           "nota": "al vencimiento la opción vale solo su intrínseco: el valor temporal se pierde entero"
-        },
-        "escenario_prudente": {
-          "target_price": 179.4,
-          "target_origen": "el más bajo de tus modelos (DCF / P/E)",
-          "stock_return_pct": -63.9,
-          "option_return_pct": -100.0,
-          "nota": "al vencimiento, la opción vale solo su valor intrínseco"
         }
       },
       "valoracion_propia": {
-        "upside_dcf_pct": -63.9,
+        "upside_dcf_pct": null,
         "upside_pe_pct": 27.1,
-        "upside_triangulado_pct": null,
-        "modelos_acuerdo": "CONTRADICEN",
+        "upside_triangulado_pct": 20.4,
+        "modelos_acuerdo": null,
         "contradice_al_analista": false,
         "aviso": null,
-        "target_prudente": 179.4,
-        "upside_prudente_pct": -63.9
+        "target_prudente": 632.49,
+        "upside_prudente_pct": 27.1,
+        "sin_escenario_prudente": "tus modelos propios no son más prudentes que el consenso: el más bajo de ellos queda por encima del objetivo del analista"
       },
       "in_value_list": true,
       "ai_narrative": "Sustituto apalancado (2.48x) de la acción con riesgo limitado a la prima ($16,360). Pagas volatilidad cara (IV 43.7% vs 32.2% histórica) y 6.24%/año de coste, con poca liquidez para salir barato.",
@@ -1235,17 +1230,24 @@
           "option_return_pct": -5.6,
           "stock_return_pct": 0.0,
           "nota": "al vencimiento la opción vale solo su intrínseco: el valor temporal se pierde entero"
+        },
+        "escenario_prudente": {
+          "target_price": 131.84,
+          "target_origen": "el más bajo de tus modelos (DCF / P/E)",
+          "stock_return_pct": -35.2,
+          "option_return_pct": -97.6,
+          "nota": "al vencimiento, la opción vale solo su valor intrínseco"
         }
       },
       "valoracion_propia": {
-        "upside_dcf_pct": null,
-        "upside_pe_pct": null,
+        "upside_dcf_pct": 11.9,
+        "upside_pe_pct": -35.2,
         "upside_triangulado_pct": null,
-        "modelos_acuerdo": null,
+        "modelos_acuerdo": "CONTRADICEN",
         "contradice_al_analista": false,
-        "aviso": "sin modelos propios para este valor: el único objetivo es el del analista, sin segunda opinión",
-        "target_prudente": null,
-        "upside_prudente_pct": null
+        "aviso": null,
+        "target_prudente": 131.84,
+        "upside_prudente_pct": -35.2
       },
       "in_value_list": false,
       "ai_narrative": "Sustituye 100 acciones con $7790 en vez de $20351, con delta 0.832 (~83% del movimiento). Riesgo máximo es perder toda la prima si CVX cae por debajo de $130 al vencimiento 2028.",
@@ -1628,17 +1630,24 @@
           "option_return_pct": -18.8,
           "stock_return_pct": 0.0,
           "nota": "al vencimiento la opción vale solo su intrínseco: el valor temporal se pierde entero"
+        },
+        "escenario_prudente": {
+          "target_price": 262.47,
+          "target_origen": "el más bajo de tus modelos (DCF / P/E)",
+          "stock_return_pct": -27.6,
+          "option_return_pct": -100.0,
+          "nota": "al vencimiento, la opción vale solo su valor intrínseco"
         }
       },
       "valoracion_propia": {
-        "upside_dcf_pct": null,
-        "upside_pe_pct": null,
+        "upside_dcf_pct": -27.6,
+        "upside_pe_pct": 6.4,
         "upside_triangulado_pct": null,
-        "modelos_acuerdo": null,
+        "modelos_acuerdo": "CONTRADICEN",
         "contradice_al_analista": false,
-        "aviso": "sin modelos propios para este valor: el único objetivo es el del analista, sin segunda opinión",
-        "target_prudente": null,
-        "upside_prudente_pct": null
+        "aviso": null,
+        "target_prudente": 262.47,
+        "upside_prudente_pct": -27.6
       },
       "in_value_list": false,
       "ai_narrative": "Sustituye 100 acciones con 2.63x apalancamiento efectivo pagando $11370. Pierdes toda la prima si V cae bajo $270 al vencimiento; el coste real de mantenerlo (carry+dividendo perdido) es 5.15%/año, que erosiona el rendimiento si la acción se mueve lateral.",
@@ -1838,17 +1847,24 @@
           "option_return_pct": -49.5,
           "stock_return_pct": 0.0,
           "nota": "al vencimiento la opción vale solo su intrínseco: el valor temporal se pierde entero"
+        },
+        "escenario_prudente": {
+          "target_price": 482.5,
+          "target_origen": "el más bajo de tus modelos (DCF / P/E)",
+          "stock_return_pct": -13.5,
+          "option_return_pct": -100.0,
+          "nota": "al vencimiento, la opción vale solo su valor intrínseco"
         }
       },
       "valoracion_propia": {
-        "upside_dcf_pct": null,
-        "upside_pe_pct": null,
+        "upside_dcf_pct": -13.5,
+        "upside_pe_pct": 13.7,
         "upside_triangulado_pct": null,
-        "modelos_acuerdo": null,
+        "modelos_acuerdo": "CONTRADICEN",
         "contradice_al_analista": false,
-        "aviso": "sin modelos propios para este valor: el único objetivo es el del analista, sin segunda opinión",
-        "target_prudente": null,
-        "upside_prudente_pct": null
+        "aviso": null,
+        "target_prudente": 482.5,
+        "upside_prudente_pct": -13.5
       },
       "in_value_list": false,
       "ai_narrative": "Sustituto apalancado (3.49x) de la acción con riesgo limitado a la prima ($114.60). El coste real (8.25%/año) e IV cara (35.2% vs 22.4%) penalizan el carry; liquidez muy baja (spread $520) encarece entradas/salidas.",

@@ -91,3 +91,41 @@ class TestLoPublicado:
                 culpables.append(f"{o.get('ticker')}: «{m.group(0)}»")
         assert not culpables, (
             f'Planes de salida por ganancia o por gráfico: {culpables}')
+
+
+class TestElEscenarioPrudenteEsPrudente:
+    """Un «escenario prudente» por encima del consenso es el caso alcista con
+    otra etiqueta.
+
+    `target_prudente` es el menor de DCF y P/E. Al retirar los DCF construidos
+    sobre un FCF que se comía el capex (23-sep-2026), a AMZN le quedó solo su
+    P/E —493 $ con la acción a 255— y a MSFT el suyo —632 con la acción a
+    498—. El bloque seguía publicando «si la acción llega a 493, la opción
+    rinde…» bajo el rótulo de escenario prudente.
+    """
+
+    def test_no_se_publica_un_escenario_por_encima_del_consenso(self):
+        ruta = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                            'docs', 'leaps_opportunities.json')
+        if not os.path.exists(ruta):
+            pytest.skip('sin LEAPS publicados')
+        with open(ruta) as fh:
+            d = json.load(fh)
+        culpables = []
+        for o in d.get('opportunities', []):
+            esc = (o.get('profit_at_target') or {}).get('escenario_prudente')
+            up = o.get('analyst_upside_pct')
+            spot = o.get('spot')
+            if not esc or up is None or not spot:
+                continue
+            consenso = spot * (1 + up / 100)
+            if esc['target_price'] >= consenso:
+                culpables.append(
+                    f"{o.get('ticker')}: prudente {esc['target_price']} >= consenso {consenso:.0f}")
+        assert not culpables, f'Escenarios «prudentes» más optimistas que el analista: {culpables}'
+
+    def test_el_codigo_lo_impide(self):
+        import inspect
+        import leaps_analyzer as la
+        cuerpo = inspect.getsource(la)
+        assert 'sin_escenario_prudente' in cuerpo
