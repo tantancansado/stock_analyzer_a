@@ -212,6 +212,23 @@ CALIDAD_MAX_SIN_RESPALDO = 85.0
 # justo». Por encima es burbuja (NOW tiene 123 de mediana) y por debajo suele
 # ser un beneficio contable raro: en los dos casos se cae al método viejo.
 PER_ANCLA_MIN, PER_ANCLA_MAX = 8.0, 45.0
+# Separación máxima entre el P/E más alto y el más bajo de la serie, medida en
+# veces la mediana. Por encima, la «mediana» no describe a qué múltiplo cotiza
+# la empresa: la decide un año suelto.
+#
+# El corte sale de medir el universo publicado (131 empresas con objetivo por
+# P/E, 23-sep-2026), no de elegir un número redondo:
+#
+#     dispersión < 1,0   117 empresas   |upside| mediano 14-20%   normal
+#     dispersión 1,0-1,5   5 empresas   |upside| mediano 22%      aún sano
+#     dispersión >= 1,5    9 empresas   |upside| mediano 52-59%   disparates
+#
+# Los nueve de arriba son los que daban objetivos como HRI 30,95 sobre un
+# precio de 144 (-78%) con una dispersión de 251, o UBER -39% con 3,20. El
+# `fragil` ya lo marcaba desde que se escribió `serie_per_historica` — pero
+# NADIE leía la bandera: viajaba hasta el CSV publicado y ahí se quedaba,
+# mientras el objetivo salía a la app como cualquier otro.
+PER_ANCLA_DISPERSION_MAX = 1.5
 # Tope de sensatez del objetivo por P/E. No es una banda de inversión: es el
 # punto a partir del cual el número dice más del dato que de la empresa.
 UPSIDE_PE_ABSURDO = 150.0
@@ -2207,8 +2224,16 @@ class FundamentalScorer:
                 # ha pagado 58 de mediana. Un número malo es peor que ninguno,
                 # porque el que lo lee no sabe que es malo.
                 per_propio = info.get('perMedianoHistorico')
+                _disp = info.get('perAnclaDispersion')
+                _disp = float(_disp) if _disp is not None else None
                 fair_pe = None
-                if per_propio and PER_ANCLA_MIN <= float(per_propio) <= PER_ANCLA_MAX:
+                if _disp is not None and _disp > PER_ANCLA_DISPERSION_MAX:
+                    # Serie demasiado abierta para que la mediana signifique algo.
+                    result['pe_ancla'] = None
+                    result['pe_sin_ancla_motivo'] = (
+                        f'los P/E históricos se separan {_disp:.1f}x la mediana: '
+                        f'el ancla la decidiría un año suelto')
+                elif per_propio and PER_ANCLA_MIN <= float(per_propio) <= PER_ANCLA_MAX:
                     fair_pe = float(per_propio)
                     result['pe_ancla'] = 'múltiplo propio'
                     # Con cuántos años y cuánto se separan entre sí. Un ancla
