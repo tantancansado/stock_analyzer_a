@@ -54,10 +54,26 @@ def fcf_es_caja_libre(pick: dict) -> bool:
     suma bonus, ni resta por quemar caja. Un dato que no es comparable no se
     vuelve comparable por usarlo con cuidado.
     """
-    if (pick.get('dcf_no_aplicable') or '').strip():
+    if _texto(pick.get('dcf_no_aplicable')):
         return False
-    industria = str(pick.get('industry') or '').lower()
+    industria = _texto(pick.get('industry')).lower()
     return not any(c in industria for c in INDUSTRIAS_SIN_FCF_INTERPRETABLE)
+
+
+def _texto(v) -> str:
+    """El valor como texto limpio; '' si no hay dato.
+
+    Pandas convierte una celda vacía de CSV en NaN, que es un float y además
+    es *truthy*: `nan or ''` devuelve nan, y `nan.strip()` revienta. Esto
+    tumbó `Run Super Score Integration [CRITICAL]` el 23-sep-2026 y con él
+    los veinte pasos siguientes del job, porque aquí llegaban filas de un
+    DataFrame y no los diccionarios limpios con los que se probó.
+    """
+    if v is None:
+        return ''
+    if isinstance(v, float) and v != v:      # NaN
+        return ''
+    return str(v).strip()
 
 
 # (campo, mínimo, máximo, severidad, por qué)

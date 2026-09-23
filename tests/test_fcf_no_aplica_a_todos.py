@@ -82,3 +82,50 @@ class TestLaReglaSigueCazandoLoQueNacioParaCazar:
             pick = {'ticker': ticker, 'industry': industria, 'fcf_yield_pct': fcf}
             assert fcf_es_caja_libre(pick) is True
             assert _bloquea_por_fcf(pick), f'{ticker} tiene que seguir saltando'
+
+
+class TestConFilasDeUnCsvDeVerdad:
+    """Los tests de arriba usan diccionarios limpios. En el pipeline llegan
+    filas de un DataFrame, y ahí una celda vacía es NaN — un float, y además
+    *truthy*: `nan or ''` devuelve nan y `nan.strip()` revienta.
+
+    Eso tumbó `Run Super Score Integration [CRITICAL]` el 23-sep-2026, y con
+    él los veinte pasos siguientes del job: sin conviction filter, sin filtro
+    técnico, sin portfolio tracker y sin veredictos de entrada.
+    """
+
+    def test_una_fila_con_nan_no_revienta(self):
+        import numpy as np
+        import pandas as pd
+        df = pd.DataFrame([
+            {'ticker': 'A', 'industry': np.nan, 'dcf_no_aplicable': np.nan},
+            {'ticker': 'B', 'industry': 'Banks - Regional', 'dcf_no_aplicable': np.nan},
+            {'ticker': 'C', 'industry': 'Credit Services', 'dcf_no_aplicable': 'presta'},
+        ])
+        out = [fcf_es_caja_libre(r.to_dict()) for _, r in df.iterrows()]
+        assert out == [True, False, False]
+
+    def test_el_csv_publicado_entero(self):
+        """La prueba que habría evitado el fallo: recorrer el fichero real."""
+        from pathlib import Path
+
+        import pandas as pd
+        ruta = Path(__file__).resolve().parents[1] / 'docs' / 'value_opportunities.csv'
+        if not ruta.exists():
+            pytest.skip('sin value_opportunities.csv')
+        df = pd.read_csv(ruta)
+        for _, r in df.iterrows():
+            fcf_es_caja_libre(r.to_dict())    # no debe lanzar
+
+    def test_check_row_tambien_aguanta_nan(self):
+        import numpy as np
+        r = {'ticker': 'X', 'current_price': 10.0, 'value_score': 50.0,
+             'analyst_upside_pct': 12.0, 'fcf_yield_pct': 30.0,
+             'industry': np.nan, 'dcf_no_aplicable': np.nan}
+        res = check_row(r)
+        assert isinstance(res, dict) and 'ok' in res
+
+    def test_tipos_raros_no_rompen(self):
+        """Un número donde se esperaba texto no puede tumbar el pipeline."""
+        for v in (3.5, 0, True, [], {}):
+            fcf_es_caja_libre({'dcf_no_aplicable': v, 'industry': v})
