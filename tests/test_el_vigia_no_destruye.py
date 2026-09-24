@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
-"""Una comprobación que encuentra un problema tiene que AVISAR, no destruir.
+"""Lo que una comprobación encuentra tiene que llegar a alguien.
 
-`coherence_check.py` devolvía 1 al encontrar una contradicción, y ese 1
-tumbaba el paso del workflow. Detrás venían el archivo del día, el informe de
-salud y el commit de todos los escáneres: la única consecuencia de detectar
-una incoherencia era tirar el trabajo del día. Y el hallazgo tampoco salía,
-porque `coherence_check.json` no lo leía nadie.
+`coherence_check.py` escribía su informe, devolvía 1 y ahí acababa todo: el
+run salía en rojo y el hallazgo se quedaba en los logs de CI, porque
+`coherence_check.json` no lo leía nadie. El gate sigue siendo duro —lo
+contrario sería tapar, y no destruye nada porque todo lo que viene detrás
+lleva `if: always()`—; lo que faltaba era que la contradicción saliera por
+Telegram.
 
-Lo mismo con dos pasos más que podían llevarse por delante todo el pipeline
-por motivos que no lo justifican:
+Y dos pasos que sí podían llevarse por delante el pipeline sin justificarlo:
 
   · el latido que solo anuncia que el pipeline ha arrancado
   · el `git fetch` de los patrones VCP, que son técnicos y no entran en VALUE
@@ -53,9 +53,11 @@ class TestNingunPasoAccesorioTumbaElPipeline:
     """Los pasos que pueden matar el job tienen que ser los que producen el
     dato, no los que lo anuncian ni los que lo comprueban."""
 
+    # El Coherence Check NO está aquí: es gate duro a propósito, y no destruye
+    # nada porque todo lo que viene detrás lleva `if: always()`. Lo vigilan
+    # test_pipeline_order.py y test_coherencia_desfase_tikr.py.
     ACCESORIOS = (
         'Pipeline Heartbeat (API push)',
-        'Coherence Check — ¿se contradice la app consigo misma?',
     )
 
     @staticmethod
