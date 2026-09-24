@@ -1,10 +1,25 @@
 {
-  "total_problemas": 0,
+  "total_problemas": 1,
   "desfases_conocidos": [
-    "⏳ ⚠️  value_opportunities.csv: upside P/E = (objetivo − precio) / precio — 1/44 filas, peor desvío 3% (ADP)",
-    "⏳ ⚠️  value_opportunities_filtered.csv: upside P/E = (objetivo − precio) / precio — 1/36 filas, peor desvío 3% (ADP)"
+    "⏳ ⚠️  value_opportunities.csv: upside DCF = (objetivo − precio) / precio — 1/44 filas, peor desvío 4% (ADSK)",
+    "⏳ ⚠️  value_opportunities.csv: upside P/E = (objetivo − precio) / precio — 2/46 filas, peor desvío 3% (ADP, GVDNY)",
+    "⏳ ⚠️  value_opportunities.csv: dividendo yield = dividendo / precio — 3/49 filas, peor desvío 10% (PAYX, NYT, MCD)",
+    "⏳ ⚠️  value_opportunities_filtered.csv: upside DCF = (objetivo − precio) / precio — 1/36 filas, peor desvío 4% (ADSK)",
+    "⏳ ⚠️  value_opportunities_filtered.csv: upside P/E = (objetivo − precio) / precio — 1/38 filas, peor desvío 2% (ADP)",
+    "⏳ ⚠️  value_opportunities_filtered.csv: dividendo yield = dividendo / precio — 3/41 filas, peor desvío 10% (PAYX, NYT, MCD)",
+    "⏳ ⚠️  european_value_opportunities.csv: upside analista = (objetivo − precio) / precio — 1/39 filas, peor desvío 4% (GIVN.SW)",
+    "⏳ ⚠️  european_value_opportunities.csv: upside P/E = (objetivo − precio) / precio — 1/29 filas, peor desvío 3% (COLO-B.CO)",
+    "⏳ ⚠️  european_value_opportunities.csv: dividendo yield = dividendo / precio — 2/39 filas, peor desvío 7% (RMV.L, AUTO.L)",
+    "⏳ ⚠️  european_value_opportunities_filtered.csv: upside analista = (objetivo − precio) / precio — 1/28 filas, peor desvío 4% (GIVN.SW)",
+    "⏳ ⚠️  european_value_opportunities_filtered.csv: upside P/E = (objetivo − precio) / precio — 1/19 filas, peor desvío 3% (COLO-B.CO)",
+    "⏳ ⚠️  european_value_opportunities_filtered.csv: dividendo yield = dividendo / precio — 2/28 filas, peor desvío 7% (AUTO.L, RMV.L)",
+    "⏳ ⚠️  momentum_opportunities.csv: distancia al máximo 52s — 1/2 filas, peor desvío 4% (FTNT)"
   ],
-  "detalle": {},
-  "tickers_value": 54,
-  "tickers_verdicts": 75
+  "detalle": {
+    "identidades aritméticas de lo publicado": [
+      "🛑 mean_reversion_opportunities.csv: R:R = (salida − entrada) / (entrada − stop) — 1/2 filas, peor desvío 88% (ASML)"
+    ]
+  },
+  "tickers_value": 55,
+  "tickers_verdicts": 76
 }
