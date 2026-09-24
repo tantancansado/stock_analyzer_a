@@ -1,36 +1,36 @@
 {
   "origen": "github-actions",
-  "run_id": "35819351356",
-  "generated_at": "2026-09-23T05:29:30Z",
-  "pipeline_date": "2026-09-23",
-  "ok_count": 18,
+  "run_id": "35956948126",
+  "generated_at": "2026-09-24T06:26:02Z",
+  "pipeline_date": "2026-09-24",
+  "ok_count": 19,
   "total": 20,
   "modules": {
     "value_us": {
       "status": "ok",
-      "date": "2026-09-23",
+      "date": "2026-09-24",
       "days_ago": 0,
       "stale_threshold_days": 2,
       "path": "docs/value_opportunities.csv",
       "columna_requerida": "entry_readiness",
       "columna_poblada": true,
-      "rows": 54,
+      "rows": 55,
       "min_rows": 20
     },
     "value_filtered": {
       "status": "ok",
-      "date": "2026-09-22",
-      "days_ago": 1,
+      "date": "2026-09-24",
+      "days_ago": 0,
       "stale_threshold_days": 2,
       "path": "docs/value_opportunities_filtered.csv",
       "columna_requerida": "entry_readiness, rr_operativo",
       "columna_poblada": true,
-      "rows": 45,
+      "rows": 46,
       "min_rows": 10
     },
     "vcp": {
       "status": "ok",
-      "date": "2026-09-23",
+      "date": "2026-09-24",
       "days_ago": 0,
       "stale_threshold_days": 3,
       "path": "docs/reports/vcp/latest_meta.json",
@@ -39,18 +39,18 @@
     },
     "value_eu": {
       "status": "ok",
-      "date": "2026-09-23",
+      "date": "2026-09-24",
       "days_ago": 0,
       "stale_threshold_days": 3,
       "path": "docs/european_value_opportunities.csv",
       "columna_requerida": "entry_readiness",
       "columna_poblada": true,
-      "rows": 40,
+      "rows": 39,
       "min_rows": 10
     },
     "value_eu_filt": {
       "status": "ok",
-      "date": "2026-09-23",
+      "date": "2026-09-24",
       "days_ago": 0,
       "stale_threshold_days": 3,
       "path": "docs/european_value_opportunities_filtered.csv",
@@ -61,18 +61,18 @@
     },
     "value_global": {
       "status": "ok",
-      "date": "2026-09-23",
+      "date": "2026-09-24",
       "days_ago": 0,
       "stale_threshold_days": 3,
       "path": "docs/global_value_opportunities.csv",
       "columna_requerida": "value_score",
       "columna_poblada": true,
-      "rows": 27,
+      "rows": 28,
       "min_rows": 5
     },
     "fundamental": {
       "status": "ok",
-      "date": "2026-09-23",
+      "date": "2026-09-24",
       "days_ago": 0,
       "stale_threshold_days": 2,
       "path": "docs/fundamental_scores.csv",
@@ -83,18 +83,18 @@
     },
     "technical": {
       "status": "ok",
-      "date": "2026-09-23",
+      "date": "2026-09-24",
       "days_ago": 0,
       "stale_threshold_days": 2,
       "path": "docs/technical_signals_summary.csv",
       "columna_requerida": "bias",
       "columna_poblada": true,
-      "rows": 178,
+      "rows": 175,
       "min_rows": 30
     },
     "cerebro": {
       "status": "ok",
-      "date": "2026-09-23",
+      "date": "2026-09-24",
       "days_ago": 0,
       "stale_threshold_days": 3,
       "path": "docs/cerebro_briefing.json",
@@ -102,18 +102,18 @@
       "columna_poblada": true
     },
     "mean_reversion": {
-      "status": "incompleto",
-      "date": "2026-09-23",
+      "status": "ok",
+      "date": "2026-09-24",
       "days_ago": 0,
       "stale_threshold_days": 3,
       "path": "docs/mean_reversion_opportunities.json",
       "columna_requerida": "opportunities",
-      "columna_poblada": false
+      "columna_poblada": true
     },
     "macro": {
       "status": "ok",
-      "date": "2026-09-22",
-      "days_ago": 1,
+      "date": "2026-09-24",
+      "days_ago": 0,
       "stale_threshold_days": 2,
       "path": "docs/macro_radar.json",
       "columna_requerida": "signals",
@@ -121,7 +121,7 @@
     },
     "insiders": {
       "status": "ok",
-      "date": "2026-09-23",
+      "date": "2026-09-24",
       "days_ago": 0,
       "stale_threshold_days": 3,
       "path": "docs/recurring_insiders.csv",
@@ -132,19 +132,19 @@
     },
     "portfolio": {
       "status": "ok",
-      "date": "2026-09-23",
+      "date": "2026-09-24",
       "days_ago": 0,
-      "stale_threshold_days": 2,
+      "stale_threshold_days": 4,
       "path": "docs/portfolio_tracker/recommendations.csv",
       "columna_requerida": "signal_date",
       "columna_poblada": true,
-      "rows": 1853,
+      "rows": 1858,
       "min_rows": 1
     },
     "earnings": {
       "status": "ok",
       "date": "2026-09-20",
-      "days_ago": 3,
+      "days_ago": 4,
       "stale_threshold_days": 7,
       "path": "docs/tikr_earnings_data.json",
       "columna_requerida": "data",
@@ -152,14 +152,14 @@
     },
     "theses": {
       "status": "ok",
-      "date": "2026-09-23",
+      "date": "2026-09-24",
       "days_ago": 0,
       "stale_threshold_days": 7,
       "path": "docs/theses.json"
     },
     "catalysts": {
       "status": "ok",
-      "date": "2026-09-23",
+      "date": "2026-09-24",
       "days_ago": 0,
       "stale_threshold_days": 7,
       "path": "docs/catalysts.json",
@@ -168,7 +168,7 @@
     },
     "economic_cal": {
       "status": "ok",
-      "date": "2026-09-23",
+      "date": "2026-09-24",
       "days_ago": 0,
       "stale_threshold_days": 7,
       "path": "docs/economic_calendar.json",
@@ -177,18 +177,18 @@
     },
     "options_flow": {
       "status": "ok",
-      "date": "2026-09-23",
+      "date": "2026-09-24",
       "days_ago": 0,
       "stale_threshold_days": 3,
       "path": "docs/options_flow.csv",
       "columna_requerida": "flow_score",
       "columna_poblada": true,
-      "rows": 29,
+      "rows": 22,
       "min_rows": 1
     },
     "bounce_broad": {
       "status": "incompleto",
-      "date": "2026-09-23",
+      "date": "2026-09-24",
       "days_ago": 0,
       "stale_threshold_days": 3,
       "path": "docs/bounce_setups_broad.json",
@@ -197,13 +197,13 @@
     },
     "earnings_opts": {
       "status": "ok",
-      "date": "2026-09-23",
+      "date": "2026-09-24",
       "days_ago": 0,
       "stale_threshold_days": 3,
       "path": "docs/earnings_options.json",
       "columna_requerida": "snapshots",
       "columna_poblada": true,
-      "vacio_explicado": "ninguna posici\u00f3n tiene earnings dentro de 14d (los m\u00e1s pr\u00f3ximos, a 26d)"
+      "vacio_explicado": "ninguna posici\u00f3n tiene earnings dentro de 14d (los m\u00e1s pr\u00f3ximos, a 25d)"
     }
   }
 }
