@@ -4,7 +4,7 @@ import { Card } from '@/components/ui/card'
 
 function SkeletonStatCard({ delay = 0 }: { delay?: number }) {
   return (
-    <Card className="glass p-5" style={{ animationDelay: `${delay}ms` }}>
+    <Card className="glass p-5 entra-escalonada" style={{ animationDelay: `${delay}ms` }}>
       {/* label */}
       <Skeleton className="h-2 w-1/3 mb-4 rounded-sm" />
       {/* big number */}

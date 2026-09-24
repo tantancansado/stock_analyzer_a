@@ -1127,6 +1127,38 @@ button:active:not(:disabled) { transform: scale(0.97); }
 
 
 /* ═══════════════════════════════════════════════════════════════════
+   ENTRADA ESCALONADA DE UNA LISTA
+════════════════════════════════════════════════════════════════════ */
+
+/* La misma idea del panel de «Personalizar menú», pero para las listas
+   grandes: cada fila entra un pelo después que la anterior y la lista se lee
+   como una lista que llega, no como un bloque que aparece de golpe.
+
+   Va en CSS y no en `motion` por dos motivos que aquí pesan más que en los
+   modales: una tabla de VALUE tiene 45 filas y envolver cada `<tr>` en un
+   componente de animación cuesta un re-render por fila en cada orden y cada
+   filtro; y el bloque de `prefers-reduced-motion` de arriba ya lo apaga.
+
+   El índice llega por `--i` en el `style` de la fila, y el TOPE LO PONE QUIEN
+   LLAMA con `Math.min(i, 12)`: doce escalones son 264ms, y a partir de ahí el
+   retardo deja de leerse como ritmo y empieza a leerse como que la app va
+   lenta. Una tabla de 45 filas escalonada entera tardaría un segundo en
+   terminar de aparecer, y para entonces ya estás leyendo la primera.
+
+   `backwards` es imprescindible: sin él la fila se pinta a opacidad 1 durante
+   su retardo y luego salta a 0 para empezar la animación — un parpadeo. */
+
+@keyframes entraFila {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.entra-escalonada {
+  animation: entraFila 0.34s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+  animation-delay: calc(var(--i, 0) * 22ms);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
    TACTO — lo que hace un control al hundirse
 ════════════════════════════════════════════════════════════════════ */
 

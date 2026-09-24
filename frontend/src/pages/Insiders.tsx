@@ -210,7 +210,8 @@ export default function Insiders() {
             <div
               key={d.ticker}
               onClick={() => { setFocusedIdx(i); setExpanded(expanded === d.ticker ? null : d.ticker) }}
-              className={`glass rounded-2xl p-4 cursor-pointer active:scale-[0.98] transition-transform ${focusedIdx === i ? 'ring-1 ring-inset ring-primary/40 bg-primary/5' : ''}`}
+              className={`glass rounded-2xl p-4 cursor-pointer active:scale-[0.98] transition-transform entra-escalonada ${focusedIdx === i ? 'ring-1 ring-inset ring-primary/40 bg-primary/5' : ''}`}
+              style={{ '--i': Math.min(i, 12) } as React.CSSProperties}
             >
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
@@ -275,7 +276,8 @@ export default function Insiders() {
                       <TableRow
                         key={d.ticker}
                         data-row-idx={i}
-                        className={`cursor-pointer transition-colors ${focusedIdx === i ? 'ring-1 ring-inset ring-primary/40 bg-primary/5' : ''}`}
+                        className={`entra-escalonada cursor-pointer transition-colors ${focusedIdx === i ? 'ring-1 ring-inset ring-primary/40 bg-primary/5' : ''}`}
+                        style={{ '--i': Math.min(i, 12) } as React.CSSProperties}
                         onClick={() => { setFocusedIdx(i); setExpanded(expanded === d.ticker ? null : d.ticker) }}
                       >
                         <TableCell>

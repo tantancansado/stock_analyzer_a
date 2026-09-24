@@ -116,7 +116,10 @@ function OpportunityCard({ o, rank }: { o: LeapsOpportunity; rank?: number }) {
   }
 
   return (
-    <Card className="glass border border-border/40 hover:border-primary/30 transition-colors">
+    <Card
+      className="glass border border-border/40 hover:border-primary/30 transition-colors entra-escalonada"
+      style={{ '--i': Math.min((rank ?? 1) - 1, 12) } as React.CSSProperties}
+    >
       <CardContent className="p-4">
         {/* Header */}
         <div className="flex items-start justify-between gap-3 mb-3">

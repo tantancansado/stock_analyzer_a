@@ -264,8 +264,8 @@ export default function MeanReversion() {
                 return (
                   <div
                     key={d.ticker}
-                    className="glass rounded-xl p-3 border border-border/20 hover:border-primary/30 transition-colors cursor-pointer active:scale-[0.98]"
-                    style={{ animationDelay: `${idx * 50}ms` }}
+                    className="glass rounded-xl p-3 border border-border/20 hover:border-primary/30 transition-colors cursor-pointer active:scale-[0.98] entra-escalonada"
+                    style={{ '--i': idx } as React.CSSProperties}
                     onClick={() => {
                       setFilterQuality('')
                       setTimeout(() => {

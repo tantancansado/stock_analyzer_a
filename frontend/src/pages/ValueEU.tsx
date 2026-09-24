@@ -570,8 +570,8 @@ export default function ValueEU() {
               <div
                 key={d.ticker}
                 onClick={() => { setFocusedIdx(i); toggleThesis(d.ticker, d) }}
-                className={`glass rounded-2xl p-4 cursor-pointer active:scale-[0.98] transition-transform border ${decision.panelClass}`}
-                style={{ animationDelay: `${i * 40}ms` }}
+                className={`glass rounded-2xl p-4 cursor-pointer active:scale-[0.98] transition-transform border entra-escalonada ${decision.panelClass}`}
+                style={{ '--i': Math.min(i, 12) } as React.CSSProperties}
               >
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex items-start gap-3 min-w-0">
@@ -613,8 +613,8 @@ export default function ValueEU() {
             <div
               key={d.ticker}
               onClick={() => { setFocusedIdx(i); toggleThesis(d.ticker, d) }}
-              className={`glass rounded-2xl p-4 cursor-pointer active:scale-[0.98] transition-transform border ${hasTrap ? 'border-red-500/30' : hasExit ? 'border-amber-500/30' : 'border-foreground/5'}`}
-              style={{ animationDelay: `${i * 40}ms` }}
+              className={`glass rounded-2xl p-4 cursor-pointer active:scale-[0.98] transition-transform border entra-escalonada ${hasTrap ? 'border-red-500/30' : hasExit ? 'border-amber-500/30' : 'border-foreground/5'}`}
+              style={{ '--i': Math.min(i, 12) } as React.CSSProperties}
             >
               {/* Fila 1: logo + puntuación + ticker + grado + upside.
                   El logo faltaba: el anillo de puntuación ocupaba su sitio, así
@@ -701,7 +701,8 @@ export default function ValueEU() {
                     <TableRow
                       key={d.ticker}
                       data-row-idx={i}
-                      className={`cursor-pointer transition-colors ${i === focusedIdx ? 'ring-1 ring-inset ring-primary/40 bg-primary/5' : ''}`}
+                      style={{ '--i': Math.min(i, 12) } as React.CSSProperties}
+                      className={`entra-escalonada cursor-pointer transition-colors ${i === focusedIdx ? 'ring-1 ring-inset ring-primary/40 bg-primary/5' : ''}`}
                       onClick={() => { setFocusedIdx(i); toggleThesis(d.ticker, d) }}
                     >
                       <TableCell>
@@ -823,7 +824,8 @@ export default function ValueEU() {
                 <TableRow
                   key={d.ticker}
                   data-row-idx={i}
-                  className={`cursor-pointer transition-colors ${i === focusedIdx ? 'ring-1 ring-inset ring-primary/40 bg-primary/5' : ''}`}
+                  style={{ '--i': Math.min(i, 12) } as React.CSSProperties}
+                  className={`entra-escalonada cursor-pointer transition-colors ${i === focusedIdx ? 'ring-1 ring-inset ring-primary/40 bg-primary/5' : ''}`}
                   onClick={() => { setFocusedIdx(i); toggleThesis(d.ticker, d) }}
                 >
                     <TableCell className="font-mono font-bold text-primary text-apoyo tracking-wide">

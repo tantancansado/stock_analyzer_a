@@ -8,10 +8,13 @@ import PageHeader from '@/components/PageHeader'
 import AvisoDatosViejos from '@/components/AvisoDatosViejos'
 import PageShell from '@/components/PageShell'
 
-function Card({ s }: Readonly<{ s: BounceBroadSetup }>) {
+function Card({ s, i = 0 }: Readonly<{ s: BounceBroadSetup; i?: number }>) {
   const potentialLoss = Math.abs(s.stop_pct)
   return (
-    <div className="glass rounded-2xl p-4 border border-purple-500/20 hover:border-purple-500/40 transition-colors">
+    <div
+      className="glass rounded-2xl p-4 border border-purple-500/20 hover:border-purple-500/40 transition-colors entra-escalonada"
+      style={{ '--i': Math.min(i, 12) } as React.CSSProperties}
+    >
       <div className="flex items-start justify-between mb-3">
         <div className="flex items-center gap-2">
           <TickerLogo ticker={s.ticker} size="sm" />
@@ -148,7 +151,7 @@ export default function BroadBounceView() {
         />
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-          {setups.map(s => <Card key={s.ticker} s={s} />)}
+          {setups.map((s, i) => <Card key={s.ticker} s={s} i={i} />)}
         </div>
       )}
     </section>
