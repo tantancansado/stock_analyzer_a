@@ -1,146 +1,44 @@
 {
-  "fecha": "2026-09-23",
-  "texto": "<b>Hoy comprables: THC, KO y EQIX.</b>\n\nTenet Healthcare (THC) a 260,97, un 7,8% bajo máximos, con caja fuerte (rentabilidad FCF 14,3%) y momentum a favor; el modelo interno ve hasta un 27,8% de recorrido, muy por encima del 9,4% que dan los analistas.\n\nCoca-Cola (KO) a 87,12, cae un 5,8% desde máximos, pero hay divergencia entre lo que dicen los analistas (+8,7%) y el modelo interno, que ve sobrevaloración (-10,8%). Entra por scoring, pero con esa discrepancia mejor ir con posición más contenida.\n\nEquinix (EQIX) a 1.057,26, un 6,3% bajo máximos, tiene el score más flojo de las tres (31) y caja libre negativa. Es la más débil del grupo, cuidado con el tamaño.\n\n<b>Para vigilar, barato pero aún cayendo:</b>\nDomino's (DPZ) sigue cayendo por un trimestre flojo de ventas en EE.UU. y recorte de guidance — deterioro real, no ruido, toca esperar confirmación antes de entrar.\nAutodesk (ADSK) cae un 33% pese a resultados sólidos (EPS batido tres trimestres seguidos, ingresos +16-18%, caja +54%) — pinta a castigo de sentimiento, no de negocio.\nJack Henry (JKHY) cae por comentarios de gestión sobre presión de márgenes y crecimiento más lento, con divergencia alta entre analistas y modelo — prudencia.\nCboe (CBOE) y Broadridge (BR) siguen bajando sin causa identificada todavía — barato no es lo mismo que comprable.\n\nEl sistema acierta un 61,5% a 90 días con retorno medio del 3,15% sobre 39 señales — cifra aún provisional, falta muestra a 180 días, no la tomes como veredicto definitivo. Ajusta el tamaño de posición en consecuencia.\n\n🟡 Claude: $18.67 de $20 (93%) · lo que más gasta: thesis_generator ($4.42)",
-  "hechos": {
-    "fecha": "2026-09-23",
-    "total_lista": 45,
-    "datos_incompletos": [],
-    "picks_nuevos": [],
-    "picks_que_se_van": [],
-    "comprables": [
-      {
-        "ticker": "THC",
-        "empresa": "Tenet Healthcare Corporation",
-        "score": 58.88,
-        "precio": 260.97,
-        "upside_analista": 9.4,
-        "upside_triangulado": 27.8,
-        "divergencia": "",
-        "fcf_yield": 14.3,
-        "del_maximo_pct": -7.8,
-        "rs_6m": 9.68,
-        "timing": "ENTRADA",
-        "por_que_cae": "",
-        "por_que_cae_detalle": ""
-      },
-      {
-        "ticker": "KO",
-        "empresa": "The Coca-Cola Company",
-        "score": 52.14500000000001,
-        "precio": 87.12,
-        "upside_analista": 8.7,
-        "upside_triangulado": -10.8,
-        "divergencia": "MEDIA",
-        "fcf_yield": 3.8,
-        "del_maximo_pct": -5.8,
-        "rs_6m": -1.19,
-        "timing": "ENTRADA",
-        "por_que_cae": "",
-        "por_que_cae_detalle": ""
-      },
-      {
-        "ticker": "EQIX",
-        "empresa": "Equinix, Inc.",
-        "score": 30.92,
-        "precio": 1057.26,
-        "upside_analista": 16.7,
-        "upside_triangulado": null,
-        "divergencia": "",
-        "fcf_yield": -0.35,
-        "del_maximo_pct": -6.3,
-        "rs_6m": -8.22,
-        "timing": "ENTRADA",
-        "por_que_cae": "",
-        "por_que_cae_detalle": ""
-      }
-    ],
-    "vigilar": [
-      {
-        "ticker": "DPZ",
-        "empresa": "Domino's Pizza, Inc.",
-        "score": 52.80500000000001,
-        "precio": 295.94,
-        "upside_analista": 28.8,
-        "upside_triangulado": 28.8,
-        "divergencia": "",
-        "fcf_yield": 6.71,
-        "del_maximo_pct": -33.1,
-        "rs_6m": -36.94,
-        "timing": "ESPERAR",
-        "por_que_cae": "EVENTO",
-        "por_que_cae_detalle": "Q1 2026: ventas comparables US 0.9% vs. 2.3% esperado, obligó a management a recortar guidance a crecimiento de un dígito bajo. Deterioro puntual atribuible a presión competitiva m"
-      },
-      {
-        "ticker": "ADSK",
-        "empresa": "Autodesk, Inc.",
-        "score": 64.435,
-        "precio": 218.85,
-        "upside_analista": 43.0,
-        "upside_triangulado": 23.2,
-        "divergencia": "MEDIA",
-        "fcf_yield": 6.17,
-        "del_maximo_pct": -32.9,
-        "rs_6m": -30.18,
-        "timing": "ESPERAR",
-        "por_que_cae": "SENTIMIENTO",
-        "por_que_cae_detalle": "Autodesk ha caído ~33% en 12 meses a pesar de resultados sólidos: 3 trimestres consecutivos superando EPS, revenue creciendo 16-18% YoY, free cash flow +54% en FY26, y guidance ele"
-      },
-      {
-        "ticker": "JKHY",
-        "empresa": "Jack Henry & Associates, Inc.",
-        "score": 52.81,
-        "precio": 151.56,
-        "upside_analista": 25.5,
-        "upside_triangulado": null,
-        "divergencia": "ALTA",
-        "fcf_yield": 4.77,
-        "del_maximo_pct": -21.6,
-        "rs_6m": -25.05,
-        "timing": "ESPERAR",
-        "por_que_cae": "SENTIMIENTO",
-        "por_que_cae_detalle": "<cite index=\"4-4\">La caída responde a comentarios de gestión sobre presión de márgenes futura y crecimiento más lento en H2, junto con recompras ampliadas, señales mixtas que preoc"
-      },
-      {
-        "ticker": "CBOE",
-        "empresa": "Cboe Global Markets, Inc.",
-        "score": 54.329999999999984,
-        "precio": 271.43,
-        "upside_analista": 16.3,
-        "upside_triangulado": 20.2,
-        "divergencia": "",
-        "fcf_yield": 6.67,
-        "del_maximo_pct": -26.9,
-        "rs_6m": -21.42,
-        "timing": "ESPERAR",
-        "por_que_cae": "SIN_DATOS",
-        "por_que_cae_detalle": ""
-      },
-      {
-        "ticker": "BR",
-        "empresa": "Broadridge Financial Solutions",
-        "score": 88.0,
-        "precio": 164.62,
-        "upside_analista": 29.6,
-        "upside_triangulado": 29.6,
-        "divergencia": "",
-        "fcf_yield": 6.57,
-        "del_maximo_pct": -32.0,
-        "rs_6m": -21.01,
-        "timing": "ESPERAR",
-        "por_que_cae": "SIN_DATOS",
-        "por_que_cae_detalle": ""
-      }
-    ],
-    "tesis_rotas": [],
-    "rotas_son_tuyas": true,
-    "regimen_cambio": null,
-    "rendimiento_sistema": {
-      "horizonte": "90d",
-      "es_horizonte_definitivo": false,
-      "nota": "A 180 días aún no hay muestra (la señal más antigua es de feb-2026); este 90d es provisional, no el veredicto",
-      "acierto_pct": 61.5,
-      "retorno_medio": 3.15,
-      "n": 39
+  "date": "2026-09-24",
+  "timestamp": "2026-09-24T05:48:00.697635",
+  "narrative": "El entorno macro se mantiene en un r\u00e9gimen CALM: inflaci\u00f3n bajo control, crecimiento moderado y volatilidad reducida, lo que favorece la revaloraci\u00f3n de activos con fundamentos s\u00f3lidos y m\u00faltiplos atractivos. Los picks m\u00e1s destacados son ADSK (Tecnolog\u00eda) con un upside de +42\u202f% impulsado por la fuerte demanda de software de",
+  "macro_regime": "CALM",
+  "picks_count": 8,
+  "top_picks": [
+    {
+      "ticker": "RMD",
+      "sector": "Healthcare",
+      "value_score": 74.87,
+      "analyst_upside_pct": 11.4,
+      "conviction_grade": null
+    },
+    {
+      "ticker": "VRSN",
+      "sector": "Technology",
+      "value_score": 71.42999999999999,
+      "analyst_upside_pct": 10.6,
+      "conviction_grade": null
+    },
+    {
+      "ticker": "ADSK",
+      "sector": "Technology",
+      "value_score": 69.72,
+      "analyst_upside_pct": 42.1,
+      "conviction_grade": null
+    },
+    {
+      "ticker": "KO",
+      "sector": "Consumer Defensive",
+      "value_score": 60.05,
+      "analyst_upside_pct": 7.5,
+      "conviction_grade": null
+    },
+    {
+      "ticker": "MCO",
+      "sector": "Financial Services",
+      "value_score": 59.17999999999999,
+      "analyst_upside_pct": 18.6,
+      "conviction_grade": null
     }
-  }
+  ]
 }

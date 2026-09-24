@@ -653,7 +653,7 @@
   "ticker": "PGR",
   "deterioro": null,
   "motivo": "sin dos periodos comparables (ni trimestrales ni anuales)",
-  "fecha": "2026-08-13"
+  "fecha": "2026-09-24"
  },
  "ROP": {
   "ticker": "ROP",
@@ -1122,15 +1122,15 @@
   "margen_op": 20.428893905191874,
   "margen_op_delta": -0.1141993651741231,
   "op_yoy": 4.022988505747116,
-  "eps_limpio": 7.101302652106084,
-  "pe_hoy": 30.553549204898577,
+  "eps_limpio": 7.0711271450858035,
+  "pe_hoy": 30.136638138107493,
   "extraordinarios_pct": 0.5850234009360373,
-  "pe_hist": 28.06773401955615,
-  "compresion": 8.856486895630544,
+  "pe_hist": 28.067734173533964,
+  "compresion": 7.371111439855271,
   "crec_usado": 2.55,
   "ret_2a_sin_reversion": 5.165025000000023,
-  "ret_2a_con_reversion": -3.391127162839469,
-  "fecha": "2026-08-19"
+  "ret_2a_con_reversion": -2.054636866724646,
+  "fecha": "2026-09-24"
  },
  "MSI": {
   "ticker": "MSI",
@@ -1192,14 +1192,14 @@
   "margen_op_delta": -0.30248249519739545,
   "op_yoy": 5.5575347345920845,
   "eps_limpio": 9.21,
-  "pe_hoy": 31.155266015200866,
+  "pe_hoy": 31.843648208469048,
   "extraordinarios_pct": 0.0,
-  "pe_hist": 27.494841886476074,
-  "compresion": 13.313130309453602,
+  "pe_hist": 27.494841878206387,
+  "compresion": 15.816807929016363,
   "crec_usado": 3.85,
-  "ret_2a_sin_reversion": 7.84822500000002,
-  "ret_2a_con_reversion": -4.822835001141668,
-  "fecha": "2026-09-10"
+  "ret_2a_sin_reversion": 7.848224999999998,
+  "ret_2a_con_reversion": -6.880333754233925,
+  "fecha": "2026-09-24"
  },
  "DPZ": {
   "ticker": "DPZ",
@@ -1411,15 +1411,15 @@
   "margen_op": 27.311874259877275,
   "margen_op_delta": -0.22196917743879396,
   "op_yoy": 8.465156049593837,
-  "eps_limpio": 15.395279586877795,
-  "pe_hoy": 31.26217989637738,
+  "eps_limpio": 15.534333725081853,
+  "pe_hoy": 30.237537593362408,
   "extraordinarios_pct": 0.6756155685303546,
-  "pe_hist": 31.217856738105354,
-  "compresion": 0.14198014503001843,
+  "pe_hist": 31.115388315465786,
+  "compresion": -2.821275161997727,
   "crec_usado": 5.65,
   "ret_2a_sin_reversion": 11.61922499999999,
-  "ret_2a_con_reversion": 11.46097254952232,
-  "fecha": "2026-08-21"
+  "ret_2a_con_reversion": 14.859734150731164,
+  "fecha": "2026-09-24"
  },
  "BRK-B": {
   "ticker": "BRK-B",
@@ -1735,7 +1735,7 @@
   "margen_op": 20.185008626169072,
   "margen_op_delta": 0.20768217308445713,
   "op_yoy": 2.3528057553956927,
-  "fecha": "2026-09-16"
+  "fecha": "2026-09-24"
  },
  "MCD": {
   "ticker": "MCD",
@@ -1745,15 +1745,15 @@
   "margen_op": 46.50704225352113,
   "margen_op_delta": -1.1474952300387145,
   "op_yoy": 1.2572830420116476,
-  "eps_limpio": 12.138319542476669,
-  "pe_hoy": 20.8249584397103,
+  "eps_limpio": 11.786629820633388,
+  "pe_hoy": 20.219520221361563,
   "extraordinarios_pct": 0.48277766950884815,
-  "pe_hist": 24.07725885882495,
-  "compresion": -13.507768630076411,
+  "pe_hist": 24.077258922564962,
+  "compresion": -16.022333412662537,
   "crec_usado": 2.85,
   "ret_2a_sin_reversion": 5.781225000000001,
-  "ret_2a_con_reversion": 22.301417508328814,
-  "fecha": "2026-09-16"
+  "ret_2a_con_reversion": 25.963520181864872,
+  "fecha": "2026-09-24"
  },
  "META": {
   "ticker": "META",
@@ -2103,5 +2103,52 @@
   "ret_2a_sin_reversion": 16.20840000000001,
   "ret_2a_con_reversion": 21.303754902937875,
   "fecha": "2026-09-22"
+ },
+ "PAYX": {
+  "ticker": "PAYX",
+  "deterioro": false,
+  "motivo": null,
+  "ingresos_yoy": 12.485111749457012,
+  "margen_op": 37.66427904079726,
+  "margen_op_delta": 7.460397586302761,
+  "op_yoy": 40.269079099976814,
+  "eps_limpio": 4.46,
+  "pe_hoy": 23.428251121076233,
+  "extraordinarios_pct": 0.0,
+  "pe_hist": 24.7547882306394,
+  "compresion": -5.358709180639609,
+  "crec_usado": 11.242555874728506,
+  "ret_2a_sin_reversion": 23.74906237542096,
+  "ret_2a_con_reversion": 30.75589027163406,
+  "fecha": "2026-09-24"
+ },
+ "ODFL": {
+  "ticker": "ODFL",
+  "deterioro": false,
+  "motivo": null,
+  "ingresos_yoy": 10.391241464946255,
+  "margen_op": 29.942072221178325,
+  "margen_op_delta": 4.518409628226866,
+  "op_yoy": 30.010477933472114,
+  "eps_limpio": 5.21,
+  "pe_hoy": 34.11132437619962,
+  "extraordinarios_pct": 0.0,
+  "pe_hist": 32.2163148357803,
+  "compresion": 5.882142479917252,
+  "crec_usado": 10.195620732473127,
+  "ret_2a_sin_reversion": 21.430748286150635,
+  "ret_2a_con_reversion": 14.68482356142584,
+  "fecha": "2026-09-24"
+ },
+ "SGSN.SW": {
+  "ticker": "SGSN.SW",
+  "deterioro": false,
+  "motivo": null,
+  "base": "anual",
+  "ingresos_yoy": 2.2225493082131287,
+  "margen_op": 13.779697624190065,
+  "margen_op_delta": 0.42968290532047426,
+  "op_yoy": 5.512679162072764,
+  "fecha": "2026-09-24"
  }
 }

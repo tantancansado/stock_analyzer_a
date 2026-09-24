@@ -1,9 +1,9 @@
 {
-  "total_signals": 93,
+  "total_signals": 94,
   "unique_tickers": 56,
-  "date_range": "2026-04-08 to 2026-09-21",
-  "active_signals": 15,
-  "completed_signals": 78,
+  "date_range": "2026-04-08 to 2026-09-24",
+  "active_signals": 14,
+  "completed_signals": 80,
   "overall": {
     "90d": {
       "count": 39,
@@ -48,12 +48,12 @@
       "worst": -37.59
     },
     "180d": {
-      "count": 745,
-      "win_rate": 65.8,
-      "ci_low": 62.3,
-      "ci_high": 69.1,
-      "avg_return": 7.35,
-      "median_return": 9.05,
+      "count": 793,
+      "win_rate": 65.4,
+      "ci_low": 62.1,
+      "ci_high": 68.7,
+      "avg_return": 7.15,
+      "median_return": 8.96,
       "best": 89.88,
       "worst": -43.74
     },
@@ -92,7 +92,7 @@
     }
   },
   "value_strategy": {
-    "count": 81,
+    "count": 82,
     "90d": {
       "count": 27,
       "win_rate": 66.7,
@@ -132,14 +132,14 @@
       "basis": "eu_full_hist"
     },
     "180d": {
-      "count": 626,
-      "win_rate": 63.4,
-      "ci_low": 59.6,
-      "ci_high": 67.1,
-      "avg_return": 5.33,
-      "median_return": 7.4,
+      "count": 674,
+      "win_rate": 63.2,
+      "ci_low": 59.5,
+      "ci_high": 66.8,
+      "avg_return": 5.23,
+      "median_return": 7.26,
       "best": 39.33,
-      "worst": -33.25,
+      "worst": -34.76,
       "basis": "eu_full_hist"
     },
     "365d": {
@@ -161,12 +161,12 @@
     "BOUNCE_BROAD": {
       "count": 33,
       "7d": {
-        "count": 17,
-        "win_rate": 35.3,
-        "ci_low": 17.3,
-        "ci_high": 58.7,
-        "avg_return": -0.64,
-        "median_return": -0.76,
+        "count": 20,
+        "win_rate": 30.0,
+        "ci_low": 14.5,
+        "ci_high": 51.9,
+        "avg_return": -0.8,
+        "median_return": -0.94,
         "best": 4.07,
         "worst": -4.24
       },
@@ -175,12 +175,12 @@
     "MEAN_REVERSION": {
       "count": 81,
       "7d": {
-        "count": 60,
-        "win_rate": 31.7,
-        "ci_low": 21.3,
-        "ci_high": 44.2,
-        "avg_return": -2.48,
-        "median_return": -2.02,
+        "count": 79,
+        "win_rate": 35.4,
+        "ci_low": 25.8,
+        "ci_high": 46.4,
+        "avg_return": -2.72,
+        "median_return": -2.44,
         "best": 8.8,
         "worst": -14.93
       },
@@ -188,7 +188,7 @@
     }
   },
   "leaps_strategy": {
-    "count": 140,
+    "count": 144,
     "subyacente": {
       "90d": {
         "count": 0,
@@ -233,9 +233,9 @@
         "ci_high": null
       }
     },
-    "edad_max_dias": 33,
-    "dias_hasta_primera_lectura": 57,
-    "con_contrato": 103,
+    "edad_max_dias": 35,
+    "dias_hasta_primera_lectura": 55,
+    "con_contrato": 107,
     "nota": "el contrato se sigue por su s\u00edmbolo OCC; son opciones poco l\u00edquidas, as\u00ed que un checkpoint sin cotizaci\u00f3n en 10 d\u00edas se queda vac\u00edo en vez de arrastrar un precio viejo"
   },
   "sector_performance": {
@@ -250,9 +250,9 @@
       "win_rate_30d": 75.0
     },
     "Financial Services": {
-      "count": 29,
-      "avg_30d": 2.25,
-      "win_rate_30d": 65.5
+      "count": 30,
+      "avg_30d": 1.49,
+      "win_rate_30d": 63.3
     },
     "Communication Services": {
       "count": 5,
@@ -265,9 +265,9 @@
       "win_rate_30d": 66.7
     },
     "Industrials": {
-      "count": 7,
-      "avg_30d": 2.15,
-      "win_rate_30d": 57.1
+      "count": 8,
+      "avg_30d": 0.83,
+      "win_rate_30d": 50.0
     },
     "Consumer Defensive": {
       "count": 3,
@@ -280,7 +280,7 @@
       "win_rate_30d": 50.0
     }
   },
-  "score_correlation": 0.067,
+  "score_correlation": 0.075,
   "top_performers": [
     {
       "ticker": "BBY",
@@ -378,6 +378,17 @@
   "performers_horizon": "90d",
   "recent_signals": [
     {
+      "ticker": "MCO",
+      "company_name": "Moody's Corporation",
+      "strategy": "VALUE",
+      "signal_date": "2026-09-24",
+      "signal_price": 473.85,
+      "sector": "Financial Services",
+      "value_score": 59.17999999999999,
+      "days_active": 0,
+      "first_result_date": "2026-10-01"
+    },
+    {
       "ticker": "UNP",
       "company_name": "Union Pacific Corporation",
       "strategy": "VALUE",
@@ -385,7 +396,7 @@
       "signal_price": 279.37,
       "sector": "Industrials",
       "value_score": 57.52,
-      "days_active": 1,
+      "days_active": 3,
       "first_result_date": "2026-09-28"
     },
     {
@@ -396,7 +407,7 @@
       "signal_price": 1069.78,
       "sector": "Financial Services",
       "value_score": 54.08,
-      "days_active": 3,
+      "days_active": 5,
       "first_result_date": "2026-09-26"
     },
     {
@@ -407,7 +418,7 @@
       "signal_price": 682.31,
       "sector": "Communication Services",
       "value_score": 63.72,
-      "days_active": 4,
+      "days_active": 6,
       "first_result_date": "2026-09-25"
     },
     {
@@ -418,7 +429,7 @@
       "signal_price": 59.29,
       "sector": "Energy",
       "value_score": 53.155,
-      "days_active": 4,
+      "days_active": 6,
       "first_result_date": "2026-09-25"
     },
     {
@@ -429,7 +440,7 @@
       "signal_price": 2120.58,
       "sector": "Financial Services",
       "value_score": 51.92499999999999,
-      "days_active": 4,
+      "days_active": 6,
       "first_result_date": "2026-09-25"
     },
     {
@@ -440,7 +451,7 @@
       "signal_price": 77.01,
       "sector": "Consumer Cyclical",
       "value_score": 59.09,
-      "days_active": 12,
+      "days_active": 14,
       "first_result_date": "2026-09-17"
     },
     {
@@ -451,7 +462,7 @@
       "signal_price": 314.4,
       "sector": "Industrials",
       "value_score": 59.72,
-      "days_active": 20,
+      "days_active": 22,
       "first_result_date": "2026-09-09"
     },
     {
@@ -462,7 +473,7 @@
       "signal_price": 435.84,
       "sector": "Financial Services",
       "value_score": 58.14,
-      "days_active": 21,
+      "days_active": 23,
       "first_result_date": "2026-09-08"
     },
     {
@@ -473,7 +484,7 @@
       "signal_price": 108.815,
       "sector": "Financial Services",
       "value_score": 57.05500000000001,
-      "days_active": 25,
+      "days_active": 27,
       "first_result_date": "2026-09-04"
     },
     {
@@ -484,7 +495,7 @@
       "signal_price": 127.08,
       "sector": "Industrials",
       "value_score": 50.06999999999999,
-      "days_active": 26,
+      "days_active": 28,
       "first_result_date": "2026-09-03"
     },
     {
@@ -495,7 +506,7 @@
       "signal_price": 7.26,
       "sector": "Healthcare",
       "value_score": 59.59,
-      "days_active": 27,
+      "days_active": 29,
       "first_result_date": "2026-09-02"
     },
     {
@@ -506,7 +517,7 @@
       "signal_price": 351.05,
       "sector": "Industrials",
       "value_score": 56.375,
-      "days_active": 27,
+      "days_active": 29,
       "first_result_date": "2026-09-02"
     },
     {
@@ -517,30 +528,8 @@
       "signal_price": 455.25,
       "sector": "Industrials",
       "value_score": 51.95,
-      "days_active": 27,
-      "first_result_date": "2026-09-02"
-    },
-    {
-      "ticker": "AON",
-      "company_name": "Aon plc",
-      "strategy": "VALUE",
-      "signal_date": "2026-08-24",
-      "signal_price": 355.11,
-      "sector": "Financial Services",
-      "value_score": 51.13,
       "days_active": 29,
-      "first_result_date": "2026-08-31"
-    },
-    {
-      "ticker": "EXPN.L",
-      "company_name": "Experian plc",
-      "strategy": "VALUE",
-      "signal_date": "2026-08-21",
-      "signal_price": 2966.0,
-      "sector": "Industrials",
-      "value_score": 60.88499999999999,
-      "days_active": 32,
-      "first_result_date": "2026-08-28"
+      "first_result_date": "2026-09-02"
     }
   ],
   "avg_max_drawdown": -2.63,
@@ -569,13 +558,13 @@
       "worst_alpha": -38.85
     },
     "30d": {
-      "count": 78,
-      "avg_alpha": -2.26,
-      "avg_signal_return": 0.39,
-      "avg_benchmark_return": 2.65,
-      "positive_alpha_rate": 46.2,
+      "count": 80,
+      "avg_alpha": -2.59,
+      "avg_signal_return": 0.02,
+      "avg_benchmark_return": 2.61,
+      "positive_alpha_rate": 45.0,
       "best_alpha": 21.86,
-      "worst_alpha": -20.53
+      "worst_alpha": -21.52
     },
     "14d": {
       "count": 87,
@@ -623,13 +612,13 @@
       "worst_alpha": -51.85
     },
     "30d": {
-      "count": 66,
-      "avg_alpha": -2.57,
-      "avg_signal_return": 0.61,
-      "avg_benchmark_return": 3.18,
-      "positive_alpha_rate": 45.5,
+      "count": 68,
+      "avg_alpha": -2.95,
+      "avg_signal_return": 0.17,
+      "avg_benchmark_return": 3.12,
+      "positive_alpha_rate": 44.1,
       "best_alpha": 21.86,
-      "worst_alpha": -20.53
+      "worst_alpha": -21.52
     },
     "14d": {
       "count": 75,
@@ -650,13 +639,13 @@
       "avg_benchmark_return": null
     },
     "180d": {
-      "count": 626,
-      "avg_alpha": -4.37,
-      "avg_signal_return": 5.33,
-      "avg_benchmark_return": 9.69,
-      "positive_alpha_rate": 44.9,
+      "count": 674,
+      "avg_alpha": -4.66,
+      "avg_signal_return": 5.23,
+      "avg_benchmark_return": 9.89,
+      "positive_alpha_rate": 44.7,
       "best_alpha": 31.03,
-      "worst_alpha": -46.32
+      "worst_alpha": -47.3
     },
     "90d": {
       "count": 727,
@@ -686,5 +675,5 @@
       "worst_alpha": -4.98
     }
   },
-  "generated_at": "2026-09-22T05:39:23.355755"
+  "generated_at": "2026-09-24T05:50:28.046531"
 }

@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-09-22T05:39:23",
-  "positions_checked": 17,
-  "total": 5,
-  "high_count": 5,
+  "generated_at": "2026-09-24T05:50:28",
+  "positions_checked": 16,
+  "total": 2,
+  "high_count": 2,
   "alerts": [
     {
       "ticker": "CRH.L",
@@ -14,39 +14,12 @@
       "severity": "HIGH"
     },
     {
-      "ticker": "AON",
-      "company_name": "Aon plc",
-      "strategy": "VALUE",
-      "signal_date": "2026-08-24",
-      "type": "STOP_BREACHED",
-      "reason": "Precio 315.79 por debajo del stop 326.70",
-      "severity": "HIGH"
-    },
-    {
-      "ticker": "AON",
-      "company_name": "Aon plc",
-      "strategy": "VALUE",
-      "signal_date": "2026-08-24",
-      "type": "THESIS_BROKEN",
-      "reason": "analyst_upside salt\u00f3 a 32% \u2014 value trap (0% win hist\u00f3rico)",
-      "severity": "HIGH"
-    },
-    {
       "ticker": "HEI",
       "company_name": "HEICO Corporation",
       "strategy": "VALUE",
       "signal_date": "2026-08-26",
       "type": "STOP_BREACHED",
       "reason": "Precio 312.32 por debajo del stop 322.97",
-      "severity": "HIGH"
-    },
-    {
-      "ticker": "HEI",
-      "company_name": "HEICO Corporation",
-      "strategy": "VALUE",
-      "signal_date": "2026-08-26",
-      "type": "THESIS_BROKEN",
-      "reason": "analyst_upside salt\u00f3 a 30% \u2014 value trap (0% win hist\u00f3rico)",
       "severity": "HIGH"
     }
   ]
