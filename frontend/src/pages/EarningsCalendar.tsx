@@ -1,4 +1,5 @@
 import { useState, useMemo, useDeferredValue } from 'react'
+import { AnimatePresence } from 'motion/react'
 import { fetchEarningsCalendar } from '../api/client'
 import type { EarningsEntry } from '../api/client'
 import { useApi } from '../hooks/useApi'
@@ -407,9 +408,14 @@ export default function EarningsCalendar() {
         </CardContent>
       </Card>
 
-      {thesisTicker && (
-        <EarningsThesisModal ticker={thesisTicker} onClose={() => setThesisTicker(null)} />
-      )}
+      {/* AnimatePresence aquí, no dentro del modal: el modal se DESMONTA al
+          cerrarse, y una animación de salida necesita que alguien retrase ese
+          desmontaje. Sin esto el panel entra con muelle y se va de golpe. */}
+      <AnimatePresence>
+        {thesisTicker && (
+          <EarningsThesisModal ticker={thesisTicker} onClose={() => setThesisTicker(null)} />
+        )}
+      </AnimatePresence>
     </div>
   )
 }

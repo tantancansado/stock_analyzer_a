@@ -288,10 +288,17 @@ export default function App() {
               un spinner suelto en mitad de la pantalla sería peor que la
               milésima de espera. Solo se montan cuando toca, así que ni
               siquiera piden su chunk hasta la primera pulsación. */}
+          {/* AnimatePresence envuelve el montaje condicional, no va dentro de
+              cada modal: el componente se DESMONTA al cerrarse y una animación
+              de salida necesita que alguien retrase ese desmontaje. Sin esto
+              los tres entran con muelle y desaparecen de golpe, que es lo que
+              hacía que abrir se notara cuidado y cerrar no. */}
           <Suspense fallback={null}>
-            {cmdOpen && <CommandPalette open onClose={() => setCmdOpen(false)} />}
-            {shortcutsOpen && <ShortcutsModal open onClose={() => setShortcutsOpen(false)} />}
-            {navCustomOpen && <NavCustomizer open onClose={() => setNavCustomOpen(false)} canSeeAdmin={user?.email === ADMIN_EMAIL} />}
+            <AnimatePresence>
+              {cmdOpen && <CommandPalette key="cmd" open onClose={() => setCmdOpen(false)} />}
+              {shortcutsOpen && <ShortcutsModal key="atajos" open onClose={() => setShortcutsOpen(false)} />}
+              {navCustomOpen && <NavCustomizer key="menu" open onClose={() => setNavCustomOpen(false)} canSeeAdmin={user?.email === ADMIN_EMAIL} />}
+            </AnimatePresence>
           </Suspense>
         </>
       )}

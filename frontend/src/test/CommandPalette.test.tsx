@@ -4,20 +4,12 @@ import userEvent from '@testing-library/user-event'
 import { describe, expect, it, vi } from 'vitest'
 import CommandPalette from '@/components/CommandPalette'
 
+// El mock declaraba solo `motion.div`, así que el día que la paleta estrenó
+// un `motion.button` para el fondo reventó con «Element type is invalid».
+// `mockMotion` devuelve cualquier etiqueta que le pidan.
 vi.mock('motion/react', async () => {
-  const React = await import('react')
-
-  const MockDiv = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
-    ({ children, ...props }, ref) => <div ref={ref} {...props}>{children}</div>,
-  )
-
-  return {
-    AnimatePresence: ({ children }: { children: React.ReactNode }) => <>{children}</>,
-    motion: {
-      div: MockDiv,
-    },
-    useReducedMotion: () => false,
-  }
+  const { mockMotion } = await import('./mockMotion')
+  return mockMotion()
 })
 
 function LocationProbe() {

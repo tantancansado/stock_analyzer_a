@@ -2,6 +2,7 @@ import { useSearchParams } from 'react-router-dom'
 import { Suspense, type ReactNode } from 'react'
 import type { LucideIcon } from 'lucide-react'
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
+import { MUELLE_LIGERO } from '@/lib/movimiento'
 import Loading from './Loading'
 
 export interface PageTab {
@@ -66,7 +67,7 @@ export default function PageTabs({ tabs, defaultTab, paramKey = 'tab' }: Readonl
               <motion.span
                 layoutId={`page-tab-indicator-${paramKey}`}
                 className="page-tab-indicator absolute inset-0 rounded-lg"
-                transition={{ type: 'spring', stiffness: 420, damping: 34, mass: 0.7 }}
+                transition={MUELLE_LIGERO}
               />
             )}
             <tab.icon size={16} strokeWidth={1.75} className="relative z-10 shrink-0" />

@@ -1,4 +1,5 @@
 import StaleDataBanner from '../components/StaleDataBanner'
+import { AnimatePresence } from 'motion/react'
 import { useState, useEffect, useRef, useDeferredValue, useCallback, useMemo } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { fetchEUValueOpportunities, fetchMarketRegime, fetchThesis, fetchMacroRadar, fetchValueEUInsight, fetchMlWinProbability, type ValueOpportunity, type MlWinPrediction } from '../api/client'
@@ -942,14 +943,19 @@ export default function ValueEU() {
 
       <PaginationBar page={page} totalPages={totalPages} onPage={setPage} />
 
-      {expandedRow && (
-        <ThesisModal
-          row={expandedRow}
-          thesisText={thesisText}
-          currency={divisaDe(expandedRow.ticker) === 'GBp' ? 'p' : divisaDe(expandedRow.ticker)}
-          onClose={() => setExpandedRow(null)}
-        />
-      )}
+      {/* AnimatePresence aquí, no dentro del modal: el modal se DESMONTA al
+          cerrarse, y una animación de salida necesita que alguien retrase ese
+          desmontaje. Sin esto el panel entra con muelle y se va de golpe. */}
+      <AnimatePresence>
+        {expandedRow && (
+          <ThesisModal
+            row={expandedRow}
+            thesisText={thesisText}
+            currency={divisaDe(expandedRow.ticker) === 'GBp' ? 'p' : divisaDe(expandedRow.ticker)}
+            onClose={() => setExpandedRow(null)}
+          />
+        )}
+      </AnimatePresence>
     </>
   )
 }

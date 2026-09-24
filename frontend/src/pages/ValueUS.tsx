@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useMemo, useCallback, useDeferredValue } from 'react'
+import { AnimatePresence } from 'motion/react'
 import { TriangleAlert, LogOut, Gem, Flame, CalendarClock, CircleCheck, Landmark } from 'lucide-react'
 import SignalBadge from '../components/SignalBadge'
 import { precio } from '../lib/moneda'
@@ -1158,13 +1159,18 @@ export default function ValueUS() {
 
       <PaginationBar page={page} totalPages={totalPages} onPage={setPage} />
 
-      {expandedRow && (
-        <ThesisModal
-          row={expandedRow}
-          thesisText={thesisText}
-          onClose={() => setExpandedRow(null)}
-        />
-      )}
+      {/* AnimatePresence aquí, no dentro del modal: el modal se DESMONTA al
+          cerrarse, y una animación de salida necesita que alguien retrase ese
+          desmontaje. Sin esto el panel entra con muelle y se va de golpe. */}
+      <AnimatePresence>
+        {expandedRow && (
+          <ThesisModal
+            row={expandedRow}
+            thesisText={thesisText}
+            onClose={() => setExpandedRow(null)}
+          />
+        )}
+      </AnimatePresence>
     </>
   )
 }

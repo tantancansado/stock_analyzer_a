@@ -3,7 +3,9 @@ import { X, RotateCcw, SlidersHorizontal } from 'lucide-react'
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
 import { NAV_CATEGORIES, type NavLinkItem } from '@/lib/nav'
 import { useNavPreferences } from '@/hooks/useNavPreferences'
+import { MUELLE, FILA, escalonado, PULSACION } from '@/lib/movimiento'
 import CapaModal from './CapaModal'
+import PanelAnimado, { FondoAnimado } from './PanelAnimado'
 
 // Los colores van en línea con variables CSS y NO con los alias de shadcn
 // (text-foreground, text-muted-foreground, bg-accent, border-border...):
@@ -17,9 +19,6 @@ interface Props {
   readonly onClose: () => void
   readonly canSeeAdmin: boolean
 }
-
-/** Muelle único para todo el panel: una sola física, toda la interfaz se mueve igual. */
-const MUELLE = { type: 'spring', stiffness: 420, damping: 34, mass: 0.8 } as const
 
 // El estado va SIEMPRE en el color de la app, nunca en el de la sección. Con
 // el color propio de cada una salía un arcoíris —y, peor, switches ROJOS en
@@ -63,10 +62,10 @@ function Fila({
       // La entrada escalonada es lo que hace que la lista se lea como una
       // lista y no como un bloque que aparece de golpe. Se corta a los 12
       // primeros: más allá el retardo se nota como lentitud, no como ritmo.
-      initial={quieto ? false : { opacity: 0, y: 8 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={quieto ? { duration: 0 } : { ...MUELLE, delay: Math.min(index, 12) * 0.022 }}
-      whileTap={quieto ? undefined : { scale: 0.985 }}
+      initial={quieto ? false : FILA.initial}
+      animate={FILA.animate}
+      transition={quieto ? { duration: 0 } : escalonado(index)}
+      whileTap={quieto ? undefined : PULSACION}
       className="nav-custom-row flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left transition-colors"
     >
       <span
@@ -106,33 +105,22 @@ export default function NavCustomizer({ open, onClose, canSeeAdmin }: Props) {
 
   let indice = 0
 
+  // La presencia la lleva App.tsx, que es quien monta y desmonta este modal.
+  // Aquí NO se anida otro AnimatePresence: con dos, cuál manda la salida
+  // depende de cómo propague el contexto de presencia, y eso es justo el tipo
+  // de detalle que funciona hoy y se rompe en la siguiente versión.
+  if (!open) return null
+
   return (
-    <AnimatePresence>
-      {open && (
         <CapaModal
           onClose={onClose}
           etiqueta="Personalizar menú"
           className="fixed inset-0 z-[200] flex items-end justify-center sm:items-center sm:p-4"
           claseFondo={null}
         >
-          <motion.button
-            type="button"
-            aria-label="Cerrar"
-            onClick={onClose}
-            className="absolute inset-0 cursor-default bg-black/55 backdrop-blur-sm"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: quieto ? 0 : 0.18 }}
-          />
+          <FondoAnimado onClose={onClose} />
 
-          <motion.div
-            className="liquid-glass nav-custom-panel relative z-10 flex max-h-[88vh] w-full flex-col rounded-t-2xl shadow-2xl sm:max-h-[78vh] sm:max-w-md sm:rounded-2xl"
-            initial={quieto ? { opacity: 0 } : { opacity: 0, y: 28, scale: 0.98 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={quieto ? { opacity: 0 } : { opacity: 0, y: 20, scale: 0.985 }}
-            transition={quieto ? { duration: 0 } : MUELLE}
-          >
+          <PanelAnimado className="liquid-glass nav-custom-panel relative z-10 flex max-h-[88vh] w-full flex-col rounded-t-2xl shadow-2xl sm:max-h-[78vh] sm:max-w-md sm:rounded-2xl">
             {/* Asa: en móvil el panel sube desde abajo y el asa dice que se puede cerrar */}
             <div className="flex justify-center pt-2.5 sm:hidden">
               <span className="h-1 w-9 rounded-full" style={{ background: `color-mix(in oklab, var(--muted-foreground) 28%, transparent)` }} />
@@ -237,9 +225,7 @@ export default function NavCustomizer({ open, onClose, canSeeAdmin }: Props) {
                 </motion.footer>
               )}
             </AnimatePresence>
-          </motion.div>
+          </PanelAnimado>
         </CapaModal>
-      )}
-    </AnimatePresence>
   )
 }

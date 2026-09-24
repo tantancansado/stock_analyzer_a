@@ -4,6 +4,7 @@ import { fetchEarningsThesis } from '../api/client'
 import type { EarningsThesis, EarningsThesisVerdict } from '../api/client'
 import TickerLogo from './TickerLogo'
 import CapaModal from './CapaModal'
+import PanelAnimado, { FondoAnimado } from './PanelAnimado'
 
 interface Props {
   ticker: string
@@ -66,9 +67,10 @@ export default function EarningsThesisModal({ ticker, onClose }: Props) {
       onClose={onClose}
       etiqueta={`Tesis de resultados de ${ticker}`}
       className="fixed z-[500] bottom-0 left-0 right-0 sm:inset-0 sm:flex sm:items-center sm:justify-center sm:p-4"
-      claseFondo="fixed inset-0 z-[500] bg-black/70 backdrop-blur-md animate-fade-in"
+      claseFondo={null}
     >
-        <div className="liquid-glass relative w-full sm:max-w-2xl rounded-t-2xl sm:rounded-2xl flex flex-col max-h-[92dvh] sm:max-h-[88dvh] modal-enter">
+        <FondoAnimado onClose={onClose} className="fixed inset-0 cursor-default bg-black/70 backdrop-blur-md" />
+        <PanelAnimado className="liquid-glass relative z-10 w-full sm:max-w-2xl rounded-t-2xl sm:rounded-2xl flex flex-col max-h-[92dvh] sm:max-h-[88dvh]">
           <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-primary/60 via-primary to-purple-500/50 z-10" />
 
           <div className="sm:hidden flex justify-center pt-3 pb-1 flex-shrink-0">
@@ -255,7 +257,7 @@ export default function EarningsThesisModal({ ticker, onClose }: Props) {
               </>
             )}
           </div>
-        </div>
+        </PanelAnimado>
     </CapaModal>
   )
 }

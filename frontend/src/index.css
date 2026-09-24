@@ -959,27 +959,10 @@ button:active:not(:disabled) { transform: scale(0.97); }
 .dark .grade-D { background: #1c0505; color: #f87171; border-color: #7f1d1d; }
 
 
-/* ═══════════════════════════════════════════════════════════════════
-   THESIS MODAL
-════════════════════════════════════════════════════════════════════ */
-
-@keyframes modalEnterMobile {
-  from { transform: translateY(100%); opacity: 0; }
-  to   { transform: translateY(0);    opacity: 1; }
-}
-@keyframes modalEnterDesktop {
-  from { transform: scale(0.96) translateY(12px); opacity: 0; }
-  to   { transform: scale(1)    translateY(0);    opacity: 1; }
-}
-
-.modal-enter {
-  animation: modalEnterMobile 0.32s cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-@media (min-width: 640px) {
-  .modal-enter {
-    animation: modalEnterDesktop 0.26s cubic-bezier(0.22, 1, 0.36, 1) both;
-  }
-}
+/* La entrada de los modales ya no vive aquí: la lleva `lib/movimiento.ts` con
+   la misma física que el resto de la app (`PanelAnimado`). Una clase CSS de
+   entrada no sabe nada de la salida, y por eso los modales entraban cuidados
+   y desaparecían de golpe. */
 
 .scrollbar-hide::-webkit-scrollbar { display: none; }
 .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
@@ -1142,6 +1125,52 @@ button:active:not(:disabled) { transform: scale(0.97); }
   }
 }
 
+
+/* ═══════════════════════════════════════════════════════════════════
+   TACTO — lo que hace un control al hundirse
+════════════════════════════════════════════════════════════════════ */
+
+/* La app se usa sobre todo con el dedo, y con el dedo no hay `hover`: al
+   pulsar un control lo único que pasaba era un cambio de color que además
+   tapa tu propio dedo. Sin respuesta al tacto, la interfaz se siente pintada
+   en vez de hecha de algo.
+ 
+   `.filter-btn` ya lo tenía; el resto de los controles canónicos no. Es el
+   mismo gesto para todos, y muy corto a propósito: 0,985 es casi nada, que es
+   justo lo que lo hace parecer físico en vez de una animación.
+ 
+   Va en CSS y no en `motion`, por dos motivos: no cuesta un re-render en cada
+   pulsación, y el bloque de `prefers-reduced-motion` de arriba ya lo apaga
+   entero sin que haya que acordarse en cada componente. */
+
+.seg-tab,
+.underline-tab,
+.select-control,
+.topbar-action,
+.nav-custom-row {
+  transition-property: color, background-color, border-color, box-shadow, transform;
+  transition-duration: 0.18s;
+  transition-timing-function: ease;
+}
+
+.seg-tab:active,
+.underline-tab:active,
+.select-control:active,
+.topbar-action:active,
+.nav-custom-row:active {
+  transform: scale(0.985);
+  transition-duration: 0.10s;
+  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Un control deshabilitado no responde al tacto: fingir que sí es mentirle al
+   dedo. */
+.seg-tab:disabled:active,
+.underline-tab:disabled:active,
+.select-control:disabled:active,
+.topbar-action:disabled:active {
+  transform: none;
+}
 
 /* ═══════════════════════════════════════════════════════════════════
    AURORA TOP LINE — iridescent chromatic bar

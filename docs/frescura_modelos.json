@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-24T06:26:01Z",
+  "generated_at": "2026-09-24T09:26:54Z",
   "modelos": {
     "value": {
       "etiqueta": "oportunidades VALUE",
@@ -12,21 +12,8 @@
       "etiqueta": "LEAPS",
       "fichero": "leaps_opportunities.json",
       "datos_del": "2026-09-23T18:51:25.303691Z",
-      "desfasado": true,
-      "modulos_mas_nuevos": [
-        {
-          "modulo": "fundamental_scorer.py",
-          "cambiado_el": "2026-09-24T05:51:25Z"
-        },
-        {
-          "modulo": "leaps_analyzer.py",
-          "cambiado_el": "2026-09-24T05:51:25Z"
-        },
-        {
-          "modulo": "upside_triangulation.py",
-          "cambiado_el": "2026-09-24T05:51:25Z"
-        }
-      ]
+      "desfasado": false,
+      "modulos_mas_nuevos": []
     },
     "rebotes": {
       "etiqueta": "rebotes",
@@ -50,8 +37,6 @@
       "modulos_mas_nuevos": []
     }
   },
-  "hay_desfase": true,
-  "desfasados": [
-    "leaps"
-  ]
+  "hay_desfase": false,
+  "desfasados": []
 }

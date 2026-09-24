@@ -1,9 +1,12 @@
 import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Search } from 'lucide-react'
+import { motion, useReducedMotion } from 'motion/react'
 import { cn } from '@/lib/utils'
 import { NAV_CATEGORIES } from '@/lib/nav'
+import { FILA, escalonado } from '@/lib/movimiento'
 import CapaModal from './CapaModal'
+import PanelAnimado, { FondoAnimado } from './PanelAnimado'
 
 // El palette se alimenta de la MISMA fuente que el menú (nav.ts). Antes tenía
 // 9 items hardcodeados de 40+ páginas, algunos con paths obsoletos (p.ej.
@@ -26,6 +29,7 @@ export default function CommandPalette({ open, onClose }: { open: boolean; onClo
   const [selectedIndex, setSelectedIndex] = useState(0)
   const navigate = useNavigate()
   const inputRef = useRef<HTMLInputElement>(null)
+  const quieto = useReducedMotion()
 
   // Escape, foco atrapado, foco devuelto y bloqueo de scroll los pone
   // `CapaModal`. Aquí solo quedan las flechas y Enter, que son de la paleta.
@@ -82,26 +86,35 @@ export default function CommandPalette({ open, onClose }: { open: boolean; onClo
   // Reset index on query change
   useEffect(() => { setSelectedIndex(0) }, [query])
 
+  // La presencia la lleva App.tsx, que es quien monta y desmonta este modal.
+  // Aquí NO se anida otro AnimatePresence: con dos, cuál manda la salida
+  // depende de cómo propague el contexto de presencia, y eso es justo el tipo
+  // de detalle que funciona hoy y se rompe en la siguiente versión.
   if (!open) return null
 
   return (
     <CapaModal
       onClose={onClose}
       etiqueta="Ir a una sección"
-      className="fixed left-[50%] top-[20%] z-50 w-full max-w-lg translate-x-[-50%] rounded-xl border border-primary/20 bg-background/80 shadow-2xl backdrop-blur-xl animate-in zoom-in-95 duration-200 overflow-hidden"
-      claseFondo="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm animate-in fade-in duration-200"
+      // La posición va aquí y el aspecto del panel en `PanelAnimado`: antes
+      // estaban mezclados en esta misma clase, y por eso la paleta no podía
+      // animarse sin arrastrar el contenedor a pantalla completa. De paso el
+      // centrado por flex se comporta mejor en móvil que `left-50% + translate`.
+      className="fixed inset-0 z-50 flex items-start justify-center p-4 pt-[18vh]"
+      claseFondo={null}
     >
-      <div>
+      <FondoAnimado onClose={onClose} className="absolute inset-0 cursor-default bg-background/80 backdrop-blur-sm" />
+      <PanelAnimado className="relative z-10 w-full max-w-lg rounded-xl border border-primary/20 bg-background/80 shadow-2xl backdrop-blur-xl overflow-hidden">
         <div className="flex items-center border-b border-primary/20 px-3">
           <Search className="mr-2 h-4 w-4 shrink-0 text-primary opacity-50" />
           <input
             ref={inputRef}
-            className="flex h-12 w-full rounded-md bg-transparent py-3 text-cuerpo outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50"
+            className="flex h-12 w-full min-w-0 rounded-md bg-transparent py-3 text-cuerpo outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50"
             placeholder="Escribe un comando o busca un ticker..."
             value={query}
             onChange={(e) => setQuery(e.target.value)}
           />
-          <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
+          <kbd className="pointer-events-none ml-2 hidden shrink-0 h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100 sm:inline-flex">
             ESC
           </kbd>
         </div>
@@ -119,8 +132,15 @@ export default function CommandPalette({ open, onClose }: { open: boolean; onClo
               {navItems.map((item, i) => {
                 const idx = i
                 return (
-                  <div
+                  <motion.div
                     key={item.id}
+                    // Escalonado SOLO con la lista inicial. Mientras escribes,
+                    // los resultados tienen que estar ya: un retardo de 22ms
+                    // por fila deja de leerse como ritmo y pasa a leerse como
+                    // que el buscador va lento.
+                    initial={quieto || query ? false : FILA.initial}
+                    animate={FILA.animate}
+                    transition={quieto || query ? { duration: 0 } : escalonado(i)}
                     className={cn(
                       "flex items-center gap-2 rounded-sm px-2 py-2 text-cuerpo transition-colors cursor-pointer mb-0.5",
                       selectedIndex === idx ? "bg-primary/20 text-primary shadow-[inset_0_0_10px_rgba(0,255,255,0.1)]" : "text-foreground hover:bg-foreground/5"
@@ -131,13 +151,13 @@ export default function CommandPalette({ open, onClose }: { open: boolean; onClo
                       {item.icon}
                     </div>
                     {item.title}
-                  </div>
+                  </motion.div>
                 )
               })}
             </div>
           )}
         </div>
-      </div>
+      </PanelAnimado>
     </CapaModal>
   )
 }
