@@ -1102,20 +1102,32 @@ button:active:not(:disabled) { transform: scale(0.97); }
 .animate-fade-in    { animation: fadeIn    0.25s ease both; }
 .animate-fade-in-up { animation: fadeInUp  0.32s cubic-bezier(0.22, 1, 0.36, 1) backwards; }
 
-/* Staggered stat cards */
-.stagger-1 { animation: fadeInUp 0.32s ease backwards 0.03s; }
-.stagger-2 { animation: fadeInUp 0.32s ease backwards 0.08s; }
-.stagger-3 { animation: fadeInUp 0.32s ease backwards 0.13s; }
-.stagger-4 { animation: fadeInUp 0.32s ease backwards 0.18s; }
-.stagger-5 { animation: fadeInUp 0.32s ease backwards 0.22s; }
+/* Retardo de un bloque dentro de una secuencia que entra escalonada.
+ *
+ * Solo tocan `animation-delay`, nunca el `animation` entero: así se aplican
+ * SOBRE `.animate-fade-in-up` en vez de sustituirlo. Antes cada una
+ * redeclaraba duración y curva propias (`ease` en vez de la curva de la
+ * app), así que combinarlas con `.animate-fade-in-up` —que es como se usan
+ * siempre— hacía que la curva de esta última se descartara en silencio: la
+ * regla que gana en el cascade por venir después no es la que se lee en el
+ * className.
+ *
+ * `.stagger-a1`…`.stagger-a6` estaban declaradas y sin un solo uso en toda
+ * la app —«Staggered analysis sections», comentario de una intención que
+ * nunca se conectó—: son las que escalonan ahora los bloques del Centro de
+ * mando. */
+.stagger-1 { animation-delay: 0.03s; }
+.stagger-2 { animation-delay: 0.08s; }
+.stagger-3 { animation-delay: 0.13s; }
+.stagger-4 { animation-delay: 0.18s; }
+.stagger-5 { animation-delay: 0.22s; }
 
-/* Staggered analysis sections */
-.stagger-a1 { animation: fadeInUp 0.30s ease backwards 0.05s; }
-.stagger-a2 { animation: fadeInUp 0.30s ease backwards 0.10s; }
-.stagger-a3 { animation: fadeInUp 0.30s ease backwards 0.15s; }
-.stagger-a4 { animation: fadeInUp 0.30s ease backwards 0.20s; }
-.stagger-a5 { animation: fadeInUp 0.30s ease backwards 0.25s; }
-.stagger-a6 { animation: fadeInUp 0.30s ease backwards 0.30s; }
+.stagger-a1 { animation-delay: 0.05s; }
+.stagger-a2 { animation-delay: 0.10s; }
+.stagger-a3 { animation-delay: 0.15s; }
+.stagger-a4 { animation-delay: 0.20s; }
+.stagger-a5 { animation-delay: 0.25s; }
+.stagger-a6 { animation-delay: 0.30s; }
 
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {

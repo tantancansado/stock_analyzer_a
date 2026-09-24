@@ -719,7 +719,7 @@ function DailyPlanCard({ data, loading }: { data: DailyPlan | null | undefined; 
   const ss = SESGO_STYLES[sesgoKey] ?? SESGO_STYLES.NEUTRO
 
   return (
-    <Card className="liquid-glass border-t-2 border-t-primary/40 p-6 sm:p-7 mb-5 animate-fade-in-up">
+    <Card className="liquid-glass border-t-2 border-t-primary/40 p-6 sm:p-7 mb-5 animate-fade-in-up stagger-a5">
       {/* Header */}
       <div className="flex items-start justify-between gap-3 mb-4 flex-wrap">
         <div className="flex items-center gap-2.5">
@@ -1127,7 +1127,7 @@ export default function Dashboard() {
   return (
     <>
       {/* Header */}
-      <div className="mb-6 animate-fade-in-up flex items-start justify-between gap-4">
+      <div className="mb-6 animate-fade-in-up stagger-a1 flex items-start justify-between gap-4">
         <div>
           <h1 className="text-cifra sm:text-cifra font-extrabold tracking-tight mb-2 gradient-title">Centro de mando</h1>
           <p className="text-titulo text-muted-foreground">
@@ -1140,7 +1140,7 @@ export default function Dashboard() {
       </div>
 
       {/* Pestañas: Resumen | Cerebro (antes eran dos entradas de menú) */}
-      <div className="flex gap-1 p-1 mb-5 bg-muted/20 rounded-lg border border-border/30 w-fit animate-fade-in-up">
+      <div className="flex gap-1 p-1 mb-5 bg-muted/20 rounded-lg border border-border/30 w-fit animate-fade-in-up stagger-a2">
         {([
           { id: 'resumen' as const, label: 'Resumen', icon: LayoutDashboard },
           { id: 'cerebro' as const, label: 'Cerebro IA', icon: Brain },
@@ -1170,12 +1170,14 @@ export default function Dashboard() {
           genérico "Datos en vivo" — que se lee como si hablara de toda la
           pantalla. El de macro vive en su propia página, que es donde
           significa algo. */}
-      <div className="mb-4 animate-fade-in-up">
+      <div className="mb-4 animate-fade-in-up stagger-a3">
         <PipelineFreshnessBanner />
       </div>
 
       {/* Live prices bar — real-time, polls every 60s */}
-      <LivePricesBar />
+      <div className="animate-fade-in-up stagger-a4">
+        <LivePricesBar />
+      </div>
 
       {/* Daily Plan — most prominent feature, shown first */}
       <DailyPlanCard data={dailyPlanRaw} loading={loadingDailyPlan} />
@@ -1186,7 +1188,7 @@ export default function Dashboard() {
         const convCount = cerebroConv?.convergences?.length ?? 0
         const alertCount = cerebroAlertsRaw?.alerts?.length ?? 0
         return (
-          <div className="mb-5 animate-fade-in-up">
+          <div className="mb-5 animate-fade-in-up stagger-a6">
             <Link
               to="/dashboard?tab=cerebro"
               className="flex items-center gap-4 glass rounded-xl p-4 border border-primary/20 hover:border-primary/40 transition-colors group"

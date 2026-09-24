@@ -1902,6 +1902,27 @@ def portfolio_timeseries():
             win,
         )
 
+    def _serie_contrato(grp, horizonte: str):
+        """Lo mismo que `_serie`, pero para LEAPS y sobre el CONTRATO, no la acción.
+
+        `return_{h}`/`win_{h}` miden si la EMPRESA subió — la tesis subyacente.
+        Con apalancamiento ~2,5x eso no dice si la posición real (la call)
+        ganó dinero, que es lo que esta ficha pregunta con solo poner
+        "LEAPS" de título. `portfolio_tracker.py` ya hace esta misma
+        distinción en su resumen ('subyacente' vs 'contrato'); aquí faltaba.
+
+        Sin columna `win_*` propia para el contrato: el signo del retorno
+        define la victoria, igual que en `_stats_contrato`.
+        """
+        col = f'option_return_{horizonte}'
+        ret = pd.to_numeric(grp.get(col), errors='coerce').dropna() if col in grp.columns else pd.Series(dtype=float)
+        win = (ret > 0)
+        return (
+            round(float(win.mean() * 100), 1) if len(win) else None,
+            round(float(ret.mean()), 2) if len(ret) else None,
+            win,
+        )
+
     def _agg(group_col: str, label_col: str | None = None) -> list[dict]:
         lc = label_col or group_col
         out = []
@@ -1934,8 +1955,19 @@ def portfolio_timeseries():
         # Un rebote técnico se resuelve en semanas: medirlo a 90 días mezcla el
         # rebote con lo que viniera después. Cada estrategia lleva su plazo.
         h_p, h_s = horizontes_de(strat)
-        wr_p, ret_p, win_p = _serie(grp, h_p)
-        wr_s, ret_s, win_s = _serie(grp, h_s)
+        # LEAPS es la excepción: lo que hay que responder no es "¿subió la
+        # empresa?" sino "¿ganó dinero la posición?", y con apalancamiento
+        # ~2,5x una cosa no se deduce de la otra. `return_90d`/`win_90d` son
+        # del SUBYACENTE; el contrato tiene su propio `option_return_90d`.
+        # Detectado el 24-sep-2026 auditando esta página: hoy la ficha de
+        # LEAPS sale en blanco (ninguna señal lleva 90 días todavía) y por
+        # eso no se había notado, pero en cuanto las primeras señales
+        # (20-ago-2026) lleguen a esa edad, habría publicado el retorno de
+        # la ACCIÓN bajo el título «LEAPS» sin decirlo.
+        basis = 'contrato' if str(strat).upper() == 'LEAPS' else 'subyacente'
+        serie = _serie_contrato if basis == 'contrato' else _serie
+        wr_p, ret_p, win_p = serie(grp, h_p)
+        wr_s, ret_s, win_s = serie(grp, h_s)
         lo_p, hi_p = _wilson_pct(win_p)
         lo_s, hi_s = _wilson_pct(win_s)
         strat_rows.append({
@@ -1956,6 +1988,9 @@ def portfolio_timeseries():
             'avg_return':     ret_p,
             'avg_return_2':   ret_s,
             'avg_drawdown':   round(float(pd.to_numeric(grp['max_drawdown_30d'], errors='coerce').dropna().mean()), 2),
+            # 'subyacente' (por defecto) o 'contrato': qué mide win_rate/avg_return.
+            # Solo LEAPS es 'contrato' hoy; el frontend lo usa para explicarlo.
+            'basis':          basis,
         })
 
     return jsonify({

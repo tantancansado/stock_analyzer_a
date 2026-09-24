@@ -959,6 +959,10 @@ export interface StrategyRow {
   avg_return: number | null
   avg_return_2: number | null
   avg_drawdown: number
+  /** Qué mide win_rate/avg_return: la EMPRESA ('subyacente') o la posición
+   *  real ('contrato'). Solo LEAPS es 'contrato' — con apalancamiento ~2,5x
+   *  una call no gana lo mismo que la acción, y menos aún pierde lo mismo. */
+  basis?: 'subyacente' | 'contrato'
 }
 export interface TimeseriesData {
   by_week: TimeseriesRow[]

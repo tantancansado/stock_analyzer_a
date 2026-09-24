@@ -18,16 +18,37 @@ const TABS: { id: Tab; label: string }[] = [
   { id: 'weekday', label: 'Día semana' },
 ]
 
-function ReturnBadge({ v }: { v: number | null }) {
+function ReturnBadge({ v, n }: { v: number | null; n?: number }) {
   if (v === null || v === undefined) return <span className="text-muted-foreground text-mini">—</span>
   const color = v > 0 ? 'var(--success)' : v > -2 ? 'var(--warn)' : 'var(--danger)'
-  return <span className="text-mini font-mono" style={{ color }}>{v > 0 ? '+' : ''}{v.toFixed(2)}%</span>
+  // Con muestra chica el color se apaga: un -5% con una sola señal no puede
+  // pintarse tan firme como el mismo -5% con mil. Mismo umbral que StrategyCard
+  // (MUESTRA_MINIMA), para no tener dos criterios de "poco" en la misma página.
+  const pocaMuestra = n != null && n < MUESTRA_MINIMA
+  return (
+    <span
+      className="text-mini font-mono"
+      style={{ color: pocaMuestra ? `color-mix(in oklab, ${color} 55%, var(--muted-foreground))` : color }}
+      title={pocaMuestra ? `Con solo ${n} señal${n === 1 ? '' : 'es'} este número puede cambiar mucho mañana` : undefined}
+    >
+      {v > 0 ? '+' : ''}{v.toFixed(2)}%
+    </span>
+  )
 }
 
-function WinBadge({ v }: { v: number | null }) {
+function WinBadge({ v, n }: { v: number | null; n?: number }) {
   if (v === null || v === undefined) return <span className="text-muted-foreground text-mini">—</span>
   const color = v >= 50 ? 'var(--success)' : v >= 35 ? 'var(--warn)' : 'var(--danger)'
-  return <span className="text-mini font-mono font-semibold" style={{ color }}>{v.toFixed(1)}%</span>
+  const pocaMuestra = n != null && n < MUESTRA_MINIMA
+  return (
+    <span
+      className="text-mini font-mono font-semibold"
+      style={{ color: pocaMuestra ? `color-mix(in oklab, ${color} 55%, var(--muted-foreground))` : color }}
+      title={pocaMuestra ? `Con solo ${n} señal${n === 1 ? '' : 'es'} este número puede cambiar mucho mañana` : undefined}
+    >
+      {v.toFixed(1)}%
+    </span>
+  )
 }
 
 function MiniBar({ value, max, color = 'var(--info)' }: { value: number; max: number; color?: string }) {
@@ -42,16 +63,20 @@ function MiniBar({ value, max, color = 'var(--info)' }: { value: number; max: nu
   )
 }
 
-function WinBar({ value, max = 80 }: { value: number | null; max?: number }) {
+function WinBar({ value, max = 80, n }: { value: number | null; max?: number; n?: number }) {
   const v = value ?? 0
   const pct = Math.min((v / max) * 100, 100)
   const color = v >= 50 ? 'var(--success)' : v >= 35 ? 'var(--warn)' : 'var(--danger)'
+  const pocaMuestra = n != null && n < MUESTRA_MINIMA
   return (
     <div className="flex items-center gap-2">
       <div className="flex-1 h-1.5 rounded-full" style={{ background: 'rgba(255,255,255,0.07)' }}>
-        <div className="h-1.5 rounded-full transition-all" style={{ width: `${pct}%`, background: color }} />
+        <div
+          className="h-1.5 rounded-full transition-all"
+          style={{ width: `${pct}%`, background: pocaMuestra ? `color-mix(in oklab, ${color} 55%, var(--muted-foreground))` : color }}
+        />
       </div>
-      <WinBadge v={value} />
+      <WinBadge v={value} n={n} />
     </div>
   )
 }
@@ -107,9 +132,21 @@ function fmtLabel(tab: Tab, label: string) {
 function WinRateTrend({ rows, tab }: { rows: TimeseriesRow[]; tab: Tab }) {
   const h1 = rows.find(r => r.horizonte)?.horizonte ?? '90d'
   const h2 = rows.find(r => r.horizonte_2)?.horizonte_2 ?? '180d'
+  // Un período con una sola señal y 0% de acierto se dibujaba como una caída
+  // en picado hasta el suelo del gráfico — visualmente "algo se rompió",
+  // cuando en realidad es ruido de una muestra de tamaño 1. Igual que la
+  // tabla y el ranking de abajo (mismo MUESTRA_MINIMA), el punto se OMITE en
+  // vez de dibujarse: con `connectNulls` la línea salta el hueco en lugar de
+  // clavar un pico falso. "Prefiere 0 señales antes que señales falsas"
+  // aplica también a una curva.
   const data = rows
     .filter(r => r.win_rate != null || r.win_rate_2 != null)
-    .map(r => ({ label: fmtLabel(tab, r.label), principal: r.win_rate, secundario: r.win_rate_2, signals: r.signals }))
+    .map(r => ({
+      label: fmtLabel(tab, r.label),
+      principal: r.signals >= MUESTRA_MINIMA ? r.win_rate : null,
+      secundario: r.signals >= MUESTRA_MINIMA ? r.win_rate_2 : null,
+      signals: r.signals,
+    }))
   if (data.length < 2) return null
   return (
     <div className="h-40 -ml-2">
@@ -161,13 +198,13 @@ function TimeseriesTable({ rows, tab }: { rows: TimeseriesRow[]; tab: Tab }) {
                 <MiniBar value={row.signals} max={maxSignals} />
               </td>
               <td className="py-2.5 pl-3 min-w-[130px]">
-                <WinBar value={row.win_rate} />
+                <WinBar value={row.win_rate} n={row.signals} />
               </td>
               <td className="py-2.5 pl-3 min-w-[130px]">
-                <WinBar value={row.win_rate_2} />
+                <WinBar value={row.win_rate_2} n={row.signals} />
               </td>
-              <td className="py-2.5 text-right"><ReturnBadge v={row.avg_return} /></td>
-              <td className="py-2.5 text-right"><ReturnBadge v={row.avg_return_2} /></td>
+              <td className="py-2.5 text-right"><ReturnBadge v={row.avg_return} n={row.signals} /></td>
+              <td className="py-2.5 text-right"><ReturnBadge v={row.avg_return_2} n={row.signals} /></td>
               {showStrategy && (
                 <td className="py-2.5 text-right">
                   <span className="text-mini font-mono text-emerald-400">{row.value_us ?? 0}</span>
@@ -210,6 +247,15 @@ function StrategyCard({ row }: { row: StrategyRow }) {
           <p className="text-micro text-muted-foreground mb-2.5">
             Estrategia de corto plazo — se mide a {row.horizonte.replace('d', ' días')},
             no a los {row.horizonte_2.replace('d', ' días')} del resto.
+          </p>
+        )}
+        {/* LEAPS mide el CONTRATO, no la acción: con apalancamiento ~2,5x una
+            call no gana lo mismo que la empresa, y menos aún pierde lo mismo.
+            Sin esto, el win rate de esta ficha diría "subió la acción" bajo
+            el título "LEAPS" sin que se notara la diferencia. */}
+        {row.basis === 'contrato' && (
+          <p className="text-micro text-muted-foreground mb-2.5">
+            Medido sobre la opción, no la acción — un LEAPS apalanca también la caída.
           </p>
         )}
         <div className="space-y-2.5">
@@ -259,12 +305,29 @@ function StrategyCard({ row }: { row: StrategyRow }) {
   )
 }
 
-function BestWorstRows({ rows, tab }: { rows: TimeseriesRow[]; tab: Tab }) {
+/**
+ * Los 3 mejores y los 3 peores períodos por win rate, sin que se solapen.
+ *
+ * Con pocos períodos que cualifican (mín. 5 señales), coger `slice(-3)` sobre
+ * la misma lista ordenada se solapaba con `slice(0,3)`: con 4 períodos en
+ * total, el 2º y 3º mejor volvían a salir TAMBIÉN como 2º y 3º peor — el
+ * mismo mes puntuado arriba y abajo en la misma pantalla. Se quita del
+ * conjunto de "peores" lo que ya salió en "mejores", así que la lista de
+ * peores sale más corta en vez de repetirse.
+ */
+export function mejoresYPeores(rows: TimeseriesRow[]) {
   const completed = rows.filter(r => r.win_rate !== null && r.signals >= 5)
-  if (completed.length < 2) return null
+  if (completed.length < 2) return { best: [] as TimeseriesRow[], worst: [] as TimeseriesRow[] }
   const sorted = [...completed].sort((a, b) => (b.win_rate ?? 0) - (a.win_rate ?? 0))
   const best = sorted.slice(0, 3)
-  const worst = sorted.slice(-3).reverse()
+  const enMejores = new Set(best.map(r => r.label))
+  const worst = sorted.filter(r => !enMejores.has(r.label)).slice(-3).reverse()
+  return { best, worst }
+}
+
+function BestWorstRows({ rows, tab }: { rows: TimeseriesRow[]; tab: Tab }) {
+  const { best, worst } = mejoresYPeores(rows)
+  if (best.length < 2) return null
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
       <Card className="glass">
@@ -275,14 +338,15 @@ function BestWorstRows({ rows, tab }: { rows: TimeseriesRow[]; tab: Tab }) {
               <div key={r.label} className="flex items-center justify-between">
                 <span className="text-cuerpo text-foreground">{fmtLabel(tab, r.label)}</span>
                 <div className="flex items-center gap-3">
-                  <WinBadge v={r.win_rate} />
-                  <ReturnBadge v={r.avg_return} />
+                  <WinBadge v={r.win_rate} n={r.signals} />
+                  <ReturnBadge v={r.avg_return} n={r.signals} />
                 </div>
               </div>
             ))}
           </div>
         </CardContent>
       </Card>
+      {worst.length > 0 && (
       <Card className="glass">
         <CardContent className="p-5">
           <div className="etiqueta-seccion text-red-400 mb-3">Peores períodos</div>
@@ -291,14 +355,15 @@ function BestWorstRows({ rows, tab }: { rows: TimeseriesRow[]; tab: Tab }) {
               <div key={r.label} className="flex items-center justify-between">
                 <span className="text-cuerpo text-foreground">{fmtLabel(tab, r.label)}</span>
                 <div className="flex items-center gap-3">
-                  <WinBadge v={r.win_rate} />
-                  <ReturnBadge v={r.avg_return} />
+                  <WinBadge v={r.win_rate} n={r.signals} />
+                  <ReturnBadge v={r.avg_return} n={r.signals} />
                 </div>
               </div>
             ))}
           </div>
         </CardContent>
       </Card>
+      )}
     </div>
   )
 }
