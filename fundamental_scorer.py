@@ -117,7 +117,30 @@ CAPEX_SOBRE_OPERATIVO_MAX = 0.50
 # El crecimiento no se mantiene cinco años y se corta de golpe: decae hacia el
 # terminal. Sin este desvanecimiento, proyectar el 12-15% actual durante un
 # lustro y luego pegarle una perpetuidad daba valores del doble del precio.
-CRECIMIENTO_TERMINAL = 0.025
+#
+# 3,5% desde el 24-sep-2026, decisión del usuario. Estaba en 2,5% y eso metía
+# en el modelo un margen de seguridad del ~20% SIN DECIRLO: medido el
+# 23-sep-2026 sobre las 139 empresas con DCF publicado, el modelo consideraba
+# valor justo 18,7x de FCF (a g=10%) mientras el mercado pagaba una mediana de
+# 23,4x. De ahí salía el -19% de upside mediano, y de ahí que el aviso de
+# «tus modelos contradicen al analista» saltara en 60 tickers de 139: una
+# bandera que se levanta en el 43% de los casos no distingue nada.
+#
+# Múltiplo justo que da cada calibración a g=10%:
+#
+#     terminal 2,5%, fase de 5 años   18,7x   ← margen del 20% incorporado
+#     terminal 3,5%, fase de 5 años   21,8x   ← esta
+#     fase de 10 años                 21,5x
+#     las dos juntas                  24,7x   ≈ mercado, sin margen
+#
+# 3,5% es el crecimiento nominal de una economía madura a largo plazo (real
+# ~2% + inflación objetivo ~2%, con algo de descuento). Deja algo de colchón
+# sin llamar cara a toda empresa de calidad.
+#
+# OJO al tope de abajo: con el descuento en su suelo (7,5%), `min(...)` deja
+# el terminal justo en 3,5%, así que para los negocios más estables esta
+# constante ya no muerde y manda el margen sobre el descuento.
+CRECIMIENTO_TERMINAL = 0.035
 MARGEN_SOBRE_TERMINAL = 0.04   # r - g_terminal nunca por debajo de esto
 
 

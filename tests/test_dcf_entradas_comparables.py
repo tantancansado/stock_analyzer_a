@@ -122,3 +122,51 @@ class TestLoPublicadoCumpleLasDosReglas:
             'Filas que publican un DCF y a la vez el motivo de por qué no vale: '
             f'{culpables[:12]}'
         )
+
+
+class TestLaCalibracionEsUnaDecision:
+    """El terminal no es un detalle técnico: es cuánto margen lleva el modelo.
+
+    Con terminal al 2,5% el DCF consideraba valor justo 18,7x de FCF (a
+    g=10%) mientras el mercado pagaba una mediana de 23,4x en este universo.
+    Esos ~20% de diferencia eran un margen de seguridad incorporado y NO
+    declarado: el modelo se presentaba como valoración neutra, y por eso
+    «contradecía al analista» en 60 de 139 tickers. Una bandera que se levanta
+    en el 43% de los casos no distingue nada.
+
+    El usuario eligió el punto intermedio el 24-sep-2026: terminal al 3,5%
+    (crecimiento nominal de una economía madura), que da ~21,8x. Queda algo de
+    colchón sin llamar cara a toda empresa de calidad.
+
+    Este test no comprueba que 3,5 sea el número correcto —eso es juicio de
+    inversión, no ingeniería—. Comprueba que nadie lo cambie sin darse cuenta
+    de lo que mueve.
+    """
+
+    @staticmethod
+    def _multiplo(disc, g, tg, anios=5):
+        pv, f = 0.0, 1.0
+        for t in range(1, anios + 1):
+            gt = g + (tg - g) * (t - 1) / (anios - 1)
+            f *= (1 + gt)
+            pv += f / (1 + disc) ** t
+        return pv + (f * (1 + tg) / (disc - tg)) / (1 + disc) ** anios
+
+    def test_el_terminal_es_el_que_se_decidio(self):
+        assert fs.CRECIMIENTO_TERMINAL == 0.035
+
+    def test_el_multiplo_justo_queda_cerca_del_mercado(self):
+        """Ni pagando lo que el mercado ni un 20% por debajo sin decirlo."""
+        tg = min(fs.CRECIMIENTO_TERMINAL, 0.09 - fs.MARGEN_SOBRE_TERMINAL)
+        m = self._multiplo(0.09, 0.10, tg)
+        assert 20.0 <= m <= 23.4, (
+            f'a descuento 9% y crecimiento 10% el modelo paga {m:.1f}x de FCF; '
+            'el mercado paga 23,4x de mediana en este universo. Por debajo de '
+            '20x vuelve a llevar un margen que no declara.'
+        )
+
+    def test_el_margen_sobre_el_descuento_sigue_mandando(self):
+        """Con el descuento en su suelo, r - g no puede estrecharse: el valor
+        terminal se dispara y un 0,5% de más multiplica el objetivo."""
+        tg = min(fs.CRECIMIENTO_TERMINAL, fs.DESCUENTO_MIN - fs.MARGEN_SOBRE_TERMINAL)
+        assert fs.DESCUENTO_MIN - tg >= fs.MARGEN_SOBRE_TERMINAL - 1e-9
