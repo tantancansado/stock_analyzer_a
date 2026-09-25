@@ -1,44 +1,140 @@
 {
-  "date": "2026-09-25",
-  "timestamp": "2026-09-25T05:40:33.912975",
-  "narrative": "El entorno macro se mantiene en un r\u00e9gimen CALM: inflaci\u00f3n bajo control, pol\u00edtica monetaria estable y volatilidad reducida, lo que favorece la revaloraci\u00f3n de m\u00faltiplos en sectores tradicionales y permite a los inversores value capturar discrepancias de precio sin presi\u00f3n de tipos. Los picks m\u00e1s atractivos son **ADSK (Technology)**",
-  "macro_regime": "CALM",
-  "picks_count": 8,
-  "top_picks": [
-    {
-      "ticker": "RMD",
-      "sector": "Healthcare",
-      "value_score": 80.925,
-      "analyst_upside_pct": 11.6,
-      "conviction_grade": null
-    },
-    {
-      "ticker": "VRSN",
-      "sector": "Technology",
-      "value_score": 71.91499999999999,
-      "analyst_upside_pct": 11.1,
-      "conviction_grade": null
-    },
-    {
-      "ticker": "THC",
-      "sector": "Healthcare",
-      "value_score": 69.24,
-      "analyst_upside_pct": 14.1,
-      "conviction_grade": null
-    },
-    {
-      "ticker": "ADSK",
-      "sector": "Technology",
-      "value_score": 68.995,
-      "analyst_upside_pct": 46.0,
-      "conviction_grade": null
-    },
-    {
-      "ticker": "UNP",
-      "sector": "Industrials",
-      "value_score": 61.135000000000005,
-      "analyst_upside_pct": 20.2,
-      "conviction_grade": null
+  "fecha": "2026-09-25",
+  "texto": "<b>Para comprar hoy: VeriSign (VRSN) y Ferrari (RACE)</b>. VRSN cotiza a 291,88 con un 6,6% por debajo de máximos y los analistas le ven un 11% más de subida; Ferrari cae un 18% desde máximos pero mantiene fuerza relativa positiva a 6 meses, también con timing de entrada.\n\nPara vigilar, aún no toca entrar: Autodesk (ADSK) sigue cayendo un 30% a 6 meses pese a resultados sólidos (EPS batiendo 3 trimestres seguidos, ingresos +16-18%) — es puro castigo de sentimiento, pero barato todavía no es comprable. ResMed (RMD) arrastra el golpe del recall de su Astral por la FDA (42M de cargo, 75M de impacto en ingresos FY27), negocio base intacto pero mejor esperar a que se aclare. Graco (GGG), Cboe (CBOE) y Daifuku (6383.T) también caen sin motivo claro identificado — mantenlas en radar.\n\nEntran nuevos en la lista: MSFT, PAYX, THC y UNP. Salen: 4684.T, KO y MCO.\n\nEl acierto del sistema a 90 días es del 61,5% con retorno medio del 3,15% (39 señales) — cifra provisional, todavía no hay muestra suficiente a 180 días para el veredicto real. Ajusta el tamaño de posición en consecuencia.\n\n🟡 Claude: $19.37 de $20 (97%) · lo que más gasta: ai_quality_filter ($4.72)",
+  "hechos": {
+    "fecha": "2026-09-25",
+    "total_lista": 47,
+    "datos_incompletos": [],
+    "picks_nuevos": [
+      "MSFT",
+      "PAYX",
+      "THC",
+      "UNP"
+    ],
+    "picks_que_se_van": [
+      "4684.T",
+      "KO",
+      "MCO"
+    ],
+    "comprables": [
+      {
+        "ticker": "VRSN",
+        "empresa": "VeriSign, Inc.",
+        "score": 71.91499999999999,
+        "precio": 291.88,
+        "upside_analista": 11.1,
+        "upside_triangulado": null,
+        "divergencia": "MEDIA",
+        "fcf_yield": 4.09,
+        "del_maximo_pct": -6.6,
+        "rs_6m": -2.92,
+        "timing": "ENTRADA",
+        "por_que_cae": "",
+        "por_que_cae_detalle": ""
+      },
+      {
+        "ticker": "RACE",
+        "empresa": "Ferrari N.V.",
+        "score": 36.935,
+        "precio": 411.82,
+        "upside_analista": 11.2,
+        "upside_triangulado": null,
+        "divergencia": "MEDIA",
+        "fcf_yield": 2.48,
+        "del_maximo_pct": -18.4,
+        "rs_6m": 9.77,
+        "timing": "ENTRADA",
+        "por_que_cae": "",
+        "por_que_cae_detalle": ""
+      }
+    ],
+    "vigilar": [
+      {
+        "ticker": "ADSK",
+        "empresa": "Autodesk, Inc.",
+        "score": 68.995,
+        "precio": 211.35,
+        "upside_analista": 46.0,
+        "upside_triangulado": 31.9,
+        "divergencia": "MEDIA",
+        "fcf_yield": 6.38,
+        "del_maximo_pct": -35.2,
+        "rs_6m": -29.75,
+        "timing": "ESPERAR",
+        "por_que_cae": "SENTIMIENTO",
+        "por_que_cae_detalle": "Autodesk ha caído ~33% en 12 meses a pesar de resultados sólidos: 3 trimestres consecutivos superando EPS, revenue creciendo 16-18% YoY, free cash flow +54% en FY26, y guidance ele"
+      },
+      {
+        "ticker": "GGG",
+        "empresa": "Graco Inc.",
+        "score": 50.08000000000001,
+        "precio": 77.15,
+        "upside_analista": 18.3,
+        "upside_triangulado": 11.1,
+        "divergencia": "",
+        "fcf_yield": 5.02,
+        "del_maximo_pct": -19.4,
+        "rs_6m": -29.2,
+        "timing": "ESPERAR",
+        "por_que_cae": "SIN_DATOS",
+        "por_que_cae_detalle": ""
+      },
+      {
+        "ticker": "CBOE",
+        "empresa": "Cboe Global Markets, Inc.",
+        "score": 52.5,
+        "precio": 267.57,
+        "upside_analista": 18.0,
+        "upside_triangulado": 22.0,
+        "divergencia": "",
+        "fcf_yield": 6.77,
+        "del_maximo_pct": -27.9,
+        "rs_6m": -22.48,
+        "timing": "ESPERAR",
+        "por_que_cae": "SIN_DATOS",
+        "por_que_cae_detalle": ""
+      },
+      {
+        "ticker": "RMD",
+        "empresa": "ResMed Inc.",
+        "score": 80.925,
+        "precio": 221.89,
+        "upside_analista": 11.6,
+        "upside_triangulado": 28.0,
+        "divergencia": "",
+        "fcf_yield": 5.09,
+        "del_maximo_pct": -22.1,
+        "rs_6m": -20.91,
+        "timing": "ESPERAR",
+        "por_que_cae": "EVENTO",
+        "por_que_cae_detalle": "Caída derivada del recall de Astral (FDA) anunciado en Q4 2026 (agosto): $42M de cargo y $75M de headwind de revenue en FY2027 al suspender ventas nuevas. Negocio base sigue sólido"
+      },
+      {
+        "ticker": "6383.T",
+        "empresa": "Daifuku Co., Ltd.",
+        "score": 52.715,
+        "precio": 5569.0,
+        "upside_analista": 35.4,
+        "upside_triangulado": 20.1,
+        "divergencia": "MEDIA",
+        "fcf_yield": 5.61,
+        "del_maximo_pct": -29.1,
+        "rs_6m": -17.61,
+        "timing": "ESPERAR",
+        "por_que_cae": "",
+        "por_que_cae_detalle": ""
+      }
+    ],
+    "tesis_rotas": [],
+    "rotas_son_tuyas": true,
+    "regimen_cambio": null,
+    "rendimiento_sistema": {
+      "horizonte": "90d",
+      "es_horizonte_definitivo": false,
+      "nota": "A 180 días aún no hay muestra (la señal más antigua es de feb-2026); este 90d es provisional, no el veredicto",
+      "acierto_pct": 61.5,
+      "retorno_medio": 3.15,
+      "n": 39
     }
-  ]
+  }
 }

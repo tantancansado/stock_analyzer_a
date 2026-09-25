@@ -1,0 +1,59 @@
+{
+  "listas": {
+    "value_opportunities": {
+      "candidatas": 84,
+      "publicadas": 78,
+      "excluidos": [
+        {
+          "ticker": "DVA",
+          "paso": "rangos_imposibles",
+          "motivo": "DCF fuera de rango: no es una valoración, es un dato roto (visto 244.9, esperado entre -95 y 200)",
+          "score": 63.7
+        },
+        {
+          "ticker": "VCISY",
+          "paso": "rangos_imposibles",
+          "motivo": "DCF fuera de rango: no es una valoración, es un dato roto (visto 273.9, esperado entre -95 y 200)",
+          "score": 55.2
+        },
+        {
+          "ticker": "KYCCF",
+          "paso": "rangos_imposibles",
+          "motivo": "FCF yield fuera de rango: por encima del 20% suele ser divisa sin convertir (visto 339.93, esperado entre -50 y 20)",
+          "score": 47.498
+        },
+        {
+          "ticker": "KYCCF",
+          "paso": "rangos_imposibles",
+          "motivo": "DCF fuera de rango: no es una valoración, es un dato roto (visto 7269, esperado entre -95 y 200)",
+          "score": 47.498
+        },
+        {
+          "ticker": "KYCCF",
+          "paso": "rangos_imposibles",
+          "motivo": "Falta analyst_upside_pct: no se recomienda lo que no se puede evaluar",
+          "score": 47.498
+        },
+        {
+          "ticker": "ASAZY",
+          "paso": "rangos_imposibles",
+          "motivo": "FCF yield fuera de rango: por encima del 20% suele ser divisa sin convertir (visto 47.08, esperado entre -50 y 20)",
+          "score": 45.0
+        },
+        {
+          "ticker": "ATLKY",
+          "paso": "rangos_imposibles",
+          "motivo": "FCF yield fuera de rango: por encima del 20% suele ser divisa sin convertir (visto 26.13, esperado entre -50 y 20)",
+          "score": 40.400000000000006
+        },
+        {
+          "ticker": "ERIE",
+          "paso": "rangos_imposibles",
+          "motivo": "Falta analyst_upside_pct: no se recomienda lo que no se puede evaluar",
+          "score": 35.64
+        }
+      ]
+    }
+  },
+  "generated_at": "2026-09-25T05:17:17Z"
+}
