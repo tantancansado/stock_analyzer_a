@@ -1,71 +1,71 @@
 {
-  "date": "2026-09-24",
-  "timestamp": "2026-09-24T05:48:03.691209",
-  "narrative": "",
+  "date": "2026-09-25",
+  "timestamp": "2026-09-25T05:40:35.206836",
+  "narrative": "La rotaci\u00f3n muestra una clara preferencia por sectores defensivos de salud y tecnolog\u00eda, con los l\u00edderes concentrados en servicios m\u00e9dicos, contenido digital y software de infraestructura (RS\u202f\u2265\u202f55). Los grupos c\u00edclicos est\u00e1n en la zona de rezago: autopartes, restaurantes y materiales de construcci\u00f3n registran RS cercanas a cero, indicando aversi\u00f3n al riesgo de consumo y materias primas. Este sesgo defensivo encaja con el entorno macro \u201cCALM\u201d, donde la volatilidad es baja y los inversores buscan calidad y flujos estables m\u00e1s que exposici\u00f3n a ciclos econ\u00f3micos. Enf\u00f3quese ahora en oportunidades dentro de Healthcare (especialmente facilities, diagnostics y specialty pharma) y Technology (infra\u2011software). Evite exposici\u00f3n a Consumer Cyclical y Basic Materials hasta",
   "macro_regime": "CALM",
   "top_sectors": [
     {
       "industry": "Medical Care Facilities",
       "sector": "Healthcare",
-      "avg_rs_percentile": 63.2,
+      "avg_rs_percentile": 57.4,
+      "num_tickers": 2,
+      "label": "Top 10%"
+    },
+    {
+      "industry": "Internet Content & Information",
+      "sector": "Communication Services",
+      "avg_rs_percentile": 56.6,
       "num_tickers": 2,
       "label": "Top 10%"
     },
     {
       "industry": "Software - Infrastructure",
       "sector": "Technology",
-      "avg_rs_percentile": 56.2,
+      "avg_rs_percentile": 55.2,
       "num_tickers": 4,
       "label": "Top 10%"
     },
     {
       "industry": "Diagnostics & Research",
       "sector": "Healthcare",
-      "avg_rs_percentile": 49.8,
+      "avg_rs_percentile": 52.2,
       "num_tickers": 4,
       "label": "Top 10%"
     },
     {
-      "industry": "Internet Content & Information",
-      "sector": "Communication Services",
-      "avg_rs_percentile": 49.2,
+      "industry": "Drug Manufacturers - Specialty & Generic",
+      "sector": "Healthcare",
+      "avg_rs_percentile": 48.9,
       "num_tickers": 2,
-      "label": "Top 10%"
-    },
-    {
-      "industry": "Railroads",
-      "sector": "Industrials",
-      "avg_rs_percentile": 46.5,
-      "num_tickers": 3,
       "label": "Top 25%"
     }
   ],
   "bottom_sectors": [
     {
-      "industry": "Waste Management",
-      "sector": "Industrials",
-      "avg_rs_percentile": 8.4,
-      "num_tickers": 3,
-      "label": "Bottom 25%"
-    },
-    {
-      "industry": "Consulting Services",
-      "sector": "Industrials",
-      "avg_rs_percentile": 6.1,
+      "industry": "Medical Devices",
+      "sector": "Healthcare",
+      "avg_rs_percentile": 8.2,
       "num_tickers": 3,
       "label": "Bottom 25%"
     },
     {
       "industry": "Auto Parts",
       "sector": "Consumer Cyclical",
-      "avg_rs_percentile": 5.5,
+      "avg_rs_percentile": 6.5,
       "num_tickers": 2,
+      "label": "Bottom 25%"
+    },
+    {
+      "industry": "Consulting Services",
+      "sector": "Industrials",
+      "avg_rs_percentile": 5.7,
+      "num_tickers": 3,
       "label": "Bottom 25%"
     },
     {
       "industry": "Restaurants",
       "sector": "Consumer Cyclical",
-      "avg_rs_percentile": 2.4,
+      "avg_rs_percentile": 0.2,
       "num_tickers": 4,
       "label": "Bottom 25%"
     },

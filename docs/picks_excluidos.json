@@ -1,77 +1,59 @@
 {
   "listas": {
     "value_opportunities": {
-      "candidatas": 85,
-      "publicadas": 76,
+      "candidatas": 84,
+      "publicadas": 78,
       "excluidos": [
+        {
+          "ticker": "DVA",
+          "paso": "rangos_imposibles",
+          "motivo": "DCF fuera de rango: no es una valoración, es un dato roto (visto 244.9, esperado entre -95 y 200)",
+          "score": 63.7
+        },
         {
           "ticker": "VCISY",
           "paso": "rangos_imposibles",
-          "motivo": "DCF fuera de rango: no es una valoración, es un dato roto (visto 205.9, esperado entre -95 y 200)",
-          "score": 65.705
+          "motivo": "DCF fuera de rango: no es una valoración, es un dato roto (visto 273.9, esperado entre -95 y 200)",
+          "score": 55.2
         },
         {
           "ticker": "KYCCF",
           "paso": "rangos_imposibles",
-          "motivo": "FCF yield fuera de rango: por encima del 20% suele ser divisa sin convertir (visto 338.54, esperado entre -50 y 20)",
-          "score": 47.940000000000005
+          "motivo": "FCF yield fuera de rango: por encima del 20% suele ser divisa sin convertir (visto 339.93, esperado entre -50 y 20)",
+          "score": 47.498
         },
         {
           "ticker": "KYCCF",
           "paso": "rangos_imposibles",
-          "motivo": "DCF fuera de rango: no es una valoración, es un dato roto (visto 6154.6, esperado entre -95 y 200)",
-          "score": 47.940000000000005
+          "motivo": "DCF fuera de rango: no es una valoración, es un dato roto (visto 7269, esperado entre -95 y 200)",
+          "score": 47.498
         },
         {
           "ticker": "KYCCF",
           "paso": "rangos_imposibles",
           "motivo": "Falta analyst_upside_pct: no se recomienda lo que no se puede evaluar",
-          "score": 47.940000000000005
+          "score": 47.498
         },
         {
           "ticker": "ASAZY",
           "paso": "rangos_imposibles",
-          "motivo": "FCF yield fuera de rango: por encima del 20% suele ser divisa sin convertir (visto 46.71, esperado entre -50 y 20)",
+          "motivo": "FCF yield fuera de rango: por encima del 20% suele ser divisa sin convertir (visto 47.08, esperado entre -50 y 20)",
           "score": 45.0
         },
         {
           "ticker": "ATLKY",
           "paso": "rangos_imposibles",
-          "motivo": "FCF yield fuera de rango: por encima del 20% suele ser divisa sin convertir (visto 25.87, esperado entre -50 y 20)",
-          "score": 40.64
+          "motivo": "FCF yield fuera de rango: por encima del 20% suele ser divisa sin convertir (visto 26.13, esperado entre -50 y 20)",
+          "score": 40.400000000000006
         },
         {
           "ticker": "ERIE",
           "paso": "rangos_imposibles",
           "motivo": "Falta analyst_upside_pct: no se recomienda lo que no se puede evaluar",
-          "score": 37.64
-        },
-        {
-          "ticker": "THC",
-          "paso": "verificador_ia",
-          "motivo": "fcf_yield_pct (14.55%) es extremadamente alto y sugiere error de escala (¿14.55 vs 1.455?); peg_ratio de 0.06 con crecimiento del 14.6% es coherente pero ese FCF yield es casi 3x el de pares sanos y no encaja con múltiplos normales · modelos_acuerdo DISPERSOS con modelos_dispersion_pts 81.1 (DCF 108.4% vs P/E 27.3%): la triangulación elige P/E pero esa dispersión extrema sin marca upside_requiere_verificacion es inconsistente con el rigor del sistema",
-          "score": 68.25999999999999
-        },
-        {
-          "ticker": "IT",
-          "paso": "verificador_ia",
-          "motivo": "rev_growth_yoy (-0.6%) es negativo, pero upside_triangulated_pct (74.1%) y upside_requiere_verificacion false sugieren oportunidad sin recelo; con ingresos cayendo, un DCF de +74% carece de fundamento visible · fcf_yield_pct (11.24%) también elevado para un negocio que contrae; los múltiplos (PEG 0.33, FCF 11.24%) solo cuadran si se asume un rebote que la ficha no justifica",
-          "score": 62.24
-        },
-        {
-          "ticker": "APH",
-          "paso": "verificador_ia",
-          "motivo": "analyst_upside_pct (20.9%) pero target_price_dcf_upside_pct (-56.1%) y P/E (-59.7%) ambos fuertemente negativos; modelos_acuerdo COHERENTES pero upside_divergence ALTA significa modelo y analista se contradicen; el analista dice +20.9% pero DCF dice -56.1%: esto invalida la recomendación de valor · rev_growth_yoy 58.4% es explosivo pero no compensa la valoración: los modelos ven sobrevaloración severa que el analista ignora",
-          "score": 51.99
-        },
-        {
-          "ticker": "DVA",
-          "paso": "verificador_ia",
-          "motivo": "modelos_dispersion_pts 188.9 (DCF 174.7% vs P/E -14.2%) es colosal; upside_requiere_verificacion false pero la dispersión extrema invalida cualquier triangulación; el sistema deja upside_triangulated_pct vacío a propósito, correcto, pero con fundamental_score 65.5 y un FCF yield 13.84% se sugiere error de escala o denominador",
-          "score": 51.900000000000006
+          "score": 35.64
         }
       ]
     }
   },
-  "generated_at": "2026-09-24T05:06:32Z"
+  "generated_at": "2026-09-25T05:17:17Z"
 }

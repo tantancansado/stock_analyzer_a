@@ -1,124 +1,44 @@
 {
-  "fecha": "2026-09-24",
-  "texto": "<b>Hoy sí hay algo que comprar</b>: VeriSign (VRSN), a 293,28$. Está solo un 6% por debajo de máximos, con fuerza relativa positiva y en zona de entrada. Los analistas le dan un 10,6% de subida, pero el modelo interno la ve algo cara (-11,4%) — divergencia media, así que entra pero sin forzar el tamaño de la posición.\n\nPara vigilar, barato pero cayendo todavía:\n– <b>ADSK</b>: cae un 33% pese a resultados sólidos (ingresos +16-18%, FCF +54%), es puro castigo de sentimiento. Espera confirmación antes de entrar.\n– <b>JKHY</b>: -23% por comentarios de la gestión sobre presión de márgenes y crecimiento más lento, mezclado con recompras. Señales mixtas, toca esperar.\n– <b>RMD</b>: -22% por el recall de Astral (FDA), con cargo de 42M$ y golpe de 75M$ en ingresos FY27. El negocio base sigue sólido, pero el evento pesa.\n– <b>CBOE</b> y <b>BR</b>: caen un 27% y 32% respectivamente sin motivo claro identificado — vigílalas pero sin urgencia.\n\nNuevos en el radar: 4684.T y KO. Salen de la lista: BR, FHN, MSFT y THC.\n\nEl sistema acierta un 61,5% con retorno medio del 3,15% (39 señales), pero es una cifra provisional a 90 días — todavía no hay muestra suficiente a 180 días para darla por definitiva. Dimensiona en consecuencia.\n\n🟡 Claude: $19.15 de $20 (96%) · lo que más gasta: ai_quality_filter ($4.53)",
-  "hechos": {
-    "fecha": "2026-09-24",
-    "total_lista": 46,
-    "datos_incompletos": [],
-    "picks_nuevos": [
-      "4684.T",
-      "KO"
-    ],
-    "picks_que_se_van": [
-      "BR",
-      "FHN",
-      "MSFT",
-      "THC"
-    ],
-    "comprables": [
-      {
-        "ticker": "VRSN",
-        "empresa": "VeriSign, Inc.",
-        "score": 71.42999999999999,
-        "precio": 293.28,
-        "upside_analista": 10.6,
-        "upside_triangulado": -11.4,
-        "divergencia": "MEDIA",
-        "fcf_yield": 4.07,
-        "del_maximo_pct": -6.1,
-        "rs_6m": 4.81,
-        "timing": "ENTRADA",
-        "por_que_cae": "",
-        "por_que_cae_detalle": ""
-      }
-    ],
-    "vigilar": [
-      {
-        "ticker": "ADSK",
-        "empresa": "Autodesk, Inc.",
-        "score": 69.72,
-        "precio": 217.15,
-        "upside_analista": 42.1,
-        "upside_triangulado": 21.5,
-        "divergencia": "ALTA",
-        "fcf_yield": 6.21,
-        "del_maximo_pct": -33.5,
-        "rs_6m": -26.78,
-        "timing": "ESPERAR",
-        "por_que_cae": "SENTIMIENTO",
-        "por_que_cae_detalle": "Autodesk ha caído ~33% en 12 meses a pesar de resultados sólidos: 3 trimestres consecutivos superando EPS, revenue creciendo 16-18% YoY, free cash flow +54% en FY26, y guidance ele"
-      },
-      {
-        "ticker": "JKHY",
-        "empresa": "Jack Henry & Associates, Inc.",
-        "score": 50.25999999999999,
-        "precio": 148.33,
-        "upside_analista": 28.3,
-        "upside_triangulado": 28.3,
-        "divergencia": "",
-        "fcf_yield": 4.87,
-        "del_maximo_pct": -23.3,
-        "rs_6m": -23.36,
-        "timing": "ESPERAR",
-        "por_que_cae": "SENTIMIENTO",
-        "por_que_cae_detalle": "<cite index=\"4-4\">La caída responde a comentarios de gestión sobre presión de márgenes futura y crecimiento más lento en H2, junto con recompras ampliadas, señales mixtas que preoc"
-      },
-      {
-        "ticker": "CBOE",
-        "empresa": "Cboe Global Markets, Inc.",
-        "score": 54.865,
-        "precio": 268.87,
-        "upside_analista": 17.4,
-        "upside_triangulado": 21.4,
-        "divergencia": "",
-        "fcf_yield": 6.74,
-        "del_maximo_pct": -27.6,
-        "rs_6m": -22.05,
-        "timing": "ESPERAR",
-        "por_que_cae": "SIN_DATOS",
-        "por_que_cae_detalle": ""
-      },
-      {
-        "ticker": "RMD",
-        "empresa": "ResMed Inc.",
-        "score": 74.87,
-        "precio": 222.3,
-        "upside_analista": 11.4,
-        "upside_triangulado": 14.8,
-        "divergencia": "",
-        "fcf_yield": 5.08,
-        "del_maximo_pct": -22.0,
-        "rs_6m": -19.5,
-        "timing": "ESPERAR",
-        "por_que_cae": "EVENTO",
-        "por_que_cae_detalle": "Caída derivada del recall de Astral (FDA) anunciado en Q4 2026 (agosto): $42M de cargo y $75M de headwind de revenue en FY2027 al suspender ventas nuevas. Negocio base sigue sólido"
-      },
-      {
-        "ticker": "BR",
-        "empresa": "Broadridge Financial Solutions",
-        "score": 53.22,
-        "precio": 163.45,
-        "upside_analista": 30.5,
-        "upside_triangulado": 30.5,
-        "divergencia": "",
-        "fcf_yield": 6.62,
-        "del_maximo_pct": -31.8,
-        "rs_6m": -16.92,
-        "timing": "ESPERAR",
-        "por_que_cae": "SIN_DATOS",
-        "por_que_cae_detalle": ""
-      }
-    ],
-    "tesis_rotas": [],
-    "rotas_son_tuyas": true,
-    "regimen_cambio": null,
-    "rendimiento_sistema": {
-      "horizonte": "90d",
-      "es_horizonte_definitivo": false,
-      "nota": "A 180 días aún no hay muestra (la señal más antigua es de feb-2026); este 90d es provisional, no el veredicto",
-      "acierto_pct": 61.5,
-      "retorno_medio": 3.15,
-      "n": 39
+  "date": "2026-09-25",
+  "timestamp": "2026-09-25T05:40:33.912975",
+  "narrative": "El entorno macro se mantiene en un r\u00e9gimen CALM: inflaci\u00f3n bajo control, pol\u00edtica monetaria estable y volatilidad reducida, lo que favorece la revaloraci\u00f3n de m\u00faltiplos en sectores tradicionales y permite a los inversores value capturar discrepancias de precio sin presi\u00f3n de tipos. Los picks m\u00e1s atractivos son **ADSK (Technology)**",
+  "macro_regime": "CALM",
+  "picks_count": 8,
+  "top_picks": [
+    {
+      "ticker": "RMD",
+      "sector": "Healthcare",
+      "value_score": 80.925,
+      "analyst_upside_pct": 11.6,
+      "conviction_grade": null
+    },
+    {
+      "ticker": "VRSN",
+      "sector": "Technology",
+      "value_score": 71.91499999999999,
+      "analyst_upside_pct": 11.1,
+      "conviction_grade": null
+    },
+    {
+      "ticker": "THC",
+      "sector": "Healthcare",
+      "value_score": 69.24,
+      "analyst_upside_pct": 14.1,
+      "conviction_grade": null
+    },
+    {
+      "ticker": "ADSK",
+      "sector": "Technology",
+      "value_score": 68.995,
+      "analyst_upside_pct": 46.0,
+      "conviction_grade": null
+    },
+    {
+      "ticker": "UNP",
+      "sector": "Industrials",
+      "value_score": 61.135000000000005,
+      "analyst_upside_pct": 20.2,
+      "conviction_grade": null
     }
-  }
+  ]
 }
