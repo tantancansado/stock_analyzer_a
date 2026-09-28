@@ -80,6 +80,12 @@ TECHO_CRECIMIENTO = 0.15
 # decirlo. -10% como suelo: por debajo, la empresa se está apagando y un DCF
 # no es la herramienta para valorar eso.
 SUELO_CRECIMIENTO = -0.10
+# Techo del crecimiento con que se divide el P/E en el PEG. Más alto que el del
+# DCF porque Lynch admite crecedores rápidos del 20-30%, pero con techo: el
+# `earningsGrowth` de yfinance es de UN trimestre contra el mismo de hace un
+# año, y sobre una base hundida sale 186,8% (THC) — PEG 0,06 —, o AMZN 0,10 y
+# GOOG 0,08. Ninguno es un crecimiento que nadie espere sostener.
+TECHO_CRECIMIENTO_PEG = 0.30
 
 
 # Coste del capital propio por CAPM: tipo sin riesgo + beta × prima de riesgo.
@@ -249,7 +255,11 @@ def fcf_fiable(info: Dict) -> Optional[float]:
     declarado = info.get('freeCashflow')
     try:
         if ocf and capex:
-            return float(ocf) - abs(float(capex))
+            bruto = float(ocf) - abs(float(capex))
+            # Lo que se lleva el socio minoritario de una filial consolidada no
+            # es del accionista (ver `peso_de_minoritarios_en_fcf`).
+            peso = float(info.get('minoritariosSobreFcf') or 0)
+            return bruto * (1 - peso) if bruto > 0 else bruto
     except (TypeError, ValueError):
         pass
     try:
@@ -1820,14 +1830,18 @@ class FundamentalScorer:
             # ── PEG Ratio (Lynch: P/E ÷ Growth %) ─────────────────────
             pe = info.get('forwardPE') or info.get('trailingPE')
             growth_pct = None
-            eg = info.get('earningsGrowth')
+            # Tres años manda sobre el trimestre, igual que en el DCF.
+            eg = info.get('earningsGrowth3y')
+            if eg is None or pd.isna(eg):
+                eg = info.get('earningsGrowth')
             if eg and not pd.isna(eg):
-                growth_pct = float(eg) * 100
+                growth_pct = min(float(eg), TECHO_CRECIMIENTO_PEG) * 100
             else:
                 eps_c = info.get('epsCurrentYear')
                 eps_f = info.get('forwardEps')
                 if eps_c and eps_f and abs(float(eps_c)) > 0:
-                    growth_pct = ((float(eps_f) - float(eps_c)) / abs(float(eps_c))) * 100
+                    growth_pct = min(((float(eps_f) - float(eps_c)) / abs(float(eps_c))),
+                                     TECHO_CRECIMIENTO_PEG) * 100
 
             if pe and growth_pct and float(growth_pct) > 0 and float(pe) > 0:
                 result['peg_ratio'] = round(float(pe) / float(growth_pct), 2)

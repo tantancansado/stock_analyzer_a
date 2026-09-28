@@ -460,6 +460,56 @@ def peso_del_margen_de_intereses(stock) -> float | None:
     return intereses / ingresos
 
 
+# A partir de qué parte del FCF el reparto a socios minoritarios cuenta. Por
+# debajo es ruido (WMT 2,5%, KO 0,6%) y tocarlo movería a media cartera por nada.
+UMBRAL_MINORITARIOS = 0.05
+
+
+def peso_de_minoritarios_en_fcf(stock, fcf) -> float | None:
+    """Fracción del FCF que sale hacia socios minoritarios de filiales consolidadas.
+
+    El flujo operativo consolida el 100% de las filiales, pero el accionista
+    solo es dueño de una parte: lo demás se reparte a los socios minoritarios y
+    aparece en FINANCIACIÓN, fuera de la definición habitual de FCF. Medido con
+    el comunicado de Tenet (FY2025):
+
+        FCF declarado                 2.530 M
+        distribuciones a minoritarios   809 M   (USPI y sus socios médicos)
+        queda para el accionista      1.721 M   (-32%)
+
+    Con el bruto THC salía con un 14,4% de FCF yield y un DCF un 135% por
+    encima del precio: el ranking la ponía primera. Y el validador de owner
+    earnings, al ver un flujo que no cuadraba con la capitalización, la marcaba
+    «no fiable» y no restaba nada.
+
+    Se devuelve una FRACCIÓN y no un importe para que sea válida en cualquier
+    divisa (los estados pueden venir en otra que la cotización). Se toma el
+    reparto como el menor de dos límites: la parte del beneficio que se lleva
+    el minoritario (`Minority Interests`) y la salida de caja de financiación
+    «otros» (`Net Other Financing Charges`). Ninguno es la partida exacta —
+    yfinance no la trae, y en EDGAR Tenet etiqueta solo 372 M de los 809—, pero
+    el primero es un techo y el segundo es lo que de verdad salió de caja.
+    Cuando no hay salida «otra» que acote (CHTR, QSR), manda el beneficio del
+    minoritario: sobreestima el reparto, y es preferible a no descontar nada.
+    """
+    if not fcf or fcf <= 0:
+        return None
+    try:
+        qi, qc = stock.quarterly_income_stmt, stock.quarterly_cashflow
+    except Exception:
+        return None
+    parte_minoritaria = _ttm(qi, 'Minority Interests')
+    # En yfinance viene NEGATIVO cuando el minoritario se lleva beneficio.
+    if parte_minoritaria is None or parte_minoritaria >= 0:
+        return None
+    reparto = abs(parte_minoritaria)
+    otros = _ttm(qc, 'Net Other Financing Charges')
+    if otros is not None and otros < 0:
+        reparto = min(reparto, abs(otros))
+    peso = min(reparto / fcf, 1.0)
+    return peso if peso >= UMBRAL_MINORITARIOS else None
+
+
 def derive_from_statements(stock, info: dict, fields: list[str] | None = None) -> tuple[dict, list[str]]:
     """Rellena campos ausentes en `info` desde los estados financieros.
 
@@ -521,6 +571,15 @@ def derive_from_statements(stock, info: dict, fields: list[str] | None = None) -
                           f'declarado {float(declarado):,.0f} — {desvio:.0%} de desvío)')
         elif desvio:
             filled.append(f'freeCashflow(OCF-capex, {desvio:.0%} sobre el declarado)')
+
+    # Reparto a socios minoritarios: el FCF que llega al accionista es el bruto
+    # menos esto. `freeCashflow` se deja NETO y la fracción viaja aparte porque
+    # `fcf_fiable` parte del flujo operativo y el capex, no de `freeCashflow`.
+    peso_min = peso_de_minoritarios_en_fcf(stock, derivado)
+    if peso_min is not None:
+        out['minoritariosSobreFcf'] = peso_min
+        out['freeCashflow'] = derivado * (1 - peso_min)
+        filled.append(f'minoritariosSobreFcf({peso_min:.0%} del FCF va a socios minoritarios)')
 
     # Crecimiento de ingresos a 3 AÑOS: el `revenueGrowth` de yfinance es de un
     # trimestre, y proyectarlo cinco años dispara el DCF en cualquier negocio
@@ -670,6 +729,9 @@ def check_coherence(info: dict, ticker: str = '') -> dict:
     if fcf and ocf and capex:
         try:
             derived = float(ocf) - abs(float(capex))
+            # `freeCashflow` ya va neto del reparto a minoritarios: comparar como tal
+            if derived > 0:
+                derived *= 1 - float(info.get('minoritariosSobreFcf') or 0)
             if derived and abs(float(fcf) - derived) / abs(derived) > 0.25:
                 issues.append(
                     f'FCF declarado ({float(fcf):,.0f}) se aparta del derivado '
