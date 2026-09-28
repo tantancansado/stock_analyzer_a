@@ -1,0 +1,92 @@
+name: Why Cheap - estudiar un ticker (manual)
+
+# Fuerza el estudio "por que esta barata" de UN ticker, aunque su score no
+# llegue al minimo del pipeline. Solo se lanza a mano. Guarda el veredicto en la
+# cache (docs/why_cheap_cache.json) y el gasto en docs/claude_budget.json: lo que
+# un workflow no commitea no se cuenta y el tope deja de topar.
+on:
+  workflow_dispatch:
+    inputs:
+      ticker:
+        description: 'Ticker a estudiar (ej. MCD)'
+        required: true
+
+permissions:
+  contents: write
+
+concurrency:
+  group: why-cheap-ticker
+  cancel-in-progress: false
+
+jobs:
+  estudiar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Estudiar el ticker
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          TICKER: ${{ inputs.ticker }}
+        run: |
+          python3 - <<'PY'
+          import json, os, re, sys
+          import pandas as pd
+          t = os.environ['TICKER'].strip().upper()
+          if not re.fullmatch(r'[A-Z0-9.\-]{1,10}', t):
+              sys.exit(f'ticker no valido: {t!r}')
+          from claude_budget import hay_presupuesto
+          if not hay_presupuesto(coste_estimado=0.15):
+              sys.exit('sin presupuesto: no se compra el analisis')
+          import enrich_why_cheap as e
+          fila = None
+          for csv in e.TARGET_CSVS:
+              if csv.exists():
+                  d = pd.read_csv(csv)
+                  m = d[d['ticker'].astype(str).str.upper() == t]
+                  if len(m):
+                      fila = m.iloc[0]
+                      break
+          if fila is None:
+              sys.exit(f'{t} no esta en ningun universo publicado')
+          from why_cheap_analyzer import analyze_ticker
+          res = analyze_ticker(t, str(fila.get('company_name', '')),
+                               abs(float(fila.get('proximity_to_52w_high') or 0)),
+                               float(fila.get('relative_strength_6m') or 0))
+          e._guardar_cache(e._leer_cache(), {t: res})
+          print(json.dumps(res, ensure_ascii=False, indent=1))
+          with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as f:
+              f.write(f"## {t}: {res.get('veredicto')}\n\n{res.get('resumen', '')}\n")
+          PY
+
+      - name: Commit cache y gasto
+        if: always()
+        env:
+          TICKER: ${{ inputs.ticker }}
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "GitHub Actions Bot"
+          git add docs/why_cheap_cache.json docs/claude_budget.json || true
+          git diff --cached --quiet && echo "Sin cambios" && exit 0
+          git commit -m "chore(why-cheap): estudio manual de ${TICKER//[^A-Za-z0-9.-]/}"
+          for i in 1 2 3; do
+            git fetch origin main
+            git rebase --autostash origin/main && git push && echo "Push OK" && break
+            git rebase --abort 2>/dev/null || true
+            sleep $((i * 5))
+          done
