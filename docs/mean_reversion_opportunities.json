@@ -1,49 +1,11 @@
 {
-  "generated_at": "2026-09-25 06:06:40",
-  "scan_date": "2026-09-25 06:06:40",
-  "total_opportunities": 1,
+  "generated_at": "2026-09-28 06:46:13",
+  "scan_date": "2026-09-28 06:46:13",
+  "total_opportunities": 0,
   "strategies": {
     "oversold_bounce": 0,
-    "bull_flag_pullback": 1
+    "bull_flag_pullback": 0
   },
-  "ai_narrative": "1) La calidad del batch es alta: el \u00fanico setup (THC Bull Flag Pullback) tiene puntuaci\u00f3n perfecta (100), RSI",
-  "opportunities": [
-    {
-      "ticker": "THC",
-      "company_name": "Tenet Healthcare Corporation",
-      "strategy": "Bull Flag Pullback",
-      "current_price": 249.54,
-      "rsi": 41.7,
-      "rsi_tier": "NEUTRAL",
-      "rally_pct": 52.8,
-      "pullback_pct": -11.1,
-      "sma_50": 253.06,
-      "sma_200": 211.5,
-      "trend": "Bullish",
-      "volume_decrease": true,
-      "reversion_score": 100,
-      "quality": "\u2b50\u2b50\u2b50 EXCELENTE",
-      "entry_zone": "$244.55 - $254.53",
-      "entry_ref": 254.53,
-      "target": 272.35,
-      "techo_tecnico": 280.77,
-      "bounce_target": 272.35,
-      "bounce_usd": 17.82,
-      "bounce_pct": 7.0,
-      "stop_loss": 245.47,
-      "stop_pct": -3.6,
-      "risk_reward": 1.97,
-      "detected_date": "2026-09-25",
-      "ai_confirmation": "YES",
-      "ai_confidence": 90,
-      "ai_reason": "RSI 41.7, pullback -11.1%",
-      "esperanza_pct": 1.06,
-      "esperanza_n": 24,
-      "esperanza_aciertos": 6,
-      "esperanza_stops": 18,
-      "esperanza_dias_mediana": 5,
-      "esperanza_muestra_ok": true,
-      "esperanza_frase": "en los 24 episodios iguales, el objetivo (+9.1%) lleg\u00f3 antes que el stop (-1.6%) 6 veces y el stop salt\u00f3 primero 18, y cuando lleg\u00f3 tard\u00f3 5 sesiones de mediana. Esperanza +1.06% por operaci\u00f3n."
-    }
-  ]
+  "ai_narrative": null,
+  "opportunities": []
 }

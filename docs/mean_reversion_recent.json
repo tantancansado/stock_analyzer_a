@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-25T06:07:03.985919",
+  "generated_at": "2026-09-28T06:46:18.310529",
   "tickers": {
     "MRSH": {
       "ticker": "MRSH",
@@ -7,14 +7,14 @@
       "strategy": "Oversold Bounce",
       "quality": "MODERADA",
       "signal_date": "2026-09-24",
-      "days_since_signal": 1,
+      "days_since_signal": 4,
       "window_days": 3,
       "entry_zone": "$164.76 - $170.38",
       "target": 182.31,
       "stop_loss": 162.84,
       "rsi_at_signal": 19.0,
-      "current_price": 169.92999267578125,
-      "status": "EN_VENTANA",
+      "current_price": 171.1199951171875,
+      "status": "VENTANA_EXPIRADA",
       "ai_note": ""
     }
   }
