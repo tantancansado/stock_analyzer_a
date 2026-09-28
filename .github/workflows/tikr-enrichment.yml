@@ -5,6 +5,11 @@ on:
     # Sundays 05:23 UTC — irregular time to reduce API fingerprint
     - cron: '23 5 * * 0'
   workflow_dispatch:  # Manual trigger for on-demand runs
+    inputs:
+      tickers:
+        description: 'Solo estos tickers, separados por comas (ej. ADSK,AMZN). Vacio = todo el universo'
+        required: false
+        default: ''
 
 jobs:
   tikr-scrape:
@@ -32,9 +37,14 @@ jobs:
         env:
           TIKR_EMAIL: ${{ secrets.TIKR_EMAIL }}
           TIKR_PASSWORD: ${{ secrets.TIKR_PASSWORD }}
+          SOLO_TICKERS: ${{ inputs.tickers }}
         run: |
-          python3 tikr_scraper.py --run
-          echo "Exit code: $?"
+          if [ -n "$SOLO_TICKERS" ]; then
+            # --force: el /tf de un ticker sin cuentas no puede darse por fresco
+            python3 tikr_scraper.py --tickers "$SOLO_TICKERS" --force
+          else
+            python3 tikr_scraper.py --run
+          fi
 
       - name: Verify output
         run: |

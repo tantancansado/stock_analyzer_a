@@ -178,6 +178,31 @@ def get_fresh_token() -> str:
         raise RuntimeError(f"Error auth Cognito SRP: {e}")
 
 
+# El token de Cognito caduca a la hora y la pasada semanal dura ~1,5 h: a partir
+# del minuto 60 cada /tf y cada /est devolvian 503 y 75 de 143 tickers salian sin
+# cuentas (ADSK, AMZN, MANH, META, RMD nunca las han tenido). Se renueva antes.
+TOKEN_MAX_EDAD = 40 * 60
+
+
+def _token_vigente(token: str, emitido: float, max_edad: float = TOKEN_MAX_EDAD,
+                   ahora: Optional[float] = None) -> tuple:
+    """Devuelve (token, emitido) renovando el token si ya tiene `max_edad` segundos.
+
+    Si la renovacion falla se sigue con el token viejo y se dice en voz alta: un
+    fallo aqui no tumba la pasada, pero tampoco puede pasar sin que se vea.
+    """
+    ahora = time.time() if ahora is None else ahora
+    if ahora - emitido < max_edad:
+        return token, emitido
+    try:
+        nuevo = get_fresh_token()
+    except Exception as e:
+        print(f"\n  ⚠️  No se pudo renovar el token TIKR ({e}); sigo con el anterior")
+        return token, emitido
+    print(f"\n  🔄 Token TIKR renovado (llevaba {int((ahora - emitido) / 60)} min)")
+    return nuevo, ahora
+
+
 # ── Session ────────────────────────────────────────────────────────────────────
 
 def make_session() -> requests.Session:
@@ -1389,6 +1414,7 @@ def run(tickers: list, dry_run: bool = False, force: bool = False) -> dict:
 
     print("\n🔐 Autenticando en TIKR Pro...")
     token = get_fresh_token()
+    token_emitido = time.time()
 
     print("\n🌐 Iniciando sesión HTTP (Chrome 146 / macOS)...")
     session = make_session()
@@ -1411,6 +1437,7 @@ def run(tickers: list, dry_run: bool = False, force: bool = False) -> dict:
     resolved: dict[str, dict] = {}
 
     for i, ticker in enumerate(tickers, 1):
+        token, token_emitido = _token_vigente(token, token_emitido)
         t_tikr = tikr_ticker(ticker)
         print(f"  [{i:3d}/{total}] {ticker:<12}", end='', flush=True)
 
@@ -1461,6 +1488,7 @@ def run(tickers: list, dry_run: bool = False, force: bool = False) -> dict:
     print("\n📝 Fase 3/4 — Financials + Transcripts + Headlines + Shareholders...")
 
     for i, (ticker, ids) in enumerate(resolved.items(), 1):
+        token, token_emitido = _token_vigente(token, token_emitido)
         cid = ids['cid']
         ric = ids.get('ric_id')
 
