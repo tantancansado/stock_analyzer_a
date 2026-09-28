@@ -203,6 +203,110 @@ def _fx_de_cuentas_a_precio(de: str, a: str, fecha: Optional[str]) -> Optional[f
     return tc
 
 
+def divisas_distintas(ticker: str) -> bool:
+    cuentas_ccy, precio_ccy = _divisas_del_ticker(ticker)
+    return bool(cuentas_ccy and precio_ccy and cuentas_ccy != precio_ccy)
+
+
+def conversion_de_ticker(ticker: str, td: dict) -> Optional[dict]:
+    """`conversion_de_divisa` aplicada a un ticker de TIKR.
+
+    None si no hace falta (misma divisa) o si no hay conversión fiable; quien
+    llame distingue los dos casos con `divisas_distintas`.
+    """
+    if not divisas_distintas(ticker):
+        return None
+    cuentas_ccy, precio_ccy = _divisas_del_ticker(ticker)
+    fh = td.get("financials_history") or {}
+    years = sorted(fh.get("annual_years", []), reverse=True)[:7]
+    price = td.get("price") or {}
+    current_price, market_cap = _fv(price.get("c")), _fv(price.get("mc"))
+    sh = _metric(fh.get("metrics") or {}, "shares_diluted", years[0]) if years else None
+    if not (current_price and market_cap and sh and sh > 0):
+        return None
+    conversion = conversion_de_divisa(
+        market_cap / (current_price * sh),
+        _fx_de_cuentas_a_precio(cuentas_ccy, precio_ccy, td.get("fetched_at")),
+        mc_en_divisa_de_cuentas=(precio_ccy == "USD"),
+    )
+    if conversion:
+        conversion.update(de=cuentas_ccy, a=precio_ccy)
+    return conversion
+
+
+def _beneficio_confirmado(est: dict, acciones: Optional[float], conversion: dict) -> Optional[float]:
+    """`net_income_norm` de un año, solo si el BPA de TIKR del mismo año lo confirma.
+
+    Beneficio / BPA tiene que dar el número de acciones (las ordinarias, o las
+    ordinarias por ADR según la base en que venga el BPA: ver
+    `_pe_desde_beneficio`), con un 30% de margen. CSU.TO en 2028 trae un
+    beneficio de 1.176 con 1 analista y un BPA de 164: 7 millones de acciones
+    implícitas, cuando son 21, y el 2027 anterior era 2.887. Es otra métrica
+    (contable) colada en la misma casilla. Sin BPA que lo confirme, tampoco.
+    """
+    ni, eps = _fv(est.get("net_income_norm")), _fv(est.get("eps_norm"))
+    if not (ni and ni > 0 and eps and eps > 0 and acciones and acciones > 0):
+        return None
+    implicitas = ni / eps
+    for por_adr in (1.0, 1 / conversion["factor"]):
+        if 0.7 <= implicitas / (acciones * por_adr) <= 1.3:
+            return ni
+    return None
+
+
+def _pe_desde_beneficio(
+    td: dict, market_cap: Optional[float], conversion: Optional[dict], acciones: Optional[float],
+) -> Optional[float]:
+    """P/E a 12 meses = capitalización / beneficio neto esperado, sin pasar por el BPA.
+
+    El `ntm_pe` de TIKR es precio / BPA, y en los valores extranjeros el BPA no
+    tiene una base fija: en CNI, CP, TECK, RACE, ASML y CSU.TO va en la divisa
+    de la empresa y el precio en USD/CAD (CNI sale 14,1x cuando yfinance dice
+    19,0x); en ESLOY, SAP o RELX ya viene en USD por ADR (ahí sí acierta); en
+    Givaudan mezcla las dos (0,6x). El beneficio neto y la capitalización van
+    los dos en la divisa de las cuentas, así que el cociente no depende de nada
+    de eso. Medido el 29-sep-2026 contra el P/E a futuro de yfinance en los 18
+    valores con divisas distintas que lo tienen: cuadra en todos menos tres, que
+    difieren por el beneficio que cada fuente da por normalizado (ASML, RACE,
+    TECK), y los seis que estaban mal quedan a menos de 12 puntos.
+
+    12 meses = lo que queda del año en curso a fecha de la descarga (con su
+    beneficio) más el resto (con el del año siguiente).
+    """
+    if not (conversion and market_cap and market_cap > 0):
+        return None
+    ae = td.get("analyst_estimates") or {}
+    try:
+        anio = int(ae.get("current_year"))
+        dia = datetime.fromisoformat(str(td.get("fetched_at"))[:10])
+    except (TypeError, ValueError):
+        return None
+    fwd = ae.get("forward") or {}
+    ni_actual = _beneficio_confirmado(fwd.get(str(anio)) or {}, acciones, conversion)
+    ni_siguiente = _beneficio_confirmado(fwd.get(str(anio + 1)) or {}, acciones, conversion)
+    if not (ni_actual and ni_siguiente):
+        return None
+    resto = min(1.0, max(0.0, (datetime(anio, 12, 31) - dia).days / 365))
+    ni_12m = resto * ni_actual + (1 - resto) * ni_siguiente
+    mc_cuentas = market_cap if conversion["a"] == "USD" else market_cap / conversion["fx"]
+    return round(mc_cuentas / ni_12m, 1)
+
+
+def pe_ntm_de_ticker(ticker: str, td: dict) -> Optional[float]:
+    """P/E a doce meses de una ficha de TIKR, en la base correcta.
+
+    Misma divisa: el de TIKR (precio / BPA, los dos en la misma). Divisas
+    distintas: el que sale del beneficio (ver `_pe_desde_beneficio`).
+    """
+    if not divisas_distintas(ticker):
+        return _fv((td.get("multiples") or {}).get("ntm_pe"))
+    fh = td.get("financials_history") or {}
+    years = sorted(fh.get("annual_years", []), reverse=True)[:7]
+    acciones = _metric(fh.get("metrics") or {}, "shares_diluted", years[0]) if years else None
+    return _pe_desde_beneficio(
+        td, _fv((td.get("price") or {}).get("mc")), conversion_de_ticker(ticker, td), acciones)
+
+
 def _template_components(
     interest_tikr: Optional[float],
     income_tax_tikr: Optional[float],
@@ -449,7 +553,9 @@ def calculate(
     ntm = td.get("ntm", {})
 
     ntm_fcf_yield = _fv(multiples.get("ntm_fcf_yield_pct"))
-    ntm_pe = _fv(multiples.get("ntm_pe"))
+    # Cuentas en una divisa, precio en otra (ver `conversion_de_divisa`).
+    conversion = conversion_de_ticker(ticker, td)
+    ntm_pe = pe_ntm_de_ticker(ticker, td)
     ntm_ev_ebitda = _fv(multiples.get("ntm_ev_ebitda"))
     ntm_fcf_m = _fv(ntm.get("ntm_fcf") or ntm.get("fcf"))
 
@@ -478,8 +584,6 @@ def calculate(
 
     if ev_fcf_target is None and median_ev_fcf is not None:
         ev_fcf_target = round(median_ev_fcf * 0.90, 1)
-    if per_target is None:
-        per_target = round((ntm_pe or 25) * 0.85, 1)
     if ev_ebitda_target is None:
         ev_ebitda_target = round((ntm_ev_ebitda or 15) * 0.85, 1)
 
@@ -510,6 +614,8 @@ def calculate(
     # delante se la saltaba.
     shares_proj = _metric(metrics, "shares_diluted", latest_yr)
     sin_acciones = not shares_proj or shares_proj <= 0
+    if per_target is None:
+        per_target = round((ntm_pe or 25) * 0.85, 1)
     net_debt_proj = (
         (_metric(metrics, "total_debt", latest_yr) or 0)
         - (_metric(metrics, "cash", latest_yr) or 0)
@@ -573,6 +679,7 @@ def calculate(
 
     # ── Precio objetivo por múltiplo por año ──────────────────────────────────
     price_targets: dict = {}
+    eps_por_accion: dict = {}
 
     for yr_str, fcf_data in forward_fcf.items():
         fcf_ps = fcf_data["fcf_per_share"]
@@ -586,6 +693,14 @@ def calculate(
             targets["ev_fcf"] = round(fcf_ps * ev_fcf_target - nd_ps, 2)
 
         eps = _fv(est.get("eps_norm"))
+        if conversion:
+            # El BPA de TIKR no comparte divisa ni base con el precio (ver
+            # `_pe_desde_beneficio`): se sale del beneficio neto por acción
+            # ordinaria, que sí va en la divisa de las cuentas como el resto.
+            ni = _beneficio_confirmado(est, sh, conversion)
+            eps = ni / sh if ni and sh and ntm_pe else None
+            if eps:
+                eps_por_accion[yr_str] = round(eps, 4)
         if eps and eps > 0:
             targets["per"] = round(eps * per_target, 2)
 
@@ -606,18 +721,7 @@ def calculate(
     # precio antes de compararlos (ver `conversion_de_divisa`). El market cap
     # de TIKR viene en la divisa de las cuentas en los ADR (precio en USD) y en
     # la del precio en las cotizaciones locales (CSU.TO: ratio 1,000 exacto).
-    cuentas_ccy, precio_ccy = _divisas_del_ticker(ticker)
-    divisas_distintas = bool(cuentas_ccy and precio_ccy and cuentas_ccy != precio_ccy)
-    sh_ultimas = _metric(metrics, "shares_diluted", latest_yr)
-    conversion = None
-    if divisas_distintas and current_price and market_cap and sh_ultimas and sh_ultimas > 0:
-        conversion = conversion_de_divisa(
-            market_cap / (current_price * sh_ultimas),
-            _fx_de_cuentas_a_precio(cuentas_ccy, precio_ccy, td.get("fetched_at")),
-            mc_en_divisa_de_cuentas=(precio_ccy == "USD"),
-        )
     if conversion:
-        conversion.update(de=cuentas_ccy, a=precio_ccy)
         for targets in price_targets.values():
             for clave in targets:
                 targets[clave] = round(targets[clave] * conversion["factor"], 2)
@@ -764,7 +868,7 @@ def calculate(
     # 5b. Precio vs fundamentales en divisas/bases distintas sin convertir
     # (ver check_price_consistency) — invalida CUALQUIER ratio derivado.
     price_consistency_issue = None if conversion else check_price_consistency(current_price, market_cap, sh_new)
-    if (price_consistency_issue is None and divisas_distintas and not conversion
+    if (price_consistency_issue is None and divisas_distintas(ticker) and not conversion
             and current_price and market_cap and sh_new):
         # Divisas distintas y sin conversión fiable: aunque el market cap
         # «cuadre» de casualidad, comparar EUR con USD da un veredicto falso.
@@ -838,7 +942,7 @@ def calculate(
         "forward_shares": {yr: round(v, 4) for yr, v in forward_shares.items()},
         "forward_estimates": {
             yr_str: {
-                "eps_norm": _fv(forward_est.get(yr_str, {}).get("eps_norm")),
+                "eps_norm": eps_por_accion.get(yr_str) if conversion else _fv(forward_est.get(yr_str, {}).get("eps_norm")),
                 "ebitda":   _fv(forward_est.get(yr_str, {}).get("ebitda")),
                 "revenue":  _fv(forward_est.get(yr_str, {}).get("revenue")),
                 "ebit":     _fv(forward_est.get(yr_str, {}).get("ebit")),

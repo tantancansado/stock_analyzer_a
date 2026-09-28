@@ -398,6 +398,11 @@ function DetailView({
   const [returnT,  setReturnT]  = useState(data.target_return_pct)
   const [apiPending, setApiPending] = useState(false)
   const [fwdMode, setFwdMode] = useState(false)
+  // Las cifras por acción de TIKR van en la divisa de la empresa y por acción
+  // ordinaria; el símbolo que pinta `precio` es el del ADR. Se pasan igual que
+  // los objetivos (`recompute`), o «8,58» de CNI saldría como «$8.58».
+  const factorPrecio = data.conversion_divisa?.factor ?? 1
+  const porAcc = (v?: number | null) => (v == null ? v : v * factorPrecio)
   const [activeTab, setActiveTab] = useState<'is' | 'fcf' | 'ratios' | 'valoracion' | 'detalle' | 'bs' | 'roic' | 'redflags'>('is')
   const [fwdInputs, setFwdInputs] = useState<Record<string, FwdYearInput>>(() =>
     initFwdInputs(data, Object.keys(data.forward_fcf ?? {}).sort())
@@ -676,7 +681,7 @@ function DetailView({
                       const growth = fcfPs && prevPs && prevPs > 0 ? (fcfPs / prevPs - 1) * 100 : null
                       return (
                         <td key={yr} className="px-2 py-1.5 text-center font-mono text-cyan-400">
-                          {fcfPs != null ? `${precio(fcfPs, data.ticker)}${growth != null ? ` (${growth > 0 ? '+' : ''}${growth.toFixed(0)}%)` : ''}` : '—'}
+                          {fcfPs != null ? `${precio(porAcc(fcfPs), data.ticker)}${growth != null ? ` (${growth > 0 ? '+' : ''}${growth.toFixed(0)}%)` : ''}` : '—'}
                         </td>
                       )
                     })}
@@ -688,7 +693,7 @@ function DetailView({
                         const eps = data.forward_estimates?.[yr]?.eps_norm
                         return (
                           <td key={yr} className="px-2 py-1.5 text-center font-mono text-muted-foreground">
-                            {precio(eps, data.ticker)}
+                            {precio(porAcc(eps), data.ticker)}
                           </td>
                         )
                       })}
@@ -776,7 +781,7 @@ function DetailView({
                       const diff = fcfPs != null && tikrPs != null ? ((fcfPs / tikrPs - 1) * 100) : null
                       return (
                         <td key={yr} className="px-2 py-1.5 text-center font-bold tabular-nums text-cyan-400">
-                          {precio(fcfPs, data.ticker)}
+                          {precio(porAcc(fcfPs), data.ticker)}
                           {diff != null && Math.abs(diff) > 0.5 && (
                             <span className={`ml-1 text-micro ${diff > 0 ? 'text-emerald-400' : 'text-red-400'}`}>
                               {diff > 0 ? '+' : ''}{diff.toFixed(0)}%
@@ -988,7 +993,7 @@ function DetailView({
                     <td className="px-3 py-1.5 text-muted-foreground pl-6">FCF/share</td>
                     {[...bdownYears].reverse().map(yr => {
                       const fcfPs = data.historical_fcf_per_share?.[yr]
-                      return <td key={yr} className="px-2 py-1.5 text-center font-mono text-cyan-400">{precio(fcfPs, data.ticker)}</td>
+                      return <td key={yr} className="px-2 py-1.5 text-center font-mono text-cyan-400">{precio(porAcc(fcfPs), data.ticker)}</td>
                     })}
                   </tr>
                   <tr className="hover:bg-foreground/2 bg-foreground/1">
@@ -1366,7 +1371,7 @@ function DetailView({
                         <td className="px-3 py-1.5 text-muted-foreground pl-6 whitespace-nowrap">EPS diluido</td>
                         {bsYears.map(yr => {
                           const b = data.historical_bs[yr]
-                          return <td key={yr} className="px-2 py-1.5 text-center font-mono text-muted-foreground">{precio(b?.eps, data.ticker)}</td>
+                          return <td key={yr} className="px-2 py-1.5 text-center font-mono text-muted-foreground">{precio(porAcc(b?.eps), data.ticker)}</td>
                         })}
                         <td className={cn('px-2 py-1.5 text-center font-mono', (() => { const c = cagr(firstBs?.eps, lastBs?.eps, nYears); return c == null ? 'text-muted-foreground' : c >= 0 ? 'text-emerald-400' : 'text-red-400' })())}>
                           {(() => { const c = cagr(firstBs?.eps, lastBs?.eps, nYears); return c != null ? `${c > 0 ? '+' : ''}${c.toFixed(1)}%` : '—' })()}

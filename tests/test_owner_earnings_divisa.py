@@ -104,6 +104,7 @@ def test_mismas_divisas_no_se_toca_nada(calcular):
     base = calcular(_ficha())
     mismo = calcular(_ficha(), divisas=('USD', 'USD'), fx=1.0)
     assert mismo['buy_price'] == base['buy_price']
+    assert mismo['ntm_pe'] == base['ntm_pe'] == oe._fv(_ficha()['multiples']['ntm_pe'])
     assert mismo['conversion_divisa'] is None
 
 
@@ -134,6 +135,73 @@ def test_sin_tipo_de_cambio_no_hay_veredicto(calcular):
     assert r['buy_price'] is None and r['upside_pct'] is None
     assert r['price_consistency_issue'] is not None
     assert r['conversion_divisa'] is None
+
+
+# ── P/E y objetivo por PER: el BPA de TIKR no tiene una base fija ───────────
+#
+# `ntm_pe` de TIKR es precio / BPA. En CNI, CP, TECK, RACE, ASML y CSU.TO el BPA
+# viene en la divisa de la empresa y el precio en otra (CNI 14,1x cuando el P/E
+# a futuro real es 19x); en los ADR de verdad el BPA ya viene en USD por ADR; en
+# Givaudan mezcla las dos (0,6x). Además, el objetivo por PER salía ya en la
+# divisa del precio (el múltiplo lleva las unidades) y se le aplicaba encima el
+# factor de conversión: convertido dos veces, un 30% de menos en CNI.
+
+def test_pe_de_cni_sale_del_beneficio_y_no_del_bpa_en_cad(calcular):
+    ficha = _ficha()
+    tikr = oe._fv(ficha['multiples']['ntm_pe'])
+    r = calcular(ficha, divisas=('CAD', 'USD'), fx=0.7065)
+    assert tikr < 15                                  # el dato de TIKR, mal
+    assert 18 < r['ntm_pe'] < 22                      # yfinance: 19,0
+    assert r['per_target'] == pytest.approx(r['ntm_pe'] * 0.85, abs=0.1)
+
+
+def test_el_objetivo_por_per_no_se_convierte_dos_veces(calcular):
+    """Con un objetivo del 85% del P/E actual, el PER de un año cercano tiene que
+    quedar cerca del 85% del precio. Convertido dos veces, en CNI era el 57%."""
+    r = calcular(_ficha(), divisas=('CAD', 'USD'), fx=0.7065)
+    per = r['price_targets']['2026']['per']
+    assert 0.7 < per / r['current_price'] < 1.0
+
+
+def test_adr_de_verdad_sale_igual_de_bien(calcular):
+    """ESLOY: BPA de TIKR ya en USD por ADR (media acción). Antes salía a 40 sobre
+    un precio de 85; ahora a ~66."""
+    r = calcular(_ficha('ESLOY'), 'ESLOY', divisas=('EUR', 'USD'), fx=1.16)
+    assert r['conversion_divisa']['adr_por_accion'] == 2
+    assert 15 < r['ntm_pe'] < 22
+    assert 0.7 < r['price_targets']['2026']['per'] / r['current_price'] < 1.0
+
+
+def test_beneficio_que_el_bpa_no_confirma_no_da_objetivo(calcular):
+    """CSU.TO 2028: beneficio de 1.176 con 1 analista frente a 2.887 el año
+    anterior, y un BPA de 164 que implica 7 millones de acciones (son 21)."""
+    r = calcular(_ficha('CSU.TO'), 'CSU.TO', divisas=('USD', 'CAD'), fx=1.384)
+    objetivos = r['price_targets']
+    assert 'per' in objetivos['2026'] and 'per' in objetivos['2027']
+    assert 'per' not in objetivos['2028']
+    assert 13 < r['ntm_pe'] < 18                      # yfinance: 15,3
+
+
+def test_sin_beneficio_esperado_no_se_inventa_un_pe(calcular):
+    ficha = _ficha()
+    for anio in ficha['analyst_estimates']['forward'].values():
+        anio['net_income_norm'] = None
+    r = calcular(ficha, divisas=('CAD', 'USD'), fx=0.7065)
+    assert r['ntm_pe'] is None
+    assert all('per' not in t for t in r['price_targets'].values())
+    assert r['signal'] != 'DATA_INCONSISTENT'         # los otros dos métodos siguen
+
+
+def test_beneficio_confirmado_acepta_las_dos_bases_del_bpa():
+    conv = {'factor': 0.5}
+    acciones = 100.0
+    ordinaria = {'net_income_norm': 1000.0, 'eps_norm': 10.0}    # 100 acciones
+    por_adr = {'net_income_norm': 1000.0, 'eps_norm': 5.0}       # 200 = 100 / 0,5
+    ajena = {'net_income_norm': 1000.0, 'eps_norm': 40.0}        # 25 acciones
+    assert oe._beneficio_confirmado(ordinaria, acciones, conv) == 1000.0
+    assert oe._beneficio_confirmado(por_adr, acciones, conv) == 1000.0
+    assert oe._beneficio_confirmado(ajena, acciones, conv) is None
+    assert oe._beneficio_confirmado({'net_income_norm': 1000.0}, acciones, conv) is None
 
 
 # ── el scraper y los datos guardados ────────────────────────────────────────

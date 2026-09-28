@@ -572,6 +572,43 @@ class ThesisGenerator:
             f"  Si es CONFIRM o WATCH, refuerza la tesis con esta confluencia de señales.\n"
         )
 
+    @staticmethod
+    def _pe_ntm(ticker: str, d: dict):
+        from owner_earnings import pe_ntm_de_ticker
+        return pe_ntm_de_ticker(ticker, d)
+
+    def _divisa_de_las_cuentas(self, ticker: str, d: dict) -> tuple:
+        """(divisa de las cuentas de TIKR, aviso para el prompt o None).
+
+        Las cifras de TIKR van en la divisa de la empresa y por acción
+        ordinaria; el precio que ve el modelo es el del ADR. Escribirlas con «$»
+        hacía que un objetivo de 45 EUR se leyera como 45 USD junto a un precio
+        de 30 USD.
+        """
+        from owner_earnings import _divisas_del_ticker, conversion_de_ticker, divisas_distintas
+        cuentas, precio = _divisas_del_ticker(ticker)
+        ccy = cuentas or ((d.get('price') or {}).get('curr') or None)
+        if not divisas_distintas(ticker):
+            return ccy, None
+        conv = conversion_de_ticker(ticker, d)
+        if not conv:
+            return ccy, (f"- DIVISA: las cifras de TIKR van en {cuentas} y el precio en {precio}; "
+                         f"no hay conversión fiable, NO compares estos importes con el precio.")
+        f = conv['factor']
+        por_adr = []
+        eps = (d.get('multiples') or {}).get('ntm_eps')
+        if eps:
+            por_adr.append(f"EPS NTM {float(eps) * f:.2f}")
+        objetivo = (d.get('valuation_model') or {}).get('target_price')
+        if objetivo:
+            por_adr.append(f"objetivo TIKR {float(objetivo) * f:.2f}")
+        equivalente = f" Equivalente por ADR en {precio}: {', '.join(por_adr)}." if por_adr else ""
+        n = conv['adr_por_accion']
+        equiv_adr = ("1 ADR = 1 acción" if n == 1 else
+                     f"1 ADR = {1 / n:g} acciones" if n < 1 else f"1 ADR = 1/{n:g} acción")
+        return ccy, (f"- DIVISA: las cifras de TIKR van en {cuentas} y por acción ordinaria; el precio es el "
+                     f"del ADR en {precio} ({equiv_adr}, 1 {cuentas} = {conv['fx']:g} {precio}).{equivalente}")
+
     def _tikr_context(self, ticker: str) -> str:
         """Returns a TIKR Pro context block for the AI prompt, or empty string."""
         d = self._tikr_data.get(str(ticker).upper()) or self._tikr_data.get(str(ticker))
@@ -579,6 +616,10 @@ class ThesisGenerator:
             return ""
 
         lines = ["\nTIKR PRO DATA (NTM multiples + historial financiero):"]
+        ccy, nota = self._divisa_de_las_cuentas(ticker, d)
+        mon = f" {ccy}" if ccy else ""
+        if nota:
+            lines.append(nota)
 
         # NTM multiples
         m = d.get('multiples', {})
@@ -586,14 +627,15 @@ class ThesisGenerator:
             parts = []
             if m.get('ntm_ev_ebitda'):
                 parts.append(f"EV/EBITDA NTM={m['ntm_ev_ebitda']}x")
-            if m.get('ntm_pe'):
-                parts.append(f"P/E NTM={m['ntm_pe']}x")
+            pe_ntm = self._pe_ntm(ticker, d)
+            if pe_ntm:
+                parts.append(f"P/E NTM={pe_ntm}x")
             if m.get('ntm_fcf_yield_pct'):
                 parts.append(f"FCF Yield NTM={m['ntm_fcf_yield_pct']}%")
             if m.get('ntm_ev_revenue'):
                 parts.append(f"EV/Revenue NTM={m['ntm_ev_revenue']}x")
             if m.get('ntm_eps'):
-                parts.append(f"EPS NTM=${m['ntm_eps']}")
+                parts.append(f"EPS NTM={m['ntm_eps']}{mon}")
             if parts:
                 lines.append("- Múltiplos NTM: " + " | ".join(parts))
 
@@ -601,7 +643,7 @@ class ThesisGenerator:
         vm = d.get('valuation_model', {})
         if vm.get('target_price'):
             irr = f", IRR={vm['irr_pct']}%" if vm.get('irr_pct') else ""
-            lines.append(f"- Modelo valoración TIKR: target ${vm['target_price']:.2f}{irr}")
+            lines.append(f"- Modelo valoración TIKR: target {vm['target_price']:.2f}{mon}{irr}")
         if vm.get('revenue_cagr'):
             cagr = vm['revenue_cagr']
             parts = [f"{k}={v}%" for k, v in sorted(cagr.items())]
@@ -622,8 +664,8 @@ class ThesisGenerator:
                 return f"- {label}: {' | '.join(parts)}" if parts else None
 
             for line in filter(None, [
-                _hist_line('total_revenue',      'Ingresos ($M)'),
-                _hist_line('ebitda',             'EBITDA ($M)'),
+                _hist_line('total_revenue',      f'Ingresos (M{mon})'),
+                _hist_line('ebitda',             f'EBITDA (M{mon})'),
                 _hist_line('ebitda_margin_pct',  'Margen EBITDA', pct=True),
                 _hist_line('net_margin_pct',     'Margen neto', pct=True),
                 _hist_line('roe_pct',            'ROE', pct=True),
@@ -666,13 +708,13 @@ class ThesisGenerator:
                 yr_data = fwd[yr]
                 parts = []
                 if yr_data.get('revenue'):
-                    parts.append(f"Rev=${yr_data['revenue']/1000:.1f}B")
+                    parts.append(f"Rev={yr_data['revenue']/1000:.1f}B{mon}")
                 if yr_data.get('ebitda'):
-                    parts.append(f"EBITDA=${yr_data['ebitda']/1000:.1f}B")
+                    parts.append(f"EBITDA={yr_data['ebitda']/1000:.1f}B{mon}")
                 if yr_data.get('eps_norm'):
-                    parts.append(f"EPS=${yr_data['eps_norm']}")
+                    parts.append(f"EPS={yr_data['eps_norm']}{mon}")
                 if yr_data.get('fcf'):
-                    parts.append(f"FCF=${yr_data['fcf']/1000:.1f}B")
+                    parts.append(f"FCF={yr_data['fcf']/1000:.1f}B{mon}")
                 if parts:
                     lines.append(f"  {yr}E: {' | '.join(parts)}")
 

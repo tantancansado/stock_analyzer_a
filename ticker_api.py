@@ -3300,6 +3300,32 @@ def _build_search_live_snapshot(ticker: str) -> dict:
     return dict(snapshot)
 
 
+def _tikr_pe_ntm(ticker: str, row: dict) -> float | None:
+    try:
+        from owner_earnings import pe_ntm_de_ticker
+        return _sf(pe_ntm_de_ticker(ticker, row))
+    except Exception:
+        return None
+
+
+def _tikr_factores_de_divisa(ticker: str, row: dict) -> tuple:
+    """(factor del BPA, factor de los ingresos) de las cuentas de TIKR al precio.
+
+    (1.0, 1.0) si cuentas y precio van en la misma divisa; (None, None) si van en
+    distintas y no hay conversión fiable, o si no se puede saber.
+    """
+    try:
+        from owner_earnings import conversion_de_ticker, divisas_distintas
+        if not divisas_distintas(ticker):
+            return 1.0, 1.0
+        conversion = conversion_de_ticker(ticker, row)
+    except Exception:
+        return None, None
+    if not conversion:
+        return None, None
+    return conversion['factor'], conversion['fx']
+
+
 def _build_tikr_search_snapshot(ticker: str) -> dict:
     row = _load_tikr_earnings_index().get(ticker.upper().strip())
     if not isinstance(row, dict):
@@ -3336,13 +3362,23 @@ def _build_tikr_search_snapshot(ticker: str) -> dict:
         if prev_rev not in (None, 0) and next_rev is not None:
             rev_growth_yoy = round((next_rev - prev_rev) / abs(prev_rev) * 100.0, 1)
 
+    # El precio es el del ADR (USD) y el BPA y los ingresos de TIKR van en la
+    # divisa de la empresa y por acción ordinaria. Se pasan a la divisa y a la
+    # base del precio; si no se puede con fiabilidad, no se enseñan (los múltiplos
+    # y la rentabilidad por FCF son cocientes y no dependen de esto).
+    factor_eps, factor_ingresos = _tikr_factores_de_divisa(ticker, row)
+    consensus_eps = _sf(ntm.get('ntm_eps_consensus')) or _sf(ntm.get('ntm_eps'))
+    consensus_rev = _sf(current_forward.get('revenue')) if isinstance(current_forward, dict) else None
+    consensus_eps = round(consensus_eps * factor_eps, 2) if consensus_eps is not None and factor_eps else None
+    consensus_rev = round(consensus_rev * factor_ingresos, 1) if consensus_rev is not None and factor_ingresos else None
+
     out = {
         'company_name': row.get('company_name'),
         'current_price': _sf(price.get('c')) or _sf(multiples.get('price')),
-        'forward_pe': _sf(multiples.get('ntm_pe')),
+        'forward_pe': _tikr_pe_ntm(ticker, row),
         'fcf_yield': _sf(multiples.get('ntm_fcf_yield_pct')),
-        'consensus_eps': _sf(ntm.get('ntm_eps_consensus')) or _sf(ntm.get('ntm_eps')),
-        'consensus_revenue_millions': _sf(current_forward.get('revenue')) if isinstance(current_forward, dict) else None,
+        'consensus_eps': consensus_eps,
+        'consensus_revenue_millions': consensus_rev,
         'analyst_count': _safe_int(current_forward.get('n_analysts')) if isinstance(current_forward, dict) else None,
         'analyst_revision': None,
         'tikr_latest_earnings_date': earnings_summary.get('latest_earnings_date'),
@@ -3350,9 +3386,6 @@ def _build_tikr_search_snapshot(ticker: str) -> dict:
         'eps_growth_yoy': eps_growth_yoy,
         'rev_growth_yoy': rev_growth_yoy,
     }
-
-    if isinstance(current_forward, dict) and current_forward.get('revenue') is not None:
-        out['consensus_revenue_millions'] = round(float(current_forward['revenue']), 1)
 
     if revision_flag:
         rev = str(revision_flag).strip().lower()
