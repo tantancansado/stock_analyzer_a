@@ -70,6 +70,7 @@ interface OeResult {
   forward_shares: Record<string, number>
   forward_estimates: Record<string, ForwardEstimate>
   price_targets: Record<string, PriceTarget>
+  conversion_divisa?: { de: string; a: string; fx: number; adr_por_accion: number; factor: number } | null
   error?: string
 }
 
@@ -96,6 +97,11 @@ function recompute(
   if (fwdYears.length === 0) return { priceTargets: {}, exitPrice: null, buyPrice: null, upsidePct: null, signal: 'NO_DATA' }
 
   const priceTargets: Record<string, PriceTarget> = {}
+  // Las cuentas van en la divisa de la empresa y por acción ordinaria; el
+  // precio es el del ADR. Sin este factor el objetivo se comparaba en EUR con
+  // un precio en USD (el backend ya lo hace: ver conversion_de_divisa).
+  const factor = data.conversion_divisa?.factor ?? 1
+  const aPrecio = (v: number) => Math.round(v * factor * 100) / 100
 
   for (const yr of fwdYears) {
     const fwd = data.forward_fcf[yr]
@@ -112,15 +118,15 @@ function recompute(
     const targets: PriceTarget = {}
 
     const evFcfPrice = fwd.fcf_per_share * evFcfT - ndPs
-    if (evFcfPrice > 0) targets.ev_fcf = Math.round(evFcfPrice * 100) / 100
+    if (evFcfPrice > 0) targets.ev_fcf = aPrecio(evFcfPrice)
 
     const eps = est.eps_norm
-    if (eps && eps > 0) targets.per = Math.round(eps * perT * 100) / 100
+    if (eps && eps > 0) targets.per = aPrecio(eps * perT)
 
     const ebitda = est.ebitda
     if (ebitda) {
       const mc = ebitda * evEbitdaT - nd
-      if (mc > 0) targets.ev_ebitda = Math.round(mc / sh * 100) / 100
+      if (mc > 0) targets.ev_ebitda = aPrecio(mc / sh)
     }
 
     // EV/EBIT — use fwd model ebit_per_share if available; else derive from EBITDA × ebitFrac
@@ -129,7 +135,7 @@ function recompute(
       : (ebitda && ebitFracOfEbitda > 0 ? ebitda * ebitFracOfEbitda / sh : null)
     if (ebitPs && ebitPs > 0) {
       const evEbitPrice = ebitPs * evEbitT - ndPs
-      if (evEbitPrice > 0) targets.ev_ebit = Math.round(evEbitPrice * 100) / 100
+      if (evEbitPrice > 0) targets.ev_ebit = aPrecio(evEbitPrice)
     }
 
     const valid = Object.values(targets).filter((v): v is number => v != null && v > 0)
@@ -458,6 +464,12 @@ function DetailView({
               Precio compra para <span className="text-foreground font-semibold">{returnT}%</span> anual · Salida {data.exit_year ?? '—'}E ({data.years_to_exit ?? '—'} años)
               {isProjected && <span className="ml-2 text-micro text-amber-400 border border-amber-400/20 rounded px-1.5 py-0.5">estimaciones proyectadas ~</span>}
             </p>
+            {data.conversion_divisa && (
+              <p className="mt-1 text-micro text-muted-foreground">
+                Cuentas en {data.conversion_divisa.de}; precios objetivo pasados a {data.conversion_divisa.a} por ADR
+                {data.conversion_divisa.adr_por_accion !== 1 && ` (1 ADR = 1/${data.conversion_divisa.adr_por_accion} de acción)`}
+              </p>
+            )}
           </div>
 
           <div className="flex flex-wrap gap-3">

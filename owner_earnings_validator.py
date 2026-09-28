@@ -154,6 +154,20 @@ peso para pensar que, pese al ratio, el resto de cifras SÍ son coherentes
 entre sí (explica por qué en ese caso). thesis_verdict debe ser INSUFFICIENT.
 """
 
+    conversion_block = ""
+    cv = oe.get("conversion_divisa")
+    if cv:
+        conversion_block = f"""
+NOTA DE DIVISA: las cuentas de esta empresa están en {cv.get('de')} y por acción
+ordinaria; el precio de cotización es el de un ADR en {cv.get('a')} (1 ADR =
+1/{cv.get('adr_por_accion'):g} acción ordinaria, tipo de cambio {cv.get('fx')}).
+buy_price, exit_price y los precios objetivo YA están convertidos a esa base,
+así que son comparables con el precio. El resto de cifras (FCF, EPS, market
+cap, deuda, FCF por acción) siguen en {cv.get('de')} y por acción ordinaria:
+no las tomes por un desajuste, es la conversión. Ya se ha comprobado que el
+ratio de ADR cuadra con el market cap de TIKR.
+"""
+
     minoritarios_block = ""
     pct_min = oe.get("fcf_minoritarios_pct")
     if pct_min:
@@ -170,7 +184,7 @@ solo (data_quality no baja por esto).
 
 TICKER: {ticker} — {company}
 Precio actual: {_fmt(price)} | Market cap: {_fmt(mc, 0)}M | TEV: {_fmt(tev, 0)}M
-{consistency_block}{minoritarios_block}
+{consistency_block}{conversion_block}{minoritarios_block}
 FCF histórico (M):
 {hist_fcf_str}
 

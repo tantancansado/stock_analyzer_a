@@ -13,8 +13,11 @@ Salida principal: precio de compra para conseguir X% de retorno anual.
 
 from __future__ import annotations
 
+import csv
 import json
+import math
 import statistics
+from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Optional
 
@@ -113,6 +116,91 @@ def check_price_consistency(
         "stated_mc": round(market_cap, 1),
         "ratio": round(ratio, 2),
     }
+
+
+# ADR por cada acción ordinaria que existen de verdad (L'Oréal 5, Hermès 10,
+# Givaudan 50, EssilorLuxottica 2…). El inverso de «acciones por ADR».
+ADR_POR_ACCION = (0.5, 1, 2, 3, 4, 5, 10, 20, 25, 50, 100)
+
+
+def conversion_de_divisa(ratio_mc: Optional[float], fx: Optional[float],
+                         mc_en_divisa_de_cuentas: bool = True,
+                         tolerancia: float = 0.15) -> Optional[dict]:
+    """Cómo pasar un importe por acción de las cuentas al precio de cotización.
+
+    Las cuentas de TIKR van en la divisa de la empresa (EUR, CAD, SEK…) y por
+    acción ordinaria; el precio es el del ADR, en USD. Comparar uno con otro
+    daba «OVERVALUED -43%» en SAP y «WATCH +5%» en ESLOY, cuando lo primero
+    tenía 15 puntos de error de divisa y lo segundo 4 de ratio de ADR.
+
+    `ratio_mc` es market_cap / (precio × acciones). Si el market cap está en la
+    divisa de las cuentas, ratio = 1 / (acciones_por_ADR × fx), o sea
+    ratio × fx = ADR por acción, que tiene que caer en un ratio de ADR real
+    (medido el 28-sep-2026 en los 19 valores del universo con divisas
+    distintas: los 19 cuadran a menos del 7%, y con ese factor los objetivos
+    por EV/FCF y por EV/EBITDA coinciden entre sí). Si no cae en ninguno no
+    hay conversión fiable y devuelve None: se marca inconsistente, no se
+    adivina.
+
+    factor = fx / ADR_por_acción: lo que vale en la divisa del precio, por ADR,
+    un importe de 1 unidad por acción ordinaria.
+    """
+    if not ratio_mc or not fx or ratio_mc <= 0 or fx <= 0:
+        return None
+    teorico = ratio_mc * fx if mc_en_divisa_de_cuentas else ratio_mc
+    n = min(ADR_POR_ACCION, key=lambda r: abs(math.log(teorico / r)))
+    if abs(math.log(teorico / n)) > math.log(1 + tolerancia):
+        return None
+    return {"adr_por_accion": n, "fx": round(fx, 4), "factor": fx / n}
+
+
+_divisas_cache: dict = {}
+
+
+def _divisas_del_ticker(ticker: str, path: str = "docs/fundamental_scores.csv") -> tuple:
+    """(divisa de las cuentas, divisa del precio) según el scorer; (None, None) si no lo sabe."""
+    global _divisas_cache
+    if not _divisas_cache:
+        ruta = Path(path)
+        if ruta.exists():
+            with ruta.open() as fh:
+                for fila in csv.DictReader(fh):
+                    t = str(fila.get("ticker", "")).upper()
+                    fin = (fila.get("financial_currency") or "").strip()
+                    px = (fila.get("price_currency") or "").strip()
+                    if t and fin and px and t not in _divisas_cache:
+                        _divisas_cache[t] = (fin.upper(), {"GBp": "GBP"}.get(px, px).upper())
+    return _divisas_cache.get(ticker.upper(), (None, None))
+
+
+_fx_cache: dict = {}
+
+
+def _fx_de_cuentas_a_precio(de: str, a: str, fecha: Optional[str]) -> Optional[float]:
+    """Tipo de cambio `de`→`a` al cierre del día en que TIKR bajó el precio.
+
+    No el de hoy: el precio de la ficha es el de esa fecha, y con el de hoy
+    cada mañana cambiaría el batch entero — y con él la huella que decide si el
+    validador vuelve a gastar. Mismo día para precio y divisa, y el lote sale
+    igual hasta que TIKR se vuelva a bajar.
+    """
+    if not (_YF_AVAILABLE and de and a and fecha):
+        return None
+    clave = (de, a, fecha)
+    if clave in _fx_cache:
+        return _fx_cache[clave]
+    tc = None
+    try:
+        dia = datetime.fromisoformat(str(fecha)[:10])
+        hist = yf.Ticker(f"{de}{a}=X").history(
+            start=(dia - timedelta(days=7)).strftime("%Y-%m-%d"),
+            end=(dia + timedelta(days=1)).strftime("%Y-%m-%d"), timeout=10)
+        if not hist.empty and float(hist["Close"].iloc[-1]) > 0:
+            tc = float(hist["Close"].iloc[-1])
+    except Exception:
+        tc = None
+    _fx_cache[clave] = tc
+    return tc
 
 
 def _template_components(
@@ -365,48 +453,17 @@ def calculate(
     ntm_ev_ebitda = _fv(multiples.get("ntm_ev_ebitda"))
     ntm_fcf_m = _fv(ntm.get("ntm_fcf") or ntm.get("fcf"))
 
-    # Precios históricos anuales. `price_close` de TIKR se dejó de extraer el
-    # 16-sep-2026: no era un precio, era el tipo de cambio del año (ver
-    # tikr_scraper). Se sigue leyendo por si queda algún caché viejo con el
-    # campo; cuando no está, `historical_multiples` sale vacío, que es lo
-    # correcto — es lo que ya pasaba con las 120 empresas estadounidenses.
-    tikr_prices = _metric_series(metrics, "price_close")  # dict {yr: float|None}
-    annual_prices = {yr: v for yr, v in tikr_prices.items() if v is not None} if tikr_prices else {}
-
-    # Múltiplos históricos por año — para tab 3. Ratios en el frontend
+    # `price_close` de TIKR NO es un precio: es el tipo de cambio del año (ver
+    # tikr_scraper). Se dejó de extraer el 16-sep-2026, pero los tickers que no
+    # se volvieron a bajar —o cuyo bloque de cuentas se conservó de una semana
+    # anterior— lo seguían trayendo, y aquí se multiplicaba por las acciones
+    # como si fuera un precio: CNI salía con EV/FCF 3,7 y «OVERVALUED -96%».
+    # Sin precio histórico fiable no hay múltiplo histórico: `median_ev_fcf`
+    # sale del rendimiento de FCF a doce meses, que es lo que ya hacían las 120
+    # empresas estadounidenses.
     historical_multiples: dict[str, dict] = {}
-    hist_ev_fcf_multiples = []
-    for yr in years:
-        price_yr = annual_prices.get(yr)
-        sh = _metric(metrics, "shares_diluted", yr)
-        oe = historical_fcf.get(yr)
-        ebitda_yr = _metric(metrics, "ebitda", yr)
-        ebit_yr = _metric(metrics, "ebit", yr)
-        eps_yr = _metric(metrics, "eps_diluted", yr)
-        debt = _metric(metrics, "total_debt", yr)
-        cash = _metric(metrics, "cash", yr)
-        if price_yr and sh and sh > 0 and debt is not None and cash is not None:
-            mc_yr = price_yr * sh
-            nd_yr = debt - cash
-            ev_yr = mc_yr + nd_yr
-            row: dict = {"price": round(price_yr, 2), "mc": round(mc_yr, 0), "ev": round(ev_yr, 0)}
-            if oe and oe > 0:
-                ev_fcf = round(ev_yr / oe, 1)
-                row["ev_fcf"] = ev_fcf
-                hist_ev_fcf_multiples.append(ev_fcf)
-            if ebitda_yr and ebitda_yr > 0:
-                row["ev_ebitda"] = round(ev_yr / ebitda_yr, 1)
-            if ebit_yr and ebit_yr > 0:
-                row["ev_ebit"] = round(ev_yr / ebit_yr, 1)
-            if eps_yr and eps_yr > 0:
-                row["pe"] = round(price_yr / eps_yr, 1)
-            if oe and mc_yr > 0:
-                row["fcf_yield"] = round(oe / mc_yr * 100, 1)
-            historical_multiples[str(yr)] = row
 
-    if hist_ev_fcf_multiples:
-        median_ev_fcf = statistics.median(hist_ev_fcf_multiples)
-    elif ntm_fcf_yield and ntm_fcf_yield > 0:
+    if ntm_fcf_yield and ntm_fcf_yield > 0:
         median_ev_fcf = 100 / ntm_fcf_yield
     elif ntm_fcf_m and tev and ntm_fcf_m > 0:
         median_ev_fcf = tev / ntm_fcf_m
@@ -542,6 +599,28 @@ def calculate(
             targets["average"] = round(sum(valid) / len(valid), 2)
 
         price_targets[yr_str] = targets
+
+    # ── Cuentas en una divisa, precio en otra ─────────────────────────────────
+    # Los objetivos de arriba salen en la divisa de las cuentas y por acción
+    # ordinaria; el precio es el del ADR. Se pasan a la divisa y a la base del
+    # precio antes de compararlos (ver `conversion_de_divisa`). El market cap
+    # de TIKR viene en la divisa de las cuentas en los ADR (precio en USD) y en
+    # la del precio en las cotizaciones locales (CSU.TO: ratio 1,000 exacto).
+    cuentas_ccy, precio_ccy = _divisas_del_ticker(ticker)
+    divisas_distintas = bool(cuentas_ccy and precio_ccy and cuentas_ccy != precio_ccy)
+    sh_ultimas = _metric(metrics, "shares_diluted", latest_yr)
+    conversion = None
+    if divisas_distintas and current_price and market_cap and sh_ultimas and sh_ultimas > 0:
+        conversion = conversion_de_divisa(
+            market_cap / (current_price * sh_ultimas),
+            _fx_de_cuentas_a_precio(cuentas_ccy, precio_ccy, td.get("fetched_at")),
+            mc_en_divisa_de_cuentas=(precio_ccy == "USD"),
+        )
+    if conversion:
+        conversion.update(de=cuentas_ccy, a=precio_ccy)
+        for targets in price_targets.values():
+            for clave in targets:
+                targets[clave] = round(targets[clave] * conversion["factor"], 2)
 
     # ── Precio de compra para target_return ───────────────────────────────────
     buy_price = exit_price = exit_year = years_to_exit = None
@@ -684,7 +763,17 @@ def calculate(
 
     # 5b. Precio vs fundamentales en divisas/bases distintas sin convertir
     # (ver check_price_consistency) — invalida CUALQUIER ratio derivado.
-    price_consistency_issue = check_price_consistency(current_price, market_cap, sh_new)
+    price_consistency_issue = None if conversion else check_price_consistency(current_price, market_cap, sh_new)
+    if (price_consistency_issue is None and divisas_distintas and not conversion
+            and current_price and market_cap and sh_new):
+        # Divisas distintas y sin conversión fiable: aunque el market cap
+        # «cuadre» de casualidad, comparar EUR con USD da un veredicto falso.
+        implicito = current_price * sh_new
+        price_consistency_issue = {
+            "implied_mc": round(implicito, 1),
+            "stated_mc": round(market_cap, 1),
+            "ratio": round(market_cap / implicito, 2),
+        }
     if price_consistency_issue is not None:
         red_flags.append({
             "code": "PRICE_MC_MISMATCH", "severity": "high",
@@ -769,6 +858,7 @@ def calculate(
         "safety_margin_pct": safety_margin_pct if price_consistency_issue is None else None,
         "signal": _signal(upside_pct) if price_consistency_issue is None else "DATA_INCONSISTENT",
         "price_consistency_issue": price_consistency_issue,
+        "conversion_divisa": conversion,
         # Por qué no hay veredicto, cuando no lo hay. Un NO_DATA sin motivo se
         # lee como "no encontramos nada", que no es lo mismo que "no tenemos con
         # qué mirarlo".

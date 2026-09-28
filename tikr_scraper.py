@@ -1625,11 +1625,29 @@ def _divisa_incoherente(ticker: str, registro: dict) -> Optional[str]:
             f"(el registro dice «{nombre}»)")
 
 
+def _quitar_tipo_de_cambio(datos: dict) -> int:
+    """Borra `price_close` de las cuentas guardadas y dice cuántas tocó.
+
+    Era el tipo de cambio del año, no un precio (ver `fetch_tf_financials`).
+    Dejó de extraerse el 16-sep-2026, pero el merge conserva lo que ya había:
+    los tickers que no se volvieron a bajar y los bloques de cuentas que
+    vinieron vacíos y se rellenaron con los de la semana anterior lo seguían
+    arrastrando, y `owner_earnings` lo tomaba por un precio (22 tickers).
+    """
+    n = 0
+    for registro in datos.values():
+        metricas = ((registro or {}).get('financials_history') or {}).get('metrics')
+        if isinstance(metricas, dict) and metricas.pop('price_close', None) is not None:
+            n += 1
+    return n
+
+
 def _save_output(results: dict, errors: list):
     # Merge con datos existentes — los nuevos sobreescriben los viejos por ticker,
     # pero los tickers que no estaban en este run se conservan intactos.
     existing = _load_existing_output()
     merged = {**existing, **results}   # results gana (más recientes)
+    _quitar_tipo_de_cambio(merged)
     output = {
         'generated_at': datetime.now(timezone.utc).isoformat(),
         'total':        len(merged),
