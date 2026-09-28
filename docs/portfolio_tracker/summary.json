@@ -2,8 +2,8 @@
   "total_signals": 94,
   "unique_tickers": 56,
   "date_range": "2026-04-08 to 2026-09-24",
-  "active_signals": 14,
-  "completed_signals": 80,
+  "active_signals": 11,
+  "completed_signals": 83,
   "overall": {
     "90d": {
       "count": 39,
@@ -85,9 +85,9 @@
   },
   "conviction": {
     "7d": {
-      "count": 149,
-      "win_rate": 38.9,
-      "avg_return": -0.52,
+      "count": 150,
+      "win_rate": 39.3,
+      "avg_return": -0.45,
       "basis": "golden_zone_hist"
     }
   },
@@ -159,28 +159,28 @@
   },
   "bounce_strategies": {
     "BOUNCE_BROAD": {
-      "count": 33,
+      "count": 36,
       "7d": {
-        "count": 20,
-        "win_rate": 30.0,
-        "ci_low": 14.5,
-        "ci_high": 51.9,
-        "avg_return": -0.8,
-        "median_return": -0.94,
+        "count": 21,
+        "win_rate": 28.6,
+        "ci_low": 13.8,
+        "ci_high": 50.0,
+        "avg_return": -0.88,
+        "median_return": -1.05,
         "best": 4.07,
         "worst": -4.24
       },
       "nota": "horizonte real 1-5 d\u00edas: el 7d es la medida m\u00e1s cercana disponible, no el criterio del setup (target vs stop)"
     },
     "MEAN_REVERSION": {
-      "count": 83,
+      "count": 84,
       "7d": {
-        "count": 79,
-        "win_rate": 35.4,
-        "ci_low": 25.8,
-        "ci_high": 46.4,
-        "avg_return": -2.72,
-        "median_return": -2.44,
+        "count": 81,
+        "win_rate": 35.8,
+        "ci_low": 26.2,
+        "ci_high": 46.7,
+        "avg_return": -2.56,
+        "median_return": -1.59,
         "best": 8.8,
         "worst": -14.93
       },
@@ -233,8 +233,8 @@
         "ci_high": null
       }
     },
-    "edad_max_dias": 36,
-    "dias_hasta_primera_lectura": 54,
+    "edad_max_dias": 39,
+    "dias_hasta_primera_lectura": 51,
     "con_contrato": 107,
     "nota": "el contrato se sigue por su s\u00edmbolo OCC; son opciones poco l\u00edquidas, as\u00ed que un checkpoint sin cotizaci\u00f3n en 10 d\u00edas se queda vac\u00edo en vez de arrastrar un precio viejo"
   },
@@ -260,14 +260,14 @@
       "win_rate_30d": 20.0
     },
     "Healthcare": {
-      "count": 6,
-      "avg_30d": 3.66,
-      "win_rate_30d": 66.7
+      "count": 7,
+      "avg_30d": 1.56,
+      "win_rate_30d": 57.1
     },
     "Industrials": {
-      "count": 8,
-      "avg_30d": 0.83,
-      "win_rate_30d": 50.0
+      "count": 10,
+      "avg_30d": -0.57,
+      "win_rate_30d": 40.0
     },
     "Consumer Defensive": {
       "count": 3,
@@ -385,7 +385,7 @@
       "signal_price": 473.85,
       "sector": "Financial Services",
       "value_score": 59.17999999999999,
-      "days_active": 1,
+      "days_active": 4,
       "first_result_date": "2026-10-01"
     },
     {
@@ -396,7 +396,7 @@
       "signal_price": 279.37,
       "sector": "Industrials",
       "value_score": 57.52,
-      "days_active": 4,
+      "days_active": 7,
       "first_result_date": "2026-09-28"
     },
     {
@@ -407,7 +407,7 @@
       "signal_price": 1069.78,
       "sector": "Financial Services",
       "value_score": 54.08,
-      "days_active": 6,
+      "days_active": 9,
       "first_result_date": "2026-09-26"
     },
     {
@@ -418,7 +418,7 @@
       "signal_price": 682.31,
       "sector": "Communication Services",
       "value_score": 63.72,
-      "days_active": 7,
+      "days_active": 10,
       "first_result_date": "2026-09-25"
     },
     {
@@ -429,7 +429,7 @@
       "signal_price": 59.29,
       "sector": "Energy",
       "value_score": 53.155,
-      "days_active": 7,
+      "days_active": 10,
       "first_result_date": "2026-09-25"
     },
     {
@@ -440,7 +440,7 @@
       "signal_price": 2120.58,
       "sector": "Financial Services",
       "value_score": 51.92499999999999,
-      "days_active": 7,
+      "days_active": 10,
       "first_result_date": "2026-09-25"
     },
     {
@@ -451,7 +451,7 @@
       "signal_price": 77.01,
       "sector": "Consumer Cyclical",
       "value_score": 59.09,
-      "days_active": 15,
+      "days_active": 18,
       "first_result_date": "2026-09-17"
     },
     {
@@ -462,7 +462,7 @@
       "signal_price": 314.4,
       "sector": "Industrials",
       "value_score": 59.72,
-      "days_active": 23,
+      "days_active": 26,
       "first_result_date": "2026-09-09"
     },
     {
@@ -473,7 +473,7 @@
       "signal_price": 435.84,
       "sector": "Financial Services",
       "value_score": 58.14,
-      "days_active": 24,
+      "days_active": 27,
       "first_result_date": "2026-09-08"
     },
     {
@@ -484,7 +484,7 @@
       "signal_price": 108.815,
       "sector": "Financial Services",
       "value_score": 57.05500000000001,
-      "days_active": 28,
+      "days_active": 31,
       "first_result_date": "2026-09-04"
     },
     {
@@ -495,41 +495,8 @@
       "signal_price": 127.08,
       "sector": "Industrials",
       "value_score": 50.06999999999999,
-      "days_active": 29,
+      "days_active": 32,
       "first_result_date": "2026-09-03"
-    },
-    {
-      "ticker": "CLPBY",
-      "company_name": "Coloplast A/S",
-      "strategy": "VALUE",
-      "signal_date": "2026-08-26",
-      "signal_price": 7.26,
-      "sector": "Healthcare",
-      "value_score": 59.59,
-      "days_active": 30,
-      "first_result_date": "2026-09-02"
-    },
-    {
-      "ticker": "HEI",
-      "company_name": "HEICO Corporation",
-      "strategy": "VALUE",
-      "signal_date": "2026-08-26",
-      "signal_price": 351.05,
-      "sector": "Industrials",
-      "value_score": 56.375,
-      "days_active": 30,
-      "first_result_date": "2026-09-02"
-    },
-    {
-      "ticker": "TT",
-      "company_name": "Trane Technologies plc",
-      "strategy": "VALUE",
-      "signal_date": "2026-08-26",
-      "signal_price": 455.25,
-      "sector": "Industrials",
-      "value_score": 51.95,
-      "days_active": 30,
-      "first_result_date": "2026-09-02"
     }
   ],
   "avg_max_drawdown": -2.67,
@@ -558,11 +525,11 @@
       "worst_alpha": -38.85
     },
     "30d": {
-      "count": 80,
-      "avg_alpha": -2.59,
-      "avg_signal_return": 0.02,
-      "avg_benchmark_return": 2.61,
-      "positive_alpha_rate": 45.0,
+      "count": 83,
+      "avg_alpha": -2.81,
+      "avg_signal_return": -0.26,
+      "avg_benchmark_return": 2.55,
+      "positive_alpha_rate": 43.4,
       "best_alpha": 21.86,
       "worst_alpha": -21.52
     },
@@ -576,11 +543,11 @@
       "worst_alpha": -12.78
     },
     "7d": {
-      "count": 88,
-      "avg_alpha": -0.42,
-      "avg_signal_return": 0.3,
-      "avg_benchmark_return": 0.73,
-      "positive_alpha_rate": 44.3,
+      "count": 91,
+      "avg_alpha": -0.4,
+      "avg_signal_return": 0.34,
+      "avg_benchmark_return": 0.75,
+      "positive_alpha_rate": 44.0,
       "best_alpha": 11.23,
       "worst_alpha": -12.04
     }
@@ -612,11 +579,11 @@
       "worst_alpha": -51.85
     },
     "30d": {
-      "count": 68,
-      "avg_alpha": -2.95,
-      "avg_signal_return": 0.17,
-      "avg_benchmark_return": 3.12,
-      "positive_alpha_rate": 44.1,
+      "count": 71,
+      "avg_alpha": -3.19,
+      "avg_signal_return": -0.17,
+      "avg_benchmark_return": 3.03,
+      "positive_alpha_rate": 42.3,
       "best_alpha": 21.86,
       "worst_alpha": -21.52
     },
@@ -675,5 +642,5 @@
       "worst_alpha": -4.98
     }
   },
-  "generated_at": "2026-09-25T05:42:10.512595"
+  "generated_at": "2026-09-28T06:20:12.242258"
 }
