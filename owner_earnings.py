@@ -794,11 +794,34 @@ def batch_calculate(target_return: float = 0.15) -> dict:
     return {t: calculate(t, target_return=target_return) for t in _load_tikr()}
 
 
+def _minoritarios_por_ticker(path: str = "docs/fundamental_scores.csv") -> dict:
+    """% del FCF que va a socios minoritarios, del scorer. El FCF de TIKR va ANTES de repartirlo."""
+    import csv
+    ruta = Path(path)
+    if not ruta.exists():
+        return {}
+    out = {}
+    with ruta.open() as fh:
+        for fila in csv.DictReader(fh):
+            try:
+                pct = float(fila.get("fcf_minoritarios_pct") or 0)
+            except ValueError:
+                continue
+            if pct > 0:
+                out[str(fila.get("ticker", "")).upper()] = pct
+    return out
+
+
 def save_batch_json(target_return: float = 0.15, output_path: str = "docs/owner_earnings_batch.json") -> None:
     """Pre-compute batch results and save to JSON for GitHub Pages serving."""
     import json as _json
     results_raw = batch_calculate(target_return=target_return)
     valid = [v for v in results_raw.values() if "error" not in v]
+    minoritarios = _minoritarios_por_ticker()
+    for v in valid:
+        pct = minoritarios.get(str(v.get("ticker", "")).upper())
+        if pct:
+            v["fcf_minoritarios_pct"] = pct
     output = {
         "target_return_pct": round(target_return * 100, 1),
         "total": len(valid),

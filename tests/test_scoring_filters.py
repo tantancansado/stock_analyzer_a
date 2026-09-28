@@ -295,3 +295,38 @@ class TestSourceCodeAlignment:
         assert "+= 3.0" in src, "RS Line percentile bonus (+3) cambió"
         assert "+= 2.0" in src, "RS Line trend bonus (+2) cambió"
         assert "clip(upper=10.0)" in src, "RS Line cap (10) cambió"
+
+
+class TestBonusDeFcfConValidadorQueDesconfia:
+    """THC lideraba VALUE con 79 puntos y el validador decía «FCF no fiable»:
+    el bonus de FCF se apoyaba en la cifra que el propio sistema ponía en duda."""
+
+    def _df(self):
+        return pd.DataFrame({'ticker': ['THC', 'KO', 'ZZZ'],
+                             'value_score': [79.3, 52.0, 40.0],
+                             'fcf_bonus': [8.0, 3.0, 6.0]})
+
+    def test_quita_el_bonus_solo_al_no_fiable(self):
+        from scoring.filters import anular_bonus_fcf_no_fiable
+        oe = {'THC': {'data_quality': 'UNRELIABLE'}, 'KO': {'data_quality': 'MIXED'}}
+        r = anular_bonus_fcf_no_fiable(self._df(), oe).set_index('ticker')
+        assert r.loc['THC', 'value_score'] == pytest.approx(71.3)
+        assert r.loc['KO', 'value_score'] == 52.0      # dato dudoso, no roto
+        assert r.loc['ZZZ', 'value_score'] == 40.0     # sin veredicto: no se toca
+
+    def test_el_ticker_se_queda(self):
+        from scoring.filters import anular_bonus_fcf_no_fiable
+        r = anular_bonus_fcf_no_fiable(self._df(), {'THC': {'data_quality': 'UNRELIABLE'}})
+        assert list(r['ticker']) == ['THC', 'KO', 'ZZZ']
+
+    def test_no_baja_de_cero_ni_muta_la_entrada(self):
+        from scoring.filters import anular_bonus_fcf_no_fiable
+        df = pd.DataFrame({'ticker': ['A'], 'value_score': [3.0], 'fcf_bonus': [8.0]})
+        r = anular_bonus_fcf_no_fiable(df, {'A': {'data_quality': 'unreliable'}})
+        assert r.loc[0, 'value_score'] == 0.0
+        assert df.loc[0, 'value_score'] == 3.0
+
+    def test_sin_columna_de_bonus_no_hace_nada(self):
+        from scoring.filters import anular_bonus_fcf_no_fiable
+        df = pd.DataFrame({'ticker': ['A'], 'value_score': [50.0]})
+        assert anular_bonus_fcf_no_fiable(df, {'A': {'data_quality': 'UNRELIABLE'}}).loc[0, 'value_score'] == 50.0

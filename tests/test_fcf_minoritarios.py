@@ -148,3 +148,87 @@ def test_el_peg_sigue_sin_existir_con_crecimiento_negativo():
     r = FundamentalScorer._calculate_magic_formula_metrics(
         None, stock, {'forwardPE': 12.0, 'earningsGrowth': -0.2})
     assert r['peg_ratio'] is None
+
+
+def _valor(info):
+    from fundamental_scorer import FundamentalScorer
+    base = {'currentPrice': 100.0, 'marketCap': 10_000.0, 'operatingCashflow': 1_000.0,
+            'capitalExpenditure': -200.0, 'sharesOutstanding': 100.0}
+    return FundamentalScorer._calculate_value_quality_metrics(
+        FundamentalScorer.__new__(FundamentalScorer), None, {**base, **info})
+
+
+def test_el_scorer_publica_que_parte_del_fcf_no_es_del_accionista():
+    r = _valor({'minoritariosSobreFcf': 0.32})
+    assert r['fcf_minoritarios_pct'] == 32.0
+    assert r['fcf_yield_pct'] == pytest.approx(5.44, abs=0.01)   # (1000-200)*(1-0.32)/10000
+
+
+def test_sin_minoritarios_la_columna_queda_vacia():
+    assert _valor({})['fcf_minoritarios_pct'] is None
+
+
+def test_el_batch_lee_el_porcentaje_del_scorer(tmp_path):
+    from owner_earnings import _minoritarios_por_ticker
+    csv = tmp_path / 'f.csv'
+    csv.write_text('ticker,fcf_minoritarios_pct\nTHC,32.0\nAAPL,\nMSFT,0\n')
+    assert _minoritarios_por_ticker(str(csv)) == {'THC': 32.0}
+    assert _minoritarios_por_ticker(str(tmp_path / 'no_existe.csv')) == {}
+
+
+def test_el_validador_avisa_solo_cuando_hay_minoritarios():
+    from owner_earnings_validator import build_prompt
+    base = {'ticker': 'THC', 'company_name': 'Tenet', 'current_price': 260.0}
+    con = build_prompt({**base, 'fcf_minoritarios_pct': 32.0})
+    sin = build_prompt(base)
+    assert 'SOCIOS MINORITARIOS' in con and '32%' in con
+    assert 'SOCIOS MINORITARIOS' not in sin
+
+
+# ── mínimo de los analistas ────────────────────────────────────────────────────
+
+def _cambios(filas):
+    return pd.DataFrame(
+        [{'Firm': f, 'currentPriceTarget': p} for _, f, p in filas],
+        index=pd.to_datetime([d for d, _, _ in filas]))
+
+
+def test_el_minimo_baja_cuando_una_casa_recorta_y_yahoo_aun_no_lo_refleja():
+    from fundamental_scorer import objetivo_minimo_vigente
+    # MCD, 28-sep-2026: Yahoo 250, Melius acaba de bajar a 230
+    cambios = _cambios([('2026-09-28', 'Melius Research', 230.0),
+                        ('2026-09-24', 'JP Morgan', 260.0)])
+    assert objetivo_minimo_vigente(250.0, cambios, ahora='2026-09-28') == 230.0
+
+
+def test_cuenta_el_ultimo_objetivo_de_cada_casa_no_los_antiguos():
+    from fundamental_scorer import objetivo_minimo_vigente
+    # BTIG estaba en 295 y subio a 340: el 295 viejo no puede seguir mandando
+    cambios = _cambios([('2026-09-01', 'BTIG', 295.0), ('2026-09-20', 'BTIG', 340.0),
+                        ('2026-09-10', 'UBS', 320.0)])
+    assert objetivo_minimo_vigente(None, cambios, ahora='2026-09-28') == 320.0
+
+
+def test_un_objetivo_fuera_de_ventana_no_cuenta():
+    from fundamental_scorer import objetivo_minimo_vigente
+    cambios = _cambios([('2026-03-01', 'Melius Research', 150.0)])
+    assert objetivo_minimo_vigente(250.0, cambios, ahora='2026-09-28') == 250.0
+
+
+def test_nunca_sube_el_minimo_ni_se_inventa_uno():
+    from fundamental_scorer import objetivo_minimo_vigente
+    cambios = _cambios([('2026-09-25', 'UBS', 320.0)])
+    assert objetivo_minimo_vigente(250.0, cambios, ahora='2026-09-28') == 250.0
+    assert objetivo_minimo_vigente(None, None) is None
+    assert objetivo_minimo_vigente(None, pd.DataFrame()) is None
+
+
+def test_ignora_objetivos_a_cero_de_las_iniciaciones():
+    from fundamental_scorer import objetivo_minimo_vigente
+    cambios = _cambios([('2026-09-16', 'Seaport Global', 0.0)])
+    assert objetivo_minimo_vigente(250.0, cambios, ahora='2026-09-28') == 250.0
+
+
+def test_una_tabla_rota_deja_el_de_yahoo():
+    from fundamental_scorer import objetivo_minimo_vigente
+    assert objetivo_minimo_vigente(250.0, pd.DataFrame({'otra': [1]}), ahora='2026-09-28') == 250.0

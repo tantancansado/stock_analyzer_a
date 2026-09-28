@@ -154,11 +154,23 @@ peso para pensar que, pese al ratio, el resto de cifras SÍ son coherentes
 entre sí (explica por qué en ese caso). thesis_verdict debe ser INSUFFICIENT.
 """
 
+    minoritarios_block = ""
+    pct_min = oe.get("fcf_minoritarios_pct")
+    if pct_min:
+        minoritarios_block = f"""
+AVISO — SOCIOS MINORITARIOS: aproximadamente el {pct_min:.0f}% del FCF de arriba
+se reparte a socios minoritarios de filiales consolidadas (p. ej. médicos
+socios de centros quirúrgicos) y NO es del accionista. Las cifras de FCF y el
+precio de compra del modelo van en bruto, así que están sobrestimados en esa
+proporción. Tenlo en cuenta en la tesis; no lo trates como un dato malo por sí
+solo (data_quality no baja por esto).
+"""
+
     return f"""Eres un analista VALUE/GARP (estilo Lynch). Valida un modelo de Owner Earnings (FCF-based) para determinar SI el dato es fiable y SI la tesis implícita es correcta.
 
 TICKER: {ticker} — {company}
 Precio actual: {_fmt(price)} | Market cap: {_fmt(mc, 0)}M | TEV: {_fmt(tev, 0)}M
-{consistency_block}
+{consistency_block}{minoritarios_block}
 FCF histórico (M):
 {hist_fcf_str}
 

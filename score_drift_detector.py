@@ -19,7 +19,7 @@ HISTORY = DOCS / 'history'
 OUT = DOCS / 'score_alerts.json'
 
 SCORE_COL = 'value_score'
-GRADE_COL = 'quality'
+GRADE_COL = 'tier'
 SECTOR_COL = 'sector'
 NAME_COL = 'company_name'
 THRESHOLD_PTS = 5.0

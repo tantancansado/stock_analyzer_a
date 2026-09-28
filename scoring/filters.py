@@ -153,3 +153,23 @@ def apply_rs_line_bonus(df: pd.DataFrame) -> pd.DataFrame:
         result['super_score_ultimate'] + result['rs_line_bonus']
     ).clip(upper=100)
     return result
+
+
+def anular_bonus_fcf_no_fiable(df: pd.DataFrame, oe_map: dict) -> pd.DataFrame:
+    """
+    Quita del value_score el bonus de FCF de los tickers cuyo FCF el validador
+    de owner earnings marca como no fiable (data_quality == UNRELIABLE).
+
+    Ese bonus sale de la misma cifra que el validador desconfía. El ticker no
+    se saca: solo deja de puntuar lo que se apoyaba en el dato dudoso.
+    Requires: ticker, value_score, fcf_bonus.
+    """
+    result = df.copy()
+    if 'fcf_bonus' not in result.columns:
+        return result
+    sin_fiar = result['ticker'].astype(str).str.upper().map(
+        lambda t: str((oe_map.get(t) or {}).get('data_quality', '')).upper() == 'UNRELIABLE')
+    quitado = result['fcf_bonus'].where(sin_fiar, 0.0).fillna(0.0)
+    result['value_score'] = (result['value_score'] - quitado).clip(lower=0, upper=100)
+    result['fcf_bonus_anulado'] = quitado
+    return result

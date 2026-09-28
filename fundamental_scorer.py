@@ -87,6 +87,37 @@ SUELO_CRECIMIENTO = -0.10
 # GOOG 0,08. Ninguno es un crecimiento que nadie espere sostener.
 TECHO_CRECIMIENTO_PEG = 0.30
 
+VENTANA_OBJETIVOS_DIAS = 90
+
+
+def objetivo_minimo_vigente(minimo_yahoo, cambios, ahora=None, dias=VENTANA_OBJETIVOS_DIAS):
+    """El objetivo más bajo entre el agregado de Yahoo y el último de cada casa.
+
+    `targetLowPrice` de Yahoo es un agregado que tarda en reflejar los recortes:
+    el 28-sep-2026 daba 250 para MCD cuando Melius acababa de bajar a 230
+    (anterior 250). `upgrades_downgrades` trae el objetivo por casa y fecha, así
+    que se toma el último de cada una dentro de la ventana y se queda el menor de
+    los dos. Nunca sube el mínimo: si la tabla falla o está vacía, vale Yahoo.
+    """
+    candidatos = [float(minimo_yahoo)] if minimo_yahoo else []
+    try:
+        if cambios is not None and len(cambios):
+            df = cambios.copy()
+            df.index = pd.to_datetime(df.index, errors='coerce')
+            if df.index.tz is not None:
+                df.index = df.index.tz_localize(None)
+            corte = (pd.Timestamp(ahora) if ahora is not None else pd.Timestamp.now()) \
+                - pd.Timedelta(days=dias)
+            df['currentPriceTarget'] = pd.to_numeric(df['currentPriceTarget'], errors='coerce')
+            df = df[df.index.notna() & (df.index >= corte) & (df['currentPriceTarget'] > 0)]
+            if len(df):
+                ultimo = df.sort_index().groupby('Firm')['currentPriceTarget'].last()
+                candidatos.append(float(ultimo.min()))
+    except (KeyError, TypeError, ValueError):
+        pass
+    return min(candidatos) if candidatos else None
+
+
 
 # Coste del capital propio por CAPM: tipo sin riesgo + beta × prima de riesgo.
 # El tipo del bono a 10 años y la prima se revisan a mano; no valen un dato de
@@ -618,7 +649,7 @@ class FundamentalScorer:
                 ),
 
                 # Target Prices (analyst consensus + fundamental-based)
-                **self._calculate_target_prices(info, ticker),
+                **self._calculate_target_prices(info, ticker, stock),
 
                 # Value Quality Metrics (FCF, dividends, buybacks, revisions, earnings cal)
                 **self._calculate_value_quality_metrics(stock, info, fx_meta),
@@ -1477,6 +1508,7 @@ class FundamentalScorer:
             # Value Quality Metrics
             'fcf_yield_pct': None,
             'fcf_per_share': None,
+            'fcf_minoritarios_pct': None,
             'dividend_yield_pct': None,
             'payout_ratio_pct': None,
             'dividend_rate': None,
@@ -1864,6 +1896,7 @@ class FundamentalScorer:
             # FCF
             'fcf_yield_pct': None,
             'fcf_per_share': None,
+            'fcf_minoritarios_pct': None,
             # Dividends
             'dividend_yield_pct': None,
             'payout_ratio_pct': None,
@@ -1925,6 +1958,9 @@ class FundamentalScorer:
             if result['fcf_yield_pct'] is not None:
                 result['fcf_per_share'] = round(
                     result['fcf_yield_pct'] * current_price / 100.0, 2)
+            peso_minoritarios = float(info.get('minoritariosSobreFcf') or 0)
+            if peso_minoritarios > 0:
+                result['fcf_minoritarios_pct'] = round(peso_minoritarios * 100, 1)
 
             # ── DIVIDEND QUALITY ───────────────────────────────────────
             div_yield = info.get('dividendYield')
@@ -2167,7 +2203,7 @@ class FundamentalScorer:
 
         return result
 
-    def _calculate_target_prices(self, info: Dict, ticker: str = '') -> Dict:
+    def _calculate_target_prices(self, info: Dict, ticker: str = '', stock=None) -> Dict:
         """
         Calcula precios objetivo usando 3 métodos:
         1. Analyst consensus (targetMeanPrice de yfinance)
@@ -2209,6 +2245,13 @@ class FundamentalScorer:
             t_mean = info.get('targetMeanPrice')
             t_high = info.get('targetHighPrice')
             t_low  = info.get('targetLowPrice')
+            # Solo en dólares: en Londres (peniques) los objetivos por casa
+            # vienen en otra unidad y mezclarlos daría un mínimo absurdo.
+            if stock is not None and currency == 'USD':
+                try:
+                    t_low = objetivo_minimo_vigente(t_low, stock.upgrades_downgrades)
+                except Exception:
+                    pass   # sin la tabla vale el de Yahoo, tal cual
             n_analysts = info.get('numberOfAnalystOpinions')
             rec = info.get('recommendationKey')
 

@@ -145,7 +145,10 @@ class SuperScoreIntegrator:
         # VALUE opportunities (Section A - Principal)
         value_df = integrated_df.copy()
         value_df['tier'] = value_df['value_score'].apply(self._get_tier_value)
-        value_df['quality'] = value_df['value_score'].apply(self._get_quality)
+        # `quality` era el value_score reetiquetado («Elite», «Excellent»): no medía
+        # la calidad del negocio y duplicaba a `tier` con otra escala. Además
+        # heredaba la etiqueta del super score. La calidad real vive en fundamental.
+        value_df = value_df.drop(columns=['quality'], errors='ignore')
         value_df = value_df.sort_values('value_score', ascending=False)
 
         # Filter: quality threshold — banda canónica en value_bands
@@ -287,7 +290,7 @@ class SuperScoreIntegrator:
             'shares_change_es_gasto',
             'dividend_rate',
             # Value Quality Metrics (FCF, dividends, buyback, earnings timing)
-            'fcf_yield_pct', 'fcf_per_share',
+            'fcf_yield_pct', 'fcf_per_share', 'fcf_minoritarios_pct',
             'dividend_yield_pct', 'payout_ratio_pct', 'five_yr_avg_dividend_yield_pct',
             'buyback_active', 'shares_change_pct',
             'interest_coverage', 'interest_coverage_base', 'interest_coverage_ebit',
@@ -1538,6 +1541,11 @@ class SuperScoreIntegrator:
                     df["oe_ai_adjustment"] = adj_series.fillna(0).astype(int)
                     df["oe_ai_verdict"] = verdict_series.fillna("")
                     df["value_score"] = (df["value_score"] + df["oe_ai_adjustment"]).clip(lower=0, upper=100)
+                    from scoring.filters import anular_bonus_fcf_no_fiable
+                    df = anular_bonus_fcf_no_fiable(df, oe_map)
+                    if "fcf_bonus_anulado" in df.columns and (df["fcf_bonus_anulado"] != 0).any():
+                        print(f"   ⚖️  FCF no fiable según el validador: bonus anulado en "
+                              f"{sorted(df.loc[df['fcf_bonus_anulado'] != 0, 'ticker'])}")
                     touched = int((df["oe_ai_adjustment"] != 0).sum())
                     print(f"🤖 Owner Earnings AI: {touched}/{len(df)} ajustes aplicados (±8 matrix, -10 UNRELIABLE)")
             except Exception as e:
