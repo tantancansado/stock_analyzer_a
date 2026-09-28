@@ -1538,6 +1538,15 @@ export const fetchValueEUInsight = () =>
 export const fetchPortfolioInsight = () =>
   apiClient.get<{ narrative: string | null; date: string | null; total_signals?: number; win_rate_7d?: number }>('/api/portfolio-insight')
 
+/** Cuánto se ha movido la acción tras sus últimos informes (cierre a cierre). */
+export interface ReaccionResultados {
+  n: number
+  subio: number
+  mediana_abs_pct: number
+  peor_pct: number
+  mejor_pct: number
+}
+
 export interface EarningsEntry {
   ticker: string
   company: string
@@ -1564,6 +1573,7 @@ export interface EarningsEntry {
   beat_confidence?: number | null
   beat_drivers?: string[]
   implied_move_pct?: number | null
+  earnings_reaction?: ReaccionResultados | null
   is_portfolio?: boolean
   portfolio_only_fetch?: boolean
 }
@@ -1641,6 +1651,7 @@ export interface EarningsThesis {
   sentiment_tone?: 'BULLISH' | 'NEUTRAL' | 'BEARISH' | null
   recent_headlines?: string[]
   implied_move_pct: number | null
+  earnings_reaction?: ReaccionResultados | null
   expected_eps: number | null
   expected_revenue_millions: number | null
   beat_rate_last_4q: number | null

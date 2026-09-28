@@ -63,6 +63,7 @@ from ticker_api_helpers import (
     extract_jwt_sub as _extract_jwt_sub,
     earnings_estimate_avg as _earnings_estimate_avg,
     earnings_history_stats as _earnings_history_stats_from_df,
+    reaccion_a_resultados as _reaccion_a_resultados,
     score_contribution as _score_contribution,
 )
 
@@ -2865,6 +2866,15 @@ def _earnings_history_stats(tk) -> tuple[float | None, float | None, int]:
 # _earnings_estimate_avg, _score_contribution, _earnings_history_stats_from_df imported from ticker_api_helpers
 
 
+def _reaccion_historica(tk) -> dict | None:
+    try:
+        return _reaccion_a_resultados(
+            tk.get_earnings_dates(limit=20).index,
+            tk.history(period='5y', auto_adjust=False))
+    except Exception:
+        return None
+
+
 def _build_earnings_expectation_snapshot(ticker: str, base_row: dict | None = None, thesis: dict | None = None) -> dict:
     cache_key = ticker.upper().strip()
     now_ts = time.time()
@@ -3013,6 +3023,7 @@ def _build_earnings_expectation_snapshot(ticker: str, base_row: dict | None = No
         'eps_growth_yoy': eps_growth_yoy,
         'eps_accelerating': eps_accelerating or None,
         'implied_move_pct': implied_move_pct,
+        'earnings_reaction': _reaccion_historica(tk),
     }
     _EARNINGS_SIGNAL_CACHE[cache_key] = {'ts': now_ts, 'data': result}
     return dict(result)
@@ -3366,7 +3377,7 @@ def _merge_analysis_with_search_enrichment(result: dict, ticker: str) -> dict:
         'next_earnings', 'days_to_earnings', 'earnings_warning', 'earnings_catalyst',
         'proximity_to_52w_high', 'trend_template_score', 'consensus_eps',
         'consensus_revenue_millions', 'beat_rate_last_4q', 'beat_probability',
-        'beat_confidence', 'beat_drivers', 'implied_move_pct', 'analyst_revision',
+        'beat_confidence', 'beat_drivers', 'implied_move_pct', 'earnings_reaction', 'analyst_revision',
         'tikr_latest_earnings_headline',
     ]
     for field in fields:

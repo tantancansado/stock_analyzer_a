@@ -25,6 +25,7 @@ from pathlib import Path
 import yfinance as yf
 
 from currency_normalizer import normalize_info
+from ticker_api_helpers import reaccion_a_resultados
 
 try:
     from groq import Groq
@@ -308,6 +309,12 @@ def _build_context(ticker: str, shares: float | None, avg_price: float | None) -
 
     implied_move = _implied_move_pct(tk, current_price, max(days_to, 1))
     beat_rate, history = _earnings_history(tk)
+    try:
+        reaccion = reaccion_a_resultados(
+            tk.get_earnings_dates(limit=20).index,
+            tk.history(period='5y', auto_adjust=False))
+    except Exception:
+        reaccion = None
     headlines = _fetch_recent_headlines(tk)
 
     unrealized_pct = None
@@ -333,6 +340,7 @@ def _build_context(ticker: str, shares: float | None, avg_price: float | None) -
         'implied_move_pct': implied_move,
         'beat_rate_last_4q': beat_rate,
         'earnings_history': history,
+        'earnings_reaction': reaccion,
         'recent_headlines': headlines,
         'shares': shares,
         'avg_price': avg_price,
@@ -612,6 +620,7 @@ def main(
             'shares': ctx.get('shares'),
             'unrealized_pct': ctx.get('unrealized_pct'),
             'earnings_history': ctx.get('earnings_history'),
+            'earnings_reaction': ctx.get('earnings_reaction'),
             **ai,
         }
         if merged.get('implied_move_pct') is None:

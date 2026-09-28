@@ -142,6 +142,53 @@ def earnings_history_stats(hist: Any) -> tuple[Optional[float], Optional[float],
     return beat_rate, avg_surprise, total
 
 
+def reaccion_a_resultados(fechas: Any, historia: Any, n: int = 12, minimo: int = 4) -> Optional[dict]:
+    """Cuánto se ha movido la acción, de cierre a cierre, tras sus últimos resultados.
+
+    La sesión que absorbe cada informe se elige por VOLUMEN (la del día del
+    informe o la siguiente, la que negocie más), no por la hora que da Yahoo:
+    esa hora es un dato flojo —MCD publica antes de la apertura y Yahoo lo
+    marca a las 16:00— y con la hora equivocada se mide el día que no era.
+    Con menos de `minimo` informes medibles devuelve None: una mediana de dos
+    puntos no describe nada.
+    """
+    if fechas is None or historia is None or getattr(historia, 'empty', True):
+        return None
+    try:
+        cierres = historia['Close'].dropna()
+        volumen = historia['Volume']
+        indice = cierres.index
+        if getattr(indice, 'tz', None) is not None:
+            indice = indice.tz_localize(None)
+        cierres.index = volumen.index = indice.normalize()
+        marcas = [pd.Timestamp(f) for f in fechas]
+        dias = sorted({(m.tz_localize(None) if m.tzinfo else m).normalize() for m in marcas})
+    except (KeyError, TypeError, ValueError, AttributeError):
+        return None
+
+    movs: list[float] = []
+    for d in [x for x in dias if x <= cierres.index[-1]][-n:]:
+        if d not in cierres.index:
+            continue
+        i = cierres.index.get_loc(d)
+        if not isinstance(i, int) or i < 1 or i + 1 >= len(cierres):
+            continue
+        j = i if volumen.iloc[i] >= volumen.iloc[i + 1] else i + 1
+        movs.append(float(cierres.iloc[j] / cierres.iloc[j - 1] - 1) * 100)
+    if len(movs) < minimo:
+        return None
+    absolutos = sorted(abs(m) for m in movs)
+    medio = len(absolutos) // 2
+    mediana = absolutos[medio] if len(absolutos) % 2 else (absolutos[medio - 1] + absolutos[medio]) / 2
+    return {
+        'n': len(movs),
+        'subio': sum(1 for m in movs if m > 0),
+        'mediana_abs_pct': round(mediana, 1),
+        'peor_pct': round(min(movs), 1),
+        'mejor_pct': round(max(movs), 1),
+    }
+
+
 def earnings_estimate_avg(frame: Any, label: str = '0q') -> Optional[float]:
     """
     Extrae el 'avg' del earnings_estimate frame de yfinance para una label ('0q', '+1q', ...).

@@ -164,6 +164,11 @@ export default function EarningsThesisModal({ ticker, onClose }: Props) {
                     <div className="text-micro text-muted-foreground">
                       Earnings en {thesis.days_to_earnings}d · {thesis.earnings_date}
                     </div>
+                    {thesis.earnings_reaction && (
+                      <div className="text-micro text-muted-foreground mt-0.5">
+                        Suele moverse ±{thesis.earnings_reaction.mediana_abs_pct}% · sube {thesis.earnings_reaction.subio} de {thesis.earnings_reaction.n} (de {thesis.earnings_reaction.peor_pct}% a +{thesis.earnings_reaction.mejor_pct}%)
+                      </div>
+                    )}
                   </div>
                   <div className="flex flex-wrap gap-1.5">
                     {thesis.expected_eps != null && (

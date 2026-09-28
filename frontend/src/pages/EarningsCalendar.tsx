@@ -214,7 +214,7 @@ export default function EarningsCalendar() {
                         </span>
                       )}
                     </div>
-                    {(entry.beat_probability != null || entry.consensus_eps != null || entry.consensus_revenue_millions != null) && (
+                    {(entry.beat_probability != null || entry.consensus_eps != null || entry.consensus_revenue_millions != null || entry.earnings_reaction) && (
                       <div className="flex flex-wrap items-center gap-1.5 mt-1 text-micro">
                         {entry.beat_probability != null && (
                           <span
@@ -232,6 +232,14 @@ export default function EarningsCalendar() {
                         )}
                         {entry.beat_confidence != null && (
                           <span className="text-muted-foreground">Conf. {confidenceLabel(entry.beat_confidence)}</span>
+                        )}
+                        {entry.earnings_reaction && (
+                          <span
+                            className="text-muted-foreground"
+                            title={`Últimos ${entry.earnings_reaction.n} informes: de ${entry.earnings_reaction.peor_pct}% a +${entry.earnings_reaction.mejor_pct}%${entry.implied_move_pct != null ? ` · las opciones descuentan ±${entry.implied_move_pct.toFixed(1)}%` : ''}`}
+                          >
+                            Suele moverse ±{entry.earnings_reaction.mediana_abs_pct}% · sube {entry.earnings_reaction.subio} de {entry.earnings_reaction.n}
+                          </span>
                         )}
                       </div>
                     )}
