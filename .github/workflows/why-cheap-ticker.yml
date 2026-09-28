@@ -10,6 +10,10 @@ on:
       ticker:
         description: 'Ticker a estudiar (ej. MCD)'
         required: true
+      usar_reserva:
+        description: 'Gastar tambien el ultimo dolar de reserva del mes (el tope de 20 USD no se toca)'
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -43,6 +47,9 @@ jobs:
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           TICKER: ${{ inputs.ticker }}
+          # La reserva (1 USD) se resta del tope para lo no esencial; sumarla
+          # aqui la libera SOLO en esta ejecucion y el gasto total sigue < 20.
+          CLAUDE_BUDGET_USD: ${{ inputs.usar_reserva && '21' || '20' }}
         run: |
           python3 - <<'PY'
           import json, os, re, sys
