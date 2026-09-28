@@ -76,6 +76,9 @@ jobs:
                                abs(float(fila.get('proximity_to_52w_high') or 0)),
                                float(fila.get('relative_strength_6m') or 0))
           e._guardar_cache(e._leer_cache(), {t: res})
+          # Sin esto el veredicto queda en la cache pero no en el CSV que sirve
+          # la app hasta que corra el pipeline diario. Es gratis.
+          e.solo_reaplicar()
           print(json.dumps(res, ensure_ascii=False, indent=1))
           with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as f:
               f.write(f"## {t}: {res.get('veredicto')}\n\n{res.get('resumen', '')}\n")
@@ -88,7 +91,9 @@ jobs:
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "GitHub Actions Bot"
-          git add docs/why_cheap_cache.json docs/claude_budget.json || true
+          git add docs/claude_budget.json docs/why_cheap_cache.json \
+            docs/value_opportunities.csv docs/value_opportunities_filtered.csv \
+            docs/european_value_opportunities.csv docs/european_value_opportunities_filtered.csv || true
           git diff --cached --quiet && echo "Sin cambios" && exit 0
           git commit -m "chore(why-cheap): estudio manual de ${TICKER//[^A-Za-z0-9.-]/}"
           for i in 1 2 3; do
