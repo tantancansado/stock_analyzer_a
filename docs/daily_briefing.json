@@ -1,138 +1,44 @@
 {
-  "fecha": "2026-09-28",
-  "texto": "<b>Hoy hay dos cosas que puedes comprar.</b>\n\n<b>Tenet Healthcare (THC)</b> a 259,71: cae solo un 8% desde máximos, con buena fuerza relativa (+13% a 6 meses) y una caja libre que rinde un 14,4%. Los analistas le ven un 9,6% de subida, pero el modelo triangulado apunta a un 28,5%. Encaja bien en tu perfil.\n\n<b>Ferrari (RACE)</b> a 411,33 también está en entrada, con un 11,5% de subida esperada por los analistas. Ojo: su puntuación de calidad es bastante más floja que la de THC (34 frente a 79) y la caja libre rinde poco (2,5%), así que es una compra de convicción menor — posición más pequeña si entras.\n\n<b>Para vigilar, no comprar todavía:</b>\nAutodesk (ADSK) sigue cayendo (-36% en 12 meses) pese a resultados sólidos — 3 trimestres batiendo beneficio y caja libre disparándose un 54%. Es pura cuestión de sentimiento, barato todavía no es comprable.\nResMed (RMD) cae por el recall de su Astral (cargo de 42M$ y golpe en ingresos de 75M$ en 2027), pero el negocio base sigue sano.\nCboe (CBOE), HOYA (7741.T) y Daifuku (6383.T) están baratas y cayendo pero sin timing de entrada aún — no hay causa clara identificada para las dos últimas.\n\nNuevas en la lista de seguimiento: 4684.T, 7741.T y CBOE. Se caen PAYX y UNP.\n\nEl sistema acierta un 61,5% a 90 días con retorno medio del 3,15% (39 señales) — pero es una cifra provisional, todavía no hay muestra suficiente a 180 días. Dimensiona posiciones en consecuencia.\n\n🟡 Claude: $19.53 de $20 (98%) · lo que más gasta: ai_quality_filter ($4.85)",
-  "hechos": {
-    "fecha": "2026-09-28",
-    "total_lista": 48,
-    "datos_incompletos": [],
-    "picks_nuevos": [
-      "4684.T",
-      "7741.T",
-      "CBOE"
-    ],
-    "picks_que_se_van": [
-      "PAYX",
-      "UNP"
-    ],
-    "comprables": [
-      {
-        "ticker": "THC",
-        "empresa": "Tenet Healthcare Corporation",
-        "score": 79.29499999999999,
-        "precio": 259.71,
-        "upside_analista": 9.6,
-        "upside_triangulado": 28.5,
-        "divergencia": "",
-        "fcf_yield": 14.37,
-        "del_maximo_pct": -8.2,
-        "rs_6m": 13.1,
-        "timing": "ENTRADA",
-        "por_que_cae": "",
-        "por_que_cae_detalle": ""
-      },
-      {
-        "ticker": "RACE",
-        "empresa": "Ferrari N.V.",
-        "score": 34.21,
-        "precio": 411.33,
-        "upside_analista": 11.5,
-        "upside_triangulado": null,
-        "divergencia": "MEDIA",
-        "fcf_yield": 2.49,
-        "del_maximo_pct": -18.5,
-        "rs_6m": 8.83,
-        "timing": "ENTRADA",
-        "por_que_cae": "",
-        "por_que_cae_detalle": ""
-      }
-    ],
-    "vigilar": [
-      {
-        "ticker": "7741.T",
-        "empresa": "HOYA Corporation",
-        "score": 55.60499999999999,
-        "precio": 23650.0,
-        "upside_analista": 27.7,
-        "upside_triangulado": null,
-        "divergencia": "ALTA",
-        "fcf_yield": 2.97,
-        "del_maximo_pct": -22.2,
-        "rs_6m": -37.91,
-        "timing": "ESPERAR",
-        "por_que_cae": "",
-        "por_que_cae_detalle": ""
-      },
-      {
-        "ticker": "ADSK",
-        "empresa": "Autodesk, Inc.",
-        "score": 68.125,
-        "precio": 209.4,
-        "upside_analista": 47.4,
-        "upside_triangulado": 33.2,
-        "divergencia": "MEDIA",
-        "fcf_yield": 6.44,
-        "del_maximo_pct": -35.8,
-        "rs_6m": -31.16,
-        "timing": "ESPERAR",
-        "por_que_cae": "SENTIMIENTO",
-        "por_que_cae_detalle": "Autodesk ha caído ~33% en 12 meses a pesar de resultados sólidos: 3 trimestres consecutivos superando EPS, revenue creciendo 16-18% YoY, free cash flow +54% en FY26, y guidance ele"
-      },
-      {
-        "ticker": "CBOE",
-        "empresa": "Cboe Global Markets, Inc.",
-        "score": 57.5,
-        "precio": 258.03,
-        "upside_analista": 22.3,
-        "upside_triangulado": 26.4,
-        "divergencia": "",
-        "fcf_yield": 7.02,
-        "del_maximo_pct": -30.5,
-        "rs_6m": -27.29,
-        "timing": "VIGILAR",
-        "por_que_cae": "SIN_DATOS",
-        "por_que_cae_detalle": ""
-      },
-      {
-        "ticker": "6383.T",
-        "empresa": "Daifuku Co., Ltd.",
-        "score": 51.505,
-        "precio": 5535.0,
-        "upside_analista": 36.2,
-        "upside_triangulado": 20.8,
-        "divergencia": "MEDIA",
-        "fcf_yield": 5.64,
-        "del_maximo_pct": -29.6,
-        "rs_6m": -23.64,
-        "timing": "ESPERAR",
-        "por_que_cae": "",
-        "por_que_cae_detalle": ""
-      },
-      {
-        "ticker": "RMD",
-        "empresa": "ResMed Inc.",
-        "score": 77.81500000000001,
-        "precio": 222.0,
-        "upside_analista": 12.7,
-        "upside_triangulado": 28.5,
-        "divergencia": "",
-        "fcf_yield": 5.09,
-        "del_maximo_pct": -22.1,
-        "rs_6m": -20.98,
-        "timing": "ESPERAR",
-        "por_que_cae": "EVENTO",
-        "por_que_cae_detalle": "Caída derivada del recall de Astral (FDA) anunciado en Q4 2026 (agosto): $42M de cargo y $75M de headwind de revenue en FY2027 al suspender ventas nuevas. Negocio base sigue sólido"
-      }
-    ],
-    "tesis_rotas": [],
-    "rotas_son_tuyas": true,
-    "regimen_cambio": null,
-    "rendimiento_sistema": {
-      "horizonte": "90d",
-      "es_horizonte_definitivo": false,
-      "nota": "A 180 días aún no hay muestra (la señal más antigua es de feb-2026); este 90d es provisional, no el veredicto",
-      "acierto_pct": 61.5,
-      "retorno_medio": 3.15,
-      "n": 39
+  "date": "2026-09-29",
+  "timestamp": "2026-09-29T06:42:26.790136",
+  "narrative": "",
+  "macro_regime": "CALM",
+  "picks_count": 8,
+  "top_picks": [
+    {
+      "ticker": "MSFT",
+      "sector": "Technology",
+      "value_score": 70.06,
+      "analyst_upside_pct": 13.4,
+      "conviction_grade": null
+    },
+    {
+      "ticker": "KO",
+      "sector": "Consumer Defensive",
+      "value_score": 62.385000000000005,
+      "analyst_upside_pct": 8.6,
+      "conviction_grade": null
+    },
+    {
+      "ticker": "THC",
+      "sector": "Healthcare",
+      "value_score": 61.30499999999999,
+      "analyst_upside_pct": 10.4,
+      "conviction_grade": null
+    },
+    {
+      "ticker": "4684.T",
+      "sector": "Technology",
+      "value_score": 60.565,
+      "analyst_upside_pct": 11.4,
+      "conviction_grade": null
+    },
+    {
+      "ticker": "VRSN",
+      "sector": "Technology",
+      "value_score": 59.125,
+      "analyst_upside_pct": 15.0,
+      "conviction_grade": null
     }
-  }
+  ]
 }
