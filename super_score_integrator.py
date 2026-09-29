@@ -1130,6 +1130,7 @@ class SuperScoreIntegrator:
             _interpretable = df.apply(
                 lambda r: fcf_es_caja_libre(r.to_dict()), axis=1)
             df.loc[~_interpretable, '_fcf'] = pd.NA
+            df['fcf_es_caja_libre'] = _interpretable
             df['fcf_bonus'] = 0.0
             df.loc[df['_fcf'] >= 8, 'fcf_bonus'] = 8.0   # Very high FCF yield
             df.loc[(df['_fcf'] >= 5) & (df['_fcf'] < 8), 'fcf_bonus'] = 6.0

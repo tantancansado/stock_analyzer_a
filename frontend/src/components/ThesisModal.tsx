@@ -419,7 +419,7 @@ export default function ThesisModal({ row, thesisText, onClose, currency = '$' }
               <Chip label="R:R" value={rr.toFixed(1)}
                 color={colorUpside(upside)} />
             )}
-            {fcf != null && (
+            {fcf != null && row.fcf_es_caja_libre !== false && (
               <Chip label="FCF%" value={`${fcf.toFixed(1)}%`} color={fcf >= 5 ? 'text-emerald-400' : fcf >= 3 ? 'text-amber-400' : fcf < 0 ? 'text-red-400' : ''} />
             )}
             {row.roic_greenblatt != null && (

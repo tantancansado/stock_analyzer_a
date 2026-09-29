@@ -270,6 +270,12 @@ def calculate_european_value_scores(df: pd.DataFrame, market_regime: dict) -> pd
     # ─── FCF Yield bonus (8 pts max) ───
     if 'fcf_yield_pct' in df.columns:
         df['_fcf'] = pd.to_numeric(df['fcf_yield_pct'], errors='coerce')
+        # Mismo criterio que el integrador de EE. UU.: en bancos, aseguradoras,
+        # REIT y negocios cuyo capex se come el flujo, el FCF no es caja libre.
+        from data_integrity import fcf_es_caja_libre
+        _interpretable = df.apply(lambda r: fcf_es_caja_libre(r.to_dict()), axis=1)
+        df.loc[~_interpretable, '_fcf'] = pd.NA
+        df['fcf_es_caja_libre'] = _interpretable
         df['fcf_bonus'] = 0.0
         df.loc[df['_fcf'] >= 8, 'fcf_bonus'] = 8.0
         df.loc[(df['_fcf'] >= 5) & (df['_fcf'] < 8), 'fcf_bonus'] = 6.0

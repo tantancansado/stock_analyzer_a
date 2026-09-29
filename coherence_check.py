@@ -136,10 +136,17 @@ def score_bajo_el_corte(value: list[dict], minimo: float) -> list[str]:
 
 
 def ratios_imposibles(value: list[dict]) -> list[str]:
-    """FCF yield de dos dígitos altos = divisa sin convertir (caso ATLKY)."""
+    """FCF yield de dos dígitos altos = divisa sin convertir (caso ATLKY).
+
+    Solo donde el FCF significa caja libre: en un prestamista el flujo operativo
+    son depósitos y préstamos, y un 24% (COF) no prueba una divisa mal
+    convertida. `data_integrity.check_row` ya lo trataba así; este chequeo no, y
+    con COF publicado el pipeline se puso rojo por un dato que ningún puntaje usa.
+    """
+    from data_integrity import fcf_es_caja_libre
     return [f"{r['ticker']}: FCF yield {_f(r.get('fcf_yield_pct')):.1f}%"
             for r in value
-            if (_f(r.get('fcf_yield_pct')) or 0) > 20]
+            if fcf_es_caja_libre(r) and (_f(r.get('fcf_yield_pct')) or 0) > 20]
 
 
 def etiqueta_ml_vs_probabilidad(value: list[dict]) -> list[str]:

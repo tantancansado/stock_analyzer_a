@@ -42,12 +42,24 @@ def _script():
     return textwrap.dedent(m.group(1))
 
 
-def _ejecutar(core, scan, vcp):
+def _ejecutar(core, scan, vcp, pasos_fallidos=None):
+    """`pasos_fallidos`: lista de nombres que devolvería la API de Actions; None
+    = sin acceso a ella."""
     script = RAIZ / '.github' / '_aviso_tmp.py'
-    script.write_text(_script())
+    prelude = ''
+    if pasos_fallidos is not None:
+        prelude = textwrap.dedent(f'''
+            import io, json, urllib.request
+            _jobs = {{'jobs': [{{'steps': [{{'name': n, 'conclusion': 'failure'}}
+                                          for n in {pasos_fallidos!r}]}}]}}
+            urllib.request.urlopen = lambda *a, **k: io.BytesIO(json.dumps(_jobs).encode())
+        ''')
+    script.write_text(prelude + _script())
     try:
         env = {**os.environ, 'CORE': core, 'SCAN': scan, 'VCP': vcp,
                'RUN_URL': 'https://example/run/1'}
+        if pasos_fallidos is not None:
+            env.update(REPO='o/r', RUN_ID='1', GH_TOKEN='x')
         env.pop('TELEGRAM_BOT_TOKEN', None)     # sin credenciales: solo log
         env.pop('TELEGRAM_CHAT_ID', None)
         return subprocess.run([sys.executable, str(script)], env=env,
@@ -88,3 +100,28 @@ class TestQueDiceYCuando:
         """`skipped` pasa cuando un job no corre por diseño; no es avería."""
         r = _ejecutar(core='skipped', scan='skipped', vcp='success')
         assert 'no se avisa' in r.stdout
+
+
+class TestNoMientePorElEfecto:
+    """El 29-sep-2026 el único paso en rojo fue el Coherence Check, que es el
+    último con gate: los datos ya estaban commiteados y desplegados. El aviso
+    decía igualmente «la app sigue sirviendo los datos de la pasada anterior»."""
+
+    def test_solo_coherencia_dice_que_los_datos_si_se_publicaron(self):
+        r = _ejecutar('success', 'failure', 'success', pasos_fallidos=[
+            'Coherence Check — ¿se contradice la app consigo misma?'])
+        assert r.returncode == 0, r.stderr
+        assert 'sí se han publicado' in r.stdout
+        assert 'puede ser de ayer' not in r.stdout
+
+    def test_otro_paso_roto_sigue_avisando_de_datos_viejos(self):
+        r = _ejecutar('failure', 'failure', 'success', pasos_fallidos=[
+            'Run Super Score Integration [CRITICAL]',
+            'Coherence Check — ¿se contradice la app consigo misma?'])
+        assert 'puede ser de ayer' in r.stdout
+        assert 'sí se han publicado' not in r.stdout
+
+    def test_sin_acceso_a_la_api_no_afirma_que_se_publicaron(self):
+        r = _ejecutar('success', 'failure', 'success')
+        assert 'puede ser de ayer' in r.stdout
+        assert 'sí se han publicado' not in r.stdout

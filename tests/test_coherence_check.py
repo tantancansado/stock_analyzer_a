@@ -70,6 +70,19 @@ class TestCorteYRatios:
         problemas = ratios_imposibles(value)
         assert len(problemas) == 1 and 'ATLKY' in problemas[0]
 
+    def test_fcf_yield_alto_de_un_prestamista_no_es_una_divisa_mal_convertida(self):
+        # COF publicó 24,32% el 28-sep: su flujo operativo son depósitos y
+        # préstamos. No lo usa ningún puntaje, y data_integrity ya lo aceptaba.
+        value = [{'ticker': 'COF', 'industry': 'Credit Services', 'fcf_yield_pct': '24.32',
+                  'dcf_no_aplicable': 'Credit Services: el 80% de sus ingresos es margen de intereses'},
+                 {'ticker': 'BAC', 'industry': 'Banks - Diversified', 'fcf_yield_pct': '31.0'}]
+        assert ratios_imposibles(value) == []
+
+    def test_fcf_yield_imposible_sigue_saltando_con_industria(self):
+        value = [{'ticker': 'ATLKY', 'industry': 'Specialty Industrial Machinery',
+                  'fcf_yield_pct': '25.05', 'dcf_no_aplicable': ''}]
+        assert len(ratios_imposibles(value)) == 1
+
     def test_etiqueta_alta_mintiendo(self):
         value = [{'ticker': 'NDAQ', 'ml_win_label': 'ALTA', 'ml_win_probability': '0.4758'},
                  {'ticker': 'X', 'ml_win_label': 'ALTA', 'ml_win_probability': '0.62'}]

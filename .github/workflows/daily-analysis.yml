@@ -1292,6 +1292,9 @@ jobs:
           CORE:   ${{ needs.core-scoring.result }}
           SCAN:   ${{ needs.scanners.result }}
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          RUN_ID: ${{ github.run_id }}
+          REPO:   ${{ github.repository }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           python3 - <<'AVISO'
           import os, json, urllib.request, urllib.parse
@@ -1305,10 +1308,41 @@ jobs:
 
           icono = {'success': '✅', 'failure': '❌', 'skipped': '⏭', 'cancelled': '⏹'}
           lineas = [f"{icono.get(r, '·')} {n}: {r}" for n, r in jobs.items()]
+
+          # «La app sigue sirviendo lo de ayer» solo es cierto si el job murió
+          # a medias. Si lo único que falló es el Coherence Check —el último
+          # paso con gate—, los datos de hoy SÍ se publicaron y decir lo
+          # contrario mandaba a buscar un problema que no existe (29-sep-2026).
+          # Sin acceso a la API se cae al texto prudente de siempre.
+          def pasos_fallidos():
+              repo, run_id = os.environ.get('REPO'), os.environ.get('RUN_ID')
+              if not repo or not run_id:
+                  return None
+              url = (f"https://api.github.com/repos/{repo}"
+                     f"/actions/runs/{run_id}/jobs?per_page=100")
+              req = urllib.request.Request(url, headers={
+                  'Authorization': f"Bearer {os.environ.get('GH_TOKEN', '')}",
+                  'Accept': 'application/vnd.github+json'})
+              try:
+                  with urllib.request.urlopen(req, timeout=20) as r:
+                      trabajos = json.load(r)['jobs']
+              except Exception as e:
+                  print('sin acceso a los pasos del run:', e)
+                  return None
+              return [p['name'] for t in trabajos for p in t.get('steps', [])
+                      if p.get('conclusion') == 'failure']
+
+          fallidos = pasos_fallidos()
+          if fallidos and all(n.startswith('Coherence Check') for n in fallidos):
+              cola = ('El único paso que falló es el chequeo de coherencia: los datos '
+                      'de hoy sí se han publicado, pero alguna cifra se contradice '
+                      'con otra. El detalle está en el aviso de coherencia.')
+          else:
+              cola = ('La app puede seguir sirviendo los datos de la pasada anterior: '
+                      'lo que veas hoy puede ser de ayer.')
           texto = ('🚨 <b>El pipeline de hoy se ha roto</b>\n\n'
                    + '\n'.join(lineas)
-                   + '\n\nLa app sigue sirviendo los datos de la pasada anterior: '
-                     'lo que veas hoy puede ser de ayer.\n'
+                   + '\n\n' + cola + '\n'
                    + f"\n<a href=\"{os.environ['RUN_URL']}\">Ver el run</a>")
 
           bot = os.environ.get('TELEGRAM_BOT_TOKEN', '')

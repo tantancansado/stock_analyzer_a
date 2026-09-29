@@ -87,6 +87,8 @@ export interface ValueOpportunity {
   analyst_upside_pct?: number
   analyst_count?: number
   fcf_yield_pct?: number
+  /** false en bancos, aseguradoras, REIT y negocios cuyo capex se come el flujo: ahí el FCF no es caja libre. */
+  fcf_es_caja_libre?: boolean
   /** `analyst_upside_pct / 8`. NO es el R:R de la ficha — ver `rr_operativo`. */
   risk_reward_ratio?: number
   /** R:R de ESTA ficha: (salida − entrada) / (entrada − stop). */
@@ -505,7 +507,7 @@ export const VALUE_NUMERIC = new Set([
 const VALUE_BOOLEAN = new Set([
   'buyback_active','earnings_warning','earnings_catalyst','trend_template_pass',
   'eps_accelerating','rev_accelerating','rs_line_at_new_high','short_squeeze_potential',
-  'tasa_base_bimodal',
+  'tasa_base_bimodal','fcf_es_caja_libre',
 ])
 
 export function parseValueRows(text: string): ValueOpportunity[] {

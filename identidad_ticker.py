@@ -141,7 +141,20 @@ def revisar(ticker: str, fuentes: list[dict]) -> list[str]:
     # acción: el doble de precio ya no es volatilidad de unos días.
     tolerancia = 2.0 if nombres_concuerdan else 1.10
 
-    precios = [(f['fuente'], float(f['precio'])) for f in fuentes
+    # Una fuente que declara la divisa mayor (TIKR dice GBP en Londres, donde
+    # se cotiza en GBp) da el precio en libras: se pasa a peniques antes de
+    # comparar. Sin esto solo valía el atajo de «la razón es ~100», y AUTO.L,
+    # con un TIKR de hace dos semanas un 9% más caro (4,89 £ contra 448,80 p),
+    # daba razón 92 y salía como «otra empresa» tres días seguidos, con el
+    # nombre coincidiendo y el pipeline en rojo.
+    def _en_unidad_de_mercado(f: dict) -> float:
+        precio = float(f['precio'])
+        d = (f.get('divisa') or '').strip()
+        if esperada in SUBUNIDAD and d == SUBUNIDAD[esperada]:
+            return precio * 100
+        return precio
+
+    precios = [(f['fuente'], _en_unidad_de_mercado(f)) for f in fuentes
                if f.get('precio') and float(f['precio']) > 0]
     for i in range(len(precios)):
         for j in range(i + 1, len(precios)):

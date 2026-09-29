@@ -44,6 +44,35 @@ class TestDivisaSegunLaBolsa:
             {'fuente': 'tikr', 'nombre': 'Autotrader Group plc', 'precio': 4.894, 'divisa': 'GBP'},
         ]) == []
 
+    def test_libras_de_tikr_frente_a_csv_sin_divisa_y_con_precio_algo_viejo(self):
+        """El 25-29 sep AUTO.L tuvo el pipeline en rojo: el CSV (sin divisa, en
+        peniques) decía 448,80 y TIKR 4,894 GBP con un precio de días atrás. El
+        cociente crudo es 92, fuera de la ventana 95-105 con que se reconocía
+        «peniques contra libras», y salía «9070% de diferencia». La fuente que
+        declara GBP en un mercado en GBp se pasa a peniques antes de comparar, así
+        que lo que queda es la diferencia real (8%), que es ruido de precio."""
+        assert it.revisar('AUTO.L', [
+            {'fuente': 'csv', 'nombre': 'Auto Trader Group plc', 'precio': 448.80},
+            {'fuente': 'tikr', 'nombre': 'Auto Trader Group plc', 'precio': 4.894, 'divisa': 'GBP'},
+        ]) == []
+
+    def test_libras_de_tikr_no_esconden_un_precio_realmente_distinto(self):
+        """La normalización de unidad no puede perdonar otra empresa: 4,894 £ son
+        489,4 p, y contra 200 p es un 145% de diferencia."""
+        f = it.revisar('AUTO.L', [
+            {'fuente': 'csv', 'nombre': 'Auto Trader Group plc', 'precio': 200.0},
+            {'fuente': 'tikr', 'nombre': 'Auto Trader Group plc', 'precio': 4.894, 'divisa': 'GBP'},
+        ])
+        assert f, 'un precio de otra magnitud debe seguir saltando'
+
+    def test_gbp_en_un_mercado_en_euros_no_se_multiplica(self):
+        """El ×100 es solo para Londres: en París una fuente en GBP sigue siendo
+        una divisa que no toca."""
+        f = it.revisar('AI.PA', [
+            {'fuente': 'csv', 'nombre': "L'Air Liquide S.A.", 'precio': 166.42, 'divisa': 'EUR'},
+            {'fuente': 'tikr', 'nombre': "L'Air Liquide S.A.", 'precio': 1.66, 'divisa': 'GBP'}])
+        assert f
+
 
 class TestNombreDeLaEmpresa:
 
