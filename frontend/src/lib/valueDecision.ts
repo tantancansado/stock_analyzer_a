@@ -1,4 +1,4 @@
-import type { ValueOpportunity } from '@/api/client'
+import type { EntryVerdictKind, ValueOpportunity } from '@/api/client'
 import { enZonaDorada } from './bandasUpside'
 
 export type ValueDecisionKind = 'ready' | 'watch' | 'wait' | 'avoid'
@@ -19,23 +19,37 @@ interface DecisionInput {
   hasEntry?: boolean
   hasSmartMoney?: boolean
   hasSqueeze?: boolean
+  veredicto?: EntryVerdictKind | null
 }
 
 const GOOD_GRADES = new Set(['A', 'B', 'EXCELLENT', 'STRONG'])
 
-export function getValueDecision({
-  row,
-  hasTrap = false,
-  hasExit = false,
-  hasEntry = false,
-  hasSmartMoney = false,
-  hasSqueeze = false,
-}: DecisionInput): ValueDecision {
-  const score = row.value_score ?? 0
-  const grade = (row.conviction_grade ?? '').toUpperCase()
-  const upside = row.analyst_upside_pct
+// Lo que impide entrar HOY aunque la empresa sea buena y esté barata. Es la
+// misma lectura que hace el veredicto de entrada (`entry_verdict_agent.py`, que
+// veta con «timing dice X» y con la divergencia ALTA), así que las dos
+// etiquetas no pueden ya contradecirse.
+//
+// SAP.DE salía con «LISTO» y «ESPERA» a la vez: la primera salía de una regla
+// copiada en cinco sitios que no miraba el veredicto, y la segunda ES el
+// veredicto. Mientras no se conoce el veredicto ni el timing no hay nada que
+// contradecir, y se decide con el resto de la regla.
+export function hayFrenoDeEntrada(
+  row: Pick<ValueOpportunity, 'entry_readiness' | 'upside_divergence'>,
+  veredicto?: EntryVerdictKind | null,
+): boolean {
+  return (
+    veredicto === 'WAIT' ||
+    veredicto === 'AVOID' ||
+    row.entry_readiness === 'ESPERAR' ||
+    row.entry_readiness === 'VIGILAR' ||
+    row.upside_divergence === 'ALTA'
+  )
+}
+
+// Única definición de «lista para entrar». La usan la etiqueta LISTO de las dos
+// páginas de Value, el veredicto de la fila y la tarjeta del Centro de mando.
+export function esListo(row: ValueOpportunity, veredicto?: EntryVerdictKind | null): boolean {
   const nearEarnings = row.days_to_earnings != null && row.days_to_earnings <= 7
-  const hasBadUpside = upside != null && upside < 0
   // Una sola condición de upside, y con la banda declarada.
   //
   // Antes había dos, y las dos sobre la MISMA variable: `upside >= 10` y
@@ -45,12 +59,36 @@ export function getValueDecision({
   //
   // Y ninguno tenía techo: un upside del 27% —fuera de la banda dorada, en la
   // franja pegada al HARD REJECT— salía como "listo para entrar".
+  const upside = row.analyst_upside_pct
   const hasGoodUpside = upside == null || enZonaDorada(upside)
-  const isReady =
-    score >= 65 &&
-    GOOD_GRADES.has(grade) &&
+  return (
+    (row.value_score ?? 0) >= 65 &&
+    GOOD_GRADES.has((row.conviction_grade ?? '').toUpperCase()) &&
     hasGoodUpside &&
-    !nearEarnings
+    !nearEarnings &&
+    !row.earnings_warning &&
+    row.cerebro_signal !== 'EXIT' &&
+    row.cerebro_signal !== 'TRAP' &&
+    !hayFrenoDeEntrada(row, veredicto)
+  )
+}
+
+export function getValueDecision({
+  row,
+  hasTrap = false,
+  hasExit = false,
+  hasEntry = false,
+  hasSmartMoney = false,
+  hasSqueeze = false,
+  veredicto = null,
+}: DecisionInput): ValueDecision {
+  const score = row.value_score ?? 0
+  const grade = (row.conviction_grade ?? '').toUpperCase()
+  const upside = row.analyst_upside_pct
+  const nearEarnings = row.days_to_earnings != null && row.days_to_earnings <= 7
+  const hasBadUpside = upside != null && upside < 0
+  const hasGoodUpside = upside == null || enZonaDorada(upside)
+  const isReady = esListo(row, veredicto)
 
   if (hasExit || row.cerebro_signal === 'EXIT') {
     return {
@@ -96,7 +134,7 @@ export function getValueDecision({
     }
   }
 
-  if (isReady || (hasEntry && score >= 60 && hasGoodUpside)) {
+  if (isReady || (hasEntry && score >= 60 && hasGoodUpside && !hayFrenoDeEntrada(row, veredicto))) {
     return {
       kind: 'ready',
       label: 'Listo para revisar',

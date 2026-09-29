@@ -410,6 +410,7 @@ export default function ValueUS() {
     hasEntry: !!cerebro.entryMap[row.ticker],
     hasSmartMoney: !!cerebro.smMap[row.ticker],
     hasSqueeze: !!cerebro.squeezeMap[row.ticker],
+    veredicto: verdicts[row.ticker?.toUpperCase() ?? '']?.verdict,
   })
 
   const fmtFcf = (v?: number) => {
@@ -674,18 +675,12 @@ export default function ValueUS() {
       {/* Mobile card view */}
       <div className="sm:hidden space-y-2.5 mb-2">
         {paged.map((d, i) => {
-          const isReady =
-            (d.value_score ?? 0) >= 65 &&
-            ['A', 'B', 'EXCELLENT', 'STRONG'].includes((d.conviction_grade ?? '').toUpperCase()) &&
-            !d.earnings_warning &&
-            (d.days_to_earnings == null || d.days_to_earnings > 7) &&
-            d.cerebro_signal !== 'EXIT' &&
-            d.cerebro_signal !== 'TRAP'
           const hasTrap   = !!cerebro.trapMap[d.ticker]
           const hasExit   = !!(cerebro.exitMap[d.ticker] || d.cerebro_signal === 'EXIT')
           const hasSM     = !!cerebro.smMap[d.ticker]
           const hasSqueeze = !!cerebro.squeezeMap[d.ticker]
           const decision = decisionFor(d)
+          const isReady = decision.kind === 'ready'
           if (clearMode) {
             return (
               <div
@@ -952,18 +947,7 @@ export default function ValueUS() {
           </TableHeader>
           <TableBody>
             {paged.map((d, i) => {
-            const isReady =
-              (d.value_score ?? 0) >= 65 &&
-              ['A', 'B', 'EXCELLENT', 'STRONG'].includes((d.conviction_grade ?? '').toUpperCase()) &&
-              !d.earnings_warning &&
-              (d.days_to_earnings == null || d.days_to_earnings > 7) &&
-              d.cerebro_signal !== 'EXIT' &&
-              d.cerebro_signal !== 'TRAP' &&
-              // Overlay value+timing: barata NO significa "cómprala hoy" — si
-              // sigue en caída (stage 4), no está lista por buena que sea la
-              // tesis (tracker real: comprar el día del screen = alpha -12% 30d)
-              d.entry_readiness !== 'ESPERAR' &&
-              d.upside_divergence !== 'ALTA'
+            const isReady = decisionFor(d).kind === 'ready'
             return (
               <TableRow
                 key={d.ticker}
@@ -1000,7 +984,7 @@ export default function ValueUS() {
                             TECHO
                           </span>
                         )}
-                        {d.entry_readiness === 'ESPERAR' && (
+                        {d.entry_readiness === 'ESPERAR' && !verdicts[d.ticker?.toUpperCase() ?? ''] && (
                           <span
                             className="text-micro font-bold px-1 py-0.5 rounded bg-red-500/15 text-red-400 border border-red-500/25"
                             title={d.entry_readiness_reason || 'Aún en caída — espera a que haga suelo antes de entrar'}

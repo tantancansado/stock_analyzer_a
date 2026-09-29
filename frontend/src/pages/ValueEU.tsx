@@ -331,6 +331,7 @@ export default function ValueEU() {
     hasEntry: !!cerebro.entryMap[row.ticker],
     hasSmartMoney: !!cerebro.smMap[row.ticker],
     hasSqueeze: !!cerebro.squeezeMap[row.ticker],
+    veredicto: verdicts[row.ticker?.toUpperCase() ?? '']?.verdict,
   })
 
   const fmtFcf = (v?: number) => {
@@ -553,18 +554,12 @@ export default function ValueEU() {
       {/* Mobile card view */}
       <div className="sm:hidden space-y-2.5 mb-2">
         {paged.map((d, i) => {
-          const isReady =
-            (d.value_score ?? 0) >= 65 &&
-            ['A', 'B', 'EXCELLENT', 'STRONG'].includes((d.conviction_grade ?? '').toUpperCase()) &&
-            !d.earnings_warning &&
-            (d.days_to_earnings == null || d.days_to_earnings > 7) &&
-            d.cerebro_signal !== 'EXIT' &&
-            d.cerebro_signal !== 'TRAP'
           const hasTrap   = !!cerebro.trapMap[d.ticker]
           const hasExit   = !!(cerebro.exitMap[d.ticker] || d.cerebro_signal === 'EXIT')
           const hasSM     = !!cerebro.smMap[d.ticker]
           const hasSqueeze = !!cerebro.squeezeMap[d.ticker]
           const decision = decisionFor(d)
+          const isReady = decision.kind === 'ready'
           if (clearMode) {
             return (
               <div
@@ -813,13 +808,7 @@ export default function ValueEU() {
             {paged.map((d, i) => {
               const market = d.market || ''
               const flag = MARKET_FLAGS[market] || ''
-                  const isReady =
-                (d.value_score ?? 0) >= 65 &&
-                ['A', 'B', 'EXCELLENT', 'STRONG'].includes((d.conviction_grade ?? '').toUpperCase()) &&
-                !d.earnings_warning &&
-                (d.days_to_earnings == null || d.days_to_earnings > 7) &&
-                d.cerebro_signal !== 'EXIT' &&
-                d.cerebro_signal !== 'TRAP'
+              const isReady = decisionFor(d).kind === 'ready'
               return (
                 <TableRow
                   key={d.ticker}

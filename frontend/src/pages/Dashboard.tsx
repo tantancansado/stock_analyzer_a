@@ -21,6 +21,7 @@ import InfoTooltip from '../components/InfoTooltip'
 import TickerLogo from '../components/TickerLogo'
 import EntryVerdictBadge from '../components/EntryVerdictBadge'
 import { useEntryVerdicts } from '../hooks/useEntryVerdicts'
+import { esListo } from '../lib/valueDecision'
 import { LogoChartPeak } from '../components/BrandLogos'
 import { TrendingUp, TrendingDown, Minus, AlertTriangle, ChevronRight, Radar as RadarIcon, Wallet, Zap, Brain, Target, ChevronDown, ChevronUp, Sparkles, LayoutDashboard, Circle, Newspaper, Pin} from 'lucide-react'
 import { usePersonalPortfolio } from '../context/PersonalPortfolioContext'
@@ -1002,6 +1003,7 @@ export default function Dashboard() {
 
   const { data: regime, loading: loadingRegime } = useApi(() => fetchMarketRegime(), [])
   const { data: valueUS, loading: loadingUS } = useApi(() => fetchValueOpportunities(), [])
+  const verdicts = useEntryVerdicts()
   const { data: valueEU, loading: loadingEU } = useApi(() => fetchEUValueOpportunities(), [])
   const { data: portfolio } = useApi(() => fetchPortfolioTracker(), [])
   const { data: insiders, loading: loadingInsiders } = useApi(() => fetchRecurringInsiders(), [])
@@ -1038,16 +1040,9 @@ export default function Dashboard() {
   const bestPick = useMemo(() => {
     const rows = valueUS?.data ?? []
     return rows
-      .filter((r) =>
-        (r.value_score ?? 0) >= 65 &&
-        ['A', 'B', 'EXCELLENT', 'STRONG'].includes((r.conviction_grade ?? '').toUpperCase()) &&
-        !r.earnings_warning &&
-        (r.days_to_earnings == null || r.days_to_earnings > 7) &&
-        r.cerebro_signal !== 'EXIT' &&
-        r.cerebro_signal !== 'TRAP'
-      )
+      .filter((r) => esListo(r, verdicts[r.ticker?.toUpperCase() ?? '']?.verdict))
       .sort((a, b) => (b.value_score ?? 0) - (a.value_score ?? 0))[0] ?? null
-  }, [valueUS])
+  }, [valueUS, verdicts])
 
   // ── Portfolio Action Items ─────────────────────────────────────────
   const actionItems: { icon: React.ReactNode; text: string; color: string; link: string }[] = []

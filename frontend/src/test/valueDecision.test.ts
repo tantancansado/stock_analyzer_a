@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest'
-import { getValueDecision } from '@/lib/valueDecision'
+import { esListo, getValueDecision, hayFrenoDeEntrada } from '@/lib/valueDecision'
 
 // The module under test has no external dependencies — no axios or supabase mocks needed.
 vi.mock('axios', () => ({ default: { create: vi.fn(() => ({ get: vi.fn(), post: vi.fn(), interceptors: { request: { use: vi.fn() }, response: { use: vi.fn() } } })) } }))
@@ -534,5 +534,82 @@ describe('getValueDecision — edge cases', () => {
       expect(result).toHaveProperty('panelClass')
       expect(['ready', 'watch', 'wait', 'avoid']).toContain(result.kind)
     }
+  })
+})
+
+// ---------------------------------------------------------------------------
+// LISTO no puede contradecir a ESPERA
+// ---------------------------------------------------------------------------
+// SAP.DE y MSFT salían con «LISTO» y «ESPERA» a la vez: la etiqueta LISTO era
+// una regla copiada en cinco sitios que no miraba el veredicto de entrada, y
+// ESPERA es ese veredicto.
+
+describe('LISTO frente al veredicto de entrada', () => {
+  it('un veredicto ESPERA (WAIT) impide LISTO aunque la empresa sea buena y barata', () => {
+    expect(esListo(makeRow(), 'WAIT')).toBe(false)
+    expect(getValueDecision({ row: makeRow(), veredicto: 'WAIT' }).kind).toBe('watch')
+  })
+
+  it('un veredicto EVITA (AVOID) tampoco es LISTO', () => {
+    expect(esListo(makeRow(), 'AVOID')).toBe(false)
+  })
+
+  it('con veredicto ENTRA sigue siendo LISTO', () => {
+    expect(esListo(makeRow(), 'ENTRY')).toBe(true)
+    expect(getValueDecision({ row: makeRow(), veredicto: 'ENTRY' }).kind).toBe('ready')
+  })
+
+  it('sin veredicto conocido decide el resto de la regla', () => {
+    expect(esListo(makeRow())).toBe(true)
+    expect(esListo(makeRow(), null)).toBe(true)
+  })
+
+  it('el timing ESPERAR o VIGILAR frena la entrada; ENTRADA no', () => {
+    expect(esListo(makeRow({ entry_readiness: 'ESPERAR' }))).toBe(false)
+    expect(esListo(makeRow({ entry_readiness: 'VIGILAR' }))).toBe(false)
+    expect(esListo(makeRow({ entry_readiness: 'ENTRADA' }))).toBe(true)
+  })
+
+  it('una divergencia ALTA entre modelos frena la entrada', () => {
+    expect(esListo(makeRow({ upside_divergence: 'ALTA' }))).toBe(false)
+    expect(esListo(makeRow({ upside_divergence: 'MEDIA' }))).toBe(true)
+  })
+
+  it('la vía de la señal de entrada del cerebro tampoco salta el freno', () => {
+    const row = makeRow({ value_score: 62, conviction_grade: 'C' })
+    expect(getValueDecision({ row, hasEntry: true }).kind).toBe('ready')
+    expect(getValueDecision({ row, hasEntry: true, veredicto: 'WAIT' }).kind).toBe('watch')
+  })
+
+  it('los frenos de siempre siguen valiendo con veredicto ENTRA', () => {
+    expect(esListo(makeRow({ cerebro_signal: 'TRAP' }), 'ENTRY')).toBe(false)
+    expect(esListo(makeRow({ cerebro_signal: 'EXIT' }), 'ENTRY')).toBe(false)
+    expect(esListo(makeRow({ days_to_earnings: 5 }), 'ENTRY')).toBe(false)
+    expect(esListo(makeRow({ earnings_warning: true }), 'ENTRY')).toBe(false)
+    expect(esListo(makeRow({ conviction_grade: 'C' }), 'ENTRY')).toBe(false)
+  })
+
+  it('la etiqueta y el veredicto de la fila dicen siempre lo mismo', () => {
+    const veredictos = [undefined, null, 'ENTRY', 'WAIT', 'AVOID', 'NEUTRAL'] as const
+    const filas = [
+      makeRow(),
+      makeRow({ entry_readiness: 'VIGILAR' }),
+      makeRow({ entry_readiness: 'ENTRADA' }),
+      makeRow({ upside_divergence: 'ALTA' }),
+      makeRow({ analyst_upside_pct: 40 }),
+    ]
+    for (const row of filas) {
+      for (const v of veredictos) {
+        const etiqueta = esListo(row, v)
+        const decision = getValueDecision({ row, veredicto: v }).kind === 'ready'
+        expect(decision).toBe(etiqueta)
+      }
+    }
+  })
+
+  it('hayFrenoDeEntrada no mira nada más que veredicto, timing y divergencia', () => {
+    expect(hayFrenoDeEntrada({}, undefined)).toBe(false)
+    expect(hayFrenoDeEntrada({}, 'NEUTRAL')).toBe(false)
+    expect(hayFrenoDeEntrada({}, 'WAIT')).toBe(true)
   })
 })
