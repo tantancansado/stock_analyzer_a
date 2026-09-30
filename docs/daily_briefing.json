@@ -1,136 +1,44 @@
 {
-  "fecha": "2026-09-29",
-  "texto": "<b>Hoy hay dos compras con timing de entrada: KO y THC.</b>\n\nCoca-Cola (KO), 87,18 $, cae un 5,7% desde máximos y lleva unos meses flojos (-6% de fuerza relativa). Los analistas le ven un 8,6% de subida, pero el modelo interno la deja casi plana (-1,4%): entrada, sí, pero sin esperar grandes alegrías.\n\nTenet Healthcare (THC), 257,93 $, cae un 8,9% desde máximo aunque ya está recuperando fuerza (+15,4% en 6 meses). Aquí sí hay recorrido de verdad: el modelo ve un 28,4% de subida frente al 10,4% de los analistas, y genera un 10% de caja libre sobre el precio, lo mejor de toda la lista.\n\nPara vigilar, ninguna todavía comprable:\n– Autodesk (ADSK): -36,5% desde máximo pese a resultados sólidos (EPS batiendo 3 trimestres seguidos, ingresos +16-18%, FCF +54%). Es puro castigo de sentimiento, no negocio roto, pero de momento toca esperar.\n– ResMed (RMD): cae por el recall de Astral (cargo de 42M$ y un golpe de 75M$ en ingresos FY27); el negocio base sigue sano, pendiente de que se aclare el impacto.\n– Cboe (CBOE), Daifuku (6383.T) e ICE: baratas (entre -13% y -32% desde máximo) pero todavía cayendo, sin motivo identificado que lo explique. Barato aún no es comprable.\n\nKO entra hoy nuevo en la lista. Se caen 7741.T (fuera de la lista) y ADSK, que pasa de comprable a solo vigilar.\n\nEl sistema acierta un 61,5% a 90 días con retorno medio del 3,15% (39 señales), pero esta cifra es provisional: aún no hay muestra suficiente a 180 días para darla por definitiva. Ajusta el tamaño de posición en consecuencia.\n\n🟡 Claude: $19.77 de $20 (99%) · lo que más gasta: ai_quality_filter ($4.99)",
-  "hechos": {
-    "fecha": "2026-09-29",
-    "total_lista": 43,
-    "datos_incompletos": [],
-    "picks_nuevos": [
-      "KO"
-    ],
-    "picks_que_se_van": [
-      "7741.T",
-      "ADSK"
-    ],
-    "comprables": [
-      {
-        "ticker": "KO",
-        "empresa": "The Coca-Cola Company",
-        "score": 62.385000000000005,
-        "precio": 87.18,
-        "upside_analista": 8.6,
-        "upside_triangulado": -1.4,
-        "divergencia": "",
-        "fcf_yield": 3.79,
-        "del_maximo_pct": -5.7,
-        "rs_6m": -6.03,
-        "timing": "ENTRADA",
-        "por_que_cae": "",
-        "por_que_cae_detalle": ""
-      },
-      {
-        "ticker": "THC",
-        "empresa": "Tenet Healthcare Corporation",
-        "score": 61.30499999999999,
-        "precio": 257.93,
-        "upside_analista": 10.4,
-        "upside_triangulado": 28.4,
-        "divergencia": "",
-        "fcf_yield": 10.0,
-        "del_maximo_pct": -8.9,
-        "rs_6m": 15.44,
-        "timing": "ENTRADA",
-        "por_que_cae": "",
-        "por_que_cae_detalle": ""
-      }
-    ],
-    "vigilar": [
-      {
-        "ticker": "ADSK",
-        "empresa": "Autodesk, Inc.",
-        "score": 50.87499999999999,
-        "precio": 207.19,
-        "upside_analista": 48.4,
-        "upside_triangulado": 34.3,
-        "divergencia": "MEDIA",
-        "fcf_yield": 6.51,
-        "del_maximo_pct": -36.5,
-        "rs_6m": -33.85,
-        "timing": "ESPERAR",
-        "por_que_cae": "SENTIMIENTO",
-        "por_que_cae_detalle": "Autodesk ha caído ~33% en 12 meses a pesar de resultados sólidos: 3 trimestres consecutivos superando EPS, revenue creciendo 16-18% YoY, free cash flow +54% en FY26, y guidance ele"
-      },
-      {
-        "ticker": "CBOE",
-        "empresa": "Cboe Global Markets, Inc.",
-        "score": 57.615,
-        "precio": 253.26,
-        "upside_analista": 24.6,
-        "upside_triangulado": 28.8,
-        "divergencia": "",
-        "fcf_yield": 7.15,
-        "del_maximo_pct": -31.8,
-        "rs_6m": -31.61,
-        "timing": "VIGILAR",
-        "por_que_cae": "",
-        "por_que_cae_detalle": ""
-      },
-      {
-        "ticker": "6383.T",
-        "empresa": "Daifuku Co., Ltd.",
-        "score": 51.815,
-        "precio": 5480.0,
-        "upside_analista": 37.6,
-        "upside_triangulado": 22.1,
-        "divergencia": "MEDIA",
-        "fcf_yield": 5.7,
-        "del_maximo_pct": -30.3,
-        "rs_6m": -24.14,
-        "timing": "ESPERAR",
-        "por_que_cae": "",
-        "por_que_cae_detalle": ""
-      },
-      {
-        "ticker": "ICE",
-        "empresa": "Intercontinental Exchange, Inc",
-        "score": 51.78999999999999,
-        "precio": 152.91,
-        "upside_analista": 22.5,
-        "upside_triangulado": 30.3,
-        "divergencia": "",
-        "fcf_yield": 5.5,
-        "del_maximo_pct": -13.1,
-        "rs_6m": -23.64,
-        "timing": "ESPERAR",
-        "por_que_cae": "",
-        "por_que_cae_detalle": ""
-      },
-      {
-        "ticker": "RMD",
-        "empresa": "ResMed Inc.",
-        "score": 58.91,
-        "precio": 222.1,
-        "upside_analista": 12.7,
-        "upside_triangulado": 28.5,
-        "divergencia": "",
-        "fcf_yield": 5.08,
-        "del_maximo_pct": -22.0,
-        "rs_6m": -20.23,
-        "timing": "ESPERAR",
-        "por_que_cae": "EVENTO",
-        "por_que_cae_detalle": "Caída derivada del recall de Astral (FDA) anunciado en Q4 2026 (agosto): $42M de cargo y $75M de headwind de revenue en FY2027 al suspender ventas nuevas. Negocio base sigue sólido"
-      }
-    ],
-    "tesis_rotas": [],
-    "rotas_son_tuyas": true,
-    "regimen_cambio": null,
-    "rendimiento_sistema": {
-      "horizonte": "90d",
-      "es_horizonte_definitivo": false,
-      "nota": "A 180 días aún no hay muestra (la señal más antigua es de feb-2026); este 90d es provisional, no el veredicto",
-      "acierto_pct": 61.5,
-      "retorno_medio": 3.15,
-      "n": 39
+  "date": "2026-09-30",
+  "timestamp": "2026-09-30T06:10:36.828916",
+  "narrative": "",
+  "macro_regime": "CALM",
+  "picks_count": 8,
+  "top_picks": [
+    {
+      "ticker": "VRSN",
+      "sector": "Technology",
+      "value_score": 73.42,
+      "analyst_upside_pct": 15.9,
+      "conviction_grade": null
+    },
+    {
+      "ticker": "THC",
+      "sector": "Healthcare",
+      "value_score": 68.72999999999999,
+      "analyst_upside_pct": 10.5,
+      "conviction_grade": null
+    },
+    {
+      "ticker": "KO",
+      "sector": "Consumer Defensive",
+      "value_score": 63.56999999999999,
+      "analyst_upside_pct": 9.0,
+      "conviction_grade": null
+    },
+    {
+      "ticker": "RMD",
+      "sector": "Healthcare",
+      "value_score": 61.935,
+      "analyst_upside_pct": 12.3,
+      "conviction_grade": null
+    },
+    {
+      "ticker": "4684.T",
+      "sector": "Technology",
+      "value_score": 61.235,
+      "analyst_upside_pct": 11.1,
+      "conviction_grade": null
     }
-  }
+  ]
 }

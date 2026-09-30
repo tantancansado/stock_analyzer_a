@@ -1,25 +1,25 @@
 {
   "listas": {
     "value_opportunities": {
-      "candidatas": 79,
-      "publicadas": 73,
+      "candidatas": 77,
+      "publicadas": 72,
       "excluidos": [
         {
           "ticker": "VCISY",
           "paso": "rangos_imposibles",
-          "motivo": "DCF fuera de rango: no es una valoración, es un dato roto (visto 272, esperado entre -95 y 200)",
-          "score": 52.92
+          "motivo": "DCF fuera de rango: no es una valoración, es un dato roto (visto 281.7, esperado entre -95 y 200)",
+          "score": 49.92
         },
         {
           "ticker": "KYCCF",
           "paso": "rangos_imposibles",
-          "motivo": "FCF yield fuera de rango: por encima del 20% suele ser divisa sin convertir (visto 333.9, esperado entre -50 y 20)",
+          "motivo": "FCF yield fuera de rango: por encima del 20% suele ser divisa sin convertir (visto 327.83, esperado entre -50 y 20)",
           "score": 47.77
         },
         {
           "ticker": "KYCCF",
           "paso": "rangos_imposibles",
-          "motivo": "DCF fuera de rango: no es una valoración, es un dato roto (visto 7138.5, esperado entre -95 y 200)",
+          "motivo": "DCF fuera de rango: no es una valoración, es un dato roto (visto 7006.8, esperado entre -95 y 200)",
           "score": 47.77
         },
         {
@@ -37,23 +37,17 @@
         {
           "ticker": "ASAZY",
           "paso": "rangos_imposibles",
-          "motivo": "FCF yield fuera de rango: por encima del 20% suele ser divisa sin convertir (visto 46.61, esperado entre -50 y 20)",
-          "score": 37.0
+          "motivo": "FCF yield fuera de rango: por encima del 20% suele ser divisa sin convertir (visto 47.27, esperado entre -50 y 20)",
+          "score": 34.0
         },
         {
           "ticker": "INTU",
           "paso": "rangos_imposibles",
-          "motivo": "DCF fuera de rango: no es una valoración, es un dato roto (visto 203.2, esperado entre -95 y 200)",
-          "score": 32.64
-        },
-        {
-          "ticker": "ATLKY",
-          "paso": "rangos_imposibles",
-          "motivo": "FCF yield fuera de rango: por encima del 20% suele ser divisa sin convertir (visto 26.11, esperado entre -50 y 20)",
+          "motivo": "DCF fuera de rango: no es una valoración, es un dato roto (visto 204.8, esperado entre -95 y 200)",
           "score": 32.400000000000006
         }
       ]
     }
   },
-  "generated_at": "2026-09-29T06:02:07Z"
+  "generated_at": "2026-09-30T05:50:51Z"
 }
