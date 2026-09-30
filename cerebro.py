@@ -62,6 +62,19 @@ def _reset_csv_cache() -> None:
     _CSV_CACHE.clear()
 
 
+# El score de entrada solo se puede comparar con el value_score de hoy si es de
+# la misma escala. Las filas LEAPS y MOMENTUM del tracker guardan OTRA puntuación
+# en la misma columna: el 86,5 de un LEAPS de YUM contra su value_score de 31,7
+# fabricaba «el score cayó 55 pts», una señal de salida y -8 puntos al score.
+ESCALA_VALUE = ("VALUE", "EU_VALUE")
+
+
+def _solo_escala_value(pt: pd.DataFrame) -> pd.DataFrame:
+    if pt.empty or "strategy" not in pt.columns:
+        return pt
+    return pt[pt["strategy"].isin(ESCALA_VALUE)].copy()
+
+
 def _enrich_value_with_extras(df: pd.DataFrame) -> pd.DataFrame:
     """Añade/rellena current_price, risk_reward_ratio y conviction_grade.
 
@@ -460,7 +473,7 @@ def generate_alerts(convergence: dict) -> dict:
 
     # ── Score drift (thesis threatened) ───────────────────────────────────────
     # Compare today's value_score vs the score when the ticker first appeared in portfolio_tracker
-    tracker = load_csv(DOCS / "portfolio_tracker" / "recommendations.csv")
+    tracker = _solo_escala_value(load_csv(DOCS / "portfolio_tracker" / "recommendations.csv"))
     if not tracker.empty and not value_df.empty and "ticker" in tracker.columns and "value_score" in tracker.columns:
         # For each ticker currently in VALUE list, find its earliest recorded score
         for _, row in value_df.iterrows():
@@ -1048,7 +1061,7 @@ def scan_exit_signals() -> dict:
       - Insider reversal (was buying, now absent)
     """
     print("[7/13] Exit signal scan...")
-    pt       = load_csv(DOCS / "portfolio_tracker" / "recommendations.csv")
+    pt       = _solo_escala_value(load_csv(DOCS / "portfolio_tracker" / "recommendations.csv"))
     value_df = load_csv(DOCS / "value_opportunities.csv")
     eu_df    = load_csv(DOCS / "european_value_opportunities.csv")
     insiders = load_csv(DOCS / "recurring_insiders.csv")
