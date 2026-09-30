@@ -26,6 +26,23 @@ import math
 RR_MINIMO = 1.0
 
 
+def rr_operacion(objetivo, entrada, stop) -> float:
+    """R:R de una operación: (objetivo − entrada) / (entrada − stop).
+
+    La ÚNICA definición del R:R en este módulo. Hasta el 30-sep-2026 había
+    cuatro: Oversold Bounce lo daba al precio de mercado, Bull Flag al techo de
+    la zona, `setup_coherente` lo comprobaba al techo de la zona y
+    `coherence_check` al precio de mercado. MANH salió con R:R 1,38 (entrando
+    a 204,11) cuando comprando a 200,11 era 2,87, y rompió el pipeline.
+
+    Devuelve 0.0 si la operación es imposible (stop por encima de la entrada u
+    objetivo por debajo): `setup_coherente` descarta los R:R de 0.
+    """
+    if None in (objetivo, entrada, stop) or entrada <= stop or objetivo <= entrada:
+        return 0.0
+    return round((objetivo - entrada) / (entrada - stop), 2)
+
+
 def setup_coherente(setup: dict) -> tuple[bool, str]:
     """¿Esta señal es operable, o pide algo imposible?
 
@@ -80,6 +97,7 @@ def setup_coherente(setup: dict) -> tuple[bool, str]:
     # fallaba: los dos números eran correctos por separado y juntos mentían.
     entrada = setup.get('entry_ref') or precio
     objetivo = setup.get('target')
+    rr_zona = setup.get('risk_reward_en_zona')
 
     # La zona de entrada tiene que ser alcanzable. Si te dice «entra a 311»
     # cuando cotiza a 296,85 no es una zona de entrada, es un precio que hoy no
@@ -90,11 +108,15 @@ def setup_coherente(setup: dict) -> tuple[bool, str]:
         return False, (f'la zona de entrada llega a {entrada} con el precio en {precio} '
                        f'(+{100 * (entrada / precio - 1):.1f}%): no es alcanzable')
 
-    if None not in (rr, objetivo, stop) and entrada > stop:
-        rr_real = (objetivo - entrada) / (entrada - stop)
-        if abs(rr_real - rr) > 0.05:
-            return False, (f'R:R {rr} no sale de sus propios números '
-                           f'(objetivo {objetivo}, entrada {entrada}, stop {stop} → {rr_real:.2f})')
+    # `risk_reward` es el de comprar HOY, al precio de mercado (el accionable,
+    # ver rr_operacion); `risk_reward_en_zona`, el de comprar en el techo de la
+    # zona de entrada. Cada uno se comprueba contra SU entrada.
+    for nombre, valor, base in (('R:R', rr, precio), ('R:R en zona', rr_zona, entrada)):
+        if None not in (valor, objetivo, stop) and base > stop:
+            rr_real = (objetivo - base) / (base - stop)
+            if abs(rr_real - valor) > 0.05:
+                return False, (f'{nombre} {valor} no sale de sus propios números '
+                               f'(objetivo {objetivo}, entrada {base}, stop {stop} → {rr_real:.2f})')
 
     # El techo técnico es hasta dónde PODRÍA llegar. Si queda por debajo del
     # objetivo, uno de los dos está mal calculado.
@@ -624,14 +646,13 @@ class MeanReversionDetector:
             bounce_target = round(min(entrada_ref * 1.07, resistance), 2)
             bounce_usd = round(bounce_target - entrada_ref, 2)
             bounce_pct = round((bounce_target / entrada_ref - 1) * 100, 1)
-            bounce_rr = round(bounce_usd / (entrada_ref - stop_loss), 2) if (entrada_ref - stop_loss) > 0 else 0
+            bounce_rr = rr_operacion(bounce_target, entrada_ref, stop_loss)
             # Y el R:R que tendrías comprando AHORA, al precio de mercado. No
             # es lo mismo: TT el 17-sep-2026 publicaba 1,24 con la entrada de
             # referencia en 410,11 mientras cotizaba a 421,68. Comprando hoy tu
             # R:R era 0,49 — un 60% menos. El número publicado describía una
             # entrada que ya no estaba disponible.
-            rr_hoy = (round((bounce_target - current_price) / (current_price - stop_loss), 2)
-                      if current_price > stop_loss and bounce_target > current_price else 0.0)
+            rr_hoy = rr_operacion(bounce_target, current_price, stop_loss)
             precio_sobre_zona = current_price > zona_alta
 
             return {
@@ -807,7 +828,12 @@ class MeanReversionDetector:
             bounce_target_bf = round(min(entrada_ref_bf * 1.07, high_60d), 2)
             bounce_usd_bf = round(bounce_target_bf - entrada_ref_bf, 2)
             bounce_pct_bf = round((bounce_target_bf / entrada_ref_bf - 1) * 100, 1)
-            bounce_rr_bf = round(bounce_usd_bf / (entrada_ref_bf - stop_loss_bf), 2) if (entrada_ref_bf - stop_loss_bf) > 0 else 0
+            bounce_rr_bf = rr_operacion(bounce_target_bf, entrada_ref_bf, stop_loss_bf)
+            # Igual que en Oversold Bounce: `risk_reward` es el de comprar HOY.
+            # Aquí faltó ese cambio el 17-sep y MANH salió el 30-sep con 1,38
+            # (entrando a 204,11, techo de la zona) cuando al precio de mercado,
+            # 200,11, era 2,87 — y coherence_check paró el pipeline.
+            rr_hoy_bf = rr_operacion(bounce_target_bf, current_price, stop_loss_bf)
 
             return {
                 'ticker': ticker,
@@ -833,7 +859,10 @@ class MeanReversionDetector:
                 'bounce_pct': bounce_pct_bf,
                 'stop_loss': stop_loss_bf,
                 'stop_pct': stop_pct_bf,
-                'risk_reward': bounce_rr_bf,
+                'risk_reward': rr_hoy_bf,
+                'risk_reward_en_zona': bounce_rr_bf,
+                # La zona es el precio ±2%: el precio nunca queda por encima.
+                'precio_sobre_zona_entrada': False,
                 'detected_date': datetime.now().strftime('%Y-%m-%d')
             }
 
