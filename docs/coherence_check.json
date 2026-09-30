@@ -1,19 +1,20 @@
 {
   "total_problemas": 1,
   "desfases_conocidos": [
-    "⏳ ⚠️  value_opportunities.csv: upside P/E = (objetivo − precio) / precio — 2/43 filas, peor desvío 3% (SGSOY, AZO)",
-    "⏳ ⚠️  value_opportunities_filtered.csv: upside P/E = (objetivo − precio) / precio — 1/38 filas, peor desvío 3% (AZO)",
+    "⏳ ⚠️  value_opportunities.csv: upside DCF = (objetivo − precio) / precio — 1/41 filas, peor desvío 2% (KO)",
+    "⏳ ⚠️  value_opportunities.csv: upside P/E = (objetivo − precio) / precio — 3/43 filas, peor desvío 5% (WM, 6383.T, SGSOY)",
+    "⏳ ⚠️  value_opportunities_filtered.csv: upside DCF = (objetivo − precio) / precio — 1/37 filas, peor desvío 2% (KO)",
+    "⏳ ⚠️  value_opportunities_filtered.csv: upside P/E = (objetivo − precio) / precio — 2/39 filas, peor desvío 5% (6383.T, WM)",
     "⏳ ⚠️  european_value_opportunities.csv: upside analista = (objetivo − precio) / precio — 1/38 filas, peor desvío 2% (DB1.DE)",
     "⏳ ⚠️  european_value_opportunities.csv: dividendo yield = dividendo / precio — 1/38 filas, peor desvío 5% (AUTO.L)",
-    "⏳ ⚠️  european_value_opportunities_filtered.csv: upside analista = (objetivo − precio) / precio — 1/25 filas, peor desvío 2% (DB1.DE)",
-    "⏳ ⚠️  european_value_opportunities_filtered.csv: dividendo yield = dividendo / precio — 1/25 filas, peor desvío 5% (AUTO.L)",
-    "⏳ ⚠️  momentum_opportunities.csv: upside analista = (objetivo − precio) / precio — 1/6 filas, peor desvío 3% (DHR)"
+    "⏳ ⚠️  european_value_opportunities_filtered.csv: upside analista = (objetivo − precio) / precio — 1/23 filas, peor desvío 2% (DB1.DE)",
+    "⏳ ⚠️  european_value_opportunities_filtered.csv: dividendo yield = dividendo / precio — 1/23 filas, peor desvío 5% (AUTO.L)"
   ],
   "detalle": {
-    "identidad de los tickers (¿es esta empresa?)": [
-      "AUTO.L: european_value_opp=448.80 y tikr=4.89 (9070% de diferencia)"
+    "identidades aritméticas de lo publicado": [
+      "🛑 mean_reversion_opportunities.csv: R:R = (salida − entrada) / (entrada − stop) — 1/1 filas, peor desvío 108% (MANH)"
     ]
   },
   "tickers_value": 48,
-  "tickers_verdicts": 72
+  "tickers_verdicts": 71
 }

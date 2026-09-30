@@ -1,14 +1,24 @@
 {
-  "generated_at": "2026-09-29",
+  "generated_at": "2026-09-30",
   "alerts": [
     {
       "type": "SCORE_UP",
-      "ticker": "KO",
-      "company_name": "The Coca-Cola Company",
-      "sector": "Consumer Defensive",
-      "score_today": 62.4,
-      "score_prev": 52.1,
-      "delta": 10.3,
+      "ticker": "VRSN",
+      "company_name": "VeriSign, Inc.",
+      "sector": "Technology",
+      "score_today": 73.4,
+      "score_prev": 59.1,
+      "delta": 14.3,
+      "grade": "⭐⭐ STRONG"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "META",
+      "company_name": "Meta Platforms, Inc.",
+      "sector": "Communication Services",
+      "score_today": 60.8,
+      "score_prev": 50.4,
+      "delta": 10.4,
       "grade": "⭐ GOOD"
     },
     {
@@ -16,89 +26,79 @@
       "ticker": "VLTO",
       "company_name": "Veralto Corporation",
       "sector": "Industrials",
-      "score_today": 41.7,
-      "score_prev": 31.8,
-      "delta": 9.8,
+      "score_today": 49.7,
+      "score_prev": 41.7,
+      "delta": 8.0,
       "grade": "⚪ WEAK"
     },
     {
       "type": "SCORE_UP",
-      "ticker": "NDAQ",
-      "company_name": "Nasdaq, Inc.",
-      "sector": "Financial Services",
-      "score_today": 40.2,
-      "score_prev": 32.5,
-      "delta": 7.7,
-      "grade": "⚪ WEAK"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "MCD",
-      "company_name": "McDonald's Corporation",
-      "sector": "Consumer Cyclical",
-      "score_today": 37.8,
-      "score_prev": 30.6,
-      "delta": 7.2,
-      "grade": "⚪ WEAK"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "MSCI",
-      "company_name": "MSCI Inc.",
-      "sector": "Financial Services",
-      "score_today": 41.7,
-      "score_prev": 34.9,
-      "delta": 6.7,
-      "grade": "⚪ WEAK"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "RACE",
-      "company_name": "Ferrari N.V.",
-      "sector": "Consumer Cyclical",
-      "score_today": 40.8,
-      "score_prev": 34.2,
-      "delta": 6.5,
-      "grade": "⚪ WEAK"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "MSFT",
-      "company_name": "Microsoft Corporation",
-      "sector": "Technology",
-      "score_today": 70.1,
-      "score_prev": 64.8,
-      "delta": 5.3,
-      "grade": "⭐ GOOD"
-    },
-    {
-      "type": "SCORE_DOWN",
       "ticker": "MANH",
       "company_name": "Manhattan Associates, Inc.",
       "sector": "Technology",
-      "score_today": 42.9,
-      "score_prev": 48.8,
-      "delta": -6.0,
+      "score_today": 50.5,
+      "score_prev": 42.9,
+      "delta": 7.6,
+      "grade": "🔵 DECENT"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "DVA",
+      "company_name": "DaVita Inc.",
+      "sector": "Healthcare",
+      "score_today": 53.3,
+      "score_prev": 45.9,
+      "delta": 7.4,
+      "grade": "🔵 DECENT"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "THC",
+      "company_name": "Tenet Healthcare Corporation",
+      "sector": "Healthcare",
+      "score_today": 68.7,
+      "score_prev": 61.3,
+      "delta": 7.4,
+      "grade": "⭐⭐ STRONG"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "AXP",
+      "company_name": "American Express Company",
+      "sector": "Financial Services",
+      "score_today": 38.4,
+      "score_prev": 32.4,
+      "delta": 5.9,
       "grade": "⚪ WEAK"
     },
     {
-      "type": "SCORE_DOWN",
-      "ticker": "LMT",
-      "company_name": "Lockheed Martin Corporation",
-      "sector": "Industrials",
-      "score_today": 49.3,
-      "score_prev": 57.1,
-      "delta": -7.8,
+      "type": "SCORE_UP",
+      "ticker": "7741.T",
+      "company_name": "HOYA Corporation",
+      "sector": "Healthcare",
+      "score_today": 38.8,
+      "score_prev": 33.7,
+      "delta": 5.2,
+      "grade": "⚪ WEAK"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "PAYX",
+      "company_name": "Paychex, Inc.",
+      "sector": "Technology",
+      "score_today": 46.3,
+      "score_prev": 41.1,
+      "delta": 5.2,
       "grade": "🔵 DECENT"
     },
     {
       "type": "SCORE_DOWN",
-      "ticker": "CTAS",
-      "company_name": "Cintas Corporation",
-      "sector": "Industrials",
-      "score_today": 33.2,
-      "score_prev": 41.1,
-      "delta": -7.9,
+      "ticker": "MCD",
+      "company_name": "McDonald's Corporation",
+      "sector": "Consumer Cyclical",
+      "score_today": 30.7,
+      "score_prev": 37.8,
+      "delta": -7.1,
       "grade": "⚪ WEAK"
     },
     {
@@ -106,96 +106,36 @@
       "ticker": "UNP",
       "company_name": "Union Pacific Corporation",
       "sector": "Industrials",
-      "score_today": 42.2,
-      "score_prev": 50.6,
-      "delta": -8.5,
+      "score_today": 34.9,
+      "score_prev": 42.2,
+      "delta": -7.3,
+      "grade": "⚪ WEAK"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "MSFT",
+      "company_name": "Microsoft Corporation",
+      "sector": "Technology",
+      "score_today": 59.3,
+      "score_prev": 70.1,
+      "delta": -10.8,
       "grade": "🔵 DECENT"
     },
     {
       "type": "SCORE_DOWN",
-      "ticker": "BLK",
-      "company_name": "BlackRock, Inc.",
+      "ticker": "ICE",
+      "company_name": "Intercontinental Exchange, Inc.",
       "sector": "Financial Services",
-      "score_today": 35.0,
-      "score_prev": 45.0,
-      "delta": -10.0,
-      "grade": "⚪ WEAK"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "APH",
-      "company_name": "Amphenol Corporation",
-      "sector": "Technology",
-      "score_today": 33.4,
-      "score_prev": 44.6,
-      "delta": -11.3,
-      "grade": "⚪ WEAK"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "MA",
-      "company_name": "Mastercard Incorporated",
-      "sector": "Financial Services",
-      "score_today": 36.3,
-      "score_prev": 48.4,
-      "delta": -12.1,
-      "grade": "⚪ WEAK"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "PAYX",
-      "company_name": "Paychex, Inc.",
-      "sector": "Technology",
-      "score_today": 41.1,
-      "score_prev": 54.2,
-      "delta": -13.1,
-      "grade": "⚪ WEAK"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "ADSK",
-      "company_name": "Autodesk, Inc.",
-      "sector": "Technology",
-      "score_today": 50.9,
-      "score_prev": 68.1,
-      "delta": -17.3,
-      "grade": "🔵 DECENT"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "THC",
-      "company_name": "Tenet Healthcare Corporation",
-      "sector": "Healthcare",
-      "score_today": 61.3,
-      "score_prev": 79.3,
-      "delta": -18.0,
-      "grade": "⭐ GOOD"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "RMD",
-      "company_name": "ResMed Inc.",
-      "sector": "Healthcare",
-      "score_today": 58.9,
-      "score_prev": 77.8,
-      "delta": -18.9,
-      "grade": "⭐ GOOD"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "7741.T",
-      "company_name": "HOYA Corporation",
-      "sector": "Healthcare",
-      "score_today": 33.7,
-      "score_prev": 55.6,
-      "delta": -21.9,
+      "score_today": 32.6,
+      "score_prev": 51.8,
+      "delta": -19.2,
       "grade": "⚪ WEAK"
     }
   ],
   "counts": {
     "new_entries": 0,
     "exited": 0,
-    "score_up": 7,
-    "score_down": 12
+    "score_up": 9,
+    "score_down": 4
   }
 }

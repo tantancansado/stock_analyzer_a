@@ -1,11 +1,49 @@
 {
-  "generated_at": "2026-09-29 07:05:55",
-  "scan_date": "2026-09-29 07:05:55",
-  "total_opportunities": 0,
+  "generated_at": "2026-09-30 06:34:06",
+  "scan_date": "2026-09-30 06:34:06",
+  "total_opportunities": 1,
   "strategies": {
     "oversold_bounce": 0,
-    "bull_flag_pullback": 0
+    "bull_flag_pullback": 1
   },
-  "ai_narrative": null,
-  "opportunities": []
+  "ai_narrative": "",
+  "opportunities": [
+    {
+      "ticker": "MANH",
+      "company_name": "Manhattan Associates, Inc.",
+      "strategy": "Bull Flag Pullback",
+      "current_price": 200.11,
+      "rsi": 42.1,
+      "rsi_tier": "NEUTRAL",
+      "rally_pct": 51.8,
+      "pullback_pct": -10.6,
+      "sma_50": 199.73,
+      "sma_200": 160.76,
+      "trend": "Bullish",
+      "volume_decrease": true,
+      "reversion_score": 100,
+      "quality": "\u2b50\u2b50\u2b50 EXCELENTE",
+      "entry_zone": "$196.11 - $204.11",
+      "entry_ref": 204.11,
+      "target": 218.4,
+      "techo_tecnico": 223.76,
+      "bounce_target": 218.4,
+      "bounce_usd": 14.29,
+      "bounce_pct": 7.0,
+      "stop_loss": 193.74,
+      "stop_pct": -5.1,
+      "risk_reward": 1.38,
+      "detected_date": "2026-09-30",
+      "ai_confirmation": "YES",
+      "ai_confidence": 90,
+      "ai_reason": "RSI 42.1 dentro rango",
+      "esperanza_pct": 1.64,
+      "esperanza_n": 23,
+      "esperanza_aciertos": 9,
+      "esperanza_stops": 14,
+      "esperanza_dias_mediana": 17,
+      "esperanza_muestra_ok": true,
+      "esperanza_frase": "en los 23 episodios iguales, el objetivo (+9.1%) lleg\u00f3 antes que el stop (-3.2%) 9 veces y el stop salt\u00f3 primero 14, y cuando lleg\u00f3 tard\u00f3 17 sesiones de mediana. Esperanza +1.64% por operaci\u00f3n."
+    }
+  ]
 }

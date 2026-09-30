@@ -1,6 +1,6 @@
 {
-  "scan_date": "2026-09-29",
-  "scan_time": "07:09",
+  "scan_date": "2026-09-30",
+  "scan_time": "06:37",
   "tickers": [
     "DXYZ",
     "DX",
@@ -13,12 +13,298 @@
     "BR",
     "FR0000121014",
     "DE0005190003",
-    "DE0007100000",
-    "MCD"
+    "DE0007100000"
   ],
-  "count": 0,
-  "alta_count": 0,
-  "media_count": 0,
-  "new_alerts": 0,
-  "items": []
+  "count": 26,
+  "alta_count": 2,
+  "media_count": 3,
+  "new_alerts": 5,
+  "items": [
+    {
+      "id": "c061f1bc-adc1-3c32-b1e1-a2eaf3ce540c",
+      "ticker": "DX",
+      "title": "Wells Fargo revises dollar, yen, euro estimates amid rate hike outlook",
+      "source": "Investing.com",
+      "pub_date": "2026-09-29T15:14:38Z",
+      "time_ago": "hace 15h",
+      "url": "https://finance.yahoo.com/markets/currencies/articles/wells-fargo-revises-dollar-yen-151438812.html",
+      "importance": "ALTA",
+      "sentiment": "NEUTRAL"
+    },
+    {
+      "id": "782b3d43-8d87-39af-bbd7-28c2cc0f671f",
+      "ticker": "BR",
+      "title": "SEC Clears Tesla's New Retail Voting System. What Changes for Investors?",
+      "source": "BeInCrypto",
+      "pub_date": "2026-09-29T17:58:35Z",
+      "time_ago": "hace 12h",
+      "url": "https://beincrypto.com/sec-clears-tesla-retail-voting-system/",
+      "importance": "ALTA",
+      "sentiment": "NEUTRAL"
+    },
+    {
+      "id": "37482cf5-bbe4-3e68-8244-79aac8641e55",
+      "ticker": "CHTR",
+      "title": "Charter Communications Sees Higher Broadband Losses, Better Financial Trends, UBS Says",
+      "source": "MT Newswires",
+      "pub_date": "2026-09-28T18:49:56Z",
+      "time_ago": "hace 1d",
+      "url": "https://finance.yahoo.com/media-advertising/articles/charter-communications-sees-higher-broadband-184956501.html",
+      "importance": "MEDIA",
+      "sentiment": "NEUTRAL"
+    },
+    {
+      "id": "d746dc8c-3e51-39d0-bc1c-d23450c3b8de",
+      "ticker": "WMT",
+      "title": "Target Cuts Prices On Nearly 2,000 Products Ahead Of Holidays: A Look At The Key Highlights",
+      "source": "Stocktwits",
+      "pub_date": "2026-09-29T17:30:36Z",
+      "time_ago": "hace 13h",
+      "url": "https://stocktwits.com/news-articles/markets/equity/target-cuts-prices-on-nearly-2-000-products-ahead-of-holidays-a-look-at-the-key-highlights/cZMZelCRBWE",
+      "importance": "MEDIA",
+      "sentiment": "NEUTRAL"
+    },
+    {
+      "id": "cefb42aa-ee15-3461-a589-a4618be66aec",
+      "ticker": "WMT",
+      "title": "Best Buy Should Favor Share Buybacks Over Dividends, Truist Says",
+      "source": "MT Newswires",
+      "pub_date": "2026-09-29T18:42:52Z",
+      "time_ago": "hace 11h",
+      "url": "https://finance.yahoo.com/markets/stocks/articles/best-buy-favor-share-buybacks-184252860.html",
+      "importance": "MEDIA",
+      "sentiment": "BULLISH"
+    },
+    {
+      "id": "75a2dbb5-8610-3aa1-a2d5-b7a11868bffb",
+      "ticker": "DE0005190003",
+      "title": "European Indexes Largely Higher at Open",
+      "source": "The Wall Street Journal",
+      "pub_date": "2026-09-28T08:00:00Z",
+      "time_ago": "hace 1d",
+      "url": "https://www.wsj.com/finance/stocks/nikkei-rises-0-8-led-by-chip-related-stocks-07fd1af5?siteid=yhoof2&yptr=yahoo",
+      "importance": "BAJA",
+      "sentiment": "NEUTRAL"
+    },
+    {
+      "id": "f4534a07-c7ed-3e2c-8e1f-205e87ffa2f7",
+      "ticker": "DX",
+      "title": "Sterling today: Pound edges higher as U.S. data tests dollar rally",
+      "source": "Investing.com",
+      "pub_date": "2026-09-28T09:59:05Z",
+      "time_ago": "hace 1d",
+      "url": "https://finance.yahoo.com/markets/currencies/articles/sterling-today-pound-edges-higher-095905623.html",
+      "importance": "BAJA",
+      "sentiment": "BULLISH"
+    },
+    {
+      "id": "c71b7c96-d5ae-3cf7-abf3-750fdf4039c2",
+      "ticker": "FR0000121014",
+      "title": "Nike (NKE) Brings Alexandre Arnault Onto Its Board",
+      "source": "Simply Wall St.",
+      "pub_date": "2026-09-28T14:08:36Z",
+      "time_ago": "hace 1d",
+      "url": "https://finance.yahoo.com/markets/stocks/articles/nike-nke-brings-alexandre-arnault-140836018.html",
+      "importance": "BAJA",
+      "sentiment": "NEUTRAL"
+    },
+    {
+      "id": "8767993c-b958-3d0e-a72e-5d5b0b42f586",
+      "ticker": "BR",
+      "title": "Here's Why You Should Retain Broadridge Stock in Your Portfolio",
+      "source": "Zacks",
+      "pub_date": "2026-09-28T15:10:00Z",
+      "time_ago": "hace 1d",
+      "url": "https://finance.yahoo.com/markets/stocks/articles/heres-why-retain-broadridge-stock-151000382.html",
+      "importance": "BAJA",
+      "sentiment": "NEUTRAL"
+    },
+    {
+      "id": "193704ff-00a3-3e98-89bd-409908c2b623",
+      "ticker": "DX",
+      "title": "Dollar firms, Aussie drops after RBA hike, and sterling slips on Burnham speech",
+      "source": "Investing.com",
+      "pub_date": "2026-09-29T03:37:26Z",
+      "time_ago": "hace 1d",
+      "url": "https://finance.yahoo.com/markets/currencies/articles/asian-currencies-mixed-dollar-holds-033726403.html",
+      "importance": "BAJA",
+      "sentiment": "BEARISH"
+    },
+    {
+      "id": "45d4cc6e-8ec0-39a2-8da7-ad89bc137a90",
+      "ticker": "CHTR",
+      "title": "Is Charter (CHTR) Turning Its Edge AI Push Into a New Margin Story for Broadband?",
+      "source": "Simply Wall St.",
+      "pub_date": "2026-09-29T09:08:02Z",
+      "time_ago": "hace 21h",
+      "url": "https://finance.yahoo.com/technology/ai/articles/charter-chtr-turning-edge-ai-090802024.html",
+      "importance": "BAJA",
+      "sentiment": "NEUTRAL"
+    },
+    {
+      "id": "b1076bc1-c689-399a-bb02-125b7f248244",
+      "ticker": "DE0005190003",
+      "title": "Volkswagen braces for huge financial hit from FCA motor finance scheme",
+      "source": "Sky News",
+      "pub_date": "2026-09-29T09:35:00Z",
+      "time_ago": "hace 21h",
+      "url": "https://uk.finance.yahoo.com/news/volkswagen-braces-huge-financial-hit-093500244.html",
+      "importance": "BAJA",
+      "sentiment": "NEUTRAL"
+    },
+    {
+      "id": "b1076bc1-c689-399a-bb02-125b7f248244",
+      "ticker": "DE0007100000",
+      "title": "Volkswagen braces for huge financial hit from FCA motor finance scheme",
+      "source": "Sky News",
+      "pub_date": "2026-09-29T09:35:00Z",
+      "time_ago": "hace 21h",
+      "url": "https://uk.finance.yahoo.com/news/volkswagen-braces-huge-financial-hit-093500244.html",
+      "importance": "BAJA",
+      "sentiment": "NEUTRAL"
+    },
+    {
+      "id": "22c4f537-cc1c-3e4f-9ad2-28ecf6f5288e",
+      "ticker": "FR0000121014",
+      "title": "M&S teams up with Sephora on shop-in-shop beauty launch",
+      "source": "Retail Insight Network",
+      "pub_date": "2026-09-29T13:56:53Z",
+      "time_ago": "hace 16h",
+      "url": "https://www.retail-insight-network.com/news/ms-teams-up-sephora-beauty-launch/",
+      "importance": "BAJA",
+      "sentiment": "NEUTRAL"
+    },
+    {
+      "id": "37dd2871-fe6d-377d-8cae-a03b3590d334",
+      "ticker": "CHTR",
+      "title": "T Paid Holders $58 Billion While The Stock Trailed The Market",
+      "source": "Trefis",
+      "pub_date": "2026-09-29T16:01:34Z",
+      "time_ago": "hace 14h",
+      "url": "https://www.trefis.com/articles/616906/t-paid-holders-58-billion-while-the-stock-trailed-the-market/2026-09-29",
+      "importance": "BAJA",
+      "sentiment": "NEUTRAL"
+    },
+    {
+      "id": "489e565a-42ed-31b5-9484-7c62fa12cde0",
+      "ticker": "WMT",
+      "title": "Amazon, Walmart Surplus Auctioneer Climbs Toward A Breakout; Stock Up 45%",
+      "source": "Investor's Business Daily",
+      "pub_date": "2026-09-29T16:40:28Z",
+      "time_ago": "hace 13h",
+      "url": "https://www.investors.com/news/amazon-walmart-liquidity-services-target-abbvie-astrazeneca-sanofi-retail/?src=A00220&yptr=yahoo",
+      "importance": "BAJA",
+      "sentiment": "NEUTRAL"
+    },
+    {
+      "id": "70c07a29-b0ba-3f7c-9c62-3a29d139a9a9",
+      "ticker": "WMT",
+      "title": "Has Costco Stock Become the New Recession-Resilient Retail King?",
+      "source": "Motley Fool",
+      "pub_date": "2026-09-29T16:50:00Z",
+      "time_ago": "hace 13h",
+      "url": "https://www.fool.com/investing/2026/09/29/has-costco-become-the-new-recession-resilient-king/",
+      "importance": "BAJA",
+      "sentiment": "NEUTRAL"
+    },
+    {
+      "id": "e661a641-4109-3810-b1d0-5437ed3b81aa",
+      "ticker": "WMT",
+      "title": "Walmart Stock Drops 2.64% as Sparky Gets a Hard Pricing Boundary",
+      "source": "GuruFocus.com",
+      "pub_date": "2026-09-29T18:50:00Z",
+      "time_ago": "hace 11h",
+      "url": "https://finance.yahoo.com/markets/stocks/articles/walmart-stock-drops-2-64-185000938.html",
+      "importance": "BAJA",
+      "sentiment": "BEARISH"
+    },
+    {
+      "id": "d6cea204-adb1-3a52-81b9-4335e4573fb0",
+      "ticker": "FLY",
+      "title": "AST SpaceMobile vs. Firefly Aerospace: Which Space Infrastructure Stock Is a Better Buy in 2026?",
+      "source": "Motley Fool",
+      "pub_date": "2026-09-29T20:38:01Z",
+      "time_ago": "hace 9h",
+      "url": "https://www.fool.com/coverage/better-buy/2026/09/29/ast-spacemobile-vs-firefly-aerospace-which-space-infrastructure-stock-is-a-better-buy-in-2026/",
+      "importance": "BAJA",
+      "sentiment": "NEUTRAL"
+    },
+    {
+      "id": "12e7680b-e67c-3c7b-858d-f4c02e0635b6",
+      "ticker": "WMT",
+      "title": "Why Walmart (WMT) Dipped More Than Broader Market Today",
+      "source": "Zacks",
+      "pub_date": "2026-09-29T20:45:05Z",
+      "time_ago": "hace 9h",
+      "url": "https://finance.yahoo.com/markets/stocks/articles/why-walmart-wmt-dipped-more-204505198.html",
+      "importance": "BAJA",
+      "sentiment": "NEUTRAL"
+    },
+    {
+      "id": "8757314c-41ab-383f-89ee-51177c4ae956",
+      "ticker": "WMT",
+      "title": "Stock Market Today: Dow, Nasdaq Finish In The Red; AI Play Offers Entry",
+      "source": "Investor's Business Daily",
+      "pub_date": "2026-09-29T20:49:02Z",
+      "time_ago": "hace 9h",
+      "url": "https://www.investors.com/market-trend/stock-market-today/dow-jones-sp500-nasdaq-oil-prices-treasury-yields-nvidia-stock-nvda-new-buy-point/?src=A00220&yptr=yahoo",
+      "importance": "BAJA",
+      "sentiment": "NEUTRAL"
+    },
+    {
+      "id": "9591840e-396d-31d6-8c36-2d9e6ea75108",
+      "ticker": "WMT",
+      "title": "101-year-old grocery chain closes 27 stores",
+      "source": "TheStreet",
+      "pub_date": "2026-09-29T23:17:00Z",
+      "time_ago": "hace 7h",
+      "url": "https://www.thestreet.com/retail/winn-dixie-quietly-closes-27-stores",
+      "importance": "BAJA",
+      "sentiment": "NEUTRAL"
+    },
+    {
+      "id": "b7376ab6-be8f-347e-9eee-ec1666de77b7",
+      "ticker": "WMT",
+      "title": "Why Kroger Is Trying to Be More Like Walmart",
+      "source": "The Wall Street Journal",
+      "pub_date": "2026-09-29T23:30:00Z",
+      "time_ago": "hace 7h",
+      "url": "https://www.wsj.com/business/retail/why-kroger-is-trying-to-be-more-like-walmart-12963bdf?siteid=yhoof2&yptr=yahoo",
+      "importance": "BAJA",
+      "sentiment": "NEUTRAL"
+    },
+    {
+      "id": "ac969198-b7e1-328e-ae4c-cd7ada52d2ef",
+      "ticker": "DX",
+      "title": "Asian currencies mixed as yen rebounds, dollar stays near two-month high",
+      "source": "Investing.com",
+      "pub_date": "2026-09-30T05:01:11Z",
+      "time_ago": "hace 1h",
+      "url": "https://finance.yahoo.com/markets/currencies/articles/asian-currencies-mixed-yen-rebounds-050111935.html",
+      "importance": "BAJA",
+      "sentiment": "NEUTRAL"
+    },
+    {
+      "id": "12a4347b-72ab-3fef-b78f-a14b613bcc7d",
+      "ticker": "WMT",
+      "title": "Walmart (WMT) Tests AI Shopping In India Through Its Flipkart Business",
+      "source": "Simply Wall St.",
+      "pub_date": "2026-09-30T05:07:51Z",
+      "time_ago": "hace 1h",
+      "url": "https://finance.yahoo.com/technology/ai/articles/walmart-wmt-tests-ai-shopping-050751981.html",
+      "importance": "BAJA",
+      "sentiment": "NEUTRAL"
+    },
+    {
+      "id": "8973f563-4d10-3b9c-b586-91f4ba75619d",
+      "ticker": "CHTR",
+      "title": "62% Undervalued? Charter Communications (CHTR) As Edge AI Expansion Meets A Share Slide",
+      "source": "Simply Wall St.",
+      "pub_date": "2026-09-30T06:06:09Z",
+      "time_ago": "hace 31min",
+      "url": "https://finance.yahoo.com/markets/stocks/articles/62-undervalued-charter-communications-chtr-060609365.html",
+      "importance": "BAJA",
+      "sentiment": "NEUTRAL"
+    }
+  ]
 }
