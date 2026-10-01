@@ -29,11 +29,11 @@ const scoreColor = (s: number) =>
 const carryColor = (c: number | null) =>
   c == null ? 'text-muted-foreground' : c <= 5 ? 'text-emerald-400' : c <= 9 ? 'text-amber-400' : 'text-red-400'
 
-const SITUATION_CONFIG: Record<LeapsSituation, { label: string; icon: LucideIcon; cls: string }> = {
-  CAIDA_CIRCUNSTANCIAL: { label: 'Caída circunstancial', icon: Target, cls: 'text-emerald-300 bg-emerald-500/10 border-emerald-500/30' },
-  CALIDAD_RAZONABLE:    { label: 'Calidad a buen precio', icon: Gem, cls: 'text-cyan-300 bg-cyan-500/10 border-cyan-500/25' },
-  DIP_GANADOR:          { label: 'Dip de ganador', icon: TrendingUp, cls: 'text-amber-300 bg-amber-500/10 border-amber-500/25' },
-  DETERIORO:            { label: 'Posible deterioro', icon: AlertTriangle, cls: 'text-red-300 bg-red-500/10 border-red-500/30' },
+const SITUATION_CONFIG: Record<LeapsSituation, { label: string; icon: LucideIcon; tono: TonoSenal }> = {
+  CAIDA_CIRCUNSTANCIAL: { label: 'Caída circunstancial', icon: Target,        tono: 'favor' },
+  CALIDAD_RAZONABLE:    { label: 'Calidad a buen precio', icon: Gem,          tono: 'info' },
+  DIP_GANADOR:          { label: 'Dip de ganador',        icon: TrendingUp,   tono: 'aviso' },
+  DETERIORO:            { label: 'Posible deterioro',     icon: AlertTriangle, tono: 'alarma' },
 }
 
 const ENTRADA_CONFIG: Record<EstadoEntrada, { icon: LucideIcon; tono: TonoSenal }> = {
@@ -97,6 +97,13 @@ function StrikeComparator({ contracts, bestStrike }: { contracts: LeapsContract[
   )
 }
 
+const datosDeContexto = (o: LeapsOpportunity): string[] => [
+  o.pct_from_52w_high != null ? `${o.pct_from_52w_high.toFixed(0)}% desde máx. 52s` : null,
+  o.ytd_pct != null ? `YTD ${o.ytd_pct >= 0 ? '+' : ''}${o.ytd_pct.toFixed(0)}%` : null,
+  o.forward_pe != null ? `P/E ${o.forward_pe.toFixed(0)}` : null,
+].filter((t): t is string => t !== null)
+
+
 type TrackState = 'idle' | 'saving' | 'done' | 'login' | 'error'
 
 function OpportunityCard({ o, rank }: { o: LeapsOpportunity; rank?: number }) {
@@ -137,36 +144,13 @@ function OpportunityCard({ o, rank }: { o: LeapsOpportunity; rank?: number }) {
             )}
             <TickerLogo ticker={o.ticker} size="md" />
             <div className="min-w-0">
-              <div className="flex items-center gap-2 flex-wrap">
-                <span className="font-extrabold tracking-tight">{o.ticker}</span>
-                {o.in_value_list && <Badge variant="green" className="text-micro">VALUE</Badge>}
-                {o.conviction_grade && <Badge variant="blue" className="text-micro">{o.conviction_grade}</Badge>}
-                {o.situation && SITUATION_CONFIG[o.situation] && (() => {
-                  const sit = SITUATION_CONFIG[o.situation!]
-                  return (
-                    <span className={cn('inline-flex items-center gap-1 text-micro font-semibold px-1.5 py-0.5 rounded border', sit.cls)}>
-                      <sit.icon size={12} strokeWidth={2} className="shrink-0" />
-                      {sit.label}
-                    </span>
-                  )
-                })()}
-                {o.entry_readiness && ENTRADA_CONFIG[o.entry_readiness] && (
-                  <SignalBadge
-                    icon={ENTRADA_CONFIG[o.entry_readiness].icon}
-                    tono={ENTRADA_CONFIG[o.entry_readiness].tono}
-                    texto={TEXTO_ENTRADA[o.entry_readiness]}
-                    titulo="Estado de entrada de la acción (el mismo que en Value)"
-                    tamano="micro"
-                  />
-                )}
-              </div>
+              <div className="font-extrabold tracking-tight">{o.ticker}</div>
               <div className="text-mini text-muted-foreground truncate">{o.company_name}</div>
-              {(o.pct_from_52w_high != null || o.ytd_pct != null || o.forward_pe != null) && (
+              {datosDeContexto(o).length > 0 && (
                 <div className="text-micro text-muted-foreground mt-0.5">
-                  {o.pct_from_52w_high != null && <span>{o.pct_from_52w_high.toFixed(0)}% desde máx. 52s</span>}
-                  {o.pct_from_52w_high != null && o.ytd_pct != null && <span> · </span>}
-                  {o.ytd_pct != null && <span>YTD {o.ytd_pct >= 0 ? '+' : ''}{o.ytd_pct.toFixed(0)}%</span>}
-                  {o.forward_pe != null && <span> · P/E {o.forward_pe.toFixed(0)}</span>}
+                  {datosDeContexto(o).map((t, i, todos) => (
+                    <span key={t} className="whitespace-nowrap">{t}{i < todos.length - 1 ? ' · ' : ''}</span>
+                  ))}
                 </div>
               )}
             </div>
@@ -177,6 +161,31 @@ function OpportunityCard({ o, rank }: { o: LeapsOpportunity; rank?: number }) {
             </div>
             <div className="etiqueta-seccion">score</div>
           </div>
+        </div>
+
+        {/* Las etiquetas van a ancho completo: dentro de la columna estrecha del
+            ticker el chip de situación partía en dos líneas y descuadraba la
+            cabecera en móvil. */}
+        <div className="flex items-center gap-1.5 flex-wrap mb-3">
+          {o.situation && SITUATION_CONFIG[o.situation] && (
+            <SignalBadge
+              icon={SITUATION_CONFIG[o.situation].icon}
+              tono={SITUATION_CONFIG[o.situation].tono}
+              texto={SITUATION_CONFIG[o.situation].label}
+              tamano="micro"
+            />
+          )}
+          {o.entry_readiness && ENTRADA_CONFIG[o.entry_readiness] && (
+            <SignalBadge
+              icon={ENTRADA_CONFIG[o.entry_readiness].icon}
+              tono={ENTRADA_CONFIG[o.entry_readiness].tono}
+              texto={TEXTO_ENTRADA[o.entry_readiness]}
+              titulo="Estado de entrada de la acción (el mismo que en Value)"
+              tamano="micro"
+            />
+          )}
+          {o.in_value_list && <Badge variant="green" className="text-micro">VALUE</Badge>}
+          {o.conviction_grade && <Badge variant="blue" className="text-micro">{o.conviction_grade}</Badge>}
         </div>
 
         {/* Earnings inminentes: la IV está inflada — mejor esperar al evento */}
