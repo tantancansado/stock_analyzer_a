@@ -447,6 +447,14 @@ def load_app_signals() -> dict:
         s['entry_readiness_reason'] = (r.get('entry_readiness_reason')
                                        if pd.notna(r.get('entry_readiness_reason')) else None)
         s['ml_win_probability'] = _num(r.get('ml_win_probability'))
+        # Por qué ha caído, ya investigado con búsqueda web por why_cheap_analyzer
+        # (cacheado, así que leerlo no cuesta nada). LEAPS no lo leía y le
+        # preguntaba a Claude lo mismo SIN web: el 1-oct-2026 MCD salió con
+        # «caída cíclica, consumo más débil» cuando la ficha VALUE ya decía
+        # «EVENTO — Investor Day del 23-sep, guía rebajada».
+        s['why_cheap'] = (r.get('why_cheap') if pd.notna(r.get('why_cheap')) else None)
+        s['why_cheap_resumen'] = (r.get('why_cheap_resumen')
+                                  if pd.notna(r.get('why_cheap_resumen')) else None)
         s['in_value_list'] = True
 
     conv = _read_csv(DOCS / 'value_conviction.csv')
@@ -985,6 +993,8 @@ def analyze_ticker_leaps(ticker: str, sig: dict, rate: float) -> Optional[dict]:
             'in_value_list': bool(sig.get('in_value_list')),
             'entry_readiness': sig.get('entry_readiness'),
             'entry_readiness_reason': sig.get('entry_readiness_reason'),
+            'why_cheap': sig.get('why_cheap'),
+            'why_cheap_resumen': sig.get('why_cheap_resumen'),
         }
     except Exception as e:
         print(f"  ⚠️  {ticker}: {e}")
@@ -1041,6 +1051,50 @@ def _salida_por_valoracion(texto: str) -> str:
     if not salida.endswith('.'):
         salida += '.'
     return salida
+
+
+_SPY_6M: Optional[float] = None
+
+
+def completar_entrada(opp: dict) -> None:
+    """Rellena `entry_readiness` en un LEAPS que no está en la lista VALUE.
+
+    El estado ESPERAR/VIGILAR/ENTRADA solo llegaba por `value_opportunities.csv`,
+    así que V salía sin él y la ficha callaba justo donde no había lista que lo
+    dijera. Se calcula con el MISMO motor (`technical_filter`), no con un
+    segundo criterio: dos definiciones de «se puede entrar» es lo que ya
+    produjo LISTO y ESPERA a la vez en SAP. Sin histórico no se inventa nada.
+    """
+    if opp.get('entry_readiness'):
+        return
+    global _SPY_6M
+    try:
+        import technical_filter as tf
+        if _SPY_6M is None:
+            _SPY_6M = tf.fetch_spy_6m_return()
+        r = tf.compute_technical_signals(opp['ticker'], _SPY_6M)
+    except Exception as e:
+        print(f"      ⚠️  {opp.get('ticker')}: sin timing de entrada ({e})")
+        return
+    if r.get('entry_readiness'):
+        opp['entry_readiness'] = r['entry_readiness']
+        opp['entry_readiness_reason'] = r.get('entry_readiness_reason')
+
+
+def _contexto_app_para_prompt(opp: dict) -> str:
+    """Lo que la app YA sabe de este ticker y Claude no puede saber solo."""
+    lineas = []
+    wc, resumen = opp.get('why_cheap'), opp.get('why_cheap_resumen')
+    if wc and wc != 'SIN_DATOS':
+        lineas.append(f"  Por qué ha caído (investigado con búsqueda web, es el dato bueno): "
+                      f"{wc}" + (f" — {resumen}" if resumen else ''))
+    else:
+        lineas.append("  Por qué ha caído: la casa no lo ha investigado — dilo, no lo supongas.")
+    er = opp.get('entry_readiness')
+    if er:
+        lineas.append(f"  Estado de entrada de la ACCIÓN (el que enseña la ficha): {er}"
+                      + (f" — {opp['entry_readiness_reason']}" if opp.get('entry_readiness_reason') else ''))
+    return '\n'.join(lineas)
 
 
 def _valoracion_para_prompt(opp: dict) -> str:
@@ -1123,6 +1177,10 @@ CONTRATO RECOMENDADO (deep ITM, sustituto de acciones):
 
 VALORACIÓN PROPIA DE LA CASA (esto es lo que tienes que usar para el objetivo de salida):
 {_valoracion_para_prompt(opp)}
+
+LO QUE LA CASA YA SABE (úsalo en vez de conjeturar; no lo contradigas con tu memoria):
+{_contexto_app_para_prompt(opp)}
+Reglas: la causa de la caída que figura arriba MANDA sobre cualquier suposición tuya. Si es DETERIORO el veredicto no puede ser OPORTUNIDAD. El veredicto juzga la TESIS; el estado de entrada lo enseña la app aparte, pero si es ESPERAR o VIGILAR di en 'narrative' que hoy no es momento de comprar el contrato y por qué.
 
 Responde SOLO con JSON válido (sin markdown, sin texto extra), en español:
 IMPORTANTE: sé CONCISO. Cada campo, máximo 2 frases cortas. No te extiendas.
@@ -1218,6 +1276,8 @@ def main():
     # una oportunidad marcada EVITAR se seguía publicando con un badge rojo;
     # el usuario pidió el 25-ago-2026 que si no pasa el filtro, no se muestre.
     candidatas = top[:AI_NARRATIVE_N]
+    for opp in candidatas:
+        completar_entrada(opp)
     verificadas = []
     for opp in candidatas:
         if add_ai_narrative(opp):

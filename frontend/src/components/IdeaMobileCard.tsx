@@ -6,6 +6,7 @@ import TickerLogo from './TickerLogo'
 import OwnedBadge from './OwnedBadge'
 import ValuationBar from './ValuationBar'
 import { colorUpside } from '../lib/bandasUpside'
+import { POR_QUE_CAE } from '../lib/estadoEntrada'
 
 /**
  * Una idea (VALUE, catalizadores, LEAPS…) como tarjeta, para móvil.
@@ -25,13 +26,6 @@ const VEREDICTO = {
   VIGILAR: { texto: 'En vigilancia',     clase: 'bg-cyan-500/15 text-cyan-300 border-cyan-500/30' },
   ESPERAR: { texto: 'Aún cayendo',       clase: 'bg-red-500/15 text-red-400 border-red-500/30' },
 } as const
-
-const POR_QUE_CAE: Record<string, string> = {
-  DETERIORO:   'El negocio está peor',
-  CICLICO:     'Parte baja del ciclo',
-  EVENTO:      'Shock puntual',
-  SENTIMIENTO: 'Sentimiento, no el negocio',
-}
 
 function Dato({ etiqueta, valor, tono }: Readonly<{ etiqueta: string; valor: string; tono?: string }>) {
   return (

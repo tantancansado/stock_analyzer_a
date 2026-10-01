@@ -2542,6 +2542,9 @@ export interface LeapsOpportunity {
    *  al `timing_score` del propio LEAPS — ver el aviso en la ficha. */
   entry_readiness?: 'ESPERAR' | 'VIGILAR' | 'ENTRADA' | null
   entry_readiness_reason?: string | null
+  /** Por qué ha caído, investigado con búsqueda web (why_cheap_analyzer). */
+  why_cheap?: 'DETERIORO' | 'CICLICO' | 'EVENTO' | 'SENTIMIENTO' | 'SIN_DATOS' | null
+  why_cheap_resumen?: string | null
   ai_narrative?: string
   situation_verdict?: LeapsVerdict
   exit_plan?: LeapsExitPlan

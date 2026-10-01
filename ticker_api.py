@@ -1430,6 +1430,7 @@ def leaps_ticker(ticker: str):
                          f"(delta {_la.DELTA_MIN}-{_la.DELTA_MAX}, vencimiento >{_la.MIN_DTE}d, "
                          f"carry <{_la.MAX_CARRY_PCT}%/año)."
             }), 404
+        _la.completar_entrada(opp)
         if request.args.get('ai', '1') != '0':
             _la.add_ai_narrative(opp)
         opp['risk_free_rate_pct'] = round(rate * 100, 2)

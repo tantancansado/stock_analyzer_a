@@ -10,13 +10,15 @@ import Loading, { ErrorState } from '../components/Loading'
 import StaleDataBanner from '../components/StaleDataBanner'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { AlertTriangle, Bell, BellRing, Brain, Check, ChevronDown, ChevronUp, Gem, Layers, RefreshCw, Rocket, Search, Target, TrendingUp, Star} from 'lucide-react'
+import { AlertTriangle, Bell, BellRing, Brain, Check, CheckCircle2, ChevronDown, ChevronUp, Eye, Gem, Layers, PauseCircle, RefreshCw, Rocket, Search, Target, TrendingUp, Star} from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useAuth } from '@/context/AuthContext'
 import { supabase } from '@/lib/supabase'
 import { Button } from '@/components/ui/button'
 import EmptyState from '@/components/EmptyState'
 import Metrica from '../components/Metrica'
+import SignalBadge, { type TonoSenal } from '@/components/SignalBadge'
+import { POR_QUE_CAE, TEXTO_ENTRADA, ordenaPorEntrada, type EstadoEntrada } from '@/lib/estadoEntrada'
 
 const fmtUsd = (n: number, d = 2) =>
   new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: d }).format(n)
@@ -32,6 +34,12 @@ const SITUATION_CONFIG: Record<LeapsSituation, { label: string; icon: LucideIcon
   CALIDAD_RAZONABLE:    { label: 'Calidad a buen precio', icon: Gem, cls: 'text-cyan-300 bg-cyan-500/10 border-cyan-500/25' },
   DIP_GANADOR:          { label: 'Dip de ganador', icon: TrendingUp, cls: 'text-amber-300 bg-amber-500/10 border-amber-500/25' },
   DETERIORO:            { label: 'Posible deterioro', icon: AlertTriangle, cls: 'text-red-300 bg-red-500/10 border-red-500/30' },
+}
+
+const ENTRADA_CONFIG: Record<EstadoEntrada, { icon: LucideIcon; tono: TonoSenal }> = {
+  ENTRADA: { icon: CheckCircle2, tono: 'favor' },
+  VIGILAR: { icon: Eye,          tono: 'info' },
+  ESPERAR: { icon: PauseCircle,  tono: 'alarma' },
 }
 
 const VERDICT_CONFIG: Record<string, { label: string; cls: string }> = {
@@ -142,6 +150,15 @@ function OpportunityCard({ o, rank }: { o: LeapsOpportunity; rank?: number }) {
                     </span>
                   )
                 })()}
+                {o.entry_readiness && ENTRADA_CONFIG[o.entry_readiness] && (
+                  <SignalBadge
+                    icon={ENTRADA_CONFIG[o.entry_readiness].icon}
+                    tono={ENTRADA_CONFIG[o.entry_readiness].tono}
+                    texto={TEXTO_ENTRADA[o.entry_readiness]}
+                    titulo="Estado de entrada de la acción (el mismo que en Value)"
+                    tamano="micro"
+                  />
+                )}
               </div>
               <div className="text-mini text-muted-foreground truncate">{o.company_name}</div>
               {(o.pct_from_52w_high != null || o.ytd_pct != null || o.forward_pe != null) && (
@@ -189,23 +206,26 @@ function OpportunityCard({ o, rank }: { o: LeapsOpportunity; rank?: number }) {
           </div>
         )}
 
-        {/* Los dos motores de timing no siempre coinciden. LEAPS calcula el
-            suyo (`timing_score`) y la ficha VALUE el suyo
-            (`entry_readiness`): el 22-sep-2026 FHN salía recomendado con 68
-            mientras su ficha decía ESPERAR — «ha perdido la MA200». Un
-            deep-ITM apalanca la caída igual que la subida, así que el
-            desacuerdo se enseña. No bloquea: los horizontes son distintos. */}
-        {o.in_value_list && o.entry_readiness === 'ESPERAR' && (
-          <div className="rounded-md border px-3 py-2 mb-3 border-[var(--warn)]/40 bg-[color-mix(in_oklab,var(--warn)_12%,transparent)]">
-            <div className="flex items-center gap-1.5 text-mini font-extrabold tracking-wide mb-0.5 text-[var(--warn)]">
-              <AlertTriangle className="w-3 h-3" /> LA ACCIÓN DICE ESPERAR
-            </div>
-            <div className="text-mini opacity-90 leading-snug">
-              {o.entry_readiness_reason
-                ? `${o.entry_readiness_reason}. `
-                : 'Su ficha VALUE marca ESPERAR. '}
-              Una call apalanca la caída igual que la subida.
-            </div>
+        {/* El estado de entrada ya va en el badge de la cabecera; aquí solo su
+            razón y la causa de la caída. Los dos motores de timing no siempre
+            coinciden (el 22-sep-2026 FHN salía con 68 en LEAPS y ESPERAR en su
+            ficha), y un deep-ITM apalanca la caída igual que la subida. */}
+        {(o.entry_readiness_reason || (o.why_cheap && o.why_cheap !== 'SIN_DATOS')) && (
+          <div className="mb-3 space-y-1 text-mini leading-snug text-muted-foreground">
+            {o.entry_readiness_reason && (
+              <p>
+                <span className="font-semibold text-foreground">Entrada: </span>
+                {o.entry_readiness_reason}.
+                {o.entry_readiness === 'ESPERAR' && ' Una call apalanca la caída igual que la subida.'}
+              </p>
+            )}
+            {o.why_cheap && o.why_cheap !== 'SIN_DATOS' && (
+              <p className="line-clamp-3">
+                <span className="font-semibold text-foreground">Por qué cae: </span>
+                {POR_QUE_CAE[o.why_cheap] ?? o.why_cheap}
+                {o.why_cheap_resumen ? ` — ${o.why_cheap_resumen}` : ''}
+              </p>
+            )}
           </div>
         )}
 
@@ -554,7 +574,7 @@ export default function Leaps() {
           </div>
 
           {(() => {
-            const shown = sitFilter === 'ALL' ? data.opportunities : data.opportunities.filter(o => o.situation === sitFilter)
+            const shown = ordenaPorEntrada(sitFilter === 'ALL' ? data.opportunities : data.opportunities.filter(o => o.situation === sitFilter))
             if (data.opportunities.length === 0) {
               return <EmptyState
                   icon={<Rocket size={32} strokeWidth={1.5} />}
