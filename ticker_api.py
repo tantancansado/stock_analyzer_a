@@ -1356,9 +1356,11 @@ def value_opportunities():
 
 @app.route('/api/eu-value-opportunities')
 def eu_value_opportunities():
-    # Ver value_opportunities(): fuera el sin-filtrar de la cascada.
+    # Solo lo verificado. A diferencia de US, aquí conviction NO es un
+    # subconjunto del filtrado: se calcula desde el escáner sin filtrar, así
+    # que serví nombres que el gate había descartado (NESN, SIKA...) y escondía
+    # verificados que no llegaban al grado (ASML, AZN...). Ver value_opportunities().
     return _csv_to_json_response([
-        (DOCS / 'european_value_conviction.csv', 'conviction'),
         (DOCS / 'european_value_opportunities_filtered.csv', 'ai_filtered'),
     ])
 

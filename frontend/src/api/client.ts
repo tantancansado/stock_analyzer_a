@@ -537,13 +537,34 @@ async function fetchValueCsv(filename: string): Promise<{ data: ValueOpportunity
 export const fetchEUValueOpportunities = async (): Promise<{
   data: { data: ValueOpportunity[]; count: number; source: string }
 }> => {
-  // Try conviction file first (has grades for all curated EU tickers), then raw scanner output
-  for (const filename of ['european_value_conviction.csv', 'european_value_opportunities.csv']) {
+  // Igual que Value US: SOLO la lista que el gate de calidad dio por buena, y
+  // cero verificados es una respuesta, no un motivo para buscar en otro sitio.
+  //
+  // Antes se leía european_value_conviction.csv y, si venía vacío, el escáner
+  // sin filtrar. El grado se calcula desde el escáner, no desde lo verificado,
+  // así que la pantalla enseñaba 11 empresas que el gate había descartado
+  // (NESN, SIKA, SGE...) y escondía 11 que sí había dado por buenas (ASML, AZN,
+  // Inditex...). El grado se pega después, donde exista.
+  try {
+    const base = await fetchValueCsv('european_value_opportunities_filtered.csv')
     try {
-      const data = await fetchValueCsv(filename)
-      if (data.data.length > 0) return { data }
-    } catch { /* try next */ }
-  }
+      const conv = await fetchValueCsv('european_value_conviction.csv')
+      const gradeMap = new Map(conv.data.map(r => [r.ticker, r]))
+      base.data = base.data.map(r => {
+        const c = gradeMap.get(r.ticker)
+        if (!c) return r
+        return {
+          ...r,
+          conviction_grade: c.conviction_grade ?? r.conviction_grade,
+          conviction_score: c.conviction_score ?? r.conviction_score,
+          conviction_reasons: c.conviction_reasons ?? r.conviction_reasons,
+          conviction_positives: c.conviction_positives ?? r.conviction_positives,
+          conviction_red_flags: c.conviction_red_flags ?? r.conviction_red_flags,
+        }
+      })
+    } catch { /* sin grados: se enseñan las ideas sin grado */ }
+    return { data: base }
+  } catch { /* el CSV no se pudo leer: se prueba la API */ }
   const res = await apiClient.get<{ data: ValueOpportunity[]; count: number; source: string }>('/api/eu-value-opportunities')
   return { data: res.data }
 }

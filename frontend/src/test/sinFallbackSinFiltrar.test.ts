@@ -42,6 +42,17 @@ describe('las páginas filtradas no caen al fichero sin filtrar', () => {
     expect(sinFiltrar, 'no debe leerse el CSV sin filtrar').toHaveLength(0)
   })
 
+  it('Value Europa solo lee european_value_opportunities_filtered.csv', () => {
+    // El grado europeo se calcula desde el escáner sin filtrar: leerlo como
+    // lista enseñaba descartados por el gate y escondía verificados.
+    const cuerpo = cuerpoDe('fetchEUValueOpportunities')
+    expect(cuerpo).toContain('european_value_opportunities_filtered.csv')
+    const sinFiltrar = cuerpo.match(/'european_value_opportunities\.csv'/g) ?? []
+    expect(sinFiltrar, 'no debe leerse el CSV sin filtrar').toHaveLength(0)
+    expect(cuerpo).not.toMatch(/length === 0\)\s*continue/)
+    expect(cuerpo).not.toMatch(/data\.length > 0\) return/)
+  })
+
   it('cero verificados es una respuesta, no un motivo para buscar en otro sitio', () => {
     // El fallback vivía en un bucle `for (const filename of [filtrado, sin_filtrar])`
     // con un `if (data.length === 0) continue`. Ese `continue` era el bug: trataba

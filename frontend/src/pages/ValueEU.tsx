@@ -733,7 +733,7 @@ export default function ValueEU() {
             {sorted.length === 0 && (
               <CardContent className="py-16 text-center">
                 <p className="font-medium text-muted-foreground">
-                  {rows.length === 0 ? 'No hay ideas VALUE europeas ahora mismo' : 'No hay ideas con los filtros actuales'}
+                  {rows.length === 0 ? 'Hoy no hay ninguna idea europea verificada' : 'No hay ideas con los filtros actuales'}
                 </p>
               </CardContent>
             )}
@@ -919,8 +919,14 @@ export default function ValueEU() {
           <CardContent className="py-16 text-center">
             <div className="text-4xl mb-4 opacity-20">🇪🇺</div>
             <p className="font-medium text-muted-foreground">
-              {rows.length === 0 ? 'Sin oportunidades VALUE europeas en este momento' : 'Sin resultados con los filtros aplicados'}
+              {rows.length === 0 ? 'Hoy no hay ninguna idea europea verificada' : 'Sin resultados con los filtros aplicados'}
             </p>
+            {rows.length === 0 && (
+              <p className="mt-2 text-mini text-muted-foreground max-w-md mx-auto leading-relaxed">
+                El filtro de calidad no dio por buena ninguna: o los candidatos de hoy no
+                pasaron la revisión de datos, o no pudo ejecutarse.
+              </p>
+            )}
           </CardContent>
         )}
         {sorted.length > 0 && (

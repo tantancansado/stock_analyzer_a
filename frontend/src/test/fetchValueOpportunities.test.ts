@@ -230,3 +230,82 @@ describe('fetchValueOpportunities', () => {
     expect(result.data.source).toBe('api')
   })
 })
+
+
+describe('fetchEUValueOpportunities', () => {
+  const EU_FILTRADO = [
+    'ticker,company_name,current_price,value_score',
+    'ASML.AS,ASML,900,70',
+    'SAP.DE,SAP,200,64',
+  ].join('\n')
+  const EU_CONVICCION = [
+    'ticker,conviction_grade,conviction_score,conviction_reasons,conviction_positives,conviction_red_flags',
+    'SAP.DE,B,75,Buen FCF,2,0',
+    'NESN.SW,C,60,Estable,1,1',
+  ].join('\n')
+
+  beforeEach(() => {
+    vi.unstubAllEnvs()
+    vi.clearAllMocks()
+    onAuthStateChange.mockReturnValue({ data: { subscription: { unsubscribe: vi.fn() } } })
+    refreshSession.mockResolvedValue({ data: { session: null } })
+    vi.stubGlobal('fetch', vi.fn())
+    vi.stubGlobal('open', vi.fn())
+    window.open = vi.fn()
+  })
+
+  it('enseña lo verificado, no lo que tiene grado', async () => {
+    vi.mocked(fetch).mockImplementation((input: RequestInfo | URL) => {
+      const url = String(input)
+      if (url.endsWith('european_value_opportunities_filtered.csv')) return makeOkResponse(EU_FILTRADO)
+      if (url.endsWith('european_value_conviction.csv')) return makeOkResponse(EU_CONVICCION)
+      return makeErrorResponse()
+    })
+    const { fetchEUValueOpportunities } = await loadClient()
+    const r = await fetchEUValueOpportunities()
+    // NESN.SW tiene grado pero el gate no lo verificó: no aparece
+    expect(r.data.data.map(x => x.ticker)).toEqual(['ASML.AS', 'SAP.DE'])
+  })
+
+  it('pega el grado donde existe y deja sin grado al verificado que no llegó', async () => {
+    vi.mocked(fetch).mockImplementation((input: RequestInfo | URL) => {
+      const url = String(input)
+      if (url.endsWith('european_value_opportunities_filtered.csv')) return makeOkResponse(EU_FILTRADO)
+      if (url.endsWith('european_value_conviction.csv')) return makeOkResponse(EU_CONVICCION)
+      return makeErrorResponse()
+    })
+    const { fetchEUValueOpportunities } = await loadClient()
+    const r = await fetchEUValueOpportunities()
+    const sap = r.data.data.find(x => x.ticker === 'SAP.DE')
+    const asml = r.data.data.find(x => x.ticker === 'ASML.AS')
+    expect(sap?.conviction_grade).toBe('B')
+    expect(asml?.conviction_grade).toBeUndefined()
+    expect(asml?.value_score).toBe(70)
+  })
+
+  it('sin el fichero de grados devuelve igualmente las verificadas', async () => {
+    vi.mocked(fetch).mockImplementation((input: RequestInfo | URL) => {
+      const url = String(input)
+      if (url.endsWith('european_value_opportunities_filtered.csv')) return makeOkResponse(EU_FILTRADO)
+      return makeErrorResponse(500)
+    })
+    const { fetchEUValueOpportunities } = await loadClient()
+    const r = await fetchEUValueOpportunities()
+    expect(r.data.data).toHaveLength(2)
+  })
+
+  it('cero verificadas es una respuesta: no lee grados ni el escáner sin filtrar', async () => {
+    const pedidas: string[] = []
+    vi.mocked(fetch).mockImplementation((input: RequestInfo | URL) => {
+      const url = String(input)
+      pedidas.push(url)
+      if (url.endsWith('european_value_opportunities_filtered.csv')) return makeOkResponse(EMPTY_CSV)
+      if (url.endsWith('european_value_conviction.csv')) return makeOkResponse(EU_CONVICCION)
+      return makeErrorResponse()
+    })
+    const { fetchEUValueOpportunities } = await loadClient()
+    const r = await fetchEUValueOpportunities()
+    expect(r.data.data).toHaveLength(0)
+    expect(pedidas.some(u => /\/european_value_opportunities\.csv$/.test(u))).toBe(false)
+  })
+})

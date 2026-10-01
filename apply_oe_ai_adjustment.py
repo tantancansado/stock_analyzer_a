@@ -11,6 +11,7 @@ Escribe:
   - docs/value_opportunities.csv (in-place, con oe_ai_adjustment + oe_ai_verdict)
   - docs/value_opportunities_filtered.csv (si existe, también parcheado)
   - docs/european_value_opportunities.csv (si existe)
+  - docs/european_value_opportunities_filtered.csv (si existe; es lo que enseña Value Europa)
   - docs/european_value_conviction.csv (si existe)
 """
 from __future__ import annotations
@@ -29,6 +30,7 @@ TARGET_CSVS = [
     Path("docs/value_opportunities.csv"),
     Path("docs/value_opportunities_filtered.csv"),
     Path("docs/european_value_opportunities.csv"),
+    Path("docs/european_value_opportunities_filtered.csv"),
     Path("docs/european_value_conviction.csv"),
     Path("docs/value_conviction.csv"),
     Path("docs/global_value_opportunities.csv"),
