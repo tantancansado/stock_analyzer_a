@@ -78,6 +78,35 @@ class TestOportunidadesNuevas:
             assert lm.alertar_oportunidades_nuevas({}) == 0
 
 
+class TestEstadoDeEntrada:
+    """MCD llegó por Telegram como «Caída circunstancial» sin decir que la app
+    la marcaba ESPERAR (bajo MA200 descendente): parecía una compra limpia."""
+
+    def _con_estado(self, estado, motivo=None):
+        lista = _lista('MCD')
+        lista['opportunities'][0]['entry_readiness'] = estado
+        lista['opportunities'][0]['entry_readiness_reason'] = motivo
+        return lista
+
+    def test_enseña_que_hay_que_esperar_y_por_que(self, tmp_path):
+        _, env = _correr(tmp_path, self._con_estado(
+            'ESPERAR', 'En caída (bajo MA200 descendente) — espera a que haga suelo'), {})
+        assert 'Entrada: esperar' in env[0]
+        assert 'bajo MA200 descendente' in env[0]
+
+    def test_sin_estado_no_inventa_linea(self, tmp_path):
+        _, env = _correr(tmp_path, self._con_estado(None), {})
+        assert 'Entrada:' not in env[0]
+
+    def test_estado_sin_motivo_sigue_saliendo(self, tmp_path):
+        _, env = _correr(tmp_path, self._con_estado('VIGILAR'), {})
+        assert 'Entrada: vigilar' in env[0]
+
+    def test_el_motivo_se_escapa_para_html(self, tmp_path):
+        _, env = _correr(tmp_path, self._con_estado('ESPERAR', 'a < b & c'), {})
+        assert 'a &lt; b &amp; c' in env[0]
+
+
 class TestCorreSinPosicionesAbiertas:
     """El bug de fondo: main() salía por el return temprano cuando no había
     posiciones, así que las oportunidades nuevas no llegaban a mirarse. El

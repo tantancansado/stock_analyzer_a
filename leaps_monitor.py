@@ -282,6 +282,16 @@ def alertar_oportunidades_nuevas(sent: dict) -> int:
             det.append(f"IV {html.escape(str(c['iv_richness']))}")
         if det:
             lineas.append('   ' + ' · '.join(det))
+
+        # Sin esto el aviso presenta como oportunidad limpia una acción que la
+        # propia app marca «esperar» (MCD, 1-oct-2026: bajo una MA200 que cae).
+        estado = str(o.get('entry_readiness') or '').strip()
+        if estado:
+            motivo = str(o.get('entry_readiness_reason') or '').strip()
+            linea = f"Entrada: {estado.lower()}"
+            if motivo:
+                linea += f" — {motivo}"
+            lineas.append('   ' + html.escape(linea))
         lineas.append('')
 
     _send_telegram('\n'.join(lineas).strip())
