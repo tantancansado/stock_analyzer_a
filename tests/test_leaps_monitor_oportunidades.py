@@ -107,6 +107,49 @@ class TestEstadoDeEntrada:
         assert 'a &lt; b &amp; c' in env[0]
 
 
+class TestYaEntrable:
+    """El aviso salía UNA vez, al entrar en la lista. MCD entró en ESPERAR; el día
+    que pase a ENTRADA ya no es «nuevo», y ese es justo el aviso que importa."""
+
+    @staticmethod
+    def _lista_con(estado, ticker='MCD'):
+        lista = _lista(ticker)
+        lista['opportunities'][0]['entry_readiness'] = estado
+        return lista
+
+    def test_avisa_cuando_pasa_de_esperar_a_entrada(self, tmp_path):
+        sent = {}
+        _correr(tmp_path, self._lista_con('ESPERAR'), sent)
+        n, env = _correr(tmp_path, self._lista_con('ENTRADA'), sent)
+        assert n == 1
+        assert 'ya entrables' in env[0] and 'MCD' in env[0]
+
+    def test_no_repite_mientras_siga_en_entrada(self, tmp_path):
+        sent = {}
+        _correr(tmp_path, self._lista_con('ESPERAR'), sent)
+        _correr(tmp_path, self._lista_con('ENTRADA'), sent)
+        n, env = _correr(tmp_path, self._lista_con('ENTRADA'), sent)
+        assert n == 0 and not env
+
+    def test_si_vuelve_a_esperar_y_otra_vez_a_entrada_avisa_de_nuevo(self, tmp_path):
+        sent = {}
+        _correr(tmp_path, self._lista_con('ENTRADA'), sent)
+        _correr(tmp_path, self._lista_con('ESPERAR'), sent)
+        n, env = _correr(tmp_path, self._lista_con('ENTRADA'), sent)
+        assert n == 1 and 'ya entrables' in env[0]
+
+    def test_una_nueva_que_ya_entra_en_entrada_no_se_cuenta_dos_veces(self, tmp_path):
+        n, env = _correr(tmp_path, self._lista_con('ENTRADA'), {})
+        assert n == 1 and len(env) == 1
+        assert 'LEAPS nuevos' in env[0] and 'ya entrables' not in env[0]
+
+    def test_esperar_o_vigilar_no_dispara_el_aviso_de_entrada(self, tmp_path):
+        sent = {}
+        _correr(tmp_path, self._lista_con('ESPERAR'), sent)
+        n, env = _correr(tmp_path, self._lista_con('VIGILAR'), sent)
+        assert n == 0 and not env
+
+
 class TestCorreSinPosicionesAbiertas:
     """El bug de fondo: main() salía por el return temprano cuando no había
     posiciones, así que las oportunidades nuevas no llegaban a mirarse. El

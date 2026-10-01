@@ -38,6 +38,9 @@ OPORTUNIDADES = DOCS / 'leaps_opportunities.json'
 # es "aparece una oportunidad nueva", así que se avisa una vez al entrar y
 # vuelve a avisarse si desaparece y reaparece semanas después.
 CLAVE_OPORTUNIDADES = '_oportunidades_anunciadas'
+# Tickers de la lista que ya estaban en ENTRADA la última vez que se miró: avisa
+# la transición ESPERAR/VIGILAR -> ENTRADA de algo que ya se había anunciado.
+CLAVE_ENTRADA = '_oportunidades_en_entrada'
 
 ROLL_DTE        = 270     # < 9 meses → conviene rolar
 TAKE_PROFIT_PCT = 50.0
@@ -224,39 +227,10 @@ EMOJI = {'TAKE_PROFIT': '🟢', 'STOP': '🔴', 'ROLL': '🟡', 'THESIS_BREAK': 
          'DELTA_DRIFT': '🟡', 'SIN_VIGILANCIA': '⚪'}
 
 
-def alertar_oportunidades_nuevas(sent: dict) -> int:
-    """Avisa de LEAPS que ENTRAN hoy en la lista. Devuelve cuántas.
-
-    Hueco detectado el 10-sep-2026: de las tres cosas que el usuario quiere
-    por Telegram —value nuevo, LEAPS nuevos y rebotes reales— la segunda no
-    tenía alerta ninguna. `leaps_monitor` solo vigilaba posiciones ABIERTAS
-    (y no tiene ninguna), y el escaneo corre a las 18:02, seis horas después
-    del briefing diario, así que sus hallazgos no entraban en el único
-    mensaje del día. Encontraba oportunidades y no las contaba.
-    """
-    try:
-        datos = json.loads(OPORTUNIDADES.read_text())
-    except Exception as e:
-        print(f'  sin lista de oportunidades ({e})')
-        return 0
-
-    opos = datos.get('opportunities') or []
-    hoy = {str(o.get('ticker')) for o in opos if o.get('ticker')}
-    ya = set(sent.get(CLAVE_OPORTUNIDADES) or [])
-    nuevas = [o for o in opos if str(o.get('ticker')) in (hoy - ya)]
-
-    # Se guarda SIEMPRE la foto de hoy, aunque no haya nuevas: así los
-    # tickers que se caen de la lista se olvidan y pueden volver a avisar
-    # si reaparecen, en vez de quedar silenciados para siempre.
-    sent[CLAVE_OPORTUNIDADES] = sorted(hoy)
-
-    if not nuevas:
-        print(f'  {len(hoy)} oportunidades en lista · ninguna nueva')
-        return 0
-
-    nuevas.sort(key=lambda o: o.get('opportunity_score') or 0, reverse=True)
-    lineas = ['<b>🚀 LEAPS nuevos</b>', '']
-    for o in nuevas:
+def _bloque_oportunidades(titulo: str, lista: list) -> str:
+    lista = sorted(lista, key=lambda o: o.get('opportunity_score') or 0, reverse=True)
+    lineas = [f'<b>{titulo}</b>', '']
+    for o in lista:
         c = o.get('recommended_contract') or {}
         tk = html.escape(str(o.get('ticker', '?')))
         strike, exp = c.get('strike'), str(c.get('expiry', ''))[:7]
@@ -294,9 +268,57 @@ def alertar_oportunidades_nuevas(sent: dict) -> int:
             lineas.append('   ' + html.escape(linea))
         lineas.append('')
 
-    _send_telegram('\n'.join(lineas).strip())
-    print(f'  {len(nuevas)} oportunidades NUEVAS anunciadas')
-    return len(nuevas)
+    return '\n'.join(lineas).strip()
+
+
+def alertar_oportunidades_nuevas(sent: dict) -> int:
+    """Avisa de LEAPS que ENTRAN hoy en la lista. Devuelve cuántas.
+
+    Hueco detectado el 10-sep-2026: de las tres cosas que el usuario quiere
+    por Telegram —value nuevo, LEAPS nuevos y rebotes reales— la segunda no
+    tenía alerta ninguna. `leaps_monitor` solo vigilaba posiciones ABIERTAS
+    (y no tiene ninguna), y el escaneo corre a las 18:02, seis horas después
+    del briefing diario, así que sus hallazgos no entraban en el único
+    mensaje del día. Encontraba oportunidades y no las contaba.
+    """
+    try:
+        datos = json.loads(OPORTUNIDADES.read_text())
+    except Exception as e:
+        print(f'  sin lista de oportunidades ({e})')
+        return 0
+
+    opos = datos.get('opportunities') or []
+    hoy = {str(o.get('ticker')) for o in opos if o.get('ticker')}
+    ya = set(sent.get(CLAVE_OPORTUNIDADES) or [])
+    nuevas = [o for o in opos if str(o.get('ticker')) in (hoy - ya)]
+
+    # Se guarda SIEMPRE la foto de hoy, aunque no haya nuevas: así los
+    # tickers que se caen de la lista se olvidan y pueden volver a avisar
+    # si reaparecen, en vez de quedar silenciados para siempre.
+    sent[CLAVE_OPORTUNIDADES] = sorted(hoy)
+
+    # Un LEAPS que entró en ESPERAR no vuelve a ser «nuevo» el día que por fin
+    # se puede comprar, y ese es justo el aviso que importa.
+    en_entrada = {str(o.get('ticker')) for o in opos
+                  if str(o.get('entry_readiness') or '').upper() == 'ENTRADA'}
+    ya_entrada = set(sent.get(CLAVE_ENTRADA) or [])
+    ids_nuevas = {str(o.get('ticker')) for o in nuevas}
+    ahora_entrables = [o for o in opos if str(o.get('ticker')) in
+                       (en_entrada - ya_entrada - ids_nuevas)]
+    sent[CLAVE_ENTRADA] = sorted(en_entrada)
+
+    if not nuevas and not ahora_entrables:
+        print(f'  {len(hoy)} oportunidades en lista · ninguna nueva')
+        return 0
+
+    bloques = []
+    if nuevas:
+        bloques.append(_bloque_oportunidades('🚀 LEAPS nuevos', nuevas))
+    if ahora_entrables:
+        bloques.append(_bloque_oportunidades('🚀 LEAPS ya entrables', ahora_entrables))
+    _send_telegram('\n\n'.join(bloques))
+    print(f'  {len(nuevas)} oportunidades NUEVAS y {len(ahora_entrables)} ya entrables anunciadas')
+    return len(nuevas) + len(ahora_entrables)
 
 
 def main():
