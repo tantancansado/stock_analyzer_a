@@ -1,8 +1,8 @@
 {
-  "total_signals": 94,
-  "unique_tickers": 56,
-  "date_range": "2026-04-08 to 2026-09-24",
-  "active_signals": 9,
+  "total_signals": 95,
+  "unique_tickers": 57,
+  "date_range": "2026-04-08 to 2026-10-01",
+  "active_signals": 10,
   "completed_signals": 85,
   "overall": {
     "90d": {
@@ -92,7 +92,7 @@
     }
   },
   "value_strategy": {
-    "count": 82,
+    "count": 83,
     "90d": {
       "count": 27,
       "win_rate": 66.7,
@@ -173,7 +173,7 @@
       "nota": "horizonte real 1-5 d\u00edas: el 7d es la medida m\u00e1s cercana disponible, no el criterio del setup (target vs stop)"
     },
     "MEAN_REVERSION": {
-      "count": 84,
+      "count": 85,
       "7d": {
         "count": 81,
         "win_rate": 35.8,
@@ -233,8 +233,8 @@
         "ci_high": null
       }
     },
-    "edad_max_dias": 41,
-    "dias_hasta_primera_lectura": 49,
+    "edad_max_dias": 42,
+    "dias_hasta_primera_lectura": 48,
     "con_contrato": 107,
     "nota": "el contrato se sigue por su s\u00edmbolo OCC; son opciones poco l\u00edquidas, as\u00ed que un checkpoint sin cotizaci\u00f3n en 10 d\u00edas se queda vac\u00edo en vez de arrastrar un precio viejo"
   },
@@ -378,6 +378,17 @@
   "performers_horizon": "90d",
   "recent_signals": [
     {
+      "ticker": "KO",
+      "company_name": "The Coca-Cola Company",
+      "strategy": "VALUE",
+      "signal_date": "2026-10-01",
+      "signal_price": 86.08,
+      "sector": "Consumer Defensive",
+      "value_score": 59.55500000000001,
+      "days_active": 0,
+      "first_result_date": "2026-10-08"
+    },
+    {
       "ticker": "MCO",
       "company_name": "Moody's Corporation",
       "strategy": "VALUE",
@@ -385,7 +396,7 @@
       "signal_price": 473.85,
       "sector": "Financial Services",
       "value_score": 59.17999999999999,
-      "days_active": 6,
+      "days_active": 7,
       "first_result_date": "2026-10-01"
     },
     {
@@ -396,7 +407,7 @@
       "signal_price": 279.37,
       "sector": "Industrials",
       "value_score": 57.52,
-      "days_active": 9,
+      "days_active": 10,
       "first_result_date": "2026-09-28"
     },
     {
@@ -407,7 +418,7 @@
       "signal_price": 1069.78,
       "sector": "Financial Services",
       "value_score": 54.08,
-      "days_active": 11,
+      "days_active": 12,
       "first_result_date": "2026-09-26"
     },
     {
@@ -418,7 +429,7 @@
       "signal_price": 682.31,
       "sector": "Communication Services",
       "value_score": 63.72,
-      "days_active": 12,
+      "days_active": 13,
       "first_result_date": "2026-09-25"
     },
     {
@@ -429,7 +440,7 @@
       "signal_price": 59.29,
       "sector": "Energy",
       "value_score": 53.155,
-      "days_active": 12,
+      "days_active": 13,
       "first_result_date": "2026-09-25"
     },
     {
@@ -440,7 +451,7 @@
       "signal_price": 2120.58,
       "sector": "Financial Services",
       "value_score": 51.92499999999999,
-      "days_active": 12,
+      "days_active": 13,
       "first_result_date": "2026-09-25"
     },
     {
@@ -451,7 +462,7 @@
       "signal_price": 77.01,
       "sector": "Consumer Cyclical",
       "value_score": 59.09,
-      "days_active": 20,
+      "days_active": 21,
       "first_result_date": "2026-09-17"
     },
     {
@@ -462,7 +473,7 @@
       "signal_price": 314.4,
       "sector": "Industrials",
       "value_score": 59.72,
-      "days_active": 28,
+      "days_active": 29,
       "first_result_date": "2026-09-09"
     },
     {
@@ -473,11 +484,11 @@
       "signal_price": 435.84,
       "sector": "Financial Services",
       "value_score": 58.14,
-      "days_active": 29,
+      "days_active": 30,
       "first_result_date": "2026-09-08"
     }
   ],
-  "avg_max_drawdown": -2.67,
+  "avg_max_drawdown": -2.7,
   "alpha": {
     "365d": {
       "count": 0,
@@ -620,5 +631,5 @@
       "worst_alpha": -4.98
     }
   },
-  "generated_at": "2026-09-30T06:12:05.007336"
+  "generated_at": "2026-10-01T06:54:02.477729"
 }

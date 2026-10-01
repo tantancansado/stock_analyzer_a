@@ -1,32 +1,32 @@
 {
   "listas": {
     "value_opportunities": {
-      "candidatas": 77,
-      "publicadas": 72,
+      "candidatas": 75,
+      "publicadas": 71,
       "excluidos": [
         {
           "ticker": "VCISY",
           "paso": "rangos_imposibles",
-          "motivo": "DCF fuera de rango: no es una valoración, es un dato roto (visto 281.7, esperado entre -95 y 200)",
+          "motivo": "DCF fuera de rango: no es una valoración, es un dato roto (visto 290, esperado entre -95 y 200)",
           "score": 49.92
         },
         {
           "ticker": "KYCCF",
           "paso": "rangos_imposibles",
-          "motivo": "FCF yield fuera de rango: por encima del 20% suele ser divisa sin convertir (visto 327.83, esperado entre -50 y 20)",
-          "score": 47.77
+          "motivo": "FCF yield fuera de rango: por encima del 20% suele ser divisa sin convertir (visto 319.42, esperado entre -50 y 20)",
+          "score": 48.279999999999994
         },
         {
           "ticker": "KYCCF",
           "paso": "rangos_imposibles",
-          "motivo": "DCF fuera de rango: no es una valoración, es un dato roto (visto 7006.8, esperado entre -95 y 200)",
-          "score": 47.77
+          "motivo": "DCF fuera de rango: no es una valoración, es un dato roto (visto 6824.6, esperado entre -95 y 200)",
+          "score": 48.279999999999994
         },
         {
           "ticker": "KYCCF",
           "paso": "rangos_imposibles",
           "motivo": "Falta analyst_upside_pct: no se recomienda lo que no se puede evaluar",
-          "score": 47.77
+          "score": 48.279999999999994
         },
         {
           "ticker": "ERIE",
@@ -37,17 +37,11 @@
         {
           "ticker": "ASAZY",
           "paso": "rangos_imposibles",
-          "motivo": "FCF yield fuera de rango: por encima del 20% suele ser divisa sin convertir (visto 47.27, esperado entre -50 y 20)",
+          "motivo": "FCF yield fuera de rango: por encima del 20% suele ser divisa sin convertir (visto 47.59, esperado entre -50 y 20)",
           "score": 34.0
-        },
-        {
-          "ticker": "INTU",
-          "paso": "rangos_imposibles",
-          "motivo": "DCF fuera de rango: no es una valoración, es un dato roto (visto 204.8, esperado entre -95 y 200)",
-          "score": 32.400000000000006
         }
       ]
     }
   },
-  "generated_at": "2026-09-30T05:50:51Z"
+  "generated_at": "2026-10-01T06:11:10Z"
 }

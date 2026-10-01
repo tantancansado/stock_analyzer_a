@@ -1,25 +1,4 @@
 {
- "DSY.PA": {
-  "veredicto": "SIN_DATOS",
-  "resumen": "",
-  "confianza": 0,
-  "fuentes": [],
-  "fecha": "2026-09-16"
- },
- "RACE.MI": {
-  "veredicto": "SIN_DATOS",
-  "resumen": "",
-  "confianza": 0,
-  "fuentes": [],
-  "fecha": "2026-09-16"
- },
- "ASSA-B.ST": {
-  "veredicto": "SIN_DATOS",
-  "resumen": "",
-  "confianza": 0,
-  "fuentes": [],
-  "fecha": "2026-09-17"
- },
  "MKC": {
   "veredicto": "EVENTO",
   "resumen": "Recortes múltiples de guidance 2025-2026 (EPS y ventas) por presiones inflacionarias y de costos persistentes. Márgenes operativos bajo presión. Analysts reset expectations con cut targets, pero negocio de base (volúmenes, cuota) sigue intacto.",
@@ -56,54 +35,24 @@
   ],
   "fecha": "2026-09-22"
  },
- "INTU": {
-  "veredicto": "SIN_DATOS",
-  "resumen": "",
-  "confianza": 0,
-  "fuentes": [],
-  "fecha": "2026-09-16"
- },
- "NOVO-B.CO": {
-  "veredicto": "SIN_DATOS",
-  "resumen": "",
-  "confianza": 0,
-  "fuentes": [],
-  "fecha": "2026-09-16"
- },
- "WKL.AS": {
-  "veredicto": "SIN_DATOS",
-  "resumen": "",
-  "confianza": 0,
-  "fuentes": [],
-  "fecha": "2026-09-16"
- },
  "PAYX": {
-  "veredicto": "SIN_DATOS",
-  "resumen": "",
-  "confianza": 0,
-  "fuentes": [],
-  "fecha": "2026-09-17"
- },
- "OXY": {
-  "veredicto": "SIN_DATOS",
-  "resumen": "",
-  "confianza": 0,
-  "fuentes": [],
-  "fecha": "2026-09-17"
+  "veredicto": "EVENTO",
+  "resumen": "<cite index=\"12-10,12-11,12-12\">Revenue creció 6% en Q1 FY2027 versus 17% en FY2026, con Management Solutions (mayor segmento) creciendo solo 4%</cite>. <cite index=\"14-2\">Desde el 23 de septiembre de 2026, el stock cayó 16% en 10 días consecutivos</cite>, con <cite index=\"12-13\">analistas bajando p",
+  "confianza": 72,
+  "fuentes": [
+   "https://www.sec.gov/Archives/edgar/data/0000723531/000119312526280314/payx-ex99_1.htm",
+   "https://www.sec.gov/Archives/edgar/data/0000723531/000072353126000004/payx-ex99_1.htm",
+   "https://www.sec.gov/Archives/edgar/data/0000723531/000119312526382815/d112171dars.pdf",
+   "https://www.sec.gov/Archives/edgar/data/723531/000119312526126204/payx-20260228.htm"
+  ],
+  "fecha": "2026-10-01"
  },
  "MSCI": {
   "veredicto": "SIN_DATOS",
   "resumen": "",
   "confianza": 0,
   "fuentes": [],
-  "fecha": "2026-09-17"
- },
- "LIFCO-B.ST": {
-  "veredicto": "SIN_DATOS",
-  "resumen": "",
-  "confianza": 0,
-  "fuentes": [],
-  "fecha": "2026-09-17"
+  "fecha": "2026-10-01"
  },
  "GOOG": {
   "veredicto": "SIN_DATOS",
@@ -295,5 +244,41 @@
    "https://mdbbolsa.substack.com/p/mcdonalds-actualizamos-su-situacion"
   ],
   "fecha": "2026-09-28"
+ },
+ "CBOE": {
+  "veredicto": "SENTIMIENTO",
+  "resumen": "Cboe registró resultados excepcionales en Q1-Q2 2026 (crecimiento de ingresos 25-29%, EPS +45-54%) y elevó guidance significativamente. La caída obedece a rotación sectorial tras aprobación de futuros perpetuos en junio 2026 que aumentó preocupaciones competitivas, no a deterioro del negocio.",
+  "confianza": 85,
+  "fuentes": [
+   "https://www.sec.gov/Archives/edgar/data/0001374310/000162828026029103/cboe-20260501xex991.htm",
+   "https://www.sec.gov/Archives/edgar/data/0001374310/000162828026051217/cboe-20260731xex991.htm",
+   "https://www.sec.gov/Archives/edgar/data/1374310/000162828026005944/cboe-20260206xex991.htm",
+   "https://ir.cboe.com/news/news-details/2026/Cboe-Global-Markets-Reports-Results-for-First-Quarter-2026-and-Continued-Execution-of-Strategic-Realignment/default.aspx"
+  ],
+  "fecha": "2026-10-01"
+ },
+ "MANH": {
+  "veredicto": "SENTIMIENTO",
+  "resumen": "<cite index=\"2-7,2-8\">Manhattan Associates presentó resultados del Q2 2026 mejores de lo esperado (EPS ajustado $1.39 vs. estimado $1.32, ingresos $297.8M), elevó guidance parcial y mostró crecimiento saludable en ingresos nube y obligaciones de rendimiento pendientes</cite>. <cite index=\"2-2,2-3\">D",
+  "confianza": 75,
+  "fuentes": [
+   "https://ir.manh.com/financial-news",
+   "https://es.investing.com/news/analyst-ratings/da-davidson-rebaja-manhattan-associates-por-valoracion-93CH-3851187",
+   "https://mx.investing.com/news/earnings/resultados-de-manhattan-associates-puede-la-nube-sostener-el-crecimiento-93CH-3572169",
+   "https://es.investing.com/news/earnings/resultados-de-manhattan-associates-a-la-vista-puede-la-nube-sostener-el-crecimiento-93CH-3613246"
+  ],
+  "fecha": "2026-10-01"
+ },
+ "RMV.L": {
+  "veredicto": "DETERIORO",
+  "resumen": "Rightmove recortó guidance de beneficio 2026 en nov2025 (de 9% a 3-5%) por mayor inversión en IA; recortó revenue guidance en sept2026 (de 8-10% a 6-8%) por caída del mercado inmobiliario de nuevas construcciones que afecta directamente la división New Homes con desarrolladores en condiciones crític",
+  "confianza": 85,
+  "fuentes": [
+   "https://stockanalysis.com/quote/lon/RMV/",
+   "https://uk.investing.com/equities/rightmove-income-statement",
+   "https://quartr.com/companies/rightmove-plc_11370",
+   "https://uk.investing.com/equities/rightmove-financial-summary"
+  ],
+  "fecha": "2026-10-01"
  }
 }

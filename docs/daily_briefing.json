@@ -1,102 +1,44 @@
 {
-  "fecha": "2026-09-30",
-  "texto": "<b>Hoy no hay nada que comprar.</b> Ni una sola empresa de las 44 en radar pasa el filtro de precio y calidad a la vez.\n\nLo que sí toca vigilar, porque está barata pero todavía no es el momento:\n\n<b>ADSK</b> a 203$, cayendo un 33% en el año pese a tres trimestres seguidos batiendo expectativas y el free cash flow creciendo un 54%. Es puro castigo de sentimiento, no del negocio — pero el momentum sigue en contra, así que toca esperar.\n\n<b>CBOE</b> a 262$, un 29,5% por debajo de máximos, con buena rentabilidad de caja (6,9%). Sin motivo claro de la caída, así que paciencia.\n\n<b>RMD</b> a 223$, castigada por el recall de un producto (cargo de 42M$ y golpe de 75M$ en ingresos el año que viene), pero el negocio base sigue firme. Esperar a que se aclare el impacto real.\n\n<b>VRSN</b> y <b>GOOG</b> están en fase de vigilancia más temprana, sin motivo de caída identificado todavía — no hay prisa.\n\n<b>META</b> entra hoy nuevo en la lista de seguimiento.\n\nEl sistema acierta un 61,5% en el horizonte de 90 días, pero es un dato provisional — aún no hay muestra suficiente a 180 días para hablar de veredicto real. Tamaño de posición acorde.\n\n🟡 Claude: $19.94 de $20 (100%) · lo que más gasta: ai_quality_filter ($5.15)",
-  "hechos": {
-    "fecha": "2026-09-30",
-    "total_lista": 44,
-    "datos_incompletos": [],
-    "picks_nuevos": [
-      "META"
-    ],
-    "picks_que_se_van": [],
-    "comprables": [],
-    "vigilar": [
-      {
-        "ticker": "ADSK",
-        "empresa": "Autodesk, Inc.",
-        "score": 50.215,
-        "precio": 203.18,
-        "upside_analista": 51.4,
-        "upside_triangulado": 37.0,
-        "divergencia": "MEDIA",
-        "fcf_yield": 6.64,
-        "del_maximo_pct": -37.7,
-        "rs_6m": -33.23,
-        "timing": "ESPERAR",
-        "por_que_cae": "SENTIMIENTO",
-        "por_que_cae_detalle": "Autodesk ha caído ~33% en 12 meses a pesar de resultados sólidos: 3 trimestres consecutivos superando EPS, revenue creciendo 16-18% YoY, free cash flow +54% en FY26, y guidance ele"
-      },
-      {
-        "ticker": "CBOE",
-        "empresa": "Cboe Global Markets, Inc.",
-        "score": 58.05499999999999,
-        "precio": 261.75,
-        "upside_analista": 20.6,
-        "upside_triangulado": 29.0,
-        "divergencia": "",
-        "fcf_yield": 6.92,
-        "del_maximo_pct": -29.5,
-        "rs_6m": -24.52,
-        "timing": "ESPERAR",
-        "por_que_cae": "",
-        "por_que_cae_detalle": ""
-      },
-      {
-        "ticker": "RMD",
-        "empresa": "ResMed Inc.",
-        "score": 61.935,
-        "precio": 222.83,
-        "upside_analista": 12.3,
-        "upside_triangulado": 28.0,
-        "divergencia": "",
-        "fcf_yield": 5.07,
-        "del_maximo_pct": -21.8,
-        "rs_6m": -18.26,
-        "timing": "ESPERAR",
-        "por_que_cae": "EVENTO",
-        "por_que_cae_detalle": "Caída derivada del recall de Astral (FDA) anunciado en Q4 2026 (agosto): $42M de cargo y $75M de headwind de revenue en FY2027 al suspender ventas nuevas. Negocio base sigue sólido"
-      },
-      {
-        "ticker": "VRSN",
-        "empresa": "VeriSign, Inc.",
-        "score": 73.42,
-        "precio": 279.84,
-        "upside_analista": 15.9,
-        "upside_triangulado": null,
-        "divergencia": "MEDIA",
-        "fcf_yield": 4.26,
-        "del_maximo_pct": -10.4,
-        "rs_6m": -4.8,
-        "timing": "VIGILAR",
-        "por_que_cae": "",
-        "por_que_cae_detalle": ""
-      },
-      {
-        "ticker": "GOOG",
-        "empresa": "Alphabet Inc.",
-        "score": 52.97,
-        "precio": 337.32,
-        "upside_analista": 25.2,
-        "upside_triangulado": null,
-        "divergencia": "ALTA",
-        "fcf_yield": 2.28,
-        "del_maximo_pct": -16.6,
-        "rs_6m": -0.37,
-        "timing": "VIGILAR",
-        "por_que_cae": "SIN_DATOS",
-        "por_que_cae_detalle": ""
-      }
-    ],
-    "tesis_rotas": [],
-    "rotas_son_tuyas": true,
-    "regimen_cambio": null,
-    "rendimiento_sistema": {
-      "horizonte": "90d",
-      "es_horizonte_definitivo": false,
-      "nota": "A 180 días aún no hay muestra (la señal más antigua es de feb-2026); este 90d es provisional, no el veredicto",
-      "acierto_pct": 61.5,
-      "retorno_medio": 3.15,
-      "n": 39
+  "date": "2026-10-01",
+  "timestamp": "2026-10-01T06:52:12.175604",
+  "narrative": "",
+  "macro_regime": "CALM",
+  "picks_count": 8,
+  "top_picks": [
+    {
+      "ticker": "THC",
+      "sector": "Healthcare",
+      "value_score": 72.13,
+      "analyst_upside_pct": 11.4,
+      "conviction_grade": null
+    },
+    {
+      "ticker": "MSFT",
+      "sector": "Technology",
+      "value_score": 69.49,
+      "analyst_upside_pct": 12.8,
+      "conviction_grade": null
+    },
+    {
+      "ticker": "RMD",
+      "sector": "Healthcare",
+      "value_score": 65.29,
+      "analyst_upside_pct": 13.2,
+      "conviction_grade": null
+    },
+    {
+      "ticker": "KO",
+      "sector": "Consumer Defensive",
+      "value_score": 59.55500000000001,
+      "analyst_upside_pct": 10.0,
+      "conviction_grade": null
+    },
+    {
+      "ticker": "CBOE",
+      "sector": "Financial Services",
+      "value_score": 59.08,
+      "analyst_upside_pct": 14.7,
+      "conviction_grade": null
     }
-  }
+  ]
 }
