@@ -1,141 +1,81 @@
 {
-  "generated_at": "2026-09-30",
+  "generated_at": "2026-10-01",
   "alerts": [
     {
       "type": "SCORE_UP",
-      "ticker": "VRSN",
-      "company_name": "VeriSign, Inc.",
-      "sector": "Technology",
-      "score_today": 73.4,
-      "score_prev": 59.1,
-      "delta": 14.3,
-      "grade": "⭐⭐ STRONG"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "META",
-      "company_name": "Meta Platforms, Inc.",
-      "sector": "Communication Services",
-      "score_today": 60.8,
-      "score_prev": 50.4,
-      "delta": 10.4,
+      "ticker": "MSCI",
+      "company_name": "MSCI Inc.",
+      "sector": "Financial Services",
+      "score_today": 58.4,
+      "score_prev": 44.9,
+      "delta": 13.5,
       "grade": "⭐ GOOD"
     },
     {
       "type": "SCORE_UP",
-      "ticker": "VLTO",
-      "company_name": "Veralto Corporation",
-      "sector": "Industrials",
-      "score_today": 49.7,
-      "score_prev": 41.7,
-      "delta": 8.0,
-      "grade": "⚪ WEAK"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "MANH",
-      "company_name": "Manhattan Associates, Inc.",
+      "ticker": "MSFT",
+      "company_name": "Microsoft Corporation",
       "sector": "Technology",
-      "score_today": 50.5,
-      "score_prev": 42.9,
-      "delta": 7.6,
+      "score_today": 69.5,
+      "score_prev": 59.3,
+      "delta": 10.2,
+      "grade": "⭐ GOOD"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "NYT",
+      "company_name": "The New York Times Company",
+      "sector": "Communication Services",
+      "score_today": 51.9,
+      "score_prev": 43.8,
+      "delta": 8.1,
       "grade": "🔵 DECENT"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "DVA",
-      "company_name": "DaVita Inc.",
-      "sector": "Healthcare",
-      "score_today": 53.3,
-      "score_prev": 45.9,
-      "delta": 7.4,
-      "grade": "🔵 DECENT"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "THC",
-      "company_name": "Tenet Healthcare Corporation",
-      "sector": "Healthcare",
-      "score_today": 68.7,
-      "score_prev": 61.3,
-      "delta": 7.4,
-      "grade": "⭐⭐ STRONG"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "AXP",
-      "company_name": "American Express Company",
-      "sector": "Financial Services",
-      "score_today": 38.4,
-      "score_prev": 32.4,
-      "delta": 5.9,
-      "grade": "⚪ WEAK"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "7741.T",
-      "company_name": "HOYA Corporation",
-      "sector": "Healthcare",
-      "score_today": 38.8,
-      "score_prev": 33.7,
-      "delta": 5.2,
-      "grade": "⚪ WEAK"
     },
     {
       "type": "SCORE_UP",
       "ticker": "PAYX",
       "company_name": "Paychex, Inc.",
       "sector": "Technology",
-      "score_today": 46.3,
-      "score_prev": 41.1,
-      "delta": 5.2,
+      "score_today": 51.4,
+      "score_prev": 46.3,
+      "delta": 5.1,
       "grade": "🔵 DECENT"
     },
     {
       "type": "SCORE_DOWN",
-      "ticker": "MCD",
-      "company_name": "McDonald's Corporation",
-      "sector": "Consumer Cyclical",
-      "score_today": 30.7,
-      "score_prev": 37.8,
-      "delta": -7.1,
-      "grade": "⚪ WEAK"
+      "ticker": "META",
+      "company_name": "Meta Platforms, Inc.",
+      "sector": "Communication Services",
+      "score_today": 54.5,
+      "score_prev": 60.8,
+      "delta": -6.4,
+      "grade": "🔵 DECENT"
     },
     {
       "type": "SCORE_DOWN",
-      "ticker": "UNP",
-      "company_name": "Union Pacific Corporation",
+      "ticker": "VLTO",
+      "company_name": "Veralto Corporation",
       "sector": "Industrials",
-      "score_today": 34.9,
-      "score_prev": 42.2,
-      "delta": -7.3,
+      "score_today": 39.6,
+      "score_prev": 49.7,
+      "delta": -10.0,
       "grade": "⚪ WEAK"
     },
     {
       "type": "SCORE_DOWN",
-      "ticker": "MSFT",
-      "company_name": "Microsoft Corporation",
+      "ticker": "VRSN",
+      "company_name": "VeriSign, Inc.",
       "sector": "Technology",
-      "score_today": 59.3,
-      "score_prev": 70.1,
-      "delta": -10.8,
-      "grade": "🔵 DECENT"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "ICE",
-      "company_name": "Intercontinental Exchange, Inc.",
-      "sector": "Financial Services",
-      "score_today": 32.6,
-      "score_prev": 51.8,
-      "delta": -19.2,
-      "grade": "⚪ WEAK"
+      "score_today": 55.3,
+      "score_prev": 73.4,
+      "delta": -18.2,
+      "grade": "⭐ GOOD"
     }
   ],
   "counts": {
     "new_entries": 0,
     "exited": 0,
-    "score_up": 9,
-    "score_down": 4
+    "score_up": 4,
+    "score_down": 3
   }
 }
