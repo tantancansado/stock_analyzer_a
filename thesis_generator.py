@@ -10,6 +10,29 @@ import math
 from pathlib import Path
 from datetime import datetime
 
+from contexto_casa import contexto_para_prompt
+
+
+def _tesis_completa(texto) -> bool:
+    """Una tesis cortada por max_tokens acaba a media frase y sin Conclusión.
+
+    claude_chat devuelve el texto aunque se haya cortado, así que 75 de las 76
+    tesis con IA de theses.json terminaban sin veredicto y casi sin riesgos."""
+    t = (texto or '').strip()
+    return bool(t) and 'conclusi' in t.lower() and t[-1] in '.!?)*"%'
+
+
+def _tickers_publicados_us() -> set[str] | None:
+    """Los US que la web enseña (los que pasan el gate de Claude).
+
+    None = no hay lista fiable, no se restringe nada."""
+    p = Path("docs/value_opportunities_filtered.csv")
+    try:
+        t = pd.read_csv(p, usecols=['ticker'])['ticker'].astype(str).tolist()
+    except Exception:
+        return None
+    return set(t) or None
+
 
 def _fmt_fund_score(val) -> str:
     """fundamental_score para el prompt de la IA: nunca un número inventado.
@@ -37,6 +60,7 @@ class ThesisGenerator:
         self.csv_5d = None
         self.vcp_data = None
         self.ai_client = None
+        self._publicados_us = _tickers_publicados_us()
         # TIKR Pro enrichment data (optional — silently skip if missing)
         self._tikr_data: dict = {}
         tikr_path = Path("docs/tikr_earnings_data.json")
@@ -237,6 +261,11 @@ class ThesisGenerator:
             'short_percent_float': _safe_float(record.get('short_percent_float')),
             'proximity_to_52w_high': _safe_float(record.get('proximity_to_52w_high')),
             'company_name': record.get('company_name', ''),
+            '_universo': record.get('_universo'),
+            'why_cheap': record.get('why_cheap'),
+            'why_cheap_resumen': record.get('why_cheap_resumen'),
+            'entry_readiness': record.get('entry_readiness'),
+            'entry_readiness_reason': record.get('entry_readiness_reason'),
             # TIKR NTM multiples (enrichment, if available)
             'tikr_ntm_pe':          self._tikr_data.get(record.get('ticker', '').upper(), {}).get('multiples', {}).get('ntm_pe'),
             'tikr_ntm_ev_ebitda':   self._tikr_data.get(record.get('ticker', '').upper(), {}).get('multiples', {}).get('ntm_ev_ebitda'),
@@ -726,7 +755,7 @@ class ThesisGenerator:
         """Genera la narrativa/tesis escrita — adaptada al tipo de oportunidad"""
         source = row.get('_source', '5d')
         if source == 'value':
-            if self.ai_client:
+            if self.ai_client and self._merece_ia(row):
                 try:
                     return self._narrative_value_ai(row)
                 except Exception as e:
@@ -736,6 +765,14 @@ class ThesisGenerator:
             return self._narrative_momentum(row, vcp_row)
         else:
             return self._narrative_5d(row, vcp_row)
+
+    def _merece_ia(self, row) -> bool:
+        """Un US que la web no enseña (no pasó el gate) se queda con la plantilla:
+        7 tesis al día se pagaban para tickers que nadie ve."""
+        if row.get('_universo') != 'VALUE':
+            return True
+        publicados = self._publicados_us
+        return publicados is None or str(row.get('ticker', '')) in publicados
 
     def _narrative_value_ai(self, row):
         """Narrativa VALUE generada por Groq Llama — análisis real, no template"""
@@ -802,6 +839,9 @@ CONTEXTO MERCADO:
 - Bonus sector rotation: {float(row.get('tier_boost', 0) or 0):.1f}
 - Señal mean reversion: {float(row.get('mr_bonus', 0) or 0) > 0}
 {self._cerebro_context(ticker)}{self._tikr_context(ticker)}
+LO QUE LA CASA YA SABE (no lo contradigas; si la ficha muestra ESPERAR o VIGILAR, tu conclusión no puede ser comprar ya):
+{contexto_para_prompt(row)}
+
 Eres un analista de inversión value/GARP profesional (estilo Peter Lynch).
 Escribe una tesis de inversión breve y accionable en español basada EXCLUSIVAMENTE en los datos anteriores.
 
@@ -813,6 +853,8 @@ REGLAS ESTRICTAS:
 - Si hay datos TIKR Pro, úsalos para contextualizar la valoración (NTM multiples vs histórico).
 - Señala riesgos y preocupaciones, no solo lo positivo.
 - Las compras de insiders > 6 meses son menos relevantes, señálalo.
+- La causa de la caída manda sobre tu intuición: si es DETERIORO, la conclusión es evitar; si el estado de entrada es ESPERAR o VIGILAR, la conclusión es esperar (di qué falta); solo si es ENTRADA puedes decir comprar.
+- Máximo unas 300 palabras, sin tablas. Cada sección en 1-3 frases; la Conclusión SIEMPRE se escribe.
 - Tono profesional y directo. Sin hipérbole, sin emojis.
 
 ESTRUCTURA (usa **negrita** para cada sección):
@@ -824,36 +866,38 @@ ESTRUCTURA (usa **negrita** para cada sección):
 6. **Conclusión** — Veredicto claro: comprar, esperar, o evitar. Con justificación.
 """
 
-        # Prefer Claude Haiku (better quality, ~$5.5/mes); fall back to Groq
-        try:
+        def _claude():
             from groq_utils import claude_chat as _claude_chat, CLAUDE_HAIKU
-            text = _claude_chat(
+            return _claude_chat(
                 messages=[{"role": "user", "content": data_context}],
                 model=CLAUDE_HAIKU,
-                max_tokens=800,
+                max_tokens=1100,
                 temperature=0.3,
             )
-            if text:
-                return text
-        except Exception as _ce:
-            print(f"  ⚠️  Claude Haiku falló para {ticker}: {_ce} — usando Groq")
 
-        groq_chat = getattr(self, '_groq_chat', None)
-        if groq_chat:
-            response = groq_chat(
+        def _groq():
+            # Modelo de razonamiento: el razonamiento se come parte del presupuesto
+            response = self._groq_chat(
                 self.ai_client,
                 messages=[{"role": "user", "content": data_context}],
-                max_tokens=800,
+                max_tokens=1600,
                 temperature=0.3,
             )
-        else:
-            response = self.ai_client.chat.completions.create(
-                model="openai/gpt-oss-120b",  # llama-3.3-70b-versatile retirado 16-ago-2026
-                messages=[{"role": "user", "content": data_context}],
-                max_tokens=800,
-                temperature=0.3,
-            )
-        return response.choices[0].message.content
+            return response.choices[0].message.content or ''
+
+        # Europa va por Groq (política del repo: EU=Groq, US=Claude)
+        proveedores = [('Groq', _groq)] if row.get('_universo') == 'EU_VALUE' \
+            else [('Claude Haiku', _claude), ('Groq', _groq)]
+        for nombre, llamar in proveedores:
+            try:
+                text = llamar()
+            except Exception as e:
+                print(f"  ⚠️  {nombre} falló para {ticker}: {e}")
+                continue
+            if _tesis_completa(text):
+                return text
+            print(f"  ⚠️  {nombre} dejó la tesis de {ticker} cortada o sin conclusión")
+        raise ValueError('tesis con IA incompleta')
 
     def _narrative_value(self, row):
         """Narrativa para oportunidades VALUE — foco en fundamentales e insiders (template)"""
@@ -1359,6 +1403,7 @@ def main():
             try:
                 rec_dict = rec.to_dict()
                 rec_dict['_source'] = source_key
+                rec_dict['_universo'] = label
                 row_dict = gen._normalize_value_row(rec_dict, fund_row)
                 thesis = gen.generate_thesis_from_row(row_dict, vcp_row)
             except Exception as e:

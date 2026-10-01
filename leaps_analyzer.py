@@ -44,6 +44,8 @@ import pandas as pd
 import yfinance as yf
 from scipy.stats import norm
 
+from contexto_casa import contexto_para_prompt
+
 # La banda vive en value_bands y en ningún otro sitio: estaba escrita a mano
 # aquí, y el día que se mueva el corte este módulo se queda con el viejo sin
 # avisar. Lo prohíbe CLAUDE.md desde antes de que yo la hardcodeara.
@@ -1081,22 +1083,6 @@ def completar_entrada(opp: dict) -> None:
         opp['entry_readiness_reason'] = r.get('entry_readiness_reason')
 
 
-def _contexto_app_para_prompt(opp: dict) -> str:
-    """Lo que la app YA sabe de este ticker y Claude no puede saber solo."""
-    lineas = []
-    wc, resumen = opp.get('why_cheap'), opp.get('why_cheap_resumen')
-    if wc and wc != 'SIN_DATOS':
-        lineas.append(f"  Por qué ha caído (investigado con búsqueda web, es el dato bueno): "
-                      f"{wc}" + (f" — {resumen}" if resumen else ''))
-    else:
-        lineas.append("  Por qué ha caído: la casa no lo ha investigado — dilo, no lo supongas.")
-    er = opp.get('entry_readiness')
-    if er:
-        lineas.append(f"  Estado de entrada de la ACCIÓN (el que enseña la ficha): {er}"
-                      + (f" — {opp['entry_readiness_reason']}" if opp.get('entry_readiness_reason') else ''))
-    return '\n'.join(lineas)
-
-
 def _valoracion_para_prompt(opp: dict) -> str:
     """Los objetivos de la casa, en texto, para que el plan de salida los cite.
 
@@ -1179,7 +1165,7 @@ VALORACIÓN PROPIA DE LA CASA (esto es lo que tienes que usar para el objetivo d
 {_valoracion_para_prompt(opp)}
 
 LO QUE LA CASA YA SABE (úsalo en vez de conjeturar; no lo contradigas con tu memoria):
-{_contexto_app_para_prompt(opp)}
+{contexto_para_prompt(opp)}
 Reglas: la causa de la caída que figura arriba MANDA sobre cualquier suposición tuya. Si es DETERIORO el veredicto no puede ser OPORTUNIDAD. El veredicto juzga la TESIS; el estado de entrada lo enseña la app aparte, pero si es ESPERAR o VIGILAR di en 'narrative' que hoy no es momento de comprar el contrato y por qué.
 
 Responde SOLO con JSON válido (sin markdown, sin texto extra), en español:
