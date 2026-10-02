@@ -1,32 +1,26 @@
 {
   "listas": {
     "value_opportunities": {
-      "candidatas": 75,
-      "publicadas": 71,
+      "candidatas": 84,
+      "publicadas": 76,
       "excluidos": [
         {
-          "ticker": "VCISY",
+          "ticker": "KYCCF",
           "paso": "rangos_imposibles",
-          "motivo": "DCF fuera de rango: no es una valoración, es un dato roto (visto 290, esperado entre -95 y 200)",
-          "score": 49.92
+          "motivo": "FCF yield fuera de rango: por encima del 20% suele ser divisa sin convertir (visto 326.65, esperado entre -50 y 20)",
+          "score": 50.32
         },
         {
           "ticker": "KYCCF",
           "paso": "rangos_imposibles",
-          "motivo": "FCF yield fuera de rango: por encima del 20% suele ser divisa sin convertir (visto 319.42, esperado entre -50 y 20)",
-          "score": 48.279999999999994
-        },
-        {
-          "ticker": "KYCCF",
-          "paso": "rangos_imposibles",
-          "motivo": "DCF fuera de rango: no es una valoración, es un dato roto (visto 6824.6, esperado entre -95 y 200)",
-          "score": 48.279999999999994
+          "motivo": "DCF fuera de rango: no es una valoración, es un dato roto (visto 6981.1, esperado entre -95 y 200)",
+          "score": 50.32
         },
         {
           "ticker": "KYCCF",
           "paso": "rangos_imposibles",
           "motivo": "Falta analyst_upside_pct: no se recomienda lo que no se puede evaluar",
-          "score": 48.279999999999994
+          "score": 50.32
         },
         {
           "ticker": "ERIE",
@@ -37,11 +31,41 @@
         {
           "ticker": "ASAZY",
           "paso": "rangos_imposibles",
-          "motivo": "FCF yield fuera de rango: por encima del 20% suele ser divisa sin convertir (visto 47.59, esperado entre -50 y 20)",
-          "score": 34.0
+          "motivo": "FCF yield fuera de rango: por encima del 20% suele ser divisa sin convertir (visto 48.3, esperado entre -50 y 20)",
+          "score": 36.0
+        },
+        {
+          "ticker": "VCISY",
+          "paso": "rangos_imposibles",
+          "motivo": "DCF fuera de rango: no es una valoración, es un dato roto (visto 292.6, esperado entre -95 y 200)",
+          "score": 35.120000000000005
+        },
+        {
+          "ticker": "ATLKY",
+          "paso": "rangos_imposibles",
+          "motivo": "FCF yield fuera de rango: por encima del 20% suele ser divisa sin convertir (visto 26.25, esperado entre -50 y 20)",
+          "score": 32.120000000000005
+        },
+        {
+          "ticker": "DVA",
+          "paso": "verificador_ia",
+          "motivo": "target_price_dcf_upside_pct (163.8%) es absurdamente alto en comparación con rev_growth_yoy (6.0%) y peg_ratio (0.54). Un upside de 164% en un negocio que crece al 6% sugiere error severo en el modelo DCF, fallo de supuestos o error de cálculo de múltiplo.",
+          "score": 53.78
+        },
+        {
+          "ticker": "WTKWY",
+          "paso": "verificador_ia",
+          "motivo": "target_price_dcf_upside_pct (143.0%) y target_price_pe_upside_pct (143.1%) son idénticos hasta el decimal, sugiriendo error de cálculo o redondeo artificial. Además, con rev_growth_yoy (3.5%), fcf_yield (9.29%) y upside de 143% es inconsistente: un negocio que crece al 3.5% no justifica 143% de revaluación a menos que haya un cambio radical de múltiplo no sustentado en los datos mostrados. upside_requiere_verificacion=true está correcto, pero los modelos son sospechosos.",
+          "score": 50.28
+        },
+        {
+          "ticker": "AVGO",
+          "paso": "verificador_ia",
+          "motivo": "analyst_upside_pct (54.6%) es fuertemente positivo, pero target_price_dcf_upside_pct (-55.9%) es negativo, y upside_triangulated_pct (-0.6%) está cerca de cero. El DCF y analista se contradicen en el signo, pero no hay target_price_pe_upside_pct en la ficha. Sin el dato P/E, no se puede validar la triangulación ni la razón de por qué se llegó a -0.6%. Esto invalida la recomendación.",
+          "score": 49.900000000000006
         }
       ]
     }
   },
-  "generated_at": "2026-10-01T06:11:10Z"
+  "generated_at": "2026-10-02T05:54:28Z"
 }

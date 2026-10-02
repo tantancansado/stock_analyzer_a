@@ -55,39 +55,16 @@
   "fecha": "2026-10-01"
  },
  "GOOG": {
-  "veredicto": "SIN_DATOS",
-  "resumen": "",
-  "confianza": 0,
-  "fuentes": [],
-  "fecha": "2026-09-18"
- },
- "META": {
-  "veredicto": "SIN_DATOS",
-  "resumen": "",
-  "confianza": 0,
-  "fuentes": [],
-  "fecha": "2026-09-18"
- },
- "LMT": {
-  "veredicto": "SIN_DATOS",
-  "resumen": "",
-  "confianza": 0,
-  "fuentes": [],
-  "fecha": "2026-09-18"
- },
- "AUTO.L": {
-  "veredicto": "SIN_DATOS",
-  "resumen": "",
-  "confianza": 0,
-  "fuentes": [],
-  "fecha": "2026-09-18"
- },
- "GGG": {
-  "veredicto": "SIN_DATOS",
-  "resumen": "",
-  "confianza": 0,
-  "fuentes": [],
-  "fecha": "2026-09-18"
+  "veredicto": "EVENTO",
+  "resumen": "Alphabet publicó Q2 2026 sólido (ingresos +24%, Google Cloud +82%) pero el Free Cash Flow fue negativo por inversión masiva en infraestructura IA (CapEx desmesurado para 2026). El mercado castigó los resultados por preocupación sobre retorno de inversión en IA, no por deterioro operativo.",
+  "confianza": 72,
+  "fuentes": [
+   "https://www.rava.com/perfil/GOOGL",
+   "https://mx.investing.com/news/stock-market-news/alphabet-bajo-presion-googl-cae-45-en-2-dias-comprar-hoy-o-hay-mejor-opcion-3774188",
+   "https://www.bloomberglinea.com/mercados/alphabet-cae-mas-de-5-pero-wall-street-no-cree-que-sea-hora-de-vender-la-accion/",
+   "https://stockanalysis.com/stocks/goog/history/"
+  ],
+  "fecha": "2026-10-02"
  },
  "RMD": {
   "veredicto": "EVENTO",
@@ -280,5 +257,53 @@
    "https://uk.investing.com/equities/rightmove-financial-summary"
   ],
   "fecha": "2026-10-01"
+ },
+ "SAP.DE": {
+  "veredicto": "EVENTO",
+  "resumen": "Dos adquisiciones AI (Dremio, Prior Labs) completadas en julio 2026 diluyeron guidance full-year en €0.1bn por lado. Crecimiento cloud sigue fuerte (26% backlog, 25% ERP revenue) pero márgenes presionados por inversión IA y cautela macro.",
+  "confianza": 75,
+  "fuentes": [
+   "https://www.otcmarkets.com/filing/html?id=19635595&guid=ZjUXkWH9JeQ0Oth",
+   "https://news.sap.com/2026/07/sap-announces-q2-and-half-year-2026-results/",
+   "https://www.sap.com/docs/download/investors/2026/sap-2026-q2-statement.pdf",
+   "https://www.nasdaq.com/press-release/sap-quarterly-statement-q2-2026-2026-07-23"
+  ],
+  "fecha": "2026-10-02"
+ },
+ "6383.T": {
+  "veredicto": "DETERIORO",
+  "resumen": "Máximos históricos en FY2025 (dic 2025) seguidos de fallo operacional en Q2 2026: ingresos en caída 9.98% y EPS 11.36% debajo de consenso, indicando deterioro de demanda en mercados clave.",
+  "confianza": 72,
+  "fuentes": [
+   "https://quartr.com/events/daifuku-co-ltd-6383-q2-2025_F9NWvAtp",
+   "https://en.wikipedia.org/wiki/Daifuku_(company)",
+   "https://www.roic.ai/quote/6383.T",
+   "https://www.daifuku.com/ir/assets/FY2025Q3e.pdf"
+  ],
+  "fecha": "2026-10-02"
+ },
+ "SAP": {
+  "veredicto": "EVENTO",
+  "resumen": "SAP sufrió dos shocks sucesivos pero acotados: en enero 2026, guidance de cloud 2026 decepcionó expectativas (-14-15% en un día); en julio 2026, después de reportar Q2 sólido (cloud +24% constantes, cartera +27%), recortó guidance de EBIT 2026 por €100M+ en dilución de adquisiciones Dremio y Prior L",
+  "confianza": 72,
+  "fuentes": [
+   "https://es.investing.com/news/transcripts/transcripcion-del-informe-de-resultados-sap-q1-2026-muestra-resultados-mixtos-la-accion-cae-93CH-3619031",
+   "https://news.sap.com/2026/04/sap-to-announce-q1-2026-results/",
+   "https://www.megabolsa.com/2026/04/24/resultados-de-sap-en-el-primer-trimestre-mejores-de-lo-esperado/",
+   "https://www.sap.com/docs/download/investors/2026/sap-2026-q2-statement.pdf"
+  ],
+  "fecha": "2026-10-02"
+ },
+ "WM": {
+  "veredicto": "CICLICO",
+  "resumen": "La caída refleja presión cíclica en precios de commodities de reciclaje (reducción de márgenes en ese segmento) y volúmenes más débiles en Healthcare Solutions, reportados en Q2 2026 (julio 28). Sin embargo, el negocio core de recolección y disposición muestra márgenes récord, flujo de caja fuerte (",
+  "confianza": 75,
+  "fuentes": [
+   "https://www.sec.gov/Archives/edgar/data/0000823768/000110465926050425/tm2612889d1_ex99-1.htm",
+   "https://www.sec.gov/Archives/edgar/data/0000823768/000110465926087575/tm2621414d1_ex99-1.htm",
+   "https://www.sec.gov/Archives/edgar/data/823768/000110465926007476/tm264211d1_ex99-1.htm",
+   "https://finance.yahoo.com/quote/WM/earnings/WM-Q1-2026-earnings_call-548541.html"
+  ],
+  "fecha": "2026-10-02"
  }
 }

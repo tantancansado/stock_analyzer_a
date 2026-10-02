@@ -2,17 +2,17 @@
   "total_signals": 95,
   "unique_tickers": 57,
   "date_range": "2026-04-08 to 2026-10-01",
-  "active_signals": 10,
-  "completed_signals": 85,
+  "active_signals": 9,
+  "completed_signals": 86,
   "overall": {
     "90d": {
-      "count": 39,
-      "win_rate": 61.5,
-      "ci_low": 45.9,
-      "ci_high": 75.1,
-      "avg_return": 3.15,
-      "median_return": 2.93,
-      "best": 22.96,
+      "count": 44,
+      "win_rate": 63.6,
+      "ci_low": 48.9,
+      "ci_high": 76.2,
+      "avg_return": 3.71,
+      "median_return": 3.46,
+      "best": 24.67,
       "worst": -27.96
     },
     "180d": {
@@ -38,12 +38,12 @@
   },
   "long_hist_reference": {
     "90d": {
-      "count": 869,
+      "count": 870,
       "win_rate": 49.1,
       "ci_low": 45.8,
-      "ci_high": 52.5,
-      "avg_return": 1.36,
-      "median_return": -0.29,
+      "ci_high": 52.4,
+      "avg_return": 1.34,
+      "median_return": -0.3,
       "best": 57.29,
       "worst": -37.59
     },
@@ -94,16 +94,15 @@
   "value_strategy": {
     "count": 83,
     "90d": {
-      "count": 27,
-      "win_rate": 66.7,
-      "ci_low": 47.8,
-      "ci_high": 81.4,
-      "avg_return": 3.46,
-      "median_return": 3.98,
-      "best": 22.96,
+      "count": 32,
+      "win_rate": 68.8,
+      "ci_low": 51.4,
+      "ci_high": 82.0,
+      "avg_return": 4.19,
+      "median_return": 4.46,
+      "best": 24.67,
       "worst": -27.96,
-      "basis": "clean_period",
-      "nota": "muestra corta (27 se\u00f1ales): el porcentaje es orientativo, no un veredicto"
+      "basis": "clean_period"
     },
     "180d": {
       "count": 0,
@@ -173,7 +172,7 @@
       "nota": "horizonte real 1-5 d\u00edas: el 7d es la medida m\u00e1s cercana disponible, no el criterio del setup (target vs stop)"
     },
     "MEAN_REVERSION": {
-      "count": 85,
+      "count": 87,
       "7d": {
         "count": 81,
         "win_rate": 35.8,
@@ -188,7 +187,7 @@
     }
   },
   "leaps_strategy": {
-    "count": 144,
+    "count": 147,
     "subyacente": {
       "90d": {
         "count": 0,
@@ -233,9 +232,9 @@
         "ci_high": null
       }
     },
-    "edad_max_dias": 42,
-    "dias_hasta_primera_lectura": 48,
-    "con_contrato": 107,
+    "edad_max_dias": 43,
+    "dias_hasta_primera_lectura": 47,
+    "con_contrato": 110,
     "nota": "el contrato se sigue por su s\u00edmbolo OCC; son opciones poco l\u00edquidas, as\u00ed que un checkpoint sin cotizaci\u00f3n en 10 d\u00edas se queda vac\u00edo en vez de arrastrar un precio viejo"
   },
   "sector_performance": {
@@ -250,9 +249,9 @@
       "win_rate_30d": 75.0
     },
     "Financial Services": {
-      "count": 31,
-      "avg_30d": 1.2,
-      "win_rate_30d": 61.3
+      "count": 32,
+      "avg_30d": 0.82,
+      "win_rate_30d": 59.4
     },
     "Communication Services": {
       "count": 5,
@@ -282,6 +281,15 @@
   },
   "score_correlation": 0.075,
   "top_performers": [
+    {
+      "ticker": "THC",
+      "company_name": "Tenet Healthcare Corporation",
+      "strategy": "VALUE",
+      "signal_date": "2026-07-03 00:00:00",
+      "signal_price": 203.72,
+      "return_90d": 24.67,
+      "return_pct": 24.67
+    },
     {
       "ticker": "BBY",
       "company_name": "Best Buy Co., Inc.",
@@ -317,15 +325,6 @@
       "signal_price": 224.3,
       "return_90d": 20.32,
       "return_pct": 20.32
-    },
-    {
-      "ticker": "V",
-      "company_name": "Visa Inc.",
-      "strategy": "VALUE",
-      "signal_date": "2026-04-17 00:00:00",
-      "signal_price": 315.1,
-      "return_90d": 15.88,
-      "return_pct": 15.88
     }
   ],
   "worst_performers": [
@@ -348,6 +347,15 @@
       "return_pct": -21.75
     },
     {
+      "ticker": "SPGI",
+      "company_name": "S&P Global Inc.",
+      "strategy": "VALUE",
+      "signal_date": "2026-07-03 00:00:00",
+      "signal_price": 439.89,
+      "return_90d": -11.76,
+      "return_pct": -11.76
+    },
+    {
       "ticker": "PRU.L",
       "company_name": "PRUDENTIAL PLC ORD 5P",
       "strategy": "EU_VALUE",
@@ -364,15 +372,6 @@
       "signal_price": 268.6,
       "return_90d": -6.25,
       "return_pct": -6.25
-    },
-    {
-      "ticker": "JKHY",
-      "company_name": "Jack Henry & Associates, Inc.",
-      "strategy": "VALUE",
-      "signal_date": "2026-04-23 00:00:00",
-      "signal_price": 155.88,
-      "return_90d": -6.24,
-      "return_pct": -6.24
     }
   ],
   "performers_horizon": "90d",
@@ -385,7 +384,7 @@
       "signal_price": 86.08,
       "sector": "Consumer Defensive",
       "value_score": 59.55500000000001,
-      "days_active": 0,
+      "days_active": 1,
       "first_result_date": "2026-10-08"
     },
     {
@@ -396,7 +395,7 @@
       "signal_price": 473.85,
       "sector": "Financial Services",
       "value_score": 59.17999999999999,
-      "days_active": 7,
+      "days_active": 8,
       "first_result_date": "2026-10-01"
     },
     {
@@ -407,7 +406,7 @@
       "signal_price": 279.37,
       "sector": "Industrials",
       "value_score": 57.52,
-      "days_active": 10,
+      "days_active": 11,
       "first_result_date": "2026-09-28"
     },
     {
@@ -418,7 +417,7 @@
       "signal_price": 1069.78,
       "sector": "Financial Services",
       "value_score": 54.08,
-      "days_active": 12,
+      "days_active": 13,
       "first_result_date": "2026-09-26"
     },
     {
@@ -429,7 +428,7 @@
       "signal_price": 682.31,
       "sector": "Communication Services",
       "value_score": 63.72,
-      "days_active": 13,
+      "days_active": 14,
       "first_result_date": "2026-09-25"
     },
     {
@@ -440,7 +439,7 @@
       "signal_price": 59.29,
       "sector": "Energy",
       "value_score": 53.155,
-      "days_active": 13,
+      "days_active": 14,
       "first_result_date": "2026-09-25"
     },
     {
@@ -451,7 +450,7 @@
       "signal_price": 2120.58,
       "sector": "Financial Services",
       "value_score": 51.92499999999999,
-      "days_active": 13,
+      "days_active": 14,
       "first_result_date": "2026-09-25"
     },
     {
@@ -462,7 +461,7 @@
       "signal_price": 77.01,
       "sector": "Consumer Cyclical",
       "value_score": 59.09,
-      "days_active": 21,
+      "days_active": 22,
       "first_result_date": "2026-09-17"
     },
     {
@@ -473,19 +472,8 @@
       "signal_price": 314.4,
       "sector": "Industrials",
       "value_score": 59.72,
-      "days_active": 29,
-      "first_result_date": "2026-09-09"
-    },
-    {
-      "ticker": "SPGI",
-      "company_name": "S&P Global Inc.",
-      "strategy": "VALUE",
-      "signal_date": "2026-09-01",
-      "signal_price": 435.84,
-      "sector": "Financial Services",
-      "value_score": 58.14,
       "days_active": 30,
-      "first_result_date": "2026-09-08"
+      "first_result_date": "2026-09-09"
     }
   ],
   "avg_max_drawdown": -2.7,
@@ -505,20 +493,20 @@
       "avg_benchmark_return": null
     },
     "90d": {
-      "count": 39,
-      "avg_alpha": -2.12,
-      "avg_signal_return": 3.15,
-      "avg_benchmark_return": 5.27,
-      "positive_alpha_rate": 35.9,
-      "best_alpha": 19.82,
+      "count": 44,
+      "avg_alpha": -1.18,
+      "avg_signal_return": 3.71,
+      "avg_benchmark_return": 4.89,
+      "positive_alpha_rate": 40.9,
+      "best_alpha": 22.72,
       "worst_alpha": -38.85
     },
     "30d": {
-      "count": 85,
-      "avg_alpha": -2.88,
-      "avg_signal_return": -0.4,
-      "avg_benchmark_return": 2.48,
-      "positive_alpha_rate": 42.4,
+      "count": 86,
+      "avg_alpha": -2.98,
+      "avg_signal_return": -0.52,
+      "avg_benchmark_return": 2.46,
+      "positive_alpha_rate": 41.9,
       "best_alpha": 21.86,
       "worst_alpha": -21.52
     },
@@ -532,11 +520,11 @@
       "worst_alpha": -12.78
     },
     "7d": {
-      "count": 93,
-      "avg_alpha": -0.39,
-      "avg_signal_return": 0.32,
-      "avg_benchmark_return": 0.71,
-      "positive_alpha_rate": 44.1,
+      "count": 94,
+      "avg_alpha": -0.44,
+      "avg_signal_return": 0.26,
+      "avg_benchmark_return": 0.7,
+      "positive_alpha_rate": 43.6,
       "best_alpha": 11.23,
       "worst_alpha": -12.04
     }
@@ -559,20 +547,20 @@
       "worst_alpha": -57.59
     },
     "90d": {
-      "count": 142,
-      "avg_alpha": 0.82,
-      "avg_signal_return": 11.82,
-      "avg_benchmark_return": 11.0,
-      "positive_alpha_rate": 52.1,
+      "count": 143,
+      "avg_alpha": 0.71,
+      "avg_signal_return": 11.65,
+      "avg_benchmark_return": 10.94,
+      "positive_alpha_rate": 51.7,
       "best_alpha": 44.58,
       "worst_alpha": -51.85
     },
     "30d": {
-      "count": 73,
-      "avg_alpha": -3.26,
-      "avg_signal_return": -0.33,
-      "avg_benchmark_return": 2.93,
-      "positive_alpha_rate": 41.1,
+      "count": 74,
+      "avg_alpha": -3.37,
+      "avg_signal_return": -0.47,
+      "avg_benchmark_return": 2.9,
+      "positive_alpha_rate": 40.5,
       "best_alpha": 21.86,
       "worst_alpha": -21.52
     },
@@ -631,5 +619,5 @@
       "worst_alpha": -4.98
     }
   },
-  "generated_at": "2026-10-01T06:54:02.477729"
+  "generated_at": "2026-10-02T06:16:10.477345"
 }
