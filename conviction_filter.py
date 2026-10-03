@@ -998,12 +998,14 @@ def main():
             total += us_result
 
     if not args.us_only:
-        # European VALUE — use fresh curated output (fallback to filtered if missing)
-        eu_input = (
-            'docs/european_value_opportunities.csv'
-            if Path('docs/european_value_opportunities.csv').exists()
-            else 'docs/european_value_opportunities_filtered.csv'
-        )
+        # European VALUE — SOLO lo que el gate de calidad verificó, igual que
+        # US. Antes partía del escáner sin filtrar y el grado salía de otro
+        # conjunto que la lista que enseña la web: el 1-oct-2026
+        # european_value_conviction.csv tenía 11 empresas descartadas por el
+        # gate (NESN, SIKA, SGE...) y le faltaban 11 verificadas (ASML, AZN...).
+        # Cerebro y el trader de rebotes lo leen como "las europeas buenas".
+        # Sin fallback al sin-filtrar: el gate es fail-closed.
+        eu_input = 'docs/european_value_opportunities_filtered.csv'
         # EU: use grade D to keep all curated tickers with grades (table displays A/B/C/D)
         eu_result = filter_by_conviction(
             eu_input,

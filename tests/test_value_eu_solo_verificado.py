@@ -63,3 +63,35 @@ def test_la_api_europea_con_cero_verificados_devuelve_vacio(tmp_path, monkeypatc
     with ticker_api.app.test_request_context():
         resp = ticker_api.eu_value_opportunities()
     assert json.loads(resp.get_data(as_text=True))['data'] == []
+
+
+# ── el grado europeo sale de lo verificado ────────────────────────────────
+def test_el_grado_europeo_se_calcula_sobre_lo_verificado(tmp_path, monkeypatch):
+    import conviction_filter as cf
+    monkeypatch.chdir(tmp_path)
+    (tmp_path / 'docs').mkdir()
+    # El escáner sin filtrar trae NESN; el gate solo verificó ASML
+    pd.DataFrame({'ticker': ['ASML.AS', 'NESN.SW']}).to_csv(
+        'docs/european_value_opportunities.csv', index=False)
+    pd.DataFrame({'ticker': ['ASML.AS']}).to_csv(
+        'docs/european_value_opportunities_filtered.csv', index=False)
+    entradas = []
+    monkeypatch.setattr(cf, 'filter_by_conviction',
+                        lambda entrada, **kw: entradas.append(entrada) or 0)
+    monkeypatch.setattr(sys, 'argv', ['conviction_filter.py', '--european-only'])
+    cf.main()
+    assert entradas == ['docs/european_value_opportunities_filtered.csv']
+
+
+def test_sin_lista_verificada_no_se_cae_al_escaner(tmp_path, monkeypatch):
+    import conviction_filter as cf
+    monkeypatch.chdir(tmp_path)
+    (tmp_path / 'docs').mkdir()
+    pd.DataFrame({'ticker': ['NESN.SW']}).to_csv(
+        'docs/european_value_opportunities.csv', index=False)
+    entradas = []
+    monkeypatch.setattr(cf, 'filter_by_conviction',
+                        lambda entrada, **kw: entradas.append(entrada) or None)
+    monkeypatch.setattr(sys, 'argv', ['conviction_filter.py', '--european-only'])
+    cf.main()
+    assert 'docs/european_value_opportunities.csv' not in entradas
