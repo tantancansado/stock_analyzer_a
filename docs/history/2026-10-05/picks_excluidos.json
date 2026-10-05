@@ -1,0 +1,47 @@
+{
+  "listas": {
+    "value_opportunities": {
+      "candidatas": 84,
+      "publicadas": 80,
+      "excluidos": [
+        {
+          "ticker": "KYCCF",
+          "paso": "rangos_imposibles",
+          "motivo": "FCF yield fuera de rango: por encima del 20% suele ser divisa sin convertir (visto 320.15, esperado entre -50 y 20)",
+          "score": 51.034
+        },
+        {
+          "ticker": "KYCCF",
+          "paso": "rangos_imposibles",
+          "motivo": "DCF fuera de rango: no es una valoración, es un dato roto (visto 6840.3, esperado entre -95 y 200)",
+          "score": 51.034
+        },
+        {
+          "ticker": "KYCCF",
+          "paso": "rangos_imposibles",
+          "motivo": "Falta analyst_upside_pct: no se recomienda lo que no se puede evaluar",
+          "score": 51.034
+        },
+        {
+          "ticker": "VCISY",
+          "paso": "rangos_imposibles",
+          "motivo": "DCF fuera de rango: no es una valoración, es un dato roto (visto 283.3, esperado entre -95 y 200)",
+          "score": 48.92
+        },
+        {
+          "ticker": "ERIE",
+          "paso": "rangos_imposibles",
+          "motivo": "Falta analyst_upside_pct: no se recomienda lo que no se puede evaluar",
+          "score": 44.14
+        },
+        {
+          "ticker": "ASAZY",
+          "paso": "rangos_imposibles",
+          "motivo": "FCF yield fuera de rango: por encima del 20% suele ser divisa sin convertir (visto 47.48, esperado entre -50 y 20)",
+          "score": 36.0
+        }
+      ]
+    }
+  },
+  "generated_at": "2026-10-05T05:57:13Z"
+}

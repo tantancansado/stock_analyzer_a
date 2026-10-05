@@ -1,90 +1,287 @@
 {
-  "generated_at": "2026-09-29",
-  "tikr_date": "2026-09-28",
-  "prev_date": "2026-09-27",
-  "total": 5,
-  "upgrades": 0,
-  "downgrades": 0,
-  "narrative": null,
+  "generated_at": "2026-10-05",
+  "tikr_date": "2026-10-04",
+  "prev_date": "2026-09-28",
+  "total": 17,
+  "upgrades": 6,
+  "downgrades": 3,
+  "narrative": "Para un inversor value, las revisiones positivas (FDS, MKC",
   "revisions": [
     {
-      "ticker": "AMZN",
-      "company_name": "Amazon.com, Inc.",
-      "direction": "FLAT",
-      "eps_prev": 20.927,
-      "eps_curr": 20.927,
-      "eps_chg_pct": 0.0,
-      "rev_chg_pct": 0.0,
-      "analysts_prev": 0,
-      "analysts_curr": 5,
-      "analysts_delta": 5,
-      "score_adj": 3,
+      "ticker": "FDS",
+      "company_name": "FactSet Research Systems Inc.",
+      "direction": "STRONG_DOWN",
+      "eps_prev": 25.399,
+      "eps_curr": 22.59,
+      "eps_chg_pct": -11.06,
+      "rev_chg_pct": 1.55,
+      "analysts_prev": 18,
+      "analysts_curr": 18,
+      "analysts_delta": 0,
+      "score_adj": -8,
       "flags": [
-        "Analistas: +5 (0\u21925)"
+        "EPS consensus \u219311.1% (25.40\u219222.59)",
+        "Revenue estimate \u21911.5%"
       ]
     },
     {
-      "ticker": "META",
-      "company_name": "Meta Platforms, Inc.",
-      "direction": "FLAT",
-      "eps_prev": 61.262,
-      "eps_curr": 61.262,
-      "eps_chg_pct": 0.0,
-      "rev_chg_pct": 0.0,
-      "analysts_prev": 0,
-      "analysts_curr": 17,
-      "analysts_delta": 17,
-      "score_adj": 3,
+      "ticker": "MKC",
+      "company_name": "McCormick & Company, Incorporated",
+      "direction": "STRONG_UP",
+      "eps_prev": 4.167,
+      "eps_curr": 10.105,
+      "eps_chg_pct": 142.47,
+      "rev_chg_pct": 0.59,
+      "analysts_prev": 13,
+      "analysts_curr": 14,
+      "analysts_delta": 1,
+      "score_adj": 8,
       "flags": [
-        "Analistas: +17 (0\u219217)"
+        "EPS consensus \u2191142.5% (4.17\u219210.10)"
       ]
     },
     {
-      "ticker": "MANH",
-      "company_name": "Manhattan Associates, Inc.",
-      "direction": "FLAT",
-      "eps_prev": 7.08,
-      "eps_curr": 7.08,
-      "eps_chg_pct": 0.0,
-      "rev_chg_pct": 0.0,
-      "analysts_prev": 0,
+      "ticker": "CVX",
+      "company_name": "Chevron Corporation",
+      "direction": "UP",
+      "eps_prev": 30.625,
+      "eps_curr": 31.861,
+      "eps_chg_pct": 4.03,
+      "rev_chg_pct": -0.41,
+      "analysts_prev": 23,
+      "analysts_curr": 25,
+      "analysts_delta": 2,
+      "score_adj": 7,
+      "flags": [
+        "EPS consensus \u21914.0% (30.63\u219231.86)",
+        "Analistas: +2 (23\u219225)"
+      ]
+    },
+    {
+      "ticker": "RACE",
+      "company_name": "Ferrari N.V.",
+      "direction": "STRONG_UP",
+      "eps_prev": 12.71,
+      "eps_curr": 14.084,
+      "eps_chg_pct": 10.81,
+      "rev_chg_pct": 0.06,
+      "analysts_prev": 13,
+      "analysts_curr": 9,
+      "analysts_delta": -4,
+      "score_adj": 5,
+      "flags": [
+        "EPS consensus \u219110.8% (12.71\u219214.08)",
+        "Analistas: -4 (13\u21929)"
+      ]
+    },
+    {
+      "ticker": "FICO",
+      "company_name": "Fair Isaac Corporation",
+      "direction": "DOWN",
+      "eps_prev": 52.161,
+      "eps_curr": 49.75,
+      "eps_chg_pct": -4.62,
+      "rev_chg_pct": -0.78,
+      "analysts_prev": 21,
+      "analysts_curr": 21,
+      "analysts_delta": 0,
+      "score_adj": -4,
+      "flags": [
+        "EPS consensus \u21934.6% (52.16\u219249.75)"
+      ]
+    },
+    {
+      "ticker": "TEVA",
+      "company_name": "Teva Pharmaceutical Industries Limited",
+      "direction": "UP",
+      "eps_prev": 2.762,
+      "eps_curr": 2.833,
+      "eps_chg_pct": 2.59,
+      "rev_chg_pct": -0.04,
+      "analysts_prev": 12,
       "analysts_curr": 11,
-      "analysts_delta": 11,
-      "score_adj": 3,
+      "analysts_delta": -1,
+      "score_adj": 4,
       "flags": [
-        "Analistas: +11 (0\u219211)"
+        "EPS consensus \u21912.6% (2.76\u21922.83)"
       ]
     },
     {
-      "ticker": "RMD",
-      "company_name": "ResMed Inc.",
-      "direction": "FLAT",
-      "eps_prev": 11.017,
-      "eps_curr": 11.017,
-      "eps_chg_pct": 0.0,
+      "ticker": "HHH",
+      "company_name": "Howard Hughes Holdings Inc.",
+      "direction": "UP",
+      "eps_prev": 7.035,
+      "eps_curr": 7.38,
+      "eps_chg_pct": 4.9,
       "rev_chg_pct": 0.0,
       "analysts_prev": 0,
-      "analysts_curr": 19,
-      "analysts_delta": 19,
-      "score_adj": 3,
+      "analysts_curr": 0,
+      "analysts_delta": 0,
+      "score_adj": 4,
       "flags": [
-        "Analistas: +19 (0\u219219)"
+        "EPS consensus \u21914.9% (7.04\u21927.38)"
       ]
     },
     {
-      "ticker": "ADSK",
-      "company_name": "Autodesk, Inc.",
+      "ticker": "MSI",
+      "company_name": "Motorola Solutions, Inc.",
       "direction": "FLAT",
-      "eps_prev": 13.599,
-      "eps_curr": 13.599,
+      "eps_prev": 18.135,
+      "eps_curr": 18.135,
       "eps_chg_pct": 0.0,
       "rev_chg_pct": 0.0,
-      "analysts_prev": 0,
-      "analysts_curr": 36,
-      "analysts_delta": 36,
+      "analysts_prev": 14,
+      "analysts_curr": 5,
+      "analysts_delta": -9,
+      "score_adj": -3,
+      "flags": [
+        "Analistas: -9 (14\u21925)"
+      ]
+    },
+    {
+      "ticker": "TT",
+      "company_name": "Trane Technologies plc",
+      "direction": "FLAT",
+      "eps_prev": 18.682,
+      "eps_curr": 18.678,
+      "eps_chg_pct": -0.02,
+      "rev_chg_pct": 0.3,
+      "analysts_prev": 22,
+      "analysts_curr": 24,
+      "analysts_delta": 2,
       "score_adj": 3,
       "flags": [
-        "Analistas: +36 (0\u219236)"
+        "Analistas: +2 (22\u219224)"
+      ]
+    },
+    {
+      "ticker": "JNJ",
+      "company_name": "Johnson & Johnson",
+      "direction": "FLAT",
+      "eps_prev": 11.201,
+      "eps_curr": 11.073,
+      "eps_chg_pct": -1.14,
+      "rev_chg_pct": 0.07,
+      "analysts_prev": 6,
+      "analysts_curr": 9,
+      "analysts_delta": 3,
+      "score_adj": 3,
+      "flags": [
+        "Analistas: +3 (6\u21929)"
+      ]
+    },
+    {
+      "ticker": "OXY",
+      "company_name": "Occidental Petroleum Corporation",
+      "direction": "FLAT",
+      "eps_prev": 13.833,
+      "eps_curr": 13.847,
+      "eps_chg_pct": 0.1,
+      "rev_chg_pct": 0.3,
+      "analysts_prev": 20,
+      "analysts_curr": 22,
+      "analysts_delta": 2,
+      "score_adj": 3,
+      "flags": [
+        "Analistas: +2 (20\u219222)"
+      ]
+    },
+    {
+      "ticker": "QSR",
+      "company_name": "Restaurant Brands International Inc.",
+      "direction": "FLAT",
+      "eps_prev": 5.63,
+      "eps_curr": 5.63,
+      "eps_chg_pct": 0.0,
+      "rev_chg_pct": 0.03,
+      "analysts_prev": 22,
+      "analysts_curr": 25,
+      "analysts_delta": 3,
+      "score_adj": 3,
+      "flags": [
+        "Analistas: +3 (22\u219225)"
+      ]
+    },
+    {
+      "ticker": "AVGO",
+      "company_name": "Broadcom Inc.",
+      "direction": "FLAT",
+      "eps_prev": 15.68,
+      "eps_curr": 15.91,
+      "eps_chg_pct": 1.47,
+      "rev_chg_pct": 0.07,
+      "analysts_prev": 46,
+      "analysts_curr": 48,
+      "analysts_delta": 2,
+      "score_adj": 3,
+      "flags": [
+        "Analistas: +2 (46\u219248)"
+      ]
+    },
+    {
+      "ticker": "CRH",
+      "company_name": "CRH plc",
+      "direction": "FLAT",
+      "eps_prev": 9.171,
+      "eps_curr": 9.186,
+      "eps_chg_pct": 0.16,
+      "rev_chg_pct": -0.33,
+      "analysts_prev": 11,
+      "analysts_curr": 13,
+      "analysts_delta": 2,
+      "score_adj": 3,
+      "flags": [
+        "Analistas: +2 (11\u219213)"
+      ]
+    },
+    {
+      "ticker": "NUE",
+      "company_name": "Nucor Corporation",
+      "direction": "UP",
+      "eps_prev": 26.019,
+      "eps_curr": 26.712,
+      "eps_chg_pct": 2.67,
+      "rev_chg_pct": 0.0,
+      "analysts_prev": 10,
+      "analysts_curr": 7,
+      "analysts_delta": -3,
+      "score_adj": 1,
+      "flags": [
+        "EPS consensus \u21912.7% (26.02\u219226.71)",
+        "Analistas: -3 (10\u21927)"
+      ]
+    },
+    {
+      "ticker": "MLM",
+      "company_name": "Martin Marietta Materials, Inc.",
+      "direction": "DOWN",
+      "eps_prev": 32.831,
+      "eps_curr": 32.093,
+      "eps_chg_pct": -2.25,
+      "rev_chg_pct": 0.95,
+      "analysts_prev": 6,
+      "analysts_curr": 8,
+      "analysts_delta": 2,
+      "score_adj": -1,
+      "flags": [
+        "EPS consensus \u21932.2% (32.83\u219232.09)",
+        "Analistas: +2 (6\u21928)"
+      ]
+    },
+    {
+      "ticker": "PSA",
+      "company_name": "Public Storage",
+      "direction": "FLAT",
+      "eps_prev": 17.33,
+      "eps_curr": 17.33,
+      "eps_chg_pct": 0.0,
+      "rev_chg_pct": 1.84,
+      "analysts_prev": 3,
+      "analysts_curr": 4,
+      "analysts_delta": 1,
+      "score_adj": 0,
+      "flags": [
+        "Revenue estimate \u21911.8%"
       ]
     }
   ]
