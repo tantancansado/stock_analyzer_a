@@ -1,51 +1,11 @@
 {
-  "generated_at": "2026-10-05 06:57:48",
-  "scan_date": "2026-10-05 06:57:48",
-  "total_opportunities": 1,
+  "generated_at": "2026-10-06 07:34:50",
+  "scan_date": "2026-10-06 07:34:50",
+  "total_opportunities": 0,
   "strategies": {
     "oversold_bounce": 0,
-    "bull_flag_pullback": 1
+    "bull_flag_pullback": 0
   },
-  "ai_narrative": "La calidad del batch es limitada: solo",
-  "opportunities": [
-    {
-      "ticker": "SAP",
-      "company_name": "SAP SE",
-      "strategy": "Bull Flag Pullback",
-      "current_price": 208.57,
-      "rsi": 30.1,
-      "rsi_tier": "MEDIO",
-      "rally_pct": 51.3,
-      "pullback_pct": -5.9,
-      "sma_50": 206.49,
-      "sma_200": 191.84,
-      "trend": "Bullish",
-      "volume_decrease": true,
-      "reversion_score": 70,
-      "quality": "\u2b50\u2b50 MUY BUENA",
-      "entry_zone": "$204.4 - $212.74",
-      "entry_ref": 212.74,
-      "target": 221.54,
-      "techo_tecnico": 221.54,
-      "bounce_target": 221.54,
-      "bounce_usd": 8.8,
-      "bounce_pct": 4.1,
-      "stop_loss": 200.29,
-      "stop_pct": -5.9,
-      "risk_reward": 1.57,
-      "risk_reward_en_zona": 0.71,
-      "precio_sobre_zona_entrada": false,
-      "detected_date": "2026-10-05",
-      "ai_confirmation": "YES",
-      "ai_confidence": 80,
-      "ai_reason": "RSI=30.1 dentro rango",
-      "esperanza_pct": 4.52,
-      "esperanza_n": 6,
-      "esperanza_aciertos": 5,
-      "esperanza_stops": 1,
-      "esperanza_dias_mediana": 17,
-      "esperanza_muestra_ok": true,
-      "esperanza_frase": "en los 6 episodios iguales, el objetivo (+6.2%) lleg\u00f3 antes que el stop (-4.0%) 5 veces y el stop salt\u00f3 primero 1, y cuando lleg\u00f3 tard\u00f3 17 sesiones de mediana. Esperanza +4.52% por operaci\u00f3n."
-    }
-  ]
+  "ai_narrative": null,
+  "opportunities": []
 }
