@@ -10,48 +10,48 @@
       "range": "50-55"
     },
     {
-      "count": 151,
-      "win_rate": 84.8,
-      "ci_low": 78.2,
-      "ci_high": 89.6,
+      "count": 152,
+      "win_rate": 84.9,
+      "ci_low": 78.3,
+      "ci_high": 89.7,
       "avg_return": 15.82,
-      "median_return": 17.97,
+      "median_return": 17.95,
       "range": "55-60"
     },
     {
-      "count": 122,
-      "win_rate": 86.1,
-      "ci_low": 78.8,
-      "ci_high": 91.1,
-      "avg_return": 19.96,
-      "median_return": 20.23,
+      "count": 123,
+      "win_rate": 85.4,
+      "ci_low": 78.1,
+      "ci_high": 90.5,
+      "avg_return": 19.79,
+      "median_return": 20.12,
       "range": "60-65"
     },
     {
-      "count": 44,
-      "win_rate": 59.1,
-      "ci_low": 44.4,
-      "ci_high": 72.3,
-      "avg_return": 19.48,
-      "median_return": 5.28,
+      "count": 45,
+      "win_rate": 60.0,
+      "ci_low": 45.5,
+      "ci_high": 73.0,
+      "avg_return": 19.86,
+      "median_return": 6.24,
       "range": "65-70"
     },
     {
-      "count": 22,
-      "win_rate": 100.0,
-      "ci_low": 85.1,
-      "ci_high": 100.0,
-      "avg_return": 96.96,
-      "median_return": 35.29,
+      "count": 24,
+      "win_rate": 95.8,
+      "ci_low": 79.8,
+      "ci_high": 99.3,
+      "avg_return": 90.34,
+      "median_return": 34.84,
       "range": "70-75"
     },
     {
-      "count": 9,
-      "win_rate": 100.0,
-      "ci_low": 70.1,
-      "ci_high": 100.0,
-      "avg_return": 32.46,
-      "median_return": 37.62,
+      "count": 10,
+      "win_rate": 90.0,
+      "ci_low": 59.6,
+      "ci_high": 98.2,
+      "avg_return": 27.21,
+      "median_return": 37.24,
       "range": "75+"
     }
   ],
@@ -66,11 +66,11 @@
       "regime": "CONFIRMED_UPTREND"
     },
     {
-      "count": 153,
-      "win_rate": 73.2,
-      "ci_low": 65.7,
-      "ci_high": 79.6,
-      "avg_return": 10.54,
+      "count": 159,
+      "win_rate": 72.3,
+      "ci_low": 64.9,
+      "ci_high": 78.7,
+      "avg_return": 10.56,
       "median_return": 12.45,
       "regime": "CORRECTION"
     }
@@ -86,12 +86,12 @@
       "sector": "Financial Services"
     },
     {
-      "count": 51,
-      "win_rate": 90.2,
-      "ci_low": 79.0,
-      "ci_high": 95.7,
-      "avg_return": 19.55,
-      "median_return": 23.09,
+      "count": 54,
+      "win_rate": 87.0,
+      "ci_low": 75.6,
+      "ci_high": 93.6,
+      "avg_return": 19.1,
+      "median_return": 22.83,
       "sector": "Technology"
     },
     {
@@ -140,12 +140,12 @@
       "sector": "Industrials"
     },
     {
-      "count": 7,
-      "win_rate": 42.9,
-      "ci_low": 15.8,
-      "ci_high": 75.0,
-      "avg_return": 1.01,
-      "median_return": -0.66,
+      "count": 10,
+      "win_rate": 50.0,
+      "ci_low": 23.7,
+      "ci_high": 76.3,
+      "avg_return": 3.95,
+      "median_return": 7.66,
       "sector": "Consumer Cyclical"
     },
     {
@@ -187,21 +187,21 @@
       "range": "0-3%"
     },
     {
-      "count": 101,
-      "win_rate": 48.5,
-      "ci_low": 39.0,
-      "ci_high": 58.1,
-      "avg_return": 1.4,
-      "median_return": -0.39,
+      "count": 102,
+      "win_rate": 48.0,
+      "ci_low": 38.6,
+      "ci_high": 57.6,
+      "avg_return": 1.19,
+      "median_return": -0.63,
       "range": "3-6%"
     },
     {
-      "count": 48,
-      "win_rate": 91.7,
-      "ci_low": 80.4,
-      "ci_high": 96.7,
-      "avg_return": 72.21,
-      "median_return": 35.86,
+      "count": 53,
+      "win_rate": 88.7,
+      "ci_low": 77.4,
+      "ci_high": 94.7,
+      "avg_return": 67.03,
+      "median_return": 35.43,
       "range": "6-12%"
     },
     {
@@ -214,10 +214,10 @@
       "range": "12%+"
     }
   ],
-  "total_completed": 680,
+  "total_completed": 686,
   "poblacion": "VALUE US, todo el historico (incluye el periodo anterior al filtrado correcto)",
   "muestra_desde": "2026-02-26",
-  "muestra_hasta": "2026-03-24",
+  "muestra_hasta": "2026-04-08",
   "horizon": "180d",
-  "generated_at": "2026-10-05T06:37:54.273825"
+  "generated_at": "2026-10-06T07:17:01.182856"
 }

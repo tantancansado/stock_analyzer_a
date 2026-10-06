@@ -233,6 +233,12 @@
   "ok": true,
   "ticker": "APH"
  },
+ "ASML.AS|Technology|10|6|0|4|1|4|-1|151|156|32": {
+  "aviso": "",
+  "fecha": "2026-10-06T06:51:52.707286+00:00",
+  "ok": true,
+  "ticker": "ASML.AS"
+ },
  "ASML.AS|Technology|10|6|0|4|1|4|-2|151|156|32": {
   "aviso": "",
   "fecha": "2026-10-05T06:12:00.737247+00:00",
@@ -659,6 +665,12 @@
   "ok": true,
   "ticker": "COLO-B.CO"
  },
+ "COLO-B.CO|Healthcare|3|1|3|1|6|2|-8|123|126|21": {
+  "aviso": "",
+  "fecha": "2026-10-06T06:52:01.815799+00:00",
+  "ok": true,
+  "ticker": "COLO-B.CO"
+ },
  "CRH|Basic Materials|3|1|1|1|4|10|-7|91|100|24": {
   "aviso": "",
   "fecha": "2026-09-22T05:22:40.343547+00:00",
@@ -764,6 +776,12 @@
  "DB1.DE|Financial Services|4|5|1|1|4|0|-1|116|116|14": {
   "aviso": "Groq dudaba de current_price, pero la fuente lo confirma (287.30 publicado vs 287.30 real (0.0% de desv\u00edo))",
   "fecha": "2026-10-05T06:12:40.284431+00:00",
+  "ok": true,
+  "ticker": "DB1.DE"
+ },
+ "DB1.DE|Financial Services|4|5|1|1|4|0|-1|116|117|14": {
+  "aviso": "",
+  "fecha": "2026-10-06T06:51:55.895095+00:00",
   "ok": true,
   "ticker": "DB1.DE"
  },
@@ -874,6 +892,12 @@
   "fecha": "2026-09-18T05:08:25.859218+00:00",
   "ok": true,
   "ticker": "DSGX"
+ },
+ "DSY.PA|Technology|3|4|0|0|5|1|-6|62|64|20": {
+  "aviso": "BUG DE DATOS en current_price: 21.40 publicado vs 20.63 real (3.7% de desv\u00edo)",
+  "fecha": "2026-10-06T06:51:55.101928+00:00",
+  "ok": false,
+  "ticker": "DSY.PA"
  },
  "DSY.PA|Technology|3|4|0|0|5|2|-7|61|64|20": {
   "aviso": "",
@@ -1193,6 +1217,12 @@
   "ok": true,
   "ticker": "HLMA.L"
  },
+ "HLMA.L|Industrials|3|2|0|2|n/d|4|-6|167|171|17": {
+  "aviso": "",
+  "fecha": "2026-10-06T06:51:54.559317+00:00",
+  "ok": true,
+  "ticker": "HLMA.L"
+ },
  "HLMA.L|Industrials|3|2|0|2|n/d|5|-6|167|171|17": {
   "aviso": "",
   "fecha": "2026-09-28T05:55:02.897617+00:00",
@@ -1402,6 +1432,12 @@
   "fecha": "2026-09-22T05:22:16.455058+00:00",
   "ok": true,
   "ticker": "KVUE"
+ },
+ "LIFCO-B.ST|Industrials|4|2|1|2|3|1|-4|118|119|8": {
+  "aviso": "",
+  "fecha": "2026-10-06T06:51:58.369667+00:00",
+  "ok": true,
+  "ticker": "LIFCO-B.ST"
  },
  "LIFCO-B.ST|Industrials|4|2|1|2|3|1|-4|118|120|8": {
   "aviso": "",
@@ -1841,6 +1877,12 @@
   "ok": true,
   "ticker": "NOVO-B.CO"
  },
+ "NOVO-B.CO|Healthcare|11|7|1|0|3|4|-8|112|117|23": {
+  "aviso": "Groq dudaba de current_price, pero la fuente lo confirma (246.80 publicado vs 248.75 real (0.8% de desv\u00edo))",
+  "fecha": "2026-10-06T06:51:53.471620+00:00",
+  "ok": true,
+  "ticker": "NOVO-B.CO"
+ },
  "NOVO-B.CO|Healthcare|11|7|1|0|3|4|-8|113|117|23": {
   "aviso": "",
   "fecha": "2026-09-24T05:22:37.966523+00:00",
@@ -2024,6 +2066,12 @@
  "PGHN.SW|Financial Services|15|9|3|4|12|5|-10|131|136|14": {
   "aviso": "Groq dudaba de debt_to_equity, pero la fuente lo confirma (1.93 publicado vs 1.93 real (0.1% de desv\u00edo))",
   "fecha": "2026-10-01T06:28:30.848980+00:00",
+  "ok": true,
+  "ticker": "PGHN.SW"
+ },
+ "PGHN.SW|Financial Services|15|9|3|4|12|5|-9|131|136|14": {
+  "aviso": "Groq dudaba de roe, pero la fuente lo confirma (75.4 publicado vs 75.4 real (0.0pp de desv\u00edo))",
+  "fecha": "2026-10-06T06:51:54.112168+00:00",
   "ok": true,
   "ticker": "PGHN.SW"
  },
@@ -2480,6 +2528,12 @@
  "SU.PA|Industrials|3|2|1|1|3|2|-2|116|118|24": {
   "aviso": "",
   "fecha": "2026-09-24T05:23:07.644254+00:00",
+  "ok": true,
+  "ticker": "SU.PA"
+ },
+ "SU.PA|Industrials|3|2|1|1|3|3|-3|114|118|22": {
+  "aviso": "",
+  "fecha": "2026-10-06T06:51:55.498906+00:00",
   "ok": true,
   "ticker": "SU.PA"
  },

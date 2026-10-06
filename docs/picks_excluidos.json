@@ -1,19 +1,19 @@
 {
   "listas": {
     "value_opportunities": {
-      "candidatas": 84,
-      "publicadas": 80,
+      "candidatas": 81,
+      "publicadas": 77,
       "excluidos": [
         {
           "ticker": "KYCCF",
           "paso": "rangos_imposibles",
-          "motivo": "FCF yield fuera de rango: por encima del 20% suele ser divisa sin convertir (visto 320.15, esperado entre -50 y 20)",
+          "motivo": "FCF yield fuera de rango: por encima del 20% suele ser divisa sin convertir (visto 318.45, esperado entre -50 y 20)",
           "score": 51.034
         },
         {
           "ticker": "KYCCF",
           "paso": "rangos_imposibles",
-          "motivo": "DCF fuera de rango: no es una valoración, es un dato roto (visto 6840.3, esperado entre -95 y 200)",
+          "motivo": "DCF fuera de rango: no es una valoración, es un dato roto (visto 6722.1, esperado entre -95 y 200)",
           "score": 51.034
         },
         {
@@ -23,10 +23,10 @@
           "score": 51.034
         },
         {
-          "ticker": "VCISY",
+          "ticker": "ATLKY",
           "paso": "rangos_imposibles",
-          "motivo": "DCF fuera de rango: no es una valoración, es un dato roto (visto 283.3, esperado entre -95 y 200)",
-          "score": 48.92
+          "motivo": "FCF yield fuera de rango: por encima del 20% suele ser divisa sin convertir (visto 25.82, esperado entre -50 y 20)",
+          "score": 44.64
         },
         {
           "ticker": "ERIE",
@@ -37,11 +37,11 @@
         {
           "ticker": "ASAZY",
           "paso": "rangos_imposibles",
-          "motivo": "FCF yield fuera de rango: por encima del 20% suele ser divisa sin convertir (visto 47.48, esperado entre -50 y 20)",
-          "score": 36.0
+          "motivo": "FCF yield fuera de rango: por encima del 20% suele ser divisa sin convertir (visto 47.86, esperado entre -50 y 20)",
+          "score": 33.0
         }
       ]
     }
   },
-  "generated_at": "2026-10-05T05:57:13Z"
+  "generated_at": "2026-10-06T06:37:35Z"
 }

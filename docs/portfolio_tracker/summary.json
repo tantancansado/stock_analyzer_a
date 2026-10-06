@@ -6,24 +6,24 @@
   "completed_signals": 87,
   "overall": {
     "90d": {
-      "count": 44,
-      "win_rate": 63.6,
-      "ci_low": 48.9,
-      "ci_high": 76.2,
-      "avg_return": 3.71,
-      "median_return": 3.46,
+      "count": 51,
+      "win_rate": 64.7,
+      "ci_low": 51.0,
+      "ci_high": 76.4,
+      "avg_return": 3.45,
+      "median_return": 4.49,
       "best": 24.67,
       "worst": -27.96
     },
     "180d": {
-      "count": 0,
-      "win_rate": null,
-      "avg_return": null,
-      "median_return": null,
-      "best": null,
-      "worst": null,
-      "ci_low": null,
-      "ci_high": null
+      "count": 7,
+      "win_rate": 57.1,
+      "ci_low": 25.0,
+      "ci_high": 84.2,
+      "avg_return": 9.5,
+      "median_return": 15.99,
+      "best": 36.5,
+      "worst": -20.0
     },
     "365d": {
       "count": 0,
@@ -48,12 +48,12 @@
       "worst": -37.59
     },
     "180d": {
-      "count": 793,
-      "win_rate": 65.4,
-      "ci_low": 62.1,
-      "ci_high": 68.7,
-      "avg_return": 7.15,
-      "median_return": 8.96,
+      "count": 802,
+      "win_rate": 65.3,
+      "ci_low": 62.0,
+      "ci_high": 68.6,
+      "avg_return": 7.16,
+      "median_return": 8.95,
       "best": 89.88,
       "worst": -43.74
     },
@@ -94,21 +94,21 @@
   "value_strategy": {
     "count": 83,
     "90d": {
-      "count": 32,
-      "win_rate": 68.8,
-      "ci_low": 51.4,
-      "ci_high": 82.0,
-      "avg_return": 4.19,
-      "median_return": 4.46,
+      "count": 39,
+      "win_rate": 69.2,
+      "ci_low": 53.6,
+      "ci_high": 81.4,
+      "avg_return": 3.76,
+      "median_return": 4.67,
       "best": 24.67,
       "worst": -27.96,
       "basis": "clean_period"
     },
     "180d": {
-      "count": 0,
+      "count": 5,
       "win_rate": null,
       "avg_return": null,
-      "nota": "sin muestra suficiente a 180d (0 de 15) \u2014 se rellena seg\u00fan envejezcan las se\u00f1ales"
+      "nota": "sin muestra suficiente a 180d (5 de 15) \u2014 se rellena seg\u00fan envejezcan las se\u00f1ales"
     },
     "365d": {
       "count": 0,
@@ -131,12 +131,12 @@
       "basis": "eu_full_hist"
     },
     "180d": {
-      "count": 674,
+      "count": 679,
       "win_rate": 63.2,
       "ci_low": 59.5,
-      "ci_high": 66.8,
-      "avg_return": 5.23,
-      "median_return": 7.26,
+      "ci_high": 66.7,
+      "avg_return": 5.22,
+      "median_return": 7.4,
       "best": 39.33,
       "worst": -34.76,
       "basis": "eu_full_hist"
@@ -160,26 +160,26 @@
     "BOUNCE_BROAD": {
       "count": 37,
       "7d": {
-        "count": 33,
-        "win_rate": 21.2,
-        "ci_low": 10.7,
-        "ci_high": 37.8,
-        "avg_return": -1.83,
-        "median_return": -2.32,
-        "best": 4.07,
+        "count": 36,
+        "win_rate": 22.2,
+        "ci_low": 11.7,
+        "ci_high": 38.1,
+        "avg_return": -1.74,
+        "median_return": -2.36,
+        "best": 4.72,
         "worst": -6.1
       },
       "nota": "horizonte real 1-5 d\u00edas: el 7d es la medida m\u00e1s cercana disponible, no el criterio del setup (target vs stop)"
     },
     "MEAN_REVERSION": {
-      "count": 88,
+      "count": 89,
       "7d": {
-        "count": 83,
-        "win_rate": 36.1,
-        "ci_low": 26.6,
-        "ci_high": 46.9,
-        "avg_return": -2.42,
-        "median_return": -1.38,
+        "count": 84,
+        "win_rate": 36.9,
+        "ci_low": 27.4,
+        "ci_high": 47.6,
+        "avg_return": -2.34,
+        "median_return": -1.35,
         "best": 8.8,
         "worst": -14.93
       },
@@ -232,8 +232,8 @@
         "ci_high": null
       }
     },
-    "edad_max_dias": 46,
-    "dias_hasta_primera_lectura": 44,
+    "edad_max_dias": 47,
+    "dias_hasta_primera_lectura": 43,
     "con_contrato": 110,
     "nota": "el contrato se sigue por su s\u00edmbolo OCC; son opciones poco l\u00edquidas, as\u00ed que un checkpoint sin cotizaci\u00f3n en 10 d\u00edas se queda vac\u00edo en vez de arrastrar un precio viejo"
   },
@@ -282,31 +282,13 @@
   "score_correlation": 0.075,
   "top_performers": [
     {
-      "ticker": "THC",
-      "company_name": "Tenet Healthcare Corporation",
-      "strategy": "VALUE",
-      "signal_date": "2026-07-03 00:00:00",
-      "signal_price": 203.72,
-      "return_90d": 24.67,
-      "return_pct": 24.67
-    },
-    {
       "ticker": "BBY",
       "company_name": "Best Buy Co., Inc.",
       "strategy": "VALUE",
       "signal_date": "2026-04-08 00:00:00",
       "signal_price": 64.02,
-      "return_90d": 22.96,
-      "return_pct": 22.96
-    },
-    {
-      "ticker": "IAG.MC",
-      "company_name": "INTL CONSOLIDATED AIRLINES GROU",
-      "strategy": "EU_VALUE",
-      "signal_date": "2026-04-14 00:00:00",
-      "signal_price": 4.486,
-      "return_90d": 20.6,
-      "return_pct": 20.6
+      "return_180d": 36.5,
+      "return_pct": 36.5
     },
     {
       "ticker": "CPAY",
@@ -314,8 +296,17 @@
       "strategy": "VALUE",
       "signal_date": "2026-04-08 00:00:00",
       "signal_price": 296.35,
-      "return_90d": 20.5,
-      "return_pct": 20.5
+      "return_180d": 35.56,
+      "return_pct": 35.56
+    },
+    {
+      "ticker": "LOGN.SW",
+      "company_name": "LOGITECH N",
+      "strategy": "EU_VALUE",
+      "signal_date": "2026-04-08 00:00:00",
+      "signal_price": 71.1,
+      "return_180d": 18.85,
+      "return_pct": 18.85
     },
     {
       "ticker": "EXPE",
@@ -323,37 +314,28 @@
       "strategy": "VALUE",
       "signal_date": "2026-04-08 00:00:00",
       "signal_price": 224.3,
-      "return_90d": 20.32,
-      "return_pct": 20.32
-    }
-  ],
-  "worst_performers": [
+      "return_180d": 15.99,
+      "return_pct": 15.99
+    },
     {
       "ticker": "ACN",
       "company_name": "Accenture plc",
       "strategy": "VALUE",
       "signal_date": "2026-04-08 00:00:00",
       "signal_price": 197.3,
-      "return_90d": -27.96,
-      "return_pct": -27.96
-    },
+      "return_180d": -1.14,
+      "return_pct": -1.14
+    }
+  ],
+  "worst_performers": [
     {
-      "ticker": "NYT",
-      "company_name": "New York Times Company (The)",
+      "ticker": "DECK",
+      "company_name": "Deckers Outdoor Corporation",
       "strategy": "VALUE",
-      "signal_date": "2026-05-07 00:00:00",
-      "signal_price": 83.68,
-      "return_90d": -21.75,
-      "return_pct": -21.75
-    },
-    {
-      "ticker": "SPGI",
-      "company_name": "S&P Global Inc.",
-      "strategy": "VALUE",
-      "signal_date": "2026-07-03 00:00:00",
-      "signal_price": 439.89,
-      "return_90d": -11.76,
-      "return_pct": -11.76
+      "signal_date": "2026-04-08 00:00:00",
+      "signal_price": 100.26,
+      "return_180d": -20.0,
+      "return_pct": -20.0
     },
     {
       "ticker": "PRU.L",
@@ -361,20 +343,38 @@
       "strategy": "EU_VALUE",
       "signal_date": "2026-04-08 00:00:00",
       "signal_price": 1145.0,
-      "return_90d": -8.86,
-      "return_pct": -8.86
+      "return_180d": -19.24,
+      "return_pct": -19.24
     },
     {
-      "ticker": "HNR1.DE",
-      "company_name": "HANNOVER RUECK SE NA O.N.",
+      "ticker": "ACN",
+      "company_name": "Accenture plc",
+      "strategy": "VALUE",
+      "signal_date": "2026-04-08 00:00:00",
+      "signal_price": 197.3,
+      "return_180d": -1.14,
+      "return_pct": -1.14
+    },
+    {
+      "ticker": "EXPE",
+      "company_name": "Expedia Group, Inc.",
+      "strategy": "VALUE",
+      "signal_date": "2026-04-08 00:00:00",
+      "signal_price": 224.3,
+      "return_180d": 15.99,
+      "return_pct": 15.99
+    },
+    {
+      "ticker": "LOGN.SW",
+      "company_name": "LOGITECH N",
       "strategy": "EU_VALUE",
-      "signal_date": "2026-04-14 00:00:00",
-      "signal_price": 268.6,
-      "return_90d": -6.25,
-      "return_pct": -6.25
+      "signal_date": "2026-04-08 00:00:00",
+      "signal_price": 71.1,
+      "return_180d": 18.85,
+      "return_pct": 18.85
     }
   ],
-  "performers_horizon": "90d",
+  "performers_horizon": "180d",
   "recent_signals": [
     {
       "ticker": "KO",
@@ -384,7 +384,7 @@
       "signal_price": 86.08,
       "sector": "Consumer Defensive",
       "value_score": 59.55500000000001,
-      "days_active": 4,
+      "days_active": 5,
       "first_result_date": "2026-10-08"
     },
     {
@@ -395,7 +395,7 @@
       "signal_price": 473.85,
       "sector": "Financial Services",
       "value_score": 59.17999999999999,
-      "days_active": 11,
+      "days_active": 12,
       "first_result_date": "2026-10-01"
     },
     {
@@ -406,7 +406,7 @@
       "signal_price": 279.37,
       "sector": "Industrials",
       "value_score": 57.52,
-      "days_active": 14,
+      "days_active": 15,
       "first_result_date": "2026-09-28"
     },
     {
@@ -417,7 +417,7 @@
       "signal_price": 1069.78,
       "sector": "Financial Services",
       "value_score": 54.08,
-      "days_active": 16,
+      "days_active": 17,
       "first_result_date": "2026-09-26"
     },
     {
@@ -428,7 +428,7 @@
       "signal_price": 682.31,
       "sector": "Communication Services",
       "value_score": 63.72,
-      "days_active": 17,
+      "days_active": 18,
       "first_result_date": "2026-09-25"
     },
     {
@@ -439,7 +439,7 @@
       "signal_price": 59.29,
       "sector": "Energy",
       "value_score": 53.155,
-      "days_active": 17,
+      "days_active": 18,
       "first_result_date": "2026-09-25"
     },
     {
@@ -450,7 +450,7 @@
       "signal_price": 2120.58,
       "sector": "Financial Services",
       "value_score": 51.92499999999999,
-      "days_active": 17,
+      "days_active": 18,
       "first_result_date": "2026-09-25"
     },
     {
@@ -461,7 +461,7 @@
       "signal_price": 77.01,
       "sector": "Consumer Cyclical",
       "value_score": 59.09,
-      "days_active": 25,
+      "days_active": 26,
       "first_result_date": "2026-09-17"
     }
   ],
@@ -475,18 +475,20 @@
       "avg_benchmark_return": null
     },
     "180d": {
-      "count": 0,
-      "avg_alpha": null,
-      "positive_alpha_rate": null,
-      "avg_signal_return": null,
-      "avg_benchmark_return": null
+      "count": 7,
+      "avg_alpha": -1.66,
+      "avg_signal_return": 9.5,
+      "avg_benchmark_return": 11.17,
+      "positive_alpha_rate": 57.1,
+      "best_alpha": 21.31,
+      "worst_alpha": -35.2
     },
     "90d": {
-      "count": 44,
-      "avg_alpha": -1.18,
-      "avg_signal_return": 3.71,
-      "avg_benchmark_return": 4.89,
-      "positive_alpha_rate": 40.9,
+      "count": 51,
+      "avg_alpha": -1.25,
+      "avg_signal_return": 3.45,
+      "avg_benchmark_return": 4.7,
+      "positive_alpha_rate": 45.1,
       "best_alpha": 22.72,
       "worst_alpha": -38.85
     },
@@ -500,11 +502,11 @@
       "worst_alpha": -21.52
     },
     "14d": {
-      "count": 91,
+      "count": 93,
       "avg_alpha": -0.44,
-      "avg_signal_return": 0.37,
-      "avg_benchmark_return": 0.8,
-      "positive_alpha_rate": 47.3,
+      "avg_signal_return": 0.35,
+      "avg_benchmark_return": 0.79,
+      "positive_alpha_rate": 46.2,
       "best_alpha": 12.76,
       "worst_alpha": -12.78
     },
@@ -527,11 +529,11 @@
       "avg_benchmark_return": null
     },
     "180d": {
-      "count": 119,
-      "avg_alpha": 3.2,
-      "avg_signal_return": 18.02,
-      "avg_benchmark_return": 14.81,
-      "positive_alpha_rate": 64.7,
+      "count": 123,
+      "avg_alpha": 3.02,
+      "avg_signal_return": 17.85,
+      "avg_benchmark_return": 14.82,
+      "positive_alpha_rate": 64.2,
       "best_alpha": 75.56,
       "worst_alpha": -57.59
     },
@@ -554,11 +556,11 @@
       "worst_alpha": -21.52
     },
     "14d": {
-      "count": 79,
-      "avg_alpha": -0.53,
-      "avg_signal_return": 0.62,
-      "avg_benchmark_return": 1.16,
-      "positive_alpha_rate": 45.6,
+      "count": 81,
+      "avg_alpha": -0.54,
+      "avg_signal_return": 0.6,
+      "avg_benchmark_return": 1.13,
+      "positive_alpha_rate": 44.4,
       "best_alpha": 12.76,
       "worst_alpha": -12.78
     }
@@ -572,11 +574,11 @@
       "avg_benchmark_return": null
     },
     "180d": {
-      "count": 674,
-      "avg_alpha": -4.66,
-      "avg_signal_return": 5.23,
-      "avg_benchmark_return": 9.89,
-      "positive_alpha_rate": 44.7,
+      "count": 679,
+      "avg_alpha": -4.61,
+      "avg_signal_return": 5.22,
+      "avg_benchmark_return": 9.83,
+      "positive_alpha_rate": 44.8,
       "best_alpha": 31.03,
       "worst_alpha": -47.3
     },
@@ -608,5 +610,5 @@
       "worst_alpha": -4.98
     }
   },
-  "generated_at": "2026-10-05T06:37:54.262806"
+  "generated_at": "2026-10-06T07:17:01.166870"
 }
