@@ -1,181 +1,111 @@
 {
-  "generated_at": "2026-10-06",
+  "generated_at": "2026-10-07",
   "alerts": [
     {
       "type": "SCORE_UP",
-      "ticker": "ICE",
-      "company_name": "Intercontinental Exchange, Inc.",
-      "sector": "Financial Services",
-      "score_today": 54.8,
-      "score_prev": 39.8,
-      "delta": 15.0,
-      "grade": "⭐ GOOD"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "DVA",
-      "company_name": "DaVita Inc.",
-      "sector": "Healthcare",
-      "score_today": 53.0,
-      "score_prev": 43.0,
-      "delta": 10.0,
-      "grade": "🔵 DECENT"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "MA",
-      "company_name": "Mastercard Incorporated",
-      "sector": "Financial Services",
-      "score_today": 42.1,
-      "score_prev": 32.5,
-      "delta": 9.6,
-      "grade": "🔵 DECENT"
+      "ticker": "PAYX",
+      "company_name": "Paychex, Inc.",
+      "sector": "Technology",
+      "score_today": 73.4,
+      "score_prev": 52.4,
+      "delta": 21.0,
+      "grade": "⭐⭐⭐ EXCELLENT"
     },
     {
       "type": "SCORE_UP",
       "ticker": "VRSN",
       "company_name": "VeriSign, Inc.",
       "sector": "Technology",
-      "score_today": 57.5,
-      "score_prev": 48.6,
-      "delta": 8.8,
-      "grade": "⭐ GOOD"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "MSFT",
-      "company_name": "Microsoft Corporation",
-      "sector": "Technology",
-      "score_today": 78.9,
-      "score_prev": 70.3,
-      "delta": 8.6,
+      "score_today": 72.7,
+      "score_prev": 57.5,
+      "delta": 15.2,
       "grade": "⭐⭐ STRONG"
     },
     {
       "type": "SCORE_UP",
-      "ticker": "KO",
-      "company_name": "The Coca-Cola Company",
-      "sector": "Consumer Defensive",
-      "score_today": 64.2,
-      "score_prev": 57.7,
-      "delta": 6.5,
+      "ticker": "AMZN",
+      "company_name": "Amazon.com, Inc.",
+      "sector": "Consumer Cyclical",
+      "score_today": 43.8,
+      "score_prev": 31.7,
+      "delta": 12.1,
+      "grade": "⚪ WEAK"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "DVA",
+      "company_name": "DaVita Inc.",
+      "sector": "Healthcare",
+      "score_today": 60.2,
+      "score_prev": 53.0,
+      "delta": 7.2,
       "grade": "⭐ GOOD"
     },
     {
       "type": "SCORE_UP",
-      "ticker": "RACE",
-      "company_name": "Ferrari N.V.",
-      "sector": "Consumer Cyclical",
-      "score_today": 45.9,
-      "score_prev": 39.4,
-      "delta": 6.5,
-      "grade": "🔵 DECENT"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "WTKWY",
-      "company_name": "Wolters Kluwer N.V.",
-      "sector": "Industrials",
-      "score_today": 39.0,
-      "score_prev": 33.1,
-      "delta": 5.9,
-      "grade": "⚪ WEAK"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "DPZ",
-      "company_name": "Domino's Pizza, Inc.",
-      "sector": "Consumer Cyclical",
-      "score_today": 34.6,
-      "score_prev": 39.9,
-      "delta": -5.3,
-      "grade": "⚪ WEAK"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "4684.T",
-      "company_name": "OBIC Co.,Ltd.",
-      "sector": "Technology",
-      "score_today": 56.3,
-      "score_prev": 63.2,
-      "delta": -6.9,
-      "grade": "🔵 DECENT"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "AXP",
-      "company_name": "American Express Company",
-      "sector": "Financial Services",
-      "score_today": 31.4,
-      "score_prev": 39.0,
-      "delta": -7.6,
-      "grade": "⚪ WEAK"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "GGG",
-      "company_name": "Graco Inc.",
-      "sector": "Industrials",
-      "score_today": 40.1,
-      "score_prev": 48.2,
-      "delta": -8.1,
-      "grade": "⚪ WEAK"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "NYT",
-      "company_name": "The New York Times Company",
-      "sector": "Communication Services",
-      "score_today": 47.5,
-      "score_prev": 55.6,
-      "delta": -8.1,
-      "grade": "🔵 DECENT"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "LMT",
-      "company_name": "Lockheed Martin Corporation",
-      "sector": "Industrials",
-      "score_today": 36.0,
-      "score_prev": 44.9,
-      "delta": -8.9,
-      "grade": "⚪ WEAK"
-    },
-    {
-      "type": "SCORE_DOWN",
       "ticker": "THC",
       "company_name": "Tenet Healthcare Corporation",
       "sector": "Healthcare",
-      "score_today": 51.2,
-      "score_prev": 66.4,
-      "delta": -15.1,
-      "grade": "🔵 DECENT"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "PAYX",
-      "company_name": "Paychex, Inc.",
-      "sector": "Technology",
-      "score_today": 52.4,
-      "score_prev": 68.5,
-      "delta": -16.1,
+      "score_today": 58.4,
+      "score_prev": 51.2,
+      "delta": 7.2,
       "grade": "⭐ GOOD"
     },
     {
       "type": "SCORE_DOWN",
-      "ticker": "KVUE",
-      "company_name": "Kenvue Inc.",
+      "ticker": "SAP",
+      "company_name": "SAP SE",
+      "sector": "Technology",
+      "score_today": 48.8,
+      "score_prev": 54.4,
+      "delta": -5.6,
+      "grade": "🔵 DECENT"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "AVGO",
+      "company_name": "Broadcom Inc.",
+      "sector": "Technology",
+      "score_today": 47.8,
+      "score_prev": 54.3,
+      "delta": -6.5,
+      "grade": "⚪ WEAK"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "ADP",
+      "company_name": "Automatic Data Processing, Inc.",
+      "sector": "Technology",
+      "score_today": 36.3,
+      "score_prev": 44.8,
+      "delta": -8.5,
+      "grade": "⚪ WEAK"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "KO",
+      "company_name": "The Coca-Cola Company",
       "sector": "Consumer Defensive",
-      "score_today": 32.3,
-      "score_prev": 49.4,
-      "delta": -17.1,
+      "score_today": 54.7,
+      "score_prev": 64.2,
+      "delta": -9.5,
+      "grade": "🔵 DECENT"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "ICE",
+      "company_name": "Intercontinental Exchange, Inc.",
+      "sector": "Financial Services",
+      "score_today": 40.4,
+      "score_prev": 54.8,
+      "delta": -14.4,
       "grade": "⚪ WEAK"
     }
   ],
   "counts": {
     "new_entries": 0,
     "exited": 0,
-    "score_up": 8,
-    "score_down": 9
+    "score_up": 5,
+    "score_down": 5
   }
 }
