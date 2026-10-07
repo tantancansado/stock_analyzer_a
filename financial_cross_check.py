@@ -510,12 +510,21 @@ def peso_de_minoritarios_en_fcf(stock, fcf) -> float | None:
     return peso if peso >= UMBRAL_MINORITARIOS else None
 
 
-def derive_from_statements(stock, info: dict, fields: list[str] | None = None) -> tuple[dict, list[str]]:
+def derive_from_statements(stock, info: dict, fields: list[str] | None = None,
+                           fx_to_major: float | None = 1.0,
+                           fx_to_price: float = 1.0) -> tuple[dict, list[str]]:
     """Rellena campos ausentes en `info` desde los estados financieros.
 
     Devuelve (info, campos rellenados). Fuente primaria y misma divisa que el
     resto de estados — sin IA y sin estimaciones.
+
+    Los estados vienen en `financialCurrency`, que en un ADR no es la de la
+    cotización (Keyence en yenes contra un precio en dólares: FCF yield 321%).
+    `fx_to_major` los pasa a la divisa de cotización; None = sin tipo de cambio
+    fiable, y entonces no se aporta ninguna cifra monetaria en vez de inventarla.
     """
+    if fx_to_major is None:
+        return info, []
     wanted = fields or list(STATEMENT_ROWS)
     missing = [f for f in wanted if info.get(f) is None and f in STATEMENT_ROWS]
     if not missing:
@@ -532,14 +541,16 @@ def derive_from_statements(stock, info: dict, fields: list[str] | None = None) -
                 cache[stmt_name] = None
         val = _latest(cache[stmt_name], row)
         if val is not None:
-            out[field] = val
+            out[field] = val * fx_to_major
             filled.append(field)
 
     # FCF: el del estado de flujos MANDA sobre el declarado, no solo lo
     # completa. Antes esto solo rellenaba el hueco cuando faltaba, y cuando
     # estaba presente pero mal —YUM: 833M contra 1.679M reales— se usaba el
     # malo y el desajuste se quedaba en un aviso por pantalla.
-    derivado, capex_ttm = fcf_del_estado_de_flujos(stock)
+    derivado_local, capex_ttm = fcf_del_estado_de_flujos(stock)
+    derivado = derivado_local * fx_to_major if derivado_local is not None else None
+    capex_ttm = capex_ttm * fx_to_major if capex_ttm is not None else None
     if capex_ttm is not None and out.get('capitalExpenditure') is None:
         out['capitalExpenditure'] = capex_ttm
         filled.append('capitalExpenditure(TTM)')
@@ -575,7 +586,7 @@ def derive_from_statements(stock, info: dict, fields: list[str] | None = None) -
     # Reparto a socios minoritarios: el FCF que llega al accionista es el bruto
     # menos esto. `freeCashflow` se deja NETO y la fracción viaja aparte porque
     # `fcf_fiable` parte del flujo operativo y el capex, no de `freeCashflow`.
-    peso_min = peso_de_minoritarios_en_fcf(stock, derivado)
+    peso_min = peso_de_minoritarios_en_fcf(stock, derivado_local)
     if peso_min is not None:
         out['minoritariosSobreFcf'] = peso_min
         out['freeCashflow'] = derivado * (1 - peso_min)
@@ -645,6 +656,7 @@ def derive_from_statements(stock, info: dict, fields: list[str] | None = None) -
 
     bpa, motivo = bpa_normalizado(stock)
     if bpa is not None:
+        bpa *= fx_to_major * fx_to_price
         out['epsNormalizado'] = bpa
         out['epsNormalizadoMotivo'] = motivo
         filled.append(f'epsNormalizado({bpa:.2f}: {motivo})')

@@ -489,7 +489,10 @@ class FundamentalScorer:
             # primaria, misma divisa, sin preguntarle a nadie. Y cuadre contable
             # — si acciones × precio no da la capitalización, los ratios por
             # acción no sirven aunque la divisa esté bien (ADR).
-            info, _derived = derive_from_statements(stock, info)
+            info, _derived = derive_from_statements(
+                stock, info,
+                fx_to_major=fx_meta['fx_to_major'] if fx_meta.get('fx_reliable', True) else None,
+                fx_to_price=fx_meta.get('fx_to_price', 1.0))
             coherence = check_coherence(info, ticker)
 
             # Obtener datos necesarios
