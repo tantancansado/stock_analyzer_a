@@ -112,22 +112,6 @@
       "in_value": true
     },
     {
-      "ticker": "DVA",
-      "company_name": "DaVita Inc.",
-      "sector": "Healthcare",
-      "value_score": 60.16,
-      "tier": 3,
-      "tier_label": "HF+Value",
-      "n_hedge_funds": 1,
-      "hedge_funds": [
-        "Berkshire Hathaway (Buffett)"
-      ],
-      "n_insiders": 0,
-      "insider_purchases": 0,
-      "convergence_score": 33,
-      "in_value": true
-    },
-    {
       "ticker": "THC",
       "company_name": "Tenet Healthcare Corporation",
       "sector": "Healthcare",
@@ -137,6 +121,22 @@
       "n_hedge_funds": 1,
       "hedge_funds": [
         "Appaloosa (Tepper)"
+      ],
+      "n_insiders": 0,
+      "insider_purchases": 0,
+      "convergence_score": 33,
+      "in_value": true
+    },
+    {
+      "ticker": "DVA",
+      "company_name": "DaVita Inc.",
+      "sector": "Healthcare",
+      "value_score": 60.16,
+      "tier": 3,
+      "tier_label": "HF+Value",
+      "n_hedge_funds": 1,
+      "hedge_funds": [
+        "Berkshire Hathaway (Buffett)"
       ],
       "n_insiders": 0,
       "insider_purchases": 0,
@@ -176,15 +176,15 @@
       "in_value": true
     },
     {
-      "ticker": "BAC",
-      "company_name": "Bank of America Corporation",
+      "ticker": "FCNCA",
+      "company_name": "First Citizens BancShares, Inc.",
       "sector": "Financial Services",
-      "value_score": 42.475,
+      "value_score": 44.58,
       "tier": 3,
       "tier_label": "HF+Value",
       "n_hedge_funds": 1,
       "hedge_funds": [
-        "Berkshire Hathaway (Buffett)"
+        "Appaloosa (Tepper)"
       ],
       "n_insiders": 0,
       "insider_purchases": 0,
@@ -208,38 +208,6 @@
       "in_value": true
     },
     {
-      "ticker": "AMZN",
-      "company_name": "Amazon.com, Inc.",
-      "sector": "Consumer Cyclical",
-      "value_score": 43.77,
-      "tier": 3,
-      "tier_label": "HF+Value",
-      "n_hedge_funds": 1,
-      "hedge_funds": [
-        "Pershing Square (Ackman)"
-      ],
-      "n_insiders": 0,
-      "insider_purchases": 0,
-      "convergence_score": 28,
-      "in_value": true
-    },
-    {
-      "ticker": "FCNCA",
-      "company_name": "First Citizens BancShares, Inc.",
-      "sector": "Financial Services",
-      "value_score": 44.58,
-      "tier": 3,
-      "tier_label": "HF+Value",
-      "n_hedge_funds": 1,
-      "hedge_funds": [
-        "Appaloosa (Tepper)"
-      ],
-      "n_insiders": 0,
-      "insider_purchases": 0,
-      "convergence_score": 28,
-      "in_value": true
-    },
-    {
       "ticker": "MCO",
       "company_name": "Moody's Corporation",
       "sector": "Financial Services",
@@ -249,6 +217,38 @@
       "n_hedge_funds": 1,
       "hedge_funds": [
         "Berkshire Hathaway (Buffett)"
+      ],
+      "n_insiders": 0,
+      "insider_purchases": 0,
+      "convergence_score": 28,
+      "in_value": true
+    },
+    {
+      "ticker": "BAC",
+      "company_name": "Bank of America Corporation",
+      "sector": "Financial Services",
+      "value_score": 42.475,
+      "tier": 3,
+      "tier_label": "HF+Value",
+      "n_hedge_funds": 1,
+      "hedge_funds": [
+        "Berkshire Hathaway (Buffett)"
+      ],
+      "n_insiders": 0,
+      "insider_purchases": 0,
+      "convergence_score": 28,
+      "in_value": true
+    },
+    {
+      "ticker": "AMZN",
+      "company_name": "Amazon.com, Inc.",
+      "sector": "Consumer Cyclical",
+      "value_score": 43.77,
+      "tier": 3,
+      "tier_label": "HF+Value",
+      "n_hedge_funds": 1,
+      "hedge_funds": [
+        "Pershing Square (Ackman)"
       ],
       "n_insiders": 0,
       "insider_purchases": 0,

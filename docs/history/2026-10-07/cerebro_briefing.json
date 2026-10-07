@@ -1,7 +1,7 @@
 {
   "generated_at": "2026-10-07",
   "regime": "NEUTRAL",
-  "narrative": "R\u00e9gimen NEUTRAL. 1 oportunidades de entrada, 0 se\u00f1ales de salida HIGH. Sin trampas de valor relevantes.",
+  "narrative": "R\u00e9gimen NEUTRAL. 1 oportunidades de entrada, 3 se\u00f1ales de salida HIGH. Sin trampas de valor relevantes.",
   "sections": {
     "regime": "NEUTRAL",
     "strong_buy_count": 0,
@@ -41,7 +41,29 @@
       ]
     ],
     "traps_warning": [],
-    "exit_warnings": [],
+    "exit_warnings": [
+      [
+        "EXPN.L",
+        "Ya no aparece en VALUE \u2014 tesis posiblemente rota",
+        "Experian ha mantenido crecimiento de ingresos y beneficios de forma consistente, sin se\u00f1ales p\u00fablicas de deterioro fundamental hasta la fecha de corte de informaci\u00f3n.",
+        60.88499999999999,
+        null
+      ],
+      [
+        "AXP",
+        "Score cay\u00f3 25pts (57 \u2192 32)",
+        "AXP ha mantenido fundamentals s\u00f3lidos (alta calidad de cartera de clientes, crecimiento de gasto en tarjetas) sin eventos negativos mayores conocidos hasta el corte de entrenamiento, aunque el score fundamental de 62.5/100 sugiere cierta debilidad relativa que debe monitorearse.",
+        56.870000000000005,
+        31.68
+      ],
+      [
+        "AON",
+        "Ya no aparece en VALUE \u2014 tesis posiblemente rota",
+        "AON ha mantenido crecimiento estable en ingresos y m\u00e1rgenes operativos, sin se\u00f1ales p\u00fablicas recientes de guidance cuts o eventos negativos mayores hasta el corte de entrenamiento.",
+        51.13,
+        null
+      ]
+    ],
     "smart_money": [
       [
         "VRSN",

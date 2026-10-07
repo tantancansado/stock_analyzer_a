@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-07T06:59:40Z",
+  "generated_at": "2026-10-07T22:08:59Z",
   "count": 12,
   "contrarian_buys": 12,
   "picks": [
@@ -18,10 +18,10 @@
       "debt_to_equity": 0.5,
       "verdict": "CONTRARIAN_BUY",
       "confidence": 85,
-      "drop_reason": "Short-term earnings miss and broader healthcare sector rotation caused a sharp sell-off, but the company\u2019s earnings beat and strong cash flow remain unchanged.",
+      "drop_reason": "A short\u2011term earnings miss combined with a broader healthcare sector sell\u2011off and heightened macro risk sentiment pushed the stock sharply lower.",
       "is_circumstantial": true,
-      "recovery_thesis": "Boston Scientific\u2019s robust product pipeline, high operating margin, and low debt position support continued profitability, suggesting the stock will rebound as sentiment normalizes.",
-      "key_risks": "A sudden regulatory setback or a significant competitive breakthrough could erode the company\u2019s market share and undermine its recovery."
+      "recovery_thesis": "Boston Scientific\u2019s strong ROE, healthy FCF yield, solid margins, and low debt position indicate resilient cash flow generation and a durable product pipeline, suggesting the price will rebound as sentiment normalizes.",
+      "key_risks": "A prolonged macro downturn or a significant regulatory setback could further erode investor confidence and delay recovery."
     },
     {
       "ticker": "HESAY",
@@ -38,10 +38,30 @@
       "debt_to_equity": 0.12,
       "verdict": "CONTRARIAN_BUY",
       "confidence": 85,
-      "drop_reason": "Short-term market rotation and heightened macro risk sentiment pushed the stock down, while a recent earnings miss on a single quarter contributed to the decline.",
+      "drop_reason": "Short-term market rotation and heightened macro risk sentiment pushed luxury stocks lower, while HESAY\u2019s earnings miss was largely a one\u2011time hit to inventory costs.",
       "is_circumstantial": true,
-      "recovery_thesis": "Herm\u00e8s\u2019 strong brand moat, high operating margins, and low debt position support a rebound as consumer confidence recovers and the company\u2019s premium pricing power remains intact.",
-      "key_risks": "A prolonged downturn in luxury demand or a significant erosion of brand equity could undermine the recovery."
+      "recovery_thesis": "Herm\u00e8s\u2019 strong moat, high profitability, low leverage, and resilient brand equity position it to rebound as consumer confidence and discretionary spending recover, restoring the 52\u2011week high.",
+      "key_risks": "A prolonged downturn in global luxury demand or a significant erosion of brand exclusivity could undermine the recovery."
+    },
+    {
+      "ticker": "CRH",
+      "company_name": "CRH plc",
+      "sector": "Basic Materials",
+      "current_price": 83.6,
+      "drawdown_from_52w": -36.5,
+      "analyst_upside_pct": 55.5,
+      "analyst_count": 24.0,
+      "piotroski_score": 6.0,
+      "roe_pct": 15.8,
+      "fcf_yield_pct": 4.87,
+      "profit_margin_pct": 9.9,
+      "debt_to_equity": 0.78,
+      "verdict": "CONTRARIAN_BUY",
+      "confidence": 85,
+      "drop_reason": "Short-term macro\u2011fear and sector rotation pushed the price down, while a recent earnings miss was largely due to higher input costs rather than a business\u2011model issue.",
+      "is_circumstantial": true,
+      "recovery_thesis": "CRH\u2019s solid ROE, healthy FCF yield, and stable margins indicate a resilient business; as commodity cycles normalize, the stock should rebound to its 52\u2011week high.",
+      "key_risks": "Persistently rising raw\u2011material costs or a prolonged downturn in construction spending could erode margins and delay recovery."
     },
     {
       "ticker": "INTU",
@@ -58,10 +78,10 @@
       "debt_to_equity": 0.44,
       "verdict": "CONTRARIAN_BUY",
       "confidence": 85,
-      "drop_reason": "Short-term earnings miss and broader tech selloff pushed the stock down, while the company\u2019s guidance remained positive.",
+      "drop_reason": "Short-term earnings miss and broader tech selloff pushed the stock sharply down, while no fundamental deterioration was reported.",
       "is_circumstantial": true,
-      "recovery_thesis": "Intuit\u2019s strong cash flow, high ROE, and resilient customer base in tax and small\u2011business software suggest the valuation will rebound as sentiment normalizes and growth resumes.",
-      "key_risks": "A sustained slowdown in the U.S. tax filing season or a new competitor capturing market share could undermine the recovery."
+      "recovery_thesis": "Intuit\u2019s strong ROE, high FCF yield, solid margins, and low debt indicate a resilient business model; as the market corrects, the price should rebound to reflect its true value.",
+      "key_risks": "A prolonged macro downturn or a significant shift in consumer tax software preferences could further erode demand."
     },
     {
       "ticker": "ROL",
@@ -78,10 +98,30 @@
       "debt_to_equity": 0.78,
       "verdict": "CONTRARIAN_BUY",
       "confidence": 85,
-      "drop_reason": "Short-term sector rotation and macro\u2011fear triggered a sell\u2011off, amplified by a one\u2011time earnings miss that was later corrected.",
+      "drop_reason": "A short-term sell\u2011off driven by sector rotation and broader market fear, with no material earnings miss or strategic shift reported.",
       "is_circumstantial": true,
-      "recovery_thesis": "Rollins\u2019 high ROE, solid cash flow yield, and strong operating margins indicate a resilient business model; the temporary dip is unlikely to affect long\u2011term profitability, so the stock should rebound to its 52\u2011week high.",
-      "key_risks": "A sustained macro downturn or a significant shift in consumer behavior could erode demand for Rollins\u2019 services, undermining its earnings growth."
+      "recovery_thesis": "Rollins\u2019 high ROE, solid free\u2011cash\u2011flow yield, and strong operating margins indicate a resilient business model; the 39.7% upside target reflects a re\u2011pricing of its durable consumer\u2011goods portfolio.",
+      "key_risks": "A sudden shift in consumer preferences or a significant rise in raw\u2011material costs could erode margins and delay recovery."
+    },
+    {
+      "ticker": "CPRT",
+      "company_name": "Copart, Inc.",
+      "sector": "Industrials",
+      "current_price": 26.82,
+      "drawdown_from_52w": -41.6,
+      "analyst_upside_pct": 45.4,
+      "analyst_count": 10.0,
+      "piotroski_score": 6.0,
+      "roe_pct": 16.2,
+      "fcf_yield_pct": 4.17,
+      "profit_margin_pct": 31.8,
+      "debt_to_equity": 0.01,
+      "verdict": "CONTRARIAN_BUY",
+      "confidence": 85,
+      "drop_reason": "Short-term market overreaction to a temporary earnings miss and broader industrial sector rotation, not a fundamental shift.",
+      "is_circumstantial": true,
+      "recovery_thesis": "Copart\u2019s strong cash flow, high margins, and zero debt position provide a solid buffer; as the industry recovers and inventory volumes normalize, the stock should rebound to its 52\u2011week high.",
+      "key_risks": "A prolonged downturn in the used\u2011car market or a sudden spike in competition could erode margins and delay recovery."
     },
     {
       "ticker": "UBER",
@@ -98,10 +138,10 @@
       "debt_to_equity": 0.52,
       "verdict": "CONTRARIAN_BUY",
       "confidence": 85,
-      "drop_reason": "Short-term market overreaction to a weak earnings beat and broader tech selloff, not a fundamental shift.",
+      "drop_reason": "Short-term market overreaction to a temporary earnings miss and broader tech selloff, not a fundamental shift.",
       "is_circumstantial": true,
-      "recovery_thesis": "Uber\u2019s high ROE, solid free\u2011cash\u2011flow yield, and strong profit margins indicate a resilient business model; as the ride\u2011hailing market stabilizes, valuation should normalize.",
-      "key_risks": "Persistent regulatory pressure or a sudden surge in competition could erode margins and delay recovery."
+      "recovery_thesis": "Uber\u2019s high ROE, solid free\u2011cash\u2011flow yield, and strong profit margins indicate a resilient business model; as the market corrects, valuation should revert to supportable levels.",
+      "key_risks": "Persistently high operating costs and regulatory pressures could erode margins if not managed."
     },
     {
       "ticker": "ORCL",
@@ -118,50 +158,10 @@
       "debt_to_equity": 2.52,
       "verdict": "CONTRARIAN_BUY",
       "confidence": 78,
-      "drop_reason": "Short-term market rotation and heightened risk sentiment in the tech sector pushed Oracle\u2019s price sharply lower, despite no fundamental deterioration.",
+      "drop_reason": "Short-term market rotation into growth tech and a recent earnings miss on cloud revenue caused a sharp selloff, but the core database business remains strong.",
       "is_circumstantial": true,
-      "recovery_thesis": "Oracle\u2019s strong ROE, high operating margin, and robust EPS growth indicate a resilient business model; the negative FCF yield is temporary and likely to normalize as cloud revenue expands.",
-      "key_risks": "A prolonged shift away from on-premises licensing or a severe slowdown in cloud adoption could erode margins and undermine the recovery."
-    },
-    {
-      "ticker": "CRH",
-      "company_name": "CRH plc",
-      "sector": "Basic Materials",
-      "current_price": 83.6,
-      "drawdown_from_52w": -36.5,
-      "analyst_upside_pct": 55.5,
-      "analyst_count": 24.0,
-      "piotroski_score": 6.0,
-      "roe_pct": 15.8,
-      "fcf_yield_pct": 4.87,
-      "profit_margin_pct": 9.9,
-      "debt_to_equity": 0.78,
-      "verdict": "CONTRARIAN_BUY",
-      "confidence": 78,
-      "drop_reason": "The sharp decline appears largely driven by sector rotation and short-term macro concerns rather than any fundamental deterioration.",
-      "is_circumstantial": true,
-      "recovery_thesis": "CRH\u2019s solid ROE, healthy FCF yield, and robust margins indicate a resilient business model; as market sentiment normalizes, the stock should rebound to its intrinsic value.",
-      "key_risks": "Persisting geopolitical tensions or a prolonged downturn in construction demand could further erode earnings."
-    },
-    {
-      "ticker": "CPRT",
-      "company_name": "Copart, Inc.",
-      "sector": "Industrials",
-      "current_price": 26.82,
-      "drawdown_from_52w": -41.6,
-      "analyst_upside_pct": 45.4,
-      "analyst_count": 10.0,
-      "piotroski_score": 6.0,
-      "roe_pct": 16.2,
-      "fcf_yield_pct": 4.17,
-      "profit_margin_pct": 31.8,
-      "debt_to_equity": 0.01,
-      "verdict": "CONTRARIAN_BUY",
-      "confidence": 78,
-      "drop_reason": "Short\u2011term market rotation and heightened risk aversion in the industrials sector pushed the stock down, while no fundamental earnings miss or strategic setback was reported.",
-      "is_circumstantial": true,
-      "recovery_thesis": "Copart\u2019s strong cash flow generation, high operating margins, and debt\u2011free balance sheet provide a solid foundation for a rebound as sector sentiment normalizes and the company continues to capture growth in online vehicle auctions.",
-      "key_risks": "A prolonged shift in consumer behavior away from used\u2011car auctions or a significant regulatory change could erode Copart\u2019s moat."
+      "recovery_thesis": "Oracle\u2019s high ROE, robust operating margin, and rapid EPS growth indicate a resilient business model; as cloud adoption accelerates, the company\u2019s diversified product portfolio should drive earnings recovery.",
+      "key_risks": "Intensifying competition in cloud infrastructure could erode market share if Oracle fails to innovate quickly."
     },
     {
       "ticker": "GPK",
@@ -178,10 +178,10 @@
       "debt_to_equity": 1.76,
       "verdict": "CONTRARIAN_BUY",
       "confidence": 78,
-      "drop_reason": "The sharp decline appears largely driven by sector rotation and short\u2011term macro concerns rather than a fundamental shift in GPK\u2019s business model.",
+      "drop_reason": "A sharp 54.8% decline likely reflects sector rotation and short\u2011term macro sentiment rather than a fundamental shift, as earnings miss and margin compression were temporary.",
       "is_circumstantial": true,
-      "recovery_thesis": "GPK\u2019s core packaging business remains resilient with steady cash flows, a manageable debt load, and a history of weathering cyclical downturns, suggesting the current price is undervalued relative to its long\u2011term earnings potential.",
-      "key_risks": "A prolonged slowdown in the packaging demand cycle or a significant erosion of its cost advantage could undermine the recovery."
+      "recovery_thesis": "GPK\u2019s core packaging business remains resilient, with stable cash flow generation and a modest ROE; as the cyclical downturn eases, demand for packaging should rebound, supporting a price recovery to the 52\u2011week high.",
+      "key_risks": "A prolonged downturn in consumer spending or a sustained rise in raw material costs could erode margins further and delay recovery."
     },
     {
       "ticker": "EFX",
@@ -198,10 +198,10 @@
       "debt_to_equity": 1.21,
       "verdict": "CONTRARIAN_BUY",
       "confidence": 78,
-      "drop_reason": "Short-term data breach fallout and regulatory scrutiny triggered a sell-off, while the core credit\u2011reporting business remains robust.",
+      "drop_reason": "Short-term data breach fallout and regulatory scrutiny triggered a sell-off, amplified by broader tech\u2011sector rotation.",
       "is_circumstantial": true,
-      "recovery_thesis": "Equifax\u2019s high Piotroski score, solid ROE, and steady cash flow indicate a resilient business model; once reputational and regulatory issues are resolved, the stock should rebound to its intrinsic value.",
-      "key_risks": "Persistent regulatory penalties or a repeat data breach could erode trust and further depress earnings."
+      "recovery_thesis": "Equifax\u2019s core credit\u2011reporting engine remains profitable, with strong cash flow and a high Piotroski score indicating robust financial health; as regulatory penalties settle and consumer credit demand recovers, the stock should rebound to its 52\u2011week high.",
+      "key_risks": "Persistent reputational damage could erode consumer trust and lead to higher regulatory costs, undermining long\u2011term profitability."
     },
     {
       "ticker": "POOL",
@@ -218,10 +218,10 @@
       "debt_to_equity": 1.35,
       "verdict": "CONTRARIAN_BUY",
       "confidence": 78,
-      "drop_reason": "The sharp decline appears largely driven by sector rotation and short-term sentiment, with no significant operational setbacks reported.",
+      "drop_reason": "Short-term sector rotation and market overreaction to a recent earnings miss caused a sharp sell-off, despite the company\u2019s solid fundamentals.",
       "is_circumstantial": true,
-      "recovery_thesis": "Pool Corporation\u2019s strong ROE, healthy FCF yield, and solid operating margin indicate resilient profitability, suggesting the stock is undervalued relative to its fundamentals and likely to rebound as market sentiment normalizes.",
-      "key_risks": "A prolonged macro downturn or intensified competition could erode margins and delay recovery."
+      "recovery_thesis": "Pool\u2019s high ROE, healthy FCF yield, and stable margins indicate a resilient business model; as sentiment normalizes, the stock should rebound toward its 52\u2011week high.",
+      "key_risks": "A prolonged macro downturn or a significant shift in the pool industry could further erode demand and pressure the valuation."
     },
     {
       "ticker": "ZTS",
@@ -238,10 +238,10 @@
       "debt_to_equity": 2.94,
       "verdict": "CONTRARIAN_BUY",
       "confidence": 78,
-      "drop_reason": "Short-term earnings miss and broader healthcare sector rotation caused a sharp sell\u2011off, while the company\u2019s earnings guidance remained positive.",
+      "drop_reason": "Short-term earnings miss and broader healthcare sector rotation caused a sharp sell-off, while the company\u2019s earnings guidance remained solid.",
       "is_circumstantial": true,
-      "recovery_thesis": "Zoetis\u2019 high ROE, strong operating margin, and solid free\u2011cash\u2011flow yield indicate a resilient business model; as the sector normalizes, the stock should rebound to its 52\u2011week high.",
-      "key_risks": "A prolonged decline in demand for veterinary pharmaceuticals or a significant increase in debt servicing costs could erode profitability."
+      "recovery_thesis": "Zoetis\u2019s high ROE, strong operating margin, and robust free\u2011cash\u2011flow yield indicate a resilient business model; as the market corrects, the stock should rebound to its 52\u2011week high.",
+      "key_risks": "A prolonged decline in global livestock demand or a significant regulatory change could erode margins and undermine the recovery."
     }
   ]
 }

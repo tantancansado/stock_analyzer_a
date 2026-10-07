@@ -1,44 +1,76 @@
 {
-  "date": "2026-10-07",
-  "timestamp": "2026-10-07T06:35:33.837646",
-  "narrative": "",
-  "macro_regime": "CALM",
-  "picks_count": 8,
-  "top_picks": [
-    {
-      "ticker": "PAYX",
-      "sector": "Technology",
-      "value_score": 73.375,
-      "analyst_upside_pct": 12.8,
-      "conviction_grade": null
-    },
-    {
-      "ticker": "VRSN",
-      "sector": "Technology",
-      "value_score": 72.715,
-      "analyst_upside_pct": 10.7,
-      "conviction_grade": null
-    },
-    {
-      "ticker": "RMD",
-      "sector": "Healthcare",
-      "value_score": 55.635000000000005,
-      "analyst_upside_pct": 13.4,
-      "conviction_grade": null
-    },
-    {
-      "ticker": "KO",
-      "sector": "Consumer Defensive",
-      "value_score": 54.7,
-      "analyst_upside_pct": 9.6,
-      "conviction_grade": null
-    },
-    {
-      "ticker": "4684.T",
-      "sector": "Technology",
-      "value_score": 53.69,
-      "analyst_upside_pct": 8.2,
-      "conviction_grade": null
+  "fecha": "2026-10-07",
+  "texto": "<b>Hoy sí hay algo que comprar: VeriSign (VRSN)</b>, a 293,1$. Está un 6,2% por debajo de máximos, cotiza barata (rentabilidad por caja del 4%) y los analistas le ven un 10,7% de subida. Es entrada ahora, no para esperar.\n\nPara vigilar, dos que están baratas pero todavía no entran:\n- <b>ResMed (RMD)</b>, a 220,69$, un 22,5% por debajo de máximos. No tengo el motivo de la caída, así que mejor esperar confirmación antes de moverte.\n- <b>Paychex (PAYX)</b>, a 101$, un 21,8% por debajo de máximos. La caída tiene explicación de negocio: su crecimiento se ha frenado en seco (del 17% al 6% interanual), con su división más grande (Management Solutions) creciendo solo un 4%. Toca esperar a que se vea si es un bache o algo más serio.\n\nCambios respecto a ayer: PAYX entra en la lista (la de arriba), y KO y 4684.T salen de ella.\n\nRecordatorio de tamaño: con el histórico a 180 días, el sistema acierta un 57% de las veces y deja un 9,5% de media cuando acierta. Son solo 7 casos, así que no apuestes el tamaño completo por esto.",
+  "hechos": {
+    "fecha": "2026-10-07",
+    "total_lista": 20,
+    "datos_incompletos": [],
+    "picks_nuevos": [
+      "PAYX"
+    ],
+    "picks_que_se_van": [
+      "4684.T",
+      "KO"
+    ],
+    "comprables": [
+      {
+        "ticker": "VRSN",
+        "empresa": "VeriSign, Inc.",
+        "score": 72.715,
+        "precio": 293.1,
+        "upside_analista": 10.7,
+        "upside_triangulado": null,
+        "divergencia": "MEDIA",
+        "fcf_yield": 4.07,
+        "del_maximo_pct": -6.2,
+        "rs_6m": -7.03,
+        "timing": "ENTRADA",
+        "por_que_cae": "",
+        "por_que_cae_detalle": ""
+      }
+    ],
+    "vigilar": [
+      {
+        "ticker": "RMD",
+        "empresa": "ResMed Inc.",
+        "score": 55.635000000000005,
+        "precio": 220.69,
+        "upside_analista": 13.4,
+        "upside_triangulado": 32.4,
+        "divergencia": "",
+        "fcf_yield": 5.25,
+        "del_maximo_pct": -22.5,
+        "rs_6m": -19.61,
+        "timing": "ESPERAR",
+        "por_que_cae": "SIN_DATOS",
+        "por_que_cae_detalle": ""
+      },
+      {
+        "ticker": "PAYX",
+        "empresa": "Paychex, Inc.",
+        "score": 73.375,
+        "precio": 101.02,
+        "upside_analista": 12.8,
+        "upside_triangulado": 13.9,
+        "divergencia": "",
+        "fcf_yield": 5.61,
+        "del_maximo_pct": -21.8,
+        "rs_6m": -0.82,
+        "timing": "ESPERAR",
+        "por_que_cae": "EVENTO",
+        "por_que_cae_detalle": "<cite index=\"12-10,12-11,12-12\">Revenue creció 6% en Q1 FY2027 versus 17% en FY2026, con Management Solutions (mayor segmento) creciendo solo 4%</cite>. <cite index=\"14-2\">Desde el"
+      }
+    ],
+    "tesis_rotas": [],
+    "rotas_son_tuyas": true,
+    "regimen_cambio": null,
+    "rendimiento_sistema": {
+      "horizonte": "180d",
+      "es_horizonte_definitivo": true,
+      "nota": null,
+      "acierto_pct": 57.1,
+      "retorno_medio": 9.5,
+      "n": 7
     }
-  ]
+  }
 }

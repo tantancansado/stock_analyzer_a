@@ -1,6 +1,6 @@
 {
   "generated_at": "2026-10-07",
-  "total_convergences": 14,
+  "total_convergences": 11,
   "triple_or_more": 1,
   "convergences": [
     {
@@ -22,7 +22,7 @@
       "streak_days": 13,
       "earnings_warning": false,
       "days_to_earnings": 21.0,
-      "analysis": "La coincidencia de los tres enfoques (VALUE, OPTIONS y MOMENTUM) durante 13 d\u00edas seguidos indica que diferentes m\u00e9tricas \u2013fundamentales, de volatilidad impl\u00edcita y de tendencia\u2013 est\u00e1n alineadas, lo que refuerza la se\u00f1al de un posible impulso alcista y reduce la probabilidad de un sesgo aislado. Sin embargo, es prudente vigilar la volatilidad del mercado y los niveles de soporte clave, ya que una reversi\u00f3n brusca"
+      "analysis": "La coincidencia de los indicadores\u202fVALUE,\u202fOPTIONS\u202fy\u202fMOMENTUM"
     },
     {
       "ticker": "VRSN",
@@ -42,7 +42,7 @@
       "streak_days": 27,
       "earnings_warning": false,
       "days_to_earnings": 15.0,
-      "analysis": "La convergencia de las estrategias VALUE e INSIDERS durante 27 d\u00edas consecutivos sugiere que el precio est\u00e1 aline\u00e1ndose con una valoraci\u00f3n fundamental s\u00f3lida y con la opini\u00f3n de insiders, lo que aumenta la probabilidad de que el activo est\u00e9 subvaluado. No obstante, es prudente"
+      "analysis": "La coincidencia de la se\u00f1al VALUE (con un upside estimado del\u202f10,7"
     },
     {
       "ticker": "MSCI",
@@ -62,7 +62,7 @@
       "streak_days": 8,
       "earnings_warning": false,
       "days_to_earnings": 13.0,
-      "analysis": "La convergencia de la estrategia VALUE con compras de insiders durante 8 d\u00edas consecut"
+      "analysis": "La convergencia de VALUE e INSIDERS en 8 d\u00edas consecutivos sugiere que tanto el an\u00e1lisis fundamental como la actividad de los insiders est\u00e1n alineados en una se\u00f1al de compra, lo que aumenta la probabilidad de que el precio se mueva a la baja. Sin embargo, es prud"
     },
     {
       "ticker": "ETN",
@@ -85,26 +85,6 @@
       "analysis": null
     },
     {
-      "ticker": "KO",
-      "company_name": "The Coca-Cola Company",
-      "sector": "Consumer Defensive",
-      "strategies": [
-        "VALUE",
-        "OPTIONS"
-      ],
-      "strategy_count": 2,
-      "convergence_score": 60,
-      "value_score": 54.7,
-      "conviction_grade": "nan",
-      "analyst_upside_pct": 9.6,
-      "fcf_yield_pct": 3.84,
-      "current_price": 86.17,
-      "streak_days": 13,
-      "earnings_warning": false,
-      "days_to_earnings": 20.0,
-      "analysis": null
-    },
-    {
       "ticker": "CME",
       "company_name": "",
       "sector": "",
@@ -120,26 +100,6 @@
       "fcf_yield_pct": null,
       "current_price": null,
       "streak_days": 5,
-      "earnings_warning": false,
-      "days_to_earnings": null,
-      "analysis": null
-    },
-    {
-      "ticker": "LIN",
-      "company_name": "",
-      "sector": "",
-      "strategies": [
-        "INSIDERS",
-        "OPTIONS"
-      ],
-      "strategy_count": 2,
-      "convergence_score": 60,
-      "value_score": null,
-      "conviction_grade": "",
-      "analyst_upside_pct": null,
-      "fcf_yield_pct": null,
-      "current_price": null,
-      "streak_days": 3,
       "earnings_warning": false,
       "days_to_earnings": null,
       "analysis": null
@@ -182,26 +142,6 @@
       "streak_days": 2,
       "earnings_warning": false,
       "days_to_earnings": 21.0,
-      "analysis": null
-    },
-    {
-      "ticker": "SYK",
-      "company_name": "",
-      "sector": "",
-      "strategies": [
-        "INSIDERS",
-        "OPTIONS"
-      ],
-      "strategy_count": 2,
-      "convergence_score": 50,
-      "value_score": null,
-      "conviction_grade": "",
-      "analyst_upside_pct": null,
-      "fcf_yield_pct": null,
-      "current_price": null,
-      "streak_days": 2,
-      "earnings_warning": false,
-      "days_to_earnings": null,
       "analysis": null
     },
     {

@@ -6,56 +6,56 @@
   "exits": [
     {
       "ticker": "EXPN.L",
-      "severity": "MEDIUM",
+      "severity": "HIGH",
       "entry_score": 60.88499999999999,
       "current_score": null,
       "signal_date": "2026-08-21",
       "reasons": [
-        "Ya no aparece en VALUE \u2014 tesis posiblemente rota",
-        "IA: falso positivo con 85% confianza \u2014 Expensify ha mantenido un crecimiento s\u00f3lido de ingresos y una fuerte generaci\u00f3n de flujo de caja libre, por lo que la ausencia de la etiqueta 'VALUE' se debe probablemente a una revalorizaci\u00f3n del precio que reduce el margen de seguridad, no a una deterioraci\u00f3n fundamental."
+        "Ya no aparece en VALUE \u2014 tesis posiblemente rota"
       ],
       "fundamental_score": null,
       "ai_validation": {
         "verdict": "FALSE_POSITIVE",
-        "confidence": 85,
-        "summary": "Expensify ha mantenido un crecimiento s\u00f3lido de ingresos y una fuerte generaci\u00f3n de flujo de caja libre, por lo que la ausencia de la etiqueta 'VALUE' se debe probablemente a una revalorizaci\u00f3n del precio que reduce el margen de seguridad, no a una deterioraci\u00f3n fundamental.",
-        "key_finding": "La empresa sigue reportando crecimientos de ingresos superiores al 20% y m\u00e1rgenes operativos positivos, sin se\u00f1ales de quiebre en la tesis de inversi\u00f3n."
+        "confidence": 62,
+        "summary": "Experian (EXPN.L) es una empresa con fundamentos hist\u00f3ricamente s\u00f3lidos y crecimiento constante; la salida de la lista VALUE probablemente se debe a una revalorizaci\u00f3n del precio que redujo el margen de upside, no a un deterioro del negocio. No hay evidencia de ca\u00edda de beneficios, recortes de gu\u00edas o esc\u00e1ndalos recientes conocidos hasta mi corte de entrenamiento.",
+        "key_finding": "Experian ha mantenido crecimiento de ingresos y beneficios de forma consistente, sin se\u00f1ales p\u00fablicas de deterioro fundamental hasta la fecha de corte de informaci\u00f3n.",
+        "summary_note": "Experian (EXPN.L) es una empresa con fundamentos hist\u00f3ricamente s\u00f3lidos y crecimiento constante; la salida de la lista VALUE probablemente se debe a una revalorizaci\u00f3n del precio que redujo el margen de upside, no a un deterioro del negocio. No hay evidencia de ca\u00edda de beneficios, recortes de gu\u00edas o esc\u00e1ndalos recientes conocidos hasta mi corte de entrenamiento."
       }
     },
     {
       "ticker": "AXP",
-      "severity": "MEDIUM",
+      "severity": "HIGH",
       "entry_score": 56.870000000000005,
       "current_score": 31.68,
       "signal_date": "2026-08-10",
       "reasons": [
-        "Score cay\u00f3 25pts (57 \u2192 32)",
-        "IA: falso positivo con 85% confianza \u2014 American Express mantiene una base de clientes leal y flujos de caja s\u00f3lidos, por lo que la ca\u00edda del score probablemente refleja una correcci\u00f3n de precio o volatilidad de mercado, no una deterioraci\u00f3n fundamental grave."
+        "Score cay\u00f3 25pts (57 \u2192 32)"
       ],
       "fundamental_score": 62.5,
       "ai_validation": {
         "verdict": "FALSE_POSITIVE",
-        "confidence": 85,
-        "summary": "American Express mantiene una base de clientes leal y flujos de caja s\u00f3lidos, por lo que la ca\u00edda del score probablemente refleja una correcci\u00f3n de precio o volatilidad de mercado, no una deterioraci\u00f3n fundamental grave.",
-        "key_finding": "La empresa sigue reportando crecimiento en ingresos de servicios y beneficios netos consistentes, sin eventos negativos recientes de gesti\u00f3n o recortes de gu\u00eda significativos."
+        "confidence": 62,
+        "summary": "American Express no muestra se\u00f1ales claras de deterioro fundamental grave; hist\u00f3ricamente ha mantenido buena calidad crediticia y crecimiento de ingresos. La ca\u00edda de 25pts probablemente refleja una correcci\u00f3n de precio/valoraci\u00f3n (menor upside) m\u00e1s que un deterioro real del negocio.",
+        "key_finding": "AXP ha mantenido fundamentals s\u00f3lidos (alta calidad de cartera de clientes, crecimiento de gasto en tarjetas) sin eventos negativos mayores conocidos hasta el corte de entrenamiento, aunque el score fundamental de 62.5/100 sugiere cierta debilidad relativa que debe monitorearse.",
+        "summary_note": "American Express no muestra se\u00f1ales claras de deterioro fundamental grave; hist\u00f3ricamente ha mantenido buena calidad crediticia y crecimiento de ingresos. La ca\u00edda de 25pts probablemente refleja una correcci\u00f3n de precio/valoraci\u00f3n (menor upside) m\u00e1s que un deterioro real del negocio."
       }
     },
     {
       "ticker": "AON",
-      "severity": "MEDIUM",
+      "severity": "HIGH",
       "entry_score": 51.13,
       "current_score": null,
       "signal_date": "2026-08-24",
       "reasons": [
-        "Ya no aparece en VALUE \u2014 tesis posiblemente rota",
-        "IA: falso positivo con 85% confianza \u2014 Aon sigue siendo un l\u00edder s\u00f3lido en seguros y servicios financieros con fundamentales estables; la se\u00f1al de salida probablemente se debe a que el precio subi\u00f3 y redujo el margen de seguridad (value), no a una deterioraci\u00f3n del negocio."
+        "Ya no aparece en VALUE \u2014 tesis posiblemente rota"
       ],
       "fundamental_score": 51.0,
       "ai_validation": {
         "verdict": "FALSE_POSITIVE",
-        "confidence": 85,
-        "summary": "Aon sigue siendo un l\u00edder s\u00f3lido en seguros y servicios financieros con fundamentales estables; la se\u00f1al de salida probablemente se debe a que el precio subi\u00f3 y redujo el margen de seguridad (value), no a una deterioraci\u00f3n del negocio.",
-        "key_finding": "La empresa mantiene una generaci\u00f3n de caja fuerte y crecimiento org\u00e1nico consistente, sin eventos negativos recientes que rompan la tesis de inversi\u00f3n."
+        "confidence": 65,
+        "summary": "AON es una aseguradora/broker de riesgo con fundamentales hist\u00f3ricamente s\u00f3lidos y crecimiento constante; la salida de la lista VALUE probablemente se debe a una revalorizaci\u00f3n del precio (m\u00faltiplos m\u00e1s altos) y no a un deterioro real del negocio. El score fundamental de 51/100 es mediocre pero no indica una ruptura de tesis grave.",
+        "key_finding": "AON ha mantenido crecimiento estable en ingresos y m\u00e1rgenes operativos, sin se\u00f1ales p\u00fablicas recientes de guidance cuts o eventos negativos mayores hasta el corte de entrenamiento.",
+        "summary_note": "AON es una aseguradora/broker de riesgo con fundamentales hist\u00f3ricamente s\u00f3lidos y crecimiento constante; la salida de la lista VALUE probablemente se debe a una revalorizaci\u00f3n del precio (m\u00faltiplos m\u00e1s altos) y no a un deterioro real del negocio. El score fundamental de 51/100 es mediocre pero no indica una ruptura de tesis grave."
       }
     },
     {

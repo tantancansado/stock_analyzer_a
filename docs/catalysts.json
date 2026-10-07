@@ -1,14 +1,13 @@
 {
-  "generated_at": "2026-10-07T06:56:15Z",
+  "generated_at": "2026-10-07T22:04:15Z",
   "scan_date": "2026-10-07",
   "horizon_days": 90,
-  "total_events": 127,
+  "total_events": 126,
   "by_category": {
     "EARNINGS": 106,
     "DIVIDEND": 6,
     "MACRO": 11,
-    "OPTIONS_EXPIRY": 3,
-    "COMPANY_EVENT": 1
+    "OPTIONS_EXPIRY": 3
   },
   "cobertura_eventos_empresa": {
     "fuente": "SEC EDGAR full-text search (8-K)",
@@ -19,8 +18,8 @@
     ],
     "consultados": 132,
     "con_cik": 119,
-    "con_anuncio": 13,
-    "anuncios_sin_fecha_clara": 13,
+    "con_anuncio": 6,
+    "anuncios_sin_fecha_clara": 6,
     "nota": "No todas las empresas anuncian estos eventos en la SEC: el item 7.01 es voluntario. MCD, por ejemplo, no presenta ning\u00fan documento con la frase \u2014 lo publica solo en su web. Que un ticker no aparezca aqu\u00ed NO significa que no tenga un evento pr\u00f3ximo.",
     "declarados_a_mano": 0,
     "declarados_descartados": 0
@@ -46,8 +45,8 @@
       "ticker": "PEP",
       "company": "Pepsico, Inc.",
       "sector": "Consumer Defensive",
-      "current_price": 125.71,
-      "market_cap": 171719852032,
+      "current_price": 123.73,
+      "market_cap": 169015181312,
       "eps_estimate": 2.3,
       "earnings_history": {
         "beat_count": 3,
@@ -108,8 +107,8 @@
       "ticker": "MA",
       "company": "Mastercard Incorporated",
       "sector": "Financial Services",
-      "current_price": 566.58,
-      "market_cap": 496329719808,
+      "current_price": 570.06,
+      "market_cap": 499378225152,
       "dividend_yield": 0.61,
       "dividend_rate": 3.48,
       "earnings_history": {},
@@ -135,8 +134,8 @@
       "ticker": "AXP",
       "company": "American Express Company",
       "sector": "Financial Services",
-      "current_price": 304.55,
-      "market_cap": 205665599488,
+      "current_price": 304.25,
+      "market_cap": 205463011328,
       "dividend_yield": 1.25,
       "dividend_rate": 3.8,
       "earnings_history": {},
@@ -162,8 +161,8 @@
       "ticker": "JNJ",
       "company": "Johnson & Johnson",
       "sector": "Healthcare",
-      "current_price": 254.78,
-      "market_cap": 613993938944,
+      "current_price": 258.45,
+      "market_cap": 622838284288,
       "eps_estimate": 2.5,
       "earnings_history": {
         "beat_count": 3,
@@ -224,8 +223,8 @@
       "ticker": "UNH",
       "company": "UnitedHealth Group Incorporated",
       "sector": "Healthcare",
-      "current_price": 376.32,
-      "market_cap": 337782898688,
+      "current_price": 375.98,
+      "market_cap": 337477697536,
       "eps_estimate": 4.15,
       "earnings_history": {
         "beat_count": 4,
@@ -286,8 +285,8 @@
       "ticker": "DPZ",
       "company": "Domino's Pizza Inc",
       "sector": "Consumer Cyclical",
-      "current_price": 302.87,
-      "market_cap": 10019465216,
+      "current_price": 303.1,
+      "market_cap": 10027074560,
       "eps_estimate": 4.38,
       "earnings_history": {
         "beat_count": 1,
@@ -348,8 +347,8 @@
       "ticker": "FAST",
       "company": "Fastenal Company",
       "sector": "Industrials",
-      "current_price": 50.81,
-      "market_cap": 58304356352,
+      "current_price": 49.83,
+      "market_cap": 57179807744,
       "eps_estimate": 0.34,
       "earnings_history": {
         "beat_count": 3,
@@ -410,8 +409,8 @@
       "ticker": "PGR",
       "company": "Progressive Corporation (The)",
       "sector": "Financial Services",
-      "current_price": 212.05,
-      "market_cap": 123073822720,
+      "current_price": 214.12,
+      "market_cap": 124275245056,
       "eps_estimate": 4.33,
       "earnings_history": {
         "beat_count": 3,
@@ -472,8 +471,8 @@
       "ticker": "BAC",
       "company": "Bank of America Corporation",
       "sector": "Financial Services",
-      "current_price": 54.09,
-      "market_cap": 378237779968,
+      "current_price": 53.52,
+      "market_cap": 374251913216,
       "eps_estimate": 1.11,
       "earnings_history": {
         "beat_count": 4,
@@ -568,8 +567,8 @@
       "ticker": "MRSH",
       "company": "Marsh",
       "sector": "Financial Services",
-      "current_price": 171.74,
-      "market_cap": 81956265984,
+      "current_price": 173.66,
+      "market_cap": 82872508416,
       "eps_estimate": 1.97,
       "earnings_history": {
         "beat_count": 4,
@@ -652,8 +651,8 @@
       "ticker": "MSCI",
       "company": "MSCI Inc.",
       "sector": "Financial Services",
-      "current_price": 554.92,
-      "market_cap": 40342683648,
+      "current_price": 555.38,
+      "market_cap": 40376127488,
       "eps_estimate": 5.01,
       "earnings_history": {
         "beat_count": 3,
@@ -714,8 +713,8 @@
       "ticker": "DBOEY",
       "company": "Deutsche Boerse AG",
       "sector": "Financial Services",
-      "current_price": 33.2,
-      "market_cap": 59855503360,
+      "current_price": 32.75,
+      "market_cap": 59044208640,
       "eps_estimate": 0.31,
       "earnings_history": {
         "beat_count": 3,
@@ -776,8 +775,8 @@
       "ticker": "CB",
       "company": "Chubb Limited",
       "sector": "Financial Services",
-      "current_price": 334.21,
-      "market_cap": 128938172416,
+      "current_price": 334.7,
+      "market_cap": 129127219200,
       "eps_estimate": 6.52,
       "earnings_history": {
         "beat_count": 4,
@@ -838,8 +837,8 @@
       "ticker": "ISRG",
       "company": "Intuitive Surgical, Inc.",
       "sector": "Healthcare",
-      "current_price": 404.76,
-      "market_cap": 142992818176,
+      "current_price": 414.52,
+      "market_cap": 146440814592,
       "eps_estimate": 2.64,
       "earnings_history": {
         "beat_count": 4,
@@ -900,8 +899,8 @@
       "ticker": "COF",
       "company": "Capital One Financial Corporati",
       "sector": "Financial Services",
-      "current_price": 195.82,
-      "market_cap": 120132608000,
+      "current_price": 195.91,
+      "market_cap": 120190795776,
       "eps_estimate": 5.48,
       "earnings_history": {
         "beat_count": 2,
@@ -962,8 +961,8 @@
       "ticker": "ALLY",
       "company": "Ally Financial Inc.",
       "sector": "Financial Services",
-      "current_price": 37.62,
-      "market_cap": 11443991552,
+      "current_price": 37.37,
+      "market_cap": 11367942144,
       "eps_estimate": 1.38,
       "earnings_history": {
         "beat_count": 3,
@@ -1024,8 +1023,8 @@
       "ticker": "WCN",
       "company": "Waste Connections, Inc.",
       "sector": "Industrials",
-      "current_price": 154.62,
-      "market_cap": 38897635328,
+      "current_price": 155.16,
+      "market_cap": 39033487360,
       "eps_estimate": 1.52,
       "earnings_history": {
         "beat_count": 4,
@@ -1067,6 +1066,68 @@
       "earnings_warning": false
     },
     {
+      "id": "earnings-ROL-2026-10-21",
+      "category": "EARNINGS",
+      "type": "EARNINGS",
+      "date": "2026-10-21",
+      "days_away": 14,
+      "title": "ROL \u2014 Earnings Q",
+      "description": "Resultados mixtos \u2014 bate 50% del tiempo",
+      "impact": "MEDIUM",
+      "direction_bias": "VOLATILE",
+      "avg_move_pct": null,
+      "affected_tickers": [
+        "ROL"
+      ],
+      "bullish_sectors": [],
+      "bearish_sectors": [],
+      "source": "yfinance",
+      "ticker": "ROL",
+      "company": "Rollins, Inc.",
+      "sector": "Consumer Cyclical",
+      "current_price": 30.87,
+      "market_cap": 14852959232,
+      "eps_estimate": 0.35,
+      "earnings_history": {
+        "beat_count": 2,
+        "miss_count": 2,
+        "total_quarters": 4,
+        "avg_surprise_pct": -1.2,
+        "beat_rate": 50.0,
+        "last_quarters": [
+          {
+            "date": "2025-09-30",
+            "eps_est": 0.33,
+            "eps_act": 0.35,
+            "surprise_pct": 6.4,
+            "beat": "True"
+          },
+          {
+            "date": "2025-12-31",
+            "eps_est": 0.27,
+            "eps_act": 0.25,
+            "surprise_pct": -6.6,
+            "beat": "False"
+          },
+          {
+            "date": "2026-03-31",
+            "eps_est": 0.24,
+            "eps_act": 0.24,
+            "surprise_pct": 1.3,
+            "beat": "True"
+          },
+          {
+            "date": "2026-06-30",
+            "eps_est": 0.34,
+            "eps_act": 0.32,
+            "surprise_pct": -5.8,
+            "beat": "False"
+          }
+        ]
+      },
+      "earnings_warning": false
+    },
+    {
       "id": "earnings-CME-2026-10-21",
       "category": "EARNINGS",
       "type": "EARNINGS",
@@ -1086,8 +1147,8 @@
       "ticker": "CME",
       "company": "CME Group Inc.",
       "sector": "Financial Services",
-      "current_price": 270.18,
-      "market_cap": 97151123456,
+      "current_price": 270.27,
+      "market_cap": 97183481856,
       "eps_estimate": 2.95,
       "earnings_history": {
         "beat_count": 3,
@@ -1148,8 +1209,8 @@
       "ticker": "MCO",
       "company": "Moody's Corporation",
       "sector": "Financial Services",
-      "current_price": 452.32,
-      "market_cap": 78333231104,
+      "current_price": 449.63,
+      "market_cap": 77867368448,
       "eps_estimate": 4.25,
       "earnings_history": {
         "beat_count": 4,
@@ -1210,8 +1271,8 @@
       "ticker": "TMO",
       "company": "Thermo Fisher Scientific Inc",
       "sector": "Healthcare",
-      "current_price": 656.58,
-      "market_cap": 242768691200,
+      "current_price": 662.06,
+      "market_cap": 244794900480,
       "eps_estimate": 6.4,
       "earnings_history": {
         "beat_count": 4,
@@ -1272,8 +1333,8 @@
       "ticker": "VLTO",
       "company": "Veralto Corp",
       "sector": "Industrials",
-      "current_price": 96.45,
-      "market_cap": 23513868288,
+      "current_price": 95.73,
+      "market_cap": 23338338304,
       "eps_estimate": 1.09,
       "earnings_history": {
         "beat_count": 4,
@@ -1334,8 +1395,8 @@
       "ticker": "SAP",
       "company": "SAP  SE",
       "sector": "Technology",
-      "current_price": 210.46,
-      "market_cap": 242913837056,
+      "current_price": 210.13,
+      "market_cap": 242532958208,
       "eps_estimate": 2.08,
       "earnings_history": {
         "beat_count": 3,
@@ -1396,8 +1457,8 @@
       "ticker": "DHR",
       "company": "Danaher Corporation",
       "sector": "Healthcare",
-      "current_price": 215.61,
-      "market_cap": 151570825216,
+      "current_price": 218.49,
+      "market_cap": 153595428864,
       "eps_estimate": 1.91,
       "earnings_history": {
         "beat_count": 4,
@@ -1458,8 +1519,8 @@
       "ticker": "ABT",
       "company": "Abbott Laboratories",
       "sector": "Healthcare",
-      "current_price": 98.16,
-      "market_cap": 169854435328,
+      "current_price": 98.73,
+      "market_cap": 171969216512,
       "eps_estimate": 1.41,
       "earnings_history": {
         "beat_count": 4,
@@ -1520,8 +1581,8 @@
       "ticker": "ROP",
       "company": "Roper Technologies, Inc.",
       "sector": "Technology",
-      "current_price": 362.28,
-      "market_cap": 35829809152,
+      "current_price": 358.57,
+      "market_cap": 35462885376,
       "eps_estimate": 5.79,
       "earnings_history": {
         "beat_count": 4,
@@ -1582,8 +1643,8 @@
       "ticker": "VRSN",
       "company": "VeriSign, Inc.",
       "sector": "Technology",
-      "current_price": 293.1,
-      "market_cap": 26496239616,
+      "current_price": 294.22,
+      "market_cap": 26597488640,
       "eps_estimate": 2.46,
       "earnings_history": {
         "beat_count": 3,
@@ -1644,8 +1705,8 @@
       "ticker": "PG",
       "company": "Procter & Gamble Company (The)",
       "sector": "Consumer Defensive",
-      "current_price": 148.41,
-      "market_cap": 344707825664,
+      "current_price": 147.82,
+      "market_cap": 343597711360,
       "eps_estimate": 1.89,
       "earnings_history": {
         "beat_count": 4,
@@ -1706,8 +1767,8 @@
       "ticker": "WST",
       "company": "West Pharmaceutical Services, I",
       "sector": "Healthcare",
-      "current_price": 372.64,
-      "market_cap": 26224824320,
+      "current_price": 366.48,
+      "market_cap": 25791309824,
       "eps_estimate": 2.2,
       "earnings_history": {
         "beat_count": 4,
@@ -1768,8 +1829,8 @@
       "ticker": "NDAQ",
       "company": "Nasdaq, Inc.",
       "sector": "Financial Services",
-      "current_price": 92.27,
-      "market_cap": 51576836096,
+      "current_price": 91.93,
+      "market_cap": 51386785792,
       "eps_estimate": 1.02,
       "earnings_history": {
         "beat_count": 4,
@@ -1830,8 +1891,8 @@
       "ticker": "NVR",
       "company": "NVR, Inc.",
       "sector": "Consumer Cyclical",
-      "current_price": 6046.6,
-      "market_cap": 16193720320,
+      "current_price": 5931.62,
+      "market_cap": 15806937088,
       "eps_estimate": 103.49,
       "earnings_history": {
         "beat_count": 2,
@@ -1892,8 +1953,8 @@
       "ticker": "POOL",
       "company": "Pool Corporation",
       "sector": "Industrials",
-      "current_price": 158.24,
-      "market_cap": 5750560256,
+      "current_price": 154.14,
+      "market_cap": 5601562624,
       "eps_estimate": 3.36,
       "earnings_history": {
         "beat_count": 3,
@@ -1954,8 +2015,8 @@
       "ticker": "ITW",
       "company": "Illinois Tool Works Inc.",
       "sector": "Industrials",
-      "current_price": 267.14,
-      "market_cap": 76081479680,
+      "current_price": 261.15,
+      "market_cap": 74375520256,
       "eps_estimate": 2.97,
       "earnings_history": {
         "beat_count": 4,
@@ -2016,8 +2077,8 @@
       "ticker": "AXP",
       "company": "American Express Company",
       "sector": "Financial Services",
-      "current_price": 304.55,
-      "market_cap": 205665599488,
+      "current_price": 304.25,
+      "market_cap": 205463011328,
       "eps_estimate": 4.51,
       "earnings_history": {
         "beat_count": 3,
@@ -2078,8 +2139,8 @@
       "ticker": "BRO",
       "company": "Brown & Brown, Inc.",
       "sector": "Financial Services",
-      "current_price": 60.97,
-      "market_cap": 20401195008,
+      "current_price": 61.72,
+      "market_cap": 20652152832,
       "eps_estimate": 1.09,
       "earnings_history": {
         "beat_count": 3,
@@ -2140,8 +2201,8 @@
       "ticker": "CDNS",
       "company": "Cadence Design Systems, Inc.",
       "sector": "Technology",
-      "current_price": 359.55,
-      "market_cap": 99017547776,
+      "current_price": 356.12,
+      "market_cap": 98223595520,
       "eps_estimate": 2.05,
       "earnings_history": {
         "beat_count": 4,
@@ -2202,8 +2263,8 @@
       "ticker": "NUE",
       "company": "Nucor Corporation",
       "sector": "Basic Materials",
-      "current_price": 251.07,
-      "market_cap": 56961679360,
+      "current_price": 246.44,
+      "market_cap": 55911243776,
       "eps_estimate": 5.82,
       "earnings_history": {
         "beat_count": 3,
@@ -2264,8 +2325,8 @@
       "ticker": "WM",
       "company": "Waste Management, Inc.",
       "sector": "Industrials",
-      "current_price": 207.88,
-      "market_cap": 83092799488,
+      "current_price": 208.94,
+      "market_cap": 83516497920,
       "eps_estimate": 2.19,
       "earnings_history": {
         "beat_count": 2,
@@ -2326,8 +2387,8 @@
       "ticker": "V",
       "company": "Visa Inc.",
       "sector": "Financial Services",
-      "current_price": 370.64,
-      "market_cap": 695822974976,
+      "current_price": 372.1,
+      "market_cap": 698563887104,
       "eps_estimate": 3.43,
       "earnings_history": {
         "beat_count": 4,
@@ -2388,8 +2449,8 @@
       "ticker": "SPGI",
       "company": "S&P Global Inc.",
       "sector": "Financial Services",
-      "current_price": 396.13,
-      "market_cap": 116779122688,
+      "current_price": 395.18,
+      "market_cap": 116499062784,
       "eps_estimate": 4.42,
       "earnings_history": {
         "beat_count": 2,
@@ -2450,8 +2511,8 @@
       "ticker": "KO",
       "company": "Coca-Cola Company (The)",
       "sector": "Consumer Defensive",
-      "current_price": 86.17,
-      "market_cap": 370750652416,
+      "current_price": 85.82,
+      "market_cap": 369244766208,
       "eps_estimate": 0.88,
       "earnings_history": {
         "beat_count": 4,
@@ -2512,8 +2573,8 @@
       "ticker": "SHW",
       "company": "Sherwin-Williams Company (The)",
       "sector": "Basic Materials",
-      "current_price": 321.16,
-      "market_cap": 77964206080,
+      "current_price": 315.0,
+      "market_cap": 76468813824,
       "eps_estimate": 3.69,
       "earnings_history": {
         "beat_count": 4,
@@ -2574,8 +2635,8 @@
       "ticker": "ECL",
       "company": "Ecolab Inc.",
       "sector": "Basic Materials",
-      "current_price": 280.82,
-      "market_cap": 78721884160,
+      "current_price": 278.1,
+      "market_cap": 77959389184,
       "eps_estimate": 2.17,
       "earnings_history": {
         "beat_count": 3,
@@ -2636,8 +2697,8 @@
       "ticker": "ASAZY",
       "company": "Assa Abloy AB",
       "sector": "Industrials",
-      "current_price": 17.57,
-      "market_cap": 39032680448,
+      "current_price": 17.0,
+      "market_cap": 37766393856,
       "eps_estimate": 0.25,
       "earnings_history": {
         "beat_count": 0,
@@ -2691,8 +2752,8 @@
       "ticker": "ADP",
       "company": "Automatic Data Processing, Inc.",
       "sector": "Technology",
-      "current_price": 262.36,
-      "market_cap": 103960551424,
+      "current_price": 264.0,
+      "market_cap": 104610406400,
       "eps_estimate": 2.76,
       "earnings_history": {
         "beat_count": 4,
@@ -2734,68 +2795,6 @@
       "earnings_warning": false
     },
     {
-      "id": "earnings-ROL-2026-10-28",
-      "category": "EARNINGS",
-      "type": "EARNINGS",
-      "date": "2026-10-28",
-      "days_away": 21,
-      "title": "ROL \u2014 Earnings Q",
-      "description": "Resultados mixtos \u2014 bate 50% del tiempo",
-      "impact": "MEDIUM",
-      "direction_bias": "VOLATILE",
-      "avg_move_pct": null,
-      "affected_tickers": [
-        "ROL"
-      ],
-      "bullish_sectors": [],
-      "bearish_sectors": [],
-      "source": "yfinance",
-      "ticker": "ROL",
-      "company": "Rollins, Inc.",
-      "sector": "Consumer Cyclical",
-      "current_price": 30.35,
-      "market_cap": 14602763264,
-      "eps_estimate": 0.35,
-      "earnings_history": {
-        "beat_count": 2,
-        "miss_count": 2,
-        "total_quarters": 4,
-        "avg_surprise_pct": -1.2,
-        "beat_rate": 50.0,
-        "last_quarters": [
-          {
-            "date": "2025-09-30",
-            "eps_est": 0.33,
-            "eps_act": 0.35,
-            "surprise_pct": 6.4,
-            "beat": "True"
-          },
-          {
-            "date": "2025-12-31",
-            "eps_est": 0.27,
-            "eps_act": 0.25,
-            "surprise_pct": -6.6,
-            "beat": "False"
-          },
-          {
-            "date": "2026-03-31",
-            "eps_est": 0.24,
-            "eps_act": 0.24,
-            "surprise_pct": 1.3,
-            "beat": "True"
-          },
-          {
-            "date": "2026-06-30",
-            "eps_est": 0.34,
-            "eps_act": 0.32,
-            "surprise_pct": -5.8,
-            "beat": "False"
-          }
-        ]
-      },
-      "earnings_warning": false
-    },
-    {
       "id": "earnings-MSFT-2026-10-28",
       "category": "EARNINGS",
       "type": "EARNINGS",
@@ -2815,8 +2814,8 @@
       "ticker": "MSFT",
       "company": "Microsoft Corporation",
       "sector": "Technology",
-      "current_price": 529.3,
-      "market_cap": 3930341244928,
+      "current_price": 529.76,
+      "market_cap": 3933757243392,
       "eps_estimate": 4.72,
       "earnings_history": {
         "beat_count": 4,
@@ -2877,8 +2876,8 @@
       "ticker": "TYL",
       "company": "Tyler Technologies, Inc.",
       "sector": "Technology",
-      "current_price": 330.91,
-      "market_cap": 13551516672,
+      "current_price": 332.34,
+      "market_cap": 13610078208,
       "eps_estimate": 3.47,
       "earnings_history": {
         "beat_count": 3,
@@ -2939,8 +2938,8 @@
       "ticker": "ORLY",
       "company": "O'Reilly Automotive, Inc.",
       "sector": "Consumer Cyclical",
-      "current_price": 85.14,
-      "market_cap": 68874919936,
+      "current_price": 84.61,
+      "market_cap": 68446171136,
       "eps_estimate": 0.93,
       "earnings_history": {
         "beat_count": 3,
@@ -3001,8 +3000,8 @@
       "ticker": "NOW",
       "company": "ServiceNow, Inc.",
       "sector": "Technology",
-      "current_price": 137.97,
-      "market_cap": 142641938432,
+      "current_price": 137.87,
+      "market_cap": 142538555392,
       "eps_estimate": 1.03,
       "earnings_history": {
         "beat_count": 4,
@@ -3063,8 +3062,8 @@
       "ticker": "OTIS",
       "company": "Otis Worldwide Corporation",
       "sector": "Industrials",
-      "current_price": 66.45,
-      "market_cap": 25295476736,
+      "current_price": 65.74,
+      "market_cap": 25025202176,
       "eps_estimate": 1.01,
       "earnings_history": {
         "beat_count": 2,
@@ -3125,8 +3124,8 @@
       "ticker": "EQIX",
       "company": "Equinix, Inc.",
       "sector": "Real Estate",
-      "current_price": 1047.36,
-      "market_cap": 103344775168,
+      "current_price": 1031.77,
+      "market_cap": 101806489600,
       "eps_estimate": 3.96,
       "earnings_history": {
         "beat_count": 2,
@@ -3187,8 +3186,8 @@
       "ticker": "AWK",
       "company": "American Water Works Company, I",
       "sector": "Utilities",
-      "current_price": 128.04,
-      "market_cap": 25445259264,
+      "current_price": 127.38,
+      "market_cap": 25314099200,
       "eps_estimate": 2.08,
       "earnings_history": {
         "beat_count": 2,
@@ -3249,8 +3248,8 @@
       "ticker": "CP",
       "company": "Canadian Pacific Kansas City Li",
       "sector": "Industrials",
-      "current_price": 85.43,
-      "market_cap": 75099742208,
+      "current_price": 83.63,
+      "market_cap": 73517391872,
       "eps_estimate": 1.33,
       "earnings_history": {
         "beat_count": 1,
@@ -3311,8 +3310,8 @@
       "ticker": "BSX",
       "company": "Boston Scientific Corporation",
       "sector": "Healthcare",
-      "current_price": 42.19,
-      "market_cap": 61142994944,
+      "current_price": 41.58,
+      "market_cap": 60258967552,
       "eps_estimate": 0.76,
       "earnings_history": {
         "beat_count": 4,
@@ -3373,8 +3372,8 @@
       "ticker": "DVA",
       "company": "DaVita Inc.",
       "sector": "Healthcare",
-      "current_price": 180.4,
-      "market_cap": 11509519360,
+      "current_price": 176.78,
+      "market_cap": 11346624512,
       "eps_estimate": 3.57,
       "earnings_history": {
         "beat_count": 3,
@@ -3435,8 +3434,8 @@
       "ticker": "KHC",
       "company": "The Kraft Heinz Company",
       "sector": "Consumer Defensive",
-      "current_price": 22.03,
-      "market_cap": 26123698176,
+      "current_price": 21.98,
+      "market_cap": 26064404480,
       "eps_estimate": 0.42,
       "earnings_history": {
         "beat_count": 4,
@@ -3475,6 +3474,32 @@
           }
         ]
       },
+      "earnings_warning": false
+    },
+    {
+      "id": "earnings-BN-2026-10-28",
+      "category": "EARNINGS",
+      "type": "EARNINGS",
+      "date": "2026-10-28",
+      "days_away": 21,
+      "title": "BN \u2014 Earnings Q",
+      "description": "Sin historial disponible",
+      "impact": "MEDIUM",
+      "direction_bias": "UNKNOWN",
+      "avg_move_pct": null,
+      "affected_tickers": [
+        "BN"
+      ],
+      "bullish_sectors": [],
+      "bearish_sectors": [],
+      "source": "yfinance",
+      "ticker": "BN",
+      "company": "Brookfield Corporation",
+      "sector": "Financial Services",
+      "current_price": 36.98,
+      "market_cap": 82552356864,
+      "eps_estimate": null,
+      "earnings_history": {},
       "earnings_warning": false
     },
     {
@@ -3531,8 +3556,8 @@
       "ticker": "LIN",
       "company": "Linde plc",
       "sector": "Basic Materials",
-      "current_price": 489.95,
-      "market_cap": 225857241088,
+      "current_price": 483.98,
+      "market_cap": 223105187840,
       "eps_estimate": 4.52,
       "earnings_history": {
         "beat_count": 4,
@@ -3593,8 +3618,8 @@
       "ticker": "MA",
       "company": "Mastercard Incorporated",
       "sector": "Financial Services",
-      "current_price": 566.58,
-      "market_cap": 496329719808,
+      "current_price": 570.06,
+      "market_cap": 499378225152,
       "eps_estimate": 5.15,
       "earnings_history": {
         "beat_count": 4,
@@ -3655,8 +3680,8 @@
       "ticker": "RSG",
       "company": "Republic Services, Inc.",
       "sector": "Industrials",
-      "current_price": 214.74,
-      "market_cap": 65756180480,
+      "current_price": 216.18,
+      "market_cap": 66197123072,
       "eps_estimate": 1.93,
       "earnings_history": {
         "beat_count": 4,
@@ -3717,8 +3742,8 @@
       "ticker": "SYK",
       "company": "Stryker Corporation",
       "sector": "Healthcare",
-      "current_price": 278.2,
-      "market_cap": 106710032384,
+      "current_price": 275.4,
+      "market_cap": 105636020224,
       "eps_estimate": 3.56,
       "earnings_history": {
         "beat_count": 3,
@@ -3779,8 +3804,8 @@
       "ticker": "TW",
       "company": "Tradeweb Markets Inc.",
       "sector": "Financial Services",
-      "current_price": 107.54,
-      "market_cap": 23231678464,
+      "current_price": 107.4,
+      "market_cap": 23415994368,
       "eps_estimate": 1.0,
       "earnings_history": {
         "beat_count": 4,
@@ -3841,8 +3866,8 @@
       "ticker": "ERIE",
       "company": "Erie Indemnity Company",
       "sector": "Financial Services",
-      "current_price": 223.22,
-      "market_cap": 11672144896,
+      "current_price": 217.77,
+      "market_cap": 11387164672,
       "eps_estimate": 3.41,
       "earnings_history": {
         "beat_count": 3,
@@ -3903,8 +3928,8 @@
       "ticker": "AJG",
       "company": "Arthur J. Gallagher & Co.",
       "sector": "Financial Services",
-      "current_price": 229.85,
-      "market_cap": 58919976960,
+      "current_price": 227.1,
+      "market_cap": 58215038976,
       "eps_estimate": 3.0,
       "earnings_history": {
         "beat_count": 3,
@@ -3965,8 +3990,8 @@
       "ticker": "ICE",
       "company": "Intercontinental Exchange Inc.",
       "sector": "Financial Services",
-      "current_price": 153.49,
-      "market_cap": 86168444928,
+      "current_price": 152.59,
+      "market_cap": 85663186944,
       "eps_estimate": 1.92,
       "earnings_history": {
         "beat_count": 4,
@@ -4027,8 +4052,8 @@
       "ticker": "TT",
       "company": "Trane Technologies plc",
       "sector": "Industrials",
-      "current_price": 476.39,
-      "market_cap": 104816844800,
+      "current_price": 467.27,
+      "market_cap": 102810230784,
       "eps_estimate": 4.72,
       "earnings_history": {
         "beat_count": 4,
@@ -4089,8 +4114,8 @@
       "ticker": "AME",
       "company": "AMETEK, Inc.",
       "sector": "Industrials",
-      "current_price": 253.72,
-      "market_cap": 58168164352,
+      "current_price": 248.62,
+      "market_cap": 56984449024,
       "eps_estimate": 2.1,
       "earnings_history": {
         "beat_count": 4,
@@ -4182,8 +4207,8 @@
       "ticker": "AON",
       "company": "Aon plc",
       "sector": "Financial Services",
-      "current_price": 273.99,
-      "market_cap": 58120245248,
+      "current_price": 270.47,
+      "market_cap": 57373569024,
       "eps_estimate": 3.31,
       "earnings_history": {
         "beat_count": 4,
@@ -4244,8 +4269,8 @@
       "ticker": "CNI",
       "company": "Canadian National Railway Compa",
       "sector": "Industrials",
-      "current_price": 118.41,
-      "market_cap": 71531479040,
+      "current_price": 115.75,
+      "market_cap": 69924569088,
       "eps_estimate": 2.08,
       "earnings_history": {
         "beat_count": 3,
@@ -4368,8 +4393,8 @@
       "ticker": "CHD",
       "company": "Church & Dwight Company, Inc.",
       "sector": "Consumer Defensive",
-      "current_price": 96.54,
-      "market_cap": 22899664896,
+      "current_price": 96.75,
+      "market_cap": 22949478400,
       "eps_estimate": 0.9,
       "earnings_history": {
         "beat_count": 3,
@@ -4430,8 +4455,8 @@
       "ticker": "CL",
       "company": "Colgate-Palmolive Company",
       "sector": "Consumer Defensive",
-      "current_price": 87.25,
-      "market_cap": 69553324032,
+      "current_price": 87.21,
+      "market_cap": 69521440768,
       "eps_estimate": 0.93,
       "earnings_history": {
         "beat_count": 4,
@@ -4492,8 +4517,8 @@
       "ticker": "CBOE",
       "company": "Cboe Global Markets, Inc.",
       "sector": "Financial Services",
-      "current_price": 278.2,
-      "market_cap": 29052710912,
+      "current_price": 281.57,
+      "market_cap": 29404641280,
       "eps_estimate": 3.43,
       "earnings_history": {
         "beat_count": 4,
@@ -4554,8 +4579,8 @@
       "ticker": "CVX",
       "company": "Chevron Corporation",
       "sector": "Energy",
-      "current_price": 207.58,
-      "market_cap": 407189618688,
+      "current_price": 205.15,
+      "market_cap": 402422923264,
       "eps_estimate": 4.83,
       "earnings_history": {
         "beat_count": 4,
@@ -4590,68 +4615,6 @@
             "eps_est": 5.57,
             "eps_act": 6.06,
             "surprise_pct": 8.8,
-            "beat": "True"
-          }
-        ]
-      },
-      "earnings_warning": false
-    },
-    {
-      "id": "earnings-CHTR-2026-10-30",
-      "category": "EARNINGS",
-      "type": "EARNINGS",
-      "date": "2026-10-30",
-      "days_away": 23,
-      "title": "CHTR \u2014 Earnings Q",
-      "description": "Resultados mixtos \u2014 bate 50% del tiempo",
-      "impact": "MEDIUM",
-      "direction_bias": "VOLATILE",
-      "avg_move_pct": null,
-      "affected_tickers": [
-        "CHTR"
-      ],
-      "bullish_sectors": [],
-      "bearish_sectors": [],
-      "source": "yfinance",
-      "ticker": "CHTR",
-      "company": "Charter Communications, Inc.",
-      "sector": "Communication Services",
-      "current_price": 108.64,
-      "market_cap": 14118593536,
-      "eps_estimate": 9.21,
-      "earnings_history": {
-        "beat_count": 2,
-        "miss_count": 2,
-        "total_quarters": 4,
-        "avg_surprise_pct": -2.4,
-        "beat_rate": 50.0,
-        "last_quarters": [
-          {
-            "date": "2025-09-30",
-            "eps_est": 9.29,
-            "eps_act": 8.34,
-            "surprise_pct": -10.3,
-            "beat": "False"
-          },
-          {
-            "date": "2025-12-31",
-            "eps_est": 9.93,
-            "eps_act": 10.34,
-            "surprise_pct": 4.1,
-            "beat": "True"
-          },
-          {
-            "date": "2026-03-31",
-            "eps_est": 10.08,
-            "eps_act": 9.17,
-            "surprise_pct": -9.1,
-            "beat": "False"
-          },
-          {
-            "date": "2026-06-30",
-            "eps_est": 10.06,
-            "eps_act": 10.66,
-            "surprise_pct": 5.9,
             "beat": "True"
           }
         ]
@@ -4706,8 +4669,8 @@
       "ticker": "IDXX",
       "company": "IDEXX Laboratories, Inc.",
       "sector": "Healthcare",
-      "current_price": 515.41,
-      "market_cap": 40604573696,
+      "current_price": 506.67,
+      "market_cap": 39967649792,
       "eps_estimate": 3.7,
       "earnings_history": {
         "beat_count": 4,
@@ -4768,8 +4731,8 @@
       "ticker": "BR",
       "company": "Broadridge Financial Solutions,",
       "sector": "Technology",
-      "current_price": 158.66,
-      "market_cap": 17912719360,
+      "current_price": 160.13,
+      "market_cap": 18078683136,
       "eps_estimate": 1.37,
       "earnings_history": {
         "beat_count": 4,
@@ -4830,8 +4793,8 @@
       "ticker": "RACE",
       "company": "Ferrari N.V.",
       "sector": "Consumer Cyclical",
-      "current_price": 386.5,
-      "market_cap": 67792089088,
+      "current_price": 386.39,
+      "market_cap": 67772796928,
       "eps_estimate": 2.32,
       "earnings_history": {
         "beat_count": 2,
@@ -4892,8 +4855,8 @@
       "ticker": "ETN",
       "company": "Eaton Corporation, PLC",
       "sector": "Industrials",
-      "current_price": 445.09,
-      "market_cap": 172872957952,
+      "current_price": 431.33,
+      "market_cap": 167485440000,
       "eps_estimate": 3.54,
       "earnings_history": {
         "beat_count": 4,
@@ -4954,8 +4917,8 @@
       "ticker": "IT",
       "company": "Gartner, Inc.",
       "sector": "Technology",
-      "current_price": 184.92,
-      "market_cap": 11677508608,
+      "current_price": 185.77,
+      "market_cap": 11731185664,
       "eps_estimate": 2.85,
       "earnings_history": {
         "beat_count": 4,
@@ -5016,8 +4979,8 @@
       "ticker": "JKHY",
       "company": "Jack Henry & Associates, Inc.",
       "sector": "Technology",
-      "current_price": 144.43,
-      "market_cap": 10126275584,
+      "current_price": 145.69,
+      "market_cap": 10214617088,
       "eps_estimate": 2.01,
       "earnings_history": {
         "beat_count": 4,
@@ -5078,8 +5041,8 @@
       "ticker": "YUM",
       "company": "Yum! Brands, Inc.",
       "sector": "Consumer Cyclical",
-      "current_price": 139.84,
-      "market_cap": 38162485248,
+      "current_price": 140.35,
+      "market_cap": 38301667328,
       "eps_estimate": 1.47,
       "earnings_history": {
         "beat_count": 3,
@@ -5140,8 +5103,8 @@
       "ticker": "LPX",
       "company": "Louisiana-Pacific Corporation",
       "sector": "Industrials",
-      "current_price": 66.89,
-      "market_cap": 4677176832,
+      "current_price": 64.74,
+      "market_cap": 4526841344,
       "eps_estimate": 0.22,
       "earnings_history": {},
       "earnings_warning": false
@@ -5166,8 +5129,8 @@
       "ticker": "FICO",
       "company": "Fair Isaac Corporation",
       "sector": "Technology",
-      "current_price": 695.46,
-      "market_cap": 15020292096,
+      "current_price": 681.77,
+      "market_cap": 14724620288,
       "eps_estimate": 10.95,
       "earnings_history": {
         "beat_count": 4,
@@ -5228,8 +5191,8 @@
       "ticker": "MCD",
       "company": "McDonald's Corporation",
       "sector": "Consumer Cyclical",
-      "current_price": 232.45,
-      "market_cap": 164491280384,
+      "current_price": 230.88,
+      "market_cap": 163380281344,
       "eps_estimate": 3.38,
       "earnings_history": {
         "beat_count": 3,
@@ -5290,8 +5253,8 @@
       "ticker": "GWW",
       "company": "W.W. Grainger, Inc.",
       "sector": "Industrials",
-      "current_price": 1275.56,
-      "market_cap": 60080082944,
+      "current_price": 1263.51,
+      "market_cap": 59654250496,
       "eps_estimate": 11.66,
       "earnings_history": {
         "beat_count": 3,
@@ -5352,8 +5315,8 @@
       "ticker": "NYT",
       "company": "New York Times Company (The)",
       "sector": "Communication Services",
-      "current_price": 64.07,
-      "market_cap": 10333438976,
+      "current_price": 64.9,
+      "market_cap": 10467304448,
       "eps_estimate": 0.65,
       "earnings_history": {
         "beat_count": 4,
@@ -5414,8 +5377,8 @@
       "ticker": "VRSK",
       "company": "Verisk Analytics, Inc.",
       "sector": "Industrials",
-      "current_price": 165.2,
-      "market_cap": 21501773824,
+      "current_price": 168.68,
+      "market_cap": 22100762624,
       "eps_estimate": 1.93,
       "earnings_history": {
         "beat_count": 4,
@@ -5476,8 +5439,8 @@
       "ticker": "MSI",
       "company": "Motorola Solutions, Inc.",
       "sector": "Technology",
-      "current_price": 456.28,
-      "market_cap": 75511504896,
+      "current_price": 448.33,
+      "market_cap": 74195828736,
       "eps_estimate": 4.44,
       "earnings_history": {
         "beat_count": 4,
@@ -5538,8 +5501,8 @@
       "ticker": "ZTS",
       "company": "Zoetis Inc.",
       "sector": "Healthcare",
-      "current_price": 71.33,
-      "market_cap": 29475241984,
+      "current_price": 71.55,
+      "market_cap": 29566150656,
       "eps_estimate": 1.51,
       "earnings_history": {
         "beat_count": 3,
@@ -5600,8 +5563,8 @@
       "ticker": "MTD",
       "company": "Mettler-Toledo International, I",
       "sector": "Healthcare",
-      "current_price": 1533.07,
-      "market_cap": 30717448192,
+      "current_price": 1533.48,
+      "market_cap": 30725662720,
       "eps_estimate": 12.09,
       "earnings_history": {
         "beat_count": 4,
@@ -5662,8 +5625,8 @@
       "ticker": "CSU.TO",
       "company": "CONSTELLATION SOFTWARE INC.",
       "sector": "Technology",
-      "current_price": 2950.64,
-      "market_cap": 62528573440,
+      "current_price": 2901.98,
+      "market_cap": 61497397248,
       "eps_estimate": 30.06,
       "earnings_history": {
         "beat_count": 1,
@@ -5699,6 +5662,68 @@
             "eps_act": 26.61,
             "surprise_pct": -1.2,
             "beat": "False"
+          }
+        ]
+      },
+      "earnings_warning": false
+    },
+    {
+      "id": "earnings-CHTR-2026-11-06",
+      "category": "EARNINGS",
+      "type": "EARNINGS",
+      "date": "2026-11-06",
+      "days_away": 30,
+      "title": "CHTR \u2014 Earnings Q",
+      "description": "Resultados mixtos \u2014 bate 50% del tiempo",
+      "impact": "MEDIUM",
+      "direction_bias": "VOLATILE",
+      "avg_move_pct": null,
+      "affected_tickers": [
+        "CHTR"
+      ],
+      "bullish_sectors": [],
+      "bearish_sectors": [],
+      "source": "yfinance",
+      "ticker": "CHTR",
+      "company": "Charter Communications, Inc.",
+      "sector": "Communication Services",
+      "current_price": 106.96,
+      "market_cap": 13900264448,
+      "eps_estimate": 9.21,
+      "earnings_history": {
+        "beat_count": 2,
+        "miss_count": 2,
+        "total_quarters": 4,
+        "avg_surprise_pct": -2.4,
+        "beat_rate": 50.0,
+        "last_quarters": [
+          {
+            "date": "2025-09-30",
+            "eps_est": 9.29,
+            "eps_act": 8.34,
+            "surprise_pct": -10.3,
+            "beat": "False"
+          },
+          {
+            "date": "2025-12-31",
+            "eps_est": 9.93,
+            "eps_act": 10.34,
+            "surprise_pct": 4.1,
+            "beat": "True"
+          },
+          {
+            "date": "2026-03-31",
+            "eps_est": 10.08,
+            "eps_act": 9.17,
+            "surprise_pct": -9.1,
+            "beat": "False"
+          },
+          {
+            "date": "2026-06-30",
+            "eps_est": 10.06,
+            "eps_act": 10.66,
+            "surprise_pct": 5.9,
+            "beat": "True"
           }
         ]
       },
@@ -5742,8 +5767,8 @@
       "ticker": "BRK-B",
       "company": "Berkshire Hathaway Inc. New",
       "sector": "Financial Services",
-      "current_price": 505.54,
-      "market_cap": 1082214449152,
+      "current_price": 506.25,
+      "market_cap": 1083734294528,
       "eps_estimate": 5.78,
       "earnings_history": {
         "beat_count": 3,
@@ -5804,8 +5829,8 @@
       "ticker": "OXY",
       "company": "Occidental Petroleum Corporatio",
       "sector": "Energy",
-      "current_price": 58.33,
-      "market_cap": 58308849664,
+      "current_price": 58.21,
+      "market_cap": 58188890112,
       "eps_estimate": 1.35,
       "earnings_history": {
         "beat_count": 4,
@@ -5866,36 +5891,10 @@
       "ticker": "TJX",
       "company": "TJX Companies, Inc. (The)",
       "sector": "Consumer Cyclical",
-      "current_price": 137.03,
-      "market_cap": 150729441280,
+      "current_price": 138.8,
+      "market_cap": 153332973568,
       "dividend_yield": 1.4,
       "dividend_rate": 1.92,
-      "earnings_history": {},
-      "earnings_warning": false
-    },
-    {
-      "id": "earnings-BN-2026-11-12",
-      "category": "EARNINGS",
-      "type": "EARNINGS",
-      "date": "2026-11-12",
-      "days_away": 36,
-      "title": "BN \u2014 Earnings Q",
-      "description": "Sin historial disponible",
-      "impact": "MEDIUM",
-      "direction_bias": "UNKNOWN",
-      "avg_move_pct": null,
-      "affected_tickers": [
-        "BN"
-      ],
-      "bullish_sectors": [],
-      "bearish_sectors": [],
-      "source": "yfinance",
-      "ticker": "BN",
-      "company": "Brookfield Corporation",
-      "sector": "Financial Services",
-      "current_price": 37.29,
-      "market_cap": 83244392448,
-      "eps_estimate": null,
       "earnings_history": {},
       "earnings_warning": false
     },
@@ -5979,8 +5978,8 @@
       "ticker": "TJX",
       "company": "TJX Companies, Inc. (The)",
       "sector": "Consumer Cyclical",
-      "current_price": 137.03,
-      "market_cap": 150729441280,
+      "current_price": 138.8,
+      "market_cap": 153332973568,
       "eps_estimate": 1.34,
       "earnings_history": {
         "beat_count": 4,
@@ -6041,8 +6040,8 @@
       "ticker": "MSFT",
       "company": "Microsoft Corporation",
       "sector": "Technology",
-      "current_price": 529.3,
-      "market_cap": 3930341244928,
+      "current_price": 529.76,
+      "market_cap": 3933757243392,
       "dividend_yield": 0.74,
       "dividend_rate": 3.92,
       "earnings_history": {},
@@ -6068,8 +6067,8 @@
       "ticker": "CPRT",
       "company": "Copart, Inc.",
       "sector": "Industrials",
-      "current_price": 26.82,
-      "market_cap": 24844181504,
+      "current_price": 26.62,
+      "market_cap": 24658917376,
       "eps_estimate": 0.4,
       "earnings_history": {
         "beat_count": 2,
@@ -6130,8 +6129,8 @@
       "ticker": "INTU",
       "company": "Intuit Inc.",
       "sector": "Technology",
-      "current_price": 289.81,
-      "market_cap": 77447667712,
+      "current_price": 297.24,
+      "market_cap": 79433228288,
       "eps_estimate": 2.64,
       "earnings_history": {
         "beat_count": 4,
@@ -6192,8 +6191,8 @@
       "ticker": "WMT",
       "company": "Walmart Inc.",
       "sector": "Consumer Defensive",
-      "current_price": 107.2,
-      "market_cap": 853106032640,
+      "current_price": 108.16,
+      "market_cap": 858114031616,
       "eps_estimate": 0.64,
       "earnings_history": {
         "beat_count": 4,
@@ -6276,8 +6275,8 @@
       "ticker": "SPGI",
       "company": "S&P Global Inc.",
       "sector": "Financial Services",
-      "current_price": 396.13,
-      "market_cap": 116779122688,
+      "current_price": 395.18,
+      "market_cap": 116499062784,
       "dividend_yield": 0.98,
       "dividend_rate": 3.88,
       "earnings_history": {},
@@ -6303,8 +6302,8 @@
       "ticker": "VEEV",
       "company": "Veeva Systems Inc.",
       "sector": "Healthcare",
-      "current_price": 283.5,
-      "market_cap": 45901160448,
+      "current_price": 282.5,
+      "market_cap": 45739249664,
       "eps_estimate": 2.34,
       "earnings_history": {
         "beat_count": 4,
@@ -6393,8 +6392,8 @@
       "ticker": "MCD",
       "company": "McDonald's Corporation",
       "sector": "Consumer Cyclical",
-      "current_price": 232.45,
-      "market_cap": 164491280384,
+      "current_price": 230.88,
+      "market_cap": 163380281344,
       "dividend_yield": 3.32,
       "dividend_rate": 7.72,
       "earnings_history": {},
@@ -6420,8 +6419,8 @@
       "ticker": "DSGX",
       "company": "The Descartes Systems Group Inc",
       "sector": "Technology",
-      "current_price": 78.62,
-      "market_cap": 6725827584,
+      "current_price": 80.07,
+      "market_cap": 6849872384,
       "eps_estimate": 0.73,
       "earnings_history": {
         "beat_count": 4,
@@ -6482,8 +6481,8 @@
       "ticker": "KR",
       "company": "Kroger Company (The)",
       "sector": "Consumer Defensive",
-      "current_price": 58.41,
-      "market_cap": 34496282624,
+      "current_price": 59.25,
+      "market_cap": 34992377856,
       "eps_estimate": 1.16,
       "earnings_history": {
         "beat_count": 3,
@@ -6543,32 +6542,6 @@
       "company": null
     },
     {
-      "id": "compevent-BR-2026-12-08",
-      "category": "COMPANY_EVENT",
-      "type": "INVESTOR_DAY",
-      "date": "2026-12-08",
-      "days_away": 62,
-      "title": "BR \u2014 Investor Day",
-      "description": "BR celebra un Investor Day. Anunciado el 2026-08-04 en un 8-K. Suelen presentarse objetivos a varios a\u00f1os. Medido sobre 2.483 eventos reales, el d\u00eda en s\u00ed no mueve el precio (mediana +0,4% a una semana): sirve para la tesis, no para operar la fecha.",
-      "impact": "MEDIUM",
-      "direction_bias": "NEUTRAL",
-      "avg_move_pct": 0.4,
-      "affected_tickers": [
-        "BR"
-      ],
-      "bullish_sectors": [],
-      "bearish_sectors": [],
-      "source": "https://www.sec.gov/Archives/edgar/data/1383312/000138331226000022/ex992earnings_presentati.htm",
-      "anunciado_el": "2026-08-04",
-      "ticker": "BR",
-      "company": "BR",
-      "sector": "",
-      "current_price": null,
-      "market_cap": null,
-      "earnings_history": {},
-      "earnings_warning": false
-    },
-    {
       "id": "earnings-AZO-2026-12-08",
       "category": "EARNINGS",
       "type": "EARNINGS",
@@ -6588,8 +6561,8 @@
       "ticker": "AZO",
       "company": "AutoZone, Inc.",
       "sector": "Consumer Cyclical",
-      "current_price": 2898.57,
-      "market_cap": 46878572544,
+      "current_price": 2846.27,
+      "market_cap": 46032723968,
       "eps_estimate": 35.32,
       "earnings_history": {
         "beat_count": 3,
@@ -6650,8 +6623,8 @@
       "ticker": "COST",
       "company": "Costco Wholesale Corporation",
       "sector": "Consumer Defensive",
-      "current_price": 935.68,
-      "market_cap": 414755127296,
+      "current_price": 942.25,
+      "market_cap": 417667383296,
       "eps_estimate": 4.94,
       "earnings_history": {
         "beat_count": 4,
@@ -6746,8 +6719,8 @@
       "ticker": "LEN",
       "company": "Lennar Corporation",
       "sector": "Consumer Cyclical",
-      "current_price": 77.41,
-      "market_cap": 18415857664,
+      "current_price": 76.13,
+      "market_cap": 18111344640,
       "eps_estimate": 1.44,
       "earnings_history": {
         "beat_count": 1,
@@ -6842,8 +6815,8 @@
       "ticker": "CTAS",
       "company": "Cintas Corporation",
       "sector": "Industrials",
-      "current_price": 195.96,
-      "market_cap": 78289354752,
+      "current_price": 197.19,
+      "market_cap": 78780760064,
       "eps_estimate": 1.36,
       "earnings_history": {
         "beat_count": 4,
@@ -6904,8 +6877,8 @@
       "ticker": "FDS",
       "company": "FactSet Research Systems Inc.",
       "sector": "Financial Services",
-      "current_price": 272.01,
-      "market_cap": 9674183680,
+      "current_price": 272.78,
+      "market_cap": 9701569536,
       "eps_estimate": 5.0,
       "earnings_history": {
         "beat_count": 3,
@@ -6966,8 +6939,8 @@
       "ticker": "PAYX",
       "company": "Paychex, Inc.",
       "sector": "Technology",
-      "current_price": 101.02,
-      "market_cap": 35961147392,
+      "current_price": 101.55,
+      "market_cap": 36149817344,
       "eps_estimate": 1.28,
       "earnings_history": {
         "beat_count": 4,

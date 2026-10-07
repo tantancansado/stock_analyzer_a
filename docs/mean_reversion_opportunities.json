@@ -1,51 +1,11 @@
 {
-  "generated_at": "2026-10-07 06:52:44",
-  "scan_date": "2026-10-07 06:52:44",
-  "total_opportunities": 1,
+  "generated_at": "2026-10-07 22:00:30",
+  "scan_date": "2026-10-07 22:00:30",
+  "total_opportunities": 0,
   "strategies": {
     "oversold_bounce": 0,
-    "bull_flag_pullback": 1
+    "bull_flag_pullback": 0
   },
-  "ai_narrative": "1) La calidad del batch es limitada",
-  "opportunities": [
-    {
-      "ticker": "RELX",
-      "company_name": "RELX PLC",
-      "strategy": "Bull Flag Pullback",
-      "current_price": 34.03,
-      "rsi": 46.8,
-      "rsi_tier": "NEUTRAL",
-      "rally_pct": 17.1,
-      "pullback_pct": -10.3,
-      "sma_50": 34.9,
-      "sma_200": 34.24,
-      "trend": "Bullish",
-      "volume_decrease": true,
-      "reversion_score": 70,
-      "quality": "\u2b50\u2b50 MUY BUENA",
-      "entry_zone": "$33.35 - $34.71",
-      "entry_ref": 34.71,
-      "target": 37.14,
-      "techo_tecnico": 37.93,
-      "bounce_target": 37.14,
-      "bounce_usd": 2.43,
-      "bounce_pct": 7.0,
-      "stop_loss": 33.85,
-      "stop_pct": -2.5,
-      "risk_reward": 17.28,
-      "risk_reward_en_zona": 2.83,
-      "precio_sobre_zona_entrada": false,
-      "detected_date": "2026-10-07",
-      "ai_confirmation": "YES",
-      "ai_confidence": 90,
-      "ai_reason": "RSI 46.8 dentro rango aceptable",
-      "esperanza_pct": 1.23,
-      "esperanza_n": 11,
-      "esperanza_aciertos": 2,
-      "esperanza_stops": 9,
-      "esperanza_dias_mediana": 7,
-      "esperanza_muestra_ok": true,
-      "esperanza_frase": "en los 11 episodios iguales, el objetivo (+9.1%) lleg\u00f3 antes que el stop (-0.5%) 2 veces y el stop salt\u00f3 primero 9, y cuando lleg\u00f3 tard\u00f3 7 sesiones de mediana. Esperanza +1.23% por operaci\u00f3n."
-    }
-  ]
+  "ai_narrative": null,
+  "opportunities": []
 }

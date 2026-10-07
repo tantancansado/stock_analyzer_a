@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-07T06:57:30Z",
+  "generated_at": "2026-10-07T22:05:32Z",
   "horizon_days": 14,
   "count": 1,
   "snapshots": {
@@ -9,38 +9,38 @@
       "sector": "Real Estate",
       "earnings_date": "2026-10-19",
       "days_to_earnings": 12,
-      "current_price": 10.85,
+      "current_price": 10.57,
       "term_structure": [
         {
           "strike": 10.0,
-          "call_price": 0.9,
-          "put_price": 0.12,
-          "straddle": 1.02,
-          "implied_move_pct": 9.4,
-          "call_iv": 0.0,
-          "put_iv": 0.0625,
+          "call_price": 0.62,
+          "put_price": 0.2,
+          "straddle": 0.82,
+          "implied_move_pct": 7.81,
+          "call_iv": 0.2793,
+          "put_iv": 0.335,
           "expiration": "2026-11-20",
           "days_to_exp": 44
         },
         {
           "strike": 10.0,
-          "call_price": 0.95,
-          "put_price": 0.22,
-          "straddle": 1.17,
-          "implied_move_pct": 10.78,
-          "call_iv": 0.0,
-          "put_iv": 0.0625,
+          "call_price": 0.68,
+          "put_price": 0.33,
+          "straddle": 1.0,
+          "implied_move_pct": 9.46,
+          "call_iv": 0.2188,
+          "put_iv": 0.3525,
           "expiration": "2026-12-18",
           "days_to_exp": 72
         },
         {
           "strike": 10.0,
-          "call_price": 0.9,
-          "put_price": 0.51,
-          "straddle": 1.41,
-          "implied_move_pct": 13.0,
-          "call_iv": 0.0,
-          "put_iv": 0.0313,
+          "call_price": 0.73,
+          "put_price": 0.65,
+          "straddle": 1.38,
+          "implied_move_pct": 13.01,
+          "call_iv": 0.167,
+          "put_iv": 0.3682,
           "expiration": "2027-03-19",
           "days_to_exp": 163
         }
@@ -48,9 +48,9 @@
       "skew": {
         "put_strike": 10.0,
         "call_strike": 12.5,
-        "put_iv": 0.0625,
-        "call_iv": 0.125,
-        "skew_pts": -6.25,
+        "put_iv": 0.335,
+        "call_iv": 0.3399,
+        "skew_pts": -0.49,
         "unreliable": false
       },
       "history": {
@@ -90,7 +90,7 @@
         ]
       },
       "52w_high": 14.93,
-      "52w_low": 10.73,
+      "52w_low": 10.46,
       "analyst_target": 14.75,
       "analyst_count": 5.0
     }

@@ -1,7 +1,7 @@
 {
   "generated_at": "2026-10-07",
-  "total": 68,
-  "high_count": 35,
+  "total": 62,
+  "high_count": 34,
   "alerts": [
     {
       "ticker": "AAL.L",
@@ -189,21 +189,6 @@
       "data": {
         "purchase_count": 5.0,
         "unique_insiders": 2.0
-      }
-    },
-    {
-      "ticker": "KO",
-      "type": "STREAK",
-      "severity": "HIGH",
-      "title": "KO \u2014 13 d\u00edas en convergencia",
-      "message": "Lleva 13 d\u00edas consecutivos en 2 estrategias. Se\u00f1al persistente de alta convicci\u00f3n.",
-      "date": "2026-10-07",
-      "data": {
-        "streak_days": 13,
-        "strategies": [
-          "VALUE",
-          "OPTIONS"
-        ]
       }
     },
     {
@@ -482,21 +467,6 @@
       }
     },
     {
-      "ticker": "APH",
-      "type": "NEW_CONVERGENCE",
-      "severity": "MEDIUM",
-      "title": "Nueva convergencia: APH",
-      "message": "Aparece en 2 estrategias: VALUE, MOMENTUM. Score convergencia: 47.",
-      "date": "2026-10-07",
-      "data": {
-        "strategies": [
-          "VALUE",
-          "MOMENTUM"
-        ],
-        "convergence_score": 47
-      }
-    },
-    {
       "ticker": "ATO",
       "type": "INSIDER_BUYING",
       "severity": "MEDIUM",
@@ -659,36 +629,6 @@
       }
     },
     {
-      "ticker": "LIN",
-      "type": "STREAK",
-      "severity": "MEDIUM",
-      "title": "LIN \u2014 3 d\u00edas en convergencia",
-      "message": "Lleva 3 d\u00edas consecutivos en 2 estrategias. Se\u00f1al persistente de alta convicci\u00f3n.",
-      "date": "2026-10-07",
-      "data": {
-        "streak_days": 3,
-        "strategies": [
-          "INSIDERS",
-          "OPTIONS"
-        ]
-      }
-    },
-    {
-      "ticker": "MA",
-      "type": "NEW_CONVERGENCE",
-      "severity": "MEDIUM",
-      "title": "Nueva convergencia: MA",
-      "message": "Aparece en 2 estrategias: VALUE, OPTIONS. Score convergencia: 49.",
-      "date": "2026-10-07",
-      "data": {
-        "strategies": [
-          "VALUE",
-          "OPTIONS"
-        ],
-        "convergence_score": 49
-      }
-    },
-    {
       "ticker": "MCO",
       "type": "SCORE_DRIFT",
       "severity": "MEDIUM",
@@ -735,19 +675,6 @@
       "data": {
         "purchase_count": 4.0,
         "unique_insiders": 1.0
-      }
-    },
-    {
-      "ticker": "RELX",
-      "type": "MR_ZONE",
-      "severity": "MEDIUM",
-      "title": "RELX en zona oversold",
-      "message": "RSI 47, score MR 70. Calidad: \u2b50\u2b50 MUY BUENA. Posible rebote t\u00e9cnico.",
-      "date": "2026-10-07",
-      "data": {
-        "reversion_score": 70.0,
-        "rsi": 46.8,
-        "quality": "\u2b50\u2b50 MUY BUENA"
       }
     },
     {
@@ -798,21 +725,6 @@
       "data": {
         "purchase_count": 4.0,
         "unique_insiders": 1.0
-      }
-    },
-    {
-      "ticker": "TMO",
-      "type": "NEW_CONVERGENCE",
-      "severity": "MEDIUM",
-      "title": "Nueva convergencia: TMO",
-      "message": "Aparece en 2 estrategias: VALUE, OPTIONS. Score convergencia: 47.",
-      "date": "2026-10-07",
-      "data": {
-        "strategies": [
-          "VALUE",
-          "OPTIONS"
-        ],
-        "convergence_score": 47
       }
     },
     {
