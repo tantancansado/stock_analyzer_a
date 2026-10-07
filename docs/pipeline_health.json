@@ -1,9 +1,9 @@
 {
   "origen": "github-actions",
-  "run_id": "37578613397",
-  "generated_at": "2026-10-07T06:59:54Z",
+  "run_id": "37682023169",
+  "generated_at": "2026-10-07T22:09:17Z",
   "pipeline_date": "2026-10-07",
-  "ok_count": 19,
+  "ok_count": 18,
   "total": 20,
   "modules": {
     "value_us": {
@@ -102,13 +102,13 @@
       "columna_poblada": true
     },
     "mean_reversion": {
-      "status": "ok",
+      "status": "incompleto",
       "date": "2026-10-07",
       "days_ago": 0,
       "stale_threshold_days": 3,
       "path": "docs/mean_reversion_opportunities.json",
       "columna_requerida": "opportunities",
-      "columna_poblada": true
+      "columna_poblada": false
     },
     "macro": {
       "status": "ok",
@@ -183,7 +183,7 @@
       "path": "docs/options_flow.csv",
       "columna_requerida": "flow_score",
       "columna_poblada": true,
-      "rows": 20,
+      "rows": 11,
       "min_rows": 1
     },
     "bounce_broad": {
