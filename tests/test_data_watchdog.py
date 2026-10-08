@@ -411,3 +411,12 @@ def test_un_health_de_ci_no_levanta_ese_aviso(tmp_path, monkeypatch):
             assert ruta not in ignorados, (
                 f'{modulo} vigila «{ruta}», que está en .gitignore: no puede '
                 f'llegar nunca al repo y el aviso será permanente')
+
+
+def test_los_avisos_no_criticos_no_van_a_telegram():
+    import data_freshness_watchdog as w
+    leve = [{"module": "x:excluidos", "status": "pick_bueno_fuera", "critical": False, "detail": ""}]
+    grave = leve + [{"module": "claude_saldo", "status": "sin_credito", "critical": True, "detail": ""}]
+    assert not w._merece_telegram(leve, health_stale=False)
+    assert w._merece_telegram(grave, health_stale=False)
+    assert w._merece_telegram(leve, health_stale=True)

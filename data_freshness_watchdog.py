@@ -436,6 +436,16 @@ def _save_state(state: dict) -> None:
         print(f"  No se pudo guardar el estado: {exc}")
 
 
+def _merece_telegram(problems: list[dict], health_stale: bool) -> bool:
+    """Telegram es para lo que pide actuar: crítico o pipeline caído.
+
+    Un 🟡 como «pick bueno fuera» suele ser el verificador de IA haciendo su
+    trabajo (IT, 8-oct-2026: ingresos a la baja con un +91% de upside propio).
+    Mandarlo cada 24 h enseñaba a ignorar el canal.
+    """
+    return health_stale or any(p["critical"] for p in problems)
+
+
 def _should_alert(problems: list[dict], state: dict, force: bool) -> bool:
     if force:
         return True
@@ -527,6 +537,10 @@ def main() -> int:
     for p in problems:
         flag = "🔴" if p["critical"] else "🟡"
         print(f"  {flag} {p['module']}: {p['status']} — {p['detail']}")
+
+    if not _merece_telegram(problems, health_stale) and not force:
+        print("  (solo avisos no críticos: quedan en el log, no van a Telegram)")
+        return 0
 
     if not _should_alert(problems, state, force):
         print("  (mismo problema ya alertado hace <24h — silencio anti-spam)")
