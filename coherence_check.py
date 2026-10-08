@@ -227,6 +227,16 @@ def postmortem_vs_tracker_summary(postmortem: dict | None, summary: dict | None,
             f'el tracker dice {tracker_win}% — diferencia de {diff:.1f}pts']
 
 
+def _leaps_enseña_el_timing() -> bool:
+    """¿Pinta la tarjeta LEAPS el estado de entrada de la acción?"""
+    try:
+        src = (Path(__file__).resolve().parent / 'frontend' / 'src' / 'pages'
+               / 'Leaps.tsx').read_text()
+    except OSError:
+        return False
+    return 'ENTRADA_CONFIG[o.entry_readiness]' in src and 'entry_readiness_reason' in src
+
+
 def leaps_vs_timing_de_la_accion(leaps: list[dict]) -> list[str]:
     """¿Recomienda LEAPS una acción cuyo propio timing dice que espere?
 
@@ -237,8 +247,14 @@ def leaps_vs_timing_de_la_accion(leaps: list[dict]) -> list[str]:
     motores en desacuerdo sobre el mismo valor no es un detalle.
 
     No bloquea nada — el horizonte de un LEAPS es 2028 y el de
-    `entry_readiness` es corto — pero el desacuerdo tiene que estar dicho.
+    `entry_readiness` es corto — pero el desacuerdo tiene que estar dicho. Lo
+    que se comprueba es que se DIGA: si la tarjeta LEAPS enseña el estado de
+    entrada de la acción, el desacuerdo es información (ℹ️) y no un fallo;
+    el 8-oct-2026 BAC y MCD pusieron el run en rojo y el aviso de Telegram
+    decía «pipeline roto» por algo que la pantalla ya contaba.
     """
+    avisa = _leaps_enseña_el_timing()
+    marca = 'ℹ️ ' if avisa else ''
     fallos = []
     for o in leaps:
         if not o.get('in_value_list'):
@@ -248,7 +264,7 @@ def leaps_vs_timing_de_la_accion(leaps: list[dict]) -> list[str]:
             continue
         motivo = (o.get('entry_readiness_reason') or '').strip()
         fallos.append(
-            f"{o.get('ticker')}: LEAPS lo recomienda (timing_score "
+            f"{marca}{o.get('ticker')}: LEAPS lo recomienda (timing_score "
             f"{o.get('timing_score')}) y su ficha VALUE dice ESPERAR"
             + (f" — {motivo[:60]}" if motivo else ""))
     return fallos
@@ -633,7 +649,9 @@ def run() -> int:
     # arreglar y un check que salta en rojo sin acción posible se ignora.
     desfases = []
     for nombre, problemas in comprobaciones:
-        reales = [p for p in problemas if not str(p).startswith('⏳')]
+        informativos = [p for p in problemas if str(p).startswith('ℹ')]
+        reales = [p for p in problemas
+                  if not str(p).startswith('⏳') and not str(p).startswith('ℹ')]
         pendientes = [p for p in problemas if str(p).startswith('⏳')]
         desfases.extend(pendientes)
         if reales:
@@ -643,6 +661,10 @@ def run() -> int:
                 print(f'       {p}')
             if len(reales) > 8:
                 print(f'       ...y {len(reales) - 8} más')
+        elif informativos:
+            print(f'  ℹ️  {nombre}: avisado en pantalla, no es un fallo')
+            for p in informativos:
+                print(f'       {p}')
         elif pendientes:
             print(f'  ⏳ {nombre}: se corrige solo al regenerarse el artefacto')
             for p in pendientes:
@@ -653,8 +675,9 @@ def run() -> int:
     informe = {
         'total_problemas': total,
         'desfases_conocidos': desfases,
-        'detalle': {n: [p for p in ps if not str(p).startswith('⏳')]
-                    for n, ps in comprobaciones if any(not str(p).startswith('⏳') for p in ps)},
+        'detalle': {n: [p for p in ps if not str(p).startswith(('⏳', 'ℹ'))]
+                    for n, ps in comprobaciones
+                    if any(not str(p).startswith(('⏳', 'ℹ')) for p in ps)},
         'tickers_value': len(value),
         'tickers_verdicts': len(verdicts),
     }

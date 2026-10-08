@@ -52,3 +52,36 @@ class TestElDesacuerdoSeDice:
         src = (Path(__file__).resolve().parents[1] / 'leaps_analyzer.py').read_text()
         assert "'entry_readiness': sig.get('entry_readiness')" in src
         assert "s['entry_readiness'] = " in src
+
+
+class TestSoloFallaSiNoSeDice:
+    """El 8-oct-2026 BAC y MCD pusieron el run en rojo aunque la tarjeta LEAPS
+    ya enseña el estado de entrada: el desacuerdo estaba dicho."""
+
+    FILA = {'ticker': 'BAC', 'in_value_list': True, 'timing_score': 44.0,
+            'entry_readiness': 'ESPERAR', 'entry_readiness_reason': 'Ha perdido la MA200'}
+
+    def test_dicho_en_pantalla_es_informacion_no_fallo(self, monkeypatch):
+        import coherence_check as cc
+        monkeypatch.setattr(cc, '_leaps_enseña_el_timing', lambda: True)
+        res = cc.leaps_vs_timing_de_la_accion([self.FILA])
+        assert len(res) == 1 and res[0].startswith('ℹ')
+
+    def test_si_la_pantalla_no_lo_dice_es_fallo(self, monkeypatch):
+        import coherence_check as cc
+        monkeypatch.setattr(cc, '_leaps_enseña_el_timing', lambda: False)
+        res = cc.leaps_vs_timing_de_la_accion([self.FILA])
+        assert len(res) == 1 and not res[0].startswith('ℹ')
+
+    def test_la_tarjeta_leaps_enseña_el_estado_de_entrada(self):
+        import coherence_check as cc
+        assert cc._leaps_enseña_el_timing()
+
+    def test_el_run_no_se_pone_rojo_por_un_aviso_informativo(self, monkeypatch, tmp_path):
+        import coherence_check as cc
+        monkeypatch.setattr(cc, 'DOCS', tmp_path)
+        monkeypatch.setattr(cc, '_leaps_enseña_el_timing', lambda: True)
+        cc_fn = cc.leaps_vs_timing_de_la_accion([self.FILA])
+        informativos = [p for p in cc_fn if str(p).startswith('ℹ')]
+        reales = [p for p in cc_fn if not str(p).startswith(('⏳', 'ℹ'))]
+        assert informativos and not reales
