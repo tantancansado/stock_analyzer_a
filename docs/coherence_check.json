@@ -1,5 +1,5 @@
 {
-  "total_problemas": 2,
+  "total_problemas": 0,
   "desfases_conocidos": [
     "⏳ ⚠️  value_opportunities.csv: upside analista = (objetivo − precio) / precio — 1/57 filas, peor desvío 3% (FDS)",
     "⏳ ⚠️  value_opportunities.csv: upside DCF = (objetivo − precio) / precio — 2/50 filas, peor desvío 5% (KO, 4684.T)",
@@ -12,12 +12,7 @@
     "⏳ ⚠️  european_value_opportunities.csv: distancia al máximo 52s — 1/39 filas, peor desvío 3% (DB1.DE)",
     "⏳ ⚠️  european_value_opportunities_filtered.csv: distancia al máximo 52s — 1/21 filas, peor desvío 3% (DB1.DE)"
   ],
-  "detalle": {
-    "LEAPS contra el timing de la acción": [
-      "BAC: LEAPS lo recomienda (timing_score 44.0) y su ficha VALUE dice ESPERAR — Ha perdido la MA200, aunque la media sigue subiendo — correc",
-      "MCD: LEAPS lo recomienda (timing_score 20.0) y su ficha VALUE dice ESPERAR — En caída (bajo MA200 descendente) — espera a que haga suelo"
-    ]
-  },
+  "detalle": {},
   "tickers_value": 57,
   "tickers_verdicts": 72
 }
