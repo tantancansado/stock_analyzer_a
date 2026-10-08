@@ -116,6 +116,16 @@ def gather_facts() -> dict:
     # pierde ningún campo.
     rows = _rows(DOCS / 'value_opportunities_filtered.csv')
 
+    def _respaldado(detalle):
+        # earnings_details es un dict impreso como texto; False = el BPA crece
+        # mucho más que el resultado operativo (efecto contable, no negocio).
+        txt = str(detalle or '')
+        if "'crecimiento_respaldado': False" in txt:
+            return False
+        if "'crecimiento_respaldado': True" in txt:
+            return True
+        return None
+
     def ficha(r):
         return {
             'ticker': r.get('ticker'),
@@ -131,6 +141,10 @@ def gather_facts() -> dict:
             'timing': r.get('entry_readiness'),
             'por_que_cae': r.get('why_cheap') or '',
             'por_que_cae_detalle': (r.get('why_cheap_resumen') or '')[:180],
+            'dias_a_resultados': _f(r.get('days_to_earnings')),
+            'objetivo_por_pe_pct': _f(r.get('target_price_pe_upside_pct')),
+            'objetivo_dcf_pct': _f(r.get('target_price_dcf_upside_pct')),
+            'beneficio_respaldado_por_negocio': _respaldado(r.get('earnings_details')),
         }
 
     # Comprables: timing a favor y sin que los modelos propios desmientan el precio
@@ -238,8 +252,8 @@ def gather_facts() -> dict:
 
 SYSTEM = """Escribes el briefing diario de inversión de una sola persona, que lo lee
 en el móvil. Es inversor value estilo Lynch: busca buenas empresas castigadas por
-razones que no sean deterioro del negocio, con ganancias del 5-10% y alta tasa de
-acierto. Prefiere que no le digas nada antes que decirle algo dudoso.
+razones que no sean deterioro del negocio, con ideas de convicción a 12 meses; vende a precio
+objetivo, no a un porcentaje. Prefiere que no le digas nada antes que decirle algo dudoso.
 
 Recibes hechos ya calculados y verificados. REDACTAS, NO ANALIZAS: no inventes ni
 estimes un solo número, usa solo los que te doy. Si un dato no está, no lo menciones.
@@ -255,6 +269,12 @@ Estructura, en este orden y omitiendo lo que esté vacío:
    llamas: si `rotas_son_tuyas` es true son posiciones que el usuario TIENE y
    puedes decir "sal" o "cierra"; si es false NO se ha podido confirmar que las
    tenga, así que di "la señal de X se ha roto" y nunca "tu posición" ni "sal".
+   En cada comprable di, si vienen: los resultados trimestrales si caen en menos
+   de 30 días ("dias_a_resultados": la entrada se la juega a esa reacción), si un
+   modelo propio (objetivo_por_pe_pct u objetivo_dcf_pct) sale negativo (dice que
+   ya está cara), y si "beneficio_respaldado_por_negocio" es false (el beneficio
+   crece más que el negocio: no lo vendas como calidad ni te apoyes en el
+   objetivo por P/E). Un comprable con esos reparos se presenta con el reparo.
 3. Qué vigilar: baratas que aún caen. Una línea cada una, con el porqué de su caída
    si lo tienes.
 4. Lo que ACABA DE APARECER en la lista (`picks_nuevos`) y lo que se ha caído de
