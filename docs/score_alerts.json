@@ -1,111 +1,161 @@
 {
-  "generated_at": "2026-10-07",
+  "generated_at": "2026-10-08",
   "alerts": [
     {
       "type": "SCORE_UP",
-      "ticker": "PAYX",
-      "company_name": "Paychex, Inc.",
-      "sector": "Technology",
-      "score_today": 73.4,
-      "score_prev": 52.4,
-      "delta": 21.0,
-      "grade": "⭐⭐⭐ EXCELLENT"
+      "ticker": "GGG",
+      "company_name": "Graco Inc.",
+      "sector": "Industrials",
+      "score_today": 53.4,
+      "score_prev": 41.0,
+      "delta": 12.4,
+      "grade": "🔵 DECENT"
     },
     {
       "type": "SCORE_UP",
-      "ticker": "VRSN",
-      "company_name": "VeriSign, Inc.",
-      "sector": "Technology",
-      "score_today": 72.7,
-      "score_prev": 57.5,
-      "delta": 15.2,
-      "grade": "⭐⭐ STRONG"
+      "ticker": "KO",
+      "company_name": "The Coca-Cola Company",
+      "sector": "Consumer Defensive",
+      "score_today": 66.9,
+      "score_prev": 54.7,
+      "delta": 12.2,
+      "grade": "⭐ GOOD"
     },
     {
       "type": "SCORE_UP",
       "ticker": "AMZN",
       "company_name": "Amazon.com, Inc.",
       "sector": "Consumer Cyclical",
-      "score_today": 43.8,
-      "score_prev": 31.7,
-      "delta": 12.1,
-      "grade": "⚪ WEAK"
+      "score_today": 55.3,
+      "score_prev": 43.8,
+      "delta": 11.6,
+      "grade": "🔵 DECENT"
     },
     {
       "type": "SCORE_UP",
-      "ticker": "DVA",
-      "company_name": "DaVita Inc.",
+      "ticker": "RMD",
+      "company_name": "ResMed Inc.",
       "sector": "Healthcare",
-      "score_today": 60.2,
-      "score_prev": 53.0,
-      "delta": 7.2,
+      "score_today": 64.3,
+      "score_prev": 55.6,
+      "delta": 8.6,
       "grade": "⭐ GOOD"
     },
     {
       "type": "SCORE_UP",
-      "ticker": "THC",
-      "company_name": "Tenet Healthcare Corporation",
-      "sector": "Healthcare",
-      "score_today": 58.4,
-      "score_prev": 51.2,
-      "delta": 7.2,
-      "grade": "⭐ GOOD"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "SAP",
-      "company_name": "SAP SE",
-      "sector": "Technology",
-      "score_today": 48.8,
-      "score_prev": 54.4,
-      "delta": -5.6,
+      "ticker": "NYT",
+      "company_name": "The New York Times Company",
+      "sector": "Communication Services",
+      "score_today": 51.7,
+      "score_prev": 43.5,
+      "delta": 8.2,
       "grade": "🔵 DECENT"
     },
     {
-      "type": "SCORE_DOWN",
-      "ticker": "AVGO",
-      "company_name": "Broadcom Inc.",
-      "sector": "Technology",
-      "score_today": 47.8,
-      "score_prev": 54.3,
-      "delta": -6.5,
+      "type": "SCORE_UP",
+      "ticker": "LMT",
+      "company_name": "Lockheed Martin Corporation",
+      "sector": "Industrials",
+      "score_today": 46.3,
+      "score_prev": 38.2,
+      "delta": 8.1,
       "grade": "⚪ WEAK"
     },
     {
-      "type": "SCORE_DOWN",
-      "ticker": "ADP",
-      "company_name": "Automatic Data Processing, Inc.",
+      "type": "SCORE_UP",
+      "ticker": "BR",
+      "company_name": "Broadridge Financial Solutions, Inc.",
       "sector": "Technology",
-      "score_today": 36.3,
-      "score_prev": 44.8,
-      "delta": -8.5,
+      "score_today": 49.8,
+      "score_prev": 41.8,
+      "delta": 8.0,
       "grade": "⚪ WEAK"
     },
     {
-      "type": "SCORE_DOWN",
-      "ticker": "KO",
-      "company_name": "The Coca-Cola Company",
-      "sector": "Consumer Defensive",
-      "score_today": 54.7,
-      "score_prev": 64.2,
-      "delta": -9.5,
-      "grade": "🔵 DECENT"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "ICE",
-      "company_name": "Intercontinental Exchange, Inc.",
+      "type": "SCORE_UP",
+      "ticker": "NDAQ",
+      "company_name": "Nasdaq, Inc.",
       "sector": "Financial Services",
-      "score_today": 40.4,
-      "score_prev": 54.8,
-      "delta": -14.4,
+      "score_today": 48.2,
+      "score_prev": 40.2,
+      "delta": 8.0,
       "grade": "⚪ WEAK"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "ADSK",
+      "company_name": "Autodesk, Inc.",
+      "sector": "Technology",
+      "score_today": 54.3,
+      "score_prev": 46.7,
+      "delta": 7.7,
+      "grade": "🔵 DECENT"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "YUM",
+      "company_name": "Yum! Brands, Inc.",
+      "sector": "Consumer Cyclical",
+      "score_today": 44.8,
+      "score_prev": 38.9,
+      "delta": 6.0,
+      "grade": "⚪ WEAK"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "DPZ",
+      "company_name": "Domino's Pizza, Inc.",
+      "sector": "Consumer Cyclical",
+      "score_today": 41.7,
+      "score_prev": 36.7,
+      "delta": 5.1,
+      "grade": "⚪ WEAK"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "MCO",
+      "company_name": "Moody's Corporation",
+      "sector": "Financial Services",
+      "score_today": 48.4,
+      "score_prev": 43.4,
+      "delta": 5.0,
+      "grade": "⚪ WEAK"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "FHN",
+      "company_name": "First Horizon Corporation",
+      "sector": "Financial Services",
+      "score_today": 42.0,
+      "score_prev": 47.1,
+      "delta": -5.0,
+      "grade": "⚪ WEAK"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "VRSN",
+      "company_name": "VeriSign, Inc.",
+      "sector": "Technology",
+      "score_today": 62.7,
+      "score_prev": 72.7,
+      "delta": -10.0,
+      "grade": "⭐ GOOD"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "PAYX",
+      "company_name": "Paychex, Inc.",
+      "sector": "Technology",
+      "score_today": 55.4,
+      "score_prev": 73.4,
+      "delta": -18.0,
+      "grade": "⭐ GOOD"
     }
   ],
   "counts": {
     "new_entries": 0,
     "exited": 0,
-    "score_up": 5,
-    "score_down": 5
+    "score_up": 12,
+    "score_down": 3
   }
 }

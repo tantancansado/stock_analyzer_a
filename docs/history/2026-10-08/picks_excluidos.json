@@ -1,0 +1,41 @@
+{
+  "listas": {
+    "value_opportunities": {
+      "candidatas": 75,
+      "publicadas": 70,
+      "excluidos": [
+        {
+          "ticker": "VCISY",
+          "paso": "rangos_imposibles",
+          "motivo": "DCF fuera de rango: no es una valoración, es un dato roto (visto 258, esperado entre -95 y 200)",
+          "score": 48.92
+        },
+        {
+          "ticker": "ERIE",
+          "paso": "rangos_imposibles",
+          "motivo": "Falta analyst_upside_pct: no se recomienda lo que no se puede evaluar",
+          "score": 44.14
+        },
+        {
+          "ticker": "KYCCF",
+          "paso": "rangos_imposibles",
+          "motivo": "Falta analyst_upside_pct: no se recomienda lo que no se puede evaluar",
+          "score": 43.452000000000005
+        },
+        {
+          "ticker": "IT",
+          "paso": "verificador_ia",
+          "motivo": "Contradicción crítica: rev_growth_yoy es -1.5% (contracción), pero upside_triangulated_pct es 91.4% con modelos_acuerdo COHERENTES; fundamental_score es bajo (55.5) respecto al upside implícito; PEG ratio ausente pero FCF yield de 10.8% con crecimiento negativo es incoherente (no hay crecimiento para justificar valoración); analyst_upside_pct es apenas 0.2% mientras que modelos triangulados ven 91% de subida — un descuento masivo sin sustento en crecimiento invalida la recomendación",
+          "score": 61.43000000000001
+        },
+        {
+          "ticker": "AVGO",
+          "paso": "verificador_ia",
+          "motivo": "Contradicción severa invalida la recomendación: analyst propone 41.1% upside pero DCF es -60.2% (precio sobrevalorado en 60%); upside_triangulated_pct es -9.6% (negativo); upside_requiere_verificacion true señala el problema, pero el contexto es incoherente — el crecimiento de ingresos de 85.5% es extraordinario, sin embargo el DCF lo valúa muy por debajo del precio actual; o hay error en integración de crecimiento en el modelo DCF, o el crecimiento del 85.5% es temporal/insostenible y no debe extrapolarse; FCF yield muy bajo (2.23%) con crecimiento alto es típico de cap-ex intensivo, pero DCF debería capturarlo — la contradicción sugiere fallo en modelado o dato erróneo en crecimiento",
+          "score": 45.22500000000001
+        }
+      ]
+    }
+  },
+  "generated_at": "2026-10-08T06:23:40Z"
+}

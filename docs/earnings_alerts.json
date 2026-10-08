@@ -1,6 +1,38 @@
 {
-  "timestamp": "2026-10-07T21:58:07.436044",
+  "timestamp": "2026-10-08T07:16:01.070538",
   "alerts": [
+    {
+      "type": "EARNINGS_WARNING",
+      "ticker": "ASML",
+      "days_until": 6,
+      "earnings_date": "2026-10-14",
+      "message": "\u26a0\ufe0f  ASML: Earnings en 6 d\u00edas (2026-10-14)",
+      "action": "NO ENTRAR - Esperar post-earnings"
+    },
+    {
+      "type": "EARNINGS_WARNING",
+      "ticker": "MRSH",
+      "days_until": 7,
+      "earnings_date": "2026-10-15",
+      "message": "\u26a0\ufe0f  MRSH: Earnings en 7 d\u00edas (2026-10-15)",
+      "action": "NO ENTRAR - Esperar post-earnings"
+    },
+    {
+      "type": "EARNINGS_WARNING",
+      "ticker": "FHN",
+      "days_until": 7,
+      "earnings_date": "2026-10-15",
+      "message": "\u26a0\ufe0f  FHN: Earnings en 7 d\u00edas (2026-10-15)",
+      "action": "NO ENTRAR - Esperar post-earnings"
+    },
+    {
+      "type": "EARNINGS_WARNING",
+      "ticker": "BAC",
+      "days_until": 6,
+      "earnings_date": "2026-10-14",
+      "message": "\u26a0\ufe0f  BAC: Earnings en 6 d\u00edas (2026-10-14)",
+      "action": "NO ENTRAR - Esperar post-earnings"
+    },
     {
       "type": "EARNINGS_WARNING",
       "ticker": "DPZ",

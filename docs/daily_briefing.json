@@ -1,44 +1,139 @@
 {
-  "date": "2026-10-08",
-  "timestamp": "2026-10-08T07:00:51.155569",
-  "narrative": "",
-  "macro_regime": "CALM",
-  "picks_count": 8,
-  "top_picks": [
-    {
-      "ticker": "MSFT",
-      "sector": "Technology",
-      "value_score": 78.435,
-      "analyst_upside_pct": 10.9,
-      "conviction_grade": null
-    },
-    {
-      "ticker": "KO",
-      "sector": "Consumer Defensive",
-      "value_score": 66.89,
-      "analyst_upside_pct": 10.0,
-      "conviction_grade": null
-    },
-    {
-      "ticker": "RMD",
-      "sector": "Healthcare",
-      "value_score": 64.27499999999999,
-      "analyst_upside_pct": 10.7,
-      "conviction_grade": null
-    },
-    {
-      "ticker": "GOOG",
-      "sector": "Communication Services",
-      "value_score": 63.6,
-      "analyst_upside_pct": 20.8,
-      "conviction_grade": null
-    },
-    {
-      "ticker": "VRSN",
-      "sector": "Technology",
-      "value_score": 62.715,
-      "analyst_upside_pct": 10.3,
-      "conviction_grade": null
+  "fecha": "2026-10-08",
+  "texto": "Hoy hay dos para entrar. <b>VeriSign (VRSN)</b> a 294,22: cae solo un 5,8% desde máximos, los analistas le ven un 10% de subida y el free cash flow yield (4%) acompaña — es justo el perfil que buscas.\n<b>Amazon (AMZN)</b> a 259,92: upside de analistas del 27%, pero triangulado hasta el 58% — divergencia fuerte a favor. Eso sí, el free cash flow yield es bajo (1%), así que entra con tamaño moderado.\n\nPara vigilar sin tocar todavía: NYT, GGG, RMD y ADSK siguen baratas y cayendo, pero no tengo explicación fiable de por qué — sin eso, mejor esperar.\n<b>CBOE</b> sí tiene explicación clara: cae un 24% desde máximos pese a resultados excepcionales (ingresos +25-29%, beneficio +45-54%) — es rotación sectorial, no un negocio que se rompe. La más interesante del radar.\n\nHan entrado nuevas en la lista: GOOG, MSFT, PAYX y THC — de momento solo vigilancia, aún no comprables. Se cae 4684.T de la lista.\n\nEl sistema acierta un 57% a 180 días con retorno medio del 9,5%, pero son solo 7 casos — muestra pequeña, no apuestes el tamaño de posición a esa cifra.",
+  "hechos": {
+    "fecha": "2026-10-08",
+    "total_lista": 47,
+    "datos_incompletos": [],
+    "picks_nuevos": [
+      "AMZN",
+      "GOOG",
+      "MSFT",
+      "PAYX",
+      "THC"
+    ],
+    "picks_que_se_van": [
+      "4684.T"
+    ],
+    "comprables": [
+      {
+        "ticker": "VRSN",
+        "empresa": "VeriSign, Inc.",
+        "score": 62.715,
+        "precio": 294.22,
+        "upside_analista": 10.3,
+        "upside_triangulado": null,
+        "divergencia": "MEDIA",
+        "fcf_yield": 4.05,
+        "del_maximo_pct": -5.8,
+        "rs_6m": -5.26,
+        "timing": "ENTRADA",
+        "por_que_cae": "",
+        "por_que_cae_detalle": ""
+      },
+      {
+        "ticker": "AMZN",
+        "empresa": "Amazon.com, Inc.",
+        "score": 55.34,
+        "precio": 259.92,
+        "upside_analista": 27.2,
+        "upside_triangulado": 58.6,
+        "divergencia": "",
+        "fcf_yield": 1.06,
+        "del_maximo_pct": -9.5,
+        "rs_6m": -3.65,
+        "timing": "ENTRADA",
+        "por_que_cae": "",
+        "por_que_cae_detalle": ""
+      }
+    ],
+    "vigilar": [
+      {
+        "ticker": "NYT",
+        "empresa": "The New York Times Company",
+        "score": 51.67999999999999,
+        "precio": 64.9,
+        "upside_analista": 21.0,
+        "upside_triangulado": 21.0,
+        "divergencia": "",
+        "fcf_yield": 5.96,
+        "del_maximo_pct": -25.5,
+        "rs_6m": -35.67,
+        "timing": "ESPERAR",
+        "por_que_cae": "SIN_DATOS",
+        "por_que_cae_detalle": ""
+      },
+      {
+        "ticker": "GGG",
+        "empresa": "Graco Inc.",
+        "score": 53.41999999999999,
+        "precio": 77.44,
+        "upside_analista": 17.9,
+        "upside_triangulado": 10.3,
+        "divergencia": "",
+        "fcf_yield": 5.01,
+        "del_maximo_pct": -19.1,
+        "rs_6m": -26.85,
+        "timing": "ESPERAR",
+        "por_que_cae": "SIN_DATOS",
+        "por_que_cae_detalle": ""
+      },
+      {
+        "ticker": "CBOE",
+        "empresa": "Cboe Global Markets, Inc.",
+        "score": 53.755,
+        "precio": 281.57,
+        "upside_analista": 11.5,
+        "upside_triangulado": 15.9,
+        "divergencia": "",
+        "fcf_yield": 6.43,
+        "del_maximo_pct": -24.1,
+        "rs_6m": -18.92,
+        "timing": "ESPERAR",
+        "por_que_cae": "SENTIMIENTO",
+        "por_que_cae_detalle": "Cboe registró resultados excepcionales en Q1-Q2 2026 (crecimiento de ingresos 25-29%, EPS +45-54%) y elevó guidance significativamente. La caída obedece a rotación sectorial tras a"
+      },
+      {
+        "ticker": "RMD",
+        "empresa": "ResMed Inc.",
+        "score": 64.27499999999999,
+        "precio": 225.98,
+        "upside_analista": 10.7,
+        "upside_triangulado": 29.4,
+        "divergencia": "",
+        "fcf_yield": 5.12,
+        "del_maximo_pct": -20.4,
+        "rs_6m": -15.19,
+        "timing": "VIGILAR",
+        "por_que_cae": "SIN_DATOS",
+        "por_que_cae_detalle": ""
+      },
+      {
+        "ticker": "ADSK",
+        "empresa": "Autodesk, Inc.",
+        "score": 54.34,
+        "precio": 235.05,
+        "upside_analista": 30.8,
+        "upside_triangulado": 17.7,
+        "divergencia": "MEDIA",
+        "fcf_yield": 5.74,
+        "del_maximo_pct": -26.5,
+        "rs_6m": -10.48,
+        "timing": "ESPERAR",
+        "por_que_cae": "SIN_DATOS",
+        "por_que_cae_detalle": ""
+      }
+    ],
+    "tesis_rotas": [],
+    "rotas_son_tuyas": true,
+    "regimen_cambio": null,
+    "rendimiento_sistema": {
+      "horizonte": "180d",
+      "es_horizonte_definitivo": true,
+      "nota": null,
+      "acierto_pct": 57.1,
+      "retorno_medio": 9.5,
+      "n": 7
     }
-  ]
+  }
 }

@@ -1,19 +1,16 @@
 {
   "total_problemas": 2,
   "desfases_conocidos": [
-    "⏳ ⚠️  value_opportunities.csv: upside analista = (objetivo − precio) / precio — 2/50 filas, peor desvío 3% (IT, FDS)",
-    "⏳ ⚠️  value_opportunities.csv: upside DCF = (objetivo − precio) / precio — 1/45 filas, peor desvío 4% (KO)",
-    "⏳ ⚠️  value_opportunities.csv: upside P/E = (objetivo − precio) / precio — 2/44 filas, peor desvío 5% (ORLY, AXP)",
-    "⏳ ⚠️  value_opportunities.csv: distancia al máximo 52s — 1/50 filas, peor desvío 3% (APH)",
-    "⏳ ⚠️  value_opportunities_filtered.csv: upside analista = (objetivo − precio) / precio — 1/20 filas, peor desvío 2% (FDS)",
-    "⏳ ⚠️  value_opportunities_filtered.csv: upside DCF = (objetivo − precio) / precio — 1/19 filas, peor desvío 4% (KO)",
-    "⏳ ⚠️  value_opportunities_filtered.csv: upside P/E = (objetivo − precio) / precio — 1/17 filas, peor desvío 2% (AXP)",
-    "⏳ ⚠️  european_value_opportunities.csv: upside DCF = (objetivo − precio) / precio — 1/30 filas, peor desvío 2% (NESTE.HE)",
-    "⏳ ⚠️  european_value_opportunities.csv: upside P/E = (objetivo − precio) / precio — 1/30 filas, peor desvío 4% (SIKA.SW)",
-    "⏳ ⚠️  european_value_opportunities.csv: dividendo yield = dividendo / precio — 1/39 filas, peor desvío 11% (SU.PA)",
-    "⏳ ⚠️  european_value_opportunities_filtered.csv: dividendo yield = dividendo / precio — 1/23 filas, peor desvío 11% (SU.PA)",
-    "⏳ ⚠️  momentum_opportunities.csv: upside P/E = (objetivo − precio) / precio — 1/8 filas, peor desvío 2% (DHR)",
-    "⏳ ⚠️  momentum_opportunities.csv: distancia al máximo 52s — 1/8 filas, peor desvío 3% (APH)"
+    "⏳ ⚠️  value_opportunities.csv: upside analista = (objetivo − precio) / precio — 1/57 filas, peor desvío 3% (FDS)",
+    "⏳ ⚠️  value_opportunities.csv: upside DCF = (objetivo − precio) / precio — 2/50 filas, peor desvío 5% (KO, 4684.T)",
+    "⏳ ⚠️  value_opportunities.csv: upside P/E = (objetivo − precio) / precio — 3/48 filas, peor desvío 5% (4684.T, ORLY, WM)",
+    "⏳ ⚠️  value_opportunities.csv: distancia al máximo 52s — 1/57 filas, peor desvío 2% (4684.T)",
+    "⏳ ⚠️  value_opportunities_filtered.csv: upside analista = (objetivo − precio) / precio — 1/47 filas, peor desvío 3% (FDS)",
+    "⏳ ⚠️  value_opportunities_filtered.csv: upside DCF = (objetivo − precio) / precio — 2/40 filas, peor desvío 5% (4684.T, KO)",
+    "⏳ ⚠️  value_opportunities_filtered.csv: upside P/E = (objetivo − precio) / precio — 3/39 filas, peor desvío 5% (4684.T, WM, ORLY)",
+    "⏳ ⚠️  value_opportunities_filtered.csv: distancia al máximo 52s — 1/47 filas, peor desvío 2% (4684.T)",
+    "⏳ ⚠️  european_value_opportunities.csv: distancia al máximo 52s — 1/39 filas, peor desvío 3% (DB1.DE)",
+    "⏳ ⚠️  european_value_opportunities_filtered.csv: distancia al máximo 52s — 1/21 filas, peor desvío 3% (DB1.DE)"
   ],
   "detalle": {
     "LEAPS contra el timing de la acción": [
@@ -21,6 +18,6 @@
       "MCD: LEAPS lo recomienda (timing_score 20.0) y su ficha VALUE dice ESPERAR — En caída (bajo MA200 descendente) — espera a que haga suelo"
     ]
   },
-  "tickers_value": 50,
-  "tickers_verdicts": 50
+  "tickers_value": 57,
+  "tickers_verdicts": 72
 }
