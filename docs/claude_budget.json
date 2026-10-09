@@ -1,24 +1,24 @@
 {
   "mes": "2026-10",
-  "gastado_usd": 3.186303,
-  "llamadas": 260,
-  "busquedas": 50,
+  "gastado_usd": 3.670962,
+  "llamadas": 299,
+  "busquedas": 60,
   "mes_anterior": {
     "mes": "2026-09",
     "gastado_usd": 19.944327
   },
   "por_script": {
     "ai_pick_verifier": {
-      "usd": 0.064801,
-      "llamadas": 3
+      "usd": 0.086509,
+      "llamadas": 4
     },
     "why_cheap_analyzer": {
-      "usd": 0.641187,
-      "llamadas": 15
+      "usd": 0.860607,
+      "llamadas": 20
     },
     "ai_quality_filter": {
-      "usd": 0.350901,
-      "llamadas": 49
+      "usd": 0.594432,
+      "llamadas": 82
     },
     "thesis_generator": {
       "usd": 0.849625,
@@ -41,8 +41,8 @@
       "llamadas": 10
     }
   },
-  "techo_mes": 3.186303,
-  "ultima_llamada": "2026-10-08T20:32:13.824969+00:00",
+  "techo_mes": 3.670962,
+  "ultima_llamada": "2026-10-09T06:36:21.476475+00:00",
   "llamadas_lote": 10,
   "ahorro_lote_usd": 0.12032
 }

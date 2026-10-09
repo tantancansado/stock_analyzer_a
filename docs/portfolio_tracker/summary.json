@@ -1,8 +1,8 @@
 {
-  "total_signals": 96,
+  "total_signals": 97,
   "unique_tickers": 58,
-  "date_range": "2026-04-08 to 2026-10-08",
-  "active_signals": 9,
+  "date_range": "2026-04-08 to 2026-10-09",
+  "active_signals": 10,
   "completed_signals": 87,
   "overall": {
     "90d": {
@@ -92,7 +92,7 @@
     }
   },
   "value_strategy": {
-    "count": 84,
+    "count": 85,
     "90d": {
       "count": 41,
       "win_rate": 70.7,
@@ -174,12 +174,12 @@
     "MEAN_REVERSION": {
       "count": 89,
       "7d": {
-        "count": 84,
-        "win_rate": 36.9,
-        "ci_low": 27.4,
-        "ci_high": 47.6,
-        "avg_return": -2.34,
-        "median_return": -1.35,
+        "count": 85,
+        "win_rate": 37.6,
+        "ci_low": 28.1,
+        "ci_high": 48.3,
+        "avg_return": -2.28,
+        "median_return": -1.32,
         "best": 8.8,
         "worst": -14.93
       },
@@ -187,7 +187,7 @@
     }
   },
   "leaps_strategy": {
-    "count": 151,
+    "count": 158,
     "subyacente": {
       "90d": {
         "count": 0,
@@ -232,9 +232,9 @@
         "ci_high": null
       }
     },
-    "edad_max_dias": 49,
-    "dias_hasta_primera_lectura": 41,
-    "con_contrato": 114,
+    "edad_max_dias": 50,
+    "dias_hasta_primera_lectura": 40,
+    "con_contrato": 121,
     "nota": "el contrato se sigue por su s\u00edmbolo OCC; son opciones poco l\u00edquidas, as\u00ed que un checkpoint sin cotizaci\u00f3n en 10 d\u00edas se queda vac\u00edo en vez de arrastrar un precio viejo"
   },
   "sector_performance": {
@@ -377,6 +377,17 @@
   "performers_horizon": "180d",
   "recent_signals": [
     {
+      "ticker": "NDAQ",
+      "company_name": "Nasdaq, Inc.",
+      "strategy": "VALUE",
+      "signal_date": "2026-10-09",
+      "signal_price": 92.37,
+      "sector": "Financial Services",
+      "value_score": 57.34,
+      "days_active": 0,
+      "first_result_date": "2026-10-16"
+    },
+    {
       "ticker": "RMD",
       "company_name": "ResMed Inc.",
       "strategy": "VALUE",
@@ -384,7 +395,7 @@
       "signal_price": 225.98,
       "sector": "Healthcare",
       "value_score": 64.27499999999999,
-      "days_active": 0,
+      "days_active": 1,
       "first_result_date": "2026-10-15"
     },
     {
@@ -395,7 +406,7 @@
       "signal_price": 86.08,
       "sector": "Consumer Defensive",
       "value_score": 59.55500000000001,
-      "days_active": 7,
+      "days_active": 8,
       "first_result_date": "2026-10-08"
     },
     {
@@ -406,7 +417,7 @@
       "signal_price": 473.85,
       "sector": "Financial Services",
       "value_score": 59.17999999999999,
-      "days_active": 14,
+      "days_active": 15,
       "first_result_date": "2026-10-01"
     },
     {
@@ -417,7 +428,7 @@
       "signal_price": 279.37,
       "sector": "Industrials",
       "value_score": 57.52,
-      "days_active": 17,
+      "days_active": 18,
       "first_result_date": "2026-09-28"
     },
     {
@@ -428,7 +439,7 @@
       "signal_price": 1069.78,
       "sector": "Financial Services",
       "value_score": 54.08,
-      "days_active": 19,
+      "days_active": 20,
       "first_result_date": "2026-09-26"
     },
     {
@@ -439,7 +450,7 @@
       "signal_price": 682.31,
       "sector": "Communication Services",
       "value_score": 63.72,
-      "days_active": 20,
+      "days_active": 21,
       "first_result_date": "2026-09-25"
     },
     {
@@ -450,7 +461,7 @@
       "signal_price": 59.29,
       "sector": "Energy",
       "value_score": 53.155,
-      "days_active": 20,
+      "days_active": 21,
       "first_result_date": "2026-09-25"
     },
     {
@@ -461,7 +472,7 @@
       "signal_price": 2120.58,
       "sector": "Financial Services",
       "value_score": 51.92499999999999,
-      "days_active": 20,
+      "days_active": 21,
       "first_result_date": "2026-09-25"
     },
     {
@@ -472,7 +483,7 @@
       "signal_price": 77.01,
       "sector": "Consumer Cyclical",
       "value_score": 59.09,
-      "days_active": 28,
+      "days_active": 29,
       "first_result_date": "2026-09-17"
     }
   ],
@@ -513,20 +524,20 @@
       "worst_alpha": -21.52
     },
     "14d": {
-      "count": 93,
-      "avg_alpha": -0.44,
-      "avg_signal_return": 0.35,
+      "count": 94,
+      "avg_alpha": -0.48,
+      "avg_signal_return": 0.31,
       "avg_benchmark_return": 0.79,
-      "positive_alpha_rate": 46.2,
+      "positive_alpha_rate": 45.7,
       "best_alpha": 12.76,
       "worst_alpha": -12.78
     },
     "7d": {
-      "count": 94,
-      "avg_alpha": -0.44,
-      "avg_signal_return": 0.26,
+      "count": 95,
+      "avg_alpha": -0.43,
+      "avg_signal_return": 0.27,
       "avg_benchmark_return": 0.7,
-      "positive_alpha_rate": 43.6,
+      "positive_alpha_rate": 44.2,
       "best_alpha": 11.23,
       "worst_alpha": -12.04
     }
@@ -567,11 +578,11 @@
       "worst_alpha": -21.52
     },
     "14d": {
-      "count": 81,
-      "avg_alpha": -0.54,
-      "avg_signal_return": 0.6,
+      "count": 82,
+      "avg_alpha": -0.58,
+      "avg_signal_return": 0.55,
       "avg_benchmark_return": 1.13,
-      "positive_alpha_rate": 44.4,
+      "positive_alpha_rate": 43.9,
       "best_alpha": 12.76,
       "worst_alpha": -12.78
     }
@@ -621,5 +632,5 @@
       "worst_alpha": -4.98
     }
   },
-  "generated_at": "2026-10-08T07:02:23.140731"
+  "generated_at": "2026-10-09T06:55:44.110713"
 }
