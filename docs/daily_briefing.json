@@ -1,44 +1,169 @@
 {
-  "date": "2026-10-09",
-  "timestamp": "2026-10-09T06:54:22.808522",
-  "narrative": "",
-  "macro_regime": "CALM",
-  "picks_count": 8,
-  "top_picks": [
-    {
-      "ticker": "BR",
-      "sector": "Technology",
-      "value_score": 76.12499999999999,
-      "analyst_upside_pct": 29.2,
-      "conviction_grade": null
-    },
-    {
-      "ticker": "MSFT",
-      "sector": "Technology",
-      "value_score": 68.4,
-      "analyst_upside_pct": 12.4,
-      "conviction_grade": null
-    },
-    {
-      "ticker": "RMD",
-      "sector": "Healthcare",
-      "value_score": 68.32000000000001,
-      "analyst_upside_pct": 10.4,
-      "conviction_grade": null
-    },
-    {
-      "ticker": "THC",
-      "sector": "Healthcare",
-      "value_score": 66.245,
-      "analyst_upside_pct": 9.5,
-      "conviction_grade": null
-    },
-    {
-      "ticker": "KO",
-      "sector": "Consumer Defensive",
-      "value_score": 64.475,
-      "analyst_upside_pct": 7.6,
-      "conviction_grade": null
+  "fecha": "2026-10-09",
+  "texto": "<b>Hoy hay dos nombres para entrar: OXY y MANH.</b>\n\nOXY llega con reparo serio: el modelo por múltiplos dice que ya está cara (objetivo por P/E un 22% por debajo del precio actual), y el beneficio está creciendo más rápido que el negocio real, así que no te apoyes en eso como señal de calidad.\n\nMANH se juega la entrada a los resultados, que caen dentro de 18 días. Cae por sentimiento pese a haber presentado un trimestre mejor de lo esperado, y aun con eso el modelo por DCF también la ve un 18% cara. El negocio de fondo está sano.\n\nPara vigilar: RMD y JKHY son las que más upside muestran (29% y 36% respectivamente según el modelo triangulado), pero ambas en \"esperar\", todavía sin confirmar giro. GGG, NYT y ADSK siguen baratas y cayendo, sin un motivo claro identificado todavía — no las toques aún.\n\nEntran nuevos a la lista de seguimiento: BR, MCO y NDAQ (además de ADSK, JKHY y NYT, ya comentadas arriba). Salen AMZN y VRSN.\n\nEl sistema lleva un 57% de acierto y un retorno medio del 9,5% a 180 días, pero con solo 7 casos — tamaño de posición pequeño, es una muestra corta todavía.",
+  "hechos": {
+    "fecha": "2026-10-09",
+    "total_lista": 51,
+    "datos_incompletos": [],
+    "picks_nuevos": [
+      "ADSK",
+      "BR",
+      "JKHY",
+      "MCO",
+      "NDAQ",
+      "NYT"
+    ],
+    "picks_que_se_van": [
+      "AMZN",
+      "VRSN"
+    ],
+    "comprables": [
+      {
+        "ticker": "OXY",
+        "empresa": "Occidental Petroleum Corporati",
+        "score": 37.225,
+        "precio": 60.28,
+        "upside_analista": 13.4,
+        "upside_triangulado": -4.4,
+        "divergencia": "MEDIA",
+        "fcf_yield": 7.55,
+        "del_maximo_pct": -10.6,
+        "rs_6m": -9.54,
+        "timing": "ENTRADA",
+        "por_que_cae": "",
+        "por_que_cae_detalle": "",
+        "dias_a_resultados": 31.0,
+        "objetivo_por_pe_pct": -22.1,
+        "objetivo_dcf_pct": null,
+        "beneficio_respaldado_por_negocio": false
+      },
+      {
+        "ticker": "MANH",
+        "empresa": "Manhattan Associates, Inc.",
+        "score": 35.795,
+        "precio": 206.78,
+        "upside_analista": 6.7,
+        "upside_triangulado": -5.8,
+        "divergencia": "MEDIA",
+        "fcf_yield": 3.31,
+        "del_maximo_pct": -8.9,
+        "rs_6m": 56.58,
+        "timing": "ENTRADA",
+        "por_que_cae": "SENTIMIENTO",
+        "por_que_cae_detalle": "<cite index=\"2-7,2-8\">Manhattan Associates presentó resultados del Q2 2026 mejores de lo esperado (EPS ajustado $1.39 vs. estimado $1.32, ingresos $297.8M), elevó guidance parcial ",
+        "dias_a_resultados": 18.0,
+        "objetivo_por_pe_pct": null,
+        "objetivo_dcf_pct": -18.2,
+        "beneficio_respaldado_por_negocio": true
+      }
+    ],
+    "vigilar": [
+      {
+        "ticker": "NYT",
+        "empresa": "The New York Times Company",
+        "score": 62.935,
+        "precio": 66.6,
+        "upside_analista": 18.0,
+        "upside_triangulado": 18.0,
+        "divergencia": "",
+        "fcf_yield": 5.81,
+        "del_maximo_pct": -23.5,
+        "rs_6m": -29.62,
+        "timing": "ESPERAR",
+        "por_que_cae": "SIN_DATOS",
+        "por_que_cae_detalle": "",
+        "dias_a_resultados": 26.0,
+        "objetivo_por_pe_pct": 13.0,
+        "objetivo_dcf_pct": 32.1,
+        "beneficio_respaldado_por_negocio": true
+      },
+      {
+        "ticker": "GGG",
+        "empresa": "Graco Inc.",
+        "score": 54.675,
+        "precio": 78.37,
+        "upside_analista": 16.5,
+        "upside_triangulado": 11.1,
+        "divergencia": "",
+        "fcf_yield": 4.95,
+        "del_maximo_pct": -18.1,
+        "rs_6m": -24.37,
+        "timing": "ESPERAR",
+        "por_que_cae": "SIN_DATOS",
+        "por_que_cae_detalle": "",
+        "dias_a_resultados": 12.0,
+        "objetivo_por_pe_pct": 11.1,
+        "objetivo_dcf_pct": 2.3,
+        "beneficio_respaldado_por_negocio": true
+      },
+      {
+        "ticker": "RMD",
+        "empresa": "ResMed Inc.",
+        "score": 68.32000000000001,
+        "precio": 226.73,
+        "upside_analista": 10.4,
+        "upside_triangulado": 29.0,
+        "divergencia": "",
+        "fcf_yield": 5.11,
+        "del_maximo_pct": -18.4,
+        "rs_6m": -14.84,
+        "timing": "VIGILAR",
+        "por_que_cae": "SIN_DATOS",
+        "por_que_cae_detalle": "",
+        "dias_a_resultados": 20.0,
+        "objetivo_por_pe_pct": null,
+        "objetivo_dcf_pct": 47.5,
+        "beneficio_respaldado_por_negocio": true
+      },
+      {
+        "ticker": "JKHY",
+        "empresa": "Jack Henry & Associates, Inc.",
+        "score": 55.68000000000001,
+        "precio": 149.05,
+        "upside_analista": 27.3,
+        "upside_triangulado": 35.9,
+        "divergencia": "",
+        "fcf_yield": 4.85,
+        "del_maximo_pct": -22.9,
+        "rs_6m": -12.4,
+        "timing": "ESPERAR",
+        "por_que_cae": "",
+        "por_que_cae_detalle": "",
+        "dias_a_resultados": 25.0,
+        "objetivo_por_pe_pct": 38.4,
+        "objetivo_dcf_pct": 35.9,
+        "beneficio_respaldado_por_negocio": true
+      },
+      {
+        "ticker": "ADSK",
+        "empresa": "Autodesk, Inc.",
+        "score": 63.095,
+        "precio": 233.6,
+        "upside_analista": 31.7,
+        "upside_triangulado": 18.5,
+        "divergencia": "MEDIA",
+        "fcf_yield": 5.78,
+        "del_maximo_pct": -27.0,
+        "rs_6m": -7.55,
+        "timing": "ESPERAR",
+        "por_que_cae": "SIN_DATOS",
+        "por_que_cae_detalle": "",
+        "dias_a_resultados": 49.0,
+        "objetivo_por_pe_pct": null,
+        "objetivo_dcf_pct": 5.3,
+        "beneficio_respaldado_por_negocio": true
+      }
+    ],
+    "tesis_rotas": [],
+    "rotas_son_tuyas": true,
+    "regimen_cambio": null,
+    "rendimiento_sistema": {
+      "horizonte": "180d",
+      "es_horizonte_definitivo": true,
+      "nota": null,
+      "acierto_pct": 57.1,
+      "retorno_medio": 9.5,
+      "n": 7
     }
-  ]
+  }
 }

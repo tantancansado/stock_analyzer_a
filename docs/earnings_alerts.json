@@ -1,44 +1,52 @@
 {
-  "timestamp": "2026-10-08T07:16:01.070538",
+  "timestamp": "2026-10-09T07:12:56.864968",
   "alerts": [
     {
       "type": "EARNINGS_WARNING",
       "ticker": "ASML",
-      "days_until": 6,
+      "days_until": 5,
       "earnings_date": "2026-10-14",
-      "message": "\u26a0\ufe0f  ASML: Earnings en 6 d\u00edas (2026-10-14)",
+      "message": "\u26a0\ufe0f  ASML: Earnings en 5 d\u00edas (2026-10-14)",
       "action": "NO ENTRAR - Esperar post-earnings"
     },
     {
       "type": "EARNINGS_WARNING",
       "ticker": "MRSH",
-      "days_until": 7,
+      "days_until": 6,
       "earnings_date": "2026-10-15",
-      "message": "\u26a0\ufe0f  MRSH: Earnings en 7 d\u00edas (2026-10-15)",
+      "message": "\u26a0\ufe0f  MRSH: Earnings en 6 d\u00edas (2026-10-15)",
+      "action": "NO ENTRAR - Esperar post-earnings"
+    },
+    {
+      "type": "EARNINGS_WARNING",
+      "ticker": "BLK",
+      "days_until": 5,
+      "earnings_date": "2026-10-14",
+      "message": "\u26a0\ufe0f  BLK: Earnings en 5 d\u00edas (2026-10-14)",
       "action": "NO ENTRAR - Esperar post-earnings"
     },
     {
       "type": "EARNINGS_WARNING",
       "ticker": "FHN",
-      "days_until": 7,
+      "days_until": 6,
       "earnings_date": "2026-10-15",
-      "message": "\u26a0\ufe0f  FHN: Earnings en 7 d\u00edas (2026-10-15)",
+      "message": "\u26a0\ufe0f  FHN: Earnings en 6 d\u00edas (2026-10-15)",
       "action": "NO ENTRAR - Esperar post-earnings"
     },
     {
       "type": "EARNINGS_WARNING",
       "ticker": "BAC",
-      "days_until": 6,
+      "days_until": 5,
       "earnings_date": "2026-10-14",
-      "message": "\u26a0\ufe0f  BAC: Earnings en 6 d\u00edas (2026-10-14)",
+      "message": "\u26a0\ufe0f  BAC: Earnings en 5 d\u00edas (2026-10-14)",
       "action": "NO ENTRAR - Esperar post-earnings"
     },
     {
       "type": "EARNINGS_WARNING",
       "ticker": "DPZ",
-      "days_until": 5,
+      "days_until": 4,
       "earnings_date": "2026-10-13",
-      "message": "\u26a0\ufe0f  DPZ: Earnings en 5 d\u00edas (2026-10-13)",
+      "message": "\u26a0\ufe0f  DPZ: Earnings en 4 d\u00edas (2026-10-13)",
       "action": "NO ENTRAR - Esperar post-earnings"
     }
   ]

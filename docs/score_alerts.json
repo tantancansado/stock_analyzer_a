@@ -1,84 +1,104 @@
 {
-  "generated_at": "2026-10-08",
+  "generated_at": "2026-10-09",
   "alerts": [
     {
       "type": "SCORE_UP",
-      "ticker": "GGG",
-      "company_name": "Graco Inc.",
-      "sector": "Industrials",
-      "score_today": 53.4,
-      "score_prev": 41.0,
-      "delta": 12.4,
-      "grade": "🔵 DECENT"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "KO",
-      "company_name": "The Coca-Cola Company",
-      "sector": "Consumer Defensive",
-      "score_today": 66.9,
-      "score_prev": 54.7,
-      "delta": 12.2,
-      "grade": "⭐ GOOD"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "AMZN",
-      "company_name": "Amazon.com, Inc.",
-      "sector": "Consumer Cyclical",
-      "score_today": 55.3,
-      "score_prev": 43.8,
-      "delta": 11.6,
-      "grade": "🔵 DECENT"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "RMD",
-      "company_name": "ResMed Inc.",
-      "sector": "Healthcare",
-      "score_today": 64.3,
-      "score_prev": 55.6,
-      "delta": 8.6,
-      "grade": "⭐ GOOD"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "NYT",
-      "company_name": "The New York Times Company",
-      "sector": "Communication Services",
-      "score_today": 51.7,
-      "score_prev": 43.5,
-      "delta": 8.2,
-      "grade": "🔵 DECENT"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "LMT",
-      "company_name": "Lockheed Martin Corporation",
-      "sector": "Industrials",
-      "score_today": 46.3,
-      "score_prev": 38.2,
-      "delta": 8.1,
-      "grade": "⚪ WEAK"
+      "ticker": "MA",
+      "company_name": "Mastercard Incorporated",
+      "sector": "Financial Services",
+      "score_today": 71.7,
+      "score_prev": 43.4,
+      "delta": 28.4,
+      "grade": "⭐⭐ STRONG"
     },
     {
       "type": "SCORE_UP",
       "ticker": "BR",
       "company_name": "Broadridge Financial Solutions, Inc.",
       "sector": "Technology",
-      "score_today": 49.8,
-      "score_prev": 41.8,
-      "delta": 8.0,
+      "score_today": 76.1,
+      "score_prev": 49.8,
+      "delta": 26.3,
+      "grade": "⭐⭐ STRONG"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "MCO",
+      "company_name": "Moody's Corporation",
+      "sector": "Financial Services",
+      "score_today": 64.4,
+      "score_prev": 48.4,
+      "delta": 16.1,
+      "grade": "⭐ GOOD"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "WM",
+      "company_name": "Waste Management, Inc.",
+      "sector": "Industrials",
+      "score_today": 48.4,
+      "score_prev": 36.8,
+      "delta": 11.6,
+      "grade": "🔵 DECENT"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "NYT",
+      "company_name": "The New York Times Company",
+      "sector": "Communication Services",
+      "score_today": 62.9,
+      "score_prev": 51.7,
+      "delta": 11.3,
+      "grade": "⭐ GOOD"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "APH",
+      "company_name": "Amphenol Corporation",
+      "sector": "Technology",
+      "score_today": 45.9,
+      "score_prev": 35.5,
+      "delta": 10.4,
       "grade": "⚪ WEAK"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "LMT",
+      "company_name": "Lockheed Martin Corporation",
+      "sector": "Industrials",
+      "score_today": 55.4,
+      "score_prev": 46.3,
+      "delta": 9.1,
+      "grade": "🔵 DECENT"
     },
     {
       "type": "SCORE_UP",
       "ticker": "NDAQ",
       "company_name": "Nasdaq, Inc.",
       "sector": "Financial Services",
-      "score_today": 48.2,
-      "score_prev": 40.2,
-      "delta": 8.0,
+      "score_today": 57.3,
+      "score_prev": 48.2,
+      "delta": 9.1,
+      "grade": "🔵 DECENT"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "MRSH",
+      "company_name": "Marsh & McLennan Companies, Inc.",
+      "sector": "Financial Services",
+      "score_today": 41.3,
+      "score_prev": 32.3,
+      "delta": 9.0,
+      "grade": "⚪ WEAK"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "KVUE",
+      "company_name": "Kenvue Inc.",
+      "sector": "Consumer Defensive",
+      "score_today": 45.0,
+      "score_prev": 36.1,
+      "delta": 8.9,
       "grade": "⚪ WEAK"
     },
     {
@@ -86,19 +106,49 @@
       "ticker": "ADSK",
       "company_name": "Autodesk, Inc.",
       "sector": "Technology",
-      "score_today": 54.3,
-      "score_prev": 46.7,
-      "delta": 7.7,
-      "grade": "🔵 DECENT"
+      "score_today": 63.1,
+      "score_prev": 54.3,
+      "delta": 8.8,
+      "grade": "⭐ GOOD"
     },
     {
       "type": "SCORE_UP",
-      "ticker": "YUM",
-      "company_name": "Yum! Brands, Inc.",
+      "ticker": "QSR",
+      "company_name": "Restaurant Brands International Inc.",
       "sector": "Consumer Cyclical",
-      "score_today": 44.8,
-      "score_prev": 38.9,
-      "delta": 6.0,
+      "score_today": 46.2,
+      "score_prev": 37.6,
+      "delta": 8.6,
+      "grade": "⚪ WEAK"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "CL",
+      "company_name": "Colgate-Palmolive Company",
+      "sector": "Consumer Defensive",
+      "score_today": 42.9,
+      "score_prev": 34.7,
+      "delta": 8.2,
+      "grade": "⚪ WEAK"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "THC",
+      "company_name": "Tenet Healthcare Corporation",
+      "sector": "Healthcare",
+      "score_today": 66.2,
+      "score_prev": 58.6,
+      "delta": 7.6,
+      "grade": "⭐ GOOD"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "HHH",
+      "company_name": "Howard Hughes Holdings Inc.",
+      "sector": "Real Estate",
+      "score_today": 40.8,
+      "score_prev": 33.5,
+      "delta": 7.3,
       "grade": "⚪ WEAK"
     },
     {
@@ -106,29 +156,149 @@
       "ticker": "DPZ",
       "company_name": "Domino's Pizza, Inc.",
       "sector": "Consumer Cyclical",
-      "score_today": 41.7,
-      "score_prev": 36.7,
-      "delta": 5.1,
+      "score_today": 47.8,
+      "score_prev": 41.7,
+      "delta": 6.1,
       "grade": "⚪ WEAK"
     },
     {
       "type": "SCORE_UP",
-      "ticker": "MCO",
-      "company_name": "Moody's Corporation",
+      "ticker": "OXY",
+      "company_name": "Occidental Petroleum Corporation",
+      "sector": "Energy",
+      "score_today": 37.2,
+      "score_prev": 31.1,
+      "delta": 6.1,
+      "grade": "⚪ WEAK"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "CVX",
+      "company_name": "Chevron Corporation",
+      "sector": "Energy",
+      "score_today": 39.0,
+      "score_prev": 33.0,
+      "delta": 6.0,
+      "grade": "⚪ WEAK"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "PAYX",
+      "company_name": "Paychex, Inc.",
+      "sector": "Technology",
+      "score_today": 61.0,
+      "score_prev": 55.4,
+      "delta": 5.6,
+      "grade": "⭐ GOOD"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "UBER",
+      "company_name": "Uber Technologies, Inc.",
+      "sector": "Technology",
+      "score_today": 41.4,
+      "score_prev": 35.8,
+      "delta": 5.6,
+      "grade": "⚪ WEAK"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "UNP",
+      "company_name": "Union Pacific Corporation",
+      "sector": "Industrials",
+      "score_today": 42.8,
+      "score_prev": 37.2,
+      "delta": 5.6,
+      "grade": "⚪ WEAK"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "MSCI",
+      "company_name": "MSCI Inc.",
       "sector": "Financial Services",
-      "score_today": 48.4,
-      "score_prev": 43.4,
-      "delta": 5.0,
+      "score_today": 49.9,
+      "score_prev": 44.7,
+      "delta": 5.2,
+      "grade": "⚪ WEAK"
+    },
+    {
+      "type": "NEW_ENTRY",
+      "ticker": "JKHY",
+      "company_name": "Jack Henry & Associates, Inc.",
+      "sector": "Technology",
+      "score_today": 55.7,
+      "score_prev": null,
+      "delta": null,
+      "grade": "🔵 DECENT"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "4684.T",
+      "company_name": "OBIC Co.,Ltd.",
+      "sector": "Technology",
+      "score_today": 49.1,
+      "score_prev": 54.1,
+      "delta": -5.0,
       "grade": "⚪ WEAK"
     },
     {
       "type": "SCORE_DOWN",
-      "ticker": "FHN",
-      "company_name": "First Horizon Corporation",
+      "ticker": "CBOE",
+      "company_name": "Cboe Global Markets, Inc.",
       "sector": "Financial Services",
-      "score_today": 42.0,
-      "score_prev": 47.1,
+      "score_today": 48.7,
+      "score_prev": 53.8,
       "delta": -5.0,
+      "grade": "🔵 DECENT"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "CME",
+      "company_name": "CME Group Inc.",
+      "sector": "Financial Services",
+      "score_today": 34.8,
+      "score_prev": 39.9,
+      "delta": -5.1,
+      "grade": "⚪ WEAK"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "BAC",
+      "company_name": "Bank of America Corporation",
+      "sector": "Financial Services",
+      "score_today": 36.3,
+      "score_prev": 42.3,
+      "delta": -6.0,
+      "grade": "⚪ WEAK"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "DOL.TO",
+      "company_name": "Dollarama Inc.",
+      "sector": "Consumer Defensive",
+      "score_today": 36.7,
+      "score_prev": 44.1,
+      "delta": -7.3,
+      "grade": "⚪ WEAK"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "MSFT",
+      "company_name": "Microsoft Corporation",
+      "sector": "Technology",
+      "score_today": 68.4,
+      "score_prev": 78.4,
+      "delta": -10.0,
+      "grade": "⭐ GOOD"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "AMZN",
+      "company_name": "Amazon.com, Inc.",
+      "sector": "Consumer Cyclical",
+      "score_today": 42.7,
+      "score_prev": 55.3,
+      "delta": -12.7,
       "grade": "⚪ WEAK"
     },
     {
@@ -136,26 +306,16 @@
       "ticker": "VRSN",
       "company_name": "VeriSign, Inc.",
       "sector": "Technology",
-      "score_today": 62.7,
-      "score_prev": 72.7,
-      "delta": -10.0,
-      "grade": "⭐ GOOD"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "PAYX",
-      "company_name": "Paychex, Inc.",
-      "sector": "Technology",
-      "score_today": 55.4,
-      "score_prev": 73.4,
-      "delta": -18.0,
-      "grade": "⭐ GOOD"
+      "score_today": 49.5,
+      "score_prev": 62.7,
+      "delta": -13.2,
+      "grade": "🔵 DECENT"
     }
   ],
   "counts": {
-    "new_entries": 0,
+    "new_entries": 1,
     "exited": 0,
-    "score_up": 12,
-    "score_down": 3
+    "score_up": 22,
+    "score_down": 8
   }
 }

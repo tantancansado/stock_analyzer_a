@@ -1,0 +1,35 @@
+{
+  "listas": {
+    "value_opportunities": {
+      "candidatas": 95,
+      "publicadas": 91,
+      "excluidos": [
+        {
+          "ticker": "VCISY",
+          "paso": "rangos_imposibles",
+          "motivo": "DCF fuera de rango: no es una valoración, es un dato roto (visto 259, esperado entre -95 y 200)",
+          "score": 48.92
+        },
+        {
+          "ticker": "ERIE",
+          "paso": "rangos_imposibles",
+          "motivo": "Falta analyst_upside_pct: no se recomienda lo que no se puede evaluar",
+          "score": 44.14
+        },
+        {
+          "ticker": "KYCCF",
+          "paso": "rangos_imposibles",
+          "motivo": "Falta analyst_upside_pct: no se recomienda lo que no se puede evaluar",
+          "score": 43.452000000000005
+        },
+        {
+          "ticker": "STZ",
+          "paso": "verificador_ia",
+          "motivo": "Rev_growth_yoy es NEGATIVA (-3.3%), pero upside_triangulated_pct reporta 36.3% (igual a 48.1 del DCF aproximado) sin explicar cómo un negocio que contrae ingresos puede ser alcista. · La recomendación alcista (analyst 24.5%, triangulated 36.3%) se contradice con contracción de ingresos. El margen operativo (EBIT_EV 9.33%) es sólido y FCF yield alto (8.45%), pero la caída de ingresos invalida la proyección de crecimiento del DCF. Bloquea: el descuento no se sostiene en negocio creciente.",
+          "score": 54.72999999999999
+        }
+      ]
+    }
+  },
+  "generated_at": "2026-10-09T06:27:18Z"
+}
