@@ -1,11 +1,19 @@
 {
-  "date": "2026-10-09",
-  "timestamp": "2026-10-09T06:54:23.525447",
-  "narrative": "Los tickers con mayor actividad se concentran en sectores defensivos y de consumo b\u00e1sico: energ\u00eda (RSG), salud/biotecnolog\u00eda (BSX), transporte a\u00e9reo (AAL.L), seguros y servicios financieros (LLOY.L, ULVR.L, TSCO.L) y telecomunicaciones (VOD.L, UNA.AS). La coincidencia de compras de varios insiders diferentes en cortos intervalos sugiere una se\u00f1al de confianza interna simult\u00e1nea, t\u00edpicamente vinculada a informaci\u00f3n no p\u00fablica sobre mejoras operativas o resultados pr\u00f3ximos. Para un inversor value/GARP, estos patrones pueden servir como",
+  "date": "2026-10-12",
+  "timestamp": "2026-10-12T06:57:12.259530",
+  "narrative": "Los tickers con mayor actividad se agrupan en dos tem\u00e1ticas: tecnolog\u00eda/biotecnolog\u00eda (MKC, RSG, BSX) y servicios de consumo/telecomunicaciones en Europa (AAL.L, LAND.L, VOD.L, UNA.AS, ULVR.L), lo que sugiere un enfoque sectorial en innovaci\u00f3n y en marcas consolidadas con flujo de caja estable. Cuando varios insiders diferentes adquieren acciones en un corto lapso, indica convergencia de informaci\u00f3n no p\u00fablica sobre perspectivas positivas de la empresa, reduciendo la probabilidad de que la",
   "total_tickers": 16,
   "total_us": 8,
   "total_eu": 8,
   "top_picks": [
+    {
+      "ticker": "MKC",
+      "market": "US",
+      "purchase_count": 8,
+      "unique_insiders": 1,
+      "confidence_score": 100.0,
+      "days_span": 73
+    },
     {
       "ticker": "RSG",
       "market": "US",
@@ -25,26 +33,18 @@
     {
       "ticker": "AAL.L",
       "market": "EU",
-      "purchase_count": 37,
+      "purchase_count": 27,
       "unique_insiders": 12,
       "confidence_score": 100.0,
-      "days_span": 77
+      "days_span": 46
     },
     {
-      "ticker": "LLOY.L",
+      "ticker": "LAND.L",
       "market": "EU",
-      "purchase_count": 21,
-      "unique_insiders": 8,
+      "purchase_count": 8,
+      "unique_insiders": 2,
       "confidence_score": 100.0,
-      "days_span": 44
-    },
-    {
-      "ticker": "VOD.L",
-      "market": "EU",
-      "purchase_count": 5,
-      "unique_insiders": 5,
-      "confidence_score": 100.0,
-      "days_span": 5
+      "days_span": 62
     }
   ]
 }

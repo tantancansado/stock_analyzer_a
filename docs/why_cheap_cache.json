@@ -65,18 +65,6 @@
   "fuentes": [],
   "fecha": "2026-10-05"
  },
- "MCD": {
-  "veredicto": "EVENTO",
-  "resumen": "Caída gatillada por Investor Day 23-sep-2026: anunció plan de capital de $8.5B con spending adicional que presionará márgenes corto plazo y cash flow. Guidance reducida y target de restaurantes retrasado 2027→2028. Operacionales: U.S. comparable sales desaceleró a 0.8% en Q2, problemas de ejecución ",
-  "confianza": 72,
-  "fuentes": [
-   "https://es.tradingview.com/symbols/NYSE-MCD/",
-   "https://es.tradingview.com/news/tradingview:5c637b3ba9750:0/",
-   "https://www.bloomberglinea.com/quote/MCD:UN/",
-   "https://mdbbolsa.substack.com/p/mcdonalds-actualizamos-su-situacion"
-  ],
-  "fecha": "2026-09-28"
- },
  "CBOE": {
   "veredicto": "SENTIMIENTO",
   "resumen": "Cboe registró resultados excepcionales en Q1-Q2 2026 (crecimiento de ingresos 25-29%, EPS +45-54%) y elevó guidance significativamente. La caída obedece a rotación sectorial tras aprobación de futuros perpetuos en junio 2026 que aumentó preocupaciones competitivas, no a deterioro del negocio.",
@@ -350,5 +338,65 @@
    "https://www.sec.gov/Archives/edgar/data/63754/000006375424000054/mkcreports2ndquarterperf.htm"
   ],
   "fecha": "2026-10-09"
+ },
+ "JKHY": {
+  "veredicto": "SENTIMIENTO",
+  "resumen": "El negocio crece y mejora consistentemente (EPS +12% Q3, guidance subida 3 veces, márgenes en expansión, core wins acelerando), pero el mercado vende por múltiplos caros y rotación sectorial desde enero 2026.",
+  "confianza": 78,
+  "fuentes": [
+   "https://www.sec.gov/Archives/edgar/data/0000779152/000077915226000067/jkhy-20260630.htm",
+   "https://www.sec.gov/Archives/edgar/data/0000779152/000077915226000052/jkhy-prdatedaugust112026xq.htm",
+   "https://finance.yahoo.com/markets/stocks/articles/jack-henry-associates-stock-underperforming-053347989.html",
+   "https://www.sec.gov/Archives/edgar/data/0000779152/000077915226000088/jkhy-20261001.htm"
+  ],
+  "fecha": "2026-10-12"
+ },
+ "LMT": {
+  "veredicto": "SENTIMIENTO",
+  "resumen": "Q1 2026 decepcionó (márgenes -13%, BPA -11.5%) por cargos puntuales en F-16 y C-130, generando pánico de mercado. Q2 revirtió dramáticamente con beats del 10%, guidance subida y backlog récord de $230B. La caída es rotación post-máximos, no deterioro.",
+  "confianza": 78,
+  "fuentes": [
+   "https://www.bankinter.com/blog/empresas/resultados-lockheed-martin",
+   "https://www.rankia.mx/acciones/lockheed-martin-corporation-lmt",
+   "https://www.tikr.com/es/blog/lockheed-martins-q1-income-statement-points-to-a-recovery-worth-watching-in-2026",
+   "https://www.investing.com/equities/lockheed-martin-earnings"
+  ],
+  "fecha": "2026-10-12"
+ },
+ "SU.PA": {
+  "veredicto": "SENTIMIENTO",
+  "resumen": "Schneider Electric elevó guidance en julio 2026 con resultados récord en H1; la caída del 16% carece de catalista operacional documentado y obedece a rotación/múltiplos post-rally.",
+  "confianza": 65,
+  "fuentes": [
+   "https://www.alphaspread.com/security/nse/schneider/investor-relations/earnings-call/q3-2026",
+   "https://quartr.com/companies/schneider-electric-s-e_5738",
+   "https://www.investing.com/news/transcripts/earnings-call-transcript-schneider-electric-lifts-2026-outlook-after-strong-h1-93CH-4822615",
+   "https://www.se.com/in/en/download/document/Transcript_Q3FY26/"
+  ],
+  "fecha": "2026-10-12"
+ },
+ "LIFCO-B.ST": {
+  "veredicto": "CICLICO",
+  "resumen": "Lifco sufre debilidad cíclica en construcción (Demolition & Tools) desde H1 2023, con márgenes comprimidos y crecimiento orgánico negativo compensado por adquisiciones. El negocio base aguanta (margen aún 22%+, cash flow positivo, deuda controlada 1.7x EBITDA), pero la visibilidad es limitada.",
+  "confianza": 72,
+  "fuentes": [
+   "https://finance.yahoo.com/news/lifco-ab-lfabf-q2-2025-070054220.html",
+   "https://www.investing.com/news/transcripts/earnings-call-transcript-lifco-q4-2025-shows-strong-growth-despite-challenges-93CH-4475225",
+   "https://www.investegate.co.uk/announcement/mfn/lifco-ab-publ---0r4p/year-end-report-2025/9394628",
+   "https://quartr.com/companies/lifco_5541"
+  ],
+  "fecha": "2026-10-12"
+ },
+ "STZ": {
+  "veredicto": "SENTIMIENTO",
+  "resumen": "STZ reportó Q2 FY2027 superando expectativas (ventas +6%, EPS ajustado $3.74 vs $3.66 estimado) en octubre 2026, pero el mercado ignora resultados positivos enfocándose en guía reiterada para Q4 y márgenes operativos débiles; analistas han recortado targets consecutivamente (Evercore ISI de $175 a $",
+  "confianza": 72,
+  "fuentes": [
+   "https://www.sec.gov/Archives/edgar/data/0000016918/000001691826000028/stzex991_53120268kearnings.htm",
+   "https://www.sec.gov/Archives/edgar/data/0000016918/000001691826000039/stzex991_83120268kearnings.htm",
+   "https://www.sec.gov/Archives/edgar/data/16918/000001691826000002/stzex991_113020258kearnings.htm",
+   "https://www.sec.gov/Archives/edgar/data/16918/000001691826000008/stzex991_22820268kearnings.htm"
+  ],
+  "fecha": "2026-10-12"
  }
 }
