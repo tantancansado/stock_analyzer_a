@@ -1,0 +1,68 @@
+{
+  "generated_at": "2026-10-12",
+  "total": 26,
+  "tier1": 0,
+  "tier2": 3,
+  "tier3": 5,
+  "noise_filtered": 18,
+  "actionable": [
+    {
+      "ticker": "PAYX",
+      "company_name": "Paychex, Inc.",
+      "sentiment": "BULLISH",
+      "tier": "TIER2",
+      "quality_score": 53,
+      "value_score": 65.1,
+      "fcf_yield": 5.45,
+      "insider_confirmation": false,
+      "in_value": true,
+      "quality_factors": [
+        "VALUE (65pts)",
+        "FCF 5.5%",
+        "DIRECTIONAL (100% calls)"
+      ],
+      "flow_score": 50.0,
+      "total_premium": 16435.0,
+      "detected_date": "2026-10-12"
+    },
+    {
+      "ticker": "MRSH",
+      "company_name": "Marsh & McLennan Companies, Inc.",
+      "sentiment": "BEARISH",
+      "tier": "TIER2",
+      "quality_score": 45,
+      "value_score": 30.1,
+      "fcf_yield": 5.71,
+      "insider_confirmation": false,
+      "in_value": true,
+      "quality_factors": [
+        "VALUE weak (30pts)",
+        "FCF 5.7%",
+        "DIRECTIONAL (100% puts)"
+      ],
+      "flow_score": 50.0,
+      "total_premium": 32376.0,
+      "detected_date": "2026-10-12"
+    },
+    {
+      "ticker": "ICE",
+      "company_name": "Intercontinental Exchange, Inc.",
+      "sentiment": "BULLISH",
+      "tier": "TIER2",
+      "quality_score": 45,
+      "value_score": 57.4,
+      "fcf_yield": 5.39,
+      "insider_confirmation": false,
+      "in_value": true,
+      "quality_factors": [
+        "VALUE weak (57pts)",
+        "FCF 5.4%",
+        "DIRECTIONAL (100% calls)"
+      ],
+      "flow_score": 50.0,
+      "total_premium": 71050.0,
+      "detected_date": "2026-10-12"
+    }
+  ],
+  "narrative": ""
+}

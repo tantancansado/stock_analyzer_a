@@ -1,38 +1,9 @@
 {
-  "generated_at": "2026-10-09",
+  "generated_at": "2026-10-12",
   "total": 17,
-  "high_count": 4,
+  "high_count": 2,
   "narrative": "",
   "exits": [
-    {
-      "ticker": "META",
-      "severity": "HIGH",
-      "entry_score": 63.72,
-      "current_score": 32.52,
-      "signal_date": "2026-09-18",
-      "reasons": [
-        "Score cay\u00f3 31pts (64 \u2192 33)"
-      ],
-      "fundamental_score": 68.8,
-      "ai_validation": {
-        "verdict": "FALSE_POSITIVE",
-        "confidence": 65,
-        "summary": "META ha mostrado fundamentales s\u00f3lidos (crecimiento de ingresos por publicidad, eficiencia de costos tras el 'a\u00f1o de la eficiencia' y fuerte generaci\u00f3n de caja). La ca\u00edda de 31pts probablemente refleja una correcci\u00f3n de valoraci\u00f3n tras una fuerte subida de precio, no un deterioro real del negocio.",
-        "key_finding": "Score fundamental en base de datos sigue siendo alto (68.8/100), sugiriendo que la ca\u00edda es por valoraci\u00f3n/momentum y no por deterioro de negocio.",
-        "summary_note": "META ha mostrado fundamentales s\u00f3lidos (crecimiento de ingresos por publicidad, eficiencia de costos tras el 'a\u00f1o de la eficiencia' y fuerte generaci\u00f3n de caja). La ca\u00edda de 31pts probablemente refleja una correcci\u00f3n de valoraci\u00f3n tras una fuerte subida de precio, no un deterioro real del negocio."
-      }
-    },
-    {
-      "ticker": "OXY",
-      "severity": "HIGH",
-      "entry_score": 62.24000000000001,
-      "current_score": 37.225,
-      "signal_date": "2026-08-20",
-      "reasons": [
-        "Score cay\u00f3 25pts (62 \u2192 37)"
-      ],
-      "fundamental_score": 77.3
-    },
     {
       "ticker": "EXPN.L",
       "severity": "HIGH",
@@ -46,39 +17,61 @@
       "ai_validation": {
         "verdict": "FALSE_POSITIVE",
         "confidence": 65,
-        "summary": "Experian (EXPN.L) es una empresa s\u00f3lida con crecimiento consistente en ingresos y beneficios; no hay evidencia de deterioro fundamental reciente. Es probable que haya salido de la lista VALUE simplemente porque su cotizaci\u00f3n subi\u00f3 y el ratio precio/valor dej\u00f3 de ser atractivo, no por problemas en el negocio.",
-        "key_finding": "La se\u00f1al de salida se basa \u00fanicamente en desaparici\u00f3n del screening VALUE, no en datos fundamentales negativos (score N/A), lo que sugiere un cambio de valoraci\u00f3n por precio m\u00e1s que una tesis rota por fundamentales.",
-        "summary_note": "Experian (EXPN.L) es una empresa s\u00f3lida con crecimiento consistente en ingresos y beneficios; no hay evidencia de deterioro fundamental reciente. Es probable que haya salido de la lista VALUE simplemente porque su cotizaci\u00f3n subi\u00f3 y el ratio precio/valor dej\u00f3 de ser atractivo, no por problemas en el negocio."
+        "summary": "Experian (EXPN.L) no muestra se\u00f1ales de deterioro fundamental conocidas hasta mi corte de entrenamiento; la salida de la lista VALUE probablemente se debe a una revalorizaci\u00f3n del precio que redujo el margen de upside, no a un problema del negocio. La empresa ha mantenido crecimiento estable en sus segmentos de datos y anal\u00edtica.",
+        "key_finding": "La se\u00f1al se basa \u00fanicamente en salir del filtro VALUE (criterio de valoraci\u00f3n), sin indicios de recortes de gu\u00eda, p\u00e9rdida de contratos o cambios directivos negativos reportados.",
+        "summary_note": "Experian (EXPN.L) no muestra se\u00f1ales de deterioro fundamental conocidas hasta mi corte de entrenamiento; la salida de la lista VALUE probablemente se debe a una revalorizaci\u00f3n del precio que redujo el margen de upside, no a un problema del negocio. La empresa ha mantenido crecimiento estable en sus segmentos de datos y anal\u00edtica."
       }
     },
     {
       "ticker": "AON",
-      "severity": "MEDIUM",
+      "severity": "HIGH",
       "entry_score": 51.13,
       "current_score": null,
       "signal_date": "2026-08-24",
       "reasons": [
-        "Ya no aparece en VALUE \u2014 tesis posiblemente rota",
-        "IA: falso positivo con 72% confianza \u2014 AON es una aseguradora/broker global con fundamentales hist\u00f3ricamente s\u00f3lidos y crecimiento estable; la salida de la lista VALUE probablemente se debe a una revalorizaci\u00f3n del precio que redujo el margen de upside, no a un deterioro real del negocio. No hay evidencia de ca\u00eddas de earnings, recortes de guidance o eventos negativos mayores recientes."
+        "Ya no aparece en VALUE \u2014 tesis posiblemente rota"
       ],
       "fundamental_score": 51.0,
       "ai_validation": {
         "verdict": "FALSE_POSITIVE",
-        "confidence": 72,
-        "summary": "AON es una aseguradora/broker global con fundamentales hist\u00f3ricamente s\u00f3lidos y crecimiento estable; la salida de la lista VALUE probablemente se debe a una revalorizaci\u00f3n del precio que redujo el margen de upside, no a un deterioro real del negocio. No hay evidencia de ca\u00eddas de earnings, recortes de guidance o eventos negativos mayores recientes.",
-        "key_finding": "AON ha mantenido crecimiento constante de ingresos y m\u00e1rgenes, con la fusi\u00f3n fallida con Willis Towers Watson (2021) como \u00fanico evento disruptivo pasado, ya superado."
+        "confidence": 68,
+        "summary": "AON es una aseguradora/broker de riesgo con negocio estable y crecimiento constante; la salida de la lista VALUE probablemente se debe a una apreciaci\u00f3n del precio que redujo el margen de upside, no a un deterioro fundamental. No hay evidencia conocida de ca\u00eddas de beneficios ni eventos negativos mayores recientes.",
+        "key_finding": "AON ha mostrado crecimiento s\u00f3lido de ingresos y m\u00e1rgenes tras la fusi\u00f3n con NFP y la cancelaci\u00f3n del acuerdo con Willis Towers Watson en 2021, sin se\u00f1ales claras de deterioro operativo reciente.",
+        "summary_note": "AON es una aseguradora/broker de riesgo con negocio estable y crecimiento constante; la salida de la lista VALUE probablemente se debe a una apreciaci\u00f3n del precio que redujo el margen de upside, no a un deterioro fundamental. No hay evidencia conocida de ca\u00eddas de beneficios ni eventos negativos mayores recientes."
       }
     },
     {
-      "ticker": "QSR",
+      "ticker": "RMD",
       "severity": "MEDIUM",
-      "entry_score": 62.36500000000001,
-      "current_score": 46.245000000000005,
-      "signal_date": "2026-08-13",
+      "entry_score": 64.27499999999999,
+      "current_score": 46.83500000000001,
+      "signal_date": "2026-10-08",
       "reasons": [
-        "Score cay\u00f3 16pts (62 \u2192 46)"
+        "Score cay\u00f3 17pts (64 \u2192 47)"
       ],
-      "fundamental_score": 61.5
+      "fundamental_score": 67.1
+    },
+    {
+      "ticker": "META",
+      "severity": "MEDIUM",
+      "entry_score": 63.72,
+      "current_score": null,
+      "signal_date": "2026-09-18",
+      "reasons": [
+        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
+      ],
+      "fundamental_score": 68.1
+    },
+    {
+      "ticker": "OXY",
+      "severity": "MEDIUM",
+      "entry_score": 62.24000000000001,
+      "current_score": null,
+      "signal_date": "2026-08-20",
+      "reasons": [
+        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
+      ],
+      "fundamental_score": 77.3
     },
     {
       "ticker": "NDSN",
@@ -103,15 +96,15 @@
       "fundamental_score": 66.7
     },
     {
-      "ticker": "SYK",
+      "ticker": "QSR",
       "severity": "MEDIUM",
-      "entry_score": 58.465,
-      "current_score": null,
-      "signal_date": "2026-08-11",
+      "entry_score": 59.09,
+      "current_score": 38.65,
+      "signal_date": "2026-09-10",
       "reasons": [
-        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
+        "Score cay\u00f3 20pts (59 \u2192 39)"
       ],
-      "fundamental_score": 68.8
+      "fundamental_score": 61.5
     },
     {
       "ticker": "SPGI",
@@ -123,6 +116,17 @@
         "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
       ],
       "fundamental_score": 64.0
+    },
+    {
+      "ticker": "UNP",
+      "severity": "MEDIUM",
+      "entry_score": 57.52,
+      "current_score": 38.78,
+      "signal_date": "2026-09-21",
+      "reasons": [
+        "Score cay\u00f3 19pts (58 \u2192 39)"
+      ],
+      "fundamental_score": 70.5
     },
     {
       "ticker": "TW",
@@ -155,28 +159,16 @@
       "reasons": [
         "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
       ],
-      "fundamental_score": 79.2
-    },
-    {
-      "ticker": "CVX",
-      "severity": "MEDIUM",
-      "entry_score": 55.19499999999999,
-      "current_score": 38.98,
-      "signal_date": "2026-08-11",
-      "reasons": [
-        "Score cay\u00f3 16pts (55 \u2192 39)"
-      ],
-      "fundamental_score": 85.8
+      "fundamental_score": 81.3
     },
     {
       "ticker": "BLK",
       "severity": "MEDIUM",
       "entry_score": 54.08,
-      "current_score": 32.53,
+      "current_score": null,
       "signal_date": "2026-09-19",
       "reasons": [
-        "Score cay\u00f3 22pts (54 \u2192 33)",
-        "Earnings en 5d \u2014 alta incertidumbre, considera reducir"
+        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
       ],
       "fundamental_score": 75.7
     },
@@ -195,10 +187,10 @@
       "ticker": "FHN",
       "severity": "MEDIUM",
       "entry_score": 51.305,
-      "current_score": 42.605,
+      "current_score": 43.0,
       "signal_date": "2026-08-20",
       "reasons": [
-        "Earnings en 6d \u2014 alta incertidumbre, considera reducir"
+        "Earnings en 3d \u2014 alta incertidumbre, considera reducir"
       ],
       "fundamental_score": 67.0
     },
@@ -211,7 +203,7 @@
       "reasons": [
         "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
       ],
-      "fundamental_score": 67.3
+      "fundamental_score": 66.8
     }
   ]
 }

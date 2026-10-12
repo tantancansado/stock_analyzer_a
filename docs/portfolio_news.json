@@ -1,6 +1,6 @@
 {
-  "scan_date": "2026-10-09",
-  "scan_time": "07:24",
+  "scan_date": "2026-10-12",
+  "scan_time": "07:22",
   "tickers": [
     "DXYZ",
     "DX",
@@ -16,9 +16,21 @@
     "DE0005190003",
     "ES0105630315"
   ],
-  "count": 0,
-  "alta_count": 0,
+  "count": 1,
+  "alta_count": 1,
   "media_count": 0,
-  "new_alerts": 0,
-  "items": []
+  "new_alerts": 1,
+  "items": [
+    {
+      "id": "earn_DX_20261019",
+      "ticker": "DX",
+      "title": "⏰ Earnings en 7 días — 19 Oct",
+      "source": "Earnings Calendar",
+      "pub_date": "2026-10-12T07:22:46.519383+00:00",
+      "time_ago": "",
+      "url": "",
+      "importance": "ALTA",
+      "sentiment": "NEUTRAL"
+    }
+  ]
 }

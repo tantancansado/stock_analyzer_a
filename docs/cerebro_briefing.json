@@ -1,29 +1,29 @@
 {
-  "generated_at": "2026-10-09",
+  "generated_at": "2026-10-12",
   "regime": "NEUTRAL",
-  "narrative": "R\u00e9gimen NEUTRAL. 1 oportunidades de entrada, 3 se\u00f1ales de salida HIGH. Sin trampas de valor relevantes.",
+  "narrative": "R\u00e9gimen NEUTRAL. 1 oportunidades de entrada, 2 se\u00f1ales de salida HIGH. Sin trampas de valor relevantes.",
   "sections": {
     "regime": "NEUTRAL",
     "strong_buy_count": 0,
     "buy_count": 1,
     "top_entries": [
       [
-        "SAP.DE",
-        50
+        "ULVR.L",
+        55
       ]
     ],
     "top_convergences": [
       [
-        "CME",
-        86
-      ],
-      [
         "MSFT",
-        83
+        79
       ],
       [
         "VRSN",
         69
+      ],
+      [
+        "MSCI",
+        68
       ]
     ],
     "high_alerts": [
@@ -32,35 +32,28 @@
         "INSIDER_BUYING"
       ],
       [
-        "BA.L",
-        "INSIDER_BUYING"
+        "ASAZY",
+        "SCORE_DRIFT"
       ],
       [
-        "BARC.L",
-        "INSIDER_BUYING"
+        "ASML.AS",
+        "EARNINGS_WARNING"
       ]
     ],
     "traps_warning": [],
     "exit_warnings": [
       [
-        "META",
-        "Score cay\u00f3 31pts (64 \u2192 33)",
-        "Score fundamental en base de datos sigue siendo alto (68.8/100), sugiriendo que la ca\u00edda es por valoraci\u00f3n/momentum y no por deterioro de negocio.",
-        63.72,
-        32.52
-      ],
-      [
-        "OXY",
-        "Score cay\u00f3 25pts (62 \u2192 37)",
-        "",
-        62.24000000000001,
-        37.225
-      ],
-      [
         "EXPN.L",
         "Ya no aparece en VALUE \u2014 tesis posiblemente rota",
-        "La se\u00f1al de salida se basa \u00fanicamente en desaparici\u00f3n del screening VALUE, no en datos fundamentales negativos (score N/A), lo que sugiere un cambio de valoraci\u00f3n por precio m\u00e1s que una tesis rota por fundamentales.",
+        "La se\u00f1al se basa \u00fanicamente en salir del filtro VALUE (criterio de valoraci\u00f3n), sin indicios de recortes de gu\u00eda, p\u00e9rdida de contratos o cambios directivos negativos reportados.",
         60.88499999999999,
+        null
+      ],
+      [
+        "AON",
+        "Ya no aparece en VALUE \u2014 tesis posiblemente rota",
+        "AON ha mostrado crecimiento s\u00f3lido de ingresos y m\u00e1rgenes tras la fusi\u00f3n con NFP y la cancelaci\u00f3n del acuerdo con Willis Towers Watson en 2021, sin se\u00f1ales claras de deterioro operativo reciente.",
+        51.13,
         null
       ]
     ],

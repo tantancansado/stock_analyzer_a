@@ -1,0 +1,75 @@
+{
+  "generated_at": "2026-10-12T07:17:03Z",
+  "horizon_days": 14,
+  "total": 1,
+  "theses": {
+    "DX": {
+      "ticker": "DX",
+      "company_name": "Dynex Capital, Inc.",
+      "sector": "Real Estate",
+      "earnings_date": "2026-10-19",
+      "days_to_earnings": 7,
+      "current_price": 10.86,
+      "fifty_two_week_high": 14.93,
+      "fifty_two_week_low": 10.36,
+      "avg_price": 13.33,
+      "shares": 280.0,
+      "unrealized_pct": -18.53,
+      "earnings_history": [
+        {
+          "period": "2026-06-30",
+          "eps_estimate": 0.34464,
+          "eps_actual": 0.36,
+          "surprise_pct": 4.46,
+          "beat": true
+        },
+        {
+          "period": "2026-03-31",
+          "eps_estimate": 0.27698,
+          "eps_actual": 0.31,
+          "surprise_pct": 11.92,
+          "beat": true
+        },
+        {
+          "period": "2025-12-31",
+          "eps_estimate": 0.26692,
+          "eps_actual": 0.22,
+          "surprise_pct": -17.58,
+          "beat": false
+        },
+        {
+          "period": "2025-09-30",
+          "eps_estimate": 0.26388,
+          "eps_actual": 0.25,
+          "surprise_pct": -5.26,
+          "beat": false
+        }
+      ],
+      "earnings_reaction": {
+        "n": 12,
+        "subio": 6,
+        "mediana_abs_pct": 1.2,
+        "peor_pct": -2.1,
+        "mejor_pct": 1.4
+      },
+      "verdict": "REDUCE",
+      "sentiment_tone": "NEUTRAL",
+      "implied_move_pct": 1.02,
+      "expected_eps": 0.36925,
+      "expected_revenue_millions": 104.6,
+      "beat_rate_last_4q": 0.5,
+      "key_risks": [
+        "Posibles misses en EPS dado el historial de sorpresas mixtas",
+        "Sensibilidad a tasas de inter\u00e9s y al mercado inmobiliario comercial",
+        "Volatilidad de los flujos de efectivo de los REITs en entorno de inflaci\u00f3n"
+      ],
+      "key_catalysts": [
+        "Mejora en la ocupaci\u00f3n y rentas netas operativas",
+        "Guidance optimista de la gerencia para el pr\u00f3ximo a\u00f1o",
+        "Recompras de acciones o distribuci\u00f3n de dividendos atractiva"
+      ],
+      "thesis_summary": "DX cotiza por debajo de su promedio de costo y ha registrado p\u00e9rdidas del 18,5%. El consenso de EPS y revenue es s\u00f3lido, pero el historial de sorpresas muestra variabilidad. Dada la exposici\u00f3n al sector inmobiliario y la posible presi\u00f3n de tipos, recomendamos recortar parcialmente la posici\u00f3n antes del earnings para limitar el riesgo, manteniendo una exposici\u00f3n residual para aprovechar cualquier upside inesperado. Vigilar el guidance de EPS, la ocupaci\u00f3n de los activos y cualquier anuncio de recompra de acciones o dividendos.",
+      "confidence": 65
+    }
+  }
+}

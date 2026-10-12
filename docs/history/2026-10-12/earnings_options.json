@@ -1,0 +1,105 @@
+{
+  "generated_at": "2026-10-12T07:24:11Z",
+  "horizon_days": 14,
+  "count": 1,
+  "snapshots": {
+    "DX": {
+      "ticker": "DX",
+      "company_name": "Dynex Capital, Inc.",
+      "sector": "Real Estate",
+      "earnings_date": "2026-10-19",
+      "days_to_earnings": 7,
+      "current_price": 10.86,
+      "term_structure": [
+        {
+          "strike": 10.0,
+          "call_price": 0.8,
+          "put_price": 0.15,
+          "straddle": 0.95,
+          "implied_move_pct": 8.75,
+          "call_iv": 0.0,
+          "put_iv": 0.0625,
+          "expiration": "2026-11-20",
+          "days_to_exp": 39
+        },
+        {
+          "strike": 10.0,
+          "call_price": 0.55,
+          "put_price": 0.23,
+          "straddle": 0.78,
+          "implied_move_pct": 7.18,
+          "call_iv": 0.0,
+          "put_iv": 0.0625,
+          "expiration": "2026-12-18",
+          "days_to_exp": 67
+        },
+        {
+          "strike": 10.0,
+          "call_price": 0.72,
+          "put_price": 0.7,
+          "straddle": 1.42,
+          "implied_move_pct": 13.08,
+          "call_iv": 0.0,
+          "put_iv": 0.0313,
+          "expiration": "2027-03-19",
+          "days_to_exp": 158
+        }
+      ],
+      "skew": {
+        "put_strike": 10.0,
+        "call_strike": 12.5,
+        "put_iv": 0.0625,
+        "call_iv": 0.125,
+        "skew_pts": -6.25,
+        "unreliable": false
+      },
+      "history": {
+        "beat_rate": 0.5,
+        "beats": 2,
+        "total": 4,
+        "avg_surprise_pct": -1.61,
+        "history": [
+          {
+            "period": "2025-09-30",
+            "estimate": 0.26388,
+            "actual": 0.25,
+            "beat": false,
+            "surprise_pct": -5.26
+          },
+          {
+            "period": "2025-12-31",
+            "estimate": 0.26692,
+            "actual": 0.22,
+            "beat": false,
+            "surprise_pct": -17.58
+          },
+          {
+            "period": "2026-03-31",
+            "estimate": 0.27698,
+            "actual": 0.31,
+            "beat": true,
+            "surprise_pct": 11.92
+          },
+          {
+            "period": "2026-06-30",
+            "estimate": 0.34464,
+            "actual": 0.36,
+            "beat": true,
+            "surprise_pct": 4.46
+          }
+        ]
+      },
+      "52w_high": 14.93,
+      "52w_low": 10.36,
+      "analyst_target": 13.75,
+      "analyst_count": 5.0
+    }
+  },
+  "posiciones_revisadas": 13,
+  "proxima_earnings_dias": 7,
+  "sin_fecha_de_earnings": [
+    "DXYZ",
+    "GZ3"
+  ],
+  "en_horizonte_sin_datos": []
+}

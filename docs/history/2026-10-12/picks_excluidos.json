@@ -1,0 +1,59 @@
+{
+  "listas": {
+    "value_opportunities": {
+      "candidatas": 94,
+      "publicadas": 86,
+      "excluidos": [
+        {
+          "ticker": "ERIE",
+          "paso": "rangos_imposibles",
+          "motivo": "Falta analyst_upside_pct: no se recomienda lo que no se puede evaluar",
+          "score": 44.14
+        },
+        {
+          "ticker": "VCISY",
+          "paso": "rangos_imposibles",
+          "motivo": "DCF fuera de rango: no es una valoración, es un dato roto (visto 260.8, esperado entre -95 y 200)",
+          "score": 43.92
+        },
+        {
+          "ticker": "KYCCF",
+          "paso": "rangos_imposibles",
+          "motivo": "Falta analyst_upside_pct: no se recomienda lo que no se puede evaluar",
+          "score": 43.452000000000005
+        },
+        {
+          "ticker": "ADSK",
+          "paso": "verificador_ia",
+          "motivo": "upside_triangulated_pct es 17.6% pero target_price_pe_upside_pct no aparece en los datos. Solo hay DCF (4.5%) y analyst (30.7%). Ese 17.6% no puede triangularse sin el dato P/E. · upside_requiere_verificacion es true (correcto por descuento >30%) pero la ficha carece del campo P/E que necesita para ser auditable.",
+          "score": 58.86
+        },
+        {
+          "ticker": "INTU",
+          "paso": "verificador_ia",
+          "motivo": "upside_triangulated_pct es 98.1% pero target_price_pe_upside_pct no aparece. Solo DCF 162.2%. Sin P/E no se puede triangulatizar. Además, fcf_yield de 10.65% es extremadamente alto y sugiere error de unidad (¿10.65/100 = 0.1065?), o el precio es irreal. · upside_requiere_verificacion es true (correcto), pero la ausencia del dato P/E hace la ficha no auditable.",
+          "score": 55.64
+        },
+        {
+          "ticker": "AMZN",
+          "paso": "verificador_ia",
+          "motivo": "target_price_dcf_upside_pct no aparece en la ficha. Solo hay P/E (88%) y se usa para calcular upside_triangulated_pct (57.2%), que no es una triangulación válida sin ambos modelos.",
+          "score": 55.325
+        },
+        {
+          "ticker": "DVA",
+          "paso": "verificador_ia",
+          "motivo": "fcf_yield de 11.14% es extremadamente alto y sugiere error de unidad. Con un precio de 179.25, un FCF yield del 11.14% implicaría un FCF anual de ~20, lo que parece irreal para una empresa de este tamaño. · modelos_dispersion_pts de 187.7 pts (DCF 175.9% vs P/E -11.8%) es catastrófica. upside_requiere_verificacion debería ser true, no false. El descuento implícito es masivo pero los modelos se contradicen completamente.",
+          "score": 55.21000000000001
+        },
+        {
+          "ticker": "CME",
+          "paso": "verificador_ia",
+          "motivo": "rev_growth_yoy de 0.8% es prácticamente nulo, pero fundamental_score es 63.8 y value_score es 51.16. Un crecimiento de 0.8% no sostiene un score fundamental de ese nivel. · modelos_acuerdo es CONTRADICEN (DCF 23.2% vs P/E -8.0%) pero upside_requiere_verificacion es false. Con tal contradicción y crecimiento casi nulo, debería marcarse como requiere verificación.",
+          "score": 51.16
+        }
+      ]
+    }
+  },
+  "generated_at": "2026-10-12T06:14:25Z"
+}

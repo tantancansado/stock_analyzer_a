@@ -1,17 +1,17 @@
 {
-  "generated_at": "2026-10-09",
+  "generated_at": "2026-10-12",
   "macro_regime": "CALM",
-  "composite_score": 5.5,
+  "composite_score": 7.0,
   "sesgo": "ALCISTA",
-  "confianza": 66,
-  "situacion": "R\u00e9gimen CALM, composite +5.5/30. 2 plays macro identificadas.",
-  "narrativa": "El mercado se encuentra en r\u00e9gimen CALM con score +5.5. Contexto permite selecci\u00f3n VALUE disciplinada. Cerebro detecta 1 tickers a evitar y 0 potenciales short squeezes.",
+  "confianza": 70,
+  "situacion": "R\u00e9gimen CALM, composite +7.0/30. 2 plays macro identificadas.",
+  "narrativa": "El mercado se encuentra en r\u00e9gimen CALM con score +7.0. Contexto permite selecci\u00f3n VALUE disciplinada. Cerebro detecta 0 tickers a evitar y 0 potenciales short squeezes.",
   "acciones_inmediatas": [
     {
       "prioridad": 1,
       "accion": "COMPRAR",
       "instrumento": "TLT/VGLT",
-      "razon": "Yield 30yr en 5.61% \u2014 zona hist\u00f3ricamente atractiva para bonos largos",
+      "razon": "Yield 30yr en 5.60% \u2014 zona hist\u00f3ricamente atractiva para bonos largos",
       "catalizador": "2018-19: TLT +18% cuando yields revertieron desde 3.25%",
       "size_hint": "peque\u00f1a (1-2%)",
       "invalidacion": "La Fed puede mantener tipos altos m\u00e1s tiempo \u2014 size peque\u00f1o"
@@ -24,22 +24,13 @@
       "catalizador": "2016 post-elecci\u00f3n: IWM +20% en 3 meses desde valuaciones deprimidas",
       "size_hint": "peque\u00f1a (1-2%)",
       "invalidacion": "Si cr\u00e9dito deteriora, small caps caen m\u00e1s \u2014 monitorizar HYG"
-    },
-    {
-      "prioridad": 3,
-      "accion": "VENDER",
-      "instrumento": "INTU",
-      "razon": "Thesis drift HIGH (45d): Score cay\u00f3 40pts en 45d (78\u219238) | Opciones TIER2 (q=45)",
-      "catalizador": "Se\u00f1al AVOID activa en Cerebro",
-      "size_hint": "grande (5%+)",
-      "invalidacion": "Score Cerebro mejora a neutral"
     }
   ],
   "macro_plays": [
     {
       "instrument": "TLT/VGLT",
       "direction": "LONG",
-      "thesis": "Yield 30yr en 5.61% \u2014 zona hist\u00f3ricamente atractiva para bonos largos",
+      "thesis": "Yield 30yr en 5.60% \u2014 zona hist\u00f3ricamente atractiva para bonos largos",
       "historical": "2018-19: TLT +18% cuando yields revertieron desde 3.25%",
       "risk": "La Fed puede mantener tipos altos m\u00e1s tiempo \u2014 size peque\u00f1o",
       "timeframe": "3-6 meses",
@@ -71,47 +62,28 @@
   "value_en_entorno": [
     {
       "ticker": "BR",
-      "score": 76.1,
+      "score": 74.0,
       "sector": "Technology",
-      "fcf_yield_pct": 6.61,
+      "fcf_yield_pct": 6.6,
       "grade": "B"
     },
     {
       "ticker": "SAP.DE",
-      "score": 72.2,
+      "score": 66.5,
       "sector": "Technology",
-      "fcf_yield_pct": 4.09,
+      "fcf_yield_pct": 3.95,
       "grade": "B"
     },
     {
-      "ticker": "MSFT",
-      "score": 68.4,
-      "sector": "Technology",
-      "fcf_yield_pct": 1.73,
-      "grade": "B"
-    },
-    {
-      "ticker": "NYT",
-      "score": 62.9,
-      "sector": "Communication Services",
-      "fcf_yield_pct": 5.81,
-      "grade": "B"
-    },
-    {
-      "ticker": "GOOG",
-      "score": 61.6,
-      "sector": "Communication Services",
-      "fcf_yield_pct": 2.23,
+      "ticker": "ICE",
+      "score": 57.4,
+      "sector": "Financial Services",
+      "fcf_yield_pct": 5.39,
       "grade": "B"
     }
   ],
   "value_en_entorno_razon": "Tickers VALUE seleccionados para r\u00e9gimen CALM.",
-  "evitar": [
-    {
-      "ticker": "INTU",
-      "razon": "Thesis drift HIGH (45d): Score cay\u00f3 40pts en 45d (78\u219238) | Opciones TIER2 (q=45)"
-    }
-  ],
+  "evitar": [],
   "agenda_semana": [
     {
       "fecha": "2026-10-14",
@@ -120,7 +92,7 @@
       "accion_sugerida": "Reducir riesgo antes / evaluar reacci\u00f3n del mercado despu\u00e9s"
     }
   ],
-  "frase_del_dia": "El \u00e9xito en inversi\u00f3n no lo logra el m\u00e1s listo, sino el m\u00e1s disciplinado. \u2014 Benjamin Graham",
-  "mensaje_telegram": "\ud83e\udde0 CEREBRO 2026-10-09 | CALM (+5.5) | ALCISTA | VALUE: BR SAP.DE MSFT | Evitar: INTU",
+  "frase_del_dia": "Los mercados pueden permanecer irracionales m\u00e1s tiempo del que t\u00fa puedes permanecer solvente. \u2014 Keynes",
+  "mensaje_telegram": "\ud83e\udde0 CEREBRO 2026-10-12 | CALM (+7.0) | ALCISTA | VALUE: BR SAP.DE ICE | Evitar: ",
   "ai_powered": false
 }
