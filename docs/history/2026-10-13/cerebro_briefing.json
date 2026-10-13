@@ -1,0 +1,67 @@
+{
+  "generated_at": "2026-10-13",
+  "regime": "NEUTRAL",
+  "narrative": "1. Mantenga posici\u00f3n neutral y evite abrir nuevas exposiciones en VALUE; la se\u00f1al de salida de EXPN.L indica que la tesis de valoraci\u00f3n est\u00e1 deteriorada.  \n2. Vigile de cerca los movimientos de insider buying en AAL.L y los indicadores de drift y nueva convergencia en ADP, ya que podr\u00edan anticipar revalorizaciones r\u00e1pidas.  \n3. No tome decisiones sobre CME, MSFT y ADP sin confirmar que sus m\u00e9tricas de precio/valor intr\u00ednseco siguen alineadas con los criterios VALUE.  \n4. Observe la actividad de \u201csmart money\u201d en VRSN (1 HF) para detectar posibles flujos institucionales que puedan generar oportunidades de corto plazo.  \n5. Evite operar en sectores con alta volatilidad o eventos corporativos inesperados, dado que el macro\u2011entorno est\u00e1 sin estr\u00e9s y no hay mercados en rojo.",
+  "sections": {
+    "regime": "NEUTRAL",
+    "strong_buy_count": 0,
+    "buy_count": 0,
+    "top_entries": [],
+    "top_convergences": [
+      [
+        "CME",
+        86
+      ],
+      [
+        "MSFT",
+        85
+      ],
+      [
+        "ADP",
+        67
+      ]
+    ],
+    "high_alerts": [
+      [
+        "AAL.L",
+        "INSIDER_BUYING"
+      ],
+      [
+        "ADP",
+        "SCORE_DRIFT"
+      ],
+      [
+        "ADP",
+        "NEW_CONVERGENCE"
+      ]
+    ],
+    "traps_warning": [],
+    "exit_warnings": [
+      [
+        "EXPN.L",
+        "Ya no aparece en VALUE \u2014 tesis posiblemente rota",
+        "La desaparici\u00f3n del screener VALUE suele estar ligada a m\u00e9tricas de valoraci\u00f3n (ratio precio/valor intr\u00ednseco) m\u00e1s que a un evento corporativo negativo; no hay evidencia de profit warnings ni cambios de gesti\u00f3n significativos reportados.",
+        60.88499999999999,
+        null
+      ]
+    ],
+    "smart_money": [
+      [
+        "VRSN",
+        1,
+        1
+      ],
+      [
+        "ULVR.L",
+        0,
+        9
+      ],
+      [
+        "SAP.DE",
+        0,
+        3
+      ]
+    ],
+    "macro_stress": []
+  }
+}

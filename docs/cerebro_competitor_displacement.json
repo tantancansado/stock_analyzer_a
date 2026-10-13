@@ -1,163 +1,101 @@
 {
-  "generated_at": "2026-10-12",
-  "total": 12,
-  "dropped_count": 9,
+  "generated_at": "2026-10-13",
+  "total": 7,
+  "dropped_count": 5,
   "narrative": "",
   "displacements": [
     {
       "type": "COMPETITOR_RISE",
-      "dropped_ticker": "ADSK",
+      "dropped_ticker": "ASML.AS",
       "sector": "Technology",
-      "prev_score": 63.095,
+      "prev_score": 56.4,
       "replacements": [
-        "BR",
+        "MSFT",
         "SAP.DE",
-        "PAYX"
+        "BR"
       ],
-      "top_replacement": "BR",
-      "top_replacement_score": 74.045,
-      "detail": "ADSK sali\u00f3 de VALUE (63pts); peers en Technology: BR, SAP.DE"
+      "top_replacement": "MSFT",
+      "top_replacement_score": 75.28999999999999,
+      "detail": "ASML.AS sali\u00f3 de VALUE (56pts); peers en Technology: MSFT, SAP.DE"
     },
     {
       "type": "COMPETITOR_RISE",
-      "dropped_ticker": "RMD",
-      "sector": "Healthcare",
-      "prev_score": 68.32000000000001,
-      "replacements": [
-        "THC"
-      ],
-      "top_replacement": "THC",
-      "top_replacement_score": 57.49,
-      "detail": "RMD sali\u00f3 de VALUE (68pts); peers en Healthcare: THC"
-    },
-    {
-      "type": "COMPETITOR_RISE",
-      "dropped_ticker": "GOOG",
-      "sector": "Communication Services",
-      "prev_score": 61.6,
-      "replacements": [
-        "NYT"
-      ],
-      "top_replacement": "NYT",
-      "top_replacement_score": 50.715,
-      "detail": "GOOG sali\u00f3 de VALUE (62pts); peers en Communication Services: NYT"
-    },
-    {
-      "type": "COMPETITOR_RISE",
-      "dropped_ticker": "ASSA-B.ST",
+      "dropped_ticker": "WTKWY",
       "sector": "Industrials",
-      "prev_score": 58.8,
+      "prev_score": 55.525000000000006,
       "replacements": [
         "WKL.AS",
         "GEBN.SW",
-        "LR.PA"
+        "ATCO-B.ST"
       ],
       "top_replacement": "WKL.AS",
-      "top_replacement_score": 66.4,
-      "detail": "ASSA-B.ST sali\u00f3 de VALUE (59pts); peers en Industrials: WKL.AS, GEBN.SW"
+      "top_replacement_score": 65.1,
+      "detail": "WTKWY sali\u00f3 de VALUE (56pts); peers en Industrials: WKL.AS, GEBN.SW"
     },
     {
       "type": "COMPETITOR_RISE",
-      "dropped_ticker": "MSFT",
-      "sector": "Technology",
-      "prev_score": 68.4,
-      "replacements": [
-        "BR",
-        "SAP.DE",
-        "PAYX"
-      ],
-      "top_replacement": "BR",
-      "top_replacement_score": 74.045,
-      "detail": "MSFT sali\u00f3 de VALUE (68pts); peers en Technology: BR, SAP.DE"
-    },
-    {
-      "type": "COMPETITOR_RISE",
-      "dropped_ticker": "LMT",
+      "dropped_ticker": "LR.PA",
       "sector": "Industrials",
-      "prev_score": 55.425,
+      "prev_score": 55.9,
       "replacements": [
         "WKL.AS",
         "GEBN.SW",
-        "LR.PA"
+        "ATCO-B.ST"
       ],
       "top_replacement": "WKL.AS",
-      "top_replacement_score": 66.4,
-      "detail": "LMT sali\u00f3 de VALUE (55pts); peers en Industrials: WKL.AS, GEBN.SW"
+      "top_replacement_score": 65.1,
+      "detail": "LR.PA sali\u00f3 de VALUE (56pts); peers en Industrials: WKL.AS, GEBN.SW"
     },
     {
       "type": "COMPETITOR_RISE",
-      "dropped_ticker": "DVA",
+      "dropped_ticker": "THC",
       "sector": "Healthcare",
-      "prev_score": 57.78,
+      "prev_score": 57.49,
       "replacements": [
-        "THC"
+        "AZN.L",
+        "7741.T"
       ],
-      "top_replacement": "THC",
-      "top_replacement_score": 57.49,
-      "detail": "DVA sali\u00f3 de VALUE (58pts); peers en Healthcare: THC"
+      "top_replacement": "AZN.L",
+      "top_replacement_score": 67.3,
+      "detail": "THC sali\u00f3 de VALUE (57pts); peers en Healthcare: AZN.L, 7741.T"
     },
     {
       "type": "COMPETITOR_RISE",
-      "dropped_ticker": "NDAQ",
+      "dropped_ticker": "MCO",
       "sector": "Financial Services",
-      "prev_score": 57.34,
+      "prev_score": 57.18000000000001,
       "replacements": [
         "MA",
-        "ICE",
-        "MCO"
+        "ICE"
       ],
       "top_replacement": "MA",
-      "top_replacement_score": 60.56999999999999,
-      "detail": "NDAQ sali\u00f3 de VALUE (57pts); peers en Financial Services: MA, ICE"
-    },
-    {
-      "type": "COMPETITOR_RISE",
-      "dropped_ticker": "JKHY",
-      "sector": "Technology",
-      "prev_score": 55.68000000000001,
-      "replacements": [
-        "BR",
-        "SAP.DE",
-        "PAYX"
-      ],
-      "top_replacement": "BR",
-      "top_replacement_score": 74.045,
-      "detail": "JKHY sali\u00f3 de VALUE (56pts); peers en Technology: BR, SAP.DE"
+      "top_replacement_score": 62.755,
+      "detail": "MCO sali\u00f3 de VALUE (57pts); peers en Financial Services: MA, ICE"
     },
     {
       "type": "SECTOR_TAILWIND",
       "sector": "Technology",
       "rotation_score": 100.0,
       "beneficiaries": [
-        "BR",
+        "MSFT",
         "SAP.DE",
-        "PAYX"
+        "BR"
       ],
-      "top_ticker": "BR",
-      "top_score": 74.045,
-      "detail": "Sector Technology l\u00edder (RS 100) \u2014 BR, SAP.DE, PAYX son los picks VALUE"
+      "top_ticker": "MSFT",
+      "top_score": 75.28999999999999,
+      "detail": "Sector Technology l\u00edder (RS 100) \u2014 MSFT, SAP.DE, BR son los picks VALUE"
     },
     {
       "type": "SECTOR_TAILWIND",
       "sector": "Healthcare",
       "rotation_score": 100.0,
       "beneficiaries": [
-        "THC"
+        "AZN.L",
+        "7741.T"
       ],
-      "top_ticker": "THC",
-      "top_score": 57.49,
-      "detail": "Sector Healthcare l\u00edder (RS 100) \u2014 THC son los picks VALUE"
-    },
-    {
-      "type": "SECTOR_TAILWIND",
-      "sector": "Communication Services",
-      "rotation_score": 100.0,
-      "beneficiaries": [
-        "NYT"
-      ],
-      "top_ticker": "NYT",
-      "top_score": 50.715,
-      "detail": "Sector Communication Services l\u00edder (RS 100) \u2014 NYT son los picks VALUE"
+      "top_ticker": "AZN.L",
+      "top_score": 67.3,
+      "detail": "Sector Healthcare l\u00edder (RS 100) \u2014 AZN.L, 7741.T son los picks VALUE"
     }
   ]
 }

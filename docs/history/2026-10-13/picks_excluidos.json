@@ -1,0 +1,41 @@
+{
+  "listas": {
+    "value_opportunities": {
+      "candidatas": 86,
+      "publicadas": 81,
+      "excluidos": [
+        {
+          "ticker": "ERIE",
+          "paso": "rangos_imposibles",
+          "motivo": "Falta analyst_upside_pct: no se recomienda lo que no se puede evaluar",
+          "score": 44.344
+        },
+        {
+          "ticker": "KYCCF",
+          "paso": "rangos_imposibles",
+          "motivo": "Falta analyst_upside_pct: no se recomienda lo que no se puede evaluar",
+          "score": 43.452000000000005
+        },
+        {
+          "ticker": "VCISY",
+          "paso": "rangos_imposibles",
+          "motivo": "DCF fuera de rango: no es una valoración, es un dato roto (visto 262.6, esperado entre -95 y 200)",
+          "score": 41.92
+        },
+        {
+          "ticker": "WTKWY",
+          "paso": "verificador_ia",
+          "motivo": "upside_triangulated_pct es 111.7% (descuento enorme, 50% debajo del precio), modelos_acuerdo COHERENTES, pero rev_growth_yoy es solo 3.5% (crecimiento plano) y PEG 1.01. Un descuento del 50% en un negocio que crece al 3.5% sin estímulo de márgenes visibles no es oportunidad: es trampa. Los modelos propios no sostienen este precio.",
+          "score": 65.17500000000001
+        },
+        {
+          "ticker": "TMO",
+          "paso": "verificador_ia",
+          "motivo": "Peg_ratio 132.82 es imposible (PEG >3 es raro; >100 indica error de cálculo de beneficio, posiblemente eps cercano a cero o inflado por dilución). Sin PEG válido, no se puede auditar la relación precio-crecimiento. Fundamental_score 74.6 es alto, pero piotroski_score 5.0 es bajo, y upside_triangulated_pct es -25.1% (sobrevaluado según modelos). El PEG erróneo invalida toda la ficha.",
+          "score": 46.365
+        }
+      ]
+    }
+  },
+  "generated_at": "2026-10-13T07:10:18Z"
+}

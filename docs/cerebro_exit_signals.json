@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-10-12",
-  "total": 17,
+  "generated_at": "2026-10-13",
+  "total": 18,
   "high_count": 2,
-  "narrative": "",
+  "narrative": "1. La salida de estos valores del monitor VALUE indica que, aunque sus fundamentos siguen siendo s\u00f3lidos, el potencial de alza se ha reducido, por lo que deben asignarse menores pesos en la cartera para limitar la exposici\u00f3n a posibles correcciones de precio.  \n2. En la gesti\u00f3n de riesgo, es prudente re\u2011evaluar los",
   "exits": [
     {
       "ticker": "EXPN.L",
@@ -16,38 +16,38 @@
       "fundamental_score": null,
       "ai_validation": {
         "verdict": "FALSE_POSITIVE",
-        "confidence": 65,
-        "summary": "Experian (EXPN.L) no muestra se\u00f1ales de deterioro fundamental conocidas hasta mi corte de entrenamiento; la salida de la lista VALUE probablemente se debe a una revalorizaci\u00f3n del precio que redujo el margen de upside, no a un problema del negocio. La empresa ha mantenido crecimiento estable en sus segmentos de datos y anal\u00edtica.",
-        "key_finding": "La se\u00f1al se basa \u00fanicamente en salir del filtro VALUE (criterio de valoraci\u00f3n), sin indicios de recortes de gu\u00eda, p\u00e9rdida de contratos o cambios directivos negativos reportados.",
-        "summary_note": "Experian (EXPN.L) no muestra se\u00f1ales de deterioro fundamental conocidas hasta mi corte de entrenamiento; la salida de la lista VALUE probablemente se debe a una revalorizaci\u00f3n del precio que redujo el margen de upside, no a un problema del negocio. La empresa ha mantenido crecimiento estable en sus segmentos de datos y anal\u00edtica."
+        "confidence": 62,
+        "summary": "Experian (EXPN.L) no ha mostrado deterioro fundamental relevante hasta donde se conoce; es una empresa de datos/cr\u00e9dito con negocio estable y crecimiento constante. La se\u00f1al de salida probablemente se debe a que la revalorizaci\u00f3n del precio redujo el upside calculado por el modelo VALUE, no a un deterioro real del negocio.",
+        "key_finding": "La desaparici\u00f3n del screener VALUE suele estar ligada a m\u00e9tricas de valoraci\u00f3n (ratio precio/valor intr\u00ednseco) m\u00e1s que a un evento corporativo negativo; no hay evidencia de profit warnings ni cambios de gesti\u00f3n significativos reportados.",
+        "summary_note": "Experian (EXPN.L) no ha mostrado deterioro fundamental relevante hasta donde se conoce; es una empresa de datos/cr\u00e9dito con negocio estable y crecimiento constante. La se\u00f1al de salida probablemente se debe a que la revalorizaci\u00f3n del precio redujo el upside calculado por el modelo VALUE, no a un deterioro real del negocio."
       }
     },
     {
       "ticker": "AON",
-      "severity": "HIGH",
+      "severity": "MEDIUM",
       "entry_score": 51.13,
       "current_score": null,
       "signal_date": "2026-08-24",
       "reasons": [
-        "Ya no aparece en VALUE \u2014 tesis posiblemente rota"
+        "Ya no aparece en VALUE \u2014 tesis posiblemente rota",
+        "IA: falso positivo con 70% confianza \u2014 AON es una aseguradora/broker global con fundamentales s\u00f3lidos y crecimiento estable; su salida de la lista VALUE probablemente se debe a una valoraci\u00f3n m\u00e1s alta tras subida de precio, no a deterioro del negocio. No hay evidencia de earnings misses graves ni eventos negativos mayores recientes."
       ],
-      "fundamental_score": 51.0,
+      "fundamental_score": 50.5,
       "ai_validation": {
         "verdict": "FALSE_POSITIVE",
-        "confidence": 68,
-        "summary": "AON es una aseguradora/broker de riesgo con negocio estable y crecimiento constante; la salida de la lista VALUE probablemente se debe a una apreciaci\u00f3n del precio que redujo el margen de upside, no a un deterioro fundamental. No hay evidencia conocida de ca\u00eddas de beneficios ni eventos negativos mayores recientes.",
-        "key_finding": "AON ha mostrado crecimiento s\u00f3lido de ingresos y m\u00e1rgenes tras la fusi\u00f3n con NFP y la cancelaci\u00f3n del acuerdo con Willis Towers Watson en 2021, sin se\u00f1ales claras de deterioro operativo reciente.",
-        "summary_note": "AON es una aseguradora/broker de riesgo con negocio estable y crecimiento constante; la salida de la lista VALUE probablemente se debe a una apreciaci\u00f3n del precio que redujo el margen de upside, no a un deterioro fundamental. No hay evidencia conocida de ca\u00eddas de beneficios ni eventos negativos mayores recientes."
+        "confidence": 70,
+        "summary": "AON es una aseguradora/broker global con fundamentales s\u00f3lidos y crecimiento estable; su salida de la lista VALUE probablemente se debe a una valoraci\u00f3n m\u00e1s alta tras subida de precio, no a deterioro del negocio. No hay evidencia de earnings misses graves ni eventos negativos mayores recientes.",
+        "key_finding": "AON ha mantenido crecimiento constante en ingresos y m\u00e1rgenes, con la integraci\u00f3n de NFP y recompras de acciones, sin se\u00f1ales claras de deterioro fundamental hasta la fecha de corte de conocimiento."
       }
     },
     {
       "ticker": "RMD",
       "severity": "MEDIUM",
       "entry_score": 64.27499999999999,
-      "current_score": 46.83500000000001,
+      "current_score": null,
       "signal_date": "2026-10-08",
       "reasons": [
-        "Score cay\u00f3 17pts (64 \u2192 47)"
+        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
       ],
       "fundamental_score": 67.1
     },
@@ -71,7 +71,7 @@
       "reasons": [
         "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
       ],
-      "fundamental_score": 77.3
+      "fundamental_score": 78.1
     },
     {
       "ticker": "NDSN",
@@ -82,7 +82,7 @@
       "reasons": [
         "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
       ],
-      "fundamental_score": 74.1
+      "fundamental_score": 75.1
     },
     {
       "ticker": "CLPBY",
@@ -99,10 +99,10 @@
       "ticker": "QSR",
       "severity": "MEDIUM",
       "entry_score": 59.09,
-      "current_score": 38.65,
+      "current_score": null,
       "signal_date": "2026-09-10",
       "reasons": [
-        "Score cay\u00f3 20pts (59 \u2192 39)"
+        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
       ],
       "fundamental_score": 61.5
     },
@@ -121,12 +121,23 @@
       "ticker": "UNP",
       "severity": "MEDIUM",
       "entry_score": 57.52,
-      "current_score": 38.78,
+      "current_score": null,
       "signal_date": "2026-09-21",
       "reasons": [
-        "Score cay\u00f3 19pts (58 \u2192 39)"
+        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
       ],
-      "fundamental_score": 70.5
+      "fundamental_score": 71.3
+    },
+    {
+      "ticker": "NDAQ",
+      "severity": "MEDIUM",
+      "entry_score": 57.34,
+      "current_score": 41.68,
+      "signal_date": "2026-10-09",
+      "reasons": [
+        "Score cay\u00f3 16pts (57 \u2192 42)"
+      ],
+      "fundamental_score": 72.6
     },
     {
       "ticker": "TW",
@@ -170,7 +181,7 @@
       "reasons": [
         "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
       ],
-      "fundamental_score": 75.7
+      "fundamental_score": 75.2
     },
     {
       "ticker": "TT",
@@ -187,10 +198,10 @@
       "ticker": "FHN",
       "severity": "MEDIUM",
       "entry_score": 51.305,
-      "current_score": 43.0,
+      "current_score": 42.91,
       "signal_date": "2026-08-20",
       "reasons": [
-        "Earnings en 3d \u2014 alta incertidumbre, considera reducir"
+        "Earnings en 2d \u2014 alta incertidumbre, considera reducir"
       ],
       "fundamental_score": 67.0
     },

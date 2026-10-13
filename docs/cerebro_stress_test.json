@@ -1,15 +1,15 @@
 {
-  "generated_at": "2026-10-12",
-  "total_positions": 95,
+  "generated_at": "2026-10-13",
+  "total_positions": 96,
   "risks": [
     {
       "type": "SECTOR_CONCENTRATION",
       "severity": "HIGH",
-      "message": "64% de se\u00f1ales en Unknown (61/95) \u2014 concentraci\u00f3n elevada",
+      "message": "71% de se\u00f1ales en Unknown (68/96) \u2014 concentraci\u00f3n elevada",
       "detail": {
         "sector": "Unknown",
-        "count": 61,
-        "pct": 64
+        "count": 68,
+        "pct": 71
       }
     },
     {
@@ -17,22 +17,22 @@
       "severity": "LOW",
       "message": "100% en mercado US \u2014 poca diversificaci\u00f3n geogr\u00e1fica",
       "detail": {
-        "us": 95,
+        "us": 96,
         "eu": 0
       }
     }
   ],
-  "narrative": "",
+  "narrative": "1. Reduce la exposici\u00f3n al sector \u201cUnknown\u201d redistribuyendo parte del capital hacia",
   "sector_breakdown": [
     {
       "sector": "Unknown",
-      "count": 61,
-      "pct": 64
+      "count": 68,
+      "pct": 71
     },
     {
       "sector": "Financial Services",
       "count": 10,
-      "pct": 11
+      "pct": 10
     },
     {
       "sector": "Technology",
@@ -41,23 +41,23 @@
     },
     {
       "sector": "Healthcare",
-      "count": 4,
-      "pct": 4
+      "count": 3,
+      "pct": 3
     },
     {
       "sector": "Consumer Cyclical",
-      "count": 3,
-      "pct": 3
+      "count": 2,
+      "pct": 2
     },
     {
       "sector": "Industrials",
-      "count": 3,
-      "pct": 3
+      "count": 1,
+      "pct": 1
     },
     {
       "sector": "Consumer Defensive",
-      "count": 2,
-      "pct": 2
+      "count": 1,
+      "pct": 1
     },
     {
       "sector": "Communication Services",
@@ -66,6 +66,6 @@
     }
   ],
   "region_breakdown": {
-    "US": 95
+    "US": 96
   }
 }

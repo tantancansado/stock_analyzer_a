@@ -1,29 +1,24 @@
 {
-  "generated_at": "2026-10-12",
+  "generated_at": "2026-10-13",
   "regime": "NEUTRAL",
-  "narrative": "R\u00e9gimen NEUTRAL. 1 oportunidades de entrada, 2 se\u00f1ales de salida HIGH. Sin trampas de valor relevantes.",
+  "narrative": "1. Mantenga posici\u00f3n neutral y evite abrir nuevas exposiciones en VALUE; la se\u00f1al de salida de EXPN.L indica que la tesis de valoraci\u00f3n est\u00e1 deteriorada.  \n2. Vigile de cerca los movimientos de insider buying en AAL.L y los indicadores de drift y nueva convergencia en ADP, ya que podr\u00edan anticipar revalorizaciones r\u00e1pidas.  \n3. No tome decisiones sobre CME, MSFT y ADP sin confirmar que sus m\u00e9tricas de precio/valor intr\u00ednseco siguen alineadas con los criterios VALUE.  \n4. Observe la actividad de \u201csmart money\u201d en VRSN (1 HF) para detectar posibles flujos institucionales que puedan generar oportunidades de corto plazo.  \n5. Evite operar en sectores con alta volatilidad o eventos corporativos inesperados, dado que el macro\u2011entorno est\u00e1 sin estr\u00e9s y no hay mercados en rojo.",
   "sections": {
     "regime": "NEUTRAL",
     "strong_buy_count": 0,
-    "buy_count": 1,
-    "top_entries": [
-      [
-        "ULVR.L",
-        55
-      ]
-    ],
+    "buy_count": 0,
+    "top_entries": [],
     "top_convergences": [
       [
+        "CME",
+        86
+      ],
+      [
         "MSFT",
-        79
+        85
       ],
       [
-        "VRSN",
-        69
-      ],
-      [
-        "MSCI",
-        68
+        "ADP",
+        67
       ]
     ],
     "high_alerts": [
@@ -32,12 +27,12 @@
         "INSIDER_BUYING"
       ],
       [
-        "ASAZY",
+        "ADP",
         "SCORE_DRIFT"
       ],
       [
-        "ASML.AS",
-        "EARNINGS_WARNING"
+        "ADP",
+        "NEW_CONVERGENCE"
       ]
     ],
     "traps_warning": [],
@@ -45,15 +40,8 @@
       [
         "EXPN.L",
         "Ya no aparece en VALUE \u2014 tesis posiblemente rota",
-        "La se\u00f1al se basa \u00fanicamente en salir del filtro VALUE (criterio de valoraci\u00f3n), sin indicios de recortes de gu\u00eda, p\u00e9rdida de contratos o cambios directivos negativos reportados.",
+        "La desaparici\u00f3n del screener VALUE suele estar ligada a m\u00e9tricas de valoraci\u00f3n (ratio precio/valor intr\u00ednseco) m\u00e1s que a un evento corporativo negativo; no hay evidencia de profit warnings ni cambios de gesti\u00f3n significativos reportados.",
         60.88499999999999,
-        null
-      ],
-      [
-        "AON",
-        "Ya no aparece en VALUE \u2014 tesis posiblemente rota",
-        "AON ha mostrado crecimiento s\u00f3lido de ingresos y m\u00e1rgenes tras la fusi\u00f3n con NFP y la cancelaci\u00f3n del acuerdo con Willis Towers Watson en 2021, sin se\u00f1ales claras de deterioro operativo reciente.",
-        51.13,
         null
       ]
     ],
@@ -69,9 +57,9 @@
         9
       ],
       [
-        "DGE.L",
+        "SAP.DE",
         0,
-        7
+        3
       ]
     ],
     "macro_stress": []

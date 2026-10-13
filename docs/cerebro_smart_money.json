@@ -1,16 +1,16 @@
 {
-  "generated_at": "2026-10-12",
-  "total": 20,
+  "generated_at": "2026-10-13",
+  "total": 17,
   "tier1": 1,
-  "tier2": 3,
-  "tier3": 16,
-  "narrative": "1. La convergencia de capital inteligente indica que tanto los traders de alta frecuencia como los insiders est\u00e1n alineando sus posiciones, lo que su",
+  "tier2": 2,
+  "tier3": 14,
+  "narrative": "Esta confluencia indica que fondos de cobertura y directivos con informaci\u00f3n privilegiada est\u00e1n alineando sus posiciones, lo que sugiere una fuerte convicci\u00f3n en el potencial de revalorizaci\u00f3n de esas acciones. Cuando varios tipos de \u201csmart money\u201d coinciden en la misma empresa, aumenta la probabilidad de que el mercado siga su tendencia alcista.",
   "signals": [
     {
       "ticker": "VRSN",
       "company_name": "VeriSign, Inc.",
       "sector": "Technology",
-      "value_score": 48.20500000000001,
+      "value_score": 46.870000000000005,
       "tier": 1,
       "tier_label": "HF+Insiders",
       "n_hedge_funds": 1,
@@ -26,7 +26,7 @@
       "ticker": "ULVR.L",
       "company_name": "Unilever PLC",
       "sector": "Consumer Defensive",
-      "value_score": 72.7,
+      "value_score": 65.6,
       "tier": 2,
       "tier_label": "Strong Insiders",
       "n_hedge_funds": 0,
@@ -34,20 +34,6 @@
       "n_insiders": 9,
       "insider_purchases": 14,
       "convergence_score": 100,
-      "in_value": true
-    },
-    {
-      "ticker": "DGE.L",
-      "company_name": "Diageo plc",
-      "sector": "Consumer Defensive",
-      "value_score": 50.0,
-      "tier": 2,
-      "tier_label": "Strong Insiders",
-      "n_hedge_funds": 0,
-      "hedge_funds": [],
-      "n_insiders": 7,
-      "insider_purchases": 13,
-      "convergence_score": 85,
       "in_value": true
     },
     {
@@ -68,88 +54,24 @@
       "ticker": "GOOG",
       "company_name": "Alphabet Inc.",
       "sector": "Communication Services",
-      "value_score": 49.905,
+      "value_score": 47.8,
       "tier": 3,
       "tier_label": "HF+Value",
       "n_hedge_funds": 2,
       "hedge_funds": [
-        "Pershing Square (Ackman)",
-        "Berkshire Hathaway (Buffett)"
+        "Berkshire Hathaway (Buffett)",
+        "Pershing Square (Ackman)"
       ],
       "n_insiders": 0,
       "insider_purchases": 0,
-      "convergence_score": 45,
-      "in_value": true
-    },
-    {
-      "ticker": "KO",
-      "company_name": "The Coca-Cola Company",
-      "sector": "Consumer Defensive",
-      "value_score": 69.10499999999999,
-      "tier": 3,
-      "tier_label": "HF+Value",
-      "n_hedge_funds": 1,
-      "hedge_funds": [
-        "Berkshire Hathaway (Buffett)"
-      ],
-      "n_insiders": 0,
-      "insider_purchases": 0,
-      "convergence_score": 36,
-      "in_value": true
-    },
-    {
-      "ticker": "MCO",
-      "company_name": "Moody's Corporation",
-      "sector": "Financial Services",
-      "value_score": 57.18000000000001,
-      "tier": 3,
-      "tier_label": "HF+Value",
-      "n_hedge_funds": 1,
-      "hedge_funds": [
-        "Berkshire Hathaway (Buffett)"
-      ],
-      "n_insiders": 0,
-      "insider_purchases": 0,
-      "convergence_score": 32,
-      "in_value": true
-    },
-    {
-      "ticker": "THC",
-      "company_name": "Tenet Healthcare Corporation",
-      "sector": "Healthcare",
-      "value_score": 57.49,
-      "tier": 3,
-      "tier_label": "HF+Value",
-      "n_hedge_funds": 1,
-      "hedge_funds": [
-        "Appaloosa (Tepper)"
-      ],
-      "n_insiders": 0,
-      "insider_purchases": 0,
-      "convergence_score": 32,
-      "in_value": true
-    },
-    {
-      "ticker": "NYT",
-      "company_name": "The New York Times Company",
-      "sector": "Communication Services",
-      "value_score": 50.715,
-      "tier": 3,
-      "tier_label": "HF+Value",
-      "n_hedge_funds": 1,
-      "hedge_funds": [
-        "Berkshire Hathaway (Buffett)"
-      ],
-      "n_insiders": 0,
-      "insider_purchases": 0,
-      "convergence_score": 30,
+      "convergence_score": 44,
       "in_value": true
     },
     {
       "ticker": "MSFT",
       "company_name": "Microsoft Corporation",
       "sector": "Technology",
-      "value_score": 49.815,
+      "value_score": 75.28999999999999,
       "tier": 3,
       "tier_label": "HF+Value",
       "n_hedge_funds": 1,
@@ -158,14 +80,62 @@
       ],
       "n_insiders": 0,
       "insider_purchases": 0,
-      "convergence_score": 30,
+      "convergence_score": 38,
+      "in_value": true
+    },
+    {
+      "ticker": "KO",
+      "company_name": "The Coca-Cola Company",
+      "sector": "Consumer Defensive",
+      "value_score": 57.54499999999999,
+      "tier": 3,
+      "tier_label": "HF+Value",
+      "n_hedge_funds": 1,
+      "hedge_funds": [
+        "Berkshire Hathaway (Buffett)"
+      ],
+      "n_insiders": 0,
+      "insider_purchases": 0,
+      "convergence_score": 32,
+      "in_value": true
+    },
+    {
+      "ticker": "MCO",
+      "company_name": "Moody's Corporation",
+      "sector": "Financial Services",
+      "value_score": 54.635000000000005,
+      "tier": 3,
+      "tier_label": "HF+Value",
+      "n_hedge_funds": 1,
+      "hedge_funds": [
+        "Berkshire Hathaway (Buffett)"
+      ],
+      "n_insiders": 0,
+      "insider_purchases": 0,
+      "convergence_score": 31,
+      "in_value": true
+    },
+    {
+      "ticker": "THC",
+      "company_name": "Tenet Healthcare Corporation",
+      "sector": "Healthcare",
+      "value_score": 45.53999999999999,
+      "tier": 3,
+      "tier_label": "HF+Value",
+      "n_hedge_funds": 1,
+      "hedge_funds": [
+        "Appaloosa (Tepper)"
+      ],
+      "n_insiders": 0,
+      "insider_purchases": 0,
+      "convergence_score": 29,
       "in_value": true
     },
     {
       "ticker": "FHN",
       "company_name": "First Horizon Corporation",
       "sector": "Financial Services",
-      "value_score": 43.0,
+      "value_score": 42.91,
       "tier": 3,
       "tier_label": "HF+Value",
       "n_hedge_funds": 1,
@@ -181,7 +151,7 @@
       "ticker": "FCNCA",
       "company_name": "First Citizens BancShares, Inc.",
       "sector": "Financial Services",
-      "value_score": 43.235,
+      "value_score": 43.835,
       "tier": 3,
       "tier_label": "HF+Value",
       "n_hedge_funds": 1,
@@ -194,10 +164,26 @@
       "in_value": true
     },
     {
-      "ticker": "QSR",
-      "company_name": "Restaurant Brands International Inc.",
+      "ticker": "NYT",
+      "company_name": "The New York Times Company",
+      "sector": "Communication Services",
+      "value_score": 42.07499999999999,
+      "tier": 3,
+      "tier_label": "HF+Value",
+      "n_hedge_funds": 1,
+      "hedge_funds": [
+        "Berkshire Hathaway (Buffett)"
+      ],
+      "n_insiders": 0,
+      "insider_purchases": 0,
+      "convergence_score": 28,
+      "in_value": true
+    },
+    {
+      "ticker": "AMZN",
+      "company_name": "Amazon.com, Inc.",
       "sector": "Consumer Cyclical",
-      "value_score": 38.65,
+      "value_score": 38.400000000000006,
       "tier": 3,
       "tier_label": "HF+Value",
       "n_hedge_funds": 1,
@@ -210,10 +196,10 @@
       "in_value": true
     },
     {
-      "ticker": "BAC",
-      "company_name": "Bank of America Corporation",
+      "ticker": "AXP",
+      "company_name": "American Express Company",
       "sector": "Financial Services",
-      "value_score": 35.25,
+      "value_score": 40.15,
       "tier": 3,
       "tier_label": "HF+Value",
       "n_hedge_funds": 1,
@@ -222,62 +208,14 @@
       ],
       "n_insiders": 0,
       "insider_purchases": 0,
-      "convergence_score": 26,
-      "in_value": true
-    },
-    {
-      "ticker": "HHH",
-      "company_name": "Howard Hughes Holdings Inc.",
-      "sector": "Real Estate",
-      "value_score": 37.2,
-      "tier": 3,
-      "tier_label": "HF+Value",
-      "n_hedge_funds": 1,
-      "hedge_funds": [
-        "Pershing Square (Ackman)"
-      ],
-      "n_insiders": 0,
-      "insider_purchases": 0,
-      "convergence_score": 26,
-      "in_value": true
-    },
-    {
-      "ticker": "KVUE",
-      "company_name": "Kenvue Inc.",
-      "sector": "Consumer Defensive",
-      "value_score": 37.92,
-      "tier": 3,
-      "tier_label": "HF+Value",
-      "n_hedge_funds": 1,
-      "hedge_funds": [
-        "Appaloosa (Tepper)"
-      ],
-      "n_insiders": 0,
-      "insider_purchases": 0,
-      "convergence_score": 26,
-      "in_value": true
-    },
-    {
-      "ticker": "CVX",
-      "company_name": "Chevron Corporation",
-      "sector": "Energy",
-      "value_score": 37.725,
-      "tier": 3,
-      "tier_label": "HF+Value",
-      "n_hedge_funds": 1,
-      "hedge_funds": [
-        "Berkshire Hathaway (Buffett)"
-      ],
-      "n_insiders": 0,
-      "insider_purchases": 0,
-      "convergence_score": 26,
+      "convergence_score": 27,
       "in_value": true
     },
     {
       "ticker": "UBER",
       "company_name": "Uber Technologies, Inc.",
       "sector": "Technology",
-      "value_score": 37.5,
+      "value_score": 31.945,
       "tier": 3,
       "tier_label": "HF+Value",
       "n_hedge_funds": 1,
@@ -286,14 +224,14 @@
       ],
       "n_insiders": 0,
       "insider_purchases": 0,
-      "convergence_score": 26,
+      "convergence_score": 25,
       "in_value": true
     },
     {
-      "ticker": "AXP",
-      "company_name": "American Express Company",
-      "sector": "Financial Services",
-      "value_score": 34.5,
+      "ticker": "CVX",
+      "company_name": "Chevron Corporation",
+      "sector": "Energy",
+      "value_score": 34.595,
       "tier": 3,
       "tier_label": "HF+Value",
       "n_hedge_funds": 1,
@@ -306,10 +244,10 @@
       "in_value": true
     },
     {
-      "ticker": "COF",
-      "company_name": "Capital One Financial Corporation",
-      "sector": "Financial Services",
-      "value_score": 31.225,
+      "ticker": "DVA",
+      "company_name": "DaVita Inc.",
+      "sector": "Healthcare",
+      "value_score": 33.18000000000001,
       "tier": 3,
       "tier_label": "HF+Value",
       "n_hedge_funds": 1,
@@ -318,7 +256,23 @@
       ],
       "n_insiders": 0,
       "insider_purchases": 0,
-      "convergence_score": 24,
+      "convergence_score": 25,
+      "in_value": true
+    },
+    {
+      "ticker": "BAC",
+      "company_name": "Bank of America Corporation",
+      "sector": "Financial Services",
+      "value_score": 34.93,
+      "tier": 3,
+      "tier_label": "HF+Value",
+      "n_hedge_funds": 1,
+      "hedge_funds": [
+        "Berkshire Hathaway (Buffett)"
+      ],
+      "n_insiders": 0,
+      "insider_purchases": 0,
+      "convergence_score": 25,
       "in_value": true
     }
   ]

@@ -1,0 +1,75 @@
+{
+  "generated_at": "2026-10-13T07:49:52Z",
+  "horizon_days": 14,
+  "total": 1,
+  "theses": {
+    "DX": {
+      "ticker": "DX",
+      "company_name": "Dynex Capital, Inc.",
+      "sector": "Real Estate",
+      "earnings_date": "2026-10-19",
+      "days_to_earnings": 6,
+      "current_price": 10.9,
+      "fifty_two_week_high": 14.93,
+      "fifty_two_week_low": 10.36,
+      "avg_price": 13.33,
+      "shares": 280.0,
+      "unrealized_pct": -18.23,
+      "earnings_history": [
+        {
+          "period": "2026-06-30",
+          "eps_estimate": 0.34464,
+          "eps_actual": 0.36,
+          "surprise_pct": 4.46,
+          "beat": true
+        },
+        {
+          "period": "2026-03-31",
+          "eps_estimate": 0.27698,
+          "eps_actual": 0.31,
+          "surprise_pct": 11.92,
+          "beat": true
+        },
+        {
+          "period": "2025-12-31",
+          "eps_estimate": 0.26692,
+          "eps_actual": 0.22,
+          "surprise_pct": -17.58,
+          "beat": false
+        },
+        {
+          "period": "2025-09-30",
+          "eps_estimate": 0.26388,
+          "eps_actual": 0.25,
+          "surprise_pct": -5.26,
+          "beat": false
+        }
+      ],
+      "earnings_reaction": {
+        "n": 12,
+        "subio": 6,
+        "mediana_abs_pct": 1.2,
+        "peor_pct": -2.1,
+        "mejor_pct": 1.4
+      },
+      "verdict": "REDUCE",
+      "sentiment_tone": "NEUTRAL",
+      "implied_move_pct": 1.01,
+      "expected_eps": 0.36925,
+      "expected_revenue_millions": 104.6,
+      "beat_rate_last_4q": 0.5,
+      "key_risks": [
+        "Posible miss de EPS dada la volatilidad hist\u00f3rica de resultados",
+        "Sensibilidad a tasas de inter\u00e9s y al mercado inmobiliario comercial",
+        "Liquidez limitada del precio cercano al m\u00ednimo de 52 semanas"
+      ],
+      "key_catalysts": [
+        "Mejora de la cartera de pr\u00e9stamos y reducci\u00f3n de morosidad",
+        "Actualizaci\u00f3n de guidance y posibles adquisiciones de activos",
+        "Revaluaci\u00f3n de los REITs del sector tras la publicaci\u00f3n de resultados"
+      ],
+      "thesis_summary": "DX cotiza cerca de su m\u00ednimo anual y muestra un P&L negativo del 18%. Los \u00faltimos earnings han sido mixtos, con dos beats y dos misses, lo que indica incertidumbre en la capacidad de superar el consenso. El movimiento impl\u00edcito es bajo (1,01%), sugiriendo que el mercado no espera una sorpresa significativa. Se recomienda reducir la posici\u00f3n antes del earnings para limitar la exposici\u00f3n, vigilando el guidance de EPS, la calidad de la cartera de pr\u00e9stamos y cualquier anuncio de adquisici\u00f3n o venta de activos que pueda impulsar el precio.",
+      "confidence": 65
+    }
+  }
+}
