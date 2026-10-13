@@ -1,150 +1,44 @@
 {
-  "fecha": "2026-10-12",
-  "texto": "<b>Hoy solo hay una entrada clara: Tenet Healthcare (THC)</b>, a 263,78$. Tiene resultados en 17 días, así que parte de la tesis se juega a esa reacción. Ojo: el beneficio está creciendo por encima del negocio real, así que no la compres pensando en calidad ni te fíes del objetivo por P/E — apóyate más en el margen que da el DCF (+63,7%).\n\nPara vigilar, siguen baratas pero cayendo:\n<b>ICE</b> (156,19$) acaba de entrar hoy en el radar, con buen potencial (+26,4% triangulado) pero aún en fase de espera, no de entrada.\n<b>JKHY</b> cae por rotación de mercado contra múltiplos caros, no por el negocio: sigue mejorando resultados y subiendo guidance. Paciencia.\n<b>CBOE</b> igual: resultados excelentes, la caída es sectorial, no operativa.\n<b>MCO</b> también cae por sentimiento tras un guidance ligeramente por debajo de consenso pese a superar expectativas — pero aquí el propio modelo DCF ya la ve cara (-32%), así que no la fuerces aunque el resto pinte bien.\n<b>NYT</b> sigue cayendo sin un motivo identificado todavía.\n\nSe han caído de la lista hoy: ADSK, GOOG, MSFT, NDAQ y RMD.\n\nEl sistema acierta un 57,1% a 180 días con un retorno medio del 9,5% (muestra pequeña, 7 casos) — recuerda dimensionar en consecuencia, no apuestes fuerte por una sola idea.",
-  "hechos": {
-    "fecha": "2026-10-12",
-    "total_lista": 39,
-    "datos_incompletos": [],
-    "picks_nuevos": [
-      "ICE"
-    ],
-    "picks_que_se_van": [
-      "ADSK",
-      "GOOG",
-      "JKHY",
-      "MSFT",
-      "NDAQ",
-      "NYT",
-      "RMD"
-    ],
-    "comprables": [
-      {
-        "ticker": "THC",
-        "empresa": "Tenet Healthcare Corporation",
-        "score": 57.49,
-        "precio": 263.78,
-        "upside_analista": 8.2,
-        "upside_triangulado": 26.5,
-        "divergencia": "",
-        "fcf_yield": 9.78,
-        "del_maximo_pct": -6.8,
-        "rs_6m": 22.63,
-        "timing": "ENTRADA",
-        "por_que_cae": "",
-        "por_que_cae_detalle": "",
-        "dias_a_resultados": 17.0,
-        "objetivo_por_pe_pct": 26.5,
-        "objetivo_dcf_pct": 63.7,
-        "beneficio_respaldado_por_negocio": false
-      }
-    ],
-    "vigilar": [
-      {
-        "ticker": "NYT",
-        "empresa": "The New York Times Company",
-        "score": 50.715,
-        "precio": 66.32,
-        "upside_analista": 15.9,
-        "upside_triangulado": 15.9,
-        "divergencia": "",
-        "fcf_yield": 5.84,
-        "del_maximo_pct": -23.9,
-        "rs_6m": -29.9,
-        "timing": "ESPERAR",
-        "por_que_cae": "SIN_DATOS",
-        "por_que_cae_detalle": "",
-        "dias_a_resultados": 23.0,
-        "objetivo_por_pe_pct": 13.4,
-        "objetivo_dcf_pct": 32.6,
-        "beneficio_respaldado_por_negocio": true
-      },
-      {
-        "ticker": "ICE",
-        "empresa": "Intercontinental Exchange, Inc",
-        "score": 57.41499999999999,
-        "precio": 156.19,
-        "upside_analista": 19.1,
-        "upside_triangulado": 26.4,
-        "divergencia": "",
-        "fcf_yield": 5.39,
-        "del_maximo_pct": -11.3,
-        "rs_6m": -18.32,
-        "timing": "VIGILAR",
-        "por_que_cae": "",
-        "por_que_cae_detalle": "",
-        "dias_a_resultados": 17.0,
-        "objetivo_por_pe_pct": 36.5,
-        "objetivo_dcf_pct": 26.4,
-        "beneficio_respaldado_por_negocio": true
-      },
-      {
-        "ticker": "JKHY",
-        "empresa": "Jack Henry & Associates, Inc.",
-        "score": 52.975,
-        "precio": 149.31,
-        "upside_analista": 27.1,
-        "upside_triangulado": 35.6,
-        "divergencia": "",
-        "fcf_yield": 4.84,
-        "del_maximo_pct": -22.8,
-        "rs_6m": -14.63,
-        "timing": "ESPERAR",
-        "por_que_cae": "SENTIMIENTO",
-        "por_que_cae_detalle": "El negocio crece y mejora consistentemente (EPS +12% Q3, guidance subida 3 veces, márgenes en expansión, core wins acelerando), pero el mercado vende por múltiplos caros y rotación",
-        "dias_a_resultados": 22.0,
-        "objetivo_por_pe_pct": 38.2,
-        "objetivo_dcf_pct": 35.6,
-        "beneficio_respaldado_por_negocio": true
-      },
-      {
-        "ticker": "CBOE",
-        "empresa": "Cboe Global Markets, Inc.",
-        "score": 53.69999999999999,
-        "precio": 304.16,
-        "upside_analista": 5.4,
-        "upside_triangulado": 7.3,
-        "divergencia": "",
-        "fcf_yield": 5.96,
-        "del_maximo_pct": -18.1,
-        "rs_6m": -12.27,
-        "timing": "VIGILAR",
-        "por_que_cae": "SENTIMIENTO",
-        "por_que_cae_detalle": "Cboe registró resultados excepcionales en Q1-Q2 2026 (crecimiento de ingresos 25-29%, EPS +45-54%) y elevó guidance significativamente. La caída obedece a rotación sectorial tras a",
-        "dias_a_resultados": 18.0,
-        "objetivo_por_pe_pct": 7.3,
-        "objetivo_dcf_pct": 63.2,
-        "beneficio_respaldado_por_negocio": true
-      },
-      {
-        "ticker": "MCO",
-        "empresa": "Moody's Corporation",
-        "score": 57.18000000000001,
-        "precio": 464.23,
-        "upside_analista": 20.4,
-        "upside_triangulado": null,
-        "divergencia": "ALTA",
-        "fcf_yield": 3.72,
-        "del_maximo_pct": -15.1,
-        "rs_6m": -7.98,
-        "timing": "ESPERAR",
-        "por_que_cae": "SENTIMIENTO",
-        "por_que_cae_detalle": "MCO superó expectativas en Q2 2026 con ingresos +15% y EPS +31%, reafirmó guidance, pero guidance point medio quedó $0.03 por debajo de consenso. Caída derivada de rotación/múltipl",
-        "dias_a_resultados": 9.0,
-        "objetivo_por_pe_pct": 33.3,
-        "objetivo_dcf_pct": -32.0,
-        "beneficio_respaldado_por_negocio": true
-      }
-    ],
-    "tesis_rotas": [],
-    "rotas_son_tuyas": true,
-    "regimen_cambio": null,
-    "rendimiento_sistema": {
-      "horizonte": "180d",
-      "es_horizonte_definitivo": true,
-      "nota": null,
-      "acierto_pct": 57.1,
-      "retorno_medio": 9.5,
-      "n": 7
+  "date": "2026-10-13",
+  "timestamp": "2026-10-13T07:34:22.986453",
+  "narrative": "",
+  "macro_regime": "CALM",
+  "picks_count": 8,
+  "top_picks": [
+    {
+      "ticker": "MSFT",
+      "sector": "Technology",
+      "value_score": 75.28999999999999,
+      "analyst_upside_pct": 9.0,
+      "conviction_grade": null
+    },
+    {
+      "ticker": "BR",
+      "sector": "Technology",
+      "value_score": 65.91,
+      "analyst_upside_pct": 28.2,
+      "conviction_grade": null
+    },
+    {
+      "ticker": "PAYX",
+      "sector": "Technology",
+      "value_score": 65.875,
+      "analyst_upside_pct": 8.9,
+      "conviction_grade": null
+    },
+    {
+      "ticker": "ICE",
+      "sector": "Financial Services",
+      "value_score": 60.095,
+      "analyst_upside_pct": 18.7,
+      "conviction_grade": null
+    },
+    {
+      "ticker": "KO",
+      "sector": "Consumer Defensive",
+      "value_score": 57.54499999999999,
+      "analyst_upside_pct": 5.2,
+      "conviction_grade": null
     }
-  }
+  ]
 }

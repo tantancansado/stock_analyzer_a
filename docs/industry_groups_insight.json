@@ -1,41 +1,41 @@
 {
-  "date": "2026-10-12",
-  "timestamp": "2026-10-12T06:57:13.680454",
-  "narrative": "",
+  "date": "2026-10-13",
+  "timestamp": "2026-10-13T07:34:24.147567",
+  "narrative": "La rotaci\u00f3n muestra una clara preferencia por sectores defensivos y de alta rentabilidad recurrente: salud (instalaciones m\u00e9dicas, farmac\u00e9uticos y diagn\u00f3stico) y tecnolog\u00eda de infraestructura lideran con RS >\u202f60, mientras que los c\u00edclicos tradicionales (aeroespacial, autopartes, construcci\u00f3n residencial y materiales) est\u00e1n en el fondo con RS \u2264\u202f7. Esta din\u00e1mica es coherente con el entorno macro \u201cCALM\u201d, donde los inversores buscan estabilidad y flujos de efectivo seguros ante la falta de impulso econ\u00f3mico. Enf\u00f3quese ahora en salud (especialmente facilities y specialty pharma) y en software\u2011infraestructura; evite los industriales c\u00edclicos, consumo discrecional y b\u00e1sicos, que siguen mostrando debilidad.",
   "macro_regime": "CALM",
   "top_sectors": [
     {
       "industry": "Medical Care Facilities",
       "sector": "Healthcare",
-      "avg_rs_percentile": 62.5,
+      "avg_rs_percentile": 65.6,
       "num_tickers": 2,
       "label": "Top 10%"
     },
     {
       "industry": "Software - Infrastructure",
       "sector": "Technology",
-      "avg_rs_percentile": 62.5,
+      "avg_rs_percentile": 62.1,
       "num_tickers": 4,
-      "label": "Top 10%"
-    },
-    {
-      "industry": "Drug Manufacturers - Specialty & Generic",
-      "sector": "Healthcare",
-      "avg_rs_percentile": 51.8,
-      "num_tickers": 2,
       "label": "Top 10%"
     },
     {
       "industry": "Internet Content & Information",
       "sector": "Communication Services",
-      "avg_rs_percentile": 49.7,
+      "avg_rs_percentile": 53.4,
+      "num_tickers": 2,
+      "label": "Top 10%"
+    },
+    {
+      "industry": "Drug Manufacturers - Specialty & Generic",
+      "sector": "Healthcare",
+      "avg_rs_percentile": 52.5,
       "num_tickers": 2,
       "label": "Top 10%"
     },
     {
       "industry": "Diagnostics & Research",
       "sector": "Healthcare",
-      "avg_rs_percentile": 48.3,
+      "avg_rs_percentile": 50.0,
       "num_tickers": 4,
       "label": "Top 25%"
     }
@@ -44,28 +44,28 @@
     {
       "industry": "Aerospace & Defense",
       "sector": "Industrials",
-      "avg_rs_percentile": 6.7,
+      "avg_rs_percentile": 6.8,
       "num_tickers": 2,
       "label": "Bottom 25%"
     },
     {
       "industry": "Auto Parts",
       "sector": "Consumer Cyclical",
-      "avg_rs_percentile": 6.6,
+      "avg_rs_percentile": 6.2,
       "num_tickers": 2,
       "label": "Bottom 25%"
     },
     {
       "industry": "Packaged Foods",
       "sector": "Consumer Defensive",
-      "avg_rs_percentile": 2.2,
+      "avg_rs_percentile": 4.8,
       "num_tickers": 2,
       "label": "Bottom 25%"
     },
     {
       "industry": "Residential Construction",
       "sector": "Consumer Cyclical",
-      "avg_rs_percentile": 1.7,
+      "avg_rs_percentile": 0.2,
       "num_tickers": 2,
       "label": "Bottom 25%"
     },
