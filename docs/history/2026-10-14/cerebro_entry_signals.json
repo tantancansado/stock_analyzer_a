@@ -1,0 +1,105 @@
+{
+  "generated_at": "2026-10-14",
+  "total": 2,
+  "strong_buy": 0,
+  "buy": 0,
+  "monitor": 1,
+  "wait": 1,
+  "narrative": null,
+  "signals": [
+    {
+      "ticker": "AZN.L",
+      "company_name": "AstraZeneca PLC",
+      "region": "EU",
+      "sector": "Healthcare",
+      "value_score": 67.3,
+      "conviction_grade": "nan",
+      "current_price": 12302.462,
+      "analyst_upside_pct": 28.4,
+      "fcf_yield_pct": 3.09,
+      "risk_reward_ratio": 3.55,
+      "days_in_value": 2,
+      "streak_days": 1,
+      "entry_score": 40,
+      "signal": "MONITOR",
+      "signals_fired": [
+        "Upside en banda dorada [10,30)",
+        "Insider buying",
+        "Analyst revision \u2191"
+      ],
+      "signals_pts": [
+        {
+          "name": "Upside en banda dorada [10,30)",
+          "pts": 10
+        },
+        {
+          "name": "Insider buying",
+          "pts": 25
+        },
+        {
+          "name": "Analyst revision \u2191",
+          "pts": 5
+        }
+      ],
+      "signals_missing": [
+        "Value score <80",
+        "FCF yield <5%",
+        "Sin se\u00f1al MR oversold",
+        "Sin opciones alcistas",
+        "Sector no l\u00edder",
+        "R\u00e9gimen no alcista",
+        "Solo 2d en VALUE"
+      ],
+      "rsi": null,
+      "earnings_warning": false,
+      "days_to_earnings": 17
+    },
+    {
+      "ticker": "CBOE",
+      "company_name": "Cboe Global Markets, Inc.",
+      "region": "US",
+      "sector": "Financial Services",
+      "value_score": 61.39,
+      "conviction_grade": "A",
+      "current_price": 292.25,
+      "analyst_upside_pct": 10.2,
+      "fcf_yield_pct": 6.2,
+      "risk_reward_ratio": 1.27,
+      "days_in_value": 1,
+      "streak_days": 1,
+      "entry_score": 20,
+      "signal": "WAIT",
+      "signals_fired": [
+        "FCF yield \u22655%",
+        "Upside en banda dorada [10,30)",
+        "Analyst revision \u2191"
+      ],
+      "signals_pts": [
+        {
+          "name": "FCF yield \u22655%",
+          "pts": 10
+        },
+        {
+          "name": "Upside en banda dorada [10,30)",
+          "pts": 10
+        },
+        {
+          "name": "Analyst revision \u2191",
+          "pts": 5
+        }
+      ],
+      "signals_missing": [
+        "Value score <80",
+        "Sin insider buying (espera)",
+        "Sin se\u00f1al MR oversold",
+        "Sin opciones alcistas",
+        "Sector no l\u00edder",
+        "R\u00e9gimen no alcista",
+        "Solo 1d en VALUE"
+      ],
+      "rsi": null,
+      "earnings_warning": false,
+      "days_to_earnings": 16
+    }
+  ]
+}

@@ -1,48 +1,48 @@
 {
-  "generated_at": "2026-10-13T07:58:15Z",
+  "generated_at": "2026-10-14T06:16:00Z",
   "horizon_days": 14,
-  "count": 1,
+  "count": 3,
   "snapshots": {
     "DX": {
       "ticker": "DX",
       "company_name": "Dynex Capital, Inc.",
       "sector": "Real Estate",
       "earnings_date": "2026-10-19",
-      "days_to_earnings": 6,
-      "current_price": 10.9,
+      "days_to_earnings": 5,
+      "current_price": 10.85,
       "term_structure": [
         {
           "strike": 10.0,
           "call_price": 0.8,
-          "put_price": 0.1,
-          "straddle": 0.9,
-          "implied_move_pct": 8.26,
+          "put_price": 0.15,
+          "straddle": 0.95,
+          "implied_move_pct": 8.76,
           "call_iv": 0.0,
           "put_iv": 0.0625,
           "expiration": "2026-11-20",
-          "days_to_exp": 38
+          "days_to_exp": 37
         },
         {
           "strike": 10.0,
           "call_price": 1.0,
-          "put_price": 0.23,
-          "straddle": 1.23,
-          "implied_move_pct": 11.28,
+          "put_price": 0.28,
+          "straddle": 1.28,
+          "implied_move_pct": 11.8,
           "call_iv": 0.0,
           "put_iv": 0.0625,
           "expiration": "2026-12-18",
-          "days_to_exp": 66
+          "days_to_exp": 65
         },
         {
           "strike": 10.0,
           "call_price": 0.72,
           "put_price": 0.5,
           "straddle": 1.22,
-          "implied_move_pct": 11.19,
+          "implied_move_pct": 11.24,
           "call_iv": 0.0,
           "put_iv": 0.0313,
           "expiration": "2027-03-19",
-          "days_to_exp": 157
+          "days_to_exp": 156
         }
       ],
       "skew": {
@@ -93,10 +93,24 @@
       "52w_low": 10.36,
       "analyst_target": 13.75,
       "analyst_count": 5.0
+    },
+    "DE0007100000": {
+      "ticker": "DE0007100000",
+      "earnings_date": "2026-10-28",
+      "days_to_earnings": 14,
+      "current_price": 39.69,
+      "note": "Sin opciones l\u00edquidas post-earnings"
+    },
+    "ES0105630315": {
+      "ticker": "ES0105630315",
+      "earnings_date": "2026-10-28",
+      "days_to_earnings": 14,
+      "current_price": 25.45,
+      "note": "Sin opciones l\u00edquidas post-earnings"
     }
   },
   "posiciones_revisadas": 13,
-  "proxima_earnings_dias": 6,
+  "proxima_earnings_dias": 5,
   "sin_fecha_de_earnings": [
     "DXYZ",
     "GZ3"

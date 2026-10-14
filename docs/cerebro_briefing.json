@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-10-13",
+  "generated_at": "2026-10-14",
   "regime": "NEUTRAL",
-  "narrative": "1. Mantenga posici\u00f3n neutral y evite abrir nuevas exposiciones en VALUE; la se\u00f1al de salida de EXPN.L indica que la tesis de valoraci\u00f3n est\u00e1 deteriorada.  \n2. Vigile de cerca los movimientos de insider buying en AAL.L y los indicadores de drift y nueva convergencia en ADP, ya que podr\u00edan anticipar revalorizaciones r\u00e1pidas.  \n3. No tome decisiones sobre CME, MSFT y ADP sin confirmar que sus m\u00e9tricas de precio/valor intr\u00ednseco siguen alineadas con los criterios VALUE.  \n4. Observe la actividad de \u201csmart money\u201d en VRSN (1 HF) para detectar posibles flujos institucionales que puedan generar oportunidades de corto plazo.  \n5. Evite operar en sectores con alta volatilidad o eventos corporativos inesperados, dado que el macro\u2011entorno est\u00e1 sin estr\u00e9s y no hay mercados en rojo.",
+  "narrative": "R\u00e9gimen NEUTRAL. 0 oportunidades de entrada, 2 se\u00f1ales de salida HIGH. Sin trampas de valor relevantes.",
   "sections": {
     "regime": "NEUTRAL",
     "strong_buy_count": 0,
@@ -9,16 +9,16 @@
     "top_entries": [],
     "top_convergences": [
       [
-        "CME",
-        86
-      ],
-      [
         "MSFT",
-        85
+        84
       ],
       [
-        "ADP",
-        67
+        "VRSN",
+        70
+      ],
+      [
+        "MA",
+        62
       ]
     ],
     "high_alerts": [
@@ -31,8 +31,8 @@
         "SCORE_DRIFT"
       ],
       [
-        "ADP",
-        "NEW_CONVERGENCE"
+        "AVGO",
+        "SCORE_DRIFT"
       ]
     ],
     "traps_warning": [],
@@ -40,9 +40,16 @@
       [
         "EXPN.L",
         "Ya no aparece en VALUE \u2014 tesis posiblemente rota",
-        "La desaparici\u00f3n del screener VALUE suele estar ligada a m\u00e9tricas de valoraci\u00f3n (ratio precio/valor intr\u00ednseco) m\u00e1s que a un evento corporativo negativo; no hay evidencia de profit warnings ni cambios de gesti\u00f3n significativos reportados.",
+        "Experian ha mantenido hist\u00f3ricamente crecimiento de ingresos y m\u00e1rgenes estables, sin reportes recientes (hasta el conocimiento disponible) de profit warnings o cambios dr\u00e1sticos de gesti\u00f3n.",
         60.88499999999999,
         null
+      ],
+      [
+        "QSR",
+        "Score cay\u00f3 28pts (59 \u2192 31)",
+        "Burger King EE.UU. hab\u00eda mostrado ventas comparables d\u00e9biles y necesidad de reinversi\u00f3n (plan 'Reclaim the Flame'), pero no hay evidencia de un evento negativo mayor reciente; la ca\u00edda de score podr\u00eda reflejar m\u00e1s presi\u00f3n de precio/m\u00faltiplo que fundamentales rotos.",
+        59.09,
+        30.6
       ]
     ],
     "smart_money": [

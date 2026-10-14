@@ -1,0 +1,60 @@
+{
+  "generated_at": "2026-10-14",
+  "total": 4,
+  "dropped_count": 2,
+  "narrative": "",
+  "displacements": [
+    {
+      "type": "COMPETITOR_RISE",
+      "dropped_ticker": "ICE",
+      "sector": "Financial Services",
+      "prev_score": 60.095,
+      "replacements": [
+        "MA",
+        "CBOE"
+      ],
+      "top_replacement": "MA",
+      "top_replacement_score": 63.08,
+      "detail": "ICE sali\u00f3 de VALUE (60pts); peers en Financial Services: MA, CBOE"
+    },
+    {
+      "type": "COMPETITOR_RISE",
+      "dropped_ticker": "PAYX",
+      "sector": "Technology",
+      "prev_score": 65.875,
+      "replacements": [
+        "MSFT",
+        "SAP.DE",
+        "SGE.L"
+      ],
+      "top_replacement": "MSFT",
+      "top_replacement_score": 73.68,
+      "detail": "PAYX sali\u00f3 de VALUE (66pts); peers en Technology: MSFT, SAP.DE"
+    },
+    {
+      "type": "SECTOR_TAILWIND",
+      "sector": "Technology",
+      "rotation_score": 100.0,
+      "beneficiaries": [
+        "MSFT",
+        "SAP.DE",
+        "SGE.L"
+      ],
+      "top_ticker": "MSFT",
+      "top_score": 73.68,
+      "detail": "Sector Technology l\u00edder (RS 100) \u2014 MSFT, SAP.DE, SGE.L son los picks VALUE"
+    },
+    {
+      "type": "SECTOR_TAILWIND",
+      "sector": "Healthcare",
+      "rotation_score": 100.0,
+      "beneficiaries": [
+        "AZN.L",
+        "7741.T"
+      ],
+      "top_ticker": "AZN.L",
+      "top_score": 67.3,
+      "detail": "Sector Healthcare l\u00edder (RS 100) \u2014 AZN.L, 7741.T son los picks VALUE"
+    }
+  ]
+}

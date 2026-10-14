@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-13",
+  "generated_at": "2026-10-14",
   "total": 44,
   "improving": 0,
   "narrative": "",
@@ -12,17 +12,7 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 62.755
-    },
-    {
-      "ticker": "NDAQ",
-      "company_name": "Nasdaq, Inc.",
-      "piotroski_current": 9.0,
-      "piotroski_prev": 9.0,
-      "delta": 0.0,
-      "trend": "STABLE",
-      "signal": "STRONG",
-      "value_score": 41.68
+      "value_score": 63.08
     },
     {
       "ticker": "RACE",
@@ -32,7 +22,17 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 34.995000000000005
+      "value_score": 33.68000000000001
+    },
+    {
+      "ticker": "NDAQ",
+      "company_name": "Nasdaq, Inc.",
+      "piotroski_current": 9.0,
+      "piotroski_prev": 9.0,
+      "delta": 0.0,
+      "trend": "STABLE",
+      "signal": "STRONG",
+      "value_score": 32.27
     },
     {
       "ticker": "RACE.MI",
@@ -45,46 +45,6 @@
       "value_score": 56.6
     },
     {
-      "ticker": "BR",
-      "company_name": "Broadridge Financial Solutions, Inc.",
-      "piotroski_current": 8.0,
-      "piotroski_prev": 8.0,
-      "delta": 0.0,
-      "trend": "STABLE",
-      "signal": "STRONG",
-      "value_score": 65.91
-    },
-    {
-      "ticker": "ICE",
-      "company_name": "Intercontinental Exchange, Inc.",
-      "piotroski_current": 8.0,
-      "piotroski_prev": 8.0,
-      "delta": 0.0,
-      "trend": "STABLE",
-      "signal": "STRONG",
-      "value_score": 60.095
-    },
-    {
-      "ticker": "MCO",
-      "company_name": "Moody's Corporation",
-      "piotroski_current": 8.0,
-      "piotroski_prev": 8.0,
-      "delta": 0.0,
-      "trend": "STABLE",
-      "signal": "STRONG",
-      "value_score": 54.635000000000005
-    },
-    {
-      "ticker": "SAP",
-      "company_name": "SAP SE",
-      "piotroski_current": 8.0,
-      "piotroski_prev": 8.0,
-      "delta": 0.0,
-      "trend": "STABLE",
-      "signal": "STRONG",
-      "value_score": 50.06
-    },
-    {
       "ticker": "CBOE",
       "company_name": "Cboe Global Markets, Inc.",
       "piotroski_current": 8.0,
@@ -92,7 +52,17 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 48.295
+      "value_score": 61.39
+    },
+    {
+      "ticker": "BR",
+      "company_name": "Broadridge Financial Solutions, Inc.",
+      "piotroski_current": 8.0,
+      "piotroski_prev": 8.0,
+      "delta": 0.0,
+      "trend": "STABLE",
+      "signal": "STRONG",
+      "value_score": 56.135000000000005
     },
     {
       "ticker": "VRSN",
@@ -102,7 +72,37 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 46.870000000000005
+      "value_score": 54.525000000000006
+    },
+    {
+      "ticker": "MCO",
+      "company_name": "Moody's Corporation",
+      "piotroski_current": 8.0,
+      "piotroski_prev": 8.0,
+      "delta": 0.0,
+      "trend": "STABLE",
+      "signal": "STRONG",
+      "value_score": 48.09
+    },
+    {
+      "ticker": "SAP",
+      "company_name": "SAP SE",
+      "piotroski_current": 8.0,
+      "piotroski_prev": 8.0,
+      "delta": 0.0,
+      "trend": "STABLE",
+      "signal": "STRONG",
+      "value_score": 47.86500000000001
+    },
+    {
+      "ticker": "ICE",
+      "company_name": "Intercontinental Exchange, Inc.",
+      "piotroski_current": 8.0,
+      "piotroski_prev": 8.0,
+      "delta": 0.0,
+      "trend": "STABLE",
+      "signal": "STRONG",
+      "value_score": 44.255
     },
     {
       "ticker": "NYT",
@@ -112,37 +112,7 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 42.07499999999999
-    },
-    {
-      "ticker": "WM",
-      "company_name": "Waste Management, Inc.",
-      "piotroski_current": 8.0,
-      "piotroski_prev": 8.0,
-      "delta": 0.0,
-      "trend": "STABLE",
-      "signal": "STRONG",
-      "value_score": 35.900000000000006
-    },
-    {
-      "ticker": "TYL",
-      "company_name": "Tyler Technologies, Inc.",
-      "piotroski_current": 8.0,
-      "piotroski_prev": 8.0,
-      "delta": 0.0,
-      "trend": "STABLE",
-      "signal": "STRONG",
-      "value_score": 32.7
-    },
-    {
-      "ticker": "AVGO",
-      "company_name": "Broadcom Inc.",
-      "piotroski_current": 8.0,
-      "piotroski_prev": 8.0,
-      "delta": 0.0,
-      "trend": "STABLE",
-      "signal": "STRONG",
-      "value_score": 41.66
+      "value_score": 36.815
     },
     {
       "ticker": "DPZ",
@@ -152,7 +122,27 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 30.6
+      "value_score": 38.585
+    },
+    {
+      "ticker": "IDXX",
+      "company_name": "IDEXX Laboratories, Inc.",
+      "piotroski_current": 8.0,
+      "piotroski_prev": 8.0,
+      "delta": 0.0,
+      "trend": "STABLE",
+      "signal": "STRONG",
+      "value_score": 30.0
+    },
+    {
+      "ticker": "AVGO",
+      "company_name": "Broadcom Inc.",
+      "piotroski_current": 8.0,
+      "piotroski_prev": 8.0,
+      "delta": 0.0,
+      "trend": "STABLE",
+      "signal": "STRONG",
+      "value_score": 36.135
     },
     {
       "ticker": "AZN.L",
@@ -245,16 +235,6 @@
       "value_score": 31.2
     },
     {
-      "ticker": "PAYX",
-      "company_name": "Paychex, Inc.",
-      "piotroski_current": 7.0,
-      "piotroski_prev": 7.0,
-      "delta": 0.0,
-      "trend": "STABLE",
-      "signal": "STRONG",
-      "value_score": 65.875
-    },
-    {
       "ticker": "KO",
       "company_name": "The Coca-Cola Company",
       "piotroski_current": 7.0,
@@ -262,7 +242,27 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 57.54499999999999
+      "value_score": 63.895
+    },
+    {
+      "ticker": "WTKWY",
+      "company_name": "Wolters Kluwer N.V.",
+      "piotroski_current": 7.0,
+      "piotroski_prev": 7.0,
+      "delta": 0.0,
+      "trend": "STABLE",
+      "signal": "STRONG",
+      "value_score": 42.72
+    },
+    {
+      "ticker": "PAYX",
+      "company_name": "Paychex, Inc.",
+      "piotroski_current": 7.0,
+      "piotroski_prev": 7.0,
+      "delta": 0.0,
+      "trend": "STABLE",
+      "signal": "STRONG",
+      "value_score": 42.325
     },
     {
       "ticker": "JKHY",
@@ -272,7 +272,17 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 45.46000000000001
+      "value_score": 42.13499999999999
+    },
+    {
+      "ticker": "VRSK",
+      "company_name": "Verisk Analytics, Inc.",
+      "piotroski_current": 7.0,
+      "piotroski_prev": null,
+      "delta": 0.0,
+      "trend": "STABLE",
+      "signal": "STRONG",
+      "value_score": 32.2
     },
     {
       "ticker": "ADSK",
@@ -282,7 +292,7 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 31.8
+      "value_score": 32.16499999999999
     },
     {
       "ticker": "ORLY",
@@ -292,7 +302,7 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 33.125
+      "value_score": 32.675
     },
     {
       "ticker": "ULVR.L",
@@ -403,16 +413,6 @@
       "trend": "STABLE",
       "signal": "STRONG",
       "value_score": 38.6
-    },
-    {
-      "ticker": "COLO-B.CO",
-      "company_name": "Coloplast A/S",
-      "piotroski_current": 7.0,
-      "piotroski_prev": 7.0,
-      "delta": 0.0,
-      "trend": "STABLE",
-      "signal": "STRONG",
-      "value_score": 38.4
     },
     {
       "ticker": "SIKA.SW",

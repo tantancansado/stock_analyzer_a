@@ -1,0 +1,53 @@
+{
+  "listas": {
+    "value_opportunities": {
+      "candidatas": 79,
+      "publicadas": 72,
+      "excluidos": [
+        {
+          "ticker": "ERIE",
+          "paso": "rangos_imposibles",
+          "motivo": "Falta analyst_upside_pct: no se recomienda lo que no se puede evaluar",
+          "score": 44.989999999999995
+        },
+        {
+          "ticker": "KYCCF",
+          "paso": "rangos_imposibles",
+          "motivo": "Falta analyst_upside_pct: no se recomienda lo que no se puede evaluar",
+          "score": 40.902
+        },
+        {
+          "ticker": "VCISY",
+          "paso": "rangos_imposibles",
+          "motivo": "DCF fuera de rango: no es una valoración, es un dato roto (visto 262.9, esperado entre -95 y 200)",
+          "score": 38.92
+        },
+        {
+          "ticker": "ZTS",
+          "paso": "verificador_ia",
+          "motivo": "rev_growth_yoy es -0.2% (decrecimiento) pero upside_triangulated_pct es +89.3% sin verificación requerida. Modelos DISPERSOS (DCF +89.3% vs P/E +145.7%) con dispersión 56.4 pts. Ingresos cayendo, stock 50% bajo máximo anual, ma_filter_pass false. Ningún argumento de fundamentales sostiene descuento de ~50% + upside de 89%. DESMIENTE el descuento.",
+          "score": 56.745000000000005
+        },
+        {
+          "ticker": "ROP",
+          "paso": "verificador_ia",
+          "motivo": "modelos_dispersion_pts 92.7 es extremadamente alto. Target_price_dcf_upside_pct 25.4% vs target_price_pe_upside_pct 118.1%. Upside triangulated 25.4% descarta P/E a pesar de que ambos son válidos. Sin campo upside_divergence para alertar. Dispersión de 93 pts hace que target triangulated sea arbitrario: eligió DCF pero pudo haber elegido P/E (+118%) sin mejor justificación. Ficha no es coherente en criterio de triangulación.",
+          "score": 49.39
+        },
+        {
+          "ticker": "UNH",
+          "paso": "verificador_ia",
+          "motivo": "rev_growth_yoy es 0.4% (prácticamente estancado). Analista propone 27.2% upside. Modelos CONTRADICEN (DCF +28.3% vs P/E -2.0%, dispersión 30.3 pts). Upside_divergence MEDIA. Con crecimiento ingresos de 0.4% y márgenes operativos dependientes de gestión de costos, upside de 27% es insostenible. DCF puede estar capturando esperanza futura pero P/E rechaza. DESMIENTE el descuento: empresa estancada.",
+          "score": 46.17
+        },
+        {
+          "ticker": "DVA",
+          "paso": "verificador_ia",
+          "motivo": "modelos_dispersion_pts 177.9 es extremadamente alto (el más alto del lote). DCF +164.7% vs P/E -13.2%. Upside_divergence MEDIA. Precio 26% bajo máximo anual. Crecimiento 6% moderado, fcf_yield 10.69% alto pero no sostenible si ingresos no crecen. DCF proyecta +165%, P/E ve contracción. Dispersión de 178 pts hace la ficha incoherente: no hay base para triangulación válida.",
+          "score": 45.65500000000001
+        }
+      ]
+    }
+  },
+  "generated_at": "2026-10-14T05:14:36Z"
+}

@@ -1,0 +1,248 @@
+{
+  "generated_at": "2026-10-14",
+  "total_convergences": 12,
+  "triple_or_more": 1,
+  "convergences": [
+    {
+      "ticker": "MSFT",
+      "company_name": "Microsoft Corporation",
+      "sector": "Technology",
+      "strategies": [
+        "VALUE",
+        "OPTIONS",
+        "MOMENTUM"
+      ],
+      "strategy_count": 3,
+      "convergence_score": 84,
+      "value_score": 73.68,
+      "conviction_grade": "nan",
+      "analyst_upside_pct": 8.5,
+      "fcf_yield_pct": 1.66,
+      "current_price": 543.45,
+      "streak_days": 18,
+      "earnings_warning": false,
+      "days_to_earnings": 14.0,
+      "analysis": "La coincidencia de las tres estrategias (VALUE, OPTIONS y MOMENTUM) durante 18 d\u00edas seguidos indica que varios indicadores \u2013fundamentales, de volatilidad impl\u00edcita y de tendencia\u2013 est\u00e1n alineados, lo que refuerza la se\u00f1al de un posible impulso alcista y reduce la probabilidad de falsos positivos. Sin embargo, es prudente vigilar la volatilidad del mercado y el nivel de soporte t\u00e9cnico de MSFT, limitar la exposici\u00f3n mediante stops ajustados y no sobre"
+    },
+    {
+      "ticker": "VRSN",
+      "company_name": "VeriSign, Inc.",
+      "sector": "Technology",
+      "strategies": [
+        "VALUE",
+        "INSIDERS"
+      ],
+      "strategy_count": 2,
+      "convergence_score": 70,
+      "value_score": 54.525000000000006,
+      "conviction_grade": "nan",
+      "analyst_upside_pct": 7.5,
+      "fcf_yield_pct": 3.95,
+      "current_price": 301.76,
+      "streak_days": 32,
+      "earnings_warning": false,
+      "days_to_earnings": 8.0,
+      "analysis": "Convergencia de 2 estrategias: VALUE, INSIDERS."
+    },
+    {
+      "ticker": "MA",
+      "company_name": "Mastercard Incorporated",
+      "sector": "Financial Services",
+      "strategies": [
+        "VALUE",
+        "OPTIONS"
+      ],
+      "strategy_count": 2,
+      "convergence_score": 62,
+      "value_score": 63.08,
+      "conviction_grade": "nan",
+      "analyst_upside_pct": 10.7,
+      "fcf_yield_pct": 3.06,
+      "current_price": 604.8,
+      "streak_days": 6,
+      "earnings_warning": false,
+      "days_to_earnings": 15.0,
+      "analysis": "La convergencia de las estrategias VALUE y OPTIONS durante 6 d\u00edas consecutivos sugiere que el mercado interno y las opciones est\u00e1n alineados en la valoraci\u00f3n de Mastercard, lo"
+    },
+    {
+      "ticker": "KO",
+      "company_name": "The Coca-Cola Company",
+      "sector": "Consumer Defensive",
+      "strategies": [
+        "VALUE",
+        "OPTIONS"
+      ],
+      "strategy_count": 2,
+      "convergence_score": 62,
+      "value_score": 63.895,
+      "conviction_grade": "nan",
+      "analyst_upside_pct": 4.8,
+      "fcf_yield_pct": 3.67,
+      "current_price": 90.11,
+      "streak_days": 5,
+      "earnings_warning": false,
+      "days_to_earnings": 13.0,
+      "analysis": null
+    },
+    {
+      "ticker": "CME",
+      "company_name": "",
+      "sector": "",
+      "strategies": [
+        "INSIDERS",
+        "OPTIONS"
+      ],
+      "strategy_count": 2,
+      "convergence_score": 60,
+      "value_score": null,
+      "conviction_grade": "",
+      "analyst_upside_pct": null,
+      "fcf_yield_pct": null,
+      "current_price": null,
+      "streak_days": 10,
+      "earnings_warning": false,
+      "days_to_earnings": null,
+      "analysis": null
+    },
+    {
+      "ticker": "LIN",
+      "company_name": "",
+      "sector": "",
+      "strategies": [
+        "INSIDERS",
+        "OPTIONS"
+      ],
+      "strategy_count": 2,
+      "convergence_score": 60,
+      "value_score": null,
+      "conviction_grade": "",
+      "analyst_upside_pct": null,
+      "fcf_yield_pct": null,
+      "current_price": null,
+      "streak_days": 5,
+      "earnings_warning": false,
+      "days_to_earnings": null,
+      "analysis": null
+    },
+    {
+      "ticker": "AON",
+      "company_name": "",
+      "sector": "",
+      "strategies": [
+        "INSIDERS",
+        "OPTIONS"
+      ],
+      "strategy_count": 2,
+      "convergence_score": 60,
+      "value_score": null,
+      "conviction_grade": "",
+      "analyst_upside_pct": null,
+      "fcf_yield_pct": null,
+      "current_price": null,
+      "streak_days": 4,
+      "earnings_warning": false,
+      "days_to_earnings": null,
+      "analysis": null
+    },
+    {
+      "ticker": "ETN",
+      "company_name": "",
+      "sector": "",
+      "strategies": [
+        "INSIDERS",
+        "MOMENTUM"
+      ],
+      "strategy_count": 2,
+      "convergence_score": 60,
+      "value_score": null,
+      "conviction_grade": "",
+      "analyst_upside_pct": null,
+      "fcf_yield_pct": null,
+      "current_price": null,
+      "streak_days": 3,
+      "earnings_warning": false,
+      "days_to_earnings": null,
+      "analysis": null
+    },
+    {
+      "ticker": "V",
+      "company_name": "Visa Inc.",
+      "sector": "Financial Services",
+      "strategies": [
+        "VALUE",
+        "OPTIONS"
+      ],
+      "strategy_count": 2,
+      "convergence_score": 47,
+      "value_score": 37.255,
+      "conviction_grade": "nan",
+      "analyst_upside_pct": 6.2,
+      "fcf_yield_pct": 2.84,
+      "current_price": 396.06,
+      "streak_days": 2,
+      "earnings_warning": false,
+      "days_to_earnings": 13.0,
+      "analysis": null
+    },
+    {
+      "ticker": "ADP",
+      "company_name": "Automatic Data Processing, Inc.",
+      "sector": "Technology",
+      "strategies": [
+        "VALUE",
+        "OPTIONS"
+      ],
+      "strategy_count": 2,
+      "convergence_score": 46,
+      "value_score": 33.17,
+      "conviction_grade": "nan",
+      "analyst_upside_pct": 3.8,
+      "fcf_yield_pct": 4.37,
+      "current_price": 275.9,
+      "streak_days": 2,
+      "earnings_warning": false,
+      "days_to_earnings": 14.0,
+      "analysis": null
+    },
+    {
+      "ticker": "IDXX",
+      "company_name": "IDEXX Laboratories, Inc.",
+      "sector": "Healthcare",
+      "strategies": [
+        "VALUE",
+        "OPTIONS"
+      ],
+      "strategy_count": 2,
+      "convergence_score": 46,
+      "value_score": 30.0,
+      "conviction_grade": "nan",
+      "analyst_upside_pct": 34.8,
+      "fcf_yield_pct": 3.0,
+      "current_price": 520.31,
+      "streak_days": 1,
+      "earnings_warning": false,
+      "days_to_earnings": 19.0,
+      "analysis": null
+    },
+    {
+      "ticker": "TMO",
+      "company_name": "Thermo Fisher Scientific Inc.",
+      "sector": "Healthcare",
+      "strategies": [
+        "VALUE",
+        "OPTIONS"
+      ],
+      "strategy_count": 2,
+      "convergence_score": 46,
+      "value_score": 33.14,
+      "conviction_grade": "nan",
+      "analyst_upside_pct": 3.1,
+      "fcf_yield_pct": 3.05,
+      "current_price": 663.04,
+      "streak_days": 1,
+      "earnings_warning": true,
+      "days_to_earnings": 7.0,
+      "analysis": null
+    }
+  ]
+}
