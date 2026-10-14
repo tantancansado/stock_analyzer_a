@@ -1,164 +1,44 @@
 {
-  "fecha": "2026-10-13",
-  "texto": "<b>Dos entradas hoy, las dos con matices importantes.</b>\n\nTHC (Tenet Healthcare) a 268,76: el modelo le ve hasta un 60% de recorrido por flujo de caja y un 24% por valoración, pero tiene resultados en 16 días que van a mover el precio antes de que la tesis se confirme. Además el beneficio crece más rápido que el negocio real — no te apoyes en el objetivo por PER ni la vendas como calidad.\n\nAMZN a 259,53: mismo problema de fondo (beneficio por delante del negocio) y también resultados en 16 días. El recorrido por PER es amplio (92%), pero con esa reserva por delante.\n\n<b>A vigilar, nada listo para entrar:</b>\nHOYA cae por sentimiento puro — sigue creciendo a doble dígito y elevando guías, es corrección de múltiplo caro. Sigue bajando: barato todavía no es comprable.\nBR tiene resultados sólidos y guidance al alza, pero ventas de ejecutivos están pesando en el precio.\nMCO superó expectativas pero el guidance quedó un pelín por debajo de consenso; resultados en solo 8 días, puede moverse pronto.\nPAYX sí tiene un motivo de negocio real: su segmento más grande ha frenado de 17% a 4% de crecimiento.\nICE sigue barata sin un catalizador claro todavía.\n\nRespecto a ayer: entra MSFT en la lista; salen MCO y THC.\n\nEl sistema acierta un 70,6% a 180 días sobre 17 señales, con retorno medio del 5,87%. Es la cifra definitiva del periodo, pero sigue siendo motivo para no sobredimensionar ninguna posición.",
-  "hechos": {
-    "fecha": "2026-10-13",
-    "total_lista": 40,
-    "datos_incompletos": [],
-    "picks_nuevos": [
-      "MSFT"
-    ],
-    "picks_que_se_van": [
-      "MCO",
-      "THC"
-    ],
-    "comprables": [
-      {
-        "ticker": "THC",
-        "empresa": "Tenet Healthcare Corporation",
-        "score": 45.53999999999999,
-        "precio": 268.76,
-        "upside_analista": 6.2,
-        "upside_triangulado": 24.2,
-        "divergencia": "",
-        "fcf_yield": 9.6,
-        "del_maximo_pct": -5.0,
-        "rs_6m": 24.09,
-        "timing": "ENTRADA",
-        "por_que_cae": "",
-        "por_que_cae_detalle": "",
-        "dias_a_resultados": 16.0,
-        "objetivo_por_pe_pct": 24.2,
-        "objetivo_dcf_pct": 60.7,
-        "beneficio_respaldado_por_negocio": false
-      },
-      {
-        "ticker": "AMZN",
-        "empresa": "Amazon.com, Inc.",
-        "score": 38.400000000000006,
-        "precio": 259.53,
-        "upside_analista": 27.6,
-        "upside_triangulado": 60.0,
-        "divergencia": "",
-        "fcf_yield": 1.06,
-        "del_maximo_pct": -9.6,
-        "rs_6m": -8.39,
-        "timing": "ENTRADA",
-        "por_que_cae": "",
-        "por_que_cae_detalle": "",
-        "dias_a_resultados": 16.0,
-        "objetivo_por_pe_pct": 92.3,
-        "objetivo_dcf_pct": null,
-        "beneficio_respaldado_por_negocio": false
-      }
-    ],
-    "vigilar": [
-      {
-        "ticker": "7741.T",
-        "empresa": "HOYA Corporation",
-        "score": 50.065,
-        "precio": 25315.0,
-        "upside_analista": 19.3,
-        "upside_triangulado": null,
-        "divergencia": "ALTA",
-        "fcf_yield": 2.78,
-        "del_maximo_pct": -16.7,
-        "rs_6m": -22.22,
-        "timing": "ESPERAR",
-        "por_que_cae": "SENTIMIENTO",
-        "por_que_cae_detalle": "HOYA mantiene crecimiento de doble dígito, márgenes en expansión y guidance elevada (FY25: +26% profit). Caída desde máximo de abril es corrección de valoración premium (P/E 34.9x)",
-        "dias_a_resultados": 16.0,
-        "objetivo_por_pe_pct": 2.6,
-        "objetivo_dcf_pct": -36.2,
-        "beneficio_respaldado_por_negocio": true
-      },
-      {
-        "ticker": "ICE",
-        "empresa": "Intercontinental Exchange, Inc",
-        "score": 60.095,
-        "precio": 157.42,
-        "upside_analista": 18.7,
-        "upside_triangulado": 25.4,
-        "divergencia": "",
-        "fcf_yield": 5.34,
-        "del_maximo_pct": -10.6,
-        "rs_6m": -14.78,
-        "timing": "VIGILAR",
-        "por_que_cae": "",
-        "por_que_cae_detalle": "",
-        "dias_a_resultados": 16.0,
-        "objetivo_por_pe_pct": 35.4,
-        "objetivo_dcf_pct": 25.4,
-        "beneficio_respaldado_por_negocio": true
-      },
-      {
-        "ticker": "BR",
-        "empresa": "Broadridge Financial Solutions",
-        "score": 65.91,
-        "precio": 166.41,
-        "upside_analista": 28.2,
-        "upside_triangulado": 48.1,
-        "divergencia": "",
-        "fcf_yield": 6.56,
-        "del_maximo_pct": -29.5,
-        "rs_6m": -6.33,
-        "timing": "ESPERAR",
-        "por_que_cae": "SENTIMIENTO",
-        "por_que_cae_detalle": "Broadridge reporta resultados sólidos y elevan guidance (ingresos recurrentes en extremo superior de rango 5-7%, EPS 8-12%), pero sufre presión por ventas internas de ejecutivos y ",
-        "dias_a_resultados": 21.0,
-        "objetivo_por_pe_pct": 76.9,
-        "objetivo_dcf_pct": 48.1,
-        "beneficio_respaldado_por_negocio": true
-      },
-      {
-        "ticker": "MCO",
-        "empresa": "Moody's Corporation",
-        "score": 54.635000000000005,
-        "precio": 470.5,
-        "upside_analista": 18.5,
-        "upside_triangulado": null,
-        "divergencia": "ALTA",
-        "fcf_yield": 3.67,
-        "del_maximo_pct": -14.0,
-        "rs_6m": -4.72,
-        "timing": "VIGILAR",
-        "por_que_cae": "SENTIMIENTO",
-        "por_que_cae_detalle": "MCO superó expectativas en Q2 2026 con ingresos +15% y EPS +31%, reafirmó guidance, pero guidance point medio quedó $0.03 por debajo de consenso. Caída derivada de rotación/múltipl",
-        "dias_a_resultados": 8.0,
-        "objetivo_por_pe_pct": 31.6,
-        "objetivo_dcf_pct": -32.9,
-        "beneficio_respaldado_por_negocio": true
-      },
-      {
-        "ticker": "PAYX",
-        "empresa": "Paychex, Inc.",
-        "score": 65.875,
-        "precio": 104.64,
-        "upside_analista": 8.9,
-        "upside_triangulado": 9.3,
-        "divergencia": "",
-        "fcf_yield": 5.41,
-        "del_maximo_pct": -19.0,
-        "rs_6m": 7.92,
-        "timing": "VIGILAR",
-        "por_que_cae": "EVENTO",
-        "por_que_cae_detalle": "<cite index=\"12-10,12-11,12-12\">Revenue creció 6% en Q1 FY2027 versus 17% en FY2026, con Management Solutions (mayor segmento) creciendo solo 4%</cite>. <cite index=\"14-2\">Desde el",
-        "dias_a_resultados": 66.0,
-        "objetivo_por_pe_pct": 9.3,
-        "objetivo_dcf_pct": 23.9,
-        "beneficio_respaldado_por_negocio": true
-      }
-    ],
-    "tesis_rotas": [],
-    "rotas_son_tuyas": true,
-    "regimen_cambio": null,
-    "rendimiento_sistema": {
-      "horizonte": "180d",
-      "es_horizonte_definitivo": true,
-      "nota": null,
-      "acierto_pct": 70.6,
-      "retorno_medio": 5.87,
-      "n": 17
+  "date": "2026-10-14",
+  "timestamp": "2026-10-14T05:51:31.788878",
+  "narrative": "",
+  "macro_regime": "CALM",
+  "picks_count": 8,
+  "top_picks": [
+    {
+      "ticker": "MSFT",
+      "sector": "Technology",
+      "value_score": 73.68,
+      "analyst_upside_pct": 8.5,
+      "conviction_grade": null
+    },
+    {
+      "ticker": "KO",
+      "sector": "Consumer Defensive",
+      "value_score": 63.895,
+      "analyst_upside_pct": 4.8,
+      "conviction_grade": null
+    },
+    {
+      "ticker": "CBOE",
+      "sector": "Financial Services",
+      "value_score": 61.39,
+      "analyst_upside_pct": 10.2,
+      "conviction_grade": null
+    },
+    {
+      "ticker": "BR",
+      "sector": "Technology",
+      "value_score": 56.135000000000005,
+      "analyst_upside_pct": 26.7,
+      "conviction_grade": null
+    },
+    {
+      "ticker": "VRSN",
+      "sector": "Technology",
+      "value_score": 54.525000000000006,
+      "analyst_upside_pct": 7.5,
+      "conviction_grade": null
     }
-  }
+  ]
 }

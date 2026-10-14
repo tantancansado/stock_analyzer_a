@@ -81,14 +81,14 @@
   "margen_op_delta": 4.763149455165376,
   "op_yoy": 27.42316784869976,
   "eps_limpio": 15.681005706096471,
-  "pe_hoy": 28.845088668269966,
+  "pe_hoy": 29.598229137787715,
   "extraordinarios_pct": 0.5012328293371086,
-  "pe_hist": 37.0580421135284,
-  "compresion": -22.1624051807643,
+  "pe_hist": 37.058042023724674,
+  "compresion": -20.130078327293067,
   "crec_usado": 12.560590094836671,
-  "ret_2a_sin_reversion": 26.698864424978463,
-  "ret_2a_con_reversion": 62.77335485405806,
-  "fecha": "2026-10-07"
+  "ret_2a_sin_reversion": 26.698864424978442,
+  "ret_2a_con_reversion": 58.631512053020906,
+  "fecha": "2026-10-14"
  },
  "TW": {
   "ticker": "TW",
@@ -1284,15 +1284,15 @@
   "margen_op": 45.10728016867171,
   "margen_op_delta": -0.7508611722550356,
   "op_yoy": 2.653118825853795,
-  "eps_limpio": 6.877885063422211,
-  "pe_hoy": 27.108623985529146,
-  "extraordinarios_pct": 1.2943308309603936,
-  "pe_hist": 39.80800676657026,
-  "compresion": -31.901579135847935,
+  "eps_limpio": 6.594260937095521,
+  "pe_hoy": 26.78844554152667,
+  "extraordinarios_pct": 1.2943308309603934,
+  "pe_hist": 39.70158462865119,
+  "compresion": -32.52550045019004,
   "crec_usado": -1.7000000000000002,
   "ret_2a_sin_reversion": -3.3711000000000046,
-  "ret_2a_con_reversion": 41.89594820820106,
-  "fecha": "2026-08-20"
+  "ret_2a_con_reversion": 43.20802769151051,
+  "fecha": "2026-10-14"
  },
  "ECL": {
   "ticker": "ECL",
@@ -2353,5 +2353,25 @@
   "crec_usado": 3.3638170974155073,
   "ret_2a_sin_reversion": 6.840786849479663,
   "fecha": "2026-10-13"
+ },
+ "JNJ": {
+  "ticker": "JNJ",
+  "deterioro": false,
+  "motivo": null,
+  "ingresos_yoy": 6.5998399528282015,
+  "margen_op": 28.344527854602923,
+  "margen_op_delta": 0.08356672921859953,
+  "op_yoy": 6.915052160953805,
+  "eps_limpio": 9.15404746785204,
+  "pe_hoy": 27.15847835321913,
+  "extraordinarios_pct": 6.07239244324496,
+  "compresion_con_bpa_creciendo": true,
+  "bpa_crecio_pct": 63.89301634472508,
+  "multiplo_vario_pct": -34.110968309592046,
+  "pe_antes": 22.72689645089659,
+  "pe_ahora": 14.974532004777455,
+  "crec_usado": -0.44999999999999996,
+  "ret_2a_sin_reversion": -0.8979749999999731,
+  "fecha": "2026-10-14"
  }
 }
