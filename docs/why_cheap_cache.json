@@ -13,25 +13,6 @@
   "fuentes": [],
   "fecha": "2026-10-06"
  },
- "PAYX": {
-  "veredicto": "EVENTO",
-  "resumen": "<cite index=\"12-10,12-11,12-12\">Revenue creció 6% en Q1 FY2027 versus 17% en FY2026, con Management Solutions (mayor segmento) creciendo solo 4%</cite>. <cite index=\"14-2\">Desde el 23 de septiembre de 2026, el stock cayó 16% en 10 días consecutivos</cite>, con <cite index=\"12-13\">analistas bajando p",
-  "confianza": 72,
-  "fuentes": [
-   "https://www.sec.gov/Archives/edgar/data/0000723531/000119312526280314/payx-ex99_1.htm",
-   "https://www.sec.gov/Archives/edgar/data/0000723531/000072353126000004/payx-ex99_1.htm",
-   "https://www.sec.gov/Archives/edgar/data/0000723531/000119312526382815/d112171dars.pdf",
-   "https://www.sec.gov/Archives/edgar/data/723531/000119312526126204/payx-20260228.htm"
-  ],
-  "fecha": "2026-10-01"
- },
- "MSCI": {
-  "veredicto": "SIN_DATOS",
-  "resumen": "",
-  "confianza": 0,
-  "fuentes": [],
-  "fecha": "2026-10-01"
- },
  "GOOG": {
   "veredicto": "EVENTO",
   "resumen": "Alphabet publicó Q2 2026 sólido (ingresos +24%, Google Cloud +82%) pero el Free Cash Flow fue negativo por inversión masiva en infraestructura IA (CapEx desmesurado para 2026). El mercado castigó los resultados por preocupación sobre retorno de inversión en IA, no por deterioro operativo.",
@@ -67,39 +48,15 @@
  },
  "CBOE": {
   "veredicto": "SENTIMIENTO",
-  "resumen": "Cboe registró resultados excepcionales en Q1-Q2 2026 (crecimiento de ingresos 25-29%, EPS +45-54%) y elevó guidance significativamente. La caída obedece a rotación sectorial tras aprobación de futuros perpetuos en junio 2026 que aumentó preocupaciones competitivas, no a deterioro del negocio.",
-  "confianza": 85,
+  "resumen": "CBOE cayó desde máximo de $371.18 (19-mayo-2026) a ~$300 en octubre por rotación macro y volatilidad cíclica del sector. El negocio fundamentalmente sólido: Q2 2026 batió consenso (ingresos +25% YoY a récord $732M, EPS ajustado +45% YoY a $3.56), con record en volúmenes de derivados (SPX 5.1M ADV). ",
+  "confianza": 72,
   "fuentes": [
-   "https://www.sec.gov/Archives/edgar/data/0001374310/000162828026029103/cboe-20260501xex991.htm",
-   "https://www.sec.gov/Archives/edgar/data/0001374310/000162828026051217/cboe-20260731xex991.htm",
-   "https://www.sec.gov/Archives/edgar/data/1374310/000162828026005944/cboe-20260206xex991.htm",
-   "https://ir.cboe.com/news/news-details/2026/Cboe-Global-Markets-Reports-Results-for-First-Quarter-2026-and-Continued-Execution-of-Strategic-Realignment/default.aspx"
+   "https://www.investing.com/equities/cboe-holdings-inc",
+   "https://www.cnbc.com/quotes/CBOE",
+   "https://www.heygotrade.com/en/us-stock/cboe/",
+   "https://www.investing.com/equities/cboe-holdings-inc-options"
   ],
-  "fecha": "2026-10-01"
- },
- "MANH": {
-  "veredicto": "SENTIMIENTO",
-  "resumen": "<cite index=\"2-7,2-8\">Manhattan Associates presentó resultados del Q2 2026 mejores de lo esperado (EPS ajustado $1.39 vs. estimado $1.32, ingresos $297.8M), elevó guidance parcial y mostró crecimiento saludable en ingresos nube y obligaciones de rendimiento pendientes</cite>. <cite index=\"2-2,2-3\">D",
-  "confianza": 75,
-  "fuentes": [
-   "https://ir.manh.com/financial-news",
-   "https://es.investing.com/news/analyst-ratings/da-davidson-rebaja-manhattan-associates-por-valoracion-93CH-3851187",
-   "https://mx.investing.com/news/earnings/resultados-de-manhattan-associates-puede-la-nube-sostener-el-crecimiento-93CH-3572169",
-   "https://es.investing.com/news/earnings/resultados-de-manhattan-associates-a-la-vista-puede-la-nube-sostener-el-crecimiento-93CH-3613246"
-  ],
-  "fecha": "2026-10-01"
- },
- "RMV.L": {
-  "veredicto": "DETERIORO",
-  "resumen": "Rightmove recortó guidance de beneficio 2026 en nov2025 (de 9% a 3-5%) por mayor inversión en IA; recortó revenue guidance en sept2026 (de 8-10% a 6-8%) por caída del mercado inmobiliario de nuevas construcciones que afecta directamente la división New Homes con desarrolladores en condiciones crític",
-  "confianza": 85,
-  "fuentes": [
-   "https://stockanalysis.com/quote/lon/RMV/",
-   "https://uk.investing.com/equities/rightmove-income-statement",
-   "https://quartr.com/companies/rightmove-plc_11370",
-   "https://uk.investing.com/equities/rightmove-financial-summary"
-  ],
-  "fecha": "2026-10-01"
+  "fecha": "2026-10-15"
  },
  "SAP.DE": {
   "veredicto": "EVENTO",
@@ -518,5 +475,53 @@
    "https://pitchbook.com/profiles/company/60726-97"
   ],
   "fecha": "2026-10-14"
+ },
+ "SYK": {
+  "veredicto": "EVENTO",
+  "resumen": "Caída provocada por ciberataque de hackers respaldados por Irán en marzo de 2026 que impactó operaciones y resultados Q1. La empresa mantiene guidance de 2026 sin recortes significativos y bate estimaciones en Q2.",
+  "confianza": 75,
+  "fuentes": [
+   "https://www.sec.gov/Archives/edgar/data/310764/000031076425000107/syk-20250630.htm",
+   "https://www.sec.gov/Archives/edgar/data/310764/000031076425000005/sykex991earningsq42024.htm",
+   "https://www.sec.gov/Archives/edgar/data/310764/000031076424000062/sykex991earningsq12024.htm",
+   "https://www.sec.gov/Archives/edgar/data/310764/000031076426000010/syk-20251231.htm"
+  ],
+  "fecha": "2026-10-15"
+ },
+ "OTIS": {
+  "veredicto": "CICLICO",
+  "resumen": "Debilitamiento en nuevos equipos especialmente en China (caída >20% en Q4 2024), pero negocio de servicios robusto con crecimiento sostenido 6.8% anual y márgenes expandiendo. Guidance 2025 confirmada con crecimiento 2-4% orgánico.",
+  "confianza": 78,
+  "fuentes": [
+   "https://www.sec.gov/Archives/edgar/data/1781335/000178133524000005/a2023-12x318xkerexhibit99.htm",
+   "https://www.tradingview.com/news/tradingview:19f0efb466f99:0-otis-worldwide-corporation-reports-fourth-quarter-and-full-year-2024-results/",
+   "https://www.investing.com/equities/otis-worldwide-corp-earnings",
+   "https://www.marketscreener.com/quote/stock/OTIS-WORLDWIDE-CORPORATIO-105026689/news/OTIS-REPORTS-THIRD-QUARTER-2024-RESULTS-48203450/"
+  ],
+  "fecha": "2026-10-15"
+ },
+ "IDXX": {
+  "veredicto": "SENTIMIENTO",
+  "resumen": "<cite index=\"1-5,1-6\">A pesar de crecimiento de ingresos del 10% en Q2 2026 y ganancia por acción 18% superior, el mercado ha castigado la acción más de 30% desde máximos de noviembre 2025.</cite> <cite index=\"1-9,5-9\">La caída refleja preocupación por descenso esperado de ~1.5-2% en visitas veterin",
+  "confianza": 72,
+  "fuentes": [
+   "https://www.animalshealth.es/empresas/idexx-desploma-mas-30-por-ciento-desde-maximos-2025",
+   "https://www.mexc.com/es/stocks/idxx",
+   "https://www.tikr.com/es/blog/idexx-stock-fell-14-in-2026-heres-why-750-target-mean-still-holds",
+   "https://www.marketscreener.com/quote/stock/IDEXX-LABORATORIES-INC-9641/quotes/"
+  ],
+  "fecha": "2026-10-15"
+ },
+ "AZO": {
+  "veredicto": "SENTIMIENTO",
+  "resumen": "Inversores castigaron múltiples trimestres por revenue misses de <1%, pese a beats de EPS, margen LIFO (no-cash) y crecimiento operacional real. Rotación de múltiplos: de $3,655 de target Wall Street a caída del 28.1%.",
+  "confianza": 78,
+  "fuentes": [
+   "https://www.sec.gov/Archives/edgar/data/0000866787/000117184326006159/exh_991.htm",
+   "https://www.sec.gov/Archives/edgar/data/0000866787/000117184326003674/exh_991.htm",
+   "https://www.sec.gov/Archives/edgar/data/866787/000117184326001288/exh_991.htm",
+   "https://www.sec.gov/Archives/edgar/data/866787/000110465926032757/azo-20260214x10q.htm"
+  ],
+  "fecha": "2026-10-15"
  }
 }

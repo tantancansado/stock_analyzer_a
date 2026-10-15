@@ -1,126 +1,44 @@
 {
-  "fecha": "2026-10-14",
-  "texto": "<b>Hoy hay dos entradas, pero ambas con matices importantes.</b>\n\n<b>THC</b> (Tenet Healthcare) a 266,91 — barata y con fuerza relativa, pero resultados en 15 días: la entrada se juega a esa reacción. Y el beneficio crece más rápido que el negocio real, así que no la compres pensando en calidad, solo en el precio.\n\n<b>AMZN</b> a 258,58 — mismo caso: resultados en 15 días y el beneficio tampoco está respaldado por el negocio. El upside que ves es del modelo, no de un negocio que esté acelerando de verdad.\n\n<b>Para vigilar, nada comprable todavía:</b>\n— <b>CBOE</b> (292,25): resultados excepcionales y guidance al alza, pero cae por rotación sectorial, no por nada propio. Es nueva en la lista de hoy.\n— <b>BR</b> (168,44): guidance sólida, pero castigada por ventas de ejecutivos. Barata, no comprable aún.\n— <b>HOYA</b> (25.665): negocio intacto, doble dígito de crecimiento, pero viene de valoración muy exigente y el modelo por DCF ya la ve cara. Paciencia.\n\nICE y PAYX se caen de la lista de seguimiento.\n\nEl sistema acierta un 73,7% a 180 días con 19 casos y una subida media del 7,45%. Son datos reales, no excusa para apostar fuerte en ninguna de las dos de hoy.",
-  "hechos": {
-    "fecha": "2026-10-14",
-    "total_lista": 34,
-    "datos_incompletos": [],
-    "picks_nuevos": [
-      "CBOE"
-    ],
-    "picks_que_se_van": [
-      "ICE",
-      "PAYX"
-    ],
-    "comprables": [
-      {
-        "ticker": "THC",
-        "empresa": "Tenet Healthcare Corporation",
-        "score": 48.17999999999999,
-        "precio": 266.91,
-        "upside_analista": 6.9,
-        "upside_triangulado": 25.0,
-        "divergencia": "",
-        "fcf_yield": 9.67,
-        "del_maximo_pct": -5.7,
-        "rs_6m": 26.18,
-        "timing": "ENTRADA",
-        "por_que_cae": "",
-        "por_que_cae_detalle": "",
-        "dias_a_resultados": 15.0,
-        "objetivo_por_pe_pct": 25.0,
-        "objetivo_dcf_pct": 61.8,
-        "beneficio_respaldado_por_negocio": false
-      },
-      {
-        "ticker": "AMZN",
-        "empresa": "Amazon.com, Inc.",
-        "score": 44.33500000000001,
-        "precio": 258.58,
-        "upside_analista": 28.1,
-        "upside_triangulado": 59.1,
-        "divergencia": "",
-        "fcf_yield": 1.06,
-        "del_maximo_pct": -10.0,
-        "rs_6m": -7.66,
-        "timing": "ENTRADA",
-        "por_que_cae": "",
-        "por_que_cae_detalle": "",
-        "dias_a_resultados": 15.0,
-        "objetivo_por_pe_pct": 90.1,
-        "objetivo_dcf_pct": null,
-        "beneficio_respaldado_por_negocio": false
-      }
-    ],
-    "vigilar": [
-      {
-        "ticker": "7741.T",
-        "empresa": "HOYA Corporation",
-        "score": 53.315,
-        "precio": 25665.0,
-        "upside_analista": 17.7,
-        "upside_triangulado": null,
-        "divergencia": "ALTA",
-        "fcf_yield": 2.74,
-        "del_maximo_pct": -15.6,
-        "rs_6m": -23.23,
-        "timing": "ESPERAR",
-        "por_que_cae": "SENTIMIENTO",
-        "por_que_cae_detalle": "HOYA mantiene crecimiento de doble dígito, márgenes en expansión y guidance elevada (FY25: +26% profit). Caída desde máximo de abril es corrección de valoración premium (P/E 34.9x)",
-        "dias_a_resultados": 16.0,
-        "objetivo_por_pe_pct": 1.2,
-        "objetivo_dcf_pct": -37.1,
-        "beneficio_respaldado_por_negocio": true
-      },
-      {
-        "ticker": "CBOE",
-        "empresa": "Cboe Global Markets, Inc.",
-        "score": 61.39,
-        "precio": 292.25,
-        "upside_analista": 10.2,
-        "upside_triangulado": 10.2,
-        "divergencia": "",
-        "fcf_yield": 6.2,
-        "del_maximo_pct": -21.3,
-        "rs_6m": -15.43,
-        "timing": "VIGILAR",
-        "por_que_cae": "SENTIMIENTO",
-        "por_que_cae_detalle": "Cboe registró resultados excepcionales en Q1-Q2 2026 (crecimiento de ingresos 25-29%, EPS +45-54%) y elevó guidance significativamente. La caída obedece a rotación sectorial tras a",
-        "dias_a_resultados": 16.0,
-        "objetivo_por_pe_pct": 9.8,
-        "objetivo_dcf_pct": 69.9,
-        "beneficio_respaldado_por_negocio": true
-      },
-      {
-        "ticker": "BR",
-        "empresa": "Broadridge Financial Solutions",
-        "score": 56.135000000000005,
-        "precio": 168.44,
-        "upside_analista": 26.7,
-        "upside_triangulado": 46.4,
-        "divergencia": "",
-        "fcf_yield": 6.48,
-        "del_maximo_pct": -28.6,
-        "rs_6m": -5.63,
-        "timing": "VIGILAR",
-        "por_que_cae": "SENTIMIENTO",
-        "por_que_cae_detalle": "Broadridge reporta resultados sólidos y elevan guidance (ingresos recurrentes en extremo superior de rango 5-7%, EPS 8-12%), pero sufre presión por ventas internas de ejecutivos y ",
-        "dias_a_resultados": 20.0,
-        "objetivo_por_pe_pct": 78.1,
-        "objetivo_dcf_pct": 46.4,
-        "beneficio_respaldado_por_negocio": true
-      }
-    ],
-    "tesis_rotas": [],
-    "rotas_son_tuyas": true,
-    "regimen_cambio": null,
-    "rendimiento_sistema": {
-      "horizonte": "180d",
-      "es_horizonte_definitivo": true,
-      "nota": null,
-      "acierto_pct": 73.7,
-      "retorno_medio": 7.45,
-      "n": 19
+  "date": "2026-10-15",
+  "timestamp": "2026-10-15T05:19:48.803903",
+  "narrative": "",
+  "macro_regime": "CALM",
+  "picks_count": 8,
+  "top_picks": [
+    {
+      "ticker": "MA",
+      "sector": "Financial Services",
+      "value_score": 63.255,
+      "analyst_upside_pct": 11.0,
+      "conviction_grade": null
+    },
+    {
+      "ticker": "KO",
+      "sector": "Consumer Defensive",
+      "value_score": 62.99000000000001,
+      "analyst_upside_pct": 3.0,
+      "conviction_grade": null
+    },
+    {
+      "ticker": "MSFT",
+      "sector": "Technology",
+      "value_score": 61.32499999999999,
+      "analyst_upside_pct": 10.6,
+      "conviction_grade": null
+    },
+    {
+      "ticker": "BR",
+      "sector": "Technology",
+      "value_score": 52.44,
+      "analyst_upside_pct": 26.8,
+      "conviction_grade": null
+    },
+    {
+      "ticker": "CBOE",
+      "sector": "Financial Services",
+      "value_score": 50.41,
+      "analyst_upside_pct": 7.3,
+      "conviction_grade": null
     }
-  }
+  ]
 }

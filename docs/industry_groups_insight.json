@@ -1,78 +1,78 @@
 {
-  "date": "2026-10-14",
-  "timestamp": "2026-10-14T05:51:34.807255",
-  "narrative": "**Insight de rotaci\u00f3n sectorial \u2013 14\u202fOct\u202f2026**\n\n1. La rotaci\u00f3n muestra un claro giro defensivo: los grupos de Healthcare y Technology lideran (RS\u202f>\u202f60), mientras los c\u00edclicos (Auto Parts, Aerospace, Residential Construction) est\u00e1n",
+  "date": "2026-10-15",
+  "timestamp": "2026-10-15T05:19:50.181269",
+  "narrative": "La rotaci\u00f3n muestra una clara preferencia por sectores defensivos y de alta rentabilidad recurrente: salud (instalaciones m\u00e9dicas, diagn\u00f3stico, farmac\u00e9uticos) y tecnolog\u00eda de infraestructura lideran con RS >\u202f55, mientras que los c\u00edclicos tradicionales (auto\u2011parts, construcci\u00f3n residencial, materiales) est\u00e1n en el fondo con RS \u2264\u202f9. En un entorno macro \u201cCALM\u201d, donde la volatilidad y la inflaci\u00f3n son moderadas, los inversores buscan estabilidad y flujos de caja seguros, lo que respalda la fortaleza de los defensivos y de los tech de infraestructura. Enf\u00f3quese ahora en buscar oportunidades largas en Healthcare (especialmente facilities, diagnostics y specialty pharma) y en Software\u2011Infrastructure; evite exposici\u00f3n a Auto Parts, Residential Construction y",
   "macro_regime": "CALM",
   "top_sectors": [
     {
       "industry": "Medical Care Facilities",
       "sector": "Healthcare",
-      "avg_rs_percentile": 65.0,
+      "avg_rs_percentile": 68.4,
       "num_tickers": 2,
       "label": "Top 10%"
     },
     {
       "industry": "Software - Infrastructure",
       "sector": "Technology",
-      "avg_rs_percentile": 62.2,
+      "avg_rs_percentile": 60.4,
       "num_tickers": 4,
-      "label": "Top 10%"
-    },
-    {
-      "industry": "Internet Content & Information",
-      "sector": "Communication Services",
-      "avg_rs_percentile": 56.3,
-      "num_tickers": 2,
-      "label": "Top 10%"
-    },
-    {
-      "industry": "Drug Manufacturers - Specialty & Generic",
-      "sector": "Healthcare",
-      "avg_rs_percentile": 52.0,
-      "num_tickers": 2,
       "label": "Top 10%"
     },
     {
       "industry": "Diagnostics & Research",
       "sector": "Healthcare",
-      "avg_rs_percentile": 51.6,
+      "avg_rs_percentile": 56.3,
       "num_tickers": 4,
+      "label": "Top 10%"
+    },
+    {
+      "industry": "Drug Manufacturers - Specialty & Generic",
+      "sector": "Healthcare",
+      "avg_rs_percentile": 52.7,
+      "num_tickers": 2,
+      "label": "Top 10%"
+    },
+    {
+      "industry": "Internet Content & Information",
+      "sector": "Communication Services",
+      "avg_rs_percentile": 52.3,
+      "num_tickers": 2,
       "label": "Top 25%"
     }
   ],
   "bottom_sectors": [
     {
-      "industry": "Auto Parts",
-      "sector": "Consumer Cyclical",
-      "avg_rs_percentile": 5.2,
+      "industry": "Asset Management",
+      "sector": "Financial Services",
+      "avg_rs_percentile": 11.4,
       "num_tickers": 2,
       "label": "Bottom 25%"
     },
     {
-      "industry": "Aerospace & Defense",
-      "sector": "Industrials",
-      "avg_rs_percentile": 5.2,
+      "industry": "Auto Parts",
+      "sector": "Consumer Cyclical",
+      "avg_rs_percentile": 8.9,
       "num_tickers": 2,
       "label": "Bottom 25%"
     },
     {
       "industry": "Packaged Foods",
       "sector": "Consumer Defensive",
-      "avg_rs_percentile": 4.0,
+      "avg_rs_percentile": 8.5,
       "num_tickers": 2,
       "label": "Bottom 25%"
     },
     {
       "industry": "Residential Construction",
       "sector": "Consumer Cyclical",
-      "avg_rs_percentile": 1.2,
+      "avg_rs_percentile": 0.7,
       "num_tickers": 2,
       "label": "Bottom 25%"
     },
     {
       "industry": "Building Materials",
       "sector": "Basic Materials",
-      "avg_rs_percentile": 0.0,
+      "avg_rs_percentile": 0.6,
       "num_tickers": 2,
       "label": "Bottom 25%"
     }
