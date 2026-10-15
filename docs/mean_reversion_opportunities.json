@@ -1,52 +1,11 @@
 {
-  "generated_at": "2026-10-14 06:10:24",
-  "scan_date": "2026-10-14 06:10:24",
-  "total_opportunities": 1,
+  "generated_at": "2026-10-15 05:36:57",
+  "scan_date": "2026-10-15 05:36:57",
+  "total_opportunities": 0,
   "strategies": {
     "oversold_bounce": 0,
-    "bull_flag_pullback": 1
+    "bull_flag_pullback": 0
   },
-  "ai_narrative": "",
-  "opportunities": [
-    {
-      "ticker": "DVA",
-      "company_name": "DaVita Inc.",
-      "strategy": "Bull Flag Pullback",
-      "current_price": 182.08,
-      "rsi": 48.2,
-      "rsi_tier": "NEUTRAL",
-      "rally_pct": 38.6,
-      "pullback_pct": -24.4,
-      "sma_50": 181.29,
-      "sma_200": 172.29,
-      "trend": "Bullish",
-      "volume_decrease": true,
-      "reversion_score": 70,
-      "quality": "\u2b50 CON DUDAS",
-      "entry_zone": "$178.44 - $185.72",
-      "entry_ref": 185.72,
-      "target": 198.72,
-      "techo_tecnico": 240.96,
-      "bounce_target": 198.72,
-      "bounce_usd": 13.0,
-      "bounce_pct": 7.0,
-      "stop_loss": 175.85,
-      "stop_pct": -5.3,
-      "risk_reward": 2.67,
-      "risk_reward_en_zona": 1.32,
-      "precio_sobre_zona_entrada": false,
-      "detected_date": "2026-10-14",
-      "historical_win_rate": 28.3,
-      "ai_confirmation": "CAUTION",
-      "ai_confidence": 60,
-      "ai_reason": "pullback -24.4% fuera rango",
-      "esperanza_pct": 4.16,
-      "esperanza_n": 22,
-      "esperanza_aciertos": 13,
-      "esperanza_stops": 8,
-      "esperanza_dias_mediana": 9,
-      "esperanza_muestra_ok": true,
-      "esperanza_frase": "en los 22 episodios iguales, el objetivo (+9.1%) lleg\u00f3 antes que el stop (-3.4%) 13 veces y el stop salt\u00f3 primero 8, y cuando lleg\u00f3 tard\u00f3 9 sesiones de mediana. Esperanza +4.16% por operaci\u00f3n."
-    }
-  ]
+  "ai_narrative": null,
+  "opportunities": []
 }

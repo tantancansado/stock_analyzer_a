@@ -1,0 +1,208 @@
+{
+  "generated_at": "2026-10-15",
+  "total_convergences": 10,
+  "triple_or_more": 1,
+  "convergences": [
+    {
+      "ticker": "MSFT",
+      "company_name": "Microsoft Corporation",
+      "sector": "Technology",
+      "strategies": [
+        "VALUE",
+        "OPTIONS",
+        "MOMENTUM"
+      ],
+      "strategy_count": 3,
+      "convergence_score": 82,
+      "value_score": 61.32499999999999,
+      "conviction_grade": "B",
+      "analyst_upside_pct": 10.6,
+      "fcf_yield_pct": 1.69,
+      "current_price": 533.69,
+      "streak_days": 19,
+      "earnings_warning": false,
+      "days_to_earnings": 13.0,
+      "analysis": "La coincidencia de tres estrategias (VALUE, OPTIONS y MOMENTUM"
+    },
+    {
+      "ticker": "VRSN",
+      "company_name": "VeriSign, Inc.",
+      "sector": "Technology",
+      "strategies": [
+        "VALUE",
+        "INSIDERS"
+      ],
+      "strategy_count": 2,
+      "convergence_score": 68,
+      "value_score": 40.535,
+      "conviction_grade": "nan",
+      "analyst_upside_pct": 7.6,
+      "fcf_yield_pct": 3.96,
+      "current_price": 301.41,
+      "streak_days": 33,
+      "earnings_warning": true,
+      "days_to_earnings": 7.0,
+      "analysis": "Convergencia de 2 estrategias: VALUE, INSIDERS."
+    },
+    {
+      "ticker": "MA",
+      "company_name": "Mastercard Incorporated",
+      "sector": "Financial Services",
+      "strategies": [
+        "VALUE",
+        "OPTIONS"
+      ],
+      "strategy_count": 2,
+      "convergence_score": 62,
+      "value_score": 63.255,
+      "conviction_grade": "C",
+      "analyst_upside_pct": 11.0,
+      "fcf_yield_pct": 3.07,
+      "current_price": 603.24,
+      "streak_days": 7,
+      "earnings_warning": false,
+      "days_to_earnings": 14.0,
+      "analysis": "La convergencia de los indicadores de **VALUE** y **OPTIONS** durante 7 d\u00edas consecutivos sugiere que tanto los fundamentos (valoraci\u00f3n razonable, flujo de caja libre del\u202f3.07\u202f%) como la presi\u00f3n del mercado de opciones (volatilidad impl\u00edcita, niveles de soporte/resistencia) est\u00e1n alineados, lo que refuerza la se\u00f1al de un posible upside del\u202f11\u202f% y reduce la incertidumbre de un movimiento aislado.  \n\nSin embargo"
+    },
+    {
+      "ticker": "KO",
+      "company_name": "The Coca-Cola Company",
+      "sector": "Consumer Defensive",
+      "strategies": [
+        "VALUE",
+        "OPTIONS"
+      ],
+      "strategy_count": 2,
+      "convergence_score": 62,
+      "value_score": 62.99000000000001,
+      "conviction_grade": "nan",
+      "analyst_upside_pct": 3.0,
+      "fcf_yield_pct": 3.6,
+      "current_price": 91.78,
+      "streak_days": 6,
+      "earnings_warning": false,
+      "days_to_earnings": 12.0,
+      "analysis": null
+    },
+    {
+      "ticker": "CME",
+      "company_name": "",
+      "sector": "",
+      "strategies": [
+        "INSIDERS",
+        "OPTIONS"
+      ],
+      "strategy_count": 2,
+      "convergence_score": 60,
+      "value_score": null,
+      "conviction_grade": "",
+      "analyst_upside_pct": null,
+      "fcf_yield_pct": null,
+      "current_price": null,
+      "streak_days": 11,
+      "earnings_warning": false,
+      "days_to_earnings": null,
+      "analysis": null
+    },
+    {
+      "ticker": "LIN",
+      "company_name": "",
+      "sector": "",
+      "strategies": [
+        "INSIDERS",
+        "OPTIONS"
+      ],
+      "strategy_count": 2,
+      "convergence_score": 60,
+      "value_score": null,
+      "conviction_grade": "",
+      "analyst_upside_pct": null,
+      "fcf_yield_pct": null,
+      "current_price": null,
+      "streak_days": 6,
+      "earnings_warning": false,
+      "days_to_earnings": null,
+      "analysis": null
+    },
+    {
+      "ticker": "AON",
+      "company_name": "",
+      "sector": "",
+      "strategies": [
+        "INSIDERS",
+        "OPTIONS"
+      ],
+      "strategy_count": 2,
+      "convergence_score": 60,
+      "value_score": null,
+      "conviction_grade": "",
+      "analyst_upside_pct": null,
+      "fcf_yield_pct": null,
+      "current_price": null,
+      "streak_days": 5,
+      "earnings_warning": false,
+      "days_to_earnings": null,
+      "analysis": null
+    },
+    {
+      "ticker": "V",
+      "company_name": "Visa Inc.",
+      "sector": "Financial Services",
+      "strategies": [
+        "VALUE",
+        "OPTIONS"
+      ],
+      "strategy_count": 2,
+      "convergence_score": 57,
+      "value_score": 37.365,
+      "conviction_grade": "nan",
+      "analyst_upside_pct": 7.4,
+      "fcf_yield_pct": 2.87,
+      "current_price": 391.43,
+      "streak_days": 3,
+      "earnings_warning": false,
+      "days_to_earnings": 12.0,
+      "analysis": null
+    },
+    {
+      "ticker": "PAYX",
+      "company_name": "Paychex, Inc.",
+      "sector": "Technology",
+      "strategies": [
+        "VALUE",
+        "OPTIONS"
+      ],
+      "strategy_count": 2,
+      "convergence_score": 47,
+      "value_score": 35.045,
+      "conviction_grade": "nan",
+      "analyst_upside_pct": 5.1,
+      "fcf_yield_pct": 5.23,
+      "current_price": 108.37,
+      "streak_days": 1,
+      "earnings_warning": false,
+      "days_to_earnings": 64.0,
+      "analysis": null
+    },
+    {
+      "ticker": "CVX",
+      "company_name": "Chevron Corporation",
+      "sector": "Energy",
+      "strategies": [
+        "VALUE",
+        "MOMENTUM"
+      ],
+      "strategy_count": 2,
+      "convergence_score": 46,
+      "value_score": 32.1,
+      "conviction_grade": "nan",
+      "analyst_upside_pct": 2.7,
+      "fcf_yield_pct": 6.42,
+      "current_price": 222.04,
+      "streak_days": 1,
+      "earnings_warning": false,
+      "days_to_earnings": 15.0,
+      "analysis": null
+    }
+  ]
+}

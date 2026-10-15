@@ -1,44 +1,88 @@
 {
-  "date": "2026-10-15",
-  "timestamp": "2026-10-15T05:19:48.803903",
-  "narrative": "",
-  "macro_regime": "CALM",
-  "picks_count": 8,
-  "top_picks": [
-    {
-      "ticker": "MA",
-      "sector": "Financial Services",
-      "value_score": 63.255,
-      "analyst_upside_pct": 11.0,
-      "conviction_grade": null
-    },
-    {
-      "ticker": "KO",
-      "sector": "Consumer Defensive",
-      "value_score": 62.99000000000001,
-      "analyst_upside_pct": 3.0,
-      "conviction_grade": null
-    },
-    {
-      "ticker": "MSFT",
-      "sector": "Technology",
-      "value_score": 61.32499999999999,
-      "analyst_upside_pct": 10.6,
-      "conviction_grade": null
-    },
-    {
-      "ticker": "BR",
-      "sector": "Technology",
-      "value_score": 52.44,
-      "analyst_upside_pct": 26.8,
-      "conviction_grade": null
-    },
-    {
-      "ticker": "CBOE",
-      "sector": "Financial Services",
-      "value_score": 50.41,
-      "analyst_upside_pct": 7.3,
-      "conviction_grade": null
+  "fecha": "2026-10-15",
+  "texto": "<b>Hoy comprable: OXY</b>, a 61,41$. Con reparos: reporta resultados en 25 días, así que la entrada se juega esa reacción; el modelo por PER dice que ya está un 23,7% cara, no te fíes de ese objetivo; y el beneficio crece más rápido que el negocio real, no la vendas como calidad.\n\nPara vigilar, dos caídas por sentimiento, no por deterioro de negocio:\n<b>CBOE</b> a 300$, un 19% bajo máximos por rotación macro y volatilidad del sector, pero el negocio va sólido (batió consenso en Q2). Reporta en 15 días. Barata todavía no es comprable.\n<b>BR</b> a 168$, un 28,7% bajo máximos pese a elevar guidance, castigada por ventas de ejecutivos. Reporta en 19 días.\n\nMovimiento en la lista: entra <b>MA</b> como nuevo candidato (sin más detalle todavía). BR y CBOE salen de los comprables de ayer y pasan a vigilar: dejan de estar al precio de entrada pero el negocio sigue intacto.\n\nEl sistema acierta un 77,3% a 180 días (22 casos), con retorno medio del 8,3% — cifra ya cerrada, no provisional. Aun así, posición pequeña siempre.",
+  "hechos": {
+    "fecha": "2026-10-15",
+    "total_lista": 31,
+    "datos_incompletos": [],
+    "picks_nuevos": [
+      "MA"
+    ],
+    "picks_que_se_van": [
+      "BR",
+      "CBOE"
+    ],
+    "comprables": [
+      {
+        "ticker": "OXY",
+        "empresa": "Occidental Petroleum Corporati",
+        "score": 32.42,
+        "precio": 61.41,
+        "upside_analista": 12.9,
+        "upside_triangulado": -5.4,
+        "divergencia": "MEDIA",
+        "fcf_yield": 7.41,
+        "del_maximo_pct": -9.0,
+        "rs_6m": -1.26,
+        "timing": "ENTRADA",
+        "por_que_cae": "",
+        "por_que_cae_detalle": "",
+        "dias_a_resultados": 25.0,
+        "objetivo_por_pe_pct": -23.7,
+        "objetivo_dcf_pct": null,
+        "beneficio_respaldado_por_negocio": false
+      }
+    ],
+    "vigilar": [
+      {
+        "ticker": "CBOE",
+        "empresa": "Cboe Global Markets, Inc.",
+        "score": 50.41,
+        "precio": 300.47,
+        "upside_analista": 7.3,
+        "upside_triangulado": 8.6,
+        "divergencia": "",
+        "fcf_yield": 6.03,
+        "del_maximo_pct": -19.1,
+        "rs_6m": -12.64,
+        "timing": "VIGILAR",
+        "por_que_cae": "SENTIMIENTO",
+        "por_que_cae_detalle": "CBOE cayó desde máximo de $371.18 (19-mayo-2026) a ~$300 en octubre por rotación macro y volatilidad cíclica del sector. El negocio fundamentalmente sólido: Q2 2026 batió consenso ",
+        "dias_a_resultados": 15.0,
+        "objetivo_por_pe_pct": 8.6,
+        "objetivo_dcf_pct": 65.3,
+        "beneficio_respaldado_por_negocio": true
+      },
+      {
+        "ticker": "BR",
+        "empresa": "Broadridge Financial Solutions",
+        "score": 52.44,
+        "precio": 168.26,
+        "upside_analista": 26.8,
+        "upside_triangulado": 46.5,
+        "divergencia": "",
+        "fcf_yield": 6.49,
+        "del_maximo_pct": -28.7,
+        "rs_6m": -5.3,
+        "timing": "VIGILAR",
+        "por_que_cae": "SENTIMIENTO",
+        "por_que_cae_detalle": "Broadridge reporta resultados sólidos y elevan guidance (ingresos recurrentes en extremo superior de rango 5-7%, EPS 8-12%), pero sufre presión por ventas internas de ejecutivos y ",
+        "dias_a_resultados": 19.0,
+        "objetivo_por_pe_pct": 75.9,
+        "objetivo_dcf_pct": 46.5,
+        "beneficio_respaldado_por_negocio": true
+      }
+    ],
+    "tesis_rotas": [],
+    "rotas_son_tuyas": true,
+    "regimen_cambio": null,
+    "rendimiento_sistema": {
+      "horizonte": "180d",
+      "es_horizonte_definitivo": true,
+      "nota": null,
+      "acierto_pct": 77.3,
+      "retorno_medio": 8.31,
+      "n": 22
     }
-  ]
+  }
 }

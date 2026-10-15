@@ -1,51 +1,51 @@
 {
-  "generated_at": "2026-10-14T06:19:33Z",
+  "generated_at": "2026-10-15T05:47:00Z",
   "modelos": {
     "value": {
       "etiqueta": "oportunidades VALUE",
       "fichero": "value_opportunities.csv",
-      "datos_del": "2026-10-14T05:54:18Z",
+      "datos_del": "2026-10-15T05:22:16Z",
       "desfasado": false,
       "modulos_mas_nuevos": []
     },
     "leaps": {
       "etiqueta": "LEAPS",
       "fichero": "leaps_opportunities.json",
-      "datos_del": "2026-10-13T20:32:40.127754Z",
+      "datos_del": "2026-10-14T19:12:18.459134Z",
       "desfasado": true,
       "modulos_mas_nuevos": [
         {
           "modulo": "fundamental_scorer.py",
-          "cambiado_el": "2026-10-14T05:54:18Z"
+          "cambiado_el": "2026-10-15T05:22:16Z"
         },
         {
           "modulo": "leaps_analyzer.py",
-          "cambiado_el": "2026-10-14T05:54:18Z"
+          "cambiado_el": "2026-10-15T05:22:16Z"
         },
         {
           "modulo": "upside_triangulation.py",
-          "cambiado_el": "2026-10-14T05:54:18Z"
+          "cambiado_el": "2026-10-15T05:22:16Z"
         }
       ]
     },
     "rebotes": {
       "etiqueta": "rebotes",
       "fichero": "bounce_setups_broad.json",
-      "datos_del": "2026-10-14T06:11:42Z",
+      "datos_del": "2026-10-15T05:38:19Z",
       "desfasado": false,
       "modulos_mas_nuevos": []
     },
     "reversion": {
       "etiqueta": "reversión a la media",
       "fichero": "mean_reversion_opportunities.json",
-      "datos_del": "2026-10-14 06:10:24Z",
+      "datos_del": "2026-10-15 05:36:57Z",
       "desfasado": false,
       "modulos_mas_nuevos": []
     },
     "catalizadores": {
       "etiqueta": "calendario de catalizadores",
       "fichero": "catalysts.json",
-      "datos_del": "2026-10-14T06:14:31Z",
+      "datos_del": "2026-10-15T05:42:49Z",
       "desfasado": false,
       "modulos_mas_nuevos": []
     }

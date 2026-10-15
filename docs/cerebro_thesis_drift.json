@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-10-14",
+  "generated_at": "2026-10-15",
   "baseline_date": "2026-08-31",
-  "days_tracked": 44,
-  "total": 19,
+  "days_tracked": 45,
+  "total": 21,
   "high_count": 1,
   "narrative": "",
   "drifts": [
@@ -12,45 +12,47 @@
       "sector": "Healthcare",
       "severity": "HIGH",
       "drift_score": 6,
-      "days_tracked": 44,
+      "days_tracked": 45,
       "baseline_date": "2026-08-31",
-      "value_score_now": 48.2,
+      "value_score_now": 45.2,
       "value_score_prev": 58.9,
       "drift_flags": [
-        "Score cay\u00f3 11pts en 44d (59\u219248)",
-        "FCF yield cay\u00f3 4.6pp (14.3%\u21929.7%)"
+        "Score cay\u00f3 14pts en 45d (59\u219245)",
+        "FCF yield cay\u00f3 4.8pp (14.3%\u21929.5%)"
       ],
       "improvements": []
     },
     {
-      "ticker": "ADSK",
-      "company_name": "Autodesk, Inc.",
+      "ticker": "JKHY",
+      "company_name": "Jack Henry & Associates, Inc.",
       "sector": "Technology",
       "severity": "MEDIUM",
       "drift_score": 5,
-      "days_tracked": 44,
+      "days_tracked": 45,
       "baseline_date": "2026-08-31",
-      "value_score_now": 32.2,
-      "value_score_prev": 55.1,
+      "value_score_now": 37.2,
+      "value_score_prev": 49.4,
       "drift_flags": [
-        "Score cay\u00f3 23pts en 44d (55\u219232)",
-        "Upside analistas cay\u00f3 11pp (44%\u219234%)"
+        "Score cay\u00f3 12pts en 45d (49\u219237)",
+        "Piotroski cay\u00f3 2pts en 45d"
       ],
-      "improvements": []
+      "improvements": [
+        "Upside analistas subi\u00f3 9pp"
+      ]
     },
     {
-      "ticker": "YUM",
-      "company_name": "Yum! Brands, Inc.",
-      "sector": "Consumer Cyclical",
+      "ticker": "DOL.TO",
+      "company_name": "Dollarama Inc.",
+      "sector": "Consumer Defensive",
       "severity": "MEDIUM",
       "drift_score": 5,
-      "days_tracked": 44,
+      "days_tracked": 45,
       "baseline_date": "2026-08-31",
-      "value_score_now": 30.7,
-      "value_score_prev": 47.7,
+      "value_score_now": 32.8,
+      "value_score_prev": 43.0,
       "drift_flags": [
-        "Score cay\u00f3 17pts en 44d (48\u219231)",
-        "Upside analistas cay\u00f3 11pp (27%\u219216%)"
+        "Score cay\u00f3 10pts en 45d (43\u219233)",
+        "Upside analistas cay\u00f3 15pp (20%\u21925%)"
       ],
       "improvements": []
     },
@@ -60,49 +62,15 @@
       "sector": "Technology",
       "severity": "MEDIUM",
       "drift_score": 3,
-      "days_tracked": 44,
+      "days_tracked": 45,
       "baseline_date": "2026-08-31",
-      "value_score_now": 56.1,
+      "value_score_now": 52.4,
       "value_score_prev": 77.8,
       "drift_flags": [
-        "Score cay\u00f3 22pts en 44d (78\u219256)"
+        "Score cay\u00f3 25pts en 45d (78\u219252)"
       ],
       "improvements": [
         "Upside analistas subi\u00f3 11pp"
-      ]
-    },
-    {
-      "ticker": "MCO",
-      "company_name": "Moody's Corporation",
-      "sector": "Financial Services",
-      "severity": "MEDIUM",
-      "drift_score": 3,
-      "days_tracked": 44,
-      "baseline_date": "2026-08-31",
-      "value_score_now": 48.1,
-      "value_score_prev": 63.7,
-      "drift_flags": [
-        "Score cay\u00f3 16pts en 44d (64\u219248)"
-      ],
-      "improvements": [
-        "Upside analistas subi\u00f3 11pp"
-      ]
-    },
-    {
-      "ticker": "PAYX",
-      "company_name": "Paychex, Inc.",
-      "sector": "Technology",
-      "severity": "MEDIUM",
-      "drift_score": 3,
-      "days_tracked": 44,
-      "baseline_date": "2026-08-31",
-      "value_score_now": 42.3,
-      "value_score_prev": 57.3,
-      "drift_flags": [
-        "Score cay\u00f3 15pts en 44d (57\u219242)"
-      ],
-      "improvements": [
-        "Upside analistas subi\u00f3 6pp"
       ]
     },
     {
@@ -111,15 +79,15 @@
       "sector": "Financial Services",
       "severity": "MEDIUM",
       "drift_score": 3,
-      "days_tracked": 44,
+      "days_tracked": 45,
       "baseline_date": "2026-08-31",
-      "value_score_now": 40.7,
+      "value_score_now": 41.4,
       "value_score_prev": 71.4,
       "drift_flags": [
-        "Score cay\u00f3 31pts en 44d (71\u219241)"
+        "Score cay\u00f3 30pts en 45d (71\u219241)"
       ],
       "improvements": [
-        "Upside analistas subi\u00f3 6pp"
+        "Upside analistas subi\u00f3 8pp"
       ]
     },
     {
@@ -128,30 +96,107 @@
       "sector": "Communication Services",
       "severity": "MEDIUM",
       "drift_score": 3,
-      "days_tracked": 44,
+      "days_tracked": 45,
       "baseline_date": "2026-08-31",
-      "value_score_now": 42.1,
+      "value_score_now": 42.6,
       "value_score_prev": 77.1,
       "drift_flags": [
-        "Score cay\u00f3 35pts en 44d (77\u219242)"
+        "Score cay\u00f3 34pts en 45d (77\u219243)"
       ],
       "improvements": []
     },
     {
-      "ticker": "FHN",
-      "company_name": "First Horizon Corporation",
+      "ticker": "NYT",
+      "company_name": "The New York Times Company",
+      "sector": "Communication Services",
+      "severity": "MEDIUM",
+      "drift_score": 3,
+      "days_tracked": 45,
+      "baseline_date": "2026-08-31",
+      "value_score_now": 36.0,
+      "value_score_prev": 46.0,
+      "drift_flags": [
+        "Score cay\u00f3 10pts en 45d (46\u219236)"
+      ],
+      "improvements": []
+    },
+    {
+      "ticker": "PAYX",
+      "company_name": "Paychex, Inc.",
+      "sector": "Technology",
+      "severity": "MEDIUM",
+      "drift_score": 3,
+      "days_tracked": 45,
+      "baseline_date": "2026-08-31",
+      "value_score_now": 35.0,
+      "value_score_prev": 57.3,
+      "drift_flags": [
+        "Score cay\u00f3 22pts en 45d (57\u219235)"
+      ],
+      "improvements": []
+    },
+    {
+      "ticker": "MCO",
+      "company_name": "Moody's Corporation",
       "sector": "Financial Services",
       "severity": "MEDIUM",
       "drift_score": 3,
-      "days_tracked": 44,
+      "days_tracked": 45,
       "baseline_date": "2026-08-31",
-      "value_score_now": 42.3,
-      "value_score_prev": 52.7,
+      "value_score_now": 33.6,
+      "value_score_prev": 63.7,
       "drift_flags": [
-        "Score cay\u00f3 10pts en 44d (53\u219242)"
+        "Score cay\u00f3 30pts en 45d (64\u219234)"
       ],
       "improvements": [
-        "FCF yield mejor\u00f3 4.4pp"
+        "Upside analistas subi\u00f3 11pp"
+      ]
+    },
+    {
+      "ticker": "UNH",
+      "company_name": "UnitedHealth Group Incorporated",
+      "sector": "Healthcare",
+      "severity": "MEDIUM",
+      "drift_score": 3,
+      "days_tracked": 45,
+      "baseline_date": "2026-08-31",
+      "value_score_now": 33.0,
+      "value_score_prev": 48.9,
+      "drift_flags": [
+        "Score cay\u00f3 16pts en 45d (49\u219233)"
+      ],
+      "improvements": []
+    },
+    {
+      "ticker": "CVX",
+      "company_name": "Chevron Corporation",
+      "sector": "Energy",
+      "severity": "MEDIUM",
+      "drift_score": 3,
+      "days_tracked": 45,
+      "baseline_date": "2026-08-31",
+      "value_score_now": 32.1,
+      "value_score_prev": 51.6,
+      "drift_flags": [
+        "Score cay\u00f3 20pts en 45d (52\u219232)"
+      ],
+      "improvements": []
+    },
+    {
+      "ticker": "BAC",
+      "company_name": "Bank of America Corporation",
+      "sector": "Financial Services",
+      "severity": "MEDIUM",
+      "drift_score": 3,
+      "days_tracked": 45,
+      "baseline_date": "2026-08-31",
+      "value_score_now": 40.0,
+      "value_score_prev": 54.5,
+      "drift_flags": [
+        "Score cay\u00f3 14pts en 45d (54\u219240)"
+      ],
+      "improvements": [
+        "Upside analistas subi\u00f3 19pp"
       ]
     },
     {
@@ -160,114 +205,76 @@
       "sector": "Consumer Cyclical",
       "severity": "MEDIUM",
       "drift_score": 3,
-      "days_tracked": 44,
+      "days_tracked": 45,
       "baseline_date": "2026-08-31",
-      "value_score_now": 30.6,
+      "value_score_now": 30.8,
       "value_score_prev": 49.9,
       "drift_flags": [
-        "Score cay\u00f3 19pts en 44d (50\u219231)"
-      ],
-      "improvements": [
-        "Upside analistas subi\u00f3 11pp"
-      ]
-    },
-    {
-      "ticker": "IDXX",
-      "company_name": "IDEXX Laboratories, Inc.",
-      "sector": "Healthcare",
-      "severity": "MEDIUM",
-      "drift_score": 3,
-      "days_tracked": 44,
-      "baseline_date": "2026-08-31",
-      "value_score_now": 30.0,
-      "value_score_prev": 52.7,
-      "drift_flags": [
-        "Score cay\u00f3 23pts en 44d (53\u219230)"
+        "Score cay\u00f3 19pts en 45d (50\u219231)"
       ],
       "improvements": [
         "Upside analistas subi\u00f3 9pp"
       ]
     },
     {
-      "ticker": "BAC",
-      "company_name": "Bank of America Corporation",
-      "sector": "Financial Services",
-      "severity": "MEDIUM",
-      "drift_score": 3,
-      "days_tracked": 44,
-      "baseline_date": "2026-08-31",
-      "value_score_now": 35.0,
-      "value_score_prev": 54.5,
-      "drift_flags": [
-        "Score cay\u00f3 19pts en 44d (54\u219235)"
-      ],
-      "improvements": [
-        "Upside analistas subi\u00f3 13pp"
-      ]
-    },
-    {
-      "ticker": "AMS.MC",
-      "company_name": "Amadeus IT Group, S.A.",
-      "sector": "Technology",
-      "severity": "MEDIUM",
-      "drift_score": 3,
-      "days_tracked": 44,
-      "baseline_date": "2026-08-31",
-      "value_score_now": 56.2,
-      "value_score_prev": 58.2,
-      "drift_flags": [
-        "FCF yield cay\u00f3 5.8pp (12.0%\u21926.2%)"
-      ],
-      "improvements": [
-        "Upside analistas subi\u00f3 12pp"
-      ]
-    },
-    {
-      "ticker": "7741.T",
-      "company_name": "HOYA Corporation",
-      "sector": "Healthcare",
-      "severity": "LOW",
-      "drift_score": 2,
-      "days_tracked": 44,
-      "baseline_date": "2026-08-31",
-      "value_score_now": 53.3,
-      "value_score_prev": 46.5,
-      "drift_flags": [
-        "Upside analistas cay\u00f3 10pp (28%\u219218%)"
-      ],
-      "improvements": []
-    },
-    {
-      "ticker": "WTKWY",
-      "company_name": "Wolters Kluwer N.V.",
+      "ticker": "WM",
+      "company_name": "Waste Management, Inc.",
       "sector": "Industrials",
-      "severity": "LOW",
-      "drift_score": 2,
-      "days_tracked": 44,
+      "severity": "MEDIUM",
+      "drift_score": 3,
+      "days_tracked": 45,
       "baseline_date": "2026-08-31",
-      "value_score_now": 42.7,
-      "value_score_prev": 36.5,
+      "value_score_now": 30.3,
+      "value_score_prev": 42.2,
       "drift_flags": [
-        "Upside analistas cay\u00f3 18pp (41%\u219223%)"
+        "Score cay\u00f3 12pts en 45d (42\u219230)"
       ],
       "improvements": []
     },
     {
-      "ticker": "JKHY",
-      "company_name": "Jack Henry & Associates, Inc.",
-      "sector": "Technology",
-      "severity": "LOW",
-      "drift_score": 2,
-      "days_tracked": 44,
+      "ticker": "OXY",
+      "company_name": "Occidental Petroleum Corporation",
+      "sector": "Energy",
+      "severity": "MEDIUM",
+      "drift_score": 3,
+      "days_tracked": 45,
       "baseline_date": "2026-08-31",
-      "value_score_now": 42.1,
-      "value_score_prev": 49.4,
+      "value_score_now": 32.4,
+      "value_score_prev": 65.5,
       "drift_flags": [
-        "Piotroski cay\u00f3 2pts en 44d"
+        "Score cay\u00f3 33pts en 45d (65\u219232)"
       ],
-      "improvements": [
-        "Upside analistas subi\u00f3 11pp"
-      ]
+      "improvements": []
+    },
+    {
+      "ticker": "OTIS",
+      "company_name": "Otis Worldwide Corporation",
+      "sector": "Industrials",
+      "severity": "MEDIUM",
+      "drift_score": 3,
+      "days_tracked": 45,
+      "baseline_date": "2026-08-31",
+      "value_score_now": 30.1,
+      "value_score_prev": 54.0,
+      "drift_flags": [
+        "Score cay\u00f3 24pts en 45d (54\u219230)"
+      ],
+      "improvements": []
+    },
+    {
+      "ticker": "SAP.DE",
+      "company_name": "SAP SE",
+      "sector": "Technology",
+      "severity": "MEDIUM",
+      "drift_score": 3,
+      "days_tracked": 45,
+      "baseline_date": "2026-08-31",
+      "value_score_now": 59.2,
+      "value_score_prev": 71.1,
+      "drift_flags": [
+        "Score cay\u00f3 12pts en 45d (71\u219259)"
+      ],
+      "improvements": []
     },
     {
       "ticker": "STZ",
@@ -275,27 +282,12 @@
       "sector": "Consumer Defensive",
       "severity": "LOW",
       "drift_score": 2,
-      "days_tracked": 44,
+      "days_tracked": 45,
       "baseline_date": "2026-08-31",
       "value_score_now": 32.5,
       "value_score_prev": 33.8,
       "drift_flags": [
-        "Upside analistas cay\u00f3 22pp (42%\u219219%)"
-      ],
-      "improvements": []
-    },
-    {
-      "ticker": "DOL.TO",
-      "company_name": "Dollarama Inc.",
-      "sector": "Consumer Defensive",
-      "severity": "LOW",
-      "drift_score": 2,
-      "days_tracked": 44,
-      "baseline_date": "2026-08-31",
-      "value_score_now": 34.4,
-      "value_score_prev": 43.0,
-      "drift_flags": [
-        "Upside analistas cay\u00f3 13pp (20%\u21928%)"
+        "Upside analistas cay\u00f3 23pp (42%\u219219%)"
       ],
       "improvements": []
     },
@@ -305,16 +297,48 @@
       "sector": "Industrials",
       "severity": "LOW",
       "drift_score": 2,
-      "days_tracked": 44,
+      "days_tracked": 45,
       "baseline_date": "2026-08-31",
-      "value_score_now": 65.1,
+      "value_score_now": 63.6,
       "value_score_prev": 54.2,
       "drift_flags": [
         "Upside analistas cay\u00f3 11pp (26%\u219215%)"
       ],
       "improvements": [
-        "Score mejor\u00f3 11pts (54\u219265)"
+        "Score mejor\u00f3 9pts (54\u219264)"
       ]
+    },
+    {
+      "ticker": "LONN.SW",
+      "company_name": "Lonza Group AG",
+      "sector": "Healthcare",
+      "severity": "LOW",
+      "drift_score": 2,
+      "days_tracked": 45,
+      "baseline_date": "2026-08-31",
+      "value_score_now": 40.4,
+      "value_score_prev": 32.4,
+      "drift_flags": [
+        "Upside analistas cay\u00f3 8pp (26%\u219218%)"
+      ],
+      "improvements": [
+        "Score mejor\u00f3 8pts (32\u219240)"
+      ]
+    },
+    {
+      "ticker": "CPR.MI",
+      "company_name": "Davide Campari-Milano N.V.",
+      "sector": "Consumer Defensive",
+      "severity": "LOW",
+      "drift_score": 2,
+      "days_tracked": 45,
+      "baseline_date": "2026-08-31",
+      "value_score_now": 30.8,
+      "value_score_prev": 31.8,
+      "drift_flags": [
+        "Upside analistas cay\u00f3 9pp (20%\u219212%)"
+      ],
+      "improvements": []
     }
   ]
 }

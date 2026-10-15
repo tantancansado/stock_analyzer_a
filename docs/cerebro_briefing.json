@@ -1,20 +1,25 @@
 {
-  "generated_at": "2026-10-14",
+  "generated_at": "2026-10-15",
   "regime": "NEUTRAL",
-  "narrative": "R\u00e9gimen NEUTRAL. 0 oportunidades de entrada, 2 se\u00f1ales de salida HIGH. Sin trampas de valor relevantes.",
+  "narrative": "1. Mantenga posici\u00f3n en AZN.L y eval\u00fae una posible ampliaci\u00f3n, ya que sigue con score 50 y sin se\u00f1ales negativas.  \n2. Aproveche la convergencia multi\u2011estrategia en MSFT, VRSN y MA; VRSN muestra inter\u00e9s de \u201c1 HF\u201d en smart\u2011money, lo que sugiere entrada.  \n3. Vigile de cerca los alertas de AAL.L (insider buying), ADP (drift de score) y AON (streak) para detectar cambios de tendencia temprana.  \n4. Evite operar con OXY, EXPN.L y QSR, cuyas ca\u00eddas de score indican deterioro de valoraci\u00f3n m\u00e1s que de fundamentals.  \n5. Con macro sin estr\u00e9s y mercados neutrales, enfoque en calidad y liquidez; limite exposici\u00f3n a sectores vol\u00e1tiles y espere confirmaciones antes de abrir nuevas posiciones.",
   "sections": {
     "regime": "NEUTRAL",
     "strong_buy_count": 0,
-    "buy_count": 0,
-    "top_entries": [],
+    "buy_count": 1,
+    "top_entries": [
+      [
+        "AZN.L",
+        50
+      ]
+    ],
     "top_convergences": [
       [
         "MSFT",
-        84
+        82
       ],
       [
         "VRSN",
-        70
+        68
       ],
       [
         "MA",
@@ -31,25 +36,32 @@
         "SCORE_DRIFT"
       ],
       [
-        "AVGO",
-        "SCORE_DRIFT"
+        "AON",
+        "STREAK"
       ]
     ],
     "traps_warning": [],
     "exit_warnings": [
       [
+        "OXY",
+        "Score cay\u00f3 30pts (62 \u2192 32)",
+        "El score fundamental en base de datos sigue alto (77.3/100), sugiriendo que la ca\u00edda del score compuesto es m\u00e1s por precio/valoraci\u00f3n que por deterioro del negocio.",
+        62.24000000000001,
+        32.42
+      ],
+      [
         "EXPN.L",
         "Ya no aparece en VALUE \u2014 tesis posiblemente rota",
-        "Experian ha mantenido hist\u00f3ricamente crecimiento de ingresos y m\u00e1rgenes estables, sin reportes recientes (hasta el conocimiento disponible) de profit warnings o cambios dr\u00e1sticos de gesti\u00f3n.",
+        "Hasta la fecha de corte de mi conocimiento, Experian segu\u00eda reportando crecimiento org\u00e1nico consistente y sin profit warnings significativos; la salida de VALUE es m\u00e1s coherente con una suba de precio que con deterioro del negocio.",
         60.88499999999999,
         null
       ],
       [
         "QSR",
         "Score cay\u00f3 28pts (59 \u2192 31)",
-        "Burger King EE.UU. hab\u00eda mostrado ventas comparables d\u00e9biles y necesidad de reinversi\u00f3n (plan 'Reclaim the Flame'), pero no hay evidencia de un evento negativo mayor reciente; la ca\u00edda de score podr\u00eda reflejar m\u00e1s presi\u00f3n de precio/m\u00faltiplo que fundamentales rotos.",
+        "Restaurant Brands ha enfrentado desaf\u00edos de bajo rendimiento en Burger King US y necesidad de reinversi\u00f3n en el 'Reclaim the Flame' plan, pero sin un evento disruptivo reciente conocido hasta mi corte de entrenamiento.",
         59.09,
-        30.6
+        30.765
       ]
     ],
     "smart_money": [

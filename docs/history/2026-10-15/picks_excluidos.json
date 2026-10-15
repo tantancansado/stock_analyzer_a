@@ -1,0 +1,41 @@
+{
+  "listas": {
+    "value_opportunities": {
+      "candidatas": 70,
+      "publicadas": 65,
+      "excluidos": [
+        {
+          "ticker": "ERIE",
+          "paso": "rangos_imposibles",
+          "motivo": "Falta analyst_upside_pct: no se recomienda lo que no se puede evaluar",
+          "score": 44.989999999999995
+        },
+        {
+          "ticker": "KYCCF",
+          "paso": "rangos_imposibles",
+          "motivo": "Falta analyst_upside_pct: no se recomienda lo que no se puede evaluar",
+          "score": 36.652
+        },
+        {
+          "ticker": "WTKWY",
+          "paso": "verificador_ia",
+          "motivo": "upside analyst 24.9% vs triangulated 110.3%: brecha de 85.4 puntos sin que upside_requiere_verificacion esté marcado como true. Esto sugiere un descuento enorme (110% upside) que debería disparar verificación. · rev_growth_yoy 3.5% con upside DCF 110.3% es defensible si el margen y FCF aguantan, pero la ficha muestra FCF_yield 8.04% (muy alto) y peg 1.02 que sostienen el upside. Sin embargo, la ausencia de flag de verificación con tal divergencia es inconsistente con el contrato de la ficha.",
+          "score": 57.285
+        },
+        {
+          "ticker": "ZTS",
+          "paso": "verificador_ia",
+          "motivo": "rev_growth_yoy -0.2% (contracción) con upside triangulated 86.9% (DCF) y analyst 26%: descuento gigantesco en mercado que DESMIENTE la recomendación. Ingresos no crecen, el descuento no es oportunidad sino señal de deterioro. · Fundamental_score 53.5 (más bajo que value_score 50.3, muy bajo para recomendación con +86% upside) y proximity_to_52w_high -49.2% confirman debilidad estructural. PEG 1.12 con crecimiento negativo es métrica sin sentido.",
+          "score": 50.30000000000001
+        },
+        {
+          "ticker": "DVA",
+          "paso": "verificador_ia",
+          "motivo": "modelos_acuerdo CONTRADICEN brutalmente (DCF +166.7% vs P/E -13.2%, dispersion_pts 179.9 segundo pico) sin triangular. Upside analyst 21.7% sin soporte en modelos. · Upside_divergence MEDIA pero la dispersión es MÁXIMA: el sistema registra inconsistencia extrema. FCF_yield 10.77% extraordinariamente alto sugiere valor de liquidación o leverage anómalo, no oportunidad de crecimiento.",
+          "score": 44.38000000000001
+        }
+      ]
+    }
+  },
+  "generated_at": "2026-10-15T04:57:01Z"
+}

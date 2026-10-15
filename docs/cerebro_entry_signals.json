@@ -1,31 +1,32 @@
 {
-  "generated_at": "2026-10-14",
-  "total": 2,
+  "generated_at": "2026-10-15",
+  "total": 3,
   "strong_buy": 0,
-  "buy": 0,
-  "monitor": 1,
-  "wait": 1,
-  "narrative": null,
+  "buy": 1,
+  "monitor": 0,
+  "wait": 2,
+  "narrative": "",
   "signals": [
     {
       "ticker": "AZN.L",
       "company_name": "AstraZeneca PLC",
       "region": "EU",
       "sector": "Healthcare",
-      "value_score": 67.3,
+      "value_score": 68.9,
       "conviction_grade": "nan",
-      "current_price": 12302.462,
-      "analyst_upside_pct": 28.4,
-      "fcf_yield_pct": 3.09,
-      "risk_reward_ratio": 3.55,
-      "days_in_value": 2,
+      "current_price": 12300.0,
+      "analyst_upside_pct": 28.3,
+      "fcf_yield_pct": 3.08,
+      "risk_reward_ratio": 3.54,
+      "days_in_value": 3,
       "streak_days": 1,
-      "entry_score": 40,
-      "signal": "MONITOR",
+      "entry_score": 50,
+      "signal": "BUY",
       "signals_fired": [
         "Upside en banda dorada [10,30)",
         "Insider buying",
-        "Analyst revision \u2191"
+        "Analyst revision \u2191",
+        "En VALUE \u22653 d\u00edas"
       ],
       "signals_pts": [
         {
@@ -39,6 +40,10 @@
         {
           "name": "Analyst revision \u2191",
           "pts": 5
+        },
+        {
+          "name": "En VALUE \u22653 d\u00edas",
+          "pts": 10
         }
       ],
       "signals_missing": [
@@ -47,38 +52,79 @@
         "Sin se\u00f1al MR oversold",
         "Sin opciones alcistas",
         "Sector no l\u00edder",
-        "R\u00e9gimen no alcista",
-        "Solo 2d en VALUE"
+        "R\u00e9gimen no alcista"
       ],
       "rsi": null,
       "earnings_warning": false,
-      "days_to_earnings": 17
+      "days_to_earnings": 15
     },
     {
-      "ticker": "CBOE",
-      "company_name": "Cboe Global Markets, Inc.",
+      "ticker": "MA",
+      "company_name": "Mastercard Incorporated",
       "region": "US",
       "sector": "Financial Services",
-      "value_score": 61.39,
-      "conviction_grade": "A",
-      "current_price": 292.25,
-      "analyst_upside_pct": 10.2,
-      "fcf_yield_pct": 6.2,
-      "risk_reward_ratio": 1.27,
+      "value_score": 63.255,
+      "conviction_grade": "C",
+      "current_price": 603.24,
+      "analyst_upside_pct": 11.0,
+      "fcf_yield_pct": 3.07,
+      "risk_reward_ratio": 1.38,
       "days_in_value": 1,
-      "streak_days": 1,
-      "entry_score": 20,
+      "streak_days": 7,
+      "entry_score": 25,
       "signal": "WAIT",
       "signals_fired": [
-        "FCF yield \u22655%",
         "Upside en banda dorada [10,30)",
+        "Options flow alcista",
         "Analyst revision \u2191"
       ],
       "signals_pts": [
         {
-          "name": "FCF yield \u22655%",
+          "name": "Upside en banda dorada [10,30)",
           "pts": 10
         },
+        {
+          "name": "Options flow alcista",
+          "pts": 15
+        },
+        {
+          "name": "Analyst revision \u2191",
+          "pts": 5
+        }
+      ],
+      "signals_missing": [
+        "Value score <80",
+        "FCF yield <5%",
+        "Sin insider buying (espera)",
+        "Sin se\u00f1al MR oversold",
+        "Sector no l\u00edder",
+        "R\u00e9gimen no alcista",
+        "Solo 1d en VALUE"
+      ],
+      "rsi": null,
+      "earnings_warning": false,
+      "days_to_earnings": 14
+    },
+    {
+      "ticker": "MSFT",
+      "company_name": "Microsoft Corporation",
+      "region": "US",
+      "sector": "Technology",
+      "value_score": 61.32499999999999,
+      "conviction_grade": "B",
+      "current_price": 533.69,
+      "analyst_upside_pct": 10.6,
+      "fcf_yield_pct": 1.69,
+      "risk_reward_ratio": 1.32,
+      "days_in_value": 1,
+      "streak_days": 19,
+      "entry_score": 10,
+      "signal": "WAIT",
+      "signals_fired": [
+        "Upside en banda dorada [10,30)",
+        "Analyst revision \u2191"
+      ],
+      "signals_pts": [
         {
           "name": "Upside en banda dorada [10,30)",
           "pts": 10
@@ -90,6 +136,7 @@
       ],
       "signals_missing": [
         "Value score <80",
+        "FCF yield <5%",
         "Sin insider buying (espera)",
         "Sin se\u00f1al MR oversold",
         "Sin opciones alcistas",
@@ -99,7 +146,7 @@
       ],
       "rsi": null,
       "earnings_warning": false,
-      "days_to_earnings": 16
+      "days_to_earnings": 13
     }
   ]
 }
