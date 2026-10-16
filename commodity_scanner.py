@@ -56,9 +56,13 @@ UNIVERSE = [
     ("WEAT",    "Teucrium Wheat Fund",             "Agricultural",   "Trigo",          "USD", "WEAT.L"),
     ("CORN",    "Teucrium Corn Fund",              "Agricultural",   "Maíz",           "USD", "CORN.L"),
     ("SOYB",    "Teucrium Soybean Fund",           "Agricultural",   "Soja",           "USD", "SOYB.L"),
-    ("JO",      "iPath Bloomberg Coffee ETN",      "Agricultural",   "Café",           "USD", "COFF.L"),
-    ("NIB",     "iPath Bloomberg Cocoa ETN",       "Agricultural",   "Cacao",          "USD", "COCO.L"),
-    ("BAL",     "iPath Bloomberg Cotton ETN",      "Agricultural",   "Algodón",        "USD", "COTN.L"),
+    # Los ETN de iPath (JO, NIB, BAL) están retirados: Yahoo ya no da precio y
+    # el escáner los saltaba en silencio (NIB, BAL) o publicaba el último
+    # precio muerto (JO, «$54,00»). Los ETC de WisdomTree en Londres cotizan en
+    # dólares y están vivos; la alternativa para IBKR Irlanda es su lista en Milán.
+    ("COFF.L",  "WisdomTree Coffee (ETC, Londres)", "Agricultural",   "Café",           "USD", "COFF.MI"),
+    ("COCO.L",  "WisdomTree Cocoa (ETC, Londres)",  "Agricultural",   "Cacao",          "USD", "COCO.MI"),
+    ("COTN.L",  "WisdomTree Cotton (ETC, Londres)", "Agricultural",   "Algodón",        "USD", "COTN.MI"),
     ("CANE",    "Teucrium Sugar Fund",             "Agricultural",   "Azúcar",         "USD", "SUGA.L"),
     # ── Diversificados ────────────────────────────────────────────────────────
     ("PDBC",    "Invesco Optimum Yield Diversified","Diversified",   "Diversificado",  "USD", "CMOD.L"),
@@ -84,9 +88,9 @@ HIST_AVG_PRICE_RATIO = {
     "WEAT": 1.0,
     "CORN": 1.0,
     "SOYB": 1.0,
-    "JO":   1.0,
-    "NIB":  1.0,
-    "BAL":  1.0,
+    "COFF.L": 1.0,
+    "COCO.L": 1.0,
+    "COTN.L": 1.0,
     "CANE": 1.0,
     "PDBC": 1.0,
     "DBC":  1.0,
@@ -211,6 +215,23 @@ def _seasonality_signal(sector: str, commodity_type: str, month: int) -> str:
     return seas_map.get(month, "neutral")
 
 
+# Cómo replica cada ETF a su materia prima. Importa para leer «barato frente a su
+# media»: un fondo de futuros (USO, UNG...) arrastra el coste de renovar
+# contratos —contango—, así que su precio puede caer años sin que la materia
+# prima baje; en uno físico (GLD, SLV...) el precio ES la materia prima.
+ESTRUCTURA = {
+    "GLD": "fisico", "SLV": "fisico", "PPLT": "fisico", "PALL": "fisico",
+    "COPX": "mineras",
+}
+
+# Una cotización más vieja que esto es un ETF retirado o parado, no un dato.
+MAX_DIAS_SIN_COTIZAR = 7
+
+
+def _estructura(ticker: str) -> str:
+    return ESTRUCTURA.get(ticker, "futuros")
+
+
 def _safe(val, default=None):
     if val is None:
         return default
@@ -237,6 +258,20 @@ def _fetch_commodity_data(ticker: str) -> dict | None:
         if price is None or price <= 0:
             print(f"  [SKIP] {ticker}: no price")
             return None
+
+        # El precio de `info` puede ser un resto de un fondo retirado (JO salía a
+        # 54,00 sin una sola cotización en dos años). El histórico diario manda:
+        # sin cotización reciente no hay dato, y el motivo se publica.
+        hist_d = t.history(period="2y", interval="1d")
+        if hist_d is None or hist_d.empty:
+            return {"_sin_dato": "sin cotización en Yahoo: el fondo parece retirado"}
+        ultima = hist_d.index[-1].date()
+        dias = (datetime.now(timezone.utc).date() - ultima).days
+        if dias > MAX_DIAS_SIN_COTIZAR:
+            return {"_sin_dato": f"última cotización hace {dias} días ({ultima})"}
+        ultimo_cierre = float(hist_d["Close"].iloc[-1])
+        if abs(price / ultimo_cierre - 1) > 0.10:
+            return {"_sin_dato": f"el precio ({price:.2f}) no cuadra con el último cierre ({ultimo_cierre:.2f})"}
 
         week52_high = _safe(info.get("fiftyTwoWeekHigh"))
         week52_low  = _safe(info.get("fiftyTwoWeekLow"))
@@ -310,6 +345,7 @@ def _fetch_commodity_data(ticker: str) -> dict | None:
             "dist_yield_pct":  dist_yield_pct,
             "expense_ratio_pct": expense_ratio,
             "short_name":      short_name,
+            "ultima_cotizacion": str(ultima),
         }
 
     except Exception as e:
@@ -423,6 +459,44 @@ def _recommendation(
     return f"{sector}: caro respecto a media histórica. No es momento de entrada. {ctx.get('bearish', '')}"
 
 
+NARRATIVA_COLS = ("ai_narrative_veredicto", "ai_narrative_resumen",
+                  "ai_narrative_fuentes", "ai_narrative_fecha")
+NARRATIVA_MAX_DIAS = 8
+
+
+def _conservar_narrativa(df: pd.DataFrame, now: datetime) -> pd.DataFrame:
+    """La narrativa con fuentes se calcula los lunes; el escáner corre a diario.
+
+    Reescribir el CSV sin mirar el anterior borraba esas columnas al día
+    siguiente: la narrativa de pago (búsqueda web) vivía un día de cada siete.
+    Se arrastra la del CSV previo mientras tenga menos de una semana, con su
+    fecha, para que quien la lea sepa de cuándo es.
+    """
+    if not OUTPUT.exists():
+        return df
+    try:
+        previo = pd.read_csv(OUTPUT, dtype=str).fillna("")
+    except Exception:
+        return df
+    if "ai_narrative_fecha" not in previo.columns:
+        return df
+    por_ticker = {r["ticker"]: r for _, r in previo.iterrows()}
+    for col in NARRATIVA_COLS:
+        df[col] = ""
+    for i, fila in df.iterrows():
+        ant = por_ticker.get(fila["ticker"])
+        if ant is None:
+            continue
+        try:
+            edad = (now.date() - datetime.fromisoformat(ant["ai_narrative_fecha"]).date()).days
+        except ValueError:
+            continue
+        if 0 <= edad <= NARRATIVA_MAX_DIAS:
+            for col in NARRATIVA_COLS:
+                df.at[i, col] = ant.get(col, "")
+    return df
+
+
 def scan() -> pd.DataFrame:
     now = datetime.now(timezone.utc)
     current_month = now.month
@@ -437,8 +511,23 @@ def scan() -> pd.DataFrame:
         data = _fetch_commodity_data(ticker)
         time.sleep(0.5)  # rate limit
 
-        if data is None:
-            print("SKIP")
+        if data is None or "_sin_dato" in data:
+            # Sin dato NO es sin fila: saltarlo escondía que tres ETN estaban
+            # muertos. Se publica con el motivo, para que se vea y se arregle.
+            motivo = (data or {}).get("_sin_dato", "no se pudo descargar de Yahoo")
+            print(f"SIN DATO — {motivo}")
+            rows.append({
+                "ticker": ticker, "name": name, "short_name": name,
+                "commodity_type": commodity_type, "sector": sector,
+                "currency": currency, "ibkr_ireland": False,
+                "eu_alternative": eu_alt or "",
+                "value_rating": "SIN_DATO", "momentum_signal": "NEUTRAL",
+                "seasonality": "neutral",
+                "recommendation": f"{sector}: sin dato fiable ({motivo}). No se valora.",
+                "etf_estructura": _estructura(ticker),
+                "data_ok": False, "data_motivo": motivo,
+                "generated_at": now.isoformat(),
+            })
             continue
 
         # Estacionalidad del mes actual — sector específico si existe
@@ -498,6 +587,10 @@ def scan() -> pd.DataFrame:
             "cycle_driver":      ctx.get("driver", ""),
             "cycle_bullish":     ctx.get("bullish", ""),
             "cycle_bearish":     ctx.get("bearish", ""),
+            "etf_estructura":    _estructura(ticker),
+            "ultima_cotizacion": data["ultima_cotizacion"],
+            "data_ok":           True,
+            "data_motivo":       "",
             "generated_at":      now.isoformat(),
         })
 
@@ -512,10 +605,13 @@ def scan() -> pd.DataFrame:
     # Ordenar: mejor rating primero, luego por range_position ascendente (más barato primero)
     rating_order = {"MUY_ATRACTIVO": 0, "ATRACTIVO": 1, "NEUTRAL": 2, "CARO": 3, "SIN_DATO": 4}
     df["_r"] = df["value_rating"].map(rating_order).fillna(4)
-    df["_rng"] = df["range_position"].fillna(0.5)
+    if "range_position" not in df:
+        df["range_position"] = None
+    df["_rng"] = pd.to_numeric(df["range_position"], errors="coerce").fillna(0.5)
     df = df.sort_values(["_r", "_rng"]).drop(columns=["_r", "_rng"]).reset_index(drop=True)
 
     DOCS.mkdir(exist_ok=True)
+    df = _conservar_narrativa(df, now)
     df.to_csv(OUTPUT, index=False)
     print(f"\n✅ Guardado: {OUTPUT} ({len(df)} commodities)")
 

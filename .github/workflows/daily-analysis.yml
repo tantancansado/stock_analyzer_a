@@ -483,6 +483,18 @@ jobs:
             echo "No es lunes — narrativa de commodities omitida (ahorro de API)"
           fi
 
+      # Diario y barato: una sola llamada solo con los ETF que la regla marca
+      # como atractivos (1-4), y ninguna si no hay. Sin esto un «barato» de
+      # futuros con contango se publicaba como señal. Fail-closed: lo que no
+      # verifica se enseña como «sin verificar». Va DESPUÉS de la narrativa
+      # para poder usarla cuando existe.
+      - name: Commodity AI Gate — verifica los ETF atractivos
+        continue-on-error: true
+        timeout-minutes: 5
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python3 commodity_ai_gate.py
+
       - name: Check Price Alerts (send emails via Resend)
         continue-on-error: true
         env:

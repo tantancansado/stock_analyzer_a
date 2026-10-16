@@ -2241,6 +2241,15 @@ export interface CommodityOpportunity {
   cycle_bullish: string
   cycle_bearish: string
   generated_at: string
+  etf_estructura: string
+  data_ok: boolean
+  data_motivo: string
+  ai_verified: boolean | null
+  ai_gate_motivo: string
+  ai_narrative_veredicto: string
+  ai_narrative_resumen: string
+  ai_narrative_fuentes: string
+  ai_narrative_fecha: string
 }
 
 export async function fetchCommodities(): Promise<CommodityOpportunity[]> {
@@ -2286,6 +2295,15 @@ export async function fetchCommodities(): Promise<CommodityOpportunity[]> {
         cycle_bullish:    row.cycle_bullish ?? '',
         cycle_bearish:    row.cycle_bearish ?? '',
         generated_at:     row.generated_at ?? '',
+        etf_estructura:   row.etf_estructura ?? '',
+        data_ok:          row.data_ok !== 'False',
+        data_motivo:      row.data_motivo ?? '',
+        ai_verified:      row.ai_verified === 'True' ? true : row.ai_verified === 'False' ? false : null,
+        ai_gate_motivo:   row.ai_gate_motivo ?? '',
+        ai_narrative_veredicto: row.ai_narrative_veredicto ?? '',
+        ai_narrative_resumen:   row.ai_narrative_resumen ?? '',
+        ai_narrative_fuentes:   row.ai_narrative_fuentes ?? '',
+        ai_narrative_fecha:     row.ai_narrative_fecha ?? '',
       }
     })
   } catch {

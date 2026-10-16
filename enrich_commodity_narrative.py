@@ -12,6 +12,7 @@ CSV ya está publicado y solo se queda sin las columnas de narrativa.
 from __future__ import annotations
 
 import csv
+from datetime import datetime, timezone
 from pathlib import Path
 
 from commodity_narrative_analyzer import enrich
@@ -39,7 +40,8 @@ def main() -> None:
         print('   Sin veredictos — Claude no disponible o presupuesto agotado antes del primero')
         return
 
-    nuevas = ('ai_narrative_veredicto', 'ai_narrative_resumen', 'ai_narrative_fuentes')
+    nuevas = ('ai_narrative_veredicto', 'ai_narrative_resumen', 'ai_narrative_fuentes',
+              'ai_narrative_fecha')
     for c in nuevas:
         if c not in fieldnames:
             fieldnames.append(c)
@@ -50,6 +52,7 @@ def main() -> None:
             r['ai_narrative_veredicto'] = v['veredicto']
             r['ai_narrative_resumen'] = v['resumen']
             r['ai_narrative_fuentes'] = ' | '.join(v['fuentes'])
+            r['ai_narrative_fecha'] = datetime.now(timezone.utc).date().isoformat()
 
     with CSV.open('w', newline='') as fh:
         writer = csv.DictWriter(fh, fieldnames=fieldnames)

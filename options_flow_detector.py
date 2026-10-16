@@ -19,6 +19,17 @@ from typing import List, Dict, Tuple
 import json
 
 
+
+def _sin_nan(obj):
+    """NaN e infinitos no son JSON: Python los escribe y el navegador no los lee."""
+    if isinstance(obj, float) and (obj != obj or obj in (float('inf'), float('-inf'))):
+        return None
+    if isinstance(obj, dict):
+        return {k: _sin_nan(v) for k, v in obj.items()}
+    if isinstance(obj, list):
+        return [_sin_nan(v) for v in obj]
+    return obj
+
 class OptionsFlowDetector:
     """Detector de flujo institucional de opciones"""
 
@@ -101,6 +112,12 @@ class OptionsFlowDetector:
 
                     if volume is None or volume == 0:
                         continue
+                    # Interés abierto desconocido (Yahoo lo devuelve NaN) no es
+                    # cero: tratado como cero, el ratio volumen/OI salía igual al
+                    # volumen (1.433×) y el contrato pasaba por «inusual» sin
+                    # base. Sin OI no se puede decir que el volumen sea inusual.
+                    if oi is None or oi != oi:
+                        continue
 
                     # Calculate metrics
                     vol_oi_ratio = volume / oi if oi > 0 else volume
@@ -136,6 +153,12 @@ class OptionsFlowDetector:
                     strike = row.get('strike', 0)
 
                     if volume is None or volume == 0:
+                        continue
+                    # Interés abierto desconocido (Yahoo lo devuelve NaN) no es
+                    # cero: tratado como cero, el ratio volumen/OI salía igual al
+                    # volumen (1.433×) y el contrato pasaba por «inusual» sin
+                    # base. Sin OI no se puede decir que el volumen sea inusual.
+                    if oi is None or oi != oi:
                         continue
 
                     vol_oi_ratio = volume / oi if oi > 0 else volume
@@ -367,7 +390,7 @@ class OptionsFlowDetector:
         }
 
         with open(json_path, 'w') as f:
-            json.dump(results_dict, f, indent=2)
+            json.dump(_sin_nan(results_dict), f, indent=2)
 
         print(f"📊 JSON guardado: {json_path}")
 
