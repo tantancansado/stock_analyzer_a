@@ -48,12 +48,12 @@
       "worst": -37.59
     },
     "180d": {
-      "count": 822,
-      "win_rate": 65.9,
-      "ci_low": 62.6,
-      "ci_high": 69.1,
-      "avg_return": 7.26,
-      "median_return": 8.98,
+      "count": 826,
+      "win_rate": 66.1,
+      "ci_low": 62.8,
+      "ci_high": 69.2,
+      "avg_return": 7.31,
+      "median_return": 9.02,
       "best": 89.88,
       "worst": -43.74
     },
@@ -85,9 +85,9 @@
   },
   "conviction": {
     "7d": {
-      "count": 150,
-      "win_rate": 39.3,
-      "avg_return": -0.45,
+      "count": 151,
+      "win_rate": 39.7,
+      "avg_return": -0.4,
       "basis": "golden_zone_hist"
     }
   },
@@ -131,12 +131,12 @@
       "basis": "eu_full_hist"
     },
     "180d": {
-      "count": 694,
-      "win_rate": 63.7,
-      "ci_low": 60.0,
-      "ci_high": 67.2,
-      "avg_return": 5.31,
-      "median_return": 7.43,
+      "count": 698,
+      "win_rate": 63.9,
+      "ci_low": 60.3,
+      "ci_high": 67.4,
+      "avg_return": 5.39,
+      "median_return": 7.45,
       "best": 39.33,
       "worst": -34.76,
       "basis": "eu_full_hist"
@@ -158,7 +158,7 @@
   },
   "bounce_strategies": {
     "BOUNCE_BROAD": {
-      "count": 39,
+      "count": 40,
       "7d": {
         "count": 37,
         "win_rate": 21.6,
@@ -232,8 +232,8 @@
         "ci_high": null
       }
     },
-    "edad_max_dias": 56,
-    "dias_hasta_primera_lectura": 34,
+    "edad_max_dias": 57,
+    "dias_hasta_primera_lectura": 33,
     "con_contrato": 136,
     "nota": "el contrato se sigue por su s\u00edmbolo OCC; son opciones poco l\u00edquidas, as\u00ed que un checkpoint sin cotizaci\u00f3n en 10 d\u00edas se queda vac\u00edo en vez de arrastrar un precio viejo"
   },
@@ -384,7 +384,7 @@
       "signal_price": 292.25,
       "sector": "Financial Services",
       "value_score": 61.39,
-      "days_active": 1,
+      "days_active": 2,
       "first_result_date": "2026-10-21"
     },
     {
@@ -395,7 +395,7 @@
       "signal_price": 157.42,
       "sector": "Financial Services",
       "value_score": 60.095,
-      "days_active": 2,
+      "days_active": 3,
       "first_result_date": "2026-10-20"
     },
     {
@@ -406,7 +406,7 @@
       "signal_price": 92.37,
       "sector": "Financial Services",
       "value_score": 57.34,
-      "days_active": 6,
+      "days_active": 7,
       "first_result_date": "2026-10-16"
     },
     {
@@ -417,7 +417,7 @@
       "signal_price": 225.98,
       "sector": "Healthcare",
       "value_score": 64.27499999999999,
-      "days_active": 7,
+      "days_active": 8,
       "first_result_date": "2026-10-15"
     },
     {
@@ -428,7 +428,7 @@
       "signal_price": 86.08,
       "sector": "Consumer Defensive",
       "value_score": 59.55500000000001,
-      "days_active": 14,
+      "days_active": 15,
       "first_result_date": "2026-10-08"
     },
     {
@@ -439,7 +439,7 @@
       "signal_price": 473.85,
       "sector": "Financial Services",
       "value_score": 59.17999999999999,
-      "days_active": 21,
+      "days_active": 22,
       "first_result_date": "2026-10-01"
     },
     {
@@ -450,7 +450,7 @@
       "signal_price": 279.37,
       "sector": "Industrials",
       "value_score": 57.52,
-      "days_active": 24,
+      "days_active": 25,
       "first_result_date": "2026-09-28"
     },
     {
@@ -461,7 +461,7 @@
       "signal_price": 1069.78,
       "sector": "Financial Services",
       "value_score": 54.08,
-      "days_active": 26,
+      "days_active": 27,
       "first_result_date": "2026-09-26"
     },
     {
@@ -472,7 +472,7 @@
       "signal_price": 682.31,
       "sector": "Communication Services",
       "value_score": 63.72,
-      "days_active": 27,
+      "days_active": 28,
       "first_result_date": "2026-09-25"
     },
     {
@@ -483,7 +483,7 @@
       "signal_price": 59.29,
       "sector": "Energy",
       "value_score": 53.155,
-      "days_active": 27,
+      "days_active": 28,
       "first_result_date": "2026-09-25"
     },
     {
@@ -494,11 +494,11 @@
       "signal_price": 2120.58,
       "sector": "Financial Services",
       "value_score": 51.92499999999999,
-      "days_active": 27,
+      "days_active": 28,
       "first_result_date": "2026-09-25"
     }
   ],
-  "avg_max_drawdown": -2.67,
+  "avg_max_drawdown": -2.65,
   "alpha": {
     "365d": {
       "count": 0,
@@ -535,20 +535,20 @@
       "worst_alpha": -21.52
     },
     "14d": {
-      "count": 94,
-      "avg_alpha": -0.48,
-      "avg_signal_return": 0.31,
+      "count": 95,
+      "avg_alpha": -0.41,
+      "avg_signal_return": 0.38,
       "avg_benchmark_return": 0.79,
-      "positive_alpha_rate": 45.7,
+      "positive_alpha_rate": 46.3,
       "best_alpha": 12.76,
       "worst_alpha": -12.78
     },
     "7d": {
-      "count": 95,
-      "avg_alpha": -0.43,
-      "avg_signal_return": 0.27,
-      "avg_benchmark_return": 0.7,
-      "positive_alpha_rate": 44.2,
+      "count": 96,
+      "avg_alpha": -0.35,
+      "avg_signal_return": 0.35,
+      "avg_benchmark_return": 0.69,
+      "positive_alpha_rate": 44.8,
       "best_alpha": 11.23,
       "worst_alpha": -12.04
     }
@@ -589,11 +589,11 @@
       "worst_alpha": -21.52
     },
     "14d": {
-      "count": 82,
-      "avg_alpha": -0.58,
-      "avg_signal_return": 0.55,
+      "count": 83,
+      "avg_alpha": -0.5,
+      "avg_signal_return": 0.63,
       "avg_benchmark_return": 1.13,
-      "positive_alpha_rate": 43.9,
+      "positive_alpha_rate": 44.6,
       "best_alpha": 12.76,
       "worst_alpha": -12.78
     }
@@ -607,12 +607,12 @@
       "avg_benchmark_return": null
     },
     "180d": {
-      "count": 694,
-      "avg_alpha": -4.29,
-      "avg_signal_return": 5.31,
-      "avg_benchmark_return": 9.6,
-      "positive_alpha_rate": 45.7,
-      "best_alpha": 36.51,
+      "count": 698,
+      "avg_alpha": -4.14,
+      "avg_signal_return": 5.39,
+      "avg_benchmark_return": 9.53,
+      "positive_alpha_rate": 46.0,
+      "best_alpha": 38.61,
       "worst_alpha": -47.3
     },
     "90d": {
@@ -643,5 +643,5 @@
       "worst_alpha": -4.98
     }
   },
-  "generated_at": "2026-10-15T05:21:21.166221"
+  "generated_at": "2026-10-16T05:10:24.122278"
 }
