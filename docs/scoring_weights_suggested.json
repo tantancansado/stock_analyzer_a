@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-15",
+  "generated_at": "2026-10-16",
   "status": "PENDING_REVIEW",
   "note": "These weights are suggestions only. Apply manually after review.",
   "current_weights": {
@@ -47,5 +47,5 @@
     }
   ],
   "expected_impact": "Based on 783 historical signals",
-  "narrative": "Los ajustes har\u00e1n que los valores con flujo de caja libre negativo pierdan m\u00e1s puntuaci\u00f3n, reduciendo su tasa de aciertos en torno a 8 puntos porcentuales, mientras que elevar el umbral m\u00ednimo a 70\u202f+ concentrar\u00e1 la selecci\u00f3n en los picks con mayor puntuaci\u00f3n, incrementando la tasa de aciertos global hacia el 80\u202f% o m\u00e1s. En conjunto, se espera"
+  "narrative": "Los ajustes propuestos har\u00e1n que los flujos de caja libres negativos penalicen al portafolio de forma m\u00e1s dr\u00e1stica, reduciendo el win\u2011rate en torno a 8 puntos porcentuales, mientras que elevar el umbral m\u00ednimo a 70\u202f+ para los picks publicados concentrar\u00e1 la exposici\u00f3n en los mejores scores, lo que deber\u00eda elevar el win\u2011rate global a aproximadamente un 66\u202f% o m\u00e1s. En conjunto, se espera una mayor selectividad y una mejora del rendimiento medio, siempre bajo revisi\u00f3n humana antes de su implementaci\u00f3n."
 }

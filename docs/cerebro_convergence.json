@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-10-15",
-  "total_convergences": 10,
+  "generated_at": "2026-10-16",
+  "total_convergences": 12,
   "triple_or_more": 1,
   "convergences": [
     {
@@ -13,16 +13,16 @@
         "MOMENTUM"
       ],
       "strategy_count": 3,
-      "convergence_score": 82,
-      "value_score": 61.32499999999999,
+      "convergence_score": 83,
+      "value_score": 69.595,
       "conviction_grade": "B",
-      "analyst_upside_pct": 10.6,
-      "fcf_yield_pct": 1.69,
-      "current_price": 533.69,
-      "streak_days": 19,
+      "analyst_upside_pct": 10.2,
+      "fcf_yield_pct": 1.67,
+      "current_price": 539.44,
+      "streak_days": 20,
       "earnings_warning": false,
-      "days_to_earnings": 13.0,
-      "analysis": "La coincidencia de tres estrategias (VALUE, OPTIONS y MOMENTUM"
+      "days_to_earnings": 12.0,
+      "analysis": "La coincidencia de los tres enfoques (VALUE, OPTIONS y MOMENTUM) durante 20\u202fd\u00edas consecutivos indica que la acci\u00f3n est\u00e1 alineando varios impulsores fundamentales, t\u00e9cnicos y de volatilidad, lo que refuerza la probabilidad de que el impulso alcista proyectado (\u224810\u202f% de upside) sea m\u00e1s sostenible. Sin embargo, es prudente vigilar la evoluci\u00f3n del flujo de caja libre (actualmente solo 1,67\u202f%) y mantener"
     },
     {
       "ticker": "VRSN",
@@ -34,35 +34,15 @@
       ],
       "strategy_count": 2,
       "convergence_score": 68,
-      "value_score": 40.535,
+      "value_score": 41.04,
       "conviction_grade": "nan",
-      "analyst_upside_pct": 7.6,
-      "fcf_yield_pct": 3.96,
-      "current_price": 301.41,
-      "streak_days": 33,
+      "analyst_upside_pct": 6.7,
+      "fcf_yield_pct": 3.92,
+      "current_price": 304.09,
+      "streak_days": 34,
       "earnings_warning": true,
-      "days_to_earnings": 7.0,
-      "analysis": "Convergencia de 2 estrategias: VALUE, INSIDERS."
-    },
-    {
-      "ticker": "MA",
-      "company_name": "Mastercard Incorporated",
-      "sector": "Financial Services",
-      "strategies": [
-        "VALUE",
-        "OPTIONS"
-      ],
-      "strategy_count": 2,
-      "convergence_score": 62,
-      "value_score": 63.255,
-      "conviction_grade": "C",
-      "analyst_upside_pct": 11.0,
-      "fcf_yield_pct": 3.07,
-      "current_price": 603.24,
-      "streak_days": 7,
-      "earnings_warning": false,
-      "days_to_earnings": 14.0,
-      "analysis": "La convergencia de los indicadores de **VALUE** y **OPTIONS** durante 7 d\u00edas consecutivos sugiere que tanto los fundamentos (valoraci\u00f3n razonable, flujo de caja libre del\u202f3.07\u202f%) como la presi\u00f3n del mercado de opciones (volatilidad impl\u00edcita, niveles de soporte/resistencia) est\u00e1n alineados, lo que refuerza la se\u00f1al de un posible upside del\u202f11\u202f% y reduce la incertidumbre de un movimiento aislado.  \n\nSin embargo"
+      "days_to_earnings": 6.0,
+      "analysis": "La convergencia de los indicadores **VALUE** e **INSIDERS** durante 34\u202fd\u00edas consecutivos sugiere que tanto los fundamentos de valoraci\u00f3n como el flujo de informaci\u00f3n privilegiada est\u00e1n alineados, lo que refuerza la confianza de que el precio actual est\u00e1 subvalorado y que los insiders siguen acumulando acciones. Sin embargo, hay que ser cauteloso por el pr\u00f3ximo reporte de ganancias en 6\u202fd\u00edas (que puede generar volatilidad), por la calificaci\u00f3n \u201cnan\u201d del grade y por la exposici\u00f3n a riesgos sector"
     },
     {
       "ticker": "KO",
@@ -74,14 +54,34 @@
       ],
       "strategy_count": 2,
       "convergence_score": 62,
-      "value_score": 62.99000000000001,
+      "value_score": 62.81999999999999,
       "conviction_grade": "nan",
-      "analyst_upside_pct": 3.0,
-      "fcf_yield_pct": 3.6,
-      "current_price": 91.78,
-      "streak_days": 6,
+      "analyst_upside_pct": 2.7,
+      "fcf_yield_pct": 3.59,
+      "current_price": 92.0,
+      "streak_days": 7,
       "earnings_warning": false,
-      "days_to_earnings": 12.0,
+      "days_to_earnings": 11.0,
+      "analysis": "La convergencia de los indicadores\u202fVALUE y\u202fOPTIONS durante 7\u202fd\u00edas seguidos sugiere que el mercado est\u00e1 alineando simult\u00e1neamente la valoraci\u00f3n fundamental (FCF\u202f+\u202f2.7\u202f% de upside) y la presi\u00f3n de los operadores de opciones, lo que puede reforzar la tendencia alcista y ofrecer una se\u00f1al m\u00e1s robusta que un solo factor aislado. Sin embargo, es prudente vigilar la volatilidad impl\u00edcita de las opciones, el nivel"
+    },
+    {
+      "ticker": "MA",
+      "company_name": "Mastercard Incorporated",
+      "sector": "Financial Services",
+      "strategies": [
+        "VALUE",
+        "OPTIONS"
+      ],
+      "strategy_count": 2,
+      "convergence_score": 61,
+      "value_score": 55.275000000000006,
+      "conviction_grade": "nan",
+      "analyst_upside_pct": 8.8,
+      "fcf_yield_pct": 3.0,
+      "current_price": 616.32,
+      "streak_days": 8,
+      "earnings_warning": false,
+      "days_to_earnings": 13.0,
       "analysis": null
     },
     {
@@ -99,27 +99,7 @@
       "analyst_upside_pct": null,
       "fcf_yield_pct": null,
       "current_price": null,
-      "streak_days": 11,
-      "earnings_warning": false,
-      "days_to_earnings": null,
-      "analysis": null
-    },
-    {
-      "ticker": "LIN",
-      "company_name": "",
-      "sector": "",
-      "strategies": [
-        "INSIDERS",
-        "OPTIONS"
-      ],
-      "strategy_count": 2,
-      "convergence_score": 60,
-      "value_score": null,
-      "conviction_grade": "",
-      "analyst_upside_pct": null,
-      "fcf_yield_pct": null,
-      "current_price": null,
-      "streak_days": 6,
+      "streak_days": 12,
       "earnings_warning": false,
       "days_to_earnings": null,
       "analysis": null
@@ -139,29 +119,9 @@
       "analyst_upside_pct": null,
       "fcf_yield_pct": null,
       "current_price": null,
-      "streak_days": 5,
+      "streak_days": 6,
       "earnings_warning": false,
       "days_to_earnings": null,
-      "analysis": null
-    },
-    {
-      "ticker": "V",
-      "company_name": "Visa Inc.",
-      "sector": "Financial Services",
-      "strategies": [
-        "VALUE",
-        "OPTIONS"
-      ],
-      "strategy_count": 2,
-      "convergence_score": 57,
-      "value_score": 37.365,
-      "conviction_grade": "nan",
-      "analyst_upside_pct": 7.4,
-      "fcf_yield_pct": 2.87,
-      "current_price": 391.43,
-      "streak_days": 3,
-      "earnings_warning": false,
-      "days_to_earnings": 12.0,
       "analysis": null
     },
     {
@@ -173,35 +133,115 @@
         "OPTIONS"
       ],
       "strategy_count": 2,
-      "convergence_score": 47,
-      "value_score": 35.045,
+      "convergence_score": 50,
+      "value_score": 50.97,
       "conviction_grade": "nan",
-      "analyst_upside_pct": 5.1,
-      "fcf_yield_pct": 5.23,
-      "current_price": 108.37,
-      "streak_days": 1,
+      "analyst_upside_pct": 2.8,
+      "fcf_yield_pct": 5.11,
+      "current_price": 110.78,
+      "streak_days": 2,
       "earnings_warning": false,
-      "days_to_earnings": 64.0,
+      "days_to_earnings": 63.0,
       "analysis": null
     },
     {
-      "ticker": "CVX",
-      "company_name": "Chevron Corporation",
-      "sector": "Energy",
+      "ticker": "SYK",
+      "company_name": "",
+      "sector": "",
+      "strategies": [
+        "INSIDERS",
+        "OPTIONS"
+      ],
+      "strategy_count": 2,
+      "convergence_score": 50,
+      "value_score": null,
+      "conviction_grade": "",
+      "analyst_upside_pct": null,
+      "fcf_yield_pct": null,
+      "current_price": null,
+      "streak_days": 1,
+      "earnings_warning": false,
+      "days_to_earnings": null,
+      "analysis": null
+    },
+    {
+      "ticker": "BR",
+      "company_name": "Broadridge Financial Solutions, Inc.",
+      "sector": "Technology",
+      "strategies": [
+        "VALUE",
+        "OPTIONS"
+      ],
+      "strategy_count": 2,
+      "convergence_score": 50,
+      "value_score": 53.77499999999999,
+      "conviction_grade": "B",
+      "analyst_upside_pct": 22.6,
+      "fcf_yield_pct": 6.27,
+      "current_price": 174.11,
+      "streak_days": 1,
+      "earnings_warning": false,
+      "days_to_earnings": 18.0,
+      "analysis": null
+    },
+    {
+      "ticker": "ICE",
+      "company_name": "Intercontinental Exchange, Inc.",
+      "sector": "Financial Services",
       "strategies": [
         "VALUE",
         "MOMENTUM"
       ],
       "strategy_count": 2,
-      "convergence_score": 46,
-      "value_score": 32.1,
-      "conviction_grade": "nan",
-      "analyst_upside_pct": 2.7,
-      "fcf_yield_pct": 6.42,
-      "current_price": 222.04,
+      "convergence_score": 47,
+      "value_score": 39.735,
+      "conviction_grade": "B",
+      "analyst_upside_pct": 18.4,
+      "fcf_yield_pct": 5.31,
+      "current_price": 158.41,
       "streak_days": 1,
       "earnings_warning": false,
-      "days_to_earnings": 15.0,
+      "days_to_earnings": 13.0,
+      "analysis": null
+    },
+    {
+      "ticker": "MCO",
+      "company_name": "Moody's Corporation",
+      "sector": "Financial Services",
+      "strategies": [
+        "VALUE",
+        "OPTIONS"
+      ],
+      "strategy_count": 2,
+      "convergence_score": 46,
+      "value_score": 34.195,
+      "conviction_grade": "C",
+      "analyst_upside_pct": 14.8,
+      "fcf_yield_pct": 3.57,
+      "current_price": 483.69,
+      "streak_days": 1,
+      "earnings_warning": true,
+      "days_to_earnings": 5.0,
+      "analysis": null
+    },
+    {
+      "ticker": "WM",
+      "company_name": "Waste Management, Inc.",
+      "sector": "Industrials",
+      "strategies": [
+        "VALUE",
+        "OPTIONS"
+      ],
+      "strategy_count": 2,
+      "convergence_score": 46,
+      "value_score": 30.995000000000005,
+      "conviction_grade": "C",
+      "analyst_upside_pct": 13.1,
+      "fcf_yield_pct": 3.67,
+      "current_price": 224.19,
+      "streak_days": 1,
+      "earnings_warning": false,
+      "days_to_earnings": 11.0,
       "analysis": null
     }
   ]

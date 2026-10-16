@@ -1,0 +1,943 @@
+{
+  "generated_at": "2026-10-16",
+  "total": 74,
+  "high_count": 37,
+  "alerts": [
+    {
+      "ticker": "AAL.L",
+      "type": "INSIDER_BUYING",
+      "severity": "HIGH",
+      "title": "Insider buying en AAL.L",
+      "message": "27 compras por 12 directivos. Se\u00f1al de convicci\u00f3n interna.",
+      "date": "2026-10-16",
+      "data": {
+        "purchase_count": 27.0,
+        "unique_insiders": 12.0
+      }
+    },
+    {
+      "ticker": "AON",
+      "type": "STREAK",
+      "severity": "HIGH",
+      "title": "AON \u2014 6 d\u00edas en convergencia",
+      "message": "Lleva 6 d\u00edas consecutivos en 2 estrategias. Se\u00f1al persistente de alta convicci\u00f3n.",
+      "date": "2026-10-16",
+      "data": {
+        "streak_days": 6,
+        "strategies": [
+          "INSIDERS",
+          "OPTIONS"
+        ]
+      }
+    },
+    {
+      "ticker": "ASAZY",
+      "type": "SCORE_DRIFT",
+      "severity": "HIGH",
+      "title": "Tesis en riesgo: ASAZY",
+      "message": "Score baj\u00f3 25 pts (de 56 \u2192 31). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
+      "date": "2026-10-16",
+      "data": {
+        "original_score": 56.2,
+        "current_score": 31.0,
+        "drop": 25.2
+      }
+    },
+    {
+      "ticker": "BA.L",
+      "type": "INSIDER_BUYING",
+      "severity": "HIGH",
+      "title": "Insider buying en BA.L",
+      "message": "21 compras por 11 directivos. Se\u00f1al de convicci\u00f3n interna.",
+      "date": "2026-10-16",
+      "data": {
+        "purchase_count": 21.0,
+        "unique_insiders": 11.0
+      }
+    },
+    {
+      "ticker": "BARC.L",
+      "type": "INSIDER_BUYING",
+      "severity": "HIGH",
+      "title": "Insider buying en BARC.L",
+      "message": "18 compras por 16 directivos. Se\u00f1al de convicci\u00f3n interna.",
+      "date": "2026-10-16",
+      "data": {
+        "purchase_count": 18.0,
+        "unique_insiders": 16.0
+      }
+    },
+    {
+      "ticker": "BATS.L",
+      "type": "INSIDER_BUYING",
+      "severity": "HIGH",
+      "title": "Insider buying en BATS.L",
+      "message": "38 compras por 14 directivos. Se\u00f1al de convicci\u00f3n interna.",
+      "date": "2026-10-16",
+      "data": {
+        "purchase_count": 38.0,
+        "unique_insiders": 14.0
+      }
+    },
+    {
+      "ticker": "BP.L",
+      "type": "INSIDER_BUYING",
+      "severity": "HIGH",
+      "title": "Insider buying en BP.L",
+      "message": "18 compras por 5 directivos. Se\u00f1al de convicci\u00f3n interna.",
+      "date": "2026-10-16",
+      "data": {
+        "purchase_count": 18.0,
+        "unique_insiders": 5.0
+      }
+    },
+    {
+      "ticker": "BSX",
+      "type": "INSIDER_BUYING",
+      "severity": "HIGH",
+      "title": "Insider buying en BSX",
+      "message": "15 compras por 2 directivos. Se\u00f1al de convicci\u00f3n interna.",
+      "date": "2026-10-16",
+      "data": {
+        "purchase_count": 15.0,
+        "unique_insiders": 2.0
+      }
+    },
+    {
+      "ticker": "BT-A.L",
+      "type": "INSIDER_BUYING",
+      "severity": "HIGH",
+      "title": "Insider buying en BT-A.L",
+      "message": "4 compras por 3 directivos. Se\u00f1al de convicci\u00f3n interna.",
+      "date": "2026-10-16",
+      "data": {
+        "purchase_count": 4.0,
+        "unique_insiders": 3.0
+      }
+    },
+    {
+      "ticker": "CME",
+      "type": "STREAK",
+      "severity": "HIGH",
+      "title": "CME \u2014 12 d\u00edas en convergencia",
+      "message": "Lleva 12 d\u00edas consecutivos en 2 estrategias. Se\u00f1al persistente de alta convicci\u00f3n.",
+      "date": "2026-10-16",
+      "data": {
+        "streak_days": 12,
+        "strategies": [
+          "INSIDERS",
+          "OPTIONS"
+        ]
+      }
+    },
+    {
+      "ticker": "DGE.L",
+      "type": "INSIDER_BUYING",
+      "severity": "HIGH",
+      "title": "Insider buying en DGE.L",
+      "message": "12 compras por 6 directivos. Se\u00f1al de convicci\u00f3n interna.",
+      "date": "2026-10-16",
+      "data": {
+        "purchase_count": 12.0,
+        "unique_insiders": 6.0
+      }
+    },
+    {
+      "ticker": "GSK.L",
+      "type": "INSIDER_BUYING",
+      "severity": "HIGH",
+      "title": "Insider buying en GSK.L",
+      "message": "20 compras por 10 directivos. Se\u00f1al de convicci\u00f3n interna.",
+      "date": "2026-10-16",
+      "data": {
+        "purchase_count": 20.0,
+        "unique_insiders": 10.0
+      }
+    },
+    {
+      "ticker": "HEI",
+      "type": "INSIDER_BUYING",
+      "severity": "HIGH",
+      "title": "Insider buying en HEI",
+      "message": "24 compras por 2 directivos. Se\u00f1al de convicci\u00f3n interna.",
+      "date": "2026-10-16",
+      "data": {
+        "purchase_count": 24.0,
+        "unique_insiders": 2.0
+      }
+    },
+    {
+      "ticker": "HSBA.L",
+      "type": "INSIDER_BUYING",
+      "severity": "HIGH",
+      "title": "Insider buying en HSBA.L",
+      "message": "11 compras por 9 directivos. Se\u00f1al de convicci\u00f3n interna.",
+      "date": "2026-10-16",
+      "data": {
+        "purchase_count": 11.0,
+        "unique_insiders": 9.0
+      }
+    },
+    {
+      "ticker": "JKHY",
+      "type": "SCORE_DRIFT",
+      "severity": "HIGH",
+      "title": "Tesis en riesgo: JKHY",
+      "message": "Score baj\u00f3 30 pts (de 60 \u2192 30). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
+      "date": "2026-10-16",
+      "data": {
+        "original_score": 60.1,
+        "current_score": 30.1,
+        "drop": 30.0
+      }
+    },
+    {
+      "ticker": "KO",
+      "type": "STREAK",
+      "severity": "HIGH",
+      "title": "KO \u2014 7 d\u00edas en convergencia",
+      "message": "Lleva 7 d\u00edas consecutivos en 2 estrategias. Se\u00f1al persistente de alta convicci\u00f3n.",
+      "date": "2026-10-16",
+      "data": {
+        "streak_days": 7,
+        "strategies": [
+          "VALUE",
+          "OPTIONS"
+        ]
+      }
+    },
+    {
+      "ticker": "LAND.L",
+      "type": "INSIDER_BUYING",
+      "severity": "HIGH",
+      "title": "Insider buying en LAND.L",
+      "message": "8 compras por 2 directivos. Se\u00f1al de convicci\u00f3n interna.",
+      "date": "2026-10-16",
+      "data": {
+        "purchase_count": 8.0,
+        "unique_insiders": 2.0
+      }
+    },
+    {
+      "ticker": "LLOY.L",
+      "type": "INSIDER_BUYING",
+      "severity": "HIGH",
+      "title": "Insider buying en LLOY.L",
+      "message": "21 compras por 8 directivos. Se\u00f1al de convicci\u00f3n interna.",
+      "date": "2026-10-16",
+      "data": {
+        "purchase_count": 21.0,
+        "unique_insiders": 8.0
+      }
+    },
+    {
+      "ticker": "MA",
+      "type": "STREAK",
+      "severity": "HIGH",
+      "title": "MA \u2014 8 d\u00edas en convergencia",
+      "message": "Lleva 8 d\u00edas consecutivos en 2 estrategias. Se\u00f1al persistente de alta convicci\u00f3n.",
+      "date": "2026-10-16",
+      "data": {
+        "streak_days": 8,
+        "strategies": [
+          "VALUE",
+          "OPTIONS"
+        ]
+      }
+    },
+    {
+      "ticker": "MCO",
+      "type": "SCORE_DRIFT",
+      "severity": "HIGH",
+      "title": "Tesis en riesgo: MCO",
+      "message": "Score baj\u00f3 29 pts (de 63 \u2192 34). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
+      "date": "2026-10-16",
+      "data": {
+        "original_score": 62.8,
+        "current_score": 34.2,
+        "drop": 28.6
+      }
+    },
+    {
+      "ticker": "MNDI.L",
+      "type": "INSIDER_BUYING",
+      "severity": "HIGH",
+      "title": "Insider buying en MNDI.L",
+      "message": "6 compras por 2 directivos. Se\u00f1al de convicci\u00f3n interna.",
+      "date": "2026-10-16",
+      "data": {
+        "purchase_count": 6.0,
+        "unique_insiders": 2.0
+      }
+    },
+    {
+      "ticker": "MSFT",
+      "type": "STREAK",
+      "severity": "HIGH",
+      "title": "MSFT \u2014 20 d\u00edas en convergencia",
+      "message": "Lleva 20 d\u00edas consecutivos en 3 estrategias. Se\u00f1al persistente de alta convicci\u00f3n.",
+      "date": "2026-10-16",
+      "data": {
+        "streak_days": 20,
+        "strategies": [
+          "VALUE",
+          "OPTIONS",
+          "MOMENTUM"
+        ]
+      }
+    },
+    {
+      "ticker": "NG.L",
+      "type": "INSIDER_BUYING",
+      "severity": "HIGH",
+      "title": "Insider buying en NG.L",
+      "message": "4 compras por 2 directivos. Se\u00f1al de convicci\u00f3n interna.",
+      "date": "2026-10-16",
+      "data": {
+        "purchase_count": 4.0,
+        "unique_insiders": 2.0
+      }
+    },
+    {
+      "ticker": "NWG.L",
+      "type": "INSIDER_BUYING",
+      "severity": "HIGH",
+      "title": "Insider buying en NWG.L",
+      "message": "22 compras por 12 directivos. Se\u00f1al de convicci\u00f3n interna.",
+      "date": "2026-10-16",
+      "data": {
+        "purchase_count": 22.0,
+        "unique_insiders": 12.0
+      }
+    },
+    {
+      "ticker": "PRU.L",
+      "type": "INSIDER_BUYING",
+      "severity": "HIGH",
+      "title": "Insider buying en PRU.L",
+      "message": "14 compras por 7 directivos. Se\u00f1al de convicci\u00f3n interna.",
+      "date": "2026-10-16",
+      "data": {
+        "purchase_count": 14.0,
+        "unique_insiders": 7.0
+      }
+    },
+    {
+      "ticker": "QSR",
+      "type": "SCORE_DRIFT",
+      "severity": "HIGH",
+      "title": "Tesis en riesgo: QSR",
+      "message": "Score baj\u00f3 31 pts (de 62 \u2192 31). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
+      "date": "2026-10-16",
+      "data": {
+        "original_score": 62.4,
+        "current_score": 31.4,
+        "drop": 31.0
+      }
+    },
+    {
+      "ticker": "RIO.L",
+      "type": "INSIDER_BUYING",
+      "severity": "HIGH",
+      "title": "Insider buying en RIO.L",
+      "message": "6 compras por 6 directivos. Se\u00f1al de convicci\u00f3n interna.",
+      "date": "2026-10-16",
+      "data": {
+        "purchase_count": 6.0,
+        "unique_insiders": 6.0
+      }
+    },
+    {
+      "ticker": "RR.L",
+      "type": "INSIDER_BUYING",
+      "severity": "HIGH",
+      "title": "Insider buying en RR.L",
+      "message": "15 compras por 6 directivos. Se\u00f1al de convicci\u00f3n interna.",
+      "date": "2026-10-16",
+      "data": {
+        "purchase_count": 15.0,
+        "unique_insiders": 6.0
+      }
+    },
+    {
+      "ticker": "SAP.DE",
+      "type": "INSIDER_BUYING",
+      "severity": "HIGH",
+      "title": "Insider buying en SAP.DE",
+      "message": "3 compras por 3 directivos. Se\u00f1al de convicci\u00f3n interna.",
+      "date": "2026-10-16",
+      "data": {
+        "purchase_count": 3.0,
+        "unique_insiders": 3.0
+      }
+    },
+    {
+      "ticker": "SSE.L",
+      "type": "INSIDER_BUYING",
+      "severity": "HIGH",
+      "title": "Insider buying en SSE.L",
+      "message": "38 compras por 10 directivos. Se\u00f1al de convicci\u00f3n interna.",
+      "date": "2026-10-16",
+      "data": {
+        "purchase_count": 38.0,
+        "unique_insiders": 10.0
+      }
+    },
+    {
+      "ticker": "STAN.L",
+      "type": "INSIDER_BUYING",
+      "severity": "HIGH",
+      "title": "Insider buying en STAN.L",
+      "message": "8 compras por 8 directivos. Se\u00f1al de convicci\u00f3n interna.",
+      "date": "2026-10-16",
+      "data": {
+        "purchase_count": 8.0,
+        "unique_insiders": 8.0
+      }
+    },
+    {
+      "ticker": "TSCO.L",
+      "type": "INSIDER_BUYING",
+      "severity": "HIGH",
+      "title": "Insider buying en TSCO.L",
+      "message": "17 compras por 7 directivos. Se\u00f1al de convicci\u00f3n interna.",
+      "date": "2026-10-16",
+      "data": {
+        "purchase_count": 17.0,
+        "unique_insiders": 7.0
+      }
+    },
+    {
+      "ticker": "ULVR.L",
+      "type": "INSIDER_BUYING",
+      "severity": "HIGH",
+      "title": "Insider buying en ULVR.L",
+      "message": "14 compras por 9 directivos. Se\u00f1al de convicci\u00f3n interna.",
+      "date": "2026-10-16",
+      "data": {
+        "purchase_count": 14.0,
+        "unique_insiders": 9.0
+      }
+    },
+    {
+      "ticker": "UNA.AS",
+      "type": "INSIDER_BUYING",
+      "severity": "HIGH",
+      "title": "Insider buying en UNA.AS",
+      "message": "14 compras por 9 directivos. Se\u00f1al de convicci\u00f3n interna.",
+      "date": "2026-10-16",
+      "data": {
+        "purchase_count": 14.0,
+        "unique_insiders": 9.0
+      }
+    },
+    {
+      "ticker": "VOD.L",
+      "type": "INSIDER_BUYING",
+      "severity": "HIGH",
+      "title": "Insider buying en VOD.L",
+      "message": "5 compras por 5 directivos. Se\u00f1al de convicci\u00f3n interna.",
+      "date": "2026-10-16",
+      "data": {
+        "purchase_count": 5.0,
+        "unique_insiders": 5.0
+      }
+    },
+    {
+      "ticker": "VRSN",
+      "type": "SCORE_DRIFT",
+      "severity": "HIGH",
+      "title": "Tesis en riesgo: VRSN",
+      "message": "Score baj\u00f3 28 pts (de 69 \u2192 41). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
+      "date": "2026-10-16",
+      "data": {
+        "original_score": 69.0,
+        "current_score": 41.0,
+        "drop": 28.0
+      }
+    },
+    {
+      "ticker": "VRSN",
+      "type": "STREAK",
+      "severity": "HIGH",
+      "title": "VRSN \u2014 34 d\u00edas en convergencia",
+      "message": "Lleva 34 d\u00edas consecutivos en 2 estrategias. Se\u00f1al persistente de alta convicci\u00f3n.",
+      "date": "2026-10-16",
+      "data": {
+        "streak_days": 34,
+        "strategies": [
+          "VALUE",
+          "INSIDERS"
+        ]
+      }
+    },
+    {
+      "ticker": "ABBN.SW",
+      "type": "EARNINGS_WARNING",
+      "severity": "MEDIUM",
+      "title": "Earnings de ABBN.SW en 5d",
+      "message": "Score VALUE 36. Earnings en 5 d\u00edas \u2014 evita entrar.",
+      "date": "2026-10-16",
+      "data": {
+        "days_to_earnings": 5.0,
+        "value_score": 36.4
+      }
+    },
+    {
+      "ticker": "ADSK",
+      "type": "SCORE_DRIFT",
+      "severity": "MEDIUM",
+      "title": "Tesis en riesgo: ADSK",
+      "message": "Score baj\u00f3 20 pts (de 57 \u2192 37). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
+      "date": "2026-10-16",
+      "data": {
+        "original_score": 57.2,
+        "current_score": 37.2,
+        "drop": 19.9
+      }
+    },
+    {
+      "ticker": "AME",
+      "type": "INSIDER_BUYING",
+      "severity": "MEDIUM",
+      "title": "Insider buying en AME",
+      "message": "4 compras por 1 directivos. Se\u00f1al de convicci\u00f3n interna.",
+      "date": "2026-10-16",
+      "data": {
+        "purchase_count": 4.0,
+        "unique_insiders": 1.0
+      }
+    },
+    {
+      "ticker": "AON",
+      "type": "INSIDER_BUYING",
+      "severity": "MEDIUM",
+      "title": "Insider buying en AON",
+      "message": "3 compras por 1 directivos. Se\u00f1al de convicci\u00f3n interna.",
+      "date": "2026-10-16",
+      "data": {
+        "purchase_count": 3.0,
+        "unique_insiders": 1.0
+      }
+    },
+    {
+      "ticker": "ATCO-B.ST",
+      "type": "EARNINGS_WARNING",
+      "severity": "MEDIUM",
+      "title": "Earnings de ATCO-B.ST en 7d",
+      "message": "Score VALUE 49. Earnings en 7 d\u00edas \u2014 evita entrar.",
+      "date": "2026-10-16",
+      "data": {
+        "days_to_earnings": 7.0,
+        "value_score": 48.6
+      }
+    },
+    {
+      "ticker": "ATO",
+      "type": "INSIDER_BUYING",
+      "severity": "MEDIUM",
+      "title": "Insider buying en ATO",
+      "message": "4 compras por 1 directivos. Se\u00f1al de convicci\u00f3n interna.",
+      "date": "2026-10-16",
+      "data": {
+        "purchase_count": 4.0,
+        "unique_insiders": 1.0
+      }
+    },
+    {
+      "ticker": "AUTO.L",
+      "type": "SCORE_DRIFT",
+      "severity": "MEDIUM",
+      "title": "Tesis en riesgo: AUTO.L",
+      "message": "Score baj\u00f3 19 pts (de 61 \u2192 41). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
+      "date": "2026-10-16",
+      "data": {
+        "original_score": 60.6,
+        "current_score": 41.4,
+        "drop": 19.2
+      }
+    },
+    {
+      "ticker": "AXP",
+      "type": "EARNINGS_WARNING",
+      "severity": "MEDIUM",
+      "title": "Earnings de AXP en 7d",
+      "message": "Score VALUE 37. Earnings en 7 d\u00edas \u2014 evita entrar.",
+      "date": "2026-10-16",
+      "data": {
+        "days_to_earnings": 7.0,
+        "value_score": 36.815
+      }
+    },
+    {
+      "ticker": "AXP",
+      "type": "SCORE_DRIFT",
+      "severity": "MEDIUM",
+      "title": "Tesis en riesgo: AXP",
+      "message": "Score baj\u00f3 16 pts (de 53 \u2192 37). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
+      "date": "2026-10-16",
+      "data": {
+        "original_score": 52.6,
+        "current_score": 36.8,
+        "drop": 15.8
+      }
+    },
+    {
+      "ticker": "BR",
+      "type": "NEW_CONVERGENCE",
+      "severity": "MEDIUM",
+      "title": "Nueva convergencia: BR",
+      "message": "Aparece en 2 estrategias: VALUE, OPTIONS. Score convergencia: 50.",
+      "date": "2026-10-16",
+      "data": {
+        "strategies": [
+          "VALUE",
+          "OPTIONS"
+        ],
+        "convergence_score": 50
+      }
+    },
+    {
+      "ticker": "CME",
+      "type": "INSIDER_BUYING",
+      "severity": "MEDIUM",
+      "title": "Insider buying en CME",
+      "message": "6 compras por 1 directivos. Se\u00f1al de convicci\u00f3n interna.",
+      "date": "2026-10-16",
+      "data": {
+        "purchase_count": 6.0,
+        "unique_insiders": 1.0
+      }
+    },
+    {
+      "ticker": "DB1.DE",
+      "type": "EARNINGS_WARNING",
+      "severity": "MEDIUM",
+      "title": "Earnings de DB1.DE en 5d",
+      "message": "Score VALUE 38. Earnings en 5 d\u00edas \u2014 evita entrar.",
+      "date": "2026-10-16",
+      "data": {
+        "days_to_earnings": 5.0,
+        "value_score": 38.2
+      }
+    },
+    {
+      "ticker": "DPZ",
+      "type": "SCORE_DRIFT",
+      "severity": "MEDIUM",
+      "title": "Tesis en riesgo: DPZ",
+      "message": "Score baj\u00f3 22 pts (de 62 \u2192 40). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
+      "date": "2026-10-16",
+      "data": {
+        "original_score": 62.2,
+        "current_score": 40.1,
+        "drop": 22.1
+      }
+    },
+    {
+      "ticker": "ETN",
+      "type": "INSIDER_BUYING",
+      "severity": "MEDIUM",
+      "title": "Insider buying en ETN",
+      "message": "4 compras por 1 directivos. Se\u00f1al de convicci\u00f3n interna.",
+      "date": "2026-10-16",
+      "data": {
+        "purchase_count": 4.0,
+        "unique_insiders": 1.0
+      }
+    },
+    {
+      "ticker": "FCNCA",
+      "type": "EARNINGS_WARNING",
+      "severity": "MEDIUM",
+      "title": "Earnings de FCNCA en 7d",
+      "message": "Score VALUE 39. Earnings en 7 d\u00edas \u2014 evita entrar.",
+      "date": "2026-10-16",
+      "data": {
+        "days_to_earnings": 7.0,
+        "value_score": 38.905
+      }
+    },
+    {
+      "ticker": "HEIG.DE",
+      "type": "INSIDER_BUYING",
+      "severity": "MEDIUM",
+      "title": "Insider buying en HEIG.DE",
+      "message": "3 compras por 1 directivos. Se\u00f1al de convicci\u00f3n interna.",
+      "date": "2026-10-16",
+      "data": {
+        "purchase_count": 3.0,
+        "unique_insiders": 1.0
+      }
+    },
+    {
+      "ticker": "ICE",
+      "type": "SCORE_DRIFT",
+      "severity": "MEDIUM",
+      "title": "Tesis en riesgo: ICE",
+      "message": "Score baj\u00f3 18 pts (de 58 \u2192 40). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
+      "date": "2026-10-16",
+      "data": {
+        "original_score": 57.9,
+        "current_score": 39.7,
+        "drop": 18.2
+      }
+    },
+    {
+      "ticker": "ICE",
+      "type": "NEW_CONVERGENCE",
+      "severity": "MEDIUM",
+      "title": "Nueva convergencia: ICE",
+      "message": "Aparece en 2 estrategias: VALUE, MOMENTUM. Score convergencia: 47.",
+      "date": "2026-10-16",
+      "data": {
+        "strategies": [
+          "VALUE",
+          "MOMENTUM"
+        ],
+        "convergence_score": 47
+      }
+    },
+    {
+      "ticker": "LIN",
+      "type": "INSIDER_BUYING",
+      "severity": "MEDIUM",
+      "title": "Insider buying en LIN",
+      "message": "4 compras por 1 directivos. Se\u00f1al de convicci\u00f3n interna.",
+      "date": "2026-10-16",
+      "data": {
+        "purchase_count": 4.0,
+        "unique_insiders": 1.0
+      }
+    },
+    {
+      "ticker": "MCO",
+      "type": "EARNINGS_WARNING",
+      "severity": "MEDIUM",
+      "title": "Earnings de MCO en 5d",
+      "message": "Score VALUE 34. Earnings en 5 d\u00edas \u2014 evita entrar.",
+      "date": "2026-10-16",
+      "data": {
+        "days_to_earnings": 5.0,
+        "value_score": 34.195
+      }
+    },
+    {
+      "ticker": "MCO",
+      "type": "NEW_CONVERGENCE",
+      "severity": "MEDIUM",
+      "title": "Nueva convergencia: MCO",
+      "message": "Aparece en 2 estrategias: VALUE, OPTIONS. Score convergencia: 46.",
+      "date": "2026-10-16",
+      "data": {
+        "strategies": [
+          "VALUE",
+          "OPTIONS"
+        ],
+        "convergence_score": 46
+      }
+    },
+    {
+      "ticker": "MKC",
+      "type": "INSIDER_BUYING",
+      "severity": "MEDIUM",
+      "title": "Insider buying en MKC",
+      "message": "8 compras por 1 directivos. Se\u00f1al de convicci\u00f3n interna.",
+      "date": "2026-10-16",
+      "data": {
+        "purchase_count": 8.0,
+        "unique_insiders": 1.0
+      }
+    },
+    {
+      "ticker": "MSCI",
+      "type": "INSIDER_BUYING",
+      "severity": "MEDIUM",
+      "title": "Insider buying en MSCI",
+      "message": "3 compras por 1 directivos. Se\u00f1al de convicci\u00f3n interna.",
+      "date": "2026-10-16",
+      "data": {
+        "purchase_count": 3.0,
+        "unique_insiders": 1.0
+      }
+    },
+    {
+      "ticker": "NYT",
+      "type": "SCORE_DRIFT",
+      "severity": "MEDIUM",
+      "title": "Tesis en riesgo: NYT",
+      "message": "Score baj\u00f3 22 pts (de 58 \u2192 36). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
+      "date": "2026-10-16",
+      "data": {
+        "original_score": 58.3,
+        "current_score": 36.0,
+        "drop": 22.3
+      }
+    },
+    {
+      "ticker": "ORCL",
+      "type": "INSIDER_BUYING",
+      "severity": "MEDIUM",
+      "title": "Insider buying en ORCL",
+      "message": "4 compras por 1 directivos. Se\u00f1al de convicci\u00f3n interna.",
+      "date": "2026-10-16",
+      "data": {
+        "purchase_count": 4.0,
+        "unique_insiders": 1.0
+      }
+    },
+    {
+      "ticker": "OTIS",
+      "type": "SCORE_DRIFT",
+      "severity": "MEDIUM",
+      "title": "Tesis en riesgo: OTIS",
+      "message": "Score baj\u00f3 20 pts (de 53 \u2192 34). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
+      "date": "2026-10-16",
+      "data": {
+        "original_score": 53.2,
+        "current_score": 33.7,
+        "drop": 19.5
+      }
+    },
+    {
+      "ticker": "RSG",
+      "type": "INSIDER_BUYING",
+      "severity": "MEDIUM",
+      "title": "Insider buying en RSG",
+      "message": "47 compras por 1 directivos. Se\u00f1al de convicci\u00f3n interna.",
+      "date": "2026-10-16",
+      "data": {
+        "purchase_count": 47.0,
+        "unique_insiders": 1.0
+      }
+    },
+    {
+      "ticker": "SAP",
+      "type": "EARNINGS_WARNING",
+      "severity": "MEDIUM",
+      "title": "Earnings de SAP en 5d",
+      "message": "Score VALUE 44. Earnings en 5 d\u00edas \u2014 evita entrar.",
+      "date": "2026-10-16",
+      "data": {
+        "days_to_earnings": 5.0,
+        "value_score": 44.18000000000001
+      }
+    },
+    {
+      "ticker": "SAP",
+      "type": "SCORE_DRIFT",
+      "severity": "MEDIUM",
+      "title": "Tesis en riesgo: SAP",
+      "message": "Score baj\u00f3 23 pts (de 67 \u2192 44). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
+      "date": "2026-10-16",
+      "data": {
+        "original_score": 67.1,
+        "current_score": 44.2,
+        "drop": 22.9
+      }
+    },
+    {
+      "ticker": "SAP.DE",
+      "type": "EARNINGS_WARNING",
+      "severity": "MEDIUM",
+      "title": "Earnings de SAP.DE en 6d",
+      "message": "Score VALUE 59. Earnings en 6 d\u00edas \u2014 evita entrar.",
+      "date": "2026-10-16",
+      "data": {
+        "days_to_earnings": 6.0,
+        "value_score": 59.2
+      }
+    },
+    {
+      "ticker": "SYK",
+      "type": "INSIDER_BUYING",
+      "severity": "MEDIUM",
+      "title": "Insider buying en SYK",
+      "message": "4 compras por 1 directivos. Se\u00f1al de convicci\u00f3n interna.",
+      "date": "2026-10-16",
+      "data": {
+        "purchase_count": 4.0,
+        "unique_insiders": 1.0
+      }
+    },
+    {
+      "ticker": "SYK",
+      "type": "NEW_CONVERGENCE",
+      "severity": "MEDIUM",
+      "title": "Nueva convergencia: SYK",
+      "message": "Aparece en 2 estrategias: INSIDERS, OPTIONS. Score convergencia: 50.",
+      "date": "2026-10-16",
+      "data": {
+        "strategies": [
+          "INSIDERS",
+          "OPTIONS"
+        ],
+        "convergence_score": 50
+      }
+    },
+    {
+      "ticker": "VLTO",
+      "type": "SCORE_DRIFT",
+      "severity": "MEDIUM",
+      "title": "Tesis en riesgo: VLTO",
+      "message": "Score baj\u00f3 21 pts (de 53 \u2192 32). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
+      "date": "2026-10-16",
+      "data": {
+        "original_score": 52.6,
+        "current_score": 31.5,
+        "drop": 21.0
+      }
+    },
+    {
+      "ticker": "VRSN",
+      "type": "EARNINGS_WARNING",
+      "severity": "MEDIUM",
+      "title": "Earnings de VRSN en 6d",
+      "message": "Score VALUE 41. Earnings en 6 d\u00edas \u2014 evita entrar.",
+      "date": "2026-10-16",
+      "data": {
+        "days_to_earnings": 6.0,
+        "value_score": 41.04
+      }
+    },
+    {
+      "ticker": "VRSN",
+      "type": "INSIDER_BUYING",
+      "severity": "MEDIUM",
+      "title": "Insider buying en VRSN",
+      "message": "4 compras por 1 directivos. Se\u00f1al de convicci\u00f3n interna.",
+      "date": "2026-10-16",
+      "data": {
+        "purchase_count": 4.0,
+        "unique_insiders": 1.0
+      }
+    },
+    {
+      "ticker": "WM",
+      "type": "NEW_CONVERGENCE",
+      "severity": "MEDIUM",
+      "title": "Nueva convergencia: WM",
+      "message": "Aparece en 2 estrategias: VALUE, OPTIONS. Score convergencia: 46.",
+      "date": "2026-10-16",
+      "data": {
+        "strategies": [
+          "VALUE",
+          "OPTIONS"
+        ],
+        "convergence_score": 46
+      }
+    },
+    {
+      "ticker": "ZAL.DE",
+      "type": "INSIDER_BUYING",
+      "severity": "MEDIUM",
+      "title": "Insider buying en ZAL.DE",
+      "message": "18 compras por 1 directivos. Se\u00f1al de convicci\u00f3n interna.",
+      "date": "2026-10-16",
+      "data": {
+        "purchase_count": 18.0,
+        "unique_insiders": 1.0
+      }
+    }
+  ]
+}

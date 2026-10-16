@@ -1,0 +1,49 @@
+{
+  "generated_at": "2026-10-16",
+  "total": 31,
+  "tier1": 0,
+  "tier2": 2,
+  "tier3": 4,
+  "noise_filtered": 25,
+  "actionable": [
+    {
+      "ticker": "BR",
+      "company_name": "Broadridge Financial Solutions, Inc.",
+      "sentiment": "BULLISH",
+      "tier": "TIER2",
+      "quality_score": 45,
+      "value_score": 53.8,
+      "fcf_yield": 6.27,
+      "insider_confirmation": false,
+      "in_value": true,
+      "quality_factors": [
+        "VALUE weak (54pts)",
+        "FCF 6.3%",
+        "DIRECTIONAL (100% calls)"
+      ],
+      "flow_score": 60.0,
+      "total_premium": 145116.0,
+      "detected_date": "2026-10-16"
+    },
+    {
+      "ticker": "PAYX",
+      "company_name": "Paychex, Inc.",
+      "sentiment": "BULLISH",
+      "tier": "TIER2",
+      "quality_score": 45,
+      "value_score": 51.0,
+      "fcf_yield": 5.11,
+      "insider_confirmation": false,
+      "in_value": true,
+      "quality_factors": [
+        "VALUE weak (51pts)",
+        "FCF 5.1%",
+        "DIRECTIONAL (100% calls)"
+      ],
+      "flow_score": 50.0,
+      "total_premium": 13455.0,
+      "detected_date": "2026-10-16"
+    }
+  ],
+  "narrative": "Las opciones tienden a confirmarse \u00fanicamente cuando el precio del activo est\u00e1 alineado con sus fundamentos, porque los traders institucionales usan esos"
+}

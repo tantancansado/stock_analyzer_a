@@ -1,44 +1,34 @@
 {
-  "generated_at": "2026-10-15",
+  "generated_at": "2026-10-16",
   "alerts": [
     {
       "type": "SCORE_UP",
-      "ticker": "RACE",
-      "company_name": "Ferrari N.V.",
-      "sector": "Consumer Cyclical",
-      "score_today": 39.3,
-      "score_prev": 33.7,
-      "delta": 5.6,
-      "grade": "⚪ WEAK"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "BAC",
-      "company_name": "Bank of America Corporation",
-      "sector": "Financial Services",
-      "score_today": 40.0,
-      "score_prev": 35.0,
-      "delta": 5.0,
-      "grade": "⚪ WEAK"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "SAP",
-      "company_name": "SAP SE",
-      "sector": "Technology",
-      "score_today": 42.7,
-      "score_prev": 47.9,
-      "delta": -5.2,
-      "grade": "🔵 DECENT"
-    },
-    {
-      "type": "SCORE_DOWN",
       "ticker": "PAYX",
       "company_name": "Paychex, Inc.",
       "sector": "Technology",
-      "score_today": 35.0,
-      "score_prev": 42.3,
-      "delta": -7.3,
+      "score_today": 51.0,
+      "score_prev": 35.0,
+      "delta": 15.9,
+      "grade": "🔵 DECENT"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "MSFT",
+      "company_name": "Microsoft Corporation",
+      "sector": "Technology",
+      "score_today": 69.6,
+      "score_prev": 61.3,
+      "delta": 8.3,
+      "grade": "⭐ GOOD"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "FHN",
+      "company_name": "First Horizon Corporation",
+      "sector": "Financial Services",
+      "score_today": 49.4,
+      "score_prev": 42.8,
+      "delta": 6.6,
       "grade": "⚪ WEAK"
     },
     {
@@ -46,66 +36,46 @@
       "ticker": "7741.T",
       "company_name": "HOYA Corporation",
       "sector": "Healthcare",
-      "score_today": 45.7,
-      "score_prev": 53.3,
-      "delta": -7.7,
-      "grade": "🔵 DECENT"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "JNJ",
-      "company_name": "Johnson & Johnson",
-      "sector": "Healthcare",
-      "score_today": 34.5,
-      "score_prev": 44.9,
-      "delta": -10.4,
+      "score_today": 40.2,
+      "score_prev": 45.7,
+      "delta": -5.4,
       "grade": "⚪ WEAK"
     },
     {
       "type": "SCORE_DOWN",
-      "ticker": "CBOE",
-      "company_name": "Cboe Global Markets, Inc.",
-      "sector": "Financial Services",
-      "score_today": 50.4,
-      "score_prev": 61.4,
-      "delta": -11.0,
-      "grade": "🔵 DECENT"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "MSFT",
-      "company_name": "Microsoft Corporation",
+      "ticker": "JKHY",
+      "company_name": "Jack Henry & Associates, Inc.",
       "sector": "Technology",
-      "score_today": 61.3,
-      "score_prev": 73.7,
-      "delta": -12.4,
-      "grade": "🔵 DECENT"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "VRSN",
-      "company_name": "VeriSign, Inc.",
-      "sector": "Technology",
-      "score_today": 40.5,
-      "score_prev": 54.5,
-      "delta": -14.0,
+      "score_today": 30.1,
+      "score_prev": 37.2,
+      "delta": -7.0,
       "grade": "⚪ WEAK"
     },
     {
       "type": "SCORE_DOWN",
-      "ticker": "MCO",
-      "company_name": "Moody's Corporation",
+      "ticker": "MA",
+      "company_name": "Mastercard Incorporated",
       "sector": "Financial Services",
-      "score_today": 33.6,
-      "score_prev": 48.1,
-      "delta": -14.5,
+      "score_today": 55.3,
+      "score_prev": 63.3,
+      "delta": -8.0,
+      "grade": "⭐ GOOD"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "BAC",
+      "company_name": "Bank of America Corporation",
+      "sector": "Financial Services",
+      "score_today": 30.0,
+      "score_prev": 40.0,
+      "delta": -10.0,
       "grade": "⚪ WEAK"
     }
   ],
   "counts": {
     "new_entries": 0,
     "exited": 0,
-    "score_up": 2,
-    "score_down": 8
+    "score_up": 3,
+    "score_down": 4
   }
 }

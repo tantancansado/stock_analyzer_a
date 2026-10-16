@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-15",
+  "generated_at": "2026-10-16",
   "total_analyzed": 783,
   "poblacion": "VALUE",
   "baseline_win_rate": 66.4,
@@ -30,7 +30,7 @@
       "horizonte": "90d",
       "win_rate": 63.8,
       "avg_return": 7.4,
-      "avg_return_2": 18.57,
+      "avg_return_2": 18.45,
       "n": 235,
       "vs_baseline_wr": -2.6,
       "vs_baseline_ret": 0.29
@@ -52,7 +52,7 @@
       "horizonte": "90d",
       "win_rate": 67.3,
       "avg_return": 7.76,
-      "avg_return_2": 18.99,
+      "avg_return_2": 18.95,
       "n": 623,
       "vs_baseline_wr": 0.8,
       "vs_baseline_ret": 0.65
@@ -154,7 +154,7 @@
       "horizonte": "90d",
       "win_rate": 43.2,
       "avg_return": 2.68,
-      "avg_return_2": -0.5,
+      "avg_return_2": -0.53,
       "n": 132,
       "vs_baseline_wr": -23.2,
       "vs_baseline_ret": -4.43
@@ -176,7 +176,7 @@
       "horizonte": "90d",
       "win_rate": 60.7,
       "avg_return": 6.92,
-      "avg_return_2": 34.39,
+      "avg_return_2": 34.11,
       "n": 178,
       "vs_baseline_wr": -5.7,
       "vs_baseline_ret": -0.19
@@ -218,7 +218,7 @@
       "horizonte": "90d",
       "win_rate": 59.1,
       "avg_return": 7.23,
-      "avg_return_2": 23.37,
+      "avg_return_2": 23.27,
       "n": 313,
       "vs_baseline_wr": -7.3,
       "vs_baseline_ret": 0.12
@@ -274,5 +274,5 @@
     }
   ],
   "hay_senal": true,
-  "narrative": "- Prioriza acciones con **Score\u202f\u2265\u202f70 y FCF\u202f\u2265\u202f5\u202f%**, ya que este combo ha generado un win\u2011rate del **90.6\u202f%**, el m\u00e1s alto del conjunto.  \n- Enf\u00f3cate en el **sector Financial Services**, que muestra el mejor desempe\u00f1o con un **82.1\u202f%** de win\u2011rate; dentro de \u00e9l, busca empresas que tambi\u00e9n cumplan los criterios de Score y FCF.  \n- Evita se\u00f1ales con Score bajo (menor a 50) o sin generaci\u00f3n de flujo de caja libre, pues su win\u2011rate cae por debajo del 66\u202f% base y reducen la rentabilidad esperada.  \n- No dependas de reg\u00edmenes \u201cN/A\u201d; sin una estrategia clara el win\u2011rate se vuelve indeterminado, por lo que es mejor descartar esas oportunidades."
+  "narrative": "Los mayores impulsores de victorias son los combos de alta puntuaci\u00f3n (Score\u202f\u2265\u202f70) junto con flujo de caja libre \u2265\u202f5\u202f%, que alcanzan un 90,6\u202f% de win\u2011rate; tambi\u00e9n los valores del sector Financial Services sobresalen con 82,1\u202f% de \u00e9xito. En general, priorizar se\u00f1ales con Score\u202f\u2265\u202f70 y FCF\u202f\u2265\u202f5\u202f% maximiza la probabilidad de ganancia y el retorno esperado (~5\u202f%). Se debe evitar operar se\u00f1ales con scores bajos (50\u201160) sin respaldo de FCF, ya que su win\u2011rate cae a 71,7\u202f% y el retorno es menor. Adem\u00e1s, cualquier se\u00f1al fuera del sector Financial Services muestra un desempe\u00f1o inferior, por lo que es prudente limitar la exposici\u00f3n a otros sectores."
 }

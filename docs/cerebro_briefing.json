@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-10-15",
+  "generated_at": "2026-10-16",
   "regime": "NEUTRAL",
-  "narrative": "1. Mantenga posici\u00f3n en AZN.L y eval\u00fae una posible ampliaci\u00f3n, ya que sigue con score 50 y sin se\u00f1ales negativas.  \n2. Aproveche la convergencia multi\u2011estrategia en MSFT, VRSN y MA; VRSN muestra inter\u00e9s de \u201c1 HF\u201d en smart\u2011money, lo que sugiere entrada.  \n3. Vigile de cerca los alertas de AAL.L (insider buying), ADP (drift de score) y AON (streak) para detectar cambios de tendencia temprana.  \n4. Evite operar con OXY, EXPN.L y QSR, cuyas ca\u00eddas de score indican deterioro de valoraci\u00f3n m\u00e1s que de fundamentals.  \n5. Con macro sin estr\u00e9s y mercados neutrales, enfoque en calidad y liquidez; limite exposici\u00f3n a sectores vol\u00e1tiles y espere confirmaciones antes de abrir nuevas posiciones.",
+  "narrative": "Mant\u00e9n posici\u00f3n en AZN.L y considera a\u00f1adir peque\u00f1as compras en MSFT, VRSN y KO, que siguen alineados con la estrategia VALUE. Vigila de cerca los alertas de AAL.L (insider buying), AON (streak de resultados) y ASAZY (desv\u00edo de score) para detectar posibles oportunidades o riesgos emergentes. Evita entrar en EXPN.L, QSR y AON, ya que han salido del ranking VALUE y sus fundamentos no justifican el precio actual. Mantente alerta a cualquier movimiento inesperado en los precios de los t\u00edtulos de la lista de convergencias, ya que el mercado est\u00e1 en un entorno neutral sin estr\u00e9s macro. No sobrepases la exposici\u00f3n total a acciones de alta volatilidad; prioriza la gesti\u00f3n de riesgo y la diversificaci\u00f3n.",
   "sections": {
     "regime": "NEUTRAL",
     "strong_buy_count": 0,
@@ -15,14 +15,14 @@
     "top_convergences": [
       [
         "MSFT",
-        82
+        83
       ],
       [
         "VRSN",
         68
       ],
       [
-        "MA",
+        "KO",
         62
       ]
     ],
@@ -32,36 +32,36 @@
         "INSIDER_BUYING"
       ],
       [
-        "ADP",
-        "SCORE_DRIFT"
-      ],
-      [
         "AON",
         "STREAK"
+      ],
+      [
+        "ASAZY",
+        "SCORE_DRIFT"
       ]
     ],
     "traps_warning": [],
     "exit_warnings": [
       [
-        "OXY",
-        "Score cay\u00f3 30pts (62 \u2192 32)",
-        "El score fundamental en base de datos sigue alto (77.3/100), sugiriendo que la ca\u00edda del score compuesto es m\u00e1s por precio/valoraci\u00f3n que por deterioro del negocio.",
-        62.24000000000001,
-        32.42
-      ],
-      [
         "EXPN.L",
         "Ya no aparece en VALUE \u2014 tesis posiblemente rota",
-        "Hasta la fecha de corte de mi conocimiento, Experian segu\u00eda reportando crecimiento org\u00e1nico consistente y sin profit warnings significativos; la salida de VALUE es m\u00e1s coherente con una suba de precio que con deterioro del negocio.",
+        "La desaparici\u00f3n del ranking VALUE suele reflejar una valoraci\u00f3n m\u00e1s ajustada tras subida de precio, mientras que los fundamentales de Experian (ingresos recurrentes, posici\u00f3n dominante en bureaus de cr\u00e9dito) se han mantenido estables hasta el corte de conocimiento.",
         60.88499999999999,
         null
       ],
       [
         "QSR",
         "Score cay\u00f3 28pts (59 \u2192 31)",
-        "Restaurant Brands ha enfrentado desaf\u00edos de bajo rendimiento en Burger King US y necesidad de reinversi\u00f3n en el 'Reclaim the Flame' plan, pero sin un evento disruptivo reciente conocido hasta mi corte de entrenamiento.",
+        "No hay evidencia clara de guidance cuts, earnings misses severos o cambios de gesti\u00f3n recientes que justifiquen una ca\u00edda tan abrupta; la se\u00f1al podr\u00eda reflejar m\u00e1s un ajuste de valoraci\u00f3n (price-driven) que un cambio fundamental real.",
         59.09,
-        30.765
+        31.365
+      ],
+      [
+        "AON",
+        "Ya no aparece en VALUE \u2014 tesis posiblemente rota",
+        "AON ha mantenido crecimiento de ingresos y m\u00e1rgenes estables, con la fusi\u00f3n fallida con Willis Towers Watson (2021) como evento pasado ya superado, sin se\u00f1ales nuevas de deterioro fundamental.",
+        51.13,
+        null
       ]
     ],
     "smart_money": [

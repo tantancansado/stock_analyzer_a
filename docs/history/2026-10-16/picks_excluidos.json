@@ -1,0 +1,65 @@
+{
+  "listas": {
+    "value_opportunities": {
+      "candidatas": 68,
+      "publicadas": 59,
+      "excluidos": [
+        {
+          "ticker": "ERIE",
+          "paso": "rangos_imposibles",
+          "motivo": "Falta analyst_upside_pct: no se recomienda lo que no se puede evaluar",
+          "score": 45.16
+        },
+        {
+          "ticker": "VCISY",
+          "paso": "rangos_imposibles",
+          "motivo": "DCF fuera de rango: no es una valoración, es un dato roto (visto 260.8, esperado entre -95 y 200)",
+          "score": 41.92
+        },
+        {
+          "ticker": "KYCCF",
+          "paso": "rangos_imposibles",
+          "motivo": "Falta analyst_upside_pct: no se recomienda lo que no se puede evaluar",
+          "score": 36.652
+        },
+        {
+          "ticker": "IDXX",
+          "paso": "verificador_ia",
+          "motivo": "analyst_upside_pct=28.2% pero target_price_dcf_upside_pct=-57.4%: divergencia extrema (85.6 puntos). upside_triangulated_pct=-14.6 intenta promediar pero upside_divergence=ALTA y upside_requiere_verificacion=false es contradictorio. Un DCF negativo tan fuerte versus analista alcista requiere verificación obligatoria. · fundamental_score=74.0 pero value_score=48.8 y Piotroski=8.0: incoherencia de scoring. Value muy por debajo de fundamental sin justificación.",
+          "score": 48.8
+        },
+        {
+          "ticker": "WTKWY",
+          "paso": "verificador_ia",
+          "motivo": "upside_triangulated_pct=100.9% es extremadamente alto (triplicación) con rev_growth_yoy=3.5% (muy bajo). Yields altos (fcf 7.68%, ebit 6.91%) sugieren activo maduro, no uno con 100% upside. Modelos internos no pueden justificar tal descuento. · modelos_acuerdo=COHERENTES pero divergencia (100.9% vs 118.6%) es de 17.7 puntos en un upside de triple dígito. En proporción relativa eso es desacuerdo, no coherencia.",
+          "score": 48.72
+        },
+        {
+          "ticker": "ZTS",
+          "paso": "verificador_ia",
+          "motivo": "rev_growth_yoy=-0.2% (contracción) pero upside_triangulated_pct=79.4% y modelos_acuerdo=DISPERSOS. Empresa en contracción no puede justificar 79% de upside sin crecimiento futuro visible. Fundamental_score=53.5 es bajo pero upside implica recuperación no soportada por los datos. · Piotroski_score=6.0 es bajo, fundamental_score=53.5 es bajo, pero upside publicado es 79.4%. El modelo DCF supone reversión de contracción sin base en los datos actuales.",
+          "score": 45.30000000000001
+        },
+        {
+          "ticker": "DVA",
+          "paso": "verificador_ia",
+          "motivo": "modelos_dispersion_pts=168.0 es catastrófica (DCF 154.8% vs P/E -13.2%, triplicación en signo y magnitud). upside_requiere_verificacion=false con dispersión tan extrema es incorrecto. Está imposibilitado publicar un upside verdadero. · Piotroski_score=6.0 es bajo y fcf_yield_pct=10.29 es muy alto: señales de riesgo o error de valuación. ma_filter_pass=true es una excepción que no compensa la incoherencia interna.",
+          "score": 45.18000000000001
+        },
+        {
+          "ticker": "VRSK",
+          "paso": "verificador_ia",
+          "motivo": "peg_ratio=8.3 es extremadamente alto (la mayoría en lista está <2.5). Indicador de sobrevaloración extrema o error de escala. Contradice fundamental_score=55.0 y upside_pct=21.7%. · modelos_dispersion_pts=3.9 es bajo pero modelos_acuerdo=COHERENTES: con un PEG de 8.3, el crecimiento implícito en la valuación es irreal. Los modelos pueden concordar en un precio equivocado.",
+          "score": 42.155
+        },
+        {
+          "ticker": "STZ",
+          "paso": "verificador_ia",
+          "motivo": "rev_growth_yoy=-3.3% (contracción) pero upside_triangulated_pct=52.9%. PEG=0.42 es muy bajo (negativo) en contexto de contracción. Empresa contrae ingresos pero modelos proyectan 52.9% de upside. · target_price_pe_upside_pct ausente pero upside_triangulated_pct=52.9 presente. Falta un componente de la triangulación. Fundamental_score=60.3 es mediocre con contracción de ingresos; upside no se sostiene.",
+          "score": 42.03
+        }
+      ]
+    }
+  },
+  "generated_at": "2026-10-16T04:49:23Z"
+}

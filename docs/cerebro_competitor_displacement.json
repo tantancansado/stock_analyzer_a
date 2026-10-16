@@ -1,63 +1,9 @@
 {
-  "generated_at": "2026-10-15",
-  "total": 7,
-  "dropped_count": 4,
-  "narrative": "1. **Cuando los l\u00edderes del sector pierden impulso y aparecen competidores con mayor crecimiento o mejores fundamentos, rotar a esas nuevas oportunidades dentro del mismo sector suele generar retornos m\u00e1s r\u00e1pidos que esperar a que el mercado corrija la posici\u00f3n original.**  \n\n2. **Si el an\u00e1lisis muestra que la rotaci\u00f3n de capital hacia empresas con mejor posici\u00f3n competitiva (por ejemplo, aquellas que acaban",
+  "generated_at": "2026-10-16",
+  "total": 3,
+  "dropped_count": 0,
+  "narrative": "",
   "displacements": [
-    {
-      "type": "COMPETITOR_RISE",
-      "dropped_ticker": "GEBN.SW",
-      "sector": "Industrials",
-      "prev_score": 57.9,
-      "replacements": [
-        "WKL.AS",
-        "ASSA-B.ST",
-        "LR.PA"
-      ],
-      "top_replacement": "WKL.AS",
-      "top_replacement_score": 63.6,
-      "detail": "GEBN.SW sali\u00f3 de VALUE (58pts); peers en Industrials: WKL.AS, ASSA-B.ST"
-    },
-    {
-      "type": "COMPETITOR_RISE",
-      "dropped_ticker": "CBOE",
-      "sector": "Financial Services",
-      "prev_score": 61.39,
-      "replacements": [
-        "MA"
-      ],
-      "top_replacement": "MA",
-      "top_replacement_score": 63.255,
-      "detail": "CBOE sali\u00f3 de VALUE (61pts); peers en Financial Services: MA"
-    },
-    {
-      "type": "COMPETITOR_RISE",
-      "dropped_ticker": "BR",
-      "sector": "Technology",
-      "prev_score": 56.135000000000005,
-      "replacements": [
-        "MSFT",
-        "SGE.L",
-        "SAP.DE"
-      ],
-      "top_replacement": "MSFT",
-      "top_replacement_score": 61.32499999999999,
-      "detail": "BR sali\u00f3 de VALUE (56pts); peers en Technology: MSFT, SGE.L"
-    },
-    {
-      "type": "COMPETITOR_RISE",
-      "dropped_ticker": "AMS.MC",
-      "sector": "Technology",
-      "prev_score": 56.2,
-      "replacements": [
-        "MSFT",
-        "SGE.L",
-        "SAP.DE"
-      ],
-      "top_replacement": "MSFT",
-      "top_replacement_score": 61.32499999999999,
-      "detail": "AMS.MC sali\u00f3 de VALUE (56pts); peers en Technology: MSFT, SGE.L"
-    },
     {
       "type": "SECTOR_TAILWIND",
       "sector": "Technology",
@@ -68,7 +14,7 @@
         "SAP.DE"
       ],
       "top_ticker": "MSFT",
-      "top_score": 61.32499999999999,
+      "top_score": 69.595,
       "detail": "Sector Technology l\u00edder (RS 100) \u2014 MSFT, SGE.L, SAP.DE son los picks VALUE"
     },
     {

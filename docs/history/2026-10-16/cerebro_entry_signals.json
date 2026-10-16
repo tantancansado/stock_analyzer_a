@@ -1,0 +1,109 @@
+{
+  "generated_at": "2026-10-16",
+  "total": 2,
+  "strong_buy": 0,
+  "buy": 1,
+  "monitor": 0,
+  "wait": 1,
+  "narrative": "",
+  "signals": [
+    {
+      "ticker": "AZN.L",
+      "company_name": "AstraZeneca PLC",
+      "region": "EU",
+      "sector": "Healthcare",
+      "value_score": 68.9,
+      "conviction_grade": "nan",
+      "current_price": 12300.0,
+      "analyst_upside_pct": 28.3,
+      "fcf_yield_pct": 3.08,
+      "risk_reward_ratio": 3.54,
+      "days_in_value": 4,
+      "streak_days": 1,
+      "entry_score": 50,
+      "signal": "BUY",
+      "signals_fired": [
+        "Upside en banda dorada [10,30)",
+        "Insider buying",
+        "Analyst revision \u2191",
+        "En VALUE \u22653 d\u00edas"
+      ],
+      "signals_pts": [
+        {
+          "name": "Upside en banda dorada [10,30)",
+          "pts": 10
+        },
+        {
+          "name": "Insider buying",
+          "pts": 25
+        },
+        {
+          "name": "Analyst revision \u2191",
+          "pts": 5
+        },
+        {
+          "name": "En VALUE \u22653 d\u00edas",
+          "pts": 10
+        }
+      ],
+      "signals_missing": [
+        "Value score <80",
+        "FCF yield <5%",
+        "Sin se\u00f1al MR oversold",
+        "Sin opciones alcistas",
+        "Sector no l\u00edder",
+        "R\u00e9gimen no alcista"
+      ],
+      "rsi": null,
+      "earnings_warning": false,
+      "days_to_earnings": 15
+    },
+    {
+      "ticker": "MSFT",
+      "company_name": "Microsoft Corporation",
+      "region": "US",
+      "sector": "Technology",
+      "value_score": 69.595,
+      "conviction_grade": "B",
+      "current_price": 539.44,
+      "analyst_upside_pct": 10.2,
+      "fcf_yield_pct": 1.67,
+      "risk_reward_ratio": 1.27,
+      "days_in_value": 2,
+      "streak_days": 20,
+      "entry_score": 25,
+      "signal": "WAIT",
+      "signals_fired": [
+        "Upside en banda dorada [10,30)",
+        "Options flow alcista",
+        "Analyst revision \u2191"
+      ],
+      "signals_pts": [
+        {
+          "name": "Upside en banda dorada [10,30)",
+          "pts": 10
+        },
+        {
+          "name": "Options flow alcista",
+          "pts": 15
+        },
+        {
+          "name": "Analyst revision \u2191",
+          "pts": 5
+        }
+      ],
+      "signals_missing": [
+        "Value score <80",
+        "FCF yield <5%",
+        "Sin insider buying (espera)",
+        "Sin se\u00f1al MR oversold",
+        "Sector no l\u00edder",
+        "R\u00e9gimen no alcista",
+        "Solo 2d en VALUE"
+      ],
+      "rsi": null,
+      "earnings_warning": false,
+      "days_to_earnings": 12
+    }
+  ]
+}

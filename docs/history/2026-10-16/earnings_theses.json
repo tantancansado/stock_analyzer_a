@@ -1,0 +1,238 @@
+{
+  "generated_at": "2026-10-16T05:21:52Z",
+  "horizon_days": 14,
+  "total": 4,
+  "theses": {
+    "DX": {
+      "ticker": "DX",
+      "company_name": "Dynex Capital, Inc.",
+      "sector": "Real Estate",
+      "earnings_date": "2026-10-19",
+      "days_to_earnings": 3,
+      "current_price": 11.12,
+      "fifty_two_week_high": 14.93,
+      "fifty_two_week_low": 10.36,
+      "avg_price": 13.33,
+      "shares": 280.0,
+      "unrealized_pct": -16.58,
+      "earnings_history": [
+        {
+          "period": "2026-06-30",
+          "eps_estimate": 0.34464,
+          "eps_actual": 0.36,
+          "surprise_pct": 4.46,
+          "beat": true
+        },
+        {
+          "period": "2026-03-31",
+          "eps_estimate": 0.27698,
+          "eps_actual": 0.31,
+          "surprise_pct": 11.92,
+          "beat": true
+        },
+        {
+          "period": "2025-12-31",
+          "eps_estimate": 0.26692,
+          "eps_actual": 0.22,
+          "surprise_pct": -17.58,
+          "beat": false
+        },
+        {
+          "period": "2025-09-30",
+          "eps_estimate": 0.26388,
+          "eps_actual": 0.25,
+          "surprise_pct": -5.26,
+          "beat": false
+        }
+      ],
+      "earnings_reaction": {
+        "n": 12,
+        "subio": 6,
+        "mediana_abs_pct": 1.2,
+        "peor_pct": -2.1,
+        "mejor_pct": 1.4
+      },
+      "verdict": "REDUCE",
+      "sentiment_tone": "NEUTRAL",
+      "implied_move_pct": 1.94,
+      "expected_eps": 0.36925,
+      "expected_revenue_millions": 113.0,
+      "beat_rate_last_4q": 0.5,
+      "key_risks": [
+        "Posibles misses en EPS dada la volatilidad hist\u00f3rica de resultados",
+        "Sensibilidad a tipos de inter\u00e9s y al mercado inmobiliario comercial",
+        "Liquidez limitada del stock frente a un entorno de alta volatilidad"
+      ],
+      "key_catalysts": [
+        "Superaci\u00f3n de expectativas de ingresos por gesti\u00f3n de activos",
+        "Mejoras en la cartera de pr\u00e9stamos y reducci\u00f3n de morosidad",
+        "Gu\u00eda de ganancias superior al consenso que impulse el precio"
+      ],
+      "thesis_summary": "DX cotiza cerca de su m\u00ednimo anual y muestra un P&L negativo del 16.6% respecto al costo. El consenso de EPS y revenue es s\u00f3lido, pero el historial de surprises es mixto, con beats modestos y algunos misses. Recomiendo reducir la posici\u00f3n antes del earnings para limitar la exposici\u00f3n, vigilando la gu\u00eda de EPS, los m\u00e1rgenes de pr\u00e9stamo y cualquier se\u00f1al de mejora en la cartera inmobiliaria. Si el resultado supera al consenso, podr\u00eda considerarse una reposici\u00f3n parcial post\u2011earnings.",
+      "confidence": 70
+    },
+    "IVR": {
+      "ticker": "IVR",
+      "company_name": "Invesco Mortgage Capital Inc.",
+      "sector": "Real Estate",
+      "earnings_date": "2026-10-29",
+      "days_to_earnings": 13,
+      "current_price": 5.64,
+      "fifty_two_week_high": 9.5,
+      "fifty_two_week_low": 5.45,
+      "avg_price": 7.91,
+      "shares": 120.0,
+      "unrealized_pct": -28.7,
+      "earnings_history": [
+        {
+          "period": "2026-06-30",
+          "eps_estimate": 0.51702,
+          "eps_actual": 0.5,
+          "surprise_pct": -3.29,
+          "beat": false
+        },
+        {
+          "period": "2026-03-31",
+          "eps_estimate": 0.55228,
+          "eps_actual": 0.55,
+          "surprise_pct": -0.41,
+          "beat": false
+        },
+        {
+          "period": "2025-12-31",
+          "eps_estimate": 0.55826,
+          "eps_actual": 0.56,
+          "surprise_pct": 0.31,
+          "beat": true
+        },
+        {
+          "period": "2025-09-30",
+          "eps_estimate": 0.57973,
+          "eps_actual": 0.58,
+          "surprise_pct": 0.05,
+          "beat": true
+        }
+      ],
+      "earnings_reaction": {
+        "n": 12,
+        "subio": 6,
+        "mediana_abs_pct": 1.3,
+        "peor_pct": -3.5,
+        "mejor_pct": 5.0
+      },
+      "verdict": "REDUCE",
+      "sentiment_tone": "NEUTRAL",
+      "implied_move_pct": 0.97,
+      "expected_eps": 0.45564,
+      "expected_revenue_millions": 59.2,
+      "beat_rate_last_4q": 0.5,
+      "key_risks": [
+        "Posibles misses de EPS dada la tendencia a subestimar ligeramente",
+        "Sensibilidad a la tasa de inter\u00e9s y al spread de los MBS",
+        "Liquidez limitada al acercarse al 52\u2011week low"
+      ],
+      "key_catalysts": [
+        "Gu\u00eda de ingresos y margen neto en la llamada",
+        "Actualizaci\u00f3n del portafolio de hipotecas y nivel de p\u00e9rdidas crediticias",
+        "Cambios regulatorios en el sector de REIT hipotecario"
+      ],
+      "thesis_summary": "IVR cotiza cerca de su m\u00ednimo anual tras una ca\u00edda del 28% desde la entrada. El consenso de EPS y revenue es estable, pero el historial muestra leves sub\u2011estimates que podr\u00edan generar un peque\u00f1o miss. Dada la alta exposici\u00f3n a tasas y la escasa volatilidad impl\u00edcita, es prudente recortar posici\u00f3n antes del earnings para limitar la p\u00e9rdida potencial. Mantener una exposici\u00f3n residual permite aprovechar una posible recuperaci\u00f3n si la gu\u00eda supera expectativas. Vigilar la gu\u00eda de ingresos, los m\u00e1rgenes de pr\u00e9stamo y cualquier se\u00f1al de mejora en el spread de los MBS.",
+      "confidence": 70
+    },
+    "DE0007100000": {
+      "ticker": "DE0007100000",
+      "company_name": "Mercedes-Benz Group AG",
+      "sector": "Consumer Cyclical",
+      "earnings_date": "2026-10-28",
+      "days_to_earnings": 12,
+      "current_price": 39.94,
+      "fifty_two_week_high": 62.34,
+      "fifty_two_week_low": 38.89,
+      "avg_price": 40.45,
+      "shares": 100.0,
+      "unrealized_pct": -1.26,
+      "earnings_history": [
+        {
+          "period": "2026-06-30",
+          "eps_estimate": 1.24,
+          "eps_actual": 1.6743,
+          "surprise_pct": 35.02,
+          "beat": true
+        },
+        {
+          "period": "2026-03-31",
+          "eps_estimate": 1.43312,
+          "eps_actual": 1.39,
+          "surprise_pct": -3.01,
+          "beat": false
+        },
+        {
+          "period": "2025-12-31",
+          "eps_estimate": 1.11788,
+          "eps_actual": 1.4574,
+          "surprise_pct": 30.37,
+          "beat": true
+        },
+        {
+          "period": "2025-09-30",
+          "eps_estimate": 1.2782,
+          "eps_actual": 2.6231,
+          "surprise_pct": 105.22,
+          "beat": true
+        }
+      ],
+      "earnings_reaction": null,
+      "verdict": "HOLD_THROUGH",
+      "sentiment_tone": "NEUTRAL",
+      "implied_move_pct": null,
+      "expected_eps": 1.12,
+      "expected_revenue_millions": 30983.1,
+      "beat_rate_last_4q": 0.75,
+      "key_risks": [
+        "Transici\u00f3n a veh\u00edculos el\u00e9ctricos y necesidad de inversi\u00f3n de capital",
+        "Presi\u00f3n sobre m\u00e1rgenes por costos de materias primas y log\u00edstica",
+        "Entorno macroecon\u00f3mico europeo d\u00e9bil que afecta la demanda de autos de lujo"
+      ],
+      "key_catalysts": [
+        "Lanzamiento de nuevos modelos el\u00e9ctricos y mejora de la cuota de mercado EV",
+        "Revisi\u00f3n al alza del guidance de ventas en el segmento premium",
+        "Eficiencias operativas y reducci\u00f3n de costos en la cadena de suministro"
+      ],
+      "thesis_summary": "Mercedes-Benz Group se encuentra cerca de su m\u00ednimo anual y el precio actual refleja incertidumbre sobre la transici\u00f3n EV. El historial de beats (75% en los \u00faltimos 4Q) y la expectativa de EPS de 1.12 EUR sugieren que el mercado podr\u00eda reaccionar positivamente si la compa\u00f1\u00eda confirma su guidance y muestra m\u00e1rgenes estables. Se recomienda mantener la posici\u00f3n a trav\u00e9s del earnings, vigilando la gu\u00eda de ventas, la evoluci\u00f3n de los m\u00e1rgenes y la adopci\u00f3n de sus nuevos modelos el\u00e9ctricos. Un desempe\u00f1o superior al consenso reforzar\u00eda la tesis y permitir\u00eda considerar una ampliaci\u00f3n posterior.",
+      "confidence": 70
+    },
+    "ES0105630315": {
+      "ticker": "ES0105630315",
+      "company_name": "CIE Automotive, S.A.",
+      "sector": "Consumer Cyclical",
+      "earnings_date": "2026-10-28",
+      "days_to_earnings": 12,
+      "current_price": 25.45,
+      "fifty_two_week_high": 33.0,
+      "fifty_two_week_low": 24.8,
+      "avg_price": 25.07,
+      "shares": 45.0,
+      "unrealized_pct": 1.52,
+      "earnings_history": [],
+      "earnings_reaction": null,
+      "verdict": "HOLD",
+      "sentiment_tone": "NEUTRAL",
+      "implied_move_pct": null,
+      "expected_eps": 3.33176,
+      "expected_revenue_millions": 0.0,
+      "beat_rate_last_4q": null,
+      "key_risks": [
+        "Posible ca\u00edda del EPS por presi\u00f3n en m\u00e1rgenes de componentes automotrices",
+        "Dependencia de la demanda c\u00edclica del sector Consumer Cyclical en Europa",
+        "Riesgo de retrasos en la cadena de suministro y aumento de costos de materias primas"
+      ],
+      "key_catalysts": [
+        "Mejora de la gu\u00eda de m\u00e1rgenes operativos en el reporte",
+        "Lanzamiento de nuevos contratos con OEMs europeos",
+        "Recuperaci\u00f3n de la demanda de veh\u00edculos el\u00e9ctricos que utilicen sus componentes"
+      ],
+      "thesis_summary": "CIE Automotive cotiza cerca de su m\u00ednimo anual y muestra una ligera ganancia desde la entrada. Con un EPS consenso de 3,33\u202fEUR y sin se\u00f1ales claras de sorpresa, la posici\u00f3n se mantiene neutral. Se vigilar\u00e1 la gu\u00eda de m\u00e1rgenes y la evoluci\u00f3n de la demanda en el segmento de componentes para veh\u00edculos el\u00e9ctricos. Si la empresa supera las expectativas de margen, podr\u00eda considerarse un aumento posterior; de lo contrario, se mantendr\u00e1 la exposici\u00f3n. La ausencia de noticias relevantes sugiere un riesgo limitado a corto plazo.",
+      "confidence": 65
+    }
+  }
+}

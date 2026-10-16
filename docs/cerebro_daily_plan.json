@@ -1,17 +1,17 @@
 {
-  "generated_at": "2026-10-15",
+  "generated_at": "2026-10-16",
   "macro_regime": "CALM",
-  "composite_score": 5.0,
+  "composite_score": 5.5,
   "sesgo": "ALCISTA",
-  "confianza": 65,
-  "situacion": "R\u00e9gimen CALM, composite +5.0/30. 2 plays macro identificadas.",
-  "narrativa": "El mercado se encuentra en r\u00e9gimen CALM con score +5.0. Contexto permite selecci\u00f3n VALUE disciplinada. Cerebro detecta 0 tickers a evitar y 0 potenciales short squeezes.",
+  "confianza": 66,
+  "situacion": "R\u00e9gimen CALM, composite +5.5/30. 2 plays macro identificadas.",
+  "narrativa": "El mercado se encuentra en r\u00e9gimen CALM con score +5.5. Contexto permite selecci\u00f3n VALUE disciplinada. Cerebro detecta 0 tickers a evitar y 0 potenciales short squeezes.",
   "acciones_inmediatas": [
     {
       "prioridad": 1,
       "accion": "COMPRAR",
       "instrumento": "TLT/VGLT",
-      "razon": "Yield 30yr en 5.53% \u2014 zona hist\u00f3ricamente atractiva para bonos largos",
+      "razon": "Yield 30yr en 5.43% \u2014 zona hist\u00f3ricamente atractiva para bonos largos",
       "catalizador": "2018-19: TLT +18% cuando yields revertieron desde 3.25%",
       "size_hint": "peque\u00f1a (1-2%)",
       "invalidacion": "La Fed puede mantener tipos altos m\u00e1s tiempo \u2014 size peque\u00f1o"
@@ -20,7 +20,7 @@
       "prioridad": 2,
       "accion": "COMPRAR",
       "instrumento": "IWM",
-      "razon": "Small caps en percentil 1% pero cr\u00e9dito OK \u2014 divergencia excesiva",
+      "razon": "Small caps en percentil 3% pero cr\u00e9dito OK \u2014 divergencia excesiva",
       "catalizador": "2016 post-elecci\u00f3n: IWM +20% en 3 meses desde valuaciones deprimidas",
       "size_hint": "peque\u00f1a (1-2%)",
       "invalidacion": "Si cr\u00e9dito deteriora, small caps caen m\u00e1s \u2014 monitorizar HYG"
@@ -30,7 +30,7 @@
     {
       "instrument": "TLT/VGLT",
       "direction": "LONG",
-      "thesis": "Yield 30yr en 5.53% \u2014 zona hist\u00f3ricamente atractiva para bonos largos",
+      "thesis": "Yield 30yr en 5.43% \u2014 zona hist\u00f3ricamente atractiva para bonos largos",
       "historical": "2018-19: TLT +18% cuando yields revertieron desde 3.25%",
       "risk": "La Fed puede mantener tipos altos m\u00e1s tiempo \u2014 size peque\u00f1o",
       "timeframe": "3-6 meses",
@@ -45,7 +45,7 @@
     {
       "instrument": "IWM",
       "direction": "LONG (contrarian)",
-      "thesis": "Small caps en percentil 1% pero cr\u00e9dito OK \u2014 divergencia excesiva",
+      "thesis": "Small caps en percentil 3% pero cr\u00e9dito OK \u2014 divergencia excesiva",
       "historical": "2016 post-elecci\u00f3n: IWM +20% en 3 meses desde valuaciones deprimidas",
       "risk": "Si cr\u00e9dito deteriora, small caps caen m\u00e1s \u2014 monitorizar HYG",
       "timeframe": "2-3 meses",
@@ -62,9 +62,9 @@
   "value_en_entorno": [
     {
       "ticker": "MSFT",
-      "score": 61.3,
+      "score": 69.6,
       "sector": "Technology",
-      "fcf_yield_pct": 1.69,
+      "fcf_yield_pct": 1.67,
       "grade": "B"
     },
     {
@@ -85,7 +85,7 @@
   "value_en_entorno_razon": "Tickers VALUE seleccionados para r\u00e9gimen CALM.",
   "evitar": [],
   "agenda_semana": [],
-  "frase_del_dia": "El mayor riesgo es no tomar ninguno. \u2014 Peter Lynch",
-  "mensaje_telegram": "\ud83e\udde0 CEREBRO 2026-10-15 | CALM (+5.0) | ALCISTA | VALUE: MSFT SAP.DE ASSA-B.ST | Evitar: ",
+  "frase_del_dia": "Primero no pierdas. Segundo, no olvides la primera regla. \u2014 Warren Buffett",
+  "mensaje_telegram": "\ud83e\udde0 CEREBRO 2026-10-16 | CALM (+5.5) | ALCISTA | VALUE: MSFT SAP.DE ASSA-B.ST | Evitar: ",
   "ai_powered": false
 }

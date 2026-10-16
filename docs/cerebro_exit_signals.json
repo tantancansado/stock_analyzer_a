@@ -1,27 +1,9 @@
 {
-  "generated_at": "2026-10-15",
+  "generated_at": "2026-10-16",
   "total": 20,
-  "high_count": 4,
-  "narrative": "Esto indica que es",
+  "high_count": 3,
+  "narrative": "",
   "exits": [
-    {
-      "ticker": "OXY",
-      "severity": "HIGH",
-      "entry_score": 62.24000000000001,
-      "current_score": 32.42,
-      "signal_date": "2026-08-20",
-      "reasons": [
-        "Score cay\u00f3 30pts (62 \u2192 32)"
-      ],
-      "fundamental_score": 77.3,
-      "ai_validation": {
-        "verdict": "FALSE_POSITIVE",
-        "confidence": 62,
-        "summary": "OXY mantiene fundamentales s\u00f3lidos (score 77.3/100) y no hay evidencia de deterioro operativo mayor; la ca\u00edda de 30pts en el score probablemente refleja una subida de precio que redujo el margen de upside por valoraci\u00f3n, no un problema del negocio. Es sensible al precio del petr\u00f3leo, lo que genera volatilidad en scores t\u00e9cnicos/momentum sin cambiar la tesis fundamental.",
-        "key_finding": "El score fundamental en base de datos sigue alto (77.3/100), sugiriendo que la ca\u00edda del score compuesto es m\u00e1s por precio/valoraci\u00f3n que por deterioro del negocio.",
-        "summary_note": "OXY mantiene fundamentales s\u00f3lidos (score 77.3/100) y no hay evidencia de deterioro operativo mayor; la ca\u00edda de 30pts en el score probablemente refleja una subida de precio que redujo el margen de upside por valoraci\u00f3n, no un problema del negocio. Es sensible al precio del petr\u00f3leo, lo que genera volatilidad en scores t\u00e9cnicos/momentum sin cambiar la tesis fundamental."
-      }
-    },
     {
       "ticker": "EXPN.L",
       "severity": "HIGH",
@@ -35,27 +17,27 @@
       "ai_validation": {
         "verdict": "FALSE_POSITIVE",
         "confidence": 65,
-        "summary": "Experian (EXPN.L) no ha mostrado se\u00f1ales de deterioro fundamental relevante; la salida de la lista VALUE probablemente se debe a una revalorizaci\u00f3n del precio que redujo el margen de upside, no a un problema del negocio. La compa\u00f1\u00eda mantiene un historial s\u00f3lido de crecimiento de ingresos y m\u00e1rgenes estables.",
-        "key_finding": "Hasta la fecha de corte de mi conocimiento, Experian segu\u00eda reportando crecimiento org\u00e1nico consistente y sin profit warnings significativos; la salida de VALUE es m\u00e1s coherente con una suba de precio que con deterioro del negocio.",
-        "summary_note": "Experian (EXPN.L) no ha mostrado se\u00f1ales de deterioro fundamental relevante; la salida de la lista VALUE probablemente se debe a una revalorizaci\u00f3n del precio que redujo el margen de upside, no a un problema del negocio. La compa\u00f1\u00eda mantiene un historial s\u00f3lido de crecimiento de ingresos y m\u00e1rgenes estables."
+        "summary": "Experian (EXPN.L) es una empresa s\u00f3lida con crecimiento estable en datos financieros y anal\u00edtica; no hay evidencia de deterioro fundamental reciente. Es m\u00e1s probable que la se\u00f1al se deba a que el precio subi\u00f3 reduciendo el margen de revalorizaci\u00f3n en el modelo VALUE, no a un problema del negocio.",
+        "key_finding": "La desaparici\u00f3n del ranking VALUE suele reflejar una valoraci\u00f3n m\u00e1s ajustada tras subida de precio, mientras que los fundamentales de Experian (ingresos recurrentes, posici\u00f3n dominante en bureaus de cr\u00e9dito) se han mantenido estables hasta el corte de conocimiento.",
+        "summary_note": "Experian (EXPN.L) es una empresa s\u00f3lida con crecimiento estable en datos financieros y anal\u00edtica; no hay evidencia de deterioro fundamental reciente. Es m\u00e1s probable que la se\u00f1al se deba a que el precio subi\u00f3 reduciendo el margen de revalorizaci\u00f3n en el modelo VALUE, no a un problema del negocio."
       }
     },
     {
       "ticker": "QSR",
       "severity": "HIGH",
       "entry_score": 59.09,
-      "current_score": 30.765,
+      "current_score": 31.365,
       "signal_date": "2026-09-10",
       "reasons": [
         "Score cay\u00f3 28pts (59 \u2192 31)"
       ],
-      "fundamental_score": 64.0,
+      "fundamental_score": 65.5,
       "ai_validation": {
         "verdict": "UNCERTAIN",
-        "confidence": 45,
-        "summary": "QSR (Restaurant Brands International) no ha mostrado se\u00f1ales claras de deterioro fundamental grave en mi conocimiento; el score fundamental de 64/100 sigue siendo decente. La ca\u00edda de 28pts podr\u00eda deberse m\u00e1s a una correcci\u00f3n de valoraci\u00f3n (subida de precio) que a un deterioro real del negocio, aunque hay presiones conocidas en Burger King US y costos de insumos que podr\u00edan justificar parte de la ca\u00edda.",
-        "key_finding": "Restaurant Brands ha enfrentado desaf\u00edos de bajo rendimiento en Burger King US y necesidad de reinversi\u00f3n en el 'Reclaim the Flame' plan, pero sin un evento disruptivo reciente conocido hasta mi corte de entrenamiento.",
-        "summary_note": "QSR (Restaurant Brands International) no ha mostrado se\u00f1ales claras de deterioro fundamental grave en mi conocimiento; el score fundamental de 64/100 sigue siendo decente. La ca\u00edda de 28pts podr\u00eda deberse m\u00e1s a una correcci\u00f3n de valoraci\u00f3n (subida de precio) que a un deterioro real del negocio, aunque hay presiones conocidas en Burger King US y costos de insumos que podr\u00edan justificar parte de la ca\u00edda."
+        "confidence": 55,
+        "summary": "QSR (Restaurant Brands International) no ha mostrado un deterioro fundamental dr\u00e1stico reciente conocido hasta mi corte de entrenamiento; la ca\u00edda de 28pts en el score parece m\u00e1s t\u00e9cnica/cuantitativa que basada en eventos fundamentales nuevos. El score fundamental de 65.5/100 sigue siendo decente, lo que sugiere que la ca\u00edda podr\u00eda deberse a una correcci\u00f3n de precio o cambio en m\u00e9tricas de valoraci\u00f3n m\u00e1s que a un deterioro real del negocio.",
+        "key_finding": "No hay evidencia clara de guidance cuts, earnings misses severos o cambios de gesti\u00f3n recientes que justifiquen una ca\u00edda tan abrupta; la se\u00f1al podr\u00eda reflejar m\u00e1s un ajuste de valoraci\u00f3n (price-driven) que un cambio fundamental real.",
+        "summary_note": "QSR (Restaurant Brands International) no ha mostrado un deterioro fundamental dr\u00e1stico reciente conocido hasta mi corte de entrenamiento; la ca\u00edda de 28pts en el score parece m\u00e1s t\u00e9cnica/cuantitativa que basada en eventos fundamentales nuevos. El score fundamental de 65.5/100 sigue siendo decente, lo que sugiere que la ca\u00edda podr\u00eda deberse a una correcci\u00f3n de precio o cambio en m\u00e9tricas de valoraci\u00f3n m\u00e1s que a un deterioro real del negocio."
       }
     },
     {
@@ -71,9 +53,9 @@
       "ai_validation": {
         "verdict": "FALSE_POSITIVE",
         "confidence": 68,
-        "summary": "AON es una aseguradora/broker global con fundamentales estables y crecimiento constante; su salida de la lista VALUE probablemente se debe a una revalorizaci\u00f3n del precio (m\u00faltiplos m\u00e1s altos) y no a un deterioro del negocio. No hay evidencia de ca\u00eddas de resultados, recortes de gu\u00eda o esc\u00e1ndalos recientes conocidos hasta el corte de entrenamiento.",
-        "key_finding": "AON ha mantenido crecimiento org\u00e1nico s\u00f3lido y m\u00e1rgenes estables, con la fusi\u00f3n fallida con WTW ya resuelta hace tiempo, sin se\u00f1ales de deterioro fundamental reciente.",
-        "summary_note": "AON es una aseguradora/broker global con fundamentales estables y crecimiento constante; su salida de la lista VALUE probablemente se debe a una revalorizaci\u00f3n del precio (m\u00faltiplos m\u00e1s altos) y no a un deterioro del negocio. No hay evidencia de ca\u00eddas de resultados, recortes de gu\u00eda o esc\u00e1ndalos recientes conocidos hasta el corte de entrenamiento."
+        "summary": "AON es una aseguradora/broker de riesgos con fundamentales estables y crecimiento consistente; su salida de la categor\u00eda VALUE probablemente se debe a una valoraci\u00f3n m\u00e1s alta tras la apreciaci\u00f3n del precio, no a un deterioro del negocio. No hay evidencia de ca\u00eddas de beneficios, recortes de gu\u00eda o esc\u00e1ndalos recientes relevantes.",
+        "key_finding": "AON ha mantenido crecimiento de ingresos y m\u00e1rgenes estables, con la fusi\u00f3n fallida con Willis Towers Watson (2021) como evento pasado ya superado, sin se\u00f1ales nuevas de deterioro fundamental.",
+        "summary_note": "AON es una aseguradora/broker de riesgos con fundamentales estables y crecimiento consistente; su salida de la categor\u00eda VALUE probablemente se debe a una valoraci\u00f3n m\u00e1s alta tras la apreciaci\u00f3n del precio, no a un deterioro del negocio. No hay evidencia de ca\u00eddas de beneficios, recortes de gu\u00eda o esc\u00e1ndalos recientes relevantes."
       }
     },
     {
@@ -96,13 +78,24 @@
       "reasons": [
         "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
       ],
-      "fundamental_score": 68.8
+      "fundamental_score": 68.1
+    },
+    {
+      "ticker": "OXY",
+      "severity": "MEDIUM",
+      "entry_score": 62.24000000000001,
+      "current_score": null,
+      "signal_date": "2026-08-20",
+      "reasons": [
+        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
+      ],
+      "fundamental_score": 78.1
     },
     {
       "ticker": "ICE",
       "severity": "MEDIUM",
       "entry_score": 60.095,
-      "current_score": 40.245000000000005,
+      "current_score": 39.735,
       "signal_date": "2026-10-13",
       "reasons": [
         "Score cay\u00f3 20pts (60 \u2192 40)"
@@ -135,13 +128,13 @@
       "ticker": "MCO",
       "severity": "MEDIUM",
       "entry_score": 59.17999999999999,
-      "current_score": 33.56,
+      "current_score": 34.195,
       "signal_date": "2026-09-24",
       "reasons": [
-        "Score cay\u00f3 26pts (59 \u2192 34) \u2014 ca\u00edda t\u00e9cnica/momentum, balance s\u00f3lido (Piotroski 8/9)",
-        "Earnings en 6d \u2014 alta incertidumbre, considera reducir"
+        "Score cay\u00f3 25pts (59 \u2192 34)",
+        "Earnings en 5d \u2014 alta incertidumbre, considera reducir"
       ],
-      "fundamental_score": 68.5
+      "fundamental_score": 69.5
     },
     {
       "ticker": "SPGI",
@@ -196,7 +189,7 @@
       "reasons": [
         "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
       ],
-      "fundamental_score": 72.2
+      "fundamental_score": 71.7
     },
     {
       "ticker": "BRK-B",
@@ -218,7 +211,7 @@
       "reasons": [
         "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
       ],
-      "fundamental_score": 75.2
+      "fundamental_score": 75.1
     },
     {
       "ticker": "TT",
@@ -229,18 +222,18 @@
       "reasons": [
         "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
       ],
-      "fundamental_score": 73.8
+      "fundamental_score": 74.3
     },
     {
-      "ticker": "FHN",
+      "ticker": "FCNCA",
       "severity": "MEDIUM",
-      "entry_score": 51.305,
-      "current_score": 42.8,
-      "signal_date": "2026-08-20",
+      "entry_score": 51.92499999999999,
+      "current_score": 38.905,
+      "signal_date": "2026-09-18",
       "reasons": [
-        "Earnings en 0d \u2014 alta incertidumbre, considera reducir"
+        "Earnings en 7d \u2014 alta incertidumbre, considera reducir"
       ],
-      "fundamental_score": 67.0
+      "fundamental_score": 64.5
     },
     {
       "ticker": "CNI",
@@ -251,7 +244,7 @@
       "reasons": [
         "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
       ],
-      "fundamental_score": 67.5
+      "fundamental_score": 69.5
     }
   ]
 }
