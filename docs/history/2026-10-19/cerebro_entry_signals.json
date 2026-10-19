@@ -1,0 +1,152 @@
+{
+  "generated_at": "2026-10-19",
+  "total": 3,
+  "strong_buy": 0,
+  "buy": 1,
+  "monitor": 0,
+  "wait": 2,
+  "narrative": "",
+  "signals": [
+    {
+      "ticker": "AZN.L",
+      "company_name": "AstraZeneca PLC",
+      "region": "EU",
+      "sector": "Healthcare",
+      "value_score": 67.3,
+      "conviction_grade": "nan",
+      "current_price": 12446.0,
+      "analyst_upside_pct": 26.9,
+      "fcf_yield_pct": 3.03,
+      "risk_reward_ratio": 3.36,
+      "days_in_value": 5,
+      "streak_days": 1,
+      "entry_score": 50,
+      "signal": "BUY",
+      "signals_fired": [
+        "Upside en banda dorada [10,30)",
+        "Insider buying",
+        "Analyst revision \u2191",
+        "En VALUE \u22653 d\u00edas"
+      ],
+      "signals_pts": [
+        {
+          "name": "Upside en banda dorada [10,30)",
+          "pts": 10
+        },
+        {
+          "name": "Insider buying",
+          "pts": 25
+        },
+        {
+          "name": "Analyst revision \u2191",
+          "pts": 5
+        },
+        {
+          "name": "En VALUE \u22653 d\u00edas",
+          "pts": 10
+        }
+      ],
+      "signals_missing": [
+        "Value score <80",
+        "FCF yield <5%",
+        "Sin se\u00f1al MR oversold",
+        "Sin opciones alcistas",
+        "Sector no l\u00edder",
+        "R\u00e9gimen no alcista"
+      ],
+      "rsi": null,
+      "earnings_warning": false,
+      "days_to_earnings": 11
+    },
+    {
+      "ticker": "BR",
+      "company_name": "Broadridge Financial Solutions, Inc.",
+      "region": "US",
+      "sector": "Technology",
+      "value_score": 69.87499999999999,
+      "conviction_grade": "B",
+      "current_price": 175.11,
+      "analyst_upside_pct": 21.9,
+      "fcf_yield_pct": 6.24,
+      "risk_reward_ratio": 2.74,
+      "days_in_value": 1,
+      "streak_days": 1,
+      "entry_score": 25,
+      "signal": "WAIT",
+      "signals_fired": [
+        "FCF yield \u22655%",
+        "Upside en banda dorada [10,30)",
+        "Analyst revision \u2191"
+      ],
+      "signals_pts": [
+        {
+          "name": "FCF yield \u22655%",
+          "pts": 10
+        },
+        {
+          "name": "Upside en banda dorada [10,30)",
+          "pts": 10
+        },
+        {
+          "name": "Analyst revision \u2191",
+          "pts": 5
+        }
+      ],
+      "signals_missing": [
+        "Value score <80",
+        "Sin insider buying (espera)",
+        "Sin se\u00f1al MR oversold",
+        "Sin opciones alcistas",
+        "Sector no l\u00edder",
+        "R\u00e9gimen no alcista",
+        "Solo 1d en VALUE"
+      ],
+      "rsi": null,
+      "earnings_warning": false,
+      "days_to_earnings": 15
+    },
+    {
+      "ticker": "EXPN.L",
+      "company_name": "Experian plc",
+      "region": "EU",
+      "sector": "Industrials",
+      "value_score": 62.9,
+      "conviction_grade": "B",
+      "current_price": 2838.0,
+      "analyst_upside_pct": 29.5,
+      "fcf_yield_pct": 4.57,
+      "risk_reward_ratio": 3.69,
+      "days_in_value": 1,
+      "streak_days": 1,
+      "entry_score": 15,
+      "signal": "WAIT",
+      "signals_fired": [
+        "Upside en banda dorada [10,30)",
+        "Analyst revision \u2191"
+      ],
+      "signals_pts": [
+        {
+          "name": "Upside en banda dorada [10,30)",
+          "pts": 10
+        },
+        {
+          "name": "Analyst revision \u2191",
+          "pts": 5
+        }
+      ],
+      "signals_missing": [
+        "Value score <80",
+        "FCF yield <5%",
+        "Sin insider buying (espera)",
+        "Sin se\u00f1al MR oversold",
+        "Sin opciones alcistas",
+        "Sector no l\u00edder",
+        "R\u00e9gimen no alcista",
+        "Solo 1d en VALUE"
+      ],
+      "rsi": null,
+      "earnings_warning": false,
+      "days_to_earnings": 30
+    }
+  ]
+}

@@ -1,36 +1,27 @@
 {
-  "generated_at": "2026-10-16",
-  "macro_regime": "CALM",
-  "composite_score": 5.5,
-  "sesgo": "ALCISTA",
-  "confianza": 66,
-  "situacion": "R\u00e9gimen CALM, composite +5.5/30. 2 plays macro identificadas.",
-  "narrativa": "El mercado se encuentra en r\u00e9gimen CALM con score +5.5. Contexto permite selecci\u00f3n VALUE disciplinada. Cerebro detecta 0 tickers a evitar y 0 potenciales short squeezes.",
+  "generated_at": "2026-10-19",
+  "macro_regime": "WATCH",
+  "composite_score": 2.5,
+  "sesgo": "DEFENSIVO",
+  "confianza": 50,
+  "situacion": "Mercado con riesgo de cola y presi\u00f3n en small caps, pero con impulso en cobre, oro y defensa.",
+  "narrativa": "El SKEW y el KRE indican mayor riesgo de eventos extremos, mientras que la baja de IWM sugiere una sobreventa en small caps. Los activos defensivos y de cobre se benefician de la incertidumbre, ofreciendo refugio y potencial de recuperaci\u00f3n para los inversores VALUE.",
   "acciones_inmediatas": [
     {
       "prioridad": 1,
       "accion": "COMPRAR",
-      "instrumento": "TLT/VGLT",
-      "razon": "Yield 30yr en 5.43% \u2014 zona hist\u00f3ricamente atractiva para bonos largos",
-      "catalizador": "2018-19: TLT +18% cuando yields revertieron desde 3.25%",
-      "size_hint": "peque\u00f1a (1-2%)",
-      "invalidacion": "La Fed puede mantener tipos altos m\u00e1s tiempo \u2014 size peque\u00f1o"
-    },
-    {
-      "prioridad": 2,
-      "accion": "COMPRAR",
-      "instrumento": "IWM",
-      "razon": "Small caps en percentil 3% pero cr\u00e9dito OK \u2014 divergencia excesiva",
-      "catalizador": "2016 post-elecci\u00f3n: IWM +20% en 3 meses desde valuaciones deprimidas",
-      "size_hint": "peque\u00f1a (1-2%)",
-      "invalidacion": "Si cr\u00e9dito deteriora, small caps caen m\u00e1s \u2014 monitorizar HYG"
+      "instrumento": "TLT",
+      "razon": "Alto rendimiento de bonos largos y zona atractiva de 5.44%",
+      "catalizador": "Rendimiento de 30 a\u00f1os en 5.44%",
+      "size_hint": "media (3-4%)",
+      "invalidacion": "Ca\u00edda de la tasa de rendimiento a <4%"
     }
   ],
   "macro_plays": [
     {
       "instrument": "TLT/VGLT",
       "direction": "LONG",
-      "thesis": "Yield 30yr en 5.43% \u2014 zona hist\u00f3ricamente atractiva para bonos largos",
+      "thesis": "Yield 30yr en 5.44% \u2014 zona hist\u00f3ricamente atractiva para bonos largos",
       "historical": "2018-19: TLT +18% cuando yields revertieron desde 3.25%",
       "risk": "La Fed puede mantener tipos altos m\u00e1s tiempo \u2014 size peque\u00f1o",
       "timeframe": "3-6 meses",
@@ -45,7 +36,7 @@
     {
       "instrument": "IWM",
       "direction": "LONG (contrarian)",
-      "thesis": "Small caps en percentil 3% pero cr\u00e9dito OK \u2014 divergencia excesiva",
+      "thesis": "Small caps en percentil 2% pero cr\u00e9dito OK \u2014 divergencia excesiva",
       "historical": "2016 post-elecci\u00f3n: IWM +20% en 3 meses desde valuaciones deprimidas",
       "risk": "Si cr\u00e9dito deteriora, small caps caen m\u00e1s \u2014 monitorizar HYG",
       "timeframe": "2-3 meses",
@@ -58,34 +49,72 @@
       }
     }
   ],
-  "macro_plays_commentary": "2 plays macro rule-based generadas sin IA.",
+  "macro_plays_commentary": "Mantener TLT y considerar IWM si la divergencia se mantiene.",
   "value_en_entorno": [
     {
-      "ticker": "MSFT",
-      "score": 69.6,
+      "ticker": "BR",
+      "score": 69.9,
       "sector": "Technology",
-      "fcf_yield_pct": 1.67,
+      "fcf_yield_pct": 6.24,
+      "grade": "B"
+    },
+    {
+      "ticker": "EXPN.L",
+      "score": 62.9,
+      "sector": "Industrials",
+      "fcf_yield_pct": 4.57,
       "grade": "B"
     },
     {
       "ticker": "SAP.DE",
-      "score": 59.2,
+      "score": 62.0,
       "sector": "Technology",
-      "fcf_yield_pct": 3.84,
+      "fcf_yield_pct": 3.79,
       "grade": "B"
     },
     {
       "ticker": "ASSA-B.ST",
-      "score": 58.8,
+      "score": 59.0,
       "sector": "Industrials",
-      "fcf_yield_pct": 5.43,
+      "fcf_yield_pct": 5.31,
+      "grade": "B"
+    },
+    {
+      "ticker": "AMS.MC",
+      "score": 56.6,
+      "sector": "Technology",
+      "fcf_yield_pct": 6.04,
       "grade": "B"
     }
   ],
-  "value_en_entorno_razon": "Tickers VALUE seleccionados para r\u00e9gimen CALM.",
-  "evitar": [],
-  "agenda_semana": [],
-  "frase_del_dia": "Primero no pierdas. Segundo, no olvides la primera regla. \u2014 Warren Buffett",
-  "mensaje_telegram": "\ud83e\udde0 CEREBRO 2026-10-16 | CALM (+5.5) | ALCISTA | VALUE: MSFT SAP.DE ASSA-B.ST | Evitar: ",
-  "ai_powered": false
+  "value_en_entorno_razon": "Los tickers seleccionados tienen fuerte FCF y est\u00e1n en sectores tecnol\u00f3gicos/industriales con buen flujo de caja, aline\u00e1ndose con la b\u00fasqueda de valor en un entorno de riesgo de cola.",
+  "evitar": [
+    {
+      "ticker": "IWM",
+      "razon": "Excesiva sobreventa y riesgo de ca\u00edda adicional"
+    }
+  ],
+  "agenda_semana": [
+    {
+      "fecha": "2026-10-20",
+      "evento": "Informe de ganancias de COF",
+      "impacto": "MEDIO",
+      "accion_sugerida": "Revisar exposici\u00f3n a sector financiero"
+    },
+    {
+      "fecha": "2026-10-22",
+      "evento": "Informe de ganancias de ISRG",
+      "impacto": "ALTO",
+      "accion_sugerida": "Evaluar posici\u00f3n en tecnolog\u00eda"
+    },
+    {
+      "fecha": "2026-10-25",
+      "evento": "Informe de ganancias de DBOEY",
+      "impacto": "BAJO",
+      "accion_sugerida": "Mantener posici\u00f3n"
+    }
+  ],
+  "frase_del_dia": "\"El riesgo es la oportunidad de ganar m\u00e1s cuando otros temen.\"",
+  "mensaje_telegram": "\ud83d\udcc8 TLT 5.44% sigue atractivo, IWM bajo riesgo. Mant\u00e9n posiciones defensivas y vigila earnings. \ud83d\ude80",
+  "ai_powered": true
 }

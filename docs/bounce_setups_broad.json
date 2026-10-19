@@ -1,9 +1,9 @@
 {
-  "scan_date": "2026-10-16",
-  "generated_at": "2026-10-16T05:25:12Z",
+  "scan_date": "2026-10-19",
+  "generated_at": "2026-10-19T05:50:52Z",
   "universe_size": 403,
   "universe": "S&P 500 minus curated T1-T4",
-  "count": 1,
+  "count": 0,
   "criteria": {
     "rsi2_max": 15.0,
     "rsi14_max": 40.0,
@@ -27,34 +27,5 @@
     "rr": "informativo, no filtra \u2014 decide la esperanza simulada",
     "horizon": "1-5 d\u00edas (nominal; ver esperanza_dias_mediana)"
   },
-  "setups": [
-    {
-      "ticker": "BNY",
-      "price": 142.09,
-      "target": 155.33,
-      "stop": 135.47,
-      "target_pct": 9.32,
-      "stop_pct": -4.66,
-      "stop_atr_mult": 2.0,
-      "resistencia_20d": 155.48,
-      "rr": 2.0,
-      "rsi2": 2.1,
-      "rsi14": 20.1,
-      "atr_pct": 2.33,
-      "vol_ratio": 1.63,
-      "dist_support": -0.1,
-      "drawdown_20d": -8.61,
-      "sma20_distance": -2.58,
-      "above_sma200": true,
-      "horizon_days": "1-5",
-      "setup_type": "BOUNCE_OVERSOLD",
-      "esperanza_pct": 1.55,
-      "esperanza_n": 12,
-      "esperanza_aciertos": 5,
-      "esperanza_stops": 6,
-      "esperanza_dias_mediana": 17,
-      "esperanza_muestra_ok": true,
-      "esperanza_frase": "en los 12 episodios iguales, el objetivo (+9.3%) lleg\u00f3 antes que el stop (-4.7%) 5 veces y el stop salt\u00f3 primero 6, y cuando lleg\u00f3 tard\u00f3 17 sesiones de mediana. Esperanza +1.55% por operaci\u00f3n."
-    }
-  ]
+  "setups": []
 }

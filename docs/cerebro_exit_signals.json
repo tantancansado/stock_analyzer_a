@@ -1,61 +1,25 @@
 {
-  "generated_at": "2026-10-16",
-  "total": 20,
-  "high_count": 3,
+  "generated_at": "2026-10-19",
+  "total": 19,
+  "high_count": 1,
   "narrative": "",
   "exits": [
     {
-      "ticker": "EXPN.L",
-      "severity": "HIGH",
-      "entry_score": 60.88499999999999,
-      "current_score": null,
-      "signal_date": "2026-08-21",
-      "reasons": [
-        "Ya no aparece en VALUE \u2014 tesis posiblemente rota"
-      ],
-      "fundamental_score": null,
-      "ai_validation": {
-        "verdict": "FALSE_POSITIVE",
-        "confidence": 65,
-        "summary": "Experian (EXPN.L) es una empresa s\u00f3lida con crecimiento estable en datos financieros y anal\u00edtica; no hay evidencia de deterioro fundamental reciente. Es m\u00e1s probable que la se\u00f1al se deba a que el precio subi\u00f3 reduciendo el margen de revalorizaci\u00f3n en el modelo VALUE, no a un problema del negocio.",
-        "key_finding": "La desaparici\u00f3n del ranking VALUE suele reflejar una valoraci\u00f3n m\u00e1s ajustada tras subida de precio, mientras que los fundamentales de Experian (ingresos recurrentes, posici\u00f3n dominante en bureaus de cr\u00e9dito) se han mantenido estables hasta el corte de conocimiento.",
-        "summary_note": "Experian (EXPN.L) es una empresa s\u00f3lida con crecimiento estable en datos financieros y anal\u00edtica; no hay evidencia de deterioro fundamental reciente. Es m\u00e1s probable que la se\u00f1al se deba a que el precio subi\u00f3 reduciendo el margen de revalorizaci\u00f3n en el modelo VALUE, no a un problema del negocio."
-      }
-    },
-    {
       "ticker": "QSR",
-      "severity": "HIGH",
+      "severity": "MEDIUM",
       "entry_score": 59.09,
-      "current_score": 31.365,
+      "current_score": 31.76,
       "signal_date": "2026-09-10",
       "reasons": [
-        "Score cay\u00f3 28pts (59 \u2192 31)"
+        "Score cay\u00f3 27pts (59 \u2192 32)",
+        "IA: falso positivo con 85% confianza \u2014 El deterioro del score probablemente se debe a la correcci\u00f3n del precio tras una fuerte subida, reduciendo el margen de seguridad, mientras que los fundamentales de QSR siguen siendo s\u00f3lidos con crecimiento estable en ventas y m\u00e1rgenes."
       ],
-      "fundamental_score": 65.5,
-      "ai_validation": {
-        "verdict": "UNCERTAIN",
-        "confidence": 55,
-        "summary": "QSR (Restaurant Brands International) no ha mostrado un deterioro fundamental dr\u00e1stico reciente conocido hasta mi corte de entrenamiento; la ca\u00edda de 28pts en el score parece m\u00e1s t\u00e9cnica/cuantitativa que basada en eventos fundamentales nuevos. El score fundamental de 65.5/100 sigue siendo decente, lo que sugiere que la ca\u00edda podr\u00eda deberse a una correcci\u00f3n de precio o cambio en m\u00e9tricas de valoraci\u00f3n m\u00e1s que a un deterioro real del negocio.",
-        "key_finding": "No hay evidencia clara de guidance cuts, earnings misses severos o cambios de gesti\u00f3n recientes que justifiquen una ca\u00edda tan abrupta; la se\u00f1al podr\u00eda reflejar m\u00e1s un ajuste de valoraci\u00f3n (price-driven) que un cambio fundamental real.",
-        "summary_note": "QSR (Restaurant Brands International) no ha mostrado un deterioro fundamental dr\u00e1stico reciente conocido hasta mi corte de entrenamiento; la ca\u00edda de 28pts en el score parece m\u00e1s t\u00e9cnica/cuantitativa que basada en eventos fundamentales nuevos. El score fundamental de 65.5/100 sigue siendo decente, lo que sugiere que la ca\u00edda podr\u00eda deberse a una correcci\u00f3n de precio o cambio en m\u00e9tricas de valoraci\u00f3n m\u00e1s que a un deterioro real del negocio."
-      }
-    },
-    {
-      "ticker": "AON",
-      "severity": "HIGH",
-      "entry_score": 51.13,
-      "current_score": null,
-      "signal_date": "2026-08-24",
-      "reasons": [
-        "Ya no aparece en VALUE \u2014 tesis posiblemente rota"
-      ],
-      "fundamental_score": 50.5,
+      "fundamental_score": 65.0,
       "ai_validation": {
         "verdict": "FALSE_POSITIVE",
-        "confidence": 68,
-        "summary": "AON es una aseguradora/broker de riesgos con fundamentales estables y crecimiento consistente; su salida de la categor\u00eda VALUE probablemente se debe a una valoraci\u00f3n m\u00e1s alta tras la apreciaci\u00f3n del precio, no a un deterioro del negocio. No hay evidencia de ca\u00eddas de beneficios, recortes de gu\u00eda o esc\u00e1ndalos recientes relevantes.",
-        "key_finding": "AON ha mantenido crecimiento de ingresos y m\u00e1rgenes estables, con la fusi\u00f3n fallida con Willis Towers Watson (2021) como evento pasado ya superado, sin se\u00f1ales nuevas de deterioro fundamental.",
-        "summary_note": "AON es una aseguradora/broker de riesgos con fundamentales estables y crecimiento consistente; su salida de la categor\u00eda VALUE probablemente se debe a una valoraci\u00f3n m\u00e1s alta tras la apreciaci\u00f3n del precio, no a un deterioro del negocio. No hay evidencia de ca\u00eddas de beneficios, recortes de gu\u00eda o esc\u00e1ndalos recientes relevantes."
+        "confidence": 85,
+        "summary": "El deterioro del score probablemente se debe a la correcci\u00f3n del precio tras una fuerte subida, reduciendo el margen de seguridad, mientras que los fundamentales de QSR siguen siendo s\u00f3lidos con crecimiento estable en ventas y m\u00e1rgenes.",
+        "key_finding": "QSR ha mantenido un crecimiento consistente en ventas netas y flujo de caja libre, sin eventos negativos fundamentales recientes como recortes de gu\u00eda o cambios de gesti\u00f3n."
       }
     },
     {
@@ -67,7 +31,7 @@
       "reasons": [
         "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
       ],
-      "fundamental_score": 67.1
+      "fundamental_score": 67.6
     },
     {
       "ticker": "META",
@@ -81,26 +45,15 @@
       "fundamental_score": 68.1
     },
     {
-      "ticker": "OXY",
-      "severity": "MEDIUM",
-      "entry_score": 62.24000000000001,
-      "current_score": null,
-      "signal_date": "2026-08-20",
-      "reasons": [
-        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
-      ],
-      "fundamental_score": 78.1
-    },
-    {
       "ticker": "ICE",
       "severity": "MEDIUM",
       "entry_score": 60.095,
-      "current_score": 39.735,
+      "current_score": 34.315,
       "signal_date": "2026-10-13",
       "reasons": [
-        "Score cay\u00f3 20pts (60 \u2192 40)"
+        "Score cay\u00f3 26pts (60 \u2192 34) \u2014 ca\u00edda t\u00e9cnica/momentum, balance s\u00f3lido (Piotroski 8/9)"
       ],
-      "fundamental_score": 67.6
+      "fundamental_score": 70.3
     },
     {
       "ticker": "NDSN",
@@ -111,7 +64,7 @@
       "reasons": [
         "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
       ],
-      "fundamental_score": 75.1
+      "fundamental_score": 74.4
     },
     {
       "ticker": "CLPBY",
@@ -122,17 +75,16 @@
       "reasons": [
         "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
       ],
-      "fundamental_score": 66.7
+      "fundamental_score": 65.7
     },
     {
       "ticker": "MCO",
       "severity": "MEDIUM",
       "entry_score": 59.17999999999999,
-      "current_score": 34.195,
+      "current_score": null,
       "signal_date": "2026-09-24",
       "reasons": [
-        "Score cay\u00f3 25pts (59 \u2192 34)",
-        "Earnings en 5d \u2014 alta incertidumbre, considera reducir"
+        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
       ],
       "fundamental_score": 69.5
     },
@@ -140,10 +92,10 @@
       "ticker": "SPGI",
       "severity": "MEDIUM",
       "entry_score": 58.14,
-      "current_score": null,
+      "current_score": 38.6,
       "signal_date": "2026-09-01",
       "reasons": [
-        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
+        "Score cay\u00f3 20pts (58 \u2192 39)"
       ],
       "fundamental_score": 64.0
     },
@@ -167,18 +119,18 @@
       "reasons": [
         "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
       ],
-      "fundamental_score": 72.0
+      "fundamental_score": 72.6
     },
     {
       "ticker": "TW",
       "severity": "MEDIUM",
       "entry_score": 57.05500000000001,
-      "current_score": null,
+      "current_score": 35.92,
       "signal_date": "2026-08-28",
       "reasons": [
-        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
+        "Score cay\u00f3 21pts (57 \u2192 36)"
       ],
-      "fundamental_score": 69.1
+      "fundamental_score": 69.8
     },
     {
       "ticker": "HEI",
@@ -211,7 +163,18 @@
       "reasons": [
         "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
       ],
-      "fundamental_score": 75.1
+      "fundamental_score": 75.8
+    },
+    {
+      "ticker": "OXY",
+      "severity": "MEDIUM",
+      "entry_score": 53.155,
+      "current_score": 33.54,
+      "signal_date": "2026-09-18",
+      "reasons": [
+        "Score cay\u00f3 20pts (53 \u2192 34)"
+      ],
+      "fundamental_score": 80.1
     },
     {
       "ticker": "TT",
@@ -228,12 +191,23 @@
       "ticker": "FCNCA",
       "severity": "MEDIUM",
       "entry_score": 51.92499999999999,
-      "current_score": 38.905,
+      "current_score": 38.69999999999999,
       "signal_date": "2026-09-18",
       "reasons": [
-        "Earnings en 7d \u2014 alta incertidumbre, considera reducir"
+        "Earnings en 4d \u2014 alta incertidumbre, considera reducir"
       ],
-      "fundamental_score": 64.5
+      "fundamental_score": 65.1
+    },
+    {
+      "ticker": "AON",
+      "severity": "MEDIUM",
+      "entry_score": 51.13,
+      "current_score": 32.56,
+      "signal_date": "2026-08-24",
+      "reasons": [
+        "Score cay\u00f3 19pts (51 \u2192 33)"
+      ],
+      "fundamental_score": 52.9
     },
     {
       "ticker": "CNI",

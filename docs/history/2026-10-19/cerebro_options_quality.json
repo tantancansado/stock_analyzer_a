@@ -1,0 +1,50 @@
+{
+  "generated_at": "2026-10-19",
+  "total": 32,
+  "tier1": 1,
+  "tier2": 1,
+  "tier3": 7,
+  "noise_filtered": 23,
+  "actionable": [
+    {
+      "ticker": "AON",
+      "company_name": "Aon plc",
+      "sentiment": "BULLISH",
+      "tier": "TIER1",
+      "quality_score": 65,
+      "value_score": 32.6,
+      "fcf_yield": 5.27,
+      "insider_confirmation": true,
+      "in_value": true,
+      "quality_factors": [
+        "VALUE weak (33pts)",
+        "FCF 5.3%",
+        "INSIDER CONF",
+        "DIRECTIONAL (100% calls)"
+      ],
+      "flow_score": 60.0,
+      "total_premium": 162720.0,
+      "detected_date": "2026-10-19"
+    },
+    {
+      "ticker": "ICE",
+      "company_name": "Intercontinental Exchange, Inc.",
+      "sentiment": "BULLISH",
+      "tier": "TIER2",
+      "quality_score": 45,
+      "value_score": 34.3,
+      "fcf_yield": 5.21,
+      "insider_confirmation": false,
+      "in_value": true,
+      "quality_factors": [
+        "VALUE weak (34pts)",
+        "FCF 5.2%",
+        "DIRECTIONAL (100% calls)"
+      ],
+      "flow_score": 60.0,
+      "total_premium": 159210.0,
+      "detected_date": "2026-10-19"
+    }
+  ],
+  "narrative": ""
+}

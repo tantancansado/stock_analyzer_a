@@ -1,81 +1,71 @@
 {
-  "generated_at": "2026-10-16",
+  "generated_at": "2026-10-19",
   "alerts": [
     {
       "type": "SCORE_UP",
-      "ticker": "PAYX",
-      "company_name": "Paychex, Inc.",
+      "ticker": "BR",
+      "company_name": "Broadridge Financial Solutions, Inc.",
       "sector": "Technology",
-      "score_today": 51.0,
-      "score_prev": 35.0,
-      "delta": 15.9,
+      "score_today": 69.9,
+      "score_prev": 53.8,
+      "delta": 16.1,
+      "grade": "⭐⭐ STRONG"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "GOOG",
+      "company_name": "Alphabet Inc.",
+      "sector": "Communication Services",
+      "score_today": 48.6,
+      "score_prev": 39.7,
+      "delta": 8.9,
+      "grade": "⚪ WEAK"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "WM",
+      "company_name": "Waste Management, Inc.",
+      "sector": "Industrials",
+      "score_today": 39.4,
+      "score_prev": 31.0,
+      "delta": 8.4,
+      "grade": "⚪ WEAK"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "NYT",
+      "company_name": "The New York Times Company",
+      "sector": "Communication Services",
+      "score_today": 42.6,
+      "score_prev": 36.0,
+      "delta": 6.6,
       "grade": "🔵 DECENT"
     },
     {
       "type": "SCORE_UP",
-      "ticker": "MSFT",
-      "company_name": "Microsoft Corporation",
+      "ticker": "VRSN",
+      "company_name": "VeriSign, Inc.",
       "sector": "Technology",
-      "score_today": 69.6,
-      "score_prev": 61.3,
-      "delta": 8.3,
-      "grade": "⭐ GOOD"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "FHN",
-      "company_name": "First Horizon Corporation",
-      "sector": "Financial Services",
-      "score_today": 49.4,
-      "score_prev": 42.8,
-      "delta": 6.6,
-      "grade": "⚪ WEAK"
+      "score_today": 46.3,
+      "score_prev": 41.0,
+      "delta": 5.3,
+      "grade": "🔵 DECENT"
     },
     {
       "type": "SCORE_DOWN",
-      "ticker": "7741.T",
-      "company_name": "HOYA Corporation",
-      "sector": "Healthcare",
-      "score_today": 40.2,
-      "score_prev": 45.7,
+      "ticker": "ICE",
+      "company_name": "Intercontinental Exchange, Inc.",
+      "sector": "Financial Services",
+      "score_today": 34.3,
+      "score_prev": 39.7,
       "delta": -5.4,
-      "grade": "⚪ WEAK"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "JKHY",
-      "company_name": "Jack Henry & Associates, Inc.",
-      "sector": "Technology",
-      "score_today": 30.1,
-      "score_prev": 37.2,
-      "delta": -7.0,
-      "grade": "⚪ WEAK"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "MA",
-      "company_name": "Mastercard Incorporated",
-      "sector": "Financial Services",
-      "score_today": 55.3,
-      "score_prev": 63.3,
-      "delta": -8.0,
-      "grade": "⭐ GOOD"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "BAC",
-      "company_name": "Bank of America Corporation",
-      "sector": "Financial Services",
-      "score_today": 30.0,
-      "score_prev": 40.0,
-      "delta": -10.0,
       "grade": "⚪ WEAK"
     }
   ],
   "counts": {
     "new_entries": 0,
     "exited": 0,
-    "score_up": 3,
-    "score_down": 4
+    "score_up": 5,
+    "score_down": 1
   }
 }

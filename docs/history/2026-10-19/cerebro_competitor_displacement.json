@@ -1,0 +1,64 @@
+{
+  "generated_at": "2026-10-19",
+  "total": 5,
+  "dropped_count": 2,
+  "narrative": "1. Cuando la din\u00e1mica sectorial favorece la rotaci\u00f3n, es m\u00e1s prudente cambiar posiciones antes que esperar a que el mercado se mueva.  \n2. En situaciones de tailwind sectorial, rotar dentro del mismo sector suele generar mejores resultados que quedarse inactivo y esperar.",
+  "displacements": [
+    {
+      "type": "COMPETITOR_RISE",
+      "dropped_ticker": "RACE.MI",
+      "sector": "Consumer Cyclical",
+      "prev_score": 56.2,
+      "replacements": [
+        "CPG.L"
+      ],
+      "top_replacement": "CPG.L",
+      "top_replacement_score": 53.1,
+      "detail": "RACE.MI sali\u00f3 de VALUE (56pts); peers en Consumer Cyclical: CPG.L"
+    },
+    {
+      "type": "COMPETITOR_RISE",
+      "dropped_ticker": "ITX.MC",
+      "sector": "Consumer Cyclical",
+      "prev_score": 57.3,
+      "replacements": [
+        "CPG.L"
+      ],
+      "top_replacement": "CPG.L",
+      "top_replacement_score": 53.1,
+      "detail": "ITX.MC sali\u00f3 de VALUE (57pts); peers en Consumer Cyclical: CPG.L"
+    },
+    {
+      "type": "EXIT_TO_PEER",
+      "exiting_ticker": "EXPN.L",
+      "sector": "Industrials",
+      "replacement": "WKL.AS",
+      "replacement_score": 66.2,
+      "detail": "Exit EXPN.L (Industrials) \u2192 rotar a peer WKL.AS (66pts)"
+    },
+    {
+      "type": "SECTOR_TAILWIND",
+      "sector": "Technology",
+      "rotation_score": 100.0,
+      "beneficiaries": [
+        "MSFT",
+        "BR",
+        "SGE.L"
+      ],
+      "top_ticker": "MSFT",
+      "top_score": 73.86,
+      "detail": "Sector Technology l\u00edder (RS 100) \u2014 MSFT, BR, SGE.L son los picks VALUE"
+    },
+    {
+      "type": "SECTOR_TAILWIND",
+      "sector": "Healthcare",
+      "rotation_score": 100.0,
+      "beneficiaries": [
+        "AZN.L"
+      ],
+      "top_ticker": "AZN.L",
+      "top_score": 67.3,
+      "detail": "Sector Healthcare l\u00edder (RS 100) \u2014 AZN.L son los picks VALUE"
+    }
+  ]
+}
