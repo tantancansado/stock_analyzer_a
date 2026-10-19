@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-10-16T18:38:15.227212",
+  "generated_at": "2026-10-19T20:21:01.364345",
   "risk_free_rate_pct": 4.3,
-  "universe_size": 51,
-  "analyzed": 5,
+  "universe_size": 47,
+  "analyzed": 3,
   "methodology": {
     "delta_band": [
       0.7,
@@ -12,104 +12,5 @@
     "max_carry_pct": 14.0,
     "note": "LEAPS deep-ITM como sustituto apalancado de acciones sobre empresas de calidad en buen momento"
   },
-  "opportunities": [
-    {
-      "ticker": "YUM",
-      "company_name": "Yum! Brands, Inc.",
-      "sector": "Consumer Cyclical",
-      "spot": 150.1,
-      "quality_score": 62.0,
-      "timing_score": 56.0,
-      "analyst_upside_pct": 14.0,
-      "conviction_grade": "B",
-      "opportunity_score": 78.1,
-      "situation": "CALIDAD_RAZONABLE",
-      "pct_from_52w_high": -11.3,
-      "ytd_pct": 1.2,
-      "hv_1y_pct": 24.5,
-      "days_to_earnings": 18,
-      "earnings_warning": false,
-      "forward_pe": 21.8,
-      "trailing_pe": 18.9,
-      "recommended_contract": {
-        "expiry": "2028-01-21",
-        "dte": 462,
-        "t_years": 1.27,
-        "strike": 105.0,
-        "bid": 48.0,
-        "ask": 52.5,
-        "mid": 50.25,
-        "cost_per_contract": 5025.0,
-        "iv_pct": 41.5,
-        "open_interest": 53,
-        "volume": 2,
-        "spread_pct": 9.0,
-        "roundtrip_spread_usd": 450.0,
-        "contract_score": 84.0,
-        "target_return_pct": 31.5,
-        "delta": 0.834,
-        "intrinsic": 45.1,
-        "extrinsic": 5.15,
-        "extrinsic_pct": 3.43,
-        "annual_carry_pct": 2.71,
-        "forgone_dividend_pct": 1.99,
-        "total_annual_cost_pct": 4.7,
-        "leverage": 2.49,
-        "breakeven": 155.25,
-        "breakeven_move_pct": 3.43,
-        "spread_sobre_extrinseco_pct": 88.0,
-        "iv_vs_hv": null,
-        "iv_richness": null,
-        "iv_nota": "la horquilla se come el valor temporal: esta IV no dice nada sobre si la volatilidad está cara"
-      },
-      "alternative_contracts": [],
-      "profit_at_target": {
-        "target_price": 171.06,
-        "target_origen": "consenso de analistas",
-        "stock_return_pct": 14.0,
-        "option_return_pct": 31.5,
-        "leverage_realized": 2.3,
-        "ventaja_neta_pct": 8.58,
-        "ventaja_neta_usd": 431,
-        "si_no_se_mueve": {
-          "precio": 150.1,
-          "option_return_pct": -10.2,
-          "stock_return_pct": 0.0,
-          "nota": "al vencimiento la opción vale solo su intrínseco: el valor temporal se pierde entero"
-        },
-        "escenario_prudente": {
-          "target_price": 152.59,
-          "target_origen": "el más bajo de tus modelos (DCF / P/E)",
-          "stock_return_pct": 1.7,
-          "option_return_pct": -5.3,
-          "nota": "al vencimiento, la opción vale solo su valor intrínseco"
-        }
-      },
-      "valoracion_propia": {
-        "upside_dcf_pct": 15.3,
-        "upside_pe_pct": 1.7,
-        "upside_triangulado_pct": 13.4,
-        "modelos_acuerdo": "COHERENTES",
-        "contradice_al_analista": false,
-        "aviso": null,
-        "target_prudente": 152.59,
-        "upside_prudente_pct": 1.7
-      },
-      "in_value_list": true,
-      "entry_readiness": "VIGILAR",
-      "entry_readiness_reason": "Construyendo base (lateral) — espera la reconquista de las medias",
-      "why_cheap": null,
-      "why_cheap_resumen": null,
-      "ai_narrative": "Esta call da exposición apalancada (2.49x) a YUM con riesgo limitado a la prima ($5025/contrato). Coste real de holding 4.7%/año penaliza si la acción se queda lateral mucho tiempo.",
-      "situation_verdict": {
-        "verdict": "RAZONABLE",
-        "reason": "No se ha investigado la causa de la caída, y con calidad fundamental de solo 62/100 no es una 'empresa excelente' clara; el múltiplo (18.9x trailing) no está estirado, pero el upside es modesto (triangulado +13.4%)."
-      },
-      "exit_plan": {
-        "take_profit": "Vender hacia $171 (objetivo de consenso), ya que la calidad media (62/100) no justifica esperar más allá del objetivo prudente de $152.6 sin revisar la tesis.",
-        "roll": "Rolar a 2029 si a 6 meses de vencimiento (mediados 2027) la acción cotiza entre $150-165 y el valor temporal se ha erosionado sin alcanzar el objetivo.",
-        "thesis_break": "Si surge evidencia de deterioro real (caída de same-store sales, pérdida de cuota de mercado, deterioro de márgenes) en vez de causa externa/cíclica, se cierra la posición."
-      }
-    }
-  ]
+  "opportunities": []
 }
