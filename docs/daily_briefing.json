@@ -1,65 +1,44 @@
 {
-  "fecha": "2026-10-16",
-  "texto": "<b>Hoy no hay nada que comprar.</b> Los 24 nombres en radar siguen igual: ninguno cumple el punto de entrada.\n\nPara vigilar, dos candidatas baratas que todavía no dan la señal:\n\n<b>Broadridge (BR)</b>, a 174$, cae un 26% desde máximos pese a resultados sólidos y guidance al alza — la caída es puro sentimiento (ventas de ejecutivos), no deterioro del negocio. El beneficio sí está respaldado por el negocio real, así que si entra en comprable es con confianza. Tiene resultados en 18 días: si vas a entrar, ten en cuenta que la tesis se juega esa reacción.\n\n<b>Paychex (PAYX)</b>, a 110,78$, también castigada por sentimiento: se desplomó un 9% en un día pese a crecer ingresos y márgenes. Aun así el modelo le ve poco recorrido por PER (8,2%) y algo más por DCF (17%) — barata todavía no es comprable, y aquí el margen de seguridad es estrecho.\n\nMA sale de la lista de seguimiento hoy.\n\nRecordatorio de tamaño: en los últimos 180 días el sistema acertó el 77,3% de las veces con un retorno medio del 8,31% (22 señales). Dato ya consolidado, no provisional — pero sigue siendo guía, no garantía.",
-  "hechos": {
-    "fecha": "2026-10-16",
-    "total_lista": 24,
-    "datos_incompletos": [],
-    "picks_nuevos": [],
-    "picks_que_se_van": [
-      "MA"
-    ],
-    "comprables": [],
-    "vigilar": [
-      {
-        "ticker": "BR",
-        "empresa": "Broadridge Financial Solutions",
-        "score": 53.77499999999999,
-        "precio": 174.11,
-        "upside_analista": 22.6,
-        "upside_triangulado": 41.6,
-        "divergencia": "",
-        "fcf_yield": 6.27,
-        "del_maximo_pct": -26.2,
-        "rs_6m": -0.98,
-        "timing": "VIGILAR",
-        "por_que_cae": "SENTIMIENTO",
-        "por_que_cae_detalle": "Broadridge reporta resultados sólidos y elevan guidance (ingresos recurrentes en extremo superior de rango 5-7%, EPS 8-12%), pero sufre presión por ventas internas de ejecutivos y ",
-        "dias_a_resultados": 18.0,
-        "objetivo_por_pe_pct": 75.8,
-        "objetivo_dcf_pct": 41.6,
-        "beneficio_respaldado_por_negocio": true
-      },
-      {
-        "ticker": "PAYX",
-        "empresa": "Paychex, Inc.",
-        "score": 50.97,
-        "precio": 110.78,
-        "upside_analista": 2.8,
-        "upside_triangulado": 8.2,
-        "divergencia": "",
-        "fcf_yield": 5.11,
-        "del_maximo_pct": -14.0,
-        "rs_6m": 14.05,
-        "timing": "VIGILAR",
-        "por_que_cae": "SENTIMIENTO",
-        "por_que_cae_detalle": "<cite index=\"10-2\">Paychex cayó un 9% el 23 de septiembre de 2026 a pesar de que ingresos crecieron 6%, márgenes se expandieron 280 puntos base, y mantuvo su guidance.</cite> <cite",
-        "dias_a_resultados": 63.0,
-        "objetivo_por_pe_pct": 8.2,
-        "objetivo_dcf_pct": 17.0,
-        "beneficio_respaldado_por_negocio": true
-      }
-    ],
-    "tesis_rotas": [],
-    "rotas_son_tuyas": true,
-    "regimen_cambio": null,
-    "rendimiento_sistema": {
-      "horizonte": "180d",
-      "es_horizonte_definitivo": true,
-      "nota": null,
-      "acierto_pct": 77.3,
-      "retorno_medio": 8.31,
-      "n": 22
+  "date": "2026-10-19",
+  "timestamp": "2026-10-19T05:32:37.700648",
+  "narrative": "",
+  "macro_regime": "WATCH",
+  "picks_count": 8,
+  "top_picks": [
+    {
+      "ticker": "BR",
+      "sector": "Technology",
+      "value_score": 69.87499999999999,
+      "analyst_upside_pct": 21.9,
+      "conviction_grade": null
+    },
+    {
+      "ticker": "PAYX",
+      "sector": "Technology",
+      "value_score": 51.41499999999999,
+      "analyst_upside_pct": 2.1,
+      "conviction_grade": null
+    },
+    {
+      "ticker": "THC",
+      "sector": "Healthcare",
+      "value_score": 47.66499999999999,
+      "analyst_upside_pct": 7.2,
+      "conviction_grade": null
+    },
+    {
+      "ticker": "NYT",
+      "sector": "Communication Services",
+      "value_score": 42.6,
+      "analyst_upside_pct": 13.4,
+      "conviction_grade": null
+    },
+    {
+      "ticker": "7741.T",
+      "sector": "Healthcare",
+      "value_score": 41.005,
+      "analyst_upside_pct": 16.5,
+      "conviction_grade": null
     }
-  }
+  ]
 }

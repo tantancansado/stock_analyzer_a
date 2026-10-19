@@ -1,78 +1,78 @@
 {
-  "date": "2026-10-16",
-  "timestamp": "2026-10-16T05:09:04.888255",
-  "narrative": "La rotaci\u00f3n muestra una clara preferencia por la salud y la tecnolog\u00eda, con los cinco l\u00edderes (instalaciones m\u00e9dicas, diagn\u00f3stico, infraestructura de software, farmac\u00e9uticos especializados y contenido digital) acumulando RS\u202f>\u202f50, mientras que los sectores defensivos y c\u00edclicos tradicionales (dispositivos m\u00e9dicos, autopartes, alimentos empacados, construcci\u00f3n residencial y materiales) se encuentran en el fondo con RS\u202f\u2264\u202f15. Este desplazamiento hacia activos de crecimiento y alta rentabilidad es coherente con el entorno macro \u201cCALM\u201d, donde la volatilidad es baja y los flujos buscan retornos superiores a la tasa libre de riesgo. Enf\u00f3quese ahora en salud (especialmente instalaciones y farmac\u00e9uticos) y software de infraestructura",
-  "macro_regime": "CALM",
+  "date": "2026-10-19",
+  "timestamp": "2026-10-19T05:32:39.842889",
+  "narrative": "Tendencia de rotaci\u00f3n: los sectores defensivos (Healthcare, Consumer Defensive, Industrials) lideran con",
+  "macro_regime": "WATCH",
   "top_sectors": [
     {
       "industry": "Medical Care Facilities",
       "sector": "Healthcare",
-      "avg_rs_percentile": 72.4,
+      "avg_rs_percentile": 70.4,
       "num_tickers": 2,
       "label": "Top 10%"
     },
     {
       "industry": "Diagnostics & Research",
       "sector": "Healthcare",
-      "avg_rs_percentile": 61.8,
+      "avg_rs_percentile": 63.3,
       "num_tickers": 4,
       "label": "Top 10%"
     },
     {
       "industry": "Software - Infrastructure",
       "sector": "Technology",
-      "avg_rs_percentile": 61.2,
+      "avg_rs_percentile": 58.4,
       "num_tickers": 4,
       "label": "Top 10%"
     },
     {
-      "industry": "Drug Manufacturers - Specialty & Generic",
-      "sector": "Healthcare",
-      "avg_rs_percentile": 54.4,
+      "industry": "Beverages - Non-Alcoholic",
+      "sector": "Consumer Defensive",
+      "avg_rs_percentile": 57.7,
       "num_tickers": 2,
       "label": "Top 10%"
     },
     {
-      "industry": "Internet Content & Information",
-      "sector": "Communication Services",
-      "avg_rs_percentile": 51.9,
-      "num_tickers": 2,
+      "industry": "Railroads",
+      "sector": "Industrials",
+      "avg_rs_percentile": 55.7,
+      "num_tickers": 3,
       "label": "Top 25%"
     }
   ],
   "bottom_sectors": [
     {
-      "industry": "Medical Devices",
-      "sector": "Healthcare",
-      "avg_rs_percentile": 15.3,
-      "num_tickers": 3,
-      "label": "Bottom 25%"
-    },
-    {
       "industry": "Auto Parts",
       "sector": "Consumer Cyclical",
-      "avg_rs_percentile": 14.7,
+      "avg_rs_percentile": 19.6,
       "num_tickers": 2,
       "label": "Bottom 25%"
     },
     {
       "industry": "Packaged Foods",
       "sector": "Consumer Defensive",
-      "avg_rs_percentile": 13.2,
+      "avg_rs_percentile": 19.5,
+      "num_tickers": 2,
+      "label": "Bottom 25%"
+    },
+    {
+      "industry": "Medical Devices",
+      "sector": "Healthcare",
+      "avg_rs_percentile": 17.3,
+      "num_tickers": 3,
+      "label": "Bottom 25%"
+    },
+    {
+      "industry": "Building Materials",
+      "sector": "Basic Materials",
+      "avg_rs_percentile": 9.8,
       "num_tickers": 2,
       "label": "Bottom 25%"
     },
     {
       "industry": "Residential Construction",
       "sector": "Consumer Cyclical",
-      "avg_rs_percentile": 6.1,
-      "num_tickers": 2,
-      "label": "Bottom 25%"
-    },
-    {
-      "industry": "Building Materials",
-      "sector": "Basic Materials",
-      "avg_rs_percentile": 5.7,
+      "avg_rs_percentile": 6.8,
       "num_tickers": 2,
       "label": "Bottom 25%"
     }

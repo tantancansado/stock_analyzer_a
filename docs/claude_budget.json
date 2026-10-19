@@ -48,5 +48,8 @@
   "techo_mes": 9.148156,
   "ultima_llamada": "2026-10-16T18:38:15.226511+00:00",
   "llamadas_lote": 24,
-  "ahorro_lote_usd": 0.293576
+  "ahorro_lote_usd": 0.293576,
+  "sin_credito": true,
+  "sin_credito_desde": "2026-10-19T04:55:40.322009+00:00",
+  "sin_credito_mensaje": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purcha"
 }
