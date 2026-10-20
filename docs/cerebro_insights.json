@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-19",
+  "generated_at": "2026-10-20",
   "total_analyzed": 783,
   "poblacion": "VALUE",
   "baseline_win_rate": 66.4,
@@ -20,7 +20,7 @@
       "horizonte": "90d",
       "win_rate": 77.8,
       "avg_return": 17.34,
-      "avg_return_2": 77.51,
+      "avg_return_2": 72.72,
       "n": 36,
       "vs_baseline_wr": 11.4,
       "vs_baseline_ret": 10.23
@@ -30,7 +30,7 @@
       "horizonte": "90d",
       "win_rate": 63.8,
       "avg_return": 7.4,
-      "avg_return_2": 18.45,
+      "avg_return_2": 18.15,
       "n": 235,
       "vs_baseline_wr": -2.6,
       "vs_baseline_ret": 0.29
@@ -40,7 +40,7 @@
       "horizonte": "90d",
       "win_rate": 71.7,
       "avg_return": 4.97,
-      "avg_return_2": 13.26,
+      "avg_return_2": 13.23,
       "n": 321,
       "vs_baseline_wr": 5.2,
       "vs_baseline_ret": -2.14
@@ -52,7 +52,7 @@
       "horizonte": "90d",
       "win_rate": 67.3,
       "avg_return": 7.76,
-      "avg_return_2": 18.95,
+      "avg_return_2": 18.75,
       "n": 623,
       "vs_baseline_wr": 0.8,
       "vs_baseline_ret": 0.65
@@ -74,7 +74,7 @@
       "horizonte": "90d",
       "win_rate": 82.1,
       "avg_return": 8.32,
-      "avg_return_2": 23.65,
+      "avg_return_2": 23.63,
       "n": 369,
       "vs_baseline_wr": 15.7,
       "vs_baseline_ret": 1.21
@@ -84,7 +84,7 @@
       "horizonte": "90d",
       "win_rate": 74.3,
       "avg_return": 12.08,
-      "avg_return_2": 19.06,
+      "avg_return_2": 18.53,
       "n": 35,
       "vs_baseline_wr": 7.9,
       "vs_baseline_ret": 4.97
@@ -144,7 +144,7 @@
       "horizonte": "90d",
       "win_rate": 48.2,
       "avg_return": -0.44,
-      "avg_return_2": 16.88,
+      "avg_return_2": 15.7,
       "n": 85,
       "vs_baseline_wr": -18.2,
       "vs_baseline_ret": -7.55
@@ -154,7 +154,7 @@
       "horizonte": "90d",
       "win_rate": 43.2,
       "avg_return": 2.68,
-      "avg_return_2": -0.53,
+      "avg_return_2": -0.13,
       "n": 132,
       "vs_baseline_wr": -23.2,
       "vs_baseline_ret": -4.43
@@ -176,7 +176,7 @@
       "horizonte": "90d",
       "win_rate": 60.7,
       "avg_return": 6.92,
-      "avg_return_2": 34.11,
+      "avg_return_2": 32.97,
       "n": 178,
       "vs_baseline_wr": -5.7,
       "vs_baseline_ret": -0.19
@@ -186,7 +186,7 @@
       "horizonte": "90d",
       "win_rate": 47.9,
       "avg_return": 2.65,
-      "avg_return_2": -0.7,
+      "avg_return_2": -0.09,
       "n": 169,
       "vs_baseline_wr": -18.5,
       "vs_baseline_ret": -4.46
@@ -218,7 +218,7 @@
       "horizonte": "90d",
       "win_rate": 59.1,
       "avg_return": 7.23,
-      "avg_return_2": 23.27,
+      "avg_return_2": 22.63,
       "n": 313,
       "vs_baseline_wr": -7.3,
       "vs_baseline_ret": 0.12
@@ -267,12 +267,12 @@
       "horizonte": "90d",
       "win_rate": 90.6,
       "avg_return": 23.53,
-      "avg_return_2": 81.89,
+      "avg_return_2": 79.32,
       "n": 32,
       "vs_baseline_wr": 24.2,
       "vs_baseline_ret": 16.42
     }
   ],
   "hay_senal": true,
-  "narrative": "Para maximizar la tasa de aciertos, conc\u00e9ntrate en valores del sector **Financial Services** y en se\u00f1ales con **Score entre 50 y 60**,"
+  "narrative": "- Prioriza se\u00f1ales cuyo **Score** est\u00e9 entre 50 y 60 (WR\u202f71.7\u202f%) y, a\u00fan mejor, aquellas con **Score\u202f\u2265\u202f70** combinadas con **FCF\u202f\u2265\u202f5\u202f%**, que alcanzan un win\u2011rate del **90.6\u202f%**.  \n- Enf\u00f3cate en el sector **Financial"
 }

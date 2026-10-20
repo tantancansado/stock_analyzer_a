@@ -1,0 +1,29 @@
+{
+  "listas": {
+    "value_opportunities": {
+      "candidatas": 68,
+      "publicadas": 65,
+      "excluidos": [
+        {
+          "ticker": "ERIE",
+          "paso": "rangos_imposibles",
+          "motivo": "Falta analyst_upside_pct: no se recomienda lo que no se puede evaluar",
+          "score": 45.397999999999996
+        },
+        {
+          "ticker": "VCISY",
+          "paso": "rangos_imposibles",
+          "motivo": "DCF fuera de rango: no es una valoración, es un dato roto (visto 265.9, esperado entre -95 y 200)",
+          "score": 38.92
+        },
+        {
+          "ticker": "KYCCF",
+          "paso": "rangos_imposibles",
+          "motivo": "Falta analyst_upside_pct: no se recomienda lo que no se puede evaluar",
+          "score": 36.89
+        }
+      ]
+    }
+  },
+  "generated_at": "2026-10-20T05:09:19Z"
+}

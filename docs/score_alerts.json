@@ -1,71 +1,101 @@
 {
-  "generated_at": "2026-10-19",
+  "generated_at": "2026-10-20",
   "alerts": [
     {
       "type": "SCORE_UP",
-      "ticker": "BR",
-      "company_name": "Broadridge Financial Solutions, Inc.",
-      "sector": "Technology",
-      "score_today": 69.9,
-      "score_prev": 53.8,
-      "delta": 16.1,
-      "grade": "⭐⭐ STRONG"
+      "ticker": "ICE",
+      "company_name": "Intercontinental Exchange, Inc.",
+      "sector": "Financial Services",
+      "score_today": 53.7,
+      "score_prev": 34.3,
+      "delta": 19.4,
+      "grade": "⭐ GOOD"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "AON",
+      "company_name": "Aon plc",
+      "sector": "Financial Services",
+      "score_today": 42.5,
+      "score_prev": 32.6,
+      "delta": 9.9,
+      "grade": "🔵 DECENT"
     },
     {
       "type": "SCORE_UP",
       "ticker": "GOOG",
       "company_name": "Alphabet Inc.",
       "sector": "Communication Services",
-      "score_today": 48.6,
-      "score_prev": 39.7,
-      "delta": 8.9,
-      "grade": "⚪ WEAK"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "WM",
-      "company_name": "Waste Management, Inc.",
-      "sector": "Industrials",
-      "score_today": 39.4,
-      "score_prev": 31.0,
-      "delta": 8.4,
-      "grade": "⚪ WEAK"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "NYT",
-      "company_name": "The New York Times Company",
-      "sector": "Communication Services",
-      "score_today": 42.6,
-      "score_prev": 36.0,
-      "delta": 6.6,
+      "score_today": 57.9,
+      "score_prev": 48.6,
+      "delta": 9.3,
       "grade": "🔵 DECENT"
     },
     {
       "type": "SCORE_UP",
-      "ticker": "VRSN",
-      "company_name": "VeriSign, Inc.",
-      "sector": "Technology",
-      "score_today": 46.3,
-      "score_prev": 41.0,
-      "delta": 5.3,
+      "ticker": "WTKWY",
+      "company_name": "Wolters Kluwer N.V.",
+      "sector": "Industrials",
+      "score_today": 46.8,
+      "score_prev": 37.7,
+      "delta": 9.1,
       "grade": "🔵 DECENT"
     },
     {
       "type": "SCORE_DOWN",
-      "ticker": "ICE",
-      "company_name": "Intercontinental Exchange, Inc.",
+      "ticker": "PAYX",
+      "company_name": "Paychex, Inc.",
+      "sector": "Technology",
+      "score_today": 45.5,
+      "score_prev": 51.4,
+      "delta": -5.9,
+      "grade": "🔵 DECENT"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "KO",
+      "company_name": "The Coca-Cola Company",
+      "sector": "Consumer Defensive",
+      "score_today": 54.3,
+      "score_prev": 63.3,
+      "delta": -9.0,
+      "grade": "⭐ GOOD"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "MSFT",
+      "company_name": "Microsoft Corporation",
+      "sector": "Technology",
+      "score_today": 63.5,
+      "score_prev": 73.9,
+      "delta": -10.4,
+      "grade": "⭐ GOOD"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "BR",
+      "company_name": "Broadridge Financial Solutions, Inc.",
+      "sector": "Technology",
+      "score_today": 58.6,
+      "score_prev": 69.9,
+      "delta": -11.2,
+      "grade": "⭐ GOOD"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "MA",
+      "company_name": "Mastercard Incorporated",
       "sector": "Financial Services",
-      "score_today": 34.3,
-      "score_prev": 39.7,
-      "delta": -5.4,
+      "score_today": 35.7,
+      "score_prev": 55.6,
+      "delta": -20.0,
       "grade": "⚪ WEAK"
     }
   ],
   "counts": {
     "new_entries": 0,
     "exited": 0,
-    "score_up": 5,
-    "score_down": 1
+    "score_up": 4,
+    "score_down": 5
   }
 }

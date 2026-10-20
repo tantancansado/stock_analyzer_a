@@ -1,0 +1,238 @@
+{
+  "generated_at": "2026-10-20T06:02:58Z",
+  "horizon_days": 14,
+  "total": 4,
+  "theses": {
+    "IVR": {
+      "ticker": "IVR",
+      "company_name": "Invesco Mortgage Capital Inc.",
+      "sector": "Real Estate",
+      "earnings_date": "2026-10-29",
+      "days_to_earnings": 9,
+      "current_price": 5.24,
+      "fifty_two_week_high": 9.5,
+      "fifty_two_week_low": 5.22,
+      "avg_price": 7.91,
+      "shares": 120.0,
+      "unrealized_pct": -33.75,
+      "earnings_history": [
+        {
+          "period": "2026-06-30",
+          "eps_estimate": 0.51702,
+          "eps_actual": 0.5,
+          "surprise_pct": -3.29,
+          "beat": false
+        },
+        {
+          "period": "2026-03-31",
+          "eps_estimate": 0.55228,
+          "eps_actual": 0.55,
+          "surprise_pct": -0.41,
+          "beat": false
+        },
+        {
+          "period": "2025-12-31",
+          "eps_estimate": 0.55826,
+          "eps_actual": 0.56,
+          "surprise_pct": 0.31,
+          "beat": true
+        },
+        {
+          "period": "2025-09-30",
+          "eps_estimate": 0.57973,
+          "eps_actual": 0.58,
+          "surprise_pct": 0.05,
+          "beat": true
+        }
+      ],
+      "earnings_reaction": {
+        "n": 12,
+        "subio": 6,
+        "mediana_abs_pct": 1.3,
+        "peor_pct": -3.5,
+        "mejor_pct": 5.0
+      },
+      "verdict": "REDUCE",
+      "sentiment_tone": "NEUTRAL",
+      "implied_move_pct": 0.91,
+      "expected_eps": 0.45564,
+      "expected_revenue_millions": 59.2,
+      "beat_rate_last_4q": 0.5,
+      "key_risks": [
+        "Volatilidad de tasas hipotecarias",
+        "Dependencia de segmentos de alto riesgo",
+        "Riesgo de liquidez"
+      ],
+      "key_catalysts": [
+        "Posible mejora en m\u00e1rgenes de inter\u00e9s",
+        "Revisi\u00f3n de la gu\u00eda de ingresos",
+        "Aumento de la demanda de activos de deuda hipotecaria"
+      ],
+      "thesis_summary": "Invesco Mortgage Capital muestra una trayectoria de resultados ligeramente por debajo del consenso, con un beat rate bajo y sin noticias recientes que impulsen la confianza. El precio actual est\u00e1 muy por debajo del m\u00e1ximo hist\u00f3rico, lo que sugiere un margen de error significativo. Se recomienda reducir la posici\u00f3n antes de earnings para limitar la exposici\u00f3n a la volatilidad de tasas y a la incertidumbre de los m\u00e1rgenes. Mantener la vigilancia sobre la gu\u00eda de ingresos y los m\u00e1rgenes de inter\u00e9s post-earnings para evaluar una posible reentrada.",
+      "confidence": 60
+    },
+    "BR": {
+      "ticker": "BR",
+      "company_name": "Broadridge Financial Solutions, Inc.",
+      "sector": "Technology",
+      "earnings_date": "2026-11-03",
+      "days_to_earnings": 14,
+      "current_price": 175.12,
+      "fifty_two_week_high": 236.02,
+      "fifty_two_week_low": 133.83,
+      "avg_price": 162.0,
+      "shares": 15.0,
+      "unrealized_pct": 8.1,
+      "earnings_history": [
+        {
+          "period": "2026-06-30",
+          "eps_estimate": 3.7568,
+          "eps_actual": 3.82,
+          "surprise_pct": 1.68,
+          "beat": true
+        },
+        {
+          "period": "2026-03-31",
+          "eps_estimate": 2.60419,
+          "eps_actual": 2.72,
+          "surprise_pct": 4.45,
+          "beat": true
+        },
+        {
+          "period": "2025-12-31",
+          "eps_estimate": 1.3612,
+          "eps_actual": 1.59,
+          "surprise_pct": 16.81,
+          "beat": true
+        },
+        {
+          "period": "2025-09-30",
+          "eps_estimate": 1.24571,
+          "eps_actual": 1.51,
+          "surprise_pct": 21.22,
+          "beat": true
+        }
+      ],
+      "earnings_reaction": {
+        "n": 12,
+        "subio": 6,
+        "mediana_abs_pct": 4.8,
+        "peor_pct": -6.2,
+        "mejor_pct": 7.0
+      },
+      "verdict": "HOLD_THROUGH",
+      "sentiment_tone": "BULLISH",
+      "implied_move_pct": 0.01,
+      "expected_eps": 1.36894,
+      "expected_revenue_millions": 1648.0,
+      "beat_rate_last_4q": 1.0,
+      "key_risks": [
+        "Crecimiento de ingresos estancado",
+        "Margen operativo bajo",
+        "Competencia de soluciones fintech"
+      ],
+      "key_catalysts": [
+        "Nueva plataforma de an\u00e1lisis de datos",
+        "Expansi\u00f3n a mercados emergentes",
+        "Alianzas estrat\u00e9gicas con bancos"
+      ],
+      "thesis_summary": "Broadridge mantiene un s\u00f3lido historial de beats y un crecimiento de ingresos consistente. La pr\u00f3xima publicaci\u00f3n de resultados se alinea con la expectativa de EPS y revenue, lo que sugiere una continuidad positiva. Se recomienda mantener la posici\u00f3n y vigilar la gu\u00eda de ingresos y la evoluci\u00f3n de los m\u00e1rgenes operativos. Si la compa\u00f1\u00eda confirma o supera la gu\u00eda, se puede considerar a\u00f1adir despu\u00e9s de earnings para capturar la volatilidad positiva.",
+      "confidence": 80
+    },
+    "ES0105630315": {
+      "ticker": "ES0105630315",
+      "company_name": "CIE Automotive, S.A.",
+      "sector": "Consumer Cyclical",
+      "earnings_date": "2026-10-28",
+      "days_to_earnings": 8,
+      "current_price": 25.75,
+      "fifty_two_week_high": 33.0,
+      "fifty_two_week_low": 24.8,
+      "avg_price": 25.07,
+      "shares": 90.0,
+      "unrealized_pct": 2.71,
+      "earnings_history": [],
+      "earnings_reaction": null,
+      "verdict": "HOLD",
+      "sentiment_tone": "NEUTRAL",
+      "implied_move_pct": null,
+      "expected_eps": 3.31551,
+      "expected_revenue_millions": 1027.0,
+      "beat_rate_last_4q": null,
+      "key_risks": [
+        "Posible ca\u00edda del EPS si la demanda de componentes automotrices se desacelera en EE.\u202fUU.",
+        "Presi\u00f3n de costos en materias primas y log\u00edstica que reduzca m\u00e1rgenes.",
+        "Riesgo de retrasos en la transici\u00f3n a veh\u00edculos el\u00e9ctricos y p\u00e9rdida de cuota frente a competidores."
+      ],
+      "key_catalysts": [
+        "Mejora de m\u00e1rgenes operativos por eficiencias en la cadena de suministro.",
+        "Crecimiento de la venta de sistemas de propulsi\u00f3n el\u00e9ctrica para OEMs europeos.",
+        "Gu\u00eda de ingresos superior al consenso y posible beat de EPS."
+      ],
+      "thesis_summary": "CIE Automotive cotiza cerca de su m\u00ednimo anual y muestra un peque\u00f1o upside respecto al precio de entrada. Con un EPS consensuado de 3,32\u202f\u20ac y unos ingresos de 1.027\u202fM\u202f\u20ac, la valoraci\u00f3n actual parece razonable, pero la falta de noticias y datos de beats hist\u00f3ricos aumenta la incertidumbre. Se vigilar\u00e1 la gu\u00eda de ingresos, la evoluci\u00f3n de los m\u00e1rgenes y la exposici\u00f3n al segmento de propulsi\u00f3n el\u00e9ctrica. Mientras no haya se\u00f1ales claras de deterioro, mantener la posici\u00f3n es prudente.",
+      "confidence": 65
+    },
+    "DE0007100000": {
+      "ticker": "DE0007100000",
+      "company_name": "Mercedes-Benz Group AG",
+      "sector": "Consumer Cyclical",
+      "earnings_date": "2026-10-28",
+      "days_to_earnings": 8,
+      "current_price": 40.745,
+      "fifty_two_week_high": 62.34,
+      "fifty_two_week_low": 38.89,
+      "avg_price": 40.45,
+      "shares": 100.0,
+      "unrealized_pct": 0.73,
+      "earnings_history": [
+        {
+          "period": "2026-06-30",
+          "eps_estimate": 1.24,
+          "eps_actual": 1.6743,
+          "surprise_pct": 35.02,
+          "beat": true
+        },
+        {
+          "period": "2026-03-31",
+          "eps_estimate": 1.43312,
+          "eps_actual": 1.39,
+          "surprise_pct": -3.01,
+          "beat": false
+        },
+        {
+          "period": "2025-12-31",
+          "eps_estimate": 1.11788,
+          "eps_actual": 1.4574,
+          "surprise_pct": 30.37,
+          "beat": true
+        },
+        {
+          "period": "2025-09-30",
+          "eps_estimate": 1.2782,
+          "eps_actual": 2.6231,
+          "surprise_pct": 105.22,
+          "beat": true
+        }
+      ],
+      "earnings_reaction": null,
+      "verdict": "HOLD",
+      "sentiment_tone": "NEUTRAL",
+      "implied_move_pct": null,
+      "expected_eps": 1.12,
+      "expected_revenue_millions": 30983.1,
+      "beat_rate_last_4q": 0.75,
+      "key_risks": [
+        "Interrupciones en la cadena de suministro",
+        "Costos de transici\u00f3n a EV",
+        "Volatilidad del euro"
+      ],
+      "key_catalysts": [
+        "Gu\u00eda de ingresos y m\u00e1rgenes post\u2011earnings",
+        "Mejora de m\u00e1rgenes en la divisi\u00f3n de veh\u00edculos de lujo",
+        "Lanzamiento de nuevos modelos el\u00e9ctricos"
+      ],
+      "thesis_summary": "Mercedes-Benz mantiene una posici\u00f3n s\u00f3lida con un precio actual cercano al promedio de entrada y un historial de beats en los \u00faltimos trimestres. La expectativa de EPS y revenue se alinea con el consenso, pero la volatilidad de la cadena de suministro y la transici\u00f3n a EV representan riesgos. Se recomienda mantener la posici\u00f3n hasta el reporte, vigilando la gu\u00eda de ingresos y los m\u00e1rgenes de la divisi\u00f3n de veh\u00edculos de lujo. Si la gu\u00eda supera las expectativas, se podr\u00eda considerar a\u00f1adir despu\u00e9s de earnings.",
+      "confidence": 70
+    }
+  }
+}

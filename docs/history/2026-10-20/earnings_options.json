@@ -1,0 +1,221 @@
+{
+  "generated_at": "2026-10-20T06:11:22Z",
+  "horizon_days": 14,
+  "count": 4,
+  "snapshots": {
+    "IVR": {
+      "ticker": "IVR",
+      "company_name": "INVESCO MORTGAGE CAPITAL INC",
+      "sector": "Real Estate",
+      "earnings_date": "2026-10-29",
+      "days_to_earnings": 9,
+      "current_price": 5.24,
+      "term_structure": [
+        {
+          "strike": 5.0,
+          "call_price": 0.69,
+          "put_price": 0.15,
+          "straddle": 0.84,
+          "implied_move_pct": 16.03,
+          "call_iv": 0.0,
+          "put_iv": 0.0625,
+          "expiration": "2026-11-20",
+          "days_to_exp": 31
+        },
+        {
+          "strike": 5.0,
+          "call_price": 0.7,
+          "put_price": 0.41,
+          "straddle": 1.11,
+          "implied_move_pct": 21.18,
+          "call_iv": 0.0,
+          "put_iv": 0.0313,
+          "expiration": "2027-01-15",
+          "days_to_exp": 87
+        },
+        {
+          "strike": 5.0,
+          "call_price": 0.32,
+          "put_price": 0.65,
+          "straddle": 0.97,
+          "implied_move_pct": 18.51,
+          "call_iv": 0.0,
+          "put_iv": 0.0313,
+          "expiration": "2027-04-16",
+          "days_to_exp": 178
+        }
+      ],
+      "skew": {
+        "put_strike": 4.0,
+        "call_strike": 6.0,
+        "put_iv": 1.5938,
+        "call_iv": 0.125,
+        "skew_pts": 146.87,
+        "unreliable": false
+      },
+      "history": {
+        "beat_rate": 0.5,
+        "beats": 2,
+        "total": 4,
+        "avg_surprise_pct": -0.83,
+        "history": [
+          {
+            "period": "2025-09-30",
+            "estimate": 0.57973,
+            "actual": 0.58,
+            "beat": true,
+            "surprise_pct": 0.05
+          },
+          {
+            "period": "2025-12-31",
+            "estimate": 0.55826,
+            "actual": 0.56,
+            "beat": true,
+            "surprise_pct": 0.31
+          },
+          {
+            "period": "2026-03-31",
+            "estimate": 0.55228,
+            "actual": 0.55,
+            "beat": false,
+            "surprise_pct": -0.41
+          },
+          {
+            "period": "2026-06-30",
+            "estimate": 0.51702,
+            "actual": 0.5,
+            "beat": false,
+            "surprise_pct": -3.29
+          }
+        ]
+      },
+      "52w_high": 9.5,
+      "52w_low": 5.22,
+      "analyst_target": 8.16667,
+      "analyst_count": 3.0
+    },
+    "BR": {
+      "ticker": "BR",
+      "company_name": "Broadridge Financial Solutions,",
+      "sector": "Technology",
+      "earnings_date": "2026-11-03",
+      "days_to_earnings": 14,
+      "current_price": 175.12,
+      "term_structure": [
+        {
+          "strike": 175.0,
+          "call_price": 8.21,
+          "put_price": 8.5,
+          "straddle": 16.71,
+          "implied_move_pct": 9.54,
+          "call_iv": 0.0,
+          "put_iv": 0.001,
+          "expiration": "2026-11-20",
+          "days_to_exp": 31
+        },
+        {
+          "strike": 175.0,
+          "call_price": 4.9,
+          "put_price": 18.97,
+          "straddle": 23.87,
+          "implied_move_pct": 13.63,
+          "call_iv": 0.0,
+          "put_iv": 0.0005,
+          "expiration": "2026-12-18",
+          "days_to_exp": 59
+        },
+        {
+          "strike": 175.0,
+          "call_price": 15.6,
+          "put_price": 22.05,
+          "straddle": 37.65,
+          "implied_move_pct": 21.5,
+          "call_iv": 0.0,
+          "put_iv": 0.0005,
+          "expiration": "2027-03-19",
+          "days_to_exp": 150
+        },
+        {
+          "strike": 175.0,
+          "call_price": 26.0,
+          "put_price": 21.94,
+          "straddle": 47.94,
+          "implied_move_pct": 27.38,
+          "call_iv": 0.0,
+          "put_iv": 0.0003,
+          "expiration": "2027-12-17",
+          "days_to_exp": 423
+        }
+      ],
+      "skew": {
+        "put_strike": 165.0,
+        "call_strike": 185.0,
+        "put_iv": 0.0625,
+        "call_iv": 0.0313,
+        "skew_pts": 3.12,
+        "unreliable": false
+      },
+      "history": {
+        "beat_rate": 1.0,
+        "beats": 4,
+        "total": 4,
+        "avg_surprise_pct": 11.04,
+        "history": [
+          {
+            "period": "2025-09-30",
+            "estimate": 1.24571,
+            "actual": 1.51,
+            "beat": true,
+            "surprise_pct": 21.22
+          },
+          {
+            "period": "2025-12-31",
+            "estimate": 1.3612,
+            "actual": 1.59,
+            "beat": true,
+            "surprise_pct": 16.81
+          },
+          {
+            "period": "2026-03-31",
+            "estimate": 2.60419,
+            "actual": 2.72,
+            "beat": true,
+            "surprise_pct": 4.45
+          },
+          {
+            "period": "2026-06-30",
+            "estimate": 3.7568,
+            "actual": 3.82,
+            "beat": true,
+            "surprise_pct": 1.68
+          }
+        ]
+      },
+      "52w_high": 236.02,
+      "52w_low": 133.83,
+      "analyst_target": 213.375,
+      "analyst_count": 8.0
+    },
+    "ES0105630315": {
+      "ticker": "ES0105630315",
+      "earnings_date": "2026-10-28",
+      "days_to_earnings": 8,
+      "current_price": 25.75,
+      "note": "Sin opciones l\u00edquidas post-earnings"
+    },
+    "DE0007100000": {
+      "ticker": "DE0007100000",
+      "earnings_date": "2026-10-28",
+      "days_to_earnings": 8,
+      "current_price": 40.745,
+      "note": "Sin opciones l\u00edquidas post-earnings"
+    }
+  },
+  "posiciones_revisadas": 14,
+  "proxima_earnings_dias": 8,
+  "sin_fecha_de_earnings": [
+    "DXYZ",
+    "GZ3"
+  ],
+  "en_horizonte_sin_datos": []
+}

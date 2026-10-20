@@ -1,40 +1,47 @@
 {
-  "generated_at": "2026-10-19",
-  "total": 5,
-  "dropped_count": 2,
-  "narrative": "1. Cuando la din\u00e1mica sectorial favorece la rotaci\u00f3n, es m\u00e1s prudente cambiar posiciones antes que esperar a que el mercado se mueva.  \n2. En situaciones de tailwind sectorial, rotar dentro del mismo sector suele generar mejores resultados que quedarse inactivo y esperar.",
+  "generated_at": "2026-10-20",
+  "total": 6,
+  "dropped_count": 3,
+  "narrative": "",
   "displacements": [
     {
       "type": "COMPETITOR_RISE",
-      "dropped_ticker": "RACE.MI",
-      "sector": "Consumer Cyclical",
-      "prev_score": 56.2,
+      "dropped_ticker": "MA",
+      "sector": "Financial Services",
+      "prev_score": 55.63499999999999,
       "replacements": [
-        "CPG.L"
+        "ICE",
+        "CBOE"
       ],
-      "top_replacement": "CPG.L",
-      "top_replacement_score": 53.1,
-      "detail": "RACE.MI sali\u00f3 de VALUE (56pts); peers en Consumer Cyclical: CPG.L"
+      "top_replacement": "ICE",
+      "top_replacement_score": 53.69499999999999,
+      "detail": "MA sali\u00f3 de VALUE (56pts); peers en Financial Services: ICE, CBOE"
     },
     {
       "type": "COMPETITOR_RISE",
-      "dropped_ticker": "ITX.MC",
-      "sector": "Consumer Cyclical",
-      "prev_score": 57.3,
+      "dropped_ticker": "ASSA-B.ST",
+      "sector": "Industrials",
+      "prev_score": 59.0,
       "replacements": [
-        "CPG.L"
+        "EXPN.L",
+        "LR.PA",
+        "WKL.AS"
       ],
-      "top_replacement": "CPG.L",
-      "top_replacement_score": 53.1,
-      "detail": "ITX.MC sali\u00f3 de VALUE (57pts); peers en Consumer Cyclical: CPG.L"
+      "top_replacement": "EXPN.L",
+      "top_replacement_score": 62.5,
+      "detail": "ASSA-B.ST sali\u00f3 de VALUE (59pts); peers en Industrials: EXPN.L, LR.PA"
     },
     {
-      "type": "EXIT_TO_PEER",
-      "exiting_ticker": "EXPN.L",
-      "sector": "Industrials",
-      "replacement": "WKL.AS",
-      "replacement_score": 66.2,
-      "detail": "Exit EXPN.L (Industrials) \u2192 rotar a peer WKL.AS (66pts)"
+      "type": "COMPETITOR_RISE",
+      "dropped_ticker": "KO",
+      "sector": "Consumer Defensive",
+      "prev_score": 63.25999999999999,
+      "replacements": [
+        "ULVR.L"
+      ],
+      "top_replacement": "ULVR.L",
+      "top_replacement_score": 64.7,
+      "detail": "KO sali\u00f3 de VALUE (63pts); peers en Consumer Defensive: ULVR.L"
     },
     {
       "type": "SECTOR_TAILWIND",
@@ -42,12 +49,23 @@
       "rotation_score": 100.0,
       "beneficiaries": [
         "MSFT",
-        "BR",
-        "SGE.L"
+        "SGE.L",
+        "SAP.DE"
       ],
       "top_ticker": "MSFT",
-      "top_score": 73.86,
-      "detail": "Sector Technology l\u00edder (RS 100) \u2014 MSFT, BR, SGE.L son los picks VALUE"
+      "top_score": 63.50999999999999,
+      "detail": "Sector Technology l\u00edder (RS 100) \u2014 MSFT, SGE.L, SAP.DE son los picks VALUE"
+    },
+    {
+      "type": "SECTOR_TAILWIND",
+      "sector": "Communication Services",
+      "rotation_score": 100.0,
+      "beneficiaries": [
+        "GOOG"
+      ],
+      "top_ticker": "GOOG",
+      "top_score": 57.875,
+      "detail": "Sector Communication Services l\u00edder (RS 100) \u2014 GOOG son los picks VALUE"
     },
     {
       "type": "SECTOR_TAILWIND",
@@ -57,7 +75,7 @@
         "AZN.L"
       ],
       "top_ticker": "AZN.L",
-      "top_score": 67.3,
+      "top_score": 68.9,
       "detail": "Sector Healthcare l\u00edder (RS 100) \u2014 AZN.L son los picks VALUE"
     }
   ]

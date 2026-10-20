@@ -1,0 +1,144 @@
+{
+  "generated_at": "2026-10-20",
+  "macro_regime": "CALM",
+  "composite_score": 4.0,
+  "sesgo": "DEFENSIVO",
+  "confianza": 0,
+  "situacion": "Mercado en calma con leve presi\u00f3n de riesgo y oportunidades en defensivos y commodities.",
+  "narrativa": "El SKEW y el \u00edndice Small Cap indican un riesgo de cola y una sobreventa en small caps, mientras que el d\u00f3lar se mantiene fuerte. Los defensivos y el cobre/oro siguen impulsando la demanda de activos de refugio, lo que favorece a los valores con flujo de caja s\u00f3lido y sectores industriales.",
+  "acciones_inmediatas": [
+    {
+      "prioridad": 1,
+      "accion": "COMPRAR",
+      "instrumento": "EXPN.L",
+      "razon": "FCF alto y sector industrial con buen margen",
+      "catalizador": "An\u00e1lisis de valor y baja volatilidad",
+      "size_hint": "media (3-4%)",
+      "invalidacion": "Aumento de tasas o deterioro de flujo de caja"
+    },
+    {
+      "prioridad": 2,
+      "accion": "COMPRAR",
+      "instrumento": "SAP.DE",
+      "razon": "Tecnolog\u00eda con FCF estable y buen score",
+      "catalizador": "Resultados trimestrales positivos",
+      "size_hint": "media (3-4%)",
+      "invalidacion": "Reversi\u00f3n de la tendencia tecnol\u00f3gica"
+    },
+    {
+      "prioridad": 3,
+      "accion": "COMPRAR",
+      "instrumento": "BR",
+      "razon": "Tecnolog\u00eda con FCF alto y sector en crecimiento",
+      "catalizador": "An\u00e1lisis de valor y baja valoraci\u00f3n relativa",
+      "size_hint": "media (3-4%)",
+      "invalidacion": "Cambio regulatorio adverso"
+    },
+    {
+      "prioridad": 4,
+      "accion": "COMPRAR",
+      "instrumento": "AMS.MC",
+      "razon": "Tecnolog\u00eda con FCF s\u00f3lido y buen score",
+      "catalizador": "Resultados trimestrales positivos",
+      "size_hint": "media (3-4%)",
+      "invalidacion": "Aumento de la competencia"
+    }
+  ],
+  "macro_plays": [
+    {
+      "instrument": "TLT/VGLT",
+      "direction": "LONG",
+      "thesis": "Yield 30yr en 5.47% \u2014 zona hist\u00f3ricamente atractiva para bonos largos",
+      "historical": "2018-19: TLT +18% cuando yields revertieron desde 3.25%",
+      "risk": "La Fed puede mantener tipos altos m\u00e1s tiempo \u2014 size peque\u00f1o",
+      "timeframe": "3-6 meses",
+      "score": 95,
+      "eu_alternative": {
+        "ticker": "DTLA",
+        "name": "Xtrackers US Treasuries 20yr+ UCITS ETF",
+        "exchange": "Xetra",
+        "available": "DEGIRO/IB"
+      }
+    },
+    {
+      "instrument": "IWM",
+      "direction": "LONG (contrarian)",
+      "thesis": "Small caps en percentil 2% pero cr\u00e9dito OK \u2014 divergencia excesiva",
+      "historical": "2016 post-elecci\u00f3n: IWM +20% en 3 meses desde valuaciones deprimidas",
+      "risk": "Si cr\u00e9dito deteriora, small caps caen m\u00e1s \u2014 monitorizar HYG",
+      "timeframe": "2-3 meses",
+      "score": 60,
+      "eu_alternative": {
+        "ticker": "CSUS",
+        "name": "iShares MSCI USA Small Cap UCITS ETF",
+        "exchange": "LSE",
+        "available": "DEGIRO/IB"
+      }
+    }
+  ],
+  "macro_plays_commentary": "Mantener posici\u00f3n larga en TLT/VGLT y considerar IWM como contrarian si la divergencia persiste.",
+  "value_en_entorno": [
+    {
+      "ticker": "EXPN.L",
+      "score": 62.5,
+      "sector": "Industrials",
+      "fcf_yield_pct": 4.57,
+      "grade": "B"
+    },
+    {
+      "ticker": "SAP.DE",
+      "score": 59.2,
+      "sector": "Technology",
+      "fcf_yield_pct": 3.78,
+      "grade": "B"
+    },
+    {
+      "ticker": "BR",
+      "score": 58.6,
+      "sector": "Technology",
+      "fcf_yield_pct": 6.24,
+      "grade": "B"
+    },
+    {
+      "ticker": "AMS.MC",
+      "score": 55.8,
+      "sector": "Technology",
+      "fcf_yield_pct": 6.05,
+      "grade": "B"
+    }
+  ],
+  "value_en_entorno_razon": "Los tickers seleccionados presentan FCF robusto, sectores industriales y tecnol\u00f3gicos con buen score, aline\u00e1ndose con la calma macro y la demanda de refugio.",
+  "evitar": [
+    {
+      "ticker": "IWM",
+      "razon": "Exceso de sobreventa y riesgo de ca\u00edda en small caps"
+    },
+    {
+      "ticker": "DXY",
+      "razon": "D\u00f3lar fuerte que puede presionar en acciones"
+    }
+  ],
+  "agenda_semana": [
+    {
+      "fecha": "2026-10-21",
+      "evento": "Resultados SAP",
+      "impacto": "ALTO",
+      "accion_sugerida": "Revisar posici\u00f3n y ajustar si superan expectativas"
+    },
+    {
+      "fecha": "2026-10-22",
+      "evento": "Resultados TMO",
+      "impacto": "MEDIO",
+      "accion_sugerida": "Vigilar volatilidad y considerar cobertura"
+    },
+    {
+      "fecha": "2026-10-25",
+      "evento": "Reuni\u00f3n Fed",
+      "impacto": "ALTO",
+      "accion_sugerida": "Preparar estrategia de cobertura de tasas"
+    }
+  ],
+  "frase_del_dia": "\"El riesgo es la oportunidad de la prudencia.\" \u2013 Warren Buffett",
+  "mensaje_telegram": "\ud83d\udcc8 Calm market, defensive tilt. Buy EXPN.L, SAP.DE, BR, AMS.MC (3-4% each). Hold TLT/VGLT. Avoid IWM. Watch Fed meeting. \ud83d\ude80",
+  "ai_powered": true
+}

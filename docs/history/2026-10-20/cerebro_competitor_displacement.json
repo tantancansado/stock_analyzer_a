@@ -1,0 +1,82 @@
+{
+  "generated_at": "2026-10-20",
+  "total": 6,
+  "dropped_count": 3,
+  "narrative": "",
+  "displacements": [
+    {
+      "type": "COMPETITOR_RISE",
+      "dropped_ticker": "MA",
+      "sector": "Financial Services",
+      "prev_score": 55.63499999999999,
+      "replacements": [
+        "ICE",
+        "CBOE"
+      ],
+      "top_replacement": "ICE",
+      "top_replacement_score": 53.69499999999999,
+      "detail": "MA sali\u00f3 de VALUE (56pts); peers en Financial Services: ICE, CBOE"
+    },
+    {
+      "type": "COMPETITOR_RISE",
+      "dropped_ticker": "ASSA-B.ST",
+      "sector": "Industrials",
+      "prev_score": 59.0,
+      "replacements": [
+        "EXPN.L",
+        "LR.PA",
+        "WKL.AS"
+      ],
+      "top_replacement": "EXPN.L",
+      "top_replacement_score": 62.5,
+      "detail": "ASSA-B.ST sali\u00f3 de VALUE (59pts); peers en Industrials: EXPN.L, LR.PA"
+    },
+    {
+      "type": "COMPETITOR_RISE",
+      "dropped_ticker": "KO",
+      "sector": "Consumer Defensive",
+      "prev_score": 63.25999999999999,
+      "replacements": [
+        "ULVR.L"
+      ],
+      "top_replacement": "ULVR.L",
+      "top_replacement_score": 64.7,
+      "detail": "KO sali\u00f3 de VALUE (63pts); peers en Consumer Defensive: ULVR.L"
+    },
+    {
+      "type": "SECTOR_TAILWIND",
+      "sector": "Technology",
+      "rotation_score": 100.0,
+      "beneficiaries": [
+        "MSFT",
+        "SGE.L",
+        "SAP.DE"
+      ],
+      "top_ticker": "MSFT",
+      "top_score": 63.50999999999999,
+      "detail": "Sector Technology l\u00edder (RS 100) \u2014 MSFT, SGE.L, SAP.DE son los picks VALUE"
+    },
+    {
+      "type": "SECTOR_TAILWIND",
+      "sector": "Communication Services",
+      "rotation_score": 100.0,
+      "beneficiaries": [
+        "GOOG"
+      ],
+      "top_ticker": "GOOG",
+      "top_score": 57.875,
+      "detail": "Sector Communication Services l\u00edder (RS 100) \u2014 GOOG son los picks VALUE"
+    },
+    {
+      "type": "SECTOR_TAILWIND",
+      "sector": "Healthcare",
+      "rotation_score": 100.0,
+      "beneficiaries": [
+        "AZN.L"
+      ],
+      "top_ticker": "AZN.L",
+      "top_score": 68.9,
+      "detail": "Sector Healthcare l\u00edder (RS 100) \u2014 AZN.L son los picks VALUE"
+    }
+  ]
+}

@@ -1,12 +1,36 @@
 {
-  "timestamp": "2026-10-19T05:46:31.524825",
+  "timestamp": "2026-10-20T06:01:47.114524",
   "alerts": [
     {
       "type": "EARNINGS_WARNING",
+      "ticker": "SAP",
+      "days_until": 1,
+      "earnings_date": "2026-10-21",
+      "message": "\u26a0\ufe0f  SAP: Earnings en 1 d\u00edas (2026-10-21)",
+      "action": "NO ENTRAR - Esperar post-earnings"
+    },
+    {
+      "type": "EARNINGS_WARNING",
+      "ticker": "MCO",
+      "days_until": 1,
+      "earnings_date": "2026-10-21",
+      "message": "\u26a0\ufe0f  MCO: Earnings en 1 d\u00edas (2026-10-21)",
+      "action": "NO ENTRAR - Esperar post-earnings"
+    },
+    {
+      "type": "EARNINGS_WARNING",
+      "ticker": "ROP",
+      "days_until": 2,
+      "earnings_date": "2026-10-22",
+      "message": "\u26a0\ufe0f  ROP: Earnings en 2 d\u00edas (2026-10-22)",
+      "action": "NO ENTRAR - Esperar post-earnings"
+    },
+    {
+      "type": "EARNINGS_WARNING",
       "ticker": "AXP",
-      "days_until": 4,
+      "days_until": 3,
       "earnings_date": "2026-10-23",
-      "message": "\u26a0\ufe0f  AXP: Earnings en 4 d\u00edas (2026-10-23)",
+      "message": "\u26a0\ufe0f  AXP: Earnings en 3 d\u00edas (2026-10-23)",
       "action": "NO ENTRAR - Esperar post-earnings"
     }
   ]
