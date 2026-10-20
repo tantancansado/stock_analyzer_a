@@ -2,8 +2,8 @@
   "total_signals": 99,
   "unique_tickers": 58,
   "date_range": "2026-04-08 to 2026-10-14",
-  "active_signals": 11,
-  "completed_signals": 88,
+  "active_signals": 7,
+  "completed_signals": 92,
   "overall": {
     "90d": {
       "count": 55,
@@ -16,11 +16,11 @@
       "worst": -27.96
     },
     "180d": {
-      "count": 22,
-      "win_rate": 77.3,
-      "ci_low": 56.6,
-      "ci_high": 89.9,
-      "avg_return": 8.31,
+      "count": 29,
+      "win_rate": 72.4,
+      "ci_low": 54.3,
+      "ci_high": 85.3,
+      "avg_return": 9.13,
       "median_return": 11.41,
       "best": 36.5,
       "worst": -20.0
@@ -48,12 +48,12 @@
       "worst": -37.59
     },
     "180d": {
-      "count": 826,
-      "win_rate": 66.1,
-      "ci_low": 62.8,
+      "count": 833,
+      "win_rate": 66.0,
+      "ci_low": 62.7,
       "ci_high": 69.2,
-      "avg_return": 7.31,
-      "median_return": 9.02,
+      "avg_return": 7.35,
+      "median_return": 9.05,
       "best": 89.88,
       "worst": -43.74
     },
@@ -105,10 +105,16 @@
       "basis": "clean_period"
     },
     "180d": {
-      "count": 12,
-      "win_rate": null,
-      "avg_return": null,
-      "nota": "sin muestra suficiente a 180d (12 de 15) \u2014 se rellena seg\u00fan envejezcan las se\u00f1ales"
+      "count": 19,
+      "win_rate": 73.7,
+      "ci_low": 51.2,
+      "ci_high": 88.2,
+      "avg_return": 13.9,
+      "median_return": 16.32,
+      "best": 36.5,
+      "worst": -20.0,
+      "basis": "clean_period",
+      "nota": "muestra corta (19 se\u00f1ales): el porcentaje es orientativo, no un veredicto"
     },
     "365d": {
       "count": 0,
@@ -160,19 +166,19 @@
     "BOUNCE_BROAD": {
       "count": 41,
       "7d": {
-        "count": 37,
-        "win_rate": 21.6,
-        "ci_low": 11.4,
-        "ci_high": 37.2,
-        "avg_return": -1.71,
-        "median_return": -2.32,
-        "best": 4.72,
+        "count": 39,
+        "win_rate": 23.1,
+        "ci_low": 12.6,
+        "ci_high": 38.3,
+        "avg_return": -1.53,
+        "median_return": -2.18,
+        "best": 4.94,
         "worst": -6.1
       },
       "nota": "horizonte real 1-5 d\u00edas: el 7d es la medida m\u00e1s cercana disponible, no el criterio del setup (target vs stop)"
     },
     "MEAN_REVERSION": {
-      "count": 90,
+      "count": 91,
       "7d": {
         "count": 89,
         "win_rate": 40.4,
@@ -232,8 +238,8 @@
         "ci_high": null
       }
     },
-    "edad_max_dias": 60,
-    "dias_hasta_primera_lectura": 30,
+    "edad_max_dias": 61,
+    "dias_hasta_primera_lectura": 29,
     "con_contrato": 137,
     "nota": "el contrato se sigue por su s\u00edmbolo OCC; son opciones poco l\u00edquidas, as\u00ed que un checkpoint sin cotizaci\u00f3n en 10 d\u00edas se queda vac\u00edo en vez de arrastrar un precio viejo"
   },
@@ -249,14 +255,14 @@
       "win_rate_30d": 60.0
     },
     "Financial Services": {
-      "count": 32,
-      "avg_30d": 0.82,
-      "win_rate_30d": 59.4
+      "count": 34,
+      "avg_30d": 0.89,
+      "win_rate_30d": 58.8
     },
     "Communication Services": {
-      "count": 5,
-      "avg_30d": -9.34,
-      "win_rate_30d": 20.0
+      "count": 6,
+      "avg_30d": -7.22,
+      "win_rate_30d": 33.3
     },
     "Healthcare": {
       "count": 7,
@@ -274,9 +280,9 @@
       "win_rate_30d": 33.3
     },
     "Energy": {
-      "count": 2,
-      "avg_30d": 2.22,
-      "win_rate_30d": 50.0
+      "count": 3,
+      "avg_30d": 3.41,
+      "win_rate_30d": 66.7
     }
   },
   "score_correlation": 0.075,
@@ -303,10 +309,19 @@
       "ticker": "V",
       "company_name": "Visa Inc.",
       "strategy": "VALUE",
-      "signal_date": "2026-04-16 00:00:00",
-      "signal_price": 315.91,
-      "return_180d": 25.37,
-      "return_pct": 25.37
+      "signal_date": "2026-04-20 00:00:00",
+      "signal_price": 317.02,
+      "return_180d": 27.1,
+      "return_pct": 27.1
+    },
+    {
+      "ticker": "MA",
+      "company_name": "Mastercard Incorporated",
+      "strategy": "VALUE",
+      "signal_date": "2026-04-22 00:00:00",
+      "signal_price": 511.35,
+      "return_180d": 20.54,
+      "return_pct": 20.54
     },
     {
       "ticker": "LOGN.SW",
@@ -316,15 +331,6 @@
       "signal_price": 71.1,
       "return_180d": 18.85,
       "return_pct": 18.85
-    },
-    {
-      "ticker": "MA",
-      "company_name": "Mastercard Incorporated",
-      "strategy": "VALUE",
-      "signal_date": "2026-04-17 00:00:00",
-      "signal_price": 518.54,
-      "return_180d": 16.33,
-      "return_pct": 16.33
     }
   ],
   "worst_performers": [
@@ -347,6 +353,15 @@
       "return_pct": -19.79
     },
     {
+      "ticker": "JKHY",
+      "company_name": "Jack Henry & Associates, Inc.",
+      "strategy": "VALUE",
+      "signal_date": "2026-04-22 00:00:00",
+      "signal_price": 155.5,
+      "return_180d": -1.74,
+      "return_pct": -1.74
+    },
+    {
       "ticker": "ACN",
       "company_name": "Accenture plc",
       "strategy": "VALUE",
@@ -363,15 +378,6 @@
       "signal_price": 268.6,
       "return_180d": 0.37,
       "return_pct": 0.37
-    },
-    {
-      "ticker": "JKHY",
-      "company_name": "Jack Henry & Associates, Inc.",
-      "strategy": "VALUE",
-      "signal_date": "2026-04-17 00:00:00",
-      "signal_price": 154.15,
-      "return_180d": 0.72,
-      "return_pct": 0.72
     }
   ],
   "performers_horizon": "180d",
@@ -384,7 +390,7 @@
       "signal_price": 292.25,
       "sector": "Financial Services",
       "value_score": 61.39,
-      "days_active": 5,
+      "days_active": 6,
       "first_result_date": "2026-10-21"
     },
     {
@@ -395,7 +401,7 @@
       "signal_price": 157.42,
       "sector": "Financial Services",
       "value_score": 60.095,
-      "days_active": 6,
+      "days_active": 7,
       "first_result_date": "2026-10-20"
     },
     {
@@ -406,7 +412,7 @@
       "signal_price": 92.37,
       "sector": "Financial Services",
       "value_score": 57.34,
-      "days_active": 10,
+      "days_active": 11,
       "first_result_date": "2026-10-16"
     },
     {
@@ -417,7 +423,7 @@
       "signal_price": 225.98,
       "sector": "Healthcare",
       "value_score": 64.27499999999999,
-      "days_active": 11,
+      "days_active": 12,
       "first_result_date": "2026-10-15"
     },
     {
@@ -428,7 +434,7 @@
       "signal_price": 86.08,
       "sector": "Consumer Defensive",
       "value_score": 59.55500000000001,
-      "days_active": 18,
+      "days_active": 19,
       "first_result_date": "2026-10-08"
     },
     {
@@ -439,7 +445,7 @@
       "signal_price": 473.85,
       "sector": "Financial Services",
       "value_score": 59.17999999999999,
-      "days_active": 25,
+      "days_active": 26,
       "first_result_date": "2026-10-01"
     },
     {
@@ -450,55 +456,11 @@
       "signal_price": 279.37,
       "sector": "Industrials",
       "value_score": 57.52,
-      "days_active": 28,
+      "days_active": 29,
       "first_result_date": "2026-09-28"
-    },
-    {
-      "ticker": "BLK",
-      "company_name": "BlackRock, Inc.",
-      "strategy": "VALUE",
-      "signal_date": "2026-09-19",
-      "signal_price": 1069.78,
-      "sector": "Financial Services",
-      "value_score": 54.08,
-      "days_active": 30,
-      "first_result_date": "2026-09-26"
-    },
-    {
-      "ticker": "META",
-      "company_name": "Meta Platforms, Inc.",
-      "strategy": "VALUE",
-      "signal_date": "2026-09-18",
-      "signal_price": 682.31,
-      "sector": "Communication Services",
-      "value_score": 63.72,
-      "days_active": 31,
-      "first_result_date": "2026-09-25"
-    },
-    {
-      "ticker": "OXY",
-      "company_name": "Occidental Petroleum Corporation",
-      "strategy": "VALUE",
-      "signal_date": "2026-09-18",
-      "signal_price": 59.29,
-      "sector": "Energy",
-      "value_score": 53.155,
-      "days_active": 31,
-      "first_result_date": "2026-09-25"
-    },
-    {
-      "ticker": "FCNCA",
-      "company_name": "First Citizens BancShares, Inc.",
-      "strategy": "VALUE",
-      "signal_date": "2026-09-18",
-      "signal_price": 2120.58,
-      "sector": "Financial Services",
-      "value_score": 51.92499999999999,
-      "days_active": 31,
-      "first_result_date": "2026-09-25"
     }
   ],
-  "avg_max_drawdown": -2.65,
+  "avg_max_drawdown": -2.63,
   "alpha": {
     "365d": {
       "count": 0,
@@ -508,11 +470,11 @@
       "avg_benchmark_return": null
     },
     "180d": {
-      "count": 22,
-      "avg_alpha": 1.8,
-      "avg_signal_return": 8.31,
-      "avg_benchmark_return": 6.5,
-      "positive_alpha_rate": 72.7,
+      "count": 29,
+      "avg_alpha": 2.07,
+      "avg_signal_return": 9.13,
+      "avg_benchmark_return": 7.06,
+      "positive_alpha_rate": 69.0,
       "best_alpha": 21.31,
       "worst_alpha": -35.2
     },
@@ -526,11 +488,11 @@
       "worst_alpha": -38.85
     },
     "30d": {
-      "count": 88,
-      "avg_alpha": -2.97,
-      "avg_signal_return": -0.53,
-      "avg_benchmark_return": 2.45,
-      "positive_alpha_rate": 42.0,
+      "count": 92,
+      "avg_alpha": -2.71,
+      "avg_signal_return": -0.36,
+      "avg_benchmark_return": 2.35,
+      "positive_alpha_rate": 43.5,
       "best_alpha": 21.86,
       "worst_alpha": -21.52
     },
@@ -562,11 +524,11 @@
       "avg_benchmark_return": null
     },
     "180d": {
-      "count": 128,
-      "avg_alpha": 3.16,
-      "avg_signal_return": 17.8,
-      "avg_benchmark_return": 14.63,
-      "positive_alpha_rate": 64.8,
+      "count": 135,
+      "avg_alpha": 3.15,
+      "avg_signal_return": 17.48,
+      "avg_benchmark_return": 14.33,
+      "positive_alpha_rate": 64.4,
       "best_alpha": 75.56,
       "worst_alpha": -57.59
     },
@@ -580,11 +542,11 @@
       "worst_alpha": -51.85
     },
     "30d": {
-      "count": 76,
-      "avg_alpha": -3.35,
-      "avg_signal_return": -0.48,
-      "avg_benchmark_return": 2.87,
-      "positive_alpha_rate": 40.8,
+      "count": 80,
+      "avg_alpha": -3.03,
+      "avg_signal_return": -0.29,
+      "avg_benchmark_return": 2.74,
+      "positive_alpha_rate": 42.5,
       "best_alpha": 21.86,
       "worst_alpha": -21.52
     },
@@ -643,5 +605,5 @@
       "worst_alpha": -4.98
     }
   },
-  "generated_at": "2026-10-19T05:34:04.397339"
+  "generated_at": "2026-10-20T05:48:37.985251"
 }

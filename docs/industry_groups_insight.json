@@ -1,78 +1,78 @@
 {
-  "date": "2026-10-19",
-  "timestamp": "2026-10-19T05:32:39.842889",
-  "narrative": "Tendencia de rotaci\u00f3n: los sectores defensivos (Healthcare, Consumer Defensive, Industrials) lideran con",
-  "macro_regime": "WATCH",
+  "date": "2026-10-20",
+  "timestamp": "2026-10-20T05:47:17.516150",
+  "narrative": "",
+  "macro_regime": "CALM",
   "top_sectors": [
     {
       "industry": "Medical Care Facilities",
       "sector": "Healthcare",
-      "avg_rs_percentile": 70.4,
+      "avg_rs_percentile": 69.2,
       "num_tickers": 2,
       "label": "Top 10%"
     },
     {
       "industry": "Diagnostics & Research",
       "sector": "Healthcare",
-      "avg_rs_percentile": 63.3,
+      "avg_rs_percentile": 60.0,
       "num_tickers": 4,
       "label": "Top 10%"
     },
     {
       "industry": "Software - Infrastructure",
       "sector": "Technology",
-      "avg_rs_percentile": 58.4,
+      "avg_rs_percentile": 60.0,
       "num_tickers": 4,
       "label": "Top 10%"
     },
     {
       "industry": "Beverages - Non-Alcoholic",
       "sector": "Consumer Defensive",
-      "avg_rs_percentile": 57.7,
+      "avg_rs_percentile": 56.6,
       "num_tickers": 2,
       "label": "Top 10%"
     },
     {
-      "industry": "Railroads",
-      "sector": "Industrials",
-      "avg_rs_percentile": 55.7,
-      "num_tickers": 3,
+      "industry": "Drug Manufacturers - Specialty & Generic",
+      "sector": "Healthcare",
+      "avg_rs_percentile": 54.4,
+      "num_tickers": 2,
       "label": "Top 25%"
     }
   ],
   "bottom_sectors": [
     {
-      "industry": "Auto Parts",
-      "sector": "Consumer Cyclical",
-      "avg_rs_percentile": 19.6,
+      "industry": "Medical Devices",
+      "sector": "Healthcare",
+      "avg_rs_percentile": 17.2,
+      "num_tickers": 3,
+      "label": "Bottom 25%"
+    },
+    {
+      "industry": "Banks - Regional",
+      "sector": "Financial Services",
+      "avg_rs_percentile": 15.3,
       "num_tickers": 2,
       "label": "Bottom 25%"
     },
     {
       "industry": "Packaged Foods",
       "sector": "Consumer Defensive",
-      "avg_rs_percentile": 19.5,
+      "avg_rs_percentile": 14.3,
       "num_tickers": 2,
-      "label": "Bottom 25%"
-    },
-    {
-      "industry": "Medical Devices",
-      "sector": "Healthcare",
-      "avg_rs_percentile": 17.3,
-      "num_tickers": 3,
       "label": "Bottom 25%"
     },
     {
       "industry": "Building Materials",
       "sector": "Basic Materials",
-      "avg_rs_percentile": 9.8,
+      "avg_rs_percentile": 8.9,
       "num_tickers": 2,
       "label": "Bottom 25%"
     },
     {
       "industry": "Residential Construction",
       "sector": "Consumer Cyclical",
-      "avg_rs_percentile": 6.8,
+      "avg_rs_percentile": 4.2,
       "num_tickers": 2,
       "label": "Bottom 25%"
     }
