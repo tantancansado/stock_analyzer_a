@@ -1,0 +1,60 @@
+{
+  "scan_date": "2026-10-21",
+  "generated_at": "2026-10-21T05:43:40Z",
+  "universe_size": 403,
+  "universe": "S&P 500 minus curated T1-T4",
+  "count": 1,
+  "criteria": {
+    "rsi2_max": 15.0,
+    "rsi14_max": 40.0,
+    "above_sma200": true,
+    "vol_ratio_min": 1.3,
+    "atr_pct_range": [
+      1.5,
+      6.0
+    ],
+    "drawdown_range": [
+      -15.0,
+      -4.0
+    ],
+    "support_test_range": [
+      -3.0,
+      2.5
+    ],
+    "oversold_measured": "previous bar (panic yesterday, green reversal today)",
+    "objetivo": "resistencia de 20 sesiones, con techo en 4.0x ATR",
+    "stop_atr_mult": 2.0,
+    "rr": "informativo, no filtra \u2014 decide la esperanza simulada",
+    "horizon": "1-5 d\u00edas (nominal; ver esperanza_dias_mediana)"
+  },
+  "setups": [
+    {
+      "ticker": "DAL",
+      "price": 76.66,
+      "target": 85.93,
+      "stop": 71.2,
+      "target_pct": 12.09,
+      "stop_pct": -7.12,
+      "stop_atr_mult": 2.0,
+      "resistencia_20d": 85.93,
+      "rr": 1.7,
+      "rsi2": 13.9,
+      "rsi14": 32.3,
+      "atr_pct": 3.56,
+      "vol_ratio": 1.33,
+      "dist_support": -0.35,
+      "drawdown_20d": -10.79,
+      "sma20_distance": -5.44,
+      "above_sma200": true,
+      "horizon_days": "1-5",
+      "setup_type": "BOUNCE_OVERSOLD",
+      "esperanza_pct": 0.51,
+      "esperanza_n": 11,
+      "esperanza_aciertos": 4,
+      "esperanza_stops": 6,
+      "esperanza_dias_mediana": 24,
+      "esperanza_muestra_ok": true,
+      "esperanza_frase": "en los 11 episodios iguales, el objetivo (+12.1%) lleg\u00f3 antes que el stop (-7.1%) 4 veces y el stop salt\u00f3 primero 6, y cuando lleg\u00f3 tard\u00f3 24 sesiones de mediana. Esperanza +0.51% por operaci\u00f3n."
+    }
+  ]
+}

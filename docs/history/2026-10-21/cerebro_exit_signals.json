@@ -1,0 +1,222 @@
+{
+  "generated_at": "2026-10-21",
+  "total": 18,
+  "high_count": 2,
+  "narrative": "",
+  "exits": [
+    {
+      "ticker": "RMD",
+      "severity": "HIGH",
+      "entry_score": 64.27499999999999,
+      "current_score": 30.020000000000003,
+      "signal_date": "2026-10-08",
+      "reasons": [
+        "Score cay\u00f3 34pts (64 \u2192 30)"
+      ],
+      "fundamental_score": 68.3,
+      "ai_validation": {
+        "verdict": "FALSE_POSITIVE",
+        "confidence": 62,
+        "summary": "ResMed (RMD) no muestra se\u00f1ales claras de deterioro fundamental grave en sus l\u00edneas de negocio de apnea del sue\u00f1o y ventiladores; la ca\u00edda de puntaje probablemente refleja una subida previa del precio que redujo el margen de upside por valoraci\u00f3n, m\u00e1s que un deterioro real del negocio. El score fundamental en base de datos (68.3/100) sigue siendo s\u00f3lido, lo que apoya la tesis de falso positivo.",
+        "key_finding": "RMD ha mantenido crecimiento constante en su negocio core de dispositivos de apnea del sue\u00f1o (CPAP) y software de salud conectada, sin reportes de guidance cuts o eventos negativos mayores recientes conocidos hasta el corte de entrenamiento.",
+        "summary_note": "ResMed (RMD) no muestra se\u00f1ales claras de deterioro fundamental grave en sus l\u00edneas de negocio de apnea del sue\u00f1o y ventiladores; la ca\u00edda de puntaje probablemente refleja una subida previa del precio que redujo el margen de upside por valoraci\u00f3n, m\u00e1s que un deterioro real del negocio. El score fundamental en base de datos (68.3/100) sigue siendo s\u00f3lido, lo que apoya la tesis de falso positivo."
+      }
+    },
+    {
+      "ticker": "QSR",
+      "severity": "HIGH",
+      "entry_score": 59.09,
+      "current_score": 31.83,
+      "signal_date": "2026-09-10",
+      "reasons": [
+        "Score cay\u00f3 27pts (59 \u2192 32)"
+      ],
+      "fundamental_score": 65.6,
+      "ai_validation": {
+        "verdict": "UNCERTAIN",
+        "confidence": 55,
+        "summary": "QSR (Restaurant Brands International) no mostraba deterioro fundamental grave hasta mi corte de entrenamiento, aunque Burger King EE.UU. ha tenido d\u00e9bil tr\u00e1fico comparado con competidores. La ca\u00edda de 27pts en el score parece m\u00e1s t\u00e9cnica/de precio que un evento fundamental reciente confirmado.",
+        "key_finding": "Burger King US hab\u00eda mostrado crecimiento de ventas comparables d\u00e9bil frente a McDonald's y Wendy's, pero Tim Hortons y Popeyes manten\u00edan buen desempe\u00f1o, sin guidance cuts ni cambios dr\u00e1sticos de management reportados recientemente.",
+        "summary_note": "QSR (Restaurant Brands International) no mostraba deterioro fundamental grave hasta mi corte de entrenamiento, aunque Burger King EE.UU. ha tenido d\u00e9bil tr\u00e1fico comparado con competidores. La ca\u00edda de 27pts en el score parece m\u00e1s t\u00e9cnica/de precio que un evento fundamental reciente confirmado."
+      }
+    },
+    {
+      "ticker": "META",
+      "severity": "MEDIUM",
+      "entry_score": 63.72,
+      "current_score": null,
+      "signal_date": "2026-09-18",
+      "reasons": [
+        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
+      ],
+      "fundamental_score": 67.3
+    },
+    {
+      "ticker": "NDSN",
+      "severity": "MEDIUM",
+      "entry_score": 59.72,
+      "current_score": null,
+      "signal_date": "2026-09-02",
+      "reasons": [
+        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
+      ],
+      "fundamental_score": 74.4
+    },
+    {
+      "ticker": "CLPBY",
+      "severity": "MEDIUM",
+      "entry_score": 59.59,
+      "current_score": null,
+      "signal_date": "2026-08-26",
+      "reasons": [
+        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
+      ],
+      "fundamental_score": 68.8
+    },
+    {
+      "ticker": "KO",
+      "severity": "MEDIUM",
+      "entry_score": 59.55500000000001,
+      "current_score": 35.29,
+      "signal_date": "2026-10-01",
+      "reasons": [
+        "Score cay\u00f3 24pts (60 \u2192 35)",
+        "Earnings en 6d \u2014 alta incertidumbre, considera reducir"
+      ],
+      "fundamental_score": 77.9
+    },
+    {
+      "ticker": "MCO",
+      "severity": "MEDIUM",
+      "entry_score": 59.17999999999999,
+      "current_score": 34.27,
+      "signal_date": "2026-09-24",
+      "reasons": [
+        "Score cay\u00f3 25pts (59 \u2192 34)",
+        "Earnings en 0d \u2014 alta incertidumbre, considera reducir"
+      ],
+      "fundamental_score": 68.5
+    },
+    {
+      "ticker": "SPGI",
+      "severity": "MEDIUM",
+      "entry_score": 58.14,
+      "current_score": null,
+      "signal_date": "2026-09-01",
+      "reasons": [
+        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
+      ],
+      "fundamental_score": 66.1
+    },
+    {
+      "ticker": "UNP",
+      "severity": "MEDIUM",
+      "entry_score": 57.52,
+      "current_score": null,
+      "signal_date": "2026-09-21",
+      "reasons": [
+        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
+      ],
+      "fundamental_score": 72.8
+    },
+    {
+      "ticker": "NDAQ",
+      "severity": "MEDIUM",
+      "entry_score": 57.34,
+      "current_score": null,
+      "signal_date": "2026-10-09",
+      "reasons": [
+        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
+      ],
+      "fundamental_score": 72.8
+    },
+    {
+      "ticker": "TW",
+      "severity": "MEDIUM",
+      "entry_score": 57.05500000000001,
+      "current_score": null,
+      "signal_date": "2026-08-28",
+      "reasons": [
+        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
+      ],
+      "fundamental_score": 69.8
+    },
+    {
+      "ticker": "HEI",
+      "severity": "MEDIUM",
+      "entry_score": 56.375,
+      "current_score": null,
+      "signal_date": "2026-08-26",
+      "reasons": [
+        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
+      ],
+      "fundamental_score": 72.4
+    },
+    {
+      "ticker": "BLK",
+      "severity": "MEDIUM",
+      "entry_score": 54.08,
+      "current_score": null,
+      "signal_date": "2026-09-19",
+      "reasons": [
+        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
+      ],
+      "fundamental_score": 75.1
+    },
+    {
+      "ticker": "OXY",
+      "severity": "MEDIUM",
+      "entry_score": 53.155,
+      "current_score": 35.04,
+      "signal_date": "2026-09-18",
+      "reasons": [
+        "Score cay\u00f3 18pts (53 \u2192 35)"
+      ],
+      "fundamental_score": 80.1
+    },
+    {
+      "ticker": "TT",
+      "severity": "MEDIUM",
+      "entry_score": 51.95,
+      "current_score": null,
+      "signal_date": "2026-08-26",
+      "reasons": [
+        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
+      ],
+      "fundamental_score": 73.8
+    },
+    {
+      "ticker": "FCNCA",
+      "severity": "MEDIUM",
+      "entry_score": 51.92499999999999,
+      "current_score": 38.1,
+      "signal_date": "2026-09-18",
+      "reasons": [
+        "Earnings en 2d \u2014 alta incertidumbre, considera reducir"
+      ],
+      "fundamental_score": 64.5
+    },
+    {
+      "ticker": "AON",
+      "severity": "MEDIUM",
+      "entry_score": 51.13,
+      "current_score": 47.77,
+      "signal_date": "2026-08-24",
+      "reasons": [
+        "Earnings en 7d \u2014 alta incertidumbre, considera reducir"
+      ],
+      "fundamental_score": 52.9
+    },
+    {
+      "ticker": "CNI",
+      "severity": "MEDIUM",
+      "entry_score": 50.06999999999999,
+      "current_score": null,
+      "signal_date": "2026-08-27",
+      "reasons": [
+        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
+      ],
+      "fundamental_score": 69.5
+    }
+  ]
+}

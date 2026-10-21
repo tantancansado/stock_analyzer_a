@@ -1,52 +1,11 @@
 {
-  "generated_at": "2026-10-20 06:05:42",
-  "scan_date": "2026-10-20 06:05:42",
-  "total_opportunities": 1,
+  "generated_at": "2026-10-21 05:42:08",
+  "scan_date": "2026-10-21 05:42:08",
+  "total_opportunities": 0,
   "strategies": {
     "oversold_bounce": 0,
-    "bull_flag_pullback": 1
+    "bull_flag_pullback": 0
   },
-  "ai_narrative": "",
-  "opportunities": [
-    {
-      "ticker": "VRSK",
-      "company_name": "Verisk Analytics, Inc.",
-      "strategy": "Bull Flag Pullback",
-      "current_price": 189.21,
-      "rsi": 80.0,
-      "rsi_tier": "NEUTRAL",
-      "rally_pct": 30.2,
-      "pullback_pct": -11.0,
-      "sma_50": 179.23,
-      "sma_200": 186.81,
-      "trend": "Bearish",
-      "volume_decrease": false,
-      "reversion_score": 60,
-      "quality": "SIN VERIFICAR",
-      "entry_zone": "$185.43 - $192.99",
-      "entry_ref": 192.99,
-      "target": 206.5,
-      "techo_tecnico": 212.58,
-      "bounce_target": 206.5,
-      "bounce_usd": 13.51,
-      "bounce_pct": 7.0,
-      "stop_loss": 173.85,
-      "stop_pct": -9.9,
-      "risk_reward": 1.13,
-      "risk_reward_en_zona": 0.71,
-      "precio_sobre_zona_entrada": false,
-      "detected_date": "2026-10-20",
-      "historical_win_rate": 39.5,
-      "ai_confirmation": null,
-      "ai_confidence": null,
-      "ai_reason": null,
-      "esperanza_pct": 4.82,
-      "esperanza_n": 8,
-      "esperanza_aciertos": 6,
-      "esperanza_stops": 2,
-      "esperanza_dias_mediana": 30,
-      "esperanza_muestra_ok": true,
-      "esperanza_frase": "en los 8 episodios iguales, el objetivo (+9.1%) lleg\u00f3 antes que el stop (-8.1%) 6 veces y el stop salt\u00f3 primero 2, y cuando lleg\u00f3 tard\u00f3 30 sesiones de mediana. Esperanza +4.82% por operaci\u00f3n."
-    }
-  ]
+  "ai_narrative": null,
+  "opportunities": []
 }

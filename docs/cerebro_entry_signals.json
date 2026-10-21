@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-10-20",
-  "total": 2,
+  "generated_at": "2026-10-21",
+  "total": 4,
   "strong_buy": 0,
   "buy": 1,
   "monitor": 0,
-  "wait": 1,
+  "wait": 3,
   "narrative": "",
   "signals": [
     {
@@ -18,7 +18,7 @@
       "analyst_upside_pct": 27.2,
       "fcf_yield_pct": 3.04,
       "risk_reward_ratio": 3.4,
-      "days_in_value": 6,
+      "days_in_value": 7,
       "streak_days": 1,
       "entry_score": 50,
       "signal": "BUY",
@@ -69,18 +69,112 @@
       "analyst_upside_pct": 29.8,
       "fcf_yield_pct": 4.57,
       "risk_reward_ratio": 3.72,
-      "days_in_value": 2,
+      "days_in_value": 3,
       "streak_days": 1,
-      "entry_score": 15,
+      "entry_score": 25,
       "signal": "WAIT",
       "signals_fired": [
         "Upside en banda dorada [10,30)",
+        "Analyst revision \u2191",
+        "En VALUE \u22653 d\u00edas"
+      ],
+      "signals_pts": [
+        {
+          "name": "Upside en banda dorada [10,30)",
+          "pts": 10
+        },
+        {
+          "name": "Analyst revision \u2191",
+          "pts": 5
+        },
+        {
+          "name": "En VALUE \u22653 d\u00edas",
+          "pts": 10
+        }
+      ],
+      "signals_missing": [
+        "Value score <80",
+        "FCF yield <5%",
+        "Sin insider buying (espera)",
+        "Sin se\u00f1al MR oversold",
+        "Sin opciones alcistas",
+        "Sector no l\u00edder",
+        "R\u00e9gimen no alcista"
+      ],
+      "rsi": null,
+      "earnings_warning": false,
+      "days_to_earnings": 29
+    },
+    {
+      "ticker": "INTU",
+      "company_name": "Intuit Inc.",
+      "region": "US",
+      "sector": "Technology",
+      "value_score": 65.71000000000001,
+      "conviction_grade": "A",
+      "current_price": 335.29,
+      "analyst_upside_pct": 21.4,
+      "fcf_yield_pct": 9.62,
+      "risk_reward_ratio": 2.68,
+      "days_in_value": 1,
+      "streak_days": 2,
+      "entry_score": 20,
+      "signal": "WAIT",
+      "signals_fired": [
+        "FCF yield \u22655%",
+        "Upside en banda dorada [10,30)"
+      ],
+      "signals_pts": [
+        {
+          "name": "FCF yield \u22655%",
+          "pts": 10
+        },
+        {
+          "name": "Upside en banda dorada [10,30)",
+          "pts": 10
+        }
+      ],
+      "signals_missing": [
+        "Value score <80",
+        "Sin insider buying (espera)",
+        "Sin se\u00f1al MR oversold",
+        "Sin opciones alcistas",
+        "Sector no l\u00edder",
+        "R\u00e9gimen no alcista",
+        "Solo 1d en VALUE"
+      ],
+      "rsi": null,
+      "earnings_warning": false,
+      "days_to_earnings": 29
+    },
+    {
+      "ticker": "MSFT",
+      "company_name": "Microsoft Corporation",
+      "region": "US",
+      "sector": "Technology",
+      "value_score": 68.965,
+      "conviction_grade": "C",
+      "current_price": 531.87,
+      "analyst_upside_pct": 13.0,
+      "fcf_yield_pct": 1.7,
+      "risk_reward_ratio": 1.62,
+      "days_in_value": 1,
+      "streak_days": 23,
+      "entry_score": 10,
+      "signal": "WAIT",
+      "signals_fired": [
+        "Upside en banda dorada [10,30)",
+        "Options flow alcista",
         "Analyst revision \u2191"
       ],
       "signals_pts": [
         {
           "name": "Upside en banda dorada [10,30)",
           "pts": 10
+        },
+        {
+          "name": "Options flow alcista",
+          "pts": 15
         },
         {
           "name": "Analyst revision \u2191",
@@ -92,14 +186,14 @@
         "FCF yield <5%",
         "Sin insider buying (espera)",
         "Sin se\u00f1al MR oversold",
-        "Sin opciones alcistas",
         "Sector no l\u00edder",
         "R\u00e9gimen no alcista",
-        "Solo 2d en VALUE"
+        "Solo 1d en VALUE",
+        "\u26a0 Earnings en 7d \u2014 riesgo de entrada"
       ],
       "rsi": null,
-      "earnings_warning": false,
-      "days_to_earnings": 29
+      "earnings_warning": true,
+      "days_to_earnings": 7
     }
   ]
 }

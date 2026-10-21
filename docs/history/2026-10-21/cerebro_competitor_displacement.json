@@ -1,0 +1,58 @@
+{
+  "generated_at": "2026-10-21",
+  "total": 4,
+  "dropped_count": 1,
+  "narrative": "",
+  "displacements": [
+    {
+      "type": "COMPETITOR_RISE",
+      "dropped_ticker": "BR",
+      "sector": "Technology",
+      "prev_score": 58.63999999999999,
+      "replacements": [
+        "MSFT",
+        "INTU",
+        "SGE.L"
+      ],
+      "top_replacement": "MSFT",
+      "top_replacement_score": 68.965,
+      "detail": "BR sali\u00f3 de VALUE (59pts); peers en Technology: MSFT, INTU"
+    },
+    {
+      "type": "SECTOR_TAILWIND",
+      "sector": "Technology",
+      "rotation_score": 100.0,
+      "beneficiaries": [
+        "MSFT",
+        "INTU",
+        "SGE.L"
+      ],
+      "top_ticker": "MSFT",
+      "top_score": 68.965,
+      "detail": "Sector Technology l\u00edder (RS 100) \u2014 MSFT, INTU, SGE.L son los picks VALUE"
+    },
+    {
+      "type": "SECTOR_TAILWIND",
+      "sector": "Healthcare",
+      "rotation_score": 100.0,
+      "beneficiaries": [
+        "AZN.L",
+        "SYK"
+      ],
+      "top_ticker": "AZN.L",
+      "top_score": 68.9,
+      "detail": "Sector Healthcare l\u00edder (RS 100) \u2014 AZN.L, SYK son los picks VALUE"
+    },
+    {
+      "type": "SECTOR_TAILWIND",
+      "sector": "Communication Services",
+      "rotation_score": 100.0,
+      "beneficiaries": [
+        "GOOG"
+      ],
+      "top_ticker": "GOOG",
+      "top_score": 53.38999999999999,
+      "detail": "Sector Communication Services l\u00edder (RS 100) \u2014 GOOG son los picks VALUE"
+    }
+  ]
+}

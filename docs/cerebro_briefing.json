@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-10-20",
+  "generated_at": "2026-10-21",
   "regime": "NEUTRAL",
-  "narrative": "R\u00e9gimen NEUTRAL. 1 oportunidades de entrada, 0 se\u00f1ales de salida HIGH. Sin trampas de valor relevantes.",
+  "narrative": "R\u00e9gimen NEUTRAL. 1 oportunidades de entrada, 2 se\u00f1ales de salida HIGH. Sin trampas de valor relevantes.",
   "sections": {
     "regime": "NEUTRAL",
     "strong_buy_count": 0,
@@ -14,16 +14,16 @@
     ],
     "top_convergences": [
       [
-        "VRSN",
-        90
+        "SYK",
+        91
       ],
       [
-        "AON",
+        "VRSN",
         88
       ],
       [
-        "SYK",
-        86
+        "MSCI",
+        77
       ]
     ],
     "high_alerts": [
@@ -41,7 +41,22 @@
       ]
     ],
     "traps_warning": [],
-    "exit_warnings": [],
+    "exit_warnings": [
+      [
+        "RMD",
+        "Score cay\u00f3 34pts (64 \u2192 30)",
+        "RMD ha mantenido crecimiento constante en su negocio core de dispositivos de apnea del sue\u00f1o (CPAP) y software de salud conectada, sin reportes de guidance cuts o eventos negativos mayores recientes conocidos hasta el corte de entrenamiento.",
+        64.27499999999999,
+        30.020000000000003
+      ],
+      [
+        "QSR",
+        "Score cay\u00f3 27pts (59 \u2192 32)",
+        "Burger King US hab\u00eda mostrado crecimiento de ventas comparables d\u00e9bil frente a McDonald's y Wendy's, pero Tim Hortons y Popeyes manten\u00edan buen desempe\u00f1o, sin guidance cuts ni cambios dr\u00e1sticos de management reportados recientemente.",
+        59.09,
+        31.83
+      ]
+    ],
     "smart_money": [
       [
         "VRSN",
