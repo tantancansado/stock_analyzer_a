@@ -19,21 +19,21 @@
       "range": "55-60"
     },
     {
-      "count": 143,
-      "win_rate": 83.9,
-      "ci_low": 77.0,
-      "ci_high": 89.0,
-      "avg_return": 18.52,
-      "median_return": 19.31,
+      "count": 150,
+      "win_rate": 82.7,
+      "ci_low": 75.8,
+      "ci_high": 87.9,
+      "avg_return": 17.85,
+      "median_return": 18.64,
       "range": "60-65"
     },
     {
-      "count": 56,
-      "win_rate": 64.3,
-      "ci_low": 51.2,
-      "ci_high": 75.5,
-      "avg_return": 17.2,
-      "median_return": 6.03,
+      "count": 57,
+      "win_rate": 64.9,
+      "ci_low": 51.9,
+      "ci_high": 76.0,
+      "avg_return": 17.23,
+      "median_return": 6.24,
       "range": "65-70"
     },
     {
@@ -57,12 +57,12 @@
   ],
   "regime_analysis": [
     {
-      "count": 565,
-      "win_rate": 78.2,
-      "ci_low": 74.6,
-      "ci_high": 81.4,
-      "avg_return": 18.75,
-      "median_return": 16.15,
+      "count": 573,
+      "win_rate": 78.0,
+      "ci_low": 74.4,
+      "ci_high": 81.2,
+      "avg_return": 18.57,
+      "median_return": 15.96,
       "regime": "CONFIRMED_UPTREND"
     },
     {
@@ -95,21 +95,21 @@
       "sector": "Healthcare"
     },
     {
-      "count": 68,
-      "win_rate": 80.9,
-      "ci_low": 70.0,
-      "ci_high": 88.5,
-      "avg_return": 15.7,
-      "median_return": 21.69,
+      "count": 70,
+      "win_rate": 80.0,
+      "ci_low": 69.2,
+      "ci_high": 87.7,
+      "avg_return": 15.41,
+      "median_return": 21.41,
       "sector": "Technology"
     },
     {
-      "count": 44,
-      "win_rate": 77.3,
-      "ci_low": 63.0,
-      "ci_high": 87.2,
-      "avg_return": 50.71,
-      "median_return": 30.54,
+      "count": 46,
+      "win_rate": 78.3,
+      "ci_low": 64.4,
+      "ci_high": 87.7,
+      "avg_return": 48.82,
+      "median_return": 28.23,
       "sector": "Communication Services"
     },
     {
@@ -131,11 +131,11 @@
       "sector": "Real Estate"
     },
     {
-      "count": 113,
-      "win_rate": 58.4,
-      "ci_low": 49.2,
-      "ci_high": 67.1,
-      "avg_return": -0.13,
+      "count": 117,
+      "win_rate": 58.1,
+      "ci_low": 49.1,
+      "ci_high": 66.7,
+      "avg_return": 0.07,
       "median_return": 1.82,
       "sector": "Industrials"
     },
@@ -178,30 +178,30 @@
       "range": "Negative"
     },
     {
-      "count": 80,
-      "win_rate": 60.0,
-      "ci_low": 49.0,
-      "ci_high": 70.0,
-      "avg_return": 6.37,
-      "median_return": 1.1,
+      "count": 81,
+      "win_rate": 59.3,
+      "ci_low": 48.4,
+      "ci_high": 69.3,
+      "avg_return": 6.28,
+      "median_return": 0.81,
       "range": "0-3%"
     },
     {
-      "count": 131,
-      "win_rate": 54.2,
+      "count": 135,
+      "win_rate": 54.1,
       "ci_low": 45.7,
-      "ci_high": 62.5,
-      "avg_return": 3.15,
+      "ci_high": 62.3,
+      "avg_return": 3.23,
       "median_return": 2.33,
       "range": "3-6%"
     },
     {
-      "count": 60,
-      "win_rate": 90.0,
-      "ci_low": 79.9,
-      "ci_high": 95.3,
-      "avg_return": 59.92,
-      "median_return": 19.52,
+      "count": 63,
+      "win_rate": 90.5,
+      "ci_low": 80.7,
+      "ci_high": 95.6,
+      "avg_return": 57.49,
+      "median_return": 18.15,
       "range": "6-12%"
     },
     {
@@ -214,10 +214,10 @@
       "range": "12%+"
     }
   ],
-  "total_completed": 724,
+  "total_completed": 732,
   "poblacion": "VALUE US, todo el historico (incluye el periodo anterior al filtrado correcto)",
   "muestra_desde": "2026-02-26",
-  "muestra_hasta": "2026-04-22",
+  "muestra_hasta": "2026-04-23",
   "horizon": "180d",
-  "generated_at": "2026-10-20T05:48:37.999111"
+  "generated_at": "2026-10-21T05:26:38.683364"
 }

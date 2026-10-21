@@ -1,8 +1,8 @@
 {
   "listas": {
     "value_opportunities": {
-      "candidatas": 68,
-      "publicadas": 65,
+      "candidatas": 71,
+      "publicadas": 62,
       "excluidos": [
         {
           "ticker": "ERIE",
@@ -13,17 +13,53 @@
         {
           "ticker": "VCISY",
           "paso": "rangos_imposibles",
-          "motivo": "DCF fuera de rango: no es una valoración, es un dato roto (visto 265.9, esperado entre -95 y 200)",
+          "motivo": "DCF fuera de rango: no es una valoración, es un dato roto (visto 263.4, esperado entre -95 y 200)",
           "score": 38.92
         },
         {
           "ticker": "KYCCF",
           "paso": "rangos_imposibles",
           "motivo": "Falta analyst_upside_pct: no se recomienda lo que no se puede evaluar",
-          "score": 36.89
+          "score": 37.434
+        },
+        {
+          "ticker": "THC",
+          "paso": "verificador_ia",
+          "motivo": "modelos_acuerdo=DISPERSOS con target_price_dcf_upside_pct (58.6%) vs target_price_pe_upside_pct (20.3%), modelos_dispersion_pts=38.3 puntos. upside_triangulated_pct (20.3%) adopta P/E. Pero analyst_upside_pct (5.2%) es muchísimo más bajo que ambos modelos. Con rev_growth_yoy=14.6% y fcf_yield_pct=9.47%, los fundamentals aguantan crecimiento, pero el analista ve solo 5.2% de upside mientras los modelos ven 20-58%. Esto sugiere que los modelos no reflejan algo que el analista ve (riesgo de negocio, múltiplo no sostenible, o los modelos usan supuestos que no se cumplen). La recomendación está mal soportada.",
+          "score": 56.620000000000005
+        },
+        {
+          "ticker": "IDXX",
+          "paso": "verificador_ia",
+          "motivo": "target_price_dcf_upside_pct (-58.2%) es profundamente negativo, pero analyst_upside_pct (25.1%) es positivo. upside_triangulated_pct (-16.6%) toma el DCF. upside_divergence=ALTA, modelos no tienen field modelos_acuerdo ni modelos_dispersion_pts (falta), pero fundamental_score (74.0%) y piotroski_score (8.0%) son fuertes. Esto es una contradicción grave: o el DCF ve destrucción de valor massive (se contradice con la calidad), o hay error en la valuación DCF. proximity_to_52w_high (-27.5%) y ma_filter_pass=false refuerzan debilidad técnica. Sin modelos_dispersion_pts declarado no se puede auditar bien, pero la falta de coherencia entre DCF destructor y fundamentals fuertes es un BLOCK.",
+          "score": 51.385000000000005
+        },
+        {
+          "ticker": "ZTS",
+          "paso": "verificador_ia",
+          "motivo": "rev_growth_yoy (-0.2%) negativo pero upside_triangulated_pct (75.8%), fcf_yield_pct (6.71%), ebit_ev_yield (8.85%) todos saludables, y target_price_dcf_upside_pct (75.8%) es muy alto. Un negocio sin crecimiento (o con crecimiento negativo) no justifica 75.8% de upside a menos que esté brutalmente subvaluado. Los yields altos podrían reflejar eso, pero combinado con modelos_acuerdo=DISPERSOS (dispersion 52.3 pts) y target_price_pe_upside_pct (128.1%) mucho más alto que DCF (75.8%), hay inconsistencia en cómo se valúa. proximity_to_52w_high (-46.0%) es profundo. El descuento puede ser cierto, pero la ficha no sostiene coherentemente por qué.",
+          "score": 47.525
+        },
+        {
+          "ticker": "UNH",
+          "paso": "verificador_ia",
+          "motivo": "rev_growth_yoy (0.4%) es prácticamente cero, pero fundamental_score (71.1%) es alto y analyst_upside_pct (14.0%) se ve como razonable. Sin embargo, target_price_dcf_upside_pct (11.6%) vs target_price_pe_upside_pct (-8.9%) son contradictorios, modelos_acuerdo=CONTRADICEN, upside_divergence=MEDIA. Un negocio con cero crecimiento no justifica 14% de upside sin que sea un dividendo o descuento profundo. fcf_yield_pct (6.0%) y dividend_yield_pct (2.21%) suman 8.2%, que podría justificarlo, pero la falta de crecimiento + modelos contradictorios + upside del analista invita a duda. La recomendación no está bien soportada en crecimiento.",
+          "score": 45.565
+        },
+        {
+          "ticker": "FICO",
+          "paso": "verificador_ia",
+          "motivo": "analyst_upside_pct (27.2%) pero target_price_dcf_upside_pct solo (4.1%), sin target_price_pe_upside_pct declarado. upside_triangulated_pct (15.6%) y upside_divergence=MEDIA, modelos_dispersion_pts ausente. El analista ve 27% pero DCF solo 4%, brecha de 23 puntos sin que se declare modelos_acuerdo ni dispersion. proximity_to_52w_high (-57.0%) es fall profundo, ma_filter_pass=false. Con tan poco upside del DCF y tan profundo el retroceso, el 27% del analista no está soportado por los modelos propios.",
+          "score": 44.98
+        },
+        {
+          "ticker": "DVA",
+          "paso": "verificador_ia",
+          "motivo": "modelos_acuerdo=CONTRADICEN con target_price_dcf_upside_pct (182.0%) monumentalmente alto vs target_price_pe_upside_pct (-15.5%), modelos_dispersion_pts=197.5 puntos (el más alto del dataset). upside_triangulated_pct sin triangular a propósito, pero upside_divergence=ALTA y analyst_upside_pct (25.4%) está entre los modelos pero más cerca de 0. Un descuento de 182% en DCF pero descuento de -15% en P/E es incoherente radical. O el DCF usa supuestos irrealistas, o el P/E no captura el potencial. Con fcf_yield_pct (11.38%) muy alto y proximity_to_52w_high (-29.1%), el valor está deprimido, pero la ficha no explica por qué los dos modelos salen tan divergentes. BLOCK porque la incoherencia invalida la recomendación.",
+          "score": 44.790000000000006
         }
       ]
     }
   },
-  "generated_at": "2026-10-20T05:09:19Z"
+  "generated_at": "2026-10-21T05:05:40Z"
 }

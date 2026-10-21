@@ -58,40 +58,17 @@
   "fuentes": [],
   "fecha": "2026-10-20"
  },
- "DVA": {
-  "veredicto": "SIN_DATOS",
-  "resumen": "",
-  "confianza": 0,
-  "fuentes": [],
-  "fecha": "2026-10-07"
- },
- "CPG.L": {
-  "veredicto": "SIN_DATOS",
-  "resumen": "",
-  "confianza": 0,
-  "fuentes": [],
-  "fecha": "2026-10-07"
- },
- "RACE": {
-  "veredicto": "SIN_DATOS",
-  "resumen": "",
-  "confianza": 0,
-  "fuentes": [],
-  "fecha": "2026-10-07"
- },
- "IT": {
-  "veredicto": "SIN_DATOS",
-  "resumen": "",
-  "confianza": 0,
-  "fuentes": [],
-  "fecha": "2026-10-07"
- },
  "AUTO.L": {
-  "veredicto": "SIN_DATOS",
-  "resumen": "",
-  "confianza": 0,
-  "fuentes": [],
-  "fecha": "2026-10-07"
+  "veredicto": "SENTIMIENTO",
+  "resumen": "Guidance FY 2027 reducida (£395-415m vs £408m FY2026) tras fuertes resultados en H2 2026; valuaciones ajustadas a la baja por presiones minoristas cíclicas y desaceleración de crecimiento, sin deterioro estructural del negocio.",
+  "confianza": 72,
+  "fuentes": [
+   "https://en.wikipedia.org/wiki/Autotrader_Group",
+   "https://finance.yahoo.com/news/auto-trader-group-full-2025-133815695.html",
+   "https://www.google.com/finance/quote/AUTO:LON?hl=en",
+   "https://en.wikipedia.org/wiki/AutoTrader_(South_Africa)"
+  ],
+  "fecha": "2026-10-21"
  },
  "NOVO-B.CO": {
   "veredicto": "DETERIORO",
@@ -518,5 +495,53 @@
   "confianza": 0,
   "fuentes": [],
   "fecha": "2026-10-20"
+ },
+ "BSX": {
+  "veredicto": "DETERIORO",
+  "resumen": "Boston Scientific ha sufrido recortes sucesivos de guidance desde febrero 2026: de 10.5-11.5% a 7-8.5% y finalmente a 5.5-6.5%. Las caídas en WATCHMAN (producto clave), pérdida de cuota en electrofisiología por competencia y debilidad en urología revelan deterioro estructural; adicionalmente, un inc",
+  "confianza": 92,
+  "fuentes": [
+   "https://www.tikr.com/es/blog/boston-scientific-fell-28-in-2026-do-analysts-see-recovery",
+   "https://www.mexc.com/es/news/1043194",
+   "https://es.investing.com/news/stock-market-news/las-acciones-de-boston-scientific-caen-un-6-tras-recorte-de-previsiones-3679485",
+   "https://es.investing.com/news/company-news/las-acciones-de-boston-scientific-caen-tras-debil-perspectiva-para-2026-93CH-3499996"
+  ],
+  "fecha": "2026-10-21"
+ },
+ "AVGO": {
+  "veredicto": "SENTIMIENTO",
+  "resumen": "Broadcom ha caído ~32% desde su máximo histórico de $495 en junio 2026, a pesar de beats consistentes en resultados y guidance alcista. La caída se debe a compresión de márgenes (75% → 73% bruto por shift hacia chips AI de menor margen) y expectativas extraordinarias del mercado que no se pueden cum",
+  "confianza": 78,
+  "fuentes": [
+   "https://www.rava.com/perfil/AVGO",
+   "https://mx.investing.com/analysis/broadcom-2025-el-gigante-del-chip-imparable-200481878",
+   "https://roboforex.com/es/beginners/analytics/forex-forecast/stocks/stocks-forecast-broadcom-avgo/",
+   "https://www.bloomberglinea.com/negocios/broadcom-da-un-pronostico-optimista-ante-un-crecimiento-impulsado-por-acuerdos-de-ia/"
+  ],
+  "fecha": "2026-10-21"
+ },
+ "UBER": {
+  "veredicto": "SENTIMIENTO",
+  "resumen": "Negocios core funcionan bien (ingresos +12%, EBITDA +33% en Q2 2026), pero guidance Q3 decepcionó y preocupan inversiones en robotaxi. Rotación en múltiplos: de $102 pico a $70, con aumento de deuda y ganancias infladas por valorización de participaciones.",
+  "confianza": 72,
+  "fuentes": [
+   "https://inversornovato.substack.com/p/analisis-de-uber",
+   "https://www.tikr.com/es/blog/uber-stock-is-down-29-from-its-peak-heres-where-the-stock-could-go-in-2026",
+   "https://www.tikr.com/es/blog/uber-stock-is-down-9-in-2026-heres-why-analysts-still-see-upside-to-103",
+   "https://blog.skipo.com/post/resultados-uber-q2-2026"
+  ],
+  "fecha": "2026-10-21"
+ },
+ "CLPBY": {
+  "veredicto": "EVENTO",
+  "resumen": "Coloplast ha sufrido presión de márgenes por costos de ramp-up en Kerecis (biologics) y headwinds de divisas. Sin embargo, el negocio crece a 6% orgánico, guidance se mantiene sin cambios, y cash flow es fuerte (+27% YTD). Kerecis debe volver a rentabilidad en Q2 2027.",
+  "confianza": 72,
+  "fuentes": [
+   "https://www.investing.com/equities/coloplast-a",
+   "https://stockanalysis.com/quote/otc/CLPBY/history/",
+   "https://www.morningstar.com/stocks/otcm/clpby/quote",
+   "https://www.macrotrends.net/stocks/charts/CLPBY/coloplast/stock-price-history"
+  ],
+  "fecha": "2026-10-21"
  }
 }
