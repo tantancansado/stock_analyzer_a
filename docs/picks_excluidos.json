@@ -1,65 +1,77 @@
 {
   "listas": {
     "value_opportunities": {
-      "candidatas": 71,
-      "publicadas": 62,
+      "candidatas": 72,
+      "publicadas": 61,
       "excluidos": [
+        {
+          "ticker": "VCISY",
+          "paso": "rangos_imposibles",
+          "motivo": "DCF fuera de rango: no es una valoración, es un dato roto (visto 264.2, esperado entre -95 y 200)",
+          "score": 41.92
+        },
         {
           "ticker": "ERIE",
           "paso": "rangos_imposibles",
           "motivo": "Falta analyst_upside_pct: no se recomienda lo que no se puede evaluar",
-          "score": 45.397999999999996
-        },
-        {
-          "ticker": "VCISY",
-          "paso": "rangos_imposibles",
-          "motivo": "DCF fuera de rango: no es una valoración, es un dato roto (visto 263.4, esperado entre -95 y 200)",
-          "score": 38.92
+          "score": 40.91
         },
         {
           "ticker": "KYCCF",
           "paso": "rangos_imposibles",
           "motivo": "Falta analyst_upside_pct: no se recomienda lo que no se puede evaluar",
-          "score": 37.434
+          "score": 37.128
         },
         {
-          "ticker": "THC",
+          "ticker": "INTU",
           "paso": "verificador_ia",
-          "motivo": "modelos_acuerdo=DISPERSOS con target_price_dcf_upside_pct (58.6%) vs target_price_pe_upside_pct (20.3%), modelos_dispersion_pts=38.3 puntos. upside_triangulated_pct (20.3%) adopta P/E. Pero analyst_upside_pct (5.2%) es muchísimo más bajo que ambos modelos. Con rev_growth_yoy=14.6% y fcf_yield_pct=9.47%, los fundamentals aguantan crecimiento, pero el analista ve solo 5.2% de upside mientras los modelos ven 20-58%. Esto sugiere que los modelos no reflejan algo que el analista ve (riesgo de negocio, múltiplo no sostenible, o los modelos usan supuestos que no se cumplen). La recomendación está mal soportada.",
-          "score": 56.620000000000005
+          "motivo": "target_price_dcf_upside_pct es 136.6% pero falta target_price_pe_upside_pct. Sin ese dato no se puede triangular, pero la ficha reporta upside_triangulated_pct de 78.9%. Con FCF yield de 9.61%, un PEG de 0.5 y crecimiento de 13.7%, el DCF de 136.6% es extremo. La ficha no muestra modelos_acuerdo ni modelos_dispersion_pts, lo que es inconsistente con el contrato: si hay dos modelos, deben reportarse ambos. Falta P/E target. · El triángulo de 78.9% viene de algún lado (analista+DCF presumiblemente), pero no hay suficiencia de datos para validarlo. Campo crítico ausente.",
+          "score": 61.515
         },
         {
-          "ticker": "IDXX",
+          "ticker": "CBOE",
           "paso": "verificador_ia",
-          "motivo": "target_price_dcf_upside_pct (-58.2%) es profundamente negativo, pero analyst_upside_pct (25.1%) es positivo. upside_triangulated_pct (-16.6%) toma el DCF. upside_divergence=ALTA, modelos no tienen field modelos_acuerdo ni modelos_dispersion_pts (falta), pero fundamental_score (74.0%) y piotroski_score (8.0%) son fuertes. Esto es una contradicción grave: o el DCF ve destrucción de valor massive (se contradice con la calidad), o hay error en la valuación DCF. proximity_to_52w_high (-27.5%) y ma_filter_pass=false refuerzan debilidad técnica. Sin modelos_dispersion_pts declarado no se puede auditar bien, pero la falta de coherencia entre DCF destructor y fundamentals fuertes es un BLOCK.",
-          "score": 51.385000000000005
+          "motivo": "modelos_dispersion_pts es 54.5 (muy alta), modelos_acuerdo es DISPERSOS. DCF da 55.7%, P/E da 1.2%. Se reporta upside_triangulated_pct = 1.2% (el P/E). Pero analyst_upside_pct es 1.1%, que está mucho más cerca del P/E que del DCF. Con crecimiento de 22.9% YoY, FCF yield 5.68% y EBIT/EV de 4.66%, el DCF de 55.7% no debería ser ignorado sin señalizar la controversia. El contrato dice que cuando modelos se contradicen, se deja vacío. Aquí dice DISPERSOS, no CONTRADICEN, así que según el sistema debe haber un triángulo. Sin embargo, el triángulo es apenas 1.2%, lo que sugiere que se ha tomado el P/E por defecto. La redacción de upside_triangulated_pct debería reflejar esta elección si en realidad los modelos divergen.",
+          "score": 60.745000000000005
         },
         {
-          "ticker": "ZTS",
+          "ticker": "WTKWY",
           "paso": "verificador_ia",
-          "motivo": "rev_growth_yoy (-0.2%) negativo pero upside_triangulated_pct (75.8%), fcf_yield_pct (6.71%), ebit_ev_yield (8.85%) todos saludables, y target_price_dcf_upside_pct (75.8%) es muy alto. Un negocio sin crecimiento (o con crecimiento negativo) no justifica 75.8% de upside a menos que esté brutalmente subvaluado. Los yields altos podrían reflejar eso, pero combinado con modelos_acuerdo=DISPERSOS (dispersion 52.3 pts) y target_price_pe_upside_pct (128.1%) mucho más alto que DCF (75.8%), hay inconsistencia en cómo se valúa. proximity_to_52w_high (-46.0%) es profundo. El descuento puede ser cierto, pero la ficha no sostiene coherentemente por qué.",
-          "score": 47.525
+          "motivo": "upside_triangulated_pct es 92.2% pero upside_requiere_verificacion es false. Con crecimiento YoY de solo 3.5%, un descuento implícito del 92.2% es enorme. El FCF yield es 7.35%, EBIT/EV es 6.66%, y el PEG es 1.12: estos ratios son sólidos pero no justifican un upside de casi 100% en una compañía de crecimiento lento (3.5% YoY). La ficha sostiene que los modelos están COHERENTES (dispersión 9.7 pts), pero no explica por qué un negocio que crece 3.5% vale un 92% más. Esto es un descuento que requiere verificación pero está marcado como false.",
+          "score": 58.22
         },
         {
-          "ticker": "UNH",
+          "ticker": "PAYX",
           "paso": "verificador_ia",
-          "motivo": "rev_growth_yoy (0.4%) es prácticamente cero, pero fundamental_score (71.1%) es alto y analyst_upside_pct (14.0%) se ve como razonable. Sin embargo, target_price_dcf_upside_pct (11.6%) vs target_price_pe_upside_pct (-8.9%) son contradictorios, modelos_acuerdo=CONTRADICEN, upside_divergence=MEDIA. Un negocio con cero crecimiento no justifica 14% de upside sin que sea un dividendo o descuento profundo. fcf_yield_pct (6.0%) y dividend_yield_pct (2.21%) suman 8.2%, que podría justificarlo, pero la falta de crecimiento + modelos contradictorios + upside del analista invita a duda. La recomendación no está bien soportada en crecimiento.",
-          "score": 45.565
+          "motivo": "analyst_upside_pct es 1.3%, target_price_dcf_upside_pct es 15.3%, target_price_pe_upside_pct es 2.3%, pero upside_triangulated_pct es 2.3% (el P/E). Con modelos_acuerdo COHERENTES y modelos_dispersion_pts 13.0, la dispersión es significativa (DCF vs P/E). El PEG de 4.01 es muy alto para un crecimiento de 12.5% YoY, lo que sugiere que la acción está cara según el múltiplo de earnings. Sin embargo, el valor_score es 55.4 y fundamental_score es 71.0, una brecha que también señala desconexión. La recomendación de upside mínimo (1.3-2.3%) se sostiene en los múltiplos, pero fundamental_score de 71 es inconsistente con un upside tan bajísimo en una compañía que crece doble dígito.",
+          "score": 55.400000000000006
         },
         {
           "ticker": "FICO",
           "paso": "verificador_ia",
-          "motivo": "analyst_upside_pct (27.2%) pero target_price_dcf_upside_pct solo (4.1%), sin target_price_pe_upside_pct declarado. upside_triangulated_pct (15.6%) y upside_divergence=MEDIA, modelos_dispersion_pts ausente. El analista ve 27% pero DCF solo 4%, brecha de 23 puntos sin que se declare modelos_acuerdo ni dispersion. proximity_to_52w_high (-57.0%) es fall profundo, ma_filter_pass=false. Con tan poco upside del DCF y tan profundo el retroceso, el 27% del analista no está soportado por los modelos propios.",
-          "score": 44.98
+          "motivo": "falta target_price_pe_upside_pct. Solo hay target_price_dcf_upside_pct (4.7%) pero upside_triangulated_pct es 15.6%. Sin P/E, no hay triangulación posible. Upside_divergence es MEDIA (analista 26.6% vs models ~10%), lo que sugiere tensión. Con PEG de 0.7 y crecimiento de 25.7% YoY, el negocio es barato en múltiplos, pero el DCF de 4.7% lo contradice. Campo P/E target ausente impide validar el triángulo reportado.",
+          "score": 49.98
         },
         {
-          "ticker": "DVA",
+          "ticker": "ZTS",
           "paso": "verificador_ia",
-          "motivo": "modelos_acuerdo=CONTRADICEN con target_price_dcf_upside_pct (182.0%) monumentalmente alto vs target_price_pe_upside_pct (-15.5%), modelos_dispersion_pts=197.5 puntos (el más alto del dataset). upside_triangulated_pct sin triangular a propósito, pero upside_divergence=ALTA y analyst_upside_pct (25.4%) está entre los modelos pero más cerca de 0. Un descuento de 182% en DCF pero descuento de -15% en P/E es incoherente radical. O el DCF usa supuestos irrealistas, o el P/E no captura el potencial. Con fcf_yield_pct (11.38%) muy alto y proximity_to_52w_high (-29.1%), el valor está deprimido, pero la ficha no explica por qué los dos modelos salen tan divergentes. BLOCK porque la incoherencia invalida la recomendación.",
-          "score": 44.790000000000006
+          "motivo": "rev_growth_yoy es -0.2% (ingresos caen). Pero upside_requiere_verificacion es false y upside_triangulated_pct es 76.7%. Con crecimiento negativo, un descuento de 76% es alto y debería requerir verificación explícita. Además, modelos_acuerdo es DISPERSOS (52.6 pts: DCF 76.7% vs P/E 129.3%). FCF yield de 6.74% y EBIT/EV de 8.89% son buenos, pero sin crecimiento la sostenibilidad es cuestionable. Upside grande sin crecimiento + sin verificación requerida = contradicción en la recomendación.",
+          "score": 49.540000000000006
+        },
+        {
+          "ticker": "ROP",
+          "paso": "verificador_ia",
+          "motivo": "modelos_dispersion_pts es 85.2 (extremo), modelos_acuerdo es DISPERSOS. DCF 16.2% vs P/E 101.4%. Upside_triangulated_pct reporta 16.2% (DCF). Analista dice 10.5%. Con fundamental_score de 63.1 (bajo) y crecimiento de 8.5% YoY, el P/E de 101.4% es inconsistente con los fundamentales débiles. El sistema elige conservadoramente el DCF, pero no hay reconciliación visible de por qué el P/E es tan extremo. Esto señala un problema potencial en los datos de P/E target para ROP.",
+          "score": 45.785000000000004
+        },
+        {
+          "ticker": "TMO",
+          "paso": "verificador_ia",
+          "motivo": "peg_ratio es 138.92, un número absurdo. Con crecimiento de 10.5% YoY, un PEG de 139 sugiere un error de unidad (posiblemente ganancias en millones y precio en otra escala). Esto invalida la valoración. Además, analyst_upside_pct es 1.8% pero target_price_dcf_upside_pct es -41.7% y target_price_pe_upside_pct es -28.5%, con upside_triangulated_pct -28.5% (P/E). Upside_divergence es MEDIA. El PEG errático y los downsides masivos en ambos modelos hacen la ficha no confiable. El campo PEG debe ser verificado urgentemente.",
+          "score": 45.42
         }
       ]
     }
   },
-  "generated_at": "2026-10-21T05:05:40Z"
+  "generated_at": "2026-10-22T05:00:43Z"
 }

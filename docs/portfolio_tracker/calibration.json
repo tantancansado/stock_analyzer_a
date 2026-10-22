@@ -10,29 +10,29 @@
       "range": "50-55"
     },
     {
-      "count": 157,
+      "count": 158,
       "win_rate": 85.4,
-      "ci_low": 79.0,
-      "ci_high": 90.0,
-      "avg_return": 15.61,
-      "median_return": 17.3,
+      "ci_low": 79.1,
+      "ci_high": 90.1,
+      "avg_return": 15.57,
+      "median_return": 17.1,
       "range": "55-60"
     },
     {
-      "count": 150,
-      "win_rate": 82.7,
-      "ci_low": 75.8,
-      "ci_high": 87.9,
-      "avg_return": 17.85,
-      "median_return": 18.64,
+      "count": 153,
+      "win_rate": 83.0,
+      "ci_low": 76.3,
+      "ci_high": 88.1,
+      "avg_return": 17.66,
+      "median_return": 18.46,
       "range": "60-65"
     },
     {
-      "count": 57,
-      "win_rate": 64.9,
-      "ci_low": 51.9,
-      "ci_high": 76.0,
-      "avg_return": 17.23,
+      "count": 59,
+      "win_rate": 66.1,
+      "ci_low": 53.4,
+      "ci_high": 76.9,
+      "avg_return": 17.08,
       "median_return": 6.24,
       "range": "65-70"
     },
@@ -57,12 +57,12 @@
   ],
   "regime_analysis": [
     {
-      "count": 573,
-      "win_rate": 78.0,
-      "ci_low": 74.4,
-      "ci_high": 81.2,
-      "avg_return": 18.57,
-      "median_return": 15.96,
+      "count": 579,
+      "win_rate": 78.2,
+      "ci_low": 74.7,
+      "ci_high": 81.4,
+      "avg_return": 18.48,
+      "median_return": 15.88,
       "regime": "CONFIRMED_UPTREND"
     },
     {
@@ -86,30 +86,30 @@
       "sector": "Financial Services"
     },
     {
-      "count": 29,
-      "win_rate": 82.8,
-      "ci_low": 65.5,
-      "ci_high": 92.4,
-      "avg_return": 18.53,
-      "median_return": 30.03,
+      "count": 30,
+      "win_rate": 83.3,
+      "ci_low": 66.4,
+      "ci_high": 92.7,
+      "avg_return": 18.24,
+      "median_return": 27.7,
       "sector": "Healthcare"
     },
     {
-      "count": 70,
-      "win_rate": 80.0,
-      "ci_low": 69.2,
-      "ci_high": 87.7,
-      "avg_return": 15.41,
-      "median_return": 21.41,
+      "count": 72,
+      "win_rate": 80.6,
+      "ci_low": 70.0,
+      "ci_high": 88.0,
+      "avg_return": 15.21,
+      "median_return": 21.07,
       "sector": "Technology"
     },
     {
-      "count": 46,
-      "win_rate": 78.3,
-      "ci_low": 64.4,
-      "ci_high": 87.7,
-      "avg_return": 48.82,
-      "median_return": 28.23,
+      "count": 47,
+      "win_rate": 78.7,
+      "ci_low": 65.1,
+      "ci_high": 88.0,
+      "avg_return": 47.91,
+      "median_return": 27.41,
       "sector": "Communication Services"
     },
     {
@@ -131,12 +131,12 @@
       "sector": "Real Estate"
     },
     {
-      "count": 117,
-      "win_rate": 58.1,
-      "ci_low": 49.1,
-      "ci_high": 66.7,
-      "avg_return": 0.07,
-      "median_return": 1.82,
+      "count": 119,
+      "win_rate": 58.8,
+      "ci_low": 49.8,
+      "ci_high": 67.3,
+      "avg_return": 0.3,
+      "median_return": 2.33,
       "sector": "Industrials"
     },
     {
@@ -187,37 +187,37 @@
       "range": "0-3%"
     },
     {
-      "count": 135,
-      "win_rate": 54.1,
-      "ci_low": 45.7,
-      "ci_high": 62.3,
-      "avg_return": 3.23,
-      "median_return": 2.33,
+      "count": 138,
+      "win_rate": 55.1,
+      "ci_low": 46.7,
+      "ci_high": 63.1,
+      "avg_return": 3.37,
+      "median_return": 2.72,
       "range": "3-6%"
     },
     {
-      "count": 63,
-      "win_rate": 90.5,
-      "ci_low": 80.7,
-      "ci_high": 95.6,
-      "avg_return": 57.49,
-      "median_return": 18.15,
+      "count": 65,
+      "win_rate": 90.8,
+      "ci_low": 81.3,
+      "ci_high": 95.7,
+      "avg_return": 56.03,
+      "median_return": 16.87,
       "range": "6-12%"
     },
     {
-      "count": 44,
+      "count": 45,
       "win_rate": 100.0,
-      "ci_low": 92.0,
+      "ci_low": 92.1,
       "ci_high": 100.0,
-      "avg_return": 16.88,
-      "median_return": 16.95,
+      "avg_return": 16.73,
+      "median_return": 16.69,
       "range": "12%+"
     }
   ],
-  "total_completed": 732,
+  "total_completed": 738,
   "poblacion": "VALUE US, todo el historico (incluye el periodo anterior al filtrado correcto)",
   "muestra_desde": "2026-02-26",
-  "muestra_hasta": "2026-04-23",
+  "muestra_hasta": "2026-04-24",
   "horizon": "180d",
-  "generated_at": "2026-10-21T05:26:38.683364"
+  "generated_at": "2026-10-22T05:23:56.603239"
 }

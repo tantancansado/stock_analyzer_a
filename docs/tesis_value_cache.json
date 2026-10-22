@@ -269,12 +269,12 @@
   "margen_op": 45.44327340359578,
   "margen_op_delta": 30.26640006772663,
   "op_yoy": 359.27318295739343,
-  "eps_limpio": 3.494832974368048,
-  "pe_hoy": 17.571655197943883,
+  "eps_limpio": 3.504789763468812,
+  "pe_hoy": 17.88980344942107,
   "extraordinarios_pct": 0.4321089923632984,
   "crec_usado": 30.0,
-  "ret_2a_sin_reversion": 69.00000000000004,
-  "fecha": "2026-10-15"
+  "ret_2a_sin_reversion": 69.00000000000001,
+  "fecha": "2026-10-22"
  },
  "SYK": {
   "ticker": "SYK",
@@ -414,7 +414,7 @@
   "margen_op": 62.6239232894523,
   "margen_op_delta": -2.2177751696469485,
   "op_yoy": 17.773362879193087,
-  "fecha": "2026-10-01"
+  "fecha": "2026-10-22"
  },
  "DSY.PA": {
   "ticker": "DSY.PA",
@@ -798,17 +798,17 @@
   "margen_op": 33.181176283390016,
   "margen_op_delta": 3.538487964840396,
   "op_yoy": 25.19230047652996,
-  "eps_limpio": 2.1347499714016354,
-  "pe_hoy": 36.8286689557277,
+  "eps_limpio": 2.185577351673103,
+  "pe_hoy": 42.27258299930388,
   "extraordinarios_pct": 1.6547605429350205,
   "compresion_con_bpa_creciendo": true,
   "bpa_crecio_pct": 58.474576271186464,
-  "multiplo_vario_pct": -38.94258397782563,
+  "multiplo_vario_pct": -38.41362727139529,
   "pe_antes": 64.78406788454217,
-  "pe_ahora": 39.55547784435277,
+  "pe_ahora": 39.89815751612644,
   "crec_usado": 10.920807496593717,
   "ret_2a_sin_reversion": 23.034255356964017,
-  "fecha": "2026-10-07"
+  "fecha": "2026-10-22"
  },
  "WST": {
   "ticker": "WST",
@@ -1436,12 +1436,12 @@
   "margen_op": 19.36362603631236,
   "margen_op_delta": 0.10461450562444696,
   "op_yoy": 6.998867497168737,
-  "eps_limpio": 4.826852552654602,
-  "pe_hoy": 34.87365693559965,
+  "eps_limpio": 5.225185044863962,
+  "pe_hoy": 32.205557995579305,
   "extraordinarios_pct": 17.156615355694218,
   "crec_usado": 2.1999999999999997,
-  "ret_2a_sin_reversion": 4.448399999999997,
-  "fecha": "2026-08-21"
+  "ret_2a_sin_reversion": 4.448399999999975,
+  "fecha": "2026-10-22"
  },
  "ZTS": {
   "ticker": "ZTS",
@@ -1554,15 +1554,15 @@
   "margen_op": 44.87513493315619,
   "margen_op_delta": 6.4249963858788774,
   "op_yoy": 40.033036972258664,
-  "eps_limpio": 3.9296574350135773,
-  "pe_hoy": 20.739721298306605,
-  "extraordinarios_pct": 1.0161855160308035,
-  "pe_hist": 30.937151968845356,
-  "compresion": -32.961762869471215,
+  "eps_limpio": 4.702356517124208,
+  "pe_hoy": 17.66135759752865,
+  "extraordinarios_pct": 1.21099753940739,
+  "pe_hist": 30.937151955315183,
+  "compresion": -42.91214128877069,
   "crec_usado": 14.99190510289859,
-  "ret_2a_sin_reversion": 32.23138239194032,
-  "ret_2a_con_reversion": 97.24770228440718,
-  "fecha": "2026-08-27"
+  "ret_2a_sin_reversion": 32.23138239194034,
+  "ret_2a_con_reversion": 131.6278546386083,
+  "fecha": "2026-10-22"
  },
  "NDSN": {
   "ticker": "NDSN",
@@ -1809,15 +1809,15 @@
   "margen_op": 29.649040219997563,
   "margen_op_delta": 2.107531386582032,
   "op_yoy": 11.181453353991522,
-  "eps_limpio": 3.111531589746731,
-  "pe_hoy": 25.186953029256916,
-  "extraordinarios_pct": 2.1530946620524913,
-  "pe_hist": 25.837300777730192,
-  "compresion": -2.5170885847093816,
+  "eps_limpio": 3.0332540654763727,
+  "pe_hoy": 26.971034484429758,
+  "extraordinarios_pct": 2.153094662052492,
+  "pe_hist": 25.744338812323804,
+  "compresion": 4.764914263475806,
   "crec_usado": 6.639192313476945,
   "ret_2a_sin_reversion": 13.719173372707182,
-  "ret_2a_con_reversion": 16.655495534235598,
-  "fecha": "2026-10-09"
+  "ret_2a_con_reversion": 8.547001801301635,
+  "fecha": "2026-10-22"
  },
  "YUM": {
   "ticker": "YUM",
@@ -2388,5 +2388,59 @@
   "crec_usado": 13.026091888825869,
   "ret_2a_sin_reversion": 27.748974476613107,
   "fecha": "2026-10-16"
+ },
+ "EFX": {
+  "ticker": "EFX",
+  "deterioro": false,
+  "motivo": null,
+  "ingresos_yoy": 10.611581001951853,
+  "margen_op": 18.481265807893653,
+  "margen_op_delta": -1.739944341748508,
+  "op_yoy": 1.0939510939510955,
+  "eps_limpio": 6.18,
+  "pe_hoy": 28.40938511326861,
+  "extraordinarios_pct": 0.0,
+  "pe_hist": 45.43963796530858,
+  "compresion": -37.47884801600293,
+  "crec_usado": 10.305790500975927,
+  "ret_2a_sin_reversion": 21.67367418045194,
+  "ret_2a_con_reversion": 94.61201580482002,
+  "fecha": "2026-10-22"
+ },
+ "ROL": {
+  "ticker": "ROL",
+  "deterioro": false,
+  "motivo": null,
+  "ingresos_yoy": 7.908640787092303,
+  "margen_op": 18.668967230867366,
+  "margen_op_delta": -1.1737183594168386,
+  "op_yoy": 1.525716849944292,
+  "eps_limpio": 1.09,
+  "pe_hoy": 30.68807339449541,
+  "extraordinarios_pct": 0.0,
+  "pe_hist": 46.20809506897822,
+  "compresion": -33.587235421228534,
+  "crec_usado": 1.55,
+  "ret_2a_sin_reversion": 3.124025000000019,
+  "ret_2a_con_reversion": 55.277416403417014,
+  "fecha": "2026-10-22"
+ },
+ "ABBN.SW": {
+  "ticker": "ABBN.SW",
+  "deterioro": false,
+  "motivo": null,
+  "ingresos_yoy": 14.225437010247145,
+  "margen_op": 17.91029023746702,
+  "margen_op_delta": 1.382261304374797,
+  "op_yoy": 23.77826404084611,
+  "eps_limpio": 2.17,
+  "pe_hoy": 33.10599078341014,
+  "extraordinarios_pct": 0.0,
+  "pe_hist": 19.654207829454137,
+  "compresion": 68.4422545578099,
+  "crec_usado": -0.8,
+  "ret_2a_sin_reversion": -1.593599999999984,
+  "ret_2a_con_reversion": -41.57855446762224,
+  "fecha": "2026-10-22"
  }
 }
