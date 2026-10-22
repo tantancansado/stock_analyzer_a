@@ -1,0 +1,64 @@
+{
+  "generated_at": "2026-10-22",
+  "regime": "NEUTRAL",
+  "narrative": "1. Mant\u00e9n una posici\u00f3n neutral en el mercado y evita abrir nuevas posiciones en AAL.L, AXP y BA.L mientras persisten sus alertas de insider buying y earnings warning.  \n2. Considera una exposici\u00f3n ligera a AZN.L, que ha recibido una se\u00f1al de compra con un score de 50, pero mant\u00e9n el riesgo bajo.  \n3. Vigila de cerca los activos con convergencia multi\u2011estrategia (VRSN, MSCI y SYK",
+  "sections": {
+    "regime": "NEUTRAL",
+    "strong_buy_count": 0,
+    "buy_count": 1,
+    "top_entries": [
+      [
+        "AZN.L",
+        50
+      ]
+    ],
+    "top_convergences": [
+      [
+        "VRSN",
+        88
+      ],
+      [
+        "MSCI",
+        87
+      ],
+      [
+        "SYK",
+        71
+      ]
+    ],
+    "high_alerts": [
+      [
+        "AAL.L",
+        "INSIDER_BUYING"
+      ],
+      [
+        "AXP",
+        "EARNINGS_WARNING"
+      ],
+      [
+        "BA.L",
+        "INSIDER_BUYING"
+      ]
+    ],
+    "traps_warning": [],
+    "exit_warnings": [],
+    "smart_money": [
+      [
+        "VRSN",
+        1,
+        1
+      ],
+      [
+        "ULVR.L",
+        0,
+        9
+      ],
+      [
+        "SAP.DE",
+        0,
+        3
+      ]
+    ],
+    "macro_stress": []
+  }
+}

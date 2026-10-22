@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-10-21",
+  "generated_at": "2026-10-22",
   "regime": "NEUTRAL",
-  "narrative": "R\u00e9gimen NEUTRAL. 1 oportunidades de entrada, 2 se\u00f1ales de salida HIGH. Sin trampas de valor relevantes.",
+  "narrative": "1. Mant\u00e9n una posici\u00f3n neutral en el mercado y evita abrir nuevas posiciones en AAL.L, AXP y BA.L mientras persisten sus alertas de insider buying y earnings warning.  \n2. Considera una exposici\u00f3n ligera a AZN.L, que ha recibido una se\u00f1al de compra con un score de 50, pero mant\u00e9n el riesgo bajo.  \n3. Vigila de cerca los activos con convergencia multi\u2011estrategia (VRSN, MSCI y SYK",
   "sections": {
     "regime": "NEUTRAL",
     "strong_buy_count": 0,
@@ -14,16 +14,16 @@
     ],
     "top_convergences": [
       [
-        "SYK",
-        91
-      ],
-      [
         "VRSN",
         88
       ],
       [
         "MSCI",
-        77
+        87
+      ],
+      [
+        "SYK",
+        71
       ]
     ],
     "high_alerts": [
@@ -32,31 +32,16 @@
         "INSIDER_BUYING"
       ],
       [
-        "ABBN.SW",
+        "AXP",
         "EARNINGS_WARNING"
       ],
       [
-        "AON",
-        "STREAK"
+        "BA.L",
+        "INSIDER_BUYING"
       ]
     ],
     "traps_warning": [],
-    "exit_warnings": [
-      [
-        "RMD",
-        "Score cay\u00f3 34pts (64 \u2192 30)",
-        "RMD ha mantenido crecimiento constante en su negocio core de dispositivos de apnea del sue\u00f1o (CPAP) y software de salud conectada, sin reportes de guidance cuts o eventos negativos mayores recientes conocidos hasta el corte de entrenamiento.",
-        64.27499999999999,
-        30.020000000000003
-      ],
-      [
-        "QSR",
-        "Score cay\u00f3 27pts (59 \u2192 32)",
-        "Burger King US hab\u00eda mostrado crecimiento de ventas comparables d\u00e9bil frente a McDonald's y Wendy's, pero Tim Hortons y Popeyes manten\u00edan buen desempe\u00f1o, sin guidance cuts ni cambios dr\u00e1sticos de management reportados recientemente.",
-        59.09,
-        31.83
-      ]
-    ],
+    "exit_warnings": [],
     "smart_money": [
       [
         "VRSN",

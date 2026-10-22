@@ -1,44 +1,37 @@
 {
-  "generated_at": "2026-10-21",
-  "total": 18,
-  "high_count": 2,
-  "narrative": "",
+  "generated_at": "2026-10-22",
+  "total": 21,
+  "high_count": 1,
+  "narrative": "Esto sugiere que es prudente revisar y posiblemente reducir la exposici\u00f3n a esos valores, ajustando tama\u00f1os de",
   "exits": [
     {
-      "ticker": "RMD",
-      "severity": "HIGH",
-      "entry_score": 64.27499999999999,
-      "current_score": 30.020000000000003,
-      "signal_date": "2026-10-08",
+      "ticker": "AON",
+      "severity": "MEDIUM",
+      "entry_score": 51.13,
+      "current_score": null,
+      "signal_date": "2026-08-24",
       "reasons": [
-        "Score cay\u00f3 34pts (64 \u2192 30)"
+        "Ya no aparece en VALUE \u2014 tesis posiblemente rota",
+        "IA: falso positivo con 72% confianza \u2014 AON es una aseguradora/broker global con fundamentales s\u00f3lidos y crecimiento estable; la se\u00f1al parece deberse a que el precio subi\u00f3 reduciendo el upside de valor, no a un deterioro real del negocio. No hay evidencia de ca\u00edda de ganancias, recortes de gu\u00eda ni esc\u00e1ndalos recientes que indiquen ruptura de tesis."
       ],
-      "fundamental_score": 68.3,
+      "fundamental_score": 52.9,
       "ai_validation": {
         "verdict": "FALSE_POSITIVE",
-        "confidence": 62,
-        "summary": "ResMed (RMD) no muestra se\u00f1ales claras de deterioro fundamental grave en sus l\u00edneas de negocio de apnea del sue\u00f1o y ventiladores; la ca\u00edda de puntaje probablemente refleja una subida previa del precio que redujo el margen de upside por valoraci\u00f3n, m\u00e1s que un deterioro real del negocio. El score fundamental en base de datos (68.3/100) sigue siendo s\u00f3lido, lo que apoya la tesis de falso positivo.",
-        "key_finding": "RMD ha mantenido crecimiento constante en su negocio core de dispositivos de apnea del sue\u00f1o (CPAP) y software de salud conectada, sin reportes de guidance cuts o eventos negativos mayores recientes conocidos hasta el corte de entrenamiento.",
-        "summary_note": "ResMed (RMD) no muestra se\u00f1ales claras de deterioro fundamental grave en sus l\u00edneas de negocio de apnea del sue\u00f1o y ventiladores; la ca\u00edda de puntaje probablemente refleja una subida previa del precio que redujo el margen de upside por valoraci\u00f3n, m\u00e1s que un deterioro real del negocio. El score fundamental en base de datos (68.3/100) sigue siendo s\u00f3lido, lo que apoya la tesis de falso positivo."
+        "confidence": 72,
+        "summary": "AON es una aseguradora/broker global con fundamentales s\u00f3lidos y crecimiento estable; la se\u00f1al parece deberse a que el precio subi\u00f3 reduciendo el upside de valor, no a un deterioro real del negocio. No hay evidencia de ca\u00edda de ganancias, recortes de gu\u00eda ni esc\u00e1ndalos recientes que indiquen ruptura de tesis.",
+        "key_finding": "AON ha mantenido crecimiento constante en ingresos y m\u00e1rgenes en el negocio de corretaje de seguros y consultor\u00eda, sin se\u00f1ales de deterioro fundamental reciente; la salida de la lista VALUE probablemente refleja valoraci\u00f3n m\u00e1s alta, no debilidad operativa."
       }
     },
     {
-      "ticker": "QSR",
-      "severity": "HIGH",
-      "entry_score": 59.09,
-      "current_score": 31.83,
-      "signal_date": "2026-09-10",
+      "ticker": "RMD",
+      "severity": "MEDIUM",
+      "entry_score": 64.27499999999999,
+      "current_score": null,
+      "signal_date": "2026-10-08",
       "reasons": [
-        "Score cay\u00f3 27pts (59 \u2192 32)"
+        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
       ],
-      "fundamental_score": 65.6,
-      "ai_validation": {
-        "verdict": "UNCERTAIN",
-        "confidence": 55,
-        "summary": "QSR (Restaurant Brands International) no mostraba deterioro fundamental grave hasta mi corte de entrenamiento, aunque Burger King EE.UU. ha tenido d\u00e9bil tr\u00e1fico comparado con competidores. La ca\u00edda de 27pts en el score parece m\u00e1s t\u00e9cnica/de precio que un evento fundamental reciente confirmado.",
-        "key_finding": "Burger King US hab\u00eda mostrado crecimiento de ventas comparables d\u00e9bil frente a McDonald's y Wendy's, pero Tim Hortons y Popeyes manten\u00edan buen desempe\u00f1o, sin guidance cuts ni cambios dr\u00e1sticos de management reportados recientemente.",
-        "summary_note": "QSR (Restaurant Brands International) no mostraba deterioro fundamental grave hasta mi corte de entrenamiento, aunque Burger King EE.UU. ha tenido d\u00e9bil tr\u00e1fico comparado con competidores. La ca\u00edda de 27pts en el score parece m\u00e1s t\u00e9cnica/de precio que un evento fundamental reciente confirmado."
-      }
+      "fundamental_score": 68.3
     },
     {
       "ticker": "META",
@@ -52,6 +45,29 @@
       "fundamental_score": 67.3
     },
     {
+      "ticker": "CBOE",
+      "severity": "MEDIUM",
+      "entry_score": 61.39,
+      "current_score": null,
+      "signal_date": "2026-10-14",
+      "reasons": [
+        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
+      ],
+      "fundamental_score": 83.8
+    },
+    {
+      "ticker": "ICE",
+      "severity": "MEDIUM",
+      "entry_score": 60.095,
+      "current_score": 37.455,
+      "signal_date": "2026-10-13",
+      "reasons": [
+        "Score cay\u00f3 23pts (60 \u2192 37)",
+        "Earnings en 7d \u2014 alta incertidumbre, considera reducir"
+      ],
+      "fundamental_score": 67.6
+    },
+    {
       "ticker": "NDSN",
       "severity": "MEDIUM",
       "entry_score": 59.72,
@@ -60,7 +76,7 @@
       "reasons": [
         "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
       ],
-      "fundamental_score": 74.4
+      "fundamental_score": 75.6
     },
     {
       "ticker": "CLPBY",
@@ -71,31 +87,41 @@
       "reasons": [
         "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
       ],
-      "fundamental_score": 68.8
+      "fundamental_score": 66.5
     },
     {
       "ticker": "KO",
       "severity": "MEDIUM",
       "entry_score": 59.55500000000001,
-      "current_score": 35.29,
+      "current_score": 38.38499999999999,
       "signal_date": "2026-10-01",
       "reasons": [
-        "Score cay\u00f3 24pts (60 \u2192 35)",
-        "Earnings en 6d \u2014 alta incertidumbre, considera reducir"
+        "Score cay\u00f3 21pts (60 \u2192 38)",
+        "Earnings en 5d \u2014 alta incertidumbre, considera reducir"
       ],
-      "fundamental_score": 77.9
+      "fundamental_score": 75.6
     },
     {
       "ticker": "MCO",
       "severity": "MEDIUM",
       "entry_score": 59.17999999999999,
-      "current_score": 34.27,
+      "current_score": null,
       "signal_date": "2026-09-24",
       "reasons": [
-        "Score cay\u00f3 25pts (59 \u2192 34)",
-        "Earnings en 0d \u2014 alta incertidumbre, considera reducir"
+        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
       ],
-      "fundamental_score": 68.5
+      "fundamental_score": 68.0
+    },
+    {
+      "ticker": "QSR",
+      "severity": "MEDIUM",
+      "entry_score": 59.09,
+      "current_score": null,
+      "signal_date": "2026-09-10",
+      "reasons": [
+        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
+      ],
+      "fundamental_score": 65.5
     },
     {
       "ticker": "SPGI",
@@ -106,7 +132,7 @@
       "reasons": [
         "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
       ],
-      "fundamental_score": 66.1
+      "fundamental_score": 65.5
     },
     {
       "ticker": "UNP",
@@ -117,7 +143,18 @@
       "reasons": [
         "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
       ],
-      "fundamental_score": 72.8
+      "fundamental_score": 72.0
+    },
+    {
+      "ticker": "SYK",
+      "severity": "MEDIUM",
+      "entry_score": 57.435,
+      "current_score": 59.605,
+      "signal_date": "2026-10-21",
+      "reasons": [
+        "Earnings en 7d \u2014 alta incertidumbre, considera reducir"
+      ],
+      "fundamental_score": 70.7
     },
     {
       "ticker": "NDAQ",
@@ -128,7 +165,7 @@
       "reasons": [
         "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
       ],
-      "fundamental_score": 72.8
+      "fundamental_score": 72.3
     },
     {
       "ticker": "TW",
@@ -150,7 +187,7 @@
       "reasons": [
         "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
       ],
-      "fundamental_score": 72.4
+      "fundamental_score": 72.9
     },
     {
       "ticker": "BLK",
@@ -161,18 +198,18 @@
       "reasons": [
         "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
       ],
-      "fundamental_score": 75.1
+      "fundamental_score": 77.8
     },
     {
       "ticker": "OXY",
       "severity": "MEDIUM",
       "entry_score": 53.155,
-      "current_score": 35.04,
+      "current_score": 37.52,
       "signal_date": "2026-09-18",
       "reasons": [
-        "Score cay\u00f3 18pts (53 \u2192 35)"
+        "Score cay\u00f3 16pts (53 \u2192 38)"
       ],
-      "fundamental_score": 80.1
+      "fundamental_score": 79.3
     },
     {
       "ticker": "TT",
@@ -189,23 +226,12 @@
       "ticker": "FCNCA",
       "severity": "MEDIUM",
       "entry_score": 51.92499999999999,
-      "current_score": 38.1,
+      "current_score": null,
       "signal_date": "2026-09-18",
       "reasons": [
-        "Earnings en 2d \u2014 alta incertidumbre, considera reducir"
+        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
       ],
       "fundamental_score": 64.5
-    },
-    {
-      "ticker": "AON",
-      "severity": "MEDIUM",
-      "entry_score": 51.13,
-      "current_score": 47.77,
-      "signal_date": "2026-08-24",
-      "reasons": [
-        "Earnings en 7d \u2014 alta incertidumbre, considera reducir"
-      ],
-      "fundamental_score": 52.9
     },
     {
       "ticker": "CNI",
@@ -216,7 +242,7 @@
       "reasons": [
         "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
       ],
-      "fundamental_score": 69.5
+      "fundamental_score": 68.8
     }
   ]
 }

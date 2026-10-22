@@ -1,131 +1,81 @@
 {
-  "generated_at": "2026-10-21",
+  "generated_at": "2026-10-22",
   "alerts": [
     {
       "type": "SCORE_UP",
-      "ticker": "SYK",
-      "company_name": "Stryker Corporation",
-      "sector": "Healthcare",
-      "score_today": 57.4,
-      "score_prev": 34.3,
-      "delta": 23.2,
-      "grade": "⭐ GOOD"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "INTU",
-      "company_name": "Intuit Inc.",
+      "ticker": "SAP",
+      "company_name": "SAP SE",
       "sector": "Technology",
-      "score_today": 65.7,
-      "score_prev": 49.7,
-      "delta": 16.0,
-      "grade": "⭐⭐ STRONG"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "AMZN",
-      "company_name": "Amazon.com, Inc.",
-      "sector": "Consumer Cyclical",
-      "score_today": 56.7,
-      "score_prev": 44.4,
-      "delta": 12.2,
+      "score_today": 51.4,
+      "score_prev": 39.4,
+      "delta": 12.0,
       "grade": "🔵 DECENT"
     },
     {
       "type": "SCORE_UP",
-      "ticker": "V",
-      "company_name": "Visa Inc.",
+      "ticker": "MA",
+      "company_name": "Mastercard Incorporated",
       "sector": "Financial Services",
-      "score_today": 52.8,
-      "score_prev": 42.9,
-      "delta": 9.9,
+      "score_today": 44.0,
+      "score_prev": 35.5,
+      "delta": 8.5,
       "grade": "🔵 DECENT"
     },
     {
       "type": "SCORE_UP",
-      "ticker": "CVX",
-      "company_name": "Chevron Corporation",
-      "sector": "Energy",
-      "score_today": 39.2,
-      "score_prev": 32.3,
-      "delta": 6.9,
-      "grade": "⚪ WEAK"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "MSFT",
-      "company_name": "Microsoft Corporation",
+      "ticker": "JKHY",
+      "company_name": "Jack Henry & Associates, Inc.",
       "sector": "Technology",
-      "score_today": 69.0,
-      "score_prev": 63.5,
-      "delta": 5.5,
-      "grade": "⭐ GOOD"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "AON",
-      "company_name": "Aon plc",
-      "sector": "Financial Services",
-      "score_today": 47.8,
-      "score_prev": 42.5,
-      "delta": 5.3,
+      "score_today": 49.9,
+      "score_prev": 44.5,
+      "delta": 5.4,
       "grade": "🔵 DECENT"
     },
     {
-      "type": "SCORE_DOWN",
+      "type": "SCORE_UP",
       "ticker": "ADSK",
       "company_name": "Autodesk, Inc.",
       "sector": "Technology",
-      "score_today": 32.8,
-      "score_prev": 37.8,
-      "delta": -5.1,
+      "score_today": 37.8,
+      "score_prev": 32.8,
+      "delta": 5.1,
       "grade": "⚪ WEAK"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "AMZN",
+      "company_name": "Amazon.com, Inc.",
+      "sector": "Consumer Cyclical",
+      "score_today": 51.6,
+      "score_prev": 56.7,
+      "delta": -5.1,
+      "grade": "🔵 DECENT"
     },
     {
       "type": "SCORE_DOWN",
       "ticker": "ICE",
       "company_name": "Intercontinental Exchange, Inc.",
       "sector": "Financial Services",
-      "score_today": 47.6,
-      "score_prev": 53.7,
-      "delta": -6.1,
-      "grade": "🔵 DECENT"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "RACE",
-      "company_name": "Ferrari N.V.",
-      "sector": "Consumer Cyclical",
-      "score_today": 30.1,
-      "score_prev": 36.9,
-      "delta": -6.7,
+      "score_today": 37.5,
+      "score_prev": 47.6,
+      "delta": -10.2,
       "grade": "⚪ WEAK"
     },
     {
-      "type": "SCORE_DOWN",
-      "ticker": "VRSN",
-      "company_name": "VeriSign, Inc.",
+      "type": "EXITED",
+      "ticker": "INTU",
+      "company_name": "Intuit Inc.",
       "sector": "Technology",
-      "score_today": 40.7,
-      "score_prev": 51.1,
-      "delta": -10.4,
-      "grade": "⚪ WEAK"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "KO",
-      "company_name": "The Coca-Cola Company",
-      "sector": "Consumer Defensive",
-      "score_today": 35.3,
-      "score_prev": 54.3,
-      "delta": -19.0,
-      "grade": "⚪ WEAK"
+      "score_today": null,
+      "score_prev": 65.7,
+      "delta": null,
+      "grade": "⭐⭐ STRONG"
     }
   ],
   "counts": {
     "new_entries": 0,
-    "exited": 0,
-    "score_up": 7,
-    "score_down": 5
+    "exited": 1,
+    "score_up": 4,
+    "score_down": 2
   }
 }

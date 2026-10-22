@@ -1,0 +1,86 @@
+{
+  "generated_at": "2026-10-22",
+  "total": 6,
+  "dropped_count": 3,
+  "narrative": "Rotar dentro de un sector tiene m\u00e1s sentido que esperar cuando los l\u00edderes del sector est\u00e1n recibiendo un impulso de impulso (tail",
+  "displacements": [
+    {
+      "type": "COMPETITOR_RISE",
+      "dropped_ticker": "SGE.L",
+      "sector": "Technology",
+      "prev_score": 60.0,
+      "replacements": [
+        "MSFT",
+        "SAP.DE",
+        "BR"
+      ],
+      "top_replacement": "MSFT",
+      "top_replacement_score": 73.88499999999999,
+      "detail": "SGE.L sali\u00f3 de VALUE (60pts); peers en Technology: MSFT, SAP.DE"
+    },
+    {
+      "type": "COMPETITOR_RISE",
+      "dropped_ticker": "INTU",
+      "sector": "Technology",
+      "prev_score": 65.71000000000001,
+      "replacements": [
+        "MSFT",
+        "SAP.DE",
+        "BR"
+      ],
+      "top_replacement": "MSFT",
+      "top_replacement_score": 73.88499999999999,
+      "detail": "INTU sali\u00f3 de VALUE (66pts); peers en Technology: MSFT, SAP.DE"
+    },
+    {
+      "type": "COMPETITOR_RISE",
+      "dropped_ticker": "AMZN",
+      "sector": "Consumer Cyclical",
+      "prev_score": 56.66,
+      "replacements": [
+        "CPG.L",
+        "MC.PA"
+      ],
+      "top_replacement": "CPG.L",
+      "top_replacement_score": 52.1,
+      "detail": "AMZN sali\u00f3 de VALUE (57pts); peers en Consumer Cyclical: CPG.L, MC.PA"
+    },
+    {
+      "type": "SECTOR_TAILWIND",
+      "sector": "Technology",
+      "rotation_score": 100.0,
+      "beneficiaries": [
+        "MSFT",
+        "SAP.DE",
+        "BR"
+      ],
+      "top_ticker": "MSFT",
+      "top_score": 73.88499999999999,
+      "detail": "Sector Technology l\u00edder (RS 100) \u2014 MSFT, SAP.DE, BR son los picks VALUE"
+    },
+    {
+      "type": "SECTOR_TAILWIND",
+      "sector": "Healthcare",
+      "rotation_score": 100.0,
+      "beneficiaries": [
+        "AZN.L",
+        "SYK"
+      ],
+      "top_ticker": "AZN.L",
+      "top_score": 65.9,
+      "detail": "Sector Healthcare l\u00edder (RS 100) \u2014 AZN.L, SYK son los picks VALUE"
+    },
+    {
+      "type": "SECTOR_TAILWIND",
+      "sector": "Communication Services",
+      "rotation_score": 100.0,
+      "beneficiaries": [
+        "G24.DE",
+        "GOOG"
+      ],
+      "top_ticker": "G24.DE",
+      "top_score": 55.5,
+      "detail": "Sector Communication Services l\u00edder (RS 100) \u2014 G24.DE, GOOG son los picks VALUE"
+    }
+  ]
+}

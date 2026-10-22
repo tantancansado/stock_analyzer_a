@@ -1,20 +1,20 @@
 {
-  "generated_at": "2026-10-21T05:39:44Z",
+  "generated_at": "2026-10-22T05:37:51Z",
   "horizon_days": 14,
-  "total": 5,
+  "total": 6,
   "theses": {
     "IVR": {
       "ticker": "IVR",
       "company_name": "Invesco Mortgage Capital Inc.",
       "sector": "Real Estate",
       "earnings_date": "2026-10-29",
-      "days_to_earnings": 8,
-      "current_price": 5.39,
+      "days_to_earnings": 7,
+      "current_price": 5.42,
       "fifty_two_week_high": 9.5,
       "fifty_two_week_low": 5.22,
       "avg_price": 7.91,
       "shares": 120.0,
-      "unrealized_pct": -31.86,
+      "unrealized_pct": -31.48,
       "earnings_history": [
         {
           "period": "2026-06-30",
@@ -54,35 +54,103 @@
       },
       "verdict": "REDUCE",
       "sentiment_tone": "NEUTRAL",
-      "implied_move_pct": 0.9,
+      "implied_move_pct": 1.76,
       "expected_eps": 0.45564,
       "expected_revenue_millions": 59.2,
       "beat_rate_last_4q": 0.5,
       "key_risks": [
-        "Persistente presi\u00f3n de tasas de inter\u00e9s sobre el mercado hipotecario",
-        "Volatilidad del spread de los MBS y posible deterioro de la calidad crediticia",
-        "Baja liquidez y amplio descuento respecto al 52\u2011semana high"
+        "Persistente presi\u00f3n de tasas de inter\u00e9s que afecta los m\u00e1rgenes de los REIT hipotecarios",
+        "Posibles deterioros en la calidad de los activos de cr\u00e9dito inmobiliario",
+        "Volatilidad del mercado de bonos y spreads de cr\u00e9dito"
       ],
       "key_catalysts": [
-        "Gu\u00eda de EPS y flujo de caja para 2027",
-        "Actualizaci\u00f3n de la cartera de pr\u00e9stamos y exposici\u00f3n a activos de alto rendimiento",
-        "Posibles recompras de acciones o cambios en la pol\u00edtica de dividendos"
+        "Mejora del guidance de ingresos y flujo de efectivo operativo",
+        "Reducci\u00f3n del costo de financiamiento mediante refinanciamiento de deuda",
+        "Incremento de la cartera de pr\u00e9stamos con mejor calidad crediticia"
       ],
-      "thesis_summary": "IVR cotiza con un descuento significativo tras una ca\u00edda del 32% desde la entrada. El consenso de EPS es moderado y el historial de surprises es mixto, con leves misses recientes. El riesgo principal es la sensibilidad a las tasas y al spread de los MBS, pero una gu\u00eda positiva o una recompra de acciones podr\u00eda estabilizar el precio. Recomiendo recortar la posici\u00f3n antes del earnings para limitar la exposici\u00f3n, vigilando la gu\u00eda de EPS y cualquier se\u00f1al de mejora en la calidad de la cartera.",
-      "confidence": 65
+      "thesis_summary": "IVR cotiza cerca de su m\u00ednimo anual y muestra una p\u00e9rdida no realizada del 31\u202f%. El consenso de EPS y revenue es moderado y el movimiento impl\u00edcito de opciones es bajo (1.76\u202f%). El historial de surprises es mixto, con leves misses recientes. Dada la exposici\u00f3n a tasas y la incertidumbre de spreads, se recomienda recortar la posici\u00f3n antes del earnings para limitar el riesgo, manteniendo una exposici\u00f3n residual para aprovechar una posible recuperaci\u00f3n de precios tras un guidance positivo. Vigilar de cerca el guidance de ingresos y la evoluci\u00f3n de los m\u00e1rgenes de inter\u00e9s.",
+      "confidence": 70
+    },
+    "PSIX": {
+      "ticker": "PSIX",
+      "company_name": "Power Solutions International, Inc.",
+      "sector": "Industrials",
+      "earnings_date": "2026-11-05",
+      "days_to_earnings": 14,
+      "current_price": 51.85,
+      "fifty_two_week_high": 106.5,
+      "fifty_two_week_low": 25.28,
+      "avg_price": 42.5,
+      "shares": 40.0,
+      "unrealized_pct": 22.0,
+      "earnings_history": [
+        {
+          "period": "2026-06-30",
+          "eps_estimate": 0.27,
+          "eps_actual": 0.78,
+          "surprise_pct": 188.89,
+          "beat": true
+        },
+        {
+          "period": "2026-03-31",
+          "eps_estimate": 0.52,
+          "eps_actual": 0.36,
+          "surprise_pct": -30.77,
+          "beat": false
+        },
+        {
+          "period": "2025-12-31",
+          "eps_estimate": 0.65,
+          "eps_actual": 0.71,
+          "surprise_pct": 9.23,
+          "beat": true
+        },
+        {
+          "period": "2025-09-30",
+          "eps_estimate": 0.98,
+          "eps_actual": 1.2,
+          "surprise_pct": 22.45,
+          "beat": true
+        }
+      ],
+      "earnings_reaction": {
+        "n": 12,
+        "subio": 7,
+        "mediana_abs_pct": 11.5,
+        "peor_pct": -39.2,
+        "mejor_pct": 23.6
+      },
+      "verdict": "HOLD_THROUGH",
+      "sentiment_tone": "NEUTRAL",
+      "implied_move_pct": 0.44,
+      "expected_eps": 0.93,
+      "expected_revenue_millions": 200.1,
+      "beat_rate_last_4q": 0.75,
+      "key_risks": [
+        "Posible ca\u00edda del EPS si la demanda industrial se desacelera",
+        "Presi\u00f3n de costos en materias primas y energ\u00eda",
+        "Volatilidad del tipo de cambio USD para operaciones internacionales"
+      ],
+      "key_catalysts": [
+        "Confirmaci\u00f3n de gu\u00eda de ingresos superior al consenso",
+        "Mejora de m\u00e1rgenes operativos por eficiencias en la cadena de suministro",
+        "Crecimiento en contratos de soluciones de energ\u00eda renovable"
+      ],
+      "thesis_summary": "La posici\u00f3n en PSIX ha generado un +22% desde la entrada y el precio actual est\u00e1 por debajo del m\u00e1ximo de 52 semanas, ofreciendo margen de seguridad. Con un consenso de EPS de $0.93 y un movimiento impl\u00edcito muy bajo (0.44%), el riesgo de sorpresa negativa es limitado. Se recomienda mantener la posici\u00f3n a trav\u00e9s del earnings, vigilando la gu\u00eda de ingresos y los m\u00e1rgenes operativos, as\u00ed como cualquier se\u00f1al de contracci\u00f3n en la demanda industrial. Si la compa\u00f1\u00eda supera las expectativas, el upside podr\u00eda ser significativo; de lo contrario, el impacto esperado es moderado.",
+      "confidence": 72
     },
     "BR": {
       "ticker": "BR",
       "company_name": "Broadridge Financial Solutions, Inc.",
       "sector": "Technology",
       "earnings_date": "2026-11-03",
-      "days_to_earnings": 13,
-      "current_price": 179.99,
+      "days_to_earnings": 12,
+      "current_price": 178.3,
       "fifty_two_week_high": 236.02,
       "fifty_two_week_low": 133.83,
       "avg_price": 162.0,
       "shares": 15.0,
-      "unrealized_pct": 11.1,
+      "unrealized_pct": 10.06,
       "earnings_history": [
         {
           "period": "2026-06-30",
@@ -121,69 +189,69 @@
         "mejor_pct": 7.0
       },
       "verdict": "HOLD_THROUGH",
-      "sentiment_tone": "BULLISH",
-      "implied_move_pct": 0.45,
+      "sentiment_tone": "NEUTRAL",
+      "implied_move_pct": 0.33,
       "expected_eps": 1.36894,
       "expected_revenue_millions": 1648.0,
       "beat_rate_last_4q": 1.0,
       "key_risks": [
         "Posible desaceleraci\u00f3n del gasto en tecnolog\u00eda financiera",
-        "Presi\u00f3n en m\u00e1rgenes por costos de infraestructura y salarios",
-        "Riesgo de gu\u00eda conservadora que sorprenda a la baja"
+        "Presi\u00f3n en m\u00e1rgenes por costos de infraestructura y ciberseguridad",
+        "Riesgo de gu\u00eda por debajo de expectativas si la demanda de servicios de procesamiento disminuye"
       ],
       "key_catalysts": [
-        "Continuaci\u00f3n del crecimiento de la base de clientes de servicios de procesamiento de transacciones",
-        "Expansi\u00f3n de soluciones de automatizaci\u00f3n y datos para bancos y corredores",
+        "Crecimiento continuo de la adopci\u00f3n de soluciones de gesti\u00f3n de datos y automatizaci\u00f3n",
+        "Expansi\u00f3n de contratos con grandes instituciones financieras",
         "Mejora de m\u00e1rgenes operativos mediante eficiencias de escala"
       ],
-      "thesis_summary": "Broadridge ha superado consistentemente las expectativas de EPS en los \u00faltimos trimestres, lo que sugiere una gesti\u00f3n operativa s\u00f3lida. Con un movimiento impl\u00edcito bajo y una posici\u00f3n ya rentable, mantener la posici\u00f3n a trav\u00e9s de earnings es razonable, vigilando la gu\u00eda de ingresos y cualquier se\u00f1al de presi\u00f3n de costos. Los catalizadores incluyen la expansi\u00f3n de servicios de automatizaci\u00f3n y la profundizaci\u00f3n de relaciones con clientes institucionales. Los riesgos principales son una posible desaceleraci\u00f3n del gasto tecnol\u00f3gico y m\u00e1rgenes comprimidos.",
-      "confidence": 78
+      "thesis_summary": "Broadridge muestra un historial s\u00f3lido de beats de EPS, con sorpresas positivas en los \u00faltimos cuatro trimestres. El precio actual ya refleja gran parte del potencial alcista, pero la empresa sigue benefici\u00e1ndose de tendencias de digitalizaci\u00f3n en servicios financieros. Se recomienda mantener la posici\u00f3n a trav\u00e9s del earnings, vigilando la gu\u00eda de ingresos y los m\u00e1rgenes operativos. Un deterioro en la demanda de servicios de procesamiento o una gu\u00eda d\u00e9bil podr\u00edan justificar una reducci\u00f3n posterior.",
+      "confidence": 80
     },
     "ES0105630315": {
       "ticker": "ES0105630315",
       "company_name": "CIE Automotive, S.A.",
       "sector": "Consumer Cyclical",
       "earnings_date": "2026-10-28",
-      "days_to_earnings": 7,
-      "current_price": 26.4,
+      "days_to_earnings": 6,
+      "current_price": 26.1,
       "fifty_two_week_high": 33.0,
       "fifty_two_week_low": 24.8,
       "avg_price": 25.07,
       "shares": 90.0,
-      "unrealized_pct": 5.31,
+      "unrealized_pct": 4.11,
       "earnings_history": [],
       "earnings_reaction": null,
-      "verdict": "HOLD",
+      "verdict": "HOLD_THROUGH",
       "sentiment_tone": "NEUTRAL",
       "implied_move_pct": null,
       "expected_eps": 3.31551,
-      "expected_revenue_millions": 1027.0,
+      "expected_revenue_millions": 1027.7,
       "beat_rate_last_4q": null,
       "key_risks": [
-        "Desaceleraci\u00f3n de la demanda en el sector automotriz europeo",
-        "Presi\u00f3n de costos en materias primas y log\u00edstica",
-        "Riesgo de miss en EPS por m\u00e1rgenes m\u00e1s bajos de lo esperado"
+        "Posible desaceleraci\u00f3n de la demanda en el sector automotriz europeo",
+        "Presi\u00f3n sobre m\u00e1rgenes por aumento de costos de materias primas",
+        "Riesgo de resultados por incertidumbre macroecon\u00f3mica y tipos de cambio"
       ],
       "key_catalysts": [
-        "Mejora de la producci\u00f3n de veh\u00edculos el\u00e9ctricos y componentes asociados",
-        "Posibles acuerdos de suministro con OEMs clave",
-        "Revisi\u00f3n al alza del guidance de margen operativo"
+        "Mejora de la producci\u00f3n en plantas clave y lanzamiento de nuevos componentes",
+        "Incremento de contratos con OEMs tras la recuperaci\u00f3n de la cadena de suministro",
+        "Posible upside en ingresos si la gu\u00eda de ventas supera el consenso"
       ],
-      "thesis_summary": "CIE Automotive cotiza cerca de su m\u00ednimo anual, ofreciendo un margen de upside frente al precio de entrada. La posici\u00f3n se mantiene mientras se espera que los resultados confirmen la recuperaci\u00f3n del sector automotriz y el impulso de la electrificaci\u00f3n. Es crucial vigilar el guidance de m\u00e1rgenes y la evoluci\u00f3n de los pedidos de OEMs. Si el EPS supera el consenso, se podr\u00eda considerar un ligero aumento de posici\u00f3n; un miss importante justificar\u00eda una reducci\u00f3n posterior.",
-      "confidence": 68
+      "thesis_summary": "CIE Automotive cotiza cerca de su m\u00ednimo anual y muestra un margen de beneficio razonable. El consenso de EPS y ventas es s\u00f3lido, pero la falta de se\u00f1ales claras y la exposici\u00f3n c\u00edclica del sector hacen prudente mantener la posici\u00f3n cruzando earnings. Vigilar la gu\u00eda de ventas y los m\u00e1rgenes operativos en el reporte; cualquier desviaci\u00f3n significativa podr\u00eda requerir ajuste. Si el resultado supera expectativas, se podr\u00eda considerar un ligero aumento posterior al anuncio.",
+      "confidence": 70
     },
     "DE0007100000": {
       "ticker": "DE0007100000",
       "company_name": "Mercedes-Benz Group AG",
       "sector": "Consumer Cyclical",
       "earnings_date": "2026-10-28",
-      "days_to_earnings": 7,
-      "current_price": 41.36,
+      "days_to_earnings": 6,
+      "current_price": 41.04,
       "fifty_two_week_high": 62.34,
       "fifty_two_week_low": 38.89,
       "avg_price": 40.45,
       "shares": 100.0,
-      "unrealized_pct": 2.25,
+      "unrealized_pct": 1.46,
       "earnings_history": [
         {
           "period": "2026-06-30",
@@ -219,19 +287,19 @@
       "sentiment_tone": "NEUTRAL",
       "implied_move_pct": null,
       "expected_eps": 1.12,
-      "expected_revenue_millions": 30983.1,
+      "expected_revenue_millions": 31023.4,
       "beat_rate_last_4q": 0.75,
       "key_risks": [
-        "Desaceleraci\u00f3n de la demanda en Europa por incertidumbre macroecon\u00f3mica",
-        "Presi\u00f3n sobre m\u00e1rgenes por la transici\u00f3n a veh\u00edculos el\u00e9ctricos y costes de bater\u00edas",
-        "Riesgo regulatorio y de subsidios en los principales mercados"
+        "Posibles presiones regulatorias en emisiones y normativa europea",
+        "Desaceleraci\u00f3n de la demanda de veh\u00edculos premium en EE.UU. y China",
+        "Riesgo de costos de materias primas y cadena de suministro"
       ],
       "key_catalysts": [
-        "Posible sorpresa positiva en EPS y gu\u00eda de ingresos",
-        "Actualizaci\u00f3n de la estrategia EV y planes de producci\u00f3n de modelos premium",
-        "Mejora de la rentabilidad en el segmento de veh\u00edculos comerciales"
+        "Mejora de m\u00e1rgenes en la divisi\u00f3n de veh\u00edculos el\u00e9ctricos",
+        "Lanzamiento de nuevos modelos de alta gama y expansi\u00f3n de servicios de movilidad",
+        "Gu\u00eda de ingresos y EPS superior al consenso"
       ],
-      "thesis_summary": "Mercedes-Benz Group se cotiza cerca de su rango medio\u2011bajo con un P&L positivo del 2,3\u202f%. El historial de beats es s\u00f3lido, aunque reciente muestra variabilidad. El consenso apunta a EPS de 1,12\u202f\u20ac y ingresos de ~30.9\u202fbn\u202f\u20ac, con margen de sorpresa. El foco del earnings ser\u00e1 la gu\u00eda de m\u00e1rgenes y la velocidad de la transici\u00f3n el\u00e9ctrica. Si la compa\u00f1\u00eda confirma su estrategia EV y mejora la rentabilidad, el precio podr\u00eda consolidarse o subir; una gu\u00eda d\u00e9bil o presi\u00f3n de costos justificar\u00eda una reducci\u00f3n de posici\u00f3n.",
+      "thesis_summary": "Mercedes-Benz Group se mantiene cerca de su m\u00ednimo anual, ofreciendo un margen de seguridad razonable frente al precio actual. El consenso de EPS de 1.12 EUR y un revenue de 31.0\u202fbn EUR son alcanzables si la compa\u00f1\u00eda mantiene su impulso en veh\u00edculos el\u00e9ctricos y logra mejorar los m\u00e1rgenes operativos. Vigilaremos la gu\u00eda de earnings, la evoluci\u00f3n de los m\u00e1rgenes en la unidad de EV y cualquier se\u00f1al de presi\u00f3n regulatoria que pueda afectar la rentabilidad. Dado el historial de beats mixto pero con sorpresas positivas recientes, recomendamos mantener la posici\u00f3n a trav\u00e9s del reporte y evaluar una posible ampliaci\u00f3n posterior si la gu\u00eda supera expectativas.",
       "confidence": 70
     },
     "DE0005190003": {
@@ -239,13 +307,13 @@
       "company_name": "Bayerische Motoren Werke Aktiengesellschaft",
       "sector": "Consumer Cyclical",
       "earnings_date": "2026-11-04",
-      "days_to_earnings": 14,
-      "current_price": 57.64,
+      "days_to_earnings": 13,
+      "current_price": 57.0,
       "fifty_two_week_high": 97.92,
       "fifty_two_week_low": 51.98,
       "avg_price": 54.43,
       "shares": 90.0,
-      "unrealized_pct": 5.9,
+      "unrealized_pct": 4.72,
       "earnings_history": [
         {
           "period": "2026-06-30",
@@ -281,20 +349,20 @@
       "sentiment_tone": "NEUTRAL",
       "implied_move_pct": null,
       "expected_eps": 1.70602,
-      "expected_revenue_millions": 30086.1,
+      "expected_revenue_millions": 29938.7,
       "beat_rate_last_4q": 1.0,
       "key_risks": [
-        "Valoraci\u00f3n a\u00fan alta respecto a hist\u00f3rico (cerca del m\u00e1ximo de 52 semanas).",
-        "Dependencia de la demanda c\u00edclica del sector de consumo discrecional.",
-        "Presi\u00f3n en m\u00e1rgenes por costos de materias primas y transici\u00f3n a electromovilidad."
+        "Posible desaceleraci\u00f3n de la demanda en el segmento de motocicletas premium.",
+        "Presi\u00f3n de costos en materias primas y log\u00edstica que podr\u00eda erosionar m\u00e1rgenes.",
+        "Riesgo de gu\u00eda conservadora o sorpresa negativa tras la fuerte volatilidad hist\u00f3rica."
       ],
       "key_catalysts": [
-        "Posible beat de EPS y gu\u00eda de ingresos superior al consenso.",
-        "Mejora de m\u00e1rgenes en la divisi\u00f3n de motores el\u00e9ctricos.",
-        "Actualizaciones de la estrategia de expansi\u00f3n en mercados emergentes."
+        "Lanzamiento de nuevos modelos el\u00e9ctricos y expansi\u00f3n en mercados emergentes.",
+        "Mejora de m\u00e1rgenes operativos si la reestructuraci\u00f3n de la cadena de suministro avanza.",
+        "Gu\u00eda de ingresos y EPS superior al consenso, reforzando la narrativa de crecimiento."
       ],
-      "thesis_summary": "La posici\u00f3n muestra un rendimiento positivo del 5.9% y se encuentra cerca del soporte hist\u00f3rico, con un historial de beats consistente aunque moderado en los \u00faltimos trimestres. El consenso de EPS y revenue es s\u00f3lido y cualquier sorpresa al alza reforzar\u00e1 la tendencia alcista. Se recomienda mantener la posici\u00f3n a trav\u00e9s del earnings, vigilando la gu\u00eda de m\u00e1rgenes y la evoluci\u00f3n de la unidad de veh\u00edculos el\u00e9ctricos. Un beat significativo o una gu\u00eda optimista podr\u00edan justificar un aumento de exposici\u00f3n, mientras que una sorpresa negativa o deterioro de m\u00e1rgenes justificar\u00eda una reducci\u00f3n posterior.",
-      "confidence": 75
+      "thesis_summary": "La posici\u00f3n muestra un rendimiento positivo del 4.7% y cotiza cerca de su m\u00ednimo anual, lo que brinda margen de seguridad. Con un historial reciente de beats y sin noticias adversas, el riesgo principal es la demanda de motocicletas premium y los costos de insumos. Se espera que los nuevos modelos el\u00e9ctricos y la expansi\u00f3n geogr\u00e1fica impulsen ingresos, mientras que una gu\u00eda superior al consenso podr\u00eda validar la posici\u00f3n. Vigilar la gu\u00eda de EPS, la evoluci\u00f3n de m\u00e1rgenes y cualquier se\u00f1al de desaceleraci\u00f3n en la demanda antes del cierre de resultados.",
+      "confidence": 78
     }
   }
 }

@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-10-21",
-  "total": 4,
+  "generated_at": "2026-10-22",
+  "total": 3,
   "strong_buy": 0,
   "buy": 1,
   "monitor": 0,
-  "wait": 3,
+  "wait": 2,
   "narrative": "",
   "signals": [
     {
@@ -12,13 +12,13 @@
       "company_name": "AstraZeneca PLC",
       "region": "EU",
       "sector": "Healthcare",
-      "value_score": 68.9,
+      "value_score": 65.9,
       "conviction_grade": "nan",
-      "current_price": 12400.0,
-      "analyst_upside_pct": 27.2,
-      "fcf_yield_pct": 3.04,
-      "risk_reward_ratio": 3.4,
-      "days_in_value": 7,
+      "current_price": 12614.0,
+      "analyst_upside_pct": 24.3,
+      "fcf_yield_pct": 2.97,
+      "risk_reward_ratio": 3.04,
+      "days_in_value": 8,
       "streak_days": 1,
       "entry_score": 50,
       "signal": "BUY",
@@ -56,7 +56,7 @@
       ],
       "rsi": null,
       "earnings_warning": false,
-      "days_to_earnings": 10
+      "days_to_earnings": 8
     },
     {
       "ticker": "EXPN.L",
@@ -65,11 +65,11 @@
       "sector": "Industrials",
       "value_score": 62.5,
       "conviction_grade": "B",
-      "current_price": 2832.0,
-      "analyst_upside_pct": 29.8,
-      "fcf_yield_pct": 4.57,
-      "risk_reward_ratio": 3.72,
-      "days_in_value": 3,
+      "current_price": 2986.0,
+      "analyst_upside_pct": 22.5,
+      "fcf_yield_pct": 4.32,
+      "risk_reward_ratio": 2.81,
+      "days_in_value": 4,
       "streak_days": 1,
       "entry_score": 25,
       "signal": "WAIT",
@@ -103,71 +103,34 @@
       ],
       "rsi": null,
       "earnings_warning": false,
-      "days_to_earnings": 29
-    },
-    {
-      "ticker": "INTU",
-      "company_name": "Intuit Inc.",
-      "region": "US",
-      "sector": "Technology",
-      "value_score": 65.71000000000001,
-      "conviction_grade": "A",
-      "current_price": 335.29,
-      "analyst_upside_pct": 21.4,
-      "fcf_yield_pct": 9.62,
-      "risk_reward_ratio": 2.68,
-      "days_in_value": 1,
-      "streak_days": 2,
-      "entry_score": 20,
-      "signal": "WAIT",
-      "signals_fired": [
-        "FCF yield \u22655%",
-        "Upside en banda dorada [10,30)"
-      ],
-      "signals_pts": [
-        {
-          "name": "FCF yield \u22655%",
-          "pts": 10
-        },
-        {
-          "name": "Upside en banda dorada [10,30)",
-          "pts": 10
-        }
-      ],
-      "signals_missing": [
-        "Value score <80",
-        "Sin insider buying (espera)",
-        "Sin se\u00f1al MR oversold",
-        "Sin opciones alcistas",
-        "Sector no l\u00edder",
-        "R\u00e9gimen no alcista",
-        "Solo 1d en VALUE"
-      ],
-      "rsi": null,
-      "earnings_warning": false,
-      "days_to_earnings": 29
+      "days_to_earnings": 27
     },
     {
       "ticker": "MSFT",
       "company_name": "Microsoft Corporation",
       "region": "US",
       "sector": "Technology",
-      "value_score": 68.965,
+      "value_score": 73.88499999999999,
       "conviction_grade": "C",
-      "current_price": 531.87,
-      "analyst_upside_pct": 13.0,
-      "fcf_yield_pct": 1.7,
-      "risk_reward_ratio": 1.62,
-      "days_in_value": 1,
-      "streak_days": 23,
-      "entry_score": 10,
+      "current_price": 532.95,
+      "analyst_upside_pct": 12.9,
+      "fcf_yield_pct": 1.69,
+      "risk_reward_ratio": 1.61,
+      "days_in_value": 2,
+      "streak_days": 24,
+      "entry_score": 15,
       "signal": "WAIT",
       "signals_fired": [
+        "Value score \u226570",
         "Upside en banda dorada [10,30)",
         "Options flow alcista",
         "Analyst revision \u2191"
       ],
       "signals_pts": [
+        {
+          "name": "Value score \u226570",
+          "pts": 5
+        },
         {
           "name": "Upside en banda dorada [10,30)",
           "pts": 10
@@ -188,12 +151,12 @@
         "Sin se\u00f1al MR oversold",
         "Sector no l\u00edder",
         "R\u00e9gimen no alcista",
-        "Solo 1d en VALUE",
-        "\u26a0 Earnings en 7d \u2014 riesgo de entrada"
+        "Solo 2d en VALUE",
+        "\u26a0 Earnings en 6d \u2014 riesgo de entrada"
       ],
       "rsi": null,
       "earnings_warning": true,
-      "days_to_earnings": 7
+      "days_to_earnings": 6
     }
   ]
 }

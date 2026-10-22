@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-10-21",
-  "total_analyzed": 784,
+  "generated_at": "2026-10-22",
+  "total_analyzed": 786,
   "poblacion": "VALUE",
   "baseline_win_rate": 66.5,
   "baseline_avg_return": 7.12,
@@ -22,7 +22,7 @@
       "avg_return": 17.34,
       "avg_return_2": 72.72,
       "n": 36,
-      "vs_baseline_wr": 11.3,
+      "vs_baseline_wr": 11.2,
       "vs_baseline_ret": 10.22
     },
     {
@@ -30,30 +30,30 @@
       "horizonte": "90d",
       "win_rate": 64.0,
       "avg_return": 7.43,
-      "avg_return_2": 17.68,
+      "avg_return_2": 17.5,
       "n": 236,
-      "vs_baseline_wr": -2.5,
+      "vs_baseline_wr": -2.6,
       "vs_baseline_ret": 0.31
     },
     {
       "label": "50\u201360",
       "horizonte": "90d",
-      "win_rate": 71.7,
-      "avg_return": 4.97,
-      "avg_return_2": 13.23,
-      "n": 321,
-      "vs_baseline_wr": 5.2,
-      "vs_baseline_ret": -2.15
+      "win_rate": 71.8,
+      "avg_return": 4.98,
+      "avg_return_2": 13.21,
+      "n": 323,
+      "vs_baseline_wr": 5.3,
+      "vs_baseline_ret": -2.14
     }
   ],
   "market_regimes": [
     {
       "label": "CONFIRMED_UPTREND",
       "horizonte": "90d",
-      "win_rate": 67.3,
+      "win_rate": 67.4,
       "avg_return": 7.77,
-      "avg_return_2": 18.57,
-      "n": 624,
+      "avg_return_2": 18.48,
+      "n": 626,
       "vs_baseline_wr": 0.9,
       "vs_baseline_ret": 0.65
     },
@@ -64,7 +64,7 @@
       "avg_return": 4.58,
       "avg_return_2": 10.56,
       "n": 160,
-      "vs_baseline_wr": -3.3,
+      "vs_baseline_wr": -3.4,
       "vs_baseline_ret": -2.54
     }
   ],
@@ -75,7 +75,7 @@
       "win_rate": 82.2,
       "avg_return": 8.33,
       "avg_return_2": 23.63,
-      "n": 370,
+      "n": 371,
       "vs_baseline_wr": 15.7,
       "vs_baseline_ret": 1.21
     },
@@ -84,9 +84,9 @@
       "horizonte": "90d",
       "win_rate": 74.3,
       "avg_return": 12.08,
-      "avg_return_2": 18.53,
+      "avg_return_2": 18.24,
       "n": 35,
-      "vs_baseline_wr": 7.8,
+      "vs_baseline_wr": 7.7,
       "vs_baseline_ret": 4.96
     },
     {
@@ -94,7 +94,7 @@
       "horizonte": "90d",
       "win_rate": 71.7,
       "avg_return": 28.35,
-      "avg_return_2": 48.82,
+      "avg_return_2": 47.91,
       "n": 53,
       "vs_baseline_wr": 5.2,
       "vs_baseline_ret": 21.23
@@ -112,12 +112,12 @@
     {
       "label": "Consumer Defensive",
       "horizonte": "90d",
-      "win_rate": 62.5,
-      "avg_return": 5.75,
+      "win_rate": 64.7,
+      "avg_return": 5.86,
       "avg_return_2": -18.21,
-      "n": 16,
-      "vs_baseline_wr": -4.0,
-      "vs_baseline_ret": -1.37
+      "n": 17,
+      "vs_baseline_wr": -1.8,
+      "vs_baseline_ret": -1.26
     },
     {
       "label": "Energy",
@@ -126,7 +126,7 @@
       "avg_return": 9.69,
       "avg_return_2": 26.11,
       "n": 21,
-      "vs_baseline_wr": -9.3,
+      "vs_baseline_wr": -9.4,
       "vs_baseline_ret": 2.57
     },
     {
@@ -144,9 +144,9 @@
       "horizonte": "90d",
       "win_rate": 48.2,
       "avg_return": -0.44,
-      "avg_return_2": 15.41,
+      "avg_return_2": 15.21,
       "n": 85,
-      "vs_baseline_wr": -18.2,
+      "vs_baseline_wr": -18.3,
       "vs_baseline_ret": -7.56
     },
     {
@@ -154,9 +154,9 @@
       "horizonte": "90d",
       "win_rate": 43.2,
       "avg_return": 2.68,
-      "avg_return_2": 0.07,
+      "avg_return_2": 0.3,
       "n": 132,
-      "vs_baseline_wr": -23.3,
+      "vs_baseline_wr": -23.4,
       "vs_baseline_ret": -4.44
     },
     {
@@ -166,7 +166,7 @@
       "avg_return": -3.11,
       "avg_return_2": -1.21,
       "n": 36,
-      "vs_baseline_wr": -30.3,
+      "vs_baseline_wr": -30.4,
       "vs_baseline_ret": -10.23
     }
   ],
@@ -176,30 +176,30 @@
       "horizonte": "90d",
       "win_rate": 60.7,
       "avg_return": 6.92,
-      "avg_return_2": 31.95,
+      "avg_return_2": 31.3,
       "n": 178,
-      "vs_baseline_wr": -5.8,
+      "vs_baseline_wr": -5.9,
       "vs_baseline_ret": -0.2
     },
     {
       "label": "FCF 2-5%",
       "horizonte": "90d",
-      "win_rate": 47.9,
-      "avg_return": 2.65,
-      "avg_return_2": -0.04,
-      "n": 169,
-      "vs_baseline_wr": -18.5,
-      "vs_baseline_ret": -4.47
+      "win_rate": 48.2,
+      "avg_return": 2.67,
+      "avg_return_2": -0.03,
+      "n": 170,
+      "vs_baseline_wr": -18.3,
+      "vs_baseline_ret": -4.45
     },
     {
       "label": "FCF<2%",
       "horizonte": "90d",
-      "win_rate": 56.2,
-      "avg_return": 15.43,
+      "win_rate": 56.8,
+      "avg_return": 15.33,
       "avg_return_2": 18.94,
-      "n": 80,
-      "vs_baseline_wr": -10.2,
-      "vs_baseline_ret": 8.31
+      "n": 81,
+      "vs_baseline_wr": -9.7,
+      "vs_baseline_ret": 8.21
     },
     {
       "label": "FCF<0%",
@@ -208,7 +208,7 @@
       "avg_return": 20.83,
       "avg_return_2": 19.44,
       "n": 55,
-      "vs_baseline_wr": -8.3,
+      "vs_baseline_wr": -8.4,
       "vs_baseline_ret": 13.71
     }
   ],
@@ -216,22 +216,22 @@
     {
       "label": "R:R\u22653",
       "horizonte": "90d",
-      "win_rate": 59.1,
+      "win_rate": 59.2,
       "avg_return": 7.23,
-      "avg_return_2": 22.16,
-      "n": 313,
+      "avg_return_2": 21.9,
+      "n": 314,
       "vs_baseline_wr": -7.3,
       "vs_baseline_ret": 0.11
     },
     {
       "label": "R:R 2-3",
       "horizonte": "90d",
-      "win_rate": 76.1,
-      "avg_return": 8.81,
+      "win_rate": 76.2,
+      "avg_return": 8.79,
       "avg_return_2": 14.86,
-      "n": 163,
-      "vs_baseline_wr": 9.6,
-      "vs_baseline_ret": 1.69
+      "n": 164,
+      "vs_baseline_wr": 9.7,
+      "vs_baseline_ret": 1.67
     },
     {
       "label": "R:R<2",
@@ -240,25 +240,25 @@
       "avg_return": 6.98,
       "avg_return_2": 14.2,
       "n": 237,
-      "vs_baseline_wr": 5.3,
+      "vs_baseline_wr": 5.2,
       "vs_baseline_ret": -0.14
     }
   ],
   "period_stats": {
     "7d": {
-      "win_rate": 38.0,
+      "win_rate": 38.2,
       "avg_return": -1.1,
-      "n": 784
+      "n": 786
     },
     "14d": {
       "win_rate": 41.6,
-      "avg_return": -1.31,
-      "n": 784
+      "avg_return": -1.3,
+      "n": 786
     },
     "30d": {
       "win_rate": 60.7,
-      "avg_return": 2.14,
-      "n": 784
+      "avg_return": 2.13,
+      "n": 786
     }
   },
   "best_combos": [
@@ -269,10 +269,10 @@
       "avg_return": 23.53,
       "avg_return_2": 79.32,
       "n": 32,
-      "vs_baseline_wr": 24.2,
+      "vs_baseline_wr": 24.1,
       "vs_baseline_ret": 16.41
     }
   ],
   "hay_senal": true,
-  "narrative": "1. Prioriza se\u00f1ales con **Score\u202f\u2265\u202f70 y FCF\u202f\u2265\u202f5\u202f%**, ya que el combo alcanza un 90,6\u202f% de win rate, superando ampliamente el promedio de 66,5\u202f%.  \n2. Dentro de los sectores, enf\u00f3"
+  "narrative": "- Prioriza se\u00f1ales con **Score\u202f\u2265\u202f70 y FCF\u202f\u2265\u202f5\u202f%**, ya que el combo alcanza un 90,6\u202f% de win rate; estos criterios superan ampliamente el promedio del 66,5\u202f%.  \n- Enf\u00f3cate en el sector **Financial Services**, que muestra el mayor desempe\u00f1o (82,2\u202f% WR), y mant\u00e9n"
 }

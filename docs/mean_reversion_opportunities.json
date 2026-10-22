@@ -1,11 +1,52 @@
 {
-  "generated_at": "2026-10-21 05:42:08",
-  "scan_date": "2026-10-21 05:42:08",
-  "total_opportunities": 0,
+  "generated_at": "2026-10-22 05:40:18",
+  "scan_date": "2026-10-22 05:40:18",
+  "total_opportunities": 1,
   "strategies": {
     "oversold_bounce": 0,
-    "bull_flag_pullback": 0
+    "bull_flag_pullback": 1
   },
-  "ai_narrative": null,
-  "opportunities": []
+  "ai_narrative": "1) La calidad del batch es aceptable: el \u00fanico setup presenta un score de 85, RSI",
+  "opportunities": [
+    {
+      "ticker": "META",
+      "company_name": "Meta Platforms, Inc.",
+      "strategy": "Bull Flag Pullback",
+      "current_price": 697.52,
+      "rsi": 40.8,
+      "rsi_tier": "NEUTRAL",
+      "rally_pct": 44.4,
+      "pullback_pct": -10.3,
+      "sma_50": 661.21,
+      "sma_200": 631.73,
+      "trend": "Bullish",
+      "volume_decrease": false,
+      "reversion_score": 85,
+      "quality": "\u2b50 CON DUDAS",
+      "entry_zone": "$683.57 - $711.47",
+      "entry_ref": 711.47,
+      "target": 761.27,
+      "techo_tecnico": 777.59,
+      "bounce_target": 761.27,
+      "bounce_usd": 49.8,
+      "bounce_pct": 7.0,
+      "stop_loss": 641.37,
+      "stop_pct": -9.9,
+      "risk_reward": 1.14,
+      "risk_reward_en_zona": 0.71,
+      "precio_sobre_zona_entrada": false,
+      "detected_date": "2026-10-22",
+      "historical_win_rate": 39.5,
+      "ai_confirmation": "CAUTION",
+      "ai_confidence": 70,
+      "ai_reason": "vol sec\u00e1ndose=no, falla requisito",
+      "esperanza_pct": 2.84,
+      "esperanza_n": 26,
+      "esperanza_aciertos": 16,
+      "esperanza_stops": 9,
+      "esperanza_dias_mediana": 20,
+      "esperanza_muestra_ok": true,
+      "esperanza_frase": "en los 26 episodios iguales, el objetivo (+9.1%) lleg\u00f3 antes que el stop (-8.1%) 16 veces y el stop salt\u00f3 primero 9, y cuando lleg\u00f3 tard\u00f3 20 sesiones de mediana. Esperanza +2.84% por operaci\u00f3n."
+    }
+  ]
 }
