@@ -529,8 +529,8 @@ interface OptionsChainData {
     expiry: string
     days_out: number
     bucket: string
-    covered_calls: Array<{ strike: number; bid: number; ask: number; mid: number; volume: number; open_interest: number; iv: number; pct_otm: number; annual_yield_pct: number }>
-    protective_puts: Array<{ strike: number; bid: number; ask: number; mid: number; volume: number; open_interest: number; iv: number; pct_otm: number; cost_pct: number }>
+    covered_calls: Array<{ strike: number; bid: number; ask: number; mid: number; volume: number; open_interest: number; iv: number; pct_otm: number; annual_yield_pct: number; spread_pct?: number }>
+    protective_puts: Array<{ strike: number; bid: number; ask: number; mid: number; volume: number; open_interest: number; iv: number; pct_otm: number; cost_pct: number; spread_pct?: number }>
   }>
   ai_recommendation: {
     recommended_strategy: string
@@ -550,7 +550,17 @@ interface OptionsChainData {
     when_to_close?: string
     step_by_step?: string
   } | null
+  ai_error?: string | null
 }
+
+/** ¿Es esta fila el contrato que recomienda la IA? */
+function esRecomendado(data: OptionsChainData, tipo: 'CALL' | 'PUT', expiry: string, strike: number) {
+  const pc = data.ai_recommendation?.primary_contract
+  return !!pc && pc.type?.toUpperCase() === tipo && pc.expiry === expiry && Math.abs(Number(pc.strike) - strike) < 0.01
+}
+
+/** Un spread enorme hace que la «prima» sea teórica: avisarlo en la fila. */
+const SPREAD_ANCHO = 30
 
 function OptionsPanel({ result, sym }: { result: PositionResult; sym: string }) {
   const [open, setOpen] = useState(false)
@@ -574,6 +584,9 @@ function OptionsPanel({ result, sym }: { result: PositionResult; sym: string }) 
         conviction: result.conviction,
         thesis:     result.analysis ?? '',
         key_risk:   result.key_risk ?? '',
+        weight:     String(result.portfolio_pct ?? 0),
+        optimal:    String(result.optimal_size_pct ?? 0),
+        target:     String(result.target_price ?? 0),
       })
       const { data: json } = await apiClient.get(`/api/options-chain/${result.ticker}?${params}`)
       setData(json)
@@ -720,6 +733,12 @@ function OptionsPanel({ result, sym }: { result: PositionResult; sym: string }) 
                 )
               })()}
 
+              {!data.ai_recommendation && data.ai_error && (
+                <div className="text-mini text-muted-foreground bg-foreground/5 border border-border/30 rounded-lg px-3 py-2">
+                  Sin contrato recomendado: {data.ai_error}. Las tablas son la cadena real, sin selección.
+                </div>
+              )}
+
               {/* Raw contracts per expiry */}
               {data.expiries.map(exp => (
                 <div key={exp.expiry}>
@@ -735,15 +754,21 @@ function OptionsPanel({ result, sym }: { result: PositionResult; sym: string }) 
                         <table className="w-full text-mini border-collapse">
                           <thead>
                             <tr className="border-b border-border/30">
-                              {['Strike', 'Bid', 'Ask', 'Prima', '% OTM', 'Yield anual', 'Vol', 'IV%'].map(h => (
+                              {['Strike', 'Bid', 'Ask', 'Prima', '% OTM', 'Yield anual (al bid)', 'Vol', 'IV%'].map(h => (
                                 <th key={h} className="text-left py-1 px-2 text-muted-foreground font-semibold whitespace-nowrap">{h}</th>
                               ))}
                             </tr>
                           </thead>
                           <tbody>
-                            {exp.covered_calls.map((c, i) => (
-                              <tr key={i} className="border-b border-border/10 hover:bg-muted/10">
-                                <td className="py-1.5 px-2 font-bold text-foreground">{sym}{c.strike}</td>
+                            {exp.covered_calls.map((c, i) => {
+                              const rec = esRecomendado(data, 'CALL', exp.expiry, c.strike)
+                              return (
+                              <tr key={i} className={`border-b border-border/10 ${rec ? 'bg-primary/10' : 'hover:bg-muted/10'}`}>
+                                <td className="py-1.5 px-2 font-bold text-foreground whitespace-nowrap">
+                                  {sym}{c.strike}
+                                  {rec && <span className="ml-1.5 text-micro font-semibold text-primary">recomendado</span>}
+                                  {(c.spread_pct ?? 0) > SPREAD_ANCHO && <span className="ml-1.5 text-micro text-muted-foreground" title="Spread ancho: la prima real será la del bid">spread {c.spread_pct}%</span>}
+                                </td>
                                 <td className="py-1.5 px-2 text-muted-foreground">{sym}{c.bid}</td>
                                 <td className="py-1.5 px-2 text-muted-foreground">{sym}{c.ask}</td>
                                 <td className="py-1.5 px-2 font-bold text-amber-400">{sym}{c.mid}</td>
@@ -752,7 +777,8 @@ function OptionsPanel({ result, sym }: { result: PositionResult; sym: string }) 
                                 <td className="py-1.5 px-2 text-muted-foreground">{c.volume.toLocaleString()}</td>
                                 <td className="py-1.5 px-2 text-muted-foreground">{c.iv}%</td>
                               </tr>
-                            ))}
+                              )
+                            })}
                           </tbody>
                         </table>
                       </div>
@@ -766,15 +792,21 @@ function OptionsPanel({ result, sym }: { result: PositionResult; sym: string }) 
                         <table className="w-full text-mini border-collapse">
                           <thead>
                             <tr className="border-b border-border/30">
-                              {['Strike', 'Bid', 'Ask', 'Prima', '% OTM', 'Coste %', 'Vol', 'IV%'].map(h => (
+                              {['Strike', 'Bid', 'Ask', 'Prima', '% OTM', 'Coste % (al ask)', 'Vol', 'IV%'].map(h => (
                                 <th key={h} className="text-left py-1 px-2 text-muted-foreground font-semibold whitespace-nowrap">{h}</th>
                               ))}
                             </tr>
                           </thead>
                           <tbody>
-                            {exp.protective_puts.map((p, i) => (
-                              <tr key={i} className="border-b border-border/10 hover:bg-muted/10">
-                                <td className="py-1.5 px-2 font-bold text-foreground">{sym}{p.strike}</td>
+                            {exp.protective_puts.map((p, i) => {
+                              const rec = esRecomendado(data, 'PUT', exp.expiry, p.strike)
+                              return (
+                              <tr key={i} className={`border-b border-border/10 ${rec ? 'bg-primary/10' : 'hover:bg-muted/10'}`}>
+                                <td className="py-1.5 px-2 font-bold text-foreground whitespace-nowrap">
+                                  {sym}{p.strike}
+                                  {rec && <span className="ml-1.5 text-micro font-semibold text-primary">recomendado</span>}
+                                  {(p.spread_pct ?? 0) > SPREAD_ANCHO && <span className="ml-1.5 text-micro text-muted-foreground" title="Spread ancho: pagarás cerca del ask">spread {p.spread_pct}%</span>}
+                                </td>
                                 <td className="py-1.5 px-2 text-muted-foreground">{sym}{p.bid}</td>
                                 <td className="py-1.5 px-2 text-muted-foreground">{sym}{p.ask}</td>
                                 <td className="py-1.5 px-2 font-bold text-blue-400">{sym}{p.mid}</td>
@@ -783,7 +815,8 @@ function OptionsPanel({ result, sym }: { result: PositionResult; sym: string }) 
                                 <td className="py-1.5 px-2 text-muted-foreground">{p.volume.toLocaleString()}</td>
                                 <td className="py-1.5 px-2 text-muted-foreground">{p.iv}%</td>
                               </tr>
-                            ))}
+                              )
+                            })}
                           </tbody>
                         </table>
                       </div>

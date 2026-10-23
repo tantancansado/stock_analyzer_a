@@ -4149,6 +4149,10 @@ def analyze_personal_portfolio():
             if p.get('analyst_target'): l += f" | target: {p['currency']}{p['analyst_target']:.2f} ({p.get('analyst_upside',0):+.1f}%)"
             if p.get('fcf_yield'):      l += f" | FCF yield: {p['fcf_yield']:.1f}%"
             if p.get('sector'):         l += f" | Sector: {p['sector']}"
+            if p.get('optimal_size_pct'):
+                l += f" | peso óptimo por volatilidad: {p['optimal_size_pct']:.1f}%"
+                if _sobreponderada(p):
+                    l += " (SOBREPONDERADA)"
         lines.append(l)
 
     tickers_list = ', '.join(p['ticker'] for p in enriched)
@@ -4189,7 +4193,10 @@ Valores posibles para conviction: ALTA, MEDIA, BAJA
 Valores posibles para options_strategy: COVERED_CALL (vender call OTM para ingresos), PROTECTIVE_PUT (comprar put para proteger), COLLAR (vender call + comprar put), BUY_MORE (añadir sin opciones), CASH_SECURED_PUT (vender put para entrar más barato), TRAILING_STOP (stop dinámico sin opciones), HOLD (mantener sin acción adicional), SELL (cerrar posición)
 Cubre estos tickers en orden: {tickers_list}
 Sé honesto: si la tesis se ha roto, di VENDER. Los pesos recomendados deben sumar ~100%.
-Para options_strategy: sé específico — si recomiendas COVERED_CALL indica el rango de delta objetivo (~0.25-0.35 OTM), si es PROTECTIVE_PUT indica cuánto downside proteger."""
+Para options_strategy: sé específico — si recomiendas COVERED_CALL indica el rango de delta objetivo (~0.25-0.35 OTM), si es PROTECTIVE_PUT indica cuánto downside proteger.
+Reglas del inversor, no negociables:
+- Una posición SOBREPONDERADA no admite AÑADIR, BUY_MORE ni CASH_SECURED_PUT: añadir es lo contrario de lo que pide su tamaño.
+- Vende a precio objetivo por valoración, no a un porcentaje: no propongas COVERED_CALL con strikes por debajo de su target_price, porque le obligaría a vender antes de tiempo."""
 
     try:
         from groq_utils import claude_chat as _claude_chat, CLAUDE_SONNET
@@ -4282,6 +4289,7 @@ Para options_strategy: sé específico — si recomiendas COVERED_CALL indica el
                         'options_strategy': ap.get('options_strategy', ''),
                         'options_rationale': ap.get('options_rationale', ''),
                     })
+                    _corregir_si_añade_sobreponderada(row, p)
                     break
         result_positions.append(row)
 
@@ -4312,6 +4320,52 @@ Para options_strategy: sé específico — si recomiendas COVERED_CALL indica el
 
 # ─────────────────────────────────────────────────────────────────────────────
 
+def _sobreponderada(p: dict) -> bool:
+    """Misma regla que la ficha («↑ SOBRE»): pesa más de 1,5 veces su óptimo."""
+    opt = p.get('optimal_size_pct')
+    return bool(opt) and (p.get('portfolio_pct') or 0) > opt * 1.5
+
+
+def _corregir_si_añade_sobreponderada(row: dict, p: dict) -> None:
+    """La IA no veía el peso óptimo y proponía añadir a posiciones que ya lo
+    triplicaban; la ficha decía «↑ SOBRE» y la estrategia «vende puts para
+    aumentar peso». Si aun viéndolo lo propone, no se publica."""
+    if not _sobreponderada(p):
+        return
+    if row.get('options_strategy') in ('CASH_SECURED_PUT', 'BUY_MORE') or row.get('action') == 'AÑADIR':
+        row['options_strategy'] = 'HOLD'
+        if row.get('action') == 'AÑADIR':
+            row['action'] = 'MANTENER'
+        row['options_rationale'] = (
+            f"Ya pesa un {p.get('portfolio_pct', 0):.1f}% frente a un óptimo del "
+            f"{p['optimal_size_pct']:.1f}%: no añadas, ni con acciones ni vendiendo puts.")
+
+
+def _validar_contrato(rec: dict, expiries: list, objetivo: float | None,
+                      sobreponderada: bool) -> str | None:
+    """Motivo para descartar la recomendación de contrato, o None si vale."""
+    pc = (rec or {}).get('primary_contract')
+    estrategia = str((rec or {}).get('recommended_strategy') or '')
+    if sobreponderada and estrategia in ('CASH_SECURED_PUT', 'LEAPS_CALL'):
+        return 'proponía añadir exposición a una posición que ya está sobreponderada'
+    if not pc:
+        return None
+    try:
+        strike = float(pc.get('strike'))
+    except (TypeError, ValueError):
+        return 'el contrato no traía un strike legible'
+    tipo = str(pc.get('type') or '').upper()
+    lista = 'covered_calls' if tipo == 'CALL' else 'protective_puts'
+    existe = any(e['expiry'] == pc.get('expiry') and any(abs(c['strike'] - strike) < 0.01 for c in e[lista])
+                 for e in expiries)
+    if not existe:
+        return 'el contrato propuesto no está en la cadena real'
+    if tipo == 'CALL' and str(pc.get('action') or '').upper() == 'VENDER' and objetivo and strike < objetivo:
+        return (f'vender la call de {strike:g} obligaría a vender por debajo del objetivo '
+                f'({objetivo:g}), y el criterio es vender a precio objetivo')
+    return None
+
+
 @app.route('/api/options-chain/<ticker>')
 # Mismo motivo: Groq/Claude en cada request para elegir el contrato óptimo.
 @limiter.limit("20 per hour")
@@ -4339,6 +4393,10 @@ def options_chain(ticker: str):
     conviction= request.args.get('conviction', 'MEDIA')
     thesis    = (request.args.get('thesis', '') or '')[:800]   # AI analysis text
     key_risk  = (request.args.get('key_risk', '') or '')[:300]
+    peso      = _safe_float(request.args.get('weight'), 0.0)
+    peso_opt  = _safe_float(request.args.get('optimal'), 0.0)
+    objetivo  = _safe_float(request.args.get('target'), 0.0) or None
+    sobrepond = _sobreponderada({'portfolio_pct': peso, 'optimal_size_pct': peso_opt})
 
     try:
         t = _yf.Ticker(ticker)
@@ -4410,6 +4468,7 @@ def options_chain(ticker: str):
                 'open_interest': _safe_int(row.get('openInterest', 0)),
                 'iv':            round(_safe_float(row.get('impliedVolatility', 0)) * 100, 1),
                 'pct_otm':       round(_safe_float(row.get('pct_otm', 0)), 1),
+                'spread_pct':    round(_safe_float(row.get('spread_pct', 0)), 0),
             }
             if kind == 'call':
                 d['annual_yield_pct'] = round(_safe_float(row.get('annual_yield', 0)), 1)
@@ -4432,8 +4491,11 @@ def options_chain(ticker: str):
                 calls_df['volume']       = calls_df['volume'].fillna(0)
                 calls_df['mid']          = (calls_df['bid'] + calls_df['ask']) / 2
                 calls_df['pct_otm']      = (calls_df['strike'] - cur_price) / cur_price * 100
-                calls_df['annual_yield'] = calls_df['mid'] / cur_price * (365 / max(days_out, 1)) * 100
-                calls_df = calls_df.nlargest(5, 'openInterest')
+                # Al vender se cobra el bid, no el medio: con spreads de 2,10/8,05
+                # el «rendimiento» al medio se duplicaba.
+                calls_df['annual_yield'] = calls_df['bid'] / cur_price * (365 / max(days_out, 1)) * 100
+                calls_df['spread_pct']   = (calls_df['ask'] - calls_df['bid']) / calls_df['mid'] * 100
+                calls_df = calls_df.nlargest(5, 'openInterest').sort_values('strike')
 
             puts_df = chain.puts.copy()
             puts_df = puts_df[
@@ -4446,8 +4508,9 @@ def options_chain(ticker: str):
                 puts_df['volume']       = puts_df['volume'].fillna(0)
                 puts_df['mid']      = (puts_df['bid'] + puts_df['ask']) / 2
                 puts_df['pct_otm']  = (cur_price - puts_df['strike']) / cur_price * 100
-                puts_df['cost_pct'] = puts_df['mid'] / cur_price * 100
-                puts_df = puts_df.nlargest(5, 'openInterest')
+                puts_df['cost_pct'] = puts_df['ask'] / cur_price * 100   # al comprar se paga el ask
+                puts_df['spread_pct'] = (puts_df['ask'] - puts_df['bid']) / puts_df['mid'] * 100
+                puts_df = puts_df.nlargest(5, 'openInterest').sort_values('strike')
 
             result_expiries.append({
                 'expiry':          exp,
@@ -4465,11 +4528,11 @@ def options_chain(ticker: str):
             contracts_text = []
             for exp_data in result_expiries:
                 calls_str = '; '.join(
-                    f"CALL ${c['strike']} prima ${c['mid']} yield={c['annual_yield_pct']}%/año OTM={c['pct_otm']}%"
+                    f"CALL ${c['strike']} cobras(bid) ${c['bid']} yield={c['annual_yield_pct']}%/año OTM={c['pct_otm']}% spread={c['spread_pct']:.0f}%"
                     for c in exp_data['covered_calls'][:3]
                 ) or 'sin liquidez'
                 puts_str = '; '.join(
-                    f"PUT ${p['strike']} prima ${p['mid']} coste={p['cost_pct']}% OTM={p['pct_otm']}%"
+                    f"PUT ${p['strike']} pagas(ask) ${p['ask']} cobras(bid) ${p['bid']} coste={p['cost_pct']}% OTM={p['pct_otm']}% spread={p['spread_pct']:.0f}%"
                     for p in exp_data['protective_puts'][:3]
                 ) or 'sin liquidez'
                 contracts_text.append(
@@ -4490,6 +4553,8 @@ POSICIÓN ACTUAL:
 - Upside según analistas: {upside:+.1f}%
 - Acción recomendada: {action}
 - Convicción: {conviction}{thesis_block}{risk_block}
+- Precio objetivo de la posición: {f"${objetivo:.2f}" if objetivo else "sin objetivo"}
+- Peso en cartera: {peso:.1f}% · peso óptimo por volatilidad: {peso_opt:.1f}%{" → SOBREPONDERADA" if sobrepond else ""}
 
 CONTRATOS DISPONIBLES EN EL MERCADO AHORA MISMO:
 {chr(10).join(contracts_text)}
@@ -4500,6 +4565,10 @@ INSTRUCCIONES CRÍTICAS:
 3. Si la posición está en pérdida y la tesis es intacta, considera LEAPS call para duplicar exposición a bajo coste.
 4. Si hay poco upside, covered call OTM genera ingreso.
 5. Piensa en el horizonte de la tesis: catalizador a 6-12 meses → expiry LEAPS.
+6. El inversor vende a PRECIO OBJETIVO: nunca vendas una call con strike por debajo del precio objetivo.
+7. Si está SOBREPONDERADA, no propongas CASH_SECURED_PUT ni LEAPS_CALL: no se añade exposición.
+8. Usa precios ejecutables: al VENDER cobras el bid, al COMPRAR pagas el ask. Evita contratos con spread > 30%.
+9. Si ningún contrato encaja con estas reglas, "HOLD" con primary_contract null es la respuesta correcta.
 
 RESPONDE EN JSON VÁLIDO (sin markdown, sin texto extra). Incluye instrucciones tan claras que un principiante pueda ejecutar la orden:
 {{
@@ -4525,10 +4594,13 @@ RESPONDE EN JSON VÁLIDO (sin markdown, sin texto extra). Incluye instrucciones 
 
             try:
                 from groq_utils import claude_chat as _claude_chat, CLAUDE_SONNET
+                # 800 tokens no daban para el JSON de 10 campos con frases, y Sonnet 5
+                # piensa antes de escribir: la respuesta salía cortada, el
+                # json.loads fallaba y la tarjeta no aparecía, sin decir nada.
                 _ai_text = _claude_chat(
                     messages=[{'role': 'user', 'content': prompt}],
                     model=CLAUDE_SONNET,
-                    max_tokens=800,
+                    max_tokens=3000,
                     temperature=0.2,
                 )
                 if _ai_text:
@@ -4543,17 +4615,26 @@ RESPONDE EN JSON VÁLIDO (sin markdown, sin texto extra). Incluye instrucciones 
                     from groq_utils import groq_chat as _groq_chat
                     client = _Groq(api_key=groq_key)
                     resp = _groq_chat(client, messages=[{'role': 'user', 'content': prompt}],
-                                     max_tokens=800, temperature=0.2,
+                                     max_tokens=2500, temperature=0.2,
                                      response_format={"type": "json_object"})
                     ai_recommendation = _json.loads(resp.choices[0].message.content.strip())
                 except Exception:
                     ai_recommendation = None
+
+        ai_error = None
+        if ai_recommendation is None and result_expiries:
+            ai_error = 'no se pudo generar la recomendación (la IA no respondió)'
+        elif ai_recommendation is not None:
+            ai_error = _validar_contrato(ai_recommendation, result_expiries, objetivo, sobrepond)
+            if ai_error:
+                ai_recommendation = None
 
         return jsonify({
             'ticker':           ticker,
             'current_price':    round(cur_price, 2),
             'expiries':         result_expiries,
             'ai_recommendation': ai_recommendation,
+            'ai_error':         ai_error,
         })
 
     except Exception as e:
