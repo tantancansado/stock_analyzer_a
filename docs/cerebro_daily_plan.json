@@ -11,7 +11,7 @@
       "prioridad": 1,
       "accion": "COMPRAR",
       "instrumento": "TLT/VGLT",
-      "razon": "Yield 30yr en 5.29% \u2014 zona hist\u00f3ricamente atractiva para bonos largos",
+      "razon": "Yield 30yr en 5.32% \u2014 zona hist\u00f3ricamente atractiva para bonos largos",
       "catalizador": "2018-19: TLT +18% cuando yields revertieron desde 3.25%",
       "size_hint": "peque\u00f1a (1-2%)",
       "invalidacion": "La Fed puede mantener tipos altos m\u00e1s tiempo \u2014 size peque\u00f1o"
@@ -30,7 +30,7 @@
     {
       "instrument": "TLT/VGLT",
       "direction": "LONG",
-      "thesis": "Yield 30yr en 5.29% \u2014 zona hist\u00f3ricamente atractiva para bonos largos",
+      "thesis": "Yield 30yr en 5.32% \u2014 zona hist\u00f3ricamente atractiva para bonos largos",
       "historical": "2018-19: TLT +18% cuando yields revertieron desde 3.25%",
       "risk": "La Fed puede mantener tipos altos m\u00e1s tiempo \u2014 size peque\u00f1o",
       "timeframe": "3-6 meses",
@@ -61,32 +61,25 @@
   "macro_plays_commentary": "2 plays macro rule-based generadas sin IA.",
   "value_en_entorno": [
     {
+      "ticker": "BR",
+      "score": 75.2,
+      "sector": "Technology",
+      "fcf_yield_pct": 5.96,
+      "grade": "B"
+    },
+    {
       "ticker": "SAP.DE",
-      "score": 64.2,
+      "score": 57.8,
       "sector": "Technology",
       "fcf_yield_pct": 3.51,
       "grade": "B"
     },
     {
       "ticker": "EXPN.L",
-      "score": 62.5,
+      "score": 56.3,
       "sector": "Industrials",
       "fcf_yield_pct": 4.18,
       "grade": "B"
-    },
-    {
-      "ticker": "AMS.MC",
-      "score": 55.8,
-      "sector": "Technology",
-      "fcf_yield_pct": 5.78,
-      "grade": "B"
-    },
-    {
-      "ticker": "G24.DE",
-      "score": 55.5,
-      "sector": "Communication Services",
-      "fcf_yield_pct": 4.2,
-      "grade": "A"
     }
   ],
   "value_en_entorno_razon": "Tickers VALUE seleccionados para r\u00e9gimen CALM.",
@@ -112,6 +105,6 @@
     }
   ],
   "frase_del_dia": "El \u00e9xito en inversi\u00f3n no lo logra el m\u00e1s listo, sino el m\u00e1s disciplinado. \u2014 Benjamin Graham",
-  "mensaje_telegram": "\ud83e\udde0 CEREBRO 2026-10-23 | CALM (+5.5) | ALCISTA | VALUE: SAP.DE EXPN.L AMS.MC | Evitar: ",
+  "mensaje_telegram": "\ud83e\udde0 CEREBRO 2026-10-23 | CALM (+5.5) | ALCISTA | VALUE: BR SAP.DE EXPN.L | Evitar: ",
   "ai_powered": false
 }

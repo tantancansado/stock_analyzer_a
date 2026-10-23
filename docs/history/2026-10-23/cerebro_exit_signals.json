@@ -1,44 +1,26 @@
 {
   "generated_at": "2026-10-23",
   "total": 19,
-  "high_count": 2,
+  "high_count": 1,
   "narrative": null,
   "exits": [
     {
-      "ticker": "META",
+      "ticker": "KO",
       "severity": "MEDIUM",
-      "entry_score": 63.72,
-      "current_score": 31.14,
-      "signal_date": "2026-09-18",
+      "entry_score": 59.55500000000001,
+      "current_score": 33.72,
+      "signal_date": "2026-10-01",
       "reasons": [
-        "Score cay\u00f3 33pts (64 \u2192 31)",
-        "IA: falso positivo con 85% confianza \u2014 La ca\u00edda en la puntuaci\u00f3n del sistema probablemente refleja una correcci\u00f3n de precio tras una fuerte subida, reduciendo el margen de seguridad, pero no indica una deterioro fundamental real del negocio de Meta."
+        "Score cay\u00f3 26pts (60 \u2192 34)",
+        "Earnings en 3d \u2014 alta incertidumbre, considera reducir",
+        "IA: falso positivo con 75% confianza \u2014 KO es una empresa defensiva y estable sin deterioro fundamental conocido; la ca\u00edda de 26pts en el score probablemente refleja una subida de precio que redujo el margen de upside (valor), no un problema de negocio. La proximidad de earnings genera incertidumbre normal, no una se\u00f1al de alerta real."
       ],
-      "fundamental_score": 66.6,
+      "fundamental_score": 76.8,
       "ai_validation": {
         "verdict": "FALSE_POSITIVE",
-        "confidence": 85,
-        "summary": "La ca\u00edda en la puntuaci\u00f3n del sistema probablemente refleja una correcci\u00f3n de precio tras una fuerte subida, reduciendo el margen de seguridad, pero no indica una deterioro fundamental real del negocio de Meta.",
-        "key_finding": "Meta ha mantenido un crecimiento s\u00f3lido en ingresos por publicidad y una ejecuci\u00f3n operativa eficiente, sin se\u00f1ales de quiebre estructural en su modelo de negocio."
-      }
-    },
-    {
-      "ticker": "SYK",
-      "severity": "MEDIUM",
-      "entry_score": 57.435,
-      "current_score": 30.645000000000003,
-      "signal_date": "2026-10-21",
-      "reasons": [
-        "Score cay\u00f3 27pts (57 \u2192 31)",
-        "Earnings en 6d \u2014 alta incertidumbre, considera reducir",
-        "IA: falso positivo con 85% confianza \u2014 La ca\u00edda en la puntuaci\u00f3n del sistema se debe principalmente a la proximidad de los resultados (incertidumbre temporal) y no a una deterioraci\u00f3n fundamental, ya que Stryker mantiene una s\u00f3lida posici\u00f3n en el mercado de dispositivos m\u00e9dicos y su score fundamental en la base de datos sigue siendo alto (70.7/100)."
-      ],
-      "fundamental_score": 70.7,
-      "ai_validation": {
-        "verdict": "FALSE_POSITIVE",
-        "confidence": 85,
-        "summary": "La ca\u00edda en la puntuaci\u00f3n del sistema se debe principalmente a la proximidad de los resultados (incertidumbre temporal) y no a una deterioraci\u00f3n fundamental, ya que Stryker mantiene una s\u00f3lida posici\u00f3n en el mercado de dispositivos m\u00e9dicos y su score fundamental en la base de datos sigue siendo alto (70.7/100).",
-        "key_finding": "El score fundamental de 70.7/100 indica que la salud financiera y operativa de la empresa sigue siendo robusta a pesar de la se\u00f1al t\u00e9cnica de salida."
+        "confidence": 75,
+        "summary": "KO es una empresa defensiva y estable sin deterioro fundamental conocido; la ca\u00edda de 26pts en el score probablemente refleja una subida de precio que redujo el margen de upside (valor), no un problema de negocio. La proximidad de earnings genera incertidumbre normal, no una se\u00f1al de alerta real.",
+        "key_finding": "No hay evidencia de deterioro fundamental (guidance cuts, earnings misses, cambios de management); el score fundamental en DB sigue alto (76.8/100), consistente con negocio s\u00f3lido."
       }
     },
     {
@@ -50,7 +32,18 @@
       "reasons": [
         "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
       ],
-      "fundamental_score": 70.3
+      "fundamental_score": 69.8
+    },
+    {
+      "ticker": "META",
+      "severity": "MEDIUM",
+      "entry_score": 63.72,
+      "current_score": null,
+      "signal_date": "2026-09-18",
+      "reasons": [
+        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
+      ],
+      "fundamental_score": 67.1
     },
     {
       "ticker": "CBOE",
@@ -67,12 +60,13 @@
       "ticker": "ICE",
       "severity": "MEDIUM",
       "entry_score": 60.095,
-      "current_score": null,
+      "current_score": 30.340000000000003,
       "signal_date": "2026-10-13",
       "reasons": [
-        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
+        "Score cay\u00f3 30pts (60 \u2192 30) \u2014 ca\u00edda t\u00e9cnica/momentum, balance s\u00f3lido (Piotroski 8/9)",
+        "Earnings en 5d \u2014 alta incertidumbre, considera reducir"
       ],
-      "fundamental_score": 69.1
+      "fundamental_score": 69.6
     },
     {
       "ticker": "NDSN",
@@ -94,18 +88,7 @@
       "reasons": [
         "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
       ],
-      "fundamental_score": 67.6
-    },
-    {
-      "ticker": "KO",
-      "severity": "MEDIUM",
-      "entry_score": 59.55500000000001,
-      "current_score": null,
-      "signal_date": "2026-10-01",
-      "reasons": [
-        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
-      ],
-      "fundamental_score": 77.9
+      "fundamental_score": 68.5
     },
     {
       "ticker": "QSR",
@@ -127,7 +110,7 @@
       "reasons": [
         "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
       ],
-      "fundamental_score": 65.8
+      "fundamental_score": 66.3
     },
     {
       "ticker": "UNP",
@@ -138,18 +121,29 @@
       "reasons": [
         "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
       ],
-      "fundamental_score": 74.4
+      "fundamental_score": 75.0
+    },
+    {
+      "ticker": "SYK",
+      "severity": "MEDIUM",
+      "entry_score": 57.435,
+      "current_score": null,
+      "signal_date": "2026-10-21",
+      "reasons": [
+        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
+      ],
+      "fundamental_score": 72.3
     },
     {
       "ticker": "NDAQ",
       "severity": "MEDIUM",
       "entry_score": 57.34,
-      "current_score": null,
+      "current_score": 34.84,
       "signal_date": "2026-10-09",
       "reasons": [
-        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
+        "Score cay\u00f3 22pts (57 \u2192 35)"
       ],
-      "fundamental_score": 76.4
+      "fundamental_score": 75.6
     },
     {
       "ticker": "TW",
@@ -171,7 +165,7 @@
       "reasons": [
         "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
       ],
-      "fundamental_score": 72.9
+      "fundamental_score": 71.1
     },
     {
       "ticker": "BLK",
@@ -182,7 +176,7 @@
       "reasons": [
         "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
       ],
-      "fundamental_score": 77.8
+      "fundamental_score": 75.3
     },
     {
       "ticker": "OXY",
@@ -210,13 +204,12 @@
       "ticker": "FCNCA",
       "severity": "MEDIUM",
       "entry_score": 51.92499999999999,
-      "current_score": 31.120000000000005,
+      "current_score": null,
       "signal_date": "2026-09-18",
       "reasons": [
-        "Score cay\u00f3 21pts (52 \u2192 31)",
-        "Earnings en 0d \u2014 alta incertidumbre, considera reducir"
+        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
       ],
-      "fundamental_score": 65.3
+      "fundamental_score": 70.4
     },
     {
       "ticker": "CNI",

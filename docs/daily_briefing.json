@@ -1,44 +1,126 @@
 {
-  "date": "2026-10-23",
-  "timestamp": "2026-10-23T21:50:40.905648",
-  "narrative": "",
-  "macro_regime": "CALM",
-  "picks_count": 8,
-  "top_picks": [
-    {
-      "ticker": "BR",
-      "sector": "Technology",
-      "value_score": 75.2,
-      "analyst_upside_pct": 16.4,
-      "conviction_grade": null
-    },
-    {
-      "ticker": "MCO",
-      "sector": "Financial Services",
-      "value_score": 60.25,
-      "analyst_upside_pct": 14.2,
-      "conviction_grade": null
-    },
-    {
-      "ticker": "SAP",
-      "sector": "Technology",
-      "value_score": 53.735,
-      "analyst_upside_pct": 16.8,
-      "conviction_grade": null
-    },
-    {
-      "ticker": "JKHY",
-      "sector": "Technology",
-      "value_score": 51.45,
-      "analyst_upside_pct": 15.7,
-      "conviction_grade": null
-    },
-    {
-      "ticker": "MSFT",
-      "sector": "Technology",
-      "value_score": 49.05,
-      "analyst_upside_pct": 14.7,
-      "conviction_grade": null
+  "fecha": "2026-10-23",
+  "texto": "<b>Hoy se puede comprar: Tenet Healthcare (THC)</b>. Cotiza con buen momentum y un descuento real frente a su valor, pero con dos matices importantes: presenta resultados en 5 días, así que la entrada se juega bastante a esa reacción; y su beneficio está creciendo más rápido que el negocio real, así que no la compres pensando en calidad ni te fíes del objetivo por múltiplos — el soporte serio aquí es el DCF, que le ve bastante recorrido.\n\n<b>Para vigilar, barato que todavía no es comprable:</b>\n– <b>Moody's (MCO)</b>: cae un 11,6% desde máximos pero el propio modelo de flujos de caja dice que ya está cara (ojo, contradice al múltiplo). Entra en la lista hoy por primera vez.\n– <b>Jack Henry (JKHY)</b>: el negocio va de maravilla (beneficio subiendo, guidance mejorado tres veces), la caída es pura rotación de mercado por múltiplo caro. Resultados en 10 días.\n– <b>Broadridge (BR)</b>: mismo patrón — resultados sólidos, la caída viene de recortes de precio objetivo de analistas, no del negocio. También resultados en 10 días.\n– <b>SAP</b>: barata y con inercia positiva, pero no hay explicación fiable de por qué cae. Toma el dato con reserva.\n\nMicrosoft y Stryker salen de la lista hoy.\n\nEl sistema, en los últimos 180 días, ha acertado el 71% de las veces con una ganancia media del 8,68% — dato ya consolidado, no provisional. Úsalo para calibrar tamaño, no para apostar fuerte en una sola idea.",
+  "hechos": {
+    "fecha": "2026-10-23",
+    "total_lista": 27,
+    "datos_incompletos": [],
+    "picks_nuevos": [
+      "MCO"
+    ],
+    "picks_que_se_van": [
+      "MSFT",
+      "SYK"
+    ],
+    "comprables": [
+      {
+        "ticker": "THC",
+        "empresa": "Tenet Healthcare Corporation",
+        "score": 39.41,
+        "precio": 268.45,
+        "upside_analista": 6.7,
+        "upside_triangulado": 24.3,
+        "divergencia": "",
+        "fcf_yield": 9.61,
+        "del_maximo_pct": -5.2,
+        "rs_6m": 37.89,
+        "timing": "ENTRADA",
+        "por_que_cae": "",
+        "por_que_cae_detalle": "",
+        "dias_a_resultados": 5.0,
+        "objetivo_por_pe_pct": 24.3,
+        "objetivo_dcf_pct": 60.9,
+        "beneficio_respaldado_por_negocio": false
+      }
+    ],
+    "vigilar": [
+      {
+        "ticker": "MCO",
+        "empresa": "Moody's Corporation",
+        "score": 60.25,
+        "precio": 483.45,
+        "upside_analista": 14.2,
+        "upside_triangulado": null,
+        "divergencia": "ALTA",
+        "fcf_yield": 3.6,
+        "del_maximo_pct": -11.6,
+        "rs_6m": -1.4,
+        "timing": "VIGILAR",
+        "por_que_cae": "",
+        "por_que_cae_detalle": "",
+        "dias_a_resultados": 116.0,
+        "objetivo_por_pe_pct": 28.0,
+        "objetivo_dcf_pct": -34.2,
+        "beneficio_respaldado_por_negocio": true
+      },
+      {
+        "ticker": "JKHY",
+        "empresa": "Jack Henry & Associates, Inc.",
+        "score": 51.45,
+        "precio": 162.55,
+        "upside_analista": 15.7,
+        "upside_triangulado": 24.6,
+        "divergencia": "",
+        "fcf_yield": 4.44,
+        "del_maximo_pct": -15.9,
+        "rs_6m": 1.72,
+        "timing": "VIGILAR",
+        "por_que_cae": "SENTIMIENTO",
+        "por_que_cae_detalle": "El negocio crece y mejora consistentemente (EPS +12% Q3, guidance subida 3 veces, márgenes en expansión, core wins acelerando), pero el mercado vende por múltiplos caros y rotación",
+        "dias_a_resultados": 10.0,
+        "objetivo_por_pe_pct": 26.9,
+        "objetivo_dcf_pct": 24.6,
+        "beneficio_respaldado_por_negocio": true
+      },
+      {
+        "ticker": "BR",
+        "empresa": "Broadridge Financial Solutions",
+        "score": 75.2,
+        "precio": 183.28,
+        "upside_analista": 16.4,
+        "upside_triangulado": 34.5,
+        "divergencia": "",
+        "fcf_yield": 5.96,
+        "del_maximo_pct": -22.1,
+        "rs_6m": 11.94,
+        "timing": "VIGILAR",
+        "por_que_cae": "SENTIMIENTO",
+        "por_que_cae_detalle": "Broadridge reportó resultados sólidos en Q4 FY2025 (ajustado EPS de $8.55 +11% YoY, ingresos +8%) con guidance optimista. La caída obedece a olas de cortes en precio target de anal",
+        "dias_a_resultados": 10.0,
+        "objetivo_por_pe_pct": 61.6,
+        "objetivo_dcf_pct": 34.5,
+        "beneficio_respaldado_por_negocio": true
+      },
+      {
+        "ticker": "SAP",
+        "empresa": "SAP SE",
+        "score": 53.735,
+        "precio": 238.14,
+        "upside_analista": 16.8,
+        "upside_triangulado": 16.8,
+        "divergencia": "",
+        "fcf_yield": 3.73,
+        "del_maximo_pct": -13.9,
+        "rs_6m": 32.89,
+        "timing": "VIGILAR",
+        "por_que_cae": "SIN_DATOS",
+        "por_que_cae_detalle": "",
+        "dias_a_resultados": 96.0,
+        "objetivo_por_pe_pct": 32.1,
+        "objetivo_dcf_pct": 0.7,
+        "beneficio_respaldado_por_negocio": true
+      }
+    ],
+    "tesis_rotas": [],
+    "rotas_son_tuyas": true,
+    "regimen_cambio": null,
+    "rendimiento_sistema": {
+      "horizonte": "180d",
+      "es_horizonte_definitivo": true,
+      "nota": null,
+      "acierto_pct": 71.0,
+      "retorno_medio": 8.68,
+      "n": 31
     }
-  ]
+  }
 }

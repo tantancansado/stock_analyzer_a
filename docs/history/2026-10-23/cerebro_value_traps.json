@@ -1,7 +1,21 @@
 {
   "generated_at": "2026-10-23",
-  "total": 0,
+  "total": 1,
   "high_count": 0,
-  "narrative": null,
-  "traps": []
+  "narrative": "",
+  "traps": [
+    {
+      "ticker": "EQIX",
+      "company_name": "Equinix, Inc.",
+      "severity": "MEDIUM",
+      "trap_score": 3,
+      "value_score": 30.12,
+      "flags": [
+        "FCF negativo (-0.4%) \u2014 quema caja pese a valuaci\u00f3n barata"
+      ],
+      "piotroski": 6.0,
+      "fcf_yield_pct": -0.39,
+      "fundamental_score": 70.3
+    }
+  ]
 }

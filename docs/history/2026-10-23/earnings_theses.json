@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-23T05:55:13Z",
+  "generated_at": "2026-10-23T22:06:44Z",
   "horizon_days": 14,
   "total": 7,
   "theses": {
@@ -9,12 +9,12 @@
       "sector": "Real Estate",
       "earnings_date": "2026-10-29",
       "days_to_earnings": 6,
-      "current_price": 5.52,
+      "current_price": 5.54,
       "fifty_two_week_high": 9.5,
       "fifty_two_week_low": 5.22,
       "avg_price": 7.91,
       "shares": 120.0,
-      "unrealized_pct": -30.21,
+      "unrealized_pct": -29.96,
       "earnings_history": [
         {
           "period": "2026-06-30",
@@ -53,23 +53,23 @@
         "mejor_pct": 5.0
       },
       "verdict": "REDUCE",
-      "sentiment_tone": "NEUTRAL",
-      "implied_move_pct": 1.73,
+      "sentiment_tone": "BEARISH",
+      "implied_move_pct": 14.12,
       "expected_eps": 0.45564,
       "expected_revenue_millions": 59.2,
       "beat_rate_last_4q": 0.5,
       "key_risks": [
-        "Alza de tasas hipotecarias",
-        "Reducci\u00f3n de demanda de refinanciamiento",
-        "Volatilidad en el mercado inmobiliario"
+        "Alto apalancamiento de deuda",
+        "Volatilidad de tasas hipotecarias",
+        "Dependencia de refinanciamiento"
       ],
       "key_catalysts": [
-        "Posible mejora en m\u00e1rgenes de inter\u00e9s",
-        "Aumento de la demanda de hipotecas de alto rendimiento",
-        "Efectos de la pol\u00edtica monetaria de la Fed"
+        "Revisi\u00f3n de la pol\u00edtica de tasas",
+        "Aumento de la demanda de hipotecas",
+        "Mejora de m\u00e1rgenes de inter\u00e9s"
       ],
-      "thesis_summary": "Invesco Mortgage Capital se encuentra en una fase de recuperaci\u00f3n tras una ca\u00edda de precio significativa. La pr\u00f3xima publicaci\u00f3n de resultados presenta una expectativa de EPS ligeramente por debajo de la media del sector y una revenue estable. Se debe vigilar la gu\u00eda de ingresos y los m\u00e1rgenes de inter\u00e9s, ya que cualquier desviaci\u00f3n positiva puede revertir la tendencia bajista. Dada la volatilidad del sector inmobiliario y la sensibilidad a las tasas de inter\u00e9s, se recomienda reducir la posici\u00f3n antes de earnings para limitar la exposici\u00f3n a riesgos de mercado.",
-      "confidence": 60
+      "thesis_summary": "IVR est\u00e1 sobrevalorado tras un rendimiento negativo del 30% y una volatilidad de 14% en las opciones. Los \u00faltimos resultados muestran beats inconsistentes y una tendencia a la baja en EPS. Se recomienda reducir la posici\u00f3n antes de earnings, vigilando la gu\u00eda de ingresos y los m\u00e1rgenes de inter\u00e9s. Si la compa\u00f1\u00eda mejora su pol\u00edtica de tasas y la demanda de hipotecas crece, se podr\u00eda considerar a\u00f1adir despu\u00e9s de earnings.",
+      "confidence": 65
     },
     "CHTR": {
       "ticker": "CHTR",
@@ -77,7 +77,7 @@
       "sector": "Communication Services",
       "earnings_date": "2026-11-06",
       "days_to_earnings": 14,
-      "current_price": 111.77,
+      "current_price": 108.61,
       "fifty_two_week_high": 254.11,
       "fifty_two_week_low": 101.63,
       "avg_price": 151.96,
@@ -137,7 +137,9 @@
         "Mejora de m\u00e1rgenes operativos"
       ],
       "thesis_summary": "Charter Communications enfrenta un entorno competitivo con presi\u00f3n sobre ingresos de streaming y banda ancha. La gu\u00eda de ingresos y m\u00e1rgenes ser\u00e1 crucial; una mejora en la rentabilidad operativa podr\u00eda impulsar la acci\u00f3n. Se recomienda recortar la posici\u00f3n antes de earnings para limitar la exposici\u00f3n a un posible beat negativo, manteniendo la posibilidad de reingresar post\u2011earnings si la gesti\u00f3n demuestra control de costos y crecimiento de ingresos. Vigilar la gu\u00eda de ingresos, el margen bruto y la respuesta del mercado a la pol\u00edtica de precios.",
-      "confidence": 65
+      "confidence": 65,
+      "_stale_thesis": true,
+      "_stale_reason": "Groq rate-limit hit; tesis del run anterior conservada"
     },
     "PSIX": {
       "ticker": "PSIX",
@@ -145,7 +147,7 @@
       "sector": "Industrials",
       "earnings_date": "2026-11-05",
       "days_to_earnings": 13,
-      "current_price": 47.17,
+      "current_price": 45.63,
       "fifty_two_week_high": 106.5,
       "fifty_two_week_low": 25.28,
       "avg_price": 42.5,
@@ -215,12 +217,12 @@
       "sector": "Technology",
       "earnings_date": "2026-11-03",
       "days_to_earnings": 11,
-      "current_price": 186.12,
-      "fifty_two_week_high": 236.02,
+      "current_price": 183.28,
+      "fifty_two_week_high": 235.27,
       "fifty_two_week_low": 133.83,
       "avg_price": 162.0,
       "shares": 15.0,
-      "unrealized_pct": 10.06,
+      "unrealized_pct": 13.14,
       "earnings_history": [
         {
           "period": "2026-06-30",
@@ -260,59 +262,22 @@
       },
       "verdict": "HOLD_THROUGH",
       "sentiment_tone": "NEUTRAL",
-      "implied_move_pct": 0.33,
+      "implied_move_pct": 12.14,
       "expected_eps": 1.36894,
       "expected_revenue_millions": 1648.0,
       "beat_rate_last_4q": 1.0,
       "key_risks": [
-        "Posible desaceleraci\u00f3n del gasto en tecnolog\u00eda financiera",
-        "Presi\u00f3n en m\u00e1rgenes por costos de infraestructura y ciberseguridad",
-        "Riesgo de gu\u00eda por debajo de expectativas si la demanda de servicios de procesamiento disminuye"
+        "Posible desaceleraci\u00f3n del gasto tecnol\u00f3gico corporativo",
+        "Presi\u00f3n de m\u00e1rgenes por aumento de costos operativos",
+        "Riesgo de gu\u00eda conservadora tras fuertes beats hist\u00f3ricos"
       ],
       "key_catalysts": [
-        "Crecimiento continuo de la adopci\u00f3n de soluciones de gesti\u00f3n de datos y automatizaci\u00f3n",
-        "Expansi\u00f3n de contratos con grandes instituciones financieras",
+        "Continuaci\u00f3n del crecimiento de servicios de gesti\u00f3n de datos y automatizaci\u00f3n",
+        "Expansi\u00f3n en nuevos segmentos de fintech y banca digital",
         "Mejora de m\u00e1rgenes operativos mediante eficiencias de escala"
       ],
-      "thesis_summary": "Broadridge muestra un historial s\u00f3lido de beats de EPS, con sorpresas positivas en los \u00faltimos cuatro trimestres. El precio actual ya refleja gran parte del potencial alcista, pero la empresa sigue benefici\u00e1ndose de tendencias de digitalizaci\u00f3n en servicios financieros. Se recomienda mantener la posici\u00f3n a trav\u00e9s del earnings, vigilando la gu\u00eda de ingresos y los m\u00e1rgenes operativos. Un deterioro en la demanda de servicios de procesamiento o una gu\u00eda d\u00e9bil podr\u00edan justificar una reducci\u00f3n posterior.",
-      "confidence": 80,
-      "_stale_thesis": true,
-      "_stale_reason": "Groq rate-limit hit; tesis del run anterior conservada"
-    },
-    "ES0105630315": {
-      "ticker": "ES0105630315",
-      "company_name": "CIE Automotive, S.A.",
-      "sector": "Consumer Cyclical",
-      "earnings_date": "2026-10-28",
-      "days_to_earnings": 5,
-      "current_price": 25.75,
-      "fifty_two_week_high": 33.0,
-      "fifty_two_week_low": 24.8,
-      "avg_price": 25.07,
-      "shares": 90.0,
-      "unrealized_pct": 4.11,
-      "earnings_history": [],
-      "earnings_reaction": null,
-      "verdict": "HOLD_THROUGH",
-      "sentiment_tone": "NEUTRAL",
-      "implied_move_pct": null,
-      "expected_eps": 3.31551,
-      "expected_revenue_millions": 1027.7,
-      "beat_rate_last_4q": null,
-      "key_risks": [
-        "Posible desaceleraci\u00f3n de la demanda en el sector automotriz europeo",
-        "Presi\u00f3n sobre m\u00e1rgenes por aumento de costos de materias primas",
-        "Riesgo de resultados por incertidumbre macroecon\u00f3mica y tipos de cambio"
-      ],
-      "key_catalysts": [
-        "Mejora de la producci\u00f3n en plantas clave y lanzamiento de nuevos componentes",
-        "Incremento de contratos con OEMs tras la recuperaci\u00f3n de la cadena de suministro",
-        "Posible upside en ingresos si la gu\u00eda de ventas supera el consenso"
-      ],
-      "thesis_summary": "CIE Automotive cotiza cerca de su m\u00ednimo anual y muestra un margen de beneficio razonable. El consenso de EPS y ventas es s\u00f3lido, pero la falta de se\u00f1ales claras y la exposici\u00f3n c\u00edclica del sector hacen prudente mantener la posici\u00f3n cruzando earnings. Vigilar la gu\u00eda de ventas y los m\u00e1rgenes operativos en el reporte; cualquier desviaci\u00f3n significativa podr\u00eda requerir ajuste. Si el resultado supera expectativas, se podr\u00eda considerar un ligero aumento posterior al anuncio.",
-      "confidence": 70,
-      "_stale_thesis": true,
-      "_stale_reason": "Groq rate-limit hit; tesis del run anterior conservada"
+      "thesis_summary": "Broadridge ha superado consistentemente las expectativas en los \u00faltimos trimestres, impulsando un fuerte rally que ya refleja gran parte del upside esperado. Con un consenso de EPS de $1.37 y revenue de $1.65\u202fbn, el mercado espera un movimiento impl\u00edcito del 12\u202f% alrededor de los resultados. Mantener la posici\u00f3n permite capturar cualquier upside adicional, especialmente si la compa\u00f1\u00eda confirma su gu\u00eda de crecimiento en servicios de datos y mejora de m\u00e1rgenes. Vigilar la gu\u00eda de ingresos y la evoluci\u00f3n de los m\u00e1rgenes operativos; una gu\u00eda conservadora o deterioro de m\u00e1rgenes podr\u00eda justificar una reducci\u00f3n posterior.",
+      "confidence": 78
     },
     "DE0007100000": {
       "ticker": "DE0007100000",
@@ -320,7 +285,7 @@
       "sector": "Consumer Cyclical",
       "earnings_date": "2026-10-28",
       "days_to_earnings": 5,
-      "current_price": 41.52,
+      "current_price": 40.74,
       "fifty_two_week_high": 62.34,
       "fifty_two_week_low": 38.89,
       "avg_price": 40.45,
@@ -384,7 +349,7 @@
       "sector": "Consumer Cyclical",
       "earnings_date": "2026-11-04",
       "days_to_earnings": 12,
-      "current_price": 57.48,
+      "current_price": 57.42,
       "fifty_two_week_high": 97.92,
       "fifty_two_week_low": 51.98,
       "avg_price": 54.43,
@@ -439,6 +404,41 @@
       ],
       "thesis_summary": "La posici\u00f3n muestra un rendimiento positivo del 4.7% y cotiza cerca de su m\u00ednimo anual, lo que brinda margen de seguridad. Con un historial reciente de beats y sin noticias adversas, el riesgo principal es la demanda de motocicletas premium y los costos de insumos. Se espera que los nuevos modelos el\u00e9ctricos y la expansi\u00f3n geogr\u00e1fica impulsen ingresos, mientras que una gu\u00eda superior al consenso podr\u00eda validar la posici\u00f3n. Vigilar la gu\u00eda de EPS, la evoluci\u00f3n de m\u00e1rgenes y cualquier se\u00f1al de desaceleraci\u00f3n en la demanda antes del cierre de resultados.",
       "confidence": 78,
+      "_stale_thesis": true,
+      "_stale_reason": "Groq rate-limit hit; tesis del run anterior conservada"
+    },
+    "ES0105630315": {
+      "ticker": "ES0105630315",
+      "company_name": "CIE Automotive, S.A.",
+      "sector": "Consumer Cyclical",
+      "earnings_date": "2026-10-28",
+      "days_to_earnings": 5,
+      "current_price": 25.45,
+      "fifty_two_week_high": 33.0,
+      "fifty_two_week_low": 24.8,
+      "avg_price": 25.07,
+      "shares": 90.0,
+      "unrealized_pct": 4.11,
+      "earnings_history": [],
+      "earnings_reaction": null,
+      "verdict": "HOLD_THROUGH",
+      "sentiment_tone": "NEUTRAL",
+      "implied_move_pct": null,
+      "expected_eps": 3.31551,
+      "expected_revenue_millions": 1027.7,
+      "beat_rate_last_4q": null,
+      "key_risks": [
+        "Posible desaceleraci\u00f3n de la demanda en el sector automotriz europeo",
+        "Presi\u00f3n sobre m\u00e1rgenes por aumento de costos de materias primas",
+        "Riesgo de resultados por incertidumbre macroecon\u00f3mica y tipos de cambio"
+      ],
+      "key_catalysts": [
+        "Mejora de la producci\u00f3n en plantas clave y lanzamiento de nuevos componentes",
+        "Incremento de contratos con OEMs tras la recuperaci\u00f3n de la cadena de suministro",
+        "Posible upside en ingresos si la gu\u00eda de ventas supera el consenso"
+      ],
+      "thesis_summary": "CIE Automotive cotiza cerca de su m\u00ednimo anual y muestra un margen de beneficio razonable. El consenso de EPS y ventas es s\u00f3lido, pero la falta de se\u00f1ales claras y la exposici\u00f3n c\u00edclica del sector hacen prudente mantener la posici\u00f3n cruzando earnings. Vigilar la gu\u00eda de ventas y los m\u00e1rgenes operativos en el reporte; cualquier desviaci\u00f3n significativa podr\u00eda requerir ajuste. Si el resultado supera expectativas, se podr\u00eda considerar un ligero aumento posterior al anuncio.",
+      "confidence": 70,
       "_stale_thesis": true,
       "_stale_reason": "Groq rate-limit hit; tesis del run anterior conservada"
     }

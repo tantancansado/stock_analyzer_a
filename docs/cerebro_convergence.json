@@ -1,7 +1,7 @@
 {
   "generated_at": "2026-10-23",
-  "total_convergences": 11,
-  "triple_or_more": 1,
+  "total_convergences": 9,
+  "triple_or_more": 2,
   "convergences": [
     {
       "ticker": "VRSN",
@@ -14,35 +14,15 @@
       ],
       "strategy_count": 3,
       "convergence_score": 89,
-      "value_score": 46.07000000000001,
+      "value_score": 45.71,
       "conviction_grade": "nan",
-      "analyst_upside_pct": 7.2,
-      "fcf_yield_pct": 3.92,
-      "current_price": 304.59,
+      "analyst_upside_pct": 9.0,
+      "fcf_yield_pct": 4.0,
+      "current_price": 300.32,
       "streak_days": 39,
       "earnings_warning": false,
-      "days_to_earnings": null,
-      "analysis": "La convergencia de los tres enfoques (VALUE, INSIDERS y OPTIONS) durante 39\u202fd\u00edas consecutivos sugiere que distintos an\u00e1lisis (fundamentales, flujos internos y estructuraci\u00f3n de opciones) est\u00e1n alineados en una visi\u00f3n alcista para VRSN, lo que refuerza la confianza en el potencial de upside del 7,2"
-    },
-    {
-      "ticker": "SYK",
-      "company_name": "Stryker Corporation",
-      "sector": "Healthcare",
-      "strategies": [
-        "VALUE",
-        "INSIDERS"
-      ],
-      "strategy_count": 2,
-      "convergence_score": 66,
-      "value_score": 30.645000000000003,
-      "conviction_grade": "B",
-      "analyst_upside_pct": 18.1,
-      "fcf_yield_pct": 4.04,
-      "current_price": 307.08,
-      "streak_days": 6,
-      "earnings_warning": true,
-      "days_to_earnings": 6.0,
-      "analysis": "La convergencia de los indicadores VALUE y la actividad de insiders durante 6 d\u00edas consecutivos sugiere que la valoraci\u00f3n intr\u00ednseca de Stryker est\u00e1 alineada con la percepci\u00f3n de los accionistas m\u00e1s informados, lo que puede indicar un punto de entrada atractivo y una posible subvaloraci\u00f3n del mercado. Sin embargo, con la pr\u00f3xima publicaci\u00f3n de resultados en 6 d\u00edas, es prudente vigilar el riesgo de volatilidad post\u2011earnings y confirmar que los datos de flujo"
+      "days_to_earnings": 103.0,
+      "analysis": "La convergencia de los tres enfoques (VALUE, INSIDERS y OPTIONS) durante 39 d\u00edas consecutivos indica que diferentes m\u00e9tricas \u2013valoraci\u00f3n fundamental, actividad de los insiders y se\u00f1ales de volatilidad impl\u00edcita \u2013 est\u00e1n alineadas en torno a una expectativa alcista para VRSN, lo que refuerza la confianza en el impulso del precio. Sin embargo, es prudente vigilar la evoluci\u00f3n del flujo de caja libre, la posible sobrevaloraci\u00f3n impl\u00edcita en las opciones y cualquier cambio inesperado en"
     },
     {
       "ticker": "MSCI",
@@ -50,19 +30,20 @@
       "sector": "Financial Services",
       "strategies": [
         "VALUE",
-        "INSIDERS"
+        "INSIDERS",
+        "OPTIONS"
       ],
-      "strategy_count": 2,
-      "convergence_score": 66,
-      "value_score": 33.75,
-      "conviction_grade": "nan",
-      "analyst_upside_pct": 9.9,
-      "fcf_yield_pct": 3.29,
-      "current_price": 620.24,
+      "strategy_count": 3,
+      "convergence_score": 86,
+      "value_score": 34.8,
+      "conviction_grade": "D",
+      "analyst_upside_pct": 10.7,
+      "fcf_yield_pct": 3.32,
+      "current_price": 615.62,
       "streak_days": 4,
       "earnings_warning": false,
-      "days_to_earnings": 95.0,
-      "analysis": "Convergencia de 2 estrategias: VALUE, INSIDERS."
+      "days_to_earnings": 94.0,
+      "analysis": "La convergencia de las tres estrategias (Value, Insiders y Options) durante cuatro d\u00edas consecutivos indica que varios indicadores independientes est\u00e1n alineados, lo que refuerza la se\u00f1al de posible movimiento alcista y sugiere una mayor consistencia en la valoraci\u00f3n del activo. Sin embargo, dado el bajo puntaje (D) y la modesta generaci\u00f3n de flujo de caja libre (3.32\u202f%), es prudente limitar la exposici\u00f3n, usar stops ajustados y combinar la operaci\u00f3n con un an\u00e1lisis de soporte/resistencia y de volatilidad antes de comprometer"
     },
     {
       "ticker": "MSFT",
@@ -73,36 +54,16 @@
         "OPTIONS"
       ],
       "strategy_count": 2,
-      "convergence_score": 64,
-      "value_score": 72.09,
-      "conviction_grade": "nan",
-      "analyst_upside_pct": 15.5,
-      "fcf_yield_pct": 1.73,
-      "current_price": 521.08,
+      "convergence_score": 59,
+      "value_score": 49.05,
+      "conviction_grade": "C",
+      "analyst_upside_pct": 14.7,
+      "fcf_yield_pct": 1.72,
+      "current_price": 524.51,
       "streak_days": 25,
       "earnings_warning": true,
-      "days_to_earnings": 5.0,
-      "analysis": null
-    },
-    {
-      "ticker": "RSG",
-      "company_name": "",
-      "sector": "",
-      "strategies": [
-        "INSIDERS",
-        "OPTIONS"
-      ],
-      "strategy_count": 2,
-      "convergence_score": 60,
-      "value_score": null,
-      "conviction_grade": "",
-      "analyst_upside_pct": null,
-      "fcf_yield_pct": null,
-      "current_price": null,
-      "streak_days": 5,
-      "earnings_warning": false,
-      "days_to_earnings": null,
-      "analysis": null
+      "days_to_earnings": 4.0,
+      "analysis": "La convergencia de 25 d\u00edas consecutivos sugiere que el precio de MSFT est\u00e1 encontrando un soporte s\u00f3lido y que la tendencia alcista puede mantenerse, lo"
     },
     {
       "ticker": "V",
@@ -113,35 +74,55 @@
         "OPTIONS"
       ],
       "strategy_count": 2,
-      "convergence_score": 58,
-      "value_score": 40.795,
+      "convergence_score": 56,
+      "value_score": 31.975,
       "conviction_grade": "nan",
-      "analyst_upside_pct": 2.4,
-      "fcf_yield_pct": 2.71,
-      "current_price": 414.34,
+      "analyst_upside_pct": 4.0,
+      "fcf_yield_pct": 2.75,
+      "current_price": 407.92,
       "streak_days": 5,
       "earnings_warning": true,
-      "days_to_earnings": 4.0,
+      "days_to_earnings": 3.0,
       "analysis": null
     },
     {
-      "ticker": "BR",
-      "company_name": "Broadridge Financial Solutions, Inc.",
+      "ticker": "INTU",
+      "company_name": "Intuit Inc.",
       "sector": "Technology",
       "strategies": [
         "VALUE",
         "OPTIONS"
       ],
       "strategy_count": 2,
-      "convergence_score": 51,
-      "value_score": 58.47500000000001,
+      "convergence_score": 54,
+      "value_score": 70.59,
       "conviction_grade": "nan",
-      "analyst_upside_pct": 14.6,
-      "fcf_yield_pct": 5.87,
-      "current_price": 186.12,
+      "analyst_upside_pct": 18.5,
+      "fcf_yield_pct": 9.39,
+      "current_price": 343.39,
       "streak_days": 1,
       "earnings_warning": false,
-      "days_to_earnings": 11.0,
+      "days_to_earnings": 26.0,
+      "analysis": null
+    },
+    {
+      "ticker": "AON",
+      "company_name": "",
+      "sector": "",
+      "strategies": [
+        "INSIDERS",
+        "OPTIONS"
+      ],
+      "strategy_count": 2,
+      "convergence_score": 50,
+      "value_score": null,
+      "conviction_grade": "",
+      "analyst_upside_pct": null,
+      "fcf_yield_pct": null,
+      "current_price": null,
+      "streak_days": 1,
+      "earnings_warning": false,
+      "days_to_earnings": null,
       "analysis": null
     },
     {
@@ -165,63 +146,43 @@
       "analysis": null
     },
     {
-      "ticker": "INTU",
-      "company_name": "Intuit Inc.",
-      "sector": "Technology",
+      "ticker": "WCN",
+      "company_name": "Waste Connections, Inc.",
+      "sector": "Industrials",
       "strategies": [
         "VALUE",
         "OPTIONS"
       ],
       "strategy_count": 2,
-      "convergence_score": 49,
-      "value_score": 45.48,
+      "convergence_score": 46,
+      "value_score": 31.62,
       "conviction_grade": "nan",
-      "analyst_upside_pct": 14.7,
-      "fcf_yield_pct": 9.09,
-      "current_price": 354.9,
+      "analyst_upside_pct": 8.5,
+      "fcf_yield_pct": 2.86,
+      "current_price": 186.6,
       "streak_days": 1,
       "earnings_warning": false,
-      "days_to_earnings": 27.0,
+      "days_to_earnings": 109.0,
       "analysis": null
     },
     {
-      "ticker": "MCO",
-      "company_name": "Moody's Corporation",
-      "sector": "Financial Services",
+      "ticker": "PG",
+      "company_name": "The Procter & Gamble Company",
+      "sector": "Consumer Defensive",
       "strategies": [
         "VALUE",
         "OPTIONS"
       ],
       "strategy_count": 2,
-      "convergence_score": 49,
-      "value_score": 47.120000000000005,
+      "convergence_score": 46,
+      "value_score": 33.64,
       "conviction_grade": "nan",
-      "analyst_upside_pct": 12.4,
-      "fcf_yield_pct": 3.53,
-      "current_price": 491.05,
+      "analyst_upside_pct": 4.9,
+      "fcf_yield_pct": 4.15,
+      "current_price": 161.02,
       "streak_days": 1,
       "earnings_warning": false,
-      "days_to_earnings": 117.0,
-      "analysis": null
-    },
-    {
-      "ticker": "ZTS",
-      "company_name": "Zoetis Inc.",
-      "sector": "Healthcare",
-      "strategies": [
-        "VALUE",
-        "OPTIONS"
-      ],
-      "strategy_count": 2,
-      "convergence_score": 48,
-      "value_score": 41.34,
-      "conviction_grade": "nan",
-      "analyst_upside_pct": 13.4,
-      "fcf_yield_pct": 6.55,
-      "current_price": 82.0,
-      "streak_days": 1,
-      "earnings_warning": false,
-      "days_to_earnings": 13.0,
+      "days_to_earnings": 89.0,
       "analysis": null
     }
   ]

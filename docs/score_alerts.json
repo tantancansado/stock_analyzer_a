@@ -3,12 +3,22 @@
   "alerts": [
     {
       "type": "SCORE_UP",
-      "ticker": "RELX",
-      "company_name": "RELX PLC",
-      "sector": "Industrials",
-      "score_today": 41.4,
-      "score_prev": 32.3,
-      "delta": 9.1,
+      "ticker": "BR",
+      "company_name": "Broadridge Financial Solutions, Inc.",
+      "sector": "Technology",
+      "score_today": 75.2,
+      "score_prev": 56.1,
+      "delta": 19.1,
+      "grade": "⭐⭐⭐ EXCELLENT"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "DSGX",
+      "company_name": "The Descartes Systems Group Inc.",
+      "sector": "Technology",
+      "score_today": 44.7,
+      "score_prev": 32.2,
+      "delta": 12.5,
       "grade": "⚪ WEAK"
     },
     {
@@ -16,19 +26,59 @@
       "ticker": "VRSN",
       "company_name": "VeriSign, Inc.",
       "sector": "Technology",
-      "score_today": 46.1,
+      "score_today": 45.7,
       "score_prev": 40.2,
-      "delta": 5.9,
+      "delta": 5.5,
       "grade": "🔵 DECENT"
     },
     {
-      "type": "SCORE_UP",
-      "ticker": "DVA",
-      "company_name": "DaVita Inc.",
+      "type": "NEW_ENTRY",
+      "ticker": "INTU",
+      "company_name": "Intuit Inc.",
+      "sector": "Technology",
+      "score_today": 70.6,
+      "score_prev": null,
+      "delta": null,
+      "grade": "⭐⭐ STRONG"
+    },
+    {
+      "type": "NEW_ENTRY",
+      "ticker": "MCO",
+      "company_name": "Moody's Corporation",
+      "sector": "Financial Services",
+      "score_today": 60.2,
+      "score_prev": null,
+      "delta": null,
+      "grade": "⭐ GOOD"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "NYT",
+      "company_name": "The New York Times Company",
+      "sector": "Communication Services",
+      "score_today": 38.4,
+      "score_prev": 43.5,
+      "delta": -5.1,
+      "grade": "⚪ WEAK"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "THC",
+      "company_name": "Tenet Healthcare Corporation",
       "sector": "Healthcare",
-      "score_today": 39.5,
-      "score_prev": 34.2,
-      "delta": 5.3,
+      "score_today": 39.4,
+      "score_prev": 45.3,
+      "delta": -5.9,
+      "grade": "⚪ WEAK"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "ICE",
+      "company_name": "Intercontinental Exchange, Inc.",
+      "sector": "Financial Services",
+      "score_today": 30.3,
+      "score_prev": 37.5,
+      "delta": -7.1,
       "grade": "⚪ WEAK"
     },
     {
@@ -36,26 +86,36 @@
       "ticker": "V",
       "company_name": "Visa Inc.",
       "sector": "Financial Services",
-      "score_today": 40.8,
+      "score_today": 32.0,
       "score_prev": 52.5,
-      "delta": -11.7,
-      "grade": "🔵 DECENT"
+      "delta": -20.6,
+      "grade": "⚪ WEAK"
     },
     {
       "type": "SCORE_DOWN",
+      "ticker": "MSFT",
+      "company_name": "Microsoft Corporation",
+      "sector": "Technology",
+      "score_today": 49.0,
+      "score_prev": 73.9,
+      "delta": -24.8,
+      "grade": "⚪ WEAK"
+    },
+    {
+      "type": "EXITED",
       "ticker": "SYK",
       "company_name": "Stryker Corporation",
       "sector": "Healthcare",
-      "score_today": 30.6,
+      "score_today": null,
       "score_prev": 59.6,
-      "delta": -29.0,
-      "grade": "⚪ WEAK"
+      "delta": null,
+      "grade": "⭐ GOOD"
     }
   ],
   "counts": {
-    "new_entries": 0,
-    "exited": 0,
+    "new_entries": 2,
+    "exited": 1,
     "score_up": 3,
-    "score_down": 2
+    "score_down": 5
   }
 }

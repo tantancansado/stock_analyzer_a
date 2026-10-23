@@ -20,7 +20,7 @@
       "horizonte": "90d",
       "win_rate": 77.8,
       "avg_return": 17.34,
-      "avg_return_2": 72.72,
+      "avg_return_2": 69.36,
       "n": 36,
       "vs_baseline_wr": 11.2,
       "vs_baseline_ret": 10.22
@@ -30,7 +30,7 @@
       "horizonte": "90d",
       "win_rate": 64.0,
       "avg_return": 7.43,
-      "avg_return_2": 17.39,
+      "avg_return_2": 17.43,
       "n": 236,
       "vs_baseline_wr": -2.6,
       "vs_baseline_ret": 0.31
@@ -144,7 +144,7 @@
       "horizonte": "90d",
       "win_rate": 48.2,
       "avg_return": -0.44,
-      "avg_return_2": 15.21,
+      "avg_return_2": 15.42,
       "n": 85,
       "vs_baseline_wr": -18.3,
       "vs_baseline_ret": -7.56
@@ -154,7 +154,7 @@
       "horizonte": "90d",
       "win_rate": 43.2,
       "avg_return": 2.68,
-      "avg_return_2": 0.35,
+      "avg_return_2": 0.76,
       "n": 132,
       "vs_baseline_wr": -23.4,
       "vs_baseline_ret": -4.44
@@ -176,7 +176,7 @@
       "horizonte": "90d",
       "win_rate": 60.7,
       "avg_return": 6.92,
-      "avg_return_2": 30.98,
+      "avg_return_2": 30.77,
       "n": 178,
       "vs_baseline_wr": -5.9,
       "vs_baseline_ret": -0.2
@@ -186,7 +186,7 @@
       "horizonte": "90d",
       "win_rate": 48.2,
       "avg_return": 2.67,
-      "avg_return_2": -0.03,
+      "avg_return_2": 0.34,
       "n": 170,
       "vs_baseline_wr": -18.3,
       "vs_baseline_ret": -4.45
@@ -218,7 +218,7 @@
       "horizonte": "90d",
       "win_rate": 59.2,
       "avg_return": 7.23,
-      "avg_return_2": 21.78,
+      "avg_return_2": 21.72,
       "n": 314,
       "vs_baseline_wr": -7.3,
       "vs_baseline_ret": 0.11
@@ -267,12 +267,12 @@
       "horizonte": "90d",
       "win_rate": 90.6,
       "avg_return": 23.53,
-      "avg_return_2": 79.32,
+      "avg_return_2": 77.57,
       "n": 32,
       "vs_baseline_wr": 24.1,
       "vs_baseline_ret": 16.41
     }
   ],
   "hay_senal": true,
-  "narrative": "Sistema analiz\u00f3 786 se\u00f1ales. Win rate base 66.5%. Mejor tier: 50\u201360 con 71.8% WR."
+  "narrative": "Los mayores impulsores de victorias son los combos de alta calidad y flujo de caja libre: la combinaci\u00f3n \u201cScore\u202f\u2265\u202f70 + FCF\u202f\u2265\u202f5\u202f%\u201d alcanza un 90,6\u202f% de win\u2011rate, y los valores con FCF\u202f\u2265\u202f5\u202f% por s\u00ed solos ya superan el 60\u202f%. Adem\u00e1s, el sector Financial Services muestra un desempe\u00f1o sobresaliente (82,2\u202f% WR), por lo que concentrar la exposici\u00f3n en empresas de este sector con buen score y FCF s\u00f3lido maximiza la probabilidad de \u00e9xito. Por el contrario, se deben evitar se\u00f1ales con scores bajos (50\u201160) que, aunque mejoran el WR a 71,8\u202f%, siguen por debajo del potencial de los combos premium, y descartar activos con FCF negativo o insuficiente, ya que reducen dr\u00e1sticamente la tasa de aciertos. En resumen: priorizar combos Score\u202f\u2265\u202f70\u202f+\u202fFCF\u202f\u2265\u202f5\u202f% y"
 }

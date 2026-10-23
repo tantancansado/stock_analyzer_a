@@ -8,76 +8,75 @@
   "narrative": null,
   "signals": [
     {
-      "ticker": "AZN.L",
-      "company_name": "AstraZeneca PLC",
-      "region": "EU",
-      "sector": "Healthcare",
-      "value_score": 60.9,
-      "conviction_grade": "nan",
-      "current_price": 12980.0,
-      "analyst_upside_pct": 20.9,
-      "fcf_yield_pct": 2.89,
-      "risk_reward_ratio": 2.61,
-      "days_in_value": 9,
+      "ticker": "BR",
+      "company_name": "Broadridge Financial Solutions, Inc.",
+      "region": "US",
+      "sector": "Technology",
+      "value_score": 75.2,
+      "conviction_grade": "B",
+      "current_price": 183.28,
+      "analyst_upside_pct": 16.4,
+      "fcf_yield_pct": 5.96,
+      "risk_reward_ratio": 2.05,
+      "days_in_value": 1,
       "streak_days": 1,
-      "entry_score": 35,
+      "entry_score": 30,
       "signal": "MONITOR",
       "signals_fired": [
+        "Value score \u226570",
+        "FCF yield \u22655%",
         "Upside en banda dorada [10,30)",
-        "Insider buying",
-        "Analyst revision \u2191",
-        "En VALUE \u22653 d\u00edas"
+        "Analyst revision \u2191"
       ],
       "signals_pts": [
+        {
+          "name": "Value score \u226570",
+          "pts": 5
+        },
+        {
+          "name": "FCF yield \u22655%",
+          "pts": 10
+        },
         {
           "name": "Upside en banda dorada [10,30)",
           "pts": 10
         },
         {
-          "name": "Insider buying",
-          "pts": 25
-        },
-        {
           "name": "Analyst revision \u2191",
           "pts": 5
-        },
-        {
-          "name": "En VALUE \u22653 d\u00edas",
-          "pts": 10
         }
       ],
       "signals_missing": [
         "Value score <80",
-        "FCF yield <5%",
+        "Sin insider buying (espera)",
         "Sin se\u00f1al MR oversold",
         "Sin opciones alcistas",
         "Sector no l\u00edder",
         "R\u00e9gimen no alcista",
-        "\u26a0 Earnings en 7d \u2014 riesgo de entrada"
+        "Solo 1d en VALUE"
       ],
       "rsi": null,
-      "earnings_warning": true,
-      "days_to_earnings": 7
+      "earnings_warning": false,
+      "days_to_earnings": 10
     },
     {
-      "ticker": "EXPN.L",
-      "company_name": "Experian plc",
-      "region": "EU",
-      "sector": "Industrials",
-      "value_score": 62.5,
-      "conviction_grade": "B",
-      "current_price": 3084.0,
-      "analyst_upside_pct": 18.7,
-      "fcf_yield_pct": 4.18,
-      "risk_reward_ratio": 2.34,
-      "days_in_value": 5,
+      "ticker": "MCO",
+      "company_name": "Moody's Corporation",
+      "region": "US",
+      "sector": "Financial Services",
+      "value_score": 60.25,
+      "conviction_grade": "C",
+      "current_price": 483.45,
+      "analyst_upside_pct": 14.2,
+      "fcf_yield_pct": 3.6,
+      "risk_reward_ratio": 1.78,
+      "days_in_value": 1,
       "streak_days": 1,
-      "entry_score": 25,
+      "entry_score": 10,
       "signal": "WAIT",
       "signals_fired": [
         "Upside en banda dorada [10,30)",
-        "Analyst revision \u2191",
-        "En VALUE \u22653 d\u00edas"
+        "Analyst revision \u2191"
       ],
       "signals_pts": [
         {
@@ -87,10 +86,6 @@
         {
           "name": "Analyst revision \u2191",
           "pts": 5
-        },
-        {
-          "name": "En VALUE \u22653 d\u00edas",
-          "pts": 10
         }
       ],
       "signals_missing": [
@@ -100,11 +95,12 @@
         "Sin se\u00f1al MR oversold",
         "Sin opciones alcistas",
         "Sector no l\u00edder",
-        "R\u00e9gimen no alcista"
+        "R\u00e9gimen no alcista",
+        "Solo 1d en VALUE"
       ],
       "rsi": null,
       "earnings_warning": false,
-      "days_to_earnings": 26
+      "days_to_earnings": 116
     }
   ]
 }
