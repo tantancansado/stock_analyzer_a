@@ -249,6 +249,11 @@ def es_error_de_credito(exc: Exception) -> bool:
     return any(s in m for s in (
         'credit balance', 'insufficient', 'billing', 'quota',
         'payment', 'plans & billing', 'too low',
+        # Clave desactivada, revocada o inválida: Anthropic desactiva por su
+        # cuenta las claves que cree filtradas (oct-2026) y la API contesta
+        # 401 «authentication_error». Sin esto el fallo era mudo.
+        'authentication_error', 'invalid x-api-key', 'api key', 'disabled',
+        'revoked', 'permission_error',
     ))
 
 

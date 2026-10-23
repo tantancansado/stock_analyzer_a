@@ -240,7 +240,7 @@ def find_problems() -> tuple[list[dict], bool]:
                 "module": "claude_saldo",
                 "status": "sin_credito",
                 "critical": True,
-                "detail": (f"La API de Claude rechaza por saldo desde "
+                "detail": (f"La API de Claude rechaza la clave o el saldo desde "
                            f"{(cb['sin_credito_desde'] or '')[:10]} — el análisis de por qué "
                            f"cae cada valor sirve solo veredictos ya cacheados"),
             })

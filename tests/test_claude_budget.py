@@ -274,3 +274,9 @@ class TestNoSePuedePonerACero:
         monkeypatch.setattr(cb, 'ESTADO', estado)
         estado.write_text(json.dumps({'mes': cb._mes_actual(), 'gastado_usd': 3.5}))
         assert cb.gastado_este_mes() == pytest.approx(3.5)
+
+
+def test_una_clave_desactivada_cuenta_como_fallo_de_acceso():
+    from claude_budget import es_error_de_credito
+    assert es_error_de_credito(Exception("Error code: 401 - {'type': 'error', 'error': {'type': 'authentication_error', 'message': 'invalid x-api-key'}}"))
+    assert not es_error_de_credito(Exception("Error code: 529 - overloaded_error"))
