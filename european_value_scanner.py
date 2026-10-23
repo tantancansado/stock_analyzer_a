@@ -109,6 +109,42 @@ def detect_european_market_regime() -> dict:
         return {'regime': 'UNKNOWN', 'recommendation': 'CAUTION'}
 
 
+# Cierre de las bolsas europeas en UTC: 15:30 en horario de verano, 16:30 en
+# invierno. Se toma el más temprano: si se duda, se recalcula, que es lo seguro.
+CIERRE_EU_UTC = (15, 30)
+
+
+def _ultimo_cierre_eu(ahora):
+    """Último cierre de mercado europeo (UTC, sin tz) anterior a `ahora`."""
+    from datetime import timedelta as _td
+    c = ahora.replace(hour=CIERRE_EU_UTC[0], minute=CIERRE_EU_UTC[1], second=0, microsecond=0)
+    if ahora < c:
+        c -= _td(days=1)
+    while c.weekday() >= 5:
+        c -= _td(days=1)
+    return c
+
+
+def _scores_con_precio_vigente(path, ahora=None):
+    """¿Son los precios del CSV posteriores al último cierre europeo?
+
+    Los fundamentales cambian una vez por trimestre; el precio, cada sesión.
+    Reutilizar por antigüedad (<24 h) mezclaba fotos: el 23-oct-2026 un run de
+    tarde cogió los scores de las 05:45 (cierre del 22) y el paso de entrada y
+    salida el precio del 23. L'Oréal salía a 413 € con la acción a 436, y a ese
+    precio ya está por encima del objetivo de los analistas: no debía estar.
+    """
+    from datetime import datetime as _dt
+    horas = _antiguedad_horas(path)
+    if horas is None:
+        return False
+    from datetime import timezone as _tz
+    ahora = ahora or _dt.now(_tz.utc).replace(tzinfo=None)
+    from datetime import timedelta as _td
+    calculado = ahora - _td(hours=horas)
+    return calculado >= _ultimo_cierre_eu(ahora)
+
+
 def _antiguedad_horas(path):
     """Horas desde que se generó el CSV, según su columna `analyzed_at`.
 
@@ -496,7 +532,11 @@ def run_european_scanner(max_tickers: int = None, skip_scoring: bool = False,
             rows = sum(1 for _ in open(scores_path)) - 1  # excluir header
         except Exception:
             rows = 0
-        if file_age_hours is not None and file_age_hours < 24 and rows >= 50:
+        if file_age_hours is not None and file_age_hours < 24 and rows >= 50 \
+                and not _scores_con_precio_vigente(scores_path):
+            print(f"\nCSV de {file_age_hours:.1f}h pero anterior al último cierre europeo "
+                  f"— se recalcula para no publicar el precio de la sesión anterior")
+        elif file_age_hours is not None and file_age_hours < 24 and rows >= 50:
             auto_skip = True
             print(f"\nCSV reciente ({file_age_hours:.1f}h, {rows} filas) — reutilizando scores existentes")
         elif file_age_hours is None:
