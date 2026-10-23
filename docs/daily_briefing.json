@@ -1,145 +1,44 @@
 {
-  "fecha": "2026-10-22",
-  "texto": "<b>Hoy hay dos opciones para comprar, pero ninguna es limpia — entra con los ojos abiertos.</b>\n\n<b>AMZN</b> presenta resultados en 7 días, así que la entrada se juega buena parte de su suerte a esa reacción. Además el beneficio crece más rápido que el negocio real: no la compres pensando en \"calidad\", aunque el objetivo por PE siga diciendo que hay recorrido.\n\n<b>OXY</b> también publica pronto (18 días) y aquí el propio modelo por PE ya la ve cara, no barata — y el beneficio tampoco está respaldado por el negocio. Es la más dudosa de las dos.\n\nPara vigilar, sin entrar todavía:\n— <b>SYK</b>: cayó por el ciberataque de marzo, pero la empresa mantiene guidance y el negocio aguanta. Resultados en 7 días, puede ser el detonante del giro.\n— <b>BR</b>: castigo por recortes de precio objetivo de analistas pese a resultados sólidos — sentimiento, no deterioro. Resultados en 12 días.\n— GOOG y SAP siguen baratas pero aún sin motivo claro de caída ni señal de giro: toca esperar.\n\nHoy entra <b>BR</b> en la lista de convicción; salen <b>AMZN</b> e <b>INTU</b>.\n\nEl sistema acierta un 70% a 180 días con retorno medio del 8.8% sobre 30 casos, cifra ya consolidada. Aun así, tamaño de posición moderado: ni esto es un seguro.",
-  "hechos": {
-    "fecha": "2026-10-22",
-    "total_lista": 31,
-    "datos_incompletos": [],
-    "picks_nuevos": [
-      "BR"
-    ],
-    "picks_que_se_van": [
-      "AMZN",
-      "INTU"
-    ],
-    "comprables": [
-      {
-        "ticker": "AMZN",
-        "empresa": "Amazon.com, Inc.",
-        "score": 51.605,
-        "precio": 262.37,
-        "upside_analista": 26.4,
-        "upside_triangulado": 57.2,
-        "divergencia": "",
-        "fcf_yield": 1.05,
-        "del_maximo_pct": -8.6,
-        "rs_6m": -6.82,
-        "timing": "ENTRADA",
-        "por_que_cae": "",
-        "por_que_cae_detalle": "",
-        "dias_a_resultados": 7.0,
-        "objetivo_por_pe_pct": 87.9,
-        "objetivo_dcf_pct": null,
-        "beneficio_respaldado_por_negocio": false
-      },
-      {
-        "ticker": "OXY",
-        "empresa": "Occidental Petroleum Corporati",
-        "score": 37.52,
-        "precio": 62.7,
-        "upside_analista": 12.5,
-        "upside_triangulado": -6.3,
-        "divergencia": "MEDIA",
-        "fcf_yield": 7.26,
-        "del_maximo_pct": -7.0,
-        "rs_6m": -0.26,
-        "timing": "ENTRADA",
-        "por_que_cae": "",
-        "por_que_cae_detalle": "",
-        "dias_a_resultados": 18.0,
-        "objetivo_por_pe_pct": -25.1,
-        "objetivo_dcf_pct": null,
-        "beneficio_respaldado_por_negocio": false
-      }
-    ],
-    "vigilar": [
-      {
-        "ticker": "SYK",
-        "empresa": "Stryker Corporation",
-        "score": 59.605,
-        "precio": 297.6,
-        "upside_analista": 21.8,
-        "upside_triangulado": 21.8,
-        "divergencia": "",
-        "fcf_yield": 4.17,
-        "del_maximo_pct": -24.2,
-        "rs_6m": -18.87,
-        "timing": "VIGILAR",
-        "por_que_cae": "EVENTO",
-        "por_que_cae_detalle": "Caída provocada por ciberataque de hackers respaldados por Irán en marzo de 2026 que impactó operaciones y resultados Q1. La empresa mantiene guidance de 2026 sin recortes signific",
-        "dias_a_resultados": 7.0,
-        "objetivo_por_pe_pct": 26.2,
-        "objetivo_dcf_pct": 18.2,
-        "beneficio_respaldado_por_negocio": true
-      },
-      {
-        "ticker": "GOOG",
-        "empresa": "Alphabet Inc.",
-        "score": 53.33500000000001,
-        "precio": 330.95,
-        "upside_analista": 27.6,
-        "upside_triangulado": null,
-        "divergencia": "ALTA",
-        "fcf_yield": 2.33,
-        "del_maximo_pct": -18.2,
-        "rs_6m": -11.57,
-        "timing": "ESPERAR",
-        "por_que_cae": "SIN_DATOS",
-        "por_que_cae_detalle": "",
-        "dias_a_resultados": 6.0,
-        "objetivo_por_pe_pct": 43.3,
-        "objetivo_dcf_pct": -52.9,
-        "beneficio_respaldado_por_negocio": false
-      },
-      {
-        "ticker": "BR",
-        "empresa": "Broadridge Financial Solutions",
-        "score": 56.11999999999999,
-        "precio": 178.3,
-        "upside_analista": 19.7,
-        "upside_triangulado": 38.3,
-        "divergencia": "",
-        "fcf_yield": 6.13,
-        "del_maximo_pct": -24.5,
-        "rs_6m": 6.14,
-        "timing": "VIGILAR",
-        "por_que_cae": "SENTIMIENTO",
-        "por_que_cae_detalle": "Broadridge reportó resultados sólidos en Q4 FY2025 (ajustado EPS de $8.55 +11% YoY, ingresos +8%) con guidance optimista. La caída obedece a olas de cortes en precio target de anal",
-        "dias_a_resultados": 12.0,
-        "objetivo_por_pe_pct": 66.1,
-        "objetivo_dcf_pct": 38.3,
-        "beneficio_respaldado_por_negocio": true
-      },
-      {
-        "ticker": "SAP",
-        "empresa": "SAP SE",
-        "score": 51.42999999999999,
-        "precio": 232.73,
-        "upside_analista": 12.2,
-        "upside_triangulado": null,
-        "divergencia": "",
-        "fcf_yield": 3.65,
-        "del_maximo_pct": -17.3,
-        "rs_6m": 35.36,
-        "timing": "VIGILAR",
-        "por_que_cae": "SIN_DATOS",
-        "por_que_cae_detalle": "",
-        "dias_a_resultados": null,
-        "objetivo_por_pe_pct": 33.3,
-        "objetivo_dcf_pct": -1.3,
-        "beneficio_respaldado_por_negocio": true
-      }
-    ],
-    "tesis_rotas": [],
-    "rotas_son_tuyas": true,
-    "regimen_cambio": null,
-    "rendimiento_sistema": {
-      "horizonte": "180d",
-      "es_horizonte_definitivo": true,
-      "nota": null,
-      "acierto_pct": 70.0,
-      "retorno_medio": 8.8,
-      "n": 30
+  "date": "2026-10-23",
+  "timestamp": "2026-10-23T05:43:35.018088",
+  "narrative": "",
+  "macro_regime": "CALM",
+  "picks_count": 8,
+  "top_picks": [
+    {
+      "ticker": "VRSN",
+      "sector": "Technology",
+      "value_score": 46.07000000000001,
+      "analyst_upside_pct": 7.2,
+      "conviction_grade": null
+    },
+    {
+      "ticker": "THC",
+      "sector": "Healthcare",
+      "value_score": 43.035,
+      "analyst_upside_pct": 5.8,
+      "conviction_grade": null
+    },
+    {
+      "ticker": "V",
+      "sector": "Financial Services",
+      "value_score": 40.795,
+      "analyst_upside_pct": 2.4,
+      "conviction_grade": null
+    },
+    {
+      "ticker": "NYT",
+      "sector": "Communication Services",
+      "value_score": 39.24000000000001,
+      "analyst_upside_pct": 10.8,
+      "conviction_grade": null
+    },
+    {
+      "ticker": "BAC",
+      "sector": "Financial Services",
+      "value_score": 33.96,
+      "analyst_upside_pct": 23.6,
+      "conviction_grade": null
     }
-  }
+  ]
 }

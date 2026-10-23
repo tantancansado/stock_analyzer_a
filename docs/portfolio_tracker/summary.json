@@ -16,11 +16,11 @@
       "worst": -27.96
     },
     "180d": {
-      "count": 30,
-      "win_rate": 70.0,
-      "ci_low": 52.1,
-      "ci_high": 83.3,
-      "avg_return": 8.8,
+      "count": 31,
+      "win_rate": 71.0,
+      "ci_low": 53.4,
+      "ci_high": 83.9,
+      "avg_return": 8.68,
       "median_return": 11.41,
       "best": 36.5,
       "worst": -20.0
@@ -48,12 +48,12 @@
       "worst": -37.59
     },
     "180d": {
-      "count": 850,
-      "win_rate": 66.6,
-      "ci_low": 63.3,
-      "ci_high": 69.7,
-      "avg_return": 7.69,
-      "median_return": 9.65,
+      "count": 855,
+      "win_rate": 66.8,
+      "ci_low": 63.6,
+      "ci_high": 69.9,
+      "avg_return": 7.78,
+      "median_return": 9.78,
       "best": 89.88,
       "worst": -43.74
     },
@@ -105,16 +105,16 @@
       "basis": "clean_period"
     },
     "180d": {
-      "count": 20,
-      "win_rate": 70.0,
-      "ci_low": 48.1,
-      "ci_high": 85.5,
-      "avg_return": 13.17,
-      "median_return": 16.23,
+      "count": 21,
+      "win_rate": 71.4,
+      "ci_low": 50.0,
+      "ci_high": 86.2,
+      "avg_return": 12.78,
+      "median_return": 16.13,
       "best": 36.5,
       "worst": -20.0,
       "basis": "clean_period",
-      "nota": "muestra corta (20 se\u00f1ales): el porcentaje es orientativo, no un veredicto"
+      "nota": "muestra corta (21 se\u00f1ales): el porcentaje es orientativo, no un veredicto"
     },
     "365d": {
       "count": 0,
@@ -137,13 +137,13 @@
       "basis": "eu_full_hist"
     },
     "180d": {
-      "count": 714,
-      "win_rate": 64.7,
-      "ci_low": 61.1,
-      "ci_high": 68.1,
-      "avg_return": 5.85,
-      "median_return": 7.52,
-      "best": 39.91,
+      "count": 718,
+      "win_rate": 64.9,
+      "ci_low": 61.3,
+      "ci_high": 68.3,
+      "avg_return": 5.97,
+      "median_return": 7.72,
+      "best": 44.84,
       "worst": -34.76,
       "basis": "eu_full_hist"
     },
@@ -164,7 +164,7 @@
   },
   "bounce_strategies": {
     "BOUNCE_BROAD": {
-      "count": 42,
+      "count": 43,
       "7d": {
         "count": 39,
         "win_rate": 23.1,
@@ -178,14 +178,14 @@
       "nota": "horizonte real 1-5 d\u00edas: el 7d es la medida m\u00e1s cercana disponible, no el criterio del setup (target vs stop)"
     },
     "MEAN_REVERSION": {
-      "count": 92,
+      "count": 93,
       "7d": {
-        "count": 89,
-        "win_rate": 40.4,
-        "ci_low": 30.9,
-        "ci_high": 50.8,
-        "avg_return": -1.94,
-        "median_return": -0.73,
+        "count": 90,
+        "win_rate": 41.1,
+        "ci_low": 31.5,
+        "ci_high": 51.4,
+        "avg_return": -1.89,
+        "median_return": -0.66,
         "best": 8.8,
         "worst": -14.93
       },
@@ -238,8 +238,8 @@
         "ci_high": null
       }
     },
-    "edad_max_dias": 63,
-    "dias_hasta_primera_lectura": 27,
+    "edad_max_dias": 64,
+    "dias_hasta_primera_lectura": 26,
     "con_contrato": 141,
     "nota": "el contrato se sigue por su s\u00edmbolo OCC; son opciones poco l\u00edquidas, as\u00ed que un checkpoint sin cotizaci\u00f3n en 10 d\u00edas se queda vac\u00edo en vez de arrastrar un precio viejo"
   },
@@ -390,7 +390,7 @@
       "signal_price": 304.4,
       "sector": "Healthcare",
       "value_score": 57.435,
-      "days_active": 1,
+      "days_active": 2,
       "first_result_date": "2026-10-28"
     },
     {
@@ -401,7 +401,7 @@
       "signal_price": 292.25,
       "sector": "Financial Services",
       "value_score": 61.39,
-      "days_active": 8,
+      "days_active": 9,
       "first_result_date": "2026-10-21"
     },
     {
@@ -412,7 +412,7 @@
       "signal_price": 157.42,
       "sector": "Financial Services",
       "value_score": 60.095,
-      "days_active": 9,
+      "days_active": 10,
       "first_result_date": "2026-10-20"
     },
     {
@@ -423,7 +423,7 @@
       "signal_price": 92.37,
       "sector": "Financial Services",
       "value_score": 57.34,
-      "days_active": 13,
+      "days_active": 14,
       "first_result_date": "2026-10-16"
     },
     {
@@ -434,7 +434,7 @@
       "signal_price": 225.98,
       "sector": "Healthcare",
       "value_score": 64.27499999999999,
-      "days_active": 14,
+      "days_active": 15,
       "first_result_date": "2026-10-15"
     },
     {
@@ -445,7 +445,7 @@
       "signal_price": 86.08,
       "sector": "Consumer Defensive",
       "value_score": 59.55500000000001,
-      "days_active": 21,
+      "days_active": 22,
       "first_result_date": "2026-10-08"
     },
     {
@@ -456,7 +456,7 @@
       "signal_price": 473.85,
       "sector": "Financial Services",
       "value_score": 59.17999999999999,
-      "days_active": 28,
+      "days_active": 29,
       "first_result_date": "2026-10-01"
     }
   ],
@@ -470,11 +470,11 @@
       "avg_benchmark_return": null
     },
     "180d": {
-      "count": 30,
-      "avg_alpha": 1.67,
-      "avg_signal_return": 8.8,
-      "avg_benchmark_return": 7.13,
-      "positive_alpha_rate": 66.7,
+      "count": 31,
+      "avg_alpha": 1.5,
+      "avg_signal_return": 8.68,
+      "avg_benchmark_return": 7.18,
+      "positive_alpha_rate": 64.5,
       "best_alpha": 21.31,
       "worst_alpha": -35.2
     },
@@ -497,12 +497,12 @@
       "worst_alpha": -21.52
     },
     "14d": {
-      "count": 95,
-      "avg_alpha": -0.41,
-      "avg_signal_return": 0.38,
-      "avg_benchmark_return": 0.79,
-      "positive_alpha_rate": 46.3,
-      "best_alpha": 12.76,
+      "count": 96,
+      "avg_alpha": -0.27,
+      "avg_signal_return": 0.5,
+      "avg_benchmark_return": 0.77,
+      "positive_alpha_rate": 46.9,
+      "best_alpha": 13.27,
       "worst_alpha": -12.78
     },
     "7d": {
@@ -524,11 +524,11 @@
       "avg_benchmark_return": null
     },
     "180d": {
-      "count": 136,
-      "avg_alpha": 3.05,
-      "avg_signal_return": 17.35,
-      "avg_benchmark_return": 14.29,
-      "positive_alpha_rate": 64.0,
+      "count": 137,
+      "avg_alpha": 3.0,
+      "avg_signal_return": 17.26,
+      "avg_benchmark_return": 14.25,
+      "positive_alpha_rate": 63.5,
       "best_alpha": 75.56,
       "worst_alpha": -57.59
     },
@@ -551,12 +551,12 @@
       "worst_alpha": -21.52
     },
     "14d": {
-      "count": 83,
-      "avg_alpha": -0.5,
-      "avg_signal_return": 0.63,
-      "avg_benchmark_return": 1.13,
-      "positive_alpha_rate": 44.6,
-      "best_alpha": 12.76,
+      "count": 84,
+      "avg_alpha": -0.34,
+      "avg_signal_return": 0.76,
+      "avg_benchmark_return": 1.1,
+      "positive_alpha_rate": 45.2,
+      "best_alpha": 13.27,
       "worst_alpha": -12.78
     }
   },
@@ -569,12 +569,12 @@
       "avg_benchmark_return": null
     },
     "180d": {
-      "count": 714,
-      "avg_alpha": -3.49,
-      "avg_signal_return": 5.85,
-      "avg_benchmark_return": 9.34,
-      "positive_alpha_rate": 47.2,
-      "best_alpha": 39.86,
+      "count": 718,
+      "avg_alpha": -3.32,
+      "avg_signal_return": 5.97,
+      "avg_benchmark_return": 9.3,
+      "positive_alpha_rate": 47.5,
+      "best_alpha": 42.61,
       "worst_alpha": -47.3
     },
     "90d": {
@@ -605,5 +605,5 @@
       "worst_alpha": -4.98
     }
   },
-  "generated_at": "2026-10-22T05:23:56.579493"
+  "generated_at": "2026-10-23T05:44:55.051518"
 }
