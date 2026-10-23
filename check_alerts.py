@@ -11,6 +11,7 @@ Required GitHub secrets:
 """
 
 import os
+from supabase_auth import bearer
 import requests
 import yfinance as yf
 from datetime import datetime, date
@@ -27,7 +28,7 @@ FROM_EMAIL        = 'Stock Analyzer <onboarding@resend.dev>'  # Change to verifi
 def _sb_headers():
     return {
         'apikey': SUPABASE_KEY,
-        'Authorization': f'Bearer {SUPABASE_KEY}',
+        **bearer(SUPABASE_KEY),
         'Content-Type': 'application/json',
     }
 

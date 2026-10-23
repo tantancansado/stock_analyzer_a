@@ -11,6 +11,7 @@ Tipos de alerta:
 Output: docs/portfolio_alerts.json
 """
 import json
+from supabase_auth import bearer
 import os
 from datetime import date
 from pathlib import Path
@@ -37,7 +38,7 @@ def _fetch_positions() -> list[dict]:
     try:
         r = requests.get(url, headers={
             'apikey': SERVICE_KEY,
-            'Authorization': f'Bearer {SERVICE_KEY}',
+            **bearer(SERVICE_KEY),
         }, timeout=10)
         if r.status_code != 200:
             print(f'  Supabase error {r.status_code}: {r.text[:100]}')

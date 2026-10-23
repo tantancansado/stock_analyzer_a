@@ -21,6 +21,7 @@ Variables de entorno requeridas:
   SUPABASE_SERVICE_ROLE_KEY
 """
 from __future__ import annotations
+from supabase_auth import bearer
 
 import json
 import os
@@ -47,7 +48,7 @@ def _is_configured() -> bool:
 def _headers() -> dict[str, str]:
     return {
         'apikey': SERVICE_KEY,
-        'Authorization': f'Bearer {SERVICE_KEY}',
+        **bearer(SERVICE_KEY),
         'Content-Type': 'application/json',
         # Prefer return=representation devuelve la fila tras upsert
         'Prefer': 'return=representation,resolution=merge-duplicates',
@@ -66,7 +67,7 @@ def list_user_ids() -> list[str]:
     url = f"{SUPABASE_URL}/rest/v1/personal_portfolio_positions?select=user_id"
     req = urllib.request.Request(url, headers={
         'apikey': SERVICE_KEY,
-        'Authorization': f'Bearer {SERVICE_KEY}',
+        **bearer(SERVICE_KEY),
     })
     try:
         with urllib.request.urlopen(req, timeout=15) as resp:
@@ -94,7 +95,7 @@ def list_user_positions(user_id: str) -> list[dict]:
     )
     req = urllib.request.Request(url, headers={
         'apikey': SERVICE_KEY,
-        'Authorization': f'Bearer {SERVICE_KEY}',
+        **bearer(SERVICE_KEY),
     })
     try:
         with urllib.request.urlopen(req, timeout=15) as resp:
@@ -170,7 +171,7 @@ def read_artifact(user_id: str, kind: str) -> Optional[dict]:
     )
     req = urllib.request.Request(url, headers={
         'apikey': SERVICE_KEY,
-        'Authorization': f'Bearer {SERVICE_KEY}',
+        **bearer(SERVICE_KEY),
     })
     try:
         with urllib.request.urlopen(req, timeout=15) as resp:

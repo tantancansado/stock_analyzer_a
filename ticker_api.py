@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
+from supabase_auth import bearer
 
 """
 TICKER ANALYZER API - Flask backend para el dashboard
@@ -2790,7 +2791,7 @@ def _fetch_portfolio_tickers(user_id: str) -> list[str]:
     try:
         r = _rq.get(url, headers={
             'apikey': service_key,
-            'Authorization': f'Bearer {service_key}',
+            **bearer(service_key),
             'Content-Type': 'application/json',
         }, timeout=8)
         if r.status_code != 200:

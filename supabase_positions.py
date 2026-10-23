@@ -19,6 +19,7 @@ Diseño (app de un solo usuario, confirmado por el propio usuario):
      los callers distinguen "no disponible" (None) de "cartera vacía" ([]).
 """
 from __future__ import annotations
+from supabase_auth import bearer
 
 import json
 import os
@@ -40,7 +41,7 @@ def fetch_position_rows(select: str, extra_filter: str = '') -> list[dict] | Non
     def _get(url: str) -> list[dict] | None:
         req = urllib.request.Request(url, headers={
             'apikey': key,
-            'Authorization': f'Bearer {key}',
+            **bearer(key),
             'Content-Type': 'application/json',
         })
         try:
