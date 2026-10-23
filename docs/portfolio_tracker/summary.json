@@ -1,8 +1,8 @@
 {
-  "total_signals": 100,
+  "total_signals": 101,
   "unique_tickers": 58,
-  "date_range": "2026-04-08 to 2026-10-21",
-  "active_signals": 7,
+  "date_range": "2026-04-08 to 2026-10-23",
+  "active_signals": 8,
   "completed_signals": 93,
   "overall": {
     "90d": {
@@ -92,7 +92,7 @@
     }
   },
   "value_strategy": {
-    "count": 88,
+    "count": 89,
     "90d": {
       "count": 46,
       "win_rate": 73.9,
@@ -166,13 +166,13 @@
     "BOUNCE_BROAD": {
       "count": 43,
       "7d": {
-        "count": 39,
-        "win_rate": 23.1,
-        "ci_low": 12.6,
-        "ci_high": 38.3,
-        "avg_return": -1.53,
-        "median_return": -2.18,
-        "best": 4.94,
+        "count": 40,
+        "win_rate": 25.0,
+        "ci_low": 14.2,
+        "ci_high": 40.2,
+        "avg_return": -1.37,
+        "median_return": -1.88,
+        "best": 5.1,
         "worst": -6.1
       },
       "nota": "horizonte real 1-5 d\u00edas: el 7d es la medida m\u00e1s cercana disponible, no el criterio del setup (target vs stop)"
@@ -383,6 +383,17 @@
   "performers_horizon": "180d",
   "recent_signals": [
     {
+      "ticker": "MCO",
+      "company_name": "Moody's Corporation",
+      "strategy": "VALUE",
+      "signal_date": "2026-10-23",
+      "signal_price": 483.45,
+      "sector": "Financial Services",
+      "value_score": 60.25,
+      "days_active": 0,
+      "first_result_date": "2026-10-30"
+    },
+    {
       "ticker": "SYK",
       "company_name": "Stryker Corporation",
       "strategy": "VALUE",
@@ -497,12 +508,12 @@
       "worst_alpha": -21.52
     },
     "14d": {
-      "count": 96,
-      "avg_alpha": -0.27,
-      "avg_signal_return": 0.5,
-      "avg_benchmark_return": 0.77,
-      "positive_alpha_rate": 46.9,
-      "best_alpha": 13.27,
+      "count": 97,
+      "avg_alpha": -0.13,
+      "avg_signal_return": 0.61,
+      "avg_benchmark_return": 0.74,
+      "positive_alpha_rate": 47.4,
+      "best_alpha": 13.42,
       "worst_alpha": -12.78
     },
     "7d": {
@@ -551,12 +562,12 @@
       "worst_alpha": -21.52
     },
     "14d": {
-      "count": 84,
-      "avg_alpha": -0.34,
-      "avg_signal_return": 0.76,
-      "avg_benchmark_return": 1.1,
-      "positive_alpha_rate": 45.2,
-      "best_alpha": 13.27,
+      "count": 85,
+      "avg_alpha": -0.18,
+      "avg_signal_return": 0.88,
+      "avg_benchmark_return": 1.06,
+      "positive_alpha_rate": 45.9,
+      "best_alpha": 13.42,
       "worst_alpha": -12.78
     }
   },
@@ -605,5 +616,5 @@
       "worst_alpha": -4.98
     }
   },
-  "generated_at": "2026-10-23T05:44:55.051518"
+  "generated_at": "2026-10-23T21:51:51.160628"
 }

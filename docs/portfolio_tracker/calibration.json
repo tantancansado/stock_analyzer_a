@@ -28,21 +28,21 @@
       "range": "60-65"
     },
     {
-      "count": 59,
-      "win_rate": 66.1,
-      "ci_low": 53.4,
-      "ci_high": 76.9,
-      "avg_return": 17.08,
-      "median_return": 6.24,
+      "count": 63,
+      "win_rate": 68.3,
+      "ci_low": 56.0,
+      "ci_high": 78.4,
+      "avg_return": 17.24,
+      "median_return": 8.58,
       "range": "65-70"
     },
     {
-      "count": 26,
-      "win_rate": 92.3,
-      "ci_low": 75.9,
-      "ci_high": 97.9,
-      "avg_return": 83.65,
-      "median_return": 33.64,
+      "count": 28,
+      "win_rate": 92.9,
+      "ci_low": 77.4,
+      "ci_high": 98.0,
+      "avg_return": 78.9,
+      "median_return": 30.47,
       "range": "70-75"
     },
     {
@@ -57,10 +57,10 @@
   ],
   "regime_analysis": [
     {
-      "count": 581,
-      "win_rate": 78.3,
-      "ci_low": 74.8,
-      "ci_high": 81.5,
+      "count": 587,
+      "win_rate": 78.5,
+      "ci_low": 75.0,
+      "ci_high": 81.7,
       "avg_return": 18.44,
       "median_return": 15.85,
       "regime": "CONFIRMED_UPTREND"
@@ -95,12 +95,12 @@
       "sector": "Healthcare"
     },
     {
-      "count": 72,
-      "win_rate": 80.6,
-      "ci_low": 70.0,
-      "ci_high": 88.0,
-      "avg_return": 15.21,
-      "median_return": 21.07,
+      "count": 75,
+      "win_rate": 81.3,
+      "ci_low": 71.1,
+      "ci_high": 88.5,
+      "avg_return": 15.42,
+      "median_return": 20.97,
       "sector": "Technology"
     },
     {
@@ -122,6 +122,15 @@
       "sector": "Energy"
     },
     {
+      "count": 123,
+      "win_rate": 60.2,
+      "ci_low": 51.3,
+      "ci_high": 68.4,
+      "avg_return": 0.76,
+      "median_return": 2.57,
+      "sector": "Industrials"
+    },
+    {
       "count": 35,
       "win_rate": 60.0,
       "ci_low": 43.6,
@@ -129,15 +138,6 @@
       "avg_return": -1.21,
       "median_return": 5.39,
       "sector": "Real Estate"
-    },
-    {
-      "count": 120,
-      "win_rate": 59.2,
-      "ci_low": 50.2,
-      "ci_high": 67.5,
-      "avg_return": 0.35,
-      "median_return": 2.33,
-      "sector": "Industrials"
     },
     {
       "count": 10,
@@ -187,21 +187,21 @@
       "range": "0-3%"
     },
     {
-      "count": 139,
-      "win_rate": 55.4,
-      "ci_low": 47.1,
-      "ci_high": 63.4,
-      "avg_return": 3.39,
-      "median_return": 3.1,
+      "count": 144,
+      "win_rate": 56.9,
+      "ci_low": 48.8,
+      "ci_high": 64.7,
+      "avg_return": 3.93,
+      "median_return": 3.98,
       "range": "3-6%"
     },
     {
-      "count": 66,
-      "win_rate": 90.9,
-      "ci_low": 81.6,
+      "count": 67,
+      "win_rate": 91.0,
+      "ci_low": 81.8,
       "ci_high": 95.8,
-      "avg_return": 55.26,
-      "median_return": 16.43,
+      "avg_return": 54.71,
+      "median_return": 16.87,
       "range": "6-12%"
     },
     {
@@ -214,10 +214,10 @@
       "range": "12%+"
     }
   ],
-  "total_completed": 740,
+  "total_completed": 746,
   "poblacion": "VALUE US, todo el historico (incluye el periodo anterior al filtrado correcto)",
   "muestra_desde": "2026-02-26",
-  "muestra_hasta": "2026-04-24",
+  "muestra_hasta": "2026-04-26",
   "horizon": "180d",
-  "generated_at": "2026-10-23T05:44:55.063109"
+  "generated_at": "2026-10-23T21:51:51.172598"
 }
