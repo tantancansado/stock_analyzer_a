@@ -1,20 +1,20 @@
 {
-  "generated_at": "2026-10-22T05:37:51Z",
+  "generated_at": "2026-10-23T05:55:13Z",
   "horizon_days": 14,
-  "total": 6,
+  "total": 7,
   "theses": {
     "IVR": {
       "ticker": "IVR",
       "company_name": "Invesco Mortgage Capital Inc.",
       "sector": "Real Estate",
       "earnings_date": "2026-10-29",
-      "days_to_earnings": 7,
-      "current_price": 5.42,
+      "days_to_earnings": 6,
+      "current_price": 5.52,
       "fifty_two_week_high": 9.5,
       "fifty_two_week_low": 5.22,
       "avg_price": 7.91,
       "shares": 120.0,
-      "unrealized_pct": -31.48,
+      "unrealized_pct": -30.21,
       "earnings_history": [
         {
           "period": "2026-06-30",
@@ -54,30 +54,98 @@
       },
       "verdict": "REDUCE",
       "sentiment_tone": "NEUTRAL",
-      "implied_move_pct": 1.76,
+      "implied_move_pct": 1.73,
       "expected_eps": 0.45564,
       "expected_revenue_millions": 59.2,
       "beat_rate_last_4q": 0.5,
       "key_risks": [
-        "Persistente presi\u00f3n de tasas de inter\u00e9s que afecta los m\u00e1rgenes de los REIT hipotecarios",
-        "Posibles deterioros en la calidad de los activos de cr\u00e9dito inmobiliario",
-        "Volatilidad del mercado de bonos y spreads de cr\u00e9dito"
+        "Alza de tasas hipotecarias",
+        "Reducci\u00f3n de demanda de refinanciamiento",
+        "Volatilidad en el mercado inmobiliario"
       ],
       "key_catalysts": [
-        "Mejora del guidance de ingresos y flujo de efectivo operativo",
-        "Reducci\u00f3n del costo de financiamiento mediante refinanciamiento de deuda",
-        "Incremento de la cartera de pr\u00e9stamos con mejor calidad crediticia"
+        "Posible mejora en m\u00e1rgenes de inter\u00e9s",
+        "Aumento de la demanda de hipotecas de alto rendimiento",
+        "Efectos de la pol\u00edtica monetaria de la Fed"
       ],
-      "thesis_summary": "IVR cotiza cerca de su m\u00ednimo anual y muestra una p\u00e9rdida no realizada del 31\u202f%. El consenso de EPS y revenue es moderado y el movimiento impl\u00edcito de opciones es bajo (1.76\u202f%). El historial de surprises es mixto, con leves misses recientes. Dada la exposici\u00f3n a tasas y la incertidumbre de spreads, se recomienda recortar la posici\u00f3n antes del earnings para limitar el riesgo, manteniendo una exposici\u00f3n residual para aprovechar una posible recuperaci\u00f3n de precios tras un guidance positivo. Vigilar de cerca el guidance de ingresos y la evoluci\u00f3n de los m\u00e1rgenes de inter\u00e9s.",
-      "confidence": 70
+      "thesis_summary": "Invesco Mortgage Capital se encuentra en una fase de recuperaci\u00f3n tras una ca\u00edda de precio significativa. La pr\u00f3xima publicaci\u00f3n de resultados presenta una expectativa de EPS ligeramente por debajo de la media del sector y una revenue estable. Se debe vigilar la gu\u00eda de ingresos y los m\u00e1rgenes de inter\u00e9s, ya que cualquier desviaci\u00f3n positiva puede revertir la tendencia bajista. Dada la volatilidad del sector inmobiliario y la sensibilidad a las tasas de inter\u00e9s, se recomienda reducir la posici\u00f3n antes de earnings para limitar la exposici\u00f3n a riesgos de mercado.",
+      "confidence": 60
+    },
+    "CHTR": {
+      "ticker": "CHTR",
+      "company_name": "Charter Communications, Inc.",
+      "sector": "Communication Services",
+      "earnings_date": "2026-11-06",
+      "days_to_earnings": 14,
+      "current_price": 111.77,
+      "fifty_two_week_high": 254.11,
+      "fifty_two_week_low": 101.63,
+      "avg_price": 151.96,
+      "shares": 5.0,
+      "unrealized_pct": -26.45,
+      "earnings_history": [
+        {
+          "period": "2026-06-30",
+          "eps_estimate": 10.06264,
+          "eps_actual": 10.66,
+          "surprise_pct": 5.94,
+          "beat": true
+        },
+        {
+          "period": "2026-03-31",
+          "eps_estimate": 10.08413,
+          "eps_actual": 9.17,
+          "surprise_pct": -9.07,
+          "beat": false
+        },
+        {
+          "period": "2025-12-31",
+          "eps_estimate": 9.93393,
+          "eps_actual": 10.34,
+          "surprise_pct": 4.09,
+          "beat": true
+        },
+        {
+          "period": "2025-09-30",
+          "eps_estimate": 9.29485,
+          "eps_actual": 8.34,
+          "surprise_pct": -10.27,
+          "beat": false
+        }
+      ],
+      "earnings_reaction": {
+        "n": 12,
+        "subio": 6,
+        "mediana_abs_pct": 10.5,
+        "peor_pct": -25.5,
+        "mejor_pct": 16.6
+      },
+      "verdict": "REDUCE",
+      "sentiment_tone": "NEUTRAL",
+      "implied_move_pct": 0.04,
+      "expected_eps": 8.9358,
+      "expected_revenue_millions": 14944.0,
+      "beat_rate_last_4q": 0.5,
+      "key_risks": [
+        "Reducci\u00f3n de ingresos por streaming",
+        "Competencia de servicios de banda ancha",
+        "Dependencia de clientes corporativos"
+      ],
+      "key_catalysts": [
+        "Revisi\u00f3n de precios",
+        "Expansi\u00f3n de servicios de fibra",
+        "Mejora de m\u00e1rgenes operativos"
+      ],
+      "thesis_summary": "Charter Communications enfrenta un entorno competitivo con presi\u00f3n sobre ingresos de streaming y banda ancha. La gu\u00eda de ingresos y m\u00e1rgenes ser\u00e1 crucial; una mejora en la rentabilidad operativa podr\u00eda impulsar la acci\u00f3n. Se recomienda recortar la posici\u00f3n antes de earnings para limitar la exposici\u00f3n a un posible beat negativo, manteniendo la posibilidad de reingresar post\u2011earnings si la gesti\u00f3n demuestra control de costos y crecimiento de ingresos. Vigilar la gu\u00eda de ingresos, el margen bruto y la respuesta del mercado a la pol\u00edtica de precios.",
+      "confidence": 65
     },
     "PSIX": {
       "ticker": "PSIX",
       "company_name": "Power Solutions International, Inc.",
       "sector": "Industrials",
       "earnings_date": "2026-11-05",
-      "days_to_earnings": 14,
-      "current_price": 51.85,
+      "days_to_earnings": 13,
+      "current_price": 47.17,
       "fifty_two_week_high": 106.5,
       "fifty_two_week_low": 25.28,
       "avg_price": 42.5,
@@ -137,15 +205,17 @@
         "Crecimiento en contratos de soluciones de energ\u00eda renovable"
       ],
       "thesis_summary": "La posici\u00f3n en PSIX ha generado un +22% desde la entrada y el precio actual est\u00e1 por debajo del m\u00e1ximo de 52 semanas, ofreciendo margen de seguridad. Con un consenso de EPS de $0.93 y un movimiento impl\u00edcito muy bajo (0.44%), el riesgo de sorpresa negativa es limitado. Se recomienda mantener la posici\u00f3n a trav\u00e9s del earnings, vigilando la gu\u00eda de ingresos y los m\u00e1rgenes operativos, as\u00ed como cualquier se\u00f1al de contracci\u00f3n en la demanda industrial. Si la compa\u00f1\u00eda supera las expectativas, el upside podr\u00eda ser significativo; de lo contrario, el impacto esperado es moderado.",
-      "confidence": 72
+      "confidence": 72,
+      "_stale_thesis": true,
+      "_stale_reason": "Groq rate-limit hit; tesis del run anterior conservada"
     },
     "BR": {
       "ticker": "BR",
       "company_name": "Broadridge Financial Solutions, Inc.",
       "sector": "Technology",
       "earnings_date": "2026-11-03",
-      "days_to_earnings": 12,
-      "current_price": 178.3,
+      "days_to_earnings": 11,
+      "current_price": 186.12,
       "fifty_two_week_high": 236.02,
       "fifty_two_week_low": 133.83,
       "avg_price": 162.0,
@@ -205,15 +275,17 @@
         "Mejora de m\u00e1rgenes operativos mediante eficiencias de escala"
       ],
       "thesis_summary": "Broadridge muestra un historial s\u00f3lido de beats de EPS, con sorpresas positivas en los \u00faltimos cuatro trimestres. El precio actual ya refleja gran parte del potencial alcista, pero la empresa sigue benefici\u00e1ndose de tendencias de digitalizaci\u00f3n en servicios financieros. Se recomienda mantener la posici\u00f3n a trav\u00e9s del earnings, vigilando la gu\u00eda de ingresos y los m\u00e1rgenes operativos. Un deterioro en la demanda de servicios de procesamiento o una gu\u00eda d\u00e9bil podr\u00edan justificar una reducci\u00f3n posterior.",
-      "confidence": 80
+      "confidence": 80,
+      "_stale_thesis": true,
+      "_stale_reason": "Groq rate-limit hit; tesis del run anterior conservada"
     },
     "ES0105630315": {
       "ticker": "ES0105630315",
       "company_name": "CIE Automotive, S.A.",
       "sector": "Consumer Cyclical",
       "earnings_date": "2026-10-28",
-      "days_to_earnings": 6,
-      "current_price": 26.1,
+      "days_to_earnings": 5,
+      "current_price": 25.75,
       "fifty_two_week_high": 33.0,
       "fifty_two_week_low": 24.8,
       "avg_price": 25.07,
@@ -238,15 +310,17 @@
         "Posible upside en ingresos si la gu\u00eda de ventas supera el consenso"
       ],
       "thesis_summary": "CIE Automotive cotiza cerca de su m\u00ednimo anual y muestra un margen de beneficio razonable. El consenso de EPS y ventas es s\u00f3lido, pero la falta de se\u00f1ales claras y la exposici\u00f3n c\u00edclica del sector hacen prudente mantener la posici\u00f3n cruzando earnings. Vigilar la gu\u00eda de ventas y los m\u00e1rgenes operativos en el reporte; cualquier desviaci\u00f3n significativa podr\u00eda requerir ajuste. Si el resultado supera expectativas, se podr\u00eda considerar un ligero aumento posterior al anuncio.",
-      "confidence": 70
+      "confidence": 70,
+      "_stale_thesis": true,
+      "_stale_reason": "Groq rate-limit hit; tesis del run anterior conservada"
     },
     "DE0007100000": {
       "ticker": "DE0007100000",
       "company_name": "Mercedes-Benz Group AG",
       "sector": "Consumer Cyclical",
       "earnings_date": "2026-10-28",
-      "days_to_earnings": 6,
-      "current_price": 41.04,
+      "days_to_earnings": 5,
+      "current_price": 41.52,
       "fifty_two_week_high": 62.34,
       "fifty_two_week_low": 38.89,
       "avg_price": 40.45,
@@ -300,15 +374,17 @@
         "Gu\u00eda de ingresos y EPS superior al consenso"
       ],
       "thesis_summary": "Mercedes-Benz Group se mantiene cerca de su m\u00ednimo anual, ofreciendo un margen de seguridad razonable frente al precio actual. El consenso de EPS de 1.12 EUR y un revenue de 31.0\u202fbn EUR son alcanzables si la compa\u00f1\u00eda mantiene su impulso en veh\u00edculos el\u00e9ctricos y logra mejorar los m\u00e1rgenes operativos. Vigilaremos la gu\u00eda de earnings, la evoluci\u00f3n de los m\u00e1rgenes en la unidad de EV y cualquier se\u00f1al de presi\u00f3n regulatoria que pueda afectar la rentabilidad. Dado el historial de beats mixto pero con sorpresas positivas recientes, recomendamos mantener la posici\u00f3n a trav\u00e9s del reporte y evaluar una posible ampliaci\u00f3n posterior si la gu\u00eda supera expectativas.",
-      "confidence": 70
+      "confidence": 70,
+      "_stale_thesis": true,
+      "_stale_reason": "Groq rate-limit hit; tesis del run anterior conservada"
     },
     "DE0005190003": {
       "ticker": "DE0005190003",
       "company_name": "Bayerische Motoren Werke Aktiengesellschaft",
       "sector": "Consumer Cyclical",
       "earnings_date": "2026-11-04",
-      "days_to_earnings": 13,
-      "current_price": 57.0,
+      "days_to_earnings": 12,
+      "current_price": 57.48,
       "fifty_two_week_high": 97.92,
       "fifty_two_week_low": 51.98,
       "avg_price": 54.43,
@@ -362,7 +438,9 @@
         "Gu\u00eda de ingresos y EPS superior al consenso, reforzando la narrativa de crecimiento."
       ],
       "thesis_summary": "La posici\u00f3n muestra un rendimiento positivo del 4.7% y cotiza cerca de su m\u00ednimo anual, lo que brinda margen de seguridad. Con un historial reciente de beats y sin noticias adversas, el riesgo principal es la demanda de motocicletas premium y los costos de insumos. Se espera que los nuevos modelos el\u00e9ctricos y la expansi\u00f3n geogr\u00e1fica impulsen ingresos, mientras que una gu\u00eda superior al consenso podr\u00eda validar la posici\u00f3n. Vigilar la gu\u00eda de EPS, la evoluci\u00f3n de m\u00e1rgenes y cualquier se\u00f1al de desaceleraci\u00f3n en la demanda antes del cierre de resultados.",
-      "confidence": 78
+      "confidence": 78,
+      "_stale_thesis": true,
+      "_stale_reason": "Groq rate-limit hit; tesis del run anterior conservada"
     }
   }
 }

@@ -1,0 +1,69 @@
+{
+  "generated_at": "2026-10-23",
+  "total": 5,
+  "dropped_count": 2,
+  "narrative": null,
+  "displacements": [
+    {
+      "type": "COMPETITOR_RISE",
+      "dropped_ticker": "LR.PA",
+      "sector": "Industrials",
+      "prev_score": 55.9,
+      "replacements": [
+        "EXPN.L",
+        "WKL.AS",
+        "ASSA-B.ST"
+      ],
+      "top_replacement": "EXPN.L",
+      "top_replacement_score": 62.5,
+      "detail": "LR.PA sali\u00f3 de VALUE (56pts); peers en Industrials: EXPN.L, WKL.AS"
+    },
+    {
+      "type": "COMPETITOR_RISE",
+      "dropped_ticker": "SYK",
+      "sector": "Healthcare",
+      "prev_score": 59.605,
+      "replacements": [
+        "AZN.L"
+      ],
+      "top_replacement": "AZN.L",
+      "top_replacement_score": 60.9,
+      "detail": "SYK sali\u00f3 de VALUE (60pts); peers en Healthcare: AZN.L"
+    },
+    {
+      "type": "SECTOR_TAILWIND",
+      "sector": "Technology",
+      "rotation_score": 100.0,
+      "beneficiaries": [
+        "MSFT",
+        "SAP.DE",
+        "BR"
+      ],
+      "top_ticker": "MSFT",
+      "top_score": 72.09,
+      "detail": "Sector Technology l\u00edder (RS 100) \u2014 MSFT, SAP.DE, BR son los picks VALUE"
+    },
+    {
+      "type": "SECTOR_TAILWIND",
+      "sector": "Communication Services",
+      "rotation_score": 100.0,
+      "beneficiaries": [
+        "G24.DE"
+      ],
+      "top_ticker": "G24.DE",
+      "top_score": 55.5,
+      "detail": "Sector Communication Services l\u00edder (RS 100) \u2014 G24.DE son los picks VALUE"
+    },
+    {
+      "type": "SECTOR_TAILWIND",
+      "sector": "Healthcare",
+      "rotation_score": 100.0,
+      "beneficiaries": [
+        "AZN.L"
+      ],
+      "top_ticker": "AZN.L",
+      "top_score": 60.9,
+      "detail": "Sector Healthcare l\u00edder (RS 100) \u2014 AZN.L son los picks VALUE"
+    }
+  ]
+}

@@ -1,0 +1,611 @@
+{
+  "timestamp": "2026-10-23T06:03:51.917767",
+  "date": "2026-10-23",
+  "total_scanned": 124,
+  "traps_high": 8,
+  "traps_medium": 10,
+  "safe_count": 106,
+  "traps": [
+    {
+      "ticker": "HRI",
+      "company": "Herc Holdings Inc.",
+      "sector": "Industrials",
+      "current_price": 133.55,
+      "dividend_yield": 2.1,
+      "payout_ratio": 183.0,
+      "fcf_yield": 0.22,
+      "fundamental_score": 66.2,
+      "trap_score": 79,
+      "reasons": [
+        "Payout 183% \u2014 dividendo > beneficios (insostenible)",
+        "FCF yield (0.2%) < dividend yield (2.1%) \u2014 dividendo sin respaldo de caja",
+        "Deuda/equity 5.1x \u2014 apalancamiento alto, presi\u00f3n en dividendo",
+        "Interest coverage 1.2x \u2014 earnings apenas cubren deuda"
+      ],
+      "risk_level": "HIGH"
+    },
+    {
+      "ticker": "EQIX",
+      "company": "Equinix, Inc.",
+      "sector": "Real Estate",
+      "current_price": 952.62,
+      "dividend_yield": 2.17,
+      "payout_ratio": 126.8,
+      "fcf_yield": -0.39,
+      "fundamental_score": 67.9,
+      "trap_score": 78,
+      "reasons": [
+        "Payout 127% \u2014 dividendo > beneficios (insostenible)",
+        "FCF yield negativo (-0.4%) \u2014 empresa consume caja",
+        "Deuda/equity 1.6x \u2014 moderado",
+        "Earnings decelerando \u2014 tendencia negativa"
+      ],
+      "risk_level": "HIGH"
+    },
+    {
+      "ticker": "LPX",
+      "company": "Louisiana-Pacific Corporation",
+      "sector": "Industrials",
+      "current_price": 74.85,
+      "dividend_yield": 1.6,
+      "payout_ratio": 150.6,
+      "fcf_yield": -0.63,
+      "fundamental_score": 49.7,
+      "trap_score": 70,
+      "reasons": [
+        "Payout 151% \u2014 dividendo > beneficios (insostenible)",
+        "FCF yield negativo (-0.6%) \u2014 empresa consume caja",
+        "Earnings decelerando \u2014 tendencia negativa"
+      ],
+      "risk_level": "HIGH"
+    },
+    {
+      "ticker": "GPK",
+      "company": "Graphic Packaging Holding Company",
+      "sector": "Consumer Cyclical",
+      "current_price": 9.04,
+      "dividend_yield": 4.87,
+      "payout_ratio": 66.7,
+      "fcf_yield": -4.82,
+      "fundamental_score": 41.0,
+      "trap_score": 66,
+      "reasons": [
+        "Payout 67% \u2014 moderadamente elevado",
+        "FCF yield negativo (-4.8%) \u2014 empresa consume caja",
+        "Deuda/equity 1.8x \u2014 moderado",
+        "Interest coverage 2.4x \u2014 ajustado",
+        "Margen operativo 4.5% \u2014 muy comprimido"
+      ],
+      "risk_level": "HIGH"
+    },
+    {
+      "ticker": "KHC",
+      "company": "The Kraft Heinz Company",
+      "sector": "Consumer Defensive",
+      "current_price": 25.09,
+      "dividend_yield": 6.38,
+      "payout_ratio": 73.1,
+      "fcf_yield": 12.84,
+      "fundamental_score": 53.1,
+      "trap_score": 63,
+      "reasons": [
+        "Yield 6.4% \u2014 elevado, vigilar sostenibilidad",
+        "Payout 73% \u2014 moderadamente elevado",
+        "ROE negativo (-8.8%) \u2014 empresa pierde dinero mientras paga dividendo",
+        "Margen neto negativo (-13.6%)",
+        "Earnings decelerando \u2014 tendencia negativa"
+      ],
+      "risk_level": "HIGH"
+    },
+    {
+      "ticker": "BN",
+      "company": "Brookfield Corporation",
+      "sector": "Financial Services",
+      "current_price": 38.28,
+      "dividend_yield": 0.73,
+      "payout_ratio": 48.2,
+      "fcf_yield": -6.33,
+      "fundamental_score": 62.0,
+      "trap_score": 58,
+      "reasons": [
+        "FCF yield negativo (-6.3%) \u2014 empresa consume caja",
+        "Deuda/equity 1.6x \u2014 moderado",
+        "Interest coverage 1.0x \u2014 earnings apenas cubren deuda"
+      ],
+      "risk_level": "HIGH"
+    },
+    {
+      "ticker": "TLC.AX",
+      "company": "The Lottery Corporation Limited",
+      "sector": "Consumer Cyclical",
+      "current_price": 5.4,
+      "dividend_yield": 3.18,
+      "payout_ratio": 128.9,
+      "fcf_yield": 2.64,
+      "fundamental_score": 46.2,
+      "trap_score": 57,
+      "reasons": [
+        "Payout 129% \u2014 dividendo > beneficios (insostenible)",
+        "FCF yield (2.6%) < dividend yield (3.2%) \u2014 dividendo sin respaldo de caja",
+        "Deuda/equity 9.5x \u2014 apalancamiento alto, presi\u00f3n en dividendo",
+        "Earnings decelerando \u2014 tendencia negativa"
+      ],
+      "risk_level": "HIGH"
+    },
+    {
+      "ticker": "ORCL",
+      "company": "Oracle Corporation",
+      "sector": "Technology",
+      "current_price": 125.54,
+      "dividend_yield": 1.59,
+      "payout_ratio": 31.4,
+      "fcf_yield": -2.29,
+      "fundamental_score": 69.6,
+      "trap_score": 50,
+      "reasons": [
+        "FCF yield negativo (-2.3%) \u2014 empresa consume caja",
+        "Deuda/equity 2.5x \u2014 apalancamiento alto, presi\u00f3n en dividendo",
+        "Earnings decelerando \u2014 tendencia negativa"
+      ],
+      "risk_level": "HIGH"
+    },
+    {
+      "ticker": "CLPBY",
+      "company": "Coloplast A/S",
+      "sector": "Healthcare",
+      "current_price": 7.25,
+      "dividend_yield": 4.97,
+      "payout_ratio": 192.9,
+      "fcf_yield": 5.81,
+      "fundamental_score": 67.6,
+      "trap_score": 43,
+      "reasons": [
+        "Payout 193% \u2014 dividendo > beneficios (insostenible)",
+        "Deuda/equity 1.8x \u2014 moderado"
+      ],
+      "risk_level": "MEDIUM"
+    },
+    {
+      "ticker": "PSA",
+      "company": "Public Storage",
+      "sector": "Real Estate",
+      "current_price": 309.13,
+      "dividend_yield": 3.88,
+      "payout_ratio": 114.6,
+      "fcf_yield": 4.99,
+      "fundamental_score": 65.8,
+      "trap_score": 40,
+      "reasons": [
+        "Payout 115% \u2014 dividendo > beneficios (insostenible)",
+        "Earnings decelerando \u2014 tendencia negativa"
+      ],
+      "risk_level": "MEDIUM"
+    },
+    {
+      "ticker": "CL",
+      "company": "Colgate-Palmolive Company",
+      "sector": "Consumer Defensive",
+      "current_price": 97.39,
+      "dividend_yield": 2.18,
+      "payout_ratio": 82.3,
+      "fcf_yield": 5.01,
+      "fundamental_score": 51.7,
+      "trap_score": 40,
+      "reasons": [
+        "Payout 82% \u2014 poco margen de seguridad",
+        "Deuda/equity 13.9x \u2014 apalancamiento alto, presi\u00f3n en dividendo",
+        "Earnings decelerando \u2014 tendencia negativa"
+      ],
+      "risk_level": "MEDIUM"
+    },
+    {
+      "ticker": "KR",
+      "company": "The Kroger Co.",
+      "sector": "Consumer Defensive",
+      "current_price": 67.87,
+      "dividend_yield": 2.3,
+      "payout_ratio": 77.8,
+      "fcf_yield": 7.12,
+      "fundamental_score": 50.5,
+      "trap_score": 38,
+      "reasons": [
+        "Payout 78% \u2014 moderadamente elevado",
+        "Deuda/equity 4.1x \u2014 apalancamiento alto, presi\u00f3n en dividendo",
+        "Margen operativo 3.0% \u2014 muy comprimido",
+        "Earnings decelerando \u2014 tendencia negativa"
+      ],
+      "risk_level": "MEDIUM"
+    },
+    {
+      "ticker": "ATO",
+      "company": "Atmos Energy Corporation",
+      "sector": "Utilities",
+      "current_price": 173.91,
+      "dividend_yield": 2.3,
+      "payout_ratio": 46.1,
+      "fcf_yield": -5.25,
+      "fundamental_score": 63.0,
+      "trap_score": 35,
+      "reasons": [
+        "FCF yield negativo (-5.2%) \u2014 empresa consume caja",
+        "Earnings decelerando \u2014 tendencia negativa"
+      ],
+      "risk_level": "MEDIUM"
+    },
+    {
+      "ticker": "SGSOY",
+      "company": "SGS SA",
+      "sector": "Industrials",
+      "current_price": 12.27,
+      "dividend_yield": 3.32,
+      "payout_ratio": 95.6,
+      "fcf_yield": 5.16,
+      "fundamental_score": 62.8,
+      "trap_score": 35,
+      "reasons": [
+        "Payout 96% \u2014 poco margen de seguridad",
+        "Deuda/equity 4.6x \u2014 apalancamiento alto, presi\u00f3n en dividendo"
+      ],
+      "risk_level": "MEDIUM"
+    },
+    {
+      "ticker": "AWK",
+      "company": "American Water Works Company, Inc.",
+      "sector": "Utilities",
+      "current_price": 143.23,
+      "dividend_yield": 2.5,
+      "payout_ratio": 58.5,
+      "fcf_yield": -3.4,
+      "fundamental_score": 69.3,
+      "trap_score": 30,
+      "reasons": [
+        "FCF yield negativo (-3.4%) \u2014 empresa consume caja"
+      ],
+      "risk_level": "MEDIUM"
+    },
+    {
+      "ticker": "PAYX",
+      "company": "Paychex, Inc.",
+      "sector": "Technology",
+      "current_price": 118.81,
+      "dividend_yield": 4.01,
+      "payout_ratio": 90.1,
+      "fcf_yield": 4.77,
+      "fundamental_score": 74.2,
+      "trap_score": 25,
+      "reasons": [
+        "Payout 90% \u2014 poco margen de seguridad",
+        "Earnings decelerando \u2014 tendencia negativa"
+      ],
+      "risk_level": "MEDIUM"
+    },
+    {
+      "ticker": "CME",
+      "company": "CME Group Inc.",
+      "sector": "Financial Services",
+      "current_price": 305.98,
+      "dividend_yield": 1.7,
+      "payout_ratio": 95.4,
+      "fcf_yield": 3.81,
+      "fundamental_score": 65.5,
+      "trap_score": 25,
+      "reasons": [
+        "Payout 95% \u2014 poco margen de seguridad",
+        "Earnings decelerando \u2014 tendencia negativa"
+      ],
+      "risk_level": "MEDIUM"
+    },
+    {
+      "ticker": "KVUE",
+      "company": "Kenvue Inc.",
+      "sector": "Consumer Defensive",
+      "current_price": 19.88,
+      "dividend_yield": 4.23,
+      "payout_ratio": 96.5,
+      "fcf_yield": 4.84,
+      "fundamental_score": 63.6,
+      "trap_score": 25,
+      "reasons": [
+        "Payout 96% \u2014 poco margen de seguridad",
+        "Earnings decelerando \u2014 tendencia negativa"
+      ],
+      "risk_level": "MEDIUM"
+    }
+  ],
+  "safe_dividends": [
+    {
+      "ticker": "VCISY",
+      "company": "Vinci SA",
+      "sector": "Industrials",
+      "current_price": 29.86,
+      "dividend_yield": 4.89,
+      "payout_ratio": 55.6,
+      "fcf_yield": 14.08,
+      "fundamental_score": 49.8,
+      "trap_score": 5,
+      "reasons": [
+        "Earnings decelerando \u2014 tendencia negativa"
+      ],
+      "risk_level": "LOW"
+    },
+    {
+      "ticker": "PEP",
+      "company": "PepsiCo, Inc.",
+      "sector": "Consumer Defensive",
+      "current_price": 138.83,
+      "dividend_yield": 4.26,
+      "payout_ratio": 73.0,
+      "fcf_yield": 5.37,
+      "fundamental_score": 61.0,
+      "trap_score": 23,
+      "reasons": [
+        "Payout 73% \u2014 moderadamente elevado",
+        "Deuda/equity 2.3x \u2014 apalancamiento alto, presi\u00f3n en dividendo"
+      ],
+      "risk_level": "LOW"
+    },
+    {
+      "ticker": "MKC",
+      "company": "McCormick & Company, Incorporated",
+      "sector": "Consumer Defensive",
+      "current_price": 48.71,
+      "dividend_yield": 3.94,
+      "payout_ratio": 34.2,
+      "fcf_yield": 7.01,
+      "fundamental_score": 53.7,
+      "trap_score": 5,
+      "reasons": [
+        "Earnings decelerando \u2014 tendencia negativa"
+      ],
+      "risk_level": "LOW"
+    },
+    {
+      "ticker": "QSR",
+      "company": "Restaurant Brands International Inc.",
+      "sector": "Consumer Cyclical",
+      "current_price": 76.41,
+      "dividend_yield": 3.4,
+      "payout_ratio": 63.8,
+      "fcf_yield": 3.36,
+      "fundamental_score": 65.0,
+      "trap_score": 15,
+      "reasons": [
+        "FCF yield (3.4%) < dividend yield (3.4%) \u2014 dividendo sin respaldo de caja",
+        "Deuda/equity 2.9x \u2014 apalancamiento alto, presi\u00f3n en dividendo"
+      ],
+      "risk_level": "LOW"
+    },
+    {
+      "ticker": "ALLY",
+      "company": "Ally Financial Inc.",
+      "sector": "Financial Services",
+      "current_price": 39.31,
+      "dividend_yield": 3.19,
+      "payout_ratio": 28.2,
+      "fcf_yield": 2.43,
+      "fundamental_score": 70.2,
+      "trap_score": 3,
+      "reasons": [
+        "FCF yield (2.4%) < dividend yield (3.2%) \u2014 dividendo sin respaldo de caja"
+      ],
+      "risk_level": "LOW"
+    },
+    {
+      "ticker": "CVX",
+      "company": "Chevron Corporation",
+      "sector": "Energy",
+      "current_price": 226.68,
+      "dividend_yield": 3.14,
+      "payout_ratio": 67.2,
+      "fcf_yield": 6.29,
+      "fundamental_score": 87.5,
+      "trap_score": 8,
+      "reasons": [
+        "Payout 67% \u2014 moderadamente elevado"
+      ],
+      "risk_level": "LOW"
+    },
+    {
+      "ticker": "ATLKY",
+      "company": "Atlas Copco AB (publ)",
+      "sector": "Industrials",
+      "current_price": 18.04,
+      "dividend_yield": 3.1,
+      "payout_ratio": 76.1,
+      "fcf_yield": 3.02,
+      "fundamental_score": 59.2,
+      "trap_score": 8,
+      "reasons": [
+        "Payout 76% \u2014 moderadamente elevado",
+        "FCF yield (3.0%) < dividend yield (3.1%) \u2014 dividendo sin respaldo de caja"
+      ],
+      "risk_level": "LOW"
+    },
+    {
+      "ticker": "WTKWY",
+      "company": "Wolters Kluwer N.V.",
+      "sector": "Industrials",
+      "current_price": 97.47,
+      "dividend_yield": 3.07,
+      "payout_ratio": 43.3,
+      "fcf_yield": 7.17,
+      "fundamental_score": 68.0,
+      "trap_score": 15,
+      "reasons": [
+        "Deuda/equity 5.9x \u2014 apalancamiento alto, presi\u00f3n en dividendo"
+      ],
+      "risk_level": "LOW"
+    },
+    {
+      "ticker": "MCD",
+      "company": "McDonald's Corporation",
+      "sector": "Consumer Cyclical",
+      "current_price": 252.63,
+      "dividend_yield": 3.06,
+      "payout_ratio": 59.7,
+      "fcf_yield": 4.46,
+      "fundamental_score": 61.5,
+      "trap_score": 0,
+      "reasons": [],
+      "risk_level": "LOW"
+    },
+    {
+      "ticker": "POOL",
+      "company": "Pool Corporation",
+      "sector": "Industrials",
+      "current_price": 197.21,
+      "dividend_yield": 3.02,
+      "payout_ratio": 46.4,
+      "fcf_yield": 4.33,
+      "fundamental_score": 59.3,
+      "trap_score": 0,
+      "reasons": [],
+      "risk_level": "LOW"
+    },
+    {
+      "ticker": "STZ",
+      "company": "Constellation Brands, Inc.",
+      "sector": "Consumer Defensive",
+      "current_price": 138.98,
+      "dividend_yield": 2.96,
+      "payout_ratio": 36.7,
+      "fcf_yield": 7.58,
+      "fundamental_score": 64.3,
+      "trap_score": 0,
+      "reasons": [],
+      "risk_level": "LOW"
+    },
+    {
+      "ticker": "FHN",
+      "company": "First Horizon Corporation",
+      "sector": "Financial Services",
+      "current_price": 23.54,
+      "dividend_yield": 2.89,
+      "payout_ratio": 30.8,
+      "fcf_yield": 5.34,
+      "fundamental_score": 64.2,
+      "trap_score": 10,
+      "reasons": [
+        "Margen operativo -20.6% \u2014 muy comprimido"
+      ],
+      "risk_level": "LOW"
+    },
+    {
+      "ticker": "HD",
+      "company": "The Home Depot, Inc.",
+      "sector": "Consumer Cyclical",
+      "current_price": 327.73,
+      "dividend_yield": 2.84,
+      "payout_ratio": 64.8,
+      "fcf_yield": 4.62,
+      "fundamental_score": 67.3,
+      "trap_score": 15,
+      "reasons": [
+        "Deuda/equity 3.8x \u2014 apalancamiento alto, presi\u00f3n en dividendo"
+      ],
+      "risk_level": "LOW"
+    },
+    {
+      "ticker": "PG",
+      "company": "The Procter & Gamble Company",
+      "sector": "Consumer Defensive",
+      "current_price": 165.59,
+      "dividend_yield": 2.78,
+      "payout_ratio": 64.3,
+      "fcf_yield": 3.94,
+      "fundamental_score": 58.6,
+      "trap_score": 5,
+      "reasons": [
+        "Earnings decelerando \u2014 tendencia negativa"
+      ],
+      "risk_level": "LOW"
+    },
+    {
+      "ticker": "LMT",
+      "company": "Lockheed Martin Corporation",
+      "sector": "Industrials",
+      "current_price": 589.91,
+      "dividend_yield": 2.61,
+      "payout_ratio": 50.3,
+      "fcf_yield": 6.43,
+      "fundamental_score": 72.0,
+      "trap_score": 15,
+      "reasons": [
+        "Deuda/equity 2.3x \u2014 apalancamiento alto, presi\u00f3n en dividendo"
+      ],
+      "risk_level": "LOW"
+    },
+    {
+      "ticker": "ZTS",
+      "company": "Zoetis Inc.",
+      "sector": "Healthcare",
+      "current_price": 82.0,
+      "dividend_yield": 2.59,
+      "payout_ratio": 33.9,
+      "fcf_yield": 6.55,
+      "fundamental_score": 53.6,
+      "trap_score": 15,
+      "reasons": [
+        "Deuda/equity 2.9x \u2014 apalancamiento alto, presi\u00f3n en dividendo"
+      ],
+      "risk_level": "LOW"
+    },
+    {
+      "ticker": "BAC",
+      "company": "Bank of America Corporation",
+      "sector": "Financial Services",
+      "current_price": 51.08,
+      "dividend_yield": 2.51,
+      "payout_ratio": 25.9,
+      "fcf_yield": 3.53,
+      "fundamental_score": 62.6,
+      "trap_score": 0,
+      "reasons": [],
+      "risk_level": "LOW"
+    },
+    {
+      "ticker": "DPZ",
+      "company": "Domino's Pizza, Inc.",
+      "sector": "Consumer Cyclical",
+      "current_price": 317.7,
+      "dividend_yield": 2.51,
+      "payout_ratio": 42.5,
+      "fcf_yield": 6.12,
+      "fundamental_score": 57.3,
+      "trap_score": 0,
+      "reasons": [],
+      "risk_level": "LOW"
+    },
+    {
+      "ticker": "ITW",
+      "company": "Illinois Tool Works Inc.",
+      "sector": "Industrials",
+      "current_price": 279.24,
+      "dividend_yield": 2.46,
+      "payout_ratio": 58.4,
+      "fcf_yield": 3.66,
+      "fundamental_score": 65.5,
+      "trap_score": 15,
+      "reasons": [
+        "Deuda/equity 3.4x \u2014 apalancamiento alto, presi\u00f3n en dividendo"
+      ],
+      "risk_level": "LOW"
+    },
+    {
+      "ticker": "ABT",
+      "company": "Abbott Laboratories",
+      "sector": "Healthcare",
+      "current_price": 102.51,
+      "dividend_yield": 2.46,
+      "payout_ratio": 78.7,
+      "fcf_yield": 4.14,
+      "fundamental_score": 51.0,
+      "trap_score": 13,
+      "reasons": [
+        "Payout 79% \u2014 moderadamente elevado",
+        "Earnings decelerando \u2014 tendencia negativa"
+      ],
+      "risk_level": "LOW"
+    }
+  ]
+}

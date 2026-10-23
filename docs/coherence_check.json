@@ -1,23 +1,22 @@
 {
   "total_problemas": 0,
   "desfases_conocidos": [
-    "⏳ ⚠️  value_opportunities.csv: upside analista = (objetivo − precio) / precio — 1/41 filas, peor desvío 3% (MANH)",
-    "⏳ ⚠️  value_opportunities.csv: upside DCF = (objetivo − precio) / precio — 3/35 filas, peor desvío 4% (ADSK, VLTO, DOL.TO)",
-    "⏳ ⚠️  value_opportunities.csv: upside P/E = (objetivo − precio) / precio — 1/31 filas, peor desvío 2% (MA)",
-    "⏳ ⚠️  value_opportunities.csv: distancia al máximo 52s — 3/41 filas, peor desvío 4% (MA, CVX, MANH)",
-    "⏳ ⚠️  value_opportunities.csv: dividendo yield = dividendo / precio — 2/33 filas, peor desvío 9% (ROL, MSCI)",
-    "⏳ ⚠️  value_opportunities_filtered.csv: upside DCF = (objetivo − precio) / precio — 2/27 filas, peor desvío 4% (ADSK, VLTO)",
-    "⏳ ⚠️  value_opportunities_filtered.csv: distancia al máximo 52s — 1/31 filas, peor desvío 4% (CVX)",
-    "⏳ ⚠️  value_opportunities_filtered.csv: dividendo yield = dividendo / precio — 2/26 filas, peor desvío 9% (ROL, MSCI)",
-    "⏳ ⚠️  european_value_opportunities.csv: upside analista = (objetivo − precio) / precio — 1/33 filas, peor desvío 3% (SGSN.SW)",
-    "⏳ ⚠️  european_value_opportunities.csv: upside P/E = (objetivo − precio) / precio — 1/24 filas, peor desvío 5% (LIFCO-B.ST)",
-    "⏳ ⚠️  european_value_opportunities.csv: distancia al máximo 52s — 3/33 filas, peor desvío 5% (LONN.SW, SGSN.SW, INDT.ST)",
-    "⏳ ⚠️  european_value_opportunities.csv: dividendo yield = dividendo / precio — 1/33 filas, peor desvío 13% (EL.PA)",
-    "⏳ ⚠️  european_value_opportunities_filtered.csv: upside P/E = (objetivo − precio) / precio — 1/14 filas, peor desvío 5% (LIFCO-B.ST)",
-    "⏳ ⚠️  momentum_opportunities.csv: distancia al máximo 52s — 2/4 filas, peor desvío 4% (VEEV, CVX)",
+    "⏳ ⚠️  value_opportunities.csv: upside DCF = (objetivo − precio) / precio — 1/27 filas, peor desvío 4% (FICO)",
+    "⏳ ⚠️  value_opportunities.csv: distancia al máximo 52s — 2/35 filas, peor desvío 4% (V, BRK-B)",
+    "⏳ ⚠️  value_opportunities_filtered.csv: distancia al máximo 52s — 1/9 filas, peor desvío 4% (V)",
+    "⏳ ⚠️  european_value_opportunities.csv: upside analista = (objetivo − precio) / precio — 1/34 filas, peor desvío 4% (HEXA-B.ST)",
+    "⏳ ⚠️  european_value_opportunities.csv: upside DCF = (objetivo − precio) / precio — 1/27 filas, peor desvío 3% (SAF.PA)",
+    "⏳ ⚠️  european_value_opportunities.csv: upside P/E = (objetivo − precio) / precio — 1/23 filas, peor desvío 2% (STMN.SW)",
+    "⏳ ⚠️  european_value_opportunities.csv: distancia al máximo 52s — 1/34 filas, peor desvío 4% (LONN.SW)",
+    "⏳ ⚠️  european_value_opportunities.csv: dividendo yield = dividendo / precio — 1/34 filas, peor desvío 6% (SAP.DE)",
+    "⏳ ⚠️  european_value_opportunities_filtered.csv: upside DCF = (objetivo − precio) / precio — 1/13 filas, peor desvío 3% (SAF.PA)",
+    "⏳ ⚠️  european_value_opportunities_filtered.csv: upside P/E = (objetivo − precio) / precio — 1/12 filas, peor desvío 2% (STMN.SW)",
+    "⏳ ⚠️  european_value_opportunities_filtered.csv: dividendo yield = dividendo / precio — 1/18 filas, peor desvío 6% (SAP.DE)",
+    "⏳ ⚠️  momentum_opportunities.csv: upside analista = (objetivo − precio) / precio — 1/3 filas, peor desvío 2% (CVX)",
+    "⏳ ⚠️  momentum_opportunities.csv: distancia al máximo 52s — 2/3 filas, peor desvío 4% (CVX, VEEV)",
     "⏳ ⚠️  commodity_opportunities.csv: distancia al máximo = (precio − máx) / máx — 1/19 filas, peor desvío 2% (PDBC)"
   ],
   "detalle": {},
-  "tickers_value": 41,
-  "tickers_verdicts": 56
+  "tickers_value": 35,
+  "tickers_verdicts": 30
 }

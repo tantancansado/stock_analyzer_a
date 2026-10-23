@@ -1,0 +1,233 @@
+{
+  "generated_at": "2026-10-23",
+  "total": 19,
+  "high_count": 2,
+  "narrative": null,
+  "exits": [
+    {
+      "ticker": "META",
+      "severity": "MEDIUM",
+      "entry_score": 63.72,
+      "current_score": 31.14,
+      "signal_date": "2026-09-18",
+      "reasons": [
+        "Score cay\u00f3 33pts (64 \u2192 31)",
+        "IA: falso positivo con 85% confianza \u2014 La ca\u00edda en la puntuaci\u00f3n del sistema probablemente refleja una correcci\u00f3n de precio tras una fuerte subida, reduciendo el margen de seguridad, pero no indica una deterioro fundamental real del negocio de Meta."
+      ],
+      "fundamental_score": 66.6,
+      "ai_validation": {
+        "verdict": "FALSE_POSITIVE",
+        "confidence": 85,
+        "summary": "La ca\u00edda en la puntuaci\u00f3n del sistema probablemente refleja una correcci\u00f3n de precio tras una fuerte subida, reduciendo el margen de seguridad, pero no indica una deterioro fundamental real del negocio de Meta.",
+        "key_finding": "Meta ha mantenido un crecimiento s\u00f3lido en ingresos por publicidad y una ejecuci\u00f3n operativa eficiente, sin se\u00f1ales de quiebre estructural en su modelo de negocio."
+      }
+    },
+    {
+      "ticker": "SYK",
+      "severity": "MEDIUM",
+      "entry_score": 57.435,
+      "current_score": 30.645000000000003,
+      "signal_date": "2026-10-21",
+      "reasons": [
+        "Score cay\u00f3 27pts (57 \u2192 31)",
+        "Earnings en 6d \u2014 alta incertidumbre, considera reducir",
+        "IA: falso positivo con 85% confianza \u2014 La ca\u00edda en la puntuaci\u00f3n del sistema se debe principalmente a la proximidad de los resultados (incertidumbre temporal) y no a una deterioraci\u00f3n fundamental, ya que Stryker mantiene una s\u00f3lida posici\u00f3n en el mercado de dispositivos m\u00e9dicos y su score fundamental en la base de datos sigue siendo alto (70.7/100)."
+      ],
+      "fundamental_score": 70.7,
+      "ai_validation": {
+        "verdict": "FALSE_POSITIVE",
+        "confidence": 85,
+        "summary": "La ca\u00edda en la puntuaci\u00f3n del sistema se debe principalmente a la proximidad de los resultados (incertidumbre temporal) y no a una deterioraci\u00f3n fundamental, ya que Stryker mantiene una s\u00f3lida posici\u00f3n en el mercado de dispositivos m\u00e9dicos y su score fundamental en la base de datos sigue siendo alto (70.7/100).",
+        "key_finding": "El score fundamental de 70.7/100 indica que la salud financiera y operativa de la empresa sigue siendo robusta a pesar de la se\u00f1al t\u00e9cnica de salida."
+      }
+    },
+    {
+      "ticker": "RMD",
+      "severity": "MEDIUM",
+      "entry_score": 64.27499999999999,
+      "current_score": null,
+      "signal_date": "2026-10-08",
+      "reasons": [
+        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
+      ],
+      "fundamental_score": 70.3
+    },
+    {
+      "ticker": "CBOE",
+      "severity": "MEDIUM",
+      "entry_score": 61.39,
+      "current_score": null,
+      "signal_date": "2026-10-14",
+      "reasons": [
+        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
+      ],
+      "fundamental_score": 85.3
+    },
+    {
+      "ticker": "ICE",
+      "severity": "MEDIUM",
+      "entry_score": 60.095,
+      "current_score": null,
+      "signal_date": "2026-10-13",
+      "reasons": [
+        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
+      ],
+      "fundamental_score": 69.1
+    },
+    {
+      "ticker": "NDSN",
+      "severity": "MEDIUM",
+      "entry_score": 59.72,
+      "current_score": null,
+      "signal_date": "2026-09-02",
+      "reasons": [
+        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
+      ],
+      "fundamental_score": 74.4
+    },
+    {
+      "ticker": "CLPBY",
+      "severity": "MEDIUM",
+      "entry_score": 59.59,
+      "current_score": null,
+      "signal_date": "2026-08-26",
+      "reasons": [
+        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
+      ],
+      "fundamental_score": 67.6
+    },
+    {
+      "ticker": "KO",
+      "severity": "MEDIUM",
+      "entry_score": 59.55500000000001,
+      "current_score": null,
+      "signal_date": "2026-10-01",
+      "reasons": [
+        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
+      ],
+      "fundamental_score": 77.9
+    },
+    {
+      "ticker": "QSR",
+      "severity": "MEDIUM",
+      "entry_score": 59.09,
+      "current_score": null,
+      "signal_date": "2026-09-10",
+      "reasons": [
+        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
+      ],
+      "fundamental_score": 65.0
+    },
+    {
+      "ticker": "SPGI",
+      "severity": "MEDIUM",
+      "entry_score": 58.14,
+      "current_score": null,
+      "signal_date": "2026-09-01",
+      "reasons": [
+        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
+      ],
+      "fundamental_score": 65.8
+    },
+    {
+      "ticker": "UNP",
+      "severity": "MEDIUM",
+      "entry_score": 57.52,
+      "current_score": null,
+      "signal_date": "2026-09-21",
+      "reasons": [
+        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
+      ],
+      "fundamental_score": 74.4
+    },
+    {
+      "ticker": "NDAQ",
+      "severity": "MEDIUM",
+      "entry_score": 57.34,
+      "current_score": null,
+      "signal_date": "2026-10-09",
+      "reasons": [
+        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
+      ],
+      "fundamental_score": 76.4
+    },
+    {
+      "ticker": "TW",
+      "severity": "MEDIUM",
+      "entry_score": 57.05500000000001,
+      "current_score": null,
+      "signal_date": "2026-08-28",
+      "reasons": [
+        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
+      ],
+      "fundamental_score": 72.5
+    },
+    {
+      "ticker": "HEI",
+      "severity": "MEDIUM",
+      "entry_score": 56.375,
+      "current_score": null,
+      "signal_date": "2026-08-26",
+      "reasons": [
+        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
+      ],
+      "fundamental_score": 72.9
+    },
+    {
+      "ticker": "BLK",
+      "severity": "MEDIUM",
+      "entry_score": 54.08,
+      "current_score": null,
+      "signal_date": "2026-09-19",
+      "reasons": [
+        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
+      ],
+      "fundamental_score": 77.8
+    },
+    {
+      "ticker": "OXY",
+      "severity": "MEDIUM",
+      "entry_score": 53.155,
+      "current_score": null,
+      "signal_date": "2026-09-18",
+      "reasons": [
+        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
+      ],
+      "fundamental_score": 80.8
+    },
+    {
+      "ticker": "TT",
+      "severity": "MEDIUM",
+      "entry_score": 51.95,
+      "current_score": null,
+      "signal_date": "2026-08-26",
+      "reasons": [
+        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
+      ],
+      "fundamental_score": 74.3
+    },
+    {
+      "ticker": "FCNCA",
+      "severity": "MEDIUM",
+      "entry_score": 51.92499999999999,
+      "current_score": 31.120000000000005,
+      "signal_date": "2026-09-18",
+      "reasons": [
+        "Score cay\u00f3 21pts (52 \u2192 31)",
+        "Earnings en 0d \u2014 alta incertidumbre, considera reducir"
+      ],
+      "fundamental_score": 65.3
+    },
+    {
+      "ticker": "CNI",
+      "severity": "MEDIUM",
+      "entry_score": 50.06999999999999,
+      "current_score": null,
+      "signal_date": "2026-08-27",
+      "reasons": [
+        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
+      ],
+      "fundamental_score": 69.5
+    }
+  ]
+}

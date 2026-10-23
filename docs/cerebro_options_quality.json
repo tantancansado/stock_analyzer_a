@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-10-22",
-  "total": 30,
+  "generated_at": "2026-10-23",
+  "total": 28,
   "tier1": 0,
-  "tier2": 3,
-  "tier3": 4,
-  "noise_filtered": 23,
+  "tier2": 4,
+  "tier3": 2,
+  "noise_filtered": 22,
   "actionable": [
     {
       "ticker": "VRSN",
@@ -12,57 +12,76 @@
       "sentiment": "BEARISH",
       "tier": "TIER2",
       "quality_score": 55,
-      "value_score": 40.2,
-      "fcf_yield": 3.88,
+      "value_score": 46.1,
+      "fcf_yield": 3.92,
       "insider_confirmation": true,
       "in_value": true,
       "quality_factors": [
-        "VALUE weak (40pts)",
+        "VALUE weak (46pts)",
         "INSIDER CONF",
-        "DIRECTIONAL (100% puts)"
+        "DIRECTIONAL (75% puts)"
       ],
-      "flow_score": 60.0,
-      "total_premium": 364840.0,
-      "detected_date": "2026-10-22"
+      "flow_score": 70.0,
+      "total_premium": 496297.0,
+      "detected_date": "2026-10-23"
     },
     {
-      "ticker": "MSCI",
-      "company_name": "MSCI Inc.",
-      "sentiment": "BEARISH",
-      "tier": "TIER2",
-      "quality_score": 55,
-      "value_score": 38.5,
-      "fcf_yield": 3.41,
-      "insider_confirmation": true,
-      "in_value": true,
-      "quality_factors": [
-        "VALUE weak (38pts)",
-        "INSIDER CONF",
-        "DIRECTIONAL (100% puts)"
-      ],
-      "flow_score": 60.0,
-      "total_premium": 249838.0,
-      "detected_date": "2026-10-22"
-    },
-    {
-      "ticker": "ICE",
-      "company_name": "Intercontinental Exchange, Inc.",
-      "sentiment": "BEARISH",
+      "ticker": "INTU",
+      "company_name": "Intuit Inc.",
+      "sentiment": "BULLISH",
       "tier": "TIER2",
       "quality_score": 45,
-      "value_score": 37.5,
-      "fcf_yield": 5.34,
+      "value_score": 45.5,
+      "fcf_yield": 9.09,
       "insider_confirmation": false,
       "in_value": true,
       "quality_factors": [
-        "VALUE weak (37pts)",
-        "FCF 5.3%",
-        "DIRECTIONAL (100% puts)"
+        "VALUE weak (45pts)",
+        "FCF 9.1%",
+        "DIRECTIONAL (78% calls)"
+      ],
+      "flow_score": 90.0,
+      "total_premium": 3108742.0,
+      "detected_date": "2026-10-23"
+    },
+    {
+      "ticker": "ZTS",
+      "company_name": "Zoetis Inc.",
+      "sentiment": "BULLISH",
+      "tier": "TIER2",
+      "quality_score": 45,
+      "value_score": 41.3,
+      "fcf_yield": 6.55,
+      "insider_confirmation": false,
+      "in_value": true,
+      "quality_factors": [
+        "VALUE weak (41pts)",
+        "FCF 6.5%",
+        "DIRECTIONAL (100% calls)"
+      ],
+      "flow_score": 60.0,
+      "total_premium": 150864.0,
+      "detected_date": "2026-10-23"
+    },
+    {
+      "ticker": "BR",
+      "company_name": "Broadridge Financial Solutions, Inc.",
+      "sentiment": "BULLISH",
+      "tier": "TIER2",
+      "quality_score": 45,
+      "value_score": 58.5,
+      "fcf_yield": 5.87,
+      "insider_confirmation": false,
+      "in_value": true,
+      "quality_factors": [
+        "VALUE weak (58pts)",
+        "FCF 5.9%",
+        "DIRECTIONAL (100% calls)"
       ],
       "flow_score": 50.0,
-      "total_premium": 24310.0,
-      "detected_date": "2026-10-22"
+      "total_premium": 48280.0,
+      "detected_date": "2026-10-23"
     }
   ],
-  "narrative": ""
+  "narrative": null
 }

@@ -1,18 +1,18 @@
 {
-  "generated_at": "2026-10-22",
-  "total": 36,
+  "generated_at": "2026-10-23",
+  "total": 38,
   "improving": 0,
-  "narrative": "",
+  "narrative": null,
   "candidates": [
     {
-      "ticker": "MA",
-      "company_name": "Mastercard Incorporated",
+      "ticker": "RACE",
+      "company_name": "Ferrari N.V.",
       "piotroski_current": 9.0,
       "piotroski_prev": 9.0,
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 44.01499999999999
+      "value_score": 32.84
     },
     {
       "ticker": "EXPN.L",
@@ -42,7 +42,7 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 56.11999999999999
+      "value_score": 58.47500000000001
     },
     {
       "ticker": "SAP",
@@ -52,47 +52,27 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 51.42999999999999
+      "value_score": 53.84500000000001
     },
     {
-      "ticker": "NYT",
-      "company_name": "The New York Times Company",
+      "ticker": "MCO",
+      "company_name": "Moody's Corporation",
       "piotroski_current": 8.0,
       "piotroski_prev": 8.0,
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 43.465
+      "value_score": 47.120000000000005
     },
     {
-      "ticker": "WM",
-      "company_name": "Waste Management, Inc.",
+      "ticker": "INTU",
+      "company_name": "Intuit Inc.",
       "piotroski_current": 8.0,
       "piotroski_prev": 8.0,
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 43.2
-    },
-    {
-      "ticker": "DPZ",
-      "company_name": "Domino's Pizza, Inc.",
-      "piotroski_current": 8.0,
-      "piotroski_prev": 8.0,
-      "delta": 0.0,
-      "trend": "STABLE",
-      "signal": "STRONG",
-      "value_score": 42.85
-    },
-    {
-      "ticker": "ICE",
-      "company_name": "Intercontinental Exchange, Inc.",
-      "piotroski_current": 8.0,
-      "piotroski_prev": 8.0,
-      "delta": 0.0,
-      "trend": "STABLE",
-      "signal": "STRONG",
-      "value_score": 37.455
+      "value_score": 45.48
     },
     {
       "ticker": "VRSN",
@@ -102,7 +82,27 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 40.18
+      "value_score": 46.07000000000001
+    },
+    {
+      "ticker": "DPZ",
+      "company_name": "Domino's Pizza, Inc.",
+      "piotroski_current": 8.0,
+      "piotroski_prev": 8.0,
+      "delta": 0.0,
+      "trend": "STABLE",
+      "signal": "STRONG",
+      "value_score": 43.985
+    },
+    {
+      "ticker": "NYT",
+      "company_name": "The New York Times Company",
+      "piotroski_current": 8.0,
+      "piotroski_prev": 8.0,
+      "delta": 0.0,
+      "trend": "STABLE",
+      "signal": "STRONG",
+      "value_score": 39.24000000000001
     },
     {
       "ticker": "AVGO",
@@ -112,17 +112,7 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 46.905
-    },
-    {
-      "ticker": "MSCI",
-      "company_name": "MSCI Inc.",
-      "piotroski_current": 8.0,
-      "piotroski_prev": 8.0,
-      "delta": 0.0,
-      "trend": "STABLE",
-      "signal": "STRONG",
-      "value_score": 38.485
+      "value_score": 44.755
     },
     {
       "ticker": "EFX",
@@ -132,17 +122,17 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 35.32
+      "value_score": 32.18000000000001
     },
     {
-      "ticker": "AZN.L",
-      "company_name": "AstraZeneca PLC",
+      "ticker": "MSCI",
+      "company_name": "MSCI Inc.",
       "piotroski_current": 8.0,
       "piotroski_prev": 8.0,
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 65.9
+      "value_score": 33.75
     },
     {
       "ticker": "SAP.DE",
@@ -155,6 +145,16 @@
       "value_score": 64.2
     },
     {
+      "ticker": "AZN.L",
+      "company_name": "AstraZeneca PLC",
+      "piotroski_current": 8.0,
+      "piotroski_prev": 8.0,
+      "delta": 0.0,
+      "trend": "STABLE",
+      "signal": "STRONG",
+      "value_score": 60.9
+    },
+    {
       "ticker": "ASSA-B.ST",
       "company_name": "ASSA ABLOY AB (publ)",
       "piotroski_current": 8.0,
@@ -162,7 +162,7 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 47.6
+      "value_score": 53.6
     },
     {
       "ticker": "RMS.PA",
@@ -185,16 +185,6 @@
       "value_score": 44.5
     },
     {
-      "ticker": "KNEBV.HE",
-      "company_name": "KONE Oyj",
-      "piotroski_current": 8.0,
-      "piotroski_prev": 8.0,
-      "delta": 0.0,
-      "trend": "STABLE",
-      "signal": "STRONG",
-      "value_score": 36.1
-    },
-    {
       "ticker": "INDT.ST",
       "company_name": "Indutrade AB (publ)",
       "piotroski_current": 8.0,
@@ -212,27 +202,17 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 49.905
+      "value_score": 51.42
     },
     {
-      "ticker": "KO",
-      "company_name": "The Coca-Cola Company",
+      "ticker": "FICO",
+      "company_name": "Fair Isaac Corporation",
       "piotroski_current": 7.0,
-      "piotroski_prev": 7.0,
+      "piotroski_prev": null,
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 38.38499999999999
-    },
-    {
-      "ticker": "ADSK",
-      "company_name": "Autodesk, Inc.",
-      "piotroski_current": 7.0,
-      "piotroski_prev": 7.0,
-      "delta": 0.0,
-      "trend": "STABLE",
-      "signal": "STRONG",
-      "value_score": 37.84
+      "value_score": 41.98
     },
     {
       "ticker": "RELX",
@@ -242,7 +222,27 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 32.34
+      "value_score": 41.425
+    },
+    {
+      "ticker": "WTKWY",
+      "company_name": "Wolters Kluwer N.V.",
+      "piotroski_current": 7.0,
+      "piotroski_prev": 7.0,
+      "delta": 0.0,
+      "trend": "STABLE",
+      "signal": "STRONG",
+      "value_score": 41.2
+    },
+    {
+      "ticker": "ADSK",
+      "company_name": "Autodesk, Inc.",
+      "piotroski_current": 7.0,
+      "piotroski_prev": 7.0,
+      "delta": 0.0,
+      "trend": "STABLE",
+      "signal": "STRONG",
+      "value_score": 39.995000000000005
     },
     {
       "ticker": "ULVR.L",
@@ -292,7 +292,17 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 50.3
+      "value_score": 49.9
+    },
+    {
+      "ticker": "LSEG.L",
+      "company_name": "London Stock Exchange Group plc",
+      "piotroski_current": 7.0,
+      "piotroski_prev": null,
+      "delta": 0.0,
+      "trend": "STABLE",
+      "signal": "STRONG",
+      "value_score": 41.8
     },
     {
       "ticker": "ITX.MC",
@@ -315,6 +325,16 @@
       "value_score": 48.2
     },
     {
+      "ticker": "LIFCO-B.ST",
+      "company_name": "Lifco AB (publ)",
+      "piotroski_current": 7.0,
+      "piotroski_prev": 7.0,
+      "delta": 0.0,
+      "trend": "STABLE",
+      "signal": "STRONG",
+      "value_score": 45.8
+    },
+    {
       "ticker": "HEIA.AS",
       "company_name": "Heineken N.V.",
       "piotroski_current": 7.0,
@@ -322,7 +342,7 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 46.1
+      "value_score": 43.9
     },
     {
       "ticker": "SAF.PA",
@@ -345,14 +365,14 @@
       "value_score": 38.4
     },
     {
-      "ticker": "LIFCO-B.ST",
-      "company_name": "Lifco AB (publ)",
+      "ticker": "SIKA.SW",
+      "company_name": "Sika AG",
       "piotroski_current": 7.0,
       "piotroski_prev": 7.0,
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 37.8
+      "value_score": 37.0
     },
     {
       "ticker": "NESTE.HE",

@@ -1,81 +1,61 @@
 {
-  "generated_at": "2026-10-22",
+  "generated_at": "2026-10-23",
   "alerts": [
     {
       "type": "SCORE_UP",
-      "ticker": "SAP",
-      "company_name": "SAP SE",
+      "ticker": "RELX",
+      "company_name": "RELX PLC",
+      "sector": "Industrials",
+      "score_today": 41.4,
+      "score_prev": 32.3,
+      "delta": 9.1,
+      "grade": "⚪ WEAK"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "VRSN",
+      "company_name": "VeriSign, Inc.",
       "sector": "Technology",
-      "score_today": 51.4,
-      "score_prev": 39.4,
-      "delta": 12.0,
+      "score_today": 46.1,
+      "score_prev": 40.2,
+      "delta": 5.9,
       "grade": "🔵 DECENT"
     },
     {
       "type": "SCORE_UP",
-      "ticker": "MA",
-      "company_name": "Mastercard Incorporated",
-      "sector": "Financial Services",
-      "score_today": 44.0,
-      "score_prev": 35.5,
-      "delta": 8.5,
-      "grade": "🔵 DECENT"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "JKHY",
-      "company_name": "Jack Henry & Associates, Inc.",
-      "sector": "Technology",
-      "score_today": 49.9,
-      "score_prev": 44.5,
-      "delta": 5.4,
-      "grade": "🔵 DECENT"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "ADSK",
-      "company_name": "Autodesk, Inc.",
-      "sector": "Technology",
-      "score_today": 37.8,
-      "score_prev": 32.8,
-      "delta": 5.1,
+      "ticker": "DVA",
+      "company_name": "DaVita Inc.",
+      "sector": "Healthcare",
+      "score_today": 39.5,
+      "score_prev": 34.2,
+      "delta": 5.3,
       "grade": "⚪ WEAK"
     },
     {
       "type": "SCORE_DOWN",
-      "ticker": "AMZN",
-      "company_name": "Amazon.com, Inc.",
-      "sector": "Consumer Cyclical",
-      "score_today": 51.6,
-      "score_prev": 56.7,
-      "delta": -5.1,
+      "ticker": "V",
+      "company_name": "Visa Inc.",
+      "sector": "Financial Services",
+      "score_today": 40.8,
+      "score_prev": 52.5,
+      "delta": -11.7,
       "grade": "🔵 DECENT"
     },
     {
       "type": "SCORE_DOWN",
-      "ticker": "ICE",
-      "company_name": "Intercontinental Exchange, Inc.",
-      "sector": "Financial Services",
-      "score_today": 37.5,
-      "score_prev": 47.6,
-      "delta": -10.2,
+      "ticker": "SYK",
+      "company_name": "Stryker Corporation",
+      "sector": "Healthcare",
+      "score_today": 30.6,
+      "score_prev": 59.6,
+      "delta": -29.0,
       "grade": "⚪ WEAK"
-    },
-    {
-      "type": "EXITED",
-      "ticker": "INTU",
-      "company_name": "Intuit Inc.",
-      "sector": "Technology",
-      "score_today": null,
-      "score_prev": 65.7,
-      "delta": null,
-      "grade": "⭐⭐ STRONG"
     }
   ],
   "counts": {
     "new_entries": 0,
-    "exited": 1,
-    "score_up": 4,
+    "exited": 0,
+    "score_up": 3,
     "score_down": 2
   }
 }
