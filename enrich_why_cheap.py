@@ -28,7 +28,7 @@ from pathlib import Path
 
 import pandas as pd
 
-from why_cheap_analyzer import analyze_ticker, apply_to_dataframe, MIN_SCORE_CANDIDATO
+from why_cheap_analyzer import analyze_ticker, apply_to_dataframe, cifras_propias, MIN_SCORE_CANDIDATO
 
 DOCS = Path('docs')
 TARGET_CSVS: list[Path] = [
@@ -278,7 +278,8 @@ def main() -> None:
         t0 = time.monotonic()
         res = analyze_ticker(ticker, str(r.get('company_name', '')),
                              abs(float(r.get('proximity_to_52w_high') or 0)),
-                             float(r.get('relative_strength_6m') or 0))
+                             float(r.get('relative_strength_6m') or 0),
+                             cifras=cifras_propias(r))
         # La reserva sigue al peor caso visto en esta corrida: si un ticker se
         # atasca, el siguiente exige más margen en vez de repetir el atasco.
         reserva = max(reserva, time.monotonic() - t0)

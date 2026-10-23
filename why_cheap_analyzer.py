@@ -83,12 +83,68 @@ Categorías:
 
 PROMPT = """{company} ({ticker}) cotiza un {drop:.1f}% por debajo de su máximo de 52
 semanas, con una fuerza relativa a 6 meses de {rs:.1f}%.
-
+{cifras}
 ¿Por qué ha caído? Busca y clasifica."""
+
+# Por debajo de esto el resultado operativo no se puede llamar «sin nada
+# específico de la empresa».
+CAIDA_OPERATIVA_INCOMPATIBLE = -10.0
+
+
+def _crecimientos(row) -> tuple[float | None, float | None]:
+    """(BPA, resultado operativo) interanual en %, de `earnings_details`."""
+    import ast
+    det = row.get('earnings_details') if hasattr(row, 'get') else None
+    if isinstance(det, str):
+        try:
+            det = ast.literal_eval(det)
+        except (ValueError, SyntaxError):
+            det = None
+    if not isinstance(det, dict):
+        return None, None
+
+    def _n(v):
+        try:
+            v = float(v)
+            return v if v == v else None
+        except (TypeError, ValueError):
+            return None
+    return _n(det.get('eps_growth_yoy')), _n(det.get('op_growth_yoy'))
+
+
+def cifras_propias(row) -> str:
+    """Las cifras que la casa ya tiene, para que la búsqueda no las contradiga.
+
+    El 12-oct-2026 la búsqueda devolvió para JKHY «BPA +12%, guidance subida
+    tres veces» —noticias de un ejercicio anterior— con el resultado operativo
+    cayendo tres trimestres seguidos (184 → 137 M) y el BPA un 10% abajo.
+    """
+    bpa, op = _crecimientos(row)
+    if bpa is None and op is None:
+        return ''
+    partes = []
+    if op is not None:
+        partes.append(f'resultado operativo {op:+.1f}%')
+    if bpa is not None:
+        partes.append(f'BPA {bpa:+.1f}%')
+    return ('\nCifras propias, último trimestre frente al mismo del año anterior: '
+            + ', '.join(partes) + '. Son datos de sus cuentas: si una noticia '
+            'dice otra cosa, probablemente es de otro ejercicio — mandan estas.\n')
+
+
+def contradice_las_cifras(veredicto: str, row) -> str | None:
+    """Motivo si «SENTIMIENTO» es incompatible con las cuentas; None si no."""
+    if veredicto != 'SENTIMIENTO':
+        return None
+    _bpa, op = _crecimientos(row)
+    if op is not None and op <= CAIDA_OPERATIVA_INCOMPATIBLE:
+        return (f'la investigación lo atribuía al sentimiento, pero su resultado '
+                f'operativo cae un {abs(op):.0f}% interanual: no se da por buena')
+    return None
 
 
 def analyze_ticker(ticker: str, company: str, drop_pct: float,
-                   rs_6m: float = 0.0) -> dict[str, Any]:
+                   rs_6m: float = 0.0, cifras: str = '') -> dict[str, Any]:
     """Devuelve {veredicto, resumen, confianza, fuentes}. SIN_DATOS si no puede."""
     vacio = {'veredicto': 'SIN_DATOS', 'resumen': '', 'confianza': 0, 'fuentes': []}
 
@@ -113,7 +169,7 @@ def analyze_ticker(ticker: str, company: str, drop_pct: float,
     # con 2, son 1+2=3. Quitar UNA búsqueda cuesta la mitad, no un tercio.
     texto, fuentes = ask_with_search(
         PROMPT.format(company=company or ticker, ticker=ticker,
-                      drop=abs(drop_pct or 0), rs=rs_6m or 0),
+                      drop=abs(drop_pct or 0), rs=rs_6m or 0, cifras=cifras),
         system=SYSTEM,
         max_searches=2,
         max_tokens=1200,
@@ -192,7 +248,7 @@ def analyze_picks(rows: list[dict], min_drop_pct: float = 8.0,
         elegidos.append((ticker, drop))
         prompts[ticker] = PROMPT.format(
             company=str(r.get('company_name', '')) or ticker, ticker=ticker,
-            drop=abs(drop or 0), rs=rs or 0)
+            drop=abs(drop or 0), rs=rs or 0, cifras=cifras_propias(r))
 
     crudos = ask_with_search_lote(
         prompts, system=SYSTEM, max_searches=2, max_tokens=1200,
@@ -235,6 +291,15 @@ def apply_to_dataframe(df, veredictos: dict[str, dict]):
     _col('why_cheap',         lambda v: v.get('veredicto', ''))
     _col('why_cheap_resumen', lambda v: v.get('resumen', ''))
     _col('why_cheap_fuentes', lambda v: ' | '.join(v.get('fuentes', []))[:400])
+
+    # Una causa que las propias cuentas desmienten no se publica como causa.
+    # Vale también para lo cacheado, que es donde estaba el caso de JKHY.
+    for i, fila in df.iterrows():
+        motivo = contradice_las_cifras(str(fila.get('why_cheap') or ''), fila)
+        if motivo:
+            df.at[i, 'why_cheap'] = 'SIN_DATOS'
+            df.at[i, 'why_cheap_resumen'] = motivo[0].upper() + motivo[1:] + '.'
+            print(f"   ⚠️  {fila.get('ticker')}: {motivo}")
 
     bloqueados = [t for t, v in veredictos.items() if v.get('veredicto') in BLOQUEANTES]
     if bloqueados:
