@@ -1,9 +1,9 @@
 {
   "origen": "github-actions",
-  "run_id": "39901873880",
-  "generated_at": "2026-10-23T06:04:32Z",
+  "run_id": "40024128362",
+  "generated_at": "2026-10-23T22:18:08Z",
   "pipeline_date": "2026-10-23",
-  "ok_count": 17,
+  "ok_count": 18,
   "total": 20,
   "modules": {
     "value_us": {
@@ -18,14 +18,14 @@
       "min_rows": 20
     },
     "value_filtered": {
-      "status": "empty",
+      "status": "ok",
       "date": "2026-10-23",
       "days_ago": 0,
       "stale_threshold_days": 2,
       "path": "docs/value_opportunities_filtered.csv",
       "columna_requerida": "entry_readiness, rr_operativo",
       "columna_poblada": true,
-      "rows": 9,
+      "rows": 27,
       "min_rows": 10
     },
     "vcp": {
@@ -56,7 +56,7 @@
       "path": "docs/european_value_opportunities_filtered.csv",
       "columna_requerida": "entry_readiness, rr_operativo",
       "columna_poblada": true,
-      "rows": 18,
+      "rows": 25,
       "min_rows": 1
     },
     "value_global": {
@@ -89,7 +89,7 @@
       "path": "docs/technical_signals_summary.csv",
       "columna_requerida": "bias",
       "columna_poblada": true,
-      "rows": 129,
+      "rows": 128,
       "min_rows": 30
     },
     "cerebro": {
@@ -138,7 +138,7 @@
       "path": "docs/portfolio_tracker/recommendations.csv",
       "columna_requerida": "signal_date",
       "columna_poblada": true,
-      "rows": 1921,
+      "rows": 1922,
       "min_rows": 1
     },
     "earnings": {
@@ -183,7 +183,7 @@
       "path": "docs/options_flow.csv",
       "columna_requerida": "flow_score",
       "columna_poblada": true,
-      "rows": 28,
+      "rows": 16,
       "min_rows": 1
     },
     "bounce_broad": {
