@@ -1,24 +1,29 @@
 {
-  "generated_at": "2026-10-23",
+  "generated_at": "2026-10-26",
   "regime": "NEUTRAL",
-  "narrative": "R\u00e9gimen NEUTRAL. 0 oportunidades de entrada, 0 se\u00f1ales de salida HIGH. Sin trampas de valor relevantes.",
+  "narrative": "R\u00e9gimen NEUTRAL. 1 oportunidades de entrada, 2 se\u00f1ales de salida HIGH. Sin trampas de valor relevantes.",
   "sections": {
     "regime": "NEUTRAL",
     "strong_buy_count": 0,
-    "buy_count": 0,
-    "top_entries": [],
+    "buy_count": 1,
+    "top_entries": [
+      [
+        "VRSN",
+        55
+      ]
+    ],
     "top_convergences": [
       [
         "VRSN",
-        89
+        94
       ],
       [
         "MSCI",
-        86
+        91
       ],
       [
-        "MSFT",
-        59
+        "AON",
+        79
       ]
     ],
     "high_alerts": [
@@ -27,16 +32,31 @@
         "INSIDER_BUYING"
       ],
       [
-        "BA.L",
-        "INSIDER_BUYING"
+        "AON",
+        "EARNINGS_WARNING"
       ],
       [
-        "BARC.L",
-        "INSIDER_BUYING"
+        "ASSA-B.ST",
+        "EARNINGS_WARNING"
       ]
     ],
     "traps_warning": [],
-    "exit_warnings": [],
+    "exit_warnings": [
+      [
+        "QSR",
+        "Score cay\u00f3 25pts (59 \u2192 34); Earnings en 3d \u2014 alta incertidumbre, considera reducir",
+        "Earnings en 3 d\u00edas genera incertidumbre t\u00edpica; hist\u00f3ricamente QSR ha tenido crecimiento moderado pero con presi\u00f3n en Burger King US y Tim Hortons, sin colapso fundamental evidente.",
+        59.09,
+        34.0
+      ],
+      [
+        "SPGI",
+        "Score cay\u00f3 26pts (58 \u2192 33); Earnings en 1d \u2014 alta incertidumbre, considera reducir",
+        "La se\u00f1al de salida se basa principalmente en ca\u00edda de score t\u00e9cnico/cuantitativo y proximidad a earnings, no en eventos fundamentales negativos confirmados (sin guidance cuts ni misses reportados hasta mi conocimiento).",
+        58.14,
+        32.52
+      ]
+    ],
     "smart_money": [
       [
         "VRSN",
@@ -49,7 +69,7 @@
         9
       ],
       [
-        "MCO",
+        "MSFT",
         1,
         0
       ]

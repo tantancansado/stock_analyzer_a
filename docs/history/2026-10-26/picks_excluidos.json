@@ -1,0 +1,35 @@
+{
+  "listas": {
+    "value_opportunities": {
+      "candidatas": 66,
+      "publicadas": 62,
+      "excluidos": [
+        {
+          "ticker": "VCISY",
+          "paso": "rangos_imposibles",
+          "motivo": "DCF fuera de rango: no es una valoración, es un dato roto (visto 265.8, esperado entre -95 y 200)",
+          "score": 41.92
+        },
+        {
+          "ticker": "KYCCF",
+          "paso": "rangos_imposibles",
+          "motivo": "Falta analyst_upside_pct: no se recomienda lo que no se puede evaluar",
+          "score": 36.006
+        },
+        {
+          "ticker": "ERIE",
+          "paso": "rangos_imposibles",
+          "motivo": "Falta analyst_upside_pct: no se recomienda lo que no se puede evaluar",
+          "score": 33.19199999999999
+        },
+        {
+          "ticker": "DVA",
+          "paso": "verificador_ia",
+          "motivo": "DVA muestra contradicción capital: target_price_dcf_upside_pct (169.3%) vs target_price_pe_upside_pct (-13.9%) con modelos_dispersion_pts (183.2%) — dispersión de 183 puntos es extrema y sugiere error en uno de los cálculos o datos de entrada inconsistentes · analyst_upside_pct (19.7%) está entre ambos pero más cerca del DCF extremo, lo que duplica la sospecha de inconsistencia interna",
+          "score": 45.38
+        }
+      ]
+    }
+  },
+  "generated_at": "2026-10-26T05:06:07Z"
+}

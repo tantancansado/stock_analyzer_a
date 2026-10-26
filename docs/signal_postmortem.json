@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-10-19T05:57:58.199138",
+  "generated_at": "2026-10-26T06:13:03.625801",
   "resumen": {
-    "n": 55,
-    "win_rate": 67.3,
-    "retorno_medio": 3.45,
+    "n": 58,
+    "win_rate": 69.0,
+    "retorno_medio": 3.77,
     "horizonte": "return_90d"
   },
   "cortes": {
@@ -22,9 +22,9 @@
       },
       {
         "grupo": "Financial Services",
-        "n": 20,
-        "win_rate": 70.0,
-        "retorno_medio": 3.66
+        "n": 22,
+        "win_rate": 72.7,
+        "retorno_medio": 4.29
       },
       {
         "grupo": "Healthcare",
@@ -42,9 +42,9 @@
     "regimen_mercado": [
       {
         "grupo": "CONFIRMED_UPTREND",
-        "n": 47,
-        "win_rate": 66.0,
-        "retorno_medio": 3.08
+        "n": 50,
+        "win_rate": 68.0,
+        "retorno_medio": 3.47
       },
       {
         "grupo": "CORRECTION",
@@ -56,21 +56,21 @@
     "banda_upside": [
       {
         "grupo": "20-25%",
-        "n": 11,
-        "win_rate": 63.6,
-        "retorno_medio": 2.4
+        "n": 12,
+        "win_rate": 66.7,
+        "retorno_medio": 2.69
       },
       {
         "grupo": "25-30%",
-        "n": 27,
-        "win_rate": 66.7,
-        "retorno_medio": 4.26
+        "n": 28,
+        "win_rate": 67.9,
+        "retorno_medio": 4.38
       },
       {
         "grupo": "15-20%",
-        "n": 11,
-        "win_rate": 81.8,
-        "retorno_medio": 6.68
+        "n": 12,
+        "win_rate": 83.3,
+        "retorno_medio": 7.4
       }
     ],
     "banda_score": [
@@ -82,34 +82,83 @@
       },
       {
         "grupo": "60-70",
-        "n": 29,
-        "win_rate": 62.1,
-        "retorno_medio": 3.44
+        "n": 30,
+        "win_rate": 63.3,
+        "retorno_medio": 3.83
       },
       {
         "grupo": "50-60",
-        "n": 21,
-        "win_rate": 81.0,
-        "retorno_medio": 3.85
+        "n": 23,
+        "win_rate": 82.6,
+        "retorno_medio": 4.11
       }
     ],
     "banda_rr": [
       {
-        "grupo": "2-3",
-        "n": 18,
-        "win_rate": 72.2,
-        "retorno_medio": 4.19
+        "grupo": ">=3",
+        "n": 32,
+        "win_rate": 68.8,
+        "retorno_medio": 4.6
       },
       {
-        "grupo": ">=3",
-        "n": 31,
-        "win_rate": 67.7,
-        "retorno_medio": 4.5
+        "grupo": "2-3",
+        "n": 20,
+        "win_rate": 75.0,
+        "retorno_medio": 4.83
       }
     ]
   },
   "analisis": {
-    "hipotesis": [],
-    "nota": "verificador no disponible"
+    "hipotesis": [
+      {
+        "patron": "Financial Services concentra el mayor volumen (n=22) y supera claramente la media global (72.7% win rate, 4.29% retorno vs 69%/3.77% global)",
+        "evidencia": "Es el grupo con n más alto después de Technology, lo que da algo más de robustez estadística que los grupos de n=5",
+        "como_validarlo": "Separar por sub-sector dentro de Financial Services (bancos, seguros, REITs) y comprobar si el efecto persiste en ventanas temporales distintas (pre/post 2020, distintos ciclos de tasas)",
+        "confianza": "media"
+      },
+      {
+        "patron": "Healthcare e Industrials muestran win rate de 80-100% y retornos muy altos (6.34% y 10.87%)",
+        "evidencia": "Ambos grupos tienen n=5, lo mínimo para generar estadísticas; un solo trade adicional ganador o perdedor cambiaría el resultado en 20 puntos porcentuales",
+        "como_validarlo": "Esperar a acumular al menos 20-30 señales por sector antes de sacar conclusiones; mientras tanto tratar como anecdótico",
+        "confianza": "baja"
+      },
+      {
+        "patron": "Communication Services es el único sector con retorno medio negativo (-4.33%) y win rate por debajo de 50%",
+        "evidencia": "n=5, igual de pequeño que Healthcare/Industrials pero en dirección opuesta — sugiere que el ruido de sector puede ir en ambas direcciones, no que el sector sea intrínsecamente malo para VALUE",
+        "como_validarlo": "Revisar si estas 5 señales comparten un sub-driver común (ej. todas media/telecom con deuda alta) o si es simplemente mala suerte de muestra",
+        "confianza": "baja"
+      },
+      {
+        "patron": "Technology (n=15) rinde peor que la media global pese a tamaño de muestra razonable (53.3% win rate, 1.13% retorno)",
+        "evidencia": "Es el segundo grupo más grande, lo que reduce la probabilidad de que sea puro azar, aunque sigue siendo una muestra moderada",
+        "como_validarlo": "Comparar métricas de valoración (P/E, P/B) de las señales tech vs otros sectores; podría ser que 'VALUE en tech' capture trampas de valor (empresas baratas por razones estructurales)",
+        "confianza": "media"
+      },
+      {
+        "patron": "Relación inversa entre banda_score y performance: score >=70 rinde peor (40% win rate) que score 50-60 (82.6% win rate)",
+        "evidencia": "Contraintuitivo si el score está diseñado para rankear calidad de señal; n=5 en la banda alta es muy pequeño, pero la banda 50-60 (n=23) y 60-70 (n=30) muestran una tendencia descendente consistente con score creciente, lo cual es más preocupante que un outlier aislado",
+        "como_validarlo": "Verificar si el score >=70 captura variables correlacionadas con sobrecompra o momentum negativo reciente; probar estabilidad temporal de esta relación inversa en más muestras antes de confiar en ella",
+        "confianza": "media"
+      },
+      {
+        "patron": "Banda de upside 15-20% rinde mejor (83.3% win rate, 7.4% retorno) que bandas de mayor upside nominal (20-25%, 25-30%)",
+        "evidencia": "Podría sugerir que upside muy alto está correlacionado con mayor incertidumbre/riesgo de la tesis, pero n=12 es moderado y el patrón no es monótono entre todas las bandas",
+        "como_validarlo": "Cruzar con volatilidad implícita o beta de las acciones en cada banda para ver si el upside alto viene acompañado de mayor riesgo que compensa el retorno",
+        "confianza": "baja"
+      },
+      {
+        "patron": "Régimen de mercado CORRECTION muestra mejor resultado (83.3% win rate) que CONFIRMED_UPTREND (68%)",
+        "evidencia": "n=6 en CORRECTION es muy pequeño frente a n=50 en UPTREND; además los regímenes de mercado no son independientes entre señales (pueden estar correlacionados temporalmente, violando independencia estadística)",
+        "como_validarlo": "Esperar más observaciones en régimen CORRECTION y verificar si las fechas de esas 6 señales están concentradas en un solo evento de mercado (lo que invalidaría tratarlas como muestras independientes)",
+        "confianza": "baja"
+      },
+      {
+        "patron": "Banda RR 2-3 y >=3 muestran resultados similares (75% vs 68.8% win rate, 4.83% vs 4.6% retorno)",
+        "evidencia": "La diferencia es pequeña y las muestras se solapan en comportamiento, sugiriendo que el ratio riesgo/retorno calculado no discrimina fuertemente el resultado real en este rango",
+        "como_validarlo": "Ampliar bandas de RR (ej. <2 vs >=4) para ver si el efecto aparece en los extremos, actualmente no cubiertos",
+        "confianza": "baja"
+      }
+    ],
+    "nota": "Con n=58 señales totales, cualquier corte produce subgrupos de 5-30 observaciones. Los grupos con n=5 (varios sectores) tienen margen de error tan amplio que un solo resultado distinto cambiaría la conclusión completamente; trátense como hipótesis exploratorias, no como hallazgos. El patrón más interesante y potencialmente accionable para seguimiento es la relación inversa score-performance, porque se repite en 3 bandas sucesivas, pero incluso eso requiere más datos antes de confiar en él como señal real en lugar de artefacto de este periodo/muestra."
   }
 }

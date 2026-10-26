@@ -1,0 +1,41 @@
+{
+  "generated_at": "2026-10-26",
+  "total": 2,
+  "high_count": 0,
+  "narrative": "",
+  "setups": [
+    {
+      "ticker": "NYT",
+      "company_name": "The New York Times Company",
+      "sector": "Communication Services",
+      "severity": "MEDIUM",
+      "squeeze_score": 40,
+      "short_pct_float": 11.7,
+      "piotroski": 8.0,
+      "value_score": 44.98,
+      "insider_buying": false,
+      "hf_present": true,
+      "flags": [
+        "Short moderado (11.7% del float)",
+        "Piotroski 8/9 \u2014 calidad mejorando",
+        "Hedge funds con posici\u00f3n larga"
+      ]
+    },
+    {
+      "ticker": "FICO",
+      "company_name": "Fair Isaac Corporation",
+      "sector": "Technology",
+      "severity": "MEDIUM",
+      "squeeze_score": 25,
+      "short_pct_float": 12.5,
+      "piotroski": 7.0,
+      "value_score": 48.48,
+      "insider_buying": false,
+      "hf_present": false,
+      "flags": [
+        "Short moderado (12.5% del float)",
+        "Piotroski 7/9 \u2014 calidad mejorando"
+      ]
+    }
+  ]
+}

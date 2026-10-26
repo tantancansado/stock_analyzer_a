@@ -1,26 +1,45 @@
 {
-  "generated_at": "2026-10-23",
-  "total": 19,
-  "high_count": 1,
-  "narrative": null,
+  "generated_at": "2026-10-26",
+  "total": 14,
+  "high_count": 2,
+  "narrative": "",
   "exits": [
     {
-      "ticker": "KO",
-      "severity": "MEDIUM",
-      "entry_score": 59.55500000000001,
-      "current_score": 33.72,
-      "signal_date": "2026-10-01",
+      "ticker": "QSR",
+      "severity": "HIGH",
+      "entry_score": 59.09,
+      "current_score": 34.0,
+      "signal_date": "2026-09-10",
       "reasons": [
-        "Score cay\u00f3 26pts (60 \u2192 34)",
-        "Earnings en 3d \u2014 alta incertidumbre, considera reducir",
-        "IA: falso positivo con 75% confianza \u2014 KO es una empresa defensiva y estable sin deterioro fundamental conocido; la ca\u00edda de 26pts en el score probablemente refleja una subida de precio que redujo el margen de upside (valor), no un problema de negocio. La proximidad de earnings genera incertidumbre normal, no una se\u00f1al de alerta real."
+        "Score cay\u00f3 25pts (59 \u2192 34)",
+        "Earnings en 3d \u2014 alta incertidumbre, considera reducir"
       ],
-      "fundamental_score": 76.8,
+      "fundamental_score": 65.0,
+      "ai_validation": {
+        "verdict": "UNCERTAIN",
+        "confidence": 55,
+        "summary": "QSR (Restaurant Brands International) no muestra se\u00f1ales claras de deterioro fundamental grave hasta mi conocimiento; la ca\u00edda de score parece m\u00e1s ligada a volatilidad t\u00e9cnica y proximidad de earnings que a un evento negativo confirmado. Sin datos de precio/earnings recientes no puedo confirmar si es por sobrevaloraci\u00f3n tras rally o por debilidad real del negocio.",
+        "key_finding": "Earnings en 3 d\u00edas genera incertidumbre t\u00edpica; hist\u00f3ricamente QSR ha tenido crecimiento moderado pero con presi\u00f3n en Burger King US y Tim Hortons, sin colapso fundamental evidente.",
+        "summary_note": "QSR (Restaurant Brands International) no muestra se\u00f1ales claras de deterioro fundamental grave hasta mi conocimiento; la ca\u00edda de score parece m\u00e1s ligada a volatilidad t\u00e9cnica y proximidad de earnings que a un evento negativo confirmado. Sin datos de precio/earnings recientes no puedo confirmar si es por sobrevaloraci\u00f3n tras rally o por debilidad real del negocio."
+      }
+    },
+    {
+      "ticker": "SPGI",
+      "severity": "HIGH",
+      "entry_score": 58.14,
+      "current_score": 32.52,
+      "signal_date": "2026-09-01",
+      "reasons": [
+        "Score cay\u00f3 26pts (58 \u2192 33)",
+        "Earnings en 1d \u2014 alta incertidumbre, considera reducir"
+      ],
+      "fundamental_score": 66.3,
       "ai_validation": {
         "verdict": "FALSE_POSITIVE",
-        "confidence": 75,
-        "summary": "KO es una empresa defensiva y estable sin deterioro fundamental conocido; la ca\u00edda de 26pts en el score probablemente refleja una subida de precio que redujo el margen de upside (valor), no un problema de negocio. La proximidad de earnings genera incertidumbre normal, no una se\u00f1al de alerta real.",
-        "key_finding": "No hay evidencia de deterioro fundamental (guidance cuts, earnings misses, cambios de management); el score fundamental en DB sigue alto (76.8/100), consistente con negocio s\u00f3lido."
+        "confidence": 68,
+        "summary": "No hay evidencia de deterioro fundamental en S&P Global; es un negocio de alta calidad (ratings, \u00edndices, datos financieros) con ingresos recurrentes y fuertes m\u00e1rgenes. La ca\u00edda de score probablemente refleja una correcci\u00f3n de precio o incertidumbre pre-earnings, no un problema estructural del negocio.",
+        "key_finding": "La se\u00f1al de salida se basa principalmente en ca\u00edda de score t\u00e9cnico/cuantitativo y proximidad a earnings, no en eventos fundamentales negativos confirmados (sin guidance cuts ni misses reportados hasta mi conocimiento).",
+        "summary_note": "No hay evidencia de deterioro fundamental en S&P Global; es un negocio de alta calidad (ratings, \u00edndices, datos financieros) con ingresos recurrentes y fuertes m\u00e1rgenes. La ca\u00edda de score probablemente refleja una correcci\u00f3n de precio o incertidumbre pre-earnings, no un problema estructural del negocio."
       }
     },
     {
@@ -43,7 +62,7 @@
       "reasons": [
         "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
       ],
-      "fundamental_score": 67.1
+      "fundamental_score": 73.6
     },
     {
       "ticker": "CBOE",
@@ -60,11 +79,11 @@
       "ticker": "ICE",
       "severity": "MEDIUM",
       "entry_score": 60.095,
-      "current_score": 30.340000000000003,
+      "current_score": 41.53,
       "signal_date": "2026-10-13",
       "reasons": [
-        "Score cay\u00f3 30pts (60 \u2192 30) \u2014 ca\u00edda t\u00e9cnica/momentum, balance s\u00f3lido (Piotroski 8/9)",
-        "Earnings en 5d \u2014 alta incertidumbre, considera reducir"
+        "Score cay\u00f3 19pts (60 \u2192 42)",
+        "Earnings en 3d \u2014 alta incertidumbre, considera reducir"
       ],
       "fundamental_score": 69.6
     },
@@ -80,37 +99,16 @@
       "fundamental_score": 74.4
     },
     {
-      "ticker": "CLPBY",
+      "ticker": "KO",
       "severity": "MEDIUM",
-      "entry_score": 59.59,
-      "current_score": null,
-      "signal_date": "2026-08-26",
+      "entry_score": 59.55500000000001,
+      "current_score": 36.755,
+      "signal_date": "2026-10-01",
       "reasons": [
-        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
+        "Score cay\u00f3 23pts (60 \u2192 37)",
+        "Earnings en 1d \u2014 alta incertidumbre, considera reducir"
       ],
-      "fundamental_score": 68.5
-    },
-    {
-      "ticker": "QSR",
-      "severity": "MEDIUM",
-      "entry_score": 59.09,
-      "current_score": null,
-      "signal_date": "2026-09-10",
-      "reasons": [
-        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
-      ],
-      "fundamental_score": 65.0
-    },
-    {
-      "ticker": "SPGI",
-      "severity": "MEDIUM",
-      "entry_score": 58.14,
-      "current_score": null,
-      "signal_date": "2026-09-01",
-      "reasons": [
-        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
-      ],
-      "fundamental_score": 66.3
+      "fundamental_score": 76.8
     },
     {
       "ticker": "UNP",
@@ -121,7 +119,7 @@
       "reasons": [
         "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
       ],
-      "fundamental_score": 75.0
+      "fundamental_score": 70.0
     },
     {
       "ticker": "SYK",
@@ -138,12 +136,12 @@
       "ticker": "NDAQ",
       "severity": "MEDIUM",
       "entry_score": 57.34,
-      "current_score": 34.84,
+      "current_score": 41.395,
       "signal_date": "2026-10-09",
       "reasons": [
-        "Score cay\u00f3 22pts (57 \u2192 35)"
+        "Score cay\u00f3 16pts (57 \u2192 41)"
       ],
-      "fundamental_score": 75.6
+      "fundamental_score": 77.6
     },
     {
       "ticker": "TW",
@@ -155,17 +153,6 @@
         "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
       ],
       "fundamental_score": 72.5
-    },
-    {
-      "ticker": "HEI",
-      "severity": "MEDIUM",
-      "entry_score": 56.375,
-      "current_score": null,
-      "signal_date": "2026-08-26",
-      "reasons": [
-        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
-      ],
-      "fundamental_score": 71.1
     },
     {
       "ticker": "BLK",
@@ -188,39 +175,6 @@
         "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
       ],
       "fundamental_score": 80.8
-    },
-    {
-      "ticker": "TT",
-      "severity": "MEDIUM",
-      "entry_score": 51.95,
-      "current_score": null,
-      "signal_date": "2026-08-26",
-      "reasons": [
-        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
-      ],
-      "fundamental_score": 74.3
-    },
-    {
-      "ticker": "FCNCA",
-      "severity": "MEDIUM",
-      "entry_score": 51.92499999999999,
-      "current_score": null,
-      "signal_date": "2026-09-18",
-      "reasons": [
-        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
-      ],
-      "fundamental_score": 70.4
-    },
-    {
-      "ticker": "CNI",
-      "severity": "MEDIUM",
-      "entry_score": 50.06999999999999,
-      "current_score": null,
-      "signal_date": "2026-08-27",
-      "reasons": [
-        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
-      ],
-      "fundamental_score": 69.5
     }
   ]
 }

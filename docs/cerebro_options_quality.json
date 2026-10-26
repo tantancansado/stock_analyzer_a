@@ -1,29 +1,30 @@
 {
-  "generated_at": "2026-10-23",
-  "total": 16,
-  "tier1": 0,
-  "tier2": 2,
-  "tier3": 5,
-  "noise_filtered": 9,
+  "generated_at": "2026-10-26",
+  "total": 27,
+  "tier1": 1,
+  "tier2": 5,
+  "tier3": 4,
+  "noise_filtered": 17,
   "actionable": [
     {
-      "ticker": "INTU",
-      "company_name": "Intuit Inc.",
+      "ticker": "AON",
+      "company_name": "Aon plc",
       "sentiment": "BULLISH",
-      "tier": "TIER2",
-      "quality_score": 60,
-      "value_score": 70.6,
-      "fcf_yield": 9.39,
-      "insider_confirmation": false,
+      "tier": "TIER1",
+      "quality_score": 65,
+      "value_score": 45.7,
+      "fcf_yield": 5.08,
+      "insider_confirmation": true,
       "in_value": true,
       "quality_factors": [
-        "VALUE strong (71pts)",
-        "FCF 9.4%",
+        "VALUE weak (46pts)",
+        "FCF 5.1%",
+        "INSIDER CONF",
         "DIRECTIONAL (100% calls)"
       ],
-      "flow_score": 50.0,
-      "total_premium": 38925.0,
-      "detected_date": "2026-10-23"
+      "flow_score": 70.0,
+      "total_premium": 899177.0,
+      "detected_date": "2026-10-26"
     },
     {
       "ticker": "MSCI",
@@ -31,19 +32,94 @@
       "sentiment": "BULLISH",
       "tier": "TIER2",
       "quality_score": 55,
-      "value_score": 34.8,
+      "value_score": 58.8,
       "fcf_yield": 3.32,
       "insider_confirmation": true,
       "in_value": true,
       "quality_factors": [
-        "VALUE weak (35pts)",
+        "VALUE weak (59pts)",
         "INSIDER CONF",
         "DIRECTIONAL (100% calls)"
       ],
-      "flow_score": 40.0,
-      "total_premium": 101574.0,
-      "detected_date": "2026-10-23"
+      "flow_score": 80.0,
+      "total_premium": 1384314.0,
+      "detected_date": "2026-10-26"
+    },
+    {
+      "ticker": "VRSN",
+      "company_name": "VeriSign, Inc.",
+      "sentiment": "BULLISH",
+      "tier": "TIER2",
+      "quality_score": 50,
+      "value_score": 71.1,
+      "fcf_yield": 3.86,
+      "insider_confirmation": true,
+      "in_value": true,
+      "quality_factors": [
+        "VALUE strong (71pts)",
+        "INSIDER CONF",
+        "AMBIGUOUS (split 50/50)"
+      ],
+      "flow_score": 90.0,
+      "total_premium": 1637008.0,
+      "detected_date": "2026-10-26"
+    },
+    {
+      "ticker": "ICE",
+      "company_name": "Intercontinental Exchange, Inc.",
+      "sentiment": "BEARISH",
+      "tier": "TIER2",
+      "quality_score": 45,
+      "value_score": 41.5,
+      "fcf_yield": 5.17,
+      "insider_confirmation": false,
+      "in_value": true,
+      "quality_factors": [
+        "VALUE weak (42pts)",
+        "FCF 5.2%",
+        "DIRECTIONAL (80% puts)"
+      ],
+      "flow_score": 70.0,
+      "total_premium": 493417.0,
+      "detected_date": "2026-10-26"
+    },
+    {
+      "ticker": "INTU",
+      "company_name": "Intuit Inc.",
+      "sentiment": "NEUTRAL",
+      "tier": "TIER2",
+      "quality_score": 45,
+      "value_score": 70.3,
+      "fcf_yield": 9.39,
+      "insider_confirmation": false,
+      "in_value": true,
+      "quality_factors": [
+        "VALUE strong (70pts)",
+        "FCF 9.4%"
+      ],
+      "flow_score": 60.0,
+      "total_premium": 145373.0,
+      "detected_date": "2026-10-26"
+    },
+    {
+      "ticker": "BR",
+      "company_name": "Broadridge Financial Solutions, Inc.",
+      "sentiment": "BULLISH",
+      "tier": "TIER2",
+      "quality_score": 45,
+      "value_score": 59.3,
+      "fcf_yield": 5.96,
+      "insider_confirmation": false,
+      "in_value": true,
+      "quality_factors": [
+        "VALUE weak (59pts)",
+        "FCF 6.0%",
+        "DIRECTIONAL (100% calls)"
+      ],
+      "flow_score": 50.0,
+      "total_premium": 48280.0,
+      "detected_date": "2026-10-26"
     }
   ],
-  "narrative": null
+  "narrative": ""
 }

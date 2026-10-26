@@ -1,44 +1,121 @@
 {
-  "date": "2026-10-26",
-  "timestamp": "2026-10-26T05:44:48.607980",
-  "narrative": "",
-  "macro_regime": "CALM",
-  "picks_count": 8,
-  "top_picks": [
-    {
-      "ticker": "VRSN",
-      "sector": "Technology",
-      "value_score": 71.14,
-      "analyst_upside_pct": 12.0,
-      "conviction_grade": null
-    },
-    {
-      "ticker": "MSFT",
-      "sector": "Technology",
-      "value_score": 67.63499999999999,
-      "analyst_upside_pct": 14.7,
-      "conviction_grade": null
-    },
-    {
-      "ticker": "SAP",
-      "sector": "Technology",
-      "value_score": 62.99000000000001,
-      "analyst_upside_pct": 17.9,
-      "conviction_grade": null
-    },
-    {
-      "ticker": "BR",
-      "sector": "Technology",
-      "value_score": 59.33999999999999,
-      "analyst_upside_pct": 16.4,
-      "conviction_grade": null
-    },
-    {
-      "ticker": "MSCI",
-      "sector": "Financial Services",
-      "value_score": 58.81,
-      "analyst_upside_pct": 10.7,
-      "conviction_grade": null
+  "fecha": "2026-10-26",
+  "texto": "<b>Hoy entra una cosa: THC (Tenet Healthcare)</b>, a 268,45. Pero con dos peros importantes: presenta resultados en 3 días, así que la entrada se juega a esa reacción, y su beneficio crece más rápido que el negocio real, así que no la compres pensando que es calidad —es solo que está barata.\n\nPara vigilar, nada de comprar todavía:\n\n<b>BR</b> (Broadridge) cae por puro sentimiento: resultados sólidos, guidance bueno, y el mercado solo ha recortado precios objetivo. Barata, pero todavía no es comprable.\n\n<b>SAP</b> sigue cayendo sin un motivo claro identificado. Vigílala sin más.\n\n<b>JKHY</b> tiene truco: no es solo sentimiento como parecía, su resultado operativo cae un 12% interanual. No la des por buena solo porque esté barata.\n\n<b>MCO</b> (Moody's) tiene divergencia alta entre lo que dicen los analistas y lo que dice el modelo, y su propio cálculo por flujos de caja dice que ya está cara pese a la caída. Además sigue perdiendo fuerza relativa. Dejarla correr.\n\nEl sistema acierta el 71% a 180 días, con retorno medio del 8,68% sobre 31 casos. Es la cifra definitiva del sistema, no una excusa para cargar posiciones grandes.",
+  "hechos": {
+    "fecha": "2026-10-26",
+    "total_lista": 35,
+    "datos_incompletos": [],
+    "picks_nuevos": [],
+    "picks_que_se_van": [],
+    "comprables": [
+      {
+        "ticker": "THC",
+        "empresa": "Tenet Healthcare Corporation",
+        "score": 48.46000000000001,
+        "precio": 268.45,
+        "upside_analista": 6.7,
+        "upside_triangulado": 25.0,
+        "divergencia": "",
+        "fcf_yield": 9.61,
+        "del_maximo_pct": -5.2,
+        "rs_6m": 37.89,
+        "timing": "ENTRADA",
+        "por_que_cae": "",
+        "por_que_cae_detalle": "",
+        "dias_a_resultados": 3.0,
+        "objetivo_por_pe_pct": 25.0,
+        "objetivo_dcf_pct": 60.9,
+        "beneficio_respaldado_por_negocio": false
+      }
+    ],
+    "vigilar": [
+      {
+        "ticker": "MCO",
+        "empresa": "Moody's Corporation",
+        "score": 57.17,
+        "precio": 483.45,
+        "upside_analista": 14.2,
+        "upside_triangulado": null,
+        "divergencia": "ALTA",
+        "fcf_yield": 3.6,
+        "del_maximo_pct": -11.6,
+        "rs_6m": -1.4,
+        "timing": "VIGILAR",
+        "por_que_cae": "",
+        "por_que_cae_detalle": "",
+        "dias_a_resultados": 114.0,
+        "objetivo_por_pe_pct": 35.9,
+        "objetivo_dcf_pct": -34.2,
+        "beneficio_respaldado_por_negocio": true
+      },
+      {
+        "ticker": "JKHY",
+        "empresa": "Jack Henry & Associates, Inc.",
+        "score": 51.45,
+        "precio": 162.55,
+        "upside_analista": 15.7,
+        "upside_triangulado": 24.6,
+        "divergencia": "",
+        "fcf_yield": 4.44,
+        "del_maximo_pct": -15.9,
+        "rs_6m": 1.72,
+        "timing": "VIGILAR",
+        "por_que_cae": "SIN_DATOS",
+        "por_que_cae_detalle": "La investigación lo atribuía al sentimiento, pero su resultado operativo cae un 12% interanual: no se da por buena.",
+        "dias_a_resultados": 8.0,
+        "objetivo_por_pe_pct": 26.9,
+        "objetivo_dcf_pct": 24.6,
+        "beneficio_respaldado_por_negocio": true
+      },
+      {
+        "ticker": "BR",
+        "empresa": "Broadridge Financial Solutions",
+        "score": 59.33999999999999,
+        "precio": 183.28,
+        "upside_analista": 16.4,
+        "upside_triangulado": 34.5,
+        "divergencia": "",
+        "fcf_yield": 5.96,
+        "del_maximo_pct": -21.6,
+        "rs_6m": 11.94,
+        "timing": "VIGILAR",
+        "por_que_cae": "SENTIMIENTO",
+        "por_que_cae_detalle": "Broadridge reportó resultados sólidos en Q4 FY2025 (ajustado EPS de $8.55 +11% YoY, ingresos +8%) con guidance optimista. La caída obedece a olas de cortes en precio target de anal",
+        "dias_a_resultados": 8.0,
+        "objetivo_por_pe_pct": 61.6,
+        "objetivo_dcf_pct": 34.5,
+        "beneficio_respaldado_por_negocio": true
+      },
+      {
+        "ticker": "SAP",
+        "empresa": "SAP SE",
+        "score": 62.99000000000001,
+        "precio": 238.14,
+        "upside_analista": 17.9,
+        "upside_triangulado": 17.9,
+        "divergencia": "",
+        "fcf_yield": 3.73,
+        "del_maximo_pct": -13.1,
+        "rs_6m": 32.89,
+        "timing": "VIGILAR",
+        "por_que_cae": "SIN_DATOS",
+        "por_que_cae_detalle": "",
+        "dias_a_resultados": 94.0,
+        "objetivo_por_pe_pct": 32.1,
+        "objetivo_dcf_pct": 0.9,
+        "beneficio_respaldado_por_negocio": true
+      }
+    ],
+    "tesis_rotas": [],
+    "rotas_son_tuyas": true,
+    "regimen_cambio": null,
+    "rendimiento_sistema": {
+      "horizonte": "180d",
+      "es_horizonte_definitivo": true,
+      "nota": null,
+      "acierto_pct": 71.0,
+      "retorno_medio": 8.68,
+      "n": 31
     }
-  ]
+  }
 }

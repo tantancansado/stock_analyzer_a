@@ -1,62 +1,32 @@
 {
-  "generated_at": "2026-10-23",
-  "total": 5,
-  "dropped_count": 3,
-  "narrative": null,
+  "generated_at": "2026-10-26",
+  "total": 3,
+  "dropped_count": 0,
+  "narrative": "",
   "displacements": [
-    {
-      "type": "COMPETITOR_RISE",
-      "dropped_ticker": "AMS.MC",
-      "sector": "Technology",
-      "prev_score": 55.8,
-      "replacements": [
-        "BR",
-        "INTU",
-        "SAP.DE"
-      ],
-      "top_replacement": "BR",
-      "top_replacement_score": 75.2,
-      "detail": "AMS.MC sali\u00f3 de VALUE (56pts); peers en Technology: BR, INTU"
-    },
-    {
-      "type": "COMPETITOR_RISE",
-      "dropped_ticker": "WKL.AS",
-      "sector": "Industrials",
-      "prev_score": 55.4,
-      "replacements": [
-        "EXPN.L",
-        "WTKWY"
-      ],
-      "top_replacement": "EXPN.L",
-      "top_replacement_score": 56.3,
-      "detail": "WKL.AS sali\u00f3 de VALUE (55pts); peers en Industrials: EXPN.L, WTKWY"
-    },
-    {
-      "type": "COMPETITOR_RISE",
-      "dropped_ticker": "MSFT",
-      "sector": "Technology",
-      "prev_score": 72.09,
-      "replacements": [
-        "BR",
-        "INTU",
-        "SAP.DE"
-      ],
-      "top_replacement": "BR",
-      "top_replacement_score": 75.2,
-      "detail": "MSFT sali\u00f3 de VALUE (72pts); peers en Technology: BR, INTU"
-    },
     {
       "type": "SECTOR_TAILWIND",
       "sector": "Technology",
       "rotation_score": 100.0,
       "beneficiaries": [
-        "BR",
+        "VRSN",
         "INTU",
-        "SAP.DE"
+        "MSFT"
       ],
-      "top_ticker": "BR",
-      "top_score": 75.2,
-      "detail": "Sector Technology l\u00edder (RS 100) \u2014 BR, INTU, SAP.DE son los picks VALUE"
+      "top_ticker": "VRSN",
+      "top_score": 71.14,
+      "detail": "Sector Technology l\u00edder (RS 100) \u2014 VRSN, INTU, MSFT son los picks VALUE"
+    },
+    {
+      "type": "SECTOR_TAILWIND",
+      "sector": "Communication Services",
+      "rotation_score": 100.0,
+      "beneficiaries": [
+        "G24.DE"
+      ],
+      "top_ticker": "G24.DE",
+      "top_score": 50.5,
+      "detail": "Sector Communication Services l\u00edder (RS 100) \u2014 G24.DE son los picks VALUE"
     },
     {
       "type": "SECTOR_TAILWIND",
