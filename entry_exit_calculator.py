@@ -66,6 +66,12 @@ class EntryExitCalculator:
         exit_price = self._calculate_exit_price(
             current_price, hist, fundamental_data, validation
         )
+        # Un objetivo por debajo de la entrada no es una salida: es que desde
+        # esa entrada no queda recorrido por valoración. CVX 27-oct-2026: a un
+        # 0,9% de máximos, entrada 234,33 (rotura +1%) y objetivo 232,50; el
+        # par se publicaba y el chequeo de coherencia tumbaba el run.
+        if exit_price is not None and exit_price <= entry_price:
+            exit_price = None
 
         # Calculate risk/reward
         risk = entry_price - stop_loss
