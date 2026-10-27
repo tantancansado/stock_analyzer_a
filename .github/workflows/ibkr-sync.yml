@@ -1,0 +1,40 @@
+name: Sincronizar cartera con IBKR
+
+# Informe Flex de solo lectura: añade/actualiza las posiciones de la app con
+# las de Interactive Brokers. Dos pasadas por si a las 04:00 IBKR aún no ha
+# generado el informe del día anterior; repetir no duplica nada.
+# El repo es público: el script solo imprime recuentos, nunca posiciones.
+on:
+  schedule:
+    - cron: '0 4 * * 1-5'
+    - cron: '0 12 * * 1-5'
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'true = solo cuenta qué cambiaría, no escribe'
+        required: false
+        default: 'false'
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Sincronizar
+        env:
+          IBKR_FLEX_TOKEN:           ${{ secrets.IBKR_FLEX_TOKEN }}
+          IBKR_FLEX_QUERY_ID:        ${{ secrets.IBKR_FLEX_QUERY_ID }}
+          IBKR_SYNC_MODE:            ${{ vars.IBKR_SYNC_MODE }}
+          SUPABASE_URL:              ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          SUPABASE_MONITOR_USER_ID:  ${{ secrets.SUPABASE_MONITOR_USER_ID }}
+        run: |
+          if [ "${{ github.event.inputs.dry_run }}" = "true" ]; then
+            python3 ibkr_flex_sync.py --dry-run
+          else
+            python3 ibkr_flex_sync.py
+          fi
