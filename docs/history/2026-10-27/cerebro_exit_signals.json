@@ -1,0 +1,169 @@
+{
+  "generated_at": "2026-10-27",
+  "total": 13,
+  "high_count": 2,
+  "narrative": "",
+  "exits": [
+    {
+      "ticker": "NDSN",
+      "severity": "HIGH",
+      "entry_score": 59.72,
+      "current_score": 31.460000000000008,
+      "signal_date": "2026-09-02",
+      "reasons": [
+        "Score cay\u00f3 28pts (60 \u2192 31)"
+      ],
+      "fundamental_score": 74.4,
+      "ai_validation": {
+        "verdict": "FALSE_POSITIVE",
+        "confidence": 62,
+        "summary": "Nordson es una empresa industrial estable con fundamentales s\u00f3lidos (74.4/100); la ca\u00edda de 28pts probablemente refleja una subida de precio que redujo el margen de valorizaci\u00f3n (VALUE), m\u00e1s que un deterioro real del negocio. No hay evidencia conocida de guidance cuts severos o eventos negativos mayores recientes.",
+        "key_finding": "Nordson mantiene crecimiento constante v\u00eda adquisiciones y dividendos crecientes (Dividend King), sin se\u00f1ales p\u00fablicas de deterioro fundamental grave hasta el corte de conocimiento.",
+        "summary_note": "Nordson es una empresa industrial estable con fundamentales s\u00f3lidos (74.4/100); la ca\u00edda de 28pts probablemente refleja una subida de precio que redujo el margen de valorizaci\u00f3n (VALUE), m\u00e1s que un deterioro real del negocio. No hay evidencia conocida de guidance cuts severos o eventos negativos mayores recientes."
+      }
+    },
+    {
+      "ticker": "SPGI",
+      "severity": "HIGH",
+      "entry_score": 58.14,
+      "current_score": 30.95,
+      "signal_date": "2026-09-01",
+      "reasons": [
+        "Score cay\u00f3 27pts (58 \u2192 31)",
+        "Earnings en 0d \u2014 alta incertidumbre, considera reducir"
+      ],
+      "fundamental_score": 66.3,
+      "ai_validation": {
+        "verdict": "FALSE_POSITIVE",
+        "confidence": 68,
+        "summary": "S&P Global es un negocio de alta calidad con fosos competitivos fuertes (ratings, \u00edndices, Market Intelligence) y no hay evidencia de deterioro fundamental reciente conocido. La ca\u00edda de score probablemente refleja una re-valuaci\u00f3n por precio/momentum y la incertidumbre normal previa a earnings, no un problema estructural del negocio.",
+        "key_finding": "No hay reportes de guidance cuts, p\u00e9rdida de contratos grandes o cambios de management negativos conocidos hasta la fecha de corte; el negocio de ratings e \u00edndices sigue siendo estructuralmente s\u00f3lido.",
+        "summary_note": "S&P Global es un negocio de alta calidad con fosos competitivos fuertes (ratings, \u00edndices, Market Intelligence) y no hay evidencia de deterioro fundamental reciente conocido. La ca\u00edda de score probablemente refleja una re-valuaci\u00f3n por precio/momentum y la incertidumbre normal previa a earnings, no un problema estructural del negocio."
+      }
+    },
+    {
+      "ticker": "RMD",
+      "severity": "MEDIUM",
+      "entry_score": 64.27499999999999,
+      "current_score": null,
+      "signal_date": "2026-10-08",
+      "reasons": [
+        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
+      ],
+      "fundamental_score": 69.8
+    },
+    {
+      "ticker": "META",
+      "severity": "MEDIUM",
+      "entry_score": 63.72,
+      "current_score": 41.44,
+      "signal_date": "2026-09-18",
+      "reasons": [
+        "Score cay\u00f3 22pts (64 \u2192 41)"
+      ],
+      "fundamental_score": 73.6
+    },
+    {
+      "ticker": "CBOE",
+      "severity": "MEDIUM",
+      "entry_score": 61.39,
+      "current_score": null,
+      "signal_date": "2026-10-14",
+      "reasons": [
+        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
+      ],
+      "fundamental_score": 84.6
+    },
+    {
+      "ticker": "ICE",
+      "severity": "MEDIUM",
+      "entry_score": 60.095,
+      "current_score": 51.22999999999999,
+      "signal_date": "2026-10-13",
+      "reasons": [
+        "Earnings en 2d \u2014 alta incertidumbre, considera reducir"
+      ],
+      "fundamental_score": 69.0
+    },
+    {
+      "ticker": "KO",
+      "severity": "MEDIUM",
+      "entry_score": 59.55500000000001,
+      "current_score": 44.405,
+      "signal_date": "2026-10-01",
+      "reasons": [
+        "Score cay\u00f3 15pts (60 \u2192 44)",
+        "Earnings en 0d \u2014 alta incertidumbre, considera reducir"
+      ],
+      "fundamental_score": 75.1
+    },
+    {
+      "ticker": "QSR",
+      "severity": "MEDIUM",
+      "entry_score": 59.09,
+      "current_score": 42.615,
+      "signal_date": "2026-09-10",
+      "reasons": [
+        "Score cay\u00f3 16pts (59 \u2192 43)",
+        "Earnings en 2d \u2014 alta incertidumbre, considera reducir"
+      ],
+      "fundamental_score": 65.5
+    },
+    {
+      "ticker": "UNP",
+      "severity": "MEDIUM",
+      "entry_score": 57.52,
+      "current_score": 30.0,
+      "signal_date": "2026-09-21",
+      "reasons": [
+        "Score cay\u00f3 28pts (58 \u2192 30) \u2014 ca\u00edda t\u00e9cnica/momentum, balance s\u00f3lido (Piotroski 8/9)"
+      ],
+      "fundamental_score": 70.0
+    },
+    {
+      "ticker": "SYK",
+      "severity": "MEDIUM",
+      "entry_score": 57.435,
+      "current_score": 35.28,
+      "signal_date": "2026-10-21",
+      "reasons": [
+        "Score cay\u00f3 22pts (57 \u2192 35)",
+        "Earnings en 2d \u2014 alta incertidumbre, considera reducir"
+      ],
+      "fundamental_score": 70.7
+    },
+    {
+      "ticker": "BLK",
+      "severity": "MEDIUM",
+      "entry_score": 54.08,
+      "current_score": null,
+      "signal_date": "2026-09-19",
+      "reasons": [
+        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
+      ],
+      "fundamental_score": 77.3
+    },
+    {
+      "ticker": "OXY",
+      "severity": "MEDIUM",
+      "entry_score": 53.155,
+      "current_score": 34.04,
+      "signal_date": "2026-09-18",
+      "reasons": [
+        "Score cay\u00f3 19pts (53 \u2192 34)"
+      ],
+      "fundamental_score": 80.1
+    },
+    {
+      "ticker": "FCNCA",
+      "severity": "MEDIUM",
+      "entry_score": 51.92499999999999,
+      "current_score": 32.7,
+      "signal_date": "2026-09-18",
+      "reasons": [
+        "Score cay\u00f3 19pts (52 \u2192 33)"
+      ],
+      "fundamental_score": 70.4
+    }
+  ]
+}

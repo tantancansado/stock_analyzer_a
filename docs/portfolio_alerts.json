@@ -1,54 +1,45 @@
 {
-  "generated_at": "2026-10-26",
+  "generated_at": "2026-10-27",
   "alerts": [
     {
       "type": "STOP_TRIGGERED",
-      "ticker": "DXYZ",
-      "current": 27.5,
-      "entry": 30.5,
-      "target": null,
-      "pct_change": -9.8,
-      "pct_to_target": null
-    },
-    {
-      "type": "STOP_TRIGGERED",
       "ticker": "DX",
-      "current": 10.92,
+      "current": 10.89,
       "entry": 13.33,
       "target": null,
-      "pct_change": -18.1,
+      "pct_change": -18.3,
       "pct_to_target": null
     },
     {
       "type": "STOP_TRIGGERED",
       "ticker": "IVR",
-      "current": 5.54,
+      "current": 5.53,
       "entry": 7.91,
       "target": null,
-      "pct_change": -30.0,
+      "pct_change": -30.1,
       "pct_to_target": null
     },
     {
       "type": "STOP_TRIGGERED",
       "ticker": "CHTR",
-      "current": 108.61,
+      "current": 102.18,
       "entry": 151.96,
       "target": null,
-      "pct_change": -28.5,
+      "pct_change": -32.8,
       "pct_to_target": null
     },
     {
       "type": "STOP_TRIGGERED",
       "ticker": "FLY",
-      "current": 18.23,
+      "current": 18.25,
       "entry": 21.44,
       "target": null,
-      "pct_change": -15.0,
+      "pct_change": -14.9,
       "pct_to_target": null
     }
   ],
   "counts": {
-    "stop_triggered": 5,
+    "stop_triggered": 4,
     "target_reached": 0,
     "near_target": 0
   }

@@ -1,18 +1,18 @@
 {
-  "generated_at": "2026-10-26",
-  "total": 46,
+  "generated_at": "2026-10-27",
+  "total": 54,
   "improving": 0,
-  "narrative": "Una mejora en el F\u2011score de Piotroski indica que la empresa ha reforzado su rentabilidad, liquidez y eficiencia operativa, lo que sugiere una mayor sostenibilidad a largo plazo. Este fortalecimiento financiero suele captar la atenci\u00f3n",
+  "narrative": "",
   "candidates": [
     {
-      "ticker": "RACE",
-      "company_name": "Ferrari N.V.",
+      "ticker": "NDAQ",
+      "company_name": "Nasdaq, Inc.",
       "piotroski_current": 9.0,
       "piotroski_prev": 9.0,
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 36.2
+      "value_score": 58.53
     },
     {
       "ticker": "MA",
@@ -22,17 +22,17 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 39.06
+      "value_score": 45.195
     },
     {
-      "ticker": "NDAQ",
-      "company_name": "Nasdaq, Inc.",
+      "ticker": "TT",
+      "company_name": "Trane Technologies plc",
       "piotroski_current": 9.0,
-      "piotroski_prev": 9.0,
+      "piotroski_prev": null,
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 41.395
+      "value_score": 30.72
     },
     {
       "ticker": "EXPN.L",
@@ -42,7 +42,7 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 57.0
+      "value_score": 56.3
     },
     {
       "ticker": "RACE.MI",
@@ -52,17 +52,7 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 51.9
-    },
-    {
-      "ticker": "INTU",
-      "company_name": "Intuit Inc.",
-      "piotroski_current": 8.0,
-      "piotroski_prev": 8.0,
-      "delta": 0.0,
-      "trend": "STABLE",
-      "signal": "STRONG",
-      "value_score": 70.315
+      "value_score": 38.9
     },
     {
       "ticker": "VRSN",
@@ -72,37 +62,7 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 71.14
-    },
-    {
-      "ticker": "BR",
-      "company_name": "Broadridge Financial Solutions, Inc.",
-      "piotroski_current": 8.0,
-      "piotroski_prev": 8.0,
-      "delta": 0.0,
-      "trend": "STABLE",
-      "signal": "STRONG",
-      "value_score": 59.33999999999999
-    },
-    {
-      "ticker": "SAP",
-      "company_name": "SAP SE",
-      "piotroski_current": 8.0,
-      "piotroski_prev": 8.0,
-      "delta": 0.0,
-      "trend": "STABLE",
-      "signal": "STRONG",
-      "value_score": 62.99000000000001
-    },
-    {
-      "ticker": "MSCI",
-      "company_name": "MSCI Inc.",
-      "piotroski_current": 8.0,
-      "piotroski_prev": 8.0,
-      "delta": 0.0,
-      "trend": "STABLE",
-      "signal": "STRONG",
-      "value_score": 58.81
+      "value_score": 84.80000000000001
     },
     {
       "ticker": "MCO",
@@ -112,17 +72,37 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 57.17
+      "value_score": 79.035
     },
     {
-      "ticker": "DPZ",
-      "company_name": "Domino's Pizza, Inc.",
+      "ticker": "BR",
+      "company_name": "Broadridge Financial Solutions, Inc.",
       "piotroski_current": 8.0,
       "piotroski_prev": 8.0,
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 49.99
+      "value_score": 68.72999999999999
+    },
+    {
+      "ticker": "SAP",
+      "company_name": "SAP SE",
+      "piotroski_current": 8.0,
+      "piotroski_prev": 8.0,
+      "delta": 0.0,
+      "trend": "STABLE",
+      "signal": "STRONG",
+      "value_score": 75.65
+    },
+    {
+      "ticker": "MSCI",
+      "company_name": "MSCI Inc.",
+      "piotroski_current": 8.0,
+      "piotroski_prev": 8.0,
+      "delta": 0.0,
+      "trend": "STABLE",
+      "signal": "STRONG",
+      "value_score": 75.35
     },
     {
       "ticker": "AON",
@@ -132,17 +112,17 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 45.69999999999999
+      "value_score": 74.065
     },
     {
-      "ticker": "NYT",
-      "company_name": "The New York Times Company",
+      "ticker": "DPZ",
+      "company_name": "Domino's Pizza, Inc.",
       "piotroski_current": 8.0,
       "piotroski_prev": 8.0,
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 44.98
+      "value_score": 54.685
     },
     {
       "ticker": "ICE",
@@ -152,7 +132,17 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 41.53
+      "value_score": 51.22999999999999
+    },
+    {
+      "ticker": "NYT",
+      "company_name": "The New York Times Company",
+      "piotroski_current": 8.0,
+      "piotroski_prev": 8.0,
+      "delta": 0.0,
+      "trend": "STABLE",
+      "signal": "STRONG",
+      "value_score": 44.995000000000005
     },
     {
       "ticker": "HESAY",
@@ -162,17 +152,7 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 33.42
-    },
-    {
-      "ticker": "AVGO",
-      "company_name": "Broadcom Inc.",
-      "piotroski_current": 8.0,
-      "piotroski_prev": 8.0,
-      "delta": 0.0,
-      "trend": "STABLE",
-      "signal": "STRONG",
-      "value_score": 31.12
+      "value_score": 36.835
     },
     {
       "ticker": "EFX",
@@ -182,7 +162,7 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 36.900000000000006
+      "value_score": 44.235
     },
     {
       "ticker": "IDXX",
@@ -192,7 +172,7 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 36.3
+      "value_score": 44.215
     },
     {
       "ticker": "WM",
@@ -202,7 +182,47 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 34.0
+      "value_score": 39.15
+    },
+    {
+      "ticker": "UNP",
+      "company_name": "Union Pacific Corporation",
+      "piotroski_current": 8.0,
+      "piotroski_prev": null,
+      "delta": 0.0,
+      "trend": "STABLE",
+      "signal": "STRONG",
+      "value_score": 30.0
+    },
+    {
+      "ticker": "TYL",
+      "company_name": "Tyler Technologies, Inc.",
+      "piotroski_current": 8.0,
+      "piotroski_prev": null,
+      "delta": 0.0,
+      "trend": "STABLE",
+      "signal": "STRONG",
+      "value_score": 32.3
+    },
+    {
+      "ticker": "MLM",
+      "company_name": "Martin Marietta Materials, Inc.",
+      "piotroski_current": 8.0,
+      "piotroski_prev": null,
+      "delta": 0.0,
+      "trend": "STABLE",
+      "signal": "STRONG",
+      "value_score": 36.52
+    },
+    {
+      "ticker": "HEI",
+      "company_name": "HEICO Corporation",
+      "piotroski_current": 8.0,
+      "piotroski_prev": null,
+      "delta": 0.0,
+      "trend": "STABLE",
+      "signal": "STRONG",
+      "value_score": 34.96000000000001
     },
     {
       "ticker": "SAP.DE",
@@ -212,7 +232,7 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 66.4
+      "value_score": 63.9
     },
     {
       "ticker": "AZN.L",
@@ -225,24 +245,14 @@
       "value_score": 54.8
     },
     {
-      "ticker": "ASSA-B.ST",
-      "company_name": "ASSA ABLOY AB (publ)",
+      "ticker": "RMS.PA",
+      "company_name": "Herm\u00e8s International Soci\u00e9t\u00e9 en commandite par actions",
       "piotroski_current": 8.0,
       "piotroski_prev": 8.0,
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 43.2
-    },
-    {
-      "ticker": "INDT.ST",
-      "company_name": "Indutrade AB (publ)",
-      "piotroski_current": 8.0,
-      "piotroski_prev": 8.0,
-      "delta": 0.0,
-      "trend": "STABLE",
-      "signal": "STRONG",
-      "value_score": 41.0
+      "value_score": 42.2
     },
     {
       "ticker": "DPLM.L",
@@ -255,8 +265,8 @@
       "value_score": 40.2
     },
     {
-      "ticker": "RMS.PA",
-      "company_name": "Herm\u00e8s International Soci\u00e9t\u00e9 en commandite par actions",
+      "ticker": "INDT.ST",
+      "company_name": "Indutrade AB (publ)",
       "piotroski_current": 8.0,
       "piotroski_prev": 8.0,
       "delta": 0.0,
@@ -265,34 +275,14 @@
       "value_score": 39.7
     },
     {
-      "ticker": "JKHY",
-      "company_name": "Jack Henry & Associates, Inc.",
-      "piotroski_current": 7.0,
-      "piotroski_prev": 7.0,
+      "ticker": "ASSA-B.ST",
+      "company_name": "ASSA ABLOY AB (publ)",
+      "piotroski_current": 8.0,
+      "piotroski_prev": 8.0,
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 51.45
-    },
-    {
-      "ticker": "WTKWY",
-      "company_name": "Wolters Kluwer N.V.",
-      "piotroski_current": 7.0,
-      "piotroski_prev": 7.0,
-      "delta": 0.0,
-      "trend": "STABLE",
-      "signal": "STRONG",
-      "value_score": 50.795
-    },
-    {
-      "ticker": "FICO",
-      "company_name": "Fair Isaac Corporation",
-      "piotroski_current": 7.0,
-      "piotroski_prev": null,
-      "delta": 0.0,
-      "trend": "STABLE",
-      "signal": "STRONG",
-      "value_score": 48.48
+      "value_score": 35.6
     },
     {
       "ticker": "ADSK",
@@ -302,27 +292,17 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 48.13
+      "value_score": 62.31999999999999
     },
     {
-      "ticker": "RELX",
-      "company_name": "RELX PLC",
+      "ticker": "WTKWY",
+      "company_name": "Wolters Kluwer N.V.",
       "piotroski_current": 7.0,
       "piotroski_prev": 7.0,
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 43.95
-    },
-    {
-      "ticker": "KO",
-      "company_name": "The Coca-Cola Company",
-      "piotroski_current": 7.0,
-      "piotroski_prev": 7.0,
-      "delta": 0.0,
-      "trend": "STABLE",
-      "signal": "STRONG",
-      "value_score": 36.755
+      "value_score": 50.13
     },
     {
       "ticker": "TJX",
@@ -332,7 +312,97 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 34.7
+      "value_score": 50.825
+    },
+    {
+      "ticker": "FICO",
+      "company_name": "Fair Isaac Corporation",
+      "piotroski_current": 7.0,
+      "piotroski_prev": null,
+      "delta": 0.0,
+      "trend": "STABLE",
+      "signal": "STRONG",
+      "value_score": 48.94499999999999
+    },
+    {
+      "ticker": "JKHY",
+      "company_name": "Jack Henry & Associates, Inc.",
+      "piotroski_current": 7.0,
+      "piotroski_prev": 7.0,
+      "delta": 0.0,
+      "trend": "STABLE",
+      "signal": "STRONG",
+      "value_score": 37.92999999999999
+    },
+    {
+      "ticker": "RELX",
+      "company_name": "RELX PLC",
+      "piotroski_current": 7.0,
+      "piotroski_prev": 7.0,
+      "delta": 0.0,
+      "trend": "STABLE",
+      "signal": "STRONG",
+      "value_score": 44.785
+    },
+    {
+      "ticker": "KO",
+      "company_name": "The Coca-Cola Company",
+      "piotroski_current": 7.0,
+      "piotroski_prev": 7.0,
+      "delta": 0.0,
+      "trend": "STABLE",
+      "signal": "STRONG",
+      "value_score": 44.405
+    },
+    {
+      "ticker": "CDNS",
+      "company_name": "Cadence Design Systems, Inc.",
+      "piotroski_current": 7.0,
+      "piotroski_prev": null,
+      "delta": 0.0,
+      "trend": "STABLE",
+      "signal": "STRONG",
+      "value_score": 36.72
+    },
+    {
+      "ticker": "CLPBY",
+      "company_name": "Coloplast A/S",
+      "piotroski_current": 7.0,
+      "piotroski_prev": null,
+      "delta": 0.0,
+      "trend": "STABLE",
+      "signal": "STRONG",
+      "value_score": 33.04
+    },
+    {
+      "ticker": "WST",
+      "company_name": "West Pharmaceutical Services, Inc.",
+      "piotroski_current": 7.0,
+      "piotroski_prev": null,
+      "delta": 0.0,
+      "trend": "STABLE",
+      "signal": "STRONG",
+      "value_score": 35.910000000000004
+    },
+    {
+      "ticker": "CNI",
+      "company_name": "Canadian National Railway Company",
+      "piotroski_current": 7.0,
+      "piotroski_prev": null,
+      "delta": 0.0,
+      "trend": "STABLE",
+      "signal": "STRONG",
+      "value_score": 33.099999999999994
+    },
+    {
+      "ticker": "NDSN",
+      "company_name": "Nordson Corporation",
+      "piotroski_current": 7.0,
+      "piotroski_prev": null,
+      "delta": 0.0,
+      "trend": "STABLE",
+      "signal": "STRONG",
+      "value_score": 31.460000000000008
     },
     {
       "ticker": "SPGI",
@@ -342,7 +412,7 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 32.52
+      "value_score": 30.95
     },
     {
       "ticker": "ULVR.L",
@@ -352,7 +422,7 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 58.7
+      "value_score": 58.2
     },
     {
       "ticker": "AMS.MC",
@@ -362,7 +432,7 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 51.6
+      "value_score": 50.2
     },
     {
       "ticker": "WKL.AS",
@@ -372,27 +442,17 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 49.4
-    },
-    {
-      "ticker": "GEBN.SW",
-      "company_name": "Geberit AG",
-      "piotroski_current": 7.0,
-      "piotroski_prev": 7.0,
-      "delta": 0.0,
-      "trend": "STABLE",
-      "signal": "STRONG",
-      "value_score": 45.3
+      "value_score": 49.9
     },
     {
       "ticker": "LSEG.L",
       "company_name": "London Stock Exchange Group plc",
       "piotroski_current": 7.0,
-      "piotroski_prev": null,
+      "piotroski_prev": 7.0,
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 37.1
+      "value_score": 36.8
     },
     {
       "ticker": "ITX.MC",
@@ -402,11 +462,11 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 44.8
+      "value_score": 44.4
     },
     {
-      "ticker": "ABBN.SW",
-      "company_name": "ABB Ltd",
+      "ticker": "PGHN.SW",
+      "company_name": "Partners Group Holding AG",
       "piotroski_current": 7.0,
       "piotroski_prev": 7.0,
       "delta": 0.0,
@@ -415,8 +475,8 @@
       "value_score": 41.9
     },
     {
-      "ticker": "PGHN.SW",
-      "company_name": "Partners Group Holding AG",
+      "ticker": "ABBN.SW",
+      "company_name": "ABB Ltd",
       "piotroski_current": 7.0,
       "piotroski_prev": 7.0,
       "delta": 0.0,
@@ -435,6 +495,16 @@
       "value_score": 40.6
     },
     {
+      "ticker": "GEBN.SW",
+      "company_name": "Geberit AG",
+      "piotroski_current": 7.0,
+      "piotroski_prev": 7.0,
+      "delta": 0.0,
+      "trend": "STABLE",
+      "signal": "STRONG",
+      "value_score": 40.4
+    },
+    {
       "ticker": "HEIA.AS",
       "company_name": "Heineken N.V.",
       "piotroski_current": 7.0,
@@ -442,7 +512,7 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 40.5
+      "value_score": 39.5
     },
     {
       "ticker": "AI.PA",
@@ -452,7 +522,7 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 35.0
+      "value_score": 34.6
     },
     {
       "ticker": "NESTE.HE",
@@ -462,7 +532,17 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 33.0
+      "value_score": 32.5
+    },
+    {
+      "ticker": "FERG",
+      "company_name": "Ferguson Enterprises Inc.",
+      "piotroski_current": 3.0,
+      "piotroski_prev": null,
+      "delta": 0.0,
+      "trend": "STABLE",
+      "signal": "WEAK",
+      "value_score": 41.6
     }
   ]
 }

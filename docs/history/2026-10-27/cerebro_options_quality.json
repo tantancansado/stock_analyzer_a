@@ -1,0 +1,106 @@
+{
+  "generated_at": "2026-10-27",
+  "total": 25,
+  "tier1": 1,
+  "tier2": 4,
+  "tier3": 4,
+  "noise_filtered": 16,
+  "actionable": [
+    {
+      "ticker": "MSCI",
+      "company_name": "MSCI Inc.",
+      "sentiment": "BULLISH",
+      "tier": "TIER1",
+      "quality_score": 70,
+      "value_score": 75.3,
+      "fcf_yield": 3.31,
+      "insider_confirmation": true,
+      "in_value": true,
+      "quality_factors": [
+        "VALUE strong (75pts)",
+        "INSIDER CONF",
+        "DIRECTIONAL (75% calls)"
+      ],
+      "flow_score": 80.0,
+      "total_premium": 1398108.0,
+      "detected_date": "2026-10-27"
+    },
+    {
+      "ticker": "SYK",
+      "company_name": "Stryker Corporation",
+      "sentiment": "BULLISH",
+      "tier": "TIER2",
+      "quality_score": 55,
+      "value_score": 35.3,
+      "fcf_yield": 4.06,
+      "insider_confirmation": true,
+      "in_value": true,
+      "quality_factors": [
+        "VALUE weak (35pts)",
+        "INSIDER CONF",
+        "DIRECTIONAL (100% calls)"
+      ],
+      "flow_score": 70.0,
+      "total_premium": 510936.0,
+      "detected_date": "2026-10-27"
+    },
+    {
+      "ticker": "VRSN",
+      "company_name": "VeriSign, Inc.",
+      "sentiment": "BULLISH",
+      "tier": "TIER2",
+      "quality_score": 50,
+      "value_score": 84.8,
+      "fcf_yield": 3.75,
+      "insider_confirmation": true,
+      "in_value": true,
+      "quality_factors": [
+        "VALUE strong (85pts)",
+        "INSIDER CONF",
+        "AMBIGUOUS (split 50/50)"
+      ],
+      "flow_score": 80.0,
+      "total_premium": 1435822.0,
+      "detected_date": "2026-10-27"
+    },
+    {
+      "ticker": "FICO",
+      "company_name": "Fair Isaac Corporation",
+      "sentiment": "BEARISH",
+      "tier": "TIER2",
+      "quality_score": 45,
+      "value_score": 48.9,
+      "fcf_yield": 6.29,
+      "insider_confirmation": false,
+      "in_value": true,
+      "quality_factors": [
+        "VALUE weak (49pts)",
+        "FCF 6.3%",
+        "DIRECTIONAL (100% puts)"
+      ],
+      "flow_score": 60.0,
+      "total_premium": 242890.0,
+      "detected_date": "2026-10-27"
+    },
+    {
+      "ticker": "ICE",
+      "company_name": "Intercontinental Exchange, Inc.",
+      "sentiment": "BEARISH",
+      "tier": "TIER2",
+      "quality_score": 45,
+      "value_score": 51.2,
+      "fcf_yield": 5.26,
+      "insider_confirmation": false,
+      "in_value": true,
+      "quality_factors": [
+        "VALUE weak (51pts)",
+        "FCF 5.3%",
+        "DIRECTIONAL (100% puts)"
+      ],
+      "flow_score": 50.0,
+      "total_premium": 10920.0,
+      "detected_date": "2026-10-27"
+    }
+  ],
+  "narrative": ""
+}

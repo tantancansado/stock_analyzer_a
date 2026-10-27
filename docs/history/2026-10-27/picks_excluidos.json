@@ -1,0 +1,41 @@
+{
+  "listas": {
+    "value_opportunities": {
+      "candidatas": 89,
+      "publicadas": 84,
+      "excluidos": [
+        {
+          "ticker": "ERIE",
+          "paso": "rangos_imposibles",
+          "motivo": "Falta analyst_upside_pct: no se recomienda lo que no se puede evaluar",
+          "score": 41.522
+        },
+        {
+          "ticker": "VCISY",
+          "paso": "rangos_imposibles",
+          "motivo": "DCF fuera de rango: no es una valoración, es un dato roto (visto 260, esperado entre -95 y 200)",
+          "score": 38.92
+        },
+        {
+          "ticker": "KYCCF",
+          "paso": "rangos_imposibles",
+          "motivo": "Falta analyst_upside_pct: no se recomienda lo que no se puede evaluar",
+          "score": 35.461999999999996
+        },
+        {
+          "ticker": "INTU",
+          "paso": "verificador_ia",
+          "motivo": "proximity_to_52w_high de -50.7% con ma_filter_pass false (weak trend) pero upside_triangulated_pct de 76.8% y upside_requiere_verificacion false. El DCF de +133.6% sostiene una oportunidad enorme, pero la ficha misma muestra debilidad estructural severa (50% por debajo del máximo anual, tendencia rota). Sin explicación de por qué esa caída tan profunda no invalida los modelos, la recomendación es indefendible.",
+          "score": 67.11500000000001
+        },
+        {
+          "ticker": "ZTS",
+          "paso": "verificador_ia",
+          "motivo": "rev_growth_yoy es -0.2% (ingresos cayendo) pero upside_triangulated_pct es 73.7% y analyst_upside_pct es 14.9%, con upside_requiere_verificacion false. Esto contradice la regla de verificación: un negocio con crecimiento invertido no puede justificar upside >30% sin demanda de verificación. La ficha desmiente su propio upside.",
+          "score": 46.295
+        }
+      ]
+    }
+  },
+  "generated_at": "2026-10-27T05:20:53Z"
+}

@@ -1,32 +1,40 @@
 {
-  "generated_at": "2026-10-26",
+  "generated_at": "2026-10-27",
   "regime": "NEUTRAL",
-  "narrative": "R\u00e9gimen NEUTRAL. 1 oportunidades de entrada, 2 se\u00f1ales de salida HIGH. Sin trampas de valor relevantes.",
+  "narrative": "1. Mant\u00e9n posici\u00f3n larga en VRSN, MSCI y SYK, ya que convergen en se\u00f1ales de compra y no presentan alertas cr\u00edticas.  \n2. Reduce exposici\u00f3n en NDSN y SPGI tras la ca\u00edda abrupta de sus scores; considera vender parcialmente o colocar stops ajustados.  \n3. Vigila de cerca los earnings de 7741.T y AON, pues sus advertencias de resultados pueden generar volatilidad sectorial.  \n4. Evita nuevas entradas en AAL.L hasta que se confirme la sostenibilidad del insider buying y no haya sorpresas negativas.  \n5. Mantente alerta a cualquier deterioro macro\u2011econ\u00f3mico inesperado, aunque el entorno actual est\u00e1 sin estr\u00e9s significativo.",
   "sections": {
     "regime": "NEUTRAL",
     "strong_buy_count": 0,
-    "buy_count": 1,
+    "buy_count": 2,
     "top_entries": [
       [
         "VRSN",
+        60
+      ],
+      [
+        "MSCI",
         55
       ]
     ],
     "top_convergences": [
       [
         "VRSN",
-        94
+        96
       ],
       [
         "MSCI",
-        91
+        95
       ],
       [
-        "AON",
-        79
+        "SYK",
+        77
       ]
     ],
     "high_alerts": [
+      [
+        "7741.T",
+        "EARNINGS_WARNING"
+      ],
       [
         "AAL.L",
         "INSIDER_BUYING"
@@ -34,27 +42,23 @@
       [
         "AON",
         "EARNINGS_WARNING"
-      ],
-      [
-        "ASSA-B.ST",
-        "EARNINGS_WARNING"
       ]
     ],
     "traps_warning": [],
     "exit_warnings": [
       [
-        "QSR",
-        "Score cay\u00f3 25pts (59 \u2192 34); Earnings en 3d \u2014 alta incertidumbre, considera reducir",
-        "Earnings en 3 d\u00edas genera incertidumbre t\u00edpica; hist\u00f3ricamente QSR ha tenido crecimiento moderado pero con presi\u00f3n en Burger King US y Tim Hortons, sin colapso fundamental evidente.",
-        59.09,
-        34.0
+        "NDSN",
+        "Score cay\u00f3 28pts (60 \u2192 31)",
+        "Nordson mantiene crecimiento constante v\u00eda adquisiciones y dividendos crecientes (Dividend King), sin se\u00f1ales p\u00fablicas de deterioro fundamental grave hasta el corte de conocimiento.",
+        59.72,
+        31.460000000000008
       ],
       [
         "SPGI",
-        "Score cay\u00f3 26pts (58 \u2192 33); Earnings en 1d \u2014 alta incertidumbre, considera reducir",
-        "La se\u00f1al de salida se basa principalmente en ca\u00edda de score t\u00e9cnico/cuantitativo y proximidad a earnings, no en eventos fundamentales negativos confirmados (sin guidance cuts ni misses reportados hasta mi conocimiento).",
+        "Score cay\u00f3 27pts (58 \u2192 31); Earnings en 0d \u2014 alta incertidumbre, considera reducir",
+        "No hay reportes de guidance cuts, p\u00e9rdida de contratos grandes o cambios de management negativos conocidos hasta la fecha de corte; el negocio de ratings e \u00edndices sigue siendo estructuralmente s\u00f3lido.",
         58.14,
-        32.52
+        30.95
       ]
     ],
     "smart_money": [
@@ -69,9 +73,9 @@
         9
       ],
       [
-        "MSFT",
-        1,
-        0
+        "DGE.L",
+        0,
+        7
       ]
     ],
     "macro_stress": []

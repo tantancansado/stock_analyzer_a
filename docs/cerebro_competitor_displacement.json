@@ -1,43 +1,56 @@
 {
-  "generated_at": "2026-10-26",
-  "total": 3,
-  "dropped_count": 0,
-  "narrative": "",
+  "generated_at": "2026-10-27",
+  "total": 4,
+  "dropped_count": 1,
+  "narrative": "1. Cuando un competidor clave (por ejemplo, INTU) abandona la categor\u00eda VALUE y los pares del sector (como VRSN y SAP) muestran un impulso de precios, rotar a esos pares dentro del mismo sector suele generar retornos m\u00e1s r\u00e1pidos que esperar a que el mercado reconozca el nuevo liderazgo.  \n\n2. Si el sector est\u00e1 bajo una fuerte corriente alcista (Technology o Healthcare con RS\u202f100",
   "displacements": [
+    {
+      "type": "COMPETITOR_RISE",
+      "dropped_ticker": "INTU",
+      "sector": "Technology",
+      "prev_score": 70.315,
+      "replacements": [
+        "VRSN",
+        "SAP",
+        "BR"
+      ],
+      "top_replacement": "VRSN",
+      "top_replacement_score": 84.80000000000001,
+      "detail": "INTU sali\u00f3 de VALUE (70pts); peers en Technology: VRSN, SAP"
+    },
+    {
+      "type": "EXIT_TO_PEER",
+      "exiting_ticker": "SPGI",
+      "sector": "Financial Services",
+      "replacement": "MCO",
+      "replacement_score": 79.035,
+      "detail": "Exit SPGI (Financial Services) \u2192 rotar a peer MCO (79pts)"
+    },
     {
       "type": "SECTOR_TAILWIND",
       "sector": "Technology",
       "rotation_score": 100.0,
       "beneficiaries": [
         "VRSN",
-        "INTU",
-        "MSFT"
+        "SAP",
+        "BR"
       ],
       "top_ticker": "VRSN",
-      "top_score": 71.14,
-      "detail": "Sector Technology l\u00edder (RS 100) \u2014 VRSN, INTU, MSFT son los picks VALUE"
-    },
-    {
-      "type": "SECTOR_TAILWIND",
-      "sector": "Communication Services",
-      "rotation_score": 100.0,
-      "beneficiaries": [
-        "G24.DE"
-      ],
-      "top_ticker": "G24.DE",
-      "top_score": 50.5,
-      "detail": "Sector Communication Services l\u00edder (RS 100) \u2014 G24.DE son los picks VALUE"
+      "top_score": 84.80000000000001,
+      "detail": "Sector Technology l\u00edder (RS 100) \u2014 VRSN, SAP, BR son los picks VALUE"
     },
     {
       "type": "SECTOR_TAILWIND",
       "sector": "Healthcare",
       "rotation_score": 100.0,
       "beneficiaries": [
-        "AZN.L"
+        "THC",
+        "AZN.L",
+        "UNH"
       ],
-      "top_ticker": "AZN.L",
-      "top_score": 54.8,
-      "detail": "Sector Healthcare l\u00edder (RS 100) \u2014 AZN.L son los picks VALUE"
+      "top_ticker": "THC",
+      "top_score": 54.975,
+      "detail": "Sector Healthcare l\u00edder (RS 100) \u2014 THC, AZN.L, UNH son los picks VALUE"
     }
   ]
 }

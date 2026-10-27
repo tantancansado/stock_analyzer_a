@@ -1,0 +1,131 @@
+{
+  "generated_at": "2026-10-27",
+  "macro_regime": "CALM",
+  "composite_score": 6.0,
+  "sesgo": "DEFENSIVO",
+  "confianza": 78,
+  "situacion": "Mercado calmado con se\u00f1ales mixtas y riesgo bajo, pero sesgo defensivo por presi\u00f3n del d\u00f3lar y skew.",
+  "narrativa": "El \u00edndice de skew y el DXY est\u00e1n en niveles extremos, indicando aversi\u00f3n al riesgo y presi\u00f3n sobre acciones peque\u00f1as. Las fortalezas en cobre y oro sugieren un refugio en materias primas, favoreciendo una postura defensiva para los inversores VALUE.",
+  "acciones_inmediatas": [
+    {
+      "prioridad": 1,
+      "accion": "COMPRAR",
+      "instrumento": "SAP",
+      "razon": "Valoraci\u00f3n atractiva y fuerte flujo de caja en un entorno defensivo.",
+      "catalizador": "Datos de inflaci\u00f3n PCE que pueden reforzar la demanda de activos seguros.",
+      "size_hint": "media (3-4%)",
+      "invalidacion": "Una fuerte recuperaci\u00f3n del DXY o ca\u00edda del precio del cobre."
+    },
+    {
+      "prioridad": 2,
+      "accion": "COMPRAR",
+      "instrumento": "TLT",
+      "razon": "Rendimiento de 30 a\u00f1os en zona atractiva para bonos largos.",
+      "catalizador": "Fed Meeting que podr\u00eda confirmar pol\u00edtica de tasas estables.",
+      "size_hint": "peque\u00f1a (1-2%)",
+      "invalidacion": "Subida inesperada de tasas por parte de la Fed."
+    },
+    {
+      "prioridad": 3,
+      "accion": "VIGILAR",
+      "instrumento": "IWM",
+      "razon": "Small caps en fuerte divergencia, pero cr\u00e9dito s\u00f3lido.",
+      "catalizador": "GDP Advance que podr\u00eda mejorar el sentimiento de riesgo.",
+      "size_hint": "peque\u00f1a (1-2%)",
+      "invalidacion": "Confirmaci\u00f3n de ca\u00edda de liquidez o deterioro crediticio."
+    }
+  ],
+  "macro_plays": [
+    {
+      "instrument": "TLT/VGLT",
+      "direction": "LONG",
+      "thesis": "Yield 30yr en 5.30% \u2014 zona hist\u00f3ricamente atractiva para bonos largos",
+      "historical": "2018-19: TLT +18% cuando yields revertieron desde 3.25%",
+      "risk": "La Fed puede mantener tipos altos m\u00e1s tiempo \u2014 size peque\u00f1o",
+      "timeframe": "3-6 meses",
+      "score": 95,
+      "eu_alternative": {
+        "ticker": "DTLA",
+        "name": "Xtrackers US Treasuries 20yr+ UCITS ETF",
+        "exchange": "Xetra",
+        "available": "DEGIRO/IB"
+      }
+    },
+    {
+      "instrument": "IWM",
+      "direction": "LONG (contrarian)",
+      "thesis": "Small caps en percentil 13% pero cr\u00e9dito OK \u2014 divergencia excesiva",
+      "historical": "2016 post-elecci\u00f3n: IWM +20% en 3 meses desde valuaciones deprimidas",
+      "risk": "Si cr\u00e9dito deteriora, small caps caen m\u00e1s \u2014 monitorizar HYG",
+      "timeframe": "2-3 meses",
+      "score": 60,
+      "eu_alternative": {
+        "ticker": "CSUS",
+        "name": "iShares MSCI USA Small Cap UCITS ETF",
+        "exchange": "LSE",
+        "available": "DEGIRO/IB"
+      }
+    }
+  ],
+  "macro_plays_commentary": "Mantener posiciones largas en TLT y IWM como apuestas macro defensivas y contrarias.",
+  "value_en_entorno": [
+    {
+      "ticker": "SAP",
+      "score": 75.7,
+      "sector": "Technology",
+      "fcf_yield_pct": 3.71,
+      "grade": "B"
+    },
+    {
+      "ticker": "BR",
+      "score": 68.7,
+      "sector": "Technology",
+      "fcf_yield_pct": 6.03,
+      "grade": "B"
+    },
+    {
+      "ticker": "SAP.DE",
+      "score": 63.9,
+      "sector": "Technology",
+      "fcf_yield_pct": 3.73,
+      "grade": "B"
+    },
+    {
+      "ticker": "ADSK",
+      "score": 62.3,
+      "sector": "Technology",
+      "fcf_yield_pct": 5.41,
+      "grade": "B"
+    }
+  ],
+  "value_en_entorno_razon": "Los picks VALUE como SAP y BR presentan altos scores, buen FCF y sectores defensivos que se benefician del entorno de bajo riesgo y alta aversi\u00f3n al riesgo.",
+  "evitar": [
+    {
+      "ticker": "SPGI",
+      "razon": "Se\u00f1al de salida por deterioro de fundamentos recientes."
+    }
+  ],
+  "agenda_semana": [
+    {
+      "fecha": "2026-10-28",
+      "evento": "Fed Meeting",
+      "impacto": "ALTO",
+      "accion_sugerida": "Revisar exposici\u00f3n a bonos y ajustar si se anuncian cambios de pol\u00edtica."
+    },
+    {
+      "fecha": "2026-10-29",
+      "evento": "GDP Advance",
+      "impacto": "MEDIO",
+      "accion_sugerida": "Vigilar reacci\u00f3n de small caps y ajustar IWM si mejora el crecimiento."
+    },
+    {
+      "fecha": "2026-10-30",
+      "evento": "PCE Inflation",
+      "impacto": "ALTO",
+      "accion_sugerida": "Confirmar posici\u00f3n defensiva; aumentar exposici\u00f3n a oro y bonos si la inflaci\u00f3n se mantiene alta."
+    }
+  ],
+  "frase_del_dia": "\u201cLa paciencia es la mejor estrategia de inversi\u00f3n.\u201d \u2013 Warren Buffett",
+  "mensaje_telegram": "\ud83d\udcca D\u00eda defensivo: compra SAP y TLT, vigila IWM. Fed y PCE son claves. Evita SPGI. #VALUE #Bonos #Defensa",
+  "ai_powered": true
+}
