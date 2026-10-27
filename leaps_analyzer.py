@@ -98,7 +98,7 @@ AI_NARRATIVE_N   = 12       # Claude verifica datos + veredicto en TODAS las mos
 # app (calidad fundamental + buen momento) para quedarse solo con los mejores.
 LEAPS_UNIVERSE = [
     # Mega-cap tech / compounders
-    'GOOGL', 'AMZN', 'MSFT', 'AAPL', 'META', 'NVDA', 'AVGO', 'CRM', 'ADBE', 'ORCL',
+    'GOOG', 'AMZN', 'MSFT', 'AAPL', 'META', 'NVDA', 'AVGO', 'CRM', 'ADBE', 'ORCL',
     # Growth de calidad
     # (SQ → XYZ: Block cambió de ticker en NYSE en enero 2025; 'SQ' ya no
     # resuelve en yfinance y moría en silencio en cada scan)
@@ -483,6 +483,20 @@ def load_app_signals() -> dict:
     return signals
 
 
+def _entero(v) -> int:
+    """Entero de un campo de Yahoo; NaN o vacío cuentan como 0.
+
+    `int(nan or 0)` revienta: NaN es verdadero, así que `or 0` no lo cambia. El
+    26-oct-2026 eso tumbaba BAC e ICE enteras («cannot convert float NaN to
+    integer») por un solo contrato sin interés abierto publicado.
+    """
+    try:
+        f = float(v)
+    except (TypeError, ValueError):
+        return 0
+    return int(f) if f == f else 0
+
+
 def _num(v, default=None):
     try:
         if v is None or (isinstance(v, float) and math.isnan(v)):
@@ -779,7 +793,7 @@ def analyze_ticker_leaps(ticker: str, sig: dict, rate: float) -> Optional[dict]:
                     continue
                 mid = (bid + ask) / 2
                 iv = float(row.get('impliedVolatility', 0) or 0)
-                oi = int(row.get('openInterest', 0) or 0)
+                oi = _entero(row.get('openInterest'))
                 if iv <= 0 or mid <= 0:
                     continue
                 m = leaps_metrics(spot, strike, t_years, mid, iv, rate, div_yield)
@@ -808,7 +822,7 @@ def analyze_ticker_leaps(ticker: str, sig: dict, rate: float) -> Optional[dict]:
                     'cost_per_contract': round(mid * 100, 2),   # 1 contrato = 100 acciones
                     'iv_pct': round(iv * 100, 1),
                     'open_interest': oi,
-                    'volume': int(row.get('volume', 0) or 0),
+                    'volume': _entero(row.get('volume')),
                     'spread_pct': round(spread_pct, 1),
                     # Lo que te cuesta cruzar el spread (entrar al ask, salir
                     # al bid), en $ por contrato — con volumen ~0 este número
@@ -1179,8 +1193,11 @@ IMPORTANTE: sé CONCISO. Cada campo, máximo 2 frases cortas. No te extiendas.
   "roll": "1 frase: cuándo rolar a vencimiento más largo.",
   "thesis_break": "1 frase: qué rompería la tesis y obligaría a cerrar."
 }}"""
+    # Sonnet 5 piensa antes de escribir y ese razonamiento sale del mismo
+    # max_tokens: con 1700 el JSON llegaba cortado, no parseaba y la idea
+    # quedaba «sin verificar» (3 de 5 el 26-oct-2026).
     txt = claude_chat(messages=[{'role': 'user', 'content': prompt}],
-                      model=CLAUDE_SONNET, max_tokens=1700, temperature=0.3)
+                      model=CLAUDE_SONNET, max_tokens=4000, temperature=0.3)
     if not txt:
         return False
     import re as _re

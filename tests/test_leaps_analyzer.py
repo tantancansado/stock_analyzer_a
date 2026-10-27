@@ -687,3 +687,15 @@ class TestLaIvDeepItmNoEsUtilizable:
         from conftest import bloque_de_codigo
         bloque = bloque_de_codigo(src, 'def _iv_tag')
         assert "c['iv_richness'] = None" in bloque and 'iv_nota' in bloque
+
+
+def test_interes_abierto_nan_no_tumba_el_ticker():
+    import leaps_analyzer as L
+    assert L._entero(float('nan')) == 0
+    assert L._entero(None) == 0 and L._entero('') == 0
+    assert L._entero(123.0) == 123
+
+
+def test_google_se_busca_con_el_ticker_de_la_app():
+    import leaps_analyzer as L
+    assert 'GOOG' in L.LEAPS_UNIVERSE and 'GOOGL' not in L.LEAPS_UNIVERSE
