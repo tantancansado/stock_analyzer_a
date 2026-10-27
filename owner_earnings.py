@@ -39,6 +39,13 @@ def _load_tikr() -> dict:
         return _cache
     if TIKR_PATH.exists():
         _cache = json.loads(TIKR_PATH.read_text()).get("data", {})
+        # Segunda red: un año de relleno de TIKR (ver tikr_scraper.es_anio_de_relleno)
+        # daba precios de salida negativos y dejaba sin precio de compra.
+        from tikr_scraper import limpiar_forward
+        for ficha in _cache.values():
+            ae = (ficha or {}).get('analyst_estimates')
+            if isinstance(ae, dict) and isinstance(ae.get('forward'), dict):
+                ae['forward'], _ = limpiar_forward(ae['forward'])
     return _cache
 
 

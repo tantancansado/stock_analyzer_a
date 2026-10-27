@@ -1111,6 +1111,50 @@ EST_ACTUALS = {
 }
 
 
+_MONETARIAS = ('revenue', 'ebitda', 'ebit', 'net_income_norm', 'fcf')
+
+
+def es_anio_de_relleno(valores: dict) -> bool:
+    """¿Es este año de estimaciones un relleno de TIKR y no un dato?
+
+    El 25-oct-2026 TIKR devolvió para 2030, en 120 de 160 empresas, una entrada
+    nueva con ~1,1 en TODOS los campos (ingresos 1,1 millones, BPA 1,11 y «1,11
+    analistas»). Como el parser se queda con la entrada más reciente, pisaba a
+    la buena (CNI: ingresos 22.099 M, BPA 11,09) y la valoración salía con
+    precio de salida negativo. Señales de relleno, cualquiera de las dos:
+      · un número de analistas con decimales,
+      · tres o más magnitudes monetarias distintas con el mismo valor.
+    """
+    if not isinstance(valores, dict):
+        return False
+    n = valores.get('n_analysts')
+    try:
+        if n is not None and abs(float(n) - round(float(n))) > 0.01:
+            return True
+    except (TypeError, ValueError):
+        return True
+    cifras = [round(float(valores[k]), 1) for k in _MONETARIAS
+              if isinstance(valores.get(k), (int, float))]
+    return len(cifras) >= 3 and max(cifras.count(c) for c in cifras) >= 3
+
+
+def limpiar_forward(forward: dict) -> tuple[dict, list]:
+    """(forward sin los años de relleno, años quitados)."""
+    forward = forward or {}
+    quitados = [yr for yr, v in forward.items() if es_anio_de_relleno(v)]
+    # Entre años: unos ingresos que caen más de un 80% frente al año anterior no
+    # son una previsión (POOL 2030: solo ingresos y EBIT a 1,1).
+    anos = sorted(forward, key=lambda y: int(y))
+    for prev, yr in zip(anos, anos[1:]):
+        try:
+            r0, r1 = float(forward[prev].get('revenue')), float(forward[yr].get('revenue'))
+        except (TypeError, ValueError, AttributeError):
+            continue
+        if r0 > 0 and r1 < r0 * 0.2 and yr not in quitados:
+            quitados.append(yr)
+    return {yr: v for yr, v in forward.items() if yr not in quitados}, quitados
+
+
 def fetch_est(
     session: requests.Session,
     token: str,
@@ -1186,6 +1230,9 @@ def fetch_est(
     # Separar forward (>= current year) de recientes para contexto
     forward = {yr: v for yr, v in fwd_raw.items()
                if current_year <= yr <= current_year + fwd_years}
+    forward, quitados = limpiar_forward(forward)
+    if quitados:
+        print(f"    /est cid={cid}: años de relleno descartados {sorted(quitados)}")
     recent  = {yr: v for yr, v in act_raw.items()
                if yr >= current_year - 3}
 
