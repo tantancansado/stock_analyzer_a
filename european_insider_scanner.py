@@ -74,7 +74,7 @@ DAX40_ISIN_MAP: dict[str, tuple[str, str]] = {
     "FMC.DE":   ("DE0005785802", "Fresenius Medical Care"),
     "FRE.DE":   ("DE0005785604", "Fresenius"),
     "HNR1.DE":  ("DE0008402215", "Hannover Rueck"),
-    "HEIG.DE":  ("DE0006047004", "Heidelberg Materials"),
+    "HEI.DE":   ("DE0006047004", "Heidelberg Materials"),  # era HEIG.DE: no existe en Yahoo
     "HEN3.DE":  ("DE0006048432", "Henkel"),
     "IFX.DE":   ("DE0006231004", "Infineon"),
     "MBG.DE":   ("DE0007100000", "Mercedes-Benz"),

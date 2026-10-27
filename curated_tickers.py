@@ -191,6 +191,9 @@ TIER_4 = [
     'GOOG',    # Alphabet
     'AMZN',    # Amazon
     'CRH',     # CRH plc
+    # Ashtead (AHT.L) se llevó la cotización a Nueva York como Sunbelt Rentals
+    # en 2026; estaba en el universo europeo y se quedó sin dato.
+    'SUNB',    # Sunbelt Rentals (ex-Ashtead)
     'MLM',     # Martin Marietta Materials
     'FTNT',    # Fortinet
     'HLT',     # Hilton Worldwide

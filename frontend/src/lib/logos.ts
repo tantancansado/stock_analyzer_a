@@ -312,7 +312,7 @@ const TICKER_DOMAIN: Record<string, string> = {
   'ENEL.MI':  'enel.com',
   'ISP.MI':   'intesasanpaolo.com',
   'UCG.MI':   'unicreditgroup.eu',
-  'STM.MI':   'st.com',
+  'STMPA.PA': 'st.com',
   'LUX.MI':   'luxottica.com',
   'REC.MI':   'recordati.it',
 

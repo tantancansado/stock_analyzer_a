@@ -73,10 +73,11 @@ FTSE100_SYMBOLS = [
     "CPG.L",        # Compass Group
     "AAL.L",        # Anglo American
     "EXPN.L",       # Experian
-    "CRH.L",        # CRH plc
+    # CRH.L y AHT.L ya no existen: CRH (2023) y Ashtead (2026, hoy Sunbelt
+    # Rentals, SUNB) se llevaron la cotización a Nueva York. Se analizan desde
+    # curated_tickers.py con su símbolo vivo.
     "ABF.L",        # Associated British Foods
     "ANTO.L",       # Antofagasta
-    "AHT.L",        # Ashtead Group
     "BATS.L",       # British American Tobacco
     "GLEN.L",       # Glencore
     "PRU.L",        # Prudential plc
@@ -121,7 +122,6 @@ CAC40_SYMBOLS = [
     "HO.PA",        # Thales
     "SGO.PA",       # Saint-Gobain
     "VIV.PA",       # Vivendi
-    "MT.PA",        # ArcelorMittal SA
     "GLE.PA",       # Societe Generale
     "CA.PA",        # Carrefour
     "CAP.PA",       # Capgemini
@@ -141,7 +141,7 @@ CAC40_SYMBOLS = [
     "ALO.PA",       # Alstom
     "ATO.PA",       # Atos
     "WLN.PA",       # Worldline
-    "STM.PA",       # STMicroelectronics NV
+    "STMPA.PA",     # STMicroelectronics NV (era STM.PA: Yahoo dejó de resolverlo)
 ]
 
 IBEX35_SYMBOLS = [
@@ -183,7 +183,8 @@ AEX25_SYMBOLS = [
     "NN.AS",        # NN Group
     "AGN.AS",       # Aegon
     "KPN.AS",       # KPN
-    "DSM.AS",       # DSM-Firmenich AG
+    "DSFIR.AS",     # DSM-Firmenich AG (era DSM.AS: Yahoo dejó de resolverlo)
+    "MT.AS",        # ArcelorMittal SA (estaba en el CAC como MT.PA: Yahoo dejó de resolverlo)
     "ASM.AS",       # ASM International NV
     "PRX.AS",       # Prosus
     "IMCD.AS",      # IMCD
@@ -222,7 +223,8 @@ FTSEMIB_SYMBOLS = [
     "UCG.MI",       # UniCredit
     "ENI.MI",       # Eni
     "ENEL.MI",      # Enel
-    "STM.MI",       # STMicroelectronics (Milan listing)
+    # STMicroelectronics: se analiza en París (STMPA.PA); la de Milán es la
+    # misma empresa y salía repetida
     "G.MI",         # Assicurazioni Generali
     "RACE.MI",      # Ferrari
     "TIT.MI",       # Telecom Italia
@@ -267,7 +269,7 @@ def get_all_european_symbols():
         SMI20_SYMBOLS +
         FTSEMIB_SYMBOLS
     )
-    # Remove duplicates (e.g. STM listed in both Paris and Milan)
+    # Remove duplicates
     seen = set()
     unique = []
     for s in all_symbols:
