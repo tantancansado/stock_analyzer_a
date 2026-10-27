@@ -2587,6 +2587,10 @@ export interface LeapsOpportunity {
   ai_narrative?: string
   situation_verdict?: LeapsVerdict
   exit_plan?: LeapsExitPlan
+  /** Desde cuándo se publica la idea: se mantiene hasta dos semanas salvo que se rompa. */
+  publicada_desde?: string | null
+  /** Idea ya publicada con resultados cerca: si no la has comprado, espera. */
+  aviso_resultados?: string | null
   generated_at?: string
   risk_free_rate_pct?: number
   error?: string

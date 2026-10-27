@@ -538,6 +538,10 @@ class TestGateDeClaudeFailClosed:
         mala = self._opp()
         mala['ticker'] = 'MALA'
         mala['opportunity_score'] = 80
+        for o in (buena, mala):
+            o['recommended_contract']['iv_richness'] = 'normal'
+            o['entry_readiness'] = 'ENTRADA'
+        monkeypatch.setattr(la, '_publicadas_antes', lambda: {})
 
         respuestas = {
             'BUENA': _json.dumps({'data_check': 'OK', 'verdict': 'OPORTUNIDAD',
@@ -696,6 +700,3 @@ def test_interes_abierto_nan_no_tumba_el_ticker():
     assert L._entero(123.0) == 123
 
 
-def test_google_se_busca_con_el_ticker_de_la_app():
-    import leaps_analyzer as L
-    assert 'GOOG' in L.LEAPS_UNIVERSE and 'GOOGL' not in L.LEAPS_UNIVERSE

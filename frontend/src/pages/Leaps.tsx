@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import type { LucideIcon } from 'lucide-react'
-import useIsMobile from '../hooks/useIsMobile'
 import { fetchLeaps, fetchLeapsTicker, type LeapsData, type LeapsOpportunity, type LeapsContract, type LeapsSituation } from '../api/client'
 import PageHeader from '../components/PageHeader'
 import AvisoDatosViejos from '@/components/AvisoDatosViejos'
@@ -18,7 +17,7 @@ import { Button } from '@/components/ui/button'
 import EmptyState from '@/components/EmptyState'
 import Metrica from '../components/Metrica'
 import SignalBadge, { type TonoSenal } from '@/components/SignalBadge'
-import { POR_QUE_CAE, TEXTO_ENTRADA, ordenaPorEntrada, type EstadoEntrada } from '@/lib/estadoEntrada'
+import { POR_QUE_CAE, TEXTO_ENTRADA, type EstadoEntrada } from '@/lib/estadoEntrada'
 
 const fmtUsd = (n: number, d = 2) =>
   new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: d }).format(n)
@@ -452,8 +451,89 @@ function OpportunityCard({ o, rank }: { o: LeapsOpportunity; rank?: number }) {
   )
 }
 
+/** La idea, en limpio: qué comprar, cuánto arriesgas, qué ganas y cuándo vender.
+ *  El análisis completo (strikes, escenarios, griegas) queda plegado debajo. */
+function IdeaLeaps({ o }: { o: LeapsOpportunity }) {
+  const [verDetalle, setVerDetalle] = useState(false)
+  const c = o.recommended_contract
+  const pat = o.profit_at_target
+  const quieto = pat?.si_no_se_mueve
+  const entrada = o.entry_readiness ? ENTRADA_CONFIG[o.entry_readiness] : null
+  const porQue = o.situation_verdict?.reason || o.ai_narrative
+  return (
+    <Card className="glass">
+      <CardContent className="p-5 space-y-4">
+        <div className="flex flex-wrap items-center gap-2">
+          <TickerLogo ticker={o.ticker} size="md" />
+          <div className="min-w-0">
+            <div className="font-bold text-seccion text-foreground">{o.ticker}</div>
+            <div className="text-mini text-muted-foreground truncate">{o.company_name}</div>
+          </div>
+          {entrada && o.entry_readiness && (
+            <SignalBadge icon={entrada.icon} tono={entrada.tono} texto={TEXTO_ENTRADA[o.entry_readiness]}
+              titulo="Estado de entrada de la acción (el mismo que en Value)" tamano="micro" />
+          )}
+        </div>
+
+        <div className="rounded-lg bg-foreground/5 px-3 py-2.5">
+          <div className="etiqueta-seccion mb-1">Qué comprar</div>
+          <div className="text-cuerpo font-semibold text-foreground">
+            1 call {o.ticker} · strike {fmtUsd(c.strike, 0)} · vence {c.expiry}
+          </div>
+          <div className="text-mini text-muted-foreground mt-0.5">
+            Orden límite cerca de {fmtUsd(c.mid)} por acción (entre {fmtUsd(c.bid)} y {fmtUsd(c.ask)}). Un contrato son 100 acciones.
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <Metric label="Te cuesta" value={fmtUsd(c.cost_per_contract, 0)} hint="Es también lo máximo que puedes perder: la prima entera." />
+          <Metric label="Empieza a ganar por encima de"
+            value={<>{fmtUsd(c.breakeven)}{c.breakeven_move_pct != null && <span className="text-mini text-muted-foreground"> ({c.breakeven_move_pct > 0 ? '+' : ''}{c.breakeven_move_pct.toFixed(1)}%)</span>}</>} />
+          {pat && (
+            <Metric label={`Si llega a su objetivo (${fmtUsd(pat.target_price)})`}
+              value={<>{pat.option_return_pct > 0 ? '+' : ''}{pat.option_return_pct.toFixed(0)}%<span className="text-mini text-muted-foreground"> frente a {pat.stock_return_pct > 0 ? '+' : ''}{pat.stock_return_pct.toFixed(0)}% de la acción</span></>} />
+          )}
+          {quieto && (
+            <Metric label="Si la acción no se mueve"
+              value={<>{quieto.option_return_pct > 0 ? '+' : ''}{quieto.option_return_pct.toFixed(0)}%<span className="text-mini text-muted-foreground"> (la acción, {quieto.stock_return_pct.toFixed(0)}%)</span></>} />
+          )}
+        </div>
+
+        {o.aviso_resultados && (
+          <p className="text-mini text-amber-400 bg-amber-500/10 border border-amber-500/20 rounded-lg px-3 py-2">{o.aviso_resultados}</p>
+        )}
+
+        {porQue && (
+          <div>
+            <div className="etiqueta-seccion mb-1">Por qué</div>
+            <p className="text-cuerpo text-foreground/80 leading-relaxed">{porQue}</p>
+          </div>
+        )}
+        {o.exit_plan?.take_profit && (
+          <div>
+            <div className="etiqueta-seccion mb-1">Cuándo vender</div>
+            <p className="text-cuerpo text-foreground/80 leading-relaxed">{o.exit_plan.take_profit}</p>
+          </div>
+        )}
+        {o.exit_plan?.thesis_break && (
+          <div>
+            <div className="etiqueta-seccion mb-1">Qué la rompería</div>
+            <p className="text-mini text-muted-foreground leading-relaxed">{o.exit_plan.thesis_break}</p>
+          </div>
+        )}
+
+        <button onClick={() => setVerDetalle(v => !v)}
+          className="flex items-center gap-1.5 text-mini font-semibold text-muted-foreground hover:text-primary transition-colors">
+          {verDetalle ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
+          {verDetalle ? 'Ocultar el análisis completo' : 'Ver el análisis completo'}
+        </button>
+        {verDetalle && <OpportunityCard o={o} />}
+      </CardContent>
+    </Card>
+  )
+}
+
 export default function Leaps() {
-  const esMovil = useIsMobile()
   const [data, setData] = useState<LeapsData | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
@@ -461,7 +541,6 @@ export default function Leaps() {
   const [onDemand, setOnDemand] = useState<LeapsOpportunity | null>(null)
   const [odLoading, setOdLoading] = useState(false)
   const [odError, setOdError] = useState<string | null>(null)
-  const [sitFilter, setSitFilter] = useState<LeapsSituation | 'ALL'>('ALL')
 
   useEffect(() => {
     let cancelled = false
@@ -492,8 +571,8 @@ export default function Leaps() {
   return (
     <div className="max-w-5xl mx-auto">
       <PageHeader
-        title={<span className="flex items-center gap-2"><Rocket className="w-6 h-6 text-purple-400" /> LEAPS deep-ITM</span>}
-        subtitle="Calls 2027-2028 como sustituto apalancado de acciones"
+        title={<span className="flex items-center gap-2"><Rocket className="w-6 h-6 text-purple-400" /> LEAPS</span>}
+        subtitle="La versión apalancada de las ideas de Value · una o dos como mucho, revisadas por IA"
       />
 
       <AvisoDatosViejos clave="leaps" />
@@ -502,14 +581,14 @@ export default function Leaps() {
           comían media pantalla ANTES de la primera oportunidad, así que había
           que scrollear un pantallazo entero para llegar a lo que se viene a
           ver. En desktop sigue abierto, que ahí no estorba. */}
-      <details open={!esMovil} className="group rounded-lg bg-muted/10 border border-border/30 mb-5">
-        <summary className="cursor-pointer list-none px-4 py-2.5 text-mini font-semibold text-foreground/80 marker:hidden sm:hidden">
+      <details className="group rounded-lg bg-muted/10 border border-border/30 mb-5">
+        <summary className="cursor-pointer list-none px-4 py-2.5 text-mini font-semibold text-foreground/80 marker:hidden">
           <span className="inline-flex items-center gap-1.5">
             <ChevronDown size={16} className="transition-transform group-open:rotate-180" />
             ¿Qué es un LEAPS deep-ITM?
           </span>
         </summary>
-        <div className="px-4 pb-3 pt-0 text-mini text-muted-foreground leading-relaxed sm:pt-3">
+        <div className="px-4 pb-3 pt-0 text-mini text-muted-foreground leading-relaxed">
         Un <strong className="text-foreground">LEAPS deep-in-the-money</strong> (delta ~0.80) replica casi 1:1 el
         movimiento de la acción con ~2x apalancamiento y menos capital, pagando una pequeña prima temporal
         (<em>carry</em>). Es la <strong className="text-foreground">filosofía value aplicada a LEAPS</strong>: buenas
@@ -519,89 +598,52 @@ export default function Leaps() {
         </div>
       </details>
 
-      {/* On-demand search */}
-      <form onSubmit={runOnDemand} className="flex gap-2 mb-5">
-        <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-          <input
-            value={query}
-            onChange={e => setQuery(e.target.value)}
-            placeholder="Analiza cualquier ticker en vivo (ej. UBER, GOOGL, AMZN)…"
-            className="w-full bg-background/60 border border-border/40 rounded-md pl-9 pr-3 py-2 text-cuerpo focus:border-primary/50 focus:outline-none"
-          />
-        </div>
-        <Button type="submit" disabled={odLoading}>
-          {odLoading ? 'Analizando…' : 'Analizar'}
-        </Button>
-      </form>
-
-      {odError && (
-        <div className="rounded-md bg-red-500/10 border border-red-500/25 text-red-300 text-mini px-3 py-2 mb-5">{odError}</div>
-      )}
-      {onDemand && (
-        <div className="mb-6">
-          <div className="etiqueta-seccion mb-2">Análisis en vivo</div>
-          <OpportunityCard o={onDemand} />
-        </div>
-      )}
-
-      {/* Ranked list */}
       {loading && <Loading />}
-      {error && <ErrorState message="No se pudo cargar el ranking LEAPS" />}
+      {error && <ErrorState message="No se pudieron cargar las ideas LEAPS" />}
       {data && (
         <>
           <StaleDataBanner dataDate={data.generated_at?.slice(0, 10)} />
-          {/* En 390px el título ocupa dos líneas y el contador se le metía
-              encima: `justify-between` sin wrap reparte el ancho pero no deja
-              que el segundo bloque baje. */}
-          <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1 mb-2 mt-1">
-            <h2 className="text-cuerpo font-bold uppercase tracking-widest text-muted-foreground">
-              Mejores oportunidades ({data.opportunities.length})
-            </h2>
-            <span className="text-micro text-muted-foreground">
-              tipo libre de riesgo {data.risk_free_rate_pct}% · {data.analyzed} analizadas de {data.universe_size}
-            </span>
-          </div>
-
-          {/* Filtro por situación (tu filosofía value) */}
-          <div className="flex flex-wrap gap-1.5 mb-3">
-            {([
-              ['ALL', 'Todas', null],
-              ['CAIDA_CIRCUNSTANCIAL', 'Caída circunstancial', Target],
-              ['CALIDAD_RAZONABLE', 'Calidad a buen precio', Gem],
-              ['DIP_GANADOR', 'Dip de ganador', TrendingUp],
-            ] as const).map(([key, label, Icono]) => (
-              <button
-                key={key}
-                onClick={() => setSitFilter(key as LeapsSituation | 'ALL')}
-                className={`filter-btn ${sitFilter === key ? 'active' : ''}`}
-              >
-                {Icono && <Icono size={12} strokeWidth={1.75} className="mr-1 shrink-0" />}
-                {label}
-              </button>
-            ))}
-          </div>
-
-          {(() => {
-            const shown = ordenaPorEntrada(sitFilter === 'ALL' ? data.opportunities : data.opportunities.filter(o => o.situation === sitFilter))
-            if (data.opportunities.length === 0) {
-              return <EmptyState
-                  icon={<Rocket size={32} strokeWidth={1.5} />}
-                  title="Ninguna oportunidad cumple los criterios hoy"
-                  subtitle="Vuelve tras el próximo scan diario."
-                />
-            }
-            if (shown.length === 0) {
-              return <EmptyState compact title="Ninguna oportunidad de este tipo hoy" subtitle="Prueba con otro filtro." />
-            }
-            return (
-              <div className="space-y-3">
-                {shown.map((o, i) => <OpportunityCard key={o.ticker} o={o} rank={i + 1} />)}
-              </div>
-            )
-          })()}
+          {data.opportunities.length === 0 ? (
+            <EmptyState
+              icon={<Rocket size={32} strokeWidth={1.5} />}
+              title="Hoy no hay ningún LEAPS que merezca la pena"
+              subtitle="Solo se publica cuando una idea de Value aguanta todos los filtros (no sigue cayendo, sin resultados cerca, volatilidad no cara, compensa frente a la acción) y Claude la aprueba. Mejor ninguna que una mala."
+            />
+          ) : (
+            <div className="space-y-4">
+              {data.opportunities.slice(0, 2).map(o => <IdeaLeaps key={o.ticker} o={o} />)}
+            </div>
+          )}
         </>
       )}
+
+      {/* Herramienta aparte: analizar en vivo un ticker que no está en la lista */}
+      <div className="mt-8">
+        <div className="etiqueta-seccion mb-2">Analizar otro ticker</div>
+        <form onSubmit={runOnDemand} className="flex gap-2 mb-3">
+          <div className="relative flex-1">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+            <input
+              value={query}
+              onChange={e => setQuery(e.target.value)}
+              placeholder="Ticker (ej. MSFT, V, AMZN)…"
+              className="w-full bg-background/60 border border-border/40 rounded-md pl-9 pr-3 py-2 text-cuerpo focus:border-primary/50 focus:outline-none"
+            />
+          </div>
+          <Button type="submit" disabled={odLoading}>
+            {odLoading ? 'Analizando…' : 'Analizar'}
+          </Button>
+        </form>
+        {odError && (
+          <div className="rounded-md bg-red-500/10 border border-red-500/25 text-red-300 text-mini px-3 py-2 mb-3">{odError}</div>
+        )}
+        {onDemand && (
+          <>
+            <p className="text-mini text-muted-foreground mb-2">Análisis en vivo, sin la revisión de la IA ni los filtros de Value: es información, no una recomendación.</p>
+            <OpportunityCard o={onDemand} />
+          </>
+        )}
+      </div>
     </div>
   )
 }

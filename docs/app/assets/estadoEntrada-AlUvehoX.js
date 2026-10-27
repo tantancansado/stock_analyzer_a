@@ -1,0 +1,1 @@
+import{c as o}from"./index-C39PaJMk.js";const n=[["path",{d:"m6 9 6 6 6-6",key:"qrunsl"}]],c=o("chevron-down",n),a={ENTRADA:"Listo para entrar",VIGILAR:"En vigilancia",ESPERAR:"Aún cayendo"},t={DETERIORO:"El negocio está peor",CICLICO:"Parte baja del ciclo",EVENTO:"Shock puntual",SENTIMIENTO:"Sentimiento, no el negocio"};export{c as C,t as P,a as T};

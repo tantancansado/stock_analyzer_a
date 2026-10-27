@@ -90,26 +90,16 @@ EXPENSIVE_PE  = 30.0          # forward P/E por encima → múltiplo caro: NO es
                               # con apalancamiento, el margen de seguridad importa más.
 FALLBACK_RF      = 0.043    # tipo libre de riesgo fallback si falla ^IRX
 MAX_EXPIRIES     = 2        # nº de vencimientos LEAPS a analizar por ticker (los más largos)
-TOP_N            = 12       # oportunidades en el output final
-AI_NARRATIVE_N   = 12       # Claude verifica datos + veredicto en TODAS las mostradas
+# LEAPS es la versión apalancada de Value, no una lista aparte: una o dos ideas,
+# ya revisadas, y si no hay ninguna que merezca la pena, ninguna.
+MAX_IDEAS            = 2
+CLAUDE_MAX_LLAMADAS  = 5     # se revisa de arriba abajo hasta aprobar MAX_IDEAS
+DIAS_SIN_RESULTADOS  = 14    # no se abre una idea con resultados tan cerca: prima inflada
+DIAS_ESTABILIDAD     = 14    # una idea publicada se mantiene hasta esto salvo que se rompa
 
 # Universo curado de large-caps USA con LEAPS líquidos (Jan-2027/2028 negociables).
 # Calidad + nombres "comprables a largo": el scan los cruza con las señales de la
 # app (calidad fundamental + buen momento) para quedarse solo con los mejores.
-LEAPS_UNIVERSE = [
-    # Mega-cap tech / compounders
-    'GOOG', 'AMZN', 'MSFT', 'AAPL', 'META', 'NVDA', 'AVGO', 'CRM', 'ADBE', 'ORCL',
-    # Growth de calidad
-    # (SQ → XYZ: Block cambió de ticker en NYSE en enero 2025; 'SQ' ya no
-    # resuelve en yfinance y moría en silencio en cada scan)
-    'UBER', 'SHOP', 'NFLX', 'DIS', 'PYPL', 'ABNB', 'XYZ', 'COIN', 'PLTR', 'AMD',
-    # Financieras / pagos
-    'V', 'MA', 'JPM', 'BAC', 'GS', 'AXP', 'SCHW',
-    # Salud / industria / consumo de calidad
-    'UNH', 'LLY', 'TMO', 'CAT', 'DE', 'HON', 'NKE', 'SBUX', 'COST', 'WMT',
-    # Energía / semis / otros
-    'XOM', 'CVX', 'QCOM', 'MU', 'TSLA',
-]
 
 
 # ═════════════════════════════════════════════════════════════════════════════
@@ -506,16 +496,122 @@ def _num(v, default=None):
         return default
 
 
+def _value_verificados() -> set[str]:
+    """Tickers que Value US ya ha verificado con Claude (la lista publicada)."""
+    df = _read_csv(DOCS / 'value_opportunities_filtered.csv')
+    if df.empty or 'ticker' not in df.columns:
+        return set()
+    return {str(t).strip().upper() for t in df['ticker'] if str(t).strip()}
+
+
 def build_universe(signals: dict) -> list[str]:
-    """Universo = curado de LEAPS líquidos ∪ picks de alta convicción de la app."""
-    universe = set(LEAPS_UNIVERSE)
-    # Añade picks fuertes de la app (grado A/B + en lista value) — se intentará y
-    # se descartan los que no tengan LEAPS líquidos.
-    for t, s in signals.items():
-        grade = s.get('conviction_grade')
-        if s.get('in_value_list') and grade in ('A+', 'A', 'B+', 'B'):
-            universe.add(t)
-    return sorted(universe)
+    """Universo = lo que Value US ya verificó. Nada más.
+
+    Antes era una lista propia de ~45 large-caps más los picks de la app, con
+    su propio criterio de calidad y de timing. Ese criterio contradecía a
+    Value: BAC salió recomendado 18 veces entre agosto y octubre de 2026
+    mientras caía un 20% (el contrato perdía un 51%) y Value decía ESPERAR.
+    Además la mitad de esa lista nunca se analizaba porque la app no tenía sus
+    fundamentales. Un LEAPS es la versión apalancada de la mejor idea de
+    Value, no una segunda opinión.
+    """
+    return sorted(_value_verificados())
+
+
+def motivo_para_no_abrir(opp: dict) -> Optional[str]:
+    """Por qué una idea NUEVA no se abre hoy, o None si puede pasar a Claude."""
+    estado = str(opp.get('entry_readiness') or '').upper()
+    if estado == 'ESPERAR':
+        motivo = opp.get('entry_readiness_reason') or 'la acción sigue cayendo'
+        return f'la acción sigue cayendo — {motivo}'
+    dias = opp.get('days_to_earnings')
+    if dias is not None and 0 <= dias < DIAS_SIN_RESULTADOS:
+        return f'presenta resultados en {dias} días: la prima está inflada hasta entonces'
+    c = opp.get('recommended_contract') or {}
+    if c.get('iv_richness') == 'cara':
+        return (f"la volatilidad implícita está cara ({c.get('iv_pct')}% frente a "
+                f"{opp.get('hv_1y_pct')}% real): se pagaría de más")
+    return None
+
+
+CAMPOS_REVISION_IA = ('ai_narrative', 'situation_verdict', 'exit_plan', 'data_warning')
+
+
+def _publicadas_antes() -> dict[str, dict]:
+    """Las ideas de la última pasada, por ticker."""
+    try:
+        d = json.loads(OUTPUT.read_text())
+    except Exception:
+        return {}
+    return {str(o['ticker']): o for o in (d.get('opportunities') or []) if o.get('ticker')}
+
+
+def mantener(previa: dict, fresca: Optional[dict], hoy: date) -> tuple[Optional[dict], str]:
+    """Una idea ya publicada sigue hasta DIAS_ESTABILIDAD salvo que se rompa.
+
+    La lista cambiaba casi entera cada día (20-oct AMZN, META, YUM; 21-oct solo
+    AMZN; luego nada) y cada entrada mandaba un «LEAPS nuevo» por Telegram.
+    Para un contrato a 2028 eso es ruido. Se conserva la revisión de Claude y
+    se refrescan los números del contrato; se cae si sale de Value, si la
+    acción pasa a ESPERAR o si ya no hay contrato que compense.
+    """
+    desde = previa.get('publicada_desde')
+    try:
+        edad = (hoy - date.fromisoformat(str(desde))).days
+    except (TypeError, ValueError):
+        return None, 'sin fecha de publicación: se revisa como nueva'
+    if edad > DIAS_ESTABILIDAD:
+        return None, f'lleva {edad} días: se vuelve a revisar como nueva'
+    if fresca is None:
+        return None, 'ya no está en Value verificado o no queda contrato que compense'
+    if str(fresca.get('entry_readiness') or '').upper() == 'ESPERAR':
+        return None, 'la acción ha pasado a ESPERAR'
+    for k in CAMPOS_REVISION_IA:
+        if previa.get(k) is not None:
+            fresca[k] = previa[k]
+    fresca['publicada_desde'] = desde
+    dias = fresca.get('days_to_earnings')
+    fresca['aviso_resultados'] = (
+        f'Presenta resultados en {dias} días: si aún no la has comprado, espera a después.'
+        if dias is not None and 0 <= dias < DIAS_SIN_RESULTADOS else None)
+    return fresca, f'se mantiene (publicada el {desde})'
+
+
+def elegir_ideas(results: list[dict], previas: dict[str, dict], hoy: date) -> list[dict]:
+    """Hasta MAX_IDEAS: primero las que siguen valiendo, luego nuevas revisadas por Claude."""
+    por_ticker = {o['ticker']: o for o in results}
+    ideas: list[dict] = []
+    for t, previa in previas.items():
+        fresca = por_ticker.get(t)
+        if fresca is not None:
+            completar_entrada(fresca)
+        idea, motivo = mantener(previa, fresca, hoy)
+        print(f"  {'↺' if idea else '🔻'} {t}: {motivo}")
+        if idea:
+            ideas.append(idea)
+    ideas = sorted(ideas, key=lambda x: -x['opportunity_score'])[:MAX_IDEAS]
+
+    llamadas = 0
+    for opp in results:
+        if len(ideas) >= MAX_IDEAS or llamadas >= CLAUDE_MAX_LLAMADAS:
+            break
+        if opp['ticker'] in {i['ticker'] for i in ideas}:
+            continue
+        completar_entrada(opp)
+        motivo = motivo_para_no_abrir(opp)
+        if motivo:
+            print(f"  ⏸  {opp['ticker']}: no se abre — {motivo}")
+            continue
+        llamadas += 1
+        if add_ai_narrative(opp):
+            opp['publicada_desde'] = hoy.isoformat()
+            opp['aviso_resultados'] = None
+            ideas.append(opp)
+            print(f"  ✅ {opp['ticker']}: aprobada por Claude")
+        else:
+            veredicto = (opp.get('situation_verdict') or {}).get('verdict') or 'sin verificar'
+            print(f"  🚫 {opp['ticker']}: no la aprueba Claude — {veredicto}")
+    return ideas
 
 
 def get_risk_free_rate() -> float:
@@ -703,6 +799,13 @@ def valoracion_propia(sig: dict, spot: float, upside_analista: Optional[float]) 
     objetivos = [v for v in (sig.get('target_price_dcf'), sig.get('target_price_pe'))
                  if v and v > 0]
     if objetivos:
+        # El consenso entra en el mínimo: un «prudente» por encima de los
+        # analistas es el caso alcista con otra etiqueta. AMZN salía con
+        # «vender en el objetivo prudente de la casa, 518 $» y un consenso de
+        # 332, porque sin DCF solo quedaba su P/E, inflado por un beneficio
+        # que el negocio no respalda.
+        if upside_analista is not None:
+            objetivos.append(spot * (1 + upside_analista / 100))
         peor = min(objetivos)
         out['target_prudente'] = round(peor, 2)
         out['upside_prudente_pct'] = round((peor - spot) / spot * 100, 1)
@@ -1271,25 +1374,8 @@ def main():
         results.append(opp)
 
     results.sort(key=lambda x: -x['opportunity_score'])
-    top = results[:TOP_N]
-
-    # GATE de Claude: verificación de datos + veredicto + plan de salida.
-    # Ya no es solo una narrativa — lo que Claude no valida explícitamente
-    # (OPORTUNIDAD/RAZONABLE + data_check "OK") se EXCLUYE del output. Antes
-    # una oportunidad marcada EVITAR se seguía publicando con un badge rojo;
-    # el usuario pidió el 25-ago-2026 que si no pasa el filtro, no se muestre.
-    candidatas = top[:AI_NARRATIVE_N]
-    for opp in candidatas:
-        completar_entrada(opp)
-    verificadas = []
-    for opp in candidatas:
-        if add_ai_narrative(opp):
-            verificadas.append(opp)
-        else:
-            motivo = (opp.get('situation_verdict') or {}).get('verdict') or 'sin verificar'
-            print(f"  🚫 {opp['ticker']}: excluida del output — {motivo}")
-    print(f"  ✅ {len(verificadas)}/{len(candidatas)} LEAPS pasan el gate de Claude")
-    top = verificadas
+    top = elegir_ideas(results, _publicadas_antes(), date.today())
+    print(f"  ✅ {len(top)} idea(s) LEAPS publicadas de {len(results)} candidatas")
 
     output = {
         'generated_at': datetime.now().isoformat(),
@@ -1297,10 +1383,12 @@ def main():
         'universe_size': len(universe),
         'analyzed': len(results),
         'methodology': {
+            'universo': 'Value US verificado',
+            'max_ideas': MAX_IDEAS,
             'delta_band': [DELTA_MIN, DELTA_MAX],
             'min_dte': MIN_DTE,
             'max_carry_pct': MAX_CARRY_PCT,
-            'note': 'LEAPS deep-ITM como sustituto apalancado de acciones sobre empresas de calidad en buen momento',
+            'note': 'La versión apalancada de las ideas de Value: 1-2 como mucho, revisadas por Claude',
         },
         'opportunities': top,
     }

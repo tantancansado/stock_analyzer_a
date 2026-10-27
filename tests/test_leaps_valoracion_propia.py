@@ -88,3 +88,9 @@ class TestLoQueLeeDelPipeline:
         for campo in ('target_price_dcf', 'target_price_pe',
                       'upside_triangulated_pct', 'modelos_acuerdo'):
             assert campo in src, f'{campo} sigue sin leerse de value_opportunities'
+
+
+def test_el_prudente_nunca_supera_al_consenso():
+    """AMZN, 20-oct-2026: sin DCF, P/E propio a 518 $ y consenso a 332."""
+    v = la.valoracion_propia({'target_price_pe': 518.07}, spot=262.6, upside_analista=26.3)
+    assert v['target_prudente'] == pytest.approx(262.6 * 1.263, rel=0.001)
