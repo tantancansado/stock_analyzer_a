@@ -40,7 +40,6 @@ from pathlib import Path
 from typing import Optional
 
 import requests
-from pycognito.aws_srp import AWSSRP
 
 # ── Config ────────────────────────────────────────────────────────────────────
 
@@ -158,7 +157,10 @@ def get_fresh_token() -> str:
     if not TIKR_EMAIL or not TIKR_PASSWORD:
         raise RuntimeError("Define TIKR_EMAIL y TIKR_PASSWORD.")
     try:
+        # Aquí y no arriba: owner_earnings importa la limpieza de años de relleno
+        # de este módulo y el pipeline diario no instala pycognito
         import boto3
+        from pycognito.aws_srp import AWSSRP
         client = boto3.client('cognito-idp', region_name=COGNITO_REGION)
         srp = AWSSRP(
             username=TIKR_EMAIL,

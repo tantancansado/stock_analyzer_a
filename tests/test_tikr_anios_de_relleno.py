@@ -34,3 +34,15 @@ def test_la_valoracion_no_ve_el_relleno(monkeypatch, tmp_path):
 def test_ingresos_que_se_hunden_entre_anos_tambien_es_relleno():
     f, q = limpiar_forward({'2029': BUENO, '2030': {'revenue': 1.1, 'ebit': 1.1}})
     assert q == ['2030']
+
+
+def test_se_importa_sin_pycognito():
+    """owner_earnings usa limpiar_forward en el pipeline diario, que no instala
+    pycognito (solo lo instala el workflow de TIKR). Con el import arriba del
+    módulo, la primera llamada a _load_tikr reventaba."""
+    import subprocess, sys
+    codigo = ("import sys; sys.modules['pycognito'] = None; "
+              "sys.modules['pycognito.aws_srp'] = None; "
+              "import owner_earnings; owner_earnings._load_tikr()")
+    r = subprocess.run([sys.executable, '-c', codigo], capture_output=True, text=True)
+    assert r.returncode == 0, r.stderr[-500:]
