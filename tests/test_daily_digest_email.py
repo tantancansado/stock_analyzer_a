@@ -9,10 +9,8 @@ def test_solo_vigila_lo_que_tienes(monkeypatch, tmp_path):
     drift.write_text(json.dumps({'alerts': [
         {'ticker': 'ITUB', 'reason': 'fundamental_score cae a 40', 'severity': 'HIGH'},
         {'ticker': 'CRH.L', 'reason': 'x', 'severity': 'HIGH'}]}))
-    lp = tmp_path / 'lp.json'
-    lp.write_text(json.dumps({'positions': [{'ticker': 'V', 'alerts': [['THESIS_BREAK', 'sin recorrido'], ['ROLL', 'rola']]}]}))
     monkeypatch.setattr(d, 'DRIFT', drift)
-    monkeypatch.setattr(d, 'LEAPS_POS', lp)
+    monkeypatch.setattr(d, '_estado_leaps', lambda: [{'ticker': 'V', 'alerts': [('THESIS_BREAK', 'sin recorrido'), ('ROLL', 'rola')]}])
     r = d.posibles_rupturas({'ITUB'})
     assert [x['ticker'] for x in r] == ['ITUB', 'V']
 

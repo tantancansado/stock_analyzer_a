@@ -54,7 +54,6 @@ jobs:
           # Cada add por separado: si un fichero no existe (p.ej. sin alertas),
           # no debe abortar el add de los demás.
           git add docs/leaps_opportunities.json || true
-          git add docs/leaps_positions_status.json 2>/dev/null || true
           git add docs/.leaps_alerts_sent.json 2>/dev/null || true
           # El contador de gasto de Claude. Faltaba, y este workflow corre de
           # lunes a viernes: ~22 ejecuciones al mes gastando en la API sin que

@@ -40,6 +40,19 @@ HORIZON_DAYS = 14
 GROQ_MODEL = 'openai/gpt-oss-20b'  # modelo pequeño — cabe en el presupuesto diario de tokens; llama-3.1-8b-instant retirado 16-ago-2026
 
 
+
+# docs/ se publica (repo y GitHub Pages públicos): las tesis pueden ir, tus
+# cantidades no. Antes salían acciones, precio medio y ganancia de cada posición.
+_CAMPOS_DE_CARTERA = ('shares', 'avg_price', 'unrealized_pct', 'cost_basis', 'position_value')
+
+
+def _sin_datos_de_cartera(salida: dict) -> dict:
+    theses = salida.get('theses')
+    if isinstance(theses, dict):
+        salida = {**salida, 'theses': {t: {k: v for k, v in th.items() if k not in _CAMPOS_DE_CARTERA}
+                                       for t, th in theses.items()}}
+    return salida
+
 def _log(msg: str) -> None:
     print(msg, flush=True)
 
@@ -646,7 +659,7 @@ def main(
     DOCS.mkdir(exist_ok=True)
     # Solo escribir el JSON estático en modo global (sin user_id)
     if user_id is None:
-        OUTPUT_PATH.write_text(json.dumps(out, indent=2, default=str))
+        OUTPUT_PATH.write_text(json.dumps(_sin_datos_de_cartera(out), indent=2, default=str))
         _log(f"[done] wrote {len(theses)} theses → {OUTPUT_PATH}")
 
     # Escribir a Supabase per-user

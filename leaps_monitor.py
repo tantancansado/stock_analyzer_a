@@ -29,7 +29,10 @@ from pathlib import Path
 import leaps_analyzer as la
 
 DOCS = Path('docs')
-STATUS_OUT = DOCS / 'leaps_positions_status.json'
+# PRIVADO: el repo es público. Con la cartera sincronizada desde IBKR este
+# fichero llevaba tus contratos, precio medio y P&L a GitHub (27-oct-2026).
+# Vive fuera de docs/ y está en .gitignore; quien lo necesite lo recalcula.
+STATUS_OUT = Path('privado') / 'leaps_positions_status.json'
 SENT_LOG = DOCS / '.leaps_alerts_sent.json'
 OPORTUNIDADES = DOCS / 'leaps_opportunities.json'
 
@@ -56,6 +59,12 @@ CHAT_ID   = os.environ.get('TELEGRAM_CHAT_ID', '')
 
 
 # ── Supabase ──────────────────────────────────────────────────────────────────
+
+
+def _huella(texto: str) -> str:
+    """Huella corta e irreversible de un contrato, para el registro público."""
+    import hashlib
+    return 'pos-' + hashlib.sha256(texto.encode()).hexdigest()[:12]
 
 def load_option_positions() -> list[dict]:
     """Lee las posiciones de opciones (calls) del usuario desde Supabase."""
@@ -170,7 +179,7 @@ def analyze_position(pos: dict, signals: dict) -> dict:
                        'negocio NO se está vigilando en esta posición'))
     if delta is not None and delta < DELTA_FLOOR:
         alerts.append(('DELTA_DRIFT',
-                       f'delta {delta:.2f} < {DELTA_FLOOR} — el LEAPS ya no replica la acción, '
+                       f'delta {delta:.3f} (mínimo {DELTA_FLOOR}) — el LEAPS ya no replica la acción, '
                        f'es apuesta direccional: añade, rola de strike o cierra'))
 
     return {
@@ -352,6 +361,7 @@ def main():
     if not positions:
         if nuevas:
             _save_sent(sent)
+        STATUS_OUT.parent.mkdir(exist_ok=True)
         STATUS_OUT.write_text(json.dumps(
             {'generated_at': datetime.now().isoformat(), 'positions': []}, indent=2))
         return
@@ -363,7 +373,9 @@ def main():
     for pos in positions:
         st = analyze_position(pos, signals)
         statuses.append(st)
-        tag = f"{st['ticker']}-{st['strike']:.0f}-{st['expiry']}"
+        # El registro de avisos se commitea (si no, se repetirían a diario), así
+        # que la clave no puede llevar el contrato en claro: va su huella.
+        tag = _huella(f"{st['ticker']}-{st['strike']:.0f}-{st['expiry']}")
         for atype, msg in st['alerts']:
             key = f"{tag}:{atype}"
             last_sent = sent.get(key)
@@ -387,6 +399,7 @@ def main():
         if nuevas:
             _save_sent(sent)
 
+    STATUS_OUT.parent.mkdir(exist_ok=True)
     STATUS_OUT.write_text(json.dumps(
         {'generated_at': datetime.now().isoformat(), 'positions': statuses},
         indent=2, ensure_ascii=False, default=str))

@@ -25,7 +25,6 @@ DOCS = Path('docs')
 BRIEFING = DOCS / 'daily_briefing.json'
 DRIFT = DOCS / 'portfolio_tracker' / 'thesis_drift_alerts.json'
 LEAPS = DOCS / 'leaps_opportunities.json'
-LEAPS_POS = DOCS / 'leaps_positions_status.json'
 APP_URL = 'https://tantancansado.github.io/stock_analyzer_a/app/'
 REMITENTE = 'Stock Analyzer <onboarding@resend.dev>'
 
@@ -74,6 +73,21 @@ def cartera() -> list[dict] | None:
 
 # ── 2. Tesis rotas, confirmadas por IA ───────────────────────────────────────
 
+def _estado_leaps() -> list[dict]:
+    """Estado de tus LEAPS, calculado en el momento (ya no se publica en docs/)."""
+    try:
+        import leaps_analyzer as la
+        import leaps_monitor as lm
+        posiciones = lm.load_option_positions()
+        if not posiciones:
+            return []
+        senales = la.load_app_signals()
+        return [lm.analyze_position(p, senales) for p in posiciones]
+    except Exception as e:
+        print(f'  sin estado de LEAPS ({type(e).__name__})')
+        return []
+
+
 def posibles_rupturas(tenidos: set[str]) -> list[dict]:
     """Lo que los vigilantes marcan en posiciones que tienes de verdad."""
     out = []
@@ -81,7 +95,7 @@ def posibles_rupturas(tenidos: set[str]) -> list[dict]:
         if str(a.get('ticker', '')).upper() in tenidos:
             out.append({'ticker': a['ticker'], 'origen': 'acción',
                         'señal': a.get('reason') or a.get('type'), 'gravedad': a.get('severity')})
-    for p in _json(LEAPS_POS).get('positions') or []:
+    for p in _estado_leaps():
         for al in p.get('alerts') or []:
             # leaps_monitor las guarda como pares [tipo, mensaje]
             tipo, msg = (al[0], al[1]) if isinstance(al, (list, tuple)) else (al.get('type'), al.get('reason'))
