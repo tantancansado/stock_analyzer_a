@@ -46,7 +46,7 @@ describe('CommandPalette', () => {
     const user = userEvent.setup()
     renderPalette()
 
-    await user.type(screen.getByPlaceholderText(/ticker/i), 'aapl')
+    await user.type(screen.getByPlaceholderText(/sección/i), 'aapl')
 
     expect(screen.queryByRole('option', { name: /analizar aapl/i })).toBeNull()
   })
@@ -56,7 +56,7 @@ describe('CommandPalette', () => {
     renderPalette()
 
     // 'buffett' es keyword de la página de Valoración (owner earnings) en nav.ts
-    await user.type(screen.getByPlaceholderText(/ticker/i), 'buffett')
+    await user.type(screen.getByPlaceholderText(/sección/i), 'buffett')
 
     expect(screen.getByText('Valoración')).toBeInTheDocument()
     expect(screen.queryByText('Centro de mando')).not.toBeInTheDocument()
@@ -66,7 +66,7 @@ describe('CommandPalette', () => {
     const user = userEvent.setup()
     renderPalette()
 
-    await user.type(screen.getByPlaceholderText(/ticker/i), 'zzzzzzz')
+    await user.type(screen.getByPlaceholderText(/sección/i), 'zzzzzzz')
 
     expect(screen.getByText(/Sin resultados para/)).toBeInTheDocument()
   })

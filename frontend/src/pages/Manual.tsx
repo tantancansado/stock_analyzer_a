@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import {
   BookOpen, Compass, Workflow, Bot, Shield, HelpCircle, Search,
-  LayoutDashboard, Brain, DollarSign, Radar, Users, Crosshair,
+  LayoutDashboard, Brain, DollarSign, Radar, Users, Crosshair, Wheat, Mail,
   Wallet, Calculator, TrendingUp, Activity, PieChart,
   CalendarDays, AlertTriangle, Ruler, FlaskConical, Shuffle, Database, Landmark, Rocket,
 } from 'lucide-react'
@@ -26,28 +26,30 @@ const SECTIONS: Section[] = [
   { id: 'filosofia',          title: 'Filosofía Value/GARP',  icon: Compass,    group: 'intro' },
   { id: 'como-leer',          title: 'Cómo leer los datos',   icon: HelpCircle, group: 'intro' },
   { id: 'flujo-diario',       title: 'Flujo diario sugerido', icon: Workflow,   group: 'intro' },
+  { id: 'avisos',             title: 'Avisos: Telegram y correo', icon: Mail,   group: 'intro' },
 
   // Pages
-  { id: 'dashboard',          title: 'Dashboard',             icon: LayoutDashboard, group: 'pages' },
+  { id: 'dashboard',          title: 'Centro de mando',       icon: LayoutDashboard, group: 'pages' },
   { id: 'cerebro',            title: 'Cerebro',               icon: Brain,           group: 'pages' },
   { id: 'value',              title: 'Value (US/EU/Global)',  icon: DollarSign,      group: 'pages' },
   { id: 'macro',              title: 'Macro Radar',           icon: Radar,           group: 'pages' },
   { id: 'insiders',           title: 'Insiders',              icon: Users,           group: 'pages' },
   { id: 'bounce',             title: 'Rebotes técnicos',      icon: Crosshair,       group: 'pages' },
   { id: 'mi-cartera',         title: 'Mi cartera',            icon: Wallet,          group: 'pages' },
-  { id: 'owner-earnings',     title: 'Owner Earnings',        icon: Calculator,      group: 'pages' },
-  { id: 'buscar',             title: 'Buscar ticker',         icon: Search,          group: 'pages' },
+  { id: 'owner-earnings',     title: 'Valoración',            icon: Calculator,      group: 'pages' },
   { id: 'entry-setups',       title: 'Entry setups',          icon: TrendingUp,      group: 'pages' },
-  { id: 'leaps',              title: 'LEAPS deep-ITM',        icon: Rocket,          group: 'pages' },
+  { id: 'leaps',              title: 'LEAPS',                 icon: Rocket,          group: 'pages' },
   { id: 'options',            title: 'Options flow',          icon: Activity,        group: 'pages' },
   { id: 'sectores',           title: 'Sectores',              icon: PieChart,        group: 'pages' },
-  { id: 'calendario',         title: 'Calendario earnings',   icon: CalendarDays,    group: 'pages' },
+  { id: 'calendario',         title: 'Calendario',            icon: CalendarDays,    group: 'pages' },
   { id: 'dividend-traps',     title: 'Dividend traps',        icon: AlertTriangle,   group: 'pages' },
   { id: 'position-sizing',    title: 'Position sizing',       icon: Ruler,           group: 'pages' },
   { id: 'backtest',           title: 'Backtest',              icon: FlaskConical,    group: 'pages' },
-  { id: 'comparar',           title: 'Comparar tickers',      icon: Shuffle,         group: 'pages' },
+  { id: 'comparar',           title: 'Comparar',              icon: Shuffle,         group: 'pages' },
   { id: 'datos',              title: 'Exportar datos',        icon: Database,        group: 'pages' },
   { id: 'bonos',              title: 'Bonos & Preferentes',   icon: Landmark,        group: 'pages' },
+  { id: 'materias-primas',    title: 'Materias primas',       icon: Wheat,           group: 'pages' },
+  { id: 'corrupcion',         title: 'Corrupción institucional', icon: AlertTriangle, group: 'pages' },
 
   // Agents
   { id: 'agentes-overview',   title: 'Agentes — visión general', icon: Bot, group: 'agents' },
@@ -220,7 +222,22 @@ export default function Manual() {
         </select>
       </div>
 
-      <div className="flex gap-8">
+      {/* Los enlaces internos (`#seccion`) del índice y del texto. La app navega
+          con HashRouter, así que un `href="#leaps"` normal cambiaba de RUTA: te
+          sacaba del manual a la página LEAPS, y las secciones sin página
+          (Filosofía, Agentes, Glosario…) acababan en una pantalla en blanco. */}
+      <div
+        className="flex gap-8"
+        onClickCapture={e => {
+          const a = (e.target as HTMLElement).closest('a')
+          const href = a?.getAttribute('href') ?? ''
+          if (!href.startsWith('#') || href.length < 2) return
+          e.preventDefault()
+          const id = href.slice(1)
+          document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+          setActive(id)
+        }}
+      >
         {/* TOC */}
         <aside className="hidden lg:block w-60 shrink-0">
           <div className="sticky top-20">
@@ -280,9 +297,9 @@ export default function Manual() {
               no especulación a corto plazo. Combina tres capas:
             </p>
             <ul className="list-disc pl-5 space-y-1.5 mb-3">
-              <li><b>Un pipeline automatizado</b> que cada día puntúa miles de empresas (US + Europa) por calidad fundamental, momentum, insiders y señales técnicas.</li>
+              <li><b>Un pipeline automatizado</b> que cada día laborable puntúa unas 220 empresas seleccionadas (unas 160 de EE. UU. y 60 de Europa) por calidad fundamental, valoración, insiders y señales técnicas.</li>
               <li><b>Agentes especializados</b> que cruzan esos datos (ver <a href="#agentes-overview" className="text-primary hover:underline">Agentes</a>) y generan oportunidades filtradas por IA.</li>
-              <li><b>Una interfaz en tiempo real</b> (esta app) donde ves rankings, tu cartera, alertas, backtests y análisis individual por ticker.</li>
+              <li><b>Esta app</b>, con los datos de la última pasada (se actualizan una vez al día, de madrugada): las ideas ya revisadas, tu cartera sincronizada con Interactive Brokers y los avisos que te llegan solos por Telegram y correo.</li>
             </ul>
             <p className="text-cuerpo text-muted-foreground">
               Si es tu primera vez, empieza por <a href="#flujo-diario" className="text-primary hover:underline">Flujo diario sugerido</a>.
@@ -299,12 +316,12 @@ export default function Manual() {
             <ul className="list-disc pl-5 space-y-1.5 mb-3">
               <li><b>ROE negativo = descarte automático.</b> Una empresa que destruye capital no es una oportunidad, por muy barata que parezca.</li>
               <li><b>Upside analista negativo = descarte.</b> Si todos los analistas que siguen la empresa piensan que está sobrevalorada, no la compramos.</li>
-              <li><b>Upside ≥ 30% también se descarta — es lo contrario de una ganga.</b> Medido sobre señales reales: 0% de acierto por encima de ese umbral. Un hueco tan grande entre precio y objetivo casi siempre significa que el precio se desplomó por algo que el modelo todavía no ve, no que el mercado se equivoca en tu favor. La zona que sí funciona es <b>[10%, 25%)</b> — 83% de acierto.</li>
+              <li><b>Upside ≥ 30% se descarta por prudencia.</b> Un hueco tan grande entre precio y objetivo suele significar que el precio cayó por algo que el modelo todavía no ve. Es una regla de precaución, no un dato cerrado: el historial a 90-180 días no la confirma con claridad y se revisará con más datos.</li>
               <li><b>Dato faltante ≠ dato bueno.</b> Cuando un score por defecto es 50 (información no disponible), el sistema <u>no puntúa</u> — prefiere no recomendar a inventarse números.</li>
               <li><b>Se vende a precio objetivo, nunca a un % fijo de ganancia ni a un nivel técnico.</b> El objetivo se calcula (múltiplo × BPA limpio, DCF, consenso), y una empresa excepcional aguanta hasta el objetivo completo mientras una mediocre no.</li>
             </ul>
             <p className="text-cuerpo text-muted-foreground">
-              Esto explica por qué a veces el Dashboard muestra "0 oportunidades momentum" durante correcciones. Es correcto — preferimos cero señales antes que señales falsas.
+              Por eso hay días sin ninguna idea para entrar, o sin ningún LEAPS. Es lo correcto: cero señales antes que señales falsas.
             </p>
           </Card>
 
@@ -331,9 +348,8 @@ export default function Manual() {
               <li><b>value_score (0–100):</b> combinado de fundamentales + insiders + opciones + sector + mean reversion. Ver <a href="#agente-super-score" className="text-primary hover:underline">Super Score Integrator</a>.</li>
               <li><b>Grade A/B/C/D:</b> conviction grade. A = alta convicción (≥3 positivos, ≤1 red flag). D = evitar.</li>
               <li>
-                <b>Upside de analistas — la zona importa más que el número.</b> No es "cuanto más, mejor": la banda <b>[10%, 25%)</b> es la única con acierto alto medido (83%);
-                por debajo de 10% el margen no compensa el riesgo, y por encima de 30% el sistema lo descarta directamente (ver <a href="#filosofia" className="text-primary hover:underline">Filosofía</a>).
-                Un R:R muy alto (≥3) sobre esta métrica salió medido como la <u>peor</u> banda en señales reales — no lo uses como filtro de calidad por sí solo.
+                <b>Upside de analistas — no es «cuanto más, mejor».</b> Por debajo del 10% el margen suele no compensar; entre 10% y 30% es la zona en la que se trabaja; por encima del 30% el sistema lo descarta por prudencia (ver <a href="#filosofia" className="text-primary hover:underline">Filosofía</a>).
+                Un R:R muy alto no es señal de calidad por sí solo.
               </li>
               <li><b>FCF %:</b> Free Cash Flow yield (FCF / market cap). ≥5% sólido, ≥8% excepcional, negativo = red flag.</li>
               <li><b>Por qué está barata (why_cheap):</b> DETERIORO / CÍCLICO / EVENTO / SENTIMIENTO / sin datos. Solo DETERIORO descarta el pick — el resto son caídas que no vienen del negocio rompiéndose. Ver <a href="#agente-why-cheap" className="text-primary hover:underline">Why Cheap</a>.</li>
@@ -345,26 +361,33 @@ export default function Manual() {
           <Card>
             <ol className="list-decimal pl-5 space-y-3">
               <li>
-                <b>Dashboard</b> → estado del mercado, top 5 VALUE y alertas urgentes del día.
-                <div className="text-mini text-muted-foreground mt-0.5">Si ves banner rojo "Pipeline no ejecutado", lánzalo antes de seguir.</div>
+                <b>El correo del día</b> (o el briefing de Telegram) → llega solo tras el pipeline de la mañana: tesis rotas en tu cartera, ideas nuevas y el resumen del mercado.
+                <div className="text-mini text-muted-foreground mt-0.5">Si solo tienes dos minutos, con esto basta. Ver <a href="#avisos" className="text-primary hover:underline">Avisos</a>.</div>
               </li>
               <li>
-                <b>Cerebro</b> → el agente de IA te resume qué hacer hoy (entradas sugeridas, exits, alertas).
-                <div className="text-mini text-muted-foreground mt-0.5">Es tu "briefing matinal" — si solo tienes 2 minutos, mira esto.</div>
+                <b>Centro de mando</b> → estado del mercado y, en su pestaña Cerebro, qué hacer hoy.
+                <div className="text-mini text-muted-foreground mt-0.5">Si ves el banner rojo «Pipeline no ejecutado», los datos son viejos.</div>
               </li>
               <li>
-                <b>Mi cartera</b> → ¿alguna posición con señal de salida o earnings mañana?
+                <b>Mi cartera</b> → tus posiciones reales (se sincronizan solas con Interactive Brokers). ¿Alguna con señal de salida o resultados cerca?
               </li>
               <li>
-                <b>Value (US o EU)</b> → filtra por Grade A/B, FCF ≥ 5%, R:R ≥ 2. Las tablas tienen filas expandibles con la tesis completa.
+                <b>Value</b> → empieza por el filtro de timing <b>Entra</b>: lo que se puede comprar hoy. Expande la fila para ver la tesis.
               </li>
               <li>
-                <b>Insiders</b> → cuando directivos compran con su propio dinero, es una de las señales menos ruidosas del mercado.
-              </li>
-              <li>
-                <b>Alertas</b> → configura emails para precios objetivo que te importen, así no tienes que mirar la app todo el rato.
+                <b>LEAPS</b> → una o dos ideas como mucho, la versión apalancada de lo mejor de Value. Si no hay ninguna, no hay.
               </li>
             </ol>
+          </Card>
+
+          <SectionHeader id="avisos" icon={Mail} title="Avisos: Telegram y correo"
+            subtitle="La app te avisa sola; no hace falta entrar a mirar." />
+          <Card>
+            <ul className="list-disc pl-5 space-y-1.5 text-cuerpo mb-3">
+              <li><b>Telegram:</b> ideas nuevas de Value, LEAPS que entran o que dejan de valer, rebotes técnicos de verdad y tesis rotas. Mensajes cortos; el ruido de mercado no se manda.</li>
+              <li><b>Correo diario:</b> al terminar el pipeline de la mañana — tu cartera con la variación del día, las tesis rotas <u>confirmadas por IA</u> (lo que la IA descarta como ruido no llega) y las ideas nuevas. El asunto ya te dice si hay algo grave.</li>
+            </ul>
+            <p className="text-cuerpo text-muted-foreground">Los dos trabajan sobre tu cartera real, la que se sincroniza con Interactive Brokers.</p>
           </Card>
 
           {/* ──────────────── Pages ──────────────── */}
@@ -373,21 +396,21 @@ export default function Manual() {
             Secciones de la app
           </h2>
 
-          <SectionHeader id="dashboard" icon={LayoutDashboard} title="Dashboard"
+          <SectionHeader id="dashboard" icon={LayoutDashboard} title="Centro de mando"
             subtitle="Tu página de inicio — una foto del estado del mercado y tus mejores oportunidades." />
           <Card>
             <p className="font-semibold mb-1">Qué verás</p>
             <ul className="list-disc pl-5 space-y-1.5 text-cuerpo mb-3">
-              <li><b>Régimen de mercado:</b> BULL / CORRECTION / BEAR según breadth e índices. Afecta cuántas señales momentum se muestran.</li>
+              <li><b>Régimen de mercado:</b> según S&amp;P 500, Nasdaq y VIX. En correcciones se publican menos ideas de entrada.</li>
               <li><b>Top 5 VALUE US + EU:</b> las mejores ideas filtradas por IA. Clic para ver tesis.</li>
-              <li><b>Portfolio win rate:</b> % de acierto de las recomendaciones pasadas (7d/14d/30d).</li>
+              <li><b>Acierto del sistema:</b> % de recomendaciones pasadas que ganaron a 90 y 180 días. A menos plazo no se mide: para ideas a 12 meses sería ruido.</li>
               <li><b>Mini-widgets:</b> insiders recientes, options flow inusual, mean reversion candidates.</li>
             </ul>
             <OpenLink to="/dashboard" />
           </Card>
 
           <SectionHeader id="cerebro" icon={Brain} title="Cerebro"
-            subtitle="El agente IA que cruza todos los datos y te dice qué hacer hoy." />
+            subtitle="Pestaña del Centro de mando: cruza todos los datos y te dice qué hacer hoy." />
           <Card>
             <p className="mb-3">
               Cerebro es el <b>briefing proactivo</b>: en lugar de mirar 15 tablas, te da un resumen ordenado por urgencia.
@@ -409,9 +432,10 @@ export default function Manual() {
             subtitle="Ranking principal de oportunidades value con grades A–D." />
           <Card>
             <p className="mb-3">
-              Usa las pestañas para cambiar entre <b>US</b>, <b>Europa</b> o <b>Global</b>. La tabla se puede filtrar por:
+              Usa las pestañas para cambiar entre <b>US</b>, <b>Europa</b> o <b>Global</b>. Solo aparece lo que la IA ha verificado. Los filtros están detrás de <b>Ver filtros</b>:
             </p>
             <ul className="list-disc pl-5 space-y-1.5 text-cuerpo mb-3">
+              <li><b>Timing:</b> <b>Entra</b> (en suelo y sin nada en contra: se puede comprar hoy), <b>Vigila</b> (en el radar; por ejemplo, en suelo pero con resultados en pocos días) y <b>Espera</b> (aún cayendo). La etiqueta de cada fila dice lo mismo que el filtro.</li>
               <li><b>Grade:</b> A (mejor), B, C, D (evitar).</li>
               <li><b>Sector:</b> útil para diversificar.</li>
               <li><b>FCF%</b> mínimo.</li>
@@ -469,19 +493,16 @@ export default function Manual() {
           </Card>
 
           <SectionHeader id="mi-cartera" icon={Wallet} title="Mi cartera"
-            subtitle="Tus posiciones + histórico de señales dadas por el sistema." />
+            subtitle="Tus posiciones reales + el historial de señales del sistema." />
           <Card>
-            <p className="mb-3">
-              Dos pestañas:
-            </p>
             <ul className="list-disc pl-5 space-y-1.5 text-cuerpo mb-3">
-              <li><b>Mis posiciones:</b> carga tu cartera manual (persiste local). El sistema la cruza con Cerebro para avisarte de exits.</li>
-              <li><b>Historial de señales:</b> todas las recomendaciones pasadas con performance 7d/14d/30d. Útil para validar el sistema.</li>
+              <li><b>Mis posiciones:</b> se sincronizan solas con <b>Interactive Brokers</b> dos veces cada día laborable (informe Flex de solo lectura: la app no puede operar en tu cuenta). Lo que compras aparece al día siguiente y lo que vendes desaparece. Para cada posición: análisis de la IA, tamaño óptimo y, si hay opciones, el contrato que recomienda (nunca vender una call por debajo de tu precio objetivo, ni añadir si ya estás sobreponderado).</li>
+              <li><b>Historial de señales</b> (también en el menú como «Portfolio tracker»): todas las recomendaciones pasadas con su resultado a 90 y 180 días. Sirve para saber cuánto fiarse del sistema.</li>
             </ul>
             <OpenLink to="/my-portfolio" />
           </Card>
 
-          <SectionHeader id="owner-earnings" icon={Calculator} title="Owner Earnings"
+          <SectionHeader id="owner-earnings" icon={Calculator} title="Valoración"
             subtitle="Valoración estilo Buffett — FCF real, no beneficio contable." />
           <Card>
             <p className="mb-3">
@@ -496,20 +517,6 @@ export default function Manual() {
               Usa esta herramienta cuando ya tengas un ticker candidato y quieras confirmar margen de seguridad.
             </p>
             <div className="mt-3"><OpenLink to="/owner-earnings" /></div>
-          </Card>
-
-          <SectionHeader id="buscar" icon={Search} title="Buscar ticker"
-            subtitle="Ficha completa individual — el lugar para investigar cualquier empresa a fondo." />
-          <Card>
-            <p className="mb-3">Busca por ticker o nombre. La ficha muestra:</p>
-            <ul className="list-disc pl-5 space-y-1.5 text-cuerpo mb-3">
-              <li><b>Resumen:</b> precio, market cap, sector, descripción.</li>
-              <li><b>Salud financiera:</b> current ratio, debt/equity, operating margin, interest coverage, FCF/share, payout ratio.</li>
-              <li><b>Scores:</b> value, momentum, fundamental, piotroski, greenblatt, VCP.</li>
-              <li><b>Earnings:</b> fecha, warning si faltan &lt;7 días, catalyst si hay actualización positiva.</li>
-              <li><b>Tesis generada por IA</b> + comparativa con pares del sector.</li>
-            </ul>
-            <OpenLink to="/search" />
           </Card>
 
           <SectionHeader id="entry-setups" icon={TrendingUp} title="Entry setups"
@@ -528,26 +535,26 @@ export default function Manual() {
             <div className="mt-3"><OpenLink to="/entry-setups" /></div>
           </Card>
 
-          <SectionHeader id="leaps" icon={Rocket} title="LEAPS deep-ITM"
-            subtitle="Calls largas (2027-2028) muy dentro de dinero — sustituto apalancado de comprar la acción." />
+          <SectionHeader id="leaps" icon={Rocket} title="LEAPS"
+            subtitle="La versión apalancada de las ideas de Value — una o dos como mucho, ya revisadas." />
           <Card>
             <p className="mb-3">
-              No es especulación con opciones: es una forma de tener la MISMA exposición que comprar acciones de una empresa de calidad, con menos capital inmovilizado
-              (delta 0.70–0.92, vencimiento &gt;13 meses). El "riesgo" real es perder la prima si la tesis se rompe del todo antes del vencimiento.
+              Una call muy dentro de dinero a más de un año (delta 0,70–0,92) se mueve casi como la acción con unas dos veces de apalancamiento y menos capital.
+              Lo máximo que puedes perder es la prima. No es una lista aparte: <b>solo sale de empresas que Value ya ha verificado</b>.
             </p>
-            <p className="font-semibold mb-1 text-cuerpo">Cada oportunidad viene clasificada por situación</p>
+            <p className="font-semibold mb-1 text-cuerpo">Una idea solo se publica si</p>
             <ul className="list-disc pl-5 space-y-1.5 text-cuerpo mb-3">
-              <li><b>Caída circunstancial:</b> ha caído desde máximos pero los fundamentales parecen intactos.</li>
-              <li><b>Calidad a buen precio:</b> no se ha disparado, cotiza a múltiplo razonable — no es "barata por pánico", es calidad a precio justo.</li>
-              <li><b>Dip de ganador:</b> ha subido mucho en el año y ahora corrige.</li>
+              <li>la acción no sigue cayendo (no está en «Espera»),</li>
+              <li>no presenta resultados en los próximos 14 días (la prima estaría inflada),</li>
+              <li>la volatilidad implícita no está cara,</li>
+              <li>el contrato gana al menos un 5% más que comprar la acción al llegar al objetivo, ya descontado el spread,</li>
+              <li>y Claude la aprueba.</li>
             </ul>
             <p className="text-cuerpo mb-3">
-              <b>Ventaja neta:</b> compara el contrato con comprar la acción directamente, descontando YA el coste de cruzar el spread de compra/venta ida y vuelta —
-              un apalancamiento bruto grande puede quedar en casi nada (o negativo) una vez se resta ese coste real.
+              Cada tarjeta dice qué comprar exactamente, cuánto cuesta, cuánto ganas si llega a su objetivo frente a la acción, qué pasa si no se mueve, cuándo vender y qué rompería la idea.
+              Una idea se mantiene hasta dos semanas salvo que se rompa; si se rompe, te llega por Telegram.
             </p>
-            <p className="text-cuerpo text-muted-foreground">
-              Cada contrato mostrado ya pasó el filtro de Claude (ver <a href="#agente-leaps" className="text-primary hover:underline">LEAPS Analyzer</a>) — lo que no se verifica explícitamente como oportunidad razonable no llega a mostrarse, no se marca solo con un aviso.
-            </p>
+            <p className="text-cuerpo text-muted-foreground">Habrá semanas sin ninguna. Es lo esperado.</p>
             <div className="mt-3"><OpenLink to="/leaps" /></div>
           </Card>
 
@@ -660,6 +667,27 @@ export default function Manual() {
             <OpenLink to="/bonds" />
           </Card>
 
+          <SectionHeader id="materias-primas" icon={Wheat} title="Materias primas"
+            subtitle="19 ETFs y ETC de metales, energía y agrícolas — más termómetro que fuente de compras." />
+          <Card>
+            <p className="mb-3">
+              El rating compara el precio con su media de dos años y su posición en el rango anual. Un «atractivo» solo cuenta si la IA lo verifica:
+              un fondo de futuros puede parecer barato solo por el coste de renovar contratos, y un ETF de mineras no es el metal.
+              Los que no se verifican se marcan «sin verificar». En cada ficha está la alternativa UCITS para IBKR Irlanda.
+            </p>
+            <OpenLink to="/commodities" />
+          </Card>
+
+          <SectionHeader id="corrupcion" icon={AlertTriangle} title="Corrupción institucional"
+            subtitle="Contratos públicos, operaciones del Congreso y órdenes ejecutivas." />
+          <Card>
+            <p className="mb-3">
+              Vigila contratos públicos adjudicados, operaciones bursátiles de congresistas y órdenes ejecutivas que pueden mover a empresas concretas.
+              Es una fuente de pistas para investigar, no una señal de compra por sí sola.
+            </p>
+            <OpenLink to="/corrupcion" />
+          </Card>
+
           {/* ──────────────── Agents ──────────────── */}
 
           <h2 className="text-seccion font-bold uppercase tracking-widest text-muted-foreground mt-10 mb-4 pb-1 border-b border-border/30">
@@ -722,7 +750,7 @@ export default function Manual() {
             <ul className="list-disc pl-5 space-y-0.5 text-cuerpo">
               <li>ROE negativo.</li>
               <li>Upside analista negativo (sobrevalorado).</li>
-              <li>Upside analista ≥ 30% — value trap: 0% de acierto medido en señales reales por encima de ese umbral.</li>
+              <li>Upside analista ≥ 30% — por prudencia (posible value trap); regla pendiente de revisar con más historial.</li>
             </ul>
           </Card>
 
@@ -734,7 +762,7 @@ export default function Manual() {
               <b>Después</b>, Claude audita la plausibilidad de los datos de cada pick que sobrevive (precio/target/upside/ROE coherentes entre sí para esa empresa concreta).
               Este paso es un filtro de verdad, no un aviso: solo se publica lo que Claude confirma explícitamente — si no puede verificarlo (sin saldo, fallo de API, respuesta rara), el pick se queda fuera hasta la siguiente ejecución, igual que si lo hubiera rechazado.
             </p>
-            <p className="text-cuerpo text-muted-foreground">El Dashboard muestra por defecto los <i>filtrados</i> (más estrictos). En Value US / EU puedes cambiar al listado completo.</p>
+            <p className="text-cuerpo text-muted-foreground">La app solo enseña los verificados; no hay forma de ver el listado sin filtrar, a propósito.</p>
           </Card>
 
           <SectionHeader id="agente-thesis" icon={Bot} title="Thesis Generator" />
@@ -795,18 +823,17 @@ export default function Manual() {
 
           <SectionHeader id="agente-portfolio" icon={Bot} title="Portfolio Tracker" />
           <Card>
-            <p className="mb-2"><b>Qué hace:</b> guarda cada recomendación hecha por el sistema con su fecha y score, y calcula el return 7d/14d/30d después.</p>
+            <p className="mb-2"><b>Qué hace:</b> guarda cada recomendación hecha por el sistema con su fecha y score, y calcula su resultado a 90 y 180 días.</p>
             <p className="mb-2"><b>Output:</b> <code className="bg-muted/30 px-1 rounded">docs/portfolio_tracker/recommendations.csv</code> + <code className="bg-muted/30 px-1 rounded">summary.json</code></p>
-            <p className="text-cuerpo text-muted-foreground">Alimenta el widget "Portfolio win rate" del Dashboard. También la pestaña Historial de señales.</p>
+            <p className="text-cuerpo text-muted-foreground">Alimenta el acierto del sistema del Centro de mando y la pestaña Historial de señales.</p>
           </Card>
 
           <SectionHeader id="agente-leaps" icon={Bot} title="LEAPS Analyzer" />
           <Card>
-            <p className="mb-2"><b>Qué hace:</b> escanea la cadena de opciones del universo de calidad buscando calls deep-ITM (delta 0.70–0.92, vencimiento &gt;13 meses) como sustituto apalancado de la acción — nunca sobre empresas con upside ≥30% (mismo hard-reject de value trap que VALUE).</p>
+            <p className="mb-2"><b>Qué hace:</b> busca, solo entre las empresas que Value ya verificó, la call deep-ITM (delta 0,70–0,92, vencimiento &gt;13 meses) que mejor sustituye a la acción, y publica una o dos como mucho (ver <a href="#leaps" className="text-primary hover:underline">LEAPS</a>).</p>
             <p className="mb-2"><b>Output:</b> <code className="bg-muted/30 px-1 rounded">docs/leaps_opportunities.json</code></p>
             <p className="text-cuerpo text-muted-foreground">
-              Claude verifica cada contrato antes de publicarlo (coherencia de los datos + veredicto oportunidad/razonable/evitar). Es un filtro real: lo que no pasa no se muestra,
-              igual que en <a href="#agente-ai-filter" className="text-primary hover:underline">AI Quality Filter</a> — no queda como aviso pegado a una fila que se sigue publicando.
+              Claude revisa las candidatas de mejor a peor hasta aprobar dos (como mucho cinco revisiones al día). Lo que no aprueba no se muestra, igual que en <a href="#agente-ai-filter" className="text-primary hover:underline">AI Quality Filter</a>.
             </p>
           </Card>
 
@@ -820,39 +847,19 @@ export default function Manual() {
               <li><b>Sentimiento:</b> rotación, múltiplos o macro — nada específico de la empresa.</li>
             </ul>
             <p className="text-cuerpo text-muted-foreground">
-              Sin búsquedas reales detrás del veredicto, sale "sin datos" — nunca vetando ni respaldando por descarte. Solo se gasta en candidatos que ya tendrían sentido comprar (score suficiente y caída real que explicar).
+              Sin búsquedas reales detrás del veredicto, sale "sin datos". La investigación recibe además las cifras de las propias cuentas: si dice «sentimiento» con el resultado operativo cayendo un 10% o más, no se da por buena. Solo se gasta en candidatos que ya tendrían sentido comprar.
             </p>
           </Card>
 
           <SectionHeader id="agente-ml-scorer" icon={Bot} title="ML Win Predictor" />
           <Card>
-            <p className="mb-2"><b>Qué hace:</b> entrena un modelo XGBoost calibrado (isotonic) cada día sobre el historial completo de señales VALUE del Portfolio Tracker (1.497+ señales con outcome verificado) y predice la probabilidad real de ganar para cada ticker del universo.</p>
+            <p className="mb-2"><b>Qué hace:</b> entrena un modelo XGBoost calibrado (isotonic) cada día sobre el historial completo de señales VALUE del Portfolio Tracker y predice la probabilidad real de ganar para cada ticker del universo.</p>
             <p className="mb-2"><b>Output:</b> <code className="bg-muted/30 px-1 rounded">docs/ml_win_probability.json</code> — alimenta <code className="bg-muted/30 px-1 rounded">ml_win_probability</code>/<code className="bg-muted/30 px-1 rounded">ml_win_label</code> y el campo <code className="bg-muted/30 px-1 rounded">ml_score</code> (0-100) del Super Score Integrador.</p>
             <div className="mt-3 space-y-2 text-cuerpo">
-              <p className="font-semibold text-foreground/80">Rendimiento del modelo (cross-validation 5-fold):</p>
-              <div className="grid grid-cols-2 gap-2">
-                <div className="bg-emerald-500/10 border border-emerald-500/20 rounded p-2 text-center">
-                  <div className="text-emerald-400 font-bold text-seccion">0.88</div>
-                  <div className="text-muted-foreground text-mini">ROC-AUC</div>
-                </div>
-                <div className="bg-emerald-500/10 border border-emerald-500/20 rounded p-2 text-center">
-                  <div className="text-emerald-400 font-bold text-seccion">0.13</div>
-                  <div className="text-muted-foreground text-mini">Brier Score (calibración)</div>
-                </div>
-              </div>
-              <p className="font-semibold text-foreground/80 mt-3">Features por orden de importancia:</p>
-              <ul className="space-y-1 text-muted-foreground">
-                <li><span className="text-cyan-400 font-medium">1. Régimen × Sector</span> — 12.5% · el régimen de mercado no afecta igual a todos los sectores</li>
-                <li><span className="text-cyan-400 font-medium">2. Régimen de mercado</span> — 12.4% · CONFIRMED_UPTREND vs UPTREND_PRESSURE marca la diferencia</li>
-                <li><span className="text-cyan-400 font-medium">3. Win rate del sector</span> — 8.8% · historial de acierto por sector, no solo el sector en sí</li>
-                <li><span className="text-cyan-400 font-medium">4. FCF Yield %</span> — 8.1% · empresas con caja real ganan más</li>
-                <li><span className="text-cyan-400 font-medium">5. Analyst Upside %</span> — 7.9% · el consenso de analistas tiene peso real</li>
-              </ul>
-              <p className="font-semibold text-foreground/80 mt-3">Win rate histórico por sector:</p>
-              <ul className="space-y-1 text-muted-foreground">
-                <li>• Sectores ganadores: Energy 71%, Communication Services 48%, Technology 35%</li>
-                <li>• Sectores perdedores: Consumer Cyclical 9%, Basic Materials 12% — el modelo los penaliza automáticamente</li>
-              </ul>
+              <p className="text-muted-foreground">
+                Su precisión (AUC) ronda 0,80 en la última versión, y la publica cada día en el propio fichero. Es una pista más, no una decisión:
+                los factores que más pesan cambian de un mes a otro y con pocos datos limpios no generalizan bien.
+              </p>
             </div>
           </Card>
 
@@ -887,7 +894,7 @@ export default function Manual() {
               <div><dt className="font-bold">VCP (Volatility Contraction Pattern)</dt><dd className="text-muted-foreground">Patrón técnico Minervini — tres contracciones de volatilidad cada vez más pequeñas antes de breakout.</dd></div>
               <div><dt className="font-bold">Trend Template (0–8)</dt><dd className="text-muted-foreground">8 criterios Minervini de tendencia alcista sostenida (precio &gt; MA50 &gt; MA150 &gt; MA200, etc.).</dd></div>
               <div><dt className="font-bold">R:R (Risk/Reward)</dt><dd className="text-muted-foreground">Upside al target / downside al stop. En rebotes técnicos, el sistema exige mínimo 1:1 para publicar el setup — arriesgar más de lo que se puede ganar no se muestra. En VALUE, un R:R muy alto no es señal de calidad por sí solo: mira la <b>zona de upside</b>, no este ratio suelto.</dd></div>
-              <div><dt className="font-bold">Zona dorada de upside</dt><dd className="text-muted-foreground">[10%, 25%) de distancia al precio objetivo del consenso. Es la única banda con acierto alto medido sobre señales reales (83%). Por debajo, poco margen; por encima del 30%, value trap (0% de acierto) — ver <a href="#filosofia" className="text-primary hover:underline">Filosofía</a>.</dd></div>
+              <div><dt className="font-bold">Zona dorada de upside</dt><dd className="text-muted-foreground">[10%, 25%) de distancia al precio objetivo del consenso: la banda que el sistema premia. Por debajo, poco margen; por encima del 30%, se descarta por prudencia — ver <a href="#filosofia" className="text-primary hover:underline">Filosofía</a>.</dd></div>
               <div><dt className="font-bold">Why cheap (deterioro / cíclico / evento / sentimiento)</dt><dd className="text-muted-foreground">Clasificación de por qué cayó el precio, verificada con búsquedas reales. Solo "deterioro" descarta — las otras tres son caídas que no vienen de que el negocio se rompa.</dd></div>
               <div><dt className="font-bold">Stage 2 (Weinstein)</dt><dd className="text-muted-foreground">Fase de tendencia alcista confirmada — la única fase donde se compran momentum setups.</dd></div>
               <div><dt className="font-bold">Cluster buy (insiders)</dt><dd className="text-muted-foreground">Varios directivos comprando en días cercanos. Señal mucho más fuerte que compra aislada.</dd></div>
@@ -901,8 +908,8 @@ export default function Manual() {
           <Card>
             <div className="space-y-4 text-cuerpo">
               <div>
-                <p className="font-bold mb-1">¿Por qué el Dashboard dice "0 oportunidades momentum"?</p>
-                <p className="text-muted-foreground">Porque estamos en régimen CORRECTION o BEAR. Durante correcciones el sistema espera a que se confirmen tendencias Stage 2 — es el comportamiento correcto. Cero señales &gt; señales falsas.</p>
+                <p className="font-bold mb-1">¿Por qué hoy no hay ninguna idea para entrar, o ningún LEAPS?</p>
+                <p className="text-muted-foreground">Porque nada pasa todos los filtros: o sigue cayendo, o presenta resultados en unos días, o la IA no lo aprueba. Es el comportamiento correcto: cero señales &gt; señales falsas.</p>
               </div>
               <div>
                 <p className="font-bold mb-1">Un ticker tiene ROE −12% pero aparece en VALUE. ¿Por qué?</p>
@@ -922,7 +929,7 @@ export default function Manual() {
               </div>
               <div>
                 <p className="font-bold mb-1">¿Dónde se guarda mi cartera?</p>
-                <p className="text-muted-foreground">Tu cartera personal se sincroniza con tu cuenta (Supabase). Las preferencias locales (modo, filtros) viven en el navegador y no se sincronizan entre dispositivos.</p>
+                <p className="text-muted-foreground">En tu cuenta (Supabase), y se rellena sola desde Interactive Brokers con un informe de solo lectura. Las preferencias locales (modo, filtros) viven en el navegador y no se sincronizan entre dispositivos.</p>
               </div>
               <div>
                 <p className="font-bold mb-1">¿Qué hago si encuentro un error?</p>

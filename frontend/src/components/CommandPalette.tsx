@@ -110,7 +110,7 @@ export default function CommandPalette({ open, onClose }: { open: boolean; onClo
           <input
             ref={inputRef}
             className="flex h-12 w-full min-w-0 rounded-md bg-transparent py-3 text-cuerpo outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50"
-            placeholder="Escribe un comando o busca un ticker..."
+            placeholder="Salta a una sección…"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
           />
