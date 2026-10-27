@@ -37,6 +37,7 @@ import { LogoCandleBull } from '../components/BrandLogos'
 import { useValueExperienceMode } from '../hooks/useValueExperienceMode'
 import { ValueClarityPanel, ValueDecisionBadge, ValueModeToggle } from '../components/ValueDecision'
 import { getValueDecision } from '@/lib/valueDecision'
+import { estadoEfectivo } from '@/lib/estadoEntrada'
 import PageShell from '@/components/PageShell'
 import { nlRegimen, nlRegimenTono } from '@/lib/nl'
 import CifrasClave from '../components/CifrasClave'
@@ -314,7 +315,7 @@ export default function ValueUS() {
   const filtered = useMemo(() => rows.filter(r => {
     if (filterGrade !== 'ALL' && r.conviction_grade !== filterGrade) return false
     if (filterSector !== 'ALL' && r.sector !== filterSector) return false
-    if (filterTiming !== 'ALL' && r.entry_readiness !== filterTiming) return false
+    if (filterTiming !== 'ALL' && estadoEfectivo(r.entry_readiness, verdicts[r.ticker?.toUpperCase() ?? '']?.verdict) !== filterTiming) return false
     // El umbral de score mira value_score (métrica rápida), pero conviction_grade
     // sale de un análisis más profundo (ROE, deuda, DCF, R:R) que puede discrepar
     // — un A/B de alta convicción no debe desaparecer solo porque el value_score
@@ -337,7 +338,10 @@ export default function ValueUS() {
   const sorted = useMemo(() => [...filtered].sort((a, b) => {
     // Por defecto manda el timing (ver comparaPorTiming). Pulsar cualquier
     // cabecera cambia a ese criterio.
-    if (sortKey === 'entry_readiness') return comparaPorTiming(a, b, sortDir)
+    if (sortKey === 'entry_readiness') {
+      const ef = (r: ValueOpportunity) => ({ entry_readiness: estadoEfectivo(r.entry_readiness, verdicts[r.ticker?.toUpperCase() ?? '']?.verdict) ?? undefined, value_score: r.value_score })
+      return comparaPorTiming(ef(a), ef(b), sortDir)
+    }
     const av = a[sortKey] ?? 0
     const bv = b[sortKey] ?? 0
     if (av < bv) return sortDir === 'asc' ? -1 : 1
@@ -948,6 +952,8 @@ export default function ValueUS() {
           <TableBody>
             {paged.map((d, i) => {
             const isReady = decisionFor(d).kind === 'ready'
+            const veredicto = verdicts[d.ticker?.toUpperCase() ?? '']
+            const estado = estadoEfectivo(d.entry_readiness, veredicto?.verdict)
             return (
               <TableRow
                 key={d.ticker}
@@ -984,7 +990,7 @@ export default function ValueUS() {
                             TECHO
                           </span>
                         )}
-                        {d.entry_readiness === 'ESPERAR' && !verdicts[d.ticker?.toUpperCase() ?? ''] && (
+                        {estado === 'ESPERAR' && veredicto?.verdict !== 'AVOID' && (
                           <span
                             className="text-micro font-bold px-1 py-0.5 rounded bg-red-500/15 text-red-400 border border-red-500/25"
                             title={d.entry_readiness_reason || 'Aún en caída — espera a que haga suelo antes de entrar'}
@@ -992,7 +998,15 @@ export default function ValueUS() {
                             ESPERA
                           </span>
                         )}
-                        {d.entry_readiness === 'ENTRADA' && !isReady && (
+                        {estado === 'VIGILAR' && (
+                          <span
+                            className="text-micro font-bold px-1 py-0.5 rounded bg-amber-500/15 text-amber-400 border border-amber-500/25"
+                            title={[veredicto?.blockers, veredicto?.trigger, d.entry_readiness_reason].filter(Boolean).join(' · ') || 'En el radar: aún no es momento de entrar'}
+                          >
+                            VIGILA
+                          </span>
+                        )}
+                        {estado === 'ENTRADA' && !isReady && (
                           <span
                             className="text-micro font-bold px-1 py-0.5 rounded bg-cyan-500/15 text-cyan-400 border border-cyan-500/25"
                             title={d.entry_readiness_reason || 'Suelo técnico confirmado (stage 2)'}
@@ -1006,7 +1020,8 @@ export default function ValueUS() {
                           downgradeDays14d={d.downgrade_days_14d}
                           compact
                         />
-                        <EntryVerdictBadge verdict={verdicts[d.ticker?.toUpperCase() ?? '']} compact />
+                        {/* WAIT ya va dentro de VIGILA/ESPERA: repetirlo era la segunda etiqueta que contradecía al filtro */}
+                        {veredicto && veredicto.verdict !== 'WAIT' && <EntryVerdictBadge verdict={veredicto} compact />}
                         {(d.hedge_fund_count ?? 0) >= 1 && (
                           <span
                             className={`text-micro font-bold px-1 py-0.5 rounded border ${(d.hedge_fund_count ?? 0) >= 2 ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/25' : 'bg-muted/20 text-muted-foreground border-border/30'}`}
