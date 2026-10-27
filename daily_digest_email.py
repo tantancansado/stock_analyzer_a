@@ -213,8 +213,11 @@ def enviar(destino: str, titulo: str, cuerpo: str) -> bool:
         return False
     datos = json.dumps({'from': REMITENTE, 'to': [destino], 'subject': titulo,
                         'html': cuerpo}).encode()
+    # Sin User-Agent propio, Cloudflare (delante de Resend) rechaza con 403
+    # «error code: 1010» la firma por defecto de urllib.
     req = urllib.request.Request('https://api.resend.com/emails', data=datos, headers={
-        'Authorization': f'Bearer {clave}', 'Content-Type': 'application/json'})
+        'Authorization': f'Bearer {clave}', 'Content-Type': 'application/json',
+        'User-Agent': 'stock-analyzer-digest/1.0'})
     try:
         with urllib.request.urlopen(req, timeout=20) as r:
             print(f'  correo enviado ({r.status})')
