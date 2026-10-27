@@ -437,7 +437,7 @@ function MeanReversionMini({ data, loading }: { data: unknown; loading: boolean 
     <div>
       <div className="flex items-center justify-between mb-2 px-1">
         <span className="etiqueta-seccion">Mean Reversion</span>
-        <Link to="/mean-reversion" className="flex items-center gap-1 text-micro text-muted-foreground hover:text-foreground transition-colors">
+        <Link to="/entry-setups?tab=mean-reversion" className="flex items-center gap-1 text-micro text-muted-foreground hover:text-foreground transition-colors">
           Ver todos <ChevronRight size={12} />
         </Link>
       </div>
@@ -1438,7 +1438,7 @@ export default function Dashboard() {
           {/* Top VALUE Picks */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
             <TopPicksTable title="Top VALUE US" rows={topUS} to="/value" loading={loadingUS} />
-            <TopPicksTable title="Top VALUE EU" rows={topEU} to="/value-eu" loading={loadingEU} />
+            <TopPicksTable title="Top VALUE EU" rows={topEU} to="/value?region=eu" loading={loadingEU} />
           </div>
 
           {/* Signals Radar */}

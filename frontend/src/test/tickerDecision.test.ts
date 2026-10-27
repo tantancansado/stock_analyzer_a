@@ -130,10 +130,16 @@ describe('getTickerDecision — compra', () => {
 // ---------------------------------------------------------------------------
 
 describe('getTickerDecision — evita', () => {
-  it('upside de consenso ≥30% → evita (hard reject value trap), aunque OE diga compra', () => {
-    const d = getTickerDecision({ oe: makeOe({ current_price: 92 }), analystUpsidePct: 45 })
-    expect(d.kind).toBe('evita')
-    expect(d.blockers.some(b => b.includes('value trap'))).toBe(true)
+  it('upside de consenso ≥30% con nuestra valoración en compra → compra, no evita', () => {
+    // 27-oct-2026: «nosotros también calculamos precio objetivo y sabemos hacerlo»
+    const d = getTickerDecision({ oe: makeOe({ current_price: 92, upside_pct: 35 }), analystUpsidePct: 45 })
+    expect(d.kind).toBe('compra')
+    expect(d.blockers.some(b => b.includes('no lo respalda'))).toBe(false)
+  })
+
+  it('upside de consenso ≥30% que nuestra valoración no respalda → reparo visible', () => {
+    const d = getTickerDecision({ oe: makeOe({ current_price: 92, upside_pct: 2 }), analystUpsidePct: 45 })
+    expect(d.blockers.some(b => b.includes('no lo respalda'))).toBe(true)
   })
 
   it('IA AVOID con precio YA en zona de compra → evita (el problema no es el precio)', () => {

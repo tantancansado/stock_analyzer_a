@@ -26,7 +26,7 @@ function ReturnBadge({ value }: { value: number | null | undefined }) {
   return <span style={{ color }} className="text-mini font-mono">{v > 0 ? '+' : ''}{v.toFixed(2)}%</span>
 }
 
-function ScoreBucketsTable({ buckets }: { buckets: CalibrationBucket[] }) {
+function ScoreBucketsTable({ buckets, horizonte }: { buckets: CalibrationBucket[]; horizonte: string }) {
   return (
     <div className="table-x-wrap">
       <table className="w-full text-cuerpo">
@@ -34,7 +34,7 @@ function ScoreBucketsTable({ buckets }: { buckets: CalibrationBucket[] }) {
           <tr className="border-b border-foreground/10 text-left">
             <th className="pb-2 text-mini text-muted-foreground font-medium">Score</th>
             <th className="pb-2 text-mini text-muted-foreground font-medium text-right">Señales</th>
-            <th className="pb-2 text-mini text-muted-foreground font-medium pl-4">Win Rate 14d</th>
+            <th className="pb-2 text-mini text-muted-foreground font-medium pl-4">Acierto a {horizonte}</th>
             <th className="pb-2 text-mini text-muted-foreground font-medium text-right">Retorno Medio</th>
             <th className="pb-2 text-mini text-muted-foreground font-medium text-right">Mediana</th>
           </tr>
@@ -61,7 +61,7 @@ function ScoreBucketsTable({ buckets }: { buckets: CalibrationBucket[] }) {
   )
 }
 
-function RegimeTable({ rows }: { rows: CalibrationRegime[] }) {
+function RegimeTable({ rows, horizonte }: { rows: CalibrationRegime[]; horizonte: string }) {
   return (
     <div className="table-x-wrap">
       <table className="w-full text-cuerpo">
@@ -69,7 +69,7 @@ function RegimeTable({ rows }: { rows: CalibrationRegime[] }) {
           <tr className="border-b border-foreground/10 text-left">
             <th className="pb-2 text-mini text-muted-foreground font-medium">Régimen</th>
             <th className="pb-2 text-mini text-muted-foreground font-medium text-right">Señales</th>
-            <th className="pb-2 text-mini text-muted-foreground font-medium pl-4">Win Rate 14d</th>
+            <th className="pb-2 text-mini text-muted-foreground font-medium pl-4">Acierto a {horizonte}</th>
             <th className="pb-2 text-mini text-muted-foreground font-medium text-right">Retorno Medio</th>
           </tr>
         </thead>
@@ -99,7 +99,7 @@ function RegimeTable({ rows }: { rows: CalibrationRegime[] }) {
   )
 }
 
-function SectorTable({ rows }: { rows: CalibrationSector[] }) {
+function SectorTable({ rows, horizonte }: { rows: CalibrationSector[]; horizonte: string }) {
   return (
     <div className="table-x-wrap">
       <table className="w-full text-cuerpo">
@@ -107,7 +107,7 @@ function SectorTable({ rows }: { rows: CalibrationSector[] }) {
           <tr className="border-b border-foreground/10 text-left">
             <th className="pb-2 text-mini text-muted-foreground font-medium">Sector</th>
             <th className="pb-2 text-mini text-muted-foreground font-medium text-right">Señales</th>
-            <th className="pb-2 text-mini text-muted-foreground font-medium pl-4">Win Rate 14d</th>
+            <th className="pb-2 text-mini text-muted-foreground font-medium pl-4">Acierto a {horizonte}</th>
             <th className="pb-2 text-mini text-muted-foreground font-medium text-right">Retorno Medio</th>
           </tr>
         </thead>
@@ -254,7 +254,7 @@ export default function Calibration() {
         <Card className="glass border-foreground/10 min-w-0">
           <CardContent className="p-5">
             <h2 className="text-cuerpo font-semibold text-foreground mb-4">Calibración por Score VALUE</h2>
-            <ScoreBucketsTable buckets={data.score_buckets} />
+            <ScoreBucketsTable buckets={data.score_buckets} horizonte={data.horizon ?? '90d'} />
             <ScoreInsight buckets={data.score_buckets} />
           </CardContent>
         </Card>
@@ -273,7 +273,7 @@ export default function Calibration() {
           <Card className="glass border-foreground/10 min-w-0">
             <CardContent className="p-5">
               <h2 className="text-cuerpo font-semibold text-foreground mb-4">Por Régimen de Mercado</h2>
-              <RegimeTable rows={data.regime_analysis} />
+              <RegimeTable rows={data.regime_analysis} horizonte={data.horizon ?? '90d'} />
             </CardContent>
           </Card>
         )}
@@ -281,7 +281,7 @@ export default function Calibration() {
           <Card className="glass border-foreground/10 min-w-0">
             <CardContent className="p-5">
               <h2 className="text-cuerpo font-semibold text-foreground mb-4">Por FCF Yield</h2>
-              <ScoreBucketsTable buckets={data.fcf_yield_buckets} />
+              <ScoreBucketsTable buckets={data.fcf_yield_buckets} horizonte={data.horizon ?? '90d'} />
             </CardContent>
           </Card>
         )}
@@ -292,7 +292,7 @@ export default function Calibration() {
         <Card className="glass border-foreground/10 min-w-0">
           <CardContent className="p-5">
             <h2 className="text-cuerpo font-semibold text-foreground mb-4">Calibración por Sector</h2>
-            <SectorTable rows={data.sector_calibration} />
+            <SectorTable rows={data.sector_calibration} horizonte={data.horizon ?? '90d'} />
           </CardContent>
         </Card>
       )}

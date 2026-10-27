@@ -45,6 +45,12 @@ interface SignalRow {
   return_7d?: number
   return_14d?: number
   return_30d?: number
+  // El horizonte de medida es 90d (horizontes.py): a 7/14/30 días una tesis
+  // value no ha hecho nada todavía y la tabla enseñaba ruido.
+  return_90d?: number
+  return_180d?: number
+  alpha_90d?: number | null
+  alpha_180d?: number | null
   max_drawdown_30d?: number
   win_7d?: boolean
   win_14d?: boolean
@@ -546,9 +552,9 @@ export default function Portfolio() {
                       </div>
                     </div>
                     <div className="text-right">
-                      {r.return_14d != null && (
-                        <div className={`text-cuerpo font-bold ${r.return_14d > 0 ? 'text-emerald-400' : r.return_14d < 0 ? 'text-red-400' : 'text-muted-foreground'}`}>
-                          {r.return_14d > 0 ? '+' : ''}{r.return_14d.toFixed(1)}%
+                      {r.return_90d != null && (
+                        <div className={`text-cuerpo font-bold ${r.return_90d > 0 ? 'text-emerald-400' : r.return_90d < 0 ? 'text-red-400' : 'text-muted-foreground'}`}>
+                          {r.return_90d > 0 ? '+' : ''}{r.return_90d.toFixed(1)}% <span className="text-micro font-normal text-muted-foreground">90d</span>
                         </div>
                       )}
                       {r.status && <div className="text-micro text-muted-foreground">{r.status}</div>}
@@ -556,8 +562,8 @@ export default function Portfolio() {
                   </div>
                   <div className="flex gap-3 mt-2 text-micro text-muted-foreground">
                     {r.value_score != null && <span>Score {r.value_score.toFixed(0)}</span>}
-                    {r.return_7d != null && <span>7d: {r.return_7d > 0 ? '+' : ''}{r.return_7d.toFixed(1)}%</span>}
-                    {r.return_30d != null && <span>30d: {r.return_30d > 0 ? '+' : ''}{r.return_30d.toFixed(1)}%</span>}
+                    {r.return_180d != null && <span>180d: {r.return_180d > 0 ? '+' : ''}{r.return_180d.toFixed(1)}%</span>}
+                    {r.alpha_90d != null && <span>vs índice 90d: {r.alpha_90d > 0 ? '+' : ''}{r.alpha_90d.toFixed(1)}%</span>}
                     {r.sector && <span className="truncate">{r.sector}</span>}
                   </div>
                 </div>
@@ -575,11 +581,10 @@ export default function Portfolio() {
                       <TableHead className={thS('signal_date')} onClick={() => onSigSort('signal_date')}>Fecha</TableHead>
                       <TableHead className={thS('signal_price')} onClick={() => onSigSort('signal_price')}>Precio Entrada</TableHead>
                       <TableHead className={thS('value_score')} onClick={() => onSigSort('value_score')}>Score</TableHead>
-                      <TableHead className={thS('return_7d')} onClick={() => onSigSort('return_7d')}>Ret. 7d</TableHead>
-                      <TableHead className={thS('return_14d')} onClick={() => onSigSort('return_14d')}>Ret. 14d</TableHead>
-                      <TableHead className={thS('return_30d')} onClick={() => onSigSort('return_30d')}>Ret. 30d</TableHead>
-                      <TableHead className={thS('alpha_7d')} onClick={() => onSigSort('alpha_7d')} title="Retorno vs SPY/VGK a 7 días">α 7d</TableHead>
-                      <TableHead className={thS('alpha_30d')} onClick={() => onSigSort('alpha_30d')} title="Retorno vs SPY/VGK a 30 días">α 30d</TableHead>
+                      <TableHead className={thS('return_90d')} onClick={() => onSigSort('return_90d')}>Ret. 90d</TableHead>
+                      <TableHead className={thS('return_180d')} onClick={() => onSigSort('return_180d')}>Ret. 180d</TableHead>
+                      <TableHead className={thS('alpha_90d')} onClick={() => onSigSort('alpha_90d')} title="Retorno vs SPY/VGK a 90 días">α 90d</TableHead>
+                      <TableHead className={thS('alpha_180d')} onClick={() => onSigSort('alpha_180d')} title="Retorno vs SPY/VGK a 180 días">α 180d</TableHead>
                       <TableHead className={thS('max_drawdown_30d')} onClick={() => onSigSort('max_drawdown_30d')}>Max DD</TableHead>
                       <TableHead className={thS('sector')} onClick={() => onSigSort('sector')}>Sector</TableHead>
                       <TableHead>Estado</TableHead>
@@ -606,20 +611,17 @@ export default function Portfolio() {
                         <TableCell className="tabular-nums text-apoyo text-primary">
                           {s.value_score != null ? s.value_score.toFixed(0) : '—'}
                         </TableCell>
-                        <TableCell className={`tabular-nums text-apoyo font-semibold ${retColor(s.return_7d)}`}>
-                          {s.return_7d != null ? `${s.return_7d >= 0 ? '+' : ''}${s.return_7d.toFixed(2)}%` : '—'}
+                        <TableCell className={`tabular-nums text-apoyo font-semibold ${retColor(s.return_90d)}`}>
+                          {s.return_90d != null ? `${s.return_90d >= 0 ? '+' : ''}${s.return_90d.toFixed(2)}%` : '—'}
                         </TableCell>
-                        <TableCell className={`tabular-nums text-apoyo font-semibold ${retColor(s.return_14d)}`}>
-                          {s.return_14d != null ? `${s.return_14d >= 0 ? '+' : ''}${s.return_14d.toFixed(2)}%` : '—'}
+                        <TableCell className={`tabular-nums text-apoyo font-semibold ${retColor(s.return_180d)}`}>
+                          {s.return_180d != null ? `${s.return_180d >= 0 ? '+' : ''}${s.return_180d.toFixed(2)}%` : '—'}
                         </TableCell>
-                        <TableCell className={`tabular-nums text-apoyo font-semibold ${retColor(s.return_30d)}`}>
-                          {s.return_30d != null ? `${s.return_30d >= 0 ? '+' : ''}${s.return_30d.toFixed(2)}%` : '—'}
+                        <TableCell className={`tabular-nums text-apoyo font-semibold ${retColor(s.alpha_90d ?? undefined)}`}>
+                          {s.alpha_90d != null ? `${s.alpha_90d >= 0 ? '+' : ''}${s.alpha_90d.toFixed(2)}%` : '—'}
                         </TableCell>
-                        <TableCell className={`tabular-nums text-apoyo font-semibold ${retColor(s.alpha_7d ?? undefined)}`}>
-                          {s.alpha_7d != null ? `${s.alpha_7d >= 0 ? '+' : ''}${s.alpha_7d.toFixed(2)}%` : '—'}
-                        </TableCell>
-                        <TableCell className={`tabular-nums text-apoyo font-semibold ${retColor(s.alpha_30d ?? undefined)}`}>
-                          {s.alpha_30d != null ? `${s.alpha_30d >= 0 ? '+' : ''}${s.alpha_30d.toFixed(2)}%` : '—'}
+                        <TableCell className={`tabular-nums text-apoyo font-semibold ${retColor(s.alpha_180d ?? undefined)}`}>
+                          {s.alpha_180d != null ? `${s.alpha_180d >= 0 ? '+' : ''}${s.alpha_180d.toFixed(2)}%` : '—'}
                         </TableCell>
                         <TableCell className="tabular-nums text-apoyo text-red-400">
                           {s.max_drawdown_30d != null ? `${s.max_drawdown_30d.toFixed(2)}%` : '—'}

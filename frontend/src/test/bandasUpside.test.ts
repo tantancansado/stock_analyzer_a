@@ -3,7 +3,7 @@ import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
 
 import {
-  UPSIDE_GOLDEN_MAX, UPSIDE_HARD_REJECT, UPSIDE_MIN,
+  UPSIDE_GOLDEN_MAX, UPSIDE_ALTO, UPSIDE_MIN,
   bandaUpside, colorUpside, enZonaDorada,
 } from '../lib/bandasUpside'
 
@@ -21,7 +21,7 @@ describe('bandasUpside', () => {
     }
     expect(UPSIDE_MIN).toBe(num('UPSIDE_MIN'))
     expect(UPSIDE_GOLDEN_MAX).toBe(num('UPSIDE_GOLDEN_MAX'))
-    expect(UPSIDE_HARD_REJECT).toBe(num('UPSIDE_HARD_REJECT'))
+    expect(UPSIDE_ALTO).toBe(num('UPSIDE_ALTO'))
   })
 
   it('clasifica cada tramo', () => {
@@ -34,9 +34,9 @@ describe('bandasUpside', () => {
     // banda. Se unificaron y el estado 'transicion' desapareció.
     expect(bandaUpside(25)).toBe('dorada')
     expect(bandaUpside(29.9)).toBe('dorada')
-    expect(bandaUpside(30)).toBe('trampa')
-    expect(bandaUpside(30)).toBe('trampa')
-    expect(bandaUpside(120)).toBe('trampa')
+    expect(bandaUpside(30)).toBe('alto')
+    expect(bandaUpside(30)).toBe('alto')
+    expect(bandaUpside(120)).toBe('alto')
   })
 
   it('un upside alto no es verde', () => {
@@ -47,7 +47,7 @@ describe('bandasUpside', () => {
     expect(colorUpside(18)).toBe('text-emerald-400')
     expect(colorUpside(27)).toBe('text-emerald-400')
     expect(colorUpside(35)).not.toBe('text-emerald-400')
-    expect(colorUpside(35)).toBe('text-red-400')
+    expect(colorUpside(35)).toBe('text-amber-400')
     expect(enZonaDorada(35)).toBe(false)
   })
 })
@@ -71,7 +71,7 @@ describe('nadie escribe la banda a mano', () => {
       })
     // Un identificador que contenga "upside", una comparación, y uno de los
     // tres números de la banda. Verificado contra los seis casos reales que se
-    // corrigieron y contra los que NO deben saltar (`>= UPSIDE_HARD_REJECT`,
+    // corrigieron y contra los que NO deben saltar (`>= UPSIDE_ALTO`,
     // `colorUpside(upside)`, `enZonaDorada(...)`).
     const inline = /[A-Za-z_.]*upside\w*[^\n;]{0,40}?(?:>=|<=|>|<|===?|!==?)\s*(?:10|25|30)\b/i
     const culpables: string[] = []

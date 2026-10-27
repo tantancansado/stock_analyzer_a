@@ -98,7 +98,7 @@ const CATALYSTS: Catalyst[] = [
     // [10,25) da 77,8% de acierto y +5,67%; [25,30) da 27,3% y −3,17%. El
     // 20-ago-2026 los NUEVE tickers que lo cumplían tenían upside 24-28,6%,
     // o sea que la app los marcaba en verde por estar en la peor banda.
-    description: 'Potencial del analista dentro de la banda [10%, 25%), la única que ha funcionado en las señales propias. Por encima del 25% el retorno se hunde: no es más chollo, es más trampa.',
+    description: 'Potencial del analista entre el 10% y el 30%, la zona que el sistema premia. Por encima del 30% también cuenta, pero solo si nuestra propia valoración lo respalda.',
     color: 'amber',
     match: d => enZonaDorada(d.analyst_upside_pct),
   },

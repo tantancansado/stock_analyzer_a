@@ -4,7 +4,7 @@
 // ha discriminado gangas reales de trampas (CBOE/NDAQ vs MA/V); el consenso
 // solo aporta banderas.
 
-import { UPSIDE_HARD_REJECT, enZonaDorada } from './bandasUpside'
+import { UPSIDE_ALTO, UPSIDE_MIN, enZonaDorada } from './bandasUpside'
 
 export type TickerDecisionKind = 'compra' | 'espera' | 'evita' | 'no_fiable' | 'sin_modelo'
 
@@ -184,8 +184,12 @@ export function getTickerDecision({
   if (daysToEarnings != null && daysToEarnings <= 7) {
     blockers.push(`Earnings en ${daysToEarnings} días — riesgo de evento`)
   }
-  if (analystUpsidePct != null && analystUpsidePct >= UPSIDE_HARD_REJECT) {
-    blockers.push(`Upside de consenso ≥${UPSIDE_HARD_REJECT}% (+${analystUpsidePct.toFixed(0)}%) — patrón histórico de value trap`)
+  // Un upside alto del consenso no veta: lo juzga nuestra valoración. Solo es
+  // un reparo si el modelo propio no lo respalda.
+  if (analystUpsidePct != null && analystUpsidePct >= UPSIDE_ALTO
+      && (oe.upside_pct == null || oe.upside_pct < UPSIDE_MIN)) {
+    blockers.push(`El consenso ve +${analystUpsidePct.toFixed(0)}%, pero nuestra valoración no lo respalda`
+      + (oe.upside_pct != null ? ` (${oe.upside_pct > 0 ? '+' : ''}${oe.upside_pct.toFixed(0)}%)` : ''))
   }
   if (analystUpsidePct != null && analystUpsidePct < 0) {
     blockers.push('El consenso de analistas está por debajo del precio actual')
@@ -195,25 +199,6 @@ export function getTickerDecision({
   }
 
   // ── Veredicto ─────────────────────────────────────────────────────────────
-  // Upside ≥30% es hard-reject histórico (0% aciertos en 55 señales): manda
-  // sobre todo lo demás.
-  if (analystUpsidePct != null && analystUpsidePct >= UPSIDE_HARD_REJECT) {
-    return {
-      kind: 'evita',
-      label: 'EVITA',
-      headline: 'Parece regalada y eso es exactamente el problema: el gap con el consenso delata algo que el modelo no ve.',
-      reasons,
-      blockers,
-      dataFlags,
-      buyPrice: buy,
-      exitPrice,
-      exitYear,
-      safetyMarginPct: margin,
-      targetReturnPct,
-      badgeClass: BADGE.evita,
-    }
-  }
-
   const inBuyZone = margin != null && margin >= 0
 
   // IA rechaza la tesis con el precio ya en zona de compra → el problema no es

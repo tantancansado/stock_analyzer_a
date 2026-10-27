@@ -316,7 +316,7 @@ export default function Manual() {
             <ul className="list-disc pl-5 space-y-1.5 mb-3">
               <li><b>ROE negativo = descarte automático.</b> Una empresa que destruye capital no es una oportunidad, por muy barata que parezca.</li>
               <li><b>Upside analista negativo = descarte.</b> Si todos los analistas que siguen la empresa piensan que está sobrevalorada, no la compramos.</li>
-              <li><b>Upside ≥ 30% se descarta por prudencia.</b> Un hueco tan grande entre precio y objetivo suele significar que el precio cayó por algo que el modelo todavía no ve. Es una regla de precaución, no un dato cerrado: el historial a 90-180 días no la confirma con claridad y se revisará con más datos.</li>
+              <li><b>El objetivo del analista es un dato, no una sentencia.</b> Calculamos nuestro propio precio objetivo (DCF y múltiplo de beneficio). Si los analistas ven más de un 30% de subida, cuenta igual que cualquier otra cuando nuestra valoración lo respalda; si nuestros modelos lo niegan, se penaliza, porque ahí sí puede haber algo que el precio ya descuenta.</li>
               <li><b>Dato faltante ≠ dato bueno.</b> Cuando un score por defecto es 50 (información no disponible), el sistema <u>no puntúa</u> — prefiere no recomendar a inventarse números.</li>
               <li><b>Se vende a precio objetivo, nunca a un % fijo de ganancia ni a un nivel técnico.</b> El objetivo se calcula (múltiplo × BPA limpio, DCF, consenso), y una empresa excepcional aguanta hasta el objetivo completo mientras una mediocre no.</li>
             </ul>
@@ -348,7 +348,7 @@ export default function Manual() {
               <li><b>value_score (0–100):</b> combinado de fundamentales + insiders + opciones + sector + mean reversion. Ver <a href="#agente-super-score" className="text-primary hover:underline">Super Score Integrator</a>.</li>
               <li><b>Grade A/B/C/D:</b> conviction grade. A = alta convicción (≥3 positivos, ≤1 red flag). D = evitar.</li>
               <li>
-                <b>Upside de analistas — no es «cuanto más, mejor».</b> Por debajo del 10% el margen suele no compensar; entre 10% y 30% es la zona en la que se trabaja; por encima del 30% el sistema lo descarta por prudencia (ver <a href="#filosofia" className="text-primary hover:underline">Filosofía</a>).
+                <b>Upside de analistas — no es «cuanto más, mejor».</b> Por debajo del 10% el margen suele no compensar; entre 10% y 30% es la zona en la que se trabaja; por encima del 30% decide nuestra propia valoración (ver <a href="#filosofia" className="text-primary hover:underline">Filosofía</a>).
                 Un R:R muy alto no es señal de calidad por sí solo.
               </li>
               <li><b>FCF %:</b> Free Cash Flow yield (FCF / market cap). ≥5% sólido, ≥8% excepcional, negativo = red flag.</li>
@@ -524,7 +524,7 @@ export default function Manual() {
           <Card>
             <p className="mb-3">Cuatro pestañas:</p>
             <ul className="list-disc pl-5 space-y-1.5 text-cuerpo mb-3">
-              <li><b>Catalizadores:</b> filtros sobre el universo curado — por ejemplo "upside en zona dorada" (10–25%), earnings próximos, etc.</li>
+              <li><b>Catalizadores:</b> filtros sobre el universo curado — por ejemplo "upside en zona dorada" (10–30%), earnings próximos, etc.</li>
               <li><b>Mean Reversion:</b> soporte, volumen y RSI para rebotes en el universo curado (Oversold Bounce, Bull Flag Pullback).</li>
               <li><b>Momentum VCP:</b> Volatility Contraction Pattern estilo Minervini — tendencias Stage 2 confirmadas.</li>
               <li><b>Universo Ampliado:</b> el mismo escaneo de rebotes técnicos pero sobre el S&amp;P 500 completo, no solo el universo curado — con objetivo y stop fijos (+4% / −2.5%) para que target y stop caigan siempre del lado correcto del precio.</li>
@@ -635,7 +635,7 @@ export default function Manual() {
             subtitle="Tabla side-by-side de métricas clave." />
           <Card>
             <p className="mb-3">
-              Añade hasta 5 tickers y compara ROE, márgenes, FCF, growth, múltiplos y scores del sistema. Útil para decidir entre opciones similares.
+              Añade hasta 4 tickers y compara ROE, márgenes, FCF, growth, múltiplos y scores del sistema. Útil para decidir entre opciones similares.
             </p>
             <OpenLink to="/compare" />
           </Card>
@@ -750,7 +750,7 @@ export default function Manual() {
             <ul className="list-disc pl-5 space-y-0.5 text-cuerpo">
               <li>ROE negativo.</li>
               <li>Upside analista negativo (sobrevalorado).</li>
-              <li>Upside analista ≥ 30% — por prudencia (posible value trap); regla pendiente de revisar con más historial.</li>
+              <li>Ya no hay descarte por upside alto del analista: con ≥ 30% solo se penaliza si la valoración propia (DCF / P-E) no lo respalda.</li>
             </ul>
           </Card>
 
@@ -894,7 +894,7 @@ export default function Manual() {
               <div><dt className="font-bold">VCP (Volatility Contraction Pattern)</dt><dd className="text-muted-foreground">Patrón técnico Minervini — tres contracciones de volatilidad cada vez más pequeñas antes de breakout.</dd></div>
               <div><dt className="font-bold">Trend Template (0–8)</dt><dd className="text-muted-foreground">8 criterios Minervini de tendencia alcista sostenida (precio &gt; MA50 &gt; MA150 &gt; MA200, etc.).</dd></div>
               <div><dt className="font-bold">R:R (Risk/Reward)</dt><dd className="text-muted-foreground">Upside al target / downside al stop. En rebotes técnicos, el sistema exige mínimo 1:1 para publicar el setup — arriesgar más de lo que se puede ganar no se muestra. En VALUE, un R:R muy alto no es señal de calidad por sí solo: mira la <b>zona de upside</b>, no este ratio suelto.</dd></div>
-              <div><dt className="font-bold">Zona dorada de upside</dt><dd className="text-muted-foreground">[10%, 25%) de distancia al precio objetivo del consenso: la banda que el sistema premia. Por debajo, poco margen; por encima del 30%, se descarta por prudencia — ver <a href="#filosofia" className="text-primary hover:underline">Filosofía</a>.</dd></div>
+              <div><dt className="font-bold">Zona dorada de upside</dt><dd className="text-muted-foreground">[10%, 30%) de distancia al precio objetivo del consenso: la banda que el sistema premia. Por debajo, poco margen; por encima del 30%, decide la valoración propia — ver <a href="#filosofia" className="text-primary hover:underline">Filosofía</a>.</dd></div>
               <div><dt className="font-bold">Why cheap (deterioro / cíclico / evento / sentimiento)</dt><dd className="text-muted-foreground">Clasificación de por qué cayó el precio, verificada con búsquedas reales. Solo "deterioro" descarta — las otras tres son caídas que no vienen de que el negocio se rompa.</dd></div>
               <div><dt className="font-bold">Stage 2 (Weinstein)</dt><dd className="text-muted-foreground">Fase de tendencia alcista confirmada — la única fase donde se compran momentum setups.</dd></div>
               <div><dt className="font-bold">Cluster buy (insiders)</dt><dd className="text-muted-foreground">Varios directivos comprando en días cercanos. Señal mucho más fuerte que compra aislada.</dd></div>

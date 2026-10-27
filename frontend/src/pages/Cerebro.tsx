@@ -1431,7 +1431,7 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
         <div className="space-y-4 animate-fade-in-up">
           <div className="flex items-center justify-between">
             <p className="text-mini text-muted-foreground">
-              Setups de rebote — oversold con RSI bajo y soporte claro · <Link to="/mean-reversion" className="text-primary hover:underline">Ver tabla completa →</Link>
+              Setups de rebote — oversold con RSI bajo y soporte claro · <Link to="/entry-setups?tab=mean-reversion" className="text-primary hover:underline">Ver tabla completa →</Link>
             </p>
             <span className="text-mini text-muted-foreground">{topBounces.length} setups de calidad</span>
           </div>
