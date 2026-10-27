@@ -98,7 +98,6 @@ function HeatTile({
   onClick: () => void
 }) {
   const theme = bandTheme(market.band)
-  const score = market.stress_score ?? 0
   return (
     <button
       onClick={onClick}
@@ -126,7 +125,9 @@ function HeatTile({
             <span>{fmt(market.coverage_pct, 0)}%</span>
           </div>
           <div className="h-2 overflow-hidden rounded-full bg-foreground/10">
-            <div className={`h-full rounded-full bg-gradient-to-r ${scoreBarClass(score)}`} style={{ width: `${Math.max(6, score)}%` }} />
+            {/* Mide la cobertura, que es lo que dice su etiqueta: antes era el estrés
+                y un 84 con un 25% de cobertura se leía como una barra casi llena */}
+            <div className="h-full rounded-full bg-muted-foreground/60" style={{ width: `${Math.max(6, market.coverage_pct ?? 0)}%` }} />
           </div>
         </div>
       </div>

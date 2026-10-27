@@ -130,8 +130,8 @@ def _geopolitical(raw: Any, _cfg: dict) -> dict:
     if not raw:
         return {"score": None, "meta": {"note": "no data"}, "history_scores": None}
     escalation = float(raw.get("escalation_score", 0.0))
-    tone = float(raw.get("tone_avg", 0.0))
-    score = _clip(escalation * 0.8 + max(0.0, -tone) * 4.0)
+    tone = raw.get("tone_avg")
+    score = _clip(escalation * 0.8 + (max(0.0, -float(tone)) * 4.0 if tone is not None else 0.0))
     return {
         "value": int(raw.get("event_count_24h", 0)),
         "percentile": round(escalation, 1),
@@ -206,6 +206,12 @@ def score_signal(signal_cfg: dict, raw_data: Any) -> dict:
     }
 
 
+# Por debajo de la mitad del peso no hay semáforo. Del 21-abr al 27-oct-2026
+# el petróleo se pintó verde o rojo con una sola señal de cinco (la curva, 25%
+# del peso): CFTC y GDELT no respondían y la EIA no tenía clave.
+COBERTURA_MINIMA = 0.5
+
+
 def compose(signals: dict[str, dict], thresholds: Optional[dict] = None) -> dict:
     weighted = 0.0
     used_weight = 0.0
@@ -226,7 +232,7 @@ def compose(signals: dict[str, dict], thresholds: Optional[dict] = None) -> dict
         used_weight += weight
         used_count += 1
 
-    composite = round(weighted / used_weight, 1) if used_weight > 0 else None
+    composite = round(weighted / used_weight, 1) if used_weight >= COBERTURA_MINIMA else None
     return {
         "stress_score": composite,
         "band": band(composite, thresholds),
