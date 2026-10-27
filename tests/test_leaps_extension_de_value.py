@@ -86,3 +86,35 @@ def test_avisa_si_una_idea_mantenida_tiene_resultados_cerca():
     previa = _opp('V', publicada_desde='2026-10-20')
     idea, _ = la.mantener(previa, _opp('V', days_to_earnings=5), date(2026, 10, 27))
     assert idea and 'resultados en 5 días' in idea['aviso_resultados']
+
+
+def test_una_idea_rota_se_retira_con_aviso(monkeypatch):
+    monkeypatch.setattr(la, 'completar_entrada', lambda o: None)
+    monkeypatch.setattr(la, 'add_ai_narrative', lambda o: False)
+    previa = _opp('V', publicada_desde='2026-10-20')
+    retiradas = []
+    la.elegir_ideas([], {'V': previa}, date(2026, 10, 27), retiradas)
+    assert retiradas and retiradas[0]['ticker'] == 'V' and retiradas[0]['rompe']
+
+
+def test_caducar_sin_revisar_no_es_una_ruptura(monkeypatch):
+    monkeypatch.setattr(la, 'completar_entrada', lambda o: None)
+    monkeypatch.setattr(la, 'CLAUDE_MAX_LLAMADAS', 0)
+    previa = _opp('V', publicada_desde='2026-10-01')
+    retiradas = []
+    la.elegir_ideas([_opp('V')], {'V': previa}, date(2026, 10, 27), retiradas)
+    assert retiradas and not retiradas[0]['rompe']
+
+
+def test_el_monitor_avisa_de_las_rotas(monkeypatch, tmp_path):
+    import json
+    import leaps_monitor as lm
+    f = tmp_path / 'l.json'
+    f.write_text(json.dumps({'opportunities': [], 'retiradas': [
+        {'ticker': 'V', 'motivo': 'la acción ha pasado a ESPERAR', 'rompe': True},
+        {'ticker': 'MA', 'motivo': 'hoy no se ha podido volver a revisar', 'rompe': False}]}))
+    monkeypatch.setattr(lm, 'OPORTUNIDADES', f)
+    enviados = []
+    monkeypatch.setattr(lm, '_send_telegram', enviados.append)
+    assert lm.alertar_oportunidades_nuevas({}) == 1
+    assert 'V' in enviados[0] and 'ESPERAR' in enviados[0] and 'MA' not in enviados[0]

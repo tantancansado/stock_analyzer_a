@@ -577,10 +577,22 @@ def mantener(previa: dict, fresca: Optional[dict], hoy: date) -> tuple[Optional[
     return fresca, f'se mantiene (publicada el {desde})'
 
 
-def elegir_ideas(results: list[dict], previas: dict[str, dict], hoy: date) -> list[dict]:
-    """Hasta MAX_IDEAS: primero las que siguen valiendo, luego nuevas revisadas por Claude."""
+# Motivos por los que una idea publicada deja de valer y hay que AVISAR: la
+# tesis se ha roto. Que caduque a las dos semanas o que hoy no haya podido
+# revisarse no es una ruptura y no merece un mensaje.
+_ROMPE = ('ya no está en Value', 'ha pasado a ESPERAR', 'sigue cayendo', 'ya no la aprueba')
+
+
+def elegir_ideas(results: list[dict], previas: dict[str, dict], hoy: date,
+                 retiradas: Optional[list] = None) -> list[dict]:
+    """Hasta MAX_IDEAS: primero las que siguen valiendo, luego nuevas revisadas por Claude.
+
+    `retiradas`, si se pasa, recibe las ideas de la pasada anterior que hoy no
+    siguen, con su motivo y si es una ruptura de tesis (`rompe`).
+    """
     por_ticker = {o['ticker']: o for o in results}
     ideas: list[dict] = []
+    motivos: dict[str, str] = {}
     for t, previa in previas.items():
         fresca = por_ticker.get(t)
         if fresca is not None:
@@ -589,6 +601,8 @@ def elegir_ideas(results: list[dict], previas: dict[str, dict], hoy: date) -> li
         print(f"  {'↺' if idea else '🔻'} {t}: {motivo}")
         if idea:
             ideas.append(idea)
+        else:
+            motivos[t] = motivo
     ideas = sorted(ideas, key=lambda x: -x['opportunity_score'])[:MAX_IDEAS]
 
     llamadas = 0
@@ -601,6 +615,8 @@ def elegir_ideas(results: list[dict], previas: dict[str, dict], hoy: date) -> li
         motivo = motivo_para_no_abrir(opp)
         if motivo:
             print(f"  ⏸  {opp['ticker']}: no se abre — {motivo}")
+            if opp['ticker'] in previas:
+                motivos[opp['ticker']] = motivo
             continue
         llamadas += 1
         if add_ai_narrative(opp):
@@ -611,6 +627,18 @@ def elegir_ideas(results: list[dict], previas: dict[str, dict], hoy: date) -> li
         else:
             veredicto = (opp.get('situation_verdict') or {}).get('verdict') or 'sin verificar'
             print(f"  🚫 {opp['ticker']}: no la aprueba Claude — {veredicto}")
+            if opp['ticker'] in previas and veredicto != 'sin verificar':
+                razon = (opp.get('situation_verdict') or {}).get('reason') or ''
+                motivos[opp['ticker']] = f'Claude ya no la aprueba ({veredicto}): {razon}'.strip()
+
+    if retiradas is not None:
+        finales = {i['ticker'] for i in ideas}
+        for t in previas:
+            if t in finales:
+                continue
+            motivo = motivos.get(t, 'hoy no se ha podido volver a revisar')
+            retiradas.append({'ticker': t, 'motivo': motivo,
+                              'rompe': any(m in motivo for m in _ROMPE)})
     return ideas
 
 
@@ -1374,7 +1402,8 @@ def main():
         results.append(opp)
 
     results.sort(key=lambda x: -x['opportunity_score'])
-    top = elegir_ideas(results, _publicadas_antes(), date.today())
+    retiradas: list[dict] = []
+    top = elegir_ideas(results, _publicadas_antes(), date.today(), retiradas)
     print(f"  ✅ {len(top)} idea(s) LEAPS publicadas de {len(results)} candidatas")
 
     output = {
@@ -1391,6 +1420,9 @@ def main():
             'note': 'La versión apalancada de las ideas de Value: 1-2 como mucho, revisadas por Claude',
         },
         'opportunities': top,
+        # Ideas de la pasada anterior que hoy no siguen. `leaps_monitor` avisa
+        # por Telegram de las que `rompe`.
+        'retiradas': retiradas,
     }
     DOCS.mkdir(exist_ok=True)
     with open(OUTPUT, 'w') as f:

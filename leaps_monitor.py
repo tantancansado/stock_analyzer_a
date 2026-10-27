@@ -271,6 +271,16 @@ def _bloque_oportunidades(titulo: str, lista: list) -> str:
     return '\n'.join(lineas).strip()
 
 
+def _bloque_rotas(rotas: list) -> str:
+    lineas = ['<b>🔻 LEAPS que ya no valen</b>', '']
+    for r in rotas:
+        lineas.append(f"<b>{html.escape(str(r.get('ticker', '?')))}</b> — "
+                      f"{html.escape(str(r.get('motivo', '')))}")
+    lineas.append('')
+    lineas.append('Si lo compraste al verlo, revisa la posición.')
+    return '\n'.join(lineas)
+
+
 def alertar_oportunidades_nuevas(sent: dict) -> int:
     """Avisa de LEAPS que ENTRAN hoy en la lista. Devuelve cuántas.
 
@@ -307,7 +317,11 @@ def alertar_oportunidades_nuevas(sent: dict) -> int:
                        (en_entrada - ya_entrada - ids_nuevas)]
     sent[CLAVE_ENTRADA] = sorted(en_entrada)
 
-    if not nuevas and not ahora_entrables:
+    # Una idea publicada que hoy deja de valer porque se ha roto su tesis. Si
+    # alguien la compró al verla, este es el aviso que importa.
+    rotas = [r for r in (datos.get('retiradas') or []) if r.get('rompe')]
+
+    if not nuevas and not ahora_entrables and not rotas:
         print(f'  {len(hoy)} oportunidades en lista · ninguna nueva')
         return 0
 
@@ -316,9 +330,11 @@ def alertar_oportunidades_nuevas(sent: dict) -> int:
         bloques.append(_bloque_oportunidades('🚀 LEAPS nuevos', nuevas))
     if ahora_entrables:
         bloques.append(_bloque_oportunidades('🚀 LEAPS ya entrables', ahora_entrables))
+    if rotas:
+        bloques.append(_bloque_rotas(rotas))
     _send_telegram('\n\n'.join(bloques))
-    print(f'  {len(nuevas)} oportunidades NUEVAS y {len(ahora_entrables)} ya entrables anunciadas')
-    return len(nuevas) + len(ahora_entrables)
+    print(f'  {len(nuevas)} NUEVAS, {len(ahora_entrables)} ya entrables y {len(rotas)} rotas anunciadas')
+    return len(nuevas) + len(ahora_entrables) + len(rotas)
 
 
 def main():
