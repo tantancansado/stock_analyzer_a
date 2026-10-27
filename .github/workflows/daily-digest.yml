@@ -1,0 +1,58 @@
+name: Resumen diario por correo
+
+# Al terminar el pipeline diario, para que el correo lleve los datos del día:
+# tu cartera, tesis rotas confirmadas por IA e ideas nuevas. De momento solo
+# para el usuario (Resend en modo prueba solo escribe al dueño de la cuenta).
+on:
+  workflow_run:
+    workflows: ['Daily Market Analysis - Full Pipeline']
+    types: [completed]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  digest:
+    # Solo la ejecución programada de cada mañana, no cada relanzamiento manual
+    # del pipeline: dos correos el mismo día por una prueba sería ruido.
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.event == 'schedule'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: main   # los datos que acaba de publicar el pipeline
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: pip install anthropic groq pandas yfinance
+
+      - name: Enviar el resumen
+        env:
+          RESEND_API_KEY:            ${{ secrets.RESEND_API_KEY }}
+          DIGEST_EMAIL_TO:           ${{ secrets.DIGEST_EMAIL_TO }}
+          ANTHROPIC_API_KEY:         ${{ secrets.ANTHROPIC_API_KEY }}
+          GROQ_API_KEY:              ${{ secrets.GROQ_API_KEY }}
+          SUPABASE_URL:              ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          SUPABASE_MONITOR_USER_ID:  ${{ secrets.SUPABASE_MONITOR_USER_ID }}
+        run: python3 daily_digest_email.py
+
+      # El contador de gasto vive en el repo: lo que no se commitea no se cuenta.
+      - name: Guardar el gasto de Claude
+        if: always()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add docs/claude_budget.json 2>/dev/null || true
+          git diff --cached --quiet || \
+            git commit -m "chore(budget): gasto del resumen por correo $(date -u +%Y-%m-%d) [skip ci]"
+          git pull --rebase origin main || true
+          git push || true
