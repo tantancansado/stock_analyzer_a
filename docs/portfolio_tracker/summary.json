@@ -1,27 +1,27 @@
 {
-  "total_signals": 102,
-  "unique_tickers": 58,
-  "date_range": "2026-04-08 to 2026-10-26",
+  "total_signals": 103,
+  "unique_tickers": 59,
+  "date_range": "2026-04-08 to 2026-10-27",
   "active_signals": 9,
-  "completed_signals": 93,
+  "completed_signals": 94,
   "overall": {
     "90d": {
-      "count": 58,
-      "win_rate": 69.0,
-      "ci_low": 56.2,
-      "ci_high": 79.4,
-      "avg_return": 3.77,
-      "median_return": 4.58,
+      "count": 61,
+      "win_rate": 68.9,
+      "ci_low": 56.4,
+      "ci_high": 79.1,
+      "avg_return": 3.78,
+      "median_return": 4.49,
       "best": 24.67,
       "worst": -27.96
     },
     "180d": {
-      "count": 31,
-      "win_rate": 71.0,
-      "ci_low": 53.4,
-      "ci_high": 83.9,
-      "avg_return": 8.68,
-      "median_return": 11.41,
+      "count": 34,
+      "win_rate": 73.5,
+      "ci_low": 56.9,
+      "ci_high": 85.4,
+      "avg_return": 9.21,
+      "median_return": 12.79,
       "best": 36.5,
       "worst": -20.0
     },
@@ -48,12 +48,12 @@
       "worst": -37.59
     },
     "180d": {
-      "count": 855,
-      "win_rate": 66.8,
-      "ci_low": 63.6,
-      "ci_high": 69.9,
-      "avg_return": 7.78,
-      "median_return": 9.78,
+      "count": 858,
+      "win_rate": 66.9,
+      "ci_low": 63.7,
+      "ci_high": 70.0,
+      "avg_return": 7.81,
+      "median_return": 9.85,
       "best": 89.88,
       "worst": -43.74
     },
@@ -92,29 +92,29 @@
     }
   },
   "value_strategy": {
-    "count": 90,
+    "count": 91,
     "90d": {
-      "count": 46,
-      "win_rate": 73.9,
+      "count": 49,
+      "win_rate": 73.5,
       "ci_low": 59.7,
-      "ci_high": 84.4,
+      "ci_high": 83.8,
       "avg_return": 4.11,
-      "median_return": 4.8,
+      "median_return": 4.67,
       "best": 24.67,
       "worst": -27.96,
       "basis": "clean_period"
     },
     "180d": {
-      "count": 21,
-      "win_rate": 71.4,
-      "ci_low": 50.0,
-      "ci_high": 86.2,
-      "avg_return": 12.78,
-      "median_return": 16.13,
+      "count": 24,
+      "win_rate": 75.0,
+      "ci_low": 55.1,
+      "ci_high": 88.0,
+      "avg_return": 13.02,
+      "median_return": 16.06,
       "best": 36.5,
       "worst": -20.0,
       "basis": "clean_period",
-      "nota": "muestra corta (21 se\u00f1ales): el porcentaje es orientativo, no un veredicto"
+      "nota": "muestra corta (24 se\u00f1ales): el porcentaje es orientativo, no un veredicto"
     },
     "365d": {
       "count": 0,
@@ -166,12 +166,12 @@
     "BOUNCE_BROAD": {
       "count": 43,
       "7d": {
-        "count": 40,
-        "win_rate": 25.0,
-        "ci_low": 14.2,
-        "ci_high": 40.2,
-        "avg_return": -1.37,
-        "median_return": -1.88,
+        "count": 41,
+        "win_rate": 26.8,
+        "ci_low": 15.7,
+        "ci_high": 41.9,
+        "avg_return": -1.25,
+        "median_return": -1.57,
         "best": 5.1,
         "worst": -6.1
       },
@@ -238,8 +238,8 @@
         "ci_high": null
       }
     },
-    "edad_max_dias": 67,
-    "dias_hasta_primera_lectura": 23,
+    "edad_max_dias": 68,
+    "dias_hasta_primera_lectura": 22,
     "con_contrato": 141,
     "nota": "el contrato se sigue por su s\u00edmbolo OCC; son opciones poco l\u00edquidas, as\u00ed que un checkpoint sin cotizaci\u00f3n en 10 d\u00edas se queda vac\u00edo en vez de arrastrar un precio viejo"
   },
@@ -255,9 +255,9 @@
       "win_rate_30d": 60.0
     },
     "Financial Services": {
-      "count": 34,
-      "avg_30d": 0.89,
-      "win_rate_30d": 58.8
+      "count": 35,
+      "avg_30d": 0.93,
+      "win_rate_30d": 60.0
     },
     "Communication Services": {
       "count": 6,
@@ -383,6 +383,17 @@
   "performers_horizon": "180d",
   "recent_signals": [
     {
+      "ticker": "WCN",
+      "company_name": "Waste Connections, Inc.",
+      "strategy": "VALUE",
+      "signal_date": "2026-10-27",
+      "signal_price": 186.72,
+      "sector": "Industrials",
+      "value_score": 62.60999999999999,
+      "days_active": 0,
+      "first_result_date": "2026-11-03"
+    },
+    {
       "ticker": "MSCI",
       "company_name": "MSCI Inc.",
       "strategy": "VALUE",
@@ -390,7 +401,7 @@
       "signal_price": 615.62,
       "sector": "Financial Services",
       "value_score": 58.81,
-      "days_active": 0,
+      "days_active": 1,
       "first_result_date": "2026-11-02"
     },
     {
@@ -401,7 +412,7 @@
       "signal_price": 483.45,
       "sector": "Financial Services",
       "value_score": 60.25,
-      "days_active": 3,
+      "days_active": 4,
       "first_result_date": "2026-10-30"
     },
     {
@@ -412,7 +423,7 @@
       "signal_price": 304.4,
       "sector": "Healthcare",
       "value_score": 57.435,
-      "days_active": 5,
+      "days_active": 6,
       "first_result_date": "2026-10-28"
     },
     {
@@ -423,7 +434,7 @@
       "signal_price": 292.25,
       "sector": "Financial Services",
       "value_score": 61.39,
-      "days_active": 12,
+      "days_active": 13,
       "first_result_date": "2026-10-21"
     },
     {
@@ -434,7 +445,7 @@
       "signal_price": 157.42,
       "sector": "Financial Services",
       "value_score": 60.095,
-      "days_active": 13,
+      "days_active": 14,
       "first_result_date": "2026-10-20"
     },
     {
@@ -445,7 +456,7 @@
       "signal_price": 92.37,
       "sector": "Financial Services",
       "value_score": 57.34,
-      "days_active": 17,
+      "days_active": 18,
       "first_result_date": "2026-10-16"
     },
     {
@@ -456,7 +467,7 @@
       "signal_price": 225.98,
       "sector": "Healthcare",
       "value_score": 64.27499999999999,
-      "days_active": 18,
+      "days_active": 19,
       "first_result_date": "2026-10-15"
     },
     {
@@ -467,19 +478,8 @@
       "signal_price": 86.08,
       "sector": "Consumer Defensive",
       "value_score": 59.55500000000001,
-      "days_active": 25,
+      "days_active": 26,
       "first_result_date": "2026-10-08"
-    },
-    {
-      "ticker": "MCO",
-      "company_name": "Moody's Corporation",
-      "strategy": "VALUE",
-      "signal_date": "2026-09-24",
-      "signal_price": 473.85,
-      "sector": "Financial Services",
-      "value_score": 59.17999999999999,
-      "days_active": 32,
-      "first_result_date": "2026-10-01"
     }
   ],
   "avg_max_drawdown": -2.6,
@@ -492,29 +492,29 @@
       "avg_benchmark_return": null
     },
     "180d": {
-      "count": 31,
-      "avg_alpha": 1.5,
-      "avg_signal_return": 8.68,
-      "avg_benchmark_return": 7.18,
-      "positive_alpha_rate": 64.5,
+      "count": 34,
+      "avg_alpha": 1.97,
+      "avg_signal_return": 9.21,
+      "avg_benchmark_return": 7.25,
+      "positive_alpha_rate": 67.6,
       "best_alpha": 21.31,
       "worst_alpha": -35.2
     },
     "90d": {
-      "count": 58,
-      "avg_alpha": -0.87,
-      "avg_signal_return": 3.77,
-      "avg_benchmark_return": 4.64,
-      "positive_alpha_rate": 46.6,
+      "count": 61,
+      "avg_alpha": -0.8,
+      "avg_signal_return": 3.78,
+      "avg_benchmark_return": 4.58,
+      "positive_alpha_rate": 45.9,
       "best_alpha": 22.72,
       "worst_alpha": -38.85
     },
     "30d": {
-      "count": 93,
-      "avg_alpha": -2.65,
-      "avg_signal_return": -0.32,
-      "avg_benchmark_return": 2.33,
-      "positive_alpha_rate": 44.1,
+      "count": 94,
+      "avg_alpha": -2.59,
+      "avg_signal_return": -0.3,
+      "avg_benchmark_return": 2.3,
+      "positive_alpha_rate": 44.7,
       "best_alpha": 21.86,
       "worst_alpha": -21.52
     },
@@ -546,11 +546,11 @@
       "avg_benchmark_return": null
     },
     "180d": {
-      "count": 137,
-      "avg_alpha": 3.0,
-      "avg_signal_return": 17.26,
-      "avg_benchmark_return": 14.25,
-      "positive_alpha_rate": 63.5,
+      "count": 140,
+      "avg_alpha": 3.09,
+      "avg_signal_return": 17.2,
+      "avg_benchmark_return": 14.12,
+      "positive_alpha_rate": 64.3,
       "best_alpha": 75.56,
       "worst_alpha": -57.59
     },
@@ -564,11 +564,11 @@
       "worst_alpha": -51.85
     },
     "30d": {
-      "count": 81,
-      "avg_alpha": -2.96,
-      "avg_signal_return": -0.25,
-      "avg_benchmark_return": 2.71,
-      "positive_alpha_rate": 43.2,
+      "count": 82,
+      "avg_alpha": -2.89,
+      "avg_signal_return": -0.22,
+      "avg_benchmark_return": 2.67,
+      "positive_alpha_rate": 43.9,
       "best_alpha": 21.86,
       "worst_alpha": -21.52
     },
@@ -627,5 +627,5 @@
       "worst_alpha": -4.98
     }
   },
-  "generated_at": "2026-10-26T05:46:04.434605"
+  "generated_at": "2026-10-27T05:47:52.213691"
 }
