@@ -14,7 +14,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-from value_bands import UPSIDE_HARD_REJECT
+from value_bands import UPSIDE_ALTO
 
 warnings.filterwarnings('ignore')
 
@@ -94,7 +94,7 @@ def _build_features(df: pd.DataFrame, fit: bool) -> pd.DataFrame:
     out['rr_gte_3']           = (rr >= 3).astype(float)
     # El NOMBRE de la variable se queda (el modelo está entrenado con él),
     # pero el corte sale de value_bands, no de un 30 escrito a mano.
-    out['upside_gte_30']      = (up >= UPSIDE_HARD_REJECT).astype(float)
+    out['upside_gte_30']      = (up >= UPSIDE_ALTO).astype(float)
     out['fcf_positive']       = (fc > 0).astype(float)
     out['fcf_gte_5']          = (fc >= 5).astype(float)
 

@@ -36,9 +36,11 @@ class TestEvaluate:
         f = tdm._evaluate(_pos(stop_loss=100.0, price_30d=100.0), _fund())
         assert not any(x['type'] == 'STOP_BREACHED' for x in f)
 
-    def test_upside_value_trap(self):
+    def test_un_upside_alto_no_rompe_la_tesis(self):
+        """27-oct-2026: que los analistas vean más recorrido en algo que tienes no es
+        una ruptura; antes mandaba THESIS_BROKEN «value trap» al Telegram y al correo."""
         f = tdm._evaluate(_pos(), _fund(analyst_upside_pct=39.0))
-        assert any(x['type'] == 'THESIS_BROKEN' and 'value trap' in x['reason'] for x in f)
+        assert not any(x['type'] == 'THESIS_BROKEN' for x in f)
 
     def test_upside_just_below_trap_ok(self):
         f = tdm._evaluate(_pos(), _fund(analyst_upside_pct=29.9))

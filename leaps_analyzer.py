@@ -27,7 +27,7 @@ recomendado por ticker + narrativa AI).
 
 Reglas del proyecto respetadas:
   - fundamental_score == 50.0 → dato AUSENTE, no puntuar como calidad
-  - analyst_upside_pct >= 30 → value-trap, descartar (el LEAPS no salva una tesis rota)
+  - analyst_upside_pct >= 30 → solo si la valoración propia lo respalda (value_bands.UPSIDE_ALTO)
   - sin fallbacks silenciosos: dato que falla → se omite, no se inventa
 """
 import json
@@ -49,7 +49,7 @@ from contexto_casa import contexto_para_prompt
 # La banda vive en value_bands y en ningún otro sitio: estaba escrita a mano
 # aquí, y el día que se mueva el corte este módulo se queda con el viejo sin
 # avisar. Lo prohíbe CLAUDE.md desde antes de que yo la hardcodeara.
-from value_bands import UPSIDE_HARD_REJECT
+from value_bands import UPSIDE_ALTO, tiene_respaldo_propio
 
 DOCS = Path('docs')
 OUTPUT = DOCS / 'leaps_opportunities.json'
@@ -424,6 +424,8 @@ def load_app_signals() -> dict:
         s['upside_dcf_pct'] = _num(r.get('target_price_dcf_upside_pct'))
         s['upside_pe_pct'] = _num(r.get('target_price_pe_upside_pct'))
         s['upside_triangulated_pct'] = _num(r.get('upside_triangulated_pct'))
+        s['upside_divergence'] = (r.get('upside_divergence')
+                                  if pd.notna(r.get('upside_divergence')) else None)
         s['modelos_acuerdo'] = (r.get('modelos_acuerdo')
                                 if pd.notna(r.get('modelos_acuerdo')) else None)
         s['trend_direction'] = r.get('trend_direction')
@@ -895,8 +897,9 @@ def analyze_ticker_leaps(ticker: str, sig: dict, rate: float) -> Optional[dict]:
         if not target or target <= 0:
             return None                       # sin tesis de upside validable
         upside = (target - spot) / spot * 100
-        if upside >= UPSIDE_HARD_REJECT:
-            return None                       # value-trap (regla del proyecto)
+        if upside >= UPSIDE_ALTO and not tiene_respaldo_propio(
+                sig.get('upside_triangulated_pct'), sig.get('upside_divergence')):
+            return None                       # upside alto que nuestra valoración no respalda
 
         # Filtro de valoración: un múltiplo caro no es value — ni se muestra.
         forward_pe = _get_forward_pe(t)
@@ -1384,9 +1387,10 @@ def main():
         q = quality_score(sig)
         if q is None or q < 45:
             continue
-        # Gate value-trap (regla del proyecto)
+        # Upside alto solo si la valoración propia lo respalda (value_bands)
         up = sig.get('analyst_upside_pct')
-        if up is not None and up >= 30:
+        if up is not None and up >= UPSIDE_ALTO and not tiene_respaldo_propio(
+                sig.get('upside_triangulated_pct'), sig.get('upside_divergence')):
             continue
         print(f"  [{i}/{len(universe)}] {ticker} (calidad {q})...")
         opp = analyze_ticker_leaps(ticker, sig, rate)

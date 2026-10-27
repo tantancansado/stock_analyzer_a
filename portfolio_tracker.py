@@ -13,7 +13,7 @@ from datetime import datetime, timedelta
 import json
 import time
 import argparse
-from value_bands import (UPSIDE_MIN, UPSIDE_GOLDEN_MAX, UPSIDE_HARD_REJECT,
+from value_bands import (UPSIDE_MIN, UPSIDE_GOLDEN_MAX, UPSIDE_ALTO,
                          solo_politica_vigente)
 
 
@@ -832,7 +832,7 @@ class PortfolioTracker:
 
         # ── Y además: POLÍTICA VIGENTE, no solo periodo limpio ────────────────
         # "Desde abril" no basta. En abril todavía se emitían señales con upside
-        # >= UPSIDE_HARD_REJECT, que hoy el integrator rechaza de plano
+        # >= UPSIDE_ALTO, que hoy el integrator rechaza de plano
         # (value_score = 0). Son 59 de las 120 del periodo limpio, y son las
         # peores con diferencia: 1,7% de acierto a 30d y -8,28% de media.
         # Mezclarlas describe una política MUERTA y hunde el resultado del
@@ -847,14 +847,14 @@ class PortfolioTracker:
         _obsoletas = _antes - len(value_core)
         if _obsoletas:
             print(f"  Política vigente: fuera {_obsoletas} señales con upside "
-                  f">={UPSIDE_HARD_REJECT:.0f}% (hoy serían hard-reject, no describen al sistema actual)")
+                  f">={UPSIDE_ALTO:.0f}% (hoy serían hard-reject, no describen al sistema actual)")
 
         # For 30d completed stats, clean signals don't have 30d yet (too recent).
         # Golden zone retroactiva: score>=60 y la banda dorada de value_bands,
         # para que el histórico mida la MISMA población que se emite hoy.
         #
         # Dos correcciones (7-ago-2026), ambas medidas:
-        #  · El tope pasa de UPSIDE_HARD_REJECT (30) a UPSIDE_GOLDEN_MAX (25),
+        #  · El tope pasa de UPSIDE_ALTO (30) a UPSIDE_GOLDEN_MAX (25),
         #    que es lo que `record_signals` registra desde hoy. Además el tramo
         #    25-30 es el que destruye el retorno: con datos LIMPIOS a 90d,
         #    [10,25) da alpha +4,55% y [10,30) da -2,60% (sin filtro: -8,48%).
@@ -1093,7 +1093,7 @@ class PortfolioTracker:
             'stats_basis': {
                 'clean_period': (
                     f'señales VALUE+EU_VALUE desde {CLEAN_FROM.date()} (filtrado correcto) Y '
-                    f'que el sistema emitiría HOY: fuera las de upside >={UPSIDE_HARD_REJECT:.0f}%, '
+                    f'que el sistema emitiría HOY: fuera las de upside >={UPSIDE_ALTO:.0f}%, '
                     f'que hoy son hard-reject. Eran 59 de 120 y las peores con diferencia '
                     f'(1,7% de acierto a 30d, -8,28% medio): describen una política muerta'),
                 'clean_period_us_value': (

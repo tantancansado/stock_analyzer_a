@@ -11,7 +11,7 @@ Output: docs/global_value_opportunities.csv
 """
 import pandas as pd
 
-from value_bands import UPSIDE_HARD_REJECT, UPSIDE_MIN
+from value_bands import UPSIDE_ALTO, UPSIDE_MIN
 import numpy as np
 import yfinance as yf
 from pathlib import Path
@@ -336,7 +336,7 @@ def _score_ticker(ticker: str, market: str):
     if analyst_upside is not None:
         if analyst_count == 0:
             score *= 0.85  # No coverage penalty
-        elif analyst_upside >= UPSIDE_HARD_REJECT:
+        elif analyst_upside >= UPSIDE_ALTO:
             score += 0     # trampa: el gap enorme es la señal de que algo va mal
             reasons.append(f"Upside +{analyst_upside:.0f}% — demasiado alto para fiarse")
         elif analyst_upside >= UPSIDE_MIN:

@@ -24,7 +24,7 @@ import argparse
 from typing import Dict, List, Optional
 
 from currency_normalizer import normalize_info
-from value_bands import UPSIDE_HARD_REJECT
+from value_bands import UPSIDE_ALTO
 from financial_cross_check import derive_from_statements, check_coherence
 
 try:
@@ -1407,7 +1407,7 @@ class FundamentalScorer:
                 upside = ((target_price - current_price) / current_price) * 100
                 details['analyst_upside_pct'] = round(upside, 1)
 
-                if upside >= UPSIDE_HARD_REJECT:
+                if upside >= UPSIDE_ALTO:
                     score += 10
                 elif upside >= 15:
                     score += 5

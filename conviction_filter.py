@@ -29,7 +29,7 @@ import datetime as dt
 import json
 import math
 from datetime import datetime
-from value_bands import UPSIDE_MIN, UPSIDE_HARD_REJECT
+from value_bands import UPSIDE_MIN, UPSIDE_ALTO, respaldo_propio
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -616,7 +616,7 @@ def calculate_conviction_score(row) -> dict:
     strong_consensus = (
         analyst_count_dcf >= 15
         and analyst_rec_dcf in ('strong_buy', 'strongbuy', 'buy')
-        and analyst_upside_dcf >= UPSIDE_HARD_REJECT
+        and analyst_upside_dcf >= UPSIDE_ALTO
     )
 
     dcf_upside_stored = _sf(row.get('target_price_dcf_upside_pct'))
@@ -890,9 +890,11 @@ def filter_by_conviction(input_path: str, output_path: str = None, min_grade: st
         n_before = len(df)
         if 'analyst_upside_pct' in df.columns:
             _up = pd.to_numeric(df['analyst_upside_pct'], errors='coerce')
-            df = df[(_up >= UPSIDE_MIN) & (_up < UPSIDE_HARD_REJECT)].copy()
-        print(f"  US hard filter (upside {UPSIDE_MIN:.0f}-{UPSIDE_HARD_REJECT:.0f}%, "
-              f"banda canónica de value_bands): {n_before} -> {len(df)}")
+            # Por encima de UPSIDE_ALTO solo pasa si la valoración propia lo
+            # respalda: el analista solo no basta, pero tampoco lo veta.
+            df = df[(_up >= UPSIDE_MIN) & ((_up < UPSIDE_ALTO) | respaldo_propio(df))].copy()
+        print(f"  US hard filter (upside >= {UPSIDE_MIN:.0f}%; >= {UPSIDE_ALTO:.0f}% solo con respaldo "
+              f"propio): {n_before} -> {len(df)}")
 
     # ── EU hard filters (data-driven: based on 30d portfolio tracker performance) ──
     # FCF ≥ 3%: win rate 47%+ vs <25% below. Consumer Cyclical/Healthcare EU: <10% win rate.

@@ -1176,7 +1176,7 @@ class TestAjusteSectorialSaleDeDatosLimpios:
     def test_golden_hist_usa_la_banda_dorada_no_la_de_hard_reject(self):
         """El histórico debe medir la MISMA población que se emite hoy.
 
-        Usaba [UPSIDE_MIN, UPSIDE_HARD_REJECT) = [10,30) mientras
+        Usaba [UPSIDE_MIN, UPSIDE_ALTO) = [10,30) mientras
         record_signals emite [10,25). Además el tramo 25-30 destruye el
         retorno: con datos limpios a 90d, [10,25) da alpha +4,55% y [10,30)
         da -2,60%. Corregido, el golden_hist publicado pasa de alpha -2,38%
@@ -1365,11 +1365,11 @@ class TestPoliticaVigente:
 
     def test_quita_las_que_hoy_serian_hard_reject(self):
         import pandas as pd
-        from value_bands import UPSIDE_HARD_REJECT, solo_politica_vigente
+        from value_bands import UPSIDE_ALTO, solo_politica_vigente
         df = pd.DataFrame({'analyst_upside_pct': [12.0, 24.9, 30.0, 45.0, 29.9]})
         r = solo_politica_vigente(df)
         assert list(r.analyst_upside_pct) == [12.0, 24.9, 29.9]
-        assert (r.analyst_upside_pct < UPSIDE_HARD_REJECT).all()
+        assert (r.analyst_upside_pct < UPSIDE_ALTO).all()
 
     def test_un_upside_desconocido_NO_se_descarta(self):
         """"Sin dato de upside" no es "upside alto": tirarlo sesgaría la
@@ -1395,7 +1395,7 @@ class TestPoliticaVigente:
             # indexa un DataFrame, así que lleva corchetes en la misma línea
             # (las menciones en comentarios y mensajes no cuentan)
             inline = [l for l in src.splitlines()
-                      if 'UPSIDE_HARD_REJECT' in l and '[' in l and ']' in l
+                      if 'UPSIDE_ALTO' in l and '[' in l and ']' in l
                       and not l.lstrip().startswith('#')]
             assert not inline, f'{mod.__name__} reimplementa el corte inline: {inline}'
 

@@ -346,9 +346,9 @@ class TestFiltroDeEntrada:
         """Nunca hardcodeada inline — es la regla que evitó tener tres verdades
         distintas (integrator, tracker y conviction)."""
         import conviction_filter as cf
-        from value_bands import UPSIDE_HARD_REJECT, UPSIDE_MIN
+        from value_bands import UPSIDE_ALTO, UPSIDE_MIN
         assert cf.UPSIDE_MIN is UPSIDE_MIN
-        assert cf.UPSIDE_HARD_REJECT is UPSIDE_HARD_REJECT
+        assert cf.UPSIDE_ALTO is UPSIDE_ALTO
 
 
 class TestCompresionConBpaCreciendo:

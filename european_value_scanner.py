@@ -27,7 +27,7 @@ import ast
 from fundamental_scorer import FundamentalScorer
 from market_configs import get_all_european_symbols, get_european_market_for_ticker
 from curated_tickers_eu import SCORED_EU_TICKERS as CURATED_EU_TICKERS
-from value_bands import UPSIDE_MIN, UPSIDE_GOLDEN_MAX, UPSIDE_HARD_REJECT, VALUE_SCORE_MIN
+from value_bands import UPSIDE_MIN, UPSIDE_GOLDEN_MAX, UPSIDE_ALTO, VALUE_SCORE_MIN, respaldo_propio
 from upside_triangulation import add_upside_triangulation
 
 # Rate limit delay between yfinance API calls
@@ -399,21 +399,23 @@ def calculate_european_value_scores(df: pd.DataFrame, market_regime: dict) -> pd
             print(f"   Rejected overvalued (upside<0): {overvalued.sum()} tickers")
             df.loc[overvalued, 'value_score'] = 0.0
 
-        value_trap = _up.notna() & (_up >= UPSIDE_HARD_REJECT)
+        # Upside alto: decide la valoración propia, no el número del analista
+        # (27-oct-2026). Hace falta la triangulación aquí, antes de puntuar.
+        df = add_upside_triangulation(df)
+        value_trap = _up.notna() & (_up >= UPSIDE_ALTO) & ~respaldo_propio(df)
         if value_trap.sum() > 0:
-            print(f"   Rejected (upside >= {UPSIDE_HARD_REJECT:.0f}% — value trap): {value_trap.sum()} tickers")
-            df.loc[value_trap, 'value_score'] = 0.0
+            print(f"   Upside >= {UPSIDE_ALTO:.0f}% sin respaldo de la valoración propia: {value_trap.sum()} tickers (-5pts)")
 
         df['upside_bonus'] = 0.0
         mask_golden = _up.notna() & (_up >= UPSIDE_MIN) & (_up < UPSIDE_GOLDEN_MAX)
         mask_mild   = _up.notna() & (_up >= 0) & (_up < UPSIDE_MIN)
-        mask_trap   = _up.notna() & (_up >= UPSIDE_HARD_REJECT)
+        mask_trap   = value_trap
         df.loc[mask_golden, 'upside_bonus'] =  5.0
         df.loc[mask_mild,   'upside_bonus'] = -3.0
         df.loc[mask_trap,   'upside_bonus'] = -5.0
         df['value_score'] += df['upside_bonus']
         print(f"   Upside tiers: {int(mask_golden.sum())} golden [{UPSIDE_MIN:.0f},{UPSIDE_GOLDEN_MAX:.0f}) (+5pts) · "
-              f"{int(mask_trap.sum())} trap >={UPSIDE_HARD_REJECT:.0f}% (-5pts)")
+              f"{int(mask_trap.sum())} upside alto sin respaldo propio (-5pts)")
         df.drop(columns=['upside_bonus'], inplace=True, errors='ignore')
 
     # ─── Risk/Reward ratio (informativo — se sigue publicando la columna,

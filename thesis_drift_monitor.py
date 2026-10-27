@@ -13,7 +13,6 @@ Señales de drift (cada una con razón explícita, sin números inventados):
   THESIS_BROKEN   — el ticker dispara un hard-reject actual:
                       · negative_roe / fundamental_score colapsó (<45)
                       · analyst_upside_pct < 0 (ahora sobrevalorado)
-                      · analyst_upside_pct >= 30 (ahora value-trap)
                       · earnings_warning activo
   FUND_DETERIORATING — fundamental_score cayó ≥10pts vs el de la recomendación
   STOP_BREACHED      — precio actual por debajo del stop_loss registrado
@@ -51,7 +50,6 @@ APP_URL = 'https://tantancansado.github.io/stock_analyzer_a/app/'
 # Thresholds — calibrados con las reglas duras de CLAUDE.md
 FUND_COLLAPSE = 45.0      # fundamental_score por debajo de esto = tesis rota
 FUND_DROP_PTS = 10.0      # caída vs el score de la recomendación
-UPSIDE_TRAP = 30.0        # analyst_upside_pct >= esto = value trap (hard reject)
 DEDUP_DAYS = 5            # no repetir la misma alerta en N días
 
 
@@ -155,12 +153,10 @@ def _fundamental_findings(position: dict, fund: dict) -> list[dict]:
             'reason': f'analyst_upside ahora {upside_now:.0f}% — sobrevalorado',
             'severity': 'HIGH',
         })
-    if upside_now is not None and upside_now >= UPSIDE_TRAP:
-        findings.append({
-            'type': 'THESIS_BROKEN',
-            'reason': f'analyst_upside saltó a {upside_now:.0f}% — value trap (0% win histórico)',
-            'severity': 'HIGH',
-        })
+    # Un upside del analista que CRECE no rompe la tesis de algo que ya tienes:
+    # hasta el 27-oct-2026 se marcaba como THESIS_BROKEN (">=30%, value trap")
+    # y habría mandado avisos de ruptura falsos al Telegram y al correo. Si el
+    # precio cae por deterioro, lo cazan el score fundamental y el stop.
     if isinstance(earnings_warn, str) and earnings_warn.strip().lower() not in ('none', 'nan', ''):
         findings.append({
             'type': 'THESIS_BROKEN',

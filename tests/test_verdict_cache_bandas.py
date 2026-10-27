@@ -67,9 +67,9 @@ class TestBandasAbsolutas:
     def test_los_cortes_del_upside_caen_en_las_fronteras_que_importan(self):
         """10, 25 y 30 son las fronteras de `value_bands`. Con paso 5, un pick
         no puede salir de la banda dorada sin invalidar su veredicto."""
-        from value_bands import UPSIDE_GOLDEN_MAX, UPSIDE_HARD_REJECT, UPSIDE_MIN
+        from value_bands import UPSIDE_GOLDEN_MAX, UPSIDE_ALTO, UPSIDE_MIN
         paso = vc._CAMPOS_EN_BANDAS_ABSOLUTAS['analyst_upside_pct']
-        for frontera in (UPSIDE_MIN, UPSIDE_GOLDEN_MAX, UPSIDE_HARD_REJECT):
+        for frontera in (UPSIDE_MIN, UPSIDE_GOLDEN_MAX, UPSIDE_ALTO):
             assert frontera % paso == 0, f'{frontera} no cae en un corte de banda'
             assert vc._banda_absoluta(frontera - 0.1, paso) != vc._banda_absoluta(frontera, paso)
 

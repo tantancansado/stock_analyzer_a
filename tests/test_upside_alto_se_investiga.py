@@ -26,10 +26,18 @@ RAIZ = Path(__file__).resolve().parent.parent
 
 def test_ya_no_se_pone_el_score_a_cero_por_upside_alto():
     src = (RAIZ / 'super_score_integrator.py').read_text()
-    from conftest import bloque_de_codigo
-    bloque = bloque_de_codigo(src, 'value_trap = _up.notna()')
-    assert "'value_score'] = 0.0" not in bloque, \
-        'vuelve el rechazo automático: un descuento grande no es una sentencia'
+    assert "value_trap = alto & ~respaldo_propio(df)" in src, \
+        'el upside alto se juzga con la valoración propia, no con el número del analista'
+
+
+def test_el_analista_solo_no_veta_si_nuestra_valoracion_respalda():
+    """27-oct-2026, el usuario: «nosotros también calculamos precio objetivo»."""
+    import pandas as pd
+    from value_bands import respaldo_propio, tiene_respaldo_propio
+    df = pd.DataFrame({'upside_triangulated_pct': [22.0, 3.0, None, 25.0],
+                       'upside_divergence': ['MEDIA', '', '', 'ALTA']})
+    assert respaldo_propio(df).tolist() == [True, False, False, False]
+    assert tiene_respaldo_propio(22.0, 'MEDIA') and not tiene_respaldo_propio(None, '')
 
 
 def test_se_penaliza_pero_no_se_mata():
@@ -57,7 +65,7 @@ def test_el_prompt_explica_las_dos_salidas():
     assert 'SOSTIENE' in v.SYSTEM and 'DESMIENTE' in v.SYSTEM
 
 
-def test_el_hard_reject_sigue_existiendo_como_umbral():
-    """No desaparece el concepto: cambia lo que se hace con él."""
-    from value_bands import UPSIDE_HARD_REJECT
-    assert UPSIDE_HARD_REJECT == 30.0
+def test_el_umbral_sigue_existiendo_pero_no_es_un_veto():
+    """A partir de 30% hace falta respaldo propio; no desaparece el concepto."""
+    from value_bands import UPSIDE_ALTO
+    assert UPSIDE_ALTO == 30.0

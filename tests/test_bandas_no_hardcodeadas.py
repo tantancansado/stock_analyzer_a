@@ -72,15 +72,15 @@ def test_nadie_compara_upside_contra_un_numero_a_mano(fichero):
 @pytest.mark.parametrize('fichero', MODULOS)
 def test_el_que_usa_la_constante_la_importa(fichero):
     src = (RAIZ / fichero).read_text()
-    usa = any(c in src for c in ('UPSIDE_HARD_REJECT', 'UPSIDE_GOLDEN_MAX', 'UPSIDE_MIN'))
+    usa = any(c in src for c in ('UPSIDE_ALTO', 'UPSIDE_GOLDEN_MAX', 'UPSIDE_MIN'))
     if usa:
         assert re.search(r'from value_bands import', src), \
             f'{fichero} usa la constante sin importarla de value_bands'
 
 
 def test_value_bands_sigue_siendo_la_unica_fuente():
-    from value_bands import UPSIDE_GOLDEN_MAX, UPSIDE_HARD_REJECT, UPSIDE_MIN
-    assert UPSIDE_MIN < UPSIDE_GOLDEN_MAX <= UPSIDE_HARD_REJECT
+    from value_bands import UPSIDE_GOLDEN_MAX, UPSIDE_ALTO, UPSIDE_MIN
+    assert UPSIDE_MIN < UPSIDE_GOLDEN_MAX <= UPSIDE_ALTO
 
 
 def test_el_detector_encuentra_una_banda_a_mano_si_vuelve(tmp_path):

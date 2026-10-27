@@ -31,7 +31,7 @@ from opportunity_validator import OpportunityValidator
 # `_calculate_value_score`.
 PENALIZACION_UPSIDE_ALTO = 8.0
 
-from value_bands import UPSIDE_MIN, UPSIDE_GOLDEN_MAX, UPSIDE_HARD_REJECT, VALUE_SCORE_MIN
+from value_bands import UPSIDE_MIN, UPSIDE_GOLDEN_MAX, UPSIDE_ALTO, VALUE_SCORE_MIN, respaldo_propio
 from data_integrity import filter_dataframe
 from ai_pick_verifier import verify_picks, apply_verdicts
 from picks_excluidos import registrar as registrar_excluidos
@@ -1281,12 +1281,18 @@ class SuperScoreIntegrator:
             # motivo) y se marca para que el verificador de fichas lo mire con
             # el contexto delante — si los ingresos crecen, el descuento puede
             # ser real.
+            # 27-oct-2026: el upside alto ya no se penaliza por sí solo. Manda
+            # la valoración propia: si DCF/P-E lo respaldan, cuenta como uno
+            # más; si lo niegan o no hay modelos propios, sí se penaliza.
             df['upside_requiere_verificacion'] = False
-            value_trap = _up.notna() & (_up >= UPSIDE_HARD_REJECT)
+            alto = _up.notna() & (_up >= UPSIDE_ALTO)
+            value_trap = alto & ~respaldo_propio(df)
+            if alto.sum() > 0:
+                df.loc[alto, 'upside_requiere_verificacion'] = True
+                print(f"🔍 Upside ≥{UPSIDE_ALTO:.0f}%: {int((alto & ~value_trap).sum())} respaldados por la "
+                      f"valoración propia · {int(value_trap.sum())} sin respaldo (penalizados): "
+                      f"{df[value_trap]['ticker'].tolist()[:12]}")
             if value_trap.sum() > 0:
-                trap_tickers = df[value_trap]['ticker'].tolist()
-                print(f"🔍 Upside ≥{UPSIDE_HARD_REJECT:.0f}% — a verificar, no rechazados: {trap_tickers}")
-                df.loc[value_trap, 'upside_requiere_verificacion'] = True
                 df.loc[value_trap, 'value_score'] = (
                     df.loc[value_trap, 'value_score'] - PENALIZACION_UPSIDE_ALTO).clip(lower=0)
 
@@ -1299,7 +1305,7 @@ class SuperScoreIntegrator:
             df['upside_bonus'] = 0.0
             mask_golden = _up.notna() & (_up >= UPSIDE_MIN) & (_up < UPSIDE_GOLDEN_MAX)
             mask_mild   = _up.notna() & (_up >= 0) & (_up < UPSIDE_MIN)   # too tight to matter
-            mask_trap   = _up.notna() & (_up >= UPSIDE_HARD_REJECT)       # value trap
+            mask_trap   = value_trap        # upside alto que la valoración propia no respalda
             df.loc[mask_golden, 'upside_bonus'] =  5.0
             df.loc[mask_mild,   'upside_bonus'] = -3.0
             df.loc[mask_trap,   'upside_bonus'] = -5.0
@@ -1329,7 +1335,7 @@ class SuperScoreIntegrator:
 
             df['value_score'] += df['upside_bonus']
             n_golden = int(mask_golden.sum()); n_trap = int(mask_trap.sum())
-            print(f"   📐 Upside tiers: {n_golden} golden [10,25) (+5pts) · {n_trap} trap ≥30% (-5pts)")
+            print(f"   📐 Upside tiers: {n_golden} zona dorada (+5pts) · {n_trap} upside alto sin respaldo propio (-5pts)")
             df.drop(columns=['upside_bonus', '_up'], inplace=True, errors='ignore')
 
         # `risk_reward_ratio` = upside / stop estándar del 8%. NO es un factor

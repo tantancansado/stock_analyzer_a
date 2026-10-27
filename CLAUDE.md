@@ -21,9 +21,9 @@ sector_rotation → mean_reversion → super_score_integrator → ai_quality_fil
 - **NUNCA dar scores cuando el dato es default/missing**: `fundamental_score == 50.0` y `ml_score == 50.0` significan dato ausente — no puntuar
 - `negative_roe == True` → `value_score = 0` (HARD REJECT)
 - `analyst_upside_pct < 0` → `value_score = 0` (sobrevalorado)
-- `analyst_upside_pct >= 30` → `value_score = 0` (HARD REJECT — value trap: 0% win en 55 señales reales; gap enorme del target = el precio se desplomó por algo que el modelo no ve)
-- Zona dorada de upside: **[10, 25)** (+4.73% / 83% win en backtest). Premiar esta banda, NO el upside alto
-- Las bandas de upside viven en `value_bands.py` (UPSIDE_MIN/GOLDEN_MAX/HARD_REJECT) — integrator, tracker y conviction las importan de ahí; NUNCA hardcodear una banda inline
+- `analyst_upside_pct >= 30` (`UPSIDE_ALTO`) NO es un descarte: decide la **valoración propia** (DCF/P-E, `value_bands.respaldo_propio`). Con respaldo propio cuenta como cualquier otro; sin él se penaliza. El usuario (27-oct-2026): «las valoraciones de los analistas están bien, pero nosotros también calculamos precio objetivo y sabemos hacerlo». El antiguo «0% de acierto» eran 14 empresas de software/datos
+- Zona dorada de upside: **[10, 30)** — se premia con un bonus pequeño; no es una regla de exclusión
+- Las bandas de upside viven en `value_bands.py` (UPSIDE_MIN/GOLDEN_MAX/UPSIDE_ALTO) — integrator, tracker y conviction las importan de ahí; NUNCA hardcodear una banda inline
 - `dividendYield` en yfinance ya viene en porcentaje (0.38 = 0.38%), NO decimal
 - `profit_margin_pct` está en `earnings_details`, NO en `health_details`
 - MA filter: si falla por rate-limit ("Too Many Requests"), NO penalizar (-20pts se salta)
