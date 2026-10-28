@@ -82,7 +82,7 @@ UNIVERSES = {
         "ABEV3.SA",  # Ambev — beverages
         "RENT3.SA",  # Localiza — car rental
         "RDOR3.SA",  # Rede D'Or — healthcare
-        "EMBR3.SA",  # Embraer — aerospace ⭐
+        "EMBJ3.SA",  # Embraer — aerospace ⭐ (era EMBR3.SA: Yahoo ya no lo reconoce)
         "TOTS3.SA",  # Totvs — business software
         "B3SA3.SA",  # B3 — stock exchange
         "EGIE3.SA",  # Engie Brasil — utilities

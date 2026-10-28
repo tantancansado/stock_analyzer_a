@@ -114,7 +114,7 @@ TIER_3_BRAZIL = [
                  # pero negocio impactado por tipos de interés (financia flotas)
     'ITUB4.SA',  # Itaú Unibanco — mejor banco Brasil, ROE consistente >15%,
                  # gestión superior al sector, pero commodity banking con riesgo macro Brasil
-    'EMBR3.SA',  # Embraer — jets regionales nicho E-jets (única alternativa a Boeing/Airbus
+    'EMBJ3.SA',  # Embraer (era EMBR3.SA) — jets regionales nicho E-jets (única alternativa a Boeing/Airbus
                  # en regional), cartera de pedidos recuperada post-COVID, pero capex intensivo
     'ABEV3.SA',  # Ambev — bebidas Brasil/LATAM, distribución dominante, economías de escala,
                  # filial AB InBev, pero volúmenes cerveza estancados en Brasil
