@@ -694,6 +694,10 @@ class PortfolioTracker:
                         target_f = float(target)
                         sim_end = min(signal_date + timedelta(days=45), today)
                         sim_window = hist[(hist.index > signal_date) & (hist.index <= sim_end)]
+                        # Sin sesiones tras la señal (la de hoy) el for no da
+                        # vueltas y el else leía sim_day sin definir: la
+                        # excepción saltaba el resto de señales del ticker
+                        sim_day = 0
                         for sim_day, (sim_dt, sim_row) in enumerate(sim_window.iterrows(), 1):
                             if sim_row['Low'] <= stop_f:
                                 self.recommendations.at[idx, 'exit_price'] = round(stop_f, 2)

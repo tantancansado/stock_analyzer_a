@@ -1508,3 +1508,35 @@ class TestPrecioFosil:
         df = pd.DataFrame([{'ticker': 'EME', 'current_price': 943.0}])
         assert PortfolioTracker._antiguedad_del_dato(df) is None
         assert not PortfolioTracker._dato_caducado(PortfolioTracker.__new__(PortfolioTracker), df, 'x.csv')
+
+
+class TestSimulacionSinSesiones:
+    """28-oct-2026: una señal registrada hoy no tiene sesiones detrás, el for de
+    la simulación no daba vueltas y el else leía sim_day sin definir. La
+    excepción saltaba el resto de señales del mismo ticker (CLPBY)."""
+
+    def test_la_señal_de_hoy_no_tapa_a_las_demás_del_ticker(self, monkeypatch):
+        import pandas as pd
+        import portfolio_tracker as pt
+        hoy = pd.Timestamp.now().normalize()
+        antes = hoy - pd.Timedelta(days=10)
+        base = dict(ticker='CLPBY', strategy='VALUE', status='ACTIVE',
+                    signal_price=100.0, stop_loss=90.0, target_price=110.0)
+        t = pt.PortfolioTracker.__new__(pt.PortfolioTracker)
+        t.recommendations = pd.DataFrame([
+            {**base, 'signal_date': hoy.strftime('%Y-%m-%d')},
+            {**base, 'signal_date': antes.strftime('%Y-%m-%d')},
+        ])
+        dias = pd.date_range(antes, hoy, freq='D')
+        hist = pd.DataFrame({'Open': 100.0, 'Close': 105.0, 'Low': 99.0,
+                             'High': [100.0] * 3 + [112.0] * (len(dias) - 3)}, index=dias)
+        ticker = MagicMock()
+        ticker.history.return_value = hist
+        monkeypatch.setattr(pt.yf, 'Ticker', lambda *_: ticker)
+        monkeypatch.setattr(pt.time, 'sleep', lambda *_: None)
+        monkeypatch.setattr(t, '_save_recommendations', lambda: None)
+
+        t.update_performance()
+
+        assert t.recommendations.loc[1, 'exit_reason'] == 'TARGET'
+        assert pd.isna(t.recommendations.loc[0].get('exit_reason'))
