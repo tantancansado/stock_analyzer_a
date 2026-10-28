@@ -66,6 +66,38 @@ class TestSamplingPorModelo:
         assert not set(g._SIN_SAMPLING) & set(g._SIN_CONTROL_MUESTREO)
 
 
+class TestMargenParaRazonar:
+    """28-oct-2026: el plan del día pedía 1200 tokens a Sonnet 5 y el
+    razonamiento se comía el tope — JSON cortado, plan de reglas fijas 15 de
+    25 días y la llamada cobrada igual. El 8-sep le pasó al gate de VALUE."""
+
+    def _max_tokens(self, model, pedido):
+        c = MagicMock()
+        c.messages.create.return_value = _resp()
+        with patch.object(g, '_get_anthropic_client', return_value=c):
+            g.claude_chat([{'role': 'user', 'content': 'x'}], model=model, max_tokens=pedido)
+        return c.messages.create.call_args.kwargs['max_tokens']
+
+    def test_con_razonamiento_se_suma_el_margen(self):
+        assert self._max_tokens('claude-sonnet-5', 1200) == 1200 + g.MARGEN_RAZONAMIENTO
+
+    def test_sin_razonamiento_se_respeta_el_tope(self):
+        assert self._max_tokens('claude-haiku-4-5', 1200) == 1200
+        assert self._max_tokens('claude-sonnet-4-6', 1200) == 1200
+
+    def test_respuesta_cortada_deja_rastro(self, caplog):
+        r = _resp('{"a": ')
+        r.stop_reason = 'max_tokens'
+        c = MagicMock()
+        c.messages.create.return_value = r
+        import logging
+        with patch.object(g, '_get_anthropic_client', return_value=c), \
+                patch('claude_budget.registrar_uso'), \
+                caplog.at_level(logging.WARNING, logger='groq_utils'):
+            g.claude_chat([{'role': 'user', 'content': 'x'}], model='claude-sonnet-5')
+        assert 'cortada' in caplog.text
+
+
 class TestFailOpen:
     def test_api_caida_devuelve_none(self):
         # Propagar aquí tumbaría el paso crítico del pipeline

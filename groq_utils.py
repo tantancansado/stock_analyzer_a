@@ -180,6 +180,13 @@ CLAUDE_OPUS    = "claude-opus-5"
 # fallara en su primer envío sin que nadie supiera por qué.
 _SIN_SAMPLING = ('opus-5', 'opus-4-8', 'opus-4-7', 'sonnet-5', 'fable-5', 'mythos-5')
 
+# En esos modelos el razonamiento gasta del mismo max_tokens que la respuesta,
+# así que el tope que cada llamada calculó para su JSON se lo comía el pensar:
+# el 8-sep vació el gate de VALUE y hasta el 28-oct el plan del día salía de
+# reglas fijas 15 de cada 25 días, con la llamada cobrada. Quien llama dice
+# cuánto ocupa la respuesta; el margen para pensar se pone aquí, una vez.
+MARGEN_RAZONAMIENTO = 3000
+
 # 'haiku-4-5' NO va en _SIN_SAMPLING — no es un tercer "sonnet-5 más". El
 # 31-ago-2026 se metió ahí porque rechazaba temperature (log del 27-ago:
 # "unexpected keyword argument 'temperature'"), pero el 2-sep-2026 salió que
@@ -270,7 +277,7 @@ def claude_chat(
     try:
         kwargs: dict[str, Any] = {
             "model": model,
-            "max_tokens": max_tokens,
+            "max_tokens": max_tokens + MARGEN_RAZONAMIENTO if sin_sampling else max_tokens,
             "messages": messages,
         }
         if sin_sampling:
@@ -281,6 +288,9 @@ def claude_chat(
             kwargs["system"] = system
         resp = client.messages.create(**kwargs)
         registrar_uso(resp, model)
+        if getattr(resp, "stop_reason", None) == "max_tokens":
+            logger.warning("claude_chat(%s): respuesta cortada en max_tokens=%s",
+                           model, kwargs["max_tokens"])
         # Con adaptive thinking los bloques de pensamiento van primero: se
         # coge el de texto, no content[0].
         text = next((b.text for b in resp.content if getattr(b, "type", None) == "text"), None)
