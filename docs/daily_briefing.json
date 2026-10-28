@@ -1,146 +1,44 @@
 {
-  "fecha": "2026-10-27",
-  "texto": "<b>Hoy solo hay una compra con el semáforo en verde: Union Pacific (UNP)</b>, marcada como entrada. Pero con matiz importante: el propio modelo (tanto por múltiplos como por flujo de caja) la ve ya ajustada de precio, así que entra sabiendo que el recorrido extra puede ser corto.\n\nPara vigilar, nada de comprar aún:\n• <b>TJX</b> cae por sentimiento, no por negocio roto: batió beneficios pero la guía de Q3 decepcionó y el sector ha rotado en su contra. Resultados en 22 días, puede moverse antes de que actúes.\n• <b>DPZ</b> está barata por narrativa (la pizza \"en declive\"), no por fundamentales: comps siguen sólidos. Barata todavía no es comprable.\n• <b>MCO</b> mantiene negocio sólido pero analistas y modelo propio no cuadran (divergencia alta) — mejor esperar a que se aclare.\n• <b>AON</b> y <b>ADSK</b> siguen cayendo sin un motivo identificado todavía, de momento en espera.\n\nEntran hoy en el radar: ADSK, AON, NDAQ, ROP y WCN.\n\nEl sistema acierta un 73,5% a 180 días, con subida media del 9,2% sobre 34 casos — cifra ya consolidada, no provisional. Aun con eso, posición pequeña siempre: hay un 26% de veces que falla.",
-  "hechos": {
-    "fecha": "2026-10-27",
-    "total_lista": 53,
-    "datos_incompletos": [],
-    "picks_nuevos": [
-      "ADSK",
-      "AON",
-      "NDAQ",
-      "ROP",
-      "WCN"
-    ],
-    "picks_que_se_van": [],
-    "comprables": [
-      {
-        "ticker": "UNP",
-        "empresa": "Union Pacific Corporation",
-        "score": 30.0,
-        "precio": 296.97,
-        "upside_analista": 11.3,
-        "upside_triangulado": -16.2,
-        "divergencia": "MEDIA",
-        "fcf_yield": 3.82,
-        "del_maximo_pct": -6.0,
-        "rs_6m": 3.92,
-        "timing": "ENTRADA",
-        "por_que_cae": "",
-        "por_que_cae_detalle": "",
-        "dias_a_resultados": 91.0,
-        "objetivo_por_pe_pct": -16.2,
-        "objetivo_dcf_pct": -29.3,
-        "beneficio_respaldado_por_negocio": true
-      }
-    ],
-    "vigilar": [
-      {
-        "ticker": "TJX",
-        "empresa": "The TJX Companies, Inc.",
-        "score": 50.825,
-        "precio": 143.7,
-        "upside_analista": 19.5,
-        "upside_triangulado": 6.7,
-        "divergencia": "",
-        "fcf_yield": 3.84,
-        "del_maximo_pct": -15.5,
-        "rs_6m": -16.09,
-        "timing": "ESPERAR",
-        "por_que_cae": "SENTIMIENTO",
-        "por_que_cae_detalle": "TJX batió ganancias en Q2 (julio 2026) pero la guidance para Q3 fue por debajo del consenso, generando rotación sector-específica. Analistas cortaron precios y downgrades (Jefferie",
-        "dias_a_resultados": 22.0,
-        "objetivo_por_pe_pct": 3.1,
-        "objetivo_dcf_pct": 6.7,
-        "beneficio_respaldado_por_negocio": true
-      },
-      {
-        "ticker": "DPZ",
-        "empresa": "Domino's Pizza, Inc.",
-        "score": 54.685,
-        "precio": 313.32,
-        "upside_analista": 13.8,
-        "upside_triangulado": 24.7,
-        "divergencia": "",
-        "fcf_yield": 6.21,
-        "del_maximo_pct": -29.2,
-        "rs_6m": -14.92,
-        "timing": "ESPERAR",
-        "por_que_cae": "SENTIMIENTO",
-        "por_que_cae_detalle": "Caída por narrativa de pizza como categoría en declive y compresión de múltiplos (sector QSR débil) desde máximo de $499 hace un año. Fundamentals siguen sólidos: comps positivos, ",
-        "dias_a_resultados": 118.0,
-        "objetivo_por_pe_pct": 45.7,
-        "objetivo_dcf_pct": 24.7,
-        "beneficio_respaldado_por_negocio": true
-      },
-      {
-        "ticker": "AON",
-        "empresa": "Aon plc",
-        "score": 74.065,
-        "precio": 302.06,
-        "upside_analista": 17.3,
-        "upside_triangulado": 28.7,
-        "divergencia": "",
-        "fcf_yield": 5.1,
-        "del_maximo_pct": -21.0,
-        "rs_6m": -13.72,
-        "timing": "ESPERAR",
-        "por_que_cae": "SIN_DATOS",
-        "por_que_cae_detalle": "",
-        "dias_a_resultados": 1.0,
-        "objetivo_por_pe_pct": 40.1,
-        "objetivo_dcf_pct": null,
-        "beneficio_respaldado_por_negocio": true
-      },
-      {
-        "ticker": "ADSK",
-        "empresa": "Autodesk, Inc.",
-        "score": 62.31999999999999,
-        "precio": 249.45,
-        "upside_analista": 23.3,
-        "upside_triangulado": 11.0,
-        "divergencia": "MEDIA",
-        "fcf_yield": 5.41,
-        "del_maximo_pct": -22.0,
-        "rs_6m": -1.87,
-        "timing": "VIGILAR",
-        "por_que_cae": "SIN_DATOS",
-        "por_que_cae_detalle": "",
-        "dias_a_resultados": 31.0,
-        "objetivo_por_pe_pct": null,
-        "objetivo_dcf_pct": -1.4,
-        "beneficio_respaldado_por_negocio": true
-      },
-      {
-        "ticker": "MCO",
-        "empresa": "Moody's Corporation",
-        "score": 79.035,
-        "precio": 484.45,
-        "upside_analista": 14.0,
-        "upside_triangulado": null,
-        "divergencia": "ALTA",
-        "fcf_yield": 3.6,
-        "del_maximo_pct": -11.4,
-        "rs_6m": -1.83,
-        "timing": "VIGILAR",
-        "por_que_cae": "",
-        "por_que_cae_detalle": "",
-        "dias_a_resultados": 113.0,
-        "objetivo_por_pe_pct": 35.6,
-        "objetivo_dcf_pct": -34.3,
-        "beneficio_respaldado_por_negocio": true
-      }
-    ],
-    "tesis_rotas": [],
-    "rotas_son_tuyas": true,
-    "regimen_cambio": null,
-    "rendimiento_sistema": {
-      "horizonte": "180d",
-      "es_horizonte_definitivo": true,
-      "nota": null,
-      "acierto_pct": 73.5,
-      "retorno_medio": 9.21,
-      "n": 34
+  "date": "2026-10-28",
+  "timestamp": "2026-10-28T06:42:43.256816",
+  "narrative": "",
+  "macro_regime": "CALM",
+  "picks_count": 8,
+  "top_picks": [
+    {
+      "ticker": "VRSN",
+      "sector": "Technology",
+      "value_score": 79.92500000000001,
+      "analyst_upside_pct": 11.7,
+      "conviction_grade": null
+    },
+    {
+      "ticker": "MSFT",
+      "sector": "Technology",
+      "value_score": 76.19999999999999,
+      "analyst_upside_pct": 13.9,
+      "conviction_grade": null
+    },
+    {
+      "ticker": "MSCI",
+      "sector": "Financial Services",
+      "value_score": 70.01499999999999,
+      "analyst_upside_pct": 13.6,
+      "conviction_grade": null
+    },
+    {
+      "ticker": "SAP",
+      "sector": "Technology",
+      "value_score": 67.66000000000001,
+      "analyst_upside_pct": 19.1,
+      "conviction_grade": null
+    },
+    {
+      "ticker": "MCO",
+      "sector": "Financial Services",
+      "value_score": 64.36500000000001,
+      "analyst_upside_pct": 16.5,
+      "conviction_grade": null
     }
-  }
+  ]
 }
