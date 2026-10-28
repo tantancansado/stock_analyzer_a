@@ -1,20 +1,45 @@
 {
-  "generated_at": "2026-10-27",
-  "total": 1,
-  "narrative": "Cuando varios directivos del mismo sector adquieren acciones simult\u00e1neamente, suele interpretarse como una se\u00f1al de confianza interna en el futuro desempe\u00f1o y en la valoraci\u00f3n actual de esas compa\u00f1\u00edas. Este comportamiento coordinado puede indicar que los insiders perciben oportunidades de crecimiento o una subvaloraci\u00f3n del sector, lo que a menudo precede a",
+  "generated_at": "2026-10-28",
+  "total": 3,
+  "narrative": "",
   "clusters": [
     {
       "sector": "Consumer Defensive",
-      "ticker_count": 4,
+      "ticker_count": 3,
       "tickers": [
         "MKC",
-        "PEP",
         "ULVR.L",
         "DGE.L"
       ],
-      "total_purchases": 42,
-      "total_insiders": 18,
+      "total_purchases": 37,
+      "total_insiders": 17,
       "cluster_score": 100,
+      "signal": "MODERATE"
+    },
+    {
+      "sector": "Financial Services",
+      "ticker_count": 3,
+      "tickers": [
+        "CME",
+        "MSCI",
+        "AON"
+      ],
+      "total_purchases": 12,
+      "total_insiders": 3,
+      "cluster_score": 84,
+      "signal": "MODERATE"
+    },
+    {
+      "sector": "Technology",
+      "ticker_count": 3,
+      "tickers": [
+        "ORCL",
+        "VRSN",
+        "SAP.DE"
+      ],
+      "total_purchases": 10,
+      "total_insiders": 4,
+      "cluster_score": 80,
       "signal": "MODERATE"
     }
   ]

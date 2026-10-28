@@ -1,30 +1,21 @@
 {
-  "total_problemas": 1,
+  "total_problemas": 0,
   "desfases_conocidos": [
-    "⏳ ⚠️  value_opportunities.csv: upside analista = (objetivo − precio) / precio — 1/74 filas, peor desvío 3% (DOL.TO)",
-    "⏳ ⚠️  value_opportunities.csv: upside DCF = (objetivo − precio) / precio — 3/59 filas, peor desvío 3% (VRSN, SAP, DOL.TO)",
-    "⏳ ⚠️  value_opportunities.csv: upside P/E = (objetivo − precio) / precio — 2/58 filas, peor desvío 3% (WCN, 7741.T)",
-    "⏳ ⚠️  value_opportunities.csv: distancia al máximo 52s — 1/74 filas, peor desvío 4% (WCN)",
-    "⏳ ⚠️  value_opportunities_filtered.csv: upside DCF = (objetivo − precio) / precio — 2/43 filas, peor desvío 3% (SAP, VRSN)",
-    "⏳ ⚠️  value_opportunities_filtered.csv: upside P/E = (objetivo − precio) / precio — 2/41 filas, peor desvío 3% (7741.T, WCN)",
-    "⏳ ⚠️  value_opportunities_filtered.csv: distancia al máximo 52s — 1/53 filas, peor desvío 4% (WCN)",
-    "⏳ ⚠️  european_value_opportunities.csv: upside analista = (objetivo − precio) / precio — 2/31 filas, peor desvío 4% (RMV.L, SGSN.SW)",
-    "⏳ ⚠️  european_value_opportunities.csv: upside DCF = (objetivo − precio) / precio — 1/23 filas, peor desvío 3% (SAP.DE)",
-    "⏳ ⚠️  european_value_opportunities.csv: upside P/E = (objetivo − precio) / precio — 1/20 filas, peor desvío 4% (STMN.SW)",
-    "⏳ ⚠️  european_value_opportunities.csv: distancia al máximo 52s — 1/31 filas, peor desvío 3% (SGSN.SW)",
-    "⏳ ⚠️  european_value_opportunities.csv: dividendo yield = dividendo / precio — 2/31 filas, peor desvío 7% (EXPN.L, AUTO.L)",
-    "⏳ ⚠️  european_value_opportunities_filtered.csv: upside analista = (objetivo − precio) / precio — 1/19 filas, peor desvío 2% (RMV.L)",
-    "⏳ ⚠️  european_value_opportunities_filtered.csv: upside DCF = (objetivo − precio) / precio — 1/13 filas, peor desvío 3% (SAP.DE)",
-    "⏳ ⚠️  european_value_opportunities_filtered.csv: upside P/E = (objetivo − precio) / precio — 1/13 filas, peor desvío 4% (STMN.SW)",
-    "⏳ ⚠️  european_value_opportunities_filtered.csv: dividendo yield = dividendo / precio — 1/19 filas, peor desvío 6% (AUTO.L)",
-    "⏳ ⚠️  commodity_opportunities.csv: distancia al máximo = (precio − máx) / máx — 1/19 filas, peor desvío 3% (PDBC)",
-    "⏳ ⚠️  commodity_opportunities.csv: distancia al mínimo = (precio − mín) / mín — 1/19 filas, peor desvío 2% (UNG)"
+    "⏳ ⚠️  value_opportunities.csv: upside analista = (objetivo − precio) / precio — 2/69 filas, peor desvío 3% (CBOE, CTAS)",
+    "⏳ ⚠️  value_opportunities.csv: upside DCF = (objetivo − precio) / precio — 2/54 filas, peor desvío 4% (SAP, DOL.TO)",
+    "⏳ ⚠️  value_opportunities.csv: upside P/E = (objetivo − precio) / precio — 2/55 filas, peor desvío 3% (NDAQ, SHW)",
+    "⏳ ⚠️  value_opportunities.csv: distancia al máximo 52s — 2/69 filas, peor desvío 3% (NDAQ, BRK-B)",
+    "⏳ ⚠️  value_opportunities.csv: dividendo yield = dividendo / precio — 1/60 filas, peor desvío 6% (PAYX)",
+    "⏳ ⚠️  value_opportunities_filtered.csv: upside analista = (objetivo − precio) / precio — 1/49 filas, peor desvío 2% (CTAS)",
+    "⏳ ⚠️  value_opportunities_filtered.csv: upside DCF = (objetivo − precio) / precio — 1/38 filas, peor desvío 4% (SAP)",
+    "⏳ ⚠️  value_opportunities_filtered.csv: upside P/E = (objetivo − precio) / precio — 1/37 filas, peor desvío 3% (NDAQ)",
+    "⏳ ⚠️  value_opportunities_filtered.csv: distancia al máximo 52s — 2/49 filas, peor desvío 3% (BRK-B, NDAQ)",
+    "⏳ ⚠️  value_opportunities_filtered.csv: dividendo yield = dividendo / precio — 1/41 filas, peor desvío 6% (PAYX)",
+    "⏳ ⚠️  european_value_opportunities.csv: upside analista = (objetivo − precio) / precio — 1/39 filas, peor desvío 3% (RMV.L)",
+    "⏳ ⚠️  european_value_opportunities_filtered.csv: upside analista = (objetivo − precio) / precio — 1/24 filas, peor desvío 3% (RMV.L)",
+    "⏳ ⚠️  momentum_opportunities.csv: distancia al máximo 52s — 1/4 filas, peor desvío 2% (MTD)"
   ],
-  "detalle": {
-    "identidades aritméticas de lo publicado": [
-      "🛑 value_opportunities_filtered.csv: salida por debajo de la entrada — 1/53 filas, peor desvío 100% (CVX)"
-    ]
-  },
-  "tickers_value": 74,
-  "tickers_verdicts": 75
+  "detalle": {},
+  "tickers_value": 69,
+  "tickers_verdicts": 77
 }

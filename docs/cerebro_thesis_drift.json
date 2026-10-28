@@ -1,75 +1,44 @@
 {
-  "generated_at": "2026-10-27",
-  "baseline_date": "2026-09-11",
-  "days_tracked": 46,
-  "total": 50,
+  "generated_at": "2026-10-28",
+  "baseline_date": "2026-09-14",
+  "days_tracked": 44,
+  "total": 45,
   "high_count": 1,
-  "narrative": "El ruido temporal son fluctuaciones de precios o m\u00e9tricas que se deben a eventos puntuales, datos de corto plazo o sesgos de mercado y que, una vez disipados, no alteran los fundamentos subyacentes de la empresa. En cambio, el deterioro estructural real implica un cambio permanente en los pilares del negocio (crecimiento, rentabilidad, ventaja competitiva o calidad de gesti\u00f3n), de modo que la hip\u00f3tesis de valor original ya no se sostiene.",
+  "narrative": "",
   "drifts": [
     {
-      "ticker": "MRSH",
-      "company_name": "Marsh & McLennan Companies, Inc.",
-      "sector": "Financial Services",
-      "severity": "HIGH",
-      "drift_score": 7,
-      "days_tracked": 46,
-      "baseline_date": "2026-09-11",
-      "value_score_now": 31.5,
-      "value_score_prev": 42.5,
-      "drift_flags": [
-        "Score cay\u00f3 11pts en 46d (42\u219232)",
-        "Upside analistas cay\u00f3 11pp (17%\u21926%)",
-        "Margen op. cay\u00f3 7.9pp (26.3%\u219218.4%)"
-      ],
-      "improvements": []
-    },
-    {
-      "ticker": "BR",
-      "company_name": "Broadridge Financial Solutions, Inc.",
-      "sector": "Technology",
-      "severity": "MEDIUM",
-      "drift_score": 5,
-      "days_tracked": 46,
-      "baseline_date": "2026-09-11",
-      "value_score_now": 68.7,
-      "value_score_prev": 88.0,
-      "drift_flags": [
-        "Score cay\u00f3 19pts en 46d (88\u219269)",
-        "Upside analistas cay\u00f3 9pp (27%\u219218%)"
-      ],
-      "improvements": []
-    },
-    {
-      "ticker": "MA",
-      "company_name": "Mastercard Incorporated",
-      "sector": "Financial Services",
-      "severity": "MEDIUM",
-      "drift_score": 5,
-      "days_tracked": 46,
-      "baseline_date": "2026-09-11",
-      "value_score_now": 45.2,
-      "value_score_prev": 62.3,
-      "drift_flags": [
-        "Score cay\u00f3 17pts en 46d (62\u219245)",
-        "Upside analistas cay\u00f3 8pp (18%\u219210%)"
-      ],
-      "improvements": []
-    },
-    {
-      "ticker": "7741.T",
-      "company_name": "HOYA Corporation",
+      "ticker": "THC",
+      "company_name": "Tenet Healthcare Corporation",
       "sector": "Healthcare",
-      "severity": "MEDIUM",
-      "drift_score": 5,
-      "days_tracked": 46,
-      "baseline_date": "2026-09-11",
-      "value_score_now": 35.2,
-      "value_score_prev": 46.5,
+      "severity": "HIGH",
+      "drift_score": 6,
+      "days_tracked": 44,
+      "baseline_date": "2026-09-14",
+      "value_score_now": 46.9,
+      "value_score_prev": 58.9,
       "drift_flags": [
-        "Score cay\u00f3 11pts en 46d (46\u219235)",
-        "Upside analistas cay\u00f3 12pp (28%\u219216%)"
+        "Score cay\u00f3 12pts en 44d (59\u219247)",
+        "FCF yield cay\u00f3 4.5pp (14.3%\u21929.8%)"
       ],
       "improvements": []
+    },
+    {
+      "ticker": "CBOE",
+      "company_name": "Cboe Global Markets, Inc.",
+      "sector": "Financial Services",
+      "severity": "MEDIUM",
+      "drift_score": 5,
+      "days_tracked": 44,
+      "baseline_date": "2026-09-14",
+      "value_score_now": 33.0,
+      "value_score_prev": 67.8,
+      "drift_flags": [
+        "Score cay\u00f3 35pts en 44d (68\u219233)",
+        "Upside analistas cay\u00f3 9pp (11%\u21921%)"
+      ],
+      "improvements": [
+        "FCF yield mejor\u00f3 3.3pp"
+      ]
     },
     {
       "ticker": "LMT",
@@ -77,29 +46,13 @@
       "sector": "Industrials",
       "severity": "MEDIUM",
       "drift_score": 5,
-      "days_tracked": 46,
-      "baseline_date": "2026-09-11",
-      "value_score_now": 42.2,
+      "days_tracked": 44,
+      "baseline_date": "2026-09-14",
+      "value_score_now": 32.5,
       "value_score_prev": 56.1,
       "drift_flags": [
-        "Score cay\u00f3 14pts en 46d (56\u219242)",
-        "Upside analistas cay\u00f3 17pp (19%\u21922%)"
-      ],
-      "improvements": []
-    },
-    {
-      "ticker": "TYL",
-      "company_name": "Tyler Technologies, Inc.",
-      "sector": "Technology",
-      "severity": "MEDIUM",
-      "drift_score": 5,
-      "days_tracked": 46,
-      "baseline_date": "2026-09-11",
-      "value_score_now": 32.3,
-      "value_score_prev": 45.5,
-      "drift_flags": [
-        "Score cay\u00f3 13pts en 46d (46\u219232)",
-        "Upside analistas cay\u00f3 16pp (27%\u219211%)"
+        "Score cay\u00f3 24pts en 44d (56\u219233)",
+        "Upside analistas cay\u00f3 15pp (19%\u21924%)"
       ],
       "improvements": []
     },
@@ -109,65 +62,17 @@
       "sector": "Financial Services",
       "severity": "MEDIUM",
       "drift_score": 5,
-      "days_tracked": 46,
-      "baseline_date": "2026-09-11",
-      "value_score_now": 35.8,
-      "value_score_prev": 55.5,
+      "days_tracked": 44,
+      "baseline_date": "2026-09-14",
+      "value_score_now": 35.9,
+      "value_score_prev": 57.3,
       "drift_flags": [
-        "Score cay\u00f3 20pts en 46d (56\u219236)",
+        "Score cay\u00f3 21pts en 44d (57\u219236)",
         "Margen op. cay\u00f3 7.0pp (38.3%\u219231.3%)"
       ],
       "improvements": [
-        "Upside analistas subi\u00f3 14pp"
+        "Upside analistas subi\u00f3 7pp"
       ]
-    },
-    {
-      "ticker": "DSGX",
-      "company_name": "The Descartes Systems Group Inc.",
-      "sector": "Technology",
-      "severity": "MEDIUM",
-      "drift_score": 5,
-      "days_tracked": 46,
-      "baseline_date": "2026-09-11",
-      "value_score_now": 30.7,
-      "value_score_prev": 45.3,
-      "drift_flags": [
-        "Score cay\u00f3 15pts en 46d (45\u219231)",
-        "Upside analistas cay\u00f3 19pp (27%\u21928%)"
-      ],
-      "improvements": []
-    },
-    {
-      "ticker": "SPGI",
-      "company_name": "S&P Global Inc.",
-      "sector": "Financial Services",
-      "severity": "MEDIUM",
-      "drift_score": 5,
-      "days_tracked": 46,
-      "baseline_date": "2026-09-11",
-      "value_score_now": 30.9,
-      "value_score_prev": 60.0,
-      "drift_flags": [
-        "Score cay\u00f3 29pts en 46d (60\u219231)",
-        "Upside analistas cay\u00f3 13pp (27%\u219214%)"
-      ],
-      "improvements": []
-    },
-    {
-      "ticker": "AUTO.L",
-      "company_name": "Autotrader Group plc",
-      "sector": "Communication Services",
-      "severity": "MEDIUM",
-      "drift_score": 5,
-      "days_tracked": 46,
-      "baseline_date": "2026-09-11",
-      "value_score_now": 36.5,
-      "value_score_prev": 55.9,
-      "drift_flags": [
-        "Score cay\u00f3 19pts en 46d (56\u219236)",
-        "Upside analistas cay\u00f3 8pp (14%\u21926%)"
-      ],
-      "improvements": []
     },
     {
       "ticker": "ASSA-B.ST",
@@ -175,28 +80,43 @@
       "sector": "Industrials",
       "severity": "MEDIUM",
       "drift_score": 5,
-      "days_tracked": 46,
-      "baseline_date": "2026-09-11",
-      "value_score_now": 35.6,
-      "value_score_prev": 55.8,
+      "days_tracked": 44,
+      "baseline_date": "2026-09-14",
+      "value_score_now": 37.1,
+      "value_score_prev": 52.8,
       "drift_flags": [
-        "Score cay\u00f3 20pts en 46d (56\u219236)",
-        "Upside analistas cay\u00f3 11pp (21%\u21929%)"
+        "Score cay\u00f3 16pts en 44d (53\u219237)",
+        "Upside analistas cay\u00f3 12pp (19%\u21927%)"
       ],
       "improvements": []
     },
     {
-      "ticker": "THC",
-      "company_name": "Tenet Healthcare Corporation",
-      "sector": "Healthcare",
+      "ticker": "MCO",
+      "company_name": "Moody's Corporation",
+      "sector": "Financial Services",
       "severity": "MEDIUM",
       "drift_score": 3,
-      "days_tracked": 46,
-      "baseline_date": "2026-09-11",
-      "value_score_now": 55.0,
-      "value_score_prev": 58.9,
+      "days_tracked": 44,
+      "baseline_date": "2026-09-14",
+      "value_score_now": 64.4,
+      "value_score_prev": 75.1,
       "drift_flags": [
-        "FCF yield cay\u00f3 4.7pp (14.3%\u21929.6%)"
+        "Score cay\u00f3 11pts en 44d (75\u219264)"
+      ],
+      "improvements": []
+    },
+    {
+      "ticker": "BR",
+      "company_name": "Broadridge Financial Solutions, Inc.",
+      "sector": "Technology",
+      "severity": "MEDIUM",
+      "drift_score": 3,
+      "days_tracked": 44,
+      "baseline_date": "2026-09-14",
+      "value_score_now": 52.7,
+      "value_score_prev": 79.5,
+      "drift_flags": [
+        "Score cay\u00f3 27pts en 44d (79\u219253)"
       ],
       "improvements": []
     },
@@ -206,12 +126,27 @@
       "sector": "Financial Services",
       "severity": "MEDIUM",
       "drift_score": 3,
-      "days_tracked": 46,
-      "baseline_date": "2026-09-11",
-      "value_score_now": 45.9,
-      "value_score_prev": 58.8,
+      "days_tracked": 44,
+      "baseline_date": "2026-09-14",
+      "value_score_now": 47.2,
+      "value_score_prev": 57.8,
       "drift_flags": [
-        "Score cay\u00f3 13pts en 46d (59\u219246)"
+        "Score cay\u00f3 11pts en 44d (58\u219247)"
+      ],
+      "improvements": []
+    },
+    {
+      "ticker": "PAYX",
+      "company_name": "Paychex, Inc.",
+      "sector": "Technology",
+      "severity": "MEDIUM",
+      "drift_score": 3,
+      "days_tracked": 44,
+      "baseline_date": "2026-09-14",
+      "value_score_now": 37.4,
+      "value_score_prev": 57.3,
+      "drift_flags": [
+        "Score cay\u00f3 20pts en 44d (57\u219237)"
       ],
       "improvements": []
     },
@@ -221,14 +156,16 @@
       "sector": "Consumer Cyclical",
       "severity": "MEDIUM",
       "drift_score": 3,
-      "days_tracked": 46,
-      "baseline_date": "2026-09-11",
-      "value_score_now": 42.6,
-      "value_score_prev": 62.4,
+      "days_tracked": 44,
+      "baseline_date": "2026-09-14",
+      "value_score_now": 35.9,
+      "value_score_prev": 46.3,
       "drift_flags": [
-        "Score cay\u00f3 20pts en 46d (62\u219243)"
+        "Score cay\u00f3 10pts en 44d (46\u219236)"
       ],
-      "improvements": []
+      "improvements": [
+        "Upside analistas subi\u00f3 7pp"
+      ]
     },
     {
       "ticker": "COF",
@@ -236,12 +173,12 @@
       "sector": "Financial Services",
       "severity": "MEDIUM",
       "drift_score": 3,
-      "days_tracked": 46,
-      "baseline_date": "2026-09-11",
-      "value_score_now": 36.9,
+      "days_tracked": 44,
+      "baseline_date": "2026-09-14",
+      "value_score_now": 37.0,
       "value_score_prev": 42.5,
       "drift_flags": [
-        "FCF yield cay\u00f3 3.3pp (24.3%\u219221.1%)"
+        "FCF yield cay\u00f3 3.4pp (24.3%\u219220.9%)"
       ],
       "improvements": [
         "Margen op. mejor\u00f3 4.2pp"
@@ -253,15 +190,15 @@
       "sector": "Communication Services",
       "severity": "MEDIUM",
       "drift_score": 3,
-      "days_tracked": 46,
-      "baseline_date": "2026-09-11",
-      "value_score_now": 41.4,
+      "days_tracked": 44,
+      "baseline_date": "2026-09-14",
+      "value_score_now": 41.8,
       "value_score_prev": 63.7,
       "drift_flags": [
-        "Score cay\u00f3 22pts en 46d (64\u219241)"
+        "Score cay\u00f3 22pts en 44d (64\u219242)"
       ],
       "improvements": [
-        "Upside analistas subi\u00f3 23pp"
+        "Upside analistas subi\u00f3 26pp"
       ]
     },
     {
@@ -270,12 +207,12 @@
       "sector": "Healthcare",
       "severity": "MEDIUM",
       "drift_score": 3,
-      "days_tracked": 46,
-      "baseline_date": "2026-09-11",
-      "value_score_now": 34.6,
+      "days_tracked": 44,
+      "baseline_date": "2026-09-14",
+      "value_score_now": 33.0,
       "value_score_prev": 45.9,
       "drift_flags": [
-        "Score cay\u00f3 11pts en 46d (46\u219235)"
+        "Score cay\u00f3 13pts en 44d (46\u219233)"
       ],
       "improvements": []
     },
@@ -285,33 +222,14 @@
       "sector": "Industrials",
       "severity": "MEDIUM",
       "drift_score": 3,
-      "days_tracked": 46,
-      "baseline_date": "2026-09-11",
-      "value_score_now": 30.0,
+      "days_tracked": 44,
+      "baseline_date": "2026-09-14",
+      "value_score_now": 32.9,
       "value_score_prev": 57.5,
       "drift_flags": [
-        "Score cay\u00f3 28pts en 46d (58\u219230)"
+        "Score cay\u00f3 25pts en 44d (58\u219233)"
       ],
       "improvements": []
-    },
-    {
-      "ticker": "ASML",
-      "company_name": "ASML Holding N.V.",
-      "sector": "Technology",
-      "severity": "MEDIUM",
-      "drift_score": 3,
-      "days_tracked": 46,
-      "baseline_date": "2026-09-11",
-      "value_score_now": 31.4,
-      "value_score_prev": 46.9,
-      "drift_flags": [
-        "Score cay\u00f3 16pts en 46d (47\u219231)"
-      ],
-      "improvements": [
-        "FCF yield mejor\u00f3 2.0pp",
-        "Upside analistas subi\u00f3 8pp",
-        "Margen op. mejor\u00f3 7.3pp"
-      ]
     },
     {
       "ticker": "OXY",
@@ -319,57 +237,44 @@
       "sector": "Energy",
       "severity": "MEDIUM",
       "drift_score": 3,
-      "days_tracked": 46,
-      "baseline_date": "2026-09-11",
-      "value_score_now": 34.0,
+      "days_tracked": 44,
+      "baseline_date": "2026-09-14",
+      "value_score_now": 37.1,
       "value_score_prev": 48.7,
       "drift_flags": [
-        "Score cay\u00f3 15pts en 46d (49\u219234)"
+        "Score cay\u00f3 12pts en 44d (49\u219237)"
       ],
       "improvements": []
     },
     {
-      "ticker": "CNI",
-      "company_name": "Canadian National Railway Company",
-      "sector": "Industrials",
+      "ticker": "GOOG",
+      "company_name": "Alphabet Inc.",
+      "sector": "Communication Services",
       "severity": "MEDIUM",
       "drift_score": 3,
-      "days_tracked": 46,
-      "baseline_date": "2026-09-11",
-      "value_score_now": 33.1,
-      "value_score_prev": 45.2,
+      "days_tracked": 44,
+      "baseline_date": "2026-09-14",
+      "value_score_now": 33.4,
+      "value_score_prev": 77.1,
       "drift_flags": [
-        "Score cay\u00f3 12pts en 46d (45\u219233)"
+        "Score cay\u00f3 44pts en 44d (77\u219233)"
       ],
-      "improvements": []
+      "improvements": [
+        "Upside analistas subi\u00f3 10pp"
+      ]
     },
     {
-      "ticker": "FCNCA",
-      "company_name": "First Citizens BancShares, Inc.",
+      "ticker": "BRK-B",
+      "company_name": "Berkshire Hathaway Inc.",
       "sector": "Financial Services",
       "severity": "MEDIUM",
       "drift_score": 3,
-      "days_tracked": 46,
-      "baseline_date": "2026-09-11",
-      "value_score_now": 32.7,
-      "value_score_prev": 42.9,
+      "days_tracked": 44,
+      "baseline_date": "2026-09-14",
+      "value_score_now": 31.4,
+      "value_score_prev": 33.4,
       "drift_flags": [
-        "Score cay\u00f3 10pts en 46d (43\u219233)"
-      ],
-      "improvements": []
-    },
-    {
-      "ticker": "NDSN",
-      "company_name": "Nordson Corporation",
-      "sector": "Industrials",
-      "severity": "MEDIUM",
-      "drift_score": 3,
-      "days_tracked": 46,
-      "baseline_date": "2026-09-11",
-      "value_score_now": 31.5,
-      "value_score_prev": 62.2,
-      "drift_flags": [
-        "Score cay\u00f3 31pts en 46d (62\u219231)"
+        "FCF yield cay\u00f3 4.3pp (6.5%\u21922.2%)"
       ],
       "improvements": []
     },
@@ -379,27 +284,61 @@
       "sector": "Technology",
       "severity": "MEDIUM",
       "drift_score": 3,
-      "days_tracked": 46,
-      "baseline_date": "2026-09-11",
+      "days_tracked": 44,
+      "baseline_date": "2026-09-14",
       "value_score_now": 50.2,
-      "value_score_prev": 53.2,
+      "value_score_prev": 58.2,
       "drift_flags": [
-        "FCF yield cay\u00f3 6.9pp (12.7%\u21925.8%)"
+        "FCF yield cay\u00f3 6.9pp (12.6%\u21925.7%)"
       ],
       "improvements": []
     },
     {
-      "ticker": "NOVO-B.CO",
-      "company_name": "Novo Nordisk A/S",
-      "sector": "Healthcare",
+      "ticker": "ASML.AS",
+      "company_name": "ASML Holding N.V.",
+      "sector": "Technology",
       "severity": "MEDIUM",
       "drift_score": 3,
-      "days_tracked": 46,
-      "baseline_date": "2026-09-11",
-      "value_score_now": 44.8,
-      "value_score_prev": 56.3,
+      "days_tracked": 44,
+      "baseline_date": "2026-09-14",
+      "value_score_now": 49.9,
+      "value_score_prev": 60.3,
       "drift_flags": [
-        "Score cay\u00f3 12pts en 46d (56\u219245)"
+        "Score cay\u00f3 10pts en 44d (60\u219250)"
+      ],
+      "improvements": [
+        "FCF yield mejor\u00f3 2.1pp",
+        "Upside analistas subi\u00f3 15pp",
+        "Margen op. mejor\u00f3 7.3pp"
+      ]
+    },
+    {
+      "ticker": "RACE.MI",
+      "company_name": "Ferrari N.V.",
+      "sector": "Consumer Cyclical",
+      "severity": "MEDIUM",
+      "drift_score": 3,
+      "days_tracked": 44,
+      "baseline_date": "2026-09-14",
+      "value_score_now": 46.1,
+      "value_score_prev": 57.5,
+      "drift_flags": [
+        "Score cay\u00f3 11pts en 44d (58\u219246)"
+      ],
+      "improvements": []
+    },
+    {
+      "ticker": "AUTO.L",
+      "company_name": "Autotrader Group plc",
+      "sector": "Communication Services",
+      "severity": "MEDIUM",
+      "drift_score": 3,
+      "days_tracked": 44,
+      "baseline_date": "2026-09-14",
+      "value_score_now": 36.5,
+      "value_score_prev": 48.0,
+      "drift_flags": [
+        "Score cay\u00f3 12pts en 44d (48\u219236)"
       ],
       "improvements": []
     },
@@ -409,12 +348,12 @@
       "sector": "Consumer Cyclical",
       "severity": "MEDIUM",
       "drift_score": 3,
-      "days_tracked": 46,
-      "baseline_date": "2026-09-11",
+      "days_tracked": 44,
+      "baseline_date": "2026-09-14",
       "value_score_now": 44.4,
       "value_score_prev": 57.3,
       "drift_flags": [
-        "Score cay\u00f3 13pts en 46d (57\u219244)"
+        "Score cay\u00f3 13pts en 44d (57\u219244)"
       ],
       "improvements": []
     },
@@ -424,29 +363,42 @@
       "sector": "Industrials",
       "severity": "MEDIUM",
       "drift_score": 3,
-      "days_tracked": 46,
-      "baseline_date": "2026-09-11",
+      "days_tracked": 44,
+      "baseline_date": "2026-09-14",
       "value_score_now": 40.6,
       "value_score_prev": 51.0,
       "drift_flags": [
-        "Score cay\u00f3 10pts en 46d (51\u219241)"
+        "Score cay\u00f3 10pts en 44d (51\u219241)"
       ],
-      "improvements": [
-        "Upside analistas subi\u00f3 8pp"
-      ]
+      "improvements": []
     },
     {
-      "ticker": "RACE.MI",
-      "company_name": "Ferrari N.V.",
-      "sector": "Consumer Cyclical",
+      "ticker": "NOVO-B.CO",
+      "company_name": "Novo Nordisk A/S",
+      "sector": "Healthcare",
       "severity": "MEDIUM",
       "drift_score": 3,
-      "days_tracked": 46,
-      "baseline_date": "2026-09-11",
-      "value_score_now": 38.9,
-      "value_score_prev": 57.0,
+      "days_tracked": 44,
+      "baseline_date": "2026-09-14",
+      "value_score_now": 40.3,
+      "value_score_prev": 56.3,
       "drift_flags": [
-        "Score cay\u00f3 18pts en 46d (57\u219239)"
+        "Score cay\u00f3 16pts en 44d (56\u219240)"
+      ],
+      "improvements": []
+    },
+    {
+      "ticker": "INDT.ST",
+      "company_name": "Indutrade AB (publ)",
+      "sector": "Industrials",
+      "severity": "MEDIUM",
+      "drift_score": 3,
+      "days_tracked": 44,
+      "baseline_date": "2026-09-14",
+      "value_score_now": 32.5,
+      "value_score_prev": 46.5,
+      "drift_flags": [
+        "Score cay\u00f3 14pts en 44d (46\u219232)"
       ],
       "improvements": []
     },
@@ -456,15 +408,32 @@
       "sector": "Financial Services",
       "severity": "LOW",
       "drift_score": 2,
-      "days_tracked": 46,
-      "baseline_date": "2026-09-11",
-      "value_score_now": 75.3,
-      "value_score_prev": 33.9,
+      "days_tracked": 44,
+      "baseline_date": "2026-09-14",
+      "value_score_now": 70.0,
+      "value_score_prev": 50.9,
       "drift_flags": [
-        "Upside analistas cay\u00f3 16pp (26%\u219211%)"
+        "Upside analistas cay\u00f3 13pp (26%\u219214%)"
       ],
       "improvements": [
-        "Score mejor\u00f3 41pts (34\u219275)"
+        "Score mejor\u00f3 19pts (51\u219270)"
+      ]
+    },
+    {
+      "ticker": "NDAQ",
+      "company_name": "Nasdaq, Inc.",
+      "sector": "Financial Services",
+      "severity": "LOW",
+      "drift_score": 2,
+      "days_tracked": 44,
+      "baseline_date": "2026-09-14",
+      "value_score_now": 60.7,
+      "value_score_prev": 35.5,
+      "drift_flags": [
+        "Upside analistas cay\u00f3 13pp (24%\u219210%)"
+      ],
+      "improvements": [
+        "Score mejor\u00f3 25pts (36\u219261)"
       ]
     },
     {
@@ -473,141 +442,12 @@
       "sector": "Technology",
       "severity": "LOW",
       "drift_score": 2,
-      "days_tracked": 46,
-      "baseline_date": "2026-09-11",
-      "value_score_now": 62.3,
+      "days_tracked": 44,
+      "baseline_date": "2026-09-14",
+      "value_score_now": 55.3,
       "value_score_prev": 55.1,
       "drift_flags": [
-        "Upside analistas cay\u00f3 21pp (44%\u219223%)"
-      ],
-      "improvements": []
-    },
-    {
-      "ticker": "NDAQ",
-      "company_name": "Nasdaq, Inc.",
-      "sector": "Financial Services",
-      "severity": "LOW",
-      "drift_score": 2,
-      "days_tracked": 46,
-      "baseline_date": "2026-09-11",
-      "value_score_now": 58.5,
-      "value_score_prev": 35.5,
-      "drift_flags": [
-        "Upside analistas cay\u00f3 15pp (24%\u21929%)"
-      ],
-      "improvements": [
-        "Score mejor\u00f3 23pts (36\u219259)"
-      ]
-    },
-    {
-      "ticker": "WTKWY",
-      "company_name": "Wolters Kluwer N.V.",
-      "sector": "Industrials",
-      "severity": "LOW",
-      "drift_score": 2,
-      "days_tracked": 46,
-      "baseline_date": "2026-09-11",
-      "value_score_now": 50.1,
-      "value_score_prev": 36.5,
-      "drift_flags": [
-        "Upside analistas cay\u00f3 29pp (41%\u219212%)"
-      ],
-      "improvements": [
-        "Score mejor\u00f3 14pts (36\u219250)"
-      ]
-    },
-    {
-      "ticker": "V",
-      "company_name": "Visa Inc.",
-      "sector": "Financial Services",
-      "severity": "LOW",
-      "drift_score": 2,
-      "days_tracked": 46,
-      "baseline_date": "2026-09-11",
-      "value_score_now": 44.7,
-      "value_score_prev": 47.0,
-      "drift_flags": [
-        "Upside analistas cay\u00f3 9pp (14%\u21926%)"
-      ],
-      "improvements": []
-    },
-    {
-      "ticker": "EFX",
-      "company_name": "Equifax Inc.",
-      "sector": "Industrials",
-      "severity": "LOW",
-      "drift_score": 2,
-      "days_tracked": 46,
-      "baseline_date": "2026-09-11",
-      "value_score_now": 44.2,
-      "value_score_prev": 34.1,
-      "drift_flags": [
-        "Upside analistas cay\u00f3 23pp (35%\u219212%)"
-      ],
-      "improvements": [
-        "Score mejor\u00f3 10pts (34\u219244)",
-        "Margen op. mejor\u00f3 3.7pp"
-      ]
-    },
-    {
-      "ticker": "IDXX",
-      "company_name": "IDEXX Laboratories, Inc.",
-      "sector": "Healthcare",
-      "severity": "LOW",
-      "drift_score": 2,
-      "days_tracked": 46,
-      "baseline_date": "2026-09-11",
-      "value_score_now": 44.2,
-      "value_score_prev": 30.0,
-      "drift_flags": [
-        "Upside analistas cay\u00f3 12pp (34%\u219222%)"
-      ],
-      "improvements": [
-        "Score mejor\u00f3 14pts (30\u219244)"
-      ]
-    },
-    {
-      "ticker": "STZ",
-      "company_name": "Constellation Brands, Inc.",
-      "sector": "Consumer Defensive",
-      "severity": "LOW",
-      "drift_score": 2,
-      "days_tracked": 46,
-      "baseline_date": "2026-09-11",
-      "value_score_now": 34.7,
-      "value_score_prev": 33.8,
-      "drift_flags": [
-        "Upside analistas cay\u00f3 31pp (42%\u219211%)"
-      ],
-      "improvements": []
-    },
-    {
-      "ticker": "CLPBY",
-      "company_name": "Coloplast A/S",
-      "sector": "Healthcare",
-      "severity": "LOW",
-      "drift_score": 2,
-      "days_tracked": 46,
-      "baseline_date": "2026-09-11",
-      "value_score_now": 33.0,
-      "value_score_prev": 30.2,
-      "drift_flags": [
-        "Upside analistas cay\u00f3 8pp (23%\u219215%)"
-      ],
-      "improvements": []
-    },
-    {
-      "ticker": "CSU.TO",
-      "company_name": "Constellation Software Inc.",
-      "sector": "Technology",
-      "severity": "LOW",
-      "drift_score": 2,
-      "days_tracked": 46,
-      "baseline_date": "2026-09-11",
-      "value_score_now": 32.7,
-      "value_score_prev": 31.9,
-      "drift_flags": [
-        "Upside analistas cay\u00f3 22pp (40%\u219218%)"
+        "Upside analistas cay\u00f3 17pp (44%\u219227%)"
       ],
       "improvements": []
     },
@@ -617,57 +457,125 @@
       "sector": "Industrials",
       "severity": "LOW",
       "drift_score": 2,
-      "days_tracked": 46,
-      "baseline_date": "2026-09-11",
-      "value_score_now": 39.1,
+      "days_tracked": 44,
+      "baseline_date": "2026-09-14",
+      "value_score_now": 52.0,
       "value_score_prev": 35.8,
       "drift_flags": [
-        "Upside analistas cay\u00f3 20pp (25%\u21925%)"
+        "Upside analistas cay\u00f3 18pp (25%\u21928%)"
       ],
-      "improvements": []
+      "improvements": [
+        "Score mejor\u00f3 16pts (36\u219252)"
+      ]
     },
     {
-      "ticker": "BRO",
-      "company_name": "Brown & Brown, Inc.",
-      "sector": "Financial Services",
-      "severity": "LOW",
-      "drift_score": 2,
-      "days_tracked": 46,
-      "baseline_date": "2026-09-11",
-      "value_score_now": 44.9,
-      "value_score_prev": 51.1,
-      "drift_flags": [
-        "Upside analistas cay\u00f3 11pp (16%\u21925%)"
-      ],
-      "improvements": []
-    },
-    {
-      "ticker": "SGSOY",
-      "company_name": "SGS SA",
+      "ticker": "EFX",
+      "company_name": "Equifax Inc.",
       "sector": "Industrials",
       "severity": "LOW",
       "drift_score": 2,
-      "days_tracked": 46,
-      "baseline_date": "2026-09-11",
-      "value_score_now": 36.1,
-      "value_score_prev": 30.8,
+      "days_tracked": 44,
+      "baseline_date": "2026-09-14",
+      "value_score_now": 38.8,
+      "value_score_prev": 34.1,
       "drift_flags": [
-        "Upside analistas cay\u00f3 12pp (24%\u219212%)"
+        "Upside analistas cay\u00f3 21pp (35%\u219214%)"
+      ],
+      "improvements": [
+        "Margen op. mejor\u00f3 3.7pp"
+      ]
+    },
+    {
+      "ticker": "IDXX",
+      "company_name": "IDEXX Laboratories, Inc.",
+      "sector": "Healthcare",
+      "severity": "LOW",
+      "drift_score": 2,
+      "days_tracked": 44,
+      "baseline_date": "2026-09-14",
+      "value_score_now": 38.8,
+      "value_score_prev": 30.0,
+      "drift_flags": [
+        "Upside analistas cay\u00f3 11pp (34%\u219224%)"
+      ],
+      "improvements": [
+        "Score mejor\u00f3 9pts (30\u219239)"
+      ]
+    },
+    {
+      "ticker": "OTIS",
+      "company_name": "Otis Worldwide Corporation",
+      "sector": "Industrials",
+      "severity": "LOW",
+      "drift_score": 2,
+      "days_tracked": 44,
+      "baseline_date": "2026-09-14",
+      "value_score_now": 45.4,
+      "value_score_prev": 33.1,
+      "drift_flags": [
+        "Upside analistas cay\u00f3 13pp (30%\u219217%)"
+      ],
+      "improvements": [
+        "Score mejor\u00f3 12pts (33\u219245)"
+      ]
+    },
+    {
+      "ticker": "ZTS",
+      "company_name": "Zoetis Inc.",
+      "sector": "Healthcare",
+      "severity": "LOW",
+      "drift_score": 2,
+      "days_tracked": 44,
+      "baseline_date": "2026-09-14",
+      "value_score_now": 36.5,
+      "value_score_prev": 32.3,
+      "drift_flags": [
+        "Upside analistas cay\u00f3 12pp (25%\u219213%)"
       ],
       "improvements": []
     },
     {
-      "ticker": "WST",
-      "company_name": "West Pharmaceutical Services, Inc.",
-      "sector": "Healthcare",
+      "ticker": "STZ",
+      "company_name": "Constellation Brands, Inc.",
+      "sector": "Consumer Defensive",
       "severity": "LOW",
       "drift_score": 2,
-      "days_tracked": 46,
-      "baseline_date": "2026-09-11",
-      "value_score_now": 35.9,
-      "value_score_prev": 41.3,
+      "days_tracked": 44,
+      "baseline_date": "2026-09-14",
+      "value_score_now": 35.0,
+      "value_score_prev": 33.8,
       "drift_flags": [
-        "Upside analistas cay\u00f3 12pp (18%\u21926%)"
+        "Upside analistas cay\u00f3 26pp (42%\u219216%)"
+      ],
+      "improvements": []
+    },
+    {
+      "ticker": "CSU.TO",
+      "company_name": "Constellation Software Inc.",
+      "sector": "Technology",
+      "severity": "LOW",
+      "drift_score": 2,
+      "days_tracked": 44,
+      "baseline_date": "2026-09-14",
+      "value_score_now": 32.3,
+      "value_score_prev": 31.9,
+      "drift_flags": [
+        "Upside analistas cay\u00f3 20pp (40%\u219220%)"
+      ],
+      "improvements": []
+    },
+    {
+      "ticker": "ECL",
+      "company_name": "Ecolab Inc.",
+      "sector": "Basic Materials",
+      "severity": "LOW",
+      "drift_score": 2,
+      "days_tracked": 44,
+      "baseline_date": "2026-09-14",
+      "value_score_now": 31.0,
+      "value_score_prev": 38.6,
+      "drift_flags": [
+        "Upside analistas cay\u00f3 9pp (21%\u219212%)"
       ],
       "improvements": []
     },
@@ -677,27 +585,27 @@
       "sector": "Consumer Defensive",
       "severity": "LOW",
       "drift_score": 2,
-      "days_tracked": 46,
-      "baseline_date": "2026-09-11",
+      "days_tracked": 44,
+      "baseline_date": "2026-09-14",
       "value_score_now": 33.2,
       "value_score_prev": 43.0,
       "drift_flags": [
-        "Upside analistas cay\u00f3 19pp (20%\u21921%)"
+        "Upside analistas cay\u00f3 18pp (20%\u21923%)"
       ],
       "improvements": []
     },
     {
-      "ticker": "PEP",
-      "company_name": "PepsiCo, Inc.",
-      "sector": "Consumer Defensive",
+      "ticker": "SGSOY",
+      "company_name": "SGS SA",
+      "sector": "Industrials",
       "severity": "LOW",
       "drift_score": 2,
-      "days_tracked": 46,
-      "baseline_date": "2026-09-11",
-      "value_score_now": 33.2,
-      "value_score_prev": 34.6,
+      "days_tracked": 44,
+      "baseline_date": "2026-09-14",
+      "value_score_now": 31.8,
+      "value_score_prev": 30.8,
       "drift_flags": [
-        "Upside analistas cay\u00f3 9pp (13%\u21924%)"
+        "Upside analistas cay\u00f3 13pp (24%\u219211%)"
       ],
       "improvements": []
     },
@@ -707,12 +615,12 @@
       "sector": "Consumer Defensive",
       "severity": "LOW",
       "drift_score": 2,
-      "days_tracked": 46,
-      "baseline_date": "2026-09-11",
+      "days_tracked": 44,
+      "baseline_date": "2026-09-14",
       "value_score_now": 58.2,
       "value_score_prev": 62.5,
       "drift_flags": [
-        "Upside analistas cay\u00f3 10pp (14%\u21924%)"
+        "Upside analistas cay\u00f3 9pp (14%\u21925%)"
       ],
       "improvements": []
     },
@@ -722,12 +630,12 @@
       "sector": "Industrials",
       "severity": "LOW",
       "drift_score": 2,
-      "days_tracked": 46,
-      "baseline_date": "2026-09-11",
+      "days_tracked": 44,
+      "baseline_date": "2026-09-14",
       "value_score_now": 49.9,
       "value_score_prev": 54.6,
       "drift_flags": [
-        "Upside analistas cay\u00f3 22pp (27%\u21925%)"
+        "Upside analistas cay\u00f3 21pp (27%\u21926%)"
       ],
       "improvements": []
     },
@@ -737,12 +645,12 @@
       "sector": "Communication Services",
       "severity": "LOW",
       "drift_score": 2,
-      "days_tracked": 46,
-      "baseline_date": "2026-09-11",
+      "days_tracked": 44,
+      "baseline_date": "2026-09-14",
       "value_score_now": 48.1,
-      "value_score_prev": 56.6,
+      "value_score_prev": 49.0,
       "drift_flags": [
-        "Upside analistas cay\u00f3 12pp (13%\u21921%)"
+        "Upside analistas cay\u00f3 8pp (9%\u21920%)"
       ],
       "improvements": []
     },
@@ -752,12 +660,12 @@
       "sector": "Consumer Cyclical",
       "severity": "LOW",
       "drift_score": 2,
-      "days_tracked": 46,
-      "baseline_date": "2026-09-11",
+      "days_tracked": 44,
+      "baseline_date": "2026-09-14",
       "value_score_now": 46.9,
-      "value_score_prev": 41.9,
+      "value_score_prev": 46.9,
       "drift_flags": [
-        "Upside analistas cay\u00f3 16pp (27%\u219211%)"
+        "Upside analistas cay\u00f3 11pp (23%\u219213%)"
       ],
       "improvements": []
     },
@@ -767,12 +675,12 @@
       "sector": "Consumer Defensive",
       "severity": "LOW",
       "drift_score": 2,
-      "days_tracked": 46,
-      "baseline_date": "2026-09-11",
+      "days_tracked": 44,
+      "baseline_date": "2026-09-14",
       "value_score_now": 44.5,
       "value_score_prev": 51.1,
       "drift_flags": [
-        "Upside analistas cay\u00f3 11pp (24%\u219213%)"
+        "Upside analistas cay\u00f3 10pp (24%\u219215%)"
       ],
       "improvements": []
     },
@@ -782,12 +690,27 @@
       "sector": "Consumer Defensive",
       "severity": "LOW",
       "drift_score": 2,
-      "days_tracked": 46,
-      "baseline_date": "2026-09-11",
-      "value_score_now": 39.5,
-      "value_score_prev": 36.9,
+      "days_tracked": 44,
+      "baseline_date": "2026-09-14",
+      "value_score_now": 41.5,
+      "value_score_prev": 42.2,
       "drift_flags": [
-        "Upside analistas cay\u00f3 11pp (26%\u219215%)"
+        "Upside analistas cay\u00f3 8pp (24%\u219216%)"
+      ],
+      "improvements": []
+    },
+    {
+      "ticker": "OR.PA",
+      "company_name": "L'Or\u00e9al S.A.",
+      "sector": "Consumer Defensive",
+      "severity": "LOW",
+      "drift_score": 2,
+      "days_tracked": 44,
+      "baseline_date": "2026-09-14",
+      "value_score_now": 32.9,
+      "value_score_prev": 37.2,
+      "drift_flags": [
+        "Upside analistas cay\u00f3 8pp (9%\u21920%)"
       ],
       "improvements": []
     }

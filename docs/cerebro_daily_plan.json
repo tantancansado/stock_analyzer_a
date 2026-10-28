@@ -1,38 +1,38 @@
 {
-  "generated_at": "2026-10-27",
+  "generated_at": "2026-10-28",
   "macro_regime": "CALM",
   "composite_score": 6.0,
-  "sesgo": "DEFENSIVO",
-  "confianza": 78,
-  "situacion": "Mercado calmado con se\u00f1ales mixtas y riesgo bajo, pero sesgo defensivo por presi\u00f3n del d\u00f3lar y skew.",
-  "narrativa": "El \u00edndice de skew y el DXY est\u00e1n en niveles extremos, indicando aversi\u00f3n al riesgo y presi\u00f3n sobre acciones peque\u00f1as. Las fortalezas en cobre y oro sugieren un refugio en materias primas, favoreciendo una postura defensiva para los inversores VALUE.",
+  "sesgo": "ALCISTA",
+  "confianza": 68,
+  "situacion": "R\u00e9gimen CALM, composite +6.0/30. 2 plays macro identificadas.",
+  "narrativa": "El mercado se encuentra en r\u00e9gimen CALM con score +6.0. Contexto permite selecci\u00f3n VALUE disciplinada. Cerebro detecta 1 tickers a evitar y 0 potenciales short squeezes.",
   "acciones_inmediatas": [
     {
       "prioridad": 1,
       "accion": "COMPRAR",
-      "instrumento": "SAP",
-      "razon": "Valoraci\u00f3n atractiva y fuerte flujo de caja en un entorno defensivo.",
-      "catalizador": "Datos de inflaci\u00f3n PCE que pueden reforzar la demanda de activos seguros.",
-      "size_hint": "media (3-4%)",
-      "invalidacion": "Una fuerte recuperaci\u00f3n del DXY o ca\u00edda del precio del cobre."
+      "instrumento": "TLT/VGLT",
+      "razon": "Yield 30yr en 5.30% \u2014 zona hist\u00f3ricamente atractiva para bonos largos",
+      "catalizador": "2018-19: TLT +18% cuando yields revertieron desde 3.25%",
+      "size_hint": "peque\u00f1a (1-2%)",
+      "invalidacion": "La Fed puede mantener tipos altos m\u00e1s tiempo \u2014 size peque\u00f1o"
     },
     {
       "prioridad": 2,
       "accion": "COMPRAR",
-      "instrumento": "TLT",
-      "razon": "Rendimiento de 30 a\u00f1os en zona atractiva para bonos largos.",
-      "catalizador": "Fed Meeting que podr\u00eda confirmar pol\u00edtica de tasas estables.",
+      "instrumento": "IWM",
+      "razon": "Small caps en percentil 16% pero cr\u00e9dito OK \u2014 divergencia excesiva",
+      "catalizador": "2016 post-elecci\u00f3n: IWM +20% en 3 meses desde valuaciones deprimidas",
       "size_hint": "peque\u00f1a (1-2%)",
-      "invalidacion": "Subida inesperada de tasas por parte de la Fed."
+      "invalidacion": "Si cr\u00e9dito deteriora, small caps caen m\u00e1s \u2014 monitorizar HYG"
     },
     {
       "prioridad": 3,
-      "accion": "VIGILAR",
-      "instrumento": "IWM",
-      "razon": "Small caps en fuerte divergencia, pero cr\u00e9dito s\u00f3lido.",
-      "catalizador": "GDP Advance que podr\u00eda mejorar el sentimiento de riesgo.",
-      "size_hint": "peque\u00f1a (1-2%)",
-      "invalidacion": "Confirmaci\u00f3n de ca\u00edda de liquidez o deterioro crediticio."
+      "accion": "VENDER",
+      "instrumento": "MRSH",
+      "razon": "Thesis drift HIGH (46d): Score cay\u00f3 11pts en 46d (42\u219232)",
+      "catalizador": "Se\u00f1al AVOID activa en Cerebro",
+      "size_hint": "grande (5%+)",
+      "invalidacion": "Score Cerebro mejora a neutral"
     }
   ],
   "macro_plays": [
@@ -54,7 +54,7 @@
     {
       "instrument": "IWM",
       "direction": "LONG (contrarian)",
-      "thesis": "Small caps en percentil 13% pero cr\u00e9dito OK \u2014 divergencia excesiva",
+      "thesis": "Small caps en percentil 16% pero cr\u00e9dito OK \u2014 divergencia excesiva",
       "historical": "2016 post-elecci\u00f3n: IWM +20% en 3 meses desde valuaciones deprimidas",
       "risk": "Si cr\u00e9dito deteriora, small caps caen m\u00e1s \u2014 monitorizar HYG",
       "timeframe": "2-3 meses",
@@ -67,42 +67,35 @@
       }
     }
   ],
-  "macro_plays_commentary": "Mantener posiciones largas en TLT y IWM como apuestas macro defensivas y contrarias.",
+  "macro_plays_commentary": "2 plays macro rule-based generadas sin IA.",
   "value_en_entorno": [
     {
       "ticker": "SAP",
-      "score": 75.7,
+      "score": 67.7,
       "sector": "Technology",
-      "fcf_yield_pct": 3.71,
-      "grade": "B"
-    },
-    {
-      "ticker": "BR",
-      "score": 68.7,
-      "sector": "Technology",
-      "fcf_yield_pct": 6.03,
+      "fcf_yield_pct": 3.74,
       "grade": "B"
     },
     {
       "ticker": "SAP.DE",
       "score": 63.9,
       "sector": "Technology",
-      "fcf_yield_pct": 3.73,
+      "fcf_yield_pct": 3.72,
       "grade": "B"
     },
     {
       "ticker": "ADSK",
-      "score": 62.3,
+      "score": 55.3,
       "sector": "Technology",
-      "fcf_yield_pct": 5.41,
+      "fcf_yield_pct": 5.57,
       "grade": "B"
     }
   ],
-  "value_en_entorno_razon": "Los picks VALUE como SAP y BR presentan altos scores, buen FCF y sectores defensivos que se benefician del entorno de bajo riesgo y alta aversi\u00f3n al riesgo.",
+  "value_en_entorno_razon": "Tickers VALUE seleccionados para r\u00e9gimen CALM.",
   "evitar": [
     {
-      "ticker": "SPGI",
-      "razon": "Se\u00f1al de salida por deterioro de fundamentos recientes."
+      "ticker": "MRSH",
+      "razon": "Thesis drift HIGH (46d): Score cay\u00f3 11pts en 46d (42\u219232)"
     }
   ],
   "agenda_semana": [
@@ -110,22 +103,22 @@
       "fecha": "2026-10-28",
       "evento": "Fed Meeting",
       "impacto": "ALTO",
-      "accion_sugerida": "Revisar exposici\u00f3n a bonos y ajustar si se anuncian cambios de pol\u00edtica."
+      "accion_sugerida": "Reducir riesgo antes / evaluar reacci\u00f3n del mercado despu\u00e9s"
     },
     {
       "fecha": "2026-10-29",
       "evento": "GDP Advance",
       "impacto": "MEDIO",
-      "accion_sugerida": "Vigilar reacci\u00f3n de small caps y ajustar IWM si mejora el crecimiento."
+      "accion_sugerida": "Reducir riesgo antes / evaluar reacci\u00f3n del mercado despu\u00e9s"
     },
     {
       "fecha": "2026-10-30",
       "evento": "PCE Inflation",
       "impacto": "ALTO",
-      "accion_sugerida": "Confirmar posici\u00f3n defensiva; aumentar exposici\u00f3n a oro y bonos si la inflaci\u00f3n se mantiene alta."
+      "accion_sugerida": "Reducir riesgo antes / evaluar reacci\u00f3n del mercado despu\u00e9s"
     }
   ],
-  "frase_del_dia": "\u201cLa paciencia es la mejor estrategia de inversi\u00f3n.\u201d \u2013 Warren Buffett",
-  "mensaje_telegram": "\ud83d\udcca D\u00eda defensivo: compra SAP y TLT, vigila IWM. Fed y PCE son claves. Evita SPGI. #VALUE #Bonos #Defensa",
-  "ai_powered": true
+  "frase_del_dia": "El mayor riesgo es no tomar ninguno. \u2014 Peter Lynch",
+  "mensaje_telegram": "\ud83e\udde0 CEREBRO 2026-10-28 | CALM (+6.0) | ALCISTA | VALUE: SAP SAP.DE ADSK | Evitar: MRSH",
+  "ai_powered": false
 }

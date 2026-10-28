@@ -1,15 +1,38 @@
 {
-  "scan_date": "2026-10-27",
-  "scan_time": "06:13",
+  "scan_date": "2026-10-28",
+  "scan_time": "07:06",
   "tickers": [
-    "MCD",
+    "UBER",
     "AMAT",
-    "LRCX",
-    "UBER"
+    "MCD",
+    "LRCX"
   ],
-  "count": 0,
-  "alta_count": 0,
+  "count": 2,
+  "alta_count": 2,
   "media_count": 0,
-  "new_alerts": 0,
-  "items": []
+  "new_alerts": 2,
+  "items": [
+    {
+      "id": "earn_UBER_20261104",
+      "ticker": "UBER",
+      "title": "⏰ Earnings en 7 días — 04 Nov",
+      "source": "Earnings Calendar",
+      "pub_date": "2026-10-28T07:06:10.685420+00:00",
+      "time_ago": "",
+      "url": "",
+      "importance": "ALTA",
+      "sentiment": "NEUTRAL"
+    },
+    {
+      "id": "earn_MCD_20261104",
+      "ticker": "MCD",
+      "title": "⏰ Earnings en 7 días — 04 Nov",
+      "source": "Earnings Calendar",
+      "pub_date": "2026-10-28T07:06:11.698800+00:00",
+      "time_ago": "",
+      "url": "",
+      "importance": "ALTA",
+      "sentiment": "NEUTRAL"
+    }
+  ]
 }

@@ -1,15 +1,15 @@
 {
-  "generated_at": "2026-10-27",
-  "total_positions": 93,
+  "generated_at": "2026-10-28",
+  "total_positions": 94,
   "risks": [
     {
       "type": "SECTOR_CONCENTRATION",
       "severity": "HIGH",
-      "message": "55% de se\u00f1ales en Unknown (51/93) \u2014 concentraci\u00f3n elevada",
+      "message": "60% de se\u00f1ales en Unknown (56/94) \u2014 concentraci\u00f3n elevada",
       "detail": {
         "sector": "Unknown",
-        "count": 51,
-        "pct": 55
+        "count": 56,
+        "pct": 60
       }
     },
     {
@@ -17,37 +17,37 @@
       "severity": "LOW",
       "message": "100% en mercado US \u2014 poca diversificaci\u00f3n geogr\u00e1fica",
       "detail": {
-        "us": 93,
+        "us": 94,
         "eu": 0
       }
     }
   ],
-  "narrative": "1. **Diversifica el sector**: reduce la exposici\u00f3n al sector \u201cUnknown\u201d vendiendo parte de esas posiciones y reasignando el capital a industrias con menor correlaci\u00f3n, como tecnolog\u00eda, salud o consumo b\u00e1sico, para equilibrar la distribuci\u00f3n sectorial.\n\n2. **Ampl\u00eda la exposici\u00f3n geogr\u00e1fica**: incorpora activos de mercados internacionales (Europa, Asia\u2011Pac\u00edfico o mercados emergentes) mediante ETFs o fondos globales, de modo que el portafolio no dependa exclusivamente del desempe\u00f1o del mercado estadounidense.",
+  "narrative": "- Diversificar la cartera invirtiendo en sectores con menor exposici\u00f3n y ampliando la cobertura a mercados internacionales.  \n- Rebalancear la asignaci\u00f3n de activos para reducir la dependencia de se\u00f1ales desconocidas y aumentar la presencia en regiones fuera de EE.\u202fUU.",
   "sector_breakdown": [
     {
       "sector": "Unknown",
-      "count": 51,
-      "pct": 55
+      "count": 56,
+      "pct": 60
     },
     {
       "sector": "Financial Services",
-      "count": 13,
-      "pct": 14
-    },
-    {
-      "sector": "Technology",
-      "count": 8,
-      "pct": 9
+      "count": 12,
+      "pct": 13
     },
     {
       "sector": "Industrials",
-      "count": 7,
-      "pct": 8
+      "count": 6,
+      "pct": 6
+    },
+    {
+      "sector": "Technology",
+      "count": 6,
+      "pct": 6
     },
     {
       "sector": "Healthcare",
-      "count": 6,
-      "pct": 6
+      "count": 5,
+      "pct": 5
     },
     {
       "sector": "Consumer Cyclical",
@@ -55,7 +55,7 @@
       "pct": 3
     },
     {
-      "sector": "Energy",
+      "sector": "Communication Services",
       "count": 2,
       "pct": 2
     },
@@ -66,6 +66,6 @@
     }
   ],
   "region_breakdown": {
-    "US": 93
+    "US": 94
   }
 }

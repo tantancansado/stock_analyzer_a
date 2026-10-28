@@ -1,0 +1,124 @@
+{
+  "generated_at": "2026-10-28",
+  "macro_regime": "CALM",
+  "composite_score": 6.0,
+  "sesgo": "ALCISTA",
+  "confianza": 68,
+  "situacion": "R\u00e9gimen CALM, composite +6.0/30. 2 plays macro identificadas.",
+  "narrativa": "El mercado se encuentra en r\u00e9gimen CALM con score +6.0. Contexto permite selecci\u00f3n VALUE disciplinada. Cerebro detecta 1 tickers a evitar y 0 potenciales short squeezes.",
+  "acciones_inmediatas": [
+    {
+      "prioridad": 1,
+      "accion": "COMPRAR",
+      "instrumento": "TLT/VGLT",
+      "razon": "Yield 30yr en 5.30% \u2014 zona hist\u00f3ricamente atractiva para bonos largos",
+      "catalizador": "2018-19: TLT +18% cuando yields revertieron desde 3.25%",
+      "size_hint": "peque\u00f1a (1-2%)",
+      "invalidacion": "La Fed puede mantener tipos altos m\u00e1s tiempo \u2014 size peque\u00f1o"
+    },
+    {
+      "prioridad": 2,
+      "accion": "COMPRAR",
+      "instrumento": "IWM",
+      "razon": "Small caps en percentil 16% pero cr\u00e9dito OK \u2014 divergencia excesiva",
+      "catalizador": "2016 post-elecci\u00f3n: IWM +20% en 3 meses desde valuaciones deprimidas",
+      "size_hint": "peque\u00f1a (1-2%)",
+      "invalidacion": "Si cr\u00e9dito deteriora, small caps caen m\u00e1s \u2014 monitorizar HYG"
+    },
+    {
+      "prioridad": 3,
+      "accion": "VENDER",
+      "instrumento": "MRSH",
+      "razon": "Thesis drift HIGH (46d): Score cay\u00f3 11pts en 46d (42\u219232)",
+      "catalizador": "Se\u00f1al AVOID activa en Cerebro",
+      "size_hint": "grande (5%+)",
+      "invalidacion": "Score Cerebro mejora a neutral"
+    }
+  ],
+  "macro_plays": [
+    {
+      "instrument": "TLT/VGLT",
+      "direction": "LONG",
+      "thesis": "Yield 30yr en 5.30% \u2014 zona hist\u00f3ricamente atractiva para bonos largos",
+      "historical": "2018-19: TLT +18% cuando yields revertieron desde 3.25%",
+      "risk": "La Fed puede mantener tipos altos m\u00e1s tiempo \u2014 size peque\u00f1o",
+      "timeframe": "3-6 meses",
+      "score": 95,
+      "eu_alternative": {
+        "ticker": "DTLA",
+        "name": "Xtrackers US Treasuries 20yr+ UCITS ETF",
+        "exchange": "Xetra",
+        "available": "DEGIRO/IB"
+      }
+    },
+    {
+      "instrument": "IWM",
+      "direction": "LONG (contrarian)",
+      "thesis": "Small caps en percentil 16% pero cr\u00e9dito OK \u2014 divergencia excesiva",
+      "historical": "2016 post-elecci\u00f3n: IWM +20% en 3 meses desde valuaciones deprimidas",
+      "risk": "Si cr\u00e9dito deteriora, small caps caen m\u00e1s \u2014 monitorizar HYG",
+      "timeframe": "2-3 meses",
+      "score": 60,
+      "eu_alternative": {
+        "ticker": "CSUS",
+        "name": "iShares MSCI USA Small Cap UCITS ETF",
+        "exchange": "LSE",
+        "available": "DEGIRO/IB"
+      }
+    }
+  ],
+  "macro_plays_commentary": "2 plays macro rule-based generadas sin IA.",
+  "value_en_entorno": [
+    {
+      "ticker": "SAP",
+      "score": 67.7,
+      "sector": "Technology",
+      "fcf_yield_pct": 3.74,
+      "grade": "B"
+    },
+    {
+      "ticker": "SAP.DE",
+      "score": 63.9,
+      "sector": "Technology",
+      "fcf_yield_pct": 3.72,
+      "grade": "B"
+    },
+    {
+      "ticker": "ADSK",
+      "score": 55.3,
+      "sector": "Technology",
+      "fcf_yield_pct": 5.57,
+      "grade": "B"
+    }
+  ],
+  "value_en_entorno_razon": "Tickers VALUE seleccionados para r\u00e9gimen CALM.",
+  "evitar": [
+    {
+      "ticker": "MRSH",
+      "razon": "Thesis drift HIGH (46d): Score cay\u00f3 11pts en 46d (42\u219232)"
+    }
+  ],
+  "agenda_semana": [
+    {
+      "fecha": "2026-10-28",
+      "evento": "Fed Meeting",
+      "impacto": "ALTO",
+      "accion_sugerida": "Reducir riesgo antes / evaluar reacci\u00f3n del mercado despu\u00e9s"
+    },
+    {
+      "fecha": "2026-10-29",
+      "evento": "GDP Advance",
+      "impacto": "MEDIO",
+      "accion_sugerida": "Reducir riesgo antes / evaluar reacci\u00f3n del mercado despu\u00e9s"
+    },
+    {
+      "fecha": "2026-10-30",
+      "evento": "PCE Inflation",
+      "impacto": "ALTO",
+      "accion_sugerida": "Reducir riesgo antes / evaluar reacci\u00f3n del mercado despu\u00e9s"
+    }
+  ],
+  "frase_del_dia": "El mayor riesgo es no tomar ninguno. \u2014 Peter Lynch",
+  "mensaje_telegram": "\ud83e\udde0 CEREBRO 2026-10-28 | CALM (+6.0) | ALCISTA | VALUE: SAP SAP.DE ADSK | Evitar: MRSH",
+  "ai_powered": false
+}

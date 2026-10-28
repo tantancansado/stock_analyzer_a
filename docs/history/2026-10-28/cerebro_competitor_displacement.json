@@ -1,0 +1,88 @@
+{
+  "generated_at": "2026-10-28",
+  "total": 6,
+  "dropped_count": 4,
+  "narrative": "",
+  "displacements": [
+    {
+      "type": "COMPETITOR_RISE",
+      "dropped_ticker": "ROP",
+      "sector": "Technology",
+      "prev_score": 58.140000000000015,
+      "replacements": [
+        "VRSN",
+        "MSFT",
+        "SAP"
+      ],
+      "top_replacement": "VRSN",
+      "top_replacement_score": 79.92500000000001,
+      "detail": "ROP sali\u00f3 de VALUE (58pts); peers en Technology: VRSN, MSFT"
+    },
+    {
+      "type": "COMPETITOR_RISE",
+      "dropped_ticker": "AON",
+      "sector": "Financial Services",
+      "prev_score": 74.065,
+      "replacements": [
+        "MSCI",
+        "MCO",
+        "MA"
+      ],
+      "top_replacement": "MSCI",
+      "top_replacement_score": 70.01499999999999,
+      "detail": "AON sali\u00f3 de VALUE (74pts); peers en Financial Services: MSCI, MCO"
+    },
+    {
+      "type": "COMPETITOR_RISE",
+      "dropped_ticker": "WCN",
+      "sector": "Industrials",
+      "prev_score": 62.60999999999999,
+      "replacements": [
+        "EXPN.L",
+        "WM"
+      ],
+      "top_replacement": "EXPN.L",
+      "top_replacement_score": 56.3,
+      "detail": "WCN sali\u00f3 de VALUE (63pts); peers en Industrials: EXPN.L, WM"
+    },
+    {
+      "type": "COMPETITOR_RISE",
+      "dropped_ticker": "BR",
+      "sector": "Technology",
+      "prev_score": 68.72999999999999,
+      "replacements": [
+        "VRSN",
+        "MSFT",
+        "SAP"
+      ],
+      "top_replacement": "VRSN",
+      "top_replacement_score": 79.92500000000001,
+      "detail": "BR sali\u00f3 de VALUE (69pts); peers en Technology: VRSN, MSFT"
+    },
+    {
+      "type": "SECTOR_TAILWIND",
+      "sector": "Technology",
+      "rotation_score": 100.0,
+      "beneficiaries": [
+        "VRSN",
+        "MSFT",
+        "SAP"
+      ],
+      "top_ticker": "VRSN",
+      "top_score": 79.92500000000001,
+      "detail": "Sector Technology l\u00edder (RS 100) \u2014 VRSN, MSFT, SAP son los picks VALUE"
+    },
+    {
+      "type": "SECTOR_TAILWIND",
+      "sector": "Healthcare",
+      "rotation_score": 100.0,
+      "beneficiaries": [
+        "AZN.L",
+        "CLPBY"
+      ],
+      "top_ticker": "AZN.L",
+      "top_score": 54.8,
+      "detail": "Sector Healthcare l\u00edder (RS 100) \u2014 AZN.L, CLPBY son los picks VALUE"
+    }
+  ]
+}

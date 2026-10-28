@@ -1,44 +1,145 @@
 {
-  "date": "2026-10-28",
-  "timestamp": "2026-10-28T06:42:43.256816",
-  "narrative": "",
-  "macro_regime": "CALM",
-  "picks_count": 8,
-  "top_picks": [
-    {
-      "ticker": "VRSN",
-      "sector": "Technology",
-      "value_score": 79.92500000000001,
-      "analyst_upside_pct": 11.7,
-      "conviction_grade": null
-    },
-    {
-      "ticker": "MSFT",
-      "sector": "Technology",
-      "value_score": 76.19999999999999,
-      "analyst_upside_pct": 13.9,
-      "conviction_grade": null
-    },
-    {
-      "ticker": "MSCI",
-      "sector": "Financial Services",
-      "value_score": 70.01499999999999,
-      "analyst_upside_pct": 13.6,
-      "conviction_grade": null
-    },
-    {
-      "ticker": "SAP",
-      "sector": "Technology",
-      "value_score": 67.66000000000001,
-      "analyst_upside_pct": 19.1,
-      "conviction_grade": null
-    },
-    {
-      "ticker": "MCO",
-      "sector": "Financial Services",
-      "value_score": 64.36500000000001,
-      "analyst_upside_pct": 16.5,
-      "conviction_grade": null
+  "fecha": "2026-10-28",
+  "texto": "<b>El único comprable de hoy viene con trampa.</b>\n\nOXY (62,73$) es la única entrada que marca el sistema, pero ojo: tiene resultados en 12 días, así que la entrada se juega bastante a esa reacción. Además el modelo por PER dice que ya está cara (-26,6%) y su beneficio no está respaldado por el crecimiento real del negocio, así que no la compres pensando en \"calidad\", es una apuesta táctica.\n\n<b>Para vigilar, nada para comprar todavía:</b>\nFICO sigue muy castigada (-62,8% desde máximo) pero el timing sigue siendo esperar, y tiene resultados en solo 7 días.\nDPZ cae por un motivo de negocio concreto: las ventas comparables se han hundido a +0,3% y la dirección ha recortado guidance — barata, pero todavía cayendo.\nMCO cae porque en el último trimestre falló tanto en beneficio como en ingresos frente a lo esperado; los modelos están muy divididos sobre su valor, así que paciencia.\nAON y ADSK siguen en pantalla de espera, sin motivo claro de caída identificado aún.\n\nHoy se han caído de la lista de comprables AON, BR, ROP y WCN — no hay tesis rota detrás, simplemente dejaron de cumplir los criterios.\n\nEl sistema lleva un 76,3% de acierto en los últimos 180 días, con un retorno medio del 10% sobre 38 señales cerradas: es la cifra definitiva, úsala para calibrar el tamaño de tus posiciones, no para confiarte.",
+  "hechos": {
+    "fecha": "2026-10-28",
+    "total_lista": 49,
+    "datos_incompletos": [],
+    "picks_nuevos": [],
+    "picks_que_se_van": [
+      "AON",
+      "BR",
+      "ROP",
+      "WCN"
+    ],
+    "comprables": [
+      {
+        "ticker": "OXY",
+        "empresa": "Occidental Petroleum Corporati",
+        "score": 37.13,
+        "precio": 62.73,
+        "upside_analista": 12.8,
+        "upside_triangulado": -6.9,
+        "divergencia": "MEDIA",
+        "fcf_yield": 7.25,
+        "del_maximo_pct": -7.0,
+        "rs_6m": -4.51,
+        "timing": "ENTRADA",
+        "por_que_cae": "",
+        "por_que_cae_detalle": "",
+        "dias_a_resultados": 12.0,
+        "objetivo_por_pe_pct": -26.6,
+        "objetivo_dcf_pct": null,
+        "beneficio_respaldado_por_negocio": false
+      }
+    ],
+    "vigilar": [
+      {
+        "ticker": "FICO",
+        "empresa": "Fair Isaac Corporation",
+        "score": 53.34999999999999,
+        "precio": 691.74,
+        "upside_analista": 35.4,
+        "upside_triangulado": 27.9,
+        "divergencia": "",
+        "fcf_yield": 6.44,
+        "del_maximo_pct": -62.8,
+        "rs_6m": -42.42,
+        "timing": "ESPERAR",
+        "por_que_cae": "SIN_DATOS",
+        "por_que_cae_detalle": "",
+        "dias_a_resultados": 7.0,
+        "objetivo_por_pe_pct": null,
+        "objetivo_dcf_pct": 20.4,
+        "beneficio_respaldado_por_negocio": true
+      },
+      {
+        "ticker": "AON",
+        "empresa": "Aon plc",
+        "score": 50.96000000000001,
+        "precio": 302.5,
+        "upside_analista": 17.1,
+        "upside_triangulado": 29.0,
+        "divergencia": "",
+        "fcf_yield": 5.09,
+        "del_maximo_pct": -20.9,
+        "rs_6m": -14.45,
+        "timing": "ESPERAR",
+        "por_que_cae": "SIN_DATOS",
+        "por_que_cae_detalle": "",
+        "dias_a_resultados": 0.0,
+        "objetivo_por_pe_pct": 40.8,
+        "objetivo_dcf_pct": null,
+        "beneficio_respaldado_por_negocio": true
+      },
+      {
+        "ticker": "DPZ",
+        "empresa": "Domino's Pizza, Inc.",
+        "score": 50.36,
+        "precio": 312.03,
+        "upside_analista": 14.2,
+        "upside_triangulado": 25.2,
+        "divergencia": "",
+        "fcf_yield": 6.23,
+        "del_maximo_pct": -29.5,
+        "rs_6m": -13.65,
+        "timing": "ESPERAR",
+        "por_que_cae": "CICLICO",
+        "por_que_cae_detalle": "Q3 2026: operaciones +8.4% y BPA +9.2%, pero same-store sales se desplomaría a +0.3% vs +7% YoY; management recortó guidance 2026 a extremo bajo citando presión macro. Analistas co",
+        "dias_a_resultados": 117.0,
+        "objetivo_por_pe_pct": 46.4,
+        "objetivo_dcf_pct": 25.2,
+        "beneficio_respaldado_por_negocio": true
+      },
+      {
+        "ticker": "ADSK",
+        "empresa": "Autodesk, Inc.",
+        "score": 55.325,
+        "precio": 242.1,
+        "upside_analista": 27.0,
+        "upside_triangulado": 14.3,
+        "divergencia": "MEDIA",
+        "fcf_yield": 5.57,
+        "del_maximo_pct": -24.3,
+        "rs_6m": -6.07,
+        "timing": "VIGILAR",
+        "por_que_cae": "SIN_DATOS",
+        "por_que_cae_detalle": "",
+        "dias_a_resultados": 30.0,
+        "objetivo_por_pe_pct": null,
+        "objetivo_dcf_pct": 1.6,
+        "beneficio_respaldado_por_negocio": true
+      },
+      {
+        "ticker": "MCO",
+        "empresa": "Moody's Corporation",
+        "score": 64.36500000000001,
+        "precio": 474.0,
+        "upside_analista": 16.5,
+        "upside_triangulado": null,
+        "divergencia": "ALTA",
+        "fcf_yield": 3.67,
+        "del_maximo_pct": -13.3,
+        "rs_6m": -5.23,
+        "timing": "VIGILAR",
+        "por_que_cae": "EVENTO",
+        "por_que_cae_detalle": "<cite index=\"3-2,3-3\">Moody's reportó Q3 2026 con ajustados EPS de $4.14 vs. estimado de $4.25 (-2.51%) y revenue de $2.02B vs. $2.08B esperado (-2.63%)</cite>. <cite index=\"16-1\">",
+        "dias_a_resultados": 112.0,
+        "objetivo_por_pe_pct": 38.6,
+        "objetivo_dcf_pct": -32.8,
+        "beneficio_respaldado_por_negocio": true
+      }
+    ],
+    "tesis_rotas": [],
+    "rotas_son_tuyas": true,
+    "regimen_cambio": null,
+    "rendimiento_sistema": {
+      "horizonte": "180d",
+      "es_horizonte_definitivo": true,
+      "nota": null,
+      "acierto_pct": 76.3,
+      "retorno_medio": 10.02,
+      "n": 38
     }
-  ]
+  }
 }

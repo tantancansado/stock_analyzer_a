@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-10-27",
+  "generated_at": "2026-10-28",
   "regime": "NEUTRAL",
-  "narrative": "1. Mant\u00e9n posici\u00f3n larga en VRSN, MSCI y SYK, ya que convergen en se\u00f1ales de compra y no presentan alertas cr\u00edticas.  \n2. Reduce exposici\u00f3n en NDSN y SPGI tras la ca\u00edda abrupta de sus scores; considera vender parcialmente o colocar stops ajustados.  \n3. Vigila de cerca los earnings de 7741.T y AON, pues sus advertencias de resultados pueden generar volatilidad sectorial.  \n4. Evita nuevas entradas en AAL.L hasta que se confirme la sostenibilidad del insider buying y no haya sorpresas negativas.  \n5. Mantente alerta a cualquier deterioro macro\u2011econ\u00f3mico inesperado, aunque el entorno actual est\u00e1 sin estr\u00e9s significativo.",
+  "narrative": "Hoy se recomienda mantener posiciones en VRSN y MSCI, aprovechando sus puntajes s\u00f3lidos (65 y 55) y la convergencia de estrategias que los respalda. A\u00f1ade AON con cautela, ya que su alerta",
   "sections": {
     "regime": "NEUTRAL",
     "strong_buy_count": 0,
@@ -9,7 +9,7 @@
     "top_entries": [
       [
         "VRSN",
-        60
+        65
       ],
       [
         "MSCI",
@@ -19,25 +19,25 @@
     "top_convergences": [
       [
         "VRSN",
-        96
-      ],
-      [
-        "MSCI",
         95
       ],
       [
-        "SYK",
-        77
+        "MSCI",
+        94
+      ],
+      [
+        "AON",
+        90
       ]
     ],
     "high_alerts": [
       [
-        "7741.T",
-        "EARNINGS_WARNING"
-      ],
-      [
         "AAL.L",
         "INSIDER_BUYING"
+      ],
+      [
+        "AMZN",
+        "EARNINGS_WARNING"
       ],
       [
         "AON",
@@ -45,22 +45,7 @@
       ]
     ],
     "traps_warning": [],
-    "exit_warnings": [
-      [
-        "NDSN",
-        "Score cay\u00f3 28pts (60 \u2192 31)",
-        "Nordson mantiene crecimiento constante v\u00eda adquisiciones y dividendos crecientes (Dividend King), sin se\u00f1ales p\u00fablicas de deterioro fundamental grave hasta el corte de conocimiento.",
-        59.72,
-        31.460000000000008
-      ],
-      [
-        "SPGI",
-        "Score cay\u00f3 27pts (58 \u2192 31); Earnings en 0d \u2014 alta incertidumbre, considera reducir",
-        "No hay reportes de guidance cuts, p\u00e9rdida de contratos grandes o cambios de management negativos conocidos hasta la fecha de corte; el negocio de ratings e \u00edndices sigue siendo estructuralmente s\u00f3lido.",
-        58.14,
-        30.95
-      ]
-    ],
+    "exit_warnings": [],
     "smart_money": [
       [
         "VRSN",
