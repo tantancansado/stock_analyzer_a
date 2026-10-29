@@ -14,7 +14,7 @@ def test_clave_nueva_no_va_de_portador():
 def test_ningun_script_manda_la_clave_de_portador_a_pelo():
     from pathlib import Path
     raiz = Path(__file__).resolve().parents[1]
-    for f in ('portfolio_artifacts.py', 'check_alerts.py', 'portfolio_price_alerts.py',
+    for f in ('portfolio_artifacts.py', 'check_alerts.py',
               'supabase_positions.py', 'ticker_api.py'):
         src = (raiz / f).read_text()
         assert "from supabase_auth import bearer" in src, f

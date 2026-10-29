@@ -693,16 +693,19 @@ jobs:
             echo "No es lunes — post-mortem se salta"
           fi
 
-      - name: Portfolio price alerts
+      # Cartera real contra su precio objetivo propio. No manda nada: deja el
+      # aviso en privado/ y el briefing lo pone delante del mensaje del día.
+      - name: Aviso de venta (cartera real contra su objetivo)
         continue-on-error: true
         env:
           SUPABASE_URL:              ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          SUPABASE_MONITOR_USER_ID:  ${{ secrets.SUPABASE_MONITOR_USER_ID }}
         run: python3 portfolio_price_alerts.py
 
       # Niveles que el usuario decidió vigilar tras estudiar un valor, con el
-      # motivo pegado. Las alertas de arriba son genéricas (objetivo del
-      # analista, stop del 8%) y no responden a «me interesa a 127, avísame».
+      # motivo pegado. El aviso de venta de arriba es general y no responde a
+      # «me interesa a 127, avísame».
       - name: Niveles vigilados (los que el usuario eligió, con su porqué)
         continue-on-error: true
         run: python3 niveles_vigilados.py

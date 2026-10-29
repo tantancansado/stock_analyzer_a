@@ -346,8 +346,8 @@ def _send(text: str) -> bool:
     token = os.environ.get('TELEGRAM_BOT_TOKEN', '')
     chat_id = os.environ.get('TELEGRAM_CHAT_ID', '')
     if not token or not chat_id:
-        print('  Sin credenciales de Telegram — dry run:\n')
-        print(text)
+        # Sin imprimir el texto: nombra posiciones reales y los logs son públicos
+        print(f'  Sin credenciales de Telegram — dry run ({len(text)} caracteres)')
         return False
     try:
         req = urllib.request.Request(
@@ -372,9 +372,17 @@ def main() -> None:
           f"{len(facts['vigilar'])} a vigilar · {len(facts['tesis_rotas'])} tesis rotas"
           + (f" · régimen → {facts['regimen_cambio']}" if facts['regimen_cambio'] else ''))
 
+    # Va delante y fuera de Claude: es lo más urgente, ya viene redactado y
+    # nombra posiciones reales, así que tampoco entra en daily_briefing.json,
+    # que se publica. Sin briefing ese día, el aviso se manda solo.
+    from portfolio_price_alerts import bloque_del_dia
+    venta = bloque_del_dia()
+
     texto = build_message(facts)
     if not texto:
         print('  Ni Claude ni Groq disponibles — no se manda nada (el briefing sin redactar no sirve)')
+        if venta and _send(venta):
+            print('  ✓ Aviso de venta enviado solo')
         return
 
     # Aviso de saldo/tope AL FINAL del mensaje. Va aquí y no en un canal aparte
@@ -395,8 +403,9 @@ def main() -> None:
         {'fecha': facts['fecha'], 'texto': texto, 'hechos': facts},
         ensure_ascii=False, indent=2, default=str))
 
-    if _send(texto):
-        print(f'  ✓ Briefing enviado ({len(texto)} caracteres)')
+    if _send(f'{venta}\n\n{texto}' if venta else texto):
+        print(f'  ✓ Briefing enviado ({len(texto)} caracteres)'
+              + (' con aviso de venta' if venta else ''))
 
 
 if __name__ == '__main__':
