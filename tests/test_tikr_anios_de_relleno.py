@@ -46,3 +46,41 @@ def test_se_importa_sin_pycognito():
               "import owner_earnings; owner_earnings._load_tikr()")
     r = subprocess.run([sys.executable, '-c', codigo], capture_output=True, text=True)
     assert r.returncode == 0, r.stderr[-500:]
+
+
+class _Resp:
+    status_code = 200
+
+    def __init__(self, data):
+        self._data = data
+
+    def json(self):
+        return self._data
+
+
+class _Sesion:
+    def __init__(self, data):
+        self.data = data
+
+    def post(self, *a, **k):
+        return _Resp(self.data)
+
+
+def test_guarda_todos_los_anios_de_bpa_normalizado():
+    """El P/E histórico normalizado necesita más de los tres años de `recent`
+    (29-oct-2026: el de NOW contable iba de 84x a 933x, normalizado 44-76x)."""
+    from datetime import datetime, timezone
+    from tikr_scraper import fetch_est
+    hoy = datetime.now(timezone.utc).year
+    anios = list(range(hoy - 8, hoy + 2))
+    data = {
+        'dates': [{'estimateconsensusid': i, 'calendaryear': y} for i, y in enumerate(anios)],
+        'actuals': [{'dataitemid': 100179, 'estimateconsensusid': i, 'effectivedate': '2026-01-01',
+                     'dataitemvalue': str(1 + i)} for i, y in enumerate(anios) if y < hoy],
+        'estimates': [{'dataitemid': 100173, 'estimateconsensusid': i, 'effectivedate': '2026-01-01',
+                       'dataitemvalue': '9'} for i, y in enumerate(anios) if y >= hoy],
+    }
+    r = fetch_est(_Sesion(data), 'tok', 1, 1)
+    assert sorted(r['historico_norm']) == [y for y in anios if y < hoy]
+    assert r['historico_norm'][hoy - 8] == {'eps_norm': 1.0}
+    assert min(r['recent']) == hoy - 3, '`recent` no cambia: owner_earnings lo lee año a año'

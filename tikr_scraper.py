@@ -1170,7 +1170,8 @@ def fetch_est(
     Retorna:
       current_year: año fiscal actual
       forward: {2026: {revenue: X, ebitda: X, eps_norm: X, fcf: X, ...}, 2027: ...}
-      actuals: {2024: {revenue: X, ...}, 2025: ...}  (últimos 3 años para contexto)
+      recent: {2024: {revenue: X, ...}, 2025: ...}  (últimos 3 años para contexto)
+      historico_norm: {2016: {eps_norm: X, net_income_norm: X}, ...}  (todos los reales)
       revision_flag: 'up' | 'down' | 'stable' — comparando estimado actual vs 30d antes
     """
     payload = {'auth': token, 'cid': int(cid), 'tid': int(tid), 'p': '1', 'v': 'v1'}
@@ -1237,6 +1238,14 @@ def fetch_est(
         print(f"    /est cid={cid}: años de relleno descartados {sorted(quitados)}")
     recent  = {yr: v for yr, v in act_raw.items()
                if yr >= current_year - 3}
+    # Todos los años reales de BPA normalizado, no solo tres. Es el múltiplo
+    # histórico que paga el mercado: el contable lo deforman créditos fiscales
+    # y la retribución en acciones (NOW: P/E contable de 84x a 933x según el
+    # año, normalizado 44-76x). Va aparte de `recent` porque owner_earnings lee
+    # `recent` año a año y ensancharlo cambiaría sus valoraciones a ciegas.
+    historico_norm = {yr: {k: v[k] for k in ('eps_norm', 'net_income_norm') if k in v}
+                      for yr, v in act_raw.items()
+                      if yr < current_year and v.get('eps_norm') is not None}
 
     # Revision flag: comparar EPS estimado actual vs hace ~30 días
     # Tomamos el entry más reciente y el de hace 30+ días para el año forward+1
@@ -1265,6 +1274,7 @@ def fetch_est(
         'current_year': current_year,
         'forward':      forward,
         'recent':       recent,
+        'historico_norm': historico_norm,
         'revision_flag': rev_flag,
     }
 
