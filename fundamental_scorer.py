@@ -312,8 +312,10 @@ HOLGURA_BPA_SOBRE_OPERATIVO = 25.0
 CALIDAD_MAX_SIN_RESPALDO = 85.0
 
 # Rango en que el múltiplo histórico propio sirve de ancla para el «P/E
-# justo». Por encima es burbuja (NOW tiene 123 de mediana) y por debajo suele
-# ser un beneficio contable raro: en los dos casos se cae al método viejo.
+# justo». Por encima es burbuja y por debajo suele ser un beneficio contable
+# raro: en los dos casos no hay objetivo por P/E. El techo lo confirmó el
+# usuario el 29-oct-2026 («no quiero precios de burbuja»), sabiendo que deja
+# fuera a NOW aun con datos limpios: su múltiplo normalizado (TIKR) ronda 51x.
 PER_ANCLA_MIN, PER_ANCLA_MAX = 8.0, 45.0
 # Separación máxima entre el P/E más alto y el más bajo de la serie, medida en
 # veces la mediana. Por encima, la «mediana» no describe a qué múltiplo cotiza
