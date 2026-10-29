@@ -588,6 +588,17 @@ jobs:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: python3 bounce_alerts.py
 
+      # Buenas empresas que caen fuerte al publicar buenos resultados. Avisa
+      # aparte, como los rebotes: un setup de semanas pierde valor si espera al
+      # briefing. Solo consulta a Claude por lo que ya pasó los filtros gratis.
+      - name: Rebote tras resultados (Telegram si hay — solo en temporada)
+        continue-on-error: true
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python3 rebote_tras_resultados.py
+
       - name: Macro Country Scanner
         continue-on-error: true
         run: python3 macro_country_scanner.py

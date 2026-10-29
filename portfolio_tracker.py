@@ -443,6 +443,7 @@ class PortfolioTracker:
         for ruta, estrategia, col_precio in (
             (Path('docs/bounce_setups_broad.csv'), 'BOUNCE_BROAD', 'price'),
             (Path('docs/mean_reversion_opportunities.csv'), 'MEAN_REVERSION', 'current_price'),
+            (Path('docs/rebote_tras_resultados.csv'), 'TRAS_RESULTADOS', 'price'),
         ):
             if not ruta.exists():
                 continue
@@ -492,7 +493,7 @@ class PortfolioTracker:
                     [self.recommendations, pd.DataFrame([rec])], ignore_index=True)
                 bounce_recorded += 1
         if bounce_recorded:
-            print(f"  Recorded {bounce_recorded} señales de rebote (BOUNCE_BROAD / MEAN_REVERSION)")
+            print(f"  Recorded {bounce_recorded} señales de rebote (BOUNCE_BROAD / MEAN_REVERSION / TRAS_RESULTADOS)")
 
         # ── LEAPS ──────────────────────────────────────────────────────────
         # Mismo problema: se publican cada día y nadie mide si el contrato

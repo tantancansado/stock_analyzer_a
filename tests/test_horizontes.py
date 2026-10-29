@@ -29,7 +29,7 @@ class TestHorizonteMinimo:
 
 class TestExcepcionCortoPlazo:
 
-    @pytest.mark.parametrize('estrategia', ['MEAN_REVERSION', 'BOUNCE_BROAD', 'ENTRY_SETUP'])
+    @pytest.mark.parametrize('estrategia', ['MEAN_REVERSION', 'BOUNCE_BROAD', 'ENTRY_SETUP', 'TRAS_RESULTADOS'])
     def test_los_rebotes_y_setups_si_son_de_corto_plazo(self, estrategia):
         # Un rebote técnico se resuelve o fracasa en semanas: medirlo a 90 días
         # mezcla el rebote con lo que viniera después.

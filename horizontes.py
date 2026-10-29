@@ -45,7 +45,7 @@ LARGOS = (PRINCIPAL, SECUNDARIO)
 # Estrategias de corto plazo por diseño: un rebote técnico se resuelve o
 # fracasa en semanas, y medirlo a 90 días mezcla el rebote con lo que venga
 # después.
-ESTRATEGIAS_CORTO_PLAZO = frozenset({'MEAN_REVERSION', 'BOUNCE_BROAD', 'ENTRY_SETUP'})
+ESTRATEGIAS_CORTO_PLAZO = frozenset({'MEAN_REVERSION', 'BOUNCE_BROAD', 'ENTRY_SETUP', 'TRAS_RESULTADOS'})
 
 CORTO_PRINCIPAL = '30d'
 CORTO_SECUNDARIO = '14d'
