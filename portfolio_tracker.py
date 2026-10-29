@@ -476,6 +476,7 @@ class PortfolioTracker:
             (Path('docs/bounce_setups_broad.csv'), 'BOUNCE_BROAD', 'price'),
             (Path('docs/mean_reversion_opportunities.csv'), 'MEAN_REVERSION', 'current_price'),
             (Path('docs/rebote_tras_resultados.csv'), 'TRAS_RESULTADOS', 'price'),
+            (Path('docs/rebote_tras_resultados_extendido.csv'), 'TRAS_RESULTADOS', 'price'),
         ):
             if not ruta.exists():
                 continue
@@ -493,13 +494,18 @@ class PortfolioTracker:
                 precio = pd.to_numeric(row.get(col_precio), errors='coerce')
                 if not precio or pd.isna(precio) or float(precio) <= 0:
                     continue
+                # El vigía de resultados avisa en el after-hours o la
+                # preapertura y el tracker no corre hasta la madrugada: la
+                # señal es del día del aviso y a su precio, no de hoy.
+                fecha = pd.to_datetime(row.get('fecha_aviso'), errors='coerce')
+                fecha = today if pd.isna(fecha) else min(fecha.normalize(), today)
                 # Sin cooldown de 21 días aquí: un rebote es un evento de
                 # 1-5 días y el mismo ticker puede dar dos setups válidos en
                 # un mes. Se evita solo el duplicado del MISMO día.
                 ya = self.recommendations[
                     (self.recommendations['ticker'].astype(str).str.upper() == ticker)
                     & (self.recommendations['strategy'] == estrategia)
-                    & (self.recommendations['signal_date'] == today)
+                    & (self.recommendations['signal_date'] == fecha)
                 ] if not self.recommendations.empty else []
                 if len(ya):
                     continue
@@ -509,7 +515,7 @@ class PortfolioTracker:
                     'ticker': ticker,
                     'company_name': str(row.get('company_name') or ticker),
                     'strategy': estrategia,
-                    'signal_date': today,
+                    'signal_date': fecha,
                     'signal_price': float(precio),
                     'value_score': pd.to_numeric(row.get('value_score'), errors='coerce'),
                     'momentum_score': pd.to_numeric(row.get('reversion_score'), errors='coerce'),

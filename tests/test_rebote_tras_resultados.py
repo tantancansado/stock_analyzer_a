@@ -185,3 +185,107 @@ class TestResultadosBuenos:
         assert rr.comprobar_resultados('AAA', 'Aaa', '2026-10-28', -10.0)['resultados'] == 'NO'
         monkeypatch.setattr(claude_research, 'ask_with_search', lambda *a, **k: (hechos, ['https://x']))
         assert rr.comprobar_resultados('AAA', 'Aaa', '2026-10-28', -10.0)['resultados'] == 'BUENOS'
+
+
+class TestVigia:
+    """After-hours y preapertura: el pipeline de la mañana solo ve cierres."""
+
+    def test_el_precio_de_preapertura_si_es_posterior_al_cierre(self):
+        info = {'regularMarketTime': 100, 'preMarketTime': 200, 'preMarketPrice': 288.4,
+                'postMarketTime': 50, 'postMarketPrice': 320.0}
+        assert rr.precio_extendido(info) == (288.4, 'preapertura')
+
+    def test_el_del_after_hours_si_es_el_ultimo(self):
+        info = {'regularMarketTime': 100, 'postMarketTime': 150, 'postMarketPrice': 90.0}
+        assert rr.precio_extendido(info) == (90.0, 'after-hours')
+
+    def test_un_precio_fuera_de_hora_anterior_al_cierre_no_vale(self):
+        # en plena sesión, o un festivo: lo de fuera de hora es de ayer
+        info = {'regularMarketTime': 300, 'preMarketTime': 200, 'preMarketPrice': 90.0}
+        assert rr.precio_extendido(info) is None
+
+    def test_la_preapertura_es_la_sesion_de_hoy(self):
+        h = _hist(n=70)
+        hoy = h.index[-1]   # llega una barra a medias de hoy: fuera
+        x = rr.con_sesion_extendida(h, 50.0, 'preapertura', hoy)
+        assert x.index[-1] == hoy and x['Close'].iloc[-1] == 50.0
+        assert x.index[-2] == h.index[-2]
+
+    def test_el_after_hours_es_la_sesion_siguiente(self):
+        h = _hist(n=70)
+        viernes = h.index[h.index.day_of_week == 4][-1]
+        x = rr.con_sesion_extendida(h[h.index <= viernes], 50.0, 'after-hours', viernes)
+        assert x.index[-1] == viernes + pd.Timedelta(days=3) and x.index[-2] == viernes
+
+    def test_el_lunes_mira_lo_que_publicaron_el_viernes(self):
+        cal = {'AAA': ['2026-10-30'], 'BBB': ['2026-11-02'], 'CCC': ['2026-10-29'], 'ZZZ': ['2026-10-30']}
+        assert rr.en_ventana(cal, pd.Timestamp('2026-11-02'), {'AAA', 'BBB', 'CCC'}) == ['AAA', 'BBB']
+
+    def test_sin_nadie_en_la_ventana_no_descarga_nada(self, monkeypatch, tmp_path):
+        monkeypatch.setattr(rr, 'CALENDARIO', tmp_path / 'cal.json')
+        (tmp_path / 'cal.json').write_text('{"AAA": ["2026-01-05"]}')
+        monkeypatch.setattr(rr, '_universo', lambda: ['AAA'])
+        monkeypatch.setattr(rr, '_historicos', lambda ts: (_ for _ in ()).throw(AssertionError('descargó')))
+        assert rr.vigia(pd.Timestamp('2026-10-29 13:00', tz='UTC')) == []
+
+    def _vigia(self, monkeypatch, tmp_path):
+        import json
+        import bounce_alerts
+        import yfinance
+        h = _hist(())
+        hoy = h.index[-1] + pd.offsets.BDay(1)
+        ahora = pd.Timestamp(hoy.date()).tz_localize('America/New_York') + pd.Timedelta(hours=8)
+        (tmp_path / 'cal.json').write_text(json.dumps({'AAA': [str(h.index[-1].date())]}))
+        pd.DataFrame([{'ticker': 'AAA', 'company_name': 'Aaa', 'target_price_pe': 500.0}]).to_csv(
+            tmp_path / 'f.csv', index=False)
+        for nombre, ruta in (('CALENDARIO', 'cal.json'), ('FUND_CSV', 'f.csv'),
+                             ('AVISADOS', 'avisados.json'), ('EXTENDIDO', 'ext.csv')):
+            monkeypatch.setattr(rr, nombre, tmp_path / ruta)
+        monkeypatch.setattr(rr, '_universo', lambda: ['AAA', 'BBB.L'])
+        monkeypatch.setattr(rr, '_historicos', lambda ts: {t: h for t in ts})
+        monkeypatch.setattr(rr, 'historial', lambda: (0, None))
+        monkeypatch.setattr(rr, 'ultimos_resultados', lambda tk, ahora=None: (h.index[-1], True, None))
+        monkeypatch.setattr(rr, 'comprobar_resultados', lambda *a: {
+            'resultados': 'BUENOS', 'beneficio': 'batió', 'ventas': 'batió',
+            'prevision': 'SUBE', 'por_que_cae': 'capex', 'fuentes': 2})
+        info = type('T', (), {'info': {'regularMarketTime': 1, 'preMarketTime': 2,
+                                       'preMarketPrice': float(h['Close'].iloc[-1]) * 0.88}})
+        monkeypatch.setattr(yfinance, 'Ticker', lambda t: info)
+        enviados = []
+        monkeypatch.setattr(bounce_alerts, '_send_telegram', lambda m: enviados.append(m) or True)
+        return h, ahora, enviados
+
+    def test_avisa_en_preapertura_y_el_tracker_lo_mide_desde_el_aviso(self, monkeypatch, tmp_path):
+        h, ahora, enviados = self._vigia(monkeypatch, tmp_path)
+        setups = rr.vigia(ahora)
+        assert [s['ticker'] for s in setups] == ['AAA'] and 'en preapertura' in enviados[0]
+        ext = pd.read_csv(tmp_path / 'ext.csv')
+        # la señal es de la última sesión real; la de hoy ya es su recorrido
+        assert ext['fecha_aviso'].tolist() == [str(h.index[-1].date())]
+
+    def test_lo_que_avisó_el_vigía_no_se_repite(self, monkeypatch, tmp_path):
+        _, ahora, enviados = self._vigia(monkeypatch, tmp_path)
+        rr.vigia(ahora)
+        assert rr.vigia(ahora) == [] and len(enviados) == 1
+
+
+class TestCalendario:
+    def test_recuerda_la_fecha_aunque_yahoo_ya_de_la_siguiente(self, monkeypatch, tmp_path):
+        import json
+        monkeypatch.setattr(rr, 'CALENDARIO', tmp_path / 'cal.json')
+        monkeypatch.setattr(rr, 'FUND_CSV', tmp_path / 'f.csv')
+        pd.DataFrame([{'ticker': 'AAA', 'earnings_date': '2026-10-28'}]).to_csv(tmp_path / 'f.csv', index=False)
+        rr.actualizar_calendario('2026-10-28')
+        # tras publicar, el scorer ya no da fecha (o da la de enero)
+        pd.DataFrame([{'ticker': 'AAA', 'earnings_date': None}]).to_csv(tmp_path / 'f.csv', index=False)
+        rr.actualizar_calendario('2026-10-29')
+        assert json.loads((tmp_path / 'cal.json').read_text()) == {'AAA': ['2026-10-28']}
+
+    def test_olvida_lo_de_hace_semanas(self, monkeypatch, tmp_path):
+        import json
+        monkeypatch.setattr(rr, 'CALENDARIO', tmp_path / 'cal.json')
+        monkeypatch.setattr(rr, 'FUND_CSV', tmp_path / 'f.csv')
+        (tmp_path / 'cal.json').write_text('{"AAA": ["2026-07-28", "2026-10-28"], "BBB": ["2026-07-30"]}')
+        pd.DataFrame(columns=['ticker', 'earnings_date']).to_csv(tmp_path / 'f.csv', index=False)
+        rr.actualizar_calendario('2026-10-29')
+        assert json.loads((tmp_path / 'cal.json').read_text()) == {'AAA': ['2026-10-28']}

@@ -1,0 +1,64 @@
+name: Vigía de resultados (after-hours y preapertura)
+
+# El pipeline de la mañana solo ve cierres: unos resultados publicados tras el
+# cierre se avisaban un día tarde, con la caída de la preapertura ya perdida.
+# Esto corre fuera de hora y solo hace algo si alguien del universo publica en
+# la ventana (docs/calendario_resultados.json); el resto de días lee el
+# calendario y termina. Claude solo se consulta por el candidato que ya pasó
+# los filtros gratis. Ver rebote_tras_resultados.vigia.
+on:
+  schedule:
+    - cron: '30 22 * * 1-5'   # after-hours: 17:30 en Nueva York en invierno, 18:30 en verano
+    - cron: '45 12 * * 1-5'   # preapertura: 7:45 en Nueva York en invierno, 8:45 en verano
+  workflow_dispatch:
+
+concurrency:
+  group: vigia-resultados
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  vigia:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Vigía
+        env:
+          PYTHONUNBUFFERED: 1
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python3 rebote_tras_resultados.py --vigia
+
+      # Lo avisado tiene que llegar al pipeline de mañana (para no repetirlo y
+      # para que el tracker lo mida) y el gasto de Claude al contador: lo que
+      # un workflow no commitea no existe para el siguiente.
+      - name: Guardar lo avisado y el gasto
+        if: always()
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "GitHub Actions Bot"
+          git add docs/claude_budget.json 2>/dev/null || true
+          git add docs/rebote_tras_resultados_avisados.json 2>/dev/null || true
+          git add docs/rebote_tras_resultados_extendido.csv 2>/dev/null || true
+          git diff --cached --quiet && echo "Sin cambios" && exit 0
+          git commit -q -m "chore(vigia): rebote tras resultados fuera de hora"
+          for i in 1 2 3; do
+            git pull -q --rebase origin main && git push -q origin HEAD:main && exit 0
+            git rebase --abort 2>/dev/null || true
+            sleep $((i * 5))
+          done
+          echo "No se pudo subir lo avisado: mañana se repetiría el aviso" && exit 1

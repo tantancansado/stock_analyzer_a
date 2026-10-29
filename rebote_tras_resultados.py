@@ -30,11 +30,18 @@ Plan del aviso: entrada pequeña. Salida cuando recupere el cierre previo a
 resultados, que es la reacción corregida, no un porcentaje. Deja de valer si
 pierde el mínimo desde la caída menos un ATR. Se mide en el tracker como
 TRAS_RESULTADOS, a corto plazo (horizontes.ESTRATEGIAS_CORTO_PLAZO).
+
+Vigía (`--vigia`): el pipeline de la mañana solo ve cierres, así que unos
+resultados publicados tras el cierre se avisaban un día tarde, perdida ya la
+caída de la preapertura. El vigía corre en el after-hours y en la preapertura,
+y solo despierta si alguien del universo publica en esa ventana: toma su precio
+fuera de hora como la sesión que aún no ha abierto y pasa el mismo embudo.
 """
 from __future__ import annotations
 
 import json
 import math
+import sys
 from datetime import date
 from pathlib import Path
 
@@ -47,6 +54,12 @@ SALIDA = DOCS / 'rebote_tras_resultados.csv'
 AVISADOS = DOCS / 'rebote_tras_resultados_avisados.json'
 FUND_CSV = DOCS / 'fundamental_scores.csv'
 REC_CSV = DOCS / 'portfolio_tracker' / 'recommendations.csv'
+CALENDARIO = DOCS / 'calendario_resultados.json'
+EXTENDIDO = DOCS / 'rebote_tras_resultados_extendido.csv'
+# Días que se recuerda una fecha de resultados ya pasada
+DIAS_CALENDARIO = 10
+# Lo que avisa el vigía espera al tracker, que solo corre de madrugada
+DIAS_EXTENDIDO = 3
 
 SIGMAS = 3.0
 CAIDA_MIN_PCT = 5.0
@@ -238,8 +251,10 @@ PREVISION = {'SUBE': 'sube la previsión', 'MANTIENE': 'mantiene la previsión'}
 def mensaje(setups: list[dict], hoy: str) -> str:
     lineas = [f'<b>Rebote tras resultados</b> — {hoy}', '']
     for s in setups:
+        caida = f"{abs(s['caida_pct']):.1f}".replace('.', ',')
+        donde = f" en {s['sesion']}" if s.get('sesion') else ''
         lineas += [
-            f"<b>{s['ticker']}</b> cae un {abs(s['caida_pct']):.1f}% tras publicar el {s['fecha_resultados']}.",
+            f"<b>{s['ticker']}</b> cae un {caida}%{donde} tras publicar el {s['fecha_resultados']}.",
             f"Resultados: {s['beneficio']}; {s['ventas']}; "
             f"{PREVISION.get(s['prevision'], 'previsión sin datos')}. Cae por: {s['por_que_cae']}",
             f"A su P/E de siempre le queda un +{s['upside_pe']:.0f}%. Sobrevendida (RSI2 {s['rsi2']:.0f}).",
@@ -274,16 +289,18 @@ def _historicos(tickers: list[str]) -> dict[str, pd.DataFrame]:
     return out
 
 
-def detectar(hoy: str) -> list[dict]:
+def detectar(hoy: str, historicos: dict[str, pd.DataFrame] | None = None,
+             ahora: pd.Timestamp | None = None, sesiones: dict[str, str] | None = None) -> list[dict]:
     import yfinance as yf
-    historicos = _historicos(_universo())
+    if historicos is None:
+        historicos = _historicos(_universo())
     caidas = {t: c for t, h in historicos.items() if (c := caida_anormal(h))}
     print(f'  {len(historicos)} valores · {len(caidas)} con caída anormal')
     if not caidas:
         return []
     fund = pd.read_csv(FUND_CSV) if FUND_CSV.exists() else pd.DataFrame(columns=['ticker'])
     setups, consultas = [], 0
-    ahora = pd.Timestamp(hoy, tz='UTC') + pd.Timedelta(days=1)
+    ahora = ahora if ahora is not None else pd.Timestamp(hoy, tz='UTC') + pd.Timedelta(days=1)
     for t in sorted(caidas, key=lambda x: caidas[x]['z']):
         tk = yf.Ticker(t)
         res = ultimos_resultados(tk, ahora)
@@ -320,21 +337,65 @@ def detectar(hoy: str) -> list[dict]:
             'beneficio': v.get('beneficio', ''), 'ventas': v.get('ventas', ''),
             'prevision': v.get('prevision', 'SIN_DATOS'), 'por_que_cae': v.get('por_que_cae', ''),
             'fuentes': v.get('fuentes', 0), 'score_timestamp': hoy,
+            'sesion': (sesiones or {}).get(t),
         })
     return setups
 
 
-def main() -> None:
-    print('[rebote_tras_resultados] Buenas empresas que caen tras publicar buenos resultados')
-    hoy = date.today().isoformat()
-    setups = detectar(hoy)
-    # Se escribe aunque esté vacío: el tracker distingue «hoy nada» de un dato viejo
-    pd.DataFrame(setups, columns=None if setups else ['ticker', 'price', 'target', 'stop',
-                                                      'score_timestamp']).to_csv(SALIDA, index=False)
-    if not setups:
-        print('  Nada hoy (lo normal fuera de temporada de resultados)')
-        return
+def actualizar_calendario(hoy: str) -> None:
+    """Fechas de resultados del universo, recordadas unos días tras publicar.
 
+    `earnings_date` del scorer es la PRÓXIMA: en cuanto una empresa publica,
+    Yahoo pasa a la siguiente o no da ninguna (GOOG, MSFT y NOW el 29-oct-2026),
+    y la preapertura del día después ya no sabría que acababan de publicar.
+    """
+    try:
+        cal = json.loads(CALENDARIO.read_text())
+    except (OSError, ValueError):
+        cal = {}
+    f = pd.read_csv(FUND_CSV) if FUND_CSV.exists() else pd.DataFrame()
+    if {'ticker', 'earnings_date'} <= set(f.columns):
+        for t, d in f[['ticker', 'earnings_date']].dropna().itertuples(index=False):
+            fechas = cal.setdefault(str(t), [])
+            if str(d)[:10] not in fechas:
+                fechas.append(str(d)[:10])
+    corte = str((pd.Timestamp(hoy) - pd.Timedelta(days=DIAS_CALENDARIO)).date())
+    cal = {t: sorted(d for d in fs if d >= corte) for t, fs in sorted(cal.items())}
+    CALENDARIO.write_text(json.dumps({t: fs for t, fs in cal.items() if fs}, indent=1))
+
+
+def en_ventana(calendario: dict, hoy: pd.Timestamp, universo: set[str]) -> list[str]:
+    """Del universo, las que publicaron la sesión anterior o publican hoy."""
+    dias = {str((hoy - pd.offsets.BDay(1)).date()), str(hoy.date())}
+    return sorted(t for t, fechas in calendario.items() if t in universo and dias & set(fechas))
+
+
+def precio_extendido(info: dict) -> tuple[float, str] | None:
+    """(precio, sesión) fuera de hora, si es posterior al último cierre."""
+    cierre = info.get('regularMarketTime') or 0
+    hora, precio, sesion = max(
+        ((info.get('preMarketTime') or 0, info.get('preMarketPrice'), 'preapertura'),
+         (info.get('postMarketTime') or 0, info.get('postMarketPrice'), 'after-hours')),
+        key=lambda x: x[0])
+    if not precio or precio <= 0 or hora <= cierre:
+        return None
+    return float(precio), sesion
+
+
+def con_sesion_extendida(h: pd.DataFrame, precio: float, sesion: str, hoy: pd.Timestamp) -> pd.DataFrame:
+    """El precio fuera de hora como la sesión que todavía no ha abierto.
+
+    En preapertura esa sesión es la de hoy; en el after-hours, la siguiente.
+    """
+    dia = hoy if sesion == 'preapertura' else hoy + pd.offsets.BDay(1)
+    h = h.loc[h.index < dia, ['Open', 'High', 'Low', 'Close']]
+    return pd.concat([h, pd.DataFrame({c: [precio] for c in h.columns}, index=[dia])])
+
+
+def _avisar(setups: list[dict], hoy: str) -> list[dict]:
+    """Manda lo que no se haya avisado ya por esos mismos resultados; devuelve lo enviado."""
+    if not setups:
+        return []
     import alerta_coherente
     setups, incoherentes = alerta_coherente.filtrar(setups, {s['ticker']: s['price'] for s in setups})
     for p in incoherentes:
@@ -346,12 +407,70 @@ def main() -> None:
     nuevos = [s for s in setups if avisados.get(s['ticker']) != s['fecha_resultados']]
     if not nuevos:
         print('  Ya avisados')
-        return
+        return []
     from bounce_alerts import _send_telegram
-    if _send_telegram(mensaje(nuevos, hoy)):
-        avisados.update({s['ticker']: s['fecha_resultados'] for s in nuevos})
-        AVISADOS.write_text(json.dumps(avisados, indent=1))
-        print(f'  ✓ Telegram: {len(nuevos)} rebote(s) tras resultados')
+    if not _send_telegram(mensaje(nuevos, hoy)):
+        return []
+    avisados.update({s['ticker']: s['fecha_resultados'] for s in nuevos})
+    AVISADOS.write_text(json.dumps(avisados, indent=1))
+    print(f'  ✓ Telegram: {len(nuevos)} rebote(s) tras resultados')
+    return nuevos
+
+
+def vigia(ahora: pd.Timestamp | None = None) -> list[dict]:
+    """After-hours y preapertura, solo para quien publica en la ventana."""
+    print('[rebote_tras_resultados] Vigía de resultados fuera de hora')
+    ahora = ahora if ahora is not None else pd.Timestamp.now(tz='UTC')
+    hoy = ahora.tz_convert('America/New_York').normalize().tz_localize(None)
+    try:
+        calendario = json.loads(CALENDARIO.read_text())
+    except (OSError, ValueError):
+        calendario = {}
+    # Fuera de EE. UU. Yahoo no da sesión extendida
+    tickers = en_ventana(calendario, hoy, {t for t in _universo() if '.' not in t})
+    if not tickers:
+        print('  Nadie del universo publica en esta ventana')
+        return []
+    import yfinance as yf
+    historicos, sesiones = {}, {}
+    for t, h in _historicos(tickers).items():
+        try:
+            ext = precio_extendido(yf.Ticker(t).info)
+        except Exception:
+            ext = None
+        if ext:
+            historicos[t] = con_sesion_extendida(h, *ext, hoy)
+            sesiones[t] = ext[1]
+    print(f"  {len(tickers)} publican en la ventana ({', '.join(tickers)}) · "
+          f"{len(historicos)} con precio fuera de hora")
+    enviados = _avisar(detectar(str(hoy.date()), historicos, ahora, sesiones), str(hoy.date()))
+    if enviados:
+        # La señal es de la última sesión real: lo que pase en la siguiente,
+        # desde la preapertura o el after-hours, ya es su recorrido
+        for s in enviados:
+            s['fecha_aviso'] = str(historicos[s['ticker']].index[-2].date())
+        previo = pd.read_csv(EXTENDIDO) if EXTENDIDO.exists() else pd.DataFrame()
+        todo = pd.concat([previo, pd.DataFrame(enviados)], ignore_index=True)
+        corte = str((hoy - pd.Timedelta(days=DIAS_EXTENDIDO)).date())
+        todo[todo['fecha_aviso'].astype(str) >= corte].to_csv(EXTENDIDO, index=False)
+    return enviados
+
+
+def main() -> None:
+    if '--vigia' in sys.argv:
+        vigia()
+        return
+    print('[rebote_tras_resultados] Buenas empresas que caen tras publicar buenos resultados')
+    hoy = date.today().isoformat()
+    actualizar_calendario(hoy)
+    # Al tracker va lo que se avisa, una vez por resultados: lo que ya avisó el
+    # vigía en la preapertura no se vuelve a apuntar a la mañana siguiente
+    enviados = _avisar(detectar(hoy), hoy)
+    # Se escribe aunque esté vacío: el tracker distingue «hoy nada» de un dato viejo
+    pd.DataFrame(enviados, columns=None if enviados else ['ticker', 'price', 'target', 'stop',
+                                                          'score_timestamp']).to_csv(SALIDA, index=False)
+    if not enviados:
+        print('  Nada nuevo hoy (lo normal fuera de temporada de resultados)')
 
 
 if __name__ == '__main__':

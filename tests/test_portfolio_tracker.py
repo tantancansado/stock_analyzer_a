@@ -1578,3 +1578,22 @@ class TestCotizacionTrasladada:
         h0 = pd.DataFrame({c: [10.0, 11.0] for c in ('Open', 'High', 'Low', 'Close')}, index=dias)
         pt = self._yf(monkeypatch, {'AAA': h0})
         assert list(pt._historial('AAA', '2026-03-01', '2026-03-06')['Close']) == [10.0, 11.0]
+
+
+class TestRegistroDelVigia:
+    """El vigía avisa fuera de hora y el tracker no corre hasta la madrugada."""
+
+    def test_la_señal_es_del_dia_del_aviso_y_no_se_duplica(self, monkeypatch, tmp_path):
+        monkeypatch.chdir(tmp_path)
+        (tmp_path / 'docs').mkdir()
+        ayer = (pd.Timestamp.now().normalize() - pd.Timedelta(days=1)).strftime('%Y-%m-%d')
+        pd.DataFrame([{'ticker': 'AAA', 'price': 88.0, 'target': 100.0, 'stop': 84.0,
+                       'fecha_aviso': ayer, 'score_timestamp': ayer}]).to_csv(
+            tmp_path / 'docs' / 'rebote_tras_resultados_extendido.csv', index=False)
+        t = _make_tracker()
+        monkeypatch.setattr(t, '_save_recommendations', lambda: None)
+        t.record_signals()
+        t.record_signals()
+        r = t.recommendations[t.recommendations['strategy'] == 'TRAS_RESULTADOS']
+        assert len(r) == 1
+        assert r['signal_date'].iloc[0] == pd.Timestamp(ayer) and r['signal_price'].iloc[0] == 88.0
