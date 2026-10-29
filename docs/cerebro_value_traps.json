@@ -1,34 +1,34 @@
 {
-  "generated_at": "2026-10-28",
+  "generated_at": "2026-10-29",
   "total": 2,
   "high_count": 0,
-  "narrative": "",
+  "narrative": "- **ALLY**: A pesar de su valoraci\u00f3n relativamente baja, la empresa muestra un flujo de caja libre negativo (-4.6\u202f%), lo que indica que est\u00e1 quemando efectivo en lugar de generar liquidez, lo que sugiere que el precio bajo puede estar reflejando problemas estructurales en su modelo de negocio.  \n- **AWK**: Con un flujo de caja libre negativo del -3.5\u202f%, AWK tambi\u00e9n est\u00e1 agotando su tesorer\u00eda;",
   "traps": [
     {
       "ticker": "ALLY",
       "company_name": "Ally Financial Inc.",
       "severity": "MEDIUM",
       "trap_score": 3,
-      "value_score": 35.10999999999999,
+      "value_score": 41.825,
       "flags": [
         "FCF negativo (-4.6%) \u2014 quema caja pese a valuaci\u00f3n barata"
       ],
       "piotroski": 5.0,
-      "fcf_yield_pct": -4.64,
+      "fcf_yield_pct": -4.63,
       "fundamental_score": 70.2
     },
     {
-      "ticker": "ORCL",
-      "company_name": "Oracle Corporation",
+      "ticker": "AWK",
+      "company_name": "American Water Works Company, Inc.",
       "severity": "MEDIUM",
       "trap_score": 3,
-      "value_score": 30.599999999999994,
+      "value_score": 35.72,
       "flags": [
-        "FCF negativo (-2.2%) \u2014 quema caja pese a valuaci\u00f3n barata"
+        "FCF negativo (-3.5%) \u2014 quema caja pese a valuaci\u00f3n barata"
       ],
-      "piotroski": 5.0,
-      "fcf_yield_pct": -2.2,
-      "fundamental_score": 69.0
+      "piotroski": 8.0,
+      "fcf_yield_pct": -3.48,
+      "fundamental_score": 69.3
     }
   ]
 }

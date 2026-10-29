@@ -1,0 +1,140 @@
+{
+  "generated_at": "2026-10-29",
+  "macro_regime": "CALM",
+  "composite_score": 7.0,
+  "sesgo": "DEFENSIVO",
+  "confianza": 58,
+  "situacion": "Mercado en calma superficial (CALM +7) pero con d\u00f3lar en percentil 98.6 y SKEW en 75, se\u00f1al de cobertura de tail risk bajo la complacencia.",
+  "narrativa": "La divergencia entre un VIX/composite tranquilo y un SKEW elevado sugiere que los grandes jugadores compran protecci\u00f3n pese a la calma visible, mientras el d\u00f3lar extremo y la debilidad de small caps apuntan a estr\u00e9s de liquidez selectivo. Para un inversor VALUE esto refuerza la preferencia por calidad defensiva con FCF s\u00f3lido y baja sensibilidad a tipos/d\u00f3lar, evitando apalancamiento c\u00edclico hasta que se confirme el dato de PCE.",
+  "acciones_inmediatas": [
+    {
+      "prioridad": 1,
+      "accion": "COMPRAR",
+      "instrumento": "TLT/VGLT",
+      "razon": "Yield del 30yr en 5.36% est\u00e1 en zona hist\u00f3ricamente atractiva para entrada en duraci\u00f3n larga.",
+      "catalizador": "Dato de PCE Inflation (HIGH) ma\u00f1ana 30-oct puede confirmar techo de yields.",
+      "size_hint": "media (3-4%)",
+      "invalidacion": "Sorpresa alcista fuerte en PCE que reavive expectativas de subida de tipos."
+    },
+    {
+      "prioridad": 2,
+      "accion": "VIGILAR",
+      "instrumento": "DXY",
+      "razon": "D\u00f3lar en percentil 98.6 es un extremo hist\u00f3rico que suele preceder reversiones o estr\u00e9s en emergentes/commodities.",
+      "catalizador": "GDP Advance hoy y PCE ma\u00f1ana pueden mover el d\u00f3lar bruscamente.",
+      "size_hint": "peque\u00f1a (1-2%)",
+      "invalidacion": "Ruptura sostenida por encima del percentil 99 sin reversi\u00f3n en 2 semanas."
+    },
+    {
+      "prioridad": 3,
+      "accion": "COMPRAR",
+      "instrumento": "MSFT",
+      "razon": "Mejor VALUE pick del d\u00eda (score 71.8) con calidad grade B y FCF estable, encaja con rotaci\u00f3n defensiva en tech de calidad.",
+      "catalizador": "Ninguno inmediato; tesis de largo plazo basada en fundamentales.",
+      "size_hint": "media (3-4%)",
+      "invalidacion": "Deterioro de m\u00e1rgenes o gu\u00eda negativa en pr\u00f3ximos earnings."
+    },
+    {
+      "prioridad": 4,
+      "accion": "CUBRIR",
+      "instrumento": "Oro (GLD) / Puts SPY",
+      "razon": "SKEW en percentil 75 junto con fortaleza de oro y defensa vs mercado confirma demanda de cobertura de cola.",
+      "catalizador": "SKEW Index superando percentil 80 o VIX repuntando tras PCE.",
+      "size_hint": "peque\u00f1a (1-2%)",
+      "invalidacion": "SKEW retrocede por debajo de percentil 60 sosteniendamente."
+    },
+    {
+      "prioridad": 5,
+      "accion": "ESPERAR",
+      "instrumento": "IWM",
+      "razon": "Se\u00f1al contrarian (score 60) es interesante pero el evento PCE de alto impacto ma\u00f1ana a\u00f1ade riesgo binario antes de posicionarse.",
+      "catalizador": "Resultado del PCE y reacci\u00f3n de cr\u00e9dito high-yield post-dato.",
+      "size_hint": "peque\u00f1a (1-2%)",
+      "invalidacion": "Deterioro adicional del cr\u00e9dito corporativo que invalide la divergencia."
+    }
+  ],
+  "macro_plays": [
+    {
+      "instrument": "TLT/VGLT",
+      "direction": "LONG",
+      "thesis": "Yield 30yr en 5.36% \u2014 zona hist\u00f3ricamente atractiva para bonos largos",
+      "historical": "2018-19: TLT +18% cuando yields revertieron desde 3.25%",
+      "risk": "La Fed puede mantener tipos altos m\u00e1s tiempo \u2014 size peque\u00f1o",
+      "timeframe": "3-6 meses",
+      "score": 95,
+      "eu_alternative": {
+        "ticker": "DTLA",
+        "name": "Xtrackers US Treasuries 20yr+ UCITS ETF",
+        "exchange": "Xetra",
+        "available": "DEGIRO/IB"
+      }
+    },
+    {
+      "instrument": "IWM",
+      "direction": "LONG (contrarian)",
+      "thesis": "Small caps en percentil 17% pero cr\u00e9dito OK \u2014 divergencia excesiva",
+      "historical": "2016 post-elecci\u00f3n: IWM +20% en 3 meses desde valuaciones deprimidas",
+      "risk": "Si cr\u00e9dito deteriora, small caps caen m\u00e1s \u2014 monitorizar HYG",
+      "timeframe": "2-3 meses",
+      "score": 60,
+      "eu_alternative": {
+        "ticker": "CSUS",
+        "name": "iShares MSCI USA Small Cap UCITS ETF",
+        "exchange": "LSE",
+        "available": "DEGIRO/IB"
+      }
+    }
+  ],
+  "macro_plays_commentary": "La play de TLT/VGLT (score 95) domina claramente sobre el IWM contrarian (score 60), priorizando duraci\u00f3n sobre beta de small caps en este contexto de d\u00f3lar extremo y PCE inminente.",
+  "value_en_entorno": [
+    {
+      "ticker": "MSFT",
+      "score": 71.8,
+      "sector": "Technology",
+      "fcf_yield_pct": 1.7,
+      "grade": "B"
+    },
+    {
+      "ticker": "SAP.DE",
+      "score": 63.9,
+      "sector": "Technology",
+      "fcf_yield_pct": 3.75,
+      "grade": "B"
+    },
+    {
+      "ticker": "SAP",
+      "score": 62.2,
+      "sector": "Technology",
+      "fcf_yield_pct": 3.73,
+      "grade": "B"
+    }
+  ],
+  "value_en_entorno_razon": "MSFT, SAP.DE y SAP combinan FCF positivo, calidad grade B y menor sensibilidad c\u00edclica, lo que los hace resilientes frente al d\u00f3lar fuerte y la debilidad de small caps propia de este r\u00e9gimen calmado pero con cobertura de cola activa.",
+  "evitar": [
+    {
+      "ticker": "IWM",
+      "razon": "Percentil 16.7 refleja debilidad estructural de small caps pese a se\u00f1al contrarian, alto riesgo binario pre-PCE."
+    },
+    {
+      "ticker": "CVX",
+      "razon": "Earnings ma\u00f1ana justo antes del dato de PCE a\u00f1ade volatilidad innecesaria a una posici\u00f3n value de energ\u00eda."
+    }
+  ],
+  "agenda_semana": [
+    {
+      "fecha": "2026-10-29",
+      "evento": "GDP Advance",
+      "impacto": "MEDIO",
+      "accion_sugerida": "Mantener posiciones actuales, evitar nuevas entradas direccionales hasta conocer el dato."
+    },
+    {
+      "fecha": "2026-10-30",
+      "evento": "PCE Inflation",
+      "impacto": "ALTO",
+      "accion_sugerida": "Esperar confirmaci\u00f3n antes de ampliar posici\u00f3n en TLT/VGLT; ajustar coberturas de cola si sorprende al alza."
+    }
+  ],
+  "frase_del_dia": "S\u00e9 temeroso cuando otros son codiciosos, y codicioso cuando otros son temerosos. \u2014 Warren Buffett",
+  "mensaje_telegram": "\ud83d\udcca Mercado calmado pero SKEW alto y USD en extremo \ud83c\uddfa\ud83c\uddf8. Rotaci\u00f3n a oro/defensa \ud83d\udee1\ufe0f. PCE ma\u00f1ana clave \u26a0\ufe0f. Plan: TLT long \ud83d\udfe2, MSFT value \ud83d\udcbc, cobertura con oro \ud83e\udd47, cautela en IWM hasta pasar el dato.",
+  "ai_powered": true
+}

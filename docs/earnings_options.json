@@ -1,67 +1,67 @@
 {
-  "generated_at": "2026-10-28T07:06:28Z",
+  "generated_at": "2026-10-29T07:11:07Z",
   "horizon_days": 14,
-  "count": 2,
+  "count": 3,
   "snapshots": {
     "UBER": {
       "ticker": "UBER",
       "company_name": "Uber Technologies, Inc.",
       "sector": "Technology",
       "earnings_date": "2026-11-04",
-      "days_to_earnings": 7,
-      "current_price": 65.78,
+      "days_to_earnings": 6,
+      "current_price": 65.27,
       "term_structure": [
         {
-          "strike": 66.0,
-          "call_price": 2.58,
-          "put_price": 2.62,
-          "straddle": 5.2,
-          "implied_move_pct": 7.91,
-          "call_iv": 0.0078,
-          "put_iv": 0.0,
+          "strike": 65.0,
+          "call_price": 2.72,
+          "put_price": 2.37,
+          "straddle": 5.09,
+          "implied_move_pct": 7.8,
+          "call_iv": 0.0,
+          "put_iv": 0.0078,
           "expiration": "2026-11-06",
-          "days_to_exp": 9
+          "days_to_exp": 8
         },
         {
-          "strike": 66.0,
-          "call_price": 2.86,
-          "put_price": 2.87,
-          "straddle": 5.73,
-          "implied_move_pct": 8.71,
-          "call_iv": 0.0039,
-          "put_iv": 0.0,
+          "strike": 65.0,
+          "call_price": 3.0,
+          "put_price": 2.64,
+          "straddle": 5.64,
+          "implied_move_pct": 8.64,
+          "call_iv": 0.0,
+          "put_iv": 0.0078,
           "expiration": "2026-11-13",
-          "days_to_exp": 16
+          "days_to_exp": 15
         },
         {
-          "strike": 66.0,
-          "call_price": 3.1,
-          "put_price": 3.0,
-          "straddle": 6.1,
-          "implied_move_pct": 9.27,
-          "call_iv": 0.0039,
-          "put_iv": 0.0,
+          "strike": 65.0,
+          "call_price": 3.4,
+          "put_price": 2.8,
+          "straddle": 6.2,
+          "implied_move_pct": 9.5,
+          "call_iv": 0.0,
+          "put_iv": 0.0078,
           "expiration": "2026-11-20",
-          "days_to_exp": 23
+          "days_to_exp": 22
         },
         {
-          "strike": 66.0,
-          "call_price": 3.3,
-          "put_price": 3.2,
-          "straddle": 6.5,
-          "implied_move_pct": 9.88,
-          "call_iv": 0.0039,
-          "put_iv": 0.0,
+          "strike": 65.0,
+          "call_price": 3.5,
+          "put_price": 3.02,
+          "straddle": 6.52,
+          "implied_move_pct": 9.99,
+          "call_iv": 0.0,
+          "put_iv": 0.0039,
           "expiration": "2026-11-27",
-          "days_to_exp": 30
+          "days_to_exp": 29
         }
       ],
       "skew": {
         "put_strike": 62.0,
-        "call_strike": 70.0,
-        "put_iv": 0.125,
+        "call_strike": 69.0,
+        "put_iv": 0.0625,
         "call_iv": 0.125,
-        "skew_pts": 0.0,
+        "skew_pts": -6.25,
         "unreliable": false
       },
       "history": {
@@ -101,66 +101,168 @@
         ]
       },
       "52w_high": 100.35,
-      "52w_low": 65.41,
+      "52w_low": 64.69,
       "analyst_target": 100.85522,
       "analyst_count": 46.0
+    },
+    "AMAT": {
+      "ticker": "AMAT",
+      "company_name": "Applied Materials, Inc.",
+      "sector": "Technology",
+      "earnings_date": "2026-11-12",
+      "days_to_earnings": 14,
+      "current_price": 416.0,
+      "term_structure": [
+        {
+          "strike": 415.0,
+          "call_price": 23.83,
+          "put_price": 22.3,
+          "straddle": 46.13,
+          "implied_move_pct": 11.09,
+          "call_iv": 0.0,
+          "put_iv": 0.0039,
+          "expiration": "2026-11-13",
+          "days_to_exp": 15
+        },
+        {
+          "strike": 415.0,
+          "call_price": 27.1,
+          "put_price": 24.51,
+          "straddle": 51.61,
+          "implied_move_pct": 12.41,
+          "call_iv": 0.0,
+          "put_iv": 0.0039,
+          "expiration": "2026-11-20",
+          "days_to_exp": 22
+        },
+        {
+          "strike": 415.0,
+          "call_price": 28.28,
+          "put_price": 27.05,
+          "straddle": 55.33,
+          "implied_move_pct": 13.3,
+          "call_iv": 0.0,
+          "put_iv": 0.002,
+          "expiration": "2026-11-27",
+          "days_to_exp": 29
+        },
+        {
+          "strike": 415.0,
+          "call_price": 32.19,
+          "put_price": 38.69,
+          "straddle": 70.88,
+          "implied_move_pct": 17.04,
+          "call_iv": 0.0,
+          "put_iv": 0.002,
+          "expiration": "2026-12-04",
+          "days_to_exp": 36
+        }
+      ],
+      "skew": {
+        "put_strike": 395.0,
+        "call_strike": 440.0,
+        "put_iv": 0.0625,
+        "call_iv": 0.0625,
+        "skew_pts": 0.0,
+        "unreliable": false
+      },
+      "history": {
+        "beat_rate": 1.0,
+        "beats": 4,
+        "total": 4,
+        "avg_surprise_pct": 5.29,
+        "history": [
+          {
+            "period": "2025-10-31",
+            "estimate": 2.09366,
+            "actual": 2.17,
+            "beat": true,
+            "surprise_pct": 3.65
+          },
+          {
+            "period": "2026-01-31",
+            "estimate": 2.206,
+            "actual": 2.38,
+            "beat": true,
+            "surprise_pct": 7.89
+          },
+          {
+            "period": "2026-04-30",
+            "estimate": 2.68545,
+            "actual": 2.86,
+            "beat": true,
+            "surprise_pct": 6.5
+          },
+          {
+            "period": "2026-07-31",
+            "estimate": 3.3944,
+            "actual": 3.5,
+            "beat": true,
+            "surprise_pct": 3.11
+          }
+        ]
+      },
+      "52w_high": 739.67,
+      "52w_low": 203.4,
+      "analyst_target": 627.8333,
+      "analyst_count": 36.0
     },
     "MCD": {
       "ticker": "MCD",
       "company_name": "McDonald's Corporation",
       "sector": "Consumer Cyclical",
       "earnings_date": "2026-11-04",
-      "days_to_earnings": 7,
-      "current_price": 249.47,
+      "days_to_earnings": 6,
+      "current_price": 250.5,
       "term_structure": [
         {
           "strike": 250.0,
-          "call_price": 5.1,
+          "call_price": 5.61,
           "put_price": 5.0,
-          "straddle": 10.1,
-          "implied_move_pct": 4.05,
-          "call_iv": 0.0039,
-          "put_iv": 0.0,
+          "straddle": 10.61,
+          "implied_move_pct": 4.24,
+          "call_iv": 0.0,
+          "put_iv": 0.0039,
           "expiration": "2026-11-06",
-          "days_to_exp": 9
+          "days_to_exp": 8
         },
         {
           "strike": 250.0,
-          "call_price": 6.06,
-          "put_price": 5.6,
-          "straddle": 11.66,
-          "implied_move_pct": 4.67,
-          "call_iv": 0.0039,
-          "put_iv": 0.0,
+          "call_price": 6.52,
+          "put_price": 5.1,
+          "straddle": 11.62,
+          "implied_move_pct": 4.64,
+          "call_iv": 0.0,
+          "put_iv": 0.0039,
           "expiration": "2026-11-13",
-          "days_to_exp": 16
+          "days_to_exp": 15
         },
         {
           "strike": 250.0,
-          "call_price": 6.55,
-          "put_price": 6.43,
-          "straddle": 12.98,
+          "call_price": 7.25,
+          "put_price": 5.77,
+          "straddle": 13.02,
           "implied_move_pct": 5.2,
-          "call_iv": 0.002,
-          "put_iv": 0.0,
+          "call_iv": 0.0,
+          "put_iv": 0.002,
           "expiration": "2026-11-20",
-          "days_to_exp": 23
+          "days_to_exp": 22
         },
         {
           "strike": 250.0,
-          "call_price": 7.6,
-          "put_price": 6.85,
-          "straddle": 14.45,
-          "implied_move_pct": 5.79,
-          "call_iv": 0.002,
-          "put_iv": 0.0,
+          "call_price": 7.61,
+          "put_price": 5.7,
+          "straddle": 13.31,
+          "implied_move_pct": 5.31,
+          "call_iv": 0.0,
+          "put_iv": 0.002,
           "expiration": "2026-11-27",
-          "days_to_exp": 30
+          "days_to_exp": 29
         }
       ],
       "skew": {
-        "put_strike": 235.0,
-        "call_strike": 262.5,
+        "put_strike": 237.5,
+        "call_strike": 265.0,
         "put_iv": 0.0625,
         "call_iv": 0.0625,
         "skew_pts": 0.0,
@@ -209,7 +311,7 @@
     }
   },
   "posiciones_revisadas": 4,
-  "proxima_earnings_dias": 7,
+  "proxima_earnings_dias": 6,
   "sin_fecha_de_earnings": [],
   "en_horizonte_sin_datos": []
 }

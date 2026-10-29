@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-10-28",
-  "total": 3,
+  "generated_at": "2026-10-29",
+  "total": 2,
   "narrative": "",
   "clusters": [
     {
@@ -11,35 +11,22 @@
         "ULVR.L",
         "DGE.L"
       ],
-      "total_purchases": 37,
+      "total_purchases": 36,
       "total_insiders": 17,
       "cluster_score": 100,
-      "signal": "MODERATE"
-    },
-    {
-      "sector": "Financial Services",
-      "ticker_count": 3,
-      "tickers": [
-        "CME",
-        "MSCI",
-        "AON"
-      ],
-      "total_purchases": 12,
-      "total_insiders": 3,
-      "cluster_score": 84,
       "signal": "MODERATE"
     },
     {
       "sector": "Technology",
       "ticker_count": 3,
       "tickers": [
-        "ORCL",
         "VRSN",
-        "SAP.DE"
+        "SAP.DE",
+        "SGE.L"
       ],
-      "total_purchases": 10,
-      "total_insiders": 4,
-      "cluster_score": 80,
+      "total_purchases": 8,
+      "total_insiders": 5,
+      "cluster_score": 76,
       "signal": "MODERATE"
     }
   ]

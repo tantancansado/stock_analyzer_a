@@ -1,15 +1,15 @@
 {
-  "generated_at": "2026-10-28",
-  "total_positions": 94,
+  "generated_at": "2026-10-29",
+  "total_positions": 96,
   "risks": [
     {
       "type": "SECTOR_CONCENTRATION",
       "severity": "HIGH",
-      "message": "60% de se\u00f1ales en Unknown (56/94) \u2014 concentraci\u00f3n elevada",
+      "message": "61% de se\u00f1ales en Unknown (59/96) \u2014 concentraci\u00f3n elevada",
       "detail": {
         "sector": "Unknown",
-        "count": 56,
-        "pct": 60
+        "count": 59,
+        "pct": 61
       }
     },
     {
@@ -17,42 +17,42 @@
       "severity": "LOW",
       "message": "100% en mercado US \u2014 poca diversificaci\u00f3n geogr\u00e1fica",
       "detail": {
-        "us": 94,
+        "us": 96,
         "eu": 0
       }
     }
   ],
-  "narrative": "- Diversificar la cartera invirtiendo en sectores con menor exposici\u00f3n y ampliando la cobertura a mercados internacionales.  \n- Rebalancear la asignaci\u00f3n de activos para reducir la dependencia de se\u00f1ales desconocidas y aumentar la presencia en regiones fuera de EE.\u202fUU.",
+  "narrative": "",
   "sector_breakdown": [
     {
       "sector": "Unknown",
-      "count": 56,
-      "pct": 60
+      "count": 59,
+      "pct": 61
     },
     {
       "sector": "Financial Services",
-      "count": 12,
-      "pct": 13
-    },
-    {
-      "sector": "Industrials",
-      "count": 6,
-      "pct": 6
+      "count": 11,
+      "pct": 11
     },
     {
       "sector": "Technology",
-      "count": 6,
-      "pct": 6
+      "count": 10,
+      "pct": 10
     },
     {
-      "sector": "Healthcare",
+      "sector": "Industrials",
       "count": 5,
       "pct": 5
     },
     {
-      "sector": "Consumer Cyclical",
-      "count": 3,
-      "pct": 3
+      "sector": "Healthcare",
+      "count": 4,
+      "pct": 4
+    },
+    {
+      "sector": "Consumer Defensive",
+      "count": 2,
+      "pct": 2
     },
     {
       "sector": "Communication Services",
@@ -60,12 +60,12 @@
       "pct": 2
     },
     {
-      "sector": "Consumer Defensive",
+      "sector": "Consumer Cyclical",
       "count": 2,
       "pct": 2
     }
   ],
   "region_breakdown": {
-    "US": 94
+    "US": 96
   }
 }

@@ -1,0 +1,75 @@
+{
+  "generated_at": "2026-10-29",
+  "total": 5,
+  "dropped_count": 3,
+  "narrative": "",
+  "displacements": [
+    {
+      "type": "COMPETITOR_RISE",
+      "dropped_ticker": "ADSK",
+      "sector": "Technology",
+      "prev_score": 55.325,
+      "replacements": [
+        "VRSN",
+        "MSFT",
+        "SAP.DE"
+      ],
+      "top_replacement": "VRSN",
+      "top_replacement_score": 72.92500000000001,
+      "detail": "ADSK sali\u00f3 de VALUE (55pts); peers en Technology: VRSN, MSFT"
+    },
+    {
+      "type": "COMPETITOR_RISE",
+      "dropped_ticker": "MCO",
+      "sector": "Financial Services",
+      "prev_score": 64.36500000000001,
+      "replacements": [
+        "MSCI",
+        "MA",
+        "AON"
+      ],
+      "top_replacement": "MSCI",
+      "top_replacement_score": 69.17999999999999,
+      "detail": "MCO sali\u00f3 de VALUE (64pts); peers en Financial Services: MSCI, MA"
+    },
+    {
+      "type": "COMPETITOR_RISE",
+      "dropped_ticker": "NDAQ",
+      "sector": "Financial Services",
+      "prev_score": 60.66499999999999,
+      "replacements": [
+        "MSCI",
+        "MA",
+        "AON"
+      ],
+      "top_replacement": "MSCI",
+      "top_replacement_score": 69.17999999999999,
+      "detail": "NDAQ sali\u00f3 de VALUE (61pts); peers en Financial Services: MSCI, MA"
+    },
+    {
+      "type": "SECTOR_TAILWIND",
+      "sector": "Technology",
+      "rotation_score": 100.0,
+      "beneficiaries": [
+        "VRSN",
+        "MSFT",
+        "SAP.DE"
+      ],
+      "top_ticker": "VRSN",
+      "top_score": 72.92500000000001,
+      "detail": "Sector Technology l\u00edder (RS 100) \u2014 VRSN, MSFT, SAP.DE son los picks VALUE"
+    },
+    {
+      "type": "SECTOR_TAILWIND",
+      "sector": "Healthcare",
+      "rotation_score": 100.0,
+      "beneficiaries": [
+        "AZN.L",
+        "CLPBY"
+      ],
+      "top_ticker": "AZN.L",
+      "top_score": 54.8,
+      "detail": "Sector Healthcare l\u00edder (RS 100) \u2014 AZN.L, CLPBY son los picks VALUE"
+    }
+  ]
+}

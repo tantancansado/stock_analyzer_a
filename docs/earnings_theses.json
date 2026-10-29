@@ -1,17 +1,17 @@
 {
-  "generated_at": "2026-10-28T07:00:57Z",
+  "generated_at": "2026-10-29T07:05:41Z",
   "horizon_days": 14,
-  "total": 2,
+  "total": 3,
   "theses": {
     "UBER": {
       "ticker": "UBER",
       "company_name": "Uber Technologies, Inc.",
       "sector": "Technology",
       "earnings_date": "2026-11-04",
-      "days_to_earnings": 7,
-      "current_price": 65.78,
+      "days_to_earnings": 6,
+      "current_price": 65.27,
       "fifty_two_week_high": 100.35,
-      "fifty_two_week_low": 65.41,
+      "fifty_two_week_low": 64.69,
       "earnings_history": [
         {
           "period": "2026-06-30",
@@ -57,24 +57,89 @@
       "beat_rate_last_4q": 0.5,
       "key_risks": [
         "Margen operativo bajo",
-        "Competencia intensa en rideshare",
-        "Regulaci\u00f3n de veh\u00edculos aut\u00f3nomos"
+        "Regulaci\u00f3n de transporte",
+        "Competencia agresiva"
       ],
       "key_catalysts": [
-        "Expansi\u00f3n de Uber Eats en mercados emergentes",
-        "Mejora de la eficiencia operativa",
-        "Potencial de monetizaci\u00f3n de datos"
+        "Gu\u00eda de ingresos post\u2011earnings",
+        "Crecimiento de Uber Eats",
+        "Expansi\u00f3n en mercados emergentes"
       ],
-      "thesis_summary": "Uber mantiene una posici\u00f3n de valor con un precio actual muy por debajo del hist\u00f3rico, pero la volatilidad y la competencia intensifican el riesgo. En earnings se espera un EPS de 0.90 y ingresos de 14.7\u202fbn, con un beat rate bajo. La gu\u00eda de la compa\u00f1\u00eda y los m\u00e1rgenes de operaci\u00f3n son los principales puntos a vigilar. Si la compa\u00f1\u00eda logra mejorar la rentabilidad de sus segmentos de entrega y mantiene la cuota de mercado, la acci\u00f3n podr\u00eda recuperarse. En caso de un resultado negativo o de se\u00f1ales regulatorias adversas, se recomienda reducir la exposici\u00f3n.",
+      "thesis_summary": "Uber mantiene una posici\u00f3n de valor con un hist\u00f3rico de ganancias y m\u00e1rgenes que han fluctuado. La pr\u00f3xima presentaci\u00f3n de resultados presenta un riesgo moderado de margen, pero la gu\u00eda de ingresos y el crecimiento de la entrega pueden impulsar la valoraci\u00f3n. Se recomienda mantener la posici\u00f3n y observar la gu\u00eda de ingresos y los m\u00e1rgenes de EBITDA en el reporte.",
       "confidence": 70
+    },
+    "AMAT": {
+      "ticker": "AMAT",
+      "company_name": "Applied Materials, Inc.",
+      "sector": "Technology",
+      "earnings_date": "2026-11-12",
+      "days_to_earnings": 14,
+      "current_price": 416.0,
+      "fifty_two_week_high": 739.67,
+      "fifty_two_week_low": 203.4,
+      "earnings_history": [
+        {
+          "period": "2026-07-31",
+          "eps_estimate": 3.3944,
+          "eps_actual": 3.5,
+          "surprise_pct": 3.11,
+          "beat": true
+        },
+        {
+          "period": "2026-04-30",
+          "eps_estimate": 2.68545,
+          "eps_actual": 2.86,
+          "surprise_pct": 6.5,
+          "beat": true
+        },
+        {
+          "period": "2026-01-31",
+          "eps_estimate": 2.206,
+          "eps_actual": 2.38,
+          "surprise_pct": 7.89,
+          "beat": true
+        },
+        {
+          "period": "2025-10-31",
+          "eps_estimate": 2.09366,
+          "eps_actual": 2.17,
+          "surprise_pct": 3.65,
+          "beat": true
+        }
+      ],
+      "earnings_reaction": {
+        "n": 12,
+        "subio": 5,
+        "mediana_abs_pct": 5.2,
+        "peor_pct": -14.1,
+        "mejor_pct": 8.1
+      },
+      "verdict": "HOLD_THROUGH",
+      "sentiment_tone": "BULLISH",
+      "implied_move_pct": 0.04,
+      "expected_eps": 4.05576,
+      "expected_revenue_millions": 10299.5,
+      "beat_rate_last_4q": 1.0,
+      "key_risks": [
+        "Demanda de chips en declive",
+        "Problemas de cadena de suministro",
+        "Presi\u00f3n sobre m\u00e1rgenes"
+      ],
+      "key_catalysts": [
+        "Gu\u00eda de ingresos y ganancias",
+        "Lanzamientos de nuevos productos",
+        "Expansi\u00f3n de m\u00e1rgenes en segmentos de alta tecnolog\u00eda"
+      ],
+      "thesis_summary": "Applied Materials mantiene su posici\u00f3n con una convicci\u00f3n alta, ya que la compa\u00f1\u00eda ha superado consistentemente las expectativas en los \u00faltimos trimestres. El pr\u00f3ximo informe de earnings presenta un beat de EPS del 3-7% y una gu\u00eda de ingresos que respalda la tendencia alcista. Se recomienda mantener la posici\u00f3n a trav\u00e9s de earnings, vigilando la gu\u00eda de ingresos, los m\u00e1rgenes de beneficio y la evoluci\u00f3n de la demanda de chips de alta gama. Si la compa\u00f1\u00eda confirma la gu\u00eda y mantiene la expansi\u00f3n de m\u00e1rgenes, se considera una oportunidad de compra adicional post-earnings.",
+      "confidence": 80
     },
     "MCD": {
       "ticker": "MCD",
       "company_name": "McDonald's Corporation",
       "sector": "Consumer Cyclical",
       "earnings_date": "2026-11-04",
-      "days_to_earnings": 7,
-      "current_price": 249.47,
+      "days_to_earnings": 6,
+      "current_price": 250.5,
       "fifty_two_week_high": 341.75,
       "fifty_two_week_low": 229.2,
       "earnings_history": [
@@ -114,23 +179,23 @@
         "peor_pct": -3.7,
         "mejor_pct": 4.8
       },
-      "verdict": "HOLD",
+      "verdict": "HOLD_THROUGH",
       "sentiment_tone": "NEUTRAL",
       "implied_move_pct": 0.03,
       "expected_eps": 3.38342,
       "expected_revenue_millions": 7285.1,
       "beat_rate_last_4q": 0.75,
       "key_risks": [
-        "Aumento de costos de alimentos",
-        "Cambios regulatorios en la industria alimentaria",
-        "Competencia de cadenas de comida r\u00e1pida"
+        "Crecimiento de costos de alimentos",
+        "Cambios regulatorios en franquicias internacionales",
+        "Fluctuaciones de divisas"
       ],
       "key_catalysts": [
-        "Lanzamientos de nuevos men\u00fas",
-        "Crecimiento de ventas digitales",
-        "Expansi\u00f3n de franquicias en mercados emergentes"
+        "Nueva l\u00ednea de men\u00fa saludable",
+        "Expansi\u00f3n en mercados emergentes",
+        "Mejoras en tecnolog\u00eda de pedidos"
       ],
-      "thesis_summary": "McDonald\u2019s mantiene una posici\u00f3n estable con un historial de beats moderado y sin noticias negativas recientes. La expectativa de EPS y revenue es ligeramente superior a la media del mercado, lo que sugiere un rendimiento s\u00f3lido. Se recomienda mantener la posici\u00f3n, vigilando la gu\u00eda de ingresos y los m\u00e1rgenes de contribuci\u00f3n post-earnings. Si los costos de alimentos se disparan o la competencia intensifica, se debe considerar una reducci\u00f3n parcial. La oportunidad de a\u00f1adir despu\u00e9s de earnings depender\u00e1 de la claridad en la gu\u00eda y la respuesta del mercado.",
+      "thesis_summary": "McDonald\u2019s mantiene su posici\u00f3n como l\u00edder global en comida r\u00e1pida con un modelo de negocio s\u00f3lido y m\u00e1rgenes estables. La pr\u00f3xima publicaci\u00f3n de resultados se alinea con la trayectoria de beats recientes, lo que sugiere un desempe\u00f1o consistente. Se recomienda mantener la posici\u00f3n y observar la gu\u00eda de ingresos y la evoluci\u00f3n de los m\u00e1rgenes de beneficio. Si la compa\u00f1\u00eda confirma o supera la gu\u00eda, se puede considerar una ligera ampliaci\u00f3n post\u2011earnings. En caso de una desviaci\u00f3n negativa, se debe reducir la exposici\u00f3n antes del anuncio.",
       "confidence": 70
     }
   }
