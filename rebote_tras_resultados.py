@@ -15,8 +15,9 @@ Pasos, y el primero que falla descarta:
   2. Caída anormal PARA ESA EMPRESA: al menos SIGMAS desviaciones de su día
      normal y CAIDA_MIN_PCT en absoluto, en las últimas sesiones.
   3. Esa caída es la reacción a sus resultados: publicó justo antes.
-  4. Resultados buenos: batió en beneficio y en ventas y no bajó la previsión
-     (Claude con búsqueda). La «sorpresa» del BPA de Yahoo no vale de filtro:
+  4. Resultados buenos: batió en ventas, no bajó la previsión y el BPA batió o
+     quedó en línea subiendo la previsión. Claude con búsqueda trae los
+     hechos; la regla la aplica `resultados_buenos`. La «sorpresa» del BPA de Yahoo no vale de filtro:
      el 29-oct-2026 daba a GOOG un −11,5% con un BPA contable que puede llevar
      pérdidas de sus participadas, y a WMT y TJX no les había cargado el BPA de
      agosto. Se guarda como dato, no decide.
@@ -54,6 +55,9 @@ SESIONES_VOL = 60
 # pilla al siguiente. Más atrás ya no es la reacción, es lo que vino después.
 SESIONES_REACCION = 2
 RSI2_MAX = 10.0
+# Diferencia con el consenso que todavía es «en línea»: el BPA de NOW quedó un 2%
+# por debajo. Más allá ya es fallar.
+BPA_EN_LINEA_PCT = 3.0
 MAX_CONSULTAS_IA = 4
 # Por debajo de esto el historial propio no dice nada todavía
 MIN_HISTORIAL = 10
@@ -149,27 +153,25 @@ def ultimos_resultados(tk, ahora: pd.Timestamp | None = None) -> tuple[pd.Timest
             None if pd.isna(sorpresa) else float(sorpresa))
 
 
-SYSTEM = """Compruebas si una empresa que acaba de caer con fuerza tras publicar
-resultados los publicó BUENOS o MALOS. La diferencia decide si la caída es una
-sobrerreacción que puede rebotar o el principio de una bajada que sigue.
+SYSTEM = """Buscas los datos de los resultados que una empresa acaba de publicar,
+tras los que ha caído con fuerza. Solo hechos: el veredicto no es tuyo.
 
 Busca la noticia de los resultados antes de responder. No afirmes nada que no
 hayas encontrado buscando.
 
 Responde SOLO con este JSON, sin markdown alrededor:
-{"resultados": "BUENOS|MIXTOS|MALOS|SIN_DATOS",
- "beneficio": "<batió / en línea / falló, con la cifra si la tienes>",
- "ventas": "<batió / en línea / falló, con la cifra si la tienes>",
+{"bpa_sorpresa_pct": <número: % del BPA ajustado frente al consenso, negativo si
+                      quedó por debajo; null si no lo encuentras>,
+ "ventas_vs_consenso": "BATIO|EN_LINEA|FALLO|SIN_DATOS",
  "prevision": "SUBE|MANTIENE|BAJA|SIN_DATOS",
+ "beneficio": "<una frase con las cifras: publicado frente a esperado>",
+ "ventas": "<una frase con las cifras: publicado frente a esperado>",
  "por_que_cae": "<una frase en español>"}
 
-- BUENOS solo si batió en beneficio Y en ventas frente al consenso Y no bajó la
-  previsión. El beneficio se juzga por el operativo o el ajustado que compara el
-  consenso: un BPA contable movido por ganancias o pérdidas de inversiones o por
-  un cargo único no es el negocio. Que caiga por capex, márgenes futuros, expectativas infladas o una
-  previsión prudente pero no recortada es compatible con BUENOS.
-- MALOS si falló en beneficio o en ventas, o si bajó o retiró la previsión.
-- MIXTOS en el resto. SIN_DATOS si no encuentras información fiable."""
+El BPA es el ajustado u operativo, el que compara el consenso: uno contable
+movido por ganancias o pérdidas de inversiones o por un cargo único no es el
+negocio. «prevision» es la del año o la del trimestre siguiente frente a la
+anterior de la propia empresa; si retira la previsión, BAJA."""
 
 PROMPT = """{empresa} ({ticker}) publicó resultados el {fecha} y ha caído un
 {caida:.1f}% desde entonces. ¿Fueron buenos o malos frente a lo esperado?"""
@@ -181,11 +183,28 @@ def comprobar_resultados(ticker: str, empresa: str, fecha: str, caida: float) ->
         PROMPT.format(empresa=empresa, ticker=ticker, fecha=fecha, caida=abs(caida)),
         system=SYSTEM, max_tokens=1200, max_searches=2, model=claude_research.MODEL_HAIKU)
     v = claude_research.parse_json(texto)
-    # Sin búsquedas detrás un «BUENOS» es texto plausible, no un dato
-    if not fuentes:
-        v['resultados'] = 'SIN_DATOS'
+    # Sin búsquedas detrás los datos son texto plausible, no datos
+    v['resultados'] = 'BUENOS' if fuentes and resultados_buenos(v) else 'NO'
     v['fuentes'] = len(fuentes)
     return v
+
+
+def resultados_buenos(v: dict) -> bool:
+    """Batió en ventas, no bajó la previsión y el BPA batió o quedó en línea.
+
+    En línea solo vale si además SUBE la previsión. NOW el 29-oct-2026: ventas
+    por encima, previsión del año subida y BPA ajustado de 1,00 frente a 1,02.
+    Fallar por dos céntimos subiendo la previsión no es un mal trimestre, y el
+    usuario no quería dejarlo fuera.
+    """
+    sorpresa = v.get('bpa_sorpresa_pct')
+    try:
+        sorpresa = float(sorpresa)
+    except (TypeError, ValueError):
+        return False
+    if v.get('ventas_vs_consenso') != 'BATIO' or v.get('prevision') not in ('SUBE', 'MANTIENE'):
+        return False
+    return sorpresa >= 0 or (sorpresa > -BPA_EN_LINEA_PCT and v.get('prevision') == 'SUBE')
 
 
 def valoracion_pe(fila: pd.Series | None, precio: float) -> float | None:
@@ -221,7 +240,7 @@ def mensaje(setups: list[dict], hoy: str) -> str:
     for s in setups:
         lineas += [
             f"<b>{s['ticker']}</b> cae un {abs(s['caida_pct']):.1f}% tras publicar el {s['fecha_resultados']}.",
-            f"Resultados: beneficio {s['beneficio']}, ventas {s['ventas']}, "
+            f"Resultados: {s['beneficio']}; {s['ventas']}; "
             f"{PREVISION.get(s['prevision'], 'previsión sin datos')}. Cae por: {s['por_que_cae']}",
             f"A su P/E de siempre le queda un +{s['upside_pe']:.0f}%. Sobrevendida (RSI2 {s['rsi2']:.0f}).",
             f"Entrada pequeña a ~{_precio(s['price'])}. Salida al recuperar el cierre previo a resultados "

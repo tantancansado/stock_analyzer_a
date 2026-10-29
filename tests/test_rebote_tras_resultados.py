@@ -148,3 +148,40 @@ class TestEmbudo:
         fund = pd.DataFrame([{'ticker': 'AAA', 'company_name': 'Aaa', 'target_price_pe': 500.0}])
         setups, _ = self._correr(monkeypatch, tmp_path, fund, resultados='MALOS')
         assert setups == []
+
+
+class TestResultadosBuenos:
+    """La regla vive en el código; Claude solo trae los hechos con fuentes."""
+
+    def _v(self, sorpresa, ventas='BATIO', prevision='MANTIENE'):
+        return {'bpa_sorpresa_pct': sorpresa, 'ventas_vs_consenso': ventas, 'prevision': prevision}
+
+    def test_now_29_oct_dos_centimos_por_debajo_subiendo_la_prevision_vale(self):
+        assert rr.resultados_buenos(self._v(-2.0, prevision='SUBE'))
+
+    def test_en_linea_sin_subir_la_prevision_no_basta(self):
+        assert not rr.resultados_buenos(self._v(-2.0, prevision='MANTIENE'))
+
+    def test_fallar_de_verdad_no_lo_arregla_la_prevision(self):
+        assert not rr.resultados_buenos(self._v(-5.0, prevision='SUBE'))
+
+    def test_batir_en_beneficio_y_ventas_manteniendo_la_prevision_vale(self):
+        assert rr.resultados_buenos(self._v(4.0))
+
+    def test_ventas_por_debajo_no_vale(self):
+        assert not rr.resultados_buenos(self._v(4.0, ventas='FALLO', prevision='SUBE'))
+
+    def test_recortar_la_prevision_no_vale(self):
+        assert not rr.resultados_buenos(self._v(4.0, prevision='BAJA'))
+
+    def test_sin_el_dato_del_bpa_no_hay_veredicto(self):
+        assert not rr.resultados_buenos(self._v(None, prevision='SUBE'))
+
+    def test_sin_fuentes_no_hay_resultados_buenos(self, monkeypatch):
+        import json
+        import claude_research
+        hechos = json.dumps(self._v(4.0, prevision='SUBE'))
+        monkeypatch.setattr(claude_research, 'ask_with_search', lambda *a, **k: (hechos, []))
+        assert rr.comprobar_resultados('AAA', 'Aaa', '2026-10-28', -10.0)['resultados'] == 'NO'
+        monkeypatch.setattr(claude_research, 'ask_with_search', lambda *a, **k: (hechos, ['https://x']))
+        assert rr.comprobar_resultados('AAA', 'Aaa', '2026-10-28', -10.0)['resultados'] == 'BUENOS'
