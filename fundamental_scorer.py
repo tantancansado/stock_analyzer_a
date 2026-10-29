@@ -344,6 +344,33 @@ UPSIDE_PE_ABSURDO = 150.0
 # emisión a empleados.
 RECOMPRA_MATERIAL_PCT = 1.0
 
+# Una cotización que ya no se negocia sigue dando precio: el último. Ashtead se
+# fue a Nueva York el 2-mar-2026 (SUNB) y Yahoo siguió sirviendo AHT.L a 5.328
+# peniques, con el historial parado desde el 27-feb. CRH.L, al revés: historial
+# vivo en torno a 7.800 y `currentPrice` clavado en 8.848. Las dos salieron 14
+# días cada una como VALUE con un precio que no existía, y el tracker les
+# apuntó stops «saltados» al séptimo día que eran el error del precio.
+# Medido el 29-oct-2026: ninguna del universo pasa de un 3% ni de un día.
+MAX_DIAS_SIN_COTIZAR = 10
+MAX_DESVIO_PRECIO_CIERRE_PCT = 10.0
+
+
+def cotizacion_muerta(precio, hist: pd.DataFrame, hoy: pd.Timestamp | None = None) -> str | None:
+    """Motivo si el precio no es el de un valor que se negocia hoy; None si vale.
+
+    Sin historial no se juzga: un rate-limit no es una cotización muerta.
+    """
+    if hist is None or hist.empty or 'Close' not in hist:
+        return None
+    ultima = hist.index[-1]
+    hoy = hoy if hoy is not None else pd.Timestamp.now(tz=ultima.tz)
+    if (hoy - ultima).days > MAX_DIAS_SIN_COTIZAR:
+        return f'sin cotizar desde el {ultima:%d-%m-%Y}'
+    cierre = float(hist['Close'].iloc[-1])
+    if precio and cierre > 0 and abs(float(precio) / cierre - 1) * 100 > MAX_DESVIO_PRECIO_CIERRE_PCT:
+        return f'precio {float(precio):.2f} contra un último cierre de {cierre:.2f}'
+    return None
+
 # Negocios donde el «flujo de caja operativo» NO es flujo libre para el
 # accionista: en un banco incluye el movimiento de depósitos y préstamos, y en
 # una aseguradora las primas cobradas y las reservas. Descontar eso como si
@@ -501,6 +528,13 @@ class FundamentalScorer:
             quarterly_earnings = self._get_quarterly_earnings(stock)
             financials = self._get_financials(stock)
             price_history = self._get_price_history(stock)
+            muerta = None if self.as_of_date else cotizacion_muerta(
+                info.get('currentPrice') or info.get('regularMarketPrice'), price_history)
+            if muerta:
+                print(f"   ❌ {ticker}: cotización muerta ({muerta}) — sin score")
+                vacio = self._get_empty_result(ticker)
+                vacio['sin_score_motivo'] = f'cotización muerta: {muerta}'
+                return vacio
 
             # Calcular cada componente del score
             earnings_score = self._calculate_earnings_quality_score(

@@ -1027,3 +1027,31 @@ class TestCrecimientoInteranual:
         r = FundamentalScorer()._calculate_growth_acceleration_score(
             pd.DataFrame(), {'quarterly_financials': qf_asc})
         assert r['rev_growth_yoy'] == pytest.approx(12.2, abs=0.1)
+
+
+class TestCotizacionMuerta:
+    """Una línea que ya no se negocia sigue dando precio: el último."""
+
+    def _hist(self, fin, cierre=100.0, n=30):
+        dias = pd.bdate_range(end=fin, periods=n)
+        return pd.DataFrame({'Close': [cierre] * n}, index=dias)
+
+    def test_historial_parado_hace_semanas(self):
+        # Ashtead: Londres parado el 27-feb, Yahoo seguía dando el último precio
+        from fundamental_scorer import cotizacion_muerta
+        m = cotizacion_muerta(5328.0, self._hist('2026-02-27', 5328.0), pd.Timestamp('2026-03-24'))
+        assert m and '27-02-2026' in m
+
+    def test_precio_actual_que_no_es_el_ultimo_cierre(self):
+        # CRH.L: historial vivo en torno a 7.800 y currentPrice clavado en 8.848
+        from fundamental_scorer import cotizacion_muerta
+        m = cotizacion_muerta(8848.0, self._hist('2026-03-23', 7800.0), pd.Timestamp('2026-03-24'))
+        assert m and '8848' in m
+
+    def test_un_valor_que_cotiza_normal_vale(self):
+        from fundamental_scorer import cotizacion_muerta
+        assert cotizacion_muerta(101.0, self._hist('2026-10-28'), pd.Timestamp('2026-10-29')) is None
+
+    def test_sin_historial_no_se_juzga(self):
+        from fundamental_scorer import cotizacion_muerta
+        assert cotizacion_muerta(100.0, pd.DataFrame(), pd.Timestamp('2026-10-29')) is None

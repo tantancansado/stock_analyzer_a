@@ -19,6 +19,38 @@ from value_bands import (UPSIDE_MIN, UPSIDE_GOLDEN_MAX, UPSIDE_ALTO,
 
 TRACKER_DIR = Path('docs/portfolio_tracker')
 
+# Empresas que se llevaron la cotización a otra bolsa. Yahoo borra la línea
+# vieja entera, historial incluido, y sus filas se pedían cada día con un 404
+# sin llegar nunca a su lectura a 90 días. Se miden con la línea nueva pasada a
+# la unidad de la vieja (peniques = dólares / GBPUSD × 100), para no mezclar
+# divisas dentro de una misma fila.
+COTIZACION_TRASLADADA = {
+    'AHT.L': ('SUNB', 'GBPUSD=X', 100.0),   # Ashtead → Sunbelt Rentals, 2-mar-2026
+    'CRH.L': ('CRH', 'GBPUSD=X', 100.0),    # CRH deja Londres en abril de 2026
+}
+
+
+def _historial(ticker: str, start: str, end: str) -> pd.DataFrame:
+    """Historial diario sin zona horaria; el de la línea nueva si se trasladó."""
+    traslado = COTIZACION_TRASLADADA.get(ticker)
+    h = yf.Ticker(traslado[0] if traslado else ticker).history(start=start, end=end)
+    if h.index.tz is not None:
+        h.index = h.index.tz_localize(None)
+    if traslado and not h.empty:
+        fx = yf.Ticker(traslado[1]).history(start=start, end=end)
+        if fx.empty:
+            return pd.DataFrame()
+        fx = fx['Close']
+        if fx.index.tz is not None:
+            fx.index = fx.index.tz_localize(None)
+        h.index = h.index.normalize()
+        fx.index = fx.index.normalize()
+        fx = fx[~fx.index.duplicated(keep='last')].reindex(h.index, method='ffill')
+        for c in ('Open', 'High', 'Low', 'Close'):
+            h[c] = h[c] / fx * traslado[2]
+        h = h.dropna(subset=['Close'])
+    return h
+
 # Muestra mínima para publicar un horizonte. Por debajo no se dice nada: es
 # preferible un hueco a un número de otra población.
 MIN_MUESTRA_LIMPIA = 15
@@ -610,19 +642,12 @@ class PortfolioTracker:
 
             # Fetch price history
             try:
-                stock = yf.Ticker(ticker)
                 earliest_date = ticker_recs['signal_date'].min()
                 start_date = pd.Timestamp(earliest_date) - timedelta(days=1)
-                hist = stock.history(
-                    start=start_date.strftime('%Y-%m-%d'),
-                    end=(today + timedelta(days=1)).strftime('%Y-%m-%d')
-                )
+                hist = _historial(ticker, start_date.strftime('%Y-%m-%d'),
+                                  (today + timedelta(days=1)).strftime('%Y-%m-%d'))
                 if hist.empty:
                     continue
-
-                # yfinance returns tz-aware index; strip tz to allow naive comparisons
-                if hist.index.tz is not None:
-                    hist.index = hist.index.tz_localize(None)
 
                 for idx, rec in ticker_recs.iterrows():
                     signal_date = pd.Timestamp(rec['signal_date'])

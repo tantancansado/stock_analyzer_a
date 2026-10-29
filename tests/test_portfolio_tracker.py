@@ -1540,3 +1540,41 @@ class TestSimulacionSinSesiones:
 
         assert t.recommendations.loc[1, 'exit_reason'] == 'TARGET'
         assert pd.isna(t.recommendations.loc[0].get('exit_reason'))
+
+
+class TestCotizacionTrasladada:
+    """Ashtead (AHT.L → SUNB) y CRH dejaron Londres: Yahoo borra la línea vieja
+    y sus filas se pedían cada día con un 404 sin llegar nunca a los 90 días."""
+
+    def _yf(self, monkeypatch, series):
+        import portfolio_tracker as pt
+
+        def ticker(simbolo):
+            t = MagicMock()
+            t.history.return_value = series.get(simbolo, pd.DataFrame())
+            return t
+        monkeypatch.setattr(pt.yf, 'Ticker', ticker)
+        monkeypatch.setitem(pt.COTIZACION_TRASLADADA, 'ZZZ.L', ('ZZZ', 'GBPUSD=X', 100.0))
+        return pt
+
+    def test_se_mide_con_la_linea_nueva_en_peniques(self, monkeypatch):
+        dias = pd.date_range('2026-03-02', periods=3, freq='B', tz='America/New_York')
+        usd = pd.DataFrame({c: [80.0, 84.0, 88.0] for c in ('Open', 'High', 'Low', 'Close')}, index=dias)
+        fx = pd.DataFrame({'Close': [1.25, 1.25, 1.10]},
+                          index=pd.date_range('2026-03-02', periods=3, freq='B', tz='Europe/London'))
+        pt = self._yf(monkeypatch, {'ZZZ': usd, 'GBPUSD=X': fx})
+        h = pt._historial('ZZZ.L', '2026-03-01', '2026-03-06')
+        assert list(h['Close'].round(2)) == [6400.0, 6720.0, 8000.0]
+        assert h.index.tz is None
+
+    def test_sin_tipo_de_cambio_no_se_inventa_el_precio(self, monkeypatch):
+        dias = pd.date_range('2026-03-02', periods=2, freq='B')
+        usd = pd.DataFrame({c: [80.0, 84.0] for c in ('Open', 'High', 'Low', 'Close')}, index=dias)
+        pt = self._yf(monkeypatch, {'ZZZ': usd})
+        assert pt._historial('ZZZ.L', '2026-03-01', '2026-03-06').empty
+
+    def test_lo_que_no_se_trasladó_va_tal_cual(self, monkeypatch):
+        dias = pd.date_range('2026-03-02', periods=2, freq='B', tz='America/New_York')
+        h0 = pd.DataFrame({c: [10.0, 11.0] for c in ('Open', 'High', 'Low', 'Close')}, index=dias)
+        pt = self._yf(monkeypatch, {'AAA': h0})
+        assert list(pt._historial('AAA', '2026-03-01', '2026-03-06')['Close']) == [10.0, 11.0]
