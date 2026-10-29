@@ -1968,13 +1968,22 @@ class FundamentalScorer:
                 result['fcf_minoritarios_pct'] = round(peso_minoritarios * 100, 1)
 
             # ── DIVIDEND QUALITY ───────────────────────────────────────
+            # El yield va contra el precio de AHORA. El dividendYield de Yahoo
+            # se queda días atrás tras un movimiento fuerte: HRI subió un 30%
+            # con resultados el 27-oct-2026 y seguía en 2,20% cuando era 1,69%.
+            # Si los dos difieren más del doble ya no es retraso sino unidades
+            # (peniques contra libras), y se publica el de Yahoo para que la
+            # identidad de coherence_check salte en vez de quedar tapada.
             div_yield = info.get('dividendYield')
-            if div_yield and div_yield > 0:
-                # yfinance dividendYield is already % (0.38 = 0.38%), not decimal
-                result['dividend_yield_pct'] = round(float(div_yield), 2)
             div_rate = info.get('dividendRate')
             if div_rate:
                 result['dividend_rate'] = round(float(div_rate), 2)
+            al_precio = float(div_rate) / current_price * 100 if div_rate and div_rate > 0 else None
+            if al_precio and not (div_yield and div_yield > 0 and not 0.5 <= al_precio / div_yield <= 2):
+                result['dividend_yield_pct'] = round(al_precio, 2)
+            elif div_yield and div_yield > 0:
+                # yfinance dividendYield is already % (0.38 = 0.38%), not decimal
+                result['dividend_yield_pct'] = round(float(div_yield), 2)
             payout = info.get('payoutRatio')
             if payout and payout > 0:
                 result['payout_ratio_pct'] = round(float(payout) * 100, 1)

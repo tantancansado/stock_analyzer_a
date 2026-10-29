@@ -272,6 +272,27 @@ class TestDividendYieldHandling:
             "payoutRatio=0.35 should be stored as 35.0 (×100). Got: " \
             f"{result['payout_ratio_pct']}"
 
+    def _yield(self, **info):
+        mock_stock = MagicMock()
+        mock_stock.quarterly_cashflow = pd.DataFrame()
+        mock_stock.quarterly_financials = pd.DataFrame()
+        mock_stock.earnings_dates = None
+        base = {'currentPrice': 166.17, 'marketCap': 10_000_000_000, 'freeCashflow': None}
+        return self._make_scorer()._calculate_value_quality_metrics(mock_stock, {**base, **info})
+
+    def test_el_yield_va_contra_el_precio_de_ahora(self):
+        # HRI el 29-oct-2026: Yahoo seguía en 2,20% tras subir un 30%
+        r = self._yield(dividendRate=2.80, dividendYield=2.20)
+        assert r['dividend_yield_pct'] == pytest.approx(1.69)
+
+    def test_un_factor_de_unidades_no_se_tapa(self):
+        # dividendo en libras contra precio en peniques: que salte la identidad
+        r = self._yield(dividendRate=0.028, dividendYield=1.69)
+        assert r['dividend_yield_pct'] == pytest.approx(1.69)
+
+    def test_sin_dividendo_declarado_vale_el_de_yahoo(self):
+        assert self._yield(dividendYield=1.25)['dividend_yield_pct'] == pytest.approx(1.25)
+
     def test_zero_dividend_yield_stored_as_none(self):
         """Stocks with no dividend should return None, not 0."""
         scorer = self._make_scorer()
