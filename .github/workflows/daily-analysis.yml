@@ -807,7 +807,6 @@ jobs:
             docs/mean_reversion_opportunities.csv \
             docs/bounce_setups_broad.csv \
             docs/bounce_setups_broad.json \
-            docs/earnings_options.json \
             docs/.strategy_alerts_seen.json \
             docs/recurring_insiders.csv \
             docs/eu_recurring_insiders.csv \
@@ -817,7 +816,6 @@ jobs:
             docs/macro_radar.json \
             docs/macro_stress.json \
             docs/dividend_traps.json \
-            docs/earnings_theses.json \
             docs/owner_earnings_ai_validated.json \
             docs/owner_earnings_ai_validated.csv \
             docs/cerebro_insights.json \
@@ -963,7 +961,9 @@ jobs:
             # que pedirle al health que lo encuentre es garantizar un rojo
             # eterno. Un vigía que grita sin motivo enseña a ignorarlo, y este
             # llevaba días haciéndolo en el mensaje de Telegram.
-            'earnings_opts':  ('docs/earnings_options.json',                     'generated_at', None, 3),
+            # privado/ y no docs/: lleva la cartera real. Se escribe en este
+            # mismo job, así que el vigía lo encuentra aunque no se commitee.
+            'earnings_opts':  ('privado/earnings_options.json',                  'generated_at', None, 3),
           }
 
           # El ÚNICO módulo cuyo fichero no lleva fecha por dentro.

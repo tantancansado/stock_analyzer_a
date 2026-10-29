@@ -1486,7 +1486,9 @@ def catalysts():
 
 @app.route('/api/portfolio-news')
 def portfolio_news():
-    return jsonify(_load_json(DOCS / 'portfolio_news.json') or {
+    # Por usuario y con JWT: el JSON estático de docs/ publicaba los tickers
+    # de la cartera real (hasta el 29-oct-2026)
+    return jsonify(_get_user_artifact_for_request('portfolio_news') or {
         'items': [], 'count': 0, 'alta_count': 0, 'media_count': 0,
         'tickers': [], 'scan_date': None, 'scan_time': None,
     })
@@ -1631,9 +1633,6 @@ def earnings_options():
     user_payload = _get_user_artifact_for_request('earnings_options')
     if user_payload:
         return jsonify(user_payload)
-    data = _load_json(DOCS / 'earnings_options.json')
-    if data:
-        return jsonify(data)
     return jsonify({'count': 0, 'snapshots': {}})
 
 
@@ -2843,7 +2842,7 @@ def _live_fetch_earnings_for_tickers(tickers: list[str]) -> list[dict]:
 
 
 def _load_earnings_theses_index() -> dict[str, dict]:
-    data = _load_json(DOCS / 'earnings_theses.json')
+    data = _get_user_artifact_for_request('earnings_theses')
     if not isinstance(data, dict):
         return {}
     theses = data.get('theses') or {}
@@ -3535,7 +3534,7 @@ def earnings_calendar():
 
 @app.route('/api/earnings-theses')
 def earnings_theses_all():
-    data = _load_json(DOCS / 'earnings_theses.json')
+    data = _get_user_artifact_for_request('earnings_theses')
     if not data:
         return jsonify({'generated_at': None, 'theses': {}, 'total': 0})
     return jsonify(data)
@@ -3544,7 +3543,7 @@ def earnings_theses_all():
 @app.route('/api/earnings-thesis/<ticker>')
 def earnings_thesis_one(ticker):
     ticker = ticker.upper().strip()
-    data = _load_json(DOCS / 'earnings_theses.json')
+    data = _get_user_artifact_for_request('earnings_theses')
     if not data:
         return jsonify({'error': 'not_found', 'ticker': ticker}), 404
     theses = data.get('theses') or {}

@@ -8,7 +8,7 @@ Lee posiciones de Supabase (personal_portfolio_positions) via service role, o co
 desde docs/personal_portfolio_snapshot.json. Para cada ticker con earnings próximos:
   - Obtiene contexto (precio, 52w, EPS/rev estimates, implied move, beat history)
   - Llama a Groq (openai/gpt-oss-20b) para sintetizar tesis en español
-  - Escribe docs/earnings_theses.json indexado por ticker
+  - Lo guarda por usuario en Supabase (user_artifacts) y una copia en privado/
 
 Ejecutar:
     python3 earnings_thesis_generator.py
@@ -34,24 +34,15 @@ except ImportError:
 
 
 DOCS = Path('docs')
-OUTPUT_PATH = DOCS / 'earnings_theses.json'
+# privado/ y no docs/: docs/ es público (repo y GitHub Pages) y hasta el
+# 29-oct-2026 este JSON, aunque ya iba sin cantidades, tenía por claves los
+# tickers de la cartera real. La app lo lee de Supabase con el JWT del usuario.
+OUTPUT_PATH = Path('privado') / 'earnings_theses.json'
 SNAPSHOT_PATH = DOCS / 'personal_portfolio_snapshot.json'
 HORIZON_DAYS = 14
 GROQ_MODEL = 'openai/gpt-oss-20b'  # modelo pequeño — cabe en el presupuesto diario de tokens; llama-3.1-8b-instant retirado 16-ago-2026
 
 
-
-# docs/ se publica (repo y GitHub Pages públicos): las tesis pueden ir, tus
-# cantidades no. Antes salían acciones, precio medio y ganancia de cada posición.
-_CAMPOS_DE_CARTERA = ('shares', 'avg_price', 'unrealized_pct', 'cost_basis', 'position_value')
-
-
-def _sin_datos_de_cartera(salida: dict) -> dict:
-    theses = salida.get('theses')
-    if isinstance(theses, dict):
-        salida = {**salida, 'theses': {t: {k: v for k, v in th.items() if k not in _CAMPOS_DE_CARTERA}
-                                       for t, th in theses.items()}}
-    return salida
 
 def _log(msg: str) -> None:
     print(msg, flush=True)
@@ -484,9 +475,9 @@ def _call_groq(client, ctx: dict) -> dict | None:
     except Exception as e:
         msg = str(e).lower()
         if '429' in msg or 'rate limit' in msg or 'tokens per day' in msg:
-            _log(f"  [rate-limit] {ctx['ticker']} — preserving previous thesis if any")
+            _log("  [rate-limit] preserving previous thesis if any")
             return {'_rate_limited': True}
-        _log(f"  [groq] {ctx['ticker']} failed: {e}")
+        _log(f"  [groq] failed: {e}")
         return None
 
     verdict = str(data.get('verdict', '')).upper().strip()
@@ -556,7 +547,7 @@ def main(
         # sin esto el JSON conserva la fecha de la última vez que HUBO posiciones
         # y parece un módulo roto/congelado en vez de una cartera vacía.
         if user_id is None and positions_override is None:
-            DOCS.mkdir(exist_ok=True)
+            OUTPUT_PATH.parent.mkdir(exist_ok=True)
             OUTPUT_PATH.write_text(json.dumps({
                 'generated_at': datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'),
                 'horizon_days': HORIZON_DAYS,
@@ -567,10 +558,19 @@ def main(
 
     # ── Cargar tesis previas para preservar cuando Groq rate-limita ──────────
     previous_theses: dict[str, dict] = {}
-    if user_id:
+    # privado/ no sobrevive entre runs de CI: en modo global las previas salen
+    # también de Supabase (app de un solo usuario)
+    _previas_de = user_id
+    if not _previas_de:
+        try:
+            from portfolio_artifacts import list_user_ids
+            _previas_de = next(iter(list_user_ids()), None)
+        except Exception:
+            _previas_de = None
+    if _previas_de:
         try:
             from portfolio_artifacts import read_artifact
-            art = read_artifact(user_id, 'earnings_theses')
+            art = read_artifact(_previas_de, 'earnings_theses')
             if art and isinstance(art.get('payload'), dict):
                 previous_theses = art['payload'].get('theses') or {}
         except Exception:
@@ -589,7 +589,7 @@ def main(
 
     for i, pos in enumerate(positions, 1):
         ticker = pos['ticker']
-        _log(f"[{i}/{len(positions)}] {ticker}")
+        _log(f"[{i}/{len(positions)}]")  # sin ticker: los logs de Actions son públicos
         try:
             ctx = _build_context(ticker, pos.get('shares'), pos.get('avg_price'))
         except Exception as e:
@@ -656,10 +656,10 @@ def main(
         'total': len(theses),
         'theses': theses,
     }
-    DOCS.mkdir(exist_ok=True)
-    # Solo escribir el JSON estático en modo global (sin user_id)
+    # Copia local solo en modo global (sin user_id)
     if user_id is None:
-        OUTPUT_PATH.write_text(json.dumps(_sin_datos_de_cartera(out), indent=2, default=str))
+        OUTPUT_PATH.parent.mkdir(exist_ok=True)
+        OUTPUT_PATH.write_text(json.dumps(out, indent=2, default=str))
         _log(f"[done] wrote {len(theses)} theses → {OUTPUT_PATH}")
 
     # Escribir a Supabase per-user

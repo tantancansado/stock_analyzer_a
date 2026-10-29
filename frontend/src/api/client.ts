@@ -429,8 +429,8 @@ const STATIC_DATA_BASE = (import.meta.env.VITE_CSV_BASE as string | undefined) |
  *   }
  *   return apiClient.get('/api/foo')
  *
- * @param staticFile  nombre del archivo en docs/ (p.ej. "portfolio_news.json")
- * @param apiPath     path del endpoint Flask (p.ej. "/api/portfolio-news")
+ * @param staticFile  nombre del archivo en docs/ (p.ej. "unusual_flow.json")
+ * @param apiPath     path del endpoint Flask (p.ej. "/api/unusual-flow")
  */
 export async function fetchStaticOrApi<T>(staticFile: string, apiPath: string): Promise<{ data: T }> {
   const csvBase = import.meta.env.VITE_CSV_BASE as string | undefined
@@ -642,9 +642,10 @@ export interface PortfolioNewsData {
   items: PortfolioNewsItem[]
 }
 
-// Portfolio news is updated every 6h — read from GitHub Pages directly (always fresh)
+// Por usuario y con JWT: el estático de GitHub Pages publicaba los tickers de
+// la cartera real (hasta el 29-oct-2026)
 export const fetchPortfolioNews = () =>
-  fetchStaticOrApi<PortfolioNewsData>('portfolio_news.json', '/api/portfolio-news')
+  apiClient.get<PortfolioNewsData>('/api/portfolio-news')
 
 export const fetchSectorRotation = () =>
   apiClient.get<SectorRotationData>('/api/sector-rotation')
@@ -1691,18 +1692,8 @@ export interface EarningsThesis {
   }>
 }
 
+// Solo por la API con JWT: las tesis son de la cartera real y no se publican
 export const fetchEarningsThesis = async (ticker: string): Promise<EarningsThesis | null> => {
-  const csvBase = import.meta.env.VITE_CSV_BASE as string | undefined
-  if (csvBase) {
-    try {
-      const res = await fetch(`${csvBase}/earnings_theses.json`, { cache: 'no-store' })
-      if (res.ok) {
-        const data = await res.json() as { theses?: Record<string, EarningsThesis> }
-        const t = data?.theses?.[ticker.toUpperCase()] ?? null
-        if (t) return t
-      }
-    } catch { /* fall through to API */ }
-  }
   try {
     const res = await apiClient.get<{ ticker: string; thesis: EarningsThesis }>(`/api/earnings-thesis/${ticker.toUpperCase()}`)
     return res.data?.thesis ?? null

@@ -37,7 +37,7 @@ SUPABASE_URL = os.environ.get('SUPABASE_URL', '').rstrip('/')
 SERVICE_KEY = os.environ.get('SUPABASE_SERVICE_ROLE_KEY', '')
 TABLE = 'user_artifacts'
 
-VALID_KINDS = {'portfolio_strategies', 'earnings_theses', 'earnings_options'}
+VALID_KINDS = {'portfolio_strategies', 'earnings_theses', 'earnings_options', 'portfolio_news'}
 VALID_SOURCES = {'pipeline', 'on_demand'}
 
 

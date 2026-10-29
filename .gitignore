@@ -126,3 +126,14 @@ privado/
 docs/leaps_positions_status.json
 docs/portfolio_watch.json
 docs/personal_portfolio_snapshot.json
+# Hasta el 29-oct-2026 se publicaban con los tickers de la cartera real; ahora
+# van a Supabase (por usuario) y a privado/. Por si algo los vuelve a escribir:
+docs/portfolio_alerts.json
+docs/portfolio_news.json
+docs/.portfolio_news_seen.json
+docs/earnings_theses.json
+docs/earnings_options.json
+docs/history/*/portfolio_alerts.json
+docs/history/*/portfolio_news.json
+docs/history/*/earnings_theses.json
+docs/history/*/earnings_options.json

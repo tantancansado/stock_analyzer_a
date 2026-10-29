@@ -11,7 +11,7 @@ que veas pre-earnings:
   - "Histórico 4/4 beats"
   - "Implied vs realized: barato/caro"
 
-Output: docs/earnings_options.json
+Output: Supabase user_artifacts (kind earnings_options) y privado/earnings_options.json
 """
 from __future__ import annotations
 
@@ -27,7 +27,9 @@ import yfinance as yf
 
 DOCS = Path('docs')
 DOCS.mkdir(exist_ok=True)
-OUT = DOCS / 'earnings_options.json'
+# privado/ y no docs/: docs/ es público y hasta el 29-oct-2026 este JSON
+# llevaba por claves los tickers de la cartera real. La app lo lee de Supabase.
+OUT = Path('privado') / 'earnings_options.json'
 
 HORIZON_DAYS = 14
 
@@ -363,6 +365,7 @@ def main(
     if not positions:
         print('[info] la cartera está vacía — nada que analizar')
         if user_id is None:
+            OUT.parent.mkdir(exist_ok=True)
             OUT.write_text(json.dumps({
                 'generated_at': datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'),
                 'horizon_days': HORIZON_DAYS,
@@ -385,7 +388,7 @@ def main(
         if not ticker:
             continue
         revisadas += 1
-        print(f'  [{i}/{len(positions)}] {ticker}...', flush=True)
+        print(f'  [{i}/{len(positions)}]', flush=True)  # sin ticker: los logs de Actions son públicos
         try:
             tk = yf.Ticker(ticker)
             edate = _next_earnings_date(tk)
@@ -446,6 +449,7 @@ def main(
             )
     # JSON estático solo en modo global
     if user_id is None:
+        OUT.parent.mkdir(exist_ok=True)
         OUT.write_text(json.dumps(payload, indent=2, default=str))
         print(f'[done] wrote {len(out)} snapshots → {OUT}')
 
