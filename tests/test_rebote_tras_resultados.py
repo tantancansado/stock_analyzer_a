@@ -5,6 +5,7 @@ import sys
 
 import numpy as np
 import pandas as pd
+import pytest
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
@@ -289,3 +290,30 @@ class TestCalendario:
         pd.DataFrame(columns=['ticker', 'earnings_date']).to_csv(tmp_path / 'f.csv', index=False)
         rr.actualizar_calendario('2026-10-29')
         assert json.loads((tmp_path / 'cal.json').read_text()) == {'AAA': ['2026-10-28']}
+
+
+class TestEncendido:
+    """Fuera de temporada el vigía ni arranca: lo enciende y apaga el pipeline."""
+
+    def _main(self, monkeypatch, tmp_path, calendario):
+        import sys
+        monkeypatch.setattr(rr, 'CALENDARIO', tmp_path / 'cal.json')
+        if calendario is not None:
+            (tmp_path / 'cal.json').write_text(calendario)
+        monkeypatch.setattr(rr, '_universo', lambda: ['AAA'])
+        monkeypatch.setattr(sys, 'argv', ['rebote_tras_resultados.py', '--hay-resultados'])
+        with pytest.raises(SystemExit) as fin:
+            rr.main()
+        return fin.value.code
+
+    def test_con_resultados_a_la_vista_se_enciende(self, monkeypatch, tmp_path):
+        hoy = pd.Timestamp.now(tz='America/New_York').strftime('%Y-%m-%d')
+        assert self._main(monkeypatch, tmp_path, f'{{"AAA": ["{hoy}"]}}') == 0
+
+    def test_sin_nadie_que_publique_se_apaga(self, monkeypatch, tmp_path):
+        assert self._main(monkeypatch, tmp_path, '{"AAA": ["2020-01-02"]}') == rr.SIN_RESULTADOS
+
+    def test_sin_calendario_no_se_apaga(self, monkeypatch, tmp_path):
+        # «no lo sé» no es «no hay»: el paso falla y el vigía se queda como estaba
+        with pytest.raises(FileNotFoundError):
+            self._main(monkeypatch, tmp_path, None)

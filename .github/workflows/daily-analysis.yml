@@ -599,6 +599,22 @@ jobs:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: python3 rebote_tras_resultados.py
 
+      # El vigía de after-hours y preapertura solo existe en temporada: si nadie
+      # del universo publica hoy ni publicó ayer, el workflow se apaga y sus dos
+      # pasadas del día ni arrancan. Si falla la lectura del calendario no se
+      # toca nada: «no lo sé» no es «no hay».
+      - name: Vigía de resultados — encender solo con resultados a la vista
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python3 rebote_tras_resultados.py --hay-resultados && estado=0 || estado=$?
+          case $estado in
+            0) gh workflow enable vigia-resultados.yml --repo ${{ github.repository }} ;;
+            3) gh workflow disable vigia-resultados.yml --repo ${{ github.repository }} ;;
+            *) echo "No se pudo leer el calendario: el vigía se queda como estaba"; exit 1 ;;
+          esac
+
       - name: Macro Country Scanner
         continue-on-error: true
         run: python3 macro_country_scanner.py

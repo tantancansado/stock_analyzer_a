@@ -36,6 +36,8 @@ resultados publicados tras el cierre se avisaban un día tarde, perdida ya la
 caída de la preapertura. El vigía corre en el after-hours y en la preapertura,
 y solo despierta si alguien del universo publica en esa ventana: toma su precio
 fuera de hora como la sesión que aún no ha abierto y pasa el mismo embudo.
+Fuera de temporada ni arranca: el pipeline de cada mañana lo enciende o lo
+apaga con `--hay-resultados`.
 """
 from __future__ import annotations
 
@@ -60,6 +62,9 @@ EXTENDIDO = DOCS / 'rebote_tras_resultados_extendido.csv'
 DIAS_CALENDARIO = 10
 # Lo que avisa el vigía espera al tracker, que solo corre de madrugada
 DIAS_EXTENDIDO = 3
+# Salida de `--hay-resultados` cuando nadie publica: el vigía se apaga. Un 1 es
+# que algo falló, y entonces no se toca: «no lo sé» no es «no hay».
+SIN_RESULTADOS = 3
 
 SIGMAS = 3.0
 CAIDA_MIN_PCT = 5.0
@@ -417,17 +422,22 @@ def _avisar(setups: list[dict], hoy: str) -> list[dict]:
     return nuevos
 
 
+def quien_publica(ahora: pd.Timestamp) -> tuple[pd.Timestamp, list[str]]:
+    """(día en Nueva York, empresas de EE. UU. del universo en la ventana del vigía).
+
+    Sin calendario revienta en vez de decir «nadie»: apagaría el vigía por un
+    fichero roto. Fuera de EE. UU. Yahoo no da sesión extendida.
+    """
+    hoy = ahora.tz_convert('America/New_York').normalize().tz_localize(None)
+    calendario = json.loads(CALENDARIO.read_text())
+    return hoy, en_ventana(calendario, hoy, {t for t in _universo() if '.' not in t})
+
+
 def vigia(ahora: pd.Timestamp | None = None) -> list[dict]:
     """After-hours y preapertura, solo para quien publica en la ventana."""
     print('[rebote_tras_resultados] Vigía de resultados fuera de hora')
     ahora = ahora if ahora is not None else pd.Timestamp.now(tz='UTC')
-    hoy = ahora.tz_convert('America/New_York').normalize().tz_localize(None)
-    try:
-        calendario = json.loads(CALENDARIO.read_text())
-    except (OSError, ValueError):
-        calendario = {}
-    # Fuera de EE. UU. Yahoo no da sesión extendida
-    tickers = en_ventana(calendario, hoy, {t for t in _universo() if '.' not in t})
+    hoy, tickers = quien_publica(ahora)
     if not tickers:
         print('  Nadie del universo publica en esta ventana')
         return []
@@ -460,6 +470,10 @@ def main() -> None:
     if '--vigia' in sys.argv:
         vigia()
         return
+    if '--hay-resultados' in sys.argv:
+        _, tickers = quien_publica(pd.Timestamp.now(tz='UTC'))
+        print(f"  Vigía de resultados: {'encendido — ' + ', '.join(tickers) if tickers else 'apagado, nadie publica'}")
+        sys.exit(0 if tickers else SIN_RESULTADOS)
     print('[rebote_tras_resultados] Buenas empresas que caen tras publicar buenos resultados')
     hoy = date.today().isoformat()
     actualizar_calendario(hoy)

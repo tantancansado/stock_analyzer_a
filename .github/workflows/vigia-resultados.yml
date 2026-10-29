@@ -2,10 +2,11 @@ name: Vigía de resultados (after-hours y preapertura)
 
 # El pipeline de la mañana solo ve cierres: unos resultados publicados tras el
 # cierre se avisaban un día tarde, con la caída de la preapertura ya perdida.
-# Esto corre fuera de hora y solo hace algo si alguien del universo publica en
-# la ventana (docs/calendario_resultados.json); el resto de días lee el
-# calendario y termina. Claude solo se consulta por el candidato que ya pasó
-# los filtros gratis. Ver rebote_tras_resultados.vigia.
+# Esto corre fuera de hora y solo en temporada: el pipeline de cada mañana lo
+# enciende si alguien del universo publica hoy o publicó ayer
+# (docs/calendario_resultados.json) y lo apaga si no, así que fuera de
+# temporada sus pasadas ni arrancan. Claude solo se consulta por el candidato
+# que ya pasó los filtros gratis. Ver rebote_tras_resultados.vigia.
 on:
   schedule:
     - cron: '30 22 * * 1-5'   # after-hours: 17:30 en Nueva York en invierno, 18:30 en verano
