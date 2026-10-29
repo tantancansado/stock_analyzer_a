@@ -1,19 +1,19 @@
 {
   "listas": {
     "value_opportunities": {
-      "candidatas": 96,
-      "publicadas": 89,
+      "candidatas": 90,
+      "publicadas": 82,
       "excluidos": [
         {
           "ticker": "ERIE",
           "paso": "rangos_imposibles",
           "motivo": "Falta analyst_upside_pct: no se recomienda lo que no se puede evaluar",
-          "score": 41.69199999999999
+          "score": 41.522
         },
         {
           "ticker": "VCISY",
           "paso": "rangos_imposibles",
-          "motivo": "DCF fuera de rango: no es una valoración, es un dato roto (visto 255.8, esperado entre -95 y 200)",
+          "motivo": "DCF fuera de rango: no es una valoración, es un dato roto (visto 256.9, esperado entre -95 y 200)",
           "score": 38.92
         },
         {
@@ -23,31 +23,37 @@
           "score": 35.291999999999994
         },
         {
-          "ticker": "WTKWY",
+          "ticker": "MCO",
           "paso": "verificador_ia",
-          "motivo": "target_price_dcf_upside_pct (89.4%) y target_price_pe_upside_pct (101.2%) son extremadamente altos y casi idénticos, con modelos_acuerdo COHERENTES y dispersión solo 11.8 pts. Pero rev_growth_yoy es 3.5% y el PEG (1.12) es muy bajo relativo al crecimiento. FCF yield (7.24%) y EBIT/EV (6.64%) son robustos, pero ¿cómo justifican un +89-101% de upside con crecimiento de 3.5%? O los yields están fuera de escala o el DCF/P/E usan un factor de escala erróneo (posible error de divisa o unidad).",
-          "score": 58.94499999999999
-        },
-        {
-          "ticker": "RELX",
-          "paso": "verificador_ia",
-          "motivo": "upside_requiere_verificacion es TRUE (descuento >= 30%) pero rev_growth_yoy es 1.7% (prácticamente plano). EBIT/EV yield es muy bajo (1.06%) y PEG (1.83) es alto para ese crecimiento. Esto DESMIENTE la viabilidad del descuento: no es un negocio que crece barato, es un negocio que no crece. Margen de seguridad insuficiente.",
-          "score": 58.050000000000004
-        },
-        {
-          "ticker": "ROP",
-          "paso": "verificador_ia",
-          "motivo": "modelos_dispersion_pts (89.7) es extremadamente alto y modelos_acuerdo es DISPERSOS. DCF (4.3%) vs P/E (94.0%) se contradicen brutalmente. analyst_upside_pct (6.5%) no sigue ninguno. No hay triangulación coherente posible. Sin un modelo dominante no se puede confiar en upside_triangulated_pct (6.5%).",
-          "score": 57.86500000000001
+          "motivo": "analyst_upside_pct=15.7% pero rev_growth_yoy=0.8%: crecimiento casi nulo. Con piotroski_score=8.0 y fundamental_score=61.5, ¿cómo hay +15.7% de upside? Modelos contradicen: DCF=-33.3, P/E=+32.0. · upside_divergence=ALTA y modelos_dispersion_pts=65.3 (máximo observado): los dos modelos no convergen. El sistema dice 'sin triangular', pero recomienda upside positivo en un negocio que no crece. BLOCK porque la ficha no sostiene la recomendación: crecimiento nulo desmiente el descuento.",
+          "score": 58.230000000000004
         },
         {
           "ticker": "INTU",
           "paso": "verificador_ia",
-          "motivo": "target_price_pe_upside_pct ausente. upside_triangulated_pct (82.9%) solo basado en DCF (141.7%). Pero rev_growth_yoy (13.7%) y PEG (0.49) son excelentes, fcf_yield (9.82%) es muy alto. ¿Cómo DCF alcanza 141.7%? O hay un error de escala en el modelo (factor 10x) o el FCF yield es irreal. proximity_to_52w_high (-52.3%) confirma caída importante. Falta P/E para contrastar. ALTO RIESGO.",
+          "motivo": "target_price_pe_upside_pct ausente pero target_price_dcf_upside_pct=141.9% publicado. upside_triangulated_pct=83.0 sin P/E es inverosímil: solo DCF en tabla. · upside_requiere_verificacion=false pese a 83% de upside (>>30%) es error de lógica.",
           "score": 52.44
+        },
+        {
+          "ticker": "UNH",
+          "paso": "verificador_ia",
+          "motivo": "rev_growth_yoy=0.4 (ingresos prácticamente planos) pero analyst_upside_pct=17.1% recomendado. Fundamental_score=69.0 (alto) pero crecimiento nulo no sostiene +17% upside. · Ficha desmiente recomendación: el negocio no crece, modelos dan +14.9%, analista ve +17.1%. Con piotroski_score=6.0 (débil) y técnica plana (MA no pasa), la recomendación flotante en un negocio estancado es inconsistente.",
+          "score": 50.31
+        },
+        {
+          "ticker": "TT",
+          "paso": "verificador_ia",
+          "motivo": "analyst_upside_pct=17.9% pero DCF=-29.3, P/E=-12.4, triangulado=-12.4. upside_triangulated_pct es negativo, upside_divergence=MEDIA, pero se recomienda +17.9%. Contradicción frontal: analista ve +17.9% donde modelos ven -12.4%. Fundamental_score=72.7 (alto) pero modelos internos lo contradicen. BLOCK.",
+          "score": 48.9
+        },
+        {
+          "ticker": "WTKWY",
+          "paso": "verificador_ia",
+          "motivo": "upside_triangulated_pct=94.1% (casi duplicar precio) pero rev_growth_yoy=3.5 (lento). proximity_to_52w_high=-28.3 (caída pronunciada). value_score=48.9 (bajo). · modelos_dispersion_pts=11.6 (bajo) y modelos_acuerdo=COHERENTES sugieren DCF y P/E convergen. Pero +94% de upside en negocio que crece 3.5% es altamente sospechoso: error de escala de divisa (NOK/EUR) probable. BLOCK: la magnitud de upside no se sostiene en el crecimiento mostrado.",
+          "score": 48.879999999999995
         }
       ]
     }
   },
-  "generated_at": "2026-10-28T05:57:55Z"
+  "generated_at": "2026-10-29T06:03:26Z"
 }

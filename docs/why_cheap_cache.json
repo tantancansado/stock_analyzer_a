@@ -20,18 +20,6 @@
   "fuentes": [],
   "fecha": "2026-10-19"
  },
- "CBOE": {
-  "veredicto": "SENTIMIENTO",
-  "resumen": "CBOE cayó desde máximo de $371.18 (19-mayo-2026) a ~$300 en octubre por rotación macro y volatilidad cíclica del sector. El negocio fundamentalmente sólido: Q2 2026 batió consenso (ingresos +25% YoY a récord $732M, EPS ajustado +45% YoY a $3.56), con record en volúmenes de derivados (SPX 5.1M ADV). ",
-  "confianza": 72,
-  "fuentes": [
-   "https://www.investing.com/equities/cboe-holdings-inc",
-   "https://www.cnbc.com/quotes/CBOE",
-   "https://www.heygotrade.com/en/us-stock/cboe/",
-   "https://www.investing.com/equities/cboe-holdings-inc-options"
-  ],
-  "fecha": "2026-10-15"
- },
  "SAP.DE": {
   "veredicto": "EVENTO",
   "resumen": "SAP recortó guidance de EBIT 2026 en julio (de €11.9-12.3B a €11.8-12.2B) por costos de adquisiciones (Dremio, Prior Labs, Reltio), aunque cloud backlog crece +26% y cloud revenue +24% c/c. La caída refleja un shock de integración puntual, no deterioro estructural.",
@@ -168,53 +156,29 @@
   ],
   "fecha": "2026-10-28"
  },
- "SYK": {
-  "veredicto": "EVENTO",
-  "resumen": "Caída provocada por ciberataque de hackers respaldados por Irán en marzo de 2026 que impactó operaciones y resultados Q1. La empresa mantiene guidance de 2026 sin recortes significativos y bate estimaciones en Q2.",
+ "OTIS": {
+  "veredicto": "SENTIMIENTO",
+  "resumen": "<cite index=\"10-5,10-6\">Otis batió estimaciones en Q3 2026 con crecimiento de ventas orgánicas del 6% (más rápido en 13 trimestres), impulsado por servicios (+7%) y modernización (+20%)</cite>. <cite index=\"11-8\">Sin embargo, el margen operativo ajustado se contrajo 110 puntos básicos al 16%</cite>,",
   "confianza": 75,
   "fuentes": [
-   "https://www.sec.gov/Archives/edgar/data/310764/000031076425000107/syk-20250630.htm",
-   "https://www.sec.gov/Archives/edgar/data/310764/000031076425000005/sykex991earningsq42024.htm",
-   "https://www.sec.gov/Archives/edgar/data/310764/000031076424000062/sykex991earningsq12024.htm",
-   "https://www.sec.gov/Archives/edgar/data/310764/000031076426000010/syk-20251231.htm"
+   "https://www.marketbeat.com/stocks/NYSE/OTIS/chart/",
+   "https://stockanalysis.com/stocks/otis/",
+   "https://www.marketbeat.com/stocks/NYSE/OTIS/",
+   "https://stockanalysis.com/stocks/otis/history/"
   ],
-  "fecha": "2026-10-15"
- },
- "OTIS": {
-  "veredicto": "CICLICO",
-  "resumen": "Debilitamiento en nuevos equipos especialmente en China (caída >20% en Q4 2024), pero negocio de servicios robusto con crecimiento sostenido 6.8% anual y márgenes expandiendo. Guidance 2025 confirmada con crecimiento 2-4% orgánico.",
-  "confianza": 78,
-  "fuentes": [
-   "https://www.sec.gov/Archives/edgar/data/1781335/000178133524000005/a2023-12x318xkerexhibit99.htm",
-   "https://www.tradingview.com/news/tradingview:19f0efb466f99:0-otis-worldwide-corporation-reports-fourth-quarter-and-full-year-2024-results/",
-   "https://www.investing.com/equities/otis-worldwide-corp-earnings",
-   "https://www.marketscreener.com/quote/stock/OTIS-WORLDWIDE-CORPORATIO-105026689/news/OTIS-REPORTS-THIRD-QUARTER-2024-RESULTS-48203450/"
-  ],
-  "fecha": "2026-10-15"
+  "fecha": "2026-10-29"
  },
  "IDXX": {
   "veredicto": "SENTIMIENTO",
-  "resumen": "<cite index=\"1-5,1-6\">A pesar de crecimiento de ingresos del 10% en Q2 2026 y ganancia por acción 18% superior, el mercado ha castigado la acción más de 30% desde máximos de noviembre 2025.</cite> <cite index=\"1-9,5-9\">La caída refleja preocupación por descenso esperado de ~1.5-2% en visitas veterin",
-  "confianza": 72,
+  "resumen": "Caída post-rally de +63.6% en 2025. Negocio funciona bien (+10-14% crecimiento) pero múltiplos se reprician porque el mercado esperaba mayor momentum; headwind de visitas veterinarias (-2%) en US genera temor pero guidance se mantiene fuerte.",
+  "confianza": 85,
   "fuentes": [
+   "https://www.sec.gov/Archives/edgar/data/874716/000087471626000066/idxx2025arsa.pdf",
+   "https://www.sec.gov/Archives/edgar/data/874716/000087471625000037/idxx-20241231.htm",
    "https://www.animalshealth.es/empresas/idexx-desploma-mas-30-por-ciento-desde-maximos-2025",
-   "https://www.mexc.com/es/stocks/idxx",
-   "https://www.tikr.com/es/blog/idexx-stock-fell-14-in-2026-heres-why-750-target-mean-still-holds",
-   "https://www.marketscreener.com/quote/stock/IDEXX-LABORATORIES-INC-9641/quotes/"
+   "https://www.sec.gov/Archives/edgar/data/874716/000110465926008904/tm264623d1_ex99-1.htm"
   ],
-  "fecha": "2026-10-15"
- },
- "AZO": {
-  "veredicto": "SENTIMIENTO",
-  "resumen": "Inversores castigaron múltiples trimestres por revenue misses de <1%, pese a beats de EPS, margen LIFO (no-cash) y crecimiento operacional real. Rotación de múltiplos: de $3,655 de target Wall Street a caída del 28.1%.",
-  "confianza": 78,
-  "fuentes": [
-   "https://www.sec.gov/Archives/edgar/data/0000866787/000117184326006159/exh_991.htm",
-   "https://www.sec.gov/Archives/edgar/data/0000866787/000117184326003674/exh_991.htm",
-   "https://www.sec.gov/Archives/edgar/data/866787/000117184326001288/exh_991.htm",
-   "https://www.sec.gov/Archives/edgar/data/866787/000110465926032757/azo-20260214x10q.htm"
-  ],
-  "fecha": "2026-10-15"
+  "fecha": "2026-10-29"
  },
  "PAYX": {
   "veredicto": "SENTIMIENTO",
@@ -549,5 +513,41 @@
    "https://stockanalysis.com/quote/tyo/6383/"
   ],
   "fecha": "2026-10-28"
+ },
+ "SPGI": {
+  "veredicto": "EVENTO",
+  "resumen": "Resultados sólidos el 27 de octubre (+20% EPS, guidance subida), pero anuncio de revisión estratégica de Capital IQ genera incertidumbre sobre potencial separación de negocio de datos. El mercado castiga el riesgo temporal, no deterioro real.",
+  "confianza": 75,
+  "fuentes": [
+   "https://www.sec.gov/Archives/edgar/data/0000064040/000006404026000053/spgi3q2026-earningsrelease.htm",
+   "https://www.sec.gov/Archives/edgar/data/0000064040/000006404026000019/spgi1q2026-earningsrelease.htm",
+   "https://www.sec.gov/Archives/edgar/data/0000064040/000006404026000024/spgi-20260331.htm",
+   "https://www.gurufocus.com/news/9144333/sp-global-inc-spgi-reports-q3-2026-earnings-eps-of-445-beats-estimates-of-350-revenue-of-3678-billion-exceeds-expectations"
+  ],
+  "fecha": "2026-10-29"
+ },
+ "MONC.MI": {
+  "veredicto": "DETERIORO",
+  "resumen": "Desaceleración progresiva desde H1 2025. Q3 2026 muestra marca Moncler plana (-1% principal), tras crecer 6% en 9M. Consumo chino débil y presión turística estructural sin catalizar.",
+  "confianza": 72,
+  "fuentes": [
+   "https://www.bolsamania.com/noticias/resultados-anuncios/moncler-gana-6267-millones-2025-dispara-acelerar-ventas-cuarto-trimestre--21772204.html",
+   "https://quartr.com/events/moncler-monc-q3-2025_oqeYZyIe",
+   "https://quartr.com/events/moncler-s-p-a-monc-h2-2024_oqeYZevd",
+   "https://es.investing.com/news/company-news/moncler-presenta-resultados-2025-ingresos-del-t4-se-aceleran-con-stone-island-subiendo-16-93CH-3523744"
+  ],
+  "fecha": "2026-10-29"
+ },
+ "TYL": {
+  "veredicto": "SENTIMIENTO",
+  "resumen": "Rotación de valoraciones tras cotizar $453.65 a inicio 2026; mercado recalibra múltiplos de crecimiento SaaS pese a negocios sólidos (+21.7% SaaS, márgenes en expansión, guidance confirmada).",
+  "confianza": 75,
+  "fuentes": [
+   "https://www.sec.gov/Archives/edgar/data/860731/000086073124000039/a991earningsrelease-6302024.htm",
+   "https://www.sec.gov/Archives/edgar/data/860731/000086073124000023/a991earningsrelease-3312024.htm",
+   "https://www.sec.gov/Archives/edgar/data/860731/000086073124000050/a991earningsrelease-9302024.htm",
+   "https://www.sec.gov/Archives/edgar/data/860731/000086073125000024/a991earningsrelease-3312025.htm"
+  ],
+  "fecha": "2026-10-29"
  }
 }
