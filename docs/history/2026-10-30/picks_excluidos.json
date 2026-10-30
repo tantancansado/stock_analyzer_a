@@ -1,0 +1,47 @@
+{
+  "listas": {
+    "value_opportunities": {
+      "candidatas": 91,
+      "publicadas": 85,
+      "excluidos": [
+        {
+          "ticker": "ERIE",
+          "paso": "rangos_imposibles",
+          "motivo": "Falta analyst_upside_pct: no se recomienda lo que no se puede evaluar",
+          "score": 46.282000000000004
+        },
+        {
+          "ticker": "KYCCF",
+          "paso": "rangos_imposibles",
+          "motivo": "Falta analyst_upside_pct: no se recomienda lo que no se puede evaluar",
+          "score": 39.27
+        },
+        {
+          "ticker": "VCISY",
+          "paso": "rangos_imposibles",
+          "motivo": "DCF fuera de rango: no es una valoración, es un dato roto (visto 255.2, esperado entre -95 y 200)",
+          "score": 38.92
+        },
+        {
+          "ticker": "INTU",
+          "paso": "verificador_ia",
+          "motivo": "target_price_pe_upside_pct ausente. upside_triangulated_pct es 81.4% con solo DCF (139.7%) reportado. Sin P/E, el valor triangulado es inválido. La triangulación requiere dos modelos; aquí falta uno de los dos componentes.",
+          "score": 52.44
+        },
+        {
+          "ticker": "ROP",
+          "paso": "verificador_ia",
+          "motivo": "modelos_dispersion_pts es 86.7 (DCF 0.8% vs P/E 87.5%). Eso es contradicción extrema de signo, pero modelos_acuerdo dice DISPERSOS, no CONTRADICEN. Campo upside_triangulated_pct es 3.8% (alista), pero los modelos propios se alejan 86.7 puntos: ¿cómo se obtiene 3.8% de dos fuentes que difieren 86.7? Sin un tercero, la triangulación es inválida. Contradicción de nomenclatura o error de cálculo.",
+          "score": 51.199999999999996
+        },
+        {
+          "ticker": "ALLY",
+          "paso": "verificador_ia",
+          "motivo": "FCF yield es -4.53% (negativo). Campo target_price_dcf_upside_pct ausente. Un FCF negativo invalida la mayoría de modelos DCF y hace sospechoso upside_triangulated_pct (16.2%). Sin saber si ese 16.2% viene de un DCF distorsionado o solo de P/E, y con FCF negativo pero upside positivo, hay contradicción no resuelta.",
+          "score": 49.23499999999999
+        }
+      ]
+    }
+  },
+  "generated_at": "2026-10-30T06:05:59Z"
+}

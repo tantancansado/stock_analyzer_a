@@ -1,7 +1,46 @@
 {
-  "generated_at": "2026-10-29",
-  "total": 0,
+  "generated_at": "2026-10-30",
+  "total": 2,
   "high_count": 0,
-  "narrative": null,
-  "decays": []
+  "narrative": "",
+  "decays": [
+    {
+      "ticker": "AON",
+      "company_name": "Aon plc",
+      "severity": "MEDIUM",
+      "decay_score": 3,
+      "value_score": 67.86,
+      "snapshot_date": "2026-10-28",
+      "piotr_prev": 8.0,
+      "piotr_curr": 8.0,
+      "fcf_prev": 5.09,
+      "fcf_curr": 4.85,
+      "health_prev": 80.0,
+      "health_curr": 65.0,
+      "margin_prev": 23.5,
+      "margin_curr": 19.7,
+      "flags": [
+        "Salud financiera cay\u00f3 15pts (80 \u2192 65/100)"
+      ]
+    },
+    {
+      "ticker": "V",
+      "company_name": "Visa Inc.",
+      "severity": "MEDIUM",
+      "decay_score": 3,
+      "value_score": 43.74000000000001,
+      "snapshot_date": "2026-10-28",
+      "piotr_prev": 6.0,
+      "piotr_curr": 6.0,
+      "fcf_prev": 2.8,
+      "fcf_curr": 2.9,
+      "health_prev": 70.0,
+      "health_curr": 60.0,
+      "margin_prev": 66.1,
+      "margin_curr": null,
+      "flags": [
+        "Salud financiera cay\u00f3 10pts (70 \u2192 60/100)"
+      ]
+    }
+  ]
 }

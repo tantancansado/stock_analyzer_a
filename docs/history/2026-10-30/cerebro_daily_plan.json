@@ -1,0 +1,157 @@
+{
+  "generated_at": "2026-10-30",
+  "macro_regime": "CALM",
+  "composite_score": 7.5,
+  "sesgo": "DEFENSIVO",
+  "confianza": 58,
+  "situacion": "Calma superficial en el mercado (r\u00e9gimen CALM +7.5) pero con rotaci\u00f3n defensiva activa hacia oro, cobre y defensa, y SKEW Index en percentil 83 anticipando riesgo de cola.",
+  "narrativa": "La combinaci\u00f3n de d\u00f3lar fuerte, petr\u00f3leo elevado por riesgo geopol\u00edtico y un SKEW Index alto sugiere que, aunque el VIX est\u00e9 tranquilo, los inversores institucionales est\u00e1n comprando cobertura de forma silenciosa. Para un inversor VALUE esto no es se\u00f1al de p\u00e1nico sino de prudencia: mantener calidad con FCF s\u00f3lido, diversificar hacia oro/defensa y evitar apalancamiento justo antes de PCE y Payrolls.",
+  "acciones_inmediatas": [
+    {
+      "prioridad": 1,
+      "accion": "VIGILAR",
+      "instrumento": "SPY",
+      "razon": "El dato de PCE de hoy puede alterar el r\u00e9gimen CALM si sorprende al alza",
+      "catalizador": "PCE Inflation (HIGH impact) 2026-10-30",
+      "size_hint": "peque\u00f1a (1-2%)",
+      "invalidacion": "PCE en l\u00ednea o por debajo de consenso mantiene el r\u00e9gimen calmado"
+    },
+    {
+      "prioridad": 2,
+      "accion": "COMPRAR",
+      "instrumento": "MSFT",
+      "razon": "Mejor VALUE pick del d\u00eda en Technology con grado B y balance robusto",
+      "catalizador": "Score 73.0 y fortaleza relativa del sector tech",
+      "size_hint": "media (3-4%)",
+      "invalidacion": "Ruptura de soporte t\u00e9cnico o gu\u00eda d\u00e9bil de pares tech en earnings"
+    },
+    {
+      "prioridad": 3,
+      "accion": "COMPRAR",
+      "instrumento": "TLT/VGLT",
+      "razon": "Yield 30yr en 5.33% es zona hist\u00f3ricamente atractiva para entrar en duraci\u00f3n larga",
+      "catalizador": "Rule-based macro play score 95, posible catalizador NFP del 6-nov",
+      "size_hint": "media (3-4%)",
+      "invalidacion": "Yield 30yr rompe por encima de 5.6% de forma sostenida"
+    },
+    {
+      "prioridad": 4,
+      "accion": "VIGILAR",
+      "instrumento": "AAPL",
+      "razon": "Earnings en 3 d\u00edas, evitar entrar nueva posici\u00f3n hasta ver reacci\u00f3n post-resultado",
+      "catalizador": "Earnings AAPL 2026-11-02 (3d)",
+      "size_hint": "peque\u00f1a (1-2%)",
+      "invalidacion": "Resultado y gu\u00eda s\u00f3lidos reabren ventana de entrada"
+    },
+    {
+      "prioridad": 5,
+      "accion": "CUBRIR",
+      "instrumento": "GLD",
+      "razon": "Se\u00f1al Oro vs Mercado +2.0 confirma demanda de cobertura institucional",
+      "catalizador": "SKEW Index elevado + D\u00f3lar fuerte reforzando flujo hacia oro",
+      "size_hint": "peque\u00f1a (1-2%)",
+      "invalidacion": "SKEW retrocede por debajo del percentil 60 y DXY se debilita"
+    }
+  ],
+  "macro_plays": [
+    {
+      "instrument": "TLT/VGLT",
+      "direction": "LONG",
+      "thesis": "Yield 30yr en 5.33% \u2014 zona hist\u00f3ricamente atractiva para bonos largos",
+      "historical": "2018-19: TLT +18% cuando yields revertieron desde 3.25%",
+      "risk": "La Fed puede mantener tipos altos m\u00e1s tiempo \u2014 size peque\u00f1o",
+      "timeframe": "3-6 meses",
+      "score": 95,
+      "eu_alternative": {
+        "ticker": "DTLA",
+        "name": "Xtrackers US Treasuries 20yr+ UCITS ETF",
+        "exchange": "Xetra",
+        "available": "DEGIRO/IB"
+      }
+    }
+  ],
+  "macro_plays_commentary": "La oportunidad en TLT/VGLT con yields en 5.33% es la m\u00e1s atractiva de la semana, pero conviene esperar confirmaci\u00f3n post-PCE y NFP antes de aumentar tama\u00f1o.",
+  "value_en_entorno": [
+    {
+      "ticker": "MSFT",
+      "score": 73.0,
+      "sector": "Technology",
+      "fcf_yield_pct": 1.7,
+      "grade": "B"
+    },
+    {
+      "ticker": "SAP.DE",
+      "score": 63.9,
+      "sector": "Technology",
+      "fcf_yield_pct": 3.79,
+      "grade": "B"
+    },
+    {
+      "ticker": "AXP",
+      "score": 57.3,
+      "sector": "Financial Services",
+      "fcf_yield_pct": 7.0,
+      "grade": "B"
+    },
+    {
+      "ticker": "SAP",
+      "score": 56.5,
+      "sector": "Technology",
+      "fcf_yield_pct": 3.79,
+      "grade": "B"
+    },
+    {
+      "ticker": "EXPN.L",
+      "score": 56.3,
+      "sector": "Industrials",
+      "fcf_yield_pct": 4.4,
+      "grade": "B"
+    }
+  ],
+  "value_en_entorno_razon": "En un r\u00e9gimen CALM con tail risk latente, los picks de alta calidad como MSFT, SAP y AXP ofrecen FCF estable y balances s\u00f3lidos que resisten mejor shocks de volatilidad s\u00fabita, mientras EXPN.L a\u00f1ade diversificaci\u00f3n industrial defensiva.",
+  "evitar": [
+    {
+      "ticker": "RACE",
+      "razon": "Alta sensibilidad a sentimiento discrecional y earnings en 4 d\u00edas con volatilidad elevada"
+    },
+    {
+      "ticker": "AAPL",
+      "razon": "Earnings inminente (3d) genera riesgo binario, mejor esperar reacci\u00f3n post-resultado"
+    }
+  ],
+  "agenda_semana": [
+    {
+      "fecha": "2026-10-30",
+      "evento": "PCE Inflation",
+      "impacto": "ALTO",
+      "accion_sugerida": "Evitar nuevas posiciones grandes hasta conocer el dato"
+    },
+    {
+      "fecha": "2026-11-02",
+      "evento": "Earnings AAPL",
+      "impacto": "ALTO",
+      "accion_sugerida": "No abrir posici\u00f3n nueva en AAPL antes del resultado"
+    },
+    {
+      "fecha": "2026-11-03",
+      "evento": "Earnings IDXX",
+      "impacto": "MEDIO",
+      "accion_sugerida": "Vigilar reacci\u00f3n del sector salud animal"
+    },
+    {
+      "fecha": "2026-11-03",
+      "evento": "Earnings AME, RACE, ETN, BR",
+      "impacto": "MEDIO",
+      "accion_sugerida": "Reducir exposici\u00f3n t\u00e1ctica previa a resultados"
+    },
+    {
+      "fecha": "2026-11-06",
+      "evento": "Non-Farm Payrolls",
+      "impacto": "ALTO",
+      "accion_sugerida": "Ajustar duraci\u00f3n en TLT/VGLT seg\u00fan sorpresa de empleo"
+    }
+  ],
+  "frase_del_dia": "S\u00e9 temeroso cuando otros son codiciosos, y codicioso cuando otros son temerosos. \u2014 Warren Buffett",
+  "mensaje_telegram": "\ud83d\udcca Mercado CALM pero con cobertura activa (SKEW\u2191, oro\u2191, defensa\u2191). Hoy PCE clave \ud83d\udd11. Value picks: MSFT, SAP, AXP \ud83d\udcbc. TLT atractivo en yield 5.33% \ud83d\udcc8. Evitar AAPL/RACE pre-earnings \u26a0\ufe0f. Mantener calidad, paciencia y diversificaci\u00f3n \ud83d\udee1\ufe0f",
+  "ai_powered": true
+}

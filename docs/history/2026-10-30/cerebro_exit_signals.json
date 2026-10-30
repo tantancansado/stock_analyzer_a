@@ -1,0 +1,184 @@
+{
+  "generated_at": "2026-10-30",
+  "total": 14,
+  "high_count": 3,
+  "narrative": "",
+  "exits": [
+    {
+      "ticker": "META",
+      "severity": "HIGH",
+      "entry_score": 63.72,
+      "current_score": 32.22,
+      "signal_date": "2026-09-18",
+      "reasons": [
+        "Score cay\u00f3 32pts (64 \u2192 32)"
+      ],
+      "fundamental_score": 73.6,
+      "ai_validation": {
+        "verdict": "FALSE_POSITIVE",
+        "confidence": 65,
+        "summary": "META tiene un score fundamental s\u00f3lido (73.6/100) y no hay evidencia de deterioro grave en su negocio (publicidad digital e IA siguen fuertes). La ca\u00edda de 32pts probablemente refleja una subida de precio que redujo el margen de valorizaci\u00f3n, no un problema fundamental.",
+        "key_finding": "Score fundamental sigue alto (73.6/100), sugiriendo que la ca\u00edda de puntaje es por valoraci\u00f3n/precio, no por deterioro del negocio.",
+        "summary_note": "META tiene un score fundamental s\u00f3lido (73.6/100) y no hay evidencia de deterioro grave en su negocio (publicidad digital e IA siguen fuertes). La ca\u00edda de 32pts probablemente refleja una subida de precio que redujo el margen de valorizaci\u00f3n, no un problema fundamental."
+      }
+    },
+    {
+      "ticker": "WCN",
+      "severity": "HIGH",
+      "entry_score": 62.60999999999999,
+      "current_score": 30.82,
+      "signal_date": "2026-10-27",
+      "reasons": [
+        "Score cay\u00f3 32pts (63 \u2192 31)"
+      ],
+      "fundamental_score": 65.8,
+      "ai_validation": {
+        "verdict": "FALSE_POSITIVE",
+        "confidence": 65,
+        "summary": "WCN (Waste Connections) es una empresa de residuos con fundamentales hist\u00f3ricamente s\u00f3lidos y estables; no hay evidencia de deterioro operativo mayor. La ca\u00edda de score probablemente refleja una subida de precio que comprimi\u00f3 el upside de valoraci\u00f3n, no un problema del negocio.",
+        "key_finding": "Waste Connections mantiene un modelo de negocio defensivo y consistente, con fundamental score a\u00fan saludable (65.8/100), sugiriendo que la se\u00f1al responde m\u00e1s a valoraci\u00f3n/precio que a deterioro real.",
+        "summary_note": "WCN (Waste Connections) es una empresa de residuos con fundamentales hist\u00f3ricamente s\u00f3lidos y estables; no hay evidencia de deterioro operativo mayor. La ca\u00edda de score probablemente refleja una subida de precio que comprimi\u00f3 el upside de valoraci\u00f3n, no un problema del negocio."
+      }
+    },
+    {
+      "ticker": "QSR",
+      "severity": "HIGH",
+      "entry_score": 59.09,
+      "current_score": 30.6,
+      "signal_date": "2026-09-10",
+      "reasons": [
+        "Score cay\u00f3 28pts (59 \u2192 31)"
+      ],
+      "fundamental_score": 64.0,
+      "ai_validation": {
+        "verdict": "UNCERTAIN",
+        "confidence": 55,
+        "summary": "QSR (Restaurant Brands International) no mostraba deterioro fundamental severo hasta mi corte de entrenamiento, con negocio relativamente estable en Burger King, Tim Hortons y Popeyes. La ca\u00edda de 28pts en el score probablemente refleja m\u00e1s una correcci\u00f3n de precio/valuaci\u00f3n que un cambio dr\u00e1stico en fundamentales, pero sin datos recientes no puedo confirmarlo con certeza.",
+        "key_finding": "Restaurant Brands International manten\u00eda un fundamental score moderado (64/100) sugiriendo negocio decente pero no excepcional, consistente con desaf\u00edos conocidos de crecimiento lento en Burger King EE.UU. y necesidad de reinversi\u00f3n en el negocio.",
+        "summary_note": "QSR (Restaurant Brands International) no mostraba deterioro fundamental severo hasta mi corte de entrenamiento, con negocio relativamente estable en Burger King, Tim Hortons y Popeyes. La ca\u00edda de 28pts en el score probablemente refleja m\u00e1s una correcci\u00f3n de precio/valuaci\u00f3n que un cambio dr\u00e1stico en fundamentales, pero sin datos recientes no puedo confirmarlo con certeza."
+      }
+    },
+    {
+      "ticker": "RMD",
+      "severity": "MEDIUM",
+      "entry_score": 64.27499999999999,
+      "current_score": null,
+      "signal_date": "2026-10-08",
+      "reasons": [
+        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
+      ],
+      "fundamental_score": 70.7
+    },
+    {
+      "ticker": "CBOE",
+      "severity": "MEDIUM",
+      "entry_score": 61.39,
+      "current_score": 30.950000000000003,
+      "signal_date": "2026-10-14",
+      "reasons": [
+        "Score cay\u00f3 30pts (61 \u2192 31) \u2014 ca\u00edda t\u00e9cnica/momentum, balance s\u00f3lido (Piotroski 8/9)",
+        "Earnings en 0d \u2014 alta incertidumbre, considera reducir"
+      ],
+      "fundamental_score": 83.8
+    },
+    {
+      "ticker": "MCO",
+      "severity": "MEDIUM",
+      "entry_score": 60.25,
+      "current_score": 38.31999999999999,
+      "signal_date": "2026-10-23",
+      "reasons": [
+        "Score cay\u00f3 22pts (60 \u2192 38)"
+      ],
+      "fundamental_score": 63.3
+    },
+    {
+      "ticker": "ICE",
+      "severity": "MEDIUM",
+      "entry_score": 60.095,
+      "current_score": 30.585,
+      "signal_date": "2026-10-13",
+      "reasons": [
+        "Score cay\u00f3 30pts (60 \u2192 31) \u2014 ca\u00edda t\u00e9cnica/momentum, balance s\u00f3lido (Piotroski 8/9)"
+      ],
+      "fundamental_score": 69.6
+    },
+    {
+      "ticker": "NDSN",
+      "severity": "MEDIUM",
+      "entry_score": 59.72,
+      "current_score": null,
+      "signal_date": "2026-09-02",
+      "reasons": [
+        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
+      ],
+      "fundamental_score": 73.4
+    },
+    {
+      "ticker": "SPGI",
+      "severity": "MEDIUM",
+      "entry_score": 58.14,
+      "current_score": 41.0,
+      "signal_date": "2026-09-01",
+      "reasons": [
+        "Score cay\u00f3 17pts (58 \u2192 41)"
+      ],
+      "fundamental_score": 66.8
+    },
+    {
+      "ticker": "UNP",
+      "severity": "MEDIUM",
+      "entry_score": 57.52,
+      "current_score": null,
+      "signal_date": "2026-09-21",
+      "reasons": [
+        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
+      ],
+      "fundamental_score": 72.2
+    },
+    {
+      "ticker": "SYK",
+      "severity": "MEDIUM",
+      "entry_score": 57.435,
+      "current_score": 40.92,
+      "signal_date": "2026-10-21",
+      "reasons": [
+        "Score cay\u00f3 17pts (57 \u2192 41)"
+      ],
+      "fundamental_score": 72.3
+    },
+    {
+      "ticker": "BLK",
+      "severity": "MEDIUM",
+      "entry_score": 54.08,
+      "current_score": null,
+      "signal_date": "2026-09-19",
+      "reasons": [
+        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
+      ],
+      "fundamental_score": 77.8
+    },
+    {
+      "ticker": "OXY",
+      "severity": "MEDIUM",
+      "entry_score": 53.155,
+      "current_score": 36.025,
+      "signal_date": "2026-09-18",
+      "reasons": [
+        "Score cay\u00f3 17pts (53 \u2192 36)"
+      ],
+      "fundamental_score": 80.8
+    },
+    {
+      "ticker": "FCNCA",
+      "severity": "MEDIUM",
+      "entry_score": 51.92499999999999,
+      "current_score": 36.845000000000006,
+      "signal_date": "2026-09-18",
+      "reasons": [
+        "Score cay\u00f3 15pts (52 \u2192 37)"
+      ],
+      "fundamental_score": 70.4
+    }
+  ]
+}

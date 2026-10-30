@@ -1,31 +1,23 @@
 {
   "total_problemas": 1,
   "desfases_conocidos": [
-    "⏳ ⚠️  value_opportunities.csv: upside analista = (objetivo − precio) / precio — 2/60 filas, peor desvío 3% (ADP, AWK)",
-    "⏳ ⚠️  value_opportunities.csv: upside DCF = (objetivo − precio) / precio — 2/46 filas, peor desvío 3% (VRSN, SAP)",
-    "⏳ ⚠️  value_opportunities.csv: upside P/E = (objetivo − precio) / precio — 3/44 filas, peor desvío 4% (WM, PG, 7741.T)",
-    "⏳ ⚠️  value_opportunities.csv: distancia al máximo 52s — 2/60 filas, peor desvío 4% (VRSN, NDAQ)",
-    "⏳ ⚠️  value_opportunities_filtered.csv: upside analista = (objetivo − precio) / precio — 2/47 filas, peor desvío 3% (AWK, ADP)",
-    "⏳ ⚠️  value_opportunities_filtered.csv: upside DCF = (objetivo − precio) / precio — 2/38 filas, peor desvío 3% (SAP, VRSN)",
-    "⏳ ⚠️  value_opportunities_filtered.csv: upside P/E = (objetivo − precio) / precio — 3/36 filas, peor desvío 4% (7741.T, WM, PG)",
-    "⏳ ⚠️  value_opportunities_filtered.csv: distancia al máximo 52s — 2/47 filas, peor desvío 4% (NDAQ, VRSN)",
-    "⏳ ⚠️  value_opportunities_filtered.csv: dividendo yield = dividendo / precio — 1/41 filas, peor desvío 7% (WM)",
-    "⏳ ⚠️  european_value_opportunities.csv: upside analista = (objetivo − precio) / precio — 1/40 filas, peor desvío 2% (DSY.PA)",
-    "⏳ ⚠️  european_value_opportunities.csv: upside DCF = (objetivo − precio) / precio — 1/32 filas, peor desvío 3% (SAP.DE)",
-    "⏳ ⚠️  european_value_opportunities.csv: upside P/E = (objetivo − precio) / precio — 1/26 filas, peor desvío 4% (STMN.SW)",
-    "⏳ ⚠️  european_value_opportunities.csv: dividendo yield = dividendo / precio — 1/40 filas, peor desvío 7% (RMV.L)",
-    "⏳ ⚠️  european_value_opportunities_filtered.csv: upside DCF = (objetivo − precio) / precio — 1/20 filas, peor desvío 3% (SAP.DE)",
-    "⏳ ⚠️  european_value_opportunities_filtered.csv: upside P/E = (objetivo − precio) / precio — 1/16 filas, peor desvío 4% (STMN.SW)",
-    "⏳ ⚠️  european_value_opportunities_filtered.csv: dividendo yield = dividendo / precio — 1/25 filas, peor desvío 7% (RMV.L)",
-    "⏳ ⚠️  momentum_opportunities.csv: upside analista = (objetivo − precio) / precio — 1/5 filas, peor desvío 3% (CVX)",
-    "⏳ ⚠️  momentum_opportunities.csv: distancia al máximo 52s — 1/5 filas, peor desvío 4% (TMO)",
-    "⏳ ⚠️  commodity_opportunities.csv: distancia al mínimo = (precio − mín) / mín — 1/19 filas, peor desvío 2% (PALL)"
+    "⏳ ⚠️  value_opportunities.csv: upside analista = (objetivo − precio) / precio — 1/62 filas, peor desvío 3% (DOL.TO)",
+    "⏳ ⚠️  value_opportunities.csv: upside DCF = (objetivo − precio) / precio — 1/50 filas, peor desvío 3% (ADSK)",
+    "⏳ ⚠️  value_opportunities.csv: upside P/E = (objetivo − precio) / precio — 4/49 filas, peor desvío 4% (AXP, NDAQ, V, WM)",
+    "⏳ ⚠️  value_opportunities.csv: distancia al máximo 52s — 4/62 filas, peor desvío 4% (V, MSI, FCNCA, DOL.TO)",
+    "⏳ ⚠️  value_opportunities_filtered.csv: upside DCF = (objetivo − precio) / precio — 1/37 filas, peor desvío 3% (ADSK)",
+    "⏳ ⚠️  value_opportunities_filtered.csv: upside P/E = (objetivo − precio) / precio — 4/34 filas, peor desvío 4% (V, AXP, NDAQ, WM)",
+    "⏳ ⚠️  value_opportunities_filtered.csv: distancia al máximo 52s — 2/44 filas, peor desvío 2% (V, FCNCA)",
+    "⏳ ⚠️  european_value_opportunities.csv: upside analista = (objetivo − precio) / precio — 1/42 filas, peor desvío 5% (SGSN.SW)",
+    "⏳ ⚠️  european_value_opportunities.csv: distancia al máximo 52s — 1/42 filas, peor desvío 2% (LONN.SW)",
+    "⏳ ⚠️  momentum_opportunities.csv: upside analista = (objetivo − precio) / precio — 1/6 filas, peor desvío 5% (CVX)",
+    "⏳ ⚠️  momentum_opportunities.csv: distancia al máximo 52s — 1/6 filas, peor desvío 2% (TMO)"
   ],
   "detalle": {
-    "identidades aritméticas de lo publicado": [
-      "🛑 value_opportunities.csv: dividendo yield = dividendo / precio — 2/52 filas, peor desvío 23% (WM, HRI)"
+    "commodities: rating contra narrativa IA": [
+      "SLV: value_rating=ATRACTIVO pero ai_narrative_veredicto=PRECIO_EXIGENTE"
     ]
   },
-  "tickers_value": 60,
+  "tickers_value": 62,
   "tickers_verdicts": 77
 }

@@ -1,50 +1,21 @@
 {
-  "generated_at": "2026-10-29",
-  "total": 5,
-  "dropped_count": 3,
-  "narrative": "",
+  "generated_at": "2026-10-30",
+  "total": 3,
+  "dropped_count": 1,
+  "narrative": "1. **Cuando rotar dentro de un sector tiene m\u00e1s sentido que esperar, es mejor aprovechar la oportunidad antes de que se agote.**  \n2. **En lugar de quedarnos a la espera, rotar dentro del sector suele",
   "displacements": [
     {
       "type": "COMPETITOR_RISE",
-      "dropped_ticker": "ADSK",
-      "sector": "Technology",
-      "prev_score": 55.325,
+      "dropped_ticker": "WKL.AS",
+      "sector": "Industrials",
+      "prev_score": 57.1,
       "replacements": [
-        "VRSN",
-        "MSFT",
-        "SAP.DE"
+        "EXPN.L",
+        "6383.T"
       ],
-      "top_replacement": "VRSN",
-      "top_replacement_score": 72.92500000000001,
-      "detail": "ADSK sali\u00f3 de VALUE (55pts); peers en Technology: VRSN, MSFT"
-    },
-    {
-      "type": "COMPETITOR_RISE",
-      "dropped_ticker": "MCO",
-      "sector": "Financial Services",
-      "prev_score": 64.36500000000001,
-      "replacements": [
-        "MSCI",
-        "MA",
-        "AON"
-      ],
-      "top_replacement": "MSCI",
-      "top_replacement_score": 69.17999999999999,
-      "detail": "MCO sali\u00f3 de VALUE (64pts); peers en Financial Services: MSCI, MA"
-    },
-    {
-      "type": "COMPETITOR_RISE",
-      "dropped_ticker": "NDAQ",
-      "sector": "Financial Services",
-      "prev_score": 60.66499999999999,
-      "replacements": [
-        "MSCI",
-        "MA",
-        "AON"
-      ],
-      "top_replacement": "MSCI",
-      "top_replacement_score": 69.17999999999999,
-      "detail": "NDAQ sali\u00f3 de VALUE (61pts); peers en Financial Services: MSCI, MA"
+      "top_replacement": "EXPN.L",
+      "top_replacement_score": 56.3,
+      "detail": "WKL.AS sali\u00f3 de VALUE (57pts); peers en Industrials: EXPN.L, 6383.T"
     },
     {
       "type": "SECTOR_TAILWIND",
@@ -56,7 +27,7 @@
         "SAP.DE"
       ],
       "top_ticker": "VRSN",
-      "top_score": 72.92500000000001,
+      "top_score": 77.30000000000001,
       "detail": "Sector Technology l\u00edder (RS 100) \u2014 VRSN, MSFT, SAP.DE son los picks VALUE"
     },
     {

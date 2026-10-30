@@ -1,0 +1,157 @@
+{
+  "generated_at": "2026-10-29T20:04:43.985707",
+  "risk_free_rate_pct": 4.3,
+  "universe_size": 47,
+  "analyzed": 14,
+  "methodology": {
+    "universo": "Value US verificado",
+    "max_ideas": 2,
+    "delta_band": [
+      0.7,
+      0.92
+    ],
+    "min_dte": 400,
+    "max_carry_pct": 14.0,
+    "note": "La versión apalancada de las ideas de Value: 1-2 como mucho, revisadas por Claude"
+  },
+  "opportunities": [
+    {
+      "ticker": "WM",
+      "company_name": "Waste Management, Inc.",
+      "sector": "Industrials",
+      "spot": 230.86,
+      "quality_score": 54.9,
+      "timing_score": 68.0,
+      "analyst_upside_pct": 9.9,
+      "conviction_grade": "C",
+      "opportunity_score": 75.6,
+      "situation": "CALIDAD_RAZONABLE",
+      "pct_from_52w_high": -6.2,
+      "ytd_pct": 7.1,
+      "hv_1y_pct": 21.2,
+      "days_to_earnings": 90,
+      "earnings_warning": false,
+      "forward_pe": 25.7,
+      "trailing_pe": 30.3,
+      "recommended_contract": {
+        "expiry": "2028-01-21",
+        "dte": 449,
+        "t_years": 1.23,
+        "strike": 150.0,
+        "bid": 84.5,
+        "ask": 88.5,
+        "mid": 86.5,
+        "cost_per_contract": 8650.0,
+        "iv_pct": 40.9,
+        "open_interest": 213,
+        "volume": 3,
+        "spread_pct": 4.6,
+        "roundtrip_spread_usd": 400.0,
+        "contract_score": 81.1,
+        "target_return_pct": 19.9,
+        "delta": 0.876,
+        "intrinsic": 80.86,
+        "extrinsic": 5.64,
+        "extrinsic_pct": 2.44,
+        "annual_carry_pct": 1.99,
+        "forgone_dividend_pct": 1.68,
+        "total_annual_cost_pct": 3.67,
+        "leverage": 2.34,
+        "breakeven": 236.5,
+        "breakeven_move_pct": 2.44,
+        "spread_sobre_extrinseco_pct": 71.0,
+        "iv_vs_hv": null,
+        "iv_richness": null,
+        "iv_nota": "la horquilla se come el valor temporal: esta IV no dice nada sobre si la volatilidad está cara"
+      },
+      "alternative_contracts": [
+        {
+          "expiry": "2028-01-21",
+          "dte": 449,
+          "t_years": 1.23,
+          "strike": 200.0,
+          "bid": 44.0,
+          "ask": 46.7,
+          "mid": 45.35,
+          "cost_per_contract": 4535.0,
+          "iv_pct": 30.2,
+          "open_interest": 70,
+          "volume": 1,
+          "spread_pct": 6.0,
+          "roundtrip_spread_usd": 270.0,
+          "contract_score": 60.3,
+          "target_return_pct": 18.5,
+          "delta": 0.74,
+          "intrinsic": 30.86,
+          "extrinsic": 14.49,
+          "extrinsic_pct": 6.28,
+          "annual_carry_pct": 5.1,
+          "forgone_dividend_pct": 1.68,
+          "total_annual_cost_pct": 6.78,
+          "leverage": 3.77,
+          "breakeven": 245.35,
+          "breakeven_move_pct": 6.28,
+          "spread_sobre_extrinseco_pct": 19.0,
+          "iv_vs_hv": 1.42,
+          "iv_richness": "cara"
+        }
+      ],
+      "profit_at_target": {
+        "target_price": 253.72,
+        "target_origen": "consenso de analistas",
+        "stock_return_pct": 9.9,
+        "option_return_pct": 19.9,
+        "leverage_realized": 2.0,
+        "ventaja_neta_pct": 5.37,
+        "ventaja_neta_usd": 465,
+        "si_no_se_mueve": {
+          "precio": 230.86,
+          "option_return_pct": -6.5,
+          "stock_return_pct": 0.0,
+          "nota": "al vencimiento la opción vale solo su intrínseco: el valor temporal se pierde entero"
+        },
+        "escenario_prudente": {
+          "target_price": 225.47,
+          "target_origen": "el más bajo de tus modelos (DCF / P/E)",
+          "stock_return_pct": -2.3,
+          "option_return_pct": -12.8,
+          "nota": "al vencimiento, la opción vale solo su valor intrínseco"
+        }
+      },
+      "valoracion_propia": {
+        "upside_dcf_pct": 1.1,
+        "upside_pe_pct": -2.3,
+        "upside_triangulado_pct": 3.7,
+        "modelos_acuerdo": "COHERENTES",
+        "contradice_al_analista": false,
+        "aviso": null,
+        "target_prudente": 225.47,
+        "upside_prudente_pct": -2.3
+      },
+      "in_value_list": true,
+      "entry_readiness": "VIGILAR",
+      "entry_readiness_reason": "Sobre MA200 pero las medias aún no están apiladas (50>150>200) — falta confirmación",
+      "why_cheap": null,
+      "why_cheap_resumen": null,
+      "ai_narrative": "Sustituye a la acción con 2.34x de apalancamiento; riesgo máximo limitado a la prima ($8650). Coste real de mantener (3.67%/año) es significativo frente al estrecho upside triangulado.",
+      "situation_verdict": {
+        "verdict": "RAZONABLE",
+        "reason": "La casa no ha investigado la causa de la caída, que además es leve (-6.2%) y no catastrófica. Con calidad fundamental mediana (54.9/100) y el objetivo prudente por debajo del precio actual, no hay margen de seguridad claro para hablar de 'oportunidad'."
+      },
+      "exit_plan": {
+        "take_profit": "Toma beneficios progresivos hacia $239-240 (objetivo triangulado de la casa, +3.7%); no conviene esperar al consenso de $253.72 porque la calidad del negocio (54.9/100) no justifica aguantar hasta el objetivo más optimista.",
+        "roll": "Rolar a vencimiento 2029 si faltan menos de 6 meses para enero 2028 y la tesis sigue intacta, para evitar la aceleración del theta.",
+        "thesis_break": "Si aparece deterioro real (pérdida de contratos municipales, compresión de márgenes, cambio regulatorio adverso) o el precio rompe el break-even de $236.50 sin que el negocio lo sustente, se cierra la posición."
+      },
+      "publicada_desde": "2026-10-29",
+      "aviso_resultados": null
+    }
+  ],
+  "retiradas": [
+    {
+      "ticker": "CME",
+      "motivo": "ya no está en Value verificado o no queda contrato que compense",
+      "rompe": true
+    }
+  ]
+}

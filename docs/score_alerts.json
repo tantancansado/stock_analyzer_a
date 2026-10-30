@@ -1,74 +1,104 @@
 {
-  "generated_at": "2026-10-29",
+  "generated_at": "2026-10-30",
   "alerts": [
     {
       "type": "SCORE_UP",
-      "ticker": "6383.T",
-      "company_name": "Daifuku Co., Ltd.",
-      "sector": "Industrials",
-      "score_today": 53.5,
-      "score_prev": 43.5,
-      "delta": 10.0,
-      "grade": "🔵 DECENT"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "GOOG",
-      "company_name": "Alphabet Inc.",
-      "sector": "Communication Services",
-      "score_today": 41.8,
-      "score_prev": 33.4,
-      "delta": 8.4,
-      "grade": "⚪ WEAK"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "ALLY",
-      "company_name": "Ally Financial Inc.",
+      "ticker": "AON",
+      "company_name": "Aon plc",
       "sector": "Financial Services",
-      "score_today": 41.8,
-      "score_prev": 35.1,
-      "delta": 6.7,
+      "score_today": 67.9,
+      "score_prev": 52.9,
+      "delta": 14.9,
+      "grade": "⭐⭐ STRONG"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "DVA",
+      "company_name": "DaVita Inc.",
+      "sector": "Healthcare",
+      "score_today": 41.4,
+      "score_prev": 30.4,
+      "delta": 11.0,
       "grade": "⚪ WEAK"
     },
     {
       "type": "SCORE_UP",
-      "ticker": "AMZN",
-      "company_name": "Amazon.com, Inc.",
-      "sector": "Consumer Cyclical",
-      "score_today": 44.5,
-      "score_prev": 38.8,
-      "delta": 5.7,
-      "grade": "⚪ WEAK"
+      "ticker": "KO",
+      "company_name": "The Coca-Cola Company",
+      "sector": "Consumer Defensive",
+      "score_today": 63.1,
+      "score_prev": 53.6,
+      "delta": 9.5,
+      "grade": "⭐ GOOD"
     },
     {
       "type": "SCORE_UP",
-      "ticker": "OTIS",
-      "company_name": "Otis Worldwide Corporation",
+      "ticker": "RELX",
+      "company_name": "RELX PLC",
       "sector": "Industrials",
-      "score_today": 51.1,
-      "score_prev": 45.4,
-      "delta": 5.7,
+      "score_today": 43.2,
+      "score_prev": 34.3,
+      "delta": 8.9,
       "grade": "🔵 DECENT"
     },
     {
       "type": "SCORE_UP",
-      "ticker": "CSU.TO",
-      "company_name": "Constellation Software Inc.",
-      "sector": "Technology",
-      "score_today": 37.4,
-      "score_prev": 32.3,
-      "delta": 5.1,
+      "ticker": "V",
+      "company_name": "Visa Inc.",
+      "sector": "Financial Services",
+      "score_today": 43.7,
+      "score_prev": 35.9,
+      "delta": 7.8,
+      "grade": "🔵 DECENT"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "HRI",
+      "company_name": "Herc Holdings Inc.",
+      "sector": "Industrials",
+      "score_today": 37.2,
+      "score_prev": 31.2,
+      "delta": 6.0,
       "grade": "⚪ WEAK"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "AXP",
+      "company_name": "American Express Company",
+      "sector": "Financial Services",
+      "score_today": 57.3,
+      "score_prev": 51.6,
+      "delta": 5.7,
+      "grade": "⭐ GOOD"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "THC",
+      "company_name": "Tenet Healthcare Corporation",
+      "sector": "Healthcare",
+      "score_today": 45.0,
+      "score_prev": 39.6,
+      "delta": 5.4,
+      "grade": "🔵 DECENT"
     },
     {
       "type": "SCORE_DOWN",
-      "ticker": "ZTS",
-      "company_name": "Zoetis Inc.",
-      "sector": "Healthcare",
-      "score_today": 31.3,
-      "score_prev": 36.5,
-      "delta": -5.2,
+      "ticker": "MA",
+      "company_name": "Mastercard Incorporated",
+      "sector": "Financial Services",
+      "score_today": 61.9,
+      "score_prev": 66.9,
+      "delta": -5.0,
+      "grade": "⭐ GOOD"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "POOL",
+      "company_name": "Pool Corporation",
+      "sector": "Industrials",
+      "score_today": 31.2,
+      "score_prev": 36.9,
+      "delta": -5.7,
       "grade": "⚪ WEAK"
     },
     {
@@ -76,136 +106,56 @@
       "ticker": "SAP",
       "company_name": "SAP SE",
       "sector": "Technology",
-      "score_today": 62.2,
-      "score_prev": 67.7,
-      "delta": -5.5,
-      "grade": "⭐⭐ STRONG"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "PAYX",
-      "company_name": "Paychex, Inc.",
-      "sector": "Technology",
-      "score_today": 31.1,
-      "score_prev": 37.4,
-      "delta": -6.3,
-      "grade": "⚪ WEAK"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "VRSN",
-      "company_name": "VeriSign, Inc.",
-      "sector": "Technology",
-      "score_today": 72.9,
-      "score_prev": 79.9,
-      "delta": -7.0,
-      "grade": "⭐⭐ STRONG"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "THC",
-      "company_name": "Tenet Healthcare Corporation",
-      "sector": "Healthcare",
-      "score_today": 39.6,
-      "score_prev": 46.9,
-      "delta": -7.4,
-      "grade": "⚪ WEAK"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "UBER",
-      "company_name": "Uber Technologies, Inc.",
-      "sector": "Technology",
-      "score_today": 32.7,
-      "score_prev": 40.3,
-      "delta": -7.6,
-      "grade": "⚪ WEAK"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "HEI",
-      "company_name": "HEICO Corporation",
-      "sector": "Industrials",
-      "score_today": 32.0,
-      "score_prev": 39.8,
-      "delta": -7.8,
-      "grade": "⚪ WEAK"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "ADSK",
-      "company_name": "Autodesk, Inc.",
-      "sector": "Technology",
-      "score_today": 47.3,
-      "score_prev": 55.3,
-      "delta": -8.0,
-      "grade": "🔵 DECENT"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "DPZ",
-      "company_name": "Domino's Pizza, Inc.",
-      "sector": "Consumer Cyclical",
-      "score_today": 42.3,
-      "score_prev": 50.4,
-      "delta": -8.0,
-      "grade": "🔵 DECENT"
+      "score_today": 56.5,
+      "score_prev": 62.2,
+      "delta": -5.7,
+      "grade": "⭐ GOOD"
     },
     {
       "type": "SCORE_DOWN",
       "ticker": "MKC",
       "company_name": "McCormick & Company, Incorporated",
       "sector": "Consumer Defensive",
-      "score_today": 38.8,
-      "score_prev": 47.0,
-      "delta": -8.2,
+      "score_today": 32.4,
+      "score_prev": 38.8,
+      "delta": -6.4,
       "grade": "⚪ WEAK"
     },
     {
       "type": "SCORE_DOWN",
-      "ticker": "TJX",
-      "company_name": "The TJX Companies, Inc.",
-      "sector": "Consumer Cyclical",
-      "score_today": 35.8,
-      "score_prev": 44.0,
-      "delta": -8.2,
+      "ticker": "GOOG",
+      "company_name": "Alphabet Inc.",
+      "sector": "Communication Services",
+      "score_today": 34.3,
+      "score_prev": 41.8,
+      "delta": -7.5,
       "grade": "⚪ WEAK"
     },
     {
       "type": "SCORE_DOWN",
-      "ticker": "NDAQ",
-      "company_name": "Nasdaq, Inc.",
+      "ticker": "META",
+      "company_name": "Meta Platforms, Inc.",
+      "sector": "Communication Services",
+      "score_today": 32.2,
+      "score_prev": 44.1,
+      "delta": -11.9,
+      "grade": "⚪ WEAK"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "ICE",
+      "company_name": "Intercontinental Exchange, Inc.",
       "sector": "Financial Services",
-      "score_today": 50.4,
-      "score_prev": 60.7,
-      "delta": -10.3,
-      "grade": "🔵 DECENT"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "WM",
-      "company_name": "Waste Management, Inc.",
-      "sector": "Industrials",
-      "score_today": 41.4,
-      "score_prev": 52.0,
-      "delta": -10.6,
+      "score_today": 30.6,
+      "score_prev": 43.5,
+      "delta": -12.9,
       "grade": "⚪ WEAK"
-    },
-    {
-      "type": "EXITED",
-      "ticker": "MCO",
-      "company_name": "Moody's Corporation",
-      "sector": "Financial Services",
-      "score_today": null,
-      "score_prev": 64.4,
-      "delta": null,
-      "grade": "⭐⭐ STRONG"
     }
   ],
   "counts": {
     "new_entries": 0,
-    "exited": 1,
-    "score_up": 6,
-    "score_down": 13
+    "exited": 0,
+    "score_up": 8,
+    "score_down": 7
   }
 }
