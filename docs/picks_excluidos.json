@@ -1,59 +1,47 @@
 {
   "listas": {
     "value_opportunities": {
-      "candidatas": 90,
-      "publicadas": 82,
+      "candidatas": 91,
+      "publicadas": 85,
       "excluidos": [
         {
           "ticker": "ERIE",
           "paso": "rangos_imposibles",
           "motivo": "Falta analyst_upside_pct: no se recomienda lo que no se puede evaluar",
-          "score": 41.522
-        },
-        {
-          "ticker": "VCISY",
-          "paso": "rangos_imposibles",
-          "motivo": "DCF fuera de rango: no es una valoración, es un dato roto (visto 256.9, esperado entre -95 y 200)",
-          "score": 38.92
+          "score": 46.282000000000004
         },
         {
           "ticker": "KYCCF",
           "paso": "rangos_imposibles",
           "motivo": "Falta analyst_upside_pct: no se recomienda lo que no se puede evaluar",
-          "score": 35.291999999999994
+          "score": 39.27
         },
         {
-          "ticker": "MCO",
-          "paso": "verificador_ia",
-          "motivo": "analyst_upside_pct=15.7% pero rev_growth_yoy=0.8%: crecimiento casi nulo. Con piotroski_score=8.0 y fundamental_score=61.5, ¿cómo hay +15.7% de upside? Modelos contradicen: DCF=-33.3, P/E=+32.0. · upside_divergence=ALTA y modelos_dispersion_pts=65.3 (máximo observado): los dos modelos no convergen. El sistema dice 'sin triangular', pero recomienda upside positivo en un negocio que no crece. BLOCK porque la ficha no sostiene la recomendación: crecimiento nulo desmiente el descuento.",
-          "score": 58.230000000000004
+          "ticker": "VCISY",
+          "paso": "rangos_imposibles",
+          "motivo": "DCF fuera de rango: no es una valoración, es un dato roto (visto 255.2, esperado entre -95 y 200)",
+          "score": 38.92
         },
         {
           "ticker": "INTU",
           "paso": "verificador_ia",
-          "motivo": "target_price_pe_upside_pct ausente pero target_price_dcf_upside_pct=141.9% publicado. upside_triangulated_pct=83.0 sin P/E es inverosímil: solo DCF en tabla. · upside_requiere_verificacion=false pese a 83% de upside (>>30%) es error de lógica.",
+          "motivo": "target_price_pe_upside_pct ausente. upside_triangulated_pct es 81.4% con solo DCF (139.7%) reportado. Sin P/E, el valor triangulado es inválido. La triangulación requiere dos modelos; aquí falta uno de los dos componentes.",
           "score": 52.44
         },
         {
-          "ticker": "UNH",
+          "ticker": "ROP",
           "paso": "verificador_ia",
-          "motivo": "rev_growth_yoy=0.4 (ingresos prácticamente planos) pero analyst_upside_pct=17.1% recomendado. Fundamental_score=69.0 (alto) pero crecimiento nulo no sostiene +17% upside. · Ficha desmiente recomendación: el negocio no crece, modelos dan +14.9%, analista ve +17.1%. Con piotroski_score=6.0 (débil) y técnica plana (MA no pasa), la recomendación flotante en un negocio estancado es inconsistente.",
-          "score": 50.31
+          "motivo": "modelos_dispersion_pts es 86.7 (DCF 0.8% vs P/E 87.5%). Eso es contradicción extrema de signo, pero modelos_acuerdo dice DISPERSOS, no CONTRADICEN. Campo upside_triangulated_pct es 3.8% (alista), pero los modelos propios se alejan 86.7 puntos: ¿cómo se obtiene 3.8% de dos fuentes que difieren 86.7? Sin un tercero, la triangulación es inválida. Contradicción de nomenclatura o error de cálculo.",
+          "score": 51.199999999999996
         },
         {
-          "ticker": "TT",
+          "ticker": "ALLY",
           "paso": "verificador_ia",
-          "motivo": "analyst_upside_pct=17.9% pero DCF=-29.3, P/E=-12.4, triangulado=-12.4. upside_triangulated_pct es negativo, upside_divergence=MEDIA, pero se recomienda +17.9%. Contradicción frontal: analista ve +17.9% donde modelos ven -12.4%. Fundamental_score=72.7 (alto) pero modelos internos lo contradicen. BLOCK.",
-          "score": 48.9
-        },
-        {
-          "ticker": "WTKWY",
-          "paso": "verificador_ia",
-          "motivo": "upside_triangulated_pct=94.1% (casi duplicar precio) pero rev_growth_yoy=3.5 (lento). proximity_to_52w_high=-28.3 (caída pronunciada). value_score=48.9 (bajo). · modelos_dispersion_pts=11.6 (bajo) y modelos_acuerdo=COHERENTES sugieren DCF y P/E convergen. Pero +94% de upside en negocio que crece 3.5% es altamente sospechoso: error de escala de divisa (NOK/EUR) probable. BLOCK: la magnitud de upside no se sostiene en el crecimiento mostrado.",
-          "score": 48.879999999999995
+          "motivo": "FCF yield es -4.53% (negativo). Campo target_price_dcf_upside_pct ausente. Un FCF negativo invalida la mayoría de modelos DCF y hace sospechoso upside_triangulated_pct (16.2%). Sin saber si ese 16.2% viene de un DCF distorsionado o solo de P/E, y con FCF negativo pero upside positivo, hay contradicción no resuelta.",
+          "score": 49.23499999999999
         }
       ]
     }
   },
-  "generated_at": "2026-10-29T06:03:26Z"
+  "generated_at": "2026-10-30T06:05:59Z"
 }

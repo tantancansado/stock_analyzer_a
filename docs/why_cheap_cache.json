@@ -20,24 +20,17 @@
   "fuentes": [],
   "fecha": "2026-10-19"
  },
- "SAP.DE": {
-  "veredicto": "EVENTO",
-  "resumen": "SAP recortó guidance de EBIT 2026 en julio (de €11.9-12.3B a €11.8-12.2B) por costos de adquisiciones (Dremio, Prior Labs, Reltio), aunque cloud backlog crece +26% y cloud revenue +24% c/c. La caída refleja un shock de integración puntual, no deterioro estructural.",
-  "confianza": 72,
-  "fuentes": [
-   "https://www.bankinter.com/blog/empresas/resultados-sap",
-   "https://es.investing.com/news/transcripts/transcripcion-del-informe-de-resultados-sap-q1-2026-muestra-resultados-mixtos-la-accion-cae-93CH-3619031",
-   "https://www.investing.com/equities/sap-ag-earnings",
-   "https://news.sap.com/2026/04/sap-announces-q1-2026-results/"
-  ],
-  "fecha": "2026-10-16"
- },
  "SAP": {
-  "veredicto": "SIN_DATOS",
-  "resumen": "",
-  "confianza": 0,
-  "fuentes": [],
-  "fecha": "2026-10-16"
+  "veredicto": "SENTIMIENTO",
+  "resumen": "Caída iniciada en enero por guía de desaceleración de backlog-nube (26% vs. expectativas 30%+), agravada por presión de márgenes en H2 2026 y múltiplos. Q3 2026 mostró operativa sólida (+18% op. profit, +19% EPS), sin deterioro real.",
+  "confianza": 75,
+  "fuentes": [
+   "https://www.cnbc.com/2026/01/29/sap-earnings-q4-shares-cloud-contract-value.html",
+   "https://finance.yahoo.com/markets/stocks/articles/sap-stock-buy-2026-selloff-154100641.html",
+   "https://capital.com/en-int/market-updates/sap-stock-forecast-20-02-2026",
+   "https://finance.yahoo.com/markets/stocks/articles/sap-se-sap-fell-goldman-120410934.html"
+  ],
+  "fecha": "2026-10-30"
  },
  "LR.PA": {
   "veredicto": "SIN_DATOS",
@@ -180,41 +173,29 @@
   ],
   "fecha": "2026-10-29"
  },
- "PAYX": {
-  "veredicto": "SENTIMIENTO",
-  "resumen": "<cite index=\"10-2\">Paychex cayó un 9% el 23 de septiembre de 2026 a pesar de que ingresos crecieron 6%, márgenes se expandieron 280 puntos base, y mantuvo su guidance.</cite> <cite index=\"10-6\">La caída reflejó preocupación sobre que Management Solutions, el mayor segmento de ingresos, creció 4.3% f",
-  "confianza": 78,
-  "fuentes": [
-   "https://www.sec.gov/Archives/edgar/data/0000723531/000072353126000004/payx-ex99_1.htm",
-   "https://www.sec.gov/Archives/edgar/data/723531/000119312526122887/payx-ex99_1.htm",
-   "https://www.marketbeat.com/earnings/reports/2026-3-25-paychex-inc-stock/",
-   "https://www.sec.gov/Archives/edgar/data/0000723531/000119312526280314/payx-ex99_1.htm"
-  ],
-  "fecha": "2026-10-16"
- },
  "RMV.L": {
-  "veredicto": "SIN_DATOS",
-  "resumen": "Recorte de guidance de beneficios por inversión en IA (nov 2025, -25%), demanda colectiva de £1.5B (abril, -6%), y luego reducción de ingresos 2026 a 6-8% por caída de New Homes developments a mínimos de década. Estate Agency sigue fuerte, márgenes se mantienen, devoluciones accionistas aceleran.",
-  "confianza": 70,
+  "veredicto": "EVENTO",
+  "resumen": "Anuncio de inversión acelerada en IA (nov 2025) + demanda por prácticas anticompetitivas (nov 2025); operativo sigue sólido. Guidance reducida ahora por ciclo new homes, no por deterioro.",
+  "confianza": 72,
   "fuentes": [
-   "https://es.marketscreener.com/noticias/rightmove-se-desploma-tras-previsiones-para-2026-inversiones-en-ia-presionar-n-las-ganancias-ce7d5fdad98df72c",
+   "https://thewatchlister.substack.com/p/rightmove-rmv-la-fortaleza-digital",
    "https://www.investing.com/equities/rightmove-earnings",
-   "https://es.investing.com/news/earnings/las-acciones-de-rightmove-caen-mas-del-25-tras-recortar-prevision-de-beneficios-para-2026-por-mayores-costes-en-ia-3383783",
-   "https://www.investing.com/news/earnings/rightmove-shares-crashes-over-25-after-2026-profit-forecast-cut-on-higher-ai-cost-4341271"
+   "https://en.wikipedia.org/wiki/Rightmove",
+   "https://mx.investing.com/news/earnings/ganancias-2025-de-rightmove-suben-9-acciones-saltan-con-recompra-de-90-millones-3503954"
   ],
-  "fecha": "2026-10-16"
+  "fecha": "2026-10-30"
  },
  "MC.PA": {
   "veredicto": "CICLICO",
-  "resumen": "Desaceleración severa en 2024-2025 por colapso de demanda en China (-10-20% moda) tras años de inflación de precios. Beneficio neto cayó 17% en 2024 y BPA 31% en Q4 2025, pero márgenes se mantienen sólidos (22%) y Q3 2025 muestra recuperación (+1% orgánico) con demanda china estabilizándose.",
+  "resumen": "Debilidad en demanda de lujo, particularmente en China y Japón desde Q3 2024, sin deterioro estructural del negocio: márgenes sostienen, no hay corte de guidance, management mantiene estrategia. Ciclo bajista del sector, no deterioro corporativo.",
   "confianza": 72,
   "fuentes": [
-   "https://medicoinversor.substack.com/p/disecando-los-ultimos-resultados",
-   "https://global.morningstar.com/es/acciones/lvmh-qu-esperar-de-los-resultados-del-primer-semestre-de-2025",
-   "https://www.bolsamania.com/noticias/resultados-anuncios/lvmh-reduce-beneficio-17-2024-entorno-economico-desfavorable--18682774.html",
-   "https://es.investing.com/news/transcripts/transcripcion-del-informe-de-resultados-lvmh-registra-resultados-mixtos-en-el-cuarto-trimestre-de-2025-93CH-3485249"
+   "https://wwd.com/business-news/financial/lvmh-q3-2024-revenues-drop-1236684473/",
+   "https://quartr.com/companies/lvmh-mo-t-hennessy-louis-vuitton-soci-t-europ-enne_4196",
+   "https://www.fashiondive.com/news/LVMH-q3-2024-earnings-down-luxury/730030/",
+   "https://www.sec.gov/Archives/edgar/data/202058/000020205824000166/exhibit991q3cy24earnings.htm"
   ],
-  "fecha": "2026-10-16"
+  "fecha": "2026-10-30"
  },
  "ZTS": {
   "veredicto": "SIN_DATOS",
@@ -549,5 +530,29 @@
    "https://www.sec.gov/Archives/edgar/data/860731/000086073125000024/a991earningsrelease-3312025.htm"
   ],
   "fecha": "2026-10-29"
+ },
+ "RELX": {
+  "veredicto": "SENTIMIENTO",
+  "resumen": "<cite index=\"4-8\">Inversores preocupados de que grandes modelos de lenguaje podrían hacer commodities la investigación legal y contenido científico</cite>, a pesar de <cite index=\"17-5,17-6\">7% crecimiento en ingresos (primeros nueve meses 2026) y reafirmación de guidance en octubre 22</cite>.",
+  "confianza": 72,
+  "fuentes": [
+   "https://www.morningstar.com/stocks/xnys/relx/quote",
+   "https://stockanalysis.com/stocks/relx/history/",
+   "https://uk.finance.yahoo.com/news/relx-shares-fall-upbeat-trading-084700368.html",
+   "https://walnutinvest.com/stocks/relx"
+  ],
+  "fecha": "2026-10-30"
+ },
+ "AMZN": {
+  "veredicto": "EVENTO",
+  "resumen": "Amazon reportó margen operativo récord (+61% operativo, +29,6% según tus datos) pero falló levemente en BPA ($1,89 vs. $1,97) el 29 de octubre 2026. El mercado castiga el incumplimiento del EPS y la quema masiva de caja libre ($210,7B capex anual vs. $7,7B FCF), no deterioro de negocio.",
+  "confianza": 72,
+  "fuentes": [
+   "https://www.tikr.com/es/blog/amazon-has-fallen-21-from-its-highs-is-amzn-finally-cheap-enough-to-buy-in-2026",
+   "https://es.benzinga.com/news/usa/stocks/acciones-amazon-caidas-2026-potencial-recuperacion/",
+   "https://www.tikr.com/es/blog/amazon-has-fallen-13-from-its-high-is-2026-the-turning-point",
+   "https://es.tradingview.com/symbols/NASDAQ-AMZN/"
+  ],
+  "fecha": "2026-10-30"
  }
 }
