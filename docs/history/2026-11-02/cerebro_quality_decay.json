@@ -1,0 +1,46 @@
+{
+  "generated_at": "2026-11-02",
+  "total": 2,
+  "high_count": 0,
+  "narrative": "La compresi\u00f3n de m\u00e1rgenes suele reflejar",
+  "decays": [
+    {
+      "ticker": "AON",
+      "company_name": "Aon plc",
+      "severity": "MEDIUM",
+      "decay_score": 3,
+      "value_score": 46.49499999999999,
+      "snapshot_date": "2026-10-29",
+      "piotr_prev": 8.0,
+      "piotr_curr": 8.0,
+      "fcf_prev": 4.88,
+      "fcf_curr": 4.85,
+      "health_prev": 80.0,
+      "health_curr": 70.0,
+      "margin_prev": 23.5,
+      "margin_curr": 22.2,
+      "flags": [
+        "Salud financiera cay\u00f3 10pts (80 \u2192 70/100)"
+      ]
+    },
+    {
+      "ticker": "AMZN",
+      "company_name": "Amazon.com, Inc.",
+      "severity": "MEDIUM",
+      "decay_score": 3,
+      "value_score": 33.28,
+      "snapshot_date": "2026-10-29",
+      "piotr_prev": 6.0,
+      "piotr_curr": 6.0,
+      "fcf_prev": 1.08,
+      "fcf_curr": 1.4,
+      "health_prev": 85.0,
+      "health_curr": 70.0,
+      "margin_prev": 13.7,
+      "margin_curr": 13.9,
+      "flags": [
+        "Salud financiera cay\u00f3 15pts (85 \u2192 70/100)"
+      ]
+    }
+  ]
+}

@@ -1,8 +1,8 @@
 {
   "mes": "2026-11",
-  "gastado_usd": 0.433521,
-  "llamadas": 36,
-  "busquedas": 10,
+  "gastado_usd": 1.282492,
+  "llamadas": 96,
+  "busquedas": 36,
   "mes_anterior": {
     "mes": "2026-10",
     "gastado_usd": 16.901175
@@ -19,8 +19,38 @@
     "ai_quality_filter": {
       "usd": 0.196155,
       "llamadas": 30
+    },
+    "thesis_generator": {
+      "usd": 0.275321,
+      "llamadas": 42
+    },
+    "claude_lote": {
+      "usd": 0.391684,
+      "llamadas": 12
+    },
+    "commodity_ai_gate": {
+      "usd": 0.00468,
+      "llamadas": 1
+    },
+    "rebote_tras_resultados": {
+      "usd": 0.047502,
+      "llamadas": 1
+    },
+    "cerebro": {
+      "usd": 0.046818,
+      "llamadas": 2
+    },
+    "signal_postmortem": {
+      "usd": 0.055404,
+      "llamadas": 1
+    },
+    "daily_briefing": {
+      "usd": 0.027561,
+      "llamadas": 1
     }
   },
-  "techo_mes": 0.433521,
-  "ultima_llamada": "2026-11-02T06:29:06.022200+00:00"
+  "techo_mes": 1.282492,
+  "ultima_llamada": "2026-11-02T07:37:19.691673+00:00",
+  "llamadas_lote": 12,
+  "ahorro_lote_usd": 0.151686
 }

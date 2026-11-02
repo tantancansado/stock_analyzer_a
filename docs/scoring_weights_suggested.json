@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-30",
+  "generated_at": "2026-11-02",
   "status": "PENDING_REVIEW",
   "note": "These weights are suggestions only. Apply manually after review.",
   "current_weights": {
@@ -47,5 +47,5 @@
     }
   ],
   "expected_impact": "Based on 790 historical signals",
-  "narrative": "Ajustes propuestos basados en an\u00e1lisis hist\u00f3rico. Requieren revisi\u00f3n antes de aplicar al pipeline."
+  "narrative": "- Al aumentar la penalizaci\u00f3n por flujo de caja negativo a -2, se espera que el WR de las selecciones con FCF negativo se reduzca a\u00fan m\u00e1s, acerc\u00e1ndose a los -8.3 puntos porcentuales observados, lo que har\u00e1 que el modelo sea m\u00e1s conservador frente a riesgos de liquidez.  \n- Al elevar el umbral m\u00ednimo de puntuaci\u00f3n a 70+ para las recomendaciones publicadas, se proyecta que el WR de las selecciones con puntajes de 80 o m\u00e1s se mantenga al 100\u202f%, mientras que las con puntajes entre 70 y"
 }

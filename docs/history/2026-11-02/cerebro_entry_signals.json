@@ -1,0 +1,216 @@
+{
+  "generated_at": "2026-11-02",
+  "total": 4,
+  "strong_buy": 0,
+  "buy": 1,
+  "monitor": 2,
+  "wait": 1,
+  "narrative": "",
+  "signals": [
+    {
+      "ticker": "VRSN",
+      "company_name": "VeriSign, Inc.",
+      "region": "US",
+      "sector": "Technology",
+      "value_score": 75.06,
+      "conviction_grade": "C",
+      "current_price": 307.21,
+      "analyst_upside_pct": 10.5,
+      "fcf_yield_pct": 3.77,
+      "risk_reward_ratio": 1.31,
+      "days_in_value": 6,
+      "streak_days": 45,
+      "entry_score": 65,
+      "signal": "BUY",
+      "signals_fired": [
+        "Value score \u226570",
+        "Upside en banda dorada [10,30)",
+        "Insider buying",
+        "Options flow alcista",
+        "Analyst revision \u2191",
+        "En VALUE \u22653 d\u00edas"
+      ],
+      "signals_pts": [
+        {
+          "name": "Value score \u226570",
+          "pts": 5
+        },
+        {
+          "name": "Upside en banda dorada [10,30)",
+          "pts": 10
+        },
+        {
+          "name": "Insider buying",
+          "pts": 25
+        },
+        {
+          "name": "Options flow alcista",
+          "pts": 15
+        },
+        {
+          "name": "Analyst revision \u2191",
+          "pts": 5
+        },
+        {
+          "name": "En VALUE \u22653 d\u00edas",
+          "pts": 10
+        }
+      ],
+      "signals_missing": [
+        "Value score <80",
+        "FCF yield <5%",
+        "Sin se\u00f1al MR oversold",
+        "Sector no l\u00edder",
+        "R\u00e9gimen no alcista"
+      ],
+      "rsi": null,
+      "earnings_warning": false,
+      "days_to_earnings": 94
+    },
+    {
+      "ticker": "SAP.DE",
+      "company_name": "SAP SE",
+      "region": "EU",
+      "sector": "Technology",
+      "value_score": 66.4,
+      "conviction_grade": "B",
+      "current_price": 211.25,
+      "analyst_upside_pct": 13.1,
+      "fcf_yield_pct": 3.75,
+      "risk_reward_ratio": 1.64,
+      "days_in_value": 6,
+      "streak_days": 1,
+      "entry_score": 45,
+      "signal": "MONITOR",
+      "signals_fired": [
+        "Upside en banda dorada [10,30)",
+        "Insider buying",
+        "Analyst revision \u2191",
+        "En VALUE \u22653 d\u00edas"
+      ],
+      "signals_pts": [
+        {
+          "name": "Upside en banda dorada [10,30)",
+          "pts": 10
+        },
+        {
+          "name": "Insider buying",
+          "pts": 25
+        },
+        {
+          "name": "Analyst revision \u2191",
+          "pts": 5
+        },
+        {
+          "name": "En VALUE \u22653 d\u00edas",
+          "pts": 10
+        }
+      ],
+      "signals_missing": [
+        "Value score <80",
+        "FCF yield <5%",
+        "Sin se\u00f1al MR oversold",
+        "Sin opciones alcistas",
+        "Sector no l\u00edder",
+        "R\u00e9gimen no alcista"
+      ],
+      "rsi": null,
+      "earnings_warning": false,
+      "days_to_earnings": 87
+    },
+    {
+      "ticker": "AZN.L",
+      "company_name": "AstraZeneca PLC",
+      "region": "EU",
+      "sector": "Healthcare",
+      "value_score": 64.6,
+      "conviction_grade": "nan",
+      "current_price": 13960.0,
+      "analyst_upside_pct": 12.6,
+      "fcf_yield_pct": 2.53,
+      "risk_reward_ratio": 1.58,
+      "days_in_value": 1,
+      "streak_days": 1,
+      "entry_score": 35,
+      "signal": "MONITOR",
+      "signals_fired": [
+        "Upside en banda dorada [10,30)",
+        "Insider buying",
+        "Analyst revision \u2191"
+      ],
+      "signals_pts": [
+        {
+          "name": "Upside en banda dorada [10,30)",
+          "pts": 10
+        },
+        {
+          "name": "Insider buying",
+          "pts": 25
+        },
+        {
+          "name": "Analyst revision \u2191",
+          "pts": 5
+        }
+      ],
+      "signals_missing": [
+        "Value score <80",
+        "FCF yield <5%",
+        "Sin se\u00f1al MR oversold",
+        "Sin opciones alcistas",
+        "Sector no l\u00edder",
+        "R\u00e9gimen no alcista",
+        "Solo 1d en VALUE"
+      ],
+      "rsi": null,
+      "earnings_warning": false,
+      "days_to_earnings": 99
+    },
+    {
+      "ticker": "MSFT",
+      "company_name": "Microsoft Corporation",
+      "region": "US",
+      "sector": "Technology",
+      "value_score": 66.67500000000001,
+      "conviction_grade": "B",
+      "current_price": 521.91,
+      "analyst_upside_pct": 21.3,
+      "fcf_yield_pct": 2.06,
+      "risk_reward_ratio": 2.66,
+      "days_in_value": 6,
+      "streak_days": 31,
+      "entry_score": 25,
+      "signal": "WAIT",
+      "signals_fired": [
+        "Upside en banda dorada [10,30)",
+        "Analyst revision \u2191",
+        "En VALUE \u22653 d\u00edas"
+      ],
+      "signals_pts": [
+        {
+          "name": "Upside en banda dorada [10,30)",
+          "pts": 10
+        },
+        {
+          "name": "Analyst revision \u2191",
+          "pts": 5
+        },
+        {
+          "name": "En VALUE \u22653 d\u00edas",
+          "pts": 10
+        }
+      ],
+      "signals_missing": [
+        "Value score <80",
+        "FCF yield <5%",
+        "Sin insider buying (espera)",
+        "Sin se\u00f1al MR oversold",
+        "Sin opciones alcistas",
+        "Sector no l\u00edder",
+        "R\u00e9gimen no alcista"
+      ],
+      "rsi": null,
+      "earnings_warning": false,
+      "days_to_earnings": 86
+    }
+  ]
+}

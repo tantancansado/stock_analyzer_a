@@ -1,0 +1,143 @@
+{
+  "generated_at": "2026-11-02",
+  "macro_regime": "CALM",
+  "composite_score": 6.0,
+  "sesgo": "DEFENSIVO",
+  "confianza": 62,
+  "situacion": "Mercado en calma aparente (r\u00e9gimen CALM +6) pero con rotaci\u00f3n defensiva interna hacia oro, cobre y defensa, mientras SKEW y VVIX elevados avisan de riesgo de cola latente.",
+  "narrativa": "La combinaci\u00f3n de d\u00f3lar fuerte, SKEW en percentil 78 y VVIX elevado sugiere que los gestores institucionales est\u00e1n comprando protecci\u00f3n pese a la baja volatilidad superficial. Para un inversor VALUE esto implica mantener exposici\u00f3n a calidad con flujo de caja s\u00f3lido y sesgos defensivos (oro, defensa) mientras se evita beta pura de crecimiento sin margen de seguridad. El NFP del jueves es el catalizador clave que puede romper esta falsa calma.",
+  "acciones_inmediatas": [
+    {
+      "prioridad": 1,
+      "accion": "COMPRAR",
+      "instrumento": "TLT/VGLT",
+      "razon": "Yield 30yr en 5.31% ofrece punto de entrada hist\u00f3ricamente atractivo para duraci\u00f3n larga",
+      "catalizador": "Nivel de yield + posible sorpresa dovish en NFP",
+      "size_hint": "media (3-4%)",
+      "invalidacion": "Ruptura sostenida de yield 30yr por encima de 5.6%"
+    },
+    {
+      "prioridad": 2,
+      "accion": "COMPRAR",
+      "instrumento": "MSFT",
+      "razon": "Mejor VALUE pick del d\u00eda con grade B y score 66.7 en sector tecnol\u00f3gico de calidad",
+      "catalizador": "Pullback hacia soporte t\u00e9cnico o earnings season confirmando guidance",
+      "size_hint": "media (3-4%)",
+      "invalidacion": "Deterioro de FCF margin o gu\u00eda de capex fuera de rango"
+    },
+    {
+      "prioridad": 3,
+      "accion": "VIGILAR",
+      "instrumento": "SPY",
+      "razon": "SKEW y VVIX elevados anticipan posible repricing de volatilidad antes del dato de empleo",
+      "catalizador": "Non-Farm Payrolls 2026-11-06",
+      "size_hint": "peque\u00f1a (1-2%)",
+      "invalidacion": "SKEW y VVIX retroceden a percentiles <50"
+    },
+    {
+      "prioridad": 4,
+      "accion": "VENDER",
+      "instrumento": "META",
+      "razon": "Se\u00f1al EXIT del sistema Cerebro indica deterioro de tesis fundamental",
+      "catalizador": "Se\u00f1al Cerebro EXIT activa",
+      "size_hint": "media (3-4%)",
+      "invalidacion": "N/A - ejecutar salida"
+    },
+    {
+      "prioridad": 5,
+      "accion": "VENDER",
+      "instrumento": "WCN",
+      "razon": "Se\u00f1al EXIT del sistema Cerebro sugiere cerrar posici\u00f3n",
+      "catalizador": "Se\u00f1al Cerebro EXIT activa",
+      "size_hint": "peque\u00f1a (1-2%)",
+      "invalidacion": "N/A - ejecutar salida"
+    }
+  ],
+  "macro_plays": [
+    {
+      "instrument": "TLT/VGLT",
+      "direction": "LONG",
+      "thesis": "Yield 30yr en 5.31% \u2014 zona hist\u00f3ricamente atractiva para bonos largos",
+      "historical": "2018-19: TLT +18% cuando yields revertieron desde 3.25%",
+      "risk": "La Fed puede mantener tipos altos m\u00e1s tiempo \u2014 size peque\u00f1o",
+      "timeframe": "3-6 meses",
+      "score": 95,
+      "eu_alternative": {
+        "ticker": "DTLA",
+        "name": "Xtrackers US Treasuries 20yr+ UCITS ETF",
+        "exchange": "Xetra",
+        "available": "DEGIRO/IB"
+      }
+    }
+  ],
+  "macro_plays_commentary": "La oportunidad en TLT/VGLT por yield del 5.31% es la play m\u00e1s clara del d\u00eda, alineada con un contexto de aversi\u00f3n al riesgo creciente pese a la calma superficial del r\u00e9gimen.",
+  "value_en_entorno": [
+    {
+      "ticker": "MSFT",
+      "score": 66.7,
+      "sector": "Technology",
+      "fcf_yield_pct": 2.06,
+      "grade": "B"
+    },
+    {
+      "ticker": "SAP.DE",
+      "score": 66.4,
+      "sector": "Technology",
+      "fcf_yield_pct": 3.75,
+      "grade": "B"
+    },
+    {
+      "ticker": "SAP",
+      "score": 59.6,
+      "sector": "Technology",
+      "fcf_yield_pct": 3.77,
+      "grade": "B"
+    },
+    {
+      "ticker": "AXP",
+      "score": 58.4,
+      "sector": "Financial Services",
+      "fcf_yield_pct": 7.1,
+      "grade": "B"
+    },
+    {
+      "ticker": "EXPN.L",
+      "score": 57.0,
+      "sector": "Industrials",
+      "fcf_yield_pct": 4.32,
+      "grade": "B"
+    }
+  ],
+  "value_en_entorno_razon": "En un r\u00e9gimen CALM con se\u00f1ales internas defensivas (oro, cobre/oro, defensa), los picks VALUE de calidad con FCF s\u00f3lido como MSFT, SAP y AXP ofrecen margen de seguridad y resiliencia ante un posible repricing de volatilidad sin sacrificar exposici\u00f3n a crecimiento de calidad.",
+  "evitar": [
+    {
+      "ticker": "GGG",
+      "razon": "Se\u00f1al AVOID activa del sistema Cerebro"
+    },
+    {
+      "ticker": "META",
+      "razon": "Se\u00f1al EXIT - deterioro de tesis"
+    },
+    {
+      "ticker": "WCN",
+      "razon": "Se\u00f1al EXIT - deterioro de tesis"
+    }
+  ],
+  "agenda_semana": [
+    {
+      "fecha": "2026-11-03",
+      "evento": "Earnings RACE, AME, BR, YUM, ETN, JKHY",
+      "impacto": "MEDIO",
+      "accion_sugerida": "Evitar nuevas posiciones en estos nombres hasta conocer resultados"
+    },
+    {
+      "fecha": "2026-11-06",
+      "evento": "Non-Farm Payrolls",
+      "impacto": "ALTO",
+      "accion_sugerida": "Reducir tama\u00f1o de nuevas entradas y vigilar reacci\u00f3n en yields y DXY antes del dato"
+    }
+  ],
+  "frase_del_dia": "El riesgo viene de no saber lo que uno est\u00e1 haciendo. - Warren Buffett",
+  "mensaje_telegram": "\ud83d\udcca Mercado CALM pero con SKEW/VVIX altos = riesgo de cola latente. \ud83d\udee1\ufe0f Sesgo DEFENSIVO. COMPRAR TLT (yield 5.31%) y MSFT. VENDER META/WCN (Cerebro EXIT). Evitar GGG. \ud83d\uddd3\ufe0f NFP jueves 6-nov, vigilar SPY. Oro como cobertura.",
+  "ai_powered": true
+}

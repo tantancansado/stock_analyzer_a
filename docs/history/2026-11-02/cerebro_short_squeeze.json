@@ -1,0 +1,40 @@
+{
+  "generated_at": "2026-11-02",
+  "total": 2,
+  "high_count": 0,
+  "narrative": "",
+  "setups": [
+    {
+      "ticker": "FICO",
+      "company_name": "Fair Isaac Corporation",
+      "sector": "Technology",
+      "severity": "MEDIUM",
+      "squeeze_score": 25,
+      "short_pct_float": 13.5,
+      "piotroski": 7.0,
+      "value_score": 45.48499999999999,
+      "insider_buying": false,
+      "hf_present": false,
+      "flags": [
+        "Short moderado (13.5% del float)",
+        "Piotroski 7/9 \u2014 calidad mejorando"
+      ]
+    },
+    {
+      "ticker": "HRI",
+      "company_name": "Herc Holdings Inc.",
+      "sector": "Industrials",
+      "severity": "MEDIUM",
+      "squeeze_score": 25,
+      "short_pct_float": 11.8,
+      "piotroski": 3.0,
+      "value_score": 37.24,
+      "insider_buying": false,
+      "hf_present": true,
+      "flags": [
+        "Short moderado (11.8% del float)",
+        "Hedge funds con posici\u00f3n larga"
+      ]
+    }
+  ]
+}

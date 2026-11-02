@@ -1,23 +1,19 @@
 {
-  "total_problemas": 1,
+  "total_problemas": 0,
   "desfases_conocidos": [
-    "⏳ ⚠️  value_opportunities.csv: upside analista = (objetivo − precio) / precio — 1/62 filas, peor desvío 3% (DOL.TO)",
-    "⏳ ⚠️  value_opportunities.csv: upside DCF = (objetivo − precio) / precio — 1/50 filas, peor desvío 3% (ADSK)",
-    "⏳ ⚠️  value_opportunities.csv: upside P/E = (objetivo − precio) / precio — 4/49 filas, peor desvío 4% (AXP, NDAQ, V, WM)",
-    "⏳ ⚠️  value_opportunities.csv: distancia al máximo 52s — 4/62 filas, peor desvío 4% (V, MSI, FCNCA, DOL.TO)",
-    "⏳ ⚠️  value_opportunities_filtered.csv: upside DCF = (objetivo − precio) / precio — 1/37 filas, peor desvío 3% (ADSK)",
-    "⏳ ⚠️  value_opportunities_filtered.csv: upside P/E = (objetivo − precio) / precio — 4/34 filas, peor desvío 4% (V, AXP, NDAQ, WM)",
-    "⏳ ⚠️  value_opportunities_filtered.csv: distancia al máximo 52s — 2/44 filas, peor desvío 2% (V, FCNCA)",
-    "⏳ ⚠️  european_value_opportunities.csv: upside analista = (objetivo − precio) / precio — 1/42 filas, peor desvío 5% (SGSN.SW)",
-    "⏳ ⚠️  european_value_opportunities.csv: distancia al máximo 52s — 1/42 filas, peor desvío 2% (LONN.SW)",
-    "⏳ ⚠️  momentum_opportunities.csv: upside analista = (objetivo − precio) / precio — 1/6 filas, peor desvío 5% (CVX)",
-    "⏳ ⚠️  momentum_opportunities.csv: distancia al máximo 52s — 1/6 filas, peor desvío 2% (TMO)"
+    "⏳ ⚠️  value_opportunities.csv: upside analista = (objetivo − precio) / precio — 2/58 filas, peor desvío 4% (ROP, DOL.TO)",
+    "⏳ ⚠️  value_opportunities.csv: upside DCF = (objetivo − precio) / precio — 4/47 filas, peor desvío 5% (VRSN, SAP, ADSK, ADP)",
+    "⏳ ⚠️  value_opportunities.csv: upside P/E = (objetivo − precio) / precio — 2/43 filas, peor desvío 4% (NDAQ, TT)",
+    "⏳ ⚠️  value_opportunities.csv: distancia al máximo 52s — 5/58 filas, peor desvío 3% (KO, MA, ROP, SGSOY, DOL.TO)",
+    "⏳ ⚠️  value_opportunities_filtered.csv: upside DCF = (objetivo − precio) / precio — 3/35 filas, peor desvío 3% (ADSK, SAP, VRSN)",
+    "⏳ ⚠️  value_opportunities_filtered.csv: upside P/E = (objetivo − precio) / precio — 2/29 filas, peor desvío 4% (TT, NDAQ)",
+    "⏳ ⚠️  value_opportunities_filtered.csv: distancia al máximo 52s — 1/42 filas, peor desvío 3% (KO)",
+    "⏳ ⚠️  european_value_opportunities.csv: upside analista = (objetivo − precio) / precio — 1/40 filas, peor desvío 5% (SGSN.SW)",
+    "⏳ ⚠️  european_value_opportunities.csv: distancia al máximo 52s — 3/40 filas, peor desvío 5% (ASSA-B.ST, AI.PA, INDT.ST)",
+    "⏳ ⚠️  european_value_opportunities_filtered.csv: distancia al máximo 52s — 2/26 filas, peor desvío 5% (AI.PA, ASSA-B.ST)",
+    "⏳ ⚠️  commodity_opportunities.csv: distancia al mínimo = (precio − mín) / mín — 1/19 filas, peor desvío 4% (PPLT)"
   ],
-  "detalle": {
-    "commodities: rating contra narrativa IA": [
-      "SLV: value_rating=ATRACTIVO pero ai_narrative_veredicto=PRECIO_EXIGENTE"
-    ]
-  },
-  "tickers_value": 62,
-  "tickers_verdicts": 77
+  "detalle": {},
+  "tickers_value": 58,
+  "tickers_verdicts": 72
 }

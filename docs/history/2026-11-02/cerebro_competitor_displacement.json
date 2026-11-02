@@ -1,0 +1,47 @@
+{
+  "generated_at": "2026-11-02",
+  "total": 3,
+  "dropped_count": 1,
+  "narrative": "1. **\u201cCuando el momentum del sector se desv",
+  "displacements": [
+    {
+      "type": "COMPETITOR_RISE",
+      "dropped_ticker": "AON",
+      "sector": "Financial Services",
+      "prev_score": 67.86,
+      "replacements": [
+        "MSCI",
+        "MA",
+        "AXP"
+      ],
+      "top_replacement": "MSCI",
+      "top_replacement_score": 64.745,
+      "detail": "AON sali\u00f3 de VALUE (68pts); peers en Financial Services: MSCI, MA"
+    },
+    {
+      "type": "SECTOR_TAILWIND",
+      "sector": "Technology",
+      "rotation_score": 100.0,
+      "beneficiaries": [
+        "VRSN",
+        "MSFT",
+        "SAP.DE"
+      ],
+      "top_ticker": "VRSN",
+      "top_score": 75.06,
+      "detail": "Sector Technology l\u00edder (RS 100) \u2014 VRSN, MSFT, SAP.DE son los picks VALUE"
+    },
+    {
+      "type": "SECTOR_TAILWIND",
+      "sector": "Healthcare",
+      "rotation_score": 100.0,
+      "beneficiaries": [
+        "AZN.L",
+        "CLPBY"
+      ],
+      "top_ticker": "AZN.L",
+      "top_score": 64.6,
+      "detail": "Sector Healthcare l\u00edder (RS 100) \u2014 AZN.L, CLPBY son los picks VALUE"
+    }
+  ]
+}
