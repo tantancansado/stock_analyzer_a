@@ -1,60 +1,26 @@
 {
-  "mes": "2026-10",
-  "gastado_usd": 16.901175,
-  "llamadas": 1419,
-  "busquedas": 267,
+  "mes": "2026-11",
+  "gastado_usd": 0.433521,
+  "llamadas": 36,
+  "busquedas": 10,
   "mes_anterior": {
-    "mes": "2026-09",
-    "gastado_usd": 19.944327
+    "mes": "2026-10",
+    "gastado_usd": 16.901175
   },
   "por_script": {
     "ai_pick_verifier": {
-      "usd": 0.381898,
-      "llamadas": 17
+      "usd": 0.023715,
+      "llamadas": 1
     },
     "why_cheap_analyzer": {
-      "usd": 3.575927,
-      "llamadas": 83
+      "usd": 0.213651,
+      "llamadas": 5
     },
     "ai_quality_filter": {
-      "usd": 2.977986,
-      "llamadas": 425
-    },
-    "thesis_generator": {
-      "usd": 4.319292,
-      "llamadas": 678
-    },
-    "cerebro": {
-      "usd": 0.619074,
-      "llamadas": 54
-    },
-    "daily_briefing": {
-      "usd": 0.648603,
-      "llamadas": 17
-    },
-    "leaps_analyzer": {
-      "usd": 2.566473,
-      "llamadas": 84
-    },
-    "claude_lote": {
-      "usd": 1.517356,
-      "llamadas": 47
-    },
-    "signal_postmortem": {
-      "usd": 0.101388,
-      "llamadas": 2
-    },
-    "commodity_ai_gate": {
-      "usd": 0.025516,
-      "llamadas": 8
-    },
-    "rebote_tras_resultados": {
-      "usd": 0.167659,
-      "llamadas": 4
+      "usd": 0.196155,
+      "llamadas": 30
     }
   },
-  "techo_mes": 16.901175,
-  "ultima_llamada": "2026-10-30T19:51:45.420291+00:00",
-  "llamadas_lote": 47,
-  "ahorro_lote_usd": 0.577359
+  "techo_mes": 0.433521,
+  "ultima_llamada": "2026-11-02T06:29:06.022200+00:00"
 }

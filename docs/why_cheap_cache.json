@@ -1,24 +1,27 @@
 {
- "NYT": {
-  "veredicto": "SIN_DATOS",
-  "resumen": "",
-  "confianza": 0,
-  "fuentes": [],
-  "fecha": "2026-10-19"
- },
  "ULVR.L": {
-  "veredicto": "SIN_DATOS",
-  "resumen": "",
-  "confianza": 0,
-  "fuentes": [],
-  "fecha": "2026-10-19"
+  "veredicto": "SENTIMIENTO",
+  "resumen": "Unilever reportó Q3 2026 fuerte (5.2% ventas, guidance mejorada) el 28 de octubre, pero el mercado castigó la acción por presiones de inflación, márgenes ajustados y debilidad en mercados desarrollados pese a resultados positivos.",
+  "confianza": 72,
+  "fuentes": [
+   "https://www.investing.com/equities/unilever-ord-historical-data",
+   "https://es.tradingview.com/symbols/LSE-ULVR/",
+   "https://stocksreport.ai/products/unilever-plc-ulvr-informe-de-actividad-operativa",
+   "https://www.marketscreener.com/quote/stock/UNILEVER-PLC-9590186/quotes/"
+  ],
+  "fecha": "2026-11-02"
  },
  "ADSK": {
-  "veredicto": "SIN_DATOS",
-  "resumen": "",
-  "confianza": 0,
-  "fuentes": [],
-  "fecha": "2026-10-19"
+  "veredicto": "EVENTO",
+  "resumen": "Dilución de márgenes por adquisición MaintainX (anunciada en Q2 FY27, agosto 2026) y endeudamiento adicional para financiarla, combinado con rotación/miedo a múltiplos elevados en software tras earnings beat.",
+  "confianza": 72,
+  "fuentes": [
+   "https://simplywall.st/es/stocks/us/software/nasdaq-adsk/autodesk/news/las-acciones-de-autodesk-adsk-podrian-estar-infravaloradas-e/amp",
+   "https://www.tikr.com/es/blog/autodesk-stock-is-down-17-ytd-what-the-numbers-say-about-2026",
+   "https://bobby.ai/es/stocks/adsk",
+   "https://finance.yahoo.com/markets/stocks/articles/autodesk-adsk-registers-bigger-fall-221501823.html"
+  ],
+  "fecha": "2026-11-02"
  },
  "SAP": {
   "veredicto": "SENTIMIENTO",
@@ -196,20 +199,6 @@
    "https://www.sec.gov/Archives/edgar/data/202058/000020205824000166/exhibit991q3cy24earnings.htm"
   ],
   "fecha": "2026-10-30"
- },
- "ZTS": {
-  "veredicto": "SIN_DATOS",
-  "resumen": "",
-  "confianza": 0,
-  "fuentes": [],
-  "fecha": "2026-10-19"
- },
- "ROL": {
-  "veredicto": "SIN_DATOS",
-  "resumen": "",
-  "confianza": 0,
-  "fuentes": [],
-  "fecha": "2026-10-19"
  },
  "EXPN.L": {
   "veredicto": "SIN_DATOS",
@@ -554,5 +543,41 @@
    "https://es.tradingview.com/symbols/NASDAQ-AMZN/"
   ],
   "fecha": "2026-10-30"
+ },
+ "7741.T": {
+  "veredicto": "SENTIMIENTO",
+  "resumen": "Máximo en abril 2026 a ¥30,400; caída por rotación/múltiplos después de ejecución excelente (op +17-27% en últimos quarters, BPA +27%). Fundamentales intactos: guidance superada, márgenes estables, inversión en capacidad.",
+  "confianza": 72,
+  "fuentes": [
+   "https://www.tradingview.com/symbols/TSE-7741/",
+   "https://stockanalysis.com/quote/tyo/7741/history/",
+   "https://www.stockopedia.com/share-prices/hoya-TYO:7741/",
+   "https://www.cnbc.com/quotes/7741.T-JP"
+  ],
+  "fecha": "2026-11-02"
+ },
+ "TT": {
+  "veredicto": "EVENTO",
+  "resumen": "Caída post-earnings (29 oct 2026): beat de revenue/EPS pero márgenes comprimidos (-40bps) y guidance EPS reafirmada sin cambios pese a mejor outlook de revenue. Presión de costos en operaciones internacionales.",
+  "confianza": 87,
+  "fuentes": [
+   "https://www.investing.com/equities/trane-technologies-plc",
+   "https://www.gurufocus.com/news/9160121/is-trane-technologies-plc-tt-a-bargain-after-49-drop-gf-value-says-undervalued",
+   "https://www.gurufocus.com/news/9151814/trane-technologies-tt-shares-drop-despite-q3-beat-highlighting-valuation-and-margin-concerns",
+   "https://www.gurufocus.com/news/9153001/trane-technologies-plc-tt-stock-down-39-now-undervalued-gf-score-92100"
+  ],
+  "fecha": "2026-11-02"
+ },
+ "FTNT": {
+  "veredicto": "SENTIMIENTO",
+  "resumen": "<cite index=\"9-3,9-5\">Fortinet publicó resultados mejores de lo esperado en Q3 2026 con ingresos de $2.08B vs. consenso de $2.06B</cite>, <cite index=\"9-6\">elevando guidance de 2026 por tercera vez</cite>. <cite index=\"16-5\">Sin embargo, recortó guidance de ingresos por servicios para el año fiscal ",
+  "confianza": 82,
+  "fuentes": [
+   "https://www.sec.gov/Archives/edgar/data/1262039/000126203924000040/ftntq3-2024ex991.htm",
+   "https://www.sec.gov/Archives/edgar/data/1262039/000126203924000006/ftntq4-2023ex991.htm",
+   "https://www.sec.gov/Archives/edgar/data/1262039/000126203924000034/ftntq2-2024ex991corrected.htm",
+   "https://www.sec.gov/Archives/edgar/data/1262039/000126203924000032/ftntq2-2024ex991.htm"
+  ],
+  "fecha": "2026-11-02"
  }
 }
