@@ -1,14 +1,20 @@
 {
   "listas": {
     "value_opportunities": {
-      "candidatas": 84,
-      "publicadas": 77,
+      "candidatas": 85,
+      "publicadas": 78,
       "excluidos": [
         {
           "ticker": "ERIE",
           "paso": "rangos_imposibles",
           "motivo": "Falta analyst_upside_pct: no se recomienda lo que no se puede evaluar",
-          "score": 45.432
+          "score": 46.928
+        },
+        {
+          "ticker": "VCISY",
+          "paso": "rangos_imposibles",
+          "motivo": "DCF fuera de rango: no es una valoración, es un dato roto (visto 263.2, esperado entre -95 y 200)",
+          "score": 41.92
         },
         {
           "ticker": "KYCCF",
@@ -17,37 +23,31 @@
           "score": 39.27
         },
         {
-          "ticker": "VCISY",
-          "paso": "rangos_imposibles",
-          "motivo": "DCF fuera de rango: no es una valoración, es un dato roto (visto 257.9, esperado entre -95 y 200)",
-          "score": 38.92
+          "ticker": "FTNT",
+          "paso": "verificador_ia",
+          "motivo": "Analyst upside 15.6% pero modelos dan upside_triangulated_pct de -7.8% (DCF -12.7%, P/E -7.8%) y modelos_acuerdo COHERENTES; analista ve 23% de mejora que los modelos niegan completamente · Crecimiento de ingresos de 25.6% YoY con múltiplos muy atractivos (PEG 1.08, FCF yield 3.58%) pero precio a -36% de 52w high con tendencia débil; los modelos contradicen al analista sin justificación en la ficha",
+          "score": 54.42
         },
         {
-          "ticker": "ZTS",
+          "ticker": "CBOE",
           "paso": "verificador_ia",
-          "motivo": "rev_growth_yoy es -0.2% (prácticamente negativo). Analyst_upside_pct 10.9% y upside_triangulated_pct 76.5% NO son coherentes con contracción de ingresos. Los modelos (DCF +76.5%, P/E +127.5%) proyectan rebote masivo sin evidencia de crecimiento presente. upside_requiere_verificacion debería ser true: este no es un descuento en un negocio que crece, es un negocio contraído con precio hundido (-45.0% del 52w high). Trampa, no oportunidad.",
-          "score": 60.19999999999999
+          "motivo": "Analyst upside solo 0.6% pero target_price_dcf_upside_pct es 92.2%; divergencia extrema sin upside_divergence señalado (debería ser ALTA), y fundamental_score 86.7 con value_score 52.41 sugiere un activo muy valioso según DCF pero muy caro según mercado · modelos_dispersion_pts de 93.8 es el más alto de toda la cartera; esa dispersión exagerada debería requerir verificación explícita o marcar un problema de coherencia",
+          "score": 52.41
         },
         {
           "ticker": "WTKWY",
           "paso": "verificador_ia",
-          "motivo": "modelos_acuerdo COHERENTES (DCF +88.2% vs P/E +98.8%, dispersión solo 10.6 pts) pero fundamental_score es 67.3 (bajo-medio) y rev_growth_yoy es solo 3.5% (muy bajo). Ambos modelos predicen 90% de upside en un negocio estancado (3.5% crecimiento). Esto NO es coherente: un descuento de 90% requiere crecimiento futuro significativo que la ficha no muestra. La 'coherencia' de los modelos entre sí no valida que sean coherentes con los fundamentales.",
-          "score": 57.849999999999994
+          "motivo": "Analyst upside 16.4% pero modelos_acuerdo COHERENTES con upside_triangulated_pct 86.5% (DCF 86.5%, P/E 96.8%); un 86.5% de upside no es defendible solo con 3.5% de crecimiento YoY y un PEG de 1.17 (PEG bajo pero no extraordinario) · Crecimiento de ingresos de 3.5% con FCF yield 7.13% es modelo de madurez, no de revalorización del 86%; la ficha no explica por qué ambos modelos ven un upside tan extremo sin cambio en el crecimiento",
+          "score": 52.400000000000006
         },
         {
-          "ticker": "AVGO",
+          "ticker": "INTU",
           "paso": "verificador_ia",
-          "motivo": "Contradicción brutal: analyst_upside_pct 62.6% vs target_price_dcf_upside_pct -54.1%. upside_divergence ALTA es correcto, pero upside_triangulated_pct 4.2% no se puede obtener de (-54.1% + 0 P/E missing). El campo target_price_pe_upside_pct falta completamente. Los tres números (62.6%, -54.1%, 4.2%) son mutuamente incompatibles y no hay explicación coherente. upside_requiere_verificacion true es insuficiente: esto es un error de datos. · rev_growth_yoy 85.5% es extraordinario. Un crecimiento del 85% con DCF mostrando -54% de downside sugiere que los modelos están viendo una caída futura severa que contradice el crecimiento presente. Ficha incoherente en su totalidad.",
-          "score": 50.34
-        },
-        {
-          "ticker": "DVA",
-          "paso": "verificador_ia",
-          "motivo": "Dispersión extrema: DCF +120.7% vs P/E -5.9%, modelos_dispersion_pts 126.6 pts (el más alto del dataset). Los modelos se contradicen en signo. upside_divergence MEDIA subestima esta contradicción. upside_triangulated_pct vacío 'sin triangular a propósito' es correcto. Pero analyst_upside_pct 16.6% cae fuera del rango de modelos (-6 a +121) sin justificación visible. La ficha no es auditable: los modelos propios están rotos.",
-          "score": 48.36500000000001
+          "motivo": "Analyst upside 15.8% pero target_price_dcf_upside_pct 143.7% sin target_price_pe_upside_pct; upside_triangulated_pct 79.8% que asume un promedio o uno de los dos modelos, pero sin P/E no es triangulable · FCF yield 9.16% es muy alto y PEG 0.52 es muy bajo, pero proximity_to_52w_high de -48.4% con tendencia débil (ma_filter_pass false) contradice un upside de casi 80% sin verificación de si es descuento real o trampa",
+          "score": 51.51
         }
       ]
     }
   },
-  "generated_at": "2026-11-02T06:21:02Z"
+  "generated_at": "2026-11-03T07:05:00Z"
 }

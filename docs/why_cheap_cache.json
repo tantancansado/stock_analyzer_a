@@ -35,13 +35,6 @@
   ],
   "fecha": "2026-10-30"
  },
- "LR.PA": {
-  "veredicto": "SIN_DATOS",
-  "resumen": "",
-  "confianza": 0,
-  "fuentes": [],
-  "fecha": "2026-10-20"
- },
  "AUTO.L": {
   "veredicto": "SENTIMIENTO",
   "resumen": "Guidance FY 2027 reducida (£395-415m vs £408m FY2026) tras fuertes resultados en H2 2026; valuaciones ajustadas a la baja por presiones minoristas cíclicas y desaceleración de crecimiento, sin deterioro estructural del negocio.",
@@ -201,32 +194,16 @@
   "fecha": "2026-10-30"
  },
  "EXPN.L": {
-  "veredicto": "SIN_DATOS",
-  "resumen": "",
-  "confianza": 0,
-  "fuentes": [],
-  "fecha": "2026-10-20"
- },
- "GOOG": {
-  "veredicto": "SIN_DATOS",
-  "resumen": "",
-  "confianza": 0,
-  "fuentes": [],
-  "fecha": "2026-10-20"
- },
- "INTU": {
-  "veredicto": "SIN_DATOS",
-  "resumen": "",
-  "confianza": 0,
-  "fuentes": [],
-  "fecha": "2026-10-20"
- },
- "AON": {
-  "veredicto": "SIN_DATOS",
-  "resumen": "",
-  "confianza": 0,
-  "fuentes": [],
-  "fecha": "2026-10-20"
+  "veredicto": "SENTIMIENTO",
+  "resumen": "Resultados operativos fuertes (+28.8% BPA, +14.1% EBIT) con guidance reafirmada. Caída por no incrementar guidance pese a buenos números: decepción de mercado sobre crecimiento futuro, no deterioro real.",
+  "confianza": 78,
+  "fuentes": [
+   "https://www.experianplc.com/newsroom/press-releases/2025/full-year-results-fy25",
+   "https://www.experianplc.com/newsroom/press-releases/2024/half-year-results-fy25",
+   "https://www.experianplc.com/newsroom/press-releases/2025/half-year-results-fy26",
+   "https://www.experianplc.com/content/dam/marketing/global/plc/en/assets/documents/results-and-presentations/2025/experian-fy25-full-year-results.pdf"
+  ],
+  "fecha": "2026-11-03"
  },
  "BSX": {
   "veredicto": "DETERIORO",
@@ -579,5 +556,53 @@
    "https://www.sec.gov/Archives/edgar/data/1262039/000126203924000032/ftntq2-2024ex991.htm"
   ],
   "fecha": "2026-11-02"
+ },
+ "RMD": {
+  "veredicto": "EVENTO",
+  "resumen": "<cite index=\"12-14,12-15,12-16\">El crecimiento de ingresos se ralentizó a 5.9% en el Q1 FY2027 (reportado 29 oct), el más lento en cinco trimestres, tras 8.6% en el trimestre anterior.</cite> <cite index=\"17-4\">El mercado castigó el stock por falta de guidance upgrade o camino claro hacia crecimient",
+  "confianza": 72,
+  "fuentes": [
+   "https://www.investing.com/equities/resmed-inc-earnings",
+   "https://www.sec.gov/Archives/edgar/data/0000943819/000119312526197192/d146862dex991.htm",
+   "https://www.sec.gov/Archives/edgar/data/0000943819/000119312526337962/d158732dex991.htm",
+   "https://investor.resmed.com/news-events/press-releases/detail/420/resmed-inc-announces-results-for-the-third-quarter-of-fiscal-year-2026"
+  ],
+  "fecha": "2026-11-03"
+ },
+ "ALLY": {
+  "veredicto": "SENTIMIENTO",
+  "resumen": "<cite index=\"12-1\">Ally entregó resultados Q3 2026 fuertes con EPS ajustado de $1.34 (up 16% YoY) e ingresos netos ajustados de $2.3B (up 9% YoY)</cite>, pero <cite index=\"1-3\">la presión viene de múltiples direcciones: inflación persistente, sentimiento débil del consumidor e incertidumbre arancela",
+  "confianza": 78,
+  "fuentes": [
+   "https://finance.yahoo.com/news/ally-financial-drops-11-2026-111112427.html",
+   "https://www.gurufocus.com/news/9084860/ally-financial-inc-ally-stock-down-30-but-still-overvalued-gf-score-69100?r=4bf001661e6fdd88d0cd7a5659ff9748",
+   "https://www.gurufocus.com/news/8849809/ally-financial-inc-ally-shares-fall-34-gf-value-says-still-overvalued",
+   "https://www.gurufocus.com/news/8910949/a-look-at-ally-financial-inc-ally-after-34-decline-gf-value-3883-vs-price-4188"
+  ],
+  "fecha": "2026-11-03"
+ },
+ "NESTE.HE": {
+  "veredicto": "EVENTO",
+  "resumen": "<cite index=\"16-9\">Rotterdam expansion project budget fue revisado al alza nuevamente, con inicio aplazado a fin de 2027 y ramp-up comercial a inicio 2028.</cite> A pesar de resultados Q3 2026 muy sólidos (EPS superó expectations un 28%), el deterioro del proyecto capex pesa sobre el outlook.",
+  "confianza": 72,
+  "fuentes": [
+   "https://www.marketscreener.com/quote/stock/NESTE-OYJ-1412495/news/Neste-Oyj-Reports-Earnings-Results-for-the-Third-Quarter-and-Nine-Months-Ended-September-30-2024-48151024/",
+   "https://seekingalpha.com/article/4960454-neste-oyj-2026-q3-results-earnings-call-presentation",
+   "https://quartr.com/companies/neste-oyj_5385",
+   "https://www.marketbeat.com/instant-alerts/earnings-neste-oyj-otcmkts-ntoiy-announces-quarterly-earnings-results-2026-10-29/"
+  ],
+  "fecha": "2026-11-03"
+ },
+ "ASML.AS": {
+  "veredicto": "SENTIMIENTO",
+  "resumen": "<cite index=\"4-1,4-2,4-3\">En Q3 2026 ASML reportó ventas récord de €11.7 mil millones con margen bruto de 57.5%, pero los inversores descuentan el aumento de capex y la incertidumbre de demanda futura a pesar de guidance alcista</cite>.",
+  "confianza": 75,
+  "fuentes": [
+   "https://global.morningstar.com/es/acciones/asml-reajuste-de-expectativas-y-recorte-del-valor-razonable",
+   "https://www.sec.gov/Archives/edgar/data/0000937966/000162828026025147/pressreleasefinancialresul.htm",
+   "https://es.investing.com/news/transcripts/transcripcion-del-informe-de-resultados-asml-supera-las-previsiones-del-primer-trimestre-de-2026-la-accion-cae-93CH-3619811",
+   "https://www.sec.gov/Archives/edgar/data/0000937966/000162828026065813/pressreleasefinancialresul.htm"
+  ],
+  "fecha": "2026-11-03"
  }
 }
