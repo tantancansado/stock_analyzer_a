@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-11-02",
-  "total": 1,
+  "generated_at": "2026-11-03",
+  "total": 2,
   "narrative": "",
   "clusters": [
     {
@@ -8,12 +8,25 @@
       "ticker_count": 3,
       "tickers": [
         "MKC",
-        "DGE.L",
-        "ULVR.L"
+        "ULVR.L",
+        "DGE.L"
       ],
       "total_purchases": 36,
       "total_insiders": 17,
       "cluster_score": 100,
+      "signal": "MODERATE"
+    },
+    {
+      "sector": "Technology",
+      "ticker_count": 3,
+      "tickers": [
+        "ORCL",
+        "VRSN",
+        "SAP.DE"
+      ],
+      "total_purchases": 10,
+      "total_insiders": 4,
+      "cluster_score": 80,
       "signal": "MODERATE"
     }
   ]

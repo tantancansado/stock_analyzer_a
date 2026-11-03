@@ -1,38 +1,9 @@
 {
-  "generated_at": "2026-11-02",
-  "total": 12,
-  "high_count": 1,
+  "generated_at": "2026-11-03",
+  "total": 10,
+  "high_count": 0,
   "narrative": "",
   "exits": [
-    {
-      "ticker": "SYK",
-      "severity": "HIGH",
-      "entry_score": 57.435,
-      "current_score": 31.575000000000003,
-      "signal_date": "2026-10-21",
-      "reasons": [
-        "Score cay\u00f3 26pts (57 \u2192 32)"
-      ],
-      "fundamental_score": 70.7,
-      "ai_validation": {
-        "verdict": "FALSE_POSITIVE",
-        "confidence": 65,
-        "summary": "Stryker (SYK) es una empresa de dispositivos m\u00e9dicos con fundamentales s\u00f3lidos (score 70.7/100) y sin se\u00f1ales conocidas de deterioro grave en su negocio. La ca\u00edda de 26pts probablemente refleja una revalorizaci\u00f3n por precio (menor upside de valor) m\u00e1s que un deterioro real del negocio.",
-        "key_finding": "No hay evidencia de guidance cuts, earnings misses importantes ni cambios de management negativos recientes conocidos; la ca\u00edda de score parece m\u00e1s t\u00e9cnica/valuaci\u00f3n que fundamental.",
-        "summary_note": "Stryker (SYK) es una empresa de dispositivos m\u00e9dicos con fundamentales s\u00f3lidos (score 70.7/100) y sin se\u00f1ales conocidas de deterioro grave en su negocio. La ca\u00edda de 26pts probablemente refleja una revalorizaci\u00f3n por precio (menor upside de valor) m\u00e1s que un deterioro real del negocio."
-      }
-    },
-    {
-      "ticker": "RMD",
-      "severity": "MEDIUM",
-      "entry_score": 64.27499999999999,
-      "current_score": 40.34,
-      "signal_date": "2026-10-08",
-      "reasons": [
-        "Score cay\u00f3 24pts (64 \u2192 40)"
-      ],
-      "fundamental_score": 69.1
-    },
     {
       "ticker": "META",
       "severity": "MEDIUM",
@@ -53,27 +24,27 @@
       "reasons": [
         "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
       ],
-      "fundamental_score": 66.5
+      "fundamental_score": 69.1
     },
     {
       "ticker": "CBOE",
       "severity": "MEDIUM",
       "entry_score": 61.39,
-      "current_score": 38.955,
+      "current_score": null,
       "signal_date": "2026-10-14",
       "reasons": [
-        "Score cay\u00f3 22pts (61 \u2192 39)"
+        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
       ],
-      "fundamental_score": 84.6
+      "fundamental_score": 86.7
     },
     {
       "ticker": "MCO",
       "severity": "MEDIUM",
       "entry_score": 60.25,
-      "current_score": 33.78,
+      "current_score": 37.21,
       "signal_date": "2026-10-23",
       "reasons": [
-        "Score cay\u00f3 26pts (60 \u2192 34) \u2014 ca\u00edda t\u00e9cnica/momentum, balance s\u00f3lido (Piotroski 8/9)"
+        "Score cay\u00f3 23pts (60 \u2192 37)"
       ],
       "fundamental_score": 63.8
     },
@@ -81,10 +52,10 @@
       "ticker": "ICE",
       "severity": "MEDIUM",
       "entry_score": 60.095,
-      "current_score": null,
+      "current_score": 38.2,
       "signal_date": "2026-10-13",
       "reasons": [
-        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
+        "Score cay\u00f3 22pts (60 \u2192 38)"
       ],
       "fundamental_score": 70.5
     },
@@ -92,12 +63,12 @@
       "ticker": "QSR",
       "severity": "MEDIUM",
       "entry_score": 59.09,
-      "current_score": 37.33,
+      "current_score": 38.25,
       "signal_date": "2026-09-10",
       "reasons": [
-        "Score cay\u00f3 22pts (59 \u2192 37)"
+        "Score cay\u00f3 21pts (59 \u2192 38)"
       ],
-      "fundamental_score": 59.7
+      "fundamental_score": 60.8
     },
     {
       "ticker": "UNP",
@@ -108,7 +79,18 @@
       "reasons": [
         "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
       ],
-      "fundamental_score": 73.1
+      "fundamental_score": 74.7
+    },
+    {
+      "ticker": "SYK",
+      "severity": "MEDIUM",
+      "entry_score": 57.435,
+      "current_score": null,
+      "signal_date": "2026-10-21",
+      "reasons": [
+        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
+      ],
+      "fundamental_score": 72.5
     },
     {
       "ticker": "BLK",
@@ -130,18 +112,7 @@
       "reasons": [
         "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
       ],
-      "fundamental_score": 80.8
-    },
-    {
-      "ticker": "FCNCA",
-      "severity": "MEDIUM",
-      "entry_score": 51.92499999999999,
-      "current_score": 36.510000000000005,
-      "signal_date": "2026-09-18",
-      "reasons": [
-        "Score cay\u00f3 15pts (52 \u2192 37)"
-      ],
-      "fundamental_score": 70.4
+      "fundamental_score": 78.6
     }
   ]
 }

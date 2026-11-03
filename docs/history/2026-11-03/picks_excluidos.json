@@ -1,0 +1,53 @@
+{
+  "listas": {
+    "value_opportunities": {
+      "candidatas": 85,
+      "publicadas": 78,
+      "excluidos": [
+        {
+          "ticker": "ERIE",
+          "paso": "rangos_imposibles",
+          "motivo": "Falta analyst_upside_pct: no se recomienda lo que no se puede evaluar",
+          "score": 46.928
+        },
+        {
+          "ticker": "VCISY",
+          "paso": "rangos_imposibles",
+          "motivo": "DCF fuera de rango: no es una valoración, es un dato roto (visto 263.2, esperado entre -95 y 200)",
+          "score": 41.92
+        },
+        {
+          "ticker": "KYCCF",
+          "paso": "rangos_imposibles",
+          "motivo": "Falta analyst_upside_pct: no se recomienda lo que no se puede evaluar",
+          "score": 39.27
+        },
+        {
+          "ticker": "FTNT",
+          "paso": "verificador_ia",
+          "motivo": "Analyst upside 15.6% pero modelos dan upside_triangulated_pct de -7.8% (DCF -12.7%, P/E -7.8%) y modelos_acuerdo COHERENTES; analista ve 23% de mejora que los modelos niegan completamente · Crecimiento de ingresos de 25.6% YoY con múltiplos muy atractivos (PEG 1.08, FCF yield 3.58%) pero precio a -36% de 52w high con tendencia débil; los modelos contradicen al analista sin justificación en la ficha",
+          "score": 54.42
+        },
+        {
+          "ticker": "CBOE",
+          "paso": "verificador_ia",
+          "motivo": "Analyst upside solo 0.6% pero target_price_dcf_upside_pct es 92.2%; divergencia extrema sin upside_divergence señalado (debería ser ALTA), y fundamental_score 86.7 con value_score 52.41 sugiere un activo muy valioso según DCF pero muy caro según mercado · modelos_dispersion_pts de 93.8 es el más alto de toda la cartera; esa dispersión exagerada debería requerir verificación explícita o marcar un problema de coherencia",
+          "score": 52.41
+        },
+        {
+          "ticker": "WTKWY",
+          "paso": "verificador_ia",
+          "motivo": "Analyst upside 16.4% pero modelos_acuerdo COHERENTES con upside_triangulated_pct 86.5% (DCF 86.5%, P/E 96.8%); un 86.5% de upside no es defendible solo con 3.5% de crecimiento YoY y un PEG de 1.17 (PEG bajo pero no extraordinario) · Crecimiento de ingresos de 3.5% con FCF yield 7.13% es modelo de madurez, no de revalorización del 86%; la ficha no explica por qué ambos modelos ven un upside tan extremo sin cambio en el crecimiento",
+          "score": 52.400000000000006
+        },
+        {
+          "ticker": "INTU",
+          "paso": "verificador_ia",
+          "motivo": "Analyst upside 15.8% pero target_price_dcf_upside_pct 143.7% sin target_price_pe_upside_pct; upside_triangulated_pct 79.8% que asume un promedio o uno de los dos modelos, pero sin P/E no es triangulable · FCF yield 9.16% es muy alto y PEG 0.52 es muy bajo, pero proximity_to_52w_high de -48.4% con tendencia débil (ma_filter_pass false) contradice un upside de casi 80% sin verificación de si es descuento real o trampa",
+          "score": 51.51
+        }
+      ]
+    }
+  },
+  "generated_at": "2026-11-03T07:05:00Z"
+}

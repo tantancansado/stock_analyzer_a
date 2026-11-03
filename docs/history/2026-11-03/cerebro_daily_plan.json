@@ -1,0 +1,121 @@
+{
+  "generated_at": "2026-11-03",
+  "macro_regime": "CALM",
+  "composite_score": 6.5,
+  "sesgo": "DEFENSIVO",
+  "confianza": 62,
+  "situacion": "Mercado en calma aparente pero con cobertura de tail-risk elevada y rotaci\u00f3n defensiva hacia oro y sectores defensivos antes del NFP del jueves.",
+  "narrativa": "El r\u00e9gimen CALM esconde divergencias: SKEW y VVIX elevados muestran que institucionales compran protecci\u00f3n pese a la tranquilidad superficial, mientras el d\u00f3lar fuerte presiona activos de riesgo internacional. La fortaleza simult\u00e1nea de oro, cobre/oro y defensa frente al mercado es una se\u00f1al cl\u00e1sica de rotaci\u00f3n defensiva t\u00e1ctica que los inversores VALUE deben leer como oportunidad de comprar calidad con margen de seguridad antes del dato de empleo.",
+  "acciones_inmediatas": [
+    {
+      "prioridad": 1,
+      "accion": "COMPRAR",
+      "instrumento": "TLT/VGLT",
+      "razon": "Yield del bono a 30 a\u00f1os en 5.27% representa zona hist\u00f3ricamente atractiva para entrada en duraci\u00f3n larga",
+      "catalizador": "Rule-based macro signal score 95, posible sorpresa dovish en NFP",
+      "size_hint": "media (3-4%)",
+      "invalidacion": "Ruptura sostenida por encima de 5.5% en yield 30yr"
+    },
+    {
+      "prioridad": 2,
+      "accion": "VENDER",
+      "instrumento": "SYK",
+      "razon": "Se\u00f1al EXIT del sistema Cerebro indica deterioro de tesis fundamental o t\u00e9cnica",
+      "catalizador": "Se\u00f1al cuantitativa de salida activada",
+      "size_hint": "media (3-4%)",
+      "invalidacion": "N/A - ejecutar salida seg\u00fan se\u00f1al"
+    },
+    {
+      "prioridad": 3,
+      "accion": "COMPRAR",
+      "instrumento": "AXP",
+      "razon": "FCF yield 6.91% s\u00f3lido en sector financiero con grade B, resiliente ante d\u00f3lar fuerte",
+      "catalizador": "Pullback hacia soporte t\u00e9cnico o reacci\u00f3n a NFP",
+      "size_hint": "peque\u00f1a (1-2%)",
+      "invalidacion": "Deterioro en gu\u00edas de cr\u00e9dito al consumo"
+    },
+    {
+      "prioridad": 4,
+      "accion": "VIGILAR",
+      "instrumento": "UBER, MSI, GWW, MLM, FICO, NYT",
+      "razon": "Earnings en pr\u00f3ximas 24h con alta sensibilidad a volatilidad impl\u00edcita elevada (VVIX)",
+      "catalizador": "Publicaci\u00f3n de resultados ma\u00f1ana",
+      "size_hint": "peque\u00f1a (1-2%)",
+      "invalidacion": "Gu\u00edas d\u00e9biles o sorpresa negativa en m\u00e1rgenes"
+    },
+    {
+      "prioridad": 5,
+      "accion": "CUBRIR",
+      "instrumento": "SPY puts / Oro f\u00edsico-ETF (GLD)",
+      "razon": "SKEW en percentil 88.8 sugiere demanda institucional de cobertura de cola, confirma necesidad de hedge t\u00e1ctico",
+      "catalizador": "Antes de NFP del 6 de noviembre",
+      "size_hint": "peque\u00f1a (1-2%)",
+      "invalidacion": "Ca\u00edda de SKEW por debajo del percentil 70"
+    }
+  ],
+  "macro_plays": [
+    {
+      "instrument": "TLT/VGLT",
+      "direction": "LONG",
+      "thesis": "Yield 30yr en 5.27% \u2014 zona hist\u00f3ricamente atractiva para bonos largos",
+      "historical": "2018-19: TLT +18% cuando yields revertieron desde 3.25%",
+      "risk": "La Fed puede mantener tipos altos m\u00e1s tiempo \u2014 size peque\u00f1o",
+      "timeframe": "3-6 meses",
+      "score": 95,
+      "eu_alternative": {
+        "ticker": "DTLA",
+        "name": "Xtrackers US Treasuries 20yr+ UCITS ETF",
+        "exchange": "Xetra",
+        "available": "DEGIRO/IB"
+      }
+    }
+  ],
+  "macro_plays_commentary": "La oportunidad en TLT/VGLT es la m\u00e1s clara del d\u00eda dado el nivel de yields, ideal para inversores que buscan diversificar renta fija ante incertidumbre de empleo.",
+  "value_en_entorno": [
+    {
+      "ticker": "SAP.DE",
+      "score": 63.9,
+      "sector": "Technology",
+      "fcf_yield_pct": 3.76,
+      "grade": "B"
+    },
+    {
+      "ticker": "AXP",
+      "score": 57.9,
+      "sector": "Financial Services",
+      "fcf_yield_pct": 6.91,
+      "grade": "B"
+    },
+    {
+      "ticker": "EXPN.L",
+      "score": 56.3,
+      "sector": "Industrials",
+      "fcf_yield_pct": 4.26,
+      "grade": "B"
+    }
+  ],
+  "value_en_entorno_razon": "En un entorno con d\u00f3lar fuerte y rotaci\u00f3n defensiva, SAP.DE, AXP y EXPN.L destacan por FCF s\u00f3lido, baja dependencia c\u00edclica extrema y calidad de balance (grade B), lo que los hace resilientes si el mercado gira hacia aversi\u00f3n al riesgo tras el NFP.",
+  "evitar": [
+    {
+      "ticker": "SYK",
+      "razon": "Se\u00f1al de salida activa del sistema Cerebro, deterioro de tesis"
+    }
+  ],
+  "agenda_semana": [
+    {
+      "fecha": "2026-11-03",
+      "evento": "Earnings NYT, MSI, GWW, MLM, UBER, FICO",
+      "impacto": "MEDIO",
+      "accion_sugerida": "Reducir tama\u00f1o de posici\u00f3n previo a resultados, evitar nuevas entradas hasta conocer reacci\u00f3n"
+    },
+    {
+      "fecha": "2026-11-06",
+      "evento": "Non-Farm Payrolls",
+      "impacto": "ALTO",
+      "accion_sugerida": "Mantener hedges activos (SKEW/VVIX elevados) y evitar apalancamiento direccional antes del dato"
+    }
+  ],
+  "frase_del_dia": "El mercado puede permanecer irracional m\u00e1s tiempo del que t\u00fa puedes permanecer solvente \u2014 Keynes, record\u00e1ndonos cubrir el riesgo de cola incluso cuando todo parece calma.",
+  "mensaje_telegram": "\ud83d\udcca Mercado CALM pero con SKEW/VVIX altos = cobertura oculta. \ud83e\udd47 Oro y defensa ganan fuerza. \ud83d\udcc8 TLT atractivo en yield 5.27%. \u274c Salir de SYK. \ud83d\udc40 Earnings hoy: UBER, MSI, GWW. \u26a0\ufe0f NFP jueves - cautela. #ValueInvesting",
+  "ai_powered": true
+}

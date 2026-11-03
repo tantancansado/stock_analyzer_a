@@ -1,64 +1,134 @@
 {
-  "generated_at": "2026-11-02",
+  "generated_at": "2026-11-03",
   "alerts": [
     {
       "type": "SCORE_UP",
-      "ticker": "FTNT",
-      "company_name": "Fortinet, Inc.",
-      "sector": "Technology",
-      "score_today": 43.6,
-      "score_prev": 33.7,
-      "delta": 9.9,
-      "grade": "⚪ WEAK"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "CBOE",
-      "company_name": "Cboe Global Markets, Inc.",
+      "ticker": "V",
+      "company_name": "Visa Inc.",
       "sector": "Financial Services",
-      "score_today": 39.0,
-      "score_prev": 31.0,
-      "delta": 8.0,
-      "grade": "⚪ WEAK"
+      "score_today": 53.5,
+      "score_prev": 39.1,
+      "delta": 14.4,
+      "grade": "🔵 DECENT"
     },
     {
       "type": "SCORE_UP",
-      "ticker": "QSR",
-      "company_name": "Restaurant Brands International Inc.",
-      "sector": "Consumer Cyclical",
-      "score_today": 37.3,
-      "score_prev": 30.6,
-      "delta": 6.7,
-      "grade": "⚪ WEAK"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "SGSOY",
-      "company_name": "SGS SA",
+      "ticker": "WM",
+      "company_name": "Waste Management, Inc.",
       "sector": "Industrials",
-      "score_today": 37.5,
+      "score_today": 49.5,
+      "score_prev": 36.1,
+      "delta": 13.4,
+      "grade": "🔵 DECENT"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "FICO",
+      "company_name": "Fair Isaac Corporation",
+      "sector": "Technology",
+      "score_today": 58.2,
+      "score_prev": 45.5,
+      "delta": 12.8,
+      "grade": "⭐ GOOD"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "RMD",
+      "company_name": "ResMed Inc.",
+      "sector": "Healthcare",
+      "score_today": 52.7,
+      "score_prev": 40.3,
+      "delta": 12.4,
+      "grade": "⭐ GOOD"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "SPGI",
+      "company_name": "S&P Global Inc.",
+      "sector": "Financial Services",
+      "score_today": 45.0,
+      "score_prev": 33.8,
+      "delta": 11.2,
+      "grade": "🔵 DECENT"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "THC",
+      "company_name": "Tenet Healthcare Corporation",
+      "sector": "Healthcare",
+      "score_today": 53.6,
+      "score_prev": 43.5,
+      "delta": 10.0,
+      "grade": "⭐ GOOD"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "WST",
+      "company_name": "West Pharmaceutical Services, Inc.",
+      "sector": "Healthcare",
+      "score_today": 39.9,
       "score_prev": 31.4,
-      "delta": 6.1,
+      "delta": 8.6,
+      "grade": "⚪ WEAK"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "SUNB",
+      "company_name": "Sunbelt Rentals Holdings, Inc.",
+      "sector": "Industrials",
+      "score_today": 49.9,
+      "score_prev": 44.0,
+      "delta": 5.9,
+      "grade": "⚪ WEAK"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "COF",
+      "company_name": "Capital One Financial Corporation",
+      "sector": "Financial Services",
+      "score_today": 36.4,
+      "score_prev": 30.6,
+      "delta": 5.8,
       "grade": "⚪ WEAK"
     },
     {
       "type": "SCORE_DOWN",
-      "ticker": "MSCI",
-      "company_name": "MSCI Inc.",
-      "sector": "Financial Services",
-      "score_today": 64.7,
-      "score_prev": 70.0,
+      "ticker": "6383.T",
+      "company_name": "Daifuku Co., Ltd.",
+      "sector": "Industrials",
+      "score_today": 48.4,
+      "score_prev": 53.6,
       "delta": -5.2,
+      "grade": "⚪ WEAK"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "SAP",
+      "company_name": "SAP SE",
+      "sector": "Technology",
+      "score_today": 51.5,
+      "score_prev": 59.6,
+      "delta": -8.1,
+      "grade": "🔵 DECENT"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "KO",
+      "company_name": "The Coca-Cola Company",
+      "sector": "Consumer Defensive",
+      "score_today": 55.2,
+      "score_prev": 64.2,
+      "delta": -9.1,
       "grade": "⭐ GOOD"
     },
     {
       "type": "SCORE_DOWN",
-      "ticker": "COF",
-      "company_name": "Capital One Financial Corporation",
+      "ticker": "AON",
+      "company_name": "Aon plc",
       "sector": "Financial Services",
-      "score_today": 30.6,
-      "score_prev": 36.5,
-      "delta": -5.9,
+      "score_today": 34.4,
+      "score_prev": 46.5,
+      "delta": -12.1,
       "grade": "⚪ WEAK"
     },
     {
@@ -66,66 +136,26 @@
       "ticker": "MSFT",
       "company_name": "Microsoft Corporation",
       "sector": "Technology",
-      "score_today": 66.7,
-      "score_prev": 73.0,
-      "delta": -6.3,
-      "grade": "⭐⭐ STRONG"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "SPGI",
-      "company_name": "S&P Global Inc.",
-      "sector": "Financial Services",
-      "score_today": 33.8,
-      "score_prev": 41.0,
-      "delta": -7.2,
-      "grade": "⚪ WEAK"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "WM",
-      "company_name": "Waste Management, Inc.",
-      "sector": "Industrials",
-      "score_today": 36.1,
-      "score_prev": 43.5,
-      "delta": -7.4,
-      "grade": "⚪ WEAK"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "SYK",
-      "company_name": "Stryker Corporation",
-      "sector": "Healthcare",
-      "score_today": 31.6,
-      "score_prev": 40.9,
-      "delta": -9.3,
-      "grade": "⚪ WEAK"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "AMZN",
-      "company_name": "Amazon.com, Inc.",
-      "sector": "Consumer Cyclical",
-      "score_today": 33.3,
-      "score_prev": 45.2,
-      "delta": -11.9,
-      "grade": "⚪ WEAK"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "AON",
-      "company_name": "Aon plc",
-      "sector": "Financial Services",
-      "score_today": 46.5,
-      "score_prev": 67.9,
-      "delta": -21.4,
+      "score_today": 51.9,
+      "score_prev": 66.7,
+      "delta": -14.8,
       "grade": "🔵 DECENT"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "MA",
+      "company_name": "Mastercard Incorporated",
+      "sector": "Financial Services",
+      "score_today": 34.2,
+      "score_prev": 61.0,
+      "delta": -26.8,
+      "grade": "⚪ WEAK"
     }
   ],
   "counts": {
     "new_entries": 0,
     "exited": 0,
-    "score_up": 4,
-    "score_down": 8
+    "score_up": 9,
+    "score_down": 6
   }
 }

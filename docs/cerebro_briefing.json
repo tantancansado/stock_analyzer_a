@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-11-02",
+  "generated_at": "2026-11-03",
   "regime": "NEUTRAL",
-  "narrative": "R\u00e9gimen NEUTRAL. 1 oportunidades de entrada, 1 se\u00f1ales de salida HIGH. Sin trampas de valor relevantes.",
+  "narrative": "R\u00e9gimen NEUTRAL. 1 oportunidades de entrada, 0 se\u00f1ales de salida HIGH. Sin trampas de valor relevantes.",
   "sections": {
     "regime": "NEUTRAL",
     "strong_buy_count": 0,
@@ -9,21 +9,21 @@
     "top_entries": [
       [
         "VRSN",
-        65
+        50
       ]
     ],
     "top_convergences": [
       [
         "VRSN",
-        95
+        94
       ],
       [
         "MSCI",
         92
       ],
       [
-        "AON",
-        89
+        "SUNB",
+        69
       ]
     ],
     "high_alerts": [
@@ -32,24 +32,16 @@
         "INSIDER_BUYING"
       ],
       [
-        "AON",
-        "STREAK"
+        "AMS.MC",
+        "EARNINGS_WARNING"
       ],
       [
-        "AUTO.L",
-        "EARNINGS_WARNING"
+        "AON",
+        "SCORE_DRIFT"
       ]
     ],
     "traps_warning": [],
-    "exit_warnings": [
-      [
-        "SYK",
-        "Score cay\u00f3 26pts (57 \u2192 32)",
-        "No hay evidencia de guidance cuts, earnings misses importantes ni cambios de management negativos recientes conocidos; la ca\u00edda de score parece m\u00e1s t\u00e9cnica/valuaci\u00f3n que fundamental.",
-        57.435,
-        31.575000000000003
-      ]
-    ],
+    "exit_warnings": [],
     "smart_money": [
       [
         "VRSN",

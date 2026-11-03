@@ -1,44 +1,146 @@
 {
-  "date": "2026-11-03",
-  "timestamp": "2026-11-03T07:48:14.663167",
-  "narrative": "",
-  "macro_regime": "CALM",
-  "picks_count": 8,
-  "top_picks": [
-    {
-      "ticker": "VRSN",
-      "sector": "Technology",
-      "value_score": 71.105,
-      "analyst_upside_pct": 10.1,
-      "conviction_grade": null
-    },
-    {
-      "ticker": "MSCI",
-      "sector": "Financial Services",
-      "value_score": 61.785,
-      "analyst_upside_pct": 7.4,
-      "conviction_grade": null
-    },
-    {
-      "ticker": "FICO",
-      "sector": "Technology",
-      "value_score": 58.245000000000005,
-      "analyst_upside_pct": 23.9,
-      "conviction_grade": null
-    },
-    {
-      "ticker": "AXP",
-      "sector": "Financial Services",
-      "value_score": 57.88,
-      "analyst_upside_pct": 11.5,
-      "conviction_grade": null
-    },
-    {
-      "ticker": "THC",
-      "sector": "Healthcare",
-      "value_score": 53.56999999999999,
-      "analyst_upside_pct": 12.2,
-      "conviction_grade": null
+  "fecha": "2026-11-03",
+  "texto": "<b>THC (Tenet Healthcare)</b> es la única compra clara hoy. Los analistas solo le ven un 12% de subida, pero el modelo por caja le calcula un recorrido mucho mayor (83%). Eso sí: el beneficio está creciendo más rápido que el negocio real, así que no la compres pensando en \"calidad\" ni uses el objetivo por PE como referencia — apóyate en el del DCF.\n\nEn el radar, nada para entrar aún:\n– <b>FICO</b> se estrena hoy en la lista: muy lejos de máximos (-61%) y con la tendencia de seis meses en contra. Publica resultados mañana, así que espera a ver la reacción antes de tocarla.\n– <b>ADSK</b> sigue cayendo por la dilución de márgenes de la compra de MaintainX y la deuda para financiarla; resultados en 21 días.\n– <b>AXP</b> se enfría porque el gasto de sus tarjetahabientes desacelera y está de recorte de plantilla; su propio modelo ya la marca como cara por PE.\n– <b>RMD</b> cae porque su crecimiento se ha frenado al ritmo más lento en cinco trimestres.\n– <b>BR</b> es la más interesante del grupo: resultados sólidos, pero cae solo porque los analistas han recortado el precio objetivo en bloque. No es un problema del negocio.\n\nSe caen de la lista <b>KO, MSFT y SAP</b>: ya no cumplen los criterios de entrada.\n\nEl sistema acierta un 76% a 180 días con un retorno medio del 10%. Es la cifra definitiva del histórico, pero sigue siendo un acierto de 3 de cada 4 — dimensiona cada posición pensando en que puede ser la que falla.",
+  "hechos": {
+    "fecha": "2026-11-03",
+    "total_lista": 39,
+    "datos_incompletos": [],
+    "picks_nuevos": [
+      "FICO"
+    ],
+    "picks_que_se_van": [
+      "KO",
+      "MSFT",
+      "SAP"
+    ],
+    "comprables": [
+      {
+        "ticker": "THC",
+        "empresa": "Tenet Healthcare Corporation",
+        "score": 53.56999999999999,
+        "precio": 268.89,
+        "upside_analista": 12.2,
+        "upside_triangulado": 64.4,
+        "divergencia": "",
+        "fcf_yield": 10.94,
+        "del_maximo_pct": -5.0,
+        "rs_6m": 39.42,
+        "timing": "ENTRADA",
+        "por_que_cae": "",
+        "por_que_cae_detalle": "",
+        "dias_a_resultados": 99.0,
+        "objetivo_por_pe_pct": 64.4,
+        "objetivo_dcf_pct": 82.8,
+        "beneficio_respaldado_por_negocio": false
+      }
+    ],
+    "vigilar": [
+      {
+        "ticker": "FICO",
+        "empresa": "Fair Isaac Corporation",
+        "score": 58.245000000000005,
+        "precio": 724.19,
+        "upside_analista": 23.9,
+        "upside_triangulado": 19.5,
+        "divergencia": "",
+        "fcf_yield": 6.15,
+        "del_maximo_pct": -61.0,
+        "rs_6m": -36.52,
+        "timing": "ESPERAR",
+        "por_que_cae": "SIN_DATOS",
+        "por_que_cae_detalle": "",
+        "dias_a_resultados": 1.0,
+        "objetivo_por_pe_pct": null,
+        "objetivo_dcf_pct": 15.2,
+        "beneficio_respaldado_por_negocio": true
+      },
+      {
+        "ticker": "ADSK",
+        "empresa": "Autodesk, Inc.",
+        "score": 52.725,
+        "precio": 257.91,
+        "upside_analista": 19.2,
+        "upside_triangulado": 10.0,
+        "divergencia": "",
+        "fcf_yield": 5.23,
+        "del_maximo_pct": -19.4,
+        "rs_6m": -1.04,
+        "timing": "VIGILAR",
+        "por_que_cae": "EVENTO",
+        "por_que_cae_detalle": "Dilución de márgenes por adquisición MaintainX (anunciada en Q2 FY27, agosto 2026) y endeudamiento adicional para financiarla, combinado con rotación/miedo a múltiplos elevados en ",
+        "dias_a_resultados": 21.0,
+        "objetivo_por_pe_pct": null,
+        "objetivo_dcf_pct": 0.9,
+        "beneficio_respaldado_por_negocio": true
+      },
+      {
+        "ticker": "AXP",
+        "empresa": "American Express Company",
+        "score": 57.88,
+        "precio": 327.98,
+        "upside_analista": 11.5,
+        "upside_triangulado": null,
+        "divergencia": "",
+        "fcf_yield": 6.91,
+        "del_maximo_pct": -15.4,
+        "rs_6m": -0.03,
+        "timing": "VIGILAR",
+        "por_que_cae": "CICLICO",
+        "por_que_cae_detalle": "Gasto de tarjetahabientes desaceleró a 8% (vs histórico 9-10%) en Q3 2026; costos de beneficios presionan márgenes mientras AXP anuncia restructuring del 5% de plantilla. Negocio s",
+        "dias_a_resultados": 87.0,
+        "objetivo_por_pe_pct": -1.6,
+        "objetivo_dcf_pct": 49.7,
+        "beneficio_respaldado_por_negocio": null
+      },
+      {
+        "ticker": "RMD",
+        "empresa": "ResMed Inc.",
+        "score": 52.735,
+        "precio": 232.94,
+        "upside_analista": 13.8,
+        "upside_triangulado": 26.2,
+        "divergencia": "",
+        "fcf_yield": 4.86,
+        "del_maximo_pct": -16.1,
+        "rs_6m": 8.27,
+        "timing": "VIGILAR",
+        "por_que_cae": "EVENTO",
+        "por_que_cae_detalle": "<cite index=\"12-14,12-15,12-16\">El crecimiento de ingresos se ralentizó a 5.9% en el Q1 FY2027 (reportado 29 oct), el más lento en cinco trimestres, tras 8.6% en el trimestre anter",
+        "dias_a_resultados": 86.0,
+        "objetivo_por_pe_pct": null,
+        "objetivo_dcf_pct": 38.5,
+        "beneficio_respaldado_por_negocio": true
+      },
+      {
+        "ticker": "BR",
+        "empresa": "Broadridge Financial Solutions",
+        "score": 52.375,
+        "precio": 184.22,
+        "upside_analista": 13.2,
+        "upside_triangulado": 38.1,
+        "divergencia": "",
+        "fcf_yield": 5.93,
+        "del_maximo_pct": -21.0,
+        "rs_6m": 18.22,
+        "timing": "VIGILAR",
+        "por_que_cae": "SENTIMIENTO",
+        "por_que_cae_detalle": "Broadridge reportó resultados sólidos en Q4 FY2025 (ajustado EPS de $8.55 +11% YoY, ingresos +8%) con guidance optimista. La caída obedece a olas de cortes en precio target de anal",
+        "dias_a_resultados": 0.0,
+        "objetivo_por_pe_pct": 60.8,
+        "objetivo_dcf_pct": 38.1,
+        "beneficio_respaldado_por_negocio": true
+      }
+    ],
+    "tesis_rotas": [],
+    "rotas_son_tuyas": true,
+    "regimen_cambio": null,
+    "rendimiento_sistema": {
+      "horizonte": "180d",
+      "es_horizonte_definitivo": true,
+      "nota": null,
+      "acierto_pct": 76.3,
+      "retorno_medio": 10.02,
+      "n": 38
     }
-  ]
+  }
 }

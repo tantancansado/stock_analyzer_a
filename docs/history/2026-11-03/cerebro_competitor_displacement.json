@@ -1,0 +1,76 @@
+{
+  "generated_at": "2026-11-03",
+  "total": 5,
+  "dropped_count": 3,
+  "narrative": "",
+  "displacements": [
+    {
+      "type": "COMPETITOR_RISE",
+      "dropped_ticker": "MA",
+      "sector": "Financial Services",
+      "prev_score": 61.005,
+      "replacements": [
+        "MSCI",
+        "AXP",
+        "V"
+      ],
+      "top_replacement": "MSCI",
+      "top_replacement_score": 61.785,
+      "detail": "MA sali\u00f3 de VALUE (61pts); peers en Financial Services: MSCI, AXP"
+    },
+    {
+      "type": "COMPETITOR_RISE",
+      "dropped_ticker": "SAP",
+      "sector": "Technology",
+      "prev_score": 59.59500000000001,
+      "replacements": [
+        "VRSN",
+        "SAP.DE",
+        "FICO"
+      ],
+      "top_replacement": "VRSN",
+      "top_replacement_score": 71.105,
+      "detail": "SAP sali\u00f3 de VALUE (60pts); peers en Technology: VRSN, SAP.DE"
+    },
+    {
+      "type": "COMPETITOR_RISE",
+      "dropped_ticker": "MSFT",
+      "sector": "Technology",
+      "prev_score": 66.67500000000001,
+      "replacements": [
+        "VRSN",
+        "SAP.DE",
+        "FICO"
+      ],
+      "top_replacement": "VRSN",
+      "top_replacement_score": 71.105,
+      "detail": "MSFT sali\u00f3 de VALUE (67pts); peers en Technology: VRSN, SAP.DE"
+    },
+    {
+      "type": "SECTOR_TAILWIND",
+      "sector": "Technology",
+      "rotation_score": 100.0,
+      "beneficiaries": [
+        "VRSN",
+        "SAP.DE",
+        "FICO"
+      ],
+      "top_ticker": "VRSN",
+      "top_score": 71.105,
+      "detail": "Sector Technology l\u00edder (RS 100) \u2014 VRSN, SAP.DE, FICO son los picks VALUE"
+    },
+    {
+      "type": "SECTOR_TAILWIND",
+      "sector": "Healthcare",
+      "rotation_score": 100.0,
+      "beneficiaries": [
+        "AZN.L",
+        "THC",
+        "RMD"
+      ],
+      "top_ticker": "AZN.L",
+      "top_score": 63.5,
+      "detail": "Sector Healthcare l\u00edder (RS 100) \u2014 AZN.L, THC, RMD son los picks VALUE"
+    }
+  ]
+}
