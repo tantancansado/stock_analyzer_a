@@ -1,27 +1,27 @@
 {
-  "total_signals": 107,
+  "total_signals": 108,
   "unique_tickers": 59,
-  "date_range": "2026-04-08 to 2026-11-03",
-  "active_signals": 12,
+  "date_range": "2026-04-08 to 2026-11-04",
+  "active_signals": 13,
   "completed_signals": 95,
   "overall": {
     "90d": {
-      "count": 64,
-      "win_rate": 68.8,
-      "ci_low": 56.6,
-      "ci_high": 78.8,
-      "avg_return": 4.04,
-      "median_return": 4.58,
+      "count": 65,
+      "win_rate": 69.2,
+      "ci_low": 57.2,
+      "ci_high": 79.1,
+      "avg_return": 4.17,
+      "median_return": 4.67,
       "best": 24.67,
       "worst": -27.96
     },
     "180d": {
-      "count": 38,
-      "win_rate": 76.3,
-      "ci_low": 60.8,
-      "ci_high": 87.0,
-      "avg_return": 10.02,
-      "median_return": 12.79,
+      "count": 39,
+      "win_rate": 74.4,
+      "ci_low": 58.9,
+      "ci_high": 85.4,
+      "avg_return": 9.26,
+      "median_return": 11.41,
       "best": 36.5,
       "worst": -20.0
     },
@@ -85,36 +85,36 @@
   },
   "conviction": {
     "7d": {
-      "count": 154,
-      "win_rate": 40.9,
+      "count": 155,
+      "win_rate": 40.6,
       "avg_return": -0.31,
       "basis": "golden_zone_hist"
     }
   },
   "value_strategy": {
-    "count": 95,
+    "count": 96,
     "90d": {
-      "count": 52,
-      "win_rate": 73.1,
-      "ci_low": 59.7,
-      "ci_high": 83.2,
-      "avg_return": 4.4,
-      "median_return": 4.8,
+      "count": 53,
+      "win_rate": 73.6,
+      "ci_low": 60.4,
+      "ci_high": 83.6,
+      "avg_return": 4.56,
+      "median_return": 4.93,
       "best": 24.67,
       "worst": -27.96,
       "basis": "clean_period"
     },
     "180d": {
-      "count": 26,
-      "win_rate": 76.9,
-      "ci_low": 57.9,
-      "ci_high": 89.0,
-      "avg_return": 12.36,
-      "median_return": 15.62,
+      "count": 27,
+      "win_rate": 74.1,
+      "ci_low": 55.3,
+      "ci_high": 86.8,
+      "avg_return": 11.17,
+      "median_return": 15.24,
       "best": 36.5,
       "worst": -20.0,
       "basis": "clean_period",
-      "nota": "muestra corta (26 se\u00f1ales): el porcentaje es orientativo, no un veredicto"
+      "nota": "muestra corta (27 se\u00f1ales): el porcentaje es orientativo, no un veredicto"
     },
     "365d": {
       "count": 0,
@@ -193,7 +193,7 @@
     }
   },
   "leaps_strategy": {
-    "count": 182,
+    "count": 183,
     "subyacente": {
       "90d": {
         "count": 0,
@@ -238,9 +238,9 @@
         "ci_high": null
       }
     },
-    "edad_max_dias": 75,
-    "dias_hasta_primera_lectura": 15,
-    "con_contrato": 145,
+    "edad_max_dias": 76,
+    "dias_hasta_primera_lectura": 14,
+    "con_contrato": 146,
     "nota": "el contrato se sigue por su s\u00edmbolo OCC; son opciones poco l\u00edquidas, as\u00ed que un checkpoint sin cotizaci\u00f3n en 10 d\u00edas se queda vac\u00edo en vez de arrastrar un precio viejo"
   },
   "sector_performance": {
@@ -344,6 +344,15 @@
       "return_pct": -20.0
     },
     {
+      "ticker": "NYT",
+      "company_name": "New York Times Company (The)",
+      "strategy": "VALUE",
+      "signal_date": "2026-05-07 00:00:00",
+      "signal_price": 83.68,
+      "return_180d": -19.79,
+      "return_pct": -19.79
+    },
+    {
       "ticker": "PRU.L",
       "company_name": "PRUDENTIAL PLC ORD 5P",
       "strategy": "EU_VALUE",
@@ -369,19 +378,21 @@
       "signal_price": 197.3,
       "return_180d": -1.14,
       "return_pct": -1.14
-    },
-    {
-      "ticker": "HNR1.DE",
-      "company_name": "HANNOVER RUECK SE NA O.N.",
-      "strategy": "EU_VALUE",
-      "signal_date": "2026-04-14 00:00:00",
-      "signal_price": 268.6,
-      "return_180d": 0.37,
-      "return_pct": 0.37
     }
   ],
   "performers_horizon": "180d",
   "recent_signals": [
+    {
+      "ticker": "SPGI",
+      "company_name": "S&P Global Inc.",
+      "strategy": "VALUE",
+      "signal_date": "2026-11-04",
+      "signal_price": 466.03,
+      "sector": "Financial Services",
+      "value_score": 52.0,
+      "days_active": 0,
+      "first_result_date": "2026-11-11"
+    },
     {
       "ticker": "THC",
       "company_name": "Tenet Healthcare Corporation",
@@ -390,7 +401,7 @@
       "signal_price": 268.89,
       "sector": "Healthcare",
       "value_score": 53.56999999999999,
-      "days_active": 0,
+      "days_active": 1,
       "first_result_date": "2026-11-10"
     },
     {
@@ -401,7 +412,7 @@
       "signal_price": 232.94,
       "sector": "Healthcare",
       "value_score": 52.735,
-      "days_active": 0,
+      "days_active": 1,
       "first_result_date": "2026-11-10"
     },
     {
@@ -412,7 +423,7 @@
       "signal_price": 72.87,
       "sector": "Industrials",
       "value_score": 51.065,
-      "days_active": 5,
+      "days_active": 6,
       "first_result_date": "2026-11-05"
     },
     {
@@ -423,7 +434,7 @@
       "signal_price": 7.17,
       "sector": "Healthcare",
       "value_score": 53.92,
-      "days_active": 6,
+      "days_active": 7,
       "first_result_date": "2026-11-04"
     },
     {
@@ -434,7 +445,7 @@
       "signal_price": 186.72,
       "sector": "Industrials",
       "value_score": 62.60999999999999,
-      "days_active": 7,
+      "days_active": 8,
       "first_result_date": "2026-11-03"
     },
     {
@@ -445,7 +456,7 @@
       "signal_price": 615.62,
       "sector": "Financial Services",
       "value_score": 58.81,
-      "days_active": 8,
+      "days_active": 9,
       "first_result_date": "2026-11-02"
     },
     {
@@ -456,7 +467,7 @@
       "signal_price": 483.45,
       "sector": "Financial Services",
       "value_score": 60.25,
-      "days_active": 11,
+      "days_active": 12,
       "first_result_date": "2026-10-30"
     },
     {
@@ -467,7 +478,7 @@
       "signal_price": 304.4,
       "sector": "Healthcare",
       "value_score": 57.435,
-      "days_active": 13,
+      "days_active": 14,
       "first_result_date": "2026-10-28"
     },
     {
@@ -478,7 +489,7 @@
       "signal_price": 292.25,
       "sector": "Financial Services",
       "value_score": 61.39,
-      "days_active": 20,
+      "days_active": 21,
       "first_result_date": "2026-10-21"
     },
     {
@@ -489,7 +500,7 @@
       "signal_price": 157.42,
       "sector": "Financial Services",
       "value_score": 60.095,
-      "days_active": 21,
+      "days_active": 22,
       "first_result_date": "2026-10-20"
     },
     {
@@ -500,7 +511,7 @@
       "signal_price": 92.37,
       "sector": "Financial Services",
       "value_score": 57.34,
-      "days_active": 25,
+      "days_active": 26,
       "first_result_date": "2026-10-16"
     },
     {
@@ -511,11 +522,11 @@
       "signal_price": 225.98,
       "sector": "Healthcare",
       "value_score": 64.27499999999999,
-      "days_active": 26,
+      "days_active": 27,
       "first_result_date": "2026-10-15"
     }
   ],
-  "avg_max_drawdown": -2.63,
+  "avg_max_drawdown": -2.69,
   "alpha": {
     "365d": {
       "count": 0,
@@ -525,20 +536,20 @@
       "avg_benchmark_return": null
     },
     "180d": {
-      "count": 38,
-      "avg_alpha": 2.97,
-      "avg_signal_return": 10.02,
-      "avg_benchmark_return": 7.05,
-      "positive_alpha_rate": 65.8,
+      "count": 39,
+      "avg_alpha": 2.29,
+      "avg_signal_return": 9.26,
+      "avg_benchmark_return": 6.96,
+      "positive_alpha_rate": 64.1,
       "best_alpha": 26.81,
       "worst_alpha": -35.2
     },
     "90d": {
-      "count": 64,
-      "avg_alpha": -0.37,
-      "avg_signal_return": 4.04,
-      "avg_benchmark_return": 4.4,
-      "positive_alpha_rate": 46.9,
+      "count": 65,
+      "avg_alpha": -0.14,
+      "avg_signal_return": 4.17,
+      "avg_benchmark_return": 4.31,
+      "positive_alpha_rate": 47.7,
       "best_alpha": 22.72,
       "worst_alpha": -38.85
     },
@@ -561,11 +572,11 @@
       "worst_alpha": -12.78
     },
     "7d": {
-      "count": 102,
-      "avg_alpha": -0.11,
+      "count": 103,
+      "avg_alpha": -0.09,
       "avg_signal_return": 0.49,
-      "avg_benchmark_return": 0.6,
-      "positive_alpha_rate": 47.1,
+      "avg_benchmark_return": 0.58,
+      "positive_alpha_rate": 47.6,
       "best_alpha": 11.23,
       "worst_alpha": -12.04
     }
@@ -660,5 +671,5 @@
       "worst_alpha": -4.98
     }
   },
-  "generated_at": "2026-11-03T07:49:21.176001"
+  "generated_at": "2026-11-04T06:56:37.549535"
 }

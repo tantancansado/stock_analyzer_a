@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-03T07:20:30+00:00",
+  "generated_at": "2026-11-04T06:45:51+00:00",
   "framework": "macro_stress_v2",
   "markets": {
     "crude_oil": {
@@ -31,15 +31,15 @@
           "label": "Backwardation de la curva",
           "weight": 0.25,
           "direction": "high_is_stress",
-          "value": -8.63,
-          "percentile": 17.9,
+          "value": -7.95,
+          "percentile": 25.0,
           "z": null,
-          "score": 17.9,
-          "contribution": 4.5,
+          "score": 25.0,
+          "contribution": 6.2,
           "meta": {
             "curve_state": "CONTANGO",
-            "front_price": 98.56,
-            "deferred_price": 107.07
+            "front_price": 96.48,
+            "deferred_price": 104.15
           },
           "history_ready": true
         },
@@ -87,7 +87,7 @@
           "history_ready": false
         }
       },
-      "narrative": "backwardation -8.63% \u00b7 CFTC +3.9% OI",
+      "narrative": "backwardation -7.95% \u00b7 CFTC +3.9% OI",
       "equity_exposure": {
         "beneficiaries": [
           "USO",
@@ -1410,22 +1410,22 @@
         },
         {
           "date": "2026-11-06",
-          "price": 98.61,
+          "price": 96.37,
           "stress_score": null
         }
       ],
       "top_contributors": [
         {
+          "key": "curve_shape",
+          "label": "Backwardation de la curva",
+          "score": 25.0,
+          "contribution": 6.2
+        },
+        {
           "key": "positioning",
           "label": "CFTC positioning",
           "score": 35.2,
           "contribution": 5.3
-        },
-        {
-          "key": "curve_shape",
-          "label": "Backwardation de la curva",
-          "score": 17.9,
-          "contribution": 4.5
         }
       ]
     }

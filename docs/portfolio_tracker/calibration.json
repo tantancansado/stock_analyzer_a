@@ -10,12 +10,12 @@
       "range": "50-55"
     },
     {
-      "count": 158,
-      "win_rate": 85.4,
-      "ci_low": 79.1,
-      "ci_high": 90.1,
-      "avg_return": 15.57,
-      "median_return": 17.1,
+      "count": 159,
+      "win_rate": 84.9,
+      "ci_low": 78.5,
+      "ci_high": 89.6,
+      "avg_return": 15.35,
+      "median_return": 16.91,
       "range": "55-60"
     },
     {
@@ -57,12 +57,12 @@
   ],
   "regime_analysis": [
     {
-      "count": 606,
-      "win_rate": 78.7,
-      "ci_low": 75.3,
-      "ci_high": 81.8,
-      "avg_return": 18.16,
-      "median_return": 15.56,
+      "count": 607,
+      "win_rate": 78.6,
+      "ci_low": 75.1,
+      "ci_high": 81.7,
+      "avg_return": 18.1,
+      "median_return": 15.5,
       "regime": "CONFIRMED_UPTREND"
     },
     {
@@ -95,15 +95,6 @@
       "sector": "Healthcare"
     },
     {
-      "count": 51,
-      "win_rate": 80.4,
-      "ci_low": 67.5,
-      "ci_high": 89.0,
-      "avg_return": 44.74,
-      "median_return": 22.76,
-      "sector": "Communication Services"
-    },
-    {
       "count": 85,
       "win_rate": 80.0,
       "ci_low": 70.3,
@@ -111,6 +102,15 @@
       "avg_return": 14.31,
       "median_return": 17.34,
       "sector": "Technology"
+    },
+    {
+      "count": 52,
+      "win_rate": 78.8,
+      "ci_low": 66.0,
+      "ci_high": 87.8,
+      "avg_return": 43.5,
+      "median_return": 19.52,
+      "sector": "Communication Services"
     },
     {
       "count": 129,
@@ -214,10 +214,10 @@
       "range": "12%+"
     }
   ],
-  "total_completed": 765,
+  "total_completed": 766,
   "poblacion": "VALUE US, todo el historico (incluye el periodo anterior al filtrado correcto)",
   "muestra_desde": "2026-02-26",
-  "muestra_hasta": "2026-04-30",
+  "muestra_hasta": "2026-05-07",
   "horizon": "180d",
-  "generated_at": "2026-11-03T07:49:21.201418"
+  "generated_at": "2026-11-04T06:56:37.574962"
 }
