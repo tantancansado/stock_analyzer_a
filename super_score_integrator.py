@@ -31,7 +31,7 @@ from opportunity_validator import OpportunityValidator
 # `_calculate_value_score`.
 PENALIZACION_UPSIDE_ALTO = 8.0
 
-from value_bands import UPSIDE_MIN, UPSIDE_GOLDEN_MAX, UPSIDE_ALTO, VALUE_SCORE_MIN, respaldo_propio
+from value_bands import UPSIDE_MIN, UPSIDE_GOLDEN_MAX, UPSIDE_ALTO, VALUE_SCORE_MIN, respaldo_propio, motivo_fuera_de_value
 from data_integrity import filter_dataframe
 from ai_pick_verifier import verify_picks, apply_verdicts
 from picks_excluidos import registrar as registrar_excluidos
@@ -150,6 +150,18 @@ class SuperScoreIntegrator:
         # heredaba la etiqueta del super score. La calidad real vive en fundamental.
         value_df = value_df.drop(columns=['quality'], errors='ignore')
         value_df = value_df.sort_values('value_score', ascending=False)
+
+        # Solo ideas VALUE: barata según nuestra valoración, y cerca de máximos
+        # solo si el negocio lo justifica (value_bands.motivo_fuera_de_value).
+        # Va aquí, en la separación y no dentro del cálculo, porque después del
+        # cálculo hay ajustes que suman (cerebro, sector, días en lista) y
+        # podían devolver a la lista lo que un descarte había puesto a cero.
+        _fuera = motivo_fuera_de_value(value_df)
+        _n_fuera = int(((_fuera != '') & (value_df['value_score'] >= VALUE_SCORE_MIN)).sum())
+        value_df.loc[_fuera != '', 'value_score'] = 0.0
+        print(f"\n🧭 Fuera de VALUE por no ser una idea value: {_n_fuera} que pasaban el corte "
+              f"({int(_fuera.str.startswith('nuestra').sum() + _fuera.str.startswith('sin valoración').sum())} "
+              f"sin margen propio · {int(_fuera.str.startswith('a ').sum())} cerca de máximos)")
 
         # Filter: quality threshold — banda canónica en value_bands
         value_df = value_df[value_df['value_score'] >= VALUE_SCORE_MIN].copy()

@@ -66,6 +66,80 @@ def respaldo_propio(df):
            if 'upside_divergence' in df.columns else pd.Series('', index=df.index))
     return tri.notna() & (tri >= UPSIDE_MIN) & (div != 'ALTA')
 
+# ── Qué es una idea VALUE (5-nov-2026) ───────────────────────────────────
+# El usuario: «la filosofía no es comprar empresas cercanas a máximos a no ser
+# que sus datos sean increíbles, tipo Microsoft [...] normalmente buscamos
+# acciones que estén baratas sin que empeore el negocio ni los números,
+# circunstanciales». La lista puntuaba sobre todo calidad y el upside solo
+# sumaba o restaba unos puntos, así que mezclaba esas ideas con buenas empresas
+# a precio justo: el 5-nov, en 6 de las 11 publicadas nuestra valoración no
+# veía recorrido (WST -7,6%, EFX -13%, NDAQ -3,2%, FCNCA -1,3%, PG y TT 0%).
+#
+# Dos condiciones, y las dos son de entrada, no de puntuación:
+#   1. Barata según NUESTRA valoración: `respaldo_propio` (triangulado ≥
+#      UPSIDE_MIN y sin divergencia ALTA). Sin modelos propios no hay respaldo.
+#   2. Cerca de máximos solo si el máximo lo justifica el negocio: margen
+#      operativo en el cuartil alto del universo y ventas creciendo a doble
+#      dígito. Así entra MSFT (49,8% y +18,8%) y se quedan fuera THC, SAP,
+#      AMZN, RELX o AON. Ni el ROE ni el ROIC de Greenblatt sirven aquí: los
+#      dos dejaban fuera a MSFT (34% y 41%) y daban a RELX un ROE del 132%.
+#
+# La distancia al máximo NO es un filtro por rendimiento: con nuestras señales
+# no había base (una sola primera señal VALUE a menos del 5% del máximo con
+# 90 días cerrados). Es la filosofía del usuario, no una calibración.
+CERCA_DE_MAXIMOS_PCT = -10.0
+CUARTIL_ALTO = 0.75
+CRECIMIENTO_QUE_JUSTIFICA = 10.0
+
+
+def _detalle(raw) -> dict:
+    import ast
+    if isinstance(raw, dict):
+        return raw
+    try:
+        d = ast.literal_eval(str(raw))
+        return d if isinstance(d, dict) else {}
+    except (ValueError, SyntaxError):
+        return {}
+
+
+def calidad_negocio(df):
+    """Margen operativo y ROE (%) de cada fila, sacados de `health_details`."""
+    import pandas as pd
+    salud = df.get('health_details', pd.Series(index=df.index, dtype=object)).map(_detalle)
+    return pd.DataFrame({
+        'margen': pd.to_numeric(salud.map(lambda d: d.get('operating_margin_pct')), errors='coerce'),
+        'roe': pd.to_numeric(salud.map(lambda d: d.get('roe_pct')), errors='coerce'),
+    }, index=df.index)
+
+
+def motivo_fuera_de_value(df):
+    """Por qué cada fila NO es una idea VALUE ('' si lo es).
+
+    `df` es el universo entero, no la lista ya filtrada: el cuartil del margen
+    se mide sobre él.
+    """
+    import pandas as pd
+    motivo = pd.Series('', index=df.index, dtype=object)
+    tri = (pd.to_numeric(df['upside_triangulated_pct'], errors='coerce')
+           if 'upside_triangulated_pct' in df.columns else pd.Series(float('nan'), index=df.index))
+    sin_margen = ~respaldo_propio(df)
+    motivo[sin_margen & tri.isna()] = 'sin valoración propia que la respalde'
+    motivo[sin_margen & tri.notna()] = [
+        f'nuestra valoración solo le ve {int(round(v)):+d}%' for v in tri[sin_margen & tri.notna()]]
+
+    dist = (pd.to_numeric(df['proximity_to_52w_high'], errors='coerce')
+            if 'proximity_to_52w_high' in df.columns else pd.Series(float('nan'), index=df.index))
+    crece = (pd.to_numeric(df['rev_growth_yoy'], errors='coerce')
+             if 'rev_growth_yoy' in df.columns else pd.Series(float('nan'), index=df.index))
+    margen = calidad_negocio(df)['margen']
+    justificado = (margen >= margen.quantile(CUARTIL_ALTO)) & (crece >= CRECIMIENTO_QUE_JUSTIFICA)
+    cerca = (dist > CERCA_DE_MAXIMOS_PCT) & (motivo == '') & ~justificado
+    motivo[cerca] = [f'a {abs(v):.0f}% del máximo sin un negocio excepcional que lo justifique'
+                     for v in dist[cerca]]
+    return motivo
+
+
 # Score mínimo para seguir en la lista VALUE. Vive aquí por el mismo motivo que
 # las bandas de upside: el integrator lo aplicaba al ordenar y
 # apply_oe_ai_adjustment bajaba scores DESPUÉS sin re-filtrar, así que el CSV
@@ -93,6 +167,12 @@ def solo_politica_vigente(df, columna: str = 'analyst_upside_pct'):
     de acierto a 90d, detectado por coherence_check el 12-ago-2026).
 
     Al añadir un filtro duro nuevo al integrator, añadirlo TAMBIÉN aquí.
+
+    Excepción: `motivo_fuera_de_value` (5-nov-2026) no se puede aplicar hacia
+    atrás, porque el tracker no guardaba ni el triangulado ni la distancia al
+    máximo. Desde ese día los guarda (`upside_triangulated_pct`,
+    `proximity_to_52w_high`); hasta que haya historial, las señales anteriores
+    al 5-nov mezclan las dos políticas.
     """
     import pandas as pd
     if df is None or len(df) == 0 or columna not in df.columns:

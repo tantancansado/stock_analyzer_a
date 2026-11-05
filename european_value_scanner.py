@@ -27,7 +27,7 @@ import ast
 from fundamental_scorer import FundamentalScorer
 from market_configs import get_all_european_symbols, get_european_market_for_ticker
 from curated_tickers_eu import SCORED_EU_TICKERS as CURATED_EU_TICKERS
-from value_bands import UPSIDE_MIN, UPSIDE_GOLDEN_MAX, UPSIDE_ALTO, VALUE_SCORE_MIN, respaldo_propio
+from value_bands import UPSIDE_MIN, UPSIDE_GOLDEN_MAX, UPSIDE_ALTO, VALUE_SCORE_MIN, motivo_fuera_de_value, respaldo_propio
 from upside_triangulation import add_upside_triangulation
 
 # Rate limit delay between yfinance API calls
@@ -476,6 +476,11 @@ def calculate_european_value_scores(df: pd.DataFrame, market_regime: dict) -> pd
     # ─── Filter: mismo corte que la lista US (value_bands.VALUE_SCORE_MIN) ───
     # Antes era 25 hardcodeado aquí; US usa 30. El mismo criterio de calidad
     # debe valer igual a los dos lados del Atlántico.
+    # La misma definición de idea VALUE que la lista US (value_bands).
+    _fuera = motivo_fuera_de_value(df)
+    print(f"   Fuera de VALUE por no ser una idea value: "
+          f"{int(((_fuera != '') & (df['value_score'] >= VALUE_SCORE_MIN)).sum())} que pasaban el corte")
+    df.loc[_fuera != '', 'value_score'] = 0.0
     qualified = df[df['value_score'] >= VALUE_SCORE_MIN].copy()
     qualified = qualified.sort_values('value_score', ascending=False)
 

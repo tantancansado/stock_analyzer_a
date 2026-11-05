@@ -22,6 +22,7 @@ sector_rotation → mean_reversion → super_score_integrator → ai_quality_fil
 - `negative_roe == True` → `value_score = 0` (HARD REJECT)
 - `analyst_upside_pct < 0` → `value_score = 0` (sobrevalorado)
 - `analyst_upside_pct >= 30` (`UPSIDE_ALTO`) NO es un descarte: decide la **valoración propia** (DCF/P-E, `value_bands.respaldo_propio`). Con respaldo propio cuenta como cualquier otro; sin él se penaliza. El usuario (27-oct-2026): «las valoraciones de los analistas están bien, pero nosotros también calculamos precio objetivo y sabemos hacerlo». El antiguo «0% de acierto» eran 14 empresas de software/datos
+- **Idea VALUE = barata según NUESTRA valoración** (`respaldo_propio`: triangulado ≥10% y sin divergencia ALTA) **y, a menos de un 10% del máximo de 52 semanas, solo si el negocio lo justifica**: margen operativo en el cuartil alto del universo y ventas creciendo ≥10% (el caso MSFT). Lo aplica `value_bands.motivo_fuera_de_value` en US y Europa antes del corte de puntuación. Una buena empresa a precio justo no es VALUE (5-nov-2026: 6 de 11 publicadas lo eran)
 - Zona dorada de upside: **[10, 30)** — se premia con un bonus pequeño; no es una regla de exclusión
 - Las bandas de upside viven en `value_bands.py` (UPSIDE_MIN/GOLDEN_MAX/UPSIDE_ALTO) — integrator, tracker y conviction las importan de ahí; NUNCA hardcodear una banda inline
 - `dividendYield` en yfinance ya viene en porcentaje (0.38 = 0.38%), NO decimal
@@ -166,6 +167,7 @@ sector_rotation → mean_reversion → super_score_integrator → ai_quality_fil
   técnicos y setups de entrada (`MEAN_REVERSION`, `BOUNCE_BROAD`,
   `ENTRY_SETUP`) sí son de corto plazo por diseño y llevan su propio plazo.
   Hay un test que impide bajar el mínimo
+- **No compra cerca de máximos** salvo fundamentales excepcionales que lo justifiquen (tipo MSFT). Busca empresas baratas por algo circunstancial, sin que empeoren el negocio ni los números (5-nov-2026)
 - Prefiere 0 señales antes que señales falsas
 - Evitar sugerir compras sin análisis fundamentales sólidos
 

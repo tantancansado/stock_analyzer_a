@@ -173,7 +173,8 @@ class PortfolioTracker:
         return pd.DataFrame(columns=[
             'ticker', 'company_name', 'strategy', 'signal_date', 'signal_price',
             'value_score', 'momentum_score', 'fcf_yield_pct', 'risk_reward_ratio',
-            'analyst_upside_pct', 'short_percent_float', 'sector', 'market_regime',
+            'analyst_upside_pct', 'upside_triangulated_pct', 'proximity_to_52w_high',
+            'short_percent_float', 'sector', 'market_regime',
             'entry_readiness', 'entry_readiness_reason',
             'cerebro_signal', 'cerebro_score_adj',
             'return_7d', 'return_14d', 'return_30d', 'return_90d', 'return_180d', 'return_365d',
@@ -362,6 +363,11 @@ class PortfolioTracker:
                         'fcf_yield_pct': row.get('fcf_yield_pct'),
                         'risk_reward_ratio': row.get('risk_reward_ratio'),
                         'analyst_upside_pct': row.get('analyst_upside_pct'),
+                        # Capturados desde 5-nov-2026: la regla de value_bands.
+                        # motivo_fuera_de_value no se pudo medir contra nuestras
+                        # señales porque no se guardaban (n=1 cerca de máximos).
+                        'upside_triangulated_pct': row.get('upside_triangulated_pct'),
+                        'proximity_to_52w_high': row.get('proximity_to_52w_high'),
                         # Capturado desde 11-ago-2026 para poder decidir CON NUESTRAS
                         # señales si el interés corto predice algo. Hoy no se puede:
                         # solo hay 31 snapshots de docs/history y dan n=20 a 7 días.

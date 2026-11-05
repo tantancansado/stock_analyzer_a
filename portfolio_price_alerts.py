@@ -32,7 +32,6 @@ consola solo salen recuentos.
 """
 from __future__ import annotations
 
-import ast
 import contextlib
 import hashlib
 import hmac
@@ -46,37 +45,21 @@ from pathlib import Path
 import pandas as pd
 
 from upside_triangulation import add_upside_triangulation
-from value_bands import UPSIDE_MIN
+from value_bands import CUARTIL_ALTO, UPSIDE_MIN, calidad_negocio
 
 DOCS = Path('docs')
 FUND_CSV = DOCS / 'fundamental_scores.csv'
 SALIDA = Path('privado') / 'avisos_venta.json'
 ESTADO = DOCS / 'portfolio_tracker' / 'avisos_venta_estado.json'
 
-CUARTIL_ALTO = 0.75
-
-
-def _detalle(raw) -> dict:
-    if isinstance(raw, dict):
-        return raw
-    try:
-        d = ast.literal_eval(str(raw))
-        return d if isinstance(d, dict) else {}
-    except (ValueError, SyntaxError):
-        return {}
+# La misma medida de calidad que decide si un máximo está justificado para
+# comprar (value_bands): una sola definición del negocio para entrar y salir.
+_calidad = calidad_negocio
 
 
 def _num(x) -> float | None:
     v = pd.to_numeric(x, errors='coerce')
     return None if pd.isna(v) else float(v)
-
-
-def _calidad(df: pd.DataFrame) -> pd.DataFrame:
-    salud = df.get('health_details', pd.Series(index=df.index, dtype=object)).map(_detalle)
-    return pd.DataFrame({
-        'margen': pd.to_numeric(salud.map(lambda d: d.get('operating_margin_pct')), errors='coerce'),
-        'roe': pd.to_numeric(salud.map(lambda d: d.get('roe_pct')), errors='coerce'),
-    }, index=df.index)
 
 
 def umbrales_excepcional(universo: pd.DataFrame) -> tuple[float, float]:
