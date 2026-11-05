@@ -1,0 +1,92 @@
+{
+  "generated_at": "2026-11-05",
+  "macro_regime": "CALM",
+  "composite_score": 8.0,
+  "sesgo": "DEFENSIVO",
+  "confianza": 50,
+  "situacion": "Mercado en calma con se\u00f1ales de riesgo moderado y oportunidades en oro y defensa.",
+  "narrativa": "El entorno macro muestra estabilidad, pero la ca\u00edda del SKEW y el DXY indican un ligero aumento de la aversi\u00f3n al riesgo. Los sectores de defensa y oro se benefician de la incertidumbre, mientras que la curva de tipos sugiere un entorno de tasas moderadas. Los inversores VALUE deben centrarse en empresas con s\u00f3lidos flujos de caja y buen rating, evitando sectores con mayor volatilidad.",
+  "acciones_inmediatas": [
+    {
+      "prioridad": 1,
+      "accion": "COMPRAR",
+      "instrumento": "TLT",
+      "razon": "Aprovechar la zona atractiva de los bonos largos",
+      "catalizador": "Score 95 en macro play",
+      "size_hint": "media (3-4%)",
+      "invalidacion": "Aumento de tasas o volatilidad extrema"
+    }
+  ],
+  "macro_plays": [
+    {
+      "instrument": "TLT/VGLT",
+      "direction": "LONG",
+      "thesis": "Yield 30yr en 5.28% \u2014 zona hist\u00f3ricamente atractiva para bonos largos",
+      "historical": "2018-19: TLT +18% cuando yields revertieron desde 3.25%",
+      "risk": "La Fed puede mantener tipos altos m\u00e1s tiempo \u2014 size peque\u00f1o",
+      "timeframe": "3-6 meses",
+      "score": 95,
+      "eu_alternative": {
+        "ticker": "DTLA",
+        "name": "Xtrackers US Treasuries 20yr+ UCITS ETF",
+        "exchange": "Xetra",
+        "available": "DEGIRO/IB"
+      }
+    }
+  ],
+  "macro_plays_commentary": "TLT/VGLT sigue siendo atractivo con rendimientos de 5.28% y baja volatilidad.",
+  "value_en_entorno": [
+    {
+      "ticker": "SAP.DE",
+      "score": 71.0,
+      "sector": "Technology",
+      "fcf_yield_pct": 3.7,
+      "grade": "B"
+    },
+    {
+      "ticker": "EXPN.L",
+      "score": 62.5,
+      "sector": "Industrials",
+      "fcf_yield_pct": 4.14,
+      "grade": "B"
+    },
+    {
+      "ticker": "NESTE.HE",
+      "score": 58.7,
+      "sector": "Energy",
+      "fcf_yield_pct": 11.33,
+      "grade": "B"
+    },
+    {
+      "ticker": "G24.DE",
+      "score": 55.5,
+      "sector": "Communication Services",
+      "fcf_yield_pct": 3.95,
+      "grade": "A"
+    }
+  ],
+  "value_en_entorno_razon": "Los picks VALUE tienen FCF robusto y ratings B/A, aline\u00e1ndose con la b\u00fasqueda de estabilidad y generaci\u00f3n de efectivo en un mercado calmado.",
+  "evitar": [
+    {
+      "ticker": "NESTE.HE",
+      "razon": "Sector Energy con alta exposici\u00f3n a precios vol\u00e1tiles"
+    }
+  ],
+  "agenda_semana": [
+    {
+      "fecha": "2026-11-06",
+      "evento": "Non-Farm Payrolls",
+      "impacto": "ALTO",
+      "accion_sugerida": "Revisar posiciones de bonos y ajustar exposici\u00f3n a riesgo"
+    },
+    {
+      "fecha": "2026-11-07",
+      "evento": "Cierre de la semana de trading",
+      "impacto": "MEDIO",
+      "accion_sugerida": "Evaluar rendimiento de TLT y considerar rebalanceo"
+    }
+  ],
+  "frase_del_dia": "\"El riesgo viene de la incertidumbre, no de la falta de informaci\u00f3n.\"",
+  "mensaje_telegram": "\ud83d\udcc8 TLT 3% hoy, oro +2%, defensa +2%. Mant\u00e9n posiciones VALUE, vigila NFP 06/11. \ud83d\ude80",
+  "ai_powered": true
+}

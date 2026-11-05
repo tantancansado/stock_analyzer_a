@@ -1,9 +1,15 @@
 {
-  "generated_at": "2026-11-04",
+  "generated_at": "2026-11-05",
   "systemic_risk": "LOW",
-  "correlation_score": 0,
-  "universe_breadth_pct": 1.8,
-  "breadth_change": -0.1,
-  "signals": [],
-  "narrative": null
+  "correlation_score": 2,
+  "universe_breadth_pct": 4.4,
+  "breadth_change": 2.9,
+  "signals": [
+    {
+      "type": "MULTI_SECTOR_DECAY",
+      "severity": "MEDIUM",
+      "detail": "Quality decay en 2 sectores simult\u00e1neamente"
+    }
+  ],
+  "narrative": "Cuando todos los picks de VALUE se mueven simult\u00e1neamente, indica que la cartera est\u00e1 expuesta a un riesgo de correlaci\u00f3n sist\u00e9mica, es decir, que la diversificaci\u00f3n se ve comprometida porque los activos pierden su independencia. En este escenario, cualquier deterioro en la calidad de un sector"
 }

@@ -1,0 +1,72 @@
+{
+  "generated_at": "2026-11-05",
+  "total": 5,
+  "dropped_count": 2,
+  "narrative": "",
+  "displacements": [
+    {
+      "type": "COMPETITOR_RISE",
+      "dropped_ticker": "MSCI",
+      "sector": "Financial Services",
+      "prev_score": 56.31,
+      "replacements": [
+        "V",
+        "AXP"
+      ],
+      "top_replacement": "V",
+      "top_replacement_score": 62.025000000000006,
+      "detail": "MSCI sali\u00f3 de VALUE (56pts); peers en Financial Services: V, AXP"
+    },
+    {
+      "type": "COMPETITOR_RISE",
+      "dropped_ticker": "TW",
+      "sector": "Financial Services",
+      "prev_score": 56.55500000000001,
+      "replacements": [
+        "V",
+        "AXP",
+        "MSCI"
+      ],
+      "top_replacement": "V",
+      "top_replacement_score": 62.025000000000006,
+      "detail": "TW sali\u00f3 de VALUE (57pts); peers en Financial Services: V, AXP"
+    },
+    {
+      "type": "SECTOR_TAILWIND",
+      "sector": "Technology",
+      "rotation_score": 100.0,
+      "beneficiaries": [
+        "BR",
+        "MSFT",
+        "SAP.DE"
+      ],
+      "top_ticker": "BR",
+      "top_score": 75.41499999999999,
+      "detail": "Sector Technology l\u00edder (RS 100) \u2014 BR, MSFT, SAP.DE son los picks VALUE"
+    },
+    {
+      "type": "SECTOR_TAILWIND",
+      "sector": "Healthcare",
+      "rotation_score": 100.0,
+      "beneficiaries": [
+        "AZN.L",
+        "RMD",
+        "THC"
+      ],
+      "top_ticker": "AZN.L",
+      "top_score": 74.0,
+      "detail": "Sector Healthcare l\u00edder (RS 100) \u2014 AZN.L, RMD, THC son los picks VALUE"
+    },
+    {
+      "type": "SECTOR_TAILWIND",
+      "sector": "Communication Services",
+      "rotation_score": 100.0,
+      "beneficiaries": [
+        "G24.DE"
+      ],
+      "top_ticker": "G24.DE",
+      "top_score": 55.5,
+      "detail": "Sector Communication Services l\u00edder (RS 100) \u2014 G24.DE son los picks VALUE"
+    }
+  ]
+}

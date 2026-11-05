@@ -1,15 +1,15 @@
 {
-  "generated_at": "2026-11-04",
+  "generated_at": "2026-11-05",
   "total_positions": 91,
   "risks": [
     {
       "type": "SECTOR_CONCENTRATION",
       "severity": "HIGH",
-      "message": "60% de se\u00f1ales en Unknown (55/91) \u2014 concentraci\u00f3n elevada",
+      "message": "67% de se\u00f1ales en Unknown (61/91) \u2014 concentraci\u00f3n elevada",
       "detail": {
         "sector": "Unknown",
-        "count": 55,
-        "pct": 60
+        "count": 61,
+        "pct": 67
       }
     },
     {
@@ -22,12 +22,12 @@
       }
     }
   ],
-  "narrative": "",
+  "narrative": "Para reducir la concentraci\u00f3n sectorial, ampl\u00eda la cartera incorporando activos de sectores subrepresent",
   "sector_breakdown": [
     {
       "sector": "Unknown",
-      "count": 55,
-      "pct": 60
+      "count": 61,
+      "pct": 67
     },
     {
       "sector": "Financial Services",
@@ -35,29 +35,29 @@
       "pct": 13
     },
     {
-      "sector": "Industrials",
-      "count": 8,
-      "pct": 9
-    },
-    {
-      "sector": "Technology",
-      "count": 6,
-      "pct": 7
-    },
-    {
       "sector": "Healthcare",
       "count": 6,
       "pct": 7
     },
     {
-      "sector": "Consumer Defensive",
-      "count": 2,
-      "pct": 2
+      "sector": "Industrials",
+      "count": 5,
+      "pct": 5
+    },
+    {
+      "sector": "Technology",
+      "count": 4,
+      "pct": 4
     },
     {
       "sector": "Consumer Cyclical",
       "count": 2,
       "pct": 2
+    },
+    {
+      "sector": "Consumer Defensive",
+      "count": 1,
+      "pct": 1
     }
   ],
   "region_breakdown": {

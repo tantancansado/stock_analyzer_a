@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-04",
+  "generated_at": "2026-11-05",
   "status": "PENDING_REVIEW",
   "note": "These weights are suggestions only. Apply manually after review.",
   "current_weights": {
@@ -36,16 +36,16 @@
     {
       "factor": "fcf_yield_bonus_penalty",
       "change": "-2 (stricter negative FCF penalty)",
-      "reason": "FCF negativo reduce WR -8.4pp. Penalizar m\u00e1s agresivo.",
+      "reason": "FCF negativo reduce WR -8.3pp. Penalizar m\u00e1s agresivo.",
       "n": 55
     },
     {
       "factor": "score_threshold_note",
       "change": "Consider raising minimum threshold to 70+ for published picks",
-      "reason": "Score 80+ has 100.0% WR vs 67% base",
+      "reason": "Score 80+ has 100.0% WR vs 66% base",
       "n": 5
     }
   ],
-  "expected_impact": "Based on 793 historical signals",
-  "narrative": "Al aumentar la penalizaci\u00f3n por FCF negativo a -2, se espera que el WR de las selecciones con flujo de caja negativo se reduzca a\u00fan m\u00e1s, reforzando la exclusi\u00f3n de posiciones con riesgo de liquidez. Por otro lado, al elevar el umbral m\u00ednimo de puntuaci\u00f3n a 70+, las selecciones que superen este nivel tendr\u00edan un WR cercano al 100\u202f%, lo que aumentar\u00eda la"
+  "expected_impact": "Based on 794 historical signals",
+  "narrative": "Los ajustes propuestos aumentar\u00e1n la penalizaci\u00f3n de los flujos de caja negativos, reduciendo el WR en aproximadamente 8\u202fpuntos porcentuales para esas empresas, y elevar\u00e1n el umbral m\u00ednimo a 70\u202fpuntos, lo que concentrar\u00e1 los picks publicados en los rangos de mayor calidad (80\u202f+), mejorando la tasa de aciertos global. En conjunto, se espera una mayor selectividad y una mejora del WR promedio, aunque requerir\u00e1 validaci\u00f3n humana antes de su implementaci\u00f3n."
 }

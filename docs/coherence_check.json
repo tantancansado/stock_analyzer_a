@@ -1,21 +1,18 @@
 {
   "total_problemas": 0,
   "desfases_conocidos": [
-    "⏳ ⚠️  value_opportunities.csv: upside analista = (objetivo − precio) / precio — 3/69 filas, peor desvío 5% (AAPL, ADP, HLT)",
-    "⏳ ⚠️  value_opportunities.csv: upside DCF = (objetivo − precio) / precio — 1/58 filas, peor desvío 2% (WM)",
-    "⏳ ⚠️  value_opportunities.csv: upside P/E = (objetivo − precio) / precio — 3/52 filas, peor desvío 4% (MA, WCN, AZO)",
-    "⏳ ⚠️  value_opportunities.csv: distancia al máximo 52s — 4/69 filas, peor desvío 3% (TW, MSCI, HLT, WCN)",
-    "⏳ ⚠️  value_opportunities_filtered.csv: upside P/E = (objetivo − precio) / precio — 1/21 filas, peor desvío 4% (AZO)",
-    "⏳ ⚠️  value_opportunities_filtered.csv: distancia al máximo 52s — 1/30 filas, peor desvío 3% (MSCI)",
-    "⏳ ⚠️  european_value_opportunities.csv: upside analista = (objetivo − precio) / precio — 1/41 filas, peor desvío 4% (SGSN.SW)",
-    "⏳ ⚠️  european_value_opportunities.csv: upside DCF = (objetivo − precio) / precio — 2/32 filas, peor desvío 2% (ROP.SW, ITX.MC)",
-    "⏳ ⚠️  european_value_opportunities.csv: distancia al máximo 52s — 5/41 filas, peor desvío 5% (RACE.MI, HEIA.AS, AI.PA, INDT.ST, SGSN.SW)",
-    "⏳ ⚠️  european_value_opportunities_filtered.csv: upside DCF = (objetivo − precio) / precio — 1/17 filas, peor desvío 2% (ITX.MC)",
-    "⏳ ⚠️  european_value_opportunities_filtered.csv: distancia al máximo 52s — 1/24 filas, peor desvío 4% (RACE.MI)",
-    "⏳ ⚠️  momentum_opportunities.csv: upside analista = (objetivo − precio) / precio — 1/8 filas, peor desvío 2% (ROP)",
-    "⏳ ⚠️  commodity_opportunities.csv: distancia al mínimo = (precio − mín) / mín — 2/19 filas, peor desvío 3% (PPLT, PALL)"
+    "⏳ ⚠️  value_opportunities.csv: upside analista = (objetivo − precio) / precio — 2/53 filas, peor desvío 4% (MSCI, ITW)",
+    "⏳ ⚠️  value_opportunities.csv: upside DCF = (objetivo − precio) / precio — 1/41 filas, peor desvío 4% (WM)",
+    "⏳ ⚠️  value_opportunities.csv: upside P/E = (objetivo − precio) / precio — 2/39 filas, peor desvío 5% (MA, TT)",
+    "⏳ ⚠️  value_opportunities.csv: distancia al máximo 52s — 4/53 filas, peor desvío 4% (V, THC, ICE, MA)",
+    "⏳ ⚠️  value_opportunities_filtered.csv: upside P/E = (objetivo − precio) / precio — 1/8 filas, peor desvío 4% (TT)",
+    "⏳ ⚠️  european_value_opportunities.csv: upside analista = (objetivo − precio) / precio — 3/38 filas, peor desvío 4% (WKL.AS, GEBN.SW, ITX.MC)",
+    "⏳ ⚠️  european_value_opportunities.csv: distancia al máximo 52s — 3/38 filas, peor desvío 3% (INDT.ST, HEIA.AS, AI.PA)",
+    "⏳ ⚠️  european_value_opportunities_filtered.csv: distancia al máximo 52s — 1/19 filas, peor desvío 3% (AI.PA)",
+    "⏳ ⚠️  momentum_opportunities.csv: upside analista = (objetivo − precio) / precio — 1/9 filas, peor desvío 4% (ITW)",
+    "⏳ ⚠️  momentum_opportunities.csv: distancia al máximo 52s — 2/9 filas, peor desvío 4% (TMO, CTAS)"
   ],
   "detalle": {},
-  "tickers_value": 69,
-  "tickers_verdicts": 61
+  "tickers_value": 53,
+  "tickers_verdicts": 39
 }

@@ -1,0 +1,46 @@
+{
+  "generated_at": "2026-11-05",
+  "total": 2,
+  "high_count": 0,
+  "narrative": "",
+  "decays": [
+    {
+      "ticker": "RACE.MI",
+      "company_name": "Ferrari N.V.",
+      "severity": "MEDIUM",
+      "decay_score": 3,
+      "value_score": 35.5,
+      "snapshot_date": "2026-11-03",
+      "piotr_prev": 9.0,
+      "piotr_curr": 9.0,
+      "fcf_prev": 2.33,
+      "fcf_curr": 2.1,
+      "health_prev": 90.0,
+      "health_curr": 65.0,
+      "margin_prev": 31.1,
+      "margin_curr": 29.6,
+      "flags": [
+        "Salud financiera cay\u00f3 25pts (90 \u2192 65/100)"
+      ]
+    },
+    {
+      "ticker": "CLPBY",
+      "company_name": "Coloplast A/S",
+      "severity": "MEDIUM",
+      "decay_score": 3,
+      "value_score": 34.28,
+      "snapshot_date": "2026-11-03",
+      "piotr_prev": 7.0,
+      "piotr_curr": 7.0,
+      "fcf_prev": 6.23,
+      "fcf_curr": 5.61,
+      "health_prev": 80.0,
+      "health_curr": 60.0,
+      "margin_prev": 26.2,
+      "margin_curr": 24.8,
+      "flags": [
+        "Salud financiera cay\u00f3 20pts (80 \u2192 60/100)"
+      ]
+    }
+  ]
+}

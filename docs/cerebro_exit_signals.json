@@ -1,45 +1,9 @@
 {
-  "generated_at": "2026-11-04",
+  "generated_at": "2026-11-05",
   "total": 11,
-  "high_count": 3,
+  "high_count": 1,
   "narrative": "",
   "exits": [
-    {
-      "ticker": "WCN",
-      "severity": "MEDIUM",
-      "entry_score": 62.60999999999999,
-      "current_score": 31.0,
-      "signal_date": "2026-10-27",
-      "reasons": [
-        "Score cay\u00f3 32pts (63 \u2192 31)",
-        "IA: falso positivo con 85% confianza \u2014 La ca\u00edda en la puntuaci\u00f3n del sistema probablemente refleja una correcci\u00f3n de precio o volatilidad t\u00e9cnica, ya que la empresa no ha mostrado deterioro fundamental grave como quiebras o recortes de gu\u00eda significativos en el periodo de entrenamiento."
-      ],
-      "fundamental_score": 67.5,
-      "ai_validation": {
-        "verdict": "FALSE_POSITIVE",
-        "confidence": 85,
-        "summary": "La ca\u00edda en la puntuaci\u00f3n del sistema probablemente refleja una correcci\u00f3n de precio o volatilidad t\u00e9cnica, ya que la empresa no ha mostrado deterioro fundamental grave como quiebras o recortes de gu\u00eda significativos en el periodo de entrenamiento.",
-        "key_finding": "El score fundamental en la base de datos (67.5/100) sigue siendo s\u00f3lido, sugiriendo que la ca\u00edda del score de salida (31) es m\u00e1s atribuible a la valoraci\u00f3n de mercado que a un colapso operativo."
-      }
-    },
-    {
-      "ticker": "QSR",
-      "severity": "MEDIUM",
-      "entry_score": 59.09,
-      "current_score": 33.44,
-      "signal_date": "2026-09-10",
-      "reasons": [
-        "Score cay\u00f3 26pts (59 \u2192 33)",
-        "IA: falso positivo con 85% confianza \u2014 El deterioro del score se debe principalmente a la fuerte revalorizaci\u00f3n del precio que redujo el margen de seguridad, no a una ca\u00edda fundamental del negocio, ya que QSR mantiene una posici\u00f3n de liderazgo s\u00f3lida y flujo de caja estable."
-      ],
-      "fundamental_score": 60.8,
-      "ai_validation": {
-        "verdict": "FALSE_POSITIVE",
-        "confidence": 85,
-        "summary": "El deterioro del score se debe principalmente a la fuerte revalorizaci\u00f3n del precio que redujo el margen de seguridad, no a una ca\u00edda fundamental del negocio, ya que QSR mantiene una posici\u00f3n de liderazgo s\u00f3lida y flujo de caja estable.",
-        "key_finding": "QSR ha mantenido su crecimiento en ventas comparables y generaci\u00f3n de flujo de caja libre, sin eventos negativos recientes que justifiquen una salida por deterioro fundamental."
-      }
-    },
     {
       "ticker": "SYK",
       "severity": "MEDIUM",
@@ -48,14 +12,14 @@
       "signal_date": "2026-10-21",
       "reasons": [
         "Ya no aparece en VALUE \u2014 tesis posiblemente rota",
-        "IA: falso positivo con 85% confianza \u2014 Stryker mantiene una s\u00f3lida ejecuci\u00f3n operativa y crecimiento en sus divisiones de ortopedia y tecnolog\u00eda m\u00e9dica, por lo que la salida de la lista VALUE se debe probablemente a una revalorizaci\u00f3n del precio que redujo el margen de seguridad, no a una deterioraci\u00f3n fundamental."
+        "IA: falso positivo con 85% confianza \u2014 Stryker mantiene una s\u00f3lida ejecuci\u00f3n operativa y crecimiento en sus divisiones de ortopedia y tecnolog\u00eda m\u00e9dica, por lo que la salida de la lista VALUE se debe probablemente a la revalorizaci\u00f3n del precio y no a una deterioraci\u00f3n fundamental."
       ],
-      "fundamental_score": 55.0,
+      "fundamental_score": 56.5,
       "ai_validation": {
         "verdict": "FALSE_POSITIVE",
         "confidence": 85,
-        "summary": "Stryker mantiene una s\u00f3lida ejecuci\u00f3n operativa y crecimiento en sus divisiones de ortopedia y tecnolog\u00eda m\u00e9dica, por lo que la salida de la lista VALUE se debe probablemente a una revalorizaci\u00f3n del precio que redujo el margen de seguridad, no a una deterioraci\u00f3n fundamental.",
-        "key_finding": "La empresa ha seguido entregando resultados consistentes y gu\u00edas estables, sin eventos negativos recientes que rompan la tesis de inversi\u00f3n a largo plazo."
+        "summary": "Stryker mantiene una s\u00f3lida ejecuci\u00f3n operativa y crecimiento en sus divisiones de ortopedia y tecnolog\u00eda m\u00e9dica, por lo que la salida de la lista VALUE se debe probablemente a la revalorizaci\u00f3n del precio y no a una deterioraci\u00f3n fundamental.",
+        "key_finding": "La empresa ha seguido entregando resultados consistentes y gu\u00edas estables, sin eventos negativos recientes que rompan la tesis de inversi\u00f3n."
       }
     },
     {
@@ -70,35 +34,57 @@
       "fundamental_score": 73.6
     },
     {
+      "ticker": "WCN",
+      "severity": "MEDIUM",
+      "entry_score": 62.60999999999999,
+      "current_score": null,
+      "signal_date": "2026-10-27",
+      "reasons": [
+        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
+      ],
+      "fundamental_score": 69.1
+    },
+    {
       "ticker": "CBOE",
       "severity": "MEDIUM",
       "entry_score": 61.39,
-      "current_score": 38.68000000000001,
+      "current_score": 41.64500000000001,
       "signal_date": "2026-10-14",
       "reasons": [
-        "Score cay\u00f3 23pts (61 \u2192 39)"
+        "Score cay\u00f3 20pts (61 \u2192 42)"
       ],
       "fundamental_score": 79.2
     },
     {
-      "ticker": "MCO",
+      "ticker": "KO",
       "severity": "MEDIUM",
-      "entry_score": 60.25,
-      "current_score": 43.26499999999999,
-      "signal_date": "2026-10-23",
+      "entry_score": 59.55500000000001,
+      "current_score": null,
+      "signal_date": "2026-10-01",
       "reasons": [
-        "Score cay\u00f3 17pts (60 \u2192 43)"
+        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
       ],
-      "fundamental_score": 63.8
+      "fundamental_score": 69.9
+    },
+    {
+      "ticker": "QSR",
+      "severity": "MEDIUM",
+      "entry_score": 59.09,
+      "current_score": 35.155,
+      "signal_date": "2026-09-10",
+      "reasons": [
+        "Score cay\u00f3 24pts (59 \u2192 35)"
+      ],
+      "fundamental_score": 60.8
     },
     {
       "ticker": "UNP",
       "severity": "MEDIUM",
       "entry_score": 57.52,
-      "current_score": 30.239999999999995,
+      "current_score": null,
       "signal_date": "2026-09-21",
       "reasons": [
-        "Score cay\u00f3 27pts (58 \u2192 30) \u2014 ca\u00edda t\u00e9cnica/momentum, balance s\u00f3lido (Piotroski 8/9)"
+        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
       ],
       "fundamental_score": 73.1
     },
@@ -111,18 +97,18 @@
       "reasons": [
         "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
       ],
-      "fundamental_score": 77.8
+      "fundamental_score": 79.9
     },
     {
       "ticker": "CLPBY",
       "severity": "MEDIUM",
       "entry_score": 53.92,
-      "current_score": null,
+      "current_score": 34.28,
       "signal_date": "2026-10-28",
       "reasons": [
-        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
+        "Score cay\u00f3 20pts (54 \u2192 34)"
       ],
-      "fundamental_score": 65.7
+      "fundamental_score": 67.2
     },
     {
       "ticker": "OXY",
@@ -136,15 +122,15 @@
       "fundamental_score": 78.6
     },
     {
-      "ticker": "FCNCA",
+      "ticker": "OTIS",
       "severity": "MEDIUM",
-      "entry_score": 51.92499999999999,
-      "current_score": 34.425000000000004,
-      "signal_date": "2026-09-18",
+      "entry_score": 51.065,
+      "current_score": 33.39999999999999,
+      "signal_date": "2026-10-29",
       "reasons": [
-        "Score cay\u00f3 17pts (52 \u2192 34)"
+        "Score cay\u00f3 18pts (51 \u2192 33)"
       ],
-      "fundamental_score": 70.4
+      "fundamental_score": 58.6
     }
   ]
 }

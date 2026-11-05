@@ -1,67 +1,29 @@
 {
-  "generated_at": "2026-11-04",
-  "total": 25,
+  "generated_at": "2026-11-05",
+  "total": 28,
   "tier1": 0,
-  "tier2": 3,
-  "tier3": 5,
-  "noise_filtered": 17,
+  "tier2": 1,
+  "tier3": 9,
+  "noise_filtered": 18,
   "actionable": [
-    {
-      "ticker": "BR",
-      "company_name": "Broadridge Financial Solutions, Inc.",
-      "sentiment": "BULLISH",
-      "tier": "TIER2",
-      "quality_score": 60,
-      "value_score": 79.2,
-      "fcf_yield": 5.94,
-      "insider_confirmation": false,
-      "in_value": true,
-      "quality_factors": [
-        "VALUE strong (79pts)",
-        "FCF 5.9%",
-        "DIRECTIONAL (100% calls)"
-      ],
-      "flow_score": 60.0,
-      "total_premium": 452170.0,
-      "detected_date": "2026-11-04"
-    },
     {
       "ticker": "MSCI",
       "company_name": "MSCI Inc.",
       "sentiment": "BULLISH",
       "tier": "TIER2",
       "quality_score": 55,
-      "value_score": 56.3,
-      "fcf_yield": 3.19,
+      "value_score": 51.1,
+      "fcf_yield": 3.03,
       "insider_confirmation": true,
       "in_value": true,
       "quality_factors": [
-        "VALUE weak (56pts)",
+        "VALUE weak (51pts)",
         "INSIDER CONF",
         "DIRECTIONAL (100% calls)"
       ],
-      "flow_score": 70.0,
-      "total_premium": 695730.0,
-      "detected_date": "2026-11-04"
-    },
-    {
-      "ticker": "VRSN",
-      "company_name": "VeriSign, Inc.",
-      "sentiment": "BEARISH",
-      "tier": "TIER2",
-      "quality_score": 55,
-      "value_score": 54.4,
-      "fcf_yield": 3.69,
-      "insider_confirmation": true,
-      "in_value": true,
-      "quality_factors": [
-        "VALUE weak (54pts)",
-        "INSIDER CONF",
-        "DIRECTIONAL (100% puts)"
-      ],
-      "flow_score": 50.0,
-      "total_premium": 28350.0,
-      "detected_date": "2026-11-04"
+      "flow_score": 80.0,
+      "total_premium": 2680560.0,
+      "detected_date": "2026-11-05"
     }
   ],
   "narrative": ""
