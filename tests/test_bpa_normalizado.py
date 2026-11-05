@@ -12,8 +12,9 @@ operativo); esto lo aplica al NIVEL.
 """
 import pytest
 
-from financial_cross_check import (DESVIO_FISCAL_ANOMALO, TASA_FISCAL_NORMAL,
-                                   bpa_normalizado)
+from financial_cross_check import (CONCENTRACION_NO_OPERATIVO,
+                                   DESVIO_FISCAL_ANOMALO, PESO_NO_OPERATIVO,
+                                   TASA_FISCAL_NORMAL, bpa_normalizado)
 
 
 class _Stock:
@@ -61,3 +62,58 @@ def test_el_scorer_prefiere_el_normalizado():
     bloque = bloque_de_codigo(src, '# ── 3. P/E justo')
     assert 'epsNormalizado' in bloque
     assert bloque.index('epsNormalizado') < bloque.index('eps_fwd) if eps_fwd')
+
+
+class _StockConOperativo:
+    """Trimestres de más reciente a más antiguo, en miles de millones."""
+    def __init__(self, op, otros, intereses=None, acc=12.5e9):
+        import pandas as pd
+        cols = pd.to_datetime(['2026-09-30', '2026-06-30', '2026-03-31', '2025-12-31'])
+        intereses = intereses or [0.0] * 4
+        pre = [(o + x + i) * 1e9 for o, x, i in zip(op, otros, intereses)]
+        self.quarterly_income_stmt = pd.DataFrame(
+            [pre, [p * TASA_FISCAL_NORMAL for p in pre], [o * 1e9 for o in op],
+             [i * 1e9 for i in intereses], [acc] * 4],
+            columns=cols,
+            index=['Pretax Income', 'Tax Provision', 'Operating Income',
+                   'Net Non Operating Interest Income Expense', 'Diluted Average Shares'])
+
+
+def test_el_caso_goog():
+    """Revalorizaciones de 97.800 y 36.900 M$ en dos trimestres: el P/E veía
+    un +58,7% que era contabilidad. El BPA sale del negocio y los intereses."""
+    s = _StockConOperativo(op=[40.58, 40.77, 39.70, 35.93], otros=[-9.02, 97.83, 36.87, 2.27],
+                           intereses=[0.7, 0.7, 0.7, 0.6])
+    bpa, motivo = bpa_normalizado(s)
+    assert bpa == pytest.approx((156.98 + 2.7) * (1 - TASA_FISCAL_NORMAL) / 12.5, abs=0.01)
+    assert 'no operativo' in motivo
+
+
+def test_lo_que_se_repite_cada_trimestre_no_se_quita():
+    """Las participadas de CVX aportan todos los trimestres: es beneficio."""
+    s = _StockConOperativo(op=[6.5, 6.4, 6.6, 6.3], otros=[2.76, 1.07, 0.94, 1.49])
+    assert bpa_normalizado(s) == (None, None)
+
+
+def test_los_intereses_no_cuentan_como_golpe():
+    """Una empresa con mucha caja cobra intereses: eso no es una plusvalía."""
+    s = _StockConOperativo(op=[1.0, 1.0, 1.0, 1.0], otros=[0, 0, 0, 0],
+                           intereses=[0.9, 0.0, 0.0, 0.0])
+    assert bpa_normalizado(s) == (None, None)
+
+
+def test_una_perdida_puntual_no_sube_el_bpa():
+    s = _StockConOperativo(op=[10, 10, 10, 10], otros=[0, -20, 0, 0])
+    assert bpa_normalizado(s) == (None, None)
+
+
+def test_un_golpe_pequeno_no_se_corrige():
+    s = _StockConOperativo(op=[10, 10, 10, 10], otros=[0, 3, 0, 0])
+    assert bpa_normalizado(s) == (None, None)
+
+
+def test_los_umbrales_separan_lo_medido():
+    """Medido el 5-nov-2026: lo recurrente se queda en el 44%, lo puntual
+    empieza en el 56%."""
+    assert 0.44 < CONCENTRACION_NO_OPERATIVO < 0.56
+    assert 0.10 <= PESO_NO_OPERATIVO <= 0.20

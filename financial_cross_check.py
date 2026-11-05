@@ -350,8 +350,47 @@ DESVIO_FISCAL_ANOMALO = 0.12
 
 
 
+# Plusvalías que inflan el BPA: el resultado no operativo (sin contar
+# intereses) pesa al menos esto sobre el operativo...
+PESO_NO_OPERATIVO = 0.15
+# ...y llega a golpes: un solo trimestre trae al menos esta parte. Lo que se
+# repite cada trimestre (participadas de CVX o KO, intereses de VEEV o CME)
+# queda por debajo del 45%; las revalorizaciones de GOOG, AMZN o ROP, por
+# encima del 55% (medido el 5-nov-2026 sobre las 143 del universo).
+CONCENTRACION_NO_OPERATIVO = 0.50
+
+
+def _no_operativo_a_golpes(q) -> tuple[float, str] | None:
+    """Resultado no operativo puntual de los últimos doce meses, o None.
+
+    GOOG, 5-nov-2026: 135.000 M$ de ganancias por revalorizar participaciones
+    en dos trimestres dejaban el BPA en 19,2 $ cuando el negocio da unos
+    10,7 $, y el P/E le veía un +58,7% que era contabilidad. Solo se quitan
+    las ganancias: una pérdida puntual no se corrige al alza.
+    """
+    if 'Operating Income' not in q.index:
+        return None
+    pre = q.loc['Pretax Income'].dropna().sort_index(ascending=False).iloc[:4]
+    op = q.loc['Operating Income'].dropna().sort_index(ascending=False).iloc[:4]
+    if len(pre) < 4 or len(op) < 4 or list(pre.index) != list(op.index):
+        return None
+    intereses = 0.0
+    if 'Net Non Operating Interest Income Expense' in q.index:
+        ni = q.loc['Net Non Operating Interest Income Expense'].reindex(pre.index)
+        intereses = ni.fillna(0).astype(float)
+    otros = pre.astype(float) - op.astype(float) - intereses
+    total, op_ttm = float(otros.sum()), float(op.sum())
+    if op_ttm <= 0 or total <= 0 or total < PESO_NO_OPERATIVO * op_ttm:
+        return None
+    if float(otros.abs().max()) < CONCENTRACION_NO_OPERATIVO * float(otros.abs().sum()):
+        return None
+    return total, (f'{total / 1e6:,.0f} M de resultado no operativo puntual '
+                   f'({total / op_ttm:.0%} del operativo) — plusvalías, no negocio')
+
+
 def bpa_normalizado(stock) -> tuple[float | None, str | None]:
-    """BPA de los últimos doce meses con una tasa fiscal normal.
+    """BPA de los últimos doce meses con una tasa fiscal normal y sin
+    plusvalías puntuales.
 
     YUM, 18-sep-2026: un crédito fiscal de 320 M$ en un trimestre dejó la tasa
     efectiva de los últimos doce meses en -0,9%, y el BPA reportado en 7,82
@@ -385,6 +424,12 @@ def bpa_normalizado(stock) -> tuple[float | None, str | None]:
         if pre_ttm <= 0:
             return None, None
         efectiva = tax_ttm / pre_ttm
+        golpes = _no_operativo_a_golpes(q)
+        if golpes is not None:
+            sin_golpes = pre_ttm - golpes[0]
+            if sin_golpes <= 0:
+                return None, None
+            return sin_golpes * (1 - TASA_FISCAL_NORMAL) / float(acc), golpes[1]
         if abs(efectiva - TASA_FISCAL_NORMAL) <= DESVIO_FISCAL_ANOMALO:
             return None, None     # tasa normal: el BPA reportado vale
         bpa = pre_ttm * (1 - TASA_FISCAL_NORMAL) / float(acc)
