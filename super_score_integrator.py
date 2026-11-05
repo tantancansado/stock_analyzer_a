@@ -151,8 +151,8 @@ class SuperScoreIntegrator:
         value_df = value_df.drop(columns=['quality'], errors='ignore')
         value_df = value_df.sort_values('value_score', ascending=False)
 
-        # Solo ideas VALUE: barata según nuestra valoración, y cerca de máximos
-        # solo si el negocio lo justifica (value_bands.motivo_fuera_de_value).
+        # Solo ideas VALUE: barata según nuestra valoración y sin que el negocio
+        # empeore (value_bands.motivo_fuera_de_value).
         # Va aquí, en la separación y no dentro del cálculo, porque después del
         # cálculo hay ajustes que suman (cerebro, sector, días en lista) y
         # podían devolver a la lista lo que un descarte había puesto a cero.
@@ -161,7 +161,8 @@ class SuperScoreIntegrator:
         value_df.loc[_fuera != '', 'value_score'] = 0.0
         print(f"\n🧭 Fuera de VALUE por no ser una idea value: {_n_fuera} que pasaban el corte "
               f"({int(_fuera.str.startswith('nuestra').sum() + _fuera.str.startswith('sin valoración').sum())} "
-              f"sin margen propio · {int(_fuera.str.startswith('a ').sum())} cerca de máximos)")
+              f"sin margen propio · {int(_fuera.str.startswith('ventas').sum() + _fuera.str.startswith('sin dato de ventas').sum())} "
+              f"con el negocio empeorando)")
 
         # Filter: quality threshold — banda canónica en value_bands
         value_df = value_df[value_df['value_score'] >= VALUE_SCORE_MIN].copy()

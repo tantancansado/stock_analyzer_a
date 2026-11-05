@@ -78,17 +78,28 @@ def respaldo_propio(df):
 # Dos condiciones, y las dos son de entrada, no de puntuación:
 #   1. Barata según NUESTRA valoración: `respaldo_propio` (triangulado ≥
 #      UPSIDE_MIN y sin divergencia ALTA). Sin modelos propios no hay respaldo.
-#   2. Cerca de máximos solo si el máximo lo justifica el negocio: margen
-#      operativo en el cuartil alto del universo y ventas creciendo a doble
-#      dígito. Así entra MSFT (49,8% y +18,8%) y se quedan fuera THC, SAP,
-#      AMZN, RELX o AON. Ni el ROE ni el ROIC de Greenblatt sirven aquí: los
-#      dos dejaban fuera a MSFT (34% y 41%) y daban a RELX un ROE del 132%.
+#   2. Que el negocio no empeore: ventas que no caen frente al año anterior.
 #
-# La distancia al máximo NO es un filtro por rendimiento: con nuestras señales
-# no había base (una sola primera señal VALUE a menos del 5% del máximo con
-# 90 días cerrados). Es la filosofía del usuario, no una calibración.
-CERCA_DE_MAXIMOS_PCT = -10.0
+# La segunda fue primero «cerca de máximos solo si es excepcional» y se cambió
+# el mismo día, al medirla. Reconstruida la lista VALUE US de cada día desde
+# git (174 días, 457 empresas, feb-nov 2026), con su precio después y contra el
+# universo del que elige la app, a 180 días:
+#
+#                                  feb-mar      abr+     (puntos vs universo)
+#   barata, ventas CAEN             -10,5      -16,1    IC <0 en todos los cortes,
+#                                                       también sin financieras
+#   barata, ventas no caen           +5,3       +5,0
+#   barata y cerca de máximos        +8,0       +2,6    no era el problema
+#   la regla de máximos entera       +1,8       +1,3    no mejoraba a la de solo barata
+#
+# El umbral no está afinado: con ventas ≥0, ≥5 o ≥10 la ventaja es la misma
+# (+5 en los dos periodos); el escalón está en caer. Es lo que decía el usuario
+# —«baratas sin que empeore el negocio»— medido con el dato que lo dice, en vez
+# de con la distancia al máximo, que mide el precio y no el negocio.
+VENTAS_MINIMAS = 0.0
 CUARTIL_ALTO = 0.75
+# Lo usa la venta (portfolio_price_alerts): crecer a doble dígito con margen
+# del cuartil alto también es ser excepcional (MSFT), no solo el ROE (MCO).
 CRECIMIENTO_QUE_JUSTIFICA = 10.0
 
 
@@ -114,11 +125,7 @@ def calidad_negocio(df):
 
 
 def motivo_fuera_de_value(df):
-    """Por qué cada fila NO es una idea VALUE ('' si lo es).
-
-    `df` es el universo entero, no la lista ya filtrada: el cuartil del margen
-    se mide sobre él.
-    """
+    """Por qué cada fila NO es una idea VALUE ('' si lo es)."""
     import pandas as pd
     motivo = pd.Series('', index=df.index, dtype=object)
     tri = (pd.to_numeric(df['upside_triangulated_pct'], errors='coerce')
@@ -128,15 +135,13 @@ def motivo_fuera_de_value(df):
     motivo[sin_margen & tri.notna()] = [
         f'nuestra valoración solo le ve {int(round(v)):+d}%' for v in tri[sin_margen & tri.notna()]]
 
-    dist = (pd.to_numeric(df['proximity_to_52w_high'], errors='coerce')
-            if 'proximity_to_52w_high' in df.columns else pd.Series(float('nan'), index=df.index))
     crece = (pd.to_numeric(df['rev_growth_yoy'], errors='coerce')
              if 'rev_growth_yoy' in df.columns else pd.Series(float('nan'), index=df.index))
-    margen = calidad_negocio(df)['margen']
-    justificado = (margen >= margen.quantile(CUARTIL_ALTO)) & (crece >= CRECIMIENTO_QUE_JUSTIFICA)
-    cerca = (dist > CERCA_DE_MAXIMOS_PCT) & (motivo == '') & ~justificado
-    motivo[cerca] = [f'a {abs(v):.0f}% del máximo sin un negocio excepcional que lo justifique'
-                     for v in dist[cerca]]
+    cae = (motivo == '') & (crece < VENTAS_MINIMAS)
+    motivo[cae] = [f'ventas cayendo ({v:+.1f}%): el negocio empeora' for v in crece[cae]]
+    # Sin el dato no se puede decir que el negocio no empeora, y eso es lo que
+    # separa una barata de una trampa: no se presume.
+    motivo[(motivo == '') & crece.isna()] = 'sin dato de ventas para ver si el negocio empeora'
     return motivo
 
 
@@ -169,10 +174,11 @@ def solo_politica_vigente(df, columna: str = 'analyst_upside_pct'):
     Al añadir un filtro duro nuevo al integrator, añadirlo TAMBIÉN aquí.
 
     Excepción: `motivo_fuera_de_value` (5-nov-2026) no se puede aplicar hacia
-    atrás, porque el tracker no guardaba ni el triangulado ni la distancia al
-    máximo. Desde ese día los guarda (`upside_triangulated_pct`,
-    `proximity_to_52w_high`); hasta que haya historial, las señales anteriores
-    al 5-nov mezclan las dos políticas.
+    atrás sobre el tracker, porque no guardaba ni el triangulado ni las ventas.
+    Desde ese día los guarda (`upside_triangulated_pct`, `rev_growth_yoy`); hasta
+    que haya historial, las señales anteriores al 5-nov mezclan las dos
+    políticas. (La regla sí se midió hacia atrás, pero sobre los snapshots
+    diarios de git, no sobre el tracker.)
     """
     import pandas as pd
     if df is None or len(df) == 0 or columna not in df.columns:

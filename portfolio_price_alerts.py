@@ -18,9 +18,14 @@ Sin esa condición, un analista a +43% y un DCF a −71% daban un «objetivo» d
 −14%: una cifra que no estima nadie y que la app no aceptaría para comprar, así
 que tampoco para mandar a vender.
 
-«Excepcional» es tener el margen operativo y el ROE los dos en el cuartil alto
-del universo curado; MCO (46% y 77%) lo es. Si falta uno de los dos datos no se
-afirma que no lo sea, y solo se avisa al llegar al objetivo completo.
+«Excepcional» es tener el margen operativo en el cuartil alto del universo
+curado y, además, el ROE también en el cuartil alto (MCO: 46% y 77%) o las
+ventas creciendo a doble dígito (MSFT: 49,8% y +18,8%, con un ROE del 34% que
+no llega). Medido el 5-nov-2026 sobre las listas VALUE diarias desde febrero,
+las dos formas rinden igual a 180 días contra el universo (+5,7 solo-ROE,
++4,8 solo-crecimiento) y las dos por encima del resto (+1,1 / −2,6), así que
+dejar fuera a MSFT era quedarse con media definición. Si faltan los datos para
+decidirlo no se afirma que no lo sea, y solo se avisa al llegar al objetivo.
 
 Sustituye al aviso que hubo hasta el 29-oct-2026, que saltaba con una caída del
 8% y medía contra el objetivo de los analistas, dos reglas que no son las del
@@ -45,15 +50,13 @@ from pathlib import Path
 import pandas as pd
 
 from upside_triangulation import add_upside_triangulation
-from value_bands import CUARTIL_ALTO, UPSIDE_MIN, calidad_negocio
+from value_bands import CRECIMIENTO_QUE_JUSTIFICA, CUARTIL_ALTO, UPSIDE_MIN, calidad_negocio
 
 DOCS = Path('docs')
 FUND_CSV = DOCS / 'fundamental_scores.csv'
 SALIDA = Path('privado') / 'avisos_venta.json'
 ESTADO = DOCS / 'portfolio_tracker' / 'avisos_venta_estado.json'
 
-# La misma medida de calidad que decide si un máximo está justificado para
-# comprar (value_bands): una sola definición del negocio para entrar y salir.
 _calidad = calidad_negocio
 
 
@@ -65,6 +68,18 @@ def _num(x) -> float | None:
 def umbrales_excepcional(universo: pd.DataFrame) -> tuple[float, float]:
     q = _calidad(universo)
     return float(q['margen'].quantile(CUARTIL_ALTO)), float(q['roe'].quantile(CUARTIL_ALTO))
+
+
+def es_excepcional(margen: float | None, roe: float | None, ventas: float | None,
+                   umbrales: tuple[float, float]) -> bool | None:
+    """None si los datos que faltan podrían cambiar la respuesta."""
+    if margen is None:
+        return None
+    if margen < umbrales[0]:
+        return False
+    if (roe is not None and roe >= umbrales[1]) or (ventas is not None and ventas >= CRECIMIENTO_QUE_JUSTIFICA):
+        return True
+    return None if roe is None or ventas is None else False
 
 
 def veredicto(upside: float | None, excepcional: bool | None) -> str | None:
@@ -87,8 +102,8 @@ def evaluar(filas: pd.DataFrame, umbrales: tuple[float, float]) -> list[dict]:
     avisos = []
     for i, r in filas.iterrows():
         margen, roe = _num(calidad.at[i, 'margen']), _num(calidad.at[i, 'roe'])
-        excepcional = (None if margen is None or roe is None
-                       else margen >= umbrales[0] and roe >= umbrales[1])
+        ventas = _num(r.get('rev_growth_yoy'))
+        excepcional = es_excepcional(margen, roe, ventas, umbrales)
         upside, precio = _num(r.get('upside_triangulated_pct')), _num(r.get('current_price'))
         if str(r.get('upside_divergence') or '').upper() == 'ALTA':
             upside = None
@@ -99,7 +114,7 @@ def evaluar(filas: pd.DataFrame, umbrales: tuple[float, float]) -> list[dict]:
             'ticker': str(r['ticker']).upper(), 'tipo': tipo, 'upside': upside,
             'objetivo': round(precio * (1 + upside / 100), 2),
             'divisa': str(r.get('price_currency') or 'USD'),
-            'margen': margen, 'roe': roe,
+            'margen': margen, 'roe': roe, 'ventas': ventas,
         })
     return avisos
 
@@ -112,6 +127,17 @@ def _precio(x: float, divisa: str) -> str:
     return f"{x:,.2f}".replace(',', 'X').replace('.', ',').replace('X', '.') + f' {simbolo}'
 
 
+def _datos_calidad(a: dict) -> str:
+    # Con el margen por debajo del cuartil ya no es excepcional y el ROE o las
+    # ventas pueden faltar: se dice lo que hay.
+    partes = [f"margen {a['margen']:.0f}%"]
+    if a.get('roe') is not None:
+        partes.append(f"ROE {a['roe']:.0f}%")
+    if a.get('ventas') is not None:
+        partes.append(f"ventas {a['ventas']:+.0f}%")
+    return ', '.join(partes)
+
+
 def texto(avisos: list[dict]) -> str | None:
     lineas = []
     for a in avisos:
@@ -121,8 +147,7 @@ def texto(avisos: list[dict]) -> str | None:
         else:
             lineas.append(
                 f"<b>{a['ticker']}</b> está a un {a['upside']:.0f}% de su objetivo ({objetivo}) y no es "
-                f"de las excepcionales (margen {a['margen']:.0f}%, ROE {a['roe']:.0f}%): lo que queda "
-                f"no compensa.")
+                f"de las excepcionales ({_datos_calidad(a)}): lo que queda no compensa.")
     return '\n'.join(['<b>Toca vender</b>'] + lineas) if lineas else None
 
 

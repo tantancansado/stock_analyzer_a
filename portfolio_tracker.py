@@ -173,7 +173,7 @@ class PortfolioTracker:
         return pd.DataFrame(columns=[
             'ticker', 'company_name', 'strategy', 'signal_date', 'signal_price',
             'value_score', 'momentum_score', 'fcf_yield_pct', 'risk_reward_ratio',
-            'analyst_upside_pct', 'upside_triangulated_pct', 'proximity_to_52w_high',
+            'analyst_upside_pct', 'upside_triangulated_pct', 'proximity_to_52w_high', 'rev_growth_yoy',
             'short_percent_float', 'sector', 'market_regime',
             'entry_readiness', 'entry_readiness_reason',
             'cerebro_signal', 'cerebro_score_adj',
@@ -363,11 +363,12 @@ class PortfolioTracker:
                         'fcf_yield_pct': row.get('fcf_yield_pct'),
                         'risk_reward_ratio': row.get('risk_reward_ratio'),
                         'analyst_upside_pct': row.get('analyst_upside_pct'),
-                        # Capturados desde 5-nov-2026: la regla de value_bands.
-                        # motivo_fuera_de_value no se pudo medir contra nuestras
-                        # señales porque no se guardaban (n=1 cerca de máximos).
+                        # Capturados desde 5-nov-2026: los datos de la regla de
+                        # value_bands.motivo_fuera_de_value. Se midió sobre los
+                        # snapshots de git; con esto se podrá medir sobre el tracker.
                         'upside_triangulated_pct': row.get('upside_triangulated_pct'),
                         'proximity_to_52w_high': row.get('proximity_to_52w_high'),
+                        'rev_growth_yoy': row.get('rev_growth_yoy'),
                         # Capturado desde 11-ago-2026 para poder decidir CON NUESTRAS
                         # señales si el interés corto predice algo. Hoy no se puede:
                         # solo hay 31 snapshots de docs/history y dan n=20 a 7 días.

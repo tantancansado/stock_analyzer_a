@@ -22,10 +22,10 @@ import portfolio_price_alerts as pa
 UMBRALES = (35.0, 40.0)
 
 
-def _fila(ticker, analista, dcf, pe, margen=20.0, roe=20.0, precio=100.0, divisa='USD'):
+def _fila(ticker, analista, dcf, pe, margen=20.0, roe=20.0, precio=100.0, divisa='USD', ventas=None):
     return {'ticker': ticker, 'current_price': precio, 'price_currency': divisa,
             'analyst_upside_pct': analista, 'target_price_dcf_upside_pct': dcf,
-            'target_price_pe_upside_pct': pe,
+            'target_price_pe_upside_pct': pe, 'rev_growth_yoy': ventas,
             'health_details': str({'roe_pct': roe, 'operating_margin_pct': margen})}
 
 
@@ -78,6 +78,23 @@ class TestObjetivoPropio:
 
     def test_cerca_y_excepcional_aguanta(self):
         assert _avisos(_fila('MCOX', 6.0, 5.0, 8.0, margen=46.3, roe=76.7)) == []
+
+    def test_excepcional_tambien_por_crecer_con_margen_alto(self):
+        # MSFT: margen 49,8%, ROE 34% (no llega al cuartil) y ventas +18,8%
+        assert _avisos(_fila('MSFTX', 6.0, 5.0, 8.0, margen=49.8, roe=34.0, ventas=18.8)) == []
+
+    def test_margen_alto_sin_roe_ni_crecimiento_sale_antes(self):
+        [a] = _avisos(_fila('RELX', 6.0, 5.0, 8.0, margen=40.0, roe=30.0, ventas=1.7))
+        assert a['tipo'] == 'ANTES'
+        assert 'margen 40%, ROE 30%, ventas +2%' in pa.texto([a])
+
+    def test_margen_alto_sin_dato_de_ventas_no_se_afirma(self):
+        assert _avisos(_fila('X', 6.0, 5.0, 8.0, margen=40.0, roe=30.0)) == []
+
+    def test_margen_bajo_no_lo_salva_crecer(self):
+        [a] = _avisos(_fila('AMZN', 6.0, 5.0, 8.0, margen=13.9, roe=None, ventas=20.4))
+        assert a['tipo'] == 'ANTES'
+        assert 'margen 14%, ventas +20%' in pa.texto([a])     # sin ROE: se dice lo que hay
 
     def test_umbrales_son_el_cuartil_alto_del_universo(self):
         u = pd.DataFrame([_fila(str(i), 1, 1, 1, margen=float(i), roe=float(10 * i)) for i in range(1, 5)])
