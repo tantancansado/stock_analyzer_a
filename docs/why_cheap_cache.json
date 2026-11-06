@@ -50,18 +50,16 @@
   "fecha": "2026-11-05"
  },
  "WKL.AS": {
-  "veredicto": "SIN_DATOS",
-  "resumen": "",
-  "confianza": 0,
-  "fuentes": [],
-  "fecha": "2026-10-23"
- },
- "GEBN.SW": {
-  "veredicto": "SIN_DATOS",
-  "resumen": "",
-  "confianza": 0,
-  "fuentes": [],
-  "fecha": "2026-10-23"
+  "veredicto": "SENTIMIENTO",
+  "resumen": "Caída por revaluación de riesgo IA y ajuste de múltiplos (WACC +310 bps), no por deterioro operativo. Ingresos +7% org, FCF +10%, márgenes 27.5% - fundamentales sólidos.",
+  "confianza": 75,
+  "fuentes": [
+   "https://finance.yahoo.com/news/wolters-kluwer-full-2024-earnings-043023672.html",
+   "https://assets.contenthub.wolterskluwer.com/api/public/content/3118646-2026-02-25-wolters-kluwer-2025-full-year-results-7391945524?v=2c966da9",
+   "https://assets.contenthub.wolterskluwer.com/api/public/content/2621178-2025-02-26-wolters-kluwer-2024-full-year-results-910a3f1b88?v=acc4926f",
+   "https://assets.contenthub.wolterskluwer.com/api/public/content/2889175-2025-07-30-wolters-kluwer-2025-half-year-results-859cfb3b56?v=8876f75e"
+  ],
+  "fecha": "2026-11-06"
  },
  "JKHY": {
   "veredicto": "SENTIMIENTO",
@@ -204,81 +202,41 @@
   "fuentes": [],
   "fecha": "2026-11-05"
  },
- "G24.DE": {
-  "veredicto": "SIN_DATOS",
-  "resumen": "",
-  "confianza": 0,
-  "fuentes": [],
-  "fecha": "2026-10-23"
- },
- "ABBN.SW": {
-  "veredicto": "SIN_DATOS",
-  "resumen": "",
-  "confianza": 0,
-  "fuentes": [],
-  "fecha": "2026-10-23"
- },
  "FICO": {
-  "veredicto": "SIN_DATOS",
-  "resumen": "",
-  "confianza": 0,
-  "fuentes": [],
-  "fecha": "2026-10-23"
+  "veredicto": "EVENTO",
+  "resumen": "<cite index=\"4-6\">El 26.5% de caída en un día (29 de septiembre) vino tras el anuncio de la Federal Housing Finance Agency de que VantageScore se sumaría al mismo marco de precios hipotecarios que FICO Score</cite>. <cite index=\"9-7,9-8,9-9\">En noviembre (acaba de ocurrir), guidance para 2026 quedó ",
+  "confianza": 72,
+  "fuentes": [
+   "https://www.gurufocus.com/news/9143439/fair-isaac-corp-fico-shares-drop-over-13-amid-competitive-pressures-and-pricing-concerns",
+   "https://finance.yahoo.com/markets/stocks/articles/fair-isaac-fico-stock-looks-150951207.html",
+   "https://www.marketbeat.com/instant-alerts/fair-isaac-nysefico-stock-price-down-59-after-insider-selling-2026-08-03/",
+   "https://finance.yahoo.com/markets/stocks/articles/does-fall-fair-isaac-stock-122319607.html"
+  ],
+  "fecha": "2026-11-06"
  },
  "WTKWY": {
   "veredicto": "SENTIMIENTO",
-  "resumen": "Fundamentos sólidos con crecimiento orgánico 5-6%, márgenes en expansión y guidance reiterated en 2026. Única corrección menor en división Corporate Performance & ESG. Caída atribuible a rotación/múltiplos, no a deterioro estructural.",
-  "confianza": 75,
+  "resumen": "Caída inicial post-resultados Q4 2024 (febrero 2025) pese a ganancias alineadas y guidance confirmada; recuperación posterior sin deterioro de negocio. Rotación de múltiplos, no fundamentals.",
+  "confianza": 78,
   "fuentes": [
+   "https://live.euronext.com/en/products/equities/company-news/2025-02-26-wolters-kluwer-2024-full-year-report",
    "https://www.investing.com/equities/wolters-kluwer-nv-earnings",
-   "https://www.investing.com/equities/wolters-kluwer-earnings",
    "https://www.fool.com/quote/otc/wtkwy/",
-   "https://www.marketscreener.com/quote/stock/WOLTERS-KLUWER-N-V-6291/calendar/"
+   "https://www.macrotrends.net/stocks/charts/WTKWY/wolters-kluwer/revenue"
   ],
-  "fecha": "2026-10-23"
- },
- "NOVO-B.CO": {
-  "veredicto": "SIN_DATOS",
-  "resumen": "",
-  "confianza": 0,
-  "fuentes": [],
-  "fecha": "2026-10-23"
+  "fecha": "2026-11-06"
  },
  "PGHN.SW": {
   "veredicto": "EVENTO",
-  "resumen": "Miss de EPS del 2.96% en Q4 2024 (reportado marzo 2026) con crecimiento de costos superando ingresos, limitación de retiros de fondos en junio 2026 y reducción de personal. Shock puntual sobre calidad de ganancias, no deterioro estructural del negocio (AuM y guidance mantenidos).",
+  "resumen": "Goldman Sachs degradó a PGHN en junio 2025 por retrasos en acuerdos (Techem) y riesgos de comisiones 2025-26; junio-julio: campaña de vendedores en corto amplificó caída. Negocio 2024 creció (profit +12%, márgenes 63.6%), pero guidance 2025 advierte comisiones menores.",
   "confianza": 72,
   "fuentes": [
-   "https://www.investing.com/news/company-news/partners-group-2025-slides-record-aum-growth-stock-plunges-37-93CH-4560220",
-   "https://www.investing.com/news/transcripts/earnings-call-transcript-partners-group-q4-2025-sees-stock-plunge-despite-revenue-beat-93CH-4559336",
-   "https://www.tradingview.com/symbols/SIX-PGHN/",
-   "https://finance.yahoo.com/news/partners-group-holding-swx-pghn-131019309.html"
+   "https://www.investing.com/equities/partners-group-earnings",
+   "https://en.wikipedia.org/wiki/Partners_Group",
+   "https://es.tradingview.com/symbols/SIX-PGHN/",
+   "https://mx.investing.com/news/stock-market-news/goldman-sachs-degrada-a-partners-group-por-riesgos-en-ganancias-y-reduce-precio-objetivo-3182612"
   ],
-  "fecha": "2026-10-23"
- },
- "GGG": {
-  "veredicto": "EVENTO",
-  "resumen": "Graco reportó en Q3 2024 (octubre) márgenes operacionales comprimidos (-500 bps YoY a 25.3%) por costos de productos más altos, y guía de Q4 2025 débil (625M vs. 648M consenso). Caída de ~15% post-earnings refleja shock de márgenes y outlook conservador, no deterioro estructural.",
-  "confianza": 72,
-  "fuentes": [
-   "https://www.sec.gov/Archives/edgar/data/42888/000004288824000003/ggg12292023exhibit991q4.htm",
-   "https://www.marketbeat.com/earnings/reports/2024-7-24-graco-inc-stock/",
-   "https://www.gurufocus.com/news/2669393/graco-inc-ggg-reports-fourth-quarter-2024-financial-results",
-   "https://www.tipranks.com/stocks/ggg/earnings/q3-2024-report"
-  ],
-  "fecha": "2026-10-23"
- },
- "EL.PA": {
-  "veredicto": "SENTIMIENTO",
-  "resumen": "Los fundamentales mejoran (11.2% crecimiento 2025, márgenes ajustados en 16.0%, flujo de caja récord), pero la compresión de valoración obedece a temor de disrupción competitiva de tecnológicas en gafas inteligentes—un riesgo prospectivo, no deterioro actual. La dilución de márgenes (-260bp en 2025)",
-  "confianza": 72,
-  "fuentes": [
-   "https://finance.yahoo.com/news/essilorluxottica-q4-fy-2025-results-170400940.html",
-   "https://www.essilorluxottica.com/cap/content/283060/",
-   "https://www.investing.com/equities/essilor-internat-earnings",
-   "https://www.optimoda.es/economia/essilorluxottica-crecimiento-solido-de-las-ventas-y-expansion-de-los-margenes-en-2024/"
-  ],
-  "fecha": "2026-10-23"
+  "fecha": "2026-11-06"
  },
  "HESAY": {
   "veredicto": "SENTIMIENTO",
@@ -554,5 +512,17 @@
   "confianza": 0,
   "fuentes": [],
   "fecha": "2026-11-05"
+ },
+ "DG.PA": {
+  "veredicto": "EVENTO",
+  "resumen": "Incertidumbre sobre aumento de impuesto francés TEITLD a autopistas (parlamento en revisión, octubre 2026), combinada con ruido político. Negocio confirma guidance de crecimiento pero mercado castiga exposición France y descontaba peor outcome regulatorio.",
+  "confianza": 72,
+  "fuentes": [
+   "https://www.rankia.com/foros/bolsa/temas/4678244-analisis-vinci-sa-dg-pa",
+   "https://www.stockopedia.com/share-prices/vinci-sa-EPA:DG/",
+   "https://stockanalysis.com/quote/epa/DG/history/",
+   "https://eulerpool.com/stock/Vinci-Stock-FR0000125486"
+  ],
+  "fecha": "2026-11-06"
  }
 }

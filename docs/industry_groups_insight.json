@@ -1,78 +1,78 @@
 {
-  "date": "2026-11-05",
-  "timestamp": "2026-11-05T07:34:59.859951",
-  "narrative": "",
+  "date": "2026-11-06",
+  "timestamp": "2026-11-06T07:30:32.688358",
+  "narrative": "La rotaci\u00f3n muestra una preferencia por sectores defensivos y de flujo estable: los l\u00edderes son Railroads, seguros P&C, bolsas y datos financieros, gesti\u00f3n de residuos y centros m\u00e9dicos, todos con exposici\u00f3n a ingresos recurrentes y menor sensibilidad al ciclo econ\u00f3mico. Esta inclinaci\u00f3n coincide con el entorno macro \u201cCALM\u201d, donde la volatilidad es baja y los inversores buscan calidad y cash flow m\u00e1s que crecimiento c\u00edclico. Enf\u00f3quense ahora en Industrials defensivos (Railroads, Waste Management), Financial Services (seguros, exchanges) y Healthcare (Medical Care Facilities). Eviten los grupos m\u00e1s c\u00edclicos y de menor impulso: Specialty Industrial Machinery, Residential Construction, Building Materials, Internet Content & Information y Building Products & Equipment.",
   "macro_regime": "CALM",
   "top_sectors": [
     {
       "industry": "Railroads",
       "sector": "Industrials",
-      "avg_rs_percentile": 79.8,
+      "avg_rs_percentile": 90.1,
       "num_tickers": 3,
       "label": "Top 10%"
     },
     {
-      "industry": "Diagnostics & Research",
-      "sector": "Healthcare",
-      "avg_rs_percentile": 78.1,
-      "num_tickers": 4,
-      "label": "Top 10%"
-    },
-    {
-      "industry": "Medical Care Facilities",
-      "sector": "Healthcare",
-      "avg_rs_percentile": 77.8,
+      "industry": "Insurance - Property & Casualty",
+      "sector": "Financial Services",
+      "avg_rs_percentile": 89.1,
       "num_tickers": 2,
       "label": "Top 10%"
     },
     {
       "industry": "Financial Data & Stock Exchanges",
       "sector": "Financial Services",
-      "avg_rs_percentile": 76.8,
+      "avg_rs_percentile": 85.1,
       "num_tickers": 9,
       "label": "Top 10%"
     },
     {
-      "industry": "Insurance - Property & Casualty",
-      "sector": "Financial Services",
-      "avg_rs_percentile": 72.4,
+      "industry": "Waste Management",
+      "sector": "Industrials",
+      "avg_rs_percentile": 81.9,
+      "num_tickers": 3,
+      "label": "Top 10%"
+    },
+    {
+      "industry": "Medical Care Facilities",
+      "sector": "Healthcare",
+      "avg_rs_percentile": 81.8,
       "num_tickers": 2,
       "label": "Top 25%"
     }
   ],
   "bottom_sectors": [
     {
-      "industry": "Auto Parts",
+      "industry": "Specialty Industrial Machinery",
+      "sector": "Industrials",
+      "avg_rs_percentile": 30.1,
+      "num_tickers": 9,
+      "label": "Bottom 25%"
+    },
+    {
+      "industry": "Residential Construction",
       "sector": "Consumer Cyclical",
-      "avg_rs_percentile": 29.3,
+      "avg_rs_percentile": 30.0,
       "num_tickers": 2,
       "label": "Bottom 25%"
     },
     {
       "industry": "Building Materials",
       "sector": "Basic Materials",
-      "avg_rs_percentile": 29.2,
-      "num_tickers": 2,
-      "label": "Bottom 25%"
-    },
-    {
-      "industry": "Residential Construction",
-      "sector": "Consumer Cyclical",
-      "avg_rs_percentile": 22.8,
+      "avg_rs_percentile": 29.4,
       "num_tickers": 2,
       "label": "Bottom 25%"
     },
     {
       "industry": "Internet Content & Information",
       "sector": "Communication Services",
-      "avg_rs_percentile": 17.8,
+      "avg_rs_percentile": 21.0,
       "num_tickers": 2,
       "label": "Bottom 25%"
     },
     {
       "industry": "Building Products & Equipment",
       "sector": "Industrials",
-      "avg_rs_percentile": 16.8,
+      "avg_rs_percentile": 18.6,
       "num_tickers": 2,
       "label": "Bottom 25%"
     }

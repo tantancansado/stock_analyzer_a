@@ -1,29 +1,35 @@
 {
   "listas": {
     "value_opportunities": {
-      "candidatas": 81,
-      "publicadas": 78,
+      "candidatas": 25,
+      "publicadas": 21,
       "excluidos": [
         {
-          "ticker": "ERIE",
-          "paso": "rangos_imposibles",
-          "motivo": "Falta analyst_upside_pct: no se recomienda lo que no se puede evaluar",
-          "score": 43.188
+          "ticker": "INTU",
+          "paso": "verificador_ia",
+          "motivo": "target_price_dcf_upside_pct (141.9%) es extremadamente alto y no tiene contraparte P/E. upside_triangulated_pct=78.4 resulta de promediar dos números sin P/E explícito. fundamental_score=58.7 (bajo) y value_score=50.74 (muy bajo) no sustentan upside tan alto. FCF_yield=9.09% es muy alto relativo a crecimiento y múltiplos, sugiere error de escala en la proyección DCF. La ficha no explica esta incongruencia.",
+          "score": 50.74000000000001
         },
         {
-          "ticker": "VCISY",
-          "paso": "rangos_imposibles",
-          "motivo": "DCF fuera de rango: no es una valoración, es un dato roto (visto 258.9, esperado entre -95 y 200)",
-          "score": 41.92
+          "ticker": "STZ",
+          "paso": "verificador_ia",
+          "motivo": "target_price_dcf_upside_pct (69.1%) sin contraparte P/E explícita. upside_triangulated_pct=36.8 no está claro cómo se calcula (¿promedio entre analyst=4.6% y DCF=69.1%?). La divergencia es extrema. fundamental_score=65.1 no soporta upside de casi 70% desde DCF. rev_growth=6.1% bajo no justifica tanta optimización de valor. La ficha no expone la metodología de triangulación ni explica por qué ignora un DCF tan diferente al análisis.",
+          "score": 39.099999999999994
         },
         {
-          "ticker": "KYCCF",
-          "paso": "rangos_imposibles",
-          "motivo": "Falta analyst_upside_pct: no se recomienda lo que no se puede evaluar",
-          "score": 35.02
+          "ticker": "ORCL",
+          "paso": "verificador_ia",
+          "motivo": "FCF_yield = -2.43% (NEGATIVO) es una bandera grave. analyst_upside_pct=104.5% y upside_triangulated_pct=99.9% se basan en un negocio que destruye cash operativo. upside_requiere_verificacion=true reconoce el riesgo, pero la ficha sigue recomendando casi el 100% de upside sin marcar la contradicción: FCF negativo invalida la solvencia de cualquier valuation. Proximity -54% y MA_filter_pass=false añaden tecnicidad bearish. Esto es contradictorio.",
+          "score": 38.599999999999994
+        },
+        {
+          "ticker": "MKC",
+          "paso": "verificador_ia",
+          "motivo": "analyst_upside_pct (8.8%) vs target_price_dcf_upside_pct (72.5%): divergencia extrema (63.7 pp) sin P/E como puente. upside_triangulated_pct=40.6 no está claro cómo se calcula. PEG=3.05 (muy alto) con rev_growth=17.4% sugiere mercado desconfiado del crecimiento. upside_requiere_verificacion=false pero la ficha no explica cómo un DCF tan optimista (72.5%) se casa con un analista tan conservador (8.8%) y un PEG tan alto. Esto es contradictorio sin resolución.",
+          "score": 33.0
         }
       ]
     }
   },
-  "generated_at": "2026-11-05T07:09:46Z"
+  "generated_at": "2026-11-06T06:59:12Z"
 }
