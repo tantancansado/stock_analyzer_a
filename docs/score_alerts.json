@@ -1,171 +1,91 @@
 {
-  "generated_at": "2026-11-05",
+  "generated_at": "2026-11-06",
   "alerts": [
     {
       "type": "SCORE_UP",
-      "ticker": "MSFT",
-      "company_name": "Microsoft Corporation",
-      "sector": "Technology",
-      "score_today": 72.0,
-      "score_prev": 50.9,
-      "delta": 21.1,
-      "grade": "⭐⭐ STRONG"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "WTKWY",
-      "company_name": "Wolters Kluwer N.V.",
-      "sector": "Industrials",
-      "score_today": 53.2,
-      "score_prev": 45.0,
-      "delta": 8.2,
+      "ticker": "ICE",
+      "company_name": "Intercontinental Exchange, Inc.",
+      "sector": "Financial Services",
+      "score_today": 55.3,
+      "score_prev": 45.7,
+      "delta": 9.6,
       "grade": "⭐ GOOD"
     },
     {
       "type": "SCORE_UP",
-      "ticker": "SUNB",
-      "company_name": "Sunbelt Rentals Holdings, Inc.",
-      "sector": "Industrials",
-      "score_today": 53.9,
-      "score_prev": 46.1,
-      "delta": 7.8,
+      "ticker": "7741.T",
+      "company_name": "HOYA Corporation",
+      "sector": "Healthcare",
+      "score_today": 56.2,
+      "score_prev": 47.0,
+      "delta": 9.3,
       "grade": "🔵 DECENT"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "NYT",
-      "company_name": "The New York Times Company",
-      "sector": "Communication Services",
-      "score_today": 36.1,
-      "score_prev": 30.4,
-      "delta": 5.6,
-      "grade": "⚪ WEAK"
     },
     {
       "type": "SCORE_UP",
       "ticker": "AMZN",
       "company_name": "Amazon.com, Inc.",
       "sector": "Consumer Cyclical",
-      "score_today": 40.9,
-      "score_prev": 35.6,
-      "delta": 5.3,
+      "score_today": 48.8,
+      "score_prev": 40.9,
+      "delta": 7.9,
       "grade": "⚪ WEAK"
     },
     {
       "type": "SCORE_DOWN",
-      "ticker": "SAP",
-      "company_name": "SAP SE",
+      "ticker": "NYT",
+      "company_name": "The New York Times Company",
+      "sector": "Communication Services",
+      "score_today": 30.5,
+      "score_prev": 36.1,
+      "delta": -5.5,
+      "grade": "⚪ WEAK"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "MSFT",
+      "company_name": "Microsoft Corporation",
       "sector": "Technology",
-      "score_today": 46.6,
-      "score_prev": 51.6,
-      "delta": -5.0,
-      "grade": "🔵 DECENT"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "HRI",
-      "company_name": "Herc Holdings Inc.",
-      "sector": "Industrials",
-      "score_today": 37.0,
-      "score_prev": 42.2,
-      "delta": -5.1,
-      "grade": "⚪ WEAK"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "MSCI",
-      "company_name": "MSCI Inc.",
-      "sector": "Financial Services",
-      "score_today": 51.1,
-      "score_prev": 56.3,
-      "delta": -5.2,
-      "grade": "🔵 DECENT"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "6383.T",
-      "company_name": "Daifuku Co., Ltd.",
-      "sector": "Industrials",
-      "score_today": 42.2,
-      "score_prev": 47.8,
+      "score_today": 66.5,
+      "score_prev": 72.0,
       "delta": -5.6,
-      "grade": "⚪ WEAK"
+      "grade": "⭐ GOOD"
     },
     {
       "type": "SCORE_DOWN",
-      "ticker": "CVX",
-      "company_name": "Chevron Corporation",
-      "sector": "Energy",
-      "score_today": 40.3,
-      "score_prev": 47.9,
-      "delta": -7.6,
-      "grade": "⚪ WEAK"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "OTIS",
-      "company_name": "Otis Worldwide Corporation",
-      "sector": "Industrials",
-      "score_today": 33.4,
-      "score_prev": 41.3,
-      "delta": -7.9,
-      "grade": "⚪ WEAK"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "DPZ",
-      "company_name": "Domino's Pizza, Inc.",
-      "sector": "Consumer Cyclical",
-      "score_today": 30.3,
-      "score_prev": 39.5,
-      "delta": -9.2,
-      "grade": "⚪ WEAK"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "WM",
-      "company_name": "Waste Management, Inc.",
-      "sector": "Industrials",
-      "score_today": 39.2,
-      "score_prev": 48.4,
-      "delta": -9.3,
-      "grade": "⚪ WEAK"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "AVGO",
-      "company_name": "Broadcom Inc.",
+      "ticker": "BR",
+      "company_name": "Broadridge Financial Solutions, Inc.",
       "sector": "Technology",
-      "score_today": 37.1,
-      "score_prev": 46.6,
-      "delta": -9.5,
+      "score_today": 39.3,
+      "score_prev": 75.4,
+      "delta": -36.1,
       "grade": "⚪ WEAK"
     },
     {
-      "type": "SCORE_DOWN",
-      "ticker": "VRSN",
-      "company_name": "VeriSign, Inc.",
-      "sector": "Technology",
-      "score_today": 40.8,
-      "score_prev": 54.4,
-      "delta": -13.6,
-      "grade": "⚪ WEAK"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "TW",
-      "company_name": "Tradeweb Markets Inc.",
+      "type": "EXITED",
+      "ticker": "AXP",
+      "company_name": "American Express Company",
       "sector": "Financial Services",
-      "score_today": 35.3,
-      "score_prev": 56.6,
-      "delta": -21.3,
-      "grade": "⚪ WEAK"
+      "score_today": null,
+      "score_prev": 58.1,
+      "delta": null,
+      "grade": "⭐ GOOD"
+    },
+    {
+      "type": "EXITED",
+      "ticker": "V",
+      "company_name": "Visa Inc.",
+      "sector": "Financial Services",
+      "score_today": null,
+      "score_prev": 62.0,
+      "delta": null,
+      "grade": "⭐ GOOD"
     }
   ],
   "counts": {
     "new_entries": 0,
-    "exited": 0,
-    "score_up": 5,
-    "score_down": 11
+    "exited": 2,
+    "score_up": 3,
+    "score_down": 3
   }
 }

@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-11-05",
-  "total_analyzed": 794,
+  "generated_at": "2026-11-06",
+  "total_analyzed": 795,
   "poblacion": "VALUE",
   "baseline_win_rate": 66.5,
   "baseline_avg_return": 7.1,
@@ -22,17 +22,17 @@
       "avg_return": 17.34,
       "avg_return_2": 64.4,
       "n": 36,
-      "vs_baseline_wr": 11.3,
+      "vs_baseline_wr": 11.2,
       "vs_baseline_ret": 10.24
     },
     {
       "label": "60\u201370",
       "horizonte": "90d",
-      "win_rate": 63.7,
-      "avg_return": 7.39,
+      "win_rate": 63.9,
+      "avg_return": 7.4,
       "avg_return_2": 16.88,
-      "n": 237,
-      "vs_baseline_wr": -2.8,
+      "n": 238,
+      "vs_baseline_wr": -2.7,
       "vs_baseline_ret": 0.3
     },
     {
@@ -51,9 +51,9 @@
       "label": "CONFIRMED_UPTREND",
       "horizonte": "90d",
       "win_rate": 67.4,
-      "avg_return": 7.73,
+      "avg_return": 7.74,
       "avg_return_2": 18.1,
-      "n": 634,
+      "n": 635,
       "vs_baseline_wr": 0.9,
       "vs_baseline_ret": 0.64
     },
@@ -75,7 +75,7 @@
       "win_rate": 82.2,
       "avg_return": 8.36,
       "avg_return_2": 23.63,
-      "n": 376,
+      "n": 377,
       "vs_baseline_wr": 15.7,
       "vs_baseline_ret": 1.26
     },
@@ -86,7 +86,7 @@
       "avg_return": 12.08,
       "avg_return_2": 18.24,
       "n": 35,
-      "vs_baseline_wr": 7.8,
+      "vs_baseline_wr": 7.7,
       "vs_baseline_ret": 4.98
     },
     {
@@ -107,7 +107,7 @@
       "avg_return_2": 3.95,
       "n": 10,
       "vs_baseline_wr": 3.5,
-      "vs_baseline_ret": -3.65
+      "vs_baseline_ret": -3.66
     },
     {
       "label": "Consumer Defensive",
@@ -117,7 +117,7 @@
       "avg_return_2": -18.21,
       "n": 17,
       "vs_baseline_wr": -1.8,
-      "vs_baseline_ret": -1.23
+      "vs_baseline_ret": -1.24
     },
     {
       "label": "Energy",
@@ -137,7 +137,7 @@
       "avg_return_2": -16.91,
       "n": 26,
       "vs_baseline_wr": -16.5,
-      "vs_baseline_ret": -5.56
+      "vs_baseline_ret": -5.57
     },
     {
       "label": "Technology",
@@ -156,8 +156,8 @@
       "avg_return": 2.52,
       "avg_return_2": 1.47,
       "n": 135,
-      "vs_baseline_wr": -23.5,
-      "vs_baseline_ret": -4.57
+      "vs_baseline_wr": -23.6,
+      "vs_baseline_ret": -4.58
     },
     {
       "label": "Real Estate",
@@ -167,7 +167,7 @@
       "avg_return_2": -1.21,
       "n": 36,
       "vs_baseline_wr": -30.4,
-      "vs_baseline_ret": -10.2
+      "vs_baseline_ret": -10.21
     }
   ],
   "fcf_tiers": [
@@ -179,17 +179,17 @@
       "avg_return_2": 29.87,
       "n": 179,
       "vs_baseline_wr": -5.6,
-      "vs_baseline_ret": -0.2
+      "vs_baseline_ret": -0.21
     },
     {
       "label": "FCF 2-5%",
       "horizonte": "90d",
-      "win_rate": 48.9,
-      "avg_return": 2.8,
+      "win_rate": 49.2,
+      "avg_return": 2.83,
       "avg_return_2": 0.69,
-      "n": 176,
-      "vs_baseline_wr": -17.6,
-      "vs_baseline_ret": -4.3
+      "n": 177,
+      "vs_baseline_wr": -17.4,
+      "vs_baseline_ret": -4.27
     },
     {
       "label": "FCF<2%",
@@ -198,7 +198,7 @@
       "avg_return": 15.33,
       "avg_return_2": 18.94,
       "n": 81,
-      "vs_baseline_wr": -9.7,
+      "vs_baseline_wr": -9.8,
       "vs_baseline_ret": 8.23
     },
     {
@@ -208,7 +208,7 @@
       "avg_return": 20.83,
       "avg_return_2": 19.44,
       "n": 55,
-      "vs_baseline_wr": -8.3,
+      "vs_baseline_wr": -8.4,
       "vs_baseline_ret": 13.73
     }
   ],
@@ -226,11 +226,11 @@
     {
       "label": "R:R 2-3",
       "horizonte": "90d",
-      "win_rate": 75.7,
+      "win_rate": 75.9,
       "avg_return": 8.69,
       "avg_return_2": 14.86,
-      "n": 169,
-      "vs_baseline_wr": 9.2,
+      "n": 170,
+      "vs_baseline_wr": 9.3,
       "vs_baseline_ret": 1.59
     },
     {
@@ -246,19 +246,19 @@
   ],
   "period_stats": {
     "7d": {
-      "win_rate": 38.3,
+      "win_rate": 38.4,
       "avg_return": -1.06,
-      "n": 794
+      "n": 795
     },
     "14d": {
-      "win_rate": 41.9,
-      "avg_return": -1.26,
-      "n": 794
+      "win_rate": 42.0,
+      "avg_return": -1.25,
+      "n": 795
     },
     "30d": {
-      "win_rate": 60.8,
+      "win_rate": 60.9,
       "avg_return": 2.14,
-      "n": 794
+      "n": 795
     }
   },
   "best_combos": [
@@ -274,5 +274,5 @@
     }
   ],
   "hay_senal": true,
-  "narrative": "Las se\u00f1ales con **Score\u202f\u2265\u202f70 y FCF\u202f\u2265\u202f5\u202f%** son las m\u00e1s rentables (\u2248\u202f90\u202f%\u202fWR); prior\u00edzalas sobre cualquier otra combinaci\u00f3n. Dentro del rango de Score, el tier\u202f50\u201160 ya supera al promedio (71,8\u202f%\u202fWR y retorno del\u202f5\u202f%), por lo que no es necesario buscar scores extremadamente altos para obtener buenos"
+  "narrative": "Para maximizar la tasa de \u00e9xito, conc\u00e9ntrate en se\u00f1ales con **Score entre 50 y 60** (WR\u202f71.8\u202f% y retorno medio de 5\u202f%) y, de ser posible, dentro del sector **Financial Services**, que muestra el WR m\u00e1s alto (82.2\u202f%). Prioriza a\u00fan m\u00e1s aquellas oportunidades que cumplan **FCF\u202f\u2265\u202f5"
 }

@@ -1,0 +1,54 @@
+{
+  "generated_at": "2026-11-06",
+  "total": 1,
+  "strong_buy": 0,
+  "buy": 0,
+  "monitor": 0,
+  "wait": 1,
+  "narrative": null,
+  "signals": [
+    {
+      "ticker": "MSFT",
+      "company_name": "Microsoft Corporation",
+      "region": "US",
+      "sector": "Technology",
+      "value_score": 66.455,
+      "conviction_grade": "B",
+      "current_price": 535.93,
+      "analyst_upside_pct": 18.1,
+      "fcf_yield_pct": 2.01,
+      "risk_reward_ratio": 2.26,
+      "days_in_value": 1,
+      "streak_days": 35,
+      "entry_score": 15,
+      "signal": "WAIT",
+      "signals_fired": [
+        "Upside en banda dorada [10,30)",
+        "Analyst revision \u2191"
+      ],
+      "signals_pts": [
+        {
+          "name": "Upside en banda dorada [10,30)",
+          "pts": 10
+        },
+        {
+          "name": "Analyst revision \u2191",
+          "pts": 5
+        }
+      ],
+      "signals_missing": [
+        "Value score <80",
+        "FCF yield <5%",
+        "Sin insider buying (espera)",
+        "Sin se\u00f1al MR oversold",
+        "Sin opciones alcistas",
+        "Sector no l\u00edder",
+        "R\u00e9gimen no alcista",
+        "Solo 1d en VALUE"
+      ],
+      "rsi": null,
+      "earnings_warning": false,
+      "days_to_earnings": 82
+    }
+  ]
+}

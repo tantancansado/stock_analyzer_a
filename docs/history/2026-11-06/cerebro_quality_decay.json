@@ -1,0 +1,47 @@
+{
+  "generated_at": "2026-11-06",
+  "total": 2,
+  "high_count": 0,
+  "narrative": "",
+  "decays": [
+    {
+      "ticker": "BR",
+      "company_name": "Broadridge Financial Solutions, Inc.",
+      "severity": "MEDIUM",
+      "decay_score": 4,
+      "value_score": 39.295,
+      "snapshot_date": "2026-11-04",
+      "piotr_prev": 8.0,
+      "piotr_curr": 8.0,
+      "fcf_prev": 5.94,
+      "fcf_curr": 5.85,
+      "health_prev": 80.0,
+      "health_curr": 75.0,
+      "margin_prev": 24.6,
+      "margin_curr": 10.4,
+      "flags": [
+        "Salud financiera cay\u00f3 5pts (80 \u2192 75/100)",
+        "Margen op. cay\u00f3 14.2pp (24.6% \u2192 10.4%)"
+      ]
+    },
+    {
+      "ticker": "NYT",
+      "company_name": "The New York Times Company",
+      "severity": "MEDIUM",
+      "decay_score": 3,
+      "value_score": 30.53,
+      "snapshot_date": "2026-11-04",
+      "piotr_prev": 8.0,
+      "piotr_curr": 8.0,
+      "fcf_prev": 5.77,
+      "fcf_curr": 5.21,
+      "health_prev": 75.0,
+      "health_curr": 55.0,
+      "margin_prev": 17.1,
+      "margin_curr": 15.9,
+      "flags": [
+        "Salud financiera cay\u00f3 20pts (75 \u2192 55/100)"
+      ]
+    }
+  ]
+}

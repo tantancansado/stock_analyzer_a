@@ -1,0 +1,248 @@
+{
+  "generated_at": "2026-11-06",
+  "total_convergences": 12,
+  "triple_or_more": 1,
+  "convergences": [
+    {
+      "ticker": "AON",
+      "company_name": "Aon plc",
+      "sector": "Financial Services",
+      "strategies": [
+        "VALUE",
+        "INSIDERS",
+        "OPTIONS"
+      ],
+      "strategy_count": 3,
+      "convergence_score": 87,
+      "value_score": 39.56,
+      "conviction_grade": "nan",
+      "analyst_upside_pct": 5.5,
+      "fcf_yield_pct": 4.53,
+      "current_price": 344.4,
+      "streak_days": 11,
+      "earnings_warning": false,
+      "days_to_earnings": 84.0,
+      "analysis": "La convergencia de los tres modelos (VALUE, INSIDERS y OPTIONS) durante 11 d\u00edas consecutivos sugiere que distintas metodolog\u00edas est\u00e1n alineando sus se\u00f1ales alcistas, lo que refuerza la probabilidad de que el impulso de AON sea real y no solo un ruido puntual. Sin embargo, es prudente vigilar la volatilidad del sector financiero, confirmar que el volumen de negociaci\u00f3n respalde la tendencia y establecer stops de protecci\u00f3n para limitar p\u00e9rdidas en caso de que el impulso se revi"
+    },
+    {
+      "ticker": "MSFT",
+      "company_name": "Microsoft Corporation",
+      "sector": "Technology",
+      "strategies": [
+        "VALUE",
+        "OPTIONS"
+      ],
+      "strategy_count": 2,
+      "convergence_score": 63,
+      "value_score": 66.455,
+      "conviction_grade": "B",
+      "analyst_upside_pct": 18.1,
+      "fcf_yield_pct": 2.01,
+      "current_price": 535.93,
+      "streak_days": 35,
+      "earnings_warning": false,
+      "days_to_earnings": 82.0,
+      "analysis": "La convergencia de 35 d\u00edas consecutivos indica que la estrategia de opciones sigue alineada con la valoraci\u00f3n fundamental de MSFT, lo que sugiere una oportunidad sostenida de beneficio cuando el precio se ajuste a la estimaci\u00f3n de valor. No obstante"
+    },
+    {
+      "ticker": "VRSN",
+      "company_name": "",
+      "sector": "",
+      "strategies": [
+        "INSIDERS",
+        "OPTIONS"
+      ],
+      "strategy_count": 2,
+      "convergence_score": 60,
+      "value_score": null,
+      "conviction_grade": "",
+      "analyst_upside_pct": null,
+      "fcf_yield_pct": null,
+      "current_price": null,
+      "streak_days": 49,
+      "earnings_warning": false,
+      "days_to_earnings": null,
+      "analysis": "Convergencia de 2 estrategias: INSIDERS, OPTIONS."
+    },
+    {
+      "ticker": "MSCI",
+      "company_name": "",
+      "sector": "",
+      "strategies": [
+        "INSIDERS",
+        "OPTIONS"
+      ],
+      "strategy_count": 2,
+      "convergence_score": 60,
+      "value_score": null,
+      "conviction_grade": "",
+      "analyst_upside_pct": null,
+      "fcf_yield_pct": null,
+      "current_price": null,
+      "streak_days": 14,
+      "earnings_warning": false,
+      "days_to_earnings": null,
+      "analysis": null
+    },
+    {
+      "ticker": "CME",
+      "company_name": "",
+      "sector": "",
+      "strategies": [
+        "INSIDERS",
+        "OPTIONS"
+      ],
+      "strategy_count": 2,
+      "convergence_score": 60,
+      "value_score": null,
+      "conviction_grade": "",
+      "analyst_upside_pct": null,
+      "fcf_yield_pct": null,
+      "current_price": null,
+      "streak_days": 10,
+      "earnings_warning": false,
+      "days_to_earnings": null,
+      "analysis": null
+    },
+    {
+      "ticker": "LIN",
+      "company_name": "",
+      "sector": "",
+      "strategies": [
+        "INSIDERS",
+        "OPTIONS"
+      ],
+      "strategy_count": 2,
+      "convergence_score": 60,
+      "value_score": null,
+      "conviction_grade": "",
+      "analyst_upside_pct": null,
+      "fcf_yield_pct": null,
+      "current_price": null,
+      "streak_days": 7,
+      "earnings_warning": false,
+      "days_to_earnings": null,
+      "analysis": null
+    },
+    {
+      "ticker": "FICO",
+      "company_name": "Fair Isaac Corporation",
+      "sector": "Technology",
+      "strategies": [
+        "VALUE",
+        "OPTIONS"
+      ],
+      "strategy_count": 2,
+      "convergence_score": 51,
+      "value_score": 58.69999999999999,
+      "conviction_grade": "B",
+      "analyst_upside_pct": 26.8,
+      "fcf_yield_pct": 6.3,
+      "current_price": 707.4,
+      "streak_days": 2,
+      "earnings_warning": false,
+      "days_to_earnings": 82.0,
+      "analysis": null
+    },
+    {
+      "ticker": "ICE",
+      "company_name": "Intercontinental Exchange, Inc.",
+      "sector": "Financial Services",
+      "strategies": [
+        "VALUE",
+        "OPTIONS"
+      ],
+      "strategy_count": 2,
+      "convergence_score": 51,
+      "value_score": 55.31,
+      "conviction_grade": "B",
+      "analyst_upside_pct": 10.5,
+      "fcf_yield_pct": 5.11,
+      "current_price": 174.0,
+      "streak_days": 1,
+      "earnings_warning": false,
+      "days_to_earnings": 90.0,
+      "analysis": null
+    },
+    {
+      "ticker": "TMO",
+      "company_name": "",
+      "sector": "",
+      "strategies": [
+        "OPTIONS",
+        "MOMENTUM"
+      ],
+      "strategy_count": 2,
+      "convergence_score": 50,
+      "value_score": null,
+      "conviction_grade": "",
+      "analyst_upside_pct": null,
+      "fcf_yield_pct": null,
+      "current_price": null,
+      "streak_days": 9,
+      "earnings_warning": false,
+      "days_to_earnings": null,
+      "analysis": null
+    },
+    {
+      "ticker": "SYK",
+      "company_name": "",
+      "sector": "",
+      "strategies": [
+        "INSIDERS",
+        "OPTIONS"
+      ],
+      "strategy_count": 2,
+      "convergence_score": 50,
+      "value_score": null,
+      "conviction_grade": "",
+      "analyst_upside_pct": null,
+      "fcf_yield_pct": null,
+      "current_price": null,
+      "streak_days": 2,
+      "earnings_warning": false,
+      "days_to_earnings": null,
+      "analysis": null
+    },
+    {
+      "ticker": "RSG",
+      "company_name": "",
+      "sector": "",
+      "strategies": [
+        "INSIDERS",
+        "OPTIONS"
+      ],
+      "strategy_count": 2,
+      "convergence_score": 50,
+      "value_score": null,
+      "conviction_grade": "",
+      "analyst_upside_pct": null,
+      "fcf_yield_pct": null,
+      "current_price": null,
+      "streak_days": 1,
+      "earnings_warning": false,
+      "days_to_earnings": null,
+      "analysis": null
+    },
+    {
+      "ticker": "VEEV",
+      "company_name": "",
+      "sector": "",
+      "strategies": [
+        "OPTIONS",
+        "MOMENTUM"
+      ],
+      "strategy_count": 2,
+      "convergence_score": 40,
+      "value_score": null,
+      "conviction_grade": "",
+      "analyst_upside_pct": null,
+      "fcf_yield_pct": null,
+      "current_price": null,
+      "streak_days": 1,
+      "earnings_warning": false,
+      "days_to_earnings": null,
+      "analysis": null
+    }
+  ]
+}

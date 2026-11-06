@@ -1,0 +1,168 @@
+{
+  "generated_at": "2026-11-06",
+  "macro_regime": "CALM",
+  "composite_score": 3.0,
+  "sesgo": "DEFENSIVO",
+  "confianza": 62,
+  "situacion": "Mercado en calma superficial pero con compra masiva de cobertura tail-risk (VVIX p99, SKEW 76) justo antes de NFP y CPI.",
+  "narrativa": "La divergencia entre un VIX bajo y un VVIX/SKEW disparados sugiere que inversores institucionales est\u00e1n pagando seguros caros ante un evento de cola que el mercado spot a\u00fan no refleja. Para un inversor VALUE esto implica mantener exposici\u00f3n en calidad defensiva, evitar apalancamiento y aprovechar la complacencia del precio spot para construir coberturas baratas relativas al riesgo percibido.",
+  "acciones_inmediatas": [
+    {
+      "prioridad": 1,
+      "accion": "CUBRIR",
+      "instrumento": "UVXY",
+      "razon": "VVIX en percentil 99% con VIX a\u00fan comprimido anticipa un posible spike de volatilidad.",
+      "catalizador": "Reacci\u00f3n a NFP de hoy o sorpresa en CPI del 13-nov",
+      "size_hint": "peque\u00f1a (1-2%)",
+      "invalidacion": "VVIX y SKEW normalizan por debajo del percentil 70 sin evento de volatilidad",
+      "catalizador_extra": ""
+    },
+    {
+      "prioridad": 2,
+      "accion": "COMPRAR",
+      "instrumento": "TLT",
+      "razon": "Yield 30yr en 5.25% ofrece entrada hist\u00f3rica atractiva en bonos largos como cobertura macro.",
+      "catalizador": "Dato de NFP d\u00e9bil o CPI por debajo de consenso",
+      "size_hint": "media (3-4%)",
+      "invalidacion": "Yield 30yr rompe por encima de 5.5% de forma sostenida"
+    },
+    {
+      "prioridad": 3,
+      "accion": "COMPRAR",
+      "instrumento": "MSFT",
+      "razon": "Mejor VALUE score del d\u00eda con calidad de balance y FCF estable en sector tecnol\u00f3gico defensivo.",
+      "catalizador": "Correcci\u00f3n t\u00e1ctica tras NFP que abra mejor punto de entrada",
+      "size_hint": "media (3-4%)",
+      "invalidacion": "Deterioro de margen FCF o gu\u00eda negativa en pr\u00f3ximos earnings"
+    },
+    {
+      "prioridad": 4,
+      "accion": "VIGILAR",
+      "instrumento": "BRK-B",
+      "razon": "Earnings ma\u00f1ana, posici\u00f3n defensiva natural dado el r\u00e9gimen de tail-risk elevado.",
+      "catalizador": "Publicaci\u00f3n de resultados en 1 d\u00eda",
+      "size_hint": "peque\u00f1a (1-2%)",
+      "invalidacion": "Sorpresa negativa material en resultados"
+    },
+    {
+      "prioridad": 5,
+      "accion": "ESPERAR",
+      "instrumento": "ICE",
+      "razon": "Buen perfil VALUE pero conviene confirmar estabilidad macro tras CPI antes de a\u00f1adir posici\u00f3n.",
+      "catalizador": "Resultado de CPI del 13-nov",
+      "size_hint": "peque\u00f1a (1-2%)",
+      "invalidacion": "Sorpresa alcista fuerte en inflaci\u00f3n que presione tasas largas"
+    }
+  ],
+  "macro_plays": [
+    {
+      "instrument": "TLT/VGLT",
+      "direction": "LONG",
+      "thesis": "Yield 30yr en 5.25% \u2014 zona hist\u00f3ricamente atractiva para bonos largos",
+      "historical": "2018-19: TLT +18% cuando yields revertieron desde 3.25%",
+      "risk": "La Fed puede mantener tipos altos m\u00e1s tiempo \u2014 size peque\u00f1o",
+      "timeframe": "3-6 meses",
+      "score": 95,
+      "eu_alternative": {
+        "ticker": "DTLA",
+        "name": "Xtrackers US Treasuries 20yr+ UCITS ETF",
+        "exchange": "Xetra",
+        "available": "DEGIRO/IB"
+      }
+    },
+    {
+      "instrument": "UVXY",
+      "direction": "LONG (peque\u00f1o)",
+      "thesis": "VVIX en percentil 99% con VIX a\u00fan bajo \u2014 spike de volatilidad inminente",
+      "historical": "2018 VIXplosion: UVXY +200% en 2 d\u00edas",
+      "risk": "El tiempo trabaja en contra de VIX products \u2014 size m\u00e1ximo 1%",
+      "timeframe": "1-4 semanas",
+      "score": 65,
+      "eu_alternative": {
+        "ticker": null,
+        "name": "Sin equivalente UCITS directo (productos VIX restringidos por MiFID II)",
+        "exchange": null,
+        "available": "IB: opciones sobre VIX \u00b7 DEGIRO: no disponible"
+      }
+    }
+  ],
+  "macro_plays_commentary": "La combinaci\u00f3n TLT largo + cobertura UVXY peque\u00f1a capta tanto el atractivo t\u00e9cnico de yields altos como la se\u00f1al de estr\u00e9s oculto en vol-of-vol.",
+  "value_en_entorno": [
+    {
+      "ticker": "MSFT",
+      "score": 66.5,
+      "sector": "Technology",
+      "fcf_yield_pct": 2.01,
+      "grade": "B"
+    },
+    {
+      "ticker": "FICO",
+      "score": 58.7,
+      "sector": "Technology",
+      "fcf_yield_pct": 6.3,
+      "grade": "B"
+    },
+    {
+      "ticker": "7741.T",
+      "score": 56.2,
+      "sector": "Healthcare",
+      "fcf_yield_pct": 3.34,
+      "grade": "B"
+    },
+    {
+      "ticker": "ICE",
+      "score": 55.3,
+      "sector": "Financial Services",
+      "fcf_yield_pct": 5.11,
+      "grade": "B"
+    }
+  ],
+  "value_en_entorno_razon": "En un r\u00e9gimen de calma aparente pero con riesgo de cola creciente, los VALUE picks de alta calidad (FCF s\u00f3lido, sectores defensivos como Healthcare y Tech resiliente) ofrecen margen de seguridad frente a una posible normalizaci\u00f3n violenta de volatilidad.",
+  "evitar": [
+    {
+      "ticker": "Small caps altamente apalancadas",
+      "razon": "Mayor sensibilidad a shocks de volatilidad y liquidez en entorno de SKEW/VVIX elevados"
+    }
+  ],
+  "agenda_semana": [
+    {
+      "fecha": "2026-11-06",
+      "evento": "Non-Farm Payrolls",
+      "impacto": "ALTO",
+      "accion_sugerida": "Reducir tama\u00f1o de nuevas posiciones hasta conocer el dato; vigilar reacci\u00f3n en TLT y VIX"
+    },
+    {
+      "fecha": "2026-11-07",
+      "evento": "Earnings BRK-B",
+      "impacto": "MEDIO",
+      "accion_sugerida": "Mantener posici\u00f3n, no a\u00f1adir hasta ver resultados"
+    },
+    {
+      "fecha": "2026-11-09",
+      "evento": "Earnings OXY y FERG",
+      "impacto": "MEDIO",
+      "accion_sugerida": "Evaluar exposici\u00f3n energ\u00e9tica/industrial tras resultados"
+    },
+    {
+      "fecha": "2026-11-10",
+      "evento": "Earnings 6383.T",
+      "impacto": "BAJO",
+      "accion_sugerida": "Sin acci\u00f3n relevante para cartera core"
+    },
+    {
+      "fecha": "2026-11-12",
+      "evento": "Earnings BN",
+      "impacto": "BAJO",
+      "accion_sugerida": "Monitorear sin cambios de posici\u00f3n"
+    },
+    {
+      "fecha": "2026-11-13",
+      "evento": "CPI November",
+      "impacto": "ALTO",
+      "accion_sugerida": "Ajustar duraci\u00f3n de TLT y revisar cobertura UVXY seg\u00fan sorpresa inflacionaria"
+    }
+  ],
+  "frase_del_dia": "\u201cBe fearful when others are greedy, and greedy when others are fearful.\u201d \u2014 Warren Buffett",
+  "mensaje_telegram": "\ud83d\udcca Mercado calmo pero VVIX/SKEW en m\u00e1ximos \u26a0\ufe0f Cobertura peque\u00f1a UVXY + TLT largo (yield 5.25%) \ud83d\udee1\ufe0f VALUE: MSFT, FICO, ICE en foco \ud83c\udfaf NFP hoy, CPI 13-nov \ud83d\udcc5 Paciencia y calidad ante posible spike de vol \ud83d\udd14",
+  "ai_powered": true
+}

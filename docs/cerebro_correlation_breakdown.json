@@ -1,15 +1,20 @@
 {
-  "generated_at": "2026-11-05",
-  "systemic_risk": "LOW",
-  "correlation_score": 2,
-  "universe_breadth_pct": 4.4,
-  "breadth_change": 2.9,
+  "generated_at": "2026-11-06",
+  "systemic_risk": "MODERATE",
+  "correlation_score": 4,
+  "universe_breadth_pct": 4.5,
+  "breadth_change": 0.8,
   "signals": [
     {
       "type": "MULTI_SECTOR_DECAY",
       "severity": "MEDIUM",
       "detail": "Quality decay en 2 sectores simult\u00e1neamente"
+    },
+    {
+      "type": "SYSTEMIC_MACRO_RISK",
+      "severity": "MEDIUM",
+      "detail": "1 riesgos sist\u00e9micos macro: Cambio de R\u00e9gimen de Volatilidad"
     }
   ],
-  "narrative": "Cuando todos los picks de VALUE se mueven simult\u00e1neamente, indica que la cartera est\u00e1 expuesta a un riesgo de correlaci\u00f3n sist\u00e9mica, es decir, que la diversificaci\u00f3n se ve comprometida porque los activos pierden su independencia. En este escenario, cualquier deterioro en la calidad de un sector"
+  "narrative": "Para VALUE, que ya presenta un riesgo de correlaci\u00f3n sist\u00e9mica moderado (score\u202f4), que todos los picks se muevan juntos implica que la diversificaci\u00f3n se ve comprometida y la exposici\u00f3n a los mismos factores de riesgo se concentra, reduciendo la capacidad de la cartera para amortiguar p\u00e9rdidas. En un escenario de \u201cMULTI_SECTOR_DECAY\u201d y \u201cSYSTEMIC_MACRO_RISK\u201d, la correlaci\u00f3n entre sectores y la volatilidad macro\u2011econ\u00f3mica se intensifica"
 }
