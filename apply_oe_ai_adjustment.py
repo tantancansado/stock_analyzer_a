@@ -73,23 +73,27 @@ def patch_csv(path: Path, by_ticker: dict) -> None:
     for _, row in df.iterrows():
         ticker = str(row.get("ticker", "")).upper()
         entry = by_ticker.get(ticker)
-        if not entry:
-            adj_col.append(0)
-            verdict_col.append("")
-            new_scores.append(row.get("value_score"))
-            continue
-        adj = int(entry.get("score_adjustment", 0) or 0)
-        verdict = entry.get("oe_ai_verdict") or _format_verdict(
+        adj = int(entry.get("score_adjustment", 0) or 0) if entry else 0
+        verdict = (entry.get("oe_ai_verdict") or _format_verdict(
             entry.get("data_quality", ""), entry.get("thesis_verdict", ""), adj
-        )
-        try:
-            current = float(row.get("value_score") or 0)
-        except (TypeError, ValueError):
-            current = 0.0
-        patched = max(0.0, min(100.0, current + adj))
+        )) if entry else ""
+        # La nota ya lleva el ajuste que el integrator leyó del JSON de ayer, y lo
+        # deja en `oe_ai_adjustment`. Aquí se SUSTITUYE por el de hoy: sumarlo otra
+        # vez lo contaba doble. 6-nov-2026: RMD pasó de 62,3 a 57,3 con un -5 ya
+        # descontado, y seis empresas (GGG, TYL y JKHY con BUY de la IA, más TJX,
+        # LMT y ALLY) salieron de la lista por un -8 o -10 restado dos veces.
+        previo = pd.to_numeric(row.get("oe_ai_adjustment"), errors="coerce")
+        previo = 0 if pd.isna(previo) else int(previo)
+        if adj == previo:
+            new_scores.append(row.get("value_score"))
+        else:
+            try:
+                current = float(row.get("value_score") or 0)
+            except (TypeError, ValueError):
+                current = 0.0
+            new_scores.append(max(0.0, min(100.0, current - previo + adj)))
         adj_col.append(adj)
         verdict_col.append(verdict)
-        new_scores.append(patched)
         if adj != 0:
             touched += 1
 
