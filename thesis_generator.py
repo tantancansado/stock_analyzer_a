@@ -236,7 +236,7 @@ class ThesisGenerator:
             'tier_boost': sector_bonus,
             'num_whales': int(_safe_float(record.get('num_whales'))),
             'top_whales': str(record.get('top_whales', '') or ''),
-            'insiders_score': _safe_float(record.get('insiders_score')),
+            'insiders_score': _safe_float(record.get('insiders_score'), None),
             'insider_detail': insider_detail,
             'days_to_earnings': None,
             'analyst_upside': None,
@@ -276,6 +276,7 @@ class ThesisGenerator:
             # Regla de Value US (value_bands.nota_value)
             'value_grupo': _texto_o_nada(record.get('value_grupo')),
             'value_falta': _texto_o_nada(record.get('value_falta')),
+            'value_avisos': _texto_o_nada(record.get('value_avisos')),
             'per_z': _safe_float(record.get('per_z'), None),
             'per_norm': _safe_float(record.get('per_norm'), None),
             'per_mediana_10a': _safe_float(record.get('per_mediana_10a'), None),
@@ -604,7 +605,7 @@ class ThesisGenerator:
 
         return catalysts
 
-    def _cerebro_context(self, ticker: str) -> str:
+    def _cerebro_context(self, ticker: str, solo_dato: bool = False) -> str:
         """Returns a Cerebro IA context block for the AI prompt, or empty string."""
         c = self._cerebro_map.get(str(ticker).upper())
         if not c or not c.get("signal"):
@@ -613,6 +614,13 @@ class ThesisGenerator:
         adj      = c["score_adj"]
         reason   = c["reason"]
         adj_str  = f"+{adj}" if adj > 0 else str(adj)
+        if solo_dato:
+            # En Value US no ajusta la nota y sus señales, medidas, no separan.
+            return (
+                f"\nCEREBRO IA (un dato más; medidas, sus señales no han separado ganadoras de perdedoras):\n"
+                f"- Señal: {signal}\n"
+                f"- Razones detectadas: {reason}\n"
+            )
         return (
             f"\nCEREBRO IA (sistema de agentes proactivo):\n"
             f"- Señal: {signal} (ajuste score: {adj_str} pts)\n"
@@ -834,7 +842,7 @@ EMPRESA: {_fmt(row.get('company_name'))}
 SECTOR: {_fmt(row.get('sector_name'))}
 PRECIO ACTUAL: {_fmt(row.get('current_price'), prefix='$')}
 GRUPO VALUE: {_fmt(row.get('value_grupo'))} (PRIORIDAD: ventas del último año >=10% y PER a más de 1σ bajo su media de 10 años, lo único con ventaja medida. OBSERVAR: barata según nuestra valoración, pero le falta eso)
-PER CONTRA SU HISTORIA: {_fmt(row.get('per_z'), 'σ')} (PER {_fmt(row.get('per_norm'))} frente a mediana de 10 años {_fmt(row.get('per_mediana_10a'))}) · VENTAS ÚLTIMO AÑO: {_fmt(row.get('ventas_anual_pct'), '%')} · LE FALTA: {_fmt(row.get('value_falta'))}
+PER CONTRA SU HISTORIA: {_fmt(row.get('per_z'), 'σ')} (PER {_fmt(row.get('per_norm'))} frente a mediana de 10 años {_fmt(row.get('per_mediana_10a'))}) · VENTAS ÚLTIMO AÑO: {_fmt(row.get('ventas_anual_pct'), '%')} · LE FALTA: {_fmt(row.get('value_falta'))} · AVISOS: {_fmt(row.get('value_avisos'))}
 NUESTRA VALORACIÓN (mediana de consenso, DCF y P/E): {_fmt(row.get('upside_triangulated_pct'), '%')} · CONSENSO DE BPA EN 13 SEMANAS: {_fmt(row.get('revision_13s_pct'), '%')} (un recorte fuerte es un riesgo que hay que nombrar)
 
 FUNDAMENTALES:
@@ -875,7 +883,7 @@ CONTEXTO MERCADO:
 - Distancia máx. 52 semanas: {_fmt(row.get('proximity_to_52w_high'), '%')}
 - Short interest: {_fmt(row.get('short_percent_float'), '% del float')}
 - Flujo opciones: {_fmt(row.get('sentiment'))}
-{self._cerebro_context(ticker)}{self._tikr_context(ticker)}
+{self._cerebro_context(ticker, solo_dato=bool(row.get('value_grupo')))}{self._tikr_context(ticker)}
 {casa}
 {contexto_para_prompt(row)}
 

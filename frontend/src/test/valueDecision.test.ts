@@ -673,6 +673,12 @@ describe('Value US: el aviso no cambia el grupo', () => {
     expect(getValueDecision({ row: makeRow({ value_score: 70, days_to_earnings: -12 }) }).headline).not.toContain('Resultados demasiado cerca')
   })
 
+  it('los avisos de la nota salen en la tarjeta de prioridad', () => {
+    const r = getValueDecision({ row: makeRow({ ...prioridad, value_avisos: 'se frena: último trimestre +1 %' }) })
+    expect(r.label).toBe('Prioridad')
+    expect(r.headline).toContain('Se frena: último trimestre +1 %.')
+  })
+
   it('fuera de Value US, resultados cerca sigue siendo esperar', () => {
     expect(getValueDecision({ row: makeRow({ value_score: 70, days_to_earnings: 3 }) }).label).toBe('Esperar')
   })

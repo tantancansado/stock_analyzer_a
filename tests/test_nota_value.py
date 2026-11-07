@@ -240,3 +240,41 @@ class TestPorQueCaeSeInvestigaEnPrioridad:
         filas = [{'ticker': 'POCO', 'proximity_to_52w_high': -5.0, 'value_score': 55.0, 'value_grupo': 'OBSERVAR'},
                  {'ticker': 'MUCHO', 'proximity_to_52w_high': -40.0, 'value_score': 45.0, 'value_grupo': 'OBSERVAR'}]
         assert self._candidatos(tmp_path, filas) == ['MUCHO']
+
+
+# ── Avisos ────────────────────────────────────────────────────────────────────
+
+def _prioridad_con(**extra):
+    fila = {'upside_triangulated_pct': 30.0, 'upside_divergence': '', 'rev_growth_yoy': 15.0,
+            'ventas_anual_pct': 15.0, 'per_z': -2.0, 'fcf_yield_pct': 5.0}
+    fila.update(extra)
+    return nota_value(pd.DataFrame([fila])).iloc[0]
+
+
+def test_sin_frenazo_ni_recorte_no_hay_aviso():
+    f = _prioridad_con()
+    assert f.value_grupo == 'PRIORIDAD' and f.value_avisos == ''
+
+
+def test_el_frenazo_se_avisa_y_no_cambia_ni_grupo_ni_nota():
+    # BSX, nov-2026: +19,9 en el ejercicio de 2025, +1,4 en el último trimestre.
+    base = _prioridad_con()
+    f = _prioridad_con(ventas_anual_pct=19.9, rev_growth_yoy=1.4)
+    assert f.value_grupo == 'PRIORIDAD'
+    assert f.value_score == base.value_score
+    assert 'se frena: último trimestre +1 %' in f.value_avisos
+
+
+def test_el_recorte_de_consenso_se_avisa():
+    # INTU, nov-2026: -11 % en 13 semanas, confirmado con Yahoo.
+    assert 'consenso de BPA -11 %' in _prioridad_con(revision_13s_pct=-11.0).value_avisos
+    assert _prioridad_con(revision_13s_pct=-3.0).value_avisos == ''
+
+
+def test_sin_dato_no_se_inventa_un_aviso():
+    assert _prioridad_con(revision_13s_pct=float('nan'), rev_growth_yoy=float('nan')).value_avisos == ''
+
+
+def test_fuera_de_prioridad_no_hay_avisos():
+    assert _prioridad_con(per_z=-0.2, revision_13s_pct=-11.0).value_avisos == ''
+

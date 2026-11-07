@@ -113,7 +113,7 @@ export function getValueDecision({
     return {
       kind: 'ready',
       label: 'Prioridad',
-      headline: `PER a ${z}σ de su media y ventas anuales +${ventas} %.${avisoGrupo}`,
+      headline: `PER a ${z}σ de su media y ventas anuales +${ventas} %.${row.value_avisos ? ` ${row.value_avisos.charAt(0).toUpperCase()}${row.value_avisos.slice(1)}.` : ''}${avisoGrupo}`,
       detail: `Barata frente a su propia historia y creciendo: la única combinación con ventaja en los dos periodos medidos.${row.entry_readiness === 'ESPERAR' || row.entry_readiness === 'VIGILAR' ? ' Sigue cayendo: a 12 meses eso no ha restado, pero a corto puede bajar más.' : ''} Revísala antes de decidir.`,
       badgeClass: 'border-emerald-500/30 bg-emerald-500/10 text-emerald-400',
       panelClass: 'border-emerald-500/20 bg-emerald-500/5',

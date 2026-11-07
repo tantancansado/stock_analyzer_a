@@ -245,3 +245,19 @@ def test_la_clasificacion_sale_del_grupo_no_de_la_nota():
     fila = g._normalize_value_row({**FILA_GRUPO, 'value_grupo': 'OBSERVAR', 'value_score': 58.5}, None)
     assert g._generate_overview(fila)['classification'] == 'Observar'
 
+
+def test_el_prompt_no_presenta_lo_que_ya_no_decide(monkeypatch):
+    g = _generador()
+    g._cerebro_map = {'INTU': {'signal': 'AVOID', 'score_adj': -14, 'reason': 'x'}}
+    p = _prompt(monkeypatch, g, g._normalize_value_row(dict(FILA_GRUPO), None))
+    assert 'ajuste score' not in p, 'en Value US Cerebro ya no ajusta la nota'
+    assert 'destaca los riesgos en la conclusión' not in p
+    assert 'Score insiders: 0/100' not in p, 'sin dato de insiders no hay un cero'
+
+
+def test_fuera_de_value_us_cerebro_sigue_igual(monkeypatch):
+    g = _generador()
+    g._cerebro_map = {'INTU': {'signal': 'AVOID', 'score_adj': -14, 'reason': 'x'}}
+    fila = {k: v for k, v in FILA_GRUPO.items() if k != 'value_grupo'}
+    assert 'ajuste score: -14' in _prompt(monkeypatch, g, g._normalize_value_row(fila, None))
+

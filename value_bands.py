@@ -132,6 +132,13 @@ NOTA_OBSERVAR = 40.0
 PUNTOS_POR_BARATA = 20.0     # dentro de cada grupo; nunca alcanza al siguiente
 PER_Z_TOPE = 3.0             # 3σ por debajo de su media ya es lo más barato
 FCF_YIELD_TOPE = 8.0
+# Avisos de PRIORIDAD: se dicen, no puntúan. Medido en 2026 dentro del grupo, lo que se
+# frena más de 10 puntos rinde +4,1 a 90 días frente a +7,6 (los dos ganan al universo).
+# Recortar consenso va en la misma dirección (-5 a 0: +3,0; sin recorte: +7,0), pero de
+# recortes mayores aún no hay retorno medido. Es poco para vetar y demasiado para callarlo:
+# en noviembre las «ventas del último año» son un ejercicio cerrado hace diez meses.
+FRENAZO_PUNTOS = 10.0
+RECORTE_CONSENSO = -5.0
 
 # Rango en que el múltiplo histórico propio sirve de ancla para el «P/E justo». Por
 # encima es burbuja y por debajo suele ser un beneficio raro: en los dos casos no
@@ -217,6 +224,17 @@ def nota_value(df):
     base = pd.Series(NOTA_OBSERVAR, index=df.index)
     base[prioridad] = NOTA_PRIORIDAD
 
+    trimestre = pd.to_numeric(df['rev_growth_yoy'], errors='coerce') if 'rev_growth_yoy' in df.columns else nan
+    revision = pd.to_numeric(df['revision_13s_pct'], errors='coerce') if 'revision_13s_pct' in df.columns else nan
+
+    def _avisos(a, q, r):
+        partes = []
+        if a == a and q == q and q < a - FRENAZO_PUNTOS:
+            partes.append(f'se frena: último trimestre {q:+.0f} %')
+        if r == r and r <= RECORTE_CONSENSO:
+            partes.append(f'consenso de BPA {r:+.0f} % en 13 semanas')
+        return ' · '.join(partes)
+
     def _falta(a, zeta):
         partes = []
         if a != a:
@@ -234,6 +252,8 @@ def nota_value(df):
     salida['value_barata'] = barata.round(3)
     salida['value_falta'] = [_falta(a, zeta) if d and not p else ''
                              for a, zeta, d, p in zip(anual, z, dentro, prioridad)]
+    salida['value_avisos'] = [_avisos(a, q, r) if d and p else ''
+                              for a, q, r, d, p in zip(anual, trimestre, revision, dentro, prioridad)]
     salida['value_score'] = (base + PUNTOS_POR_BARATA * barata).round(1).where(dentro, 0.0)
     return salida
 

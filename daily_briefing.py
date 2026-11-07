@@ -149,6 +149,7 @@ def gather_facts() -> dict:
             'per_contra_su_historia_sigma': _f(r.get('per_z')),
             'ventas_ultimo_anio_pct': _f(r.get('ventas_anual_pct')),
             'que_le_falta': r.get('value_falta') or '',
+            'avisos': r.get('value_avisos') or '',
         }
 
     if any(r.get('value_grupo') for r in rows):

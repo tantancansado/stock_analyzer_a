@@ -216,6 +216,9 @@ def run_new_value_alerts():
             extras.append(f"FCF {fcf:.1f}%")
         if warn and earn_d:
             extras.append(f"⚠️ Earn {earn_d}")
+        avisos = row.get('value_avisos')
+        if isinstance(avisos, str) and avisos:
+            extras.append(f"⚠️ {avisos}")
 
         price_str = f" @ ${price:.2f}" if price else ""
         extras_str = "  " + " | ".join(extras) if extras else ""

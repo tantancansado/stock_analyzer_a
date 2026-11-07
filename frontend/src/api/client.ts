@@ -140,6 +140,7 @@ export interface ValueOpportunity {
   ventas_anual_anio?: number | null
   revision_4s_pct?: number | null
   revision_13s_pct?: number | null
+  value_avisos?: string | null
   // Hedge Fund 13F consensus
   hedge_fund_count?: number
   hedge_fund_names?: string
