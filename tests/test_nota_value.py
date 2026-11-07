@@ -81,8 +81,8 @@ def test_sin_ningun_dato_de_barata_queda_al_final_de_su_grupo():
 
 def test_dice_que_le_falta():
     r = _nota(_fila('A', anual=7.0, z=-2.0), _fila('B', anual=14.0, z=-0.6), _fila('C', anual=3.0, z=0.5), _fila('P'))
-    assert r.loc['A', 'value_falta'] == 'ventas anuales +7 %, le falta crecer al 10 %'
-    assert r.loc['B', 'value_falta'] == 'PER a -0,6σ, le falta bajar de -1σ'
+    assert r.loc['A', 'value_falta'] == 'ventas anuales +7,0 %, le falta crecer al 10 %'
+    assert r.loc['B', 'value_falta'] == 'PER a -0,60σ, le falta bajar de -1σ'
     assert ' · ' in r.loc['C', 'value_falta']
     assert r.loc['P', 'value_falta'] == ''
 
