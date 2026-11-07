@@ -55,7 +55,8 @@ export function precio(
 ): string {
   if (valor == null || Number.isNaN(valor)) return '—'
   const divisa = divisaDe(ticker, divisaExplicita)
-  const n = valor.toFixed(decimales)
+  // Coma decimal, como el resto de la app: en la misma tarjeta salían «$354.84» y «407,76».
+  const n = valor.toLocaleString('es-ES', { minimumFractionDigits: decimales, maximumFractionDigits: decimales })
   if (divisa === 'GBp') return `${n}p`
   return `${SIMBOLO[divisa] ?? `${divisa} `}${n}`
 }

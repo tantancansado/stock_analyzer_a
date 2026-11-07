@@ -277,7 +277,7 @@ def _get_priority_tickers() -> list[dict]:
                 t = str(row.get("ticker", "")).upper()
                 if t:
                     fund_data[t] = {
-                        "fundamental_score": row.get("value_score"),
+                        "fundamental_score": row.get("fundamental_score"),
                         "grade": row.get("conviction_grade"),
                     }
         except Exception:
@@ -293,7 +293,7 @@ def _get_priority_tickers() -> list[dict]:
                     t = str(row.get("ticker", "")).upper()
                     if t:
                         fund_data[t] = {
-                            "fundamental_score": row.get("value_score"),
+                            "fundamental_score": row.get("fundamental_score"),
                             "grade": row.get("conviction_grade"),
                         }
             except Exception:

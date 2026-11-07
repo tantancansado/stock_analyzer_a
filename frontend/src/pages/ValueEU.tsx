@@ -88,7 +88,7 @@ function EntryQualityBadge({ quality, confidence, analyzedAt }: {
 }
 
 import AiNarrativeCard from '../components/AiNarrativeCard'
-import { precio, divisaDe } from '../lib/moneda'
+import { precio } from '../lib/moneda'
 import SignalBadge from '../components/SignalBadge'
 import { TriangleAlert, LogOut, Gem, Flame, CalendarClock, CircleCheck } from 'lucide-react'
 import ScoreBar from '../components/ScoreBar'
@@ -948,7 +948,6 @@ export default function ValueEU() {
           <ThesisModal
             row={expandedRow}
             thesisText={thesisText}
-            currency={divisaDe(expandedRow.ticker) === 'GBp' ? 'p' : divisaDe(expandedRow.ticker)}
             onClose={() => setExpandedRow(null)}
           />
         )}

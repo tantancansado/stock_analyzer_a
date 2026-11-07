@@ -374,3 +374,23 @@ describe('escala tipográfica', () => {
     expect(culpables, 'usar micro/mini/apoyo/cuerpo/titulo/seccion/pagina/cifra').toEqual([])
   })
 })
+
+describe('desenfoque', () => {
+  /** El minificador de Tailwind, con las dos líneas escritas a mano, se queda solo con
+      la prefijada: Safari la entiende y Chrome no. La barra superior, `.glass` y
+      `.liquid-glass` salían en Chrome sin desenfoque y con el texto pasando por detrás.
+      Con la estándar sola genera las dos. */
+  it('se escribe solo backdrop-filter; el prefijo lo pone el build', () => {
+    for (const nombre of ['index.css', 'nothing-theme.css', 'noir-theme.css']) {
+      const css = readFileSync(join(__dirname, '..', nombre), 'utf-8').replace(/\/\*[\s\S]*?\*\//g, '')
+      expect(css, nombre).not.toMatch(/-webkit-backdrop-filter\s*:/)
+    }
+  })
+
+  it('ningún backdrop-filter usa url(): Safari perdería el desenfoque entero', () => {
+    for (const nombre of ['index.css', 'nothing-theme.css', 'noir-theme.css']) {
+      const css = readFileSync(join(__dirname, '..', nombre), 'utf-8').replace(/\/\*[\s\S]*?\*\//g, '')
+      expect(css, nombre).not.toMatch(/backdrop-filter\s*:[^;]*url\(/)
+    }
+  })
+})

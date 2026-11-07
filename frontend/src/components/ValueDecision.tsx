@@ -7,7 +7,7 @@ import type { ValueDecision } from '@/lib/valueDecision'
  *  final. Los cuatro tienen que estar o los contadores no suman lo publicado. */
 const CONTADORES = [
   { clave: 'ready' as const, etiqueta: 'para revisar',    tono: 'text-emerald-400' },
-  { clave: 'watch' as const, etiqueta: 'en vigilancia',   tono: 'text-sky-400' },
+  { clave: 'watch' as const, etiqueta: 'en observación', tono: 'text-sky-400' },
   { clave: 'wait'  as const, etiqueta: 'sin señal clara', tono: 'text-muted-foreground' },
   { clave: 'avoid' as const, etiqueta: 'mejor evitar',    tono: 'text-red-400' },
 ]
@@ -77,6 +77,9 @@ export function ValueClarityPanel({
     avoid: evaluated.filter(i => i.decision.kind === 'avoid'),
   }
   const sinNada = evaluated.length === 0
+  // Value US da sus cifras por grupo justo debajo. Repetirlas aquí por decisión
+  // ponía «26 en observación» encima de «Observar 27».
+  if (!sinNada && rows.some(r => r.value_grupo)) return null
 
   return (
     // Tira compacta, no panel hero. Antes esto medía ~850px en móvil y su

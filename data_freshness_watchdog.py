@@ -38,6 +38,8 @@ import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
+from value_bands import NOTA_PRIORIDAD
+
 DOCS = Path("docs")
 HEALTH_PATH = DOCS / "pipeline_health.json"
 STATE_PATH = DOCS / ".data_watchdog_state.json"
@@ -357,8 +359,8 @@ def _contradicciones_publicadas() -> list[dict]:
     }]
 
 
-# Un value_score de 60 es raro (8 de 252 el 17-sep-2026): perder uno es noticia.
-EXCLUIDO_SCORE_ALTO = 60.0
+# Perder una del grupo PRIORIDAD es noticia. Son pocas (3 de 34 el 7-nov-2026).
+EXCLUIDO_SCORE_ALTO = NOTA_PRIORIDAD
 # Y un mismo motivo repetido tantas veces ya no habla de las empresas, habla
 # del formato de la ficha que se les pasa.
 MOTIVO_REPETIDO_MIN = 3

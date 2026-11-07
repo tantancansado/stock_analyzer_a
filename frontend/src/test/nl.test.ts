@@ -33,7 +33,7 @@ describe('nl helpers', () => {
       drawdown_pct: -18,
       rsi: 22,
       rsi_tier: 'EXTREMO',
-      value_score: 67,
+      value_score: 85,
       days_to_earnings: 4,
       earnings_warning: true,
       consecutive_down_days: 4,
@@ -47,7 +47,7 @@ describe('nl helpers', () => {
     expect(text).toContain('4 sesiones consecutivas a la baja')
     expect(text).not.toContain('18% en 4 sesiones')
     expect(text).toContain('sobreventa extrema')
-    expect(text).toContain('VALUE 67pts')
+    expect(text).toContain('en prioridad de VALUE')
     expect(text).toContain('Connors RSI2')
     expect(text).toContain('earnings en 4 días')
   })

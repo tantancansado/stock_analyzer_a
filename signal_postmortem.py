@@ -86,6 +86,9 @@ def _cortes(df: pd.DataFrame) -> dict:
             sc, [0, 40, 50, 60, 70, 100],
             labels=['<40', '40-50', '50-60', '60-70', '>=70']))
 
+    if 'value_grupo' in df.columns:
+        agrupa('grupo_value', df['value_grupo'].where(df['value_grupo'].notna() & (df['value_grupo'] != '')))
+
     if 'risk_reward_ratio' in df.columns:
         rr = pd.to_numeric(df['risk_reward_ratio'], errors='coerce')
         agrupa('banda_rr', pd.cut(rr, [0, 1, 1.5, 2, 3, 999],

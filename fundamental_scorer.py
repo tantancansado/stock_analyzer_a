@@ -15,7 +15,7 @@ No requiere API keys externas - solo yfinance
 import yfinance as yf
 import pandas as pd
 import numpy as np
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 import json
 import time
@@ -24,7 +24,7 @@ import argparse
 from typing import Dict, List, Optional
 
 from currency_normalizer import normalize_info
-from value_bands import UPSIDE_ALTO
+from value_bands import PER_ANCLA_MAX, PER_ANCLA_MIN, UPSIDE_ALTO, UPSIDE_PE_ABSURDO
 from financial_cross_check import derive_from_statements, check_coherence
 
 try:
@@ -311,12 +311,6 @@ HOLGURA_BPA_SOBRE_OPERATIVO = 25.0
 # calidad» y eso no se puede decir de una venta de activos.
 CALIDAD_MAX_SIN_RESPALDO = 85.0
 
-# Rango en que el múltiplo histórico propio sirve de ancla para el «P/E
-# justo». Por encima es burbuja y por debajo suele ser un beneficio contable
-# raro: en los dos casos no hay objetivo por P/E. El techo lo confirmó el
-# usuario el 29-oct-2026 («no quiero precios de burbuja»), sabiendo que deja
-# fuera a NOW aun con datos limpios: su múltiplo normalizado (TIKR) ronda 51x.
-PER_ANCLA_MIN, PER_ANCLA_MAX = 8.0, 45.0
 # Separación máxima entre el P/E más alto y el más bajo de la serie, medida en
 # veces la mediana. Por encima, la «mediana» no describe a qué múltiplo cotiza
 # la empresa: la decide un año suelto.
@@ -334,9 +328,6 @@ PER_ANCLA_MIN, PER_ANCLA_MAX = 8.0, 45.0
 # NADIE leía la bandera: viajaba hasta el CSV publicado y ahí se quedaba,
 # mientras el objetivo salía a la app como cualquier otro.
 PER_ANCLA_DISPERSION_MAX = 1.5
-# Tope de sensatez del objetivo por P/E. No es una banda de inversión: es el
-# punto a partir del cual el número dice más del dato que de la empresa.
-UPSIDE_PE_ABSURDO = 150.0
 
 # Reducción anual de acciones a partir de la cual la recompra cuenta como
 # «activa». Con cualquier recompra valía y la etiqueta salía True en 41 de 42
@@ -453,6 +444,21 @@ def dcf_aplicable(info: Dict) -> tuple[bool, Optional[str]]:
     return True, None
 
 
+def margen_operativo_12m(stock) -> Optional[float]:
+    """Resultado operativo sobre ventas de los últimos cuatro trimestres, o None."""
+    try:
+        q = stock.quarterly_income_stmt
+        if not isinstance(q, pd.DataFrame) or 'Operating Income' not in q.index or 'Total Revenue' not in q.index:
+            return None
+        op = pd.to_numeric(q.loc['Operating Income'], errors='coerce').iloc[:4]
+        ventas = pd.to_numeric(q.loc['Total Revenue'], errors='coerce').iloc[:4]
+        if len(op) < 4 or op.isna().any() or ventas.isna().any() or ventas.sum() <= 0:
+            return None
+        return float(op.sum() / ventas.sum())
+    except Exception:
+        return None
+
+
 def _paso_interanual(periodo: str) -> int:
     """Cuántas filas hay que retroceder para comparar con el año anterior.
 
@@ -550,7 +556,7 @@ class FundamentalScorer:
             )
 
             health_score = self._calculate_financial_health_score(
-                financials, info
+                financials, info, margen_operativo_12m(stock)
             )
 
             catalyst_score = self._calculate_catalyst_timing_score(
@@ -1316,7 +1322,8 @@ class FundamentalScorer:
     def _calculate_financial_health_score(
         self,
         financials: Dict,
-        info: Dict
+        info: Dict,
+        margen_12m: Optional[float] = None,
     ) -> Dict:
         """
         Score de salud financiera (0-100)
@@ -1371,9 +1378,15 @@ class FundamentalScorer:
                     score -= 10
 
             # 4. Operating Margins
-            operating_margins = info.get('operatingMargins')
+            # De 12 meses. El `operatingMargins` de Yahoo es el del último trimestre
+            # y en una empresa estacional engaña: BR salía
+            # con el margen «hundido» de 24,6 % a 10,4 % y Cerebro la vetaba, solo por
+            # ser su primer trimestre fiscal; INTU daba 17,6 % con un año por encima
+            # del 25 %, y eso decidía si es excepcional a la hora de vender.
+            operating_margins = margen_12m if margen_12m is not None else info.get('operatingMargins')
             if operating_margins:
                 details['operating_margin_pct'] = round(operating_margins * 100, 1)
+                details['operating_margin_base'] = '12m' if margen_12m is not None else 'yahoo'
                 if operating_margins >= 0.20:
                     score += 10
                 elif operating_margins >= 0.10:
@@ -1931,7 +1944,13 @@ class FundamentalScorer:
         - Analyst Revision Momentum (are estimates rising?)
         - Earnings Calendar (days to next earnings)
         """
+        # Mes de cierre fiscal: bandas_per lo necesita para saber desde cuándo se
+        # conocía el BPA de cada año. Con una semana de holgura porque hay años de 52
+        # semanas: HD cierra el 1 de febrero y TIKR lo etiqueta como un cierre de enero.
+        _cierre_fiscal = info.get('lastFiscalYearEnd')
         result = {
+            'mes_cierre_fiscal': ((datetime.fromtimestamp(_cierre_fiscal, tz=timezone.utc) - timedelta(days=7)).month
+                                  if isinstance(_cierre_fiscal, (int, float)) and _cierre_fiscal > 0 else None),
             # FCF
             'fcf_yield_pct': None,
             'fcf_per_share': None,

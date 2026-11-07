@@ -17,6 +17,8 @@ El resolvedor se queda con lo que se parece: `AI.PA` pierde el sufijo y encuentr
 nombre parecido. Tres de los cuatro son fondos, no empresas — no tienen ROE ni
 FCF que valga, pero el modelo los valoraba igual.
 """
+import pytest
+
 import identidad_ticker as it
 
 
@@ -355,3 +357,44 @@ class TestPrecioDistintoNoEsOtraEmpresa:
         assert revisar('BRK-B', [
             {'fuente': 'f', 'nombre': 'Berkshire Hathaway Inc.', 'precio': 502.01, 'divisa': 'USD'},
             {'fuente': 'tikr', 'nombre': 'Brooks Macdonald Group plc', 'precio': 16.40, 'divisa': 'GBP'}])
+
+
+class TestSimbolosConPuntoYSufijo:
+    """El arreglo del 17-sep-2026 dejó 21 empresas sin actualizar 54 días: comparaba
+    `WTKWY` con `WTKW.Y`, y recibía `CSU` en vez de `CSU.TO`, así que lo exigía en
+    EE. UU. Sin datos frescos no hay bandas de PER, y sin bandas no hay PRIORIDAD."""
+
+    def _resolver(self, monkeypatch, ticker, hits):
+        ts = _tikr()
+        class R:
+            status_code = 200
+            def json(self):
+                return {'results': [{'hits': hits}]}
+        monkeypatch.setattr(ts.requests, 'post', lambda *a, **k: R())
+        return ts, ts.algolia_resolve_ticker(ticker)
+
+    @staticmethod
+    def _hit(sym, bolsa):
+        return {'tikrSymbol': sym, 'exchangesymbol': bolsa, 'companyid': 1, 'tradingitemid': 2, 'companyname': 'X'}
+
+    @pytest.mark.parametrize('ticker,sym,bolsa', [
+        ('WTKWY', 'WTKW.Y', 'OTCPK'), ('FCNCA', 'FCNC.A', 'NasdaqGS'), ('BRK-B', 'BRK.B', 'NYSE'),
+        ('7741.T', '7741', 'TSE'), ('CSU.TO', 'CSU', 'TSX'), ('MSFT', 'MSFT', 'NasdaqGS')])
+    def test_encuentra_a_la_empresa(self, monkeypatch, ticker, sym, bolsa):
+        ts, r = self._resolver(monkeypatch, ticker, [self._hit(sym, bolsa)])
+        assert r is not ts.SIN_COINCIDENCIA and r['cid'] == '1'
+
+    @pytest.mark.parametrize('ticker,sym,bolsa', [
+        ('AI.PA', 'AI', 'NYSE'),          # C3.ai en vez de Air Liquide
+        ('MMC', 'MMC', 'WSE'),            # una polaca
+        ('EXPN.L', 'EXPN', 'BATS'),       # un ETF americano
+        ('WTKWY', 'WTKW.F', 'OTCPK')])    # otro símbolo
+    def test_sigue_rechazando_a_otra_empresa(self, monkeypatch, ticker, sym, bolsa):
+        ts, r = self._resolver(monkeypatch, ticker, [self._hit(sym, bolsa)])
+        assert r is ts.SIN_COINCIDENCIA
+
+    def test_al_resolver_se_pasa_el_ticker_entero(self):
+        from pathlib import Path
+        src = (Path(__file__).resolve().parent.parent / 'tikr_scraper.py').read_text()
+        assert 'resolve_ticker(session, token, ticker, cache)' in src
+

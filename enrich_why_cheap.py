@@ -138,7 +138,10 @@ def _candidatos(csv: Path) -> pd.DataFrame:
     # cae y así se excluía justo a las que hay que explicar.
     from why_cheap_analyzer import es_candidato
     merece = [es_candidato(c, s) for c, s in zip(caida.fillna(0), score.fillna(0))]
-    cand = df[(caida >= MIN_CAIDA_PCT) & pd.Series(merece, index=df.index)].copy()
+    # Las de prioridad se investigan siempre, hayan caído lo que hayan caído: son las
+    # candidatas a comprar, y BRO se quedaba sin saber por qué cae con un -9,9 %.
+    prioridad = df['value_grupo'] == 'PRIORIDAD' if 'value_grupo' in df.columns else pd.Series(False, index=df.index)
+    cand = df[((caida >= MIN_CAIDA_PCT) & pd.Series(merece, index=df.index)) | prioridad].copy()
     cand['origen_csv'] = str(csv)
     return cand
 

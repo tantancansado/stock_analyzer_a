@@ -33,14 +33,15 @@ BLOQUEO_MASIVO = 0.25
 # con lo que responda.
 FICHA_FIELDS = (
     'ticker', 'company_name', 'sector', 'industry', 'current_price',
-    'value_score', 'fundamental_score', 'piotroski_score',
+    'fundamental_score', 'piotroski_score',
     'analyst_upside_pct', 'target_price_dcf_upside_pct', 'target_price_pe_upside_pct',
     'upside_triangulated_pct', 'upside_divergence',
     'modelos_dispersion_pts', 'modelos_acuerdo',
     'upside_requiere_verificacion',
     # Para poder juzgar si un descuento grande es real: si los ingresos
     # crecen, el mercado puede estar castigando un miedo y no un deterioro.
-    'revenue_growth_pct', 'rev_growth_yoy',
+    'revenue_growth_pct', 'rev_growth_yoy', 'ventas_anual_pct',
+    'per_norm', 'per_mediana_10a', 'per_z',
     'fcf_yield_pct', 'ebit_ev_yield', 'peg_ratio', 'dividend_yield_pct',
     'proximity_to_52w_high', 'relative_strength_6m',
     'entry_readiness', 'entry_readiness_reason', 'ma_filter_pass', 'ma_filter_reason',
@@ -60,7 +61,6 @@ Buscas exactamente esto:
 - Contradicciones internas: un texto que afirma algo que otro campo desmiente
   (p.ej. "sobre MA200 ascendente" cuando el filtro de medias dice lo contrario,
   o "suelo confirmado" con tendencia lateral o bajista).
-- Un score alto que no se sostiene en los fundamentales de la propia ficha.
 - Valoraciones que se contradicen entre sí sin que nada lo señale.
 
 Qué NO es un problema (contrato de la ficha, respétalo):

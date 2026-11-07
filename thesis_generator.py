@@ -13,6 +13,13 @@ from datetime import datetime
 from contexto_casa import contexto_para_prompt
 
 
+def _texto_o_nada(valor):
+    """Un hueco del CSV llega como NaN, y en un prompt NaN se lee como dato."""
+    if valor is None or valor != valor or str(valor).strip() == '':
+        return None
+    return str(valor).strip()
+
+
 def _tesis_completa(texto) -> bool:
     """Una tesis cortada por max_tokens acaba a media frase y sin Conclusión.
 
@@ -266,6 +273,15 @@ class ThesisGenerator:
             'why_cheap_resumen': record.get('why_cheap_resumen'),
             'entry_readiness': record.get('entry_readiness'),
             'entry_readiness_reason': record.get('entry_readiness_reason'),
+            # Regla de Value US (value_bands.nota_value)
+            'value_grupo': _texto_o_nada(record.get('value_grupo')),
+            'value_falta': _texto_o_nada(record.get('value_falta')),
+            'per_z': _safe_float(record.get('per_z'), None),
+            'per_norm': _safe_float(record.get('per_norm'), None),
+            'per_mediana_10a': _safe_float(record.get('per_mediana_10a'), None),
+            'ventas_anual_pct': _safe_float(record.get('ventas_anual_pct'), None),
+            'revision_13s_pct': _safe_float(record.get('revision_13s_pct'), None),
+            'upside_triangulated_pct': _safe_float(record.get('upside_triangulated_pct'), None),
             # TIKR NTM multiples (enrichment, if available)
             'tikr_ntm_pe':          self._tikr_data.get(record.get('ticker', '').upper(), {}).get('multiples', {}).get('ntm_pe'),
             'tikr_ntm_ev_ebitda':   self._tikr_data.get(record.get('ticker', '').upper(), {}).get('multiples', {}).get('ntm_ev_ebitda'),
@@ -344,7 +360,11 @@ class ThesisGenerator:
         upside = row.get('upside_percent')
 
         # Clasificación profesional por score
-        if source in ('value', 'momentum'):
+        if row.get('value_grupo'):
+            # La nota de Value US no es una escala: OBSERVAR llega a 60 y aquí salía «Muy atractiva».
+            classification = row['value_grupo'].capitalize()
+            score_label = "value_score"
+        elif source in ('value', 'momentum'):
             if score >= 50:
                 classification = "Muy atractiva"
             elif score >= 40:
@@ -792,11 +812,30 @@ class ThesisGenerator:
             if qty and price:
                 transactions_str += f"\n  - {tx.get('insider', '?')}: ${qty * price:,.0f} ({tx.get('date', '?')})"
 
+        # En Value US el grupo decide y el timing es riesgo de corto plazo: medido, dentro de
+        # la lista lo que cae bajo su media descendente es lo mejor a 12 meses. La regla de
+        # «ESPERAR = no comprar» dejaba en «esperar» la tesis de casi toda la PRIORIDAD.
+        if row.get('value_grupo'):
+            casa = ('LO QUE LA CASA YA SABE (no lo contradigas). El horizonte es de 12 meses: ESPERAR o VIGILAR '
+                    'significan que el precio aún cae, no que la tesis sea mala. Dentro de esta lista, lo que cae '
+                    'bajo su media descendente es lo que mejor ha salido a 12 meses. Dilo como riesgo de corto '
+                    'plazo, no como motivo para no comprar:')
+            regla_conclusion = ('- La causa de la caída manda sobre tu intuición: si es DETERIORO, la conclusión es evitar. '
+                                'Si no: en PRIORIDAD la conclusión es comprar, salvo que los datos de arriba la desmientan '
+                                '(dilo); en OBSERVAR es esperar, y di qué le falta. El estado de entrada no cambia la conclusión.')
+        else:
+            casa = 'LO QUE LA CASA YA SABE (no lo contradigas; si la ficha muestra ESPERAR o VIGILAR, tu conclusión no puede ser comprar ya):'
+            regla_conclusion = ('- La causa de la caída manda sobre tu intuición: si es DETERIORO, la conclusión es evitar; '
+                                'si el estado de entrada es ESPERAR o VIGILAR, la conclusión es esperar (di qué falta); '
+                                'solo si es ENTRADA puedes decir comprar.')
+
         data_context = f"""TICKER: {ticker}
 EMPRESA: {_fmt(row.get('company_name'))}
 SECTOR: {_fmt(row.get('sector_name'))}
 PRECIO ACTUAL: {_fmt(row.get('current_price'), prefix='$')}
-VALUE SCORE: {_fmt(row.get('value_score'), '/100')}
+GRUPO VALUE: {_fmt(row.get('value_grupo'))} (PRIORIDAD: ventas del último año >=10% y PER a más de 1σ bajo su media de 10 años, lo único con ventaja medida. OBSERVAR: barata según nuestra valoración, pero le falta eso)
+PER CONTRA SU HISTORIA: {_fmt(row.get('per_z'), 'σ')} (PER {_fmt(row.get('per_norm'))} frente a mediana de 10 años {_fmt(row.get('per_mediana_10a'))}) · VENTAS ÚLTIMO AÑO: {_fmt(row.get('ventas_anual_pct'), '%')} · LE FALTA: {_fmt(row.get('value_falta'))}
+NUESTRA VALORACIÓN (mediana de consenso, DCF y P/E): {_fmt(row.get('upside_triangulated_pct'), '%')} · CONSENSO DE BPA EN 13 SEMANAS: {_fmt(row.get('revision_13s_pct'), '%')} (un recorte fuerte es un riesgo que hay que nombrar)
 
 FUNDAMENTALES:
 - Score fundamental: {_fmt_fund_score(row.get('fundamental_score'))}
@@ -836,10 +875,8 @@ CONTEXTO MERCADO:
 - Distancia máx. 52 semanas: {_fmt(row.get('proximity_to_52w_high'), '%')}
 - Short interest: {_fmt(row.get('short_percent_float'), '% del float')}
 - Flujo opciones: {_fmt(row.get('sentiment'))}
-- Bonus sector rotation: {float(row.get('tier_boost', 0) or 0):.1f}
-- Señal mean reversion: {float(row.get('mr_bonus', 0) or 0) > 0}
 {self._cerebro_context(ticker)}{self._tikr_context(ticker)}
-LO QUE LA CASA YA SABE (no lo contradigas; si la ficha muestra ESPERAR o VIGILAR, tu conclusión no puede ser comprar ya):
+{casa}
 {contexto_para_prompt(row)}
 
 Eres un analista de inversión value/GARP profesional (estilo Peter Lynch).
@@ -853,7 +890,7 @@ REGLAS ESTRICTAS:
 - Si hay datos TIKR Pro, úsalos para contextualizar la valoración (NTM multiples vs histórico).
 - Señala riesgos y preocupaciones, no solo lo positivo.
 - Las compras de insiders > 6 meses son menos relevantes, señálalo.
-- La causa de la caída manda sobre tu intuición: si es DETERIORO, la conclusión es evitar; si el estado de entrada es ESPERAR o VIGILAR, la conclusión es esperar (di qué falta); solo si es ENTRADA puedes decir comprar.
+{regla_conclusion}
 - Máximo unas 300 palabras, sin tablas. Cada sección en 1-3 frases; la Conclusión SIEMPRE se escribe.
 - Tono profesional y directo. Sin hipérbole, sin emojis.
 
@@ -918,7 +955,15 @@ ESTRUCTURA (usa **negrita** para cada sección):
         parts = []
 
         # Intro con puntuación value
-        parts.append(f"**{ticker}** — Puntuación value: **{score:.1f}/100** | Sector: {sector}")
+        grupo = row.get('value_grupo')
+        if grupo:
+            parts.append(f"**{ticker}** — **{grupo.capitalize()}** | Sector: {sector}")
+            if row.get('per_z') is not None and row.get('ventas_anual_pct') is not None:
+                parts.append(f"PER a {row['per_z']:+.1f}σ de su media de 10 años; ventas del último año {row['ventas_anual_pct']:+.1f}%.")
+            if row.get('value_falta'):
+                parts.append(f"Le falta: {row['value_falta']}.")
+        else:
+            parts.append(f"**{ticker}** — Puntuación value: **{score:.1f}/100** | Sector: {sector}")
 
         # Fundamentales — datos detallados si disponibles, sub-scores como fallback
         fund_lines = []

@@ -25,14 +25,10 @@ import json
 import time
 import argparse
 from opportunity_validator import OpportunityValidator
-# Lo que se resta a un upside por encima del hard reject. No es cero (un
-# gap enorme suele tener un motivo) ni una sentencia (la muestra que lo
-# justificaba eran 14 empresas de un solo sector). Ver la nota larga en
-# `_calculate_value_score`.
-PENALIZACION_UPSIDE_ALTO = 8.0
-
-from value_bands import UPSIDE_MIN, UPSIDE_GOLDEN_MAX, UPSIDE_ALTO, VALUE_SCORE_MIN, respaldo_propio, motivo_fuera_de_value
-from data_integrity import filter_dataframe
+from bandas_per import aplicar as aplicar_bandas_per
+from value_bands import (NOTA_OBSERVAR, NOTA_PRIORIDAD, UPSIDE_ALTO, VALUE_SCORE_MIN,
+                         motivo_fuera_de_value, nota_value, vetos_value)
+from data_integrity import fcf_es_caja_libre, filter_dataframe
 from ai_pick_verifier import verify_picks, apply_verdicts
 from picks_excluidos import registrar as registrar_excluidos
 # why_cheap_analyzer NO se importa aquí a propósito: vive en enrich_why_cheap.py,
@@ -109,13 +105,9 @@ class SuperScoreIntegrator:
         options_df = self._load_options_flow()
         print(f"✅ Options Flow: {len(options_df)} tickers cargados")
 
-        # 5. Cargar 5D data (insiders/institutional)
-        data_5d = self._load_5d_opportunities()
-        print(f"✅ 5D Data (insiders/institutional): {len(data_5d)} tickers cargados")
-
-        # 6. Merge todos los dataframes
+        # 5. Merge todos los dataframes
         print(f"\n🔄 Integrando scores...")
-        integrated_df = self._merge_scores(vcp_df, ml_df, fundamental_df, options_df, data_5d)
+        integrated_df = self._merge_scores(vcp_df, ml_df, fundamental_df, options_df)
 
         print(f"✅ Integración completada: {len(integrated_df)} tickers con scores completos")
 
@@ -152,19 +144,13 @@ class SuperScoreIntegrator:
         value_df = value_df.sort_values('value_score', ascending=False)
 
         # Solo ideas VALUE: barata según nuestra valoración y sin que el negocio
-        # empeore (value_bands.motivo_fuera_de_value).
-        # Va aquí, en la separación y no dentro del cálculo, porque después del
-        # cálculo hay ajustes que suman (cerebro, sector, días en lista) y
-        # podían devolver a la lista lo que un descarte había puesto a cero.
+        # empeore (value_bands.motivo_fuera_de_value). nota_value ya les pone un 0.
         _fuera = motivo_fuera_de_value(value_df)
-        _n_fuera = int(((_fuera != '') & (value_df['value_score'] >= VALUE_SCORE_MIN)).sum())
-        value_df.loc[_fuera != '', 'value_score'] = 0.0
-        print(f"\n🧭 Fuera de VALUE por no ser una idea value: {_n_fuera} que pasaban el corte "
-              f"({int(_fuera.str.startswith('nuestra').sum() + _fuera.str.startswith('sin valoración').sum())} "
+        print(f"\n🧭 Fuera de VALUE: {int(_fuera.str.startswith('nuestra').sum() + _fuera.str.startswith('sin valoración').sum())} "
               f"sin margen propio · {int(_fuera.str.startswith('ventas').sum() + _fuera.str.startswith('sin dato de ventas').sum())} "
-              f"con el negocio empeorando)")
+              f"con el negocio empeorando")
 
-        # Filter: quality threshold — banda canónica en value_bands
+        # Filter: lo que no pasó la puerta o tiene un descarte duro lleva un 0
         value_df = value_df[value_df['value_score'] >= VALUE_SCORE_MIN].copy()
 
         print(f"\n📊 VALUE OPPORTUNITIES:")
@@ -329,62 +315,12 @@ class SuperScoreIntegrator:
         available = [c for c in cols if c in df.columns]
         return df[available] if available else pd.DataFrame()
 
-    def _load_sector_rotation(self) -> dict:
-        """Carga datos de sector rotation (momentum sectorial)"""
-        path = Path('docs/sector_rotation/latest_scan.json')
-        if not path.exists():
-            return {}
-
-        try:
-            with open(path, 'r') as f:
-                data = json.load(f)
-
-            # Convert to dict: sector_name -> sector_data
-            sector_dict = {}
-            for sector_data in data.get('results', []):
-                sector_name = sector_data.get('sector', '')
-                if sector_name:
-                    sector_dict[sector_name] = sector_data
-
-            return sector_dict
-        except Exception as e:
-            print(f"⚠️  Error loading sector rotation: {e}")
-            return {}
-
-    def _load_mean_reversion(self) -> set:
-        """Carga tickers con setup de mean reversion (quality stocks oversold)"""
-        path = Path('docs/mean_reversion_opportunities.csv')
-        if not path.exists():
-            return set()
-
-        try:
-            df = pd.read_csv(path)
-            # Filter for quality setups only (score >= 80)
-            if 'reversion_score' in df.columns and 'ticker' in df.columns:
-                quality_mr = df[df['reversion_score'] >= 80]['ticker'].tolist()
-                return set(quality_mr)
-            return set()
-        except Exception as e:
-            print(f"⚠️  Error loading mean reversion: {e}")
-            return set()
-
-    def _load_5d_opportunities(self) -> pd.DataFrame:
-        """Carga 5D opportunities para datos de insiders/institucionales"""
-        path = Path('docs/super_opportunities_5d_complete_with_earnings.csv')
-        if not path.exists():
-            return pd.DataFrame()
-        df = pd.read_csv(path)
-        cols = ['ticker', 'insiders_score', 'institutional_score', 'num_whales', 'top_whales']
-        available = [c for c in cols if c in df.columns]
-        return df[available] if available else pd.DataFrame()
-
     def _merge_scores(
         self,
         vcp_df: pd.DataFrame,
         ml_df: pd.DataFrame,
         fundamental_df: pd.DataFrame,
         options_df: pd.DataFrame,
-        data_5d: pd.DataFrame
     ) -> pd.DataFrame:
         """
         Merge todos los scores en un único dataframe.
@@ -438,9 +374,6 @@ class SuperScoreIntegrator:
             result = result.merge(options_df, on='ticker', how='left')
 
         # Merge 5D data (insiders/institutional)
-        if not data_5d.empty:
-            result = result.merge(data_5d, on='ticker', how='left')
-
         # current_price: el de fundamental_scores manda; vcp_price solo rellena
         # tickers VCP-only que no estén en fundamentals
         if 'vcp_price' in result.columns:
@@ -922,51 +855,6 @@ class SuperScoreIntegrator:
             df['super_score_ultimate'] + df['options_bonus']
         ).clip(lower=0, upper=100)
 
-        # 11. INSTITUTIONAL BACKING (Whale holdings)
-        print("\n1️⃣1️⃣ INSTITUTIONAL BACKING")
-        print("-" * 70)
-
-        df['institutional_bonus'] = 0.0
-        if 'num_whales' in df.columns:
-            df['_whales'] = pd.to_numeric(df['num_whales'], errors='coerce').fillna(0)
-            df.loc[df['_whales'] >= 5, 'institutional_bonus'] += 8.0
-            df.loc[(df['_whales'] >= 3) & (df['_whales'] < 5), 'institutional_bonus'] += 5.0
-            df.loc[(df['_whales'] >= 1) & (df['_whales'] < 3), 'institutional_bonus'] += 2.0
-
-            whale_5plus = int((df['_whales'] >= 5).sum())
-            print(f"🐋 5+ whales holding: {whale_5plus}/{len(df)} (+8 pts)")
-            df.drop(columns=['_whales'], inplace=True)
-
-        if 'institutional_score' in df.columns:
-            df['_inst'] = pd.to_numeric(df['institutional_score'], errors='coerce').fillna(0)
-            df.loc[df['_inst'] >= 80, 'institutional_bonus'] += 3.0
-            high_inst = int((df['_inst'] >= 80).sum())
-            print(f"📊 High institutional score (≥80): {high_inst}/{len(df)} (+3 pts)")
-            df.drop(columns=['_inst'], inplace=True)
-
-        df['institutional_bonus'] = df['institutional_bonus'].clip(upper=10)
-        df['super_score_ultimate'] = (
-            df['super_score_ultimate'] + df['institutional_bonus']
-        ).clip(lower=0, upper=100)
-
-        # 12. INSIDER BUYING (Recurring insider purchases)
-        print("\n1️⃣2️⃣ INSIDER BUYING")
-        print("-" * 70)
-
-        df['insider_bonus'] = 0.0
-        if 'insiders_score' in df.columns:
-            df['_ins'] = pd.to_numeric(df['insiders_score'], errors='coerce').fillna(0)
-            df.loc[df['_ins'] >= 70, 'insider_bonus'] += 5.0
-            df.loc[(df['_ins'] >= 50) & (df['_ins'] < 70), 'insider_bonus'] += 3.0
-
-            high_insider = int((df['_ins'] >= 70).sum())
-            print(f"👔 Strong insider buying (score≥70): {high_insider}/{len(df)} (+5 pts)")
-            df.drop(columns=['_ins'], inplace=True)
-
-        df['super_score_ultimate'] = (
-            df['super_score_ultimate'] + df['insider_bonus']
-        ).clip(lower=0, upper=100)
-
         # 13. HARD FUNDAMENTAL FILTERS (Profitability Gates)
         print("\n1️⃣3️⃣ HARD FUNDAMENTAL FILTERS — PROFITABILITY GATES")
         print("-" * 70)
@@ -1039,157 +927,24 @@ class SuperScoreIntegrator:
         print("🎯 CALCULATING DUAL STRATEGY SCORES")
         print("="*70)
 
-        # SECTION A: VALUE SCORE (Principal strategy)
-        print("\n📊 VALUE SCORE — Quality + Insiders + Institutional")
+        # SECTION A: VALUE
+        # La nota la pone value_bands.nota_value: si pasa la puerta, si crece a doble
+        # dígito con el PER bajo su historia, y lo barata que está. Todo lo demás de
+        # esta sección son datos de la ficha y NO puntúan. Había más de 25 ajustes
+        # sumando aquí; se quitaron el 7-nov-2026 al medirlos (ver value_bands).
+        print("\n📊 VALUE — puerta, grupo y lo barata que está")
         print("-" * 70)
 
-        df['value_score'] = 0.0
+        # La usa la puerta (respaldo propio) y la ficha.
+        df = add_upside_triangulation(df)
 
-        # Fundamentals (40 pts max) — ONLY if not default (50.0 exactly = no real data)
-        if 'fundamental_score' in df.columns:
-            df['_fund'] = pd.to_numeric(df['fundamental_score'], errors='coerce')
-            valid_fund = df['_fund'].notna() & ((df['_fund'] - 50.0).abs() > 0.1)
-            df.loc[valid_fund, 'value_score'] += (df.loc[valid_fund, '_fund'] / 100) * 40
-
-        # Profitability bonus (15 pts max)
-        # health_details has: roe_pct, operating_margin_pct
-        # earnings_details has: profit_margin_pct
-        if 'health_details' in df.columns:
-            import ast
-            for idx, row in df.iterrows():
-                try:
-                    health = row.get('health_details', '{}')
-                    if isinstance(health, str):
-                        health = ast.literal_eval(health) if health != '{}' else {}
-
-                    earnings = row.get('earnings_details', '{}')
-                    if isinstance(earnings, str):
-                        earnings = ast.literal_eval(earnings) if earnings != '{}' else {}
-
-                    roe = health.get('roe_pct', 0)
-                    # profit_margin lives in earnings_details; op_margin in health_details
-                    profit_margin = earnings.get('profit_margin_pct',
-                                    health.get('operating_margin_pct', 0))
-
-                    prof_bonus = 0.0
-                    if roe >= 20:
-                        prof_bonus += 8.0
-                    elif roe >= 15:
-                        prof_bonus += 5.0
-
-                    if profit_margin >= 15:
-                        prof_bonus += 7.0
-                    elif profit_margin >= 10:
-                        prof_bonus += 4.0
-
-                    df.at[idx, 'value_score'] += prof_bonus
-                except:
-                    pass
-
-        # Insider conviction (15 pts max)
-        value_insider_bonus = df.get('insider_bonus', pd.Series(0.0, index=df.index)) * 3  # Scale 5→15
-        df['value_score'] += value_insider_bonus.clip(upper=15)
-
-        # Institutional backing (15 pts max)
-        value_inst_bonus = df.get('institutional_bonus', pd.Series(0.0, index=df.index)) * 1.5  # Scale 10→15
-        df['value_score'] += value_inst_bonus.clip(upper=15)
-
-        # Options flow (10 pts max)
-        value_options = df.get('options_bonus', pd.Series(0.0, index=df.index)) * 2  # Scale 5→10
-        df['value_score'] += value_options.clip(lower=-10, upper=10)
-
-        # ML confirmation (5 pts max) — ONLY if not default (50.0 = no real prediction)
-        if 'ml_score' in df.columns:
-            df['_ml'] = pd.to_numeric(df['ml_score'], errors='coerce')
-            valid_ml = df['_ml'].notna() & ((df['_ml'] - 50.0).abs() > 0.1)
-            df.loc[valid_ml, 'value_score'] += (df.loc[valid_ml, '_ml'] / 100) * 5
-            df.drop(columns=['_ml'], inplace=True, errors='ignore')
-
-        # Sector Rotation (10 pts max) - VALUE strategy: buy sectors temporarily down
-        sector_rotation = self._load_sector_rotation()
-        if sector_rotation and 'sector' in df.columns:
-            df['sector_bonus'] = 0.0
-            for idx, row in df.iterrows():
-                sector = row.get('sector', '')
-                if sector and sector in sector_rotation:
-                    velocity = sector_rotation[sector].get('velocity', 0)
-                    momentum = sector_rotation[sector].get('momentum_change', 'stable')
-
-                    # VALUE: reward sectors temporarily down (contrarian)
-                    if velocity < -5 and momentum == 'decelerating':
-                        df.at[idx, 'sector_bonus'] = 8.0  # Sector weak, value opportunity
-                    elif -5 <= velocity < 0:
-                        df.at[idx, 'sector_bonus'] = 5.0  # Moderate weakness
-                    elif velocity > 5 and momentum == 'accelerating':
-                        df.at[idx, 'sector_bonus'] = -3.0  # Too hot, not value
-
-            df['value_score'] += df['sector_bonus']
-
-        # Mean Reversion (10 pts max) - VALUE strategy: quality stocks oversold
-        mean_reversion_tickers = self._load_mean_reversion()
-        if mean_reversion_tickers:
-            df['mr_bonus'] = 0.0
-            df.loc[df['ticker'].isin(mean_reversion_tickers), 'mr_bonus'] = 10.0
-            df['value_score'] += df['mr_bonus']
-
-        # FCF Yield bonus (8 pts max) — cash generation is king for value
+        # En bancos, aseguradoras y REIT el FCF no es caja libre: no cuenta para
+        # lo barata que está. EQIX parecía quemar caja por construir centros de
+        # datos, que es a lo que se dedica.
         if 'fcf_yield_pct' in df.columns:
-            df['_fcf'] = pd.to_numeric(df['fcf_yield_pct'], errors='coerce')
-            # En bancos, aseguradoras y REIT el FCF no es caja libre, así que
-            # ni premia ni penaliza: EQIX se comía los −5 de «cash burn» por
-            # construir centros de datos —que es a lo que se dedica— y un
-            # prestamista cobraría los +8 por un número que no mide eso.
-            from data_integrity import fcf_es_caja_libre
-            _interpretable = df.apply(
-                lambda r: fcf_es_caja_libre(r.to_dict()), axis=1)
-            df.loc[~_interpretable, '_fcf'] = pd.NA
-            df['fcf_es_caja_libre'] = _interpretable
-            df['fcf_bonus'] = 0.0
-            df.loc[df['_fcf'] >= 8, 'fcf_bonus'] = 8.0   # Very high FCF yield
-            df.loc[(df['_fcf'] >= 5) & (df['_fcf'] < 8), 'fcf_bonus'] = 6.0
-            df.loc[(df['_fcf'] >= 3) & (df['_fcf'] < 5), 'fcf_bonus'] = 3.0
-            df.loc[df['_fcf'] < 0, 'fcf_bonus'] = -5.0   # Negative FCF = cash burn
-            df['value_score'] += df['fcf_bonus']
-            df.drop(columns=['_fcf'], inplace=True, errors='ignore')
-            print(f"   💰 FCF Yield bonus applied ({(df['fcf_bonus'] > 0).sum()} tickers)")
+            df['fcf_es_caja_libre'] = df.apply(lambda r: fcf_es_caja_libre(r.to_dict()), axis=1)
 
-        # Dividend Quality bonus (5 pts max) — sustainable dividend = safety
-        if 'dividend_yield_pct' in df.columns:
-            df['_div'] = pd.to_numeric(df['dividend_yield_pct'], errors='coerce').fillna(0)
-            df['_payout'] = pd.to_numeric(df.get('payout_ratio_pct', pd.Series(0, index=df.index)), errors='coerce').fillna(0)
-            df['dividend_bonus'] = 0.0
-            # Healthy dividend: yield 1-6% AND payout < 75%
-            healthy_div = (df['_div'] > 1.0) & (df['_div'] <= 6.0) & ((df['_payout'] < 75) | (df['_payout'] == 0))
-            df.loc[healthy_div & (df['_div'] >= 3.0), 'dividend_bonus'] = 5.0
-            df.loc[healthy_div & (df['_div'] >= 1.5) & (df['_div'] < 3.0), 'dividend_bonus'] = 3.0
-            # Dangerously high yield (>8%) = likely distressed
-            df.loc[df['_div'] > 8.0, 'dividend_bonus'] = -3.0
-            # Unsustainable payout (>90%)
-            df.loc[(df['_payout'] > 90) & (df['_payout'] > 0), 'dividend_bonus'] = df.loc[(df['_payout'] > 90) & (df['_payout'] > 0), 'dividend_bonus'] - 2.0
-            df['value_score'] += df['dividend_bonus']
-            df.drop(columns=['_div', '_payout'], inplace=True, errors='ignore')
-            print(f"   📈 Dividend bonus applied ({(df['dividend_bonus'] > 0).sum()} tickers)")
-
-        # Buyback bonus (3 pts max) — company buying back shares = confidence
-        if 'buyback_active' in df.columns:
-            df['buyback_bonus'] = 0.0
-            df.loc[df['buyback_active'] == True, 'buyback_bonus'] = 3.0
-            df['value_score'] += df['buyback_bonus']
-            print(f"   🔄 Buyback bonus applied ({(df['buyback_bonus'] > 0).sum()} tickers)")
-
-        # Analyst Revision Momentum (5 pts max) — estimates rising = positive signal
-        if 'analyst_revision_momentum' in df.columns:
-            df['_rev'] = pd.to_numeric(df['analyst_revision_momentum'], errors='coerce')
-            df['revision_bonus'] = 0.0
-            df.loc[df['_rev'] > 15, 'revision_bonus'] = 5.0     # Strong upgrades
-            df.loc[(df['_rev'] > 5) & (df['_rev'] <= 15), 'revision_bonus'] = 3.0
-            df.loc[(df['_rev'] > 0) & (df['_rev'] <= 5), 'revision_bonus'] = 1.0
-            df.loc[df['_rev'] < -10, 'revision_bonus'] = -3.0   # Downgrades
-            df['value_score'] += df['revision_bonus']
-            df.drop(columns=['_rev'], inplace=True, errors='ignore')
-            print(f"   📊 Revision momentum applied ({(df['revision_bonus'] > 0).sum()} tickers)")
-
-        # Target-price revision catalyst — analysts raising targets in last 7d = active upgrade cycle
+        # Cambios de objetivo de los analistas: los usa entry_verdict_agent.
         try:
             revisions_csv = Path('docs/analyst_revisions.csv')
             if revisions_csv.exists():
@@ -1198,353 +953,46 @@ class SuperScoreIntegrator:
                 rev_df = rev_df[[c for c in merge_cols if c in rev_df.columns]].copy()
                 df = df.merge(rev_df, on='ticker', how='left', suffixes=('', '_dup'))
                 df.drop(columns=[c for c in df.columns if c.endswith('_dup')], inplace=True, errors='ignore')
-                if 'target_change_7d_pct' in df.columns:
-                    df['_tc'] = pd.to_numeric(df['target_change_7d_pct'], errors='coerce')
-                    df['target_revision_bonus'] = 0.0
-                    df.loc[df['_tc'] >= 3.0, 'target_revision_bonus'] = 3.0
-                    df.loc[(df['_tc'] >= 1.0) & (df['_tc'] < 3.0), 'target_revision_bonus'] = 1.5
-                    df.loc[df['_tc'] <= -3.0, 'target_revision_bonus'] = -3.0
-                    df.loc[(df['_tc'] <= -1.0) & (df['_tc'] > -3.0), 'target_revision_bonus'] = -1.5
-                    df['value_score'] += df['target_revision_bonus']
-                    df.drop(columns=['_tc'], inplace=True, errors='ignore')
-                    bumped = int((df['target_revision_bonus'] > 0).sum())
-                    cut = int((df['target_revision_bonus'] < 0).sum())
-                    print(f"   🎯 Target revision bonus applied ({bumped} upgrades, {cut} downgrades)")
         except Exception as exc:
             print(f"   ⚠ Target revision merge skipped: {exc}")
 
-        # ── IV vs REALIZED VOLATILITY BONUS ────────────────────────────────────
-        # iv_ratio = ATM_IV / HV_30d:
-        #   <0.8 → opciones baratas vs historia → mercado NO anticipa movimiento
-        #         → mejor entrada para comprar acciones (poca presión put compradores)  +3pts
-        #   0.8–1.3 → normal → neutral
-        #   >1.3 → opciones caras → mercado anticipa movimiento / riesgo elevado → -3pts
-        #   >2.0 → miedo extremo → -5pts (algo grave se anticipa)
-        # Solo aplica si iv_ratio tiene datos fiables (no None, calculado en horario de mercado)
-        if 'iv_ratio' in df.columns:
-            _iv = pd.to_numeric(df['iv_ratio'], errors='coerce')
-            iv_bonus = pd.Series(0.0, index=df.index)
-            iv_bonus[_iv.notna() & (_iv < 0.8)]                         =  3.0
-            iv_bonus[_iv.notna() & (_iv >= 1.3) & (_iv < 2.0)]         = -3.0
-            iv_bonus[_iv.notna() & (_iv >= 2.0)]                        = -5.0
-            df['value_score'] += iv_bonus
-            cheap = int((_iv < 0.8).sum())
-            exp   = int((_iv >= 1.3).sum())
-            if cheap or exp:
-                print(f"   📉 IV/HV ratio: {cheap} cheap IV (+3pts) · {exp} expensive IV (-3/-5pts)")
-        # ──────────────────────────────────────────────────────────────────────
-
-        # Earnings timing warning — penalize if reporting within 7 days (risky entry)
-        if 'earnings_warning' in df.columns:
-            earnings_risk = df['earnings_warning'] == True
-            if earnings_risk.sum() > 0:
-                df.loc[earnings_risk, 'value_score'] -= 5.0
-                warned = df[earnings_risk]['ticker'].tolist()
-                print(f"   ⚠️ Earnings warning penalty (-5pts): {warned}")
-
-        # Apply profitability penalty to value_score (same gates as super_score)
-        if 'profitability_penalty' in df.columns:
-            df['value_score'] = (df['value_score'] - df['profitability_penalty']).clip(lower=0)
-
-        # Hard reject: zero out value_score for negative ROE (excluded from VALUE list)
-        if 'negative_roe' in df.columns:
-            rejected = int(df['negative_roe'].sum())
-            df.loc[df['negative_roe'] == True, 'value_score'] = 0.0
-            if rejected > 0:
-                rejected_tickers = df[df['negative_roe'] == True]['ticker'].tolist()
-                print(f"🚫 Hard rejected from VALUE (ROE<0): {rejected_tickers}")
-
-        # Triangulación analistas vs DCF/P/E — alimenta el bonus/penalización
-        # de upside que viene justo debajo, así que va antes de puntuar.
-        df = add_upside_triangulation(df)
-
-        # VALUATION CHECK: Reject stocks with negative analyst upside (overvalued)
         if 'analyst_upside_pct' in df.columns:
             _up = pd.to_numeric(df['analyst_upside_pct'], errors='coerce')
+            # Se marca para que el verificador de fichas lo mire con el contexto
+            # delante: un upside alto se investiga, no se castiga ni se premia.
+            df['upside_requiere_verificacion'] = _up >= UPSIDE_ALTO
+            # NO es un factor propio: es el upside reescalado (correlación +1,0000
+            # sobre 1479 señales). Se calcula porque media app lo enseña.
+            df['risk_reward_ratio'] = (_up / 8.0).round(2)
 
-            overvalued = _up.notna() & (_up < 0)
-            if overvalued.sum() > 0:
-                overvalued_tickers = df[overvalued]['ticker'].tolist()
-                print(f"🚫 Rejected from VALUE (analyst upside < 0%): {overvalued_tickers}")
-                df.loc[overvalued, 'value_score'] = 0.0
-
-            # UPSIDE ALTO: se MARCA para verificar, ya no se rechaza de plano.
-            #
-            # El rechazo automático decía apoyarse en «100 señales, 28% de
-            # acierto». Al desglosarlas el 18-sep-2026 resultó que esas 100
-            # señales son CATORCE empresas, y una sola (EXPN.L) aporta 24:
-            #
-            #   EXPN.L 24 · WTKWY 13 · SAP.DE 12 · BR 11 · JKHY 8 · RMV.L 8
-            #   SGE.L 8 · RELX 4 · AUTO.L 3 · INTU 3 · CLPBY 2 · SAP 2 ...
-            #
-            # Y las catorce son software, datos o información profesional
-            # (Technology 45 señales, Industrials 41 — Experian, Wolters
-            # Kluwer, RELX). Eso no mide «el upside alto es trampa»: mide «en
-            # 2026 el software de datos cayó por miedo a la IA». Contando una
-            # vez cada empresa quedan 3 de 14 en positivo, que con esa muestra
-            # no justifica tirar una banda entera del universo.
-            #
-            # El usuario lo dijo antes que los datos: «si una empresa tiene un
-            # 50% de consenso podemos estar ante la operación del año si es
-            # cierta; hay empresas que cayeron por miedo a la IA y siguen
-            # facturando». Un upside alto es algo que hay que INVESTIGAR, no
-            # una sentencia.
-            #
-            # Se penaliza (sigue siendo un aviso: un gap enorme suele tener un
-            # motivo) y se marca para que el verificador de fichas lo mire con
-            # el contexto delante — si los ingresos crecen, el descuento puede
-            # ser real.
-            # 27-oct-2026: el upside alto ya no se penaliza por sí solo. Manda
-            # la valoración propia: si DCF/P-E lo respaldan, cuenta como uno
-            # más; si lo niegan o no hay modelos propios, sí se penaliza.
-            df['upside_requiere_verificacion'] = False
-            alto = _up.notna() & (_up >= UPSIDE_ALTO)
-            value_trap = alto & ~respaldo_propio(df)
-            if alto.sum() > 0:
-                df.loc[alto, 'upside_requiere_verificacion'] = True
-                print(f"🔍 Upside ≥{UPSIDE_ALTO:.0f}%: {int((alto & ~value_trap).sum())} respaldados por la "
-                      f"valoración propia · {int(value_trap.sum())} sin respaldo (penalizados): "
-                      f"{df[value_trap]['ticker'].tolist()[:12]}")
-            if value_trap.sum() > 0:
-                df.loc[value_trap, 'value_score'] = (
-                    df.loc[value_trap, 'value_score'] - PENALIZACION_UPSIDE_ALTO).clip(lower=0)
-
-            # Recalibrated on 86 real clean-period VALUE signals (2026-04-08+):
-            # analyst upside is a VALUE-TRAP indicator, not a conviction signal.
-            #   upside [10,25)  → +4.73% / 83% win  (golden zone)
-            #   upside  >=25    → -7.56% /  4% win  (trap: price fell for a reason)
-            # The previous calibration rewarded ≥30% upside — exactly the losers.
-            # Note: golden-zone n is small (6); the ≥25% trap is robust (74 signals).
-            df['upside_bonus'] = 0.0
-            mask_golden = _up.notna() & (_up >= UPSIDE_MIN) & (_up < UPSIDE_GOLDEN_MAX)
-            mask_mild   = _up.notna() & (_up >= 0) & (_up < UPSIDE_MIN)   # too tight to matter
-            mask_trap   = value_trap        # upside alto que la valoración propia no respalda
-            df.loc[mask_golden, 'upside_bonus'] =  5.0
-            df.loc[mask_mild,   'upside_bonus'] = -3.0
-            df.loc[mask_trap,   'upside_bonus'] = -5.0
-
-            # CREDIBILIDAD DEL UPSIDE: el descuento del analista solo cuenta si
-            # los modelos propios no lo desmienten. NDAQ 31-jul-2026 cobraba el
-            # +5 de zona dorada con analista +15.7% mientras su propio DCF decía
-            # -26% y el P/E -49%: el score premiaba una rebaja que él mismo
-            # negaba. Si DCF/P/E contradicen al sell-side, el upside no es
-            # argumento — mismo criterio que [[upside-value-trap]].
-            if 'upside_divergence' in df.columns:
-                _div  = df['upside_divergence'].fillna('')
-                _tri  = pd.to_numeric(df.get('upside_triangulated_pct'), errors='coerce')
-                _alta  = (_div == 'ALTA')
-                _media = (_div == 'MEDIA')
-                # Sin bonus de zona dorada si los modelos propios lo desmienten
-                df.loc[mask_golden & (_alta | _media), 'upside_bonus'] = 0.0
-                # Y penalización si además el triangulado es negativo: el
-                # consenso de las tres valoraciones dice que está cara
-                _neg = _tri.notna() & (_tri < 0)
-                df.loc[_alta  & _neg, 'upside_bonus'] -= 8.0
-                df.loc[_media & _neg, 'upside_bonus'] -= 4.0
-                n_pen = int((_alta & _neg).sum() + (_media & _neg).sum())
-                if n_pen:
-                    _t = df.loc[(_alta | _media) & _neg, 'ticker'].tolist()
-                    print(f"   ⚠️  Upside no creíble (DCF/P·E lo desmienten) en {n_pen}: {_t[:12]}")
-
-            df['value_score'] += df['upside_bonus']
-            n_golden = int(mask_golden.sum()); n_trap = int(mask_trap.sum())
-            print(f"   📐 Upside tiers: {n_golden} zona dorada (+5pts) · {n_trap} upside alto sin respaldo propio (-5pts)")
-            df.drop(columns=['upside_bonus', '_up'], inplace=True, errors='ignore')
-
-        # `risk_reward_ratio` = upside / stop estándar del 8%. NO es un factor
-        # propio: es `analyst_upside_pct` reescalado, y su correlación con el
-        # upside medida sobre 1479 señales reales es +1.0000 EXACTO.
-        #
-        # Se sigue calculando porque media app lo enseña, pero ya no suma al
-        # score. El bonus que había aquí premiaba la banda R:R [1.25, 3.0),
-        # que en upside es [10, 24) — la banda dorada [10, 25) de value_bands
-        # otra vez, escrita inline y disfrazada de otra variable, justo lo que
-        # CLAUDE.md prohíbe. El bloque de arriba ya le da +5 a esa banda; este
-        # le sumaba otros +2. Medido sobre el CSV del 16-sep-2026: 24 de las 25
-        # filas en zona dorada cobraban los dos.
-        #
-        # El -3 por R:R < 1 era lo mismo por abajo: R:R < 1 es upside < 8%, y
-        # por debajo de UPSIDE_MIN (10) el upside_bonus ya no premia. Contar
-        # dos veces el mismo hecho no lo hace más cierto, solo desplaza el
-        # score de quien ya iba bien y ensancha la diferencia sin motivo nuevo.
-        #
-        # `portfolio_tracker` y `conviction_filter` ya quitaron sus copias de
-        # este mismo filtro disfrazado; el integrador era el que quedaba.
-        if 'analyst_upside_pct' in df.columns and 'current_price' in df.columns:
-            stop_loss_pct = 8.0  # Standard 8% stop loss (Minervini/Lynch)
-            df['_upside'] = pd.to_numeric(df['analyst_upside_pct'], errors='coerce')
-            df['risk_reward_ratio'] = (df['_upside'] / stop_loss_pct).round(2)
-            good_rr = int((df['risk_reward_ratio'] >= 2.0).sum())
-            print(f"   📐 Risk/Reward calculado, informativo ({good_rr} con R:R ≥ 2:1) "
-                  f"— no suma al score: es el upside reescalado")
-            df.drop(columns=['_upside'], inplace=True, errors='ignore')
-
-        # UPSIDE CREDIBILITY CHECK: penalize implausibly high upside with low/no conviction
-        # High analyst upside + "none" recommendation or few analysts = unreliable target
-        if 'analyst_upside_pct' in df.columns and 'analyst_count' in df.columns:
-            _up  = pd.to_numeric(df['analyst_upside_pct'], errors='coerce')
-            _cnt = pd.to_numeric(df['analyst_count'],      errors='coerce')
-            _rec = df['analyst_recommendation'].fillna('none').str.lower() if 'analyst_recommendation' in df.columns else pd.Series('none', index=df.index)
-
-            # upside >60% with contradictory recommendation (none/nan): -12pts
-            mask_contra = (_up > 60) & (_rec.isin(['none', 'nan', '']))
-            df.loc[mask_contra, 'value_score'] -= 12
-            if mask_contra.sum():
-                tickers = df.loc[mask_contra, 'ticker'].tolist()
-                print(f"⚠️  Upside >60% pero analistas no recomiendan: {tickers} → -12pts")
-
-            # upside >60% with <5 analysts: -10pts (too few voices for big claim)
-            mask_thin = (_up > 60) & (_cnt < 5) & (~mask_contra)
-            df.loc[mask_thin, 'value_score'] -= 10
-            if mask_thin.sum():
-                tickers = df.loc[mask_thin, 'ticker'].tolist()
-                print(f"⚠️  Upside >60% con <5 analistas: {tickers} → -10pts")
-
-            # upside >80% with <10 analysts: additional -8pts
-            mask_extreme = (_up > 80) & (_cnt < 10)
-            df.loc[mask_extreme, 'value_score'] -= 8
-            if mask_extreme.sum():
-                tickers = df.loc[mask_extreme, 'ticker'].tolist()
-                print(f"⚠️  Upside extremo >80% con <10 analistas: {tickers} → -8pts adicionales")
-
-            # ANALYST QUALITY: recommendation weight bonus/penalty
-            # 'hold' is neutral in VALUE — blue chips (MA, AON, ICE) structurally get 'hold'
-            # from analysts because they're widely held. Only 'sell' is a real negative signal.
-            rec_bonus = pd.Series(0.0, index=df.index)
-            rec_bonus[_rec == 'strong_buy'] = 5.0   # high conviction
-            rec_bonus[_rec == 'buy']        = 2.0   # positive
-            rec_bonus[_rec == 'hold']       = 0.0   # neutral — not a negative for VALUE
-            rec_bonus[_rec == 'sell']       = -8.0  # analysts actively negative
-            # Weight by coverage: more analysts = more reliable signal
-            _cnt_norm = (_cnt.clip(upper=20) / 20).fillna(0)  # 0-1 scale, cap at 20
-            df['value_score'] += rec_bonus * _cnt_norm
-            strong_buy_n = int((_rec == 'strong_buy').sum())
-            hold_sell_n  = int(_rec.isin(['hold','sell']).sum())
-            if strong_buy_n or hold_sell_n:
-                print(f"   📊 Analyst quality: {strong_buy_n} strong_buy (+pts) · {hold_sell_n} hold/sell (-pts)")
-
-            # ANALYST SPREAD: high/low target dispersion = analyst disagreement = uncertainty
-            # (target_high - target_low) / current_price > 60% = wide disagreement → penalty
-            if all(c in df.columns for c in ['target_price_analyst_high', 'target_price_analyst_low', 'current_price']):
-                _high = pd.to_numeric(df['target_price_analyst_high'], errors='coerce')
-                _low  = pd.to_numeric(df['target_price_analyst_low'],  errors='coerce')
-                _px   = pd.to_numeric(df['current_price'],             errors='coerce')
-                _spread = ((_high - _low) / _px * 100).where(_px > 0)
-
-                # Wide spread (>80% of price): analysts very divided → -6pts
-                mask_wide = _spread > 80
-                df.loc[mask_wide, 'value_score'] -= 6
-                # Very wide (>150%): extreme disagreement → -4pts more
-                mask_vwide = _spread > 150
-                df.loc[mask_vwide, 'value_score'] -= 4
-                # Tight spread (<25%): analysts aligned → +3pts bonus
-                mask_tight = (_spread <= 25) & _spread.notna() & (_cnt >= 5)
-                df.loc[mask_tight, 'value_score'] += 3
-
-                wide_n  = int(mask_wide.sum())
-                tight_n = int(mask_tight.sum())
-                if wide_n or tight_n:
-                    print(f"   📐 Analyst spread: {tight_n} tight consensus (+3pts) · {wide_n} wide disagreement (-6pts+)")
-
-        # ── PIOTROSKI F-SCORE (Proven +13.4% annual alpha) ─────────────────────────
-        # Strong (8-9): buy signal — company improving on all fronts
-        # Weak  (0-2): value trap warning — avoid even if cheap
-        if 'piotroski_score' in df.columns:
-            df['_fscore'] = pd.to_numeric(df['piotroski_score'], errors='coerce')
-            df['piotroski_bonus'] = 0.0
-            df.loc[df['_fscore'] >= 8, 'piotroski_bonus'] = 10.0   # STRONG: all 9 criteria green
-            df.loc[df['_fscore'] == 7, 'piotroski_bonus'] = 5.0    # Near-strong
-            df.loc[df['_fscore'] == 6, 'piotroski_bonus'] = 2.0    # Neutral-high
-            df.loc[df['_fscore'] <= 2, 'piotroski_bonus'] = -8.0   # WEAK: value trap
-            df['value_score'] += df['piotroski_bonus']
-            strong_f = int((df['_fscore'] >= 8).sum())
-            weak_f   = int((df['_fscore'] <= 2).sum())
-            print(f"   📊 Piotroski F-Score: {strong_f} STRONG (≥8) · {weak_f} WEAK (≤2)")
-            df.drop(columns=['_fscore'], inplace=True, errors='ignore')
-
-        # ── MAGIC FORMULA RANK (Greenblatt: EBIT/EV + ROIC) ────────────────────────
-        # Rank all stocks by earnings yield + capital efficiency combined
-        # Top 20% = +5pts (universe best), bottom 20% = -3pts
+        # Magic Formula (Greenblatt): dato de la ficha.
         if 'ebit_ev_yield' in df.columns and 'roic_greenblatt' in df.columns:
             _ev = pd.to_numeric(df['ebit_ev_yield'], errors='coerce')
             _roic = pd.to_numeric(df['roic_greenblatt'], errors='coerce')
             has_both = _ev.notna() & _roic.notna()
             if has_both.sum() >= 5:
-                # Rank each metric (1=best), combine, lower combined rank = better
-                ev_rank   = _ev.rank(ascending=False, na_option='bottom')
-                roic_rank = _roic.rank(ascending=False, na_option='bottom')
-                combined  = ev_rank + roic_rank
-                mf_rank   = combined.rank(ascending=True, method='min').astype('Int64')
-                df['magic_formula_rank'] = mf_rank.where(has_both, other=pd.NA)
-                n = has_both.sum()
-                top20_pct  = int(n * 0.20)
-                bot20_pct  = int(n * 0.20)
-                top20_mask = has_both & (mf_rank <= top20_pct)
-                bot20_mask = has_both & (mf_rank > n - bot20_pct)
-                df['mf_bonus'] = 0.0
-                df.loc[top20_mask, 'mf_bonus'] = 5.0
-                df.loc[bot20_mask, 'mf_bonus'] = -3.0
-                df['value_score'] += df['mf_bonus']
-                print(f"   🧮 Magic Formula Rank computed for {n} tickers · top20%: +5pts")
-                df.drop(columns=['mf_bonus'], inplace=True, errors='ignore')
+                combined = _ev.rank(ascending=False, na_option='bottom') + _roic.rank(ascending=False, na_option='bottom')
+                df['magic_formula_rank'] = combined.rank(ascending=True, method='min').astype('Int64').where(has_both, other=pd.NA)
 
-        # ── HEDGE FUND CONSENSUS (Smart Money Confirmation) ─────────────────────────
-        # Cross-reference value picks with 13F holdings from top value funds.
-        # Buffett, Ackman, Klarman, Tepper — these investors do the deepest due diligence.
-        # 2+ funds holding = convergence signal: +8pts
-        # 1 fund holding  = smart money awareness: +4pts
+        # Fondos 13F: dato de la ficha (hay un filtro «solo con fondos» en la lista).
         hf_path = Path('docs/hedge_fund_summary.json')
         if hf_path.exists():
             try:
-                import json as _json2
-                with open(hf_path) as _hf:
-                    hf_data = _json2.load(_hf)
-                hf_index = {}
-                for row in hf_data.get('top_consensus', []):
-                    t = str(row.get('ticker', '')).upper().strip()
-                    if t:
-                        hf_index[t] = int(row.get('funds_count', 0))
-
-                # Build lookup: ticker → {count, funds_list}
-                hf_funds_map = {}
-                for row in hf_data.get('top_consensus', []):
-                    t = str(row.get('ticker', '')).upper().strip()
-                    if t:
-                        hf_index[t]    = int(row.get('funds_count', 0))
-                        hf_funds_map[t] = row.get('funds_list', '')
-
-                df['_hf_count'] = df['ticker'].str.upper().str.strip().map(hf_index).fillna(0)
-                df['hedge_fund_count'] = df['_hf_count'].astype(int)  # keep in output
-                df['hedge_fund_names'] = df['ticker'].str.upper().str.strip().map(hf_funds_map).fillna('')
-
-                df['hf_bonus'] = 0.0
-                df.loc[df['_hf_count'] >= 2, 'hf_bonus'] = 8.0
-                df.loc[(df['_hf_count'] == 1), 'hf_bonus'] = 4.0
-                df['value_score'] += df['hf_bonus']
-
-                hf_hits = int((df['_hf_count'] >= 1).sum())
-                multi   = int((df['_hf_count'] >= 2).sum())
-                print(f"   🐋 Hedge Fund consensus: {hf_hits} matches ({multi} held by 2+ funds)")
-                df.drop(columns=['_hf_count', 'hf_bonus'], inplace=True, errors='ignore')
+                filas_hf = json.loads(hf_path.read_text()).get('top_consensus', [])
+                hf_count = {str(r.get('ticker', '')).upper().strip(): int(r.get('funds_count', 0)) for r in filas_hf}
+                hf_names = {str(r.get('ticker', '')).upper().strip(): r.get('funds_list', '') for r in filas_hf}
+                _t = df['ticker'].str.upper().str.strip()
+                df['hedge_fund_count'] = _t.map(hf_count).fillna(0).astype(int)
+                df['hedge_fund_names'] = _t.map(hf_names).fillna('')
             except Exception as _e:
                 print(f"   ⚠️  Hedge fund signal skipped: {_e}")
 
-        # COVERAGE CHECK: Penalize stocks without analyst coverage (less confidence)
-        if 'analyst_count' in df.columns:
-            no_coverage = df['analyst_count'].isna() | (df['analyst_count'] == 0)
-            if no_coverage.sum() > 0:
-                df.loc[no_coverage, 'value_score'] = df.loc[no_coverage, 'value_score'] * 0.85  # -15% penalty
-                no_cov_count = int(no_coverage.sum())
-                print(f"⚠️  No analyst coverage ({no_cov_count} tickers): -15% value_score penalty")
-
-        df['value_score'] = df['value_score'].clip(lower=0, upper=100)
-
-        # ── Owner Earnings AI Validator adjustment (±8 matrix, -10 UNRELIABLE) ─
+        # Validador IA de Owner Earnings: dato de la ficha. De él solo se usa una
+        # cosa para ordenar: si dice que el FCF no es fiable, no cuenta como caja.
         oe_ai_path = Path("docs/owner_earnings_ai_validated.json")
         if oe_ai_path.exists():
             try:
-                oe_raw = json.loads(oe_ai_path.read_text())
-                oe_map = oe_raw.get("results") or {}
+                oe_map = json.loads(oe_ai_path.read_text()).get("results") or {}
                 if oe_map:
                     def _oe_verdict(r: dict) -> tuple[int, str]:
                         adj = int(r.get("score_adjustment", 0) or 0)
@@ -1556,179 +1004,54 @@ class SuperScoreIntegrator:
                             verdict = f"{dq}/{tv} ({sign})"
                         return adj, verdict
 
-                    adj_series = df["ticker"].str.upper().map(lambda t: _oe_verdict(oe_map[t])[0] if t in oe_map else 0)
-                    verdict_series = df["ticker"].str.upper().map(lambda t: _oe_verdict(oe_map[t])[1] if t in oe_map else "")
-                    df["oe_ai_adjustment"] = adj_series.fillna(0).astype(int)
-                    df["oe_ai_verdict"] = verdict_series.fillna("")
-                    df["value_score"] = (df["value_score"] + df["oe_ai_adjustment"]).clip(lower=0, upper=100)
-                    from scoring.filters import anular_bonus_fcf_no_fiable
-                    df = anular_bonus_fcf_no_fiable(df, oe_map)
-                    if "fcf_bonus_anulado" in df.columns and (df["fcf_bonus_anulado"] != 0).any():
-                        print(f"   ⚖️  FCF no fiable según el validador: bonus anulado en "
-                              f"{sorted(df.loc[df['fcf_bonus_anulado'] != 0, 'ticker'])}")
-                    touched = int((df["oe_ai_adjustment"] != 0).sum())
-                    print(f"🤖 Owner Earnings AI: {touched}/{len(df)} ajustes aplicados (±8 matrix, -10 UNRELIABLE)")
+                    _t = df["ticker"].str.upper()
+                    df["oe_ai_adjustment"] = _t.map(lambda t: _oe_verdict(oe_map[t])[0] if t in oe_map else 0).astype(int)
+                    df["oe_ai_verdict"] = _t.map(lambda t: _oe_verdict(oe_map[t])[1] if t in oe_map else "")
+                    df["oe_fcf_no_fiable"] = _t.map(
+                        lambda t: str((oe_map.get(t) or {}).get("data_quality", "")).upper() == "UNRELIABLE")
             except Exception as e:
                 print(f"⚠️  Owner Earnings AI load failed (skipping): {e}")
 
-        # ── Cerebro IA adjustment (Phase 2) ───────────────────────────────────
+        # Cerebro: su señal es dato de la ficha. Ni su ajuste suma (23 % del orden sin
+        # predecir nada) ni su AVOID veta (ver value_bands.vetos_value).
         cerebro_csv = Path("docs/cerebro_ticker_signals.csv")
         if cerebro_csv.exists():
             try:
                 cerebro_df = pd.read_csv(cerebro_csv)
                 if not cerebro_df.empty and "ticker" in cerebro_df.columns:
-                    adj_map = dict(zip(
-                        cerebro_df["ticker"].str.upper(),
-                        pd.to_numeric(cerebro_df["cerebro_score_adj"], errors="coerce").fillna(0)
-                    ))
-                    sig_map = dict(zip(
-                        cerebro_df["ticker"].str.upper(),
-                        cerebro_df["cerebro_signal"].fillna("")
-                    ))
-                    def apply_cerebro(row):
-                        t   = str(row.get("ticker","")).upper()
-                        adj = adj_map.get(t, 0)
-                        sig = sig_map.get(t, "")
-                        if sig == "AVOID":
-                            return 0.0   # Hard reject — value trap HIGH
-                        return max(0.0, min(100.0, float(row["value_score"]) + adj))
-                    df["value_score"]      = df.apply(apply_cerebro, axis=1)
-                    df["cerebro_signal"]   = df["ticker"].str.upper().map(sig_map).fillna("")
-                    df["cerebro_score_adj"]= df["ticker"].str.upper().map(adj_map).fillna(0)
-                    avoid_n  = (df["cerebro_signal"] == "AVOID").sum()
-                    exit_n   = (df["cerebro_signal"] == "EXIT").sum()
-                    confirm_n= (df["cerebro_signal"] == "CONFIRM").sum()
-                    print(f"🧠 Cerebro IA applied: {avoid_n} AVOID · {exit_n} EXIT · {confirm_n} CONFIRM")
+                    _t = df["ticker"].str.upper()
+                    _c = cerebro_df["ticker"].str.upper()
+                    df["cerebro_signal"] = _t.map(dict(zip(_c, cerebro_df["cerebro_signal"].fillna("")))).fillna("")
+                    df["cerebro_score_adj"] = _t.map(dict(zip(
+                        _c, pd.to_numeric(cerebro_df["cerebro_score_adj"], errors="coerce").fillna(0)))).fillna(0)
             except Exception as e:
                 print(f"⚠️  Cerebro CSV load failed (skipping): {e}")
-        # ──────────────────────────────────────────────────────────────────────
 
-        # ── SECTOR WIN-RATE WEIGHTING (tracker-derived, dynamic) ──────────────
-        # Source: docs/portfolio_tracker/summary.json → sector_performance
-        # (golden-zone historical, real 30d returns, regenerated daily by the
-        # pipeline; 1-day lag vs today's run). Replaces the old ml_model_report
-        # source, which went stale (Apr-30) and zeroed out the two strongest
-        # signals in the data (Technology 15% win, Financial Services 74%).
-        # Absolute win-rate thresholds (the user goal is hit rate, not
-        # relative-to-mean), min 15 completed signals per sector, asymmetric:
-        # penalties stronger than bonuses (prefer 0 signals over false ones).
-        tracker_summary_path = Path('docs/portfolio_tracker/summary.json')
-        if tracker_summary_path.exists() and 'sector' in df.columns:
-            try:
-                _sec_perf = json.loads(tracker_summary_path.read_text()).get('sector_performance', {})
-                _MIN_SAMPLE = 15
-
-                def _sector_adj(sector: str) -> float:
-                    sp = _sec_perf.get(sector)
-                    if not sp or sp.get('count', 0) < _MIN_SAMPLE:
-                        return 0.0                 # sin muestra suficiente → neutral
-                    wr = sp.get('win_rate_30d')
-                    if wr is None:
-                        return 0.0
-                    if wr < 20:                    # Technology 15% → casi todo pierde
-                        return -12.0
-                    elif wr < 30:
-                        return -8.0
-                    elif wr < 40:                  # Industrials 35% → flojo
-                        return -3.0
-                    elif wr >= 65:                 # Financial Services 74%
-                        return 5.0
-                    elif wr >= 55:
-                        return 3.0
-                    return 0.0
-
-                if _sec_perf:
-                    df['sector_wr_adj'] = df['sector'].map(_sector_adj).fillna(0.0)
-                    df['value_score'] = (df['value_score'] + df['sector_wr_adj']).clip(lower=0, upper=100)
-
-                    up_n   = int((df['sector_wr_adj'] > 0).sum())
-                    down_n = int((df['sector_wr_adj'] < 0).sum())
-                    if up_n or down_n:
-                        best  = df.loc[df['sector_wr_adj'] > 0, 'sector'].value_counts().index[:2].tolist()
-                        worst = df.loc[df['sector_wr_adj'] < 0, 'sector'].value_counts().index[:2].tolist()
-                        print(f"   📈 Sector win-rate adj (tracker 30d): {up_n} boosted {best} · {down_n} penalized {worst}")
-                    df.drop(columns=['sector_wr_adj'], inplace=True, errors='ignore')
-                else:
-                    print("   ⚠️  Sector win-rate adj skipped: no sector_performance in tracker summary")
-            except Exception as _e:
-                print(f"   ⚠️  Sector win-rate adj skipped: {_e}")
-        # ──────────────────────────────────────────────────────────────────────
-
-        # ── SCORE DECAY: penalize tickers stale in the list ───────────────────
-        # A ticker that's been in the VALUE list ≥14 days without being entered
-        # signals the thesis hasn't materialized → reduce conviction.
-        # Looks back through docs/history/ snapshots to find first appearance.
-        history_base = Path('docs/history')
-        if history_base.exists() and 'ticker' in df.columns:
-            try:
-                today_str = datetime.now().strftime('%Y-%m-%d')
-                snapshots = sorted([
-                    d for d in history_base.iterdir()
-                    if d.is_dir() and d.name < today_str
-                ])
-                # Build {ticker → first_seen_date_str} from history
-                first_seen: dict[str, str] = {}
-                for snap in snapshots:
-                    snap_csv = snap / 'value_opportunities.csv'
-                    if not snap_csv.exists():
-                        continue
-                    try:
-                        snap_df = pd.read_csv(snap_csv, usecols=['ticker'])
-                        for t in snap_df['ticker'].str.upper().str.strip():
-                            if t not in first_seen:
-                                first_seen[t] = snap.name  # YYYY-MM-DD
-                    except Exception:
-                        continue
-
-                if first_seen:
-                    today_dt = datetime.now().date()
-                    def _days_in_list(ticker: str) -> int:
-                        fs = first_seen.get(str(ticker).upper().strip())
-                        if fs is None:
-                            return 0
-                        try:
-                            from datetime import date as _date
-                            d = _date.fromisoformat(fs)
-                            return max(0, (today_dt - d).days)
-                        except Exception:
-                            return 0
-
-                    df['days_in_list'] = df['ticker'].map(_days_in_list)
-                    # Decay schedule: 7-13d = -3pts, 14-20d = -7pts, ≥21d = -12pts
-                    decay = pd.Series(0.0, index=df.index)
-                    decay[df['days_in_list'] >= 21] = -12.0
-                    decay[(df['days_in_list'] >= 14) & (df['days_in_list'] < 21)] = -7.0
-                    decay[(df['days_in_list'] >= 7)  & (df['days_in_list'] < 14)] = -3.0
-                    df['value_score'] = (df['value_score'] + decay).clip(lower=0, upper=100)
-
-                    d7  = int((df['days_in_list'] >= 7).sum())
-                    d14 = int((df['days_in_list'] >= 14).sum())
-                    d21 = int((df['days_in_list'] >= 21).sum())
-                    if d7:
-                        print(f"   ⏳ Score decay applied: {d7} stale ≥7d · {d14} ≥14d (-7pts) · {d21} ≥21d (-12pts)")
-            except Exception as _e:
-                print(f"   ⚠️  Score decay skipped: {_e}")
-        # ──────────────────────────────────────────────────────────────────────
-
-        # ── ML win probability (from ml_win_predictor.py) ────────────────────
+        # Probabilidad del modelo de ML: dato de la ficha.
         try:
             _ml_probs_path = Path('docs/ml_win_probability.json')
             if _ml_probs_path.exists():
-                _ml_data = json.loads(_ml_probs_path.read_text())
-                _preds = _ml_data.get('predictions', {})
-                df['ml_win_probability'] = (
-                    df['ticker'].str.upper()
-                    .map(lambda t: _preds.get(t, {}).get('probability'))
-                )
-                df['ml_win_label'] = (
-                    df['ticker'].str.upper()
-                    .map(lambda t: _preds.get(t, {}).get('label', ''))
-                )
-                n_scored = df['ml_win_probability'].notna().sum()
-                print(f"   🤖 ML win probability loaded: {n_scored}/{len(df)} tickers")
+                _preds = json.loads(_ml_probs_path.read_text()).get('predictions', {})
+                _t = df['ticker'].str.upper()
+                df['ml_win_probability'] = _t.map(lambda t: _preds.get(t, {}).get('probability'))
+                df['ml_win_label'] = _t.map(lambda t: _preds.get(t, {}).get('label', ''))
         except Exception as _e:
             print(f"   ⚠️  ML win probability skipped: {_e}")
-        # ──────────────────────────────────────────────────────────────────────
+
+        # La historia del PER (TIKR) y las revisiones del consenso, y con eso la nota.
+        df = aplicar_bandas_per(df)
+        df = nota_value(df)
+        _con_z = int(pd.to_numeric(df['per_z'], errors='coerce').notna().sum())
+        print(f"   📏 Con bandas de PER: {_con_z}/{len(df)}")
+        if _con_z == 0:
+            print("   🔴 NINGUNA empresa con bandas de PER: el grupo PRIORIDAD saldrá vacío. Mirar bandas_per.py")
+
+        _vetada = vetos_value(df)
+        if _vetada.any():
+            print(f"🚫 Fuera de VALUE por descarte duro: {df.loc[_vetada & (df['value_score'] > 0), 'ticker'].tolist()}")
+        df.loc[_vetada, 'value_score'] = 0.0
+        df.loc[_vetada, 'value_grupo'] = ''
+        print(f"   🧭 Grupos: {df['value_grupo'].value_counts().to_dict()}")
 
         value_top = int((df['value_score'] >= 60).sum())
         value_avg = df['value_score'].mean()
@@ -1754,10 +1077,6 @@ class SuperScoreIntegrator:
         # Trend template (15 pts max)
         momentum_trend = df.get('trend_bonus', pd.Series(0.0, index=df.index)) * 1.5  # Scale 10→15
         df['momentum_score'] += momentum_trend.clip(lower=-10, upper=15)
-
-        # Institutional confirmation (10 pts max)
-        momentum_inst = df.get('institutional_bonus', pd.Series(0.0, index=df.index))
-        df['momentum_score'] += momentum_inst.clip(upper=10)
 
         # Fundamentals filter (10 pts max - quality gate, skip default 50.0)
         if 'fundamental_score' in df.columns:
@@ -1856,17 +1175,12 @@ class SuperScoreIntegrator:
             return "⚠️ WEAK"
 
     def _get_tier_value(self, score: float) -> str:
-        """Tier for VALUE strategy"""
-        if score >= 80:
-            return "⭐⭐⭐ EXCELLENT"
-        elif score >= 70:
-            return "⭐⭐ STRONG"
-        elif score >= 60:
-            return "⭐ GOOD"
-        elif score >= 50:
-            return "🔵 DECENT"
-        else:
-            return "⚪ WEAK"
+        """Tier for VALUE strategy: el grupo de value_bands.nota_value."""
+        if score >= NOTA_PRIORIDAD:
+            return "PRIORIDAD"
+        if score >= NOTA_OBSERVAR:
+            return "OBSERVAR"
+        return "FUERA"
 
     def _get_tier_momentum(self, score: float) -> str:
         """Tier for MOMENTUM strategy"""

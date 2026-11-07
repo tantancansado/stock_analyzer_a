@@ -1097,7 +1097,7 @@ class TestRRNoEsUnFactorIndependiente:
         from pathlib import Path
         import super_score_integrator as ssi
         src = Path(ssi.__file__).read_text()
-        assert "df['risk_reward_ratio'] = (df['_upside'] / stop_loss_pct)" in src, \
+        assert "df['risk_reward_ratio'] = (_up / 8.0)" in src, \
             'la fórmula de R:R cambió — revisar si sigue siendo colineal con upside'
 
     def test_el_tracker_no_filtra_por_rr(self):
@@ -1115,13 +1115,6 @@ class TestRRNoEsUnFactorIndependiente:
         assert '_rr' not in codigo, \
             'vuelve a filtrarse por R:R: es una banda de upside inline disfrazada'
 
-    def test_el_tracker_usa_la_banda_dorada_de_value_bands(self):
-        from pathlib import Path
-        import portfolio_tracker as pt
-        src = Path(pt.__file__).read_text()
-        bloque = src[src.index('def record_signals'):src.index('# Record MOMENTUM')]
-        assert 'UPSIDE_GOLDEN_MAX' in bloque and 'UPSIDE_MIN' in bloque, \
-            'la banda de registro debe venir de value_bands.py, no inline'
 
     def test_la_banda_encubierta_era_realmente_16_28(self):
         """Deja constancia numérica del razonamiento, por si alguien lo revisa."""
@@ -1193,101 +1186,8 @@ class TestAjusteSectorialSaleDeDatosLimpios:
             'el filtro R:R recorta la banda a upside>=16 por la puerta de atrás'
 
 
-class TestNoSeRecomiendaUnCuchilloCayendo:
-    """ESPERAR = bajo una MA200 descendente. Medido: es la mayor fuga.
-
-    entry_timing_backtest.py reconstruye el entry_readiness que habría tenido
-    cada señal histórica EN SU DÍA (solo con precios anteriores a esa fecha,
-    sin look-ahead) y lo cruza con el retorno real:
-
-        corte            ESPERAR      resto
-        30d limpio        10,3%       32,5%
-        90d limpio        20,8%       54,5%
-        90d histórico     48,4%       74,8%
-
-    Alfa de ESPERAR ~-10% en los tres. Se sostiene en ambos periodos y ambos
-    horizontes — el test de robustez que suspendió el FCF yield. Y eran el
-    62% de las señales registradas.
-    """
-
-    def test_el_tracker_descarta_esperar(self):
-        from pathlib import Path
-        import portfolio_tracker as pt
-        src = Path(pt.__file__).read_text()
-        bloque = src[src.index('def record_signals'):src.index('# Record MOMENTUM')]
-        codigo = '\n'.join(l for l in bloque.splitlines()
-                           if not l.lstrip().startswith('#'))
-        assert "!= 'ESPERAR'" in codigo, \
-            'vuelven a registrarse señales en caída libre (alfa medido ~-10%)'
-
-    def test_no_se_exige_ENTRADA(self):
-        """Exigir ENTRADA dejaría el sistema en 0 señales y no mejora:
-        VIGILAR rinde 76,0% vs 70,2% de ENTRADA en la muestra grande."""
-        from pathlib import Path
-        import portfolio_tracker as pt
-        src = Path(pt.__file__).read_text()
-        bloque = src[src.index('def record_signals'):src.index('# Record MOMENTUM')]
-        codigo = '\n'.join(l for l in bloque.splitlines()
-                           if not l.lstrip().startswith('#'))
-        assert "== 'ENTRADA'" not in codigo, \
-            'exigir ENTRADA deja el sistema sin señales — basta con excluir ESPERAR'
 
 
-class TestSueloDeCaida:
-    """Lo que ya ha caído demasiado sigue cayendo.
-
-    Reconstruidas las ~150 columnas de las 767 señales US con retorno a 90d,
-    tomándolas de los snapshots diarios de value_opportunities.csv en git
-    (misma técnica que entry_timing_backtest: solo datos anteriores a la
-    señal). La distancia al máximo de 52 semanas resultó el factor con más
-    señal de todos, y del mismo signo en ambos periodos: corr con alpha
-    +0,201 contaminado / +0,478 limpio.
-
-    Por tramos, periodo limpio:
-        caída >40%    n=38    7,9% acierto   alpha -12,46
-        caída 10-20%  n= 9     100% acierto  alpha  -1,51
-
-    No es el upside disfrazado: corr(distancia, upside) = -0,44, y
-    controlando por banda dorada la señal sigue viva (+0,143).
-    """
-
-    def test_hay_suelo_de_caida(self):
-        from pathlib import Path
-        import portfolio_tracker as pt
-        src = Path(pt.__file__).read_text()
-        bloque = src[src.index('def record_signals'):src.index('# Record MOMENTUM')]
-        codigo = '\n'.join(l for l in bloque.splitlines()
-                           if not l.lstrip().startswith('#'))
-        assert '_CAIDA_MAX_PCT' in codigo and 'proximity_to_52w_high' in codigo, \
-            'sin suelo de caída vuelven a entrar los cuchillos ya clavados'
-
-    def test_el_suelo_esta_donde_lo_puso_el_barrido(self):
-        """-30% es donde el alpha de lo que queda toca fondo (-2,81 vs -5,32
-        con el suelo en -40). Moverlo sin rehacer el barrido es adivinar."""
-        from pathlib import Path
-        import portfolio_tracker as pt
-        src = Path(pt.__file__).read_text()
-        # con regex: recortar 40 caracteres se rompe si alguien añade un
-        # comentario al final de la línea o cambia el formato del número
-        import re as _re
-        m = _re.search(r'_CAIDA_MAX_PCT\s*=\s*(-?\d+(?:\.\d+)?)', src)
-        assert m, 'no se encontró _CAIDA_MAX_PCT'
-        valor = float(m.group(1))
-        assert -40.0 <= valor <= -25.0, \
-            f'suelo en {valor}: fuera del rango que respaldan los datos'
-
-    def test_no_es_monotono_no_se_exige_estar_en_maximos(self):
-        """Pegado al máximo (0-10% de caída) también rinde mal: alpha -5,35 y
-        20,2% de acierto. La zona buena es 10-30%, así que esto debe ser un
-        SUELO, nunca un 'cuanto más cerca del máximo, mejor'."""
-        from pathlib import Path
-        import portfolio_tracker as pt
-        src = Path(pt.__file__).read_text()
-        bloque = src[src.index('def record_signals'):src.index('# Record MOMENTUM')]
-        codigo = '\n'.join(l for l in bloque.splitlines()
-                           if not l.lstrip().startswith('#'))
-        # el filtro debe ser >= suelo, no un techo tipo <= -5
-        assert '_prox >= _CAIDA_MAX_PCT' in codigo
 
 
 class TestBaseEstadistica:
@@ -1597,3 +1497,36 @@ class TestRegistroDelVigia:
         r = t.recommendations[t.recommendations['strategy'] == 'TRAS_RESULTADOS']
         assert len(r) == 1
         assert r['signal_date'].iloc[0] == pd.Timestamp(ayer) and r['signal_price'].iloc[0] == 88.0
+
+
+class TestRegistraLoQueSePublica:
+    """El tracker medía una cartera aparte: nota 50-65, upside 10-30, sin tecnología
+    ni inmobiliario, solo en tendencia alcista, sin ESPERAR, máximo 5 al día. La
+    cifra de rendimiento hablaba de una selección que la app no enseñaba."""
+
+    def _publicar(self, monkeypatch, tmp_path, filas):
+        monkeypatch.chdir(tmp_path)
+        (tmp_path / 'docs').mkdir()
+        hoy = pd.Timestamp.now().strftime('%Y-%m-%d %H:%M:%S')
+        pd.DataFrame([{'company_name': f['ticker'], 'current_price': 100.0, 'score_timestamp': hoy,
+                       'data_as_of_date': hoy[:10], **f} for f in filas]).to_csv(
+            tmp_path / 'docs' / 'value_opportunities_filtered.csv', index=False)
+        t = _make_tracker()
+        monkeypatch.setattr(t, '_save_recommendations', lambda: None)
+        t.record_signals()
+        return t.recommendations[t.recommendations['strategy'] == 'VALUE'].set_index('ticker')
+
+    def test_entra_todo_lo_publicado(self, monkeypatch, tmp_path):
+        filas = [{'ticker': f'T{i}', 'value_score': 85.0, 'value_grupo': 'PRIORIDAD', 'sector': 'Technology',
+                  'analyst_upside_pct': 45.0, 'entry_readiness': 'ESPERAR', 'market_regime': 'CORRECTION',
+                  'proximity_to_52w_high': -55.0} for i in range(8)]
+        assert len(self._publicar(monkeypatch, tmp_path, filas)) == 8
+
+    def test_guarda_lo_que_hace_falta_para_medir_por_grupos(self, monkeypatch, tmp_path):
+        r = self._publicar(monkeypatch, tmp_path, [{
+            'ticker': 'AAA', 'value_score': 84.0, 'value_grupo': 'PRIORIDAD', 'per_z': -1.8, 'ventas_anual_pct': 14.0,
+            'revision_13s_pct': 2.1, 'bpa_sobre_tendencia_pct': 12.0, 'fundamental_score': 71.0}])
+        fila = r.loc['AAA']
+        assert fila['value_grupo'] == 'PRIORIDAD' and fila['per_z'] == -1.8
+        assert fila['fundamental_score'] == 71.0 and fila['revision_13s_pct'] == 2.1
+        assert fila['ventas_anual_pct'] == 14.0

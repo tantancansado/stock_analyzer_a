@@ -49,7 +49,14 @@ export function hayFrenoDeEntrada(
 // Única definición de «lista para entrar». La usan la etiqueta LISTO de las dos
 // páginas de Value, el veredicto de la fila y la tarjeta del Centro de mando.
 export function esListo(row: ValueOpportunity, veredicto?: EntryVerdictKind | null): boolean {
-  const nearEarnings = row.days_to_earnings != null && row.days_to_earnings <= 7
+  const nearEarnings = row.days_to_earnings != null && row.days_to_earnings >= 0 && row.days_to_earnings <= 7
+  // Value US (value_bands.nota_value): lista es la de PRIORIDAD sin resultados
+  // encima. El timing no frena: dentro de la puerta, lo que cae bajo su media
+  // descendente es lo que mejor ha salido a 12 meses en 2020-2025 y a 90 días en
+  // 2026 (+7,0 contra +1,7), así que vetarlo descartaba justo lo bueno.
+  if (row.value_grupo) {
+    return row.value_grupo === 'PRIORIDAD' && !nearEarnings && !row.earnings_warning && row.cerebro_signal !== 'TRAP'
+  }
   // Una sola condición de upside, y con la banda declarada.
   //
   // Antes había dos, y las dos sobre la MISMA variable: `upside >= 10` y
@@ -85,12 +92,45 @@ export function getValueDecision({
   const score = row.value_score ?? 0
   const grade = (row.conviction_grade ?? '').toUpperCase()
   const upside = row.analyst_upside_pct
-  const nearEarnings = row.days_to_earnings != null && row.days_to_earnings <= 7
+  const nearEarnings = row.days_to_earnings != null && row.days_to_earnings >= 0 && row.days_to_earnings <= 7
   const hasBadUpside = upside != null && upside < 0
   const hasGoodUpside = upside == null || enZonaDorada(upside)
   const isReady = esListo(row, veredicto)
+  const salida = hasExit || row.cerebro_signal === 'EXIT'
 
-  if (hasExit || row.cerebro_signal === 'EXIT') {
+  // Value US: dos grupos, y el texto dice el dato de esa empresa. Los avisos van en
+  // el texto y no cambian el grupo: si una tarjeta de Prioridad pasa a «Esperar» o
+  // «Evitar», la pantalla dice 4 arriba y enseña 3 abajo. Medidas, las señales de
+  // Cerebro no separan (AVOID +8,6 a 90 días, neutras -1,5).
+  const avisoGrupo = nearEarnings
+    ? ` ${row.days_to_earnings === 0 ? 'Resultados hoy' : row.days_to_earnings === 1 ? 'Resultados mañana' : `Resultados en ${row.days_to_earnings} días`}: mejor verlos antes de decidir.`
+    : hasTrap || row.cerebro_signal === 'TRAP'
+      ? ' Cerebro la marca como posible trampa: revísala antes.'
+      : ''
+  if (row.value_grupo === 'PRIORIDAD') {
+    const z = row.per_z != null ? row.per_z.toLocaleString('es-ES', { maximumFractionDigits: 1 }) : null
+    const ventas = row.ventas_anual_pct != null ? row.ventas_anual_pct.toLocaleString('es-ES', { maximumFractionDigits: 0 }) : null
+    return {
+      kind: 'ready',
+      label: 'Prioridad',
+      headline: `PER a ${z}σ de su media y ventas anuales +${ventas} %.${avisoGrupo}`,
+      detail: `Barata frente a su propia historia y creciendo: la única combinación con ventaja en los dos periodos medidos.${row.entry_readiness === 'ESPERAR' || row.entry_readiness === 'VIGILAR' ? ' Sigue cayendo: a 12 meses eso no ha restado, pero a corto puede bajar más.' : ''} Revísala antes de decidir.`,
+      badgeClass: 'border-emerald-500/30 bg-emerald-500/10 text-emerald-400',
+      panelClass: 'border-emerald-500/20 bg-emerald-500/5',
+    }
+  }
+  if (row.value_grupo === 'OBSERVAR') {
+    return {
+      kind: 'watch',
+      label: 'Observar',
+      headline: `${row.value_falta ? `${row.value_falta.charAt(0).toUpperCase()}${row.value_falta.slice(1)}.` : 'Pasa la puerta, sin ventaja medida.'}${avisoGrupo}`,
+      detail: 'Pasa la puerta (barata según nuestra valoración y ventas que no caen), pero sin la combinación que ha dado ventaja. Medido, este grupo rinde como el universo.',
+      badgeClass: 'border-sky-500/30 bg-sky-500/10 text-sky-400',
+      panelClass: 'border-sky-500/20 bg-sky-500/5',
+    }
+  }
+
+  if (salida) {
     return {
       kind: 'avoid',
       label: 'Evitar',

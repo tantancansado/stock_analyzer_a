@@ -34,53 +34,14 @@ DEFAULT_SCORE = 50.0
 EPSILON = 0.1
 
 
-def _fund_contribution(df: pd.DataFrame) -> pd.DataFrame:
-    """super_score_integrator.py — fundamental contribution block."""
-    df = df.copy()
-    if 'value_score' not in df.columns:
-        df['value_score'] = 0.0
-    if 'fundamental_score' in df.columns:
-        fund = pd.to_numeric(df['fundamental_score'], errors='coerce')
-        valid = fund.notna() & ((fund - DEFAULT_SCORE).abs() > EPSILON)
-        df.loc[valid, 'value_score'] += (df.loc[valid, 'fundamental_score'] / 100) * 40
-    return df
 
 
-def _ml_contribution(df: pd.DataFrame) -> pd.DataFrame:
-    """super_score_integrator.py — ML contribution block."""
-    df = df.copy()
-    if 'value_score' not in df.columns:
-        df['value_score'] = 0.0
-    if 'ml_score' in df.columns:
-        ml = pd.to_numeric(df['ml_score'], errors='coerce')
-        valid = ml.notna() & ((ml - DEFAULT_SCORE).abs() > EPSILON)
-        df.loc[valid, 'value_score'] += (df.loc[valid, 'ml_score'] / 100) * 5
-    return df
 
 
-def _negative_roe_reject(df: pd.DataFrame) -> pd.DataFrame:
-    df = df.copy()
-    if 'negative_roe' in df.columns:
-        df.loc[df['negative_roe'] == True, 'value_score'] = 0.0  # noqa: E712
-    return df
 
 
-def _analyst_upside_reject(df: pd.DataFrame) -> pd.DataFrame:
-    df = df.copy()
-    if 'analyst_upside_pct' in df.columns:
-        up = pd.to_numeric(df['analyst_upside_pct'], errors='coerce')
-        overvalued = up.notna() & (up < 0)
-        df.loc[overvalued, 'value_score'] = 0.0
-    return df
 
 
-def _no_analyst_coverage_penalty(df: pd.DataFrame) -> pd.DataFrame:
-    """super_score_integrator.py:1319-1325 — ×0.85 when no coverage."""
-    df = df.copy()
-    if 'analyst_count' in df.columns:
-        no_cov = df['analyst_count'].isna() | (df['analyst_count'] == 0)
-        df.loc[no_cov, 'value_score'] *= 0.85
-    return df
 
 
 def _ma_filter_penalty(df: pd.DataFrame) -> pd.DataFrame:
@@ -100,105 +61,12 @@ def _ma_filter_penalty(df: pd.DataFrame) -> pd.DataFrame:
 # Rule 1 — negative_roe == True → value_score = 0
 # ─────────────────────────────────────────────────────────────────────────────
 
-class TestNegativeROEHardReject:
-
-    def test_negative_roe_zeroes_high_score(self):
-        df = pd.DataFrame({'ticker': ['IP'], 'negative_roe': [True], 'value_score': [80.0]})
-        result = _negative_roe_reject(df)
-        assert result['value_score'].iloc[0] == pytest.approx(0.0), \
-            "negative_roe=True must force value_score=0 regardless of accumulated points"
-
-    def test_negative_roe_zeroes_low_score(self):
-        df = pd.DataFrame({'ticker': ['X'], 'negative_roe': [True], 'value_score': [10.0]})
-        result = _negative_roe_reject(df)
-        assert result['value_score'].iloc[0] == pytest.approx(0.0)
-
-    def test_positive_roe_preserves_score(self):
-        df = pd.DataFrame({'ticker': ['MSFT'], 'negative_roe': [False], 'value_score': [75.0]})
-        result = _negative_roe_reject(df)
-        assert result['value_score'].iloc[0] == pytest.approx(75.0)
-
-    def test_mixed_portfolio_selective_reject(self):
-        df = pd.DataFrame({
-            'ticker':       ['BAD', 'GOOD', 'BAD2', 'GOOD2'],
-            'negative_roe': [True,  False,  True,   False],
-            'value_score':  [60.0,  70.0,   45.0,   80.0],
-        })
-        result = _negative_roe_reject(df)
-        assert result.loc[result.ticker == 'BAD',   'value_score'].iloc[0] == 0.0
-        assert result.loc[result.ticker == 'BAD2',  'value_score'].iloc[0] == 0.0
-        assert result.loc[result.ticker == 'GOOD',  'value_score'].iloc[0] == 70.0
-        assert result.loc[result.ticker == 'GOOD2', 'value_score'].iloc[0] == 80.0
-
-    def test_negative_roe_flag_set_from_health_details(self):
-        """Integration: super_score_integrator reads roe_pct from health_details."""
-        import super_score_integrator as ssi
-        src = __import__('pathlib').Path(ssi.__file__).read_text()
-        # Verify the flag assignment line is present in source
-        assert "df.at[idx, 'negative_roe'] = True" in src, \
-            "Hard-reject flag assignment for negative_roe removed from SSI source"
-
-    def test_roe_read_from_health_details_not_earnings_details(self):
-        """
-        The SSI reads roe_pct from health_details, NOT earnings_details.
-        This test guards against accidentally moving the key to the wrong dict.
-        """
-        import super_score_integrator as ssi
-        src = __import__('pathlib').Path(ssi.__file__).read_text()
-        # health.get('roe_pct') must be present (the correct lookup)
-        assert "health.get('roe_pct'" in src, \
-            "roe_pct must be read from health_details, not earnings_details"
 
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Rule 2 — analyst_upside_pct < 0 → value_score = 0
 # ─────────────────────────────────────────────────────────────────────────────
 
-class TestAnalystUpsideOvervalued:
-
-    def test_negative_upside_zeroes_score(self):
-        df = pd.DataFrame({
-            'ticker': ['OVERPRICED'], 'analyst_upside_pct': [-12.5], 'value_score': [75.0]
-        })
-        result = _analyst_upside_reject(df)
-        assert result['value_score'].iloc[0] == pytest.approx(0.0)
-
-    def test_zero_upside_is_not_rejected(self):
-        """Exactly 0% upside: analyst says fair value, not overvalued → no reject."""
-        df = pd.DataFrame({
-            'ticker': ['FAIR'], 'analyst_upside_pct': [0.0], 'value_score': [60.0]
-        })
-        result = _analyst_upside_reject(df)
-        assert result['value_score'].iloc[0] == pytest.approx(60.0)
-
-    def test_positive_upside_preserves_score(self):
-        df = pd.DataFrame({
-            'ticker': ['UNDERV'], 'analyst_upside_pct': [20.0], 'value_score': [70.0]
-        })
-        result = _analyst_upside_reject(df)
-        assert result['value_score'].iloc[0] == pytest.approx(70.0)
-
-    def test_nan_upside_preserves_score(self):
-        """NaN = no analyst data — penalised separately via ×0.85 rule, not zeroed."""
-        df = pd.DataFrame({
-            'ticker': ['NOCOV'], 'analyst_upside_pct': [float('nan')], 'value_score': [60.0]
-        })
-        result = _analyst_upside_reject(df)
-        assert result['value_score'].iloc[0] == pytest.approx(60.0)
-
-    def test_very_negative_upside_still_zeroes(self):
-        df = pd.DataFrame({
-            'ticker': ['TANK'], 'analyst_upside_pct': [-50.0], 'value_score': [50.0]
-        })
-        result = _analyst_upside_reject(df)
-        assert result['value_score'].iloc[0] == pytest.approx(0.0)
-
-    def test_source_contains_reject_logic(self):
-        import super_score_integrator as ssi
-        src = __import__('pathlib').Path(ssi.__file__).read_text()
-        assert "df['analyst_upside_pct'] < 0" in src or \
-               "(_up < 0)" in src, \
-            "Analyst upside < 0 reject logic not found in SSI source"
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -316,96 +184,12 @@ class TestDividendYieldHandling:
 # Rule 4 — ml_score == 50.0 means missing → contributes 0 pts
 # ─────────────────────────────────────────────────────────────────────────────
 
-class TestMLScoreDefaultMissing:
-
-    def test_ml_50_exact_contributes_zero(self):
-        df = pd.DataFrame({'ticker': ['X'], 'ml_score': [50.0], 'value_score': [0.0]})
-        result = _ml_contribution(df)
-        assert result['value_score'].iloc[0] == pytest.approx(0.0), \
-            "ml_score=50.0 is a default/missing marker — must contribute 0pts"
-
-    def test_ml_50_with_epsilon_noise_still_zero(self):
-        """50.05 is within epsilon of 50.0 — still treated as default."""
-        df = pd.DataFrame({'ticker': ['X'], 'ml_score': [50.05], 'value_score': [0.0]})
-        result = _ml_contribution(df)
-        assert result['value_score'].iloc[0] == pytest.approx(0.0)
-
-    def test_ml_80_contributes_4pts(self):
-        """80/100 × 5pts max = 4.0pts"""
-        df = pd.DataFrame({'ticker': ['X'], 'ml_score': [80.0], 'value_score': [0.0]})
-        result = _ml_contribution(df)
-        assert result['value_score'].iloc[0] == pytest.approx(4.0)
-
-    def test_ml_nan_contributes_zero(self):
-        df = pd.DataFrame({'ticker': ['X'], 'ml_score': [float('nan')], 'value_score': [0.0]})
-        result = _ml_contribution(df)
-        assert result['value_score'].iloc[0] == pytest.approx(0.0)
-
-    def test_ml_100_contributes_5pts(self):
-        df = pd.DataFrame({'ticker': ['X'], 'ml_score': [100.0], 'value_score': [0.0]})
-        result = _ml_contribution(df)
-        assert result['value_score'].iloc[0] == pytest.approx(5.0)
-
-    def test_source_epsilon_threshold(self):
-        import super_score_integrator as ssi
-        src = __import__('pathlib').Path(ssi.__file__).read_text()
-        assert "(df['_ml'] - 50.0).abs() > 0.1" in src, \
-            "ML default-detection threshold changed in SSI source"
 
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Rule 5 — fundamental_score == 50.0 means missing → contributes 0 pts
 # ─────────────────────────────────────────────────────────────────────────────
 
-class TestFundamentalScoreDefaultMissing:
-
-    def test_fund_50_exact_contributes_zero(self):
-        df = pd.DataFrame({'ticker': ['X'], 'fundamental_score': [50.0], 'value_score': [0.0]})
-        result = _fund_contribution(df)
-        assert result['value_score'].iloc[0] == pytest.approx(0.0), \
-            "fundamental_score=50.0 is default/missing — must contribute 0pts"
-
-    def test_fund_50_epsilon_noise_still_zero(self):
-        df = pd.DataFrame({'ticker': ['X'], 'fundamental_score': [50.09], 'value_score': [0.0]})
-        result = _fund_contribution(df)
-        assert result['value_score'].iloc[0] == pytest.approx(0.0)
-
-    def test_fund_75_contributes_30pts(self):
-        """75/100 × 40pts max = 30.0pts"""
-        df = pd.DataFrame({'ticker': ['X'], 'fundamental_score': [75.0], 'value_score': [0.0]})
-        result = _fund_contribution(df)
-        assert result['value_score'].iloc[0] == pytest.approx(30.0)
-
-    def test_fund_nan_contributes_zero(self):
-        df = pd.DataFrame({'ticker': ['X'], 'fundamental_score': [float('nan')], 'value_score': [0.0]})
-        result = _fund_contribution(df)
-        assert result['value_score'].iloc[0] == pytest.approx(0.0)
-
-    def test_fund_100_contributes_40pts(self):
-        df = pd.DataFrame({'ticker': ['X'], 'fundamental_score': [100.0], 'value_score': [0.0]})
-        result = _fund_contribution(df)
-        assert result['value_score'].iloc[0] == pytest.approx(40.0)
-
-    def test_fund_0_contributes_0pts(self):
-        """fund=0 is a real score (error/empty result) but contributes 0 to value_score."""
-        df = pd.DataFrame({'ticker': ['X'], 'fundamental_score': [0.0], 'value_score': [0.0]})
-        result = _fund_contribution(df)
-        assert result['value_score'].iloc[0] == pytest.approx(0.0)
-
-    def test_source_epsilon_threshold(self):
-        import super_score_integrator as ssi
-        src = __import__('pathlib').Path(ssi.__file__).read_text()
-        assert "(df['_fund'] - 50.0).abs() > 0.1" in src, \
-            "Fundamental default-detection threshold changed in SSI source"
-
-    def test_get_empty_result_returns_zero_not_50(self):
-        """_get_empty_result must return fundamental_score=0.0, NOT 50.0.
-        50.0 would look like missing data and be silently ignored."""
-        from fundamental_scorer import FundamentalScorer
-        scorer = FundamentalScorer()
-        empty = scorer._get_empty_result('FAKE')
-        assert empty['fundamental_score'] == pytest.approx(0.0), \
-            "_get_empty_result must return 0.0, not 50.0 (50.0 = missing data marker)"
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -604,141 +388,12 @@ class TestMAFilterRateLimitSkip:
 # Rule 8 — No analyst coverage → value_score × 0.85
 # ─────────────────────────────────────────────────────────────────────────────
 
-class TestNoCoverageAnalystPenalty:
-
-    def test_null_analyst_count_reduces_score_15pct(self):
-        df = pd.DataFrame({
-            'ticker': ['NOCOV'], 'analyst_count': [None], 'value_score': [60.0]
-        })
-        result = _no_analyst_coverage_penalty(df)
-        assert result['value_score'].iloc[0] == pytest.approx(51.0), \
-            "No analyst coverage must reduce value_score by 15% (×0.85)"
-
-    def test_zero_analyst_count_reduces_score_15pct(self):
-        df = pd.DataFrame({
-            'ticker': ['NOCOV'], 'analyst_count': [0], 'value_score': [60.0]
-        })
-        result = _no_analyst_coverage_penalty(df)
-        assert result['value_score'].iloc[0] == pytest.approx(51.0)
-
-    def test_one_analyst_preserves_score(self):
-        """Even 1 analyst = has coverage — no penalty."""
-        df = pd.DataFrame({
-            'ticker': ['COVERED'], 'analyst_count': [1], 'value_score': [60.0]
-        })
-        result = _no_analyst_coverage_penalty(df)
-        assert result['value_score'].iloc[0] == pytest.approx(60.0)
-
-    def test_many_analysts_preserves_score(self):
-        df = pd.DataFrame({
-            'ticker': ['COVERED'], 'analyst_count': [15], 'value_score': [80.0]
-        })
-        result = _no_analyst_coverage_penalty(df)
-        assert result['value_score'].iloc[0] == pytest.approx(80.0)
-
-    def test_mixed_coverage(self):
-        df = pd.DataFrame({
-            'ticker':        ['COV', 'NOCOV', 'ZERO'],
-            'analyst_count': [10,    None,    0],
-            'value_score':   [70.0,  60.0,   50.0],
-        })
-        result = _no_analyst_coverage_penalty(df)
-        assert result.loc[result.ticker == 'COV',   'value_score'].iloc[0] == pytest.approx(70.0)
-        assert result.loc[result.ticker == 'NOCOV', 'value_score'].iloc[0] == pytest.approx(51.0)
-        assert result.loc[result.ticker == 'ZERO',  'value_score'].iloc[0] == pytest.approx(42.5)
-
-    def test_source_contains_085_multiplier(self):
-        import super_score_integrator as ssi
-        src = __import__('pathlib').Path(ssi.__file__).read_text()
-        assert '0.85' in src, \
-            "SSI source must contain the 0.85 penalty for no analyst coverage"
 
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Integration: all rules interact correctly on the same DataFrame
 # ─────────────────────────────────────────────────────────────────────────────
 
-class TestCombinedRules:
-
-    def test_negative_roe_overrides_good_fundamentals(self):
-        """Even fund=90 + ml=90 can't save a negative_roe ticker."""
-        df = pd.DataFrame({
-            'ticker':          ['BADROE'],
-            'fundamental_score': [90.0],
-            'ml_score':        [90.0],
-            'negative_roe':    [True],
-            'analyst_upside_pct': [25.0],
-            'analyst_count':   [10],
-            'value_score':     [0.0],
-        })
-        df = _fund_contribution(df)
-        df = _ml_contribution(df)
-        df = _negative_roe_reject(df)
-        assert df['value_score'].iloc[0] == pytest.approx(0.0), \
-            "negative_roe must trump all positive contributions"
-
-    def test_negative_upside_overrides_good_fundamentals(self):
-        """Analyst says stock is overvalued → always reject from VALUE."""
-        df = pd.DataFrame({
-            'ticker':          ['OVERVAL'],
-            'fundamental_score': [85.0],
-            'ml_score':        [80.0],
-            'negative_roe':    [False],
-            'analyst_upside_pct': [-5.0],
-            'analyst_count':   [8],
-            'value_score':     [0.0],
-        })
-        df = _fund_contribution(df)
-        df = _ml_contribution(df)
-        df = _negative_roe_reject(df)
-        df = _analyst_upside_reject(df)
-        assert df['value_score'].iloc[0] == pytest.approx(0.0), \
-            "analyst_upside_pct < 0 must zero the score even with strong fundamentals"
-
-    def test_default_scores_dont_inflate_no_coverage(self):
-        """
-        A ticker with default fundamental (50) + default ml (50) + no analyst
-        coverage should end up with ~0 value_score after penalties.
-        """
-        df = pd.DataFrame({
-            'ticker':          ['GHOST'],
-            'fundamental_score': [50.0],   # default
-            'ml_score':        [50.0],     # default
-            'negative_roe':    [False],
-            'analyst_upside_pct': [float('nan')],
-            'analyst_count':   [None],
-            'value_score':     [0.0],
-        })
-        df = _fund_contribution(df)
-        df = _ml_contribution(df)
-        df = _negative_roe_reject(df)
-        df = _analyst_upside_reject(df)
-        df = _no_analyst_coverage_penalty(df)
-        # fund=50 → 0pts, ml=50 → 0pts, no coverage → ×0.85 on 0 = still 0
-        assert df['value_score'].iloc[0] == pytest.approx(0.0), \
-            "Default scores + no coverage = 0 (nothing real to reward)"
-
-    def test_strong_ticker_full_pipeline(self):
-        """
-        fund=80, ml=75, positive roe, 20% upside, 10 analysts:
-        value_score = (80/100)*40 + (75/100)*5 = 32 + 3.75 = 35.75
-        No rejections or penalties.
-        """
-        df = pd.DataFrame({
-            'ticker':          ['GOOD'],
-            'fundamental_score': [80.0],
-            'ml_score':        [75.0],
-            'negative_roe':    [False],
-            'analyst_upside_pct': [20.0],
-            'analyst_count':   [10],
-            'value_score':     [0.0],
-        })
-        df = _fund_contribution(df)
-        df = _ml_contribution(df)
-        df = _negative_roe_reject(df)
-        df = _analyst_upside_reject(df)
-        df = _no_analyst_coverage_penalty(df)
-        assert df['value_score'].iloc[0] == pytest.approx(35.75)
 
 
 class TestCompanyName:
@@ -875,11 +530,11 @@ class TestConsumidoresAceptanVacio:
             fundamental_score=30.0, negative_roe=False, health_score=None,
             pct_from_high=-20.0, ytd_pct=2.0, upside_pct=15.0) == 'DETERIORO'
 
-    def test_super_score_excluye_el_vacio(self):
-        """NaN no debe contribuir al value_score (ya lo cubría .notna())."""
-        df = pd.DataFrame({'ticker': ['X'], 'fundamental_score': [float('nan')],
-                           'value_score': [0.0]})
-        assert _fund_contribution(df)['value_score'].iloc[0] == pytest.approx(0.0)
+    def test_una_fila_sin_datos_no_tiene_nota(self):
+        """Sin fundamentales no hay valoración ni ventas: no pasa la puerta."""
+        from value_bands import nota_value
+        df = pd.DataFrame({'ticker': ['X'], 'fundamental_score': [float('nan')]})
+        assert nota_value(df)['value_score'].iloc[0] == pytest.approx(0.0)
 
 
 class TestMLSinFugaDeTarget:
@@ -1055,3 +710,45 @@ class TestCotizacionMuerta:
     def test_sin_historial_no_se_juzga(self):
         from fundamental_scorer import cotizacion_muerta
         assert cotizacion_muerta(100.0, pd.DataFrame(), pd.Timestamp('2026-10-29')) is None
+
+
+class TestMargenDeDoceMeses:
+    """`operatingMargins` de Yahoo es el del último trimestre: BR salía «hundida» de
+    24,6 % a 10,4 % solo por ser su primer trimestre fiscal, y Cerebro la vetaba."""
+
+    def _scorer(self):
+        from unittest.mock import patch
+        from fundamental_scorer import FundamentalScorer
+        with patch.object(FundamentalScorer, '__init__', lambda self: None):
+            return FundamentalScorer()
+
+    def _trimestres(self, op, ventas):
+        cols = pd.date_range('2025-12-31', periods=len(op), freq='-3ME')
+        return pd.DataFrame([op, ventas], index=['Operating Income', 'Total Revenue'], columns=cols)
+
+    def test_suma_cuatro_trimestres(self):
+        from fundamental_scorer import margen_operativo_12m
+        from types import SimpleNamespace
+        q = self._trimestres([10, 30, 30, 30, 99], [100, 100, 100, 100, 100])
+        assert margen_operativo_12m(SimpleNamespace(quarterly_income_stmt=q)) == pytest.approx(0.25)
+
+    def test_con_menos_de_cuatro_o_huecos_no_inventa(self):
+        from fundamental_scorer import margen_operativo_12m
+        from types import SimpleNamespace
+        assert margen_operativo_12m(SimpleNamespace(quarterly_income_stmt=self._trimestres([1, 2, 3], [9, 9, 9]))) is None
+        q = self._trimestres([1, float('nan'), 3, 4], [9, 9, 9, 9])
+        assert margen_operativo_12m(SimpleNamespace(quarterly_income_stmt=q)) is None
+        assert margen_operativo_12m(SimpleNamespace(quarterly_income_stmt=None)) is None
+
+    def test_llega_a_la_ficha_y_dice_de_donde_sale(self):
+        d = self._scorer()._calculate_financial_health_score({}, {'operatingMargins': 0.10}, 0.29)['details']
+        assert d['operating_margin_pct'] == 29.0 and d['operating_margin_base'] == '12m'
+
+    def test_sin_trimestres_usa_yahoo_y_lo_dice(self):
+        d = self._scorer()._calculate_financial_health_score({}, {'operatingMargins': 0.10})['details']
+        assert d['operating_margin_pct'] == 10.0 and d['operating_margin_base'] == 'yahoo'
+
+    def test_la_salud_de_verdad_no_lanza_excepcion_al_calcular(self, capsys):
+        """Una excepción aquí se traga y deja a la empresa sin margen, sin que nada falle."""
+        self._scorer()._calculate_financial_health_score({}, {'operatingMargins': 0.10}, 0.29)
+        assert 'Financial health error' not in capsys.readouterr().out

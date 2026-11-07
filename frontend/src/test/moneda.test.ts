@@ -32,18 +32,18 @@ describe('divisaDe', () => {
 describe('precio', () => {
   it('el caso que motivó esto: Auto Trader no vale 489 dólares', () => {
     // 489,80 peniques son unas 4,90 libras. Se enseñaba como "$489.80".
-    expect(precio(489.8, 'AUTO.L')).toBe('489.80p')
+    expect(precio(489.8, 'AUTO.L')).toBe('489,80p')
     expect(precio(489.8, 'AUTO.L')).not.toContain('$')
   })
 
   it('mantiene el dólar para lo americano', () => {
-    expect(precio(361.99, 'AVGO')).toBe('$361.99')
+    expect(precio(361.99, 'AVGO')).toBe('$361,99')
   })
 
   it('pone el símbolo de cada bolsa', () => {
-    expect(precio(120.5, 'AI.PA')).toBe('€120.50')
-    expect(precio(88, 'CSU.TO')).toBe('C$88.00')
-    expect(precio(3200, '4684.T')).toBe('¥3200.00')
+    expect(precio(120.5, 'AI.PA')).toBe('€120,50')
+    expect(precio(88, 'CSU.TO')).toBe('C$88,00')
+    expect(precio(3200, '4684.T')).toBe('¥3200,00')
   })
 
   it('sin dato devuelve un guion, no "$undefined"', () => {

@@ -252,40 +252,6 @@ class TestSourceCodeAlignment:
         assert "'DISTRIBUTION', 'filter_penalty'] += 5" in src
         assert "'MEGA_FLOAT'" in src and "+= 3" in src
 
-    def test_upside_golden_zone_not_inverted(self):
-        """Guards the upside recalibration: golden zone [10,25) must be rewarded
-        and the >=30% value-trap tier penalized — never the reverse (the old bug)."""
-        from pathlib import Path
-        import super_score_integrator as ssi
-        from value_bands import UPSIDE_MIN, UPSIDE_GOLDEN_MAX, UPSIDE_ALTO
-        # La banda canónica vive en value_bands. Si cambia, que sea a propósito
-        # y con datos — este assert existe para forzar esa conversación.
-        #
-        # 17-sep-2026: GOLDEN_MAX sube de 25 a 30. Medido sobre las señales del
-        # periodo limpio con 90 días ya cerrados:
-        #     [10,25)  61% acierto  +2,78%  (28 señales)
-        #     [25,30)  62% acierto  +3,73%  (24 señales)   <- igual
-        #     >=30     28% acierto  -3,26% (100 señales)   <- la trampa
-        # El corte en 25 venía de un «n pequeño, sin evidencia clara» que dejó
-        # de ser cierto. No es que [25,30) sea mejor: es que es indistinguible
-        # de la dorada, y penalizarla no tenía respaldo.
-        assert UPSIDE_MIN == 10.0
-        assert UPSIDE_GOLDEN_MAX == 30.0
-        assert UPSIDE_ALTO == 30.0
-        src = Path(ssi.__file__).read_text()
-        # Golden zone bonus is positive, trap zone is a penalty, via constants.
-        assert "mask_golden" in src and "(_up >= UPSIDE_MIN) & (_up < UPSIDE_GOLDEN_MAX)" in src
-        assert "df.loc[mask_golden, 'upside_bonus'] =  5.0" in src
-        assert "mask_trap" in src and "(_up >= UPSIDE_ALTO)" in src
-        assert "df.loc[mask_trap,   'upside_bonus'] = -5.0" in src
-        # R:R bonus must NOT reward R:R>=3 (upside>=24%, the losing tier).
-        assert "risk_reward_ratio'] >= 3.0" not in src
-        # Y los otros dos consumidores usan las mismas constantes (antes cada
-        # uno tenía su propia banda: tracker 10-45, conviction 10-55).
-        import portfolio_tracker, conviction_filter
-        for mod in (portfolio_tracker, conviction_filter):
-            msrc = Path(mod.__file__).read_text()
-            assert "UPSIDE_ALTO" in msrc, f"{mod.__name__} no usa value_bands"
 
     def test_rs_line_bonus_weights_in_source(self):
         from pathlib import Path
@@ -297,36 +263,3 @@ class TestSourceCodeAlignment:
         assert "clip(upper=10.0)" in src, "RS Line cap (10) cambió"
 
 
-class TestBonusDeFcfConValidadorQueDesconfia:
-    """THC lideraba VALUE con 79 puntos y el validador decía «FCF no fiable»:
-    el bonus de FCF se apoyaba en la cifra que el propio sistema ponía en duda."""
-
-    def _df(self):
-        return pd.DataFrame({'ticker': ['THC', 'KO', 'ZZZ'],
-                             'value_score': [79.3, 52.0, 40.0],
-                             'fcf_bonus': [8.0, 3.0, 6.0]})
-
-    def test_quita_el_bonus_solo_al_no_fiable(self):
-        from scoring.filters import anular_bonus_fcf_no_fiable
-        oe = {'THC': {'data_quality': 'UNRELIABLE'}, 'KO': {'data_quality': 'MIXED'}}
-        r = anular_bonus_fcf_no_fiable(self._df(), oe).set_index('ticker')
-        assert r.loc['THC', 'value_score'] == pytest.approx(71.3)
-        assert r.loc['KO', 'value_score'] == 52.0      # dato dudoso, no roto
-        assert r.loc['ZZZ', 'value_score'] == 40.0     # sin veredicto: no se toca
-
-    def test_el_ticker_se_queda(self):
-        from scoring.filters import anular_bonus_fcf_no_fiable
-        r = anular_bonus_fcf_no_fiable(self._df(), {'THC': {'data_quality': 'UNRELIABLE'}})
-        assert list(r['ticker']) == ['THC', 'KO', 'ZZZ']
-
-    def test_no_baja_de_cero_ni_muta_la_entrada(self):
-        from scoring.filters import anular_bonus_fcf_no_fiable
-        df = pd.DataFrame({'ticker': ['A'], 'value_score': [3.0], 'fcf_bonus': [8.0]})
-        r = anular_bonus_fcf_no_fiable(df, {'A': {'data_quality': 'unreliable'}})
-        assert r.loc[0, 'value_score'] == 0.0
-        assert df.loc[0, 'value_score'] == 3.0
-
-    def test_sin_columna_de_bonus_no_hace_nada(self):
-        from scoring.filters import anular_bonus_fcf_no_fiable
-        df = pd.DataFrame({'ticker': ['A'], 'value_score': [50.0]})
-        assert anular_bonus_fcf_no_fiable(df, {'A': {'data_quality': 'UNRELIABLE'}}).loc[0, 'value_score'] == 50.0

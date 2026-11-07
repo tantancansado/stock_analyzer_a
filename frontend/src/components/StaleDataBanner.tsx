@@ -23,6 +23,8 @@ function daysLabel(isoDate: string): string {
   return `hace ${d} días`
 }
 
+const dias = (n: number) => `${n} ${n === 1 ? 'día' : 'días'}`
+
 function formatDate(isoDate: string): string {
   return new Date(isoDate).toLocaleDateString('es-ES', {
     weekday: 'short', month: 'short', day: 'numeric',
@@ -122,7 +124,7 @@ export default function StaleDataBanner({ module, dataDate, className = '' }: St
           </span>
           <div className="flex-1 min-w-0">
             <div className="text-cuerpo font-bold text-red-400 mb-0.5">
-              Pipeline no ejecutado en {days} días
+              Pipeline no ejecutado en {dias(days)}
               <span className="font-normal ml-1.5 text-apoyo text-red-300">— datos posiblemente incorrectos</span>
             </div>
             <div className="text-mini text-muted-foreground">Última ejecución: {formatDate(health.generated_at)}</div>
@@ -153,7 +155,7 @@ export default function StaleDataBanner({ module, dataDate, className = '' }: St
               : mod?.status === 'incompleto' ? 'Datos de hoy, pero incompletos'
               : 'Módulo no actualizado hoy'}
             {daysOld != null && daysOld > 0 && (
-              <span className="font-normal ml-1.5 text-apoyo">— última actualización hace {daysOld} días</span>
+              <span className="font-normal ml-1.5 text-apoyo">— última actualización hace {dias(daysOld)}</span>
             )}
           </div>
           <div className="text-mini text-muted-foreground">
@@ -203,7 +205,7 @@ export default function StaleDataBanner({ module, dataDate, className = '' }: St
             Pipeline ejecutado: {formatDate(pipelineInfo.status.last_run)}
             {isVeryStale && (
               <span className="ml-2 text-red-400 font-semibold">
-                · No ejecutado en {daysOld} días
+                · No ejecutado en {dias(daysOld)}
               </span>
             )}
           </div>

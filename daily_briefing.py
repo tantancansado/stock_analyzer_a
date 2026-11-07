@@ -145,21 +145,35 @@ def gather_facts() -> dict:
             'objetivo_por_pe_pct': _f(r.get('target_price_pe_upside_pct')),
             'objetivo_dcf_pct': _f(r.get('target_price_dcf_upside_pct')),
             'beneficio_respaldado_por_negocio': _respaldado(r.get('earnings_details')),
+            'grupo': r.get('value_grupo') or '',
+            'per_contra_su_historia_sigma': _f(r.get('per_z')),
+            'ventas_ultimo_anio_pct': _f(r.get('ventas_anual_pct')),
+            'que_le_falta': r.get('value_falta') or '',
         }
 
-    # Comprables: timing a favor y sin que los modelos propios desmientan el precio
-    comprables = [ficha(r) for r in rows
-                  if r.get('entry_readiness') == 'ENTRADA'
-                  and (r.get('upside_divergence') or '') != 'ALTA'
-                  and (r.get('why_cheap') or '') != 'DETERIORO']
-    comprables.sort(key=lambda x: -(x['score'] or 0))
-
-    # Vigilar: baratos de verdad pero todavía cayendo
-    vigilar = [ficha(r) for r in rows
-               if r.get('entry_readiness') in ('ESPERAR', 'VIGILAR')
-               and (_f(r.get('proximity_to_52w_high')) or 0) < -10
-               and (_f(r.get('value_score')) or 0) >= 50]
-    vigilar.sort(key=lambda x: x['rs_6m'] or 0)
+    if any(r.get('value_grupo') for r in rows):
+        # Comprables: el grupo PRIORIDAD (value_bands.nota_value), caiga o no. Dentro de
+        # la puerta, lo que cae bajo su media descendente es lo que mejor ha salido;
+        # exigir ENTRADA dejaba fuera justo eso. Solo se aparta si la investigación de
+        # por qué cae dice que es deterioro.
+        comprables = [ficha(r) for r in rows
+                      if r.get('value_grupo') == 'PRIORIDAD' and (r.get('why_cheap') or '') != 'DETERIORO']
+        comprables.sort(key=lambda x: -(x['score'] or 0))
+        # Vigilar: las más baratas de las que aún no tienen la combinación.
+        vigilar = [ficha(r) for r in rows if r.get('value_grupo') == 'OBSERVAR']
+        vigilar.sort(key=lambda x: -(x['score'] or 0))
+    else:
+        # Lista anterior a la nota de grupos.
+        comprables = [ficha(r) for r in rows
+                      if r.get('entry_readiness') == 'ENTRADA'
+                      and (r.get('upside_divergence') or '') != 'ALTA'
+                      and (r.get('why_cheap') or '') != 'DETERIORO']
+        comprables.sort(key=lambda x: -(x['score'] or 0))
+        vigilar = [ficha(r) for r in rows
+                   if r.get('entry_readiness') in ('ESPERAR', 'VIGILAR')
+                   and (_f(r.get('proximity_to_52w_high')) or 0) < -10
+                   and (_f(r.get('value_score')) or 0) >= 50]
+        vigilar.sort(key=lambda x: x['rs_6m'] or 0)
 
     drift = _json(TRACKER / 'thesis_drift_alerts.json', {})
     _todas = [

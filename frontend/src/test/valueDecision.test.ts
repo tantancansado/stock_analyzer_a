@@ -613,3 +613,67 @@ describe('LISTO frente al veredicto de entrada', () => {
     expect(hayFrenoDeEntrada({}, 'WAIT')).toBe(true)
   })
 })
+
+describe('getValueDecision — grupos de Value US', () => {
+  const prioridad = { value_grupo: 'PRIORIDAD', per_z: -2.8, ventas_anual_pct: 13.9, value_score: 90 } as const
+
+  it('PRIORIDAD dice su dato, no un texto fijo', () => {
+    const r = getValueDecision({ row: makeRow(prioridad) })
+    expect(r.kind).toBe('ready')
+    expect(r.label).toBe('Prioridad')
+    expect(r.headline).toContain('-2,8σ')
+    expect(r.headline).toContain('+14 %')
+  })
+
+  it('OBSERVAR dice qué le falta', () => {
+    const r = getValueDecision({ row: makeRow({ value_grupo: 'OBSERVAR', value_falta: 'ventas anuales +7 %, le falta crecer al 10 %', value_score: 50 }) })
+    expect(r.kind).toBe('watch')
+    expect(r.headline).toBe('Ventas anuales +7 %, le falta crecer al 10 %.')
+  })
+
+  it('caer bajo su media descendente no le quita la prioridad', () => {
+    expect(esListo(makeRow({ ...prioridad, entry_readiness: 'ESPERAR', analyst_upside_pct: 60 }))).toBe(true)
+  })
+
+
+  it('OBSERVAR nunca está lista, aunque tenga buena nota y grado', () => {
+    expect(esListo(makeRow({ value_grupo: 'OBSERVAR', value_score: 59, conviction_grade: 'A' }))).toBe(false)
+  })
+
+  it('la salida de Cerebro es un aviso, no cambia la decisión', () => {
+    expect(getValueDecision({ row: makeRow({ ...prioridad, cerebro_signal: 'EXIT' }) }).kind).toBe('ready')
+    expect(getValueDecision({ row: makeRow(prioridad), hasExit: true }).kind).toBe('ready')
+  })
+
+  it('sin grupo sigue la regla de siempre (Europa)', () => {
+    expect(getValueDecision({ row: makeRow({ cerebro_signal: 'EXIT' }) }).kind).toBe('avoid')
+  })
+})
+
+describe('Value US: el aviso no cambia el grupo', () => {
+  const prioridad = { value_grupo: 'PRIORIDAD', per_z: -2.8, ventas_anual_pct: 13.9, value_score: 90 } as const
+  const observar = { value_grupo: 'OBSERVAR', value_falta: 'sin historia de PER', value_score: 50 } as const
+
+  it('con resultados cerca sigue en su grupo y lo avisa en el texto', () => {
+    for (const [fila, etiqueta] of [[prioridad, 'Prioridad'], [observar, 'Observar']] as const) {
+      const r = getValueDecision({ row: makeRow({ ...fila, days_to_earnings: 3 }) })
+      expect(r.label).toBe(etiqueta)
+      expect(r.headline).toContain('Resultados en 3 días')
+    }
+  })
+
+  it('una posible trampa tampoco lo cambia: se dice en el texto', () => {
+    const r = getValueDecision({ row: makeRow({ ...prioridad }), hasTrap: true })
+    expect(r.label).toBe('Prioridad')
+    expect(r.headline).toContain('posible trampa')
+  })
+
+  it('una fecha de resultados ya pasada no es «resultados cerca»', () => {
+    expect(getValueDecision({ row: makeRow({ ...prioridad, days_to_earnings: -12 }) }).headline).not.toContain('Resultados')
+    expect(getValueDecision({ row: makeRow({ value_score: 70, days_to_earnings: -12 }) }).headline).not.toContain('Resultados demasiado cerca')
+  })
+
+  it('fuera de Value US, resultados cerca sigue siendo esperar', () => {
+    expect(getValueDecision({ row: makeRow({ value_score: 70, days_to_earnings: 3 }) }).label).toBe('Esperar')
+  })
+})

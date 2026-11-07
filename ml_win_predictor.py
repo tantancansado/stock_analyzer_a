@@ -53,14 +53,12 @@ def _build_features(df: pd.DataFrame, fit: bool) -> pd.DataFrame:
 
     out = pd.DataFrame(index=df.index)
 
-    vs = pd.to_numeric(df.get('value_score'), errors='coerce')
     up = pd.to_numeric(df.get('analyst_upside_pct'), errors='coerce')
     rr = pd.to_numeric(df.get('risk_reward_ratio'), errors='coerce')
     fc = pd.to_numeric(df.get('fcf_yield_pct'), errors='coerce')
 
     if fit:
         _GLOBAL_MEDIAN_FEATURES = {
-            'value_score':         float(vs.median()),
             'analyst_upside_pct':  float(up.median()),
             'risk_reward_ratio':   float(rr.median()),
             'fcf_yield_pct':       float(fc.median()),
@@ -69,7 +67,6 @@ def _build_features(df: pd.DataFrame, fit: bool) -> pd.DataFrame:
         _SECTOR_WIN_RATES = {k: v for k, v in wr.items() if df['sector'].eq(k).sum() >= 10}
 
     m = _GLOBAL_MEDIAN_FEATURES
-    vs = vs.fillna(m.get('value_score', 55.0))
     up = up.fillna(m.get('analyst_upside_pct', 15.0))
     rr = rr.fillna(m.get('risk_reward_ratio', 2.0))
     fc = fc.fillna(0.0)
@@ -80,16 +77,12 @@ def _build_features(df: pd.DataFrame, fit: bool) -> pd.DataFrame:
     )
     reg = _regime_num(df.get('market_regime', pd.Series('NEUTRAL', index=df.index)))
 
-    out['value_score']        = vs
-    out['value_score_sq']     = vs ** 2
     out['analyst_upside_pct'] = up
     out['risk_reward_ratio']  = rr
     out['fcf_yield_pct']      = fc
     out['sector_wr']          = sec_wr
     out['regime_num']         = reg
     out['regime_x_sector']    = reg * sec_wr
-    out['score_gte_65']       = (vs >= 65).astype(float)
-    out['score_gte_75']       = (vs >= 75).astype(float)
     out['rr_gte_2']           = (rr >= 2).astype(float)
     out['rr_gte_3']           = (rr >= 3).astype(float)
     # El NOMBRE de la variable se queda (el modelo está entrenado con él),
@@ -129,10 +122,10 @@ def _prob_label(prob: float) -> str:
 # de verdad, porque los win-rates sectoriales del pasado NO transfieren (medido
 # aparte: correlación +0,26 entre el win-rate sectorial de ambos periodos).
 FEATURE_COLS = [
-    'value_score', 'value_score_sq',
+    # Sin value_score: se entrena con señales de la nota vieja y se predice con la
+    # de grupos (7-nov-2026). Son escalas distintas y el resultado no significaría nada.
     'analyst_upside_pct', 'risk_reward_ratio',
     'fcf_yield_pct', 'regime_num',
-    'score_gte_65', 'score_gte_75',
     'rr_gte_2', 'rr_gte_3', 'upside_gte_30',
     'fcf_positive', 'fcf_gte_5',
 ]

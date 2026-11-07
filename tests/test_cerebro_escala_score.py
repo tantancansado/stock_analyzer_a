@@ -21,8 +21,8 @@ import cerebro
 
 
 def _fila(ticker, strategy, score, fecha='2026-09-20'):
-    return {'ticker': ticker, 'strategy': strategy, 'value_score': score,
-            'signal_date': fecha}
+    return {'ticker': ticker, 'strategy': strategy, 'value_score': score, 'signal_date': fecha,
+            'value_grupo': 'OBSERVAR' if strategy == 'VALUE' else ''}
 
 
 @pytest.fixture
@@ -90,3 +90,12 @@ def test_sin_columna_strategy_no_rompe(docs):
     base = docs([{'ticker': 'BR', 'value_score': 66.0, 'signal_date': '2026-09-20'}], HOY)
     cerebro._reset_csv_cache()
     assert 'BR' in _salidas()
+
+
+def test_una_nota_de_la_escala_vieja_no_se_compara(docs):
+    """Value US cambió de escala el 7-nov-2026: 72 de antes contra 45 de hoy no es
+    una caída, y sin esto el lunes saldría una alerta por empresa."""
+    vieja = {**_fila('YUM', 'VALUE', 72.0), 'value_grupo': ''}
+    docs([vieja], [{'ticker': 'YUM', 'value_score': 45.0}])
+    salida = _salidas().get('YUM')
+    assert salida is None or not any('cay' in r.lower() and 'pts' in r.lower() for r in salida['reasons'])

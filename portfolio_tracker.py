@@ -172,7 +172,8 @@ class PortfolioTracker:
             return pd.read_csv(RECOMMENDATIONS_FILE, parse_dates=['signal_date'])
         return pd.DataFrame(columns=[
             'ticker', 'company_name', 'strategy', 'signal_date', 'signal_price',
-            'value_score', 'momentum_score', 'fcf_yield_pct', 'risk_reward_ratio',
+            'value_score', 'value_grupo', 'per_z', 'ventas_anual_pct', 'revision_13s_pct', 'bpa_sobre_tendencia_pct', 'fundamental_score',
+            'momentum_score', 'fcf_yield_pct', 'risk_reward_ratio',
             'analyst_upside_pct', 'upside_triangulated_pct', 'proximity_to_52w_high', 'rev_growth_yoy',
             'short_percent_float', 'sector', 'market_regime',
             'entry_readiness', 'entry_readiness_reason',
@@ -260,13 +261,6 @@ class PortfolioTracker:
             print(f"  Cooldown active for {len(cooldown_tickers)} tickers (signalled in last {COOLDOWN_DAYS}d)")
 
         # Record VALUE opportunities
-        # Filtros calibrados con 767 señales reales (feb-may 2026):
-        #   score 50-65: WR 62-67%, avg +2-3% — score >65 es peor (34% WR, -1.7%)
-        #   Sectores excluidos: Technology (WR 25%, -3.6%), Real Estate (WR 44%, -3.9%)
-        #   Solo CONFIRMED_UPTREND: WR 56% vs 44% en CORRECTION
-        #   Upside: banda dorada de value_bands.py, fuente única (ver abajo por
-        #   qué se quitó el filtro de R:R que la pisaba)
-        _EXCLUDED_SECTORS_VALUE = {'Technology', 'Real Estate'}
         # El CSV FILTRADO: lo que el gate de Claude ha verificado y lo único que
         # el usuario llega a ver. Leyendo el sin-filtrar, el tracker medía un
         # conjunto distinto del publicado y la cifra de rendimiento de la app
@@ -279,70 +273,12 @@ class PortfolioTracker:
         if 'VALUE' not in ya_hoy and value_path.exists():
             vdf = pd.read_csv(value_path)
             if not vdf.empty and not self._dato_caducado(vdf, value_path.name):
-                _score = pd.to_numeric(vdf.get('value_score', pd.Series(dtype=float)), errors='coerce')
-                vdf = vdf[_score.between(50.0, 65.0)]
-                # OJO: `risk_reward_ratio` NO es un factor independiente —
-                # super_score_integrator.py:1264 lo calcula como
-                # `analyst_upside_pct / 8.0` (el stop estándar del 8%). Medido
-                # sobre 1479 señales reales: corr(RR, upside) = +1.0000 exacto.
-                # El filtro `_rr.between(2.0, 3.5)` que había aquí era, por
-                # tanto, una banda de upside [16, 28] hardcodeada inline y
-                # disfrazada de otra variable — justo lo que CLAUDE.md prohíbe
-                # ("las bandas viven en value_bands.py, NUNCA inline").
-                #
-                # Y pisaba a la banda declarada: las 12 últimas señales US van
-                # todas de 16,6 a 26,5 de upside. Nada por debajo de 16 llegaba
-                # a registrarse pese a estar en zona dorada, y WMT (26,5),
-                # OTIS (26,3) y SPGI (25,3) entraron estando FUERA de ella.
-                # En el periodo limpio el alfa decae de forma monótona según
-                # sube el upside, así que se estaba tirando lo mejor de la banda
-                # y quedándose con lo peor. Fuente única, sin doble conteo:
-                if 'analyst_upside_pct' in vdf.columns:
-                    _up = pd.to_numeric(vdf['analyst_upside_pct'], errors='coerce')
-                    vdf = vdf[(_up >= UPSIDE_MIN) & (_up < UPSIDE_GOLDEN_MAX)]
-                if 'sector' in vdf.columns:
-                    vdf = vdf[~vdf['sector'].isin(_EXCLUDED_SECTORS_VALUE)]
-                if 'market_regime' in vdf.columns:
-                    vdf = vdf[vdf['market_regime'] == 'CONFIRMED_UPTREND']
-                # No se recomienda un cuchillo cayendo. `entry_readiness` es
-                # ESPERAR cuando el ticker está bajo una MA200 descendente, y
-                # entry_timing_backtest.py lo midió reconstruyendo el timing
-                # histórico de cada señal con precios ANTERIORES a su fecha:
-                #     30d limpio  ESPERAR 10,3% acierto vs 32,5% el resto
-                #     90d limpio  ESPERAR 20,8%          vs 54,5%
-                #     90d todo    ESPERAR 48,4%          vs 74,8%
-                # El alfa de ESPERAR es ~-10% en los tres cortes. Se sostiene en
-                # ambos periodos y ambos horizontes, que es el test que separa
-                # una señal real del ruido. Y eran el 62% de lo que se
-                # registraba: es la mayor fuga de rendimiento medida hasta ahora.
-                # No se exige ENTRADA porque VIGILAR rinde igual o mejor
-                # (76,0% vs 70,2% en la muestra grande) y exigirla dejaría el
-                # sistema en 0 señales — el screen encuentra los valores
-                # mientras caen, no cuando ya han confirmado.
-                if 'entry_readiness' in vdf.columns:
-                    vdf = vdf[vdf['entry_readiness'] != 'ESPERAR']
-                # Suelo de caída: lo que ya ha caído demasiado sigue cayendo.
-                # Reconstruidas las ~150 columnas de las 767 señales US con
-                # retorno a 90d (desde los snapshots diarios de git), la
-                # distancia al máximo de 52 semanas es el factor con MÁS señal
-                # de todos, y del mismo signo en ambos periodos (corr con alpha
-                # +0,201 contaminado / +0,478 limpio). Por tramos, en limpio:
-                #     caída >40%   n=38   7,9% acierto   alpha -12,46
-                #     caída 10-20% n= 9    100% acierto   alpha  -1,51
-                # Barrido de umbrales: el suelo en -30% es donde el alpha de lo
-                # que queda toca fondo (-2,81 vs -5,32 con suelo en -40), y lo
-                # que se descarta rinde -11,83 con 14,8% de acierto.
-                # No es el upside disfrazado: corr(distancia, upside) = -0,44, y
-                # controlando por banda dorada la señal sigue viva (+0,143).
-                # OJO, no es monótono: pegado al máximo (0-10%) también es malo
-                # (alpha -5,35, 20,2% acierto). La zona buena es 10-30% de
-                # caída — por eso esto es un SUELO, no un "cuanto más cerca del
-                # máximo mejor".
-                _CAIDA_MAX_PCT = -30.0
-                if 'proximity_to_52w_high' in vdf.columns:
-                    _prox = pd.to_numeric(vdf['proximity_to_52w_high'], errors='coerce')
-                    vdf = vdf[_prox.isna() | (_prox >= _CAIDA_MAX_PCT)]
-                vdf = vdf.head(5)  # max 5 picks/día — calidad > cantidad
+                # Se registra TODO lo publicado. Hasta el 7-nov-2026 había aquí una
+                # cartera aparte (nota 50-65, upside 10-30, sin tecnología ni
+                # inmobiliario, solo en tendencia alcista, sin ESPERAR, caída menor
+                # del 30 %, máximo 5 al día), así que la cifra de rendimiento de la
+                # app hablaba de una selección que la app no enseñaba. FICO, MSFT o
+                # SAP nunca se medían. El enfriamiento de abajo evita repetir señal.
                 for _, row in vdf.iterrows():
                     ticker = str(row['ticker']).upper().strip()
                     if ticker in cooldown_tickers:
@@ -357,6 +293,15 @@ class PortfolioTracker:
                         'signal_date': today,
                         'signal_price': float(price),
                         'value_score': row.get('value_score'),
+                        # Capturados desde 7-nov-2026 para medir la lista por grupos
+                        # y para que el monitor de tesis compare con el fundamental
+                        # de entonces, no con una nota que mide otra cosa.
+                        'value_grupo': row.get('value_grupo'),
+                        'per_z': row.get('per_z'),
+                        'ventas_anual_pct': row.get('ventas_anual_pct'),
+                        'revision_13s_pct': row.get('revision_13s_pct'),
+                        'bpa_sobre_tendencia_pct': row.get('bpa_sobre_tendencia_pct'),
+                        'fundamental_score': row.get('fundamental_score'),
                         'momentum_score': None,
                         'stop_loss': float(price) * 0.92 if price else None,  # 8% standard stop
                         'target_price': float(row.get('target_price_analyst') or (float(price) * (1 + float(row.get('analyst_upside_pct', 0) or 0) / 100))),
@@ -1174,6 +1119,12 @@ class PortfolioTracker:
                 })(conviction_df),
             },
 
+            # La lista por grupos (value_bands.nota_value), desde el 7-nov-2026.
+            'value_grupos': {
+                g: {h: win_stats(f'return_{h}', f'win_{h}', value_df[value_df['value_grupo'] == g])
+                    for h in ('90d', '180d', '365d')}
+                for g in ('PRIORIDAD', 'OBSERVAR')
+            } if 'value_grupo' in value_df.columns else {},
             'value_strategy': {
                 'count': len(value_df),
                 # Se prefiere el periodo limpio en cuanto tiene muestra, y solo

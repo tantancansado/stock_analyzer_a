@@ -11,7 +11,7 @@ Sistema dual VALUE + MOMENTUM:
 
 Orden del pipeline (GitHub Actions):
 ```
-sector_rotation → mean_reversion → super_score_integrator → ai_quality_filter
+sector_rotation → bandas_per → super_score_integrator → ai_quality_filter
 → entry_exit → thesis_generator → super_dashboard_generator → portfolio_tracker → ticker_data_cache
 ```
 
@@ -22,8 +22,13 @@ sector_rotation → mean_reversion → super_score_integrator → ai_quality_fil
 - `negative_roe == True` → `value_score = 0` (HARD REJECT)
 - `analyst_upside_pct < 0` → `value_score = 0` (sobrevalorado)
 - `analyst_upside_pct >= 30` (`UPSIDE_ALTO`) NO es un descarte: decide la **valoración propia** (DCF/P-E, `value_bands.respaldo_propio`). Con respaldo propio cuenta como cualquier otro; sin él se penaliza. El usuario (27-oct-2026): «las valoraciones de los analistas están bien, pero nosotros también calculamos precio objetivo y sabemos hacerlo». El antiguo «0% de acierto» eran 14 empresas de software/datos
-- **Idea VALUE = barata según NUESTRA valoración** (`respaldo_propio`: triangulado ≥10% y sin divergencia ALTA) **y con las ventas sin caer** (`rev_growth_yoy ≥ 0`; sin el dato, fuera). Lo aplica `value_bands.motivo_fuera_de_value` en US y Europa antes del corte de puntuación. Una buena empresa a precio justo no es VALUE (5-nov-2026: 6 de 11 publicadas lo eran). Medido sobre las listas diarias reconstruidas desde git (feb-nov 2026): barata con ventas cayendo = −10 a −16 puntos contra el universo a 180 días en los dos periodos; estar cerca de máximos NO restaba. No reintroducir un filtro por distancia al máximo sin medirlo antes
-- Zona dorada de upside: **[10, 30)** — se premia con un bonus pequeño; no es una regla de exclusión
+- **Idea VALUE = barata según NUESTRA valoración** (`respaldo_propio`: triangulado ≥10% y sin divergencia ALTA) **y con las ventas sin caer**, ni en el último trimestre ni en el último año cerrado (`rev_growth_yoy ≥ 0`, `ventas_anual_pct ≥ 0`; sin el dato trimestral, fuera). Lo aplica `value_bands.motivo_fuera_de_value` en US y Europa. Una buena empresa a precio justo no es VALUE
+- **La nota de Value US no es una suma** (`value_bands.nota_value`, 7-nov-2026). PRIORIDAD (80-100): ventas del último año ≥10% **y** PER a más de 1σ bajo su media de 10 años. OBSERVAR (40-60): el resto de la puerta, con `value_falta` diciendo qué le falta. Dentro de cada grupo ordena lo barata (PER contra su historia y FCF yield). NO añadir puntos a la nota: había más de 25 ajustes (insiders, opciones, Cerebro, Piotroski, analistas, antigüedad...) y medidos no predecían o iban al revés; quedan como datos de la ficha. Medido contra el universo actual en dos periodos: PRIORIDAD +8,8 a 12 meses en 2020-25 (SPY +5,6) y +6,4 / +13,1 a 90 / 180 días en 2026; crecer sin estar barata -7,5 y -4,1; la puerta sola -0,4 / -0,2. Son pocas empresas y 2024 salió -17: es lo mejor medido, no una garantía
+- **Medir contra el universo ACTUAL.** La puerta parecía dar +5 porque se comparaba con el universo de entonces, más amplio y peor (894 empresas en feb-mar). Y separar por ventas ANUALES, no trimestrales: un trimestre engaña (HHH +330% con el año en -16%)
+- **Dentro de la puerta, caer no resta**: lo que está bajo su media descendente (ESPERAR) sale mejor a 12 meses en 2020-25 (+3,9 contra -0,7) y a 90 días en 2026 (+2,4 contra -8,0 lo que no ha caído). El timing es dato de la ficha: no ordena ni veta en Value US
+- **El objetivo por P/E sale de TIKR** (`bandas_per`: mediana de 10 años × BPA normalizado) y se reescribe en `fundamental_scores.csv` para que todos lean el mismo número; yfinance solo donde TIKR no llega. Rango del múltiplo 8-45x (`value_bands`). El margen operativo es de 12 meses (`operating_margin_base`), no del último trimestre: el de Yahoo engaña en empresas estacionales
+- **El tracker registra TODO lo publicado** en Value US, con `value_grupo`. No volver a ponerle filtros propios: medía una cartera que la app no enseñaba
+- Zona dorada de upside: **[10, 30)** — ya no puntúa en Value US; la usan Europa y el constructor de cartera. No es una regla de exclusión
 - Las bandas de upside viven en `value_bands.py` (UPSIDE_MIN/GOLDEN_MAX/UPSIDE_ALTO) — integrator, tracker y conviction las importan de ahí; NUNCA hardcodear una banda inline
 - `dividendYield` en yfinance ya viene en porcentaje (0.38 = 0.38%), NO decimal
 - `profit_margin_pct` está en `earnings_details`, NO en `health_details`
@@ -34,7 +39,8 @@ sector_rotation → mean_reversion → super_score_integrator → ai_quality_fil
 - **NUNCA usar `overflow: hidden` en `.glass`** — usar `overflow: clip`
   - `overflow: hidden` crea un scroll container que rompe `position: sticky` en los thead
   - `overflow: clip` tiene idéntico efecto visual pero NO crea scroll container
-- **`.liquid-glass` (refracción real vía SVG `feDisplacementMap`, `index.css`) solo en elementos hero**: modales, tarjeta líder de una página, toolbars/barras siempre visibles. **NUNCA en listas o tablas** — el filtro SVG se repinta cada frame, es caro. Para todo lo demás usar `.glass` (blur plano, sin distorsión)
+- **`.liquid-glass` (desenfoque con brillo y biselado, `index.css`) solo en elementos hero**: modales, tarjeta líder de una página, toolbars/barras siempre visibles. **NUNCA en listas o tablas**: pesa más que `.glass`, que es lo que va en todo lo demás
+- **`backdrop-filter` se escribe solo, sin `-webkit-` al lado.** Con las dos líneas el minificador deja únicamente la prefijada y Chrome se queda sin desenfoque; con la estándar sola genera las dos. Y nunca con `url()`: se copia al prefijo y Safari, que no lo entiende, lo perdería entero. Hay test en `css.test.ts`
   - Si un elemento `.liquid-glass` necesita scroll interno (ej. una barra horizontal), el `overflow-x-auto`/`overflow-y-auto` va en un div INTERNO, nunca en el propio `.liquid-glass` — este ya fija `overflow: clip` para sus pseudo-elementos y lo pisaría
   - Tiene piel propia para modo claro (`:root:not(.dark) .liquid-glass`, sección "MODO CLARO — tranquilo"): los highlights blancos del oscuro se lavan sobre fondo claro, así que ahí no imita cristal — es la misma tarjeta blanca elevada un piso más, con sombra en vez de brillo
 - Las tablas usan `thead th` con `position: sticky; top: var(--topbar-height, 50px)`
@@ -167,7 +173,7 @@ sector_rotation → mean_reversion → super_score_integrator → ai_quality_fil
   técnicos y setups de entrada (`MEAN_REVERSION`, `BOUNCE_BROAD`,
   `ENTRY_SETUP`) sí son de corto plazo por diseño y llevan su propio plazo.
   Hay un test que impide bajar el mínimo
-- Busca empresas **baratas por algo circunstancial, sin que empeoren el negocio ni los números** (5-nov-2026). Dijo también que no compra cerca de máximos salvo negocio excepcional (tipo MSFT), pero el mismo día pidió que decidieran los datos («la idea es ganar dinero, descubre qué funciona mejor») y medido no restaba: la app filtra por lo que sí separa, las ventas cayendo. **Excepcional**, para modular la venta = margen en el cuartil alto y además ROE alto (MCO) o ventas ≥10% (MSFT)
+- Busca empresas **baratas por algo circunstancial, sin que empeoren el negocio ni los números** (5-nov-2026). Dijo también que no compra cerca de máximos salvo negocio excepcional (tipo MSFT), pero el mismo día pidió que decidieran los datos («la idea es ganar dinero, descubre qué funciona mejor») y medido no restaba: la app filtra por lo que sí separa, las ventas cayendo. **Excepcional**, para modular la venta = margen en el cuartil alto y además ROE alto (MCO) o ventas ≥10% (MSFT) Medido el 7-nov-2026 con la puerta actual: dentro de la lista, lo que no ha caído es lo peor, así que su intuición tenía base aunque la distancia al máximo sola no separe
 - Prefiere 0 señales antes que señales falsas
 - Evitar sugerir compras sin análisis fundamentales sólidos
 

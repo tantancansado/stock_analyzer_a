@@ -9,7 +9,7 @@ const ordenar = (ideas: Idea[]) =>
     .sort((a, b) => comparaPorTiming(a as never, b as never))
     .map(i => i.ticker)
 
-describe('orden por defecto de Value US', () => {
+describe('orden por timing de Value US', () => {
   // Datos reales del 22-sep-2026, incluido EQIX: ENTRADA con score 30,9, el
   // más bajo de la lista. Es el caso que motiva el desempate por score.
   const reales: Idea[] = [

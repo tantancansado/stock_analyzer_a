@@ -192,6 +192,12 @@ jobs:
       # con Claude (ai_pick_verifier) — una sola llamada, sin búsqueda web.
       # El análisis de POR QUÉ cae cada candidato NO va aquí: son búsquedas web
       # que pueden tardar minutos y este paso es crítico. Ver el paso siguiente.
+      # Historia del PER (TIKR) y revisiones del consenso: la nota VALUE las usa.
+      # Si falla la descarga conserva las bandas de ayer, que siguen valiendo.
+      - name: Bandas de PER
+        continue-on-error: true
+        run: python3 bandas_per.py
+
       - name: Run Super Score Integration [CRITICAL]
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}

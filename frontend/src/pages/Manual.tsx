@@ -345,7 +345,7 @@ export default function Manual() {
 
             <p className="font-semibold mb-2">Scores clave</p>
             <ul className="list-disc pl-5 space-y-1.5 text-cuerpo">
-              <li><b>value_score (0–100):</b> combinado de fundamentales + insiders + opciones + sector + mean reversion. Ver <a href="#agente-super-score" className="text-primary hover:underline">Super Score Integrator</a>.</li>
+              <li><b>Nota de Value US (0–100):</b> PRIORIDAD (80–100) son las de ventas del último año al 10 % o más y PER a más de 1σ bajo su media de 10 años, la única combinación con ventaja medida. OBSERVAR (40–60) pasan la puerta pero les falta algo, y la ficha dice qué. Dentro de cada grupo ordena lo barata que está. Value Europa y Global siguen con su propia suma.</li>
               <li><b>Grade A/B/C/D:</b> conviction grade. A = alta convicción (≥3 positivos, ≤1 red flag). D = evitar.</li>
               <li>
                 <b>Upside de analistas — no es «cuanto más, mejor».</b> Por debajo del 10% el margen suele no compensar; entre 10% y 30% es la zona en la que se trabaja; por encima del 30% decide nuestra propia valoración (ver <a href="#filosofia" className="text-primary hover:underline">Filosofía</a>).
@@ -730,21 +730,13 @@ export default function Manual() {
           <Card>
             <p className="mb-2"><b>Qué hace:</b> combina fundamentales + insiders + opciones + sector + mean reversion + ML en un <code className="bg-muted/30 px-1 rounded">value_score</code> final (0–100).</p>
             <p className="mb-3"><b>Output:</b> <code className="bg-muted/30 px-1 rounded">docs/value_opportunities.csv</code> + <code className="bg-muted/30 px-1 rounded">momentum_opportunities.csv</code></p>
-            <p className="font-semibold mb-1 text-cuerpo">Pesos aproximados del value_score:</p>
+            <p className="font-semibold mb-1 text-cuerpo">Cómo se calcula la nota de Value US:</p>
             <ul className="list-disc pl-5 space-y-0.5 text-cuerpo mb-3">
-              <li>Fundamentales: 40 pts (solo si no es el valor por defecto 50).</li>
-              <li>Profitability bonus: 15 pts.</li>
-              <li>Insiders: 15 pts.</li>
-              <li>Institucional: 15 pts.</li>
-              <li>Options flow: 10 pts.</li>
-              <li>Sector rotation contrarian: 10 pts.</li>
-              <li>Mean reversion: 10 pts.</li>
-              <li>FCF yield bonus: hasta +8 pts (negativo: −5).</li>
-              <li>Dividend quality: +5 pts.</li>
-              <li>Buyback activo: +3 pts.</li>
-              <li>Analyst revision momentum: ±5 pts.</li>
-              <li>Earnings &lt; 7 días: −5 pts.</li>
-              <li>R:R: ±3 pts.</li>
+              <li>Puerta: barata según nuestra valoración (mediana de analistas, DCF y P/E con BPA normalizado de TIKR, al menos +10 %) y ventas que no caen, ni en el trimestre ni en el último año.</li>
+              <li>PRIORIDAD (base 80): ventas del último año ≥10 % y PER a más de 1σ bajo su media de 10 años.</li>
+              <li>OBSERVAR (base 40): el resto de la puerta.</li>
+              <li>Hasta 20 puntos más según lo barata que esté: su PER contra su historia y su FCF yield.</li>
+              <li>Insiders, opciones, Cerebro, Piotroski y analistas son datos de la ficha y no puntúan: medidos, no predecían.</li>
             </ul>
             <p className="text-cuerpo mb-2"><b>Hard rejects (value_score = 0):</b></p>
             <ul className="list-disc pl-5 space-y-0.5 text-cuerpo">

@@ -55,13 +55,19 @@ class TestEvaluate:
         assert any(x['type'] == 'THESIS_BROKEN' and 'colapsó' in x['reason'] for x in f)
 
     def test_fundamental_deterioration(self):
-        # value_score 70 at signal, now 59 → 11pt drop ≥ threshold
-        f = tdm._evaluate(_pos(value_score=70.0), _fund(fundamental_score=59.0))
+        # fundamental 70 al registrar la señal, 59 ahora → caída de 11 ≥ umbral
+        f = tdm._evaluate(_pos(fundamental_score=70.0), _fund(fundamental_score=59.0))
         assert any(x['type'] == 'FUND_DETERIORATING' for x in f)
 
     def test_fundamental_small_drop_no_alert(self):
         # 70 → 64 = 6pt drop < 10pt threshold
         f = tdm._evaluate(_pos(value_score=70.0), _fund(fundamental_score=64.0))
+        assert not any(x['type'] == 'FUND_DETERIORATING' for x in f)
+
+    def test_la_nota_de_la_señal_no_es_el_fundamental(self):
+        # Con la nota de grupos, un 85 de PRIORIDAD contra un fundamental de 70
+        # daría por deteriorada a una empresa que no ha cambiado.
+        f = tdm._evaluate(_pos(value_score=85.0), _fund(fundamental_score=70.0))
         assert not any(x['type'] == 'FUND_DETERIORATING' for x in f)
 
     def test_earnings_warning_active(self):

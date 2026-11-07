@@ -128,12 +128,9 @@ export const ORDEN_TIMING: Record<string, number> = {
 
 /** Compara dos ideas por timing y, a igual timing, por score.
  *
- *  Es el orden con el que se abre la lista. La lista sale del screen de
- *  valoración, pero lo primero que quieres saber al entrar es cuáles se
- *  pueden comprar HOY: un ENTRADA con score 52 es más accionable que un
- *  ESPERAR con 68, que por definición sigue cayendo. Dentro del grupo manda
- *  el score, para que un ENTRADA flojo no encabece la pantalla — EQIX salía
- *  con 30,9 el 22-sep-2026 y es el último de los suyos, no el primero. */
+ *  Es el orden al pulsar la columna de timing. Dentro del grupo manda el score,
+ *  para que un ENTRADA flojo no encabece la pantalla — EQIX salía con 30,9 el
+ *  22-sep-2026 y es el último de los suyos, no el primero. */
 export function comparaPorTiming(
   a: Pick<ValueOpportunity, 'entry_readiness' | 'value_score'>,
   b: Pick<ValueOpportunity, 'entry_readiness' | 'value_score'>,
@@ -161,7 +158,7 @@ export default function ValueUS() {
   const cerebro = useCerebroSignals()
   const chartSignals = useChartSignals()
   const verdicts = useEntryVerdicts()
-  const [sortKey, setSortKey] = useState<SortKey>('entry_readiness')
+  const [sortKey, setSortKey] = useState<SortKey>('value_score')
   const [sortDir, setSortDir] = useState<SortDir>('desc')
   const [expandedRow, setExpandedRow] = useState<ValueOpportunity | null>(null)
   const [thesisText, setThesisText] = useState<string>('')
@@ -226,8 +223,10 @@ export default function ValueUS() {
 
   const [filterTiming, setFilterTiming] = useState('ALL')
   const [hideEarnings, setHideEarnings] = useState(false)
-  const [hideTraps, setHideTraps] = useState(true)
-  const [hideExits, setHideExits] = useState(true)
+  // Sin ocultar nada por defecto: lo que dice Cerebro va en la fila como aviso. Lo
+  // escondían aquí y la lista era otra que la que mide el tracker, sin avisar.
+  const [hideTraps, setHideTraps] = useState(false)
+  const [hideExits, setHideExits] = useState(false)
   const [onlyOwned, setOnlyOwned] = useState(false)
   const [onlyHf, setOnlyHf] = useState(false)
   const [compact, setCompact] = useState(() => typeof window !== 'undefined' && window.innerWidth < 1280)
@@ -252,9 +251,9 @@ export default function ValueUS() {
     const fallback = () => {
       const parts: string[] = []
       if (row.ai_reasoning) parts.push(row.ai_reasoning)
-      if (row.conviction_reasons) parts.push(row.conviction_reasons.split(' | ').slice(0, 3).map(r => `• ${r}`).join('\n'))
+      if (row.conviction_reasons) parts.push(row.conviction_reasons.split(/\s*\|\|?\s*/).slice(0, 3).map(r => `• ${r}`).join('\n'))
       return parts.length > 0
-        ? `${parts.join('\n\n')}\n\n_Tesis narrativa no generada (solo top-50 por super_score_5d). Mostrando razonamiento IA + conviction._`
+        ? `${parts.join('\n\n')}\n\n_Tesis narrativa aún no generada. Mostrando el razonamiento de la IA._`
         : 'Sin tesis disponible'
     }
     try {
@@ -336,8 +335,10 @@ export default function ValueUS() {
   }), [rows, filterGrade, filterSector, filterTiming, deferredMinScore, deferredMinFcf, deferredMinRr, hideEarnings, hideTraps, hideExits, onlyOwned, onlyHf, cerebro.trapMap, cerebro.exitMap, isOwned])
 
   const sorted = useMemo(() => [...filtered].sort((a, b) => {
-    // Por defecto manda el timing (ver comparaPorTiming). Pulsar cualquier
-    // cabecera cambia a ese criterio.
+    // Por defecto manda la nota: PRIORIDAD arriba. El timing se puede elegir (ver
+    // comparaPorTiming), pero no abre la lista: dentro de la puerta, lo que cae bajo
+    // su media descendente es lo que mejor ha salido, así que ordenar por «se puede
+    // comprar hoy» ponía delante justo lo peor (-8,0 a 90 días en 2026).
     if (sortKey === 'entry_readiness') {
       const ef = (r: ValueOpportunity) => ({ entry_readiness: estadoEfectivo(r.entry_readiness, verdicts[r.ticker?.toUpperCase() ?? '']?.verdict) ?? undefined, value_score: r.value_score })
       return comparaPorTiming(ef(a), ef(b), sortDir)
@@ -349,12 +350,6 @@ export default function ValueUS() {
     return 0
   }), [filtered, sortKey, sortDir])
 
-  const stats = useMemo(() => ({
-    avgScore:   filtered.length ? filtered.reduce((s, r) => s + (r.value_score || 0), 0) / filtered.length : 0,
-    gradeA:     filtered.filter(r => r.conviction_grade === 'A').length,
-    gradeB:     filtered.filter(r => r.conviction_grade === 'B').length,
-    bestUpside: Math.max(...filtered.map(r => r.analyst_upside_pct || 0), 0),
-  }), [filtered])
 
   // Concentración DE VERDAD: un sector que se lleve al menos un cuarto de la
   // lista. El umbral era "3 o más empresas", que con 57 ideas es el 5% y lo
@@ -403,14 +398,14 @@ export default function ValueUS() {
     setMinFcf('')
     setMinRr('')
     setHideEarnings(false)
-    setHideTraps(true)
-    setHideExits(true)
+    setHideTraps(false)
+    setHideExits(false)
     setOnlyOwned(false)
   }
   const decisionFor = (row: ValueOpportunity) => getValueDecision({
     row,
-    hasTrap: !!cerebro.trapMap[row.ticker],
-    hasExit: !!(cerebro.exitMap[row.ticker] || row.cerebro_signal === 'EXIT'),
+    hasTrap: cerebro.trapMap[row.ticker]?.severity === 'HIGH',
+    hasExit: !!cerebro.exitMap[row.ticker],
     hasEntry: !!cerebro.entryMap[row.ticker],
     hasSmartMoney: !!cerebro.smMap[row.ticker],
     hasSqueeze: !!cerebro.squeezeMap[row.ticker],
@@ -458,7 +453,7 @@ export default function ValueUS() {
               {regimeLabel}
             </Badge>
           )}
-          Ideas ordenadas por oportunidad. La vista clara traduce los modelos a decisiones.
+          Primero las de prioridad: baratas frente a su propia historia y creciendo.
           {regimeRec && <> · <strong className="text-foreground">{regimeRec}</strong></>}
         </>}
       >
@@ -510,14 +505,13 @@ export default function ValueUS() {
         />
       )}
 
-      <CifrasClave cifras={[
-        { etiqueta: 'Oportunidades', valor: rows.length, sub: 'tickers analizados' },
-        { etiqueta: 'Score medio',   valor: stats.avgScore.toFixed(1), unidad: '/100',
-          tono: stats.avgScore >= 50 ? 'favor' : 'aviso' },
-        { etiqueta: 'Grado A+B',     valor: stats.gradeA + stats.gradeB,
-          sub: `${stats.gradeA} A, ${stats.gradeB} B`, tono: 'favor' },
-        { etiqueta: 'Mejor upside',  valor: `+${stats.bestUpside.toFixed(0)}`, unidad: '%',
-          sub: 'potencial analistas', tono: 'favor' },
+      <CifrasClave cifras={rows.some(r => r.value_grupo) ? [
+        { etiqueta: 'Prioridad', valor: rows.filter(r => r.value_grupo === 'PRIORIDAD').length,
+          sub: 'barata frente a su historia y creciendo', tono: 'favor' },
+        { etiqueta: 'Observar', valor: rows.filter(r => r.value_grupo === 'OBSERVAR').length,
+          sub: 'pasan la puerta, les falta algo' },
+      ] : [
+        { etiqueta: 'Publicadas', valor: rows.length, sub: 'con los datos verificados' },
       ]} />
 
       {/* Una nota, no una caja. Era una tarjeta a todo el ancho con borde
@@ -536,27 +530,22 @@ export default function ValueUS() {
           vista: pesaba más que la lista que introduce. */}
       {clearMode ? (
         <div className="mb-3 flex flex-wrap items-center gap-3 border-b border-border/60 pb-3">
-          <div className="flex flex-wrap items-center gap-3 w-full">
-            {/* basis-full en móvil: con solo min-w-0 flex-1, el texto competía
-                por la línea con los tres controles de al lado y se quedaba en
-                53px — 13 líneas de 8 caracteres, ilegible. Ocupando la línea
-                entera, los botones bajan solos. */}
-            <div className="min-w-0 basis-full sm:flex-1 sm:basis-auto">
-              <p className="text-cuerpo font-semibold text-foreground">Vista recomendada activa</p>
-              <p className="text-mini text-muted-foreground">
-                Ocultamos alertas de riesgo graves y ordenamos por oportunidad. Los filtros técnicos siguen disponibles.
-              </p>
-            </div>
+          {/* basis-full en móvil: con solo min-w-0 flex-1, el texto competía por la
+              línea con los controles de al lado y se quedaba en 53px. */}
+          <p className="min-w-0 basis-full text-mini text-muted-foreground sm:flex-1 sm:basis-auto">
+            Dentro de cada grupo, las más baratas primero. No se oculta nada: los avisos van en cada empresa.
+          </p>
+          {hasActiveFilters && (
             <button type="button" onClick={applyRecommendedView} className="filter-btn active">
               Restaurar criterio
             </button>
-            <button type="button" onClick={() => setClearMode(false)} className="filter-btn">
-              Ver filtros
-            </button>
-            <span className="filter-label !normal-case !tracking-normal">
-              {filtered.length !== rows.length ? `${filtered.length} / ${rows.length}` : `${rows.length} ideas`}
-            </span>
-          </div>
+          )}
+          <button type="button" onClick={() => setClearMode(false)} className="filter-btn">
+            Ver filtros
+          </button>
+          <span className="filter-label !normal-case !tracking-normal">
+            {filtered.length !== rows.length ? `${filtered.length} / ${rows.length}` : `${rows.length} ideas`}
+          </span>
         </div>
       ) : (
       // Toolbar estilo Apple: la barra de filtros es la superficie "hero" de la
@@ -706,9 +695,10 @@ export default function ValueUS() {
                     </div>
                   </div>
                   <div className="text-right shrink-0">
-                    {d.analyst_upside_pct != null && (
-                      <div className={`text-cuerpo font-bold ${d.analyst_upside_pct >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
-                        {d.analyst_upside_pct >= 0 ? '+' : ''}{d.analyst_upside_pct.toFixed(0)}%
+                    {/* Nuestra valoración: es lo que decide la lista. El analista va en la barra de abajo. */}
+                    {(d.upside_triangulated_pct ?? d.analyst_upside_pct) != null && (
+                      <div className={`text-cuerpo font-bold ${(d.upside_triangulated_pct ?? d.analyst_upside_pct ?? 0) >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+                        {(d.upside_triangulated_pct ?? d.analyst_upside_pct ?? 0) >= 0 ? '+' : ''}{(d.upside_triangulated_pct ?? d.analyst_upside_pct ?? 0).toFixed(0)}%
                       </div>
                     )}
                     <div className="text-micro text-muted-foreground mt-0.5">{precio(d.current_price, d.ticker)}</div>
@@ -890,7 +880,7 @@ export default function ValueUS() {
               <TableHead className={thCls('value_score')} onClick={() => onSort('value_score')}>
                 Score
                 <InfoTooltip
-                  text="Score VALUE propio (0-100): fundamentales 40pts, insiders 15pts, institucionales 15pts, opciones 10pts, ML 5pts, sector/reversion 20pts. Bonificaciones por FCF, dividendo, recompras y R:R."
+                  text="Nota de Value US. PRIORIDAD (80-100): ventas del último año al 10 % o más y PER a más de 1σ bajo su media de 10 años, la única combinación con ventaja medida. OBSERVAR (40-60): pasa la puerta pero le falta algo. Dentro de cada grupo ordena lo barata que está: su PER contra su historia y su FCF yield."
                   align="left"
                 />
               </TableHead>
@@ -922,7 +912,7 @@ export default function ValueUS() {
               </TableHead>
               <TableHead className={compact ? 'hidden' : 'hidden sm:table-cell'}>
                 OE AI
-                <InfoTooltip text="Validación IA del modelo Owner Earnings (FCF-based). Evalúa calidad del dato subyacente y corrección de la tesis. Verde=RELIABLE/BUY · Rojo=RELIABLE/AVOID · Gris=UNRELIABLE (dato no fiable). Ajusta ±8pts el value_score (−10 si UNRELIABLE)." align="right" />
+                <InfoTooltip text="Aviso del validador de Owner Earnings: solo aparece si el dato de caja no es fiable. En ese caso el FCF no cuenta para la nota." align="right" />
               </TableHead>
               <TableHead className={compact ? 'hidden' : 'hidden sm:table-cell'}>
                 Div/BB
@@ -1104,7 +1094,11 @@ export default function ValueUS() {
                   <TableCell className="hidden sm:table-cell">{fmtFcf(d.fcf_yield_pct)}</TableCell>
                   <TableCell className={compact ? 'hidden' : ''}>{fmtRR(d.rr_operativo)}</TableCell>
                   <TableCell className={compact ? 'hidden' : 'hidden sm:table-cell'}>
-                    <OeAiBadge verdict={d.oe_ai_verdict} adjustment={d.oe_ai_adjustment} />
+                    {/* Solo si el dato no es fiable. Su tesis dice AVOID en 146 de 161 empresas
+                        (exige un 15 % anual a precio de hoy), así que no distingue nada. */}
+                    {d.oe_ai_verdict?.toUpperCase().startsWith('UNRELIABLE')
+                      ? <OeAiBadge verdict={d.oe_ai_verdict} adjustment={d.oe_ai_adjustment} />
+                      : <span className="text-muted-foreground text-mini">—</span>}
                   </TableCell>
                   <TableCell className={compact ? 'hidden' : 'hidden sm:table-cell'}>{fmtDivBB(d)}</TableCell>
                   <TableCell>{fmtEarn(d)}</TableCell>

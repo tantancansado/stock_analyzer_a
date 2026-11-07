@@ -124,6 +124,22 @@ export interface ValueOpportunity {
   roic_greenblatt?: number
   magic_formula_rank?: number
   peg_ratio?: number
+  rev_growth_yoy?: number | null
+  // Nota de Value US (value_bands.nota_value) e historia del PER (bandas_per)
+  value_grupo?: 'PRIORIDAD' | 'OBSERVAR' | '' | null
+  value_barata?: number | null
+  value_falta?: string | null
+  per_norm?: number | null
+  per_mediana_10a?: number | null
+  per_z?: number | null
+  precio_per_menos_1s?: number | null
+  precio_per_media?: number | null
+  bpa_sobre_tendencia_pct?: number | null
+  per_sin_dato_motivo?: string | null
+  ventas_anual_pct?: number | null
+  ventas_anual_anio?: number | null
+  revision_4s_pct?: number | null
+  revision_13s_pct?: number | null
   // Hedge Fund 13F consensus
   hedge_fund_count?: number
   hedge_fund_names?: string
@@ -478,6 +494,8 @@ export const VALUE_NUMERIC = new Set([
   'ebit_ev_yield','roic_greenblatt','peg_ratio','roe_pct','profit_margin_pct',
   'revenue_growth_pct','pe_forward','pe_trailing','market_cap','payout_ratio_pct',
   'dividend_rate','five_yr_avg_dividend_yield_pct','shares_change_pct','interest_coverage',
+  'value_barata','per_norm','per_mediana_10a','per_z','precio_per_menos_1s','precio_per_media',
+  'bpa_sobre_tendencia_pct','ventas_anual_pct','ventas_anual_anio','revision_4s_pct','revision_13s_pct',
   'analyst_revision_momentum','fundamental_score','earnings_quality_score','growth_acceleration_score',
   'relative_strength_score','financial_health_score','catalyst_timing_score','rs_line_score',
   'rs_line_percentile','eps_growth_yoy','eps_accel_quarters','rev_growth_yoy','rev_accel_quarters',

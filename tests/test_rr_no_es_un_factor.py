@@ -42,7 +42,7 @@ def _sin_comentarios(ruta: Path) -> list[tuple[int, str]]:
 
 def test_el_integrador_no_suma_el_rr_al_score():
     src = (RAIZ / 'super_score_integrator.py').read_text()
-    assert "df['risk_reward_ratio'] = (df['_upside'] / stop_loss_pct)" in src, \
+    assert "df['risk_reward_ratio'] = (_up / 8.0)" in src, \
         'la columna se sigue publicando: media app la enseña'
     assert "df['value_score'] += df['rr_bonus']" not in src, \
         'sumaba +2 a la banda [10,24), que el upside_bonus ya premia con +5'

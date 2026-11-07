@@ -70,6 +70,17 @@ def test_cerca_de_maximos_no_es_motivo():
     assert m == {'AMZN': '', 'RELX': ''}
 
 
+def test_un_trimestre_no_tapa_un_año_cayendo():
+    """HHH, 6-nov-2026: +330 % en el trimestre por ventas de suelo, -15,8 % en el año."""
+    m = _motivos({**_fila('HHH', ventas=330.2), 'ventas_anual_pct': -15.8})
+    assert m['HHH'] == 'ventas cayendo en el último año (-15.8%): el negocio empeora'
+
+
+def test_sin_ventas_anuales_decide_el_trimestre():
+    """Europa no tiene TIKR para esto, y un dato que no hay no descarta."""
+    assert _motivos({**_fila('EU', ventas=4.0), 'ventas_anual_pct': float('nan')})['EU'] == ''
+
+
 def test_el_motivo_de_valoracion_va_antes_que_el_de_ventas():
     assert _motivos(_fila('X', tri=2.0, ventas=-5.0))['X'].startswith('nuestra valoración')
 

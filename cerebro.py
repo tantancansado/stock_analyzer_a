@@ -75,6 +75,22 @@ def _solo_escala_value(pt: pd.DataFrame) -> pd.DataFrame:
     return pt[pt["strategy"].isin(ESCALA_VALUE)].copy()
 
 
+def _margen_comparable(salud: dict):
+    """Margen operativo solo si es de 12 meses. Hasta el 7-nov-2026 era el del último
+    trimestre: comparar dos fotos daba «margen hundido» a cualquier empresa estacional
+    (BR, de 24,6 % a 10,4 %, solo por ser su primer trimestre fiscal)."""
+    return sf(salud.get("operating_margin_pct")) if salud.get("operating_margin_base") == "12m" else None
+
+
+def _nota_comparable(pt: pd.DataFrame) -> pd.Series:
+    """Filas cuya nota se puede comparar con la de hoy. Value US cambió de escala el
+    7-nov-2026 (value_bands.nota_value): las señales anteriores llevan la suma vieja,
+    y contrastarla con la nota de grupos fabricaría subidas y caídas que no existen."""
+    grupo = pt["value_grupo"].fillna("").astype(str) != "" if "value_grupo" in pt.columns else pd.Series(False, index=pt.index)
+    estrategia = pt["strategy"] if "strategy" in pt.columns else pd.Series("VALUE", index=pt.index)
+    return grupo | (estrategia != "VALUE")
+
+
 def _enrich_value_with_extras(df: pd.DataFrame) -> pd.DataFrame:
     """Añade/rellena current_price, risk_reward_ratio y conviction_grade.
 
@@ -198,8 +214,10 @@ def mine_patterns() -> dict:
     def stats(sub: pd.DataFrame, label: str):
         return compute_stats(sub, label, base_wr, base_ret)
 
+    # Solo con la nota de hoy: mezclar escalas daría tramos que no significan nada.
+    done_nota = done[_nota_comparable(done)] if "value_score" in done.columns else done
     score_tiers = (
-        tier_column(done, "value_score", [(90,101),(80,90),(70,80),(60,70),(50,60)], base_wr, base_ret)
+        tier_column(done_nota, "value_score", [(90,101),(80,90),(70,80),(60,70),(50,60)], base_wr, base_ret)
         if "value_score" in done.columns else []
     )
 
@@ -249,10 +267,10 @@ def mine_patterns() -> dict:
 
     best_combos = []
     if "value_score" in done.columns and "market_regime" in done.columns:
-        s = stats(done[(done["value_score"]>=80) & done["market_regime"].str.upper().str.contains("BULL|ALCISTA",na=False)], "Score≥80 + Mercado alcista")
+        s = stats(done_nota[(done_nota["value_score"]>=80) & done_nota["market_regime"].str.upper().str.contains("BULL|ALCISTA",na=False)], "Score≥80 + Mercado alcista")
         if s: best_combos.append(s)
     if "value_score" in done.columns and "fcf_yield_pct" in done.columns:
-        s = stats(done[(done["value_score"]>=70) & (done["fcf_yield_pct"]>=5)], "Score≥70 + FCF≥5%")
+        s = stats(done_nota[(done_nota["value_score"]>=70) & (done_nota["fcf_yield_pct"]>=5)], "Score≥70 + FCF≥5%")
         if s: best_combos.append(s)
 
     # ── ¿Hay algo que se distinga del azar? ───────────────────────────────
@@ -480,7 +498,7 @@ def generate_alerts(convergence: dict) -> dict:
             t      = str(row.get("ticker","")).upper()
             cur    = sf(row.get("value_score"))
             if cur is None: continue
-            hist   = tracker[tracker["ticker"] == t]["value_score"].dropna()
+            hist   = tracker[(tracker["ticker"] == t) & _nota_comparable(tracker)]["value_score"].dropna()
             if hist.empty: continue
             orig   = float(hist.iloc[0])
             drop   = orig - cur
@@ -1094,7 +1112,9 @@ def scan_exit_signals() -> dict:
     seen = {}
     for _, row in recent.iterrows():
         t   = str(row.get("ticker","")).upper()
-        vs  = sf(row.get("value_score")) or 0
+        # Sin nota comparable la señal sigue vigilándose, pero sin comparar notas.
+        comparable = str(row.get("value_grupo") or "").strip().lower() not in ("", "nan") or row.get("strategy") != "VALUE"
+        vs  = (sf(row.get("value_score")) or 0) if comparable else 0
         if t not in seen or vs > seen[t]["entry_score"]:
             seen[t] = {"entry_score": vs, "signal_date": str(row.get("signal_date",""))}
 
@@ -1937,7 +1957,7 @@ def scan_quality_decay() -> dict:
                                 "piotr":  sf(row.get("piotroski_score")),
                                 "fcf":    sf(row.get("fcf_yield_pct")),
                                 "health": sf(row.get("financial_health_score")),
-                                "margin": sf(h.get("operating_margin_pct")),
+                                "margin": _margen_comparable(h),
                             }
                             loaded += 1
                 except Exception:
@@ -1963,7 +1983,7 @@ def scan_quality_decay() -> dict:
         curr_piotr  = sf(row.get("piotroski_score"))
         curr_fcf    = sf(row.get("fcf_yield_pct"))
         curr_health = sf(row.get("financial_health_score"))
-        curr_margin = sf(h.get("operating_margin_pct"))
+        curr_margin = _margen_comparable(h)
         vscore      = sf(row.get("value_score")) or 0
         company     = str(row.get("company_name", t))
 
@@ -2659,7 +2679,7 @@ def scan_thesis_drift() -> dict:
                                 fcf_yield   = sf(row.get("fcf_yield_pct")),
                                 upside      = sf(row.get("analyst_upside_pct")),
                                 roe         = sf(h.get("roe_pct")),
-                                op_margin   = sf(h.get("operating_margin_pct")),
+                                op_margin   = _margen_comparable(h),
                                 debt_eq     = sf(h.get("debt_to_equity")),
                                 piotroski   = sf(row.get("piotroski_score")),
                             )
@@ -2688,27 +2708,23 @@ def scan_thesis_drift() -> dict:
             continue
 
         h           = _parse_health(row)
-        curr_vs     = sf(row.get("value_score")) or 0
+        curr_vs     = sf(row.get("value_score")) or 0     # solo para el informe: ver abajo
+        prev_vs     = prev.get("value_score") or 0
         curr_fcf    = sf(row.get("fcf_yield_pct"))
         curr_up     = sf(row.get("analyst_upside_pct"))
-        curr_marg   = sf(h.get("operating_margin_pct"))
+        curr_marg   = _margen_comparable(h)
         curr_debt   = sf(h.get("debt_to_equity"))
         curr_piotr  = sf(row.get("piotroski_score"))
-        prev_vs     = prev.get("value_score") or 0
         company     = str(row.get("company_name", t))
 
         drift_score = 0
         drift_flags: list[str] = []
         improvements: list[str] = []
 
-        # 1. Value score trajectory
-        if prev_vs > 0 and curr_vs > 0:
-            chg = curr_vs - prev_vs
-            if chg <= -10:
-                drift_score += 3
-                drift_flags.append(f"Score cayó {abs(chg):.0f}pts en {days_elapsed}d ({prev_vs:.0f}→{curr_vs:.0f})")
-            elif chg >= 8:
-                improvements.append(f"Score mejoró {chg:.0f}pts ({prev_vs:.0f}→{curr_vs:.0f})")
+        # 1. La nota no entra: desde el 7-nov-2026 mide lo barata que está, así que baja
+        # cuando el precio sube. Eso no rompe ninguna tesis. Con la suma de antes,
+        # además, BR salía «tesis rota» por una caída de 34 puntos que era en parte
+        # la penalización por antigüedad.
 
         # 2. FCF yield — core VALUE metric
         if curr_fcf is not None and prev.get("fcf_yield") is not None:
@@ -2845,7 +2861,9 @@ def scan_correlation_breakdown(exit_sigs: dict, decay_data: dict) -> dict:
             if fpath.exists():
                 try:
                     old = pd.read_csv(fpath)
-                    if "value_score" in old.columns and len(old) > 10:
+                    # Solo fotos con la nota de grupos (7-nov-2026): contra la
+                    # escala vieja saldría un derrumbe o un salto que no existe.
+                    if "value_score" in old.columns and "value_grupo" in old.columns and len(old) > 10:
                         oh = int((old["value_score"].fillna(0) >= 65).sum())
                         prev_breadth = oh / len(old) * 100
                         break

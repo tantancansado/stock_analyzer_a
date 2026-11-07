@@ -14,11 +14,12 @@ from pathlib import Path
 import pandas as pd
 
 from data_integrity import filter_dataframe
+from value_bands import NOTA_PRIORIDAD
 
 DOCS = Path('docs')
 HISTORY = DOCS / 'history'
 
-SCORE_THRESHOLD = 55   # minimum value_score to be considered "high quality"
+SCORE_THRESHOLD = NOTA_PRIORIDAD   # solo avisa de PRIORIDAD: ver value_bands.nota_value
 MAX_ALERTS = 8         # max tickers to include in one message
 
 
@@ -197,14 +198,18 @@ def run_new_value_alerts():
         score   = sf(row.get('value_score'), 0)
         sector  = str(row.get('sector', ''))[:20]
         price   = sf(row.get('current_price'))
-        upside  = sf(row.get('analyst_upside_pct'))
+        upside  = sf(row.get('upside_triangulated_pct')) or sf(row.get('analyst_upside_pct'))
         fcf     = sf(row.get('fcf_yield_pct'))
+        z       = sf(row.get('per_z'))
+        ventas  = sf(row.get('ventas_anual_pct'))
         warn    = bool(row.get('earnings_warning', False))
         earn_d  = str(row.get('earnings_date', '')) or ''
 
         score_emoji = '⭐⭐⭐' if score >= 70 else ('⭐⭐' if score >= 60 else '⭐')
 
         extras = []
+        if z is not None and ventas is not None:
+            extras.append(f"PER {z:+.1f}σ, ventas {ventas:+.0f}%")
         if upside and upside > 0:
             extras.append(f"🎯 +{upside:.0f}%")
         if fcf and fcf >= 5:

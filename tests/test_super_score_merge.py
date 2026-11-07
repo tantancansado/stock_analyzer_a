@@ -42,7 +42,7 @@ def _base_frames():
 def test_merge_produces_single_current_price():
     integ = _integrator()
     vcp, fund, empty = _base_frames()
-    result = integ._merge_scores(vcp, empty, fund, empty, empty)
+    result = integ._merge_scores(vcp, empty, fund, empty)
 
     assert 'current_price' in result.columns
     assert 'current_price_x' not in result.columns
@@ -53,7 +53,7 @@ def test_merge_produces_single_current_price():
 def test_fundamental_price_wins_and_vcp_fills_gaps():
     integ = _integrator()
     vcp, fund, empty = _base_frames()
-    result = integ._merge_scores(vcp, empty, fund, empty, empty).set_index('ticker')
+    result = integ._merge_scores(vcp, empty, fund, empty).set_index('ticker')
 
     # AAA está en ambos → manda el precio de fundamentals (11.0, no 10.0)
     assert result.loc['AAA', 'current_price'] == 11.0
@@ -151,7 +151,7 @@ def test_collision_coalesce_belt_and_braces():
         'current_price': [11.0],
     })
     empty = pd.DataFrame()
-    result = integ._merge_scores(vcp, empty, fund, empty, empty)
+    result = integ._merge_scores(vcp, empty, fund, empty)
 
     assert 'current_price' in result.columns
     assert 'current_price_x' not in result.columns

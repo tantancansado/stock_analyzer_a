@@ -37,6 +37,12 @@ TARGET_CSVS = [
 ]
 
 
+# Value US ordena por value_bands.nota_value: el veredicto de la IA se anota en la
+# fila pero no mueve la nota ni saca a nadie. Medido, este ajuste no predecía (IC
+# +0,03 a 90 días). Europa y global siguen puntuando con su propia suma.
+SOLO_INFORMA = {"value_opportunities.csv", "value_opportunities_filtered.csv", "value_conviction.csv"}
+
+
 def _format_verdict(data_quality: str, thesis_verdict: str, adj: int) -> str:
     sign = f"+{adj}" if adj > 0 else f"{adj}"
     return f"{(data_quality or '').upper()}/{(thesis_verdict or '').upper()} ({sign})"
@@ -84,7 +90,7 @@ def patch_csv(path: Path, by_ticker: dict) -> None:
         # LMT y ALLY) salieron de la lista por un -8 o -10 restado dos veces.
         previo = pd.to_numeric(row.get("oe_ai_adjustment"), errors="coerce")
         previo = 0 if pd.isna(previo) else int(previo)
-        if adj == previo:
+        if adj == previo or path.name in SOLO_INFORMA:
             new_scores.append(row.get("value_score"))
         else:
             try:
@@ -106,7 +112,8 @@ def patch_csv(path: Path, by_ticker: dict) -> None:
     # igualmente (31-jul-2026: 15 de 73 por debajo de 30, KVUE con 23.6). Si el
     # score deja de cumplir, la fila sale — el criterio es el mismo o no es criterio.
     before = len(df)
-    df = df[pd.to_numeric(df["value_score"], errors="coerce").fillna(0) >= VALUE_SCORE_MIN]
+    if path.name not in SOLO_INFORMA:
+        df = df[pd.to_numeric(df["value_score"], errors="coerce").fillna(0) >= VALUE_SCORE_MIN]
     dropped = before - len(df)
 
     df.to_csv(path, index=False)

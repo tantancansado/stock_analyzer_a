@@ -19,6 +19,9 @@ from unittest.mock import patch
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import pytest
+from pathlib import Path
+
+import pandas as pd
 
 import ai_quality_filter as aqf
 import verdict_cache
@@ -379,3 +382,40 @@ class TestGateVerificaSusDudas:
         prompt = aqf._prompt_data_check({'ticker': 'X', 'company_name': 'X Corp'})
         assert '"campo"' in prompt
         assert 'rev_growth_yoy' in prompt and 'pct_from_52w_high' in prompt
+
+
+class TestValueUsSoloControlaLosDatos:
+    """En Value US la IA ya no opina si comprar: lo que su filtro dejaba fuera rendía
+    igual que lo que publicaba. Sigue sin publicarse nada sin verificar los datos."""
+
+    def _lista(self, monkeypatch, tmp_path):
+        base = {'company_name': 'X', 'sector': 'Tech', 'current_price': 100.0, 'analyst_upside_pct': 20.0,
+                'health_details': "{'roe_pct': 15.0}", 'earnings_details': "{'profit_margin_pct': 12.0}",
+                'rev_growth_yoy': 8.0, 'proximity_to_52w_high': -15.0}
+        monkeypatch.chdir(tmp_path)
+        (tmp_path / 'docs').mkdir()
+        ruta = tmp_path / 'docs' / 'value_opportunities.csv'
+        pd.DataFrame([{**base, 'ticker': 'A', 'value_score': 50.0}, {**base, 'ticker': 'B', 'value_score': 90.0},
+                      {**base, 'ticker': 'ROTA', 'value_score': 95.0}]).to_csv(ruta, index=False)
+        return ruta
+
+    def test_no_pide_opinion_y_conserva_el_orden_de_la_nota(self, monkeypatch, tmp_path):
+        ruta = self._lista(monkeypatch, tmp_path)
+        def no_llamar(*a, **k):
+            raise AssertionError('no debe pedir opinión de compra')
+        monkeypatch.setattr(aqf, 'analyze_with_ai', no_llamar)
+        monkeypatch.setattr(aqf, 'claude_data_check', lambda r: (r['ticker'] != 'ROTA', None if r['ticker'] != 'ROTA' else 'dato roto'))
+        aqf.filter_opportunities(ruta, 'VALUE', 'value_score', solo_datos=True)
+        out = pd.read_csv(tmp_path / 'docs' / 'value_opportunities_filtered.csv')
+        assert list(out['ticker']) == ['B', 'A']       # ROTA fuera, y primero la de más nota
+        assert out['verified_by'].tolist() == ['claude', 'claude']
+
+    def test_sin_verificar_no_se_publica(self, monkeypatch, tmp_path):
+        ruta = self._lista(monkeypatch, tmp_path)
+        monkeypatch.setattr(aqf, 'claude_data_check', lambda r: (False, None))
+        aqf.filter_opportunities(ruta, 'VALUE', 'value_score', solo_datos=True)
+        assert len(pd.read_csv(tmp_path / 'docs' / 'value_opportunities_filtered.csv')) == 0
+
+    def test_el_pipeline_lo_usa_asi_para_value_us(self):
+        src = (Path(aqf.__file__)).read_text()
+        assert 'filter_opportunities(value_path, "VALUE", "value_score", solo_datos=True)' in src

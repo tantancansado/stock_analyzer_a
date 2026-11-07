@@ -808,7 +808,7 @@ def _avisar_de_los_que_desaparecen(df_nuevo, output_path) -> None:
 
 
 def filter_opportunities(input_path: Path, strategy_name: str, score_field: str,
-                          usar_claude: bool = True):
+                          usar_claude: bool = True, solo_datos: bool = False):
     """
     Filter opportunities using AI quality analysis
     Args:
@@ -818,6 +818,12 @@ def filter_opportunities(input_path: Path, strategy_name: str, score_field: str,
         usar_claude: gate final con Claude (True) o con Groq/Qwen (False).
             9-sep-2026: el usuario compra casi solo acciones US -- EU/global
             usan groq_data_check (gratis) en vez de claude_data_check.
+        solo_datos: sin opinión de compra; la IA solo comprueba que el dato no
+            está roto. Value US desde el 7-nov-2026: dentro de la puerta, lo que
+            este filtro dejaba fuera rendía igual que lo que publicaba (a 90 días
+            -0,2 contra -0,4; a 180, +6,3 contra +8,6, con los márgenes de error
+            solapados) y sus umbrales genéricos de margen y ROE repetían la
+            calidad que ya no decide la lista.
     """
     print("\n" + "=" * 100)
     print(f"AI-POWERED QUALITY FILTER FOR {strategy_name} OPPORTUNITIES (Groq)")
@@ -855,93 +861,94 @@ def filter_opportunities(input_path: Path, strategy_name: str, score_field: str,
     if score_field in df.columns:
         print(f"   Average {score_field}: {df[score_field].mean():.1f}")
 
-    # Analyze each with AI
-    results = []
-    buy_count = 0
-    hold_count = 0
-    avoid_count = 0
+    buy_count = hold_count = avoid_count = 0
+    if solo_datos:
+        print("\n🔎 Sin filtro de opinión: pasan todas al control de datos")
+        df_filtered = df.sort_values(score_field, ascending=False).copy()
+    else:
+        # Analyze each with AI
+        results = []
 
-    print(f"\n🤖 Analyzing with Groq AI (llama-3.3-70b)...")
-    print("-" * 100)
+        print(f"\n🤖 Analyzing with Groq AI (llama-3.3-70b)...")
+        print("-" * 100)
 
-    for idx, row in df.iterrows():
-        ticker = row['ticker']
+        for idx, row in df.iterrows():
+            ticker = row['ticker']
 
-        # Extract fundamentals
-        roe, profit_margin, debt_to_equity = extract_fundamentals(row)
+            # Extract fundamentals
+            roe, profit_margin, debt_to_equity = extract_fundamentals(row)
 
-        # Build data dict for AI (include insider/institutional scores)
-        ticker_data = {
-            'ticker': ticker,
-            'company_name': row['company_name'],
-            'sector': row['sector'],
-            'current_price': row['current_price'],
-            'target_price_analyst': row.get('target_price_analyst'),
-            'analyst_count': row.get('analyst_count', 0),
-            'analyst_upside_pct': row.get('analyst_upside_pct'),
-            'roe': roe,
-            'profit_margin': profit_margin,
-            'debt_to_equity': debt_to_equity,
-            'rev_growth': row.get('rev_growth_yoy'),
-            'insiders_score': row.get('insiders_score', 0),
-            'institutional_score': row.get('institutional_score', 0),
-            # MOMENTUM-specific fields
-            'proximity_to_52w_high': row.get('proximity_to_52w_high'),
-            'dist_ma50_pct': row.get('dist_ma50_pct'),
-            'eps_accelerating': row.get('eps_accelerating'),
-            'rev_accelerating': row.get('rev_accelerating'),
-            'industry_group_percentile': row.get('industry_group_percentile'),
-            'short_percent_float': row.get('short_percent_float'),
-            # CRITICAL Minervini metrics
-            'rs_line_at_new_high': row.get('rs_line_at_new_high'),
-            'flow_score': row.get('flow_score'),
-            'unusual_calls': row.get('unusual_calls'),
-            'num_whales': row.get('num_whales'),
-            'market_regime': row.get('market_regime')
-        }
+            # Build data dict for AI (include insider/institutional scores)
+            ticker_data = {
+                'ticker': ticker,
+                'company_name': row['company_name'],
+                'sector': row['sector'],
+                'current_price': row['current_price'],
+                'target_price_analyst': row.get('target_price_analyst'),
+                'analyst_count': row.get('analyst_count', 0),
+                'analyst_upside_pct': row.get('analyst_upside_pct'),
+                'roe': roe,
+                'profit_margin': profit_margin,
+                'debt_to_equity': debt_to_equity,
+                'rev_growth': row.get('rev_growth_yoy'),
+                'insiders_score': row.get('insiders_score', 0),
+                'institutional_score': row.get('institutional_score', 0),
+                # MOMENTUM-specific fields
+                'proximity_to_52w_high': row.get('proximity_to_52w_high'),
+                'dist_ma50_pct': row.get('dist_ma50_pct'),
+                'eps_accelerating': row.get('eps_accelerating'),
+                'rev_accelerating': row.get('rev_accelerating'),
+                'industry_group_percentile': row.get('industry_group_percentile'),
+                'short_percent_float': row.get('short_percent_float'),
+                # CRITICAL Minervini metrics
+                'rs_line_at_new_high': row.get('rs_line_at_new_high'),
+                'flow_score': row.get('flow_score'),
+                'unusual_calls': row.get('unusual_calls'),
+                'num_whales': row.get('num_whales'),
+                'market_regime': row.get('market_regime')
+            }
 
-        # Analyze with AI (strategy-aware)
-        analysis = analyze_with_ai(ticker_data, strategy=strategy_name)
+            # Analyze with AI (strategy-aware)
+            analysis = analyze_with_ai(ticker_data, strategy=strategy_name)
 
-        # Store result
-        row_result = row.to_dict()
-        row_result['ai_verdict'] = analysis['verdict']
-        row_result['ai_confidence'] = analysis['confidence']
-        row_result['ai_reasoning'] = analysis['reasoning']
-        results.append(row_result)
+            # Store result
+            row_result = row.to_dict()
+            row_result['ai_verdict'] = analysis['verdict']
+            row_result['ai_confidence'] = analysis['confidence']
+            row_result['ai_reasoning'] = analysis['reasoning']
+            results.append(row_result)
 
-        # Count
-        if analysis['verdict'] == 'BUY':
-            buy_count += 1
-            emoji = "🟢"
-        elif analysis['verdict'] == 'HOLD':
-            hold_count += 1
-            emoji = "🟡"
-        else:
-            avoid_count += 1
-            emoji = "🔴"
+            # Count
+            if analysis['verdict'] == 'BUY':
+                buy_count += 1
+                emoji = "🟢"
+            elif analysis['verdict'] == 'HOLD':
+                hold_count += 1
+                emoji = "🟡"
+            else:
+                avoid_count += 1
+                emoji = "🔴"
 
-        print(f"{emoji} {ticker:<6} {analysis['verdict']:<6} (conf: {analysis['confidence']:>3}) - {analysis['reasoning'][:60]}")
+            print(f"{emoji} {ticker:<6} {analysis['verdict']:<6} (conf: {analysis['confidence']:>3}) - {analysis['reasoning'][:60]}")
 
-    # Create filtered DataFrame
-    df_results = pd.DataFrame(results)
+        # Create filtered DataFrame
+        df_results = pd.DataFrame(results)
 
-    # Filter: Keep only BUY with confidence >= 65
-    df_filtered = df_results[
-        (df_results['ai_verdict'] == 'BUY') &
-        (df_results['ai_confidence'] >= 65)
-    ].copy()
+        # Filter: Keep only BUY with confidence >= 65
+        df_filtered = df_results[
+            (df_results['ai_verdict'] == 'BUY') &
+            (df_results['ai_confidence'] >= 65)
+        ].copy()
 
-    # Sort by confidence
-    df_filtered = df_filtered.sort_values('ai_confidence', ascending=False)
+        # Sort by confidence
+        df_filtered = df_filtered.sort_values('ai_confidence', ascending=False)
 
     # GATE de Claude — solo VALUE (eje central de la app junto a LEAPS). Ya no
     # es un aviso: lo que Claude no verifica explícitamente como "OK" se
     # EXCLUYE del CSV publicado. El usuario lo pidió así el 25-ago-2026 tras
     # comprobar que el aviso de antes (`data_warning`) se quedaba en la fila
     # sin que nadie lo mirara — un dato dudoso seguía publicándose igual.
-    # Solo se llama sobre los YA filtrados por Groq, para no disparar el coste
-    # pasando el universo entero por Claude.
+    # Se llama sobre lo que ya ha pasado la puerta, no sobre el universo entero.
     if strategy_name == 'VALUE' and not df_filtered.empty:
         import verdict_cache
         quien = 'Claude' if usar_claude else 'Groq'
@@ -1031,12 +1038,15 @@ def filter_opportunities(input_path: Path, strategy_name: str, score_field: str,
     print("\n" + "=" * 100)
     print("FILTERING RESULTS")
     print("=" * 100)
-    print(f"\n🟢 BUY: {buy_count}")
-    print(f"🟡 HOLD: {hold_count}")
-    print(f"🔴 AVOID: {avoid_count}")
+    if solo_datos:
+        print(f"\n✅ Con los datos verificados: {len(df_filtered)}/{len(df)}")
+    else:
+        print(f"\n🟢 BUY: {buy_count}")
+        print(f"🟡 HOLD: {hold_count}")
+        print(f"🔴 AVOID: {avoid_count}")
 
-    print(f"\n✅ FILTERED (BUY with confidence ≥65): {len(df_filtered)}/{len(df)}")
-    print(f"   Rejected: {len(df) - len(df_filtered)} low-quality opportunities")
+        print(f"\n✅ FILTERED (BUY with confidence ≥65): {len(df_filtered)}/{len(df)}")
+        print(f"   Rejected: {len(df) - len(df_filtered)} low-quality opportunities")
 
     # Save filtered results
     output_filename = input_path.stem + '_filtered.csv'
@@ -1055,7 +1065,7 @@ def filter_opportunities(input_path: Path, strategy_name: str, score_field: str,
         price = row['current_price']
         target = row.get('target_price_analyst')
         upside = row.get('analyst_upside_pct')
-        confidence = row['ai_confidence']
+        confidence = row.get('ai_confidence', '-')
         insiders = row.get('insiders_score', 0)
 
         target_str = f"${target:.2f}" if pd.notna(target) else "N/A"
@@ -1359,7 +1369,7 @@ def main():
 
     # Filter VALUE opportunities
     value_path = Path('docs/value_opportunities.csv')
-    value_filtered = filter_opportunities(value_path, "VALUE", "value_score")
+    value_filtered = filter_opportunities(value_path, "VALUE", "value_score", solo_datos=True)
     if value_filtered is not None:
         total_filtered += value_filtered
 

@@ -1,8 +1,10 @@
 import { useState } from 'react'
 
-import { X, TrendingUp, AlertTriangle, Copy, Check, ExternalLink, Shield, Award } from 'lucide-react'
+import { X, TrendingUp, AlertTriangle, Copy, Check, ExternalLink, Shield, Award, CircleCheck, Eye } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import GradeBadge from './GradeBadge'
+import SignalBadge from './SignalBadge'
+import { precio } from '../lib/moneda'
 import ThesisBody from './ThesisBody'
 import TickerLogo from './TickerLogo'
 import PriceChart from './PriceChart'
@@ -73,7 +75,7 @@ function TechnicalPanel({ ticker }: { ticker: string }) {
 
 function ConvictionPanel({ row }: { row: ValueOpportunity }) {
   const reasons = row.conviction_reasons
-    ? row.conviction_reasons.split(' | ').filter(Boolean)
+    ? row.conviction_reasons.split(/\s*\|\|?\s*/).filter(Boolean)
     : []
   const pos   = row.conviction_positives ?? 0
   const flags = row.conviction_red_flags ?? 0
@@ -87,9 +89,10 @@ function ConvictionPanel({ row }: { row: ValueOpportunity }) {
       <div className="flex items-center gap-2.5 mb-3 flex-wrap">
         <h4 className="etiqueta-seccion flex items-center gap-1.5">
           <Award size={12} className="text-primary" />
-          Conviction IA
+          {row.value_grupo ? 'A favor y en contra' : 'Conviction IA'}
         </h4>
-        {grade && score != null && (
+        {/* En Value US decide el grupo: una segunda nota al lado dice otra cosa. */}
+        {!row.value_grupo && grade && score != null && (
           <span className={`text-mini font-bold px-2.5 py-0.5 rounded-lg ${
             grade === 'A' || grade === 'A+' ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/25' :
             grade === 'B' ? 'bg-blue-500/15 text-blue-400 border border-blue-500/25' :
@@ -101,7 +104,7 @@ function ConvictionPanel({ row }: { row: ValueOpportunity }) {
       </div>
 
       {/* Score bar */}
-      <div className="flex items-center gap-4 mb-3">
+      {!row.value_grupo && <div className="flex items-center gap-4 mb-3">
         <div className="flex items-center gap-2 flex-1">
           <span className="text-micro text-emerald-400 font-semibold shrink-0">+{pos}</span>
           <div className="flex-1 h-1.5 rounded-full barra-pista overflow-hidden flex">
@@ -110,13 +113,13 @@ function ConvictionPanel({ row }: { row: ValueOpportunity }) {
           </div>
           <span className="text-micro text-red-400 font-semibold shrink-0">{flags}</span>
         </div>
-      </div>
+      </div>}
 
       {reasons.length > 0 && (
         <div className="flex flex-wrap gap-1.5">
           {reasons.map((r, i) => {
             const isPositive = /alta|strong|crecimiento|sólid|excelente|seguro|activo|buyback|favorable/i.test(r)
-            const isNegative = /riesgo|alerta|bajo|débil|negativo|warning|alto endeud/i.test(r)
+            const isNegative = /riesgo|alerta|bajo|débil|negativo|warning|alto endeud|red flags?:/i.test(r)
             return (
               <span key={i} className={`text-micro px-2 py-0.5 rounded-lg border ${
                 isPositive ? 'bg-emerald-500/8 border-emerald-500/20 text-emerald-400' :
@@ -291,10 +294,9 @@ interface Props {
   row: ValueOpportunity
   thesisText: string
   onClose: () => void
-  currency?: string
 }
 
-export default function ThesisModal({ row, thesisText, onClose, currency = '$' }: Props) {
+export default function ThesisModal({ row, thesisText, onClose }: Props) {
   const [copied, setCopied] = useState(false)
 
   const copyTicker = () => {
@@ -309,7 +311,9 @@ export default function ThesisModal({ row, thesisText, onClose, currency = '$' }
   // Escape, bloqueo de scroll (con su propio contador para modales anidados),
   // foco atrapado y foco devuelto: todo en `CapaModal`.
 
-  const upside = row.analyst_upside_pct
+  const grupo  = row.value_grupo
+  // En Value US el potencial es el nuestro, el mismo de la tarjeta de la lista.
+  const upside = grupo && row.upside_triangulated_pct != null ? row.upside_triangulated_pct : row.analyst_upside_pct
   const rr     = row.risk_reward_ratio
   const fcf    = row.fcf_yield_pct
   const earn   = row.days_to_earnings
@@ -338,7 +342,10 @@ export default function ThesisModal({ row, thesisText, onClose, currency = '$' }
               <div className="flex items-center gap-2.5 flex-wrap mb-1">
                 <TickerLogo ticker={row.ticker} size="md" />
                 <span className="font-mono font-extrabold text-primary text-pagina tracking-tight">{row.ticker}</span>
-                <GradeBadge grade={row.conviction_grade} score={row.conviction_score} />
+                {grupo
+                  ? <SignalBadge icon={grupo === 'PRIORIDAD' ? CircleCheck : Eye} tono={grupo === 'PRIORIDAD' ? 'favor' : 'info'}
+                      texto={grupo === 'PRIORIDAD' ? 'Prioridad' : 'Observar'} />
+                  : <GradeBadge grade={row.conviction_grade} score={row.conviction_score} />}
                 {row.earnings_warning && (
                   <Badge variant="yellow" className="text-micro gap-1">
                     <AlertTriangle size={12} strokeWidth={2} /> Earnings
@@ -354,7 +361,7 @@ export default function ThesisModal({ row, thesisText, onClose, currency = '$' }
             <div className="flex items-start gap-1.5 shrink-0">
               {price != null && (
                 <div className="text-right mr-2">
-                  <div className="text-pagina font-extrabold tabular-nums tracking-tight">{currency}{price.toFixed(2)}</div>
+                  <div className="text-pagina font-extrabold tabular-nums tracking-tight">{precio(price, row.ticker)}</div>
                   {upside != null && (
                     <div className={`text-mini font-semibold tabular-nums flex items-center gap-1 justify-end ${upside >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
                       <TrendingUp size={12} />
@@ -375,25 +382,41 @@ export default function ThesisModal({ row, thesisText, onClose, currency = '$' }
             </div>
           </div>
 
+          {/* ── Value US: se vende a precio objetivo, no a un stop ni a un nivel técnico ── */}
+          {grupo && price != null && row.upside_triangulated_pct != null && (
+            <div className="flex gap-2 px-5 lg:px-6 pb-3 flex-shrink-0">
+              <div className="flex-1 px-3 py-2 rounded-lg bg-emerald-500/6 border border-emerald-500/15">
+                <div className="etiqueta-seccion text-emerald-400 mb-0.5">Nuestro objetivo</div>
+                <div className="font-extrabold text-cuerpo tabular-nums text-emerald-400 leading-none">{precio(price * (1 + row.upside_triangulated_pct / 100), row.ticker)}</div>
+              </div>
+              {row.target_price_analyst != null && (
+                <div className="flex-1 px-3 py-2 rounded-lg bg-muted/20 border border-border/40">
+                  <div className="etiqueta-seccion mb-0.5">Consenso</div>
+                  <div className="font-extrabold text-cuerpo tabular-nums leading-none">{precio(row.target_price_analyst, row.ticker)}</div>
+                </div>
+              )}
+            </div>
+          )}
+
           {/* ── Entry / Stop / Target ── */}
-          {(row.entry_price != null || row.stop_loss != null || row.target_price != null) && (
+          {!grupo && (row.entry_price != null || row.stop_loss != null || row.target_price != null) && (
             <div className="flex gap-2 px-5 lg:px-6 pb-3 flex-shrink-0">
               {row.entry_price != null && (
                 <div className="flex-1 px-3 py-2 rounded-lg bg-primary/5 border border-primary/20">
                   <div className="etiqueta-seccion text-primary mb-0.5">Entrada</div>
-                  <div className="font-extrabold text-cuerpo tabular-nums text-primary leading-none">{currency}{row.entry_price.toFixed(2)}</div>
+                  <div className="font-extrabold text-cuerpo tabular-nums text-primary leading-none">{precio(row.entry_price, row.ticker)}</div>
                 </div>
               )}
               {row.stop_loss != null && (
                 <div className="flex-1 px-3 py-2 rounded-lg bg-red-500/6 border border-red-500/15">
                   <div className="etiqueta-seccion text-red-400 mb-0.5">Stop Loss</div>
-                  <div className="font-extrabold text-cuerpo tabular-nums text-red-400 leading-none">{currency}{row.stop_loss.toFixed(2)}</div>
+                  <div className="font-extrabold text-cuerpo tabular-nums text-red-400 leading-none">{precio(row.stop_loss, row.ticker)}</div>
                 </div>
               )}
               {row.target_price != null && (
                 <div className="flex-1 px-3 py-2 rounded-lg bg-emerald-500/6 border border-emerald-500/15">
                   <div className="etiqueta-seccion text-emerald-400 mb-0.5">Objetivo</div>
-                  <div className="font-extrabold text-cuerpo tabular-nums text-emerald-400 leading-none">{currency}{row.target_price.toFixed(2)}</div>
+                  <div className="font-extrabold text-cuerpo tabular-nums text-emerald-400 leading-none">{precio(row.target_price, row.ticker)}</div>
                 </div>
               )}
             </div>
@@ -401,7 +424,7 @@ export default function ThesisModal({ row, thesisText, onClose, currency = '$' }
 
           {/* ── Metrics strip ── */}
           <div className="flex gap-1.5 px-5 lg:px-6 pb-3 overflow-x-auto flex-shrink-0 scrollbar-hide">
-            <Chip label="Score" value={row.value_score.toFixed(0)} color="text-primary" />
+            <Chip label={grupo ? 'Nota' : 'Score'} value={row.value_score.toFixed(0)} color="text-primary" />
             {row.piotroski_score != null && (
               <Chip label="F-Score" value={`${row.piotroski_score}/9`} color={row.piotroski_score >= 8 ? 'text-emerald-400' : row.piotroski_score <= 2 ? 'text-red-400' : 'text-amber-400'} />
             )}
@@ -411,7 +434,7 @@ export default function ThesisModal({ row, thesisText, onClose, currency = '$' }
             {row.peg_ratio != null && (
               <Chip label="PEG" value={row.peg_ratio.toFixed(2)} color={row.peg_ratio < 1 ? 'text-emerald-400' : row.peg_ratio < 2 ? 'text-amber-400' : 'text-red-400'} />
             )}
-            {rr != null && (
+            {!grupo && rr != null && (
               /* El color sale de la banda de upside, no de la magnitud del R:R.
                  `risk_reward_ratio` es `analyst_upside_pct / 8`, así que pintar
                  verde a partir de 2 dejaba en verde todo el upside ≥16% —
@@ -435,8 +458,8 @@ export default function ThesisModal({ row, thesisText, onClose, currency = '$' }
             {earn != null && (
               <Chip label="Earnings" value={`${earn}d`} color={earn <= 7 ? 'text-red-400' : earn <= 21 ? 'text-amber-400' : 'text-emerald-400'} />
             )}
-            {row.target_price_analyst != null && (
-              <Chip label="Target" value={`${currency}${row.target_price_analyst.toFixed(0)}`} />
+            {!grupo && row.target_price_analyst != null && (
+              <Chip label="Consenso" value={precio(row.target_price_analyst, row.ticker, null, 0)} />
             )}
             {row.analyst_count != null && (
               <Chip label="Analistas" value={String(row.analyst_count)} />

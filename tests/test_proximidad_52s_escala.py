@@ -90,7 +90,3 @@ class TestElTimingDeLeaps:
         assert '103' in self.FUENTE
 
 
-def test_el_consumidor_que_ya_estaba_bien_no_se_toca():
-    tracker = (RAIZ / 'portfolio_tracker.py').read_text()
-    assert '_prox >= _CAIDA_MAX_PCT' in tracker
-    assert '_CAIDA_MAX_PCT = -30.0' in tracker

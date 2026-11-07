@@ -137,7 +137,11 @@ def _fundamental_findings(position: dict, fund: dict) -> list[dict]:
     """Hard-reject conditions + gradual deterioration vs the score at recommendation."""
     findings: list[dict] = []
     fund_now = _num(fund.get('fundamental_score'))
-    fund_at_signal = _num(position.get('value_score'))
+    # El fundamental de entonces, no la nota: comparar fundamental_score con
+    # value_score era restar dos escalas distintas, y con la nota de grupos
+    # (7-nov-2026) habría dado por deterioradas todas las posiciones. Las señales
+    # anteriores no lo guardaron y no se inventa: para ellas no hay comparación.
+    fund_at_signal = _num(position.get('fundamental_score'))
     upside_now = _num(fund.get('analyst_upside_pct'))
     earnings_warn = fund.get('earnings_warning')
 

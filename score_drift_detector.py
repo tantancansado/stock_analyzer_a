@@ -87,6 +87,8 @@ def _exited_alerts(prev_map: dict, today_tickers: set) -> list:
 
 
 def _drift_alerts(today_map: dict, prev_map: dict, prev_has_score: bool) -> list:
+    # Sin nota comparable en la foto anterior no hay deriva: el 7-nov-2026 cambió
+    # la escala y compararla con la vieja daría una alerta por empresa.
     if not prev_has_score:
         return []
     alerts = []
@@ -119,7 +121,7 @@ def build_alerts() -> list:
     alerts = (
         _new_entry_alerts(today_map, set(prev_map))
         + _exited_alerts(prev_map, set(today_map))
-        + _drift_alerts(today_map, prev_map, SCORE_COL in prev_df.columns)
+        + _drift_alerts(today_map, prev_map, SCORE_COL in prev_df.columns and 'value_grupo' in prev_df.columns)
     )
 
     order = {'SCORE_UP': 0, 'NEW_ENTRY': 1, 'SCORE_DOWN': 2, 'EXITED': 3}

@@ -24,10 +24,6 @@ from pathlib import Path
 RAIZ = Path(__file__).resolve().parent.parent
 
 
-def test_ya_no_se_pone_el_score_a_cero_por_upside_alto():
-    src = (RAIZ / 'super_score_integrator.py').read_text()
-    assert "value_trap = alto & ~respaldo_propio(df)" in src, \
-        'el upside alto se juzga con la valoración propia, no con el número del analista'
 
 
 def test_el_analista_solo_no_veta_si_nuestra_valoracion_respalda():
@@ -40,10 +36,6 @@ def test_el_analista_solo_no_veta_si_nuestra_valoracion_respalda():
     assert tiene_respaldo_propio(22.0, 'MEDIA') and not tiene_respaldo_propio(None, '')
 
 
-def test_se_penaliza_pero_no_se_mata():
-    """No es cero —un gap enorme suele tener un motivo— ni una sentencia."""
-    import super_score_integrator as ssi
-    assert 0 < ssi.PENALIZACION_UPSIDE_ALTO <= 15
 
 
 def test_queda_marcado_para_que_alguien_lo_mire():

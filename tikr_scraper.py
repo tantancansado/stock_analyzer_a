@@ -323,6 +323,13 @@ def build_ric_id(tikr_symbol: str, exchange_symbol: str) -> Optional[str]:
 SIN_COINCIDENCIA = object()
 
 
+def _mismo_simbolo(pedido: str, de_tikr: str) -> bool:
+    """TIKR escribe con punto los ADR y las clases de acciones: `WTKW.Y`, `FCNC.A`.
+    Compararlos tal cual dejó 15 empresas sin actualizar desde el 17-sep-2026."""
+    limpia = lambda x: x.upper().replace('.', '').replace('/', '').replace('-', '')
+    return limpia(pedido) == limpia(de_tikr)
+
+
 def algolia_resolve_ticker(ticker: str) -> Optional[dict]:
     """
     Busca un ticker en el índice Algolia de TIKR (sin autenticación).
@@ -360,11 +367,10 @@ def algolia_resolve_ticker(ticker: str) -> Optional[dict]:
         # sufijo. Lo segundo es lo que de verdad discrimina: el símbolo 'AI' es
         # C3.ai en NYSE y Air Liquide en París — con el símbolo solo no se
         # pueden distinguir.
-        t_upper = simbolo.upper()
         candidatos = []
         for hit in hits:
-            sym = (hit.get('tikrSymbol') or hit.get('tickersymbol', '')).upper()
-            if sym != t_upper:
+            sym = (hit.get('tikrSymbol') or hit.get('tickersymbol', ''))
+            if not _mismo_simbolo(simbolo, sym):
                 continue
             if not _bolsa_coherente(ticker, hit.get('exchangesymbol', '')):
                 continue
@@ -511,7 +517,7 @@ def resolve_ticker(
     if not result:
         # Aquí sí: Algolia no pudo responder (HTTP o red). El fallback es lo
         # único que queda, y su resultado se valida al guardar.
-        result = resolve_ticker_api(session, token, ticker)
+        result = resolve_ticker_api(session, token, tikr_ticker(ticker))
     if not result:
         return None
 
@@ -1250,7 +1256,10 @@ def fetch_est(
     # Revision flag: comparar EPS estimado actual vs hace ~30 días
     # Tomamos el entry más reciente y el de hace 30+ días para el año forward+1
     next_yr = current_year + 1
-    rev_flag = 'stable'
+    # None si no se puede saber. Era 'stable' por defecto, y /est devuelve una sola
+    # entrada por año, así que decía «estable» en las 161 sin comparar nada. Las
+    # revisiones de verdad salen de las fotos semanales: ver bandas_per.
+    rev_flag = None
     eps_entries = [
         e for e in estimates
         if e.get('dataitemid') == 100173
@@ -1262,6 +1271,7 @@ def fetch_est(
         older_eps  = float(eps_sorted[-1]['dataitemvalue'])
         if older_eps and abs(older_eps) > 0.01:
             change_pct = (latest_eps - older_eps) / abs(older_eps) * 100
+            rev_flag = 'stable'
             if change_pct > 1.0:
                 rev_flag = 'up'
             elif change_pct < -1.0:
@@ -1497,14 +1507,15 @@ def run(tickers: list, dry_run: bool = False, force: bool = False) -> dict:
 
     for i, ticker in enumerate(tickers, 1):
         token, token_emitido = _token_vigente(token, token_emitido)
-        t_tikr = tikr_ticker(ticker)
         print(f"  [{i:3d}/{total}] {ticker:<12}", end='', flush=True)
 
         if dry_run:
             print(" — dry run")
             continue
 
-        ids = resolve_ticker(session, token, t_tikr, cache)
+        # El ticker entero, con su sufijo: es lo que dice en qué bolsa tiene que estar.
+        # Pasándolo recortado, `CSU` o `7741` se exigían en EE. UU. y se rechazaban.
+        ids = resolve_ticker(session, token, ticker, cache)
         if not ids:
             print(" no IDs")
             errors.append(ticker)

@@ -113,10 +113,11 @@ export function nlBounceSetup(opts: {
   }
 
   // VALUE base
-  if (opts.value_score != null && opts.value_score >= 60) {
-    parts.push(`empresa fundamentalmente sólida (VALUE ${opts.value_score.toFixed(0)}pts)`)
+  // La nota de VALUE mide lo barata que está, no lo sólida que es la empresa.
+  if (opts.value_score != null && opts.value_score >= 80) {
+    parts.push(`en prioridad de VALUE: barata frente a su historia y creciendo`)
   } else if (opts.value_score != null && opts.value_score >= 40) {
-    parts.push(`fundamentos aceptables`)
+    parts.push(`en la lista VALUE`)
   }
 
   // Señales adicionales

@@ -135,6 +135,59 @@ def score_bajo_el_corte(value: list[dict], minimo: float) -> list[str]:
             if (_f(r.get('value_score')) or 999) < minimo]
 
 
+def value_us_incumple_su_regla(value: list[dict]) -> list[str]:
+    """Lo publicado en Value US tiene que cumplir value_bands: la puerta, el grupo y
+    el tramo de nota. Es la lista de la que salen las compras: si esto no cuadra,
+    alguien ha tocado una columna después de calcularla."""
+    if not value or 'value_grupo' not in value[0]:
+        return []      # lista anterior a la nota de grupos
+    import pandas as pd
+    from value_bands import (CRECIMIENTO_QUE_JUSTIFICA, NOTA_OBSERVAR, NOTA_PRIORIDAD, PER_BAJO_SU_MEDIA,
+                             PUNTOS_POR_BARATA, motivo_fuera_de_value, vetos_value)
+    df = pd.DataFrame(value)
+    malos = []
+    motivos, vetos = motivo_fuera_de_value(df), vetos_value(df)
+    for i, r in enumerate(value):
+        t, g = r.get('ticker'), r.get('value_grupo')
+        nota, ventas, z = _f(r.get('value_score')), _f(r.get('ventas_anual_pct')), _f(r.get('per_z'))
+        if motivos.iloc[i]:
+            malos.append(f"{t}: publicada sin pasar la puerta ({motivos.iloc[i]})")
+        if vetos.iloc[i]:
+            malos.append(f"{t}: publicada con un descarte duro")
+        es_prioridad = ventas is not None and z is not None and ventas >= CRECIMIENTO_QUE_JUSTIFICA and z < PER_BAJO_SU_MEDIA
+        if (g == 'PRIORIDAD') != es_prioridad or g not in ('PRIORIDAD', 'OBSERVAR'):
+            malos.append(f"{t}: grupo {g} con ventas {ventas} y PER a {z}σ")
+        base = NOTA_PRIORIDAD if g == 'PRIORIDAD' else NOTA_OBSERVAR
+        if nota is None or not base <= nota <= base + PUNTOS_POR_BARATA:
+            malos.append(f"{t}: nota {nota} fuera del tramo de {g}")
+    return malos
+
+
+def value_us_sin_historia_de_per(value: list[dict], minimo_pct: float = 0.5) -> list[str]:
+    """Sin bandas de PER el grupo PRIORIDAD se queda vacío sin que falle nada."""
+    if not value or 'value_grupo' not in value[0]:
+        return []
+    con = sum(_f(r.get('per_z')) is not None for r in value)
+    if con / len(value) < minimo_pct:
+        return [f"solo {con} de {len(value)} con bandas de PER: mirar bandas_per.py"]
+    return []
+
+
+def filtrada_no_sale_de_la_lista(value: list[dict], filtrada: list[dict]) -> list[str]:
+    """Lo publicado sale de la lista del día y con la misma nota."""
+    if not value or not filtrada or 'value_grupo' not in value[0]:
+        return []
+    notas = {r.get('ticker'): _f(r.get('value_score')) for r in value}
+    malos = []
+    for r in filtrada:
+        t = r.get('ticker')
+        if t not in notas:
+            malos.append(f"{t}: publicada y no está en la lista del día")
+        elif notas[t] != _f(r.get('value_score')):
+            malos.append(f"{t}: nota {_f(r.get('value_score'))} publicada, {notas[t]} en la lista")
+    return malos
+
+
 def ratios_imposibles(value: list[dict]) -> list[str]:
     """FCF yield de dos dígitos altos = divisa sin convertir (caso ATLKY).
 
@@ -616,6 +669,9 @@ def run() -> int:
         ('badge ENTRY contra el timing de la ficha (EU)', entry_verdicts_vs_timing(value_eu, verdicts)),
         ('badge ENTRY contra la valoración propia (US)',  entry_verdicts_vs_valoracion(value, verdicts)),
         ('badge ENTRY contra la valoración propia (EU)',  entry_verdicts_vs_valoracion(value_eu, verdicts)),
+        ('Value US cumple su propia regla',          value_us_incumple_su_regla(value)),
+        ('Value US tiene historia del PER',          value_us_sin_historia_de_per(value)),
+        ('lo publicado sale de la lista del día',    filtrada_no_sale_de_la_lista(value, _rows('value_opportunities_filtered.csv'))),
         ('corte de calidad (US)',                    score_bajo_el_corte(value, VALUE_SCORE_MIN)),
         ('corte de calidad (EU)',                    score_bajo_el_corte(value_eu, VALUE_SCORE_MIN)),
         ('ratios imposibles — divisa (US)',          ratios_imposibles(value)),

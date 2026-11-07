@@ -185,3 +185,63 @@ def test_lista_de_publicados_vacia_o_ausente_es_none(tmp_path, monkeypatch):
     assert tg._tickers_publicados_us() is None
     pd.DataFrame({'ticker': ['V']}).to_csv(tmp_path / 'docs/value_opportunities_filtered.csv', index=False)
     assert tg._tickers_publicados_us() == {'V'}
+
+
+# ── Regla de Value US ─────────────────────────────────────────────────────────
+
+FILA_GRUPO = {'ticker': 'INTU', 'value_score': 100.0, 'value_grupo': 'PRIORIDAD', 'value_falta': float('nan'),
+              'per_z': -3.12, 'per_norm': 14.9, 'per_mediana_10a': 39.87, 'ventas_anual_pct': 13.9,
+              'revision_13s_pct': -11.0, 'upside_triangulated_pct': 78.4,
+              'entry_readiness': 'ESPERAR', '_universo': 'VALUE', '_source': 'value'}
+
+
+def _generador():
+    g = tg.ThesisGenerator(use_ai=False)
+    g._tikr_data = {}
+    return g
+
+
+def test_los_datos_de_la_regla_llegan_a_la_tesis():
+    """Se pedían en el prompt y `_normalize_value_row` no los copiaba: todas salían «no disponible»."""
+    fila = _generador()._normalize_value_row(dict(FILA_GRUPO), None)
+    assert fila['value_grupo'] == 'PRIORIDAD'
+    assert fila['per_z'] == -3.12
+    assert fila['ventas_anual_pct'] == 13.9
+    assert fila['revision_13s_pct'] == -11.0
+    assert fila['upside_triangulated_pct'] == 78.4
+    assert fila['value_falta'] is None, 'un hueco del CSV no puede llegar como NaN'
+
+
+def _prompt(monkeypatch, g, fila):
+    capturado = {}
+
+    def falso(messages, **kw):
+        capturado['prompt'] = messages[0]['content']
+        return COMPLETA
+
+    monkeypatch.setattr('groq_utils.claude_chat', falso)
+    g._narrative_value_ai(fila)
+    return capturado['prompt']
+
+
+def test_el_prompt_de_prioridad_no_manda_esperar_por_el_timing(monkeypatch):
+    g = _generador()
+    p = _prompt(monkeypatch, g, g._normalize_value_row(dict(FILA_GRUPO), None))
+    assert 'GRUPO VALUE: PRIORIDAD' in p and '-3.12σ' in p and '-11.0%' in p
+    assert 'la conclusión es esperar (di qué falta)' not in p
+    assert 'en PRIORIDAD la conclusión es comprar' in p
+
+
+def test_fuera_de_value_us_sigue_mandando_el_timing(monkeypatch):
+    g = _generador()
+    fila = {k: v for k, v in FILA_GRUPO.items() if k not in ('value_grupo', 'per_z', 'ventas_anual_pct')}
+    p = _prompt(monkeypatch, g, g._normalize_value_row(fila, None))
+    assert 'la conclusión es esperar (di qué falta)' in p
+
+
+def test_la_clasificacion_sale_del_grupo_no_de_la_nota():
+    """OBSERVAR llega a 60 de nota y con la escala vieja salía «Muy atractiva»."""
+    g = _generador()
+    fila = g._normalize_value_row({**FILA_GRUPO, 'value_grupo': 'OBSERVAR', 'value_score': 58.5}, None)
+    assert g._generate_overview(fila)['classification'] == 'Observar'
+

@@ -104,8 +104,8 @@ describe('nada de $ escrito a mano delante de una cotización', () => {
 
   it('precio() pone peniques donde toca', async () => {
     const { precio } = await import('@/lib/moneda')
-    expect(precio(489.8, 'AUTO.L')).toBe('489.80p')
-    expect(precio(489.8, 'AAPL')).toBe('$489.80')
+    expect(precio(489.8, 'AUTO.L')).toBe('489,80p')
+    expect(precio(489.8, 'AAPL')).toBe('$489,80')
     expect(precio(null, 'AAPL')).toBe('—')
   })
 

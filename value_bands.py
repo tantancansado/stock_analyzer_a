@@ -98,9 +98,49 @@ def respaldo_propio(df):
 # de con la distancia al máximo, que mide el precio y no el negocio.
 VENTAS_MINIMAS = 0.0
 CUARTIL_ALTO = 0.75
-# Lo usa la venta (portfolio_price_alerts): crecer a doble dígito con margen
-# del cuartil alto también es ser excepcional (MSFT), no solo el ROE (MCO).
+# Crecer a doble dígito separa a la lista (ver la nota de abajo) y, en la venta
+# (portfolio_price_alerts), con margen del cuartil alto también es ser
+# excepcional (MSFT), no solo el ROE (MCO).
 CRECIMIENTO_QUE_JUSTIFICA = 10.0
+
+# ── La nota de la lista VALUE US (7-nov-2026) ────────────────────────────────
+# La puerta de arriba decide quién entra; esto decide el orden. Sustituye a una
+# suma de más de 25 ajustes cuyos máximos daban unos 200 sobre 100, que medida
+# casi no miraba el precio (correlación 0,10 con nuestra valoración), repartía
+# el 34 % del orden entre Cerebro y opciones sin predecir a 180 días, y dejaba
+# fuera del corte de 30 a las que mejor lo hicieron.
+#
+# Medido contra el universo actual en dos periodos independientes, con el P/E de
+# BPA normalizado de TIKR y las ventas del último año cerrado:
+#
+#                                  2020-25, 12 meses    2026, 90 y 180 días
+#   ventas >=10% y PER < -1σ       +8,8 (SPY +5,5)      +6,4 y +13,1     PRIORIDAD
+#   ventas >=10%, PER no tan bajo  -7,5 (SPY -11,8)     -4,1 y  (sin muestra)
+#   ventas de 0 a 10%              -3,1 (SPY  -6,3)     +1,2 y  +1,1
+#
+# Solo la combinación tiene ventaja, y en los dos periodos. Crecer sin estar barata
+# contra su propia historia salió peor que no crecer, así que no hay un grupo
+# intermedio: el resto pasa la puerta y se queda en observación, diciendo qué le
+# falta. La puerta sola no aporta (-0,4 y -0,2 en 2026 contra este universo; el «+5»
+# de la nota de arriba era contra el universo más amplio y peor de entonces).
+#
+# Son 31 empresas y 2024 salió -17: es lo mejor medido, no una garantía. Y son
+# empresas que siguen vivas hoy, lo que favorece a todo lo que ha caído.
+PER_BAJO_SU_MEDIA = -1.0     # σ contra sus 10 años (bandas_per)
+NOTA_PRIORIDAD = 80.0
+NOTA_OBSERVAR = 40.0
+PUNTOS_POR_BARATA = 20.0     # dentro de cada grupo; nunca alcanza al siguiente
+PER_Z_TOPE = 3.0             # 3σ por debajo de su media ya es lo más barato
+FCF_YIELD_TOPE = 8.0
+
+# Rango en que el múltiplo histórico propio sirve de ancla para el «P/E justo». Por
+# encima es burbuja y por debajo suele ser un beneficio raro: en los dos casos no
+# hay objetivo por P/E. El techo lo confirmó el usuario el 29-oct-2026 («no quiero
+# precios de burbuja»), sabiendo que deja fuera a NOW aun con datos limpios.
+PER_ANCLA_MIN, PER_ANCLA_MAX = 8.0, 45.0
+# Tope de sensatez del objetivo por P/E. No es una banda de inversión: es el
+# punto a partir del cual el número dice más del dato que de la empresa.
+UPSIDE_PE_ABSURDO = 150.0
 
 
 def _detalle(raw) -> dict:
@@ -142,13 +182,82 @@ def motivo_fuera_de_value(df):
     # Sin el dato no se puede decir que el negocio no empeora, y eso es lo que
     # separa una barata de una trampa: no se presume.
     motivo[(motivo == '') & crece.isna()] = 'sin dato de ventas para ver si el negocio empeora'
+    # Un trimestre no basta: HHH daba +330 % con el año en -16 % (ventas de suelo a
+    # golpes). Con el año cayendo, -3,0 y -5,7 contra el universo a 90 y 180 días
+    # en 2026. Solo se mira donde bandas_per lo aporta: Europa no lo tiene.
+    if 'ventas_anual_pct' in df.columns:
+        anual = pd.to_numeric(df['ventas_anual_pct'], errors='coerce')
+        cae_anual = (motivo == '') & (anual < VENTAS_MINIMAS)
+        motivo[cae_anual] = [f'ventas cayendo en el último año ({v:+.1f}%): el negocio empeora' for v in anual[cae_anual]]
     return motivo
 
 
-# Score mínimo para seguir en la lista VALUE. Vive aquí por el mismo motivo que
-# las bandas de upside: el integrator lo aplicaba al ordenar y
-# apply_oe_ai_adjustment bajaba scores DESPUÉS sin re-filtrar, así que el CSV
-# publicado del 31-jul-2026 llevaba 15 tickers por debajo del propio corte.
+def nota_value(df):
+    """Grupo, lo barata que está, qué le falta y nota de cada fila.
+
+    PRIORIDAD: ventas del último año >=10 % y PER a más de 1σ bajo su media. El
+    resto de la puerta queda en OBSERVAR y `value_falta` dice por qué. Fuera de la
+    puerta, nota 0. Lo que falta no se rellena: sin historia de PER o sin ventas
+    anuales no se puede ser PRIORIDAD. El FCF no cuenta donde no es caja libre
+    (bancos, aseguradoras, REIT) ni donde el validador de Owner Earnings no se fía.
+    """
+    import pandas as pd
+    salida = df.copy()
+    nan = pd.Series(float('nan'), index=df.index)
+    anual = pd.to_numeric(df['ventas_anual_pct'], errors='coerce') if 'ventas_anual_pct' in df.columns else nan
+    z = pd.to_numeric(df['per_z'], errors='coerce') if 'per_z' in df.columns else nan
+    fcf = pd.to_numeric(df['fcf_yield_pct'], errors='coerce') if 'fcf_yield_pct' in df.columns else nan
+    if 'fcf_es_caja_libre' in df.columns:
+        fcf = fcf.where(df['fcf_es_caja_libre'].astype(str).str.strip().str.lower() != 'false')
+    if 'oe_fcf_no_fiable' in df.columns:
+        fcf = fcf.where(df['oe_fcf_no_fiable'].astype(str).str.strip().str.lower() != 'true')
+
+    barata = pd.concat([(-z / PER_Z_TOPE).clip(0, 1), (fcf / FCF_YIELD_TOPE).clip(0, 1)], axis=1).mean(axis=1).fillna(0.0)
+    prioridad = (anual >= CRECIMIENTO_QUE_JUSTIFICA) & (z < PER_BAJO_SU_MEDIA)
+    base = pd.Series(NOTA_OBSERVAR, index=df.index)
+    base[prioridad] = NOTA_PRIORIDAD
+
+    def _falta(a, zeta):
+        partes = []
+        if a != a:
+            partes.append('sin ventas anuales')
+        elif a < CRECIMIENTO_QUE_JUSTIFICA:
+            partes.append(f'ventas anuales {a:+.0f} %, le falta crecer al {CRECIMIENTO_QUE_JUSTIFICA:.0f} %')
+        if zeta != zeta:
+            partes.append('sin historia de PER')
+        elif zeta >= PER_BAJO_SU_MEDIA:
+            partes.append(f'PER a {zeta:+.1f}σ, le falta bajar de {PER_BAJO_SU_MEDIA:+.0f}σ'.replace('.', ','))
+        return ' · '.join(partes)
+
+    dentro = motivo_fuera_de_value(df) == ''
+    salida['value_grupo'] = pd.Series('OBSERVAR', index=df.index, dtype=object).where(~prioridad, 'PRIORIDAD').where(dentro, '')
+    salida['value_barata'] = barata.round(3)
+    salida['value_falta'] = [_falta(a, zeta) if d and not p else ''
+                             for a, zeta, d, p in zip(anual, z, dentro, prioridad)]
+    salida['value_score'] = (base + PUNTOS_POR_BARATA * barata).round(1).where(dentro, 0.0)
+    return salida
+
+
+def vetos_value(df):
+    """Descartes duros, sean del grupo que sean (Serie booleana).
+
+    ROE negativo y analistas por debajo del precio (dentro de PRIORIDAD, en 2026:
+    -6,0 a 90 días, con solo 8 observaciones, contra +6,4 del resto del grupo).
+    Cerebro vetó aquí hasta el 7-nov-2026 con su AVOID y dejó de hacerlo al medirlo:
+    lo vetado rindió +8,6 a 90 días frente a -1,5 de lo neutro.
+    """
+    import pandas as pd
+    veto = pd.Series(False, index=df.index)
+    if 'negative_roe' in df.columns:
+        # Leído de un CSV es texto, y bool('False') es True: compararlo como texto.
+        veto |= df['negative_roe'].astype(str).str.strip().str.lower() == 'true'
+    if 'analyst_upside_pct' in df.columns:
+        veto |= pd.to_numeric(df['analyst_upside_pct'], errors='coerce') < 0
+    return veto
+
+
+# Red de seguridad, no un criterio: lo que pasa la puerta sale con 40 o más. Lo
+# siguen usando Europa y global, que puntúan con su propia suma.
 VALUE_SCORE_MIN = 30.0
 
 
@@ -186,4 +295,6 @@ def solo_politica_vigente(df, columna: str = 'analyst_upside_pct'):
     up = pd.to_numeric(df[columna], errors='coerce')
     # NaN se conserva: "sin dato de upside" no es lo mismo que "upside alto",
     # y descartarlo sesgaría la muestra hacia las que sí tienen cobertura.
-    return df[~(up >= UPSIDE_ALTO)]
+    # Con grupo guardado (desde 7-nov-2026) ya pasó la puerta: sí es política vigente.
+    con_grupo = (df['value_grupo'].fillna('').astype(str) != '') if 'value_grupo' in df.columns else False
+    return df[~(up >= UPSIDE_ALTO) | con_grupo]

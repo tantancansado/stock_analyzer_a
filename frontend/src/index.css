@@ -452,7 +452,6 @@
   z-index: 5;
   background: color-mix(in oklab, var(--card) 97%, transparent);
   backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
   border-bottom: 1px solid color-mix(in oklab, var(--border) 50%, transparent);
 }
 
@@ -504,7 +503,6 @@
 .dark .glass table thead th {
   background: hsl(222 47% 6%);
   backdrop-filter: none;
-  -webkit-backdrop-filter: none;
 }
 
 /* Smooth link transitions */
@@ -545,7 +543,6 @@ button:active:not(:disabled) { transform: scale(0.97); }
 .app-chrome {
   background: var(--cromo-fondo);
   backdrop-filter: var(--cromo-desenfoque);
-  -webkit-backdrop-filter: var(--cromo-desenfoque);
   box-shadow: var(--cromo-sombra);
 }
 .app-chrome--lateral { border-right: 1px solid var(--cromo-borde); }
@@ -562,7 +559,6 @@ button:active:not(:disabled) { transform: scale(0.97); }
 .glass {
   background: var(--panel-fondo);
   backdrop-filter: var(--panel-desenfoque);
-  -webkit-backdrop-filter: var(--panel-desenfoque);
   border: 1px solid var(--panel-borde);
   box-shadow: var(--panel-sombra);
 
@@ -633,9 +629,8 @@ button:active:not(:disabled) { transform: scale(0.97); }
 
 /* ─────────────────────────────────────────────────────────────────────────────
    LIQUID GLASS — Apple-style refractive glass.
-   Use sparingly: only on hero elements (modals, lead cards, toolbars). The
-   url(#glass-distortion) backdrop-filter triggers SVG filter compositing on
-   every paint, which is heavy. Lists/tables MUST keep .glass, never use this.
+   Use sparingly: only on hero elements (modals, lead cards, toolbars).
+   Lists/tables MUST keep .glass, never use this.
    ───────────────────────────────────────────────────────────────────────────── */
 
 .liquid-glass {
@@ -649,9 +644,9 @@ button:active:not(:disabled) { transform: scale(0.97); }
     ),
     color-mix(in oklab, var(--card) 18%, transparent);
 
-  /* Real refraction: SVG displacement of what's behind the glass + blur. */
-  backdrop-filter: url(#glass-distortion) blur(22px) saturate(180%) brightness(1.06);
-  -webkit-backdrop-filter: blur(22px) saturate(180%) brightness(1.06);
+  /* Sin refracción por `url(#filtro)`: el minificador copia el valor al prefijo de
+     Safari, que no entiende url() aquí y se quedaría sin desenfoque. */
+  backdrop-filter: blur(22px) saturate(180%) brightness(1.06);
 
   /* Heavy chamfer — top-left bright (light source above-left), bottom-right dark.
      This is what gives glass its "carved out of crystal" look. */

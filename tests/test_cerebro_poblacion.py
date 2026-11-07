@@ -27,7 +27,7 @@ import cerebro
 
 def _senal(strategy, score, win, ret, **extra):
     return {
-        'strategy': strategy, 'value_score': score,
+        'strategy': strategy, 'value_score': score, 'value_grupo': 'OBSERVAR' if strategy == 'VALUE' else '',
         'win_90d': win, 'return_90d': ret,
         'ticker': 'X', 'sector': 'Tech', 'market_regime': 'BULL',
         **extra,
