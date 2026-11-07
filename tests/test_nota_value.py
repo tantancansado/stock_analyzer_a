@@ -278,3 +278,11 @@ def test_sin_dato_no_se_inventa_un_aviso():
 def test_fuera_de_prioridad_no_hay_avisos():
     assert _prioridad_con(per_z=-0.2, revision_13s_pct=-11.0).value_avisos == ''
 
+
+def test_lo_que_le_falta_no_se_contradice_al_redondear():
+    # RMD salía «ventas anuales +10 %, le falta crecer al 10 %» con un 9,6.
+    f = _prioridad_con(ventas_anual_pct=9.6)
+    assert '+9,6 %, le falta crecer al 10 %' in f.value_falta
+    f = _prioridad_con(per_z=-0.96)
+    assert 'PER a -0,96σ, le falta bajar de -1σ' in f.value_falta
+

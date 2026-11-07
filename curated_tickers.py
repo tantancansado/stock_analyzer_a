@@ -5,6 +5,13 @@ Universo de ~120 empresas de alta calidad seleccionadas con filtros estrictos.
 Organizadas en 4 tiers por solidez del moat y calidad de negocio.
 
 Source: Análisis curado por analista de datos financieros (Abril 2026)
+
+Para entrar hay que mejorar lo que ya hay, medido en 10 años con las cuentas de la
+SEC y sin contar 2020-21 en las caídas: ventas >=8 % al año, 2 años de caída como
+mucho, sin pérdidas, margen operativo >=21 % (mínimo >=11 %), FCF >=15 % de ventas y
+ROIC >=19 % o ROE >=24 %, que son las medianas de lo curado. Después, un negocio que
+aguante, sin deuda alta ni un solo cliente. Revisado sobre todo el mercado el
+7-nov-2026: de unas 6.200 empresas pasaron 20, y la mayoría no eran lo que parecían.
 """
 
 # ── TIER 1 — Élite (★★★★★) ────────────────────────────────────────────────────
@@ -129,10 +136,7 @@ TIER_3 = [
     'GWW',     # W.W. Grainger
     'JKHY',    # Jack Henry & Associates
     'ISRG',    # Intuitive Surgical
-    # Añadida el 17-sep-2026: es una POSICIÓN del usuario y no estaba en el
-    # universo, así que no se puntuaba, no tenía ficha y no salía en ningún
-    # análisis. Una acción que se tiene en cartera tiene que poder analizarse.
-    # Perfil: dispositivos médicos, 63.000 M$, margen operativo 22,9%,
+    # Añadida el 17-sep-2026. Perfil: dispositivos médicos, 63.000 M$, margen operativo 22,9%,
     # ingresos +7,5%, beta 0,57, PER 17,6 (12,7 adelantado).
     'BSX',     # Boston Scientific
     # Movida desde TIER_4 el 17-sep-2026 a petición del usuario, que la ve «igual
@@ -154,6 +158,16 @@ TIER_3 = [
     # parecer más barata de lo que está. Si el scoring la premia por múltiplo
     # bajo, es ese extraordinario el que está puntuando.
     'YUM',     # Yum! Brands
+    # Tres del 7-nov-2026, ver el criterio de arriba. En este tier por precio exigente
+    # o por ciclo, no por calidad. Cifras de 10 años.
+    # Lilly: ventas +13 % al año, FCF 26 %. Margen 22 % de mediana y 54 % en los últimos
+    # 12 meses: depende de patentes hasta la próxima década.
+    'LLY',     # Eli Lilly
+    # Monster: +12 %, margen 33 % (mínimo 25 %), ROIC 30 %, sin deuda, ningún año de caída.
+    'MNST',    # Monster Beverage
+    # Booking: +11 %, FCF 34 %, ROIC 25 %, recompra un 5 % al año. Solo falla por 2020.
+    # El -1 % de ventas del 3T-2026 es un cargo de 900 M$ por la FTC; ajustado, +9 %.
+    'BKNG',    # Booking Holdings
 ]
 
 # ── TIER 4 — No apta para portfolios apalancados (★★☆☆☆) ─────────────────────
@@ -204,6 +218,17 @@ TIER_4 = [
     'AAPL',    # Apple
     'GGG',     # Graco
     'META',    # Meta Platforms
+    # Cuatro del 7-nov-2026, ver el criterio de arriba. Como AVGO, no están aquí por
+    # calidad, sino por depender del ciclo o por el riesgo de disrupción.
+    # Nvidia: ventas +46 % al año, margen 30 % (mínimo 15 %), FCF 35 %, ROIC 29 %.
+    'NVDA',    # NVIDIA
+    # KLA: +16 %, margen 34 %, FCF 29 %. Domina el control de proceso.
+    'KLAC',    # KLA Corporation
+    # Applied: +11 %, margen 26 % (mínimo 16 %), FCF 20 %, ROIC 34 %, recompra un 4 % al año.
+    'AMAT',    # Applied Materials
+    # Adobe: +17 %, margen 32 %, FCF 37 %, ROIC 29 %, ningún año de caída. El riesgo es la
+    # IA, y que paga el 19 % de su flujo operativo en acciones (mediana de lo curado: 4,5 %).
+    'ADBE',    # Adobe
 ]
 
 

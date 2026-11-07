@@ -68,3 +68,13 @@ def test_el_scorer_no_vuelve_a_excluir_el_tier4():
     from conftest import bloque_de_codigo
     bloque = bloque_de_codigo(src, 'elif args.curated or args.curated_all:')
     assert 'include_tier4=' not in bloque, 'el scorer vuelve a decidir el tier por su cuenta'
+
+
+def test_las_siete_del_7_nov_se_puntuan_y_no_estan_repetidas():
+    import curated_tickers as ct
+    for t in ('LLY', 'MNST', 'BKNG', 'NVDA', 'KLAC', 'AMAT', 'ADBE'):
+        assert t in ct.SCORED_TICKERS, t
+    todas = ct.TIER_1 + ct.TIER_2 + ct.TIER_3 + ct.TIER_4 + ct.HF_WATCH
+    repetidas = {t for t in todas if todas.count(t) > 1}
+    assert not repetidas, repetidas
+

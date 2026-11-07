@@ -77,6 +77,7 @@ const TICKER_DOMAIN: Record<string, string> = {
   MRK:  'merck.com',
   ABBV: 'abbvie.com',
   LLY:  'lilly.com',
+  MNST: 'monsterbevcorp.com',
   BMY:  'bms.com',
   UNH:  'unitedhealthgroup.com',
   CVS:  'cvs.com',

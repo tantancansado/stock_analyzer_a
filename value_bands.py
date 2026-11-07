@@ -240,11 +240,11 @@ def nota_value(df):
         if a != a:
             partes.append('sin ventas anuales')
         elif a < CRECIMIENTO_QUE_JUSTIFICA:
-            partes.append(f'ventas anuales {a:+.0f} %, le falta crecer al {CRECIMIENTO_QUE_JUSTIFICA:.0f} %')
+            partes.append(f'ventas anuales {a:+.1f} %, le falta crecer al {CRECIMIENTO_QUE_JUSTIFICA:.0f} %'.replace('.', ','))
         if zeta != zeta:
             partes.append('sin historia de PER')
         elif zeta >= PER_BAJO_SU_MEDIA:
-            partes.append(f'PER a {zeta:+.1f}σ, le falta bajar de {PER_BAJO_SU_MEDIA:+.0f}σ'.replace('.', ','))
+            partes.append(f'PER a {zeta:+.2f}σ, le falta bajar de {PER_BAJO_SU_MEDIA:+.0f}σ'.replace('.', ','))
         return ' · '.join(partes)
 
     dentro = motivo_fuera_de_value(df) == ''

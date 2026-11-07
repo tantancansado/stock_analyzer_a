@@ -66,8 +66,7 @@ def test_la_cobertura_del_cache_se_puede_medir():
 def test_toda_posicion_del_usuario_esta_en_el_universo():
     """Una acción que se tiene en cartera tiene que poder analizarse.
 
-    17-sep-2026: BSX (Boston Scientific) era posición y no estaba en el
-    universo curado, así que no se puntuaba, no tenía ficha y no aparecía en
+    17-sep-2026: faltó una y no se puntuaba, no tenía ficha y no aparecía en
     ningún análisis. Nadie lo notó porque la ausencia no deja hueco: el ticker
     simplemente no sale por ninguna parte.
 
