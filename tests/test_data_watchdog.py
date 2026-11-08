@@ -12,6 +12,8 @@ import sys
 from datetime import timedelta
 from pathlib import Path
 
+import pytest
+
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 import data_freshness_watchdog as wd  # noqa: E402
@@ -420,3 +422,31 @@ def test_los_avisos_no_criticos_no_van_a_telegram():
     assert not w._merece_telegram(leve, health_stale=False)
     assert w._merece_telegram(grave, health_stale=False)
     assert w._merece_telegram(leve, health_stale=True)
+
+
+class TestMercadosApagados:
+    """Europa y Global se apagan con MERCADOS_FUERA_DE_EEUU (8-nov-2026). Apagados, sus
+    ficheros no están y no es un fallo: el control de salud no puede darlos por
+    perdidos. Encendidos, se vigilan igual que antes."""
+
+    _script = TestContratoDeContenido._script
+
+    @pytest.mark.parametrize('estado,vigilados', [('off', False), ('on', True)])
+    def test_solo_se_vigila_lo_encendido(self, monkeypatch, estado, vigilados):
+        monkeypatch.setenv('MERCADOS_FUERA_DE_EEUU', estado)
+        ns: dict = {}
+        exec(self._script(), ns)
+        for modulo in ('value_eu', 'value_eu_filt', 'value_global'):
+            assert (modulo in ns['MODULES']) is vigilados
+        assert ('value_eu' in ns['COLUMNA_REQUERIDA']) is vigilados
+        assert 'value_us' in ns['MODULES']
+
+    def test_el_workflow_lo_trae_apagado_y_condiciona_los_cuatro_pasos(self):
+        import yaml
+        from pathlib import Path
+        wf = yaml.safe_load((Path(__file__).resolve().parent.parent / '.github/workflows/daily-analysis.yml').read_text())
+        assert wf['env']['MERCADOS_FUERA_DE_EEUU'] in ('on', 'off')
+        condicionados = {s['name'] for j in wf['jobs'].values() for s in j.get('steps', [])
+                         if s.get('if') == "env.MERCADOS_FUERA_DE_EEUU == 'on'"}
+        assert condicionados == {'European Insider Scanner', 'European Value Scanner',
+                                 'Global Market Scanner (BR/KR/JP/HK)', 'AI Filter European Value'}

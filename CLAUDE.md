@@ -9,6 +9,8 @@ Sistema dual VALUE + MOMENTUM:
 - `portfolio_tracker.py` → seguimiento de recomendaciones (7d/14d/30d)
 - Frontend: React + Vite + shadcn/ui + Tailwind v4, desplegado en `docs/app/` (GitHub Pages)
 
+**Europa y Global, apagados (8-nov-2026)**: el usuario compra casi solo en EE. UU. («ya que las ignoro, ahorramos tiempo y dinero»). No se borra el código: dos interruptores, `MERCADOS_FUERA_DE_EEUU` en `daily-analysis.yml` y `EUROPA_Y_GLOBAL` en `frontend/src/lib/mercados.ts`. Sus datos de entonces están en `data/apagado_fuera_de_eeuu/`; al encender, los escáneres los recalculan. Lo que lee esos ficheros ya comprueba que existen: no volver a dejar ficheros congelados en `docs/` como sustituto de apagar. Medido antes de apagarlo, EU_VALUE no tenía ventaja (16 % de aciertos, -6,6 contra VGK en 738 señales). Tokio, el 9-nov, con `curated_tickers.BOLSAS_APAGADAS`: Hoya, Obic y Daifuku siguen en su tier, pero no se puntúan
+
 Orden del pipeline (GitHub Actions):
 ```
 sector_rotation → bandas_per → super_score_integrator → ai_quality_filter
