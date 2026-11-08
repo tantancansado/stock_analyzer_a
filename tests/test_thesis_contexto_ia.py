@@ -261,3 +261,24 @@ def test_fuera_de_value_us_cerebro_sigue_igual(monkeypatch):
     fila = {k: v for k, v in FILA_GRUPO.items() if k != 'value_grupo'}
     assert 'ajuste score: -14' in _prompt(monkeypatch, g, g._normalize_value_row(fila, None))
 
+
+
+def test_el_prompt_dice_si_puede_doblar_y_por_que():
+    """PRIORIDAD por recorrido: sin el dato la IA ve ventas <10 % y PER normal y
+    concluye «esperar», contradiciendo a la lista (ya pasó con la regla del 7-nov)."""
+    g = _gen()
+    fila = _row(value_grupo='PRIORIDAD', value_dobla=True, recorrido_propio_pct=115.0,
+                bpa_sobre_tendencia_pct=-3.6, ventas_anual_pct=4.0, per_z=-0.3)
+    with patch('groq_utils.claude_chat', return_value=COMPLETA) as cl:
+        g._narrative_value_ai(fila)
+    prompt = cl.call_args.kwargs['messages'][0]['content']
+    assert 'PUEDE DOBLAR: sí' in prompt and '115' in prompt and '-3.6' in prompt.replace(',', '.')
+    with patch('groq_utils.claude_chat', return_value=COMPLETA) as cl:
+        g._narrative_value_ai(_row(value_grupo='OBSERVAR', value_dobla=False))
+    assert 'PUEDE DOBLAR: no' in cl.call_args.kwargs['messages'][0]['content']
+
+
+def test_el_normalizador_lee_value_dobla_como_texto_del_csv():
+    g = _gen()
+    for crudo, esperado in (('True', True), ('False', False), (float('nan'), False), (True, True)):
+        assert g._normalize_value_row({'ticker': 'X', 'value_dobla': crudo})['value_dobla'] is esperado

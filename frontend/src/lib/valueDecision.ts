@@ -110,11 +110,22 @@ export function getValueDecision({
   if (row.value_grupo === 'PRIORIDAD') {
     const z = row.per_z != null ? row.per_z.toLocaleString('es-ES', { maximumFractionDigits: 1 }) : null
     const ventas = row.ventas_anual_pct != null ? row.ventas_anual_pct.toLocaleString('es-ES', { maximumFractionDigits: 0 }) : null
+    const clasica = row.per_z != null && row.per_z < -1 && row.ventas_anual_pct != null && row.ventas_anual_pct >= 10
+    // Por recorrido (value_bands.puede_doblar): si además cumple la clásica, se dicen las dos.
+    const dobla = row.value_dobla && row.recorrido_propio_pct != null
+      ? `Nuestros modelos le ven +${Math.round(row.recorrido_propio_pct)} % con el beneficio en su tendencia: puede doblar.`
+      : ''
+    const avisos = row.value_avisos ? ` ${row.value_avisos.charAt(0).toUpperCase()}${row.value_avisos.slice(1)}.` : ''
+    const porque = clasica || !dobla
+      ? `PER a ${z}σ de su media y ventas anuales ${row.ventas_anual_pct != null && row.ventas_anual_pct < 0 ? '' : '+'}${ventas} %.${dobla ? ` ${dobla}` : ''}`
+      : dobla
     return {
       kind: 'ready',
       label: 'Prioridad',
-      headline: `PER a ${z}σ de su media y ventas anuales +${ventas} %.${row.value_avisos ? ` ${row.value_avisos.charAt(0).toUpperCase()}${row.value_avisos.slice(1)}.` : ''}${avisoGrupo}`,
-      detail: `Barata frente a su propia historia y creciendo: la única combinación con ventaja en los dos periodos medidos.${row.entry_readiness === 'ESPERAR' || row.entry_readiness === 'VIGILAR' ? ' Sigue cayendo: a 12 meses eso no ha restado, pero a corto puede bajar más.' : ''} Revísala antes de decidir.`,
+      headline: `${porque}${avisos}${avisoGrupo}`,
+      detail: `${clasica
+        ? 'Barata frente a su propia historia y creciendo: la combinación con ventaja en los dos periodos medidos.'
+        : 'Sin crecer al 10 % ni PER bajo su media, pero lo que podía doblar con el beneficio sano ganó en los dos periodos medidos. Es lo más fino de lo medido: pocas empresas.'}${row.entry_readiness === 'ESPERAR' || row.entry_readiness === 'VIGILAR' ? ' Sigue cayendo: a 12 meses eso no ha restado, pero a corto puede bajar más.' : ''} Revísala antes de decidir.`,
       badgeClass: 'border-emerald-500/30 bg-emerald-500/10 text-emerald-400',
       panelClass: 'border-emerald-500/20 bg-emerald-500/5',
     }

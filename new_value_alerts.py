@@ -216,6 +216,9 @@ def run_new_value_alerts():
             extras.append(f"FCF {fcf:.1f}%")
         if warn and earn_d:
             extras.append(f"⚠️ Earn {earn_d}")
+        if str(row.get('value_dobla')).strip().lower() == 'true':
+            rec = row.get('recorrido_propio_pct')
+            extras.append(f"puede doblar ({float(rec):+.0f}%)" if rec == rec and rec is not None else "puede doblar")
         avisos = row.get('value_avisos')
         if isinstance(avisos, str) and avisos:
             extras.append(f"⚠️ {avisos}")

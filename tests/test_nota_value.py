@@ -286,3 +286,64 @@ def test_lo_que_le_falta_no_se_contradice_al_redondear():
     f = _prioridad_con(per_z=-0.96)
     assert 'PER a -0,96σ, le falta bajar de -1σ' in f.value_falta
 
+
+
+# ── Las que pueden doblar (8-nov-2026, ver value_bands.puede_doblar) ─────────
+
+def _dobla(t='D', dcf=120.0, pe=110.0, tendencia=-5.0, **extra):
+    base = dict(anual=4.0, z=-0.3, target_price_dcf_upside_pct=dcf, target_price_pe_upside_pct=pe,
+                bpa_sobre_tendencia_pct=tendencia)
+    base.update(extra)
+    return _fila(t, **base)
+
+
+def test_puede_doblar_con_el_beneficio_sano_es_prioridad():
+    """Sin crecer al 10 % ni PER bajo su media: le basta con que nuestros modelos le
+    vean el doble con el beneficio en su tendencia (+23,5 y +21,6 a 12 meses)."""
+    r = _nota(_dobla())
+    assert r.loc['D', 'value_grupo'] == 'PRIORIDAD'
+    assert bool(r.loc['D', 'value_dobla']) is True
+    assert r.loc['D', 'value_falta'] == ''
+    assert r.loc['D', 'recorrido_propio_pct'] == 115.0
+
+
+def test_con_el_beneficio_de_pico_se_veta():
+    """BPA más de un 50 % sobre su tendencia: el PER engaña (OXY, NUE, COF)."""
+    from value_bands import vetos_value
+    df = pd.DataFrame([_dobla('PICO', tendencia=80.0), _dobla('SANA', tendencia=37.0)])
+    assert vetos_value(df).tolist() == [True, False]
+    assert not _nota(_dobla('PICO', tendencia=80.0)).loc['PICO', 'value_dobla']
+
+
+def test_sin_tendencia_del_beneficio_no_se_presume_sana():
+    """CHTR no tenía tendencia y perdió -14: sin el dato, ni sube ni se veta."""
+    from value_bands import vetos_value
+    df = pd.DataFrame([_dobla('X', tendencia=float('nan'))])
+    assert _nota(*df.to_dict('records')).loc['X', 'value_grupo'] == 'OBSERVAR'
+    assert not vetos_value(df).iloc[0]
+
+
+@pytest.mark.parametrize('dcf,pe,esperado', [
+    (120.0, 110.0, 115.0),          # mediana de los dos
+    (130.0, None, 130.0),           # el que haya
+    (150.0, -20.0, None),           # se contradicen: no estima nada
+    (250.0, 110.0, None),           # uno delira (divisa rota): fuera los dos
+])
+def test_recorrido_propio_sin_el_analista(dcf, pe, esperado):
+    from value_bands import recorrido_propio
+    v = recorrido_propio(pd.DataFrame([{'target_price_dcf_upside_pct': dcf, 'target_price_pe_upside_pct': pe}])).iloc[0]
+    assert (v != v) if esperado is None else v == esperado
+
+
+def test_por_debajo_de_doblar_no_cambia_nada():
+    r = _nota(_dobla('C', dcf=90.0, pe=95.0))
+    assert r.loc['C', 'value_grupo'] == 'OBSERVAR'
+    assert not r.loc['C', 'value_dobla']
+
+
+def test_fuera_de_la_puerta_no_dobla():
+    """Gartner, 8-nov: +109 % y ventas del trimestre en -1,3 %. Con ventas cayendo,
+    las que podían doblar no se sostuvieron (-11 a 6 meses en 2024-26)."""
+    r = _nota(_dobla('IT', trim=-1.3))
+    assert r.loc['IT', 'value_grupo'] == ''
+    assert not r.loc['IT', 'value_dobla']

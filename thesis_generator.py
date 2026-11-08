@@ -283,6 +283,10 @@ class ThesisGenerator:
             'ventas_anual_pct': _safe_float(record.get('ventas_anual_pct'), None),
             'revision_13s_pct': _safe_float(record.get('revision_13s_pct'), None),
             'upside_triangulated_pct': _safe_float(record.get('upside_triangulated_pct'), None),
+            # Leído de un CSV es texto, y bool('False') es True.
+            'value_dobla': str(record.get('value_dobla')).strip().lower() == 'true',
+            'recorrido_propio_pct': _safe_float(record.get('recorrido_propio_pct'), None),
+            'bpa_sobre_tendencia_pct': _safe_float(record.get('bpa_sobre_tendencia_pct'), None),
             # TIKR NTM multiples (enrichment, if available)
             'tikr_ntm_pe':          self._tikr_data.get(record.get('ticker', '').upper(), {}).get('multiples', {}).get('ntm_pe'),
             'tikr_ntm_ev_ebitda':   self._tikr_data.get(record.get('ticker', '').upper(), {}).get('multiples', {}).get('ntm_ev_ebitda'),
@@ -841,7 +845,8 @@ class ThesisGenerator:
 EMPRESA: {_fmt(row.get('company_name'))}
 SECTOR: {_fmt(row.get('sector_name'))}
 PRECIO ACTUAL: {_fmt(row.get('current_price'), prefix='$')}
-GRUPO VALUE: {_fmt(row.get('value_grupo'))} (PRIORIDAD: ventas del último año >=10% y PER a más de 1σ bajo su media de 10 años, lo único con ventaja medida. OBSERVAR: barata según nuestra valoración, pero le falta eso)
+GRUPO VALUE: {_fmt(row.get('value_grupo'))} (PRIORIDAD: ventas del último año >=10% y PER a más de 1σ bajo su media de 10 años, o que nuestros modelos le vean +100% con el beneficio en su tendencia; es lo que tiene ventaja medida. OBSERVAR: barata según nuestra valoración, pero le falta eso)
+PUEDE DOBLAR: {'sí: DCF y P/E propios (sin el consenso) le ven ' + _fmt(row.get('recorrido_propio_pct'), '%') + ' con el BPA a ' + _fmt(row.get('bpa_sobre_tendencia_pct'), '%') + ' de su tendencia de seis años, así que no es beneficio de pico' if row.get('value_dobla') else 'no'}
 PER CONTRA SU HISTORIA: {_fmt(row.get('per_z'), 'σ')} (PER {_fmt(row.get('per_norm'))} frente a mediana de 10 años {_fmt(row.get('per_mediana_10a'))}) · VENTAS ÚLTIMO AÑO: {_fmt(row.get('ventas_anual_pct'), '%')} · LE FALTA: {_fmt(row.get('value_falta'))} · AVISOS: {_fmt(row.get('value_avisos'))}
 NUESTRA VALORACIÓN (mediana de consenso, DCF y P/E): {_fmt(row.get('upside_triangulated_pct'), '%')} · CONSENSO DE BPA EN 13 SEMANAS: {_fmt(row.get('revision_13s_pct'), '%')} (un recorte fuerte es un riesgo que hay que nombrar)
 
@@ -968,6 +973,8 @@ ESTRUCTURA (usa **negrita** para cada sección):
             parts.append(f"**{ticker}** — **{grupo.capitalize()}** | Sector: {sector}")
             if row.get('per_z') is not None and row.get('ventas_anual_pct') is not None:
                 parts.append(f"PER a {row['per_z']:+.1f}σ de su media de 10 años; ventas del último año {row['ventas_anual_pct']:+.1f}%.")
+            if row.get('value_dobla') and row.get('recorrido_propio_pct') is not None:
+                parts.append(f"Nuestros modelos le ven {row['recorrido_propio_pct']:+.0f}% con el beneficio en su tendencia: puede doblar.")
             if row.get('value_falta'):
                 parts.append(f"Le falta: {row['value_falta']}.")
         else:

@@ -143,10 +143,10 @@ def value_us_incumple_su_regla(value: list[dict]) -> list[str]:
         return []      # lista anterior a la nota de grupos
     import pandas as pd
     from value_bands import (CRECIMIENTO_QUE_JUSTIFICA, NOTA_OBSERVAR, NOTA_PRIORIDAD, PER_BAJO_SU_MEDIA,
-                             PUNTOS_POR_BARATA, motivo_fuera_de_value, vetos_value)
+                             PUNTOS_POR_BARATA, motivo_fuera_de_value, puede_doblar, vetos_value)
     df = pd.DataFrame(value)
     malos = []
-    motivos, vetos = motivo_fuera_de_value(df), vetos_value(df)
+    motivos, vetos, dobla = motivo_fuera_de_value(df), vetos_value(df), puede_doblar(df)[0]
     for i, r in enumerate(value):
         t, g = r.get('ticker'), r.get('value_grupo')
         nota, ventas, z = _f(r.get('value_score')), _f(r.get('ventas_anual_pct')), _f(r.get('per_z'))
@@ -154,9 +154,10 @@ def value_us_incumple_su_regla(value: list[dict]) -> list[str]:
             malos.append(f"{t}: publicada sin pasar la puerta ({motivos.iloc[i]})")
         if vetos.iloc[i]:
             malos.append(f"{t}: publicada con un descarte duro")
-        es_prioridad = ventas is not None and z is not None and ventas >= CRECIMIENTO_QUE_JUSTIFICA and z < PER_BAJO_SU_MEDIA
+        es_prioridad = bool(dobla.iloc[i]) or (ventas is not None and z is not None
+                                               and ventas >= CRECIMIENTO_QUE_JUSTIFICA and z < PER_BAJO_SU_MEDIA)
         if (g == 'PRIORIDAD') != es_prioridad or g not in ('PRIORIDAD', 'OBSERVAR'):
-            malos.append(f"{t}: grupo {g} con ventas {ventas} y PER a {z}σ")
+            malos.append(f"{t}: grupo {g} con ventas {ventas}, PER a {z}σ y puede doblar {bool(dobla.iloc[i])}")
         base = NOTA_PRIORIDAD if g == 'PRIORIDAD' else NOTA_OBSERVAR
         if nota is None or not base <= nota <= base + PUNTOS_POR_BARATA:
             malos.append(f"{t}: nota {nota} fuera del tramo de {g}")

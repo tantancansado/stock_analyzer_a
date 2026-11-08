@@ -172,7 +172,7 @@ class PortfolioTracker:
             return pd.read_csv(RECOMMENDATIONS_FILE, parse_dates=['signal_date'])
         return pd.DataFrame(columns=[
             'ticker', 'company_name', 'strategy', 'signal_date', 'signal_price',
-            'value_score', 'value_grupo', 'per_z', 'ventas_anual_pct', 'revision_13s_pct', 'bpa_sobre_tendencia_pct', 'fundamental_score',
+            'value_score', 'value_grupo', 'value_dobla', 'recorrido_propio_pct', 'per_z', 'ventas_anual_pct', 'revision_13s_pct', 'bpa_sobre_tendencia_pct', 'fundamental_score',
             'momentum_score', 'fcf_yield_pct', 'risk_reward_ratio',
             'analyst_upside_pct', 'upside_triangulated_pct', 'proximity_to_52w_high', 'rev_growth_yoy',
             'short_percent_float', 'sector', 'market_regime',
@@ -297,6 +297,10 @@ class PortfolioTracker:
                         # y para que el monitor de tesis compare con el fundamental
                         # de entonces, no con una nota que mide otra cosa.
                         'value_grupo': row.get('value_grupo'),
+                        # Desde 8-nov-2026: PRIORIDAD por recorrido (value_bands.puede_doblar).
+                        # Es lo más fino de lo medido; en febrero se lee aparte.
+                        'value_dobla': row.get('value_dobla'),
+                        'recorrido_propio_pct': row.get('recorrido_propio_pct'),
                         'per_z': row.get('per_z'),
                         'ventas_anual_pct': row.get('ventas_anual_pct'),
                         'revision_13s_pct': row.get('revision_13s_pct'),

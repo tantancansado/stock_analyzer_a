@@ -141,6 +141,9 @@ export interface ValueOpportunity {
   revision_4s_pct?: number | null
   revision_13s_pct?: number | null
   value_avisos?: string | null
+  // PRIORIDAD por recorrido: DCF y P/E propios le ven +100 % con el beneficio en su tendencia
+  value_dobla?: boolean | null
+  recorrido_propio_pct?: number | null
   // Hedge Fund 13F consensus
   hedge_fund_count?: number
   hedge_fund_names?: string
@@ -496,7 +499,7 @@ export const VALUE_NUMERIC = new Set([
   'revenue_growth_pct','pe_forward','pe_trailing','market_cap','payout_ratio_pct',
   'dividend_rate','five_yr_avg_dividend_yield_pct','shares_change_pct','interest_coverage',
   'value_barata','per_norm','per_mediana_10a','per_z','precio_per_menos_1s','precio_per_media',
-  'bpa_sobre_tendencia_pct','ventas_anual_pct','ventas_anual_anio','revision_4s_pct','revision_13s_pct',
+  'bpa_sobre_tendencia_pct','ventas_anual_pct','ventas_anual_anio','revision_4s_pct','revision_13s_pct','recorrido_propio_pct',
   'analyst_revision_momentum','fundamental_score','earnings_quality_score','growth_acceleration_score',
   'relative_strength_score','financial_health_score','catalyst_timing_score','rs_line_score',
   'rs_line_percentile','eps_growth_yoy','eps_accel_quarters','rev_growth_yoy','rev_accel_quarters',
@@ -526,7 +529,7 @@ export const VALUE_NUMERIC = new Set([
 const VALUE_BOOLEAN = new Set([
   'buyback_active','earnings_warning','earnings_catalyst','trend_template_pass',
   'eps_accelerating','rev_accelerating','rs_line_at_new_high','short_squeeze_potential',
-  'tasa_base_bimodal','fcf_es_caja_libre',
+  'tasa_base_bimodal','fcf_es_caja_libre','value_dobla',
 ])
 
 export function parseValueRows(text: string): ValueOpportunity[] {

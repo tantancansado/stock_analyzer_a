@@ -683,3 +683,19 @@ describe('Value US: el aviso no cambia el grupo', () => {
     expect(getValueDecision({ row: makeRow({ value_score: 70, days_to_earnings: 3 }) }).label).toBe('Esperar')
   })
 })
+
+describe('PRIORIDAD por recorrido (puede doblar)', () => {
+  it('dice el recorrido cuando entra solo por eso', () => {
+    const d = getValueDecision({ row: makeRow({ value_grupo: 'PRIORIDAD', per_z: -0.3, ventas_anual_pct: 4, value_dobla: true, recorrido_propio_pct: 115.4 }) } as never)
+    expect(d.label).toBe('Prioridad')
+    expect(d.headline).toContain('+115 %')
+    expect(d.headline).not.toContain('PER a')
+    expect(d.detail).toContain('podía doblar')
+  })
+  it('si cumple las dos, dice las dos', () => {
+    const d = getValueDecision({ row: makeRow({ value_grupo: 'PRIORIDAD', per_z: -3.1, ventas_anual_pct: 13.9, value_dobla: true, recorrido_propio_pct: 141.9 }) } as never)
+    expect(d.headline).toContain('PER a -3,1σ')
+    expect(d.headline).toContain('+142 %')
+    expect(d.detail).toContain('creciendo')
+  })
+})

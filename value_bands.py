@@ -202,8 +202,9 @@ def motivo_fuera_de_value(df):
 def nota_value(df):
     """Grupo, lo barata que está, qué le falta y nota de cada fila.
 
-    PRIORIDAD: ventas del último año >=10 % y PER a más de 1σ bajo su media. El
-    resto de la puerta queda en OBSERVAR y `value_falta` dice por qué. Fuera de la
+    PRIORIDAD: ventas del último año >=10 % y PER a más de 1σ bajo su media, o que
+    pueda doblar con el beneficio en su tendencia (`value_dobla`, ver `puede_doblar`).
+    El resto de la puerta queda en OBSERVAR y `value_falta` dice por qué. Fuera de la
     puerta, nota 0. Lo que falta no se rellena: sin historia de PER o sin ventas
     anuales no se puede ser PRIORIDAD. El FCF no cuenta donde no es caja libre
     (bancos, aseguradoras, REIT) ni donde el validador de Owner Earnings no se fía.
@@ -220,7 +221,8 @@ def nota_value(df):
         fcf = fcf.where(df['oe_fcf_no_fiable'].astype(str).str.strip().str.lower() != 'true')
 
     barata = pd.concat([(-z / PER_Z_TOPE).clip(0, 1), (fcf / FCF_YIELD_TOPE).clip(0, 1)], axis=1).mean(axis=1).fillna(0.0)
-    prioridad = (anual >= CRECIMIENTO_QUE_JUSTIFICA) & (z < PER_BAJO_SU_MEDIA)
+    dobla = puede_doblar(df)[0]
+    prioridad = ((anual >= CRECIMIENTO_QUE_JUSTIFICA) & (z < PER_BAJO_SU_MEDIA)) | dobla
     base = pd.Series(NOTA_OBSERVAR, index=df.index)
     base[prioridad] = NOTA_PRIORIDAD
 
@@ -254,15 +256,72 @@ def nota_value(df):
                              for a, zeta, d, p in zip(anual, z, dentro, prioridad)]
     salida['value_avisos'] = [_avisos(a, q, r) if d and p else ''
                               for a, q, r, d, p in zip(anual, trimestre, revision, dentro, prioridad)]
+    salida['recorrido_propio_pct'] = recorrido_propio(df).round(1)
+    salida['value_dobla'] = dobla & dentro
     salida['value_score'] = (base + PUNTOS_POR_BARATA * barata).round(1).where(dentro, 0.0)
     return salida
+
+
+# ── Las que pueden doblar (8-nov-2026) ───────────────────────────────────────
+# El usuario: «hay veces que se ve claro que una empresa puede doblar [...] no
+# deberíamos obviarlas, pero haciéndolo con cabeza». Medido reconstruyendo cada mes
+# de 2020-26 nuestro P/E (bandas_per con la fecha de entonces) y el DCF, contra el
+# universo actual, dentro de la puerta y con nuestros modelos viéndole +100 % o más:
+#
+#                                   2020-23, 12m    2024-26, 12m / 6m
+#   beneficio >50 % sobre tendencia   -9,9 (9)       -28,5 (4) / -15,8 (4)
+#   beneficio en su tendencia        +23,5 (6)       +21,6 (2) / +10,1 (8)
+#
+# Más recorrido no da más ganancia en general (10-30 %: -1,2; >=100 %: -4,9): lo que
+# separa es si el beneficio es de pico. Con el BPA muy por encima de su tendencia, el
+# PER parece bajo porque el beneficio está arriba (la trampa de las cíclicas que
+# describe Lynch): pierden ALLY, COF, CVX, NUE, OXY, PGR y LPX, todas a +59 % o más;
+# ganan META, UNH, IT, FDS, LEN o THC, todas a +37 % o menos. Ningún caso cae entre
+# 37 y 59, así que el corte en 50 no está afinado: cualquiera en ese hueco separa igual.
+#
+# Las de pico estaban casi todas en PRIORIDAD (8 de 11): se vetan. Las sanas en
+# OBSERVAR también ganan en los dos periodos (+9,7 a 12m en 2020-23; +11,6 a 6m en
+# 2024-26, 7 empresas) frente al -2 del grupo: suben a PRIORIDAD. Es lo más fino de lo
+# medido —pocas empresas y supervivientes, que favorece a lo que cayó—, así que en
+# febrero el tracker por grupos tiene que confirmarlo. Sin tendencia del BPA no se
+# presume que el beneficio sea sano (CHTR: -14).
+RECORRIDO_DE_DOBLAR = 100.0
+BENEFICIO_DE_PICO = 50.0     # % del BPA sobre su tendencia de seis años (bandas_per)
+
+
+def recorrido_propio(df):
+    """Lo que nuestros modelos (DCF y P/E) le ven a cada fila, en %. Sin el analista.
+
+    Mediana de los dos que haya; NaN si se contradicen en el signo o si alguno delira
+    (fuera de ±MODEL_UPSIDE_SANE_MAX, divisa rota), igual que la triangulación.
+    """
+    import numpy as np
+    import pandas as pd
+    from upside_triangulation import MODEL_UPSIDE_SANE_MAX
+    nan = pd.Series(float('nan'), index=df.index)
+    dcf = pd.to_numeric(df['target_price_dcf_upside_pct'], errors='coerce') if 'target_price_dcf_upside_pct' in df.columns else nan
+    pe = pd.to_numeric(df['target_price_pe_upside_pct'], errors='coerce') if 'target_price_pe_upside_pct' in df.columns else nan
+    roto = ((dcf.abs() > MODEL_UPSIDE_SANE_MAX) | (pe.abs() > MODEL_UPSIDE_SANE_MAX)).fillna(False)
+    contradicen = dcf.notna() & pe.notna() & (np.sign(dcf) != np.sign(pe))
+    return pd.concat([dcf, pe], axis=1).median(axis=1, skipna=True).where(~(roto | contradicen))
+
+
+def puede_doblar(df):
+    """(sana, de_pico): nuestros modelos le ven +100 % o más, con el beneficio en su
+    tendencia o más de un 50 % por encima. Dos Series booleanas."""
+    import pandas as pd
+    tendencia = (pd.to_numeric(df['bpa_sobre_tendencia_pct'], errors='coerce')
+                 if 'bpa_sobre_tendencia_pct' in df.columns else pd.Series(float('nan'), index=df.index))
+    dobla = recorrido_propio(df) >= RECORRIDO_DE_DOBLAR
+    return dobla & (tendencia <= BENEFICIO_DE_PICO), dobla & (tendencia > BENEFICIO_DE_PICO)
 
 
 def vetos_value(df):
     """Descartes duros, sean del grupo que sean (Serie booleana).
 
-    ROE negativo y analistas por debajo del precio (dentro de PRIORIDAD, en 2026:
-    -6,0 a 90 días, con solo 8 observaciones, contra +6,4 del resto del grupo).
+    ROE negativo, analistas por debajo del precio (dentro de PRIORIDAD, en 2026:
+    -6,0 a 90 días, con solo 8 observaciones, contra +6,4 del resto del grupo) y
+    «puede doblar» con el beneficio de pico (ver `puede_doblar`).
     Cerebro vetó aquí hasta el 7-nov-2026 con su AVOID y dejó de hacerlo al medirlo:
     lo vetado rindió +8,6 a 90 días frente a -1,5 de lo neutro.
     """
@@ -273,6 +332,7 @@ def vetos_value(df):
         veto |= df['negative_roe'].astype(str).str.strip().str.lower() == 'true'
     if 'analyst_upside_pct' in df.columns:
         veto |= pd.to_numeric(df['analyst_upside_pct'], errors='coerce') < 0
+    veto |= puede_doblar(df)[1]
     return veto
 
 

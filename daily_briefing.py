@@ -150,6 +150,8 @@ def gather_facts() -> dict:
             'ventas_ultimo_anio_pct': _f(r.get('ventas_anual_pct')),
             'que_le_falta': r.get('value_falta') or '',
             'avisos': r.get('value_avisos') or '',
+            'puede_doblar': str(r.get('value_dobla')).strip().lower() == 'true',
+            'recorrido_de_nuestros_modelos_pct': _f(r.get('recorrido_propio_pct')),
         }
 
     if any(r.get('value_grupo') for r in rows):
