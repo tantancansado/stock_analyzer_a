@@ -2,6 +2,7 @@ import StaleDataBanner from '../components/StaleDataBanner'
 import { useState } from 'react'
 import { fetchRecurringInsiders, fetchInsidersInsight, downloadCsv, type InsiderData } from '../api/client'
 import { useApi } from '../hooks/useApi'
+import { EUROPA_Y_GLOBAL } from '@/lib/mercados'
 import { usePersonalPortfolio } from '../context/PersonalPortfolioContext'
 import { useKeyboardNav } from '../hooks/useKeyboardNav'
 import { useSortedData } from '../hooks/useSortedData'
@@ -48,7 +49,8 @@ export default function Insiders() {
   const [compact, setCompact] = useState(() => typeof window !== 'undefined' && window.innerWidth < 1280)
   const PAGE_SIZE = 30
 
-  const allRows = (data?.data ?? []) as InsiderRow[]
+  // Con Europa apagada (lib/mercados.ts) solo se enseñan los de EE. UU.
+  const allRows = ((data?.data ?? []) as InsiderRow[]).filter(r => EUROPA_Y_GLOBAL || !r.market || r.market === 'US')
   const maxScore = allRows.length ? Math.max(...allRows.map(r => r.confidence_score || 0)) : 100
 
   const filtered = filterMarket === 'ALL' ? allRows
@@ -97,7 +99,7 @@ export default function Insiders() {
       )}
 
       <CifrasClave cifras={[
-        { etiqueta: 'Tickers', valor: filtered.length, sub: `${euRows.length} EU · ${usRows.length} US` },
+        { etiqueta: 'Tickers', valor: filtered.length, sub: EUROPA_Y_GLOBAL ? `${euRows.length} EU · ${usRows.length} US` : 'en EE. UU.' },
         { etiqueta: 'Alta confianza', valor: highConf, sub: 'score normalizado 70+', tono: 'favor' },
         { etiqueta: 'Multi-insider', valor: multiInsider, sub: '≥2 directivos comprando', tono: 'neutro' },
         { etiqueta: 'Confianza media', valor: avgConf.toFixed(0), sub: 'normalizado 0-100', tono: avgConf >= 60 ? 'favor' : 'aviso' },
@@ -179,7 +181,7 @@ export default function Insiders() {
 
       {/* Filter + Download bar */}
       <div className="flex items-center gap-2 mb-3 flex-wrap">
-        {(['ALL', 'US', 'EU'] as const).map(m => (
+        {EUROPA_Y_GLOBAL && (['ALL', 'US', 'EU'] as const).map(m => (
           <button
             key={m}
             onClick={() => setFilterMarket(m)}
@@ -197,7 +199,7 @@ export default function Insiders() {
         </button>
         <div className="ml-auto flex gap-2">
           <button onClick={() => downloadCsv('insiders')} className="filter-btn">↓ CSV US</button>
-          <button onClick={() => downloadCsv('insiders-eu')} className="filter-btn">↓ CSV EU</button>
+          {EUROPA_Y_GLOBAL && <button onClick={() => downloadCsv('insiders-eu')} className="filter-btn">↓ CSV EU</button>}
         </div>
       </div>
 

@@ -1,6 +1,7 @@
 import { useMemo } from 'react'
 import { fetchMeanReversion, fetchUnusualFlow, parseCsvRows } from '../api/client'
 import { useApi } from '../hooks/useApi'
+import { EUROPA_Y_GLOBAL } from '@/lib/mercados'
 import TickerLogo from '../components/TickerLogo'
 import { Card, CardContent } from '@/components/ui/card'
 import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '@/components/ui/table'
@@ -77,10 +78,11 @@ function SignalPill({ label, variant }: { label: string; variant: 'bounce' | 'va
 
 // ── Data merging ──────────────────────────────────────────────────────────────
 
-function useCsvRows(filename: string): Record<string, string>[] {
+function useCsvRows(filename: string | null): Record<string, string>[] {
   const csvBase = (import.meta.env.VITE_CSV_BASE as string | undefined) || ''
   const url = csvBase ? `${csvBase}/${filename}` : `/docs/${filename}`
   const { data } = useApi(async () => {
+    if (!filename) return { data: null }       // mercado apagado (lib/mercados.ts)
     const res = await fetch(url)
     if (!res.ok) return { data: null }
     const text = await res.text()
@@ -101,7 +103,7 @@ export default function Confluencia() {
   const { data: mrRaw,   loading: mrLoading }   = useApi(() => fetchMeanReversion(), [])
   const { data: flowRaw, loading: flowLoading }  = useApi(() => fetchUnusualFlow(), [])
   const valueUsRows = useCsvRows('value_opportunities_filtered.csv')
-  const valueEuRows = useCsvRows('european_value_opportunities_filtered.csv')
+  const valueEuRows = useCsvRows(EUROPA_Y_GLOBAL ? 'european_value_opportunities_filtered.csv' : null)
 
   const loading = mrLoading || flowLoading
 

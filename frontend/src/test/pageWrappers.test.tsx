@@ -1,17 +1,33 @@
-import { describe, expect, it } from 'vitest'
-import Value from '@/pages/Value'
+import { describe, expect, it, vi } from 'vitest'
 import Calendar from '@/pages/Calendar'
 import EntrySetups from '@/pages/EntrySetups'
 import MyPortfolio from '@/pages/MyPortfolio'
 import Macro from '@/pages/Macro'
 
 describe('page wrappers', () => {
-  it('configures the Value tabs', () => {
-    const element = Value()
+  // Europa y Global se apagan y encienden con un interruptor (lib/mercados.ts): los dos
+  // estados tienen que funcionar, porque volver a encenderlo debe ser cambiar una línea.
+  it('configures the Value tabs con Europa y Global encendidos', async () => {
+    vi.resetModules()
+    vi.doMock('@/lib/mercados', () => ({ EUROPA_Y_GLOBAL: true }))
+    const { default: ValueEncendido } = await import('@/pages/Value')
+    const element = ValueEncendido()
+    vi.doUnmock('@/lib/mercados')
 
     expect(element.props.paramKey).toBe('region')
     expect(element.props.defaultTab).toBe('us')
     expect(element.props.tabs.map((tab: { id: string }) => tab.id)).toEqual(['us', 'eu', 'global'])
+  })
+
+  it('con Europa y Global apagados, Value es Value US sin pestañas', async () => {
+    vi.resetModules()
+    vi.doMock('@/lib/mercados', () => ({ EUROPA_Y_GLOBAL: false }))
+    const { default: ValueApagado } = await import('@/pages/Value')
+    const element = ValueApagado()
+    vi.doUnmock('@/lib/mercados')
+
+    expect(element.props.tabs).toBeUndefined()
+    expect(element.props.children).toBeTruthy()
   })
 
   it('configures the Calendar tabs', () => {

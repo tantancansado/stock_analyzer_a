@@ -2,6 +2,7 @@ import { FolderOpen } from 'lucide-react'
 import { useState } from 'react'
 import api, { getCsvUrl } from '../api/client'
 import { useApi } from '../hooks/useApi'
+import { EUROPA_Y_GLOBAL } from '@/lib/mercados'
 import { Card, CardContent } from '@/components/ui/card'
 import PageHeader from '@/components/PageHeader'
 
@@ -123,7 +124,7 @@ export default function Datos() {
                 {group.group}
               </div>
               <Card className="glass">
-                {group.items.map((item, i) => (
+                {group.items.filter(item => EUROPA_Y_GLOBAL || !/-eu(-|$)/.test(item.key)).map((item, i) => (
                   <div
                     key={item.key}
                     className={`flex items-center justify-between px-5 py-3 ${i < group.items.length - 1 ? 'border-b border-border/30' : ''}`}

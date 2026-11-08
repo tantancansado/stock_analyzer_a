@@ -28,6 +28,7 @@ import { usePersonalPortfolio } from '../context/PersonalPortfolioContext'
 import { PieChart, Pie, Cell, ResponsiveContainer, RadarChart, PolarGrid, PolarAngleAxis, Radar } from 'recharts'
 import { cn } from '@/lib/utils'
 import EmptyState from '@/components/EmptyState'
+import { EUROPA_Y_GLOBAL } from '@/lib/mercados'
 import CifrasClave from '../components/CifrasClave'
 
 // Cerebro se carga solo cuando se abre su pestaña (no penaliza el Resumen)
@@ -1004,7 +1005,8 @@ export default function Dashboard() {
   const { data: regime, loading: loadingRegime } = useApi(() => fetchMarketRegime(), [])
   const { data: valueUS, loading: loadingUS } = useApi(() => fetchValueOpportunities(), [])
   const verdicts = useEntryVerdicts()
-  const { data: valueEU, loading: loadingEU } = useApi(() => fetchEUValueOpportunities(), [])
+  const { data: valueEU, loading: loadingEU } = useApi(
+    () => (EUROPA_Y_GLOBAL ? fetchEUValueOpportunities() : Promise.resolve({ data: { data: [], count: 0, source: 'apagado' } })), [])
   const { data: portfolio } = useApi(() => fetchPortfolioTracker(), [])
   const { data: insiders, loading: loadingInsiders } = useApi(() => fetchRecurringInsiders(), [])
   const { data: optionsRaw, loading: loadingOptions } = useApi(() => fetchOptionsFlow(), [])
@@ -1370,7 +1372,7 @@ export default function Dashboard() {
           ]} />
 
           <motion.div
-            className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6"
+            className={`grid grid-cols-1 ${EUROPA_Y_GLOBAL ? 'sm:grid-cols-2' : ''} gap-3 mb-6`}
             initial="hidden"
             animate="visible"
             variants={{ visible: { transition: { staggerChildren: 0.07 } } }}
@@ -1378,9 +1380,11 @@ export default function Dashboard() {
             <motion.div variants={{ hidden: { opacity: 0, y: 14 }, visible: { opacity: 1, y: 0, transition: { duration: 0.35, ease: [0.22, 1, 0.36, 1] } } }}>
               <RegimeCard label="Mercado US" data={usRegime} loading={loadingRegime} />
             </motion.div>
-            <motion.div variants={{ hidden: { opacity: 0, y: 14 }, visible: { opacity: 1, y: 0, transition: { duration: 0.35, ease: [0.22, 1, 0.36, 1] } } }}>
-              <RegimeCard label="Mercado EU" data={euRegime} loading={loadingRegime} />
-            </motion.div>
+            {EUROPA_Y_GLOBAL && (
+              <motion.div variants={{ hidden: { opacity: 0, y: 14 }, visible: { opacity: 1, y: 0, transition: { duration: 0.35, ease: [0.22, 1, 0.36, 1] } } }}>
+                <RegimeCard label="Mercado EU" data={euRegime} loading={loadingRegime} />
+              </motion.div>
+            )}
           </motion.div>
 
           {/* Setup del día — hero card */}
@@ -1436,9 +1440,9 @@ export default function Dashboard() {
           )}
 
           {/* Top VALUE Picks */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+          <div className={`grid grid-cols-1 ${EUROPA_Y_GLOBAL ? 'md:grid-cols-2' : ''} gap-4 mb-6`}>
             <TopPicksTable title="Top VALUE US" rows={topUS} to="/value" loading={loadingUS} />
-            <TopPicksTable title="Top VALUE EU" rows={topEU} to="/value?region=eu" loading={loadingEU} />
+            {EUROPA_Y_GLOBAL && <TopPicksTable title="Top VALUE EU" rows={topEU} to="/value?region=eu" loading={loadingEU} />}
           </div>
 
           {/* Signals Radar */}

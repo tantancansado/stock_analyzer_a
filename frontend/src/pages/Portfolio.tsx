@@ -1,5 +1,6 @@
 import { ClipboardList, Hourglass } from 'lucide-react'
 import { precio } from '@/lib/moneda'
+import { EUROPA_Y_GLOBAL } from '@/lib/mercados'
 import { useState, lazy, Suspense } from 'react'
 import api, { fetchPortfolioTracker, fetchCorrelationMatrix, fetchPortfolioInsight, fetchCalibration, type PortfolioSummary, type CorrelationData, type CalibrationData } from '../api/client'
 import { useApi } from '../hooks/useApi'
@@ -792,16 +793,16 @@ export default function Portfolio() {
               la resta entre ellas no.
             </p>
           )}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className={`grid grid-cols-1 ${EUROPA_Y_GLOBAL ? 'md:grid-cols-2' : ''} gap-4`}>
             {([
               { label: 'VALUE US', strat: pf.value_strategy, alpha: pf.alpha_us, badge: 'US', bench: 'SPY' },
               { label: 'VALUE EU', strat: pf.eu_value_strategy, alpha: pf.alpha_eu, badge: 'EU', bench: 'VGK' },
-            ] as const).map(({ label, strat, alpha, badge, bench }) => {
+            ] as const).filter(x => EUROPA_Y_GLOBAL || x.badge === 'US').map(({ label, strat, alpha, badge, bench }) => {
               const s90 = strat?.['90d']
               const a90 = alpha?.['90d']
               const wr = s90?.win_rate ?? null
               const otherWr = (badge === 'US' ? pf.eu_value_strategy : pf.value_strategy)?.['90d']?.win_rate ?? -1
-              const leads = !basesDistintas && wr != null && wr > otherWr
+              const leads = EUROPA_Y_GLOBAL && !basesDistintas && wr != null && wr > otherWr
               return (
                 <Card key={badge} className={`glass border ${leads ? 'border-primary/40' : 'border-border/20'}`}>
                   <CardContent className="p-4">
