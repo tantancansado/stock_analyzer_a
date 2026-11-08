@@ -1,344 +1,82 @@
-import { useState } from 'react'
-import { precio } from '@/lib/moneda'
-import api from '../api/client'
+import { Ruler } from 'lucide-react'
+import { fetchPesosValue, type PesoIdea } from '../api/client'
 import { useApi } from '../hooks/useApi'
-import { useKeyboardNav } from '../hooks/useKeyboardNav'
-import { useSortedData } from '../hooks/useSortedData'
-import { Card, CardContent } from '@/components/ui/card'
-import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '@/components/ui/table'
-import { Badge } from '@/components/ui/badge'
-import InfoTooltip from '../components/InfoTooltip'
 import TickerLogo from '../components/TickerLogo'
 import EmptyState from '../components/EmptyState'
 import PageHeader from '@/components/PageHeader'
 import PageShell from '@/components/PageShell'
-import { Ruler } from 'lucide-react'
 import CifrasClave from '../components/CifrasClave'
 
-interface PositionRow {
-  ticker: string
-  current_price?: number
-  position_size_pct?: number
-  position_value?: number
-  shares?: number
-  stop_loss_price?: number
-  stop_loss_pct?: number
-  risk_amount?: number
-  risk_pct_portfolio?: number
-  volatility?: number
-  kelly_pct?: number
-  kelly_horizon?: string
-  kelly_win_rate?: number
-  multipliers?: string | Record<string, number>
-}
-
-interface ApiResponse {
-  data: PositionRow[]
-  count: number
-}
-
-function parseMultipliers(m: string | Record<string, number> | undefined): Record<string, number> | null {
-  if (!m) return null
-  if (typeof m === 'object') return m
-  try {
-    return JSON.parse(m.replace(/'/g, '"')) as Record<string, number>
-  } catch {
-    return null
-  }
-}
-
-/** Riesgo de UNA posición: más del 4% del portfolio en un solo nombre es mucho. */
-function riskColor(pct: number) {
-  if (pct > 4) return 'text-red-400'
-  if (pct > 2) return 'text-amber-400'
-  return 'text-emerald-400'
-}
-
 /**
- * Riesgo de la CARTERA ENTERA, que es la suma de todas las posiciones y por
- * tanto se mide con otra vara. Usaba los umbrales de una sola posición, así que
- * cualquier cartera diversificada salía en rojo. Pintaba un 4.8% repartido
- * entre 13 nombres —conservador— del mismo color que una alarma.
+ * Cuánto poner en cada idea de Value US (position_sizer.py).
+ *
+ * Era un Kelly sobre todo el tracker que daba casi el mismo número a todas, con
+ * stops técnicos y sobre la lista vieja de cinco dimensiones. Ahora: una posición
+ * completa por idea en Prioridad, menos si se mueve mucho, y dos como mucho por
+ * ciclo. Sin dinero nuevo para Observar.
  */
-/** Los cortes que tenía `totalRiskColor`, en el vocabulario de tonos. */
-function totalRiskTono(pct: number): 'favor' | 'aviso' | 'alarma' {
-  if (pct > 12) return 'alarma'
-  if (pct > 6) return 'aviso'
-  return 'favor'
-}
 
-const BASE_PORTFOLIO = 100_000
+const pct = (x: number) => `${x.toLocaleString('es-ES', { maximumFractionDigits: 1 })} %`
 
 export default function PositionSizing() {
-  const { data, loading, error } = useApi<ApiResponse>(
-    () => api.get<ApiResponse>('/api/position-sizing'),
-    []
-  )
-  const [portfolioSize, setPortfolioSize] = useState(BASE_PORTFOLIO)
-  const [compact, setCompact] = useState(() => typeof window !== 'undefined' && window.innerWidth < 1280)
+  const { data, loading, error } = useApi<PesoIdea[]>(() => fetchPesosValue().then(d => ({ data: d })), [])
 
-  const rows = data?.data ?? []
-  const scale = portfolioSize / BASE_PORTFOLIO
-
-  const { sorted, sortKey, onSort } = useSortedData<PositionRow, keyof PositionRow>(rows, 'position_size_pct', 'desc')
-  const { focused: focusedIdx, setFocused: setFocusedIdx } = useKeyboardNav(sorted)
-
-  const thCls = (key: keyof PositionRow) =>
-    `cursor-pointer select-none whitespace-nowrap transition-colors hover:text-foreground ${sortKey === key ? 'text-primary' : ''}`
-
-  // La cabecera se pinta también mientras carga o si la API falla: si no, la
-  // pantalla de error no dice en qué sección estás. Ver PageShell.
+  // La cabecera se pinta también mientras carga o si falla. Ver PageShell.
   const cabecera = {
-    title: 'Position Sizing',
-    subtitle: 'Kelly criterion · Ajuste por volatilidad, score y timing',
+    title: 'Peso en cartera',
+    subtitle: 'Cuánto poner en cada idea de Value US',
   } as const
   if (loading || error) return <PageShell {...cabecera} loading={loading} error={error} />
 
-  const totalRisk = rows.reduce((s, r) => s + (r.risk_pct_portfolio ?? 0), 0)
-  const totalValue = rows.reduce((s, r) => s + (r.position_value ?? 0), 0) * scale
-  const avgSize = rows.length ? rows.reduce((s, r) => s + (r.position_size_pct ?? 0), 0) / rows.length : 0
-  const kellyBase = rows.find(r => r.kelly_pct != null)?.kelly_pct ?? null
-  const kellyHorizonte = rows.find(r => r.kelly_horizon)?.kelly_horizon ?? null
-  const kellyWinRate = rows.find(r => r.kelly_win_rate != null)?.kelly_win_rate ?? null
+  const filas = data ?? []
+  const prioridad = filas.filter(f => f.value_grupo === 'PRIORIDAD')
+  const conPeso = prioridad.filter(f => (f.peso_objetivo_pct ?? 0) > 0)
+  const porCiclo = prioridad.filter(f => f.peso_objetivo_pct === 0)
+  const total = conPeso.reduce((t, f) => t + (f.peso_objetivo_pct ?? 0), 0)
 
   return (
     <>
-      <PageHeader {...cabecera}>
-        <div className="flex items-center gap-3 flex-wrap">
-          <button
-            onClick={() => setCompact(!compact)}
-            className={`filter-btn ${compact ? 'active' : ''}`}
-          >
-            Compacto
-          </button>
-          <div className="flex items-center gap-2">
-            <span className="etiqueta-seccion">Portfolio ($)</span>
-            <input
-              type="number"
-              value={portfolioSize}
-              onChange={e => setPortfolioSize(Math.max(1000, Number(e.target.value)))}
-              className="w-28 text-cuerpo px-2.5 py-1.5 rounded border border-border/50 bg-transparent text-foreground focus:outline-none focus:border-primary/50 tabular-nums"
-            />
-          </div>
+      <PageHeader {...cabecera} />
+
+      <p className="text-cuerpo text-muted-foreground leading-relaxed mb-5 max-w-3xl">
+        Cada idea en Prioridad vale una posición completa, el 5 % de la cartera, porque medido no
+        se puede saber cuál de dos Prioridades ganará más. Lo que sí se ajusta es el riesgo: la que
+        se mueve el doble que la media pesa la mitad, y de las que se mueven igual (el mismo ciclo)
+        entran dos como mucho, las más baratas. Observar no recibe dinero nuevo.
+      </p>
+
+      {prioridad.length === 0 ? (
+        <div className="glass rounded-2xl">
+          <EmptyState
+            icon={<Ruler size={32} strokeWidth={1.5} />}
+            title="Hoy no hay ideas en Prioridad"
+            subtitle="Sin Prioridad no hay a qué dar peso: el dinero se queda en la base de la cartera"
+          />
         </div>
-      </PageHeader>
-
-      <CifrasClave cifras={[
-        { etiqueta: 'Posiciones',       valor: rows.length, sub: 'tickers en cartera' },
-        { etiqueta: 'Capital asignado', valor: `$${(totalValue / 1000).toFixed(0)}k`,
-          sub: `de $${(portfolioSize / 1000).toFixed(0)}k` },
-        { etiqueta: 'Riesgo total',     valor: totalRisk.toFixed(1), unidad: '%', sub: 'del portfolio',
-          tono: totalRiskTono(totalRisk) },
-        { etiqueta: 'Posición media',   valor: avgSize.toFixed(1), unidad: '%', sub: 'del portfolio' },
-      ]} />
-
-      {/* El Kelly base es de cartera, el mismo para todas las filas: se decía
-          una vez por posición —13 veces el mismo número— en vez de aquí. Y sin
-          el plazo no dice nada: con este tracker, a 30 días sale 0. */}
-      {kellyBase != null && (
-        <p className="text-micro text-muted-foreground mb-5">
-          Kelly base <span className="tabular-nums text-foreground/80">{kellyBase.toFixed(1)}%</span>
-          {kellyHorizonte && <> · medido sobre señales a <span className="tabular-nums">{kellyHorizonte.replace('d', ' días')}</span></>}
-          {kellyWinRate != null && <> · <span className="tabular-nums">{kellyWinRate.toFixed(1)}%</span> de aciertos</>}
-        </p>
-      )}
-
-      {rows.length === 0 ? (
-        <Card className="glass">
-          <CardContent className="p-0">
-            <EmptyState
-              icon={<Ruler size={32} strokeWidth={1.5} />}
-              title="Sin datos de position sizing disponibles"
-              subtitle="Los publica el pipeline diario junto al resto del análisis"
-            />
-          </CardContent>
-        </Card>
       ) : (
         <>
-          {/* Mobile cards */}
-          <div className="sm:hidden space-y-2 mb-2">
-            {sorted.map((r, i) => {
-              const posVal = (r.position_value ?? 0) * scale
-              const posSize = r.position_size_pct ?? 0
-              return (
-                <div
-                  key={r.ticker}
-                  data-row-idx={i}
-                  className={`glass rounded-2xl p-4 transition-colors cursor-pointer ${i === focusedIdx ? 'border border-primary/30' : 'border border-transparent'}`}
-                  onClick={() => setFocusedIdx(i)}
-                >
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2.5">
-                      <TickerLogo ticker={r.ticker} size="sm" className="shrink-0" />
-                      <div>
-                        <span className="font-mono font-bold text-titulo text-primary">{r.ticker}</span>
-                        {r.current_price != null && (
-                          <div className="text-micro text-muted-foreground">${r.current_price.toFixed(2)}</div>
-                        )}
-                      </div>
-                    </div>
-                    <div className="text-right">
-                      <div className="text-seccion font-bold text-foreground">{posSize.toFixed(1)}%</div>
-                      <div className="text-micro text-muted-foreground">${posVal.toLocaleString('en-US', { maximumFractionDigits: 0 })}</div>
-                    </div>
-                  </div>
-                  <div className="flex gap-3 mt-2 text-micro text-muted-foreground">
-                    {r.stop_loss_pct != null && <span>Stop {r.stop_loss_pct.toFixed(1)}%</span>}
-                    {r.risk_pct_portfolio != null && <span className={riskColor(r.risk_pct_portfolio)}>Riesgo {r.risk_pct_portfolio.toFixed(1)}%</span>}
-                  </div>
-                </div>
-              )
-            })}
-          </div>
+          <CifrasClave cifras={[
+            { etiqueta: 'Ideas con peso', valor: conPeso.length, sub: 'en Prioridad' },
+            { etiqueta: 'Entre todas', valor: total.toLocaleString('es-ES', { maximumFractionDigits: 1 }), unidad: '%', sub: 'de la cartera' },
+            { etiqueta: 'Fuera por ciclo', valor: porCiclo.length, sub: 'ya hay dos que se mueven igual' },
+          ]} />
 
-          {/* Desktop table */}
-          <div className="hidden sm:block">
-            <Card className="glass animate-fade-in-up">
-              <Table>
-                <TableHeader>
-                  <TableRow className="border-border/50 hover:bg-transparent">
-                    <TableHead className={thCls('ticker')} onClick={() => onSort('ticker')}>Ticker</TableHead>
-                    <TableHead className={thCls('current_price')} onClick={() => onSort('current_price')}>Precio</TableHead>
-                    <TableHead className={thCls('position_size_pct')} onClick={() => onSort('position_size_pct')}>
-                      Tamaño %
-                      <InfoTooltip
-                        text="% del portfolio asignado a esta posición. Calculado como Kelly ajustado × multiplicadores de calidad."
-                        align="left"
-                      />
-                    </TableHead>
-                    <TableHead className={thCls('position_value')} onClick={() => onSort('position_value')}>Valor ($)</TableHead>
-                    <TableHead className={thCls('shares')} onClick={() => onSort('shares')}>Acciones</TableHead>
-                    {!compact && (
-                      <TableHead className={thCls('stop_loss_price')} onClick={() => onSort('stop_loss_price')}>Stop Loss</TableHead>
-                    )}
-                    <TableHead className={thCls('stop_loss_pct')} onClick={() => onSort('stop_loss_pct')}>
-                      Stop %
-                      <InfoTooltip text="Distancia en % desde el precio actual hasta el nivel de stop loss. Suele ser ~8% (Minervini)." />
-                    </TableHead>
-                    <TableHead className={thCls('risk_pct_portfolio')} onClick={() => onSort('risk_pct_portfolio')}>
-                      Riesgo %
-                      <InfoTooltip
-                        text="Pérdida máxima del portfolio si el precio cae al stop loss. = Tamaño% × Stop%. Rojo >4%, Ámbar >2%, Verde ≤2%."
-                      />
-                    </TableHead>
-                    {!compact && (
-                      <TableHead className={thCls('kelly_pct')} onClick={() => onSort('kelly_pct')}>
-                        Kelly %
-                        <InfoTooltip
-                          text="Kelly Criterion: fracción matemáticamente óptima del portfolio. Basado en win rate y ratio ganancia/pérdida histórico. Se aplica dividido por 2-4 (half-Kelly) por seguridad."
-                        />
-                      </TableHead>
-                    )}
-                    {!compact && (
-                      <TableHead className={thCls('volatility')} onClick={() => onSort('volatility')}>
-                        Volatilidad
-                        <InfoTooltip
-                          text="Volatilidad histórica anualizada a 30 días (desviación estándar de retornos diarios × √252). Mayor volatilidad → posición más pequeña."
-                        />
-                      </TableHead>
-                    )}
-                    {!compact && (
-                      <TableHead>
-                        Mult.
-                        <InfoTooltip
-                          text={
-                            <span>
-                              Multiplicadores que ajustan el tamaño Kelly:<br />
-                              <span className="text-emerald-400">≥1.1×</span> — aumenta posición (alta calidad)<br />
-                              <span className="text-muted-foreground">~1.0×</span> — sin ajuste<br />
-                              <span className="text-red-400">≤0.8×</span> — reduce posición (baja calidad)<br />
-                              Factores: score, timing, sector, volatilidad.
-                            </span>
-                          }
-                          align="right"
-                        />
-                      </TableHead>
-                    )}
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {sorted.map((r, i) => {
-                    const mults = parseMultipliers(r.multipliers)
-                    const scaledValue = (r.position_value ?? 0) * scale
-                    const scaledShares = Math.round((r.shares ?? 0) * scale)
-                    return (
-                      <TableRow
-                        key={r.ticker}
-                        data-row-idx={i}
-                        onClick={() => setFocusedIdx(i)}
-                        className={`cursor-pointer transition-colors ${i === focusedIdx ? 'bg-primary/5 ring-1 ring-inset ring-primary/20' : ''}`}
-                      >
-                        <TableCell className="font-mono font-bold text-primary text-apoyo tracking-wide">
-                          <div className="flex items-center gap-2">
-                            <TickerLogo ticker={r.ticker} size="xs" className="shrink-0" />
-                            {r.ticker}
-                          </div>
-                        </TableCell>
-                        <TableCell className="tabular-nums text-apoyo">
-                          {precio(r.current_price, r.ticker)}
-                        </TableCell>
-                        <TableCell>
-                          <div className="flex items-center gap-2">
-                            <div className="relative h-1.5 w-12 rounded-full bg-foreground/10 overflow-clip">
-                              <div
-                                className="absolute inset-y-0 left-0 bg-primary/60 rounded-full"
-                                style={{ width: `${Math.min((r.position_size_pct ?? 0) * 5, 100)}%` }}
-                              />
-                            </div>
-                            <span className="tabular-nums text-apoyo">{(r.position_size_pct ?? 0).toFixed(1)}%</span>
-                          </div>
-                        </TableCell>
-                        <TableCell className="tabular-nums text-apoyo text-foreground">
-                          ${scaledValue.toLocaleString('en', { maximumFractionDigits: 0 })}
-                        </TableCell>
-                        <TableCell className="tabular-nums text-apoyo">{scaledShares}</TableCell>
-                        {!compact && (
-                          <TableCell className="tabular-nums text-apoyo text-red-400">
-                            {precio(r.stop_loss_price, r.ticker)}
-                          </TableCell>
-                        )}
-                        <TableCell className="tabular-nums text-apoyo text-red-400">
-                          {r.stop_loss_pct != null ? `${r.stop_loss_pct.toFixed(0)}%` : '—'}
-                        </TableCell>
-                        <TableCell>
-                          <span className={`tabular-nums text-apoyo font-semibold ${riskColor(r.risk_pct_portfolio ?? 0)}`}>
-                            {(r.risk_pct_portfolio ?? 0).toFixed(2)}%
-                          </span>
-                        </TableCell>
-                        {!compact && (
-                          <TableCell className="tabular-nums text-apoyo">
-                            {r.kelly_pct != null ? `${r.kelly_pct.toFixed(1)}%` : '—'}
-                          </TableCell>
-                        )}
-                        {!compact && (
-                          <TableCell className="tabular-nums text-apoyo text-amber-400">
-                            {r.volatility != null ? `${r.volatility.toFixed(0)}%` : '—'}
-                          </TableCell>
-                        )}
-                        {!compact && (
-                          <TableCell>
-                            {mults ? (
-                              <div className="flex gap-1 flex-wrap">
-                                {Object.entries(mults).map(([k, v]) => (
-                                  <Badge
-                                    key={k}
-                                    variant={v >= 1.1 ? 'green' : v <= 0.8 ? 'red' : 'gray'}
-                                    className="text-micro px-1 py-0"
-                                  >
-                                    {k}: {v.toFixed(1)}×
-                                  </Badge>
-                                ))}
-                              </div>
-                            ) : '—'}
-                          </TableCell>
-                        )}
-                      </TableRow>
-                    )
-                  })}
-                </TableBody>
-              </Table>
-            </Card>
-          </div>
+          <ul className="glass rounded-2xl divide-y divide-border/30">
+            {prioridad.map(f => (
+              <li key={f.ticker} className="flex items-start gap-3 px-4 py-3">
+                <TickerLogo ticker={f.ticker} size="sm" className="mt-0.5 shrink-0" />
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-baseline justify-between gap-3">
+                    <span className="font-mono font-bold text-cuerpo text-foreground">{f.ticker}</span>
+                    <span className="font-bold text-cuerpo tabular-nums text-foreground">
+                      {f.peso_objetivo_pct == null ? '—' : f.peso_objetivo_pct > 0 ? pct(f.peso_objetivo_pct) : 'Nada'}
+                    </span>
+                  </div>
+                  <p className="text-mini text-muted-foreground leading-relaxed mt-0.5">{f.peso_motivo}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
         </>
       )}
     </>

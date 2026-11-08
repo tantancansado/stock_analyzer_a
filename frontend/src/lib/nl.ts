@@ -153,25 +153,28 @@ export function nlPositionStatus(opts: {
   cerebro_smart_money?: boolean
   days_to_earnings?: number | null
   earnings_warning?: boolean
-  optimal_size_pct?: number
-  portfolio_pct?: number
+  /** Lo que le queda hasta NUESTRO objetivo (DCF, P/E y consenso), en %. */
+  upside_propio_pct?: number | null
+  peso_accion?: string | null
   value_score?: number | null
 }): string {
   const parts: string[] = []
 
-  // P&L
+  // El usuario vende a precio objetivo por valoración, no a un % de ganancia ni por
+  // un stop: la frase habla de lo que le queda hasta el objetivo, no del P&L.
   const pl = opts.pl_pct
-  if (pl >= 12)       parts.push(`Ganancia del ${pl.toFixed(1)}% — cerca del objetivo de beneficios`)
-  else if (pl >= 5)   parts.push(`Ganancia del ${pl.toFixed(1)}% — posición en terreno positivo`)
-  else if (pl >= 0)   parts.push(`Ganancia del ${pl.toFixed(1)}% — inicio de posición correcto`)
-  else if (pl >= -5)  parts.push(`Pérdida leve del ${Math.abs(pl).toFixed(1)}% — dentro del margen normal`)
-  else if (pl >= -8)  parts.push(`Pérdida del ${Math.abs(pl).toFixed(1)}% — cerca del stop loss (-8%)`)
-  else               parts.push(`Pérdida del ${Math.abs(pl).toFixed(1)}% — stop loss superado, revisar tesis`)
+  const fmt = (x: number) => x.toLocaleString('es-ES', { maximumFractionDigits: 0 })
+  const resultado = pl >= 0 ? `Gana un ${fmt(pl)} %` : `Pierde un ${fmt(Math.abs(pl))} %`
+  const up = opts.upside_propio_pct
+  if (up == null) parts.push(`${resultado}; sin objetivo propio con el que medirla`)
+  else if (up <= 0) parts.push(`${resultado} y ya está en nuestro objetivo: toca decidir la venta según lo buena que sea la empresa`)
+  else if (up < 10) parts.push(`${resultado} y le queda un ${fmt(up)} % hasta nuestro objetivo: cerca de vender`)
+  else parts.push(`${resultado} y le queda un ${fmt(up)} % hasta nuestro objetivo`)
 
   // Acción
-  if (opts.action === 'AÑADIR')  parts.push('oportunidad para ampliar posición')
-  if (opts.action === 'REDUCIR') parts.push('considerar reducir exposición')
-  if (opts.action === 'VENDER')  parts.push('señal de salida activa')
+  if (opts.action === 'AÑADIR')  parts.push('es Prioridad y pesa menos de lo que le toca')
+  if (opts.action === 'REDUCIR') parts.push('pesa más de su techo')
+  if (opts.action === 'VENDER')  parts.push('la tesis se ha roto')
 
   // Cerebro warnings
   if (opts.cerebro_exit)       parts.push('Cerebro detectó señal de salida')
@@ -181,13 +184,6 @@ export function nlPositionStatus(opts: {
   // Earnings
   if (opts.earnings_warning && opts.days_to_earnings != null) {
     parts.push(`earnings en ${opts.days_to_earnings} días — riesgo binario`)
-  }
-
-  // Tamaño
-  if (opts.portfolio_pct != null && opts.optimal_size_pct != null) {
-    const ratio = opts.portfolio_pct / opts.optimal_size_pct
-    if (ratio > 1.5)  parts.push('posición sobreponderada')
-    else if (ratio < 0.5 && opts.optimal_size_pct > 1) parts.push('posición infraponderada')
   }
 
   return parts.join('. ') + '.'

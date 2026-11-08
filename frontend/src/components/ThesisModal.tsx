@@ -384,7 +384,7 @@ export default function ThesisModal({ row, thesisText, onClose }: Props) {
 
           {/* ── Value US: se vende a precio objetivo, no a un stop ni a un nivel técnico ── */}
           {grupo && price != null && row.upside_triangulated_pct != null && (
-            <div className="flex gap-2 px-5 lg:px-6 pb-3 flex-shrink-0">
+            <div className="flex flex-wrap gap-2 px-5 lg:px-6 pb-3 flex-shrink-0">
               <div className="flex-1 px-3 py-2 rounded-lg bg-emerald-500/6 border border-emerald-500/15">
                 <div className="etiqueta-seccion text-emerald-400 mb-0.5">Nuestro objetivo</div>
                 <div className="font-extrabold text-cuerpo tabular-nums text-emerald-400 leading-none">{precio(price * (1 + row.upside_triangulated_pct / 100), row.ticker)}</div>
@@ -395,7 +395,20 @@ export default function ThesisModal({ row, thesisText, onClose }: Props) {
                   <div className="font-extrabold text-cuerpo tabular-nums leading-none">{precio(row.target_price_analyst, row.ticker)}</div>
                 </div>
               )}
+              {row.peso_objetivo_pct != null && (
+                <div className="flex-1 px-3 py-2 rounded-lg bg-muted/20 border border-border/40" title={row.peso_motivo ?? undefined}>
+                  <div className="etiqueta-seccion mb-0.5">Peso</div>
+                  <div className="font-extrabold text-cuerpo tabular-nums leading-none">
+                    {row.peso_objetivo_pct > 0 ? `${row.peso_objetivo_pct.toLocaleString('es-ES', { maximumFractionDigits: 1 })} %` : 'Nada nuevo'}
+                  </div>
+                </div>
+              )}
             </div>
+          )}
+          {grupo && row.peso_motivo && (
+            <p className="px-5 lg:px-6 -mt-1 pb-3 text-micro text-muted-foreground leading-relaxed flex-shrink-0">
+              Peso en cartera: {row.peso_motivo.charAt(0).toLowerCase()}{row.peso_motivo.slice(1)}
+            </p>
           )}
 
           {/* ── Entry / Stop / Target ── */}

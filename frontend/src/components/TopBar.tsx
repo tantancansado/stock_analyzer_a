@@ -22,7 +22,7 @@ const ROUTE_TITLES: Record<string, string> = {
   '/sectors':         'Sectores',
   '/earnings':        'Calendario',
   '/dividend-traps':  'Dividend traps',
-  '/position-sizing': 'Position sizing',
+  '/position-sizing': 'Peso en cartera',
   '/backtest':        'Backtest',
   '/compare':         'Comparar',
   '/datos':           'Datos',

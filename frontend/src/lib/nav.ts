@@ -43,7 +43,7 @@ export const NAV_CATEGORIES: NavCategory[] = [
     items: [
 
       { path: '/owner-earnings', icon: Calculator,      label: 'Valoración',     color: '#06b6d4', logo: 'llama-plant.png',         keywords: ['owner earnings', 'valoracion', 'compra', 'buffett', 'fcf', 'precio objetivo', 'dcf'] },
-      { path: '/position-sizing', icon: Ruler,         label: 'Position sizing', color: 'var(--warn)', keywords: ['position', 'tamaño', 'kelly', 'sizing'] },
+      { path: '/position-sizing', icon: Ruler,         label: 'Peso en cartera', color: 'var(--warn)', keywords: ['position', 'tamaño', 'sizing', 'peso', 'cuánto'] },
       { path: '/backtest',        icon: FlaskConical,  label: 'Backtest',        color: '#6366f1', keywords: ['backtest', 'historico', 'simulacion'] },
       { path: '/datos',           icon: Database,      label: 'Exportar datos',  color: '#64748b', keywords: ['datos', 'historial', 'csv', 'descarga', 'exportar'] },
       { path: '/manual',          icon: BookOpen,      label: 'Manual',          color: 'var(--muted-foreground)', keywords: ['manual', 'ayuda', 'help', 'guia', 'documentacion', 'como funciona'] },

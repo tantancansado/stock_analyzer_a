@@ -3903,44 +3903,11 @@ def analyze_personal_portfolio():
     import yfinance as _yf
     from datetime import timedelta as _td
 
-    # ── Position sizing helpers (inline from position_sizer.py) ──────────
-    def _calc_atr_volatility(ticker_obj, cur_price):
-        """ATR-based volatility as fraction of price, o None si no hay dato.
-
-        Devolvía 0.20 cuando fallaba. Un 20% inventado se convierte en un stop
-        del 40% (2x ATR) que la interfaz enseña como si estuviera calculado.
-        Sin dato no hay número — ver CLAUDE.md.
-        """
-        try:
-            end = datetime.now()
-            df = ticker_obj.history(start=end - _td(days=45), end=end)
-            if df.empty or len(df) < 14:
-                return None
-            h, l, c = df['High'], df['Low'], df['Close']
-            tr = pd.concat([h - l, (h - c.shift()).abs(), (l - c.shift()).abs()], axis=1).max(axis=1)
-            atr = float(tr.rolling(14).mean().iloc[-1])
-            if not (cur_price > 0) or not (atr > 0):
-                return None
-            return atr / cur_price
-        except Exception:
-            return None
-
-    def _calc_kelly(win_rate, avg_win, avg_loss, max_pos=0.10):
-        if win_rate is None or avg_loss is None or avg_win is None:
-            return None
-        if avg_loss >= 0 or avg_win <= 0:
-            return 0.0
-        ratio = abs(avg_win / avg_loss)
-        kelly = (win_rate * ratio - (1 - win_rate)) / ratio
-        return max(0, min(kelly * 0.5, max_pos))
-
-    # Inputs de Kelly medidos en el tracker, la misma fuente que position_sizer.
-    # Estaban escritos a mano (75% de aciertos, +5%/-3%) y docs/backtest_metrics.json
-    # no existe, así que nunca se sobrescribían: con esos tres números Kelly da
-    # 0.30, que recortado por el tope de 0.10 sale SIEMPRE exactamente 10%. Todas
-    # las posiciones de la cartera mostraban el mismo "Kelly 10.0%".
-    from position_sizer import kelly_inputs_reales
-    _bt_win_rate, _bt_avg_win, _bt_avg_loss = kelly_inputs_reales(docs=DOCS)
+    # El peso sale del mismo cálculo que la lista de Value (position_sizer), y el
+    # objetivo es el nuestro. Antes: medio Kelly sobre todo el tracker, casi igual para
+    # todas, un stop técnico de 2 ATR (el usuario vende a precio objetivo, no por
+    # niveles) y un peso que inventaba la IA sin ver la lista.
+    casa = _casa_para_cartera()
 
     enriched = []
     for pos in positions:
@@ -4052,21 +4019,7 @@ def analyze_personal_portfolio():
             except Exception:
                 pass
 
-        # ── Position sizing (stocks only) ────────────────────────────
-        volatility = kelly_pct_val = opt_size_pct = stop_loss_price = stop_loss_pct_atr = risk_amount = vol_mult = None
-        if asset_type == 'stock':
-            volatility    = _calc_atr_volatility(t_obj, cur_price) if t_obj else None
-            kelly_pct_val = _calc_kelly(_bt_win_rate, _bt_avg_win, _bt_avg_loss)
-            if volatility is not None:
-                vol_mult          = 0.7 if volatility > 0.15 else (1.2 if volatility < 0.05 else 1.0)
-                stop_loss_pct_atr = volatility * 2
-                stop_loss_price   = cur_price * (1 - stop_loss_pct_atr)
-                risk_amount       = shares * (cur_price - stop_loss_price)
-                if kelly_pct_val is not None:
-                    # El tope del 10% es un techo, no un objetivo: el
-                    # multiplicador descuenta desde él en vez de empujar por
-                    # encima para acabar recortado siempre en el mismo sitio.
-                    opt_size_pct = min(kelly_pct_val, 0.10) * min(vol_mult / 1.2, 1.0)
+        es_fondo = str(info.get('quoteType') or '').upper() in ('ETF', 'MUTUALFUND')
 
         row = {
             'ticker': ticker, 'shares': shares, 'avg_price': avg_p,
@@ -4088,14 +4041,7 @@ def analyze_personal_portfolio():
             'dividend_yield': info.get('dividendYield') if asset_type in ('stock', 'preferred') else None,
             'fifty_two_week_high': info.get('fiftyTwoWeekHigh'),
             'fifty_two_week_low': info.get('fiftyTwoWeekLow'),
-            # Position sizing (None for non-stock)
-            'volatility_pct': round(volatility * 100, 1) if volatility is not None else None,
-            'kelly_pct': round(kelly_pct_val * 100, 1) if kelly_pct_val is not None else None,
-            'optimal_size_pct': round(opt_size_pct * 100, 1) if opt_size_pct is not None else None,
-            'stop_loss_atr': round(stop_loss_price, 2) if stop_loss_price is not None else None,
-            'stop_loss_pct_atr': round(stop_loss_pct_atr * 100, 1) if stop_loss_pct_atr is not None else None,
-            'risk_amount': round(risk_amount, 0) if risk_amount is not None else None,
-            'vol_multiplier': vol_mult,
+            'es_fondo': es_fondo,
         }
         row.update(extra)
         enriched.append(row)
@@ -4106,6 +4052,7 @@ def analyze_personal_portfolio():
     total_value = sum(p['market_value'] for p in enriched) or 1
     for p in enriched:
         p['portfolio_pct'] = p['market_value'] / total_value * 100
+    avisos_ciclo = _pesos_de_cartera(enriched, casa)
 
     macro_regime = 'DESCONOCIDO'
     try:
@@ -4136,14 +4083,19 @@ def analyze_personal_portfolio():
                  f"{p['portfolio_pct']:.1f}% cartera | precio actual {p['currency']}{p['current_price']:.2f} "
                  f"| P&L: {p['pl_pct']:+.1f}%")
             if p.get('forward_pe'):     l += f" | PE fwd: {p['forward_pe']:.1f}x"
-            if p.get('analyst_target'): l += f" | target: {p['currency']}{p['analyst_target']:.2f} ({p.get('analyst_upside',0):+.1f}%)"
+            if p.get('objetivo_propio'):
+                l += f" | NUESTRO objetivo: {p['currency']}{p['objetivo_propio']:.2f} ({p['upside_propio_pct']:+.1f}%)"
+            if p.get('analyst_target'): l += f" | consenso: {p['currency']}{p['analyst_target']:.2f} ({p.get('analyst_upside',0):+.1f}%)"
             if p.get('fcf_yield'):      l += f" | FCF yield: {p['fcf_yield']:.1f}%"
             if p.get('sector'):         l += f" | Sector: {p['sector']}"
-            if p.get('optimal_size_pct'):
-                l += f" | peso óptimo por volatilidad: {p['optimal_size_pct']:.1f}%"
-                if _sobreponderada(p):
-                    l += " (SOBREPONDERADA)"
+            l += f" | Value US: {p.get('value_grupo') or 'fuera de la lista'}"
+            if p.get('es_fondo'):
+                l += " | FONDO: es la base de la cartera, sin peso propio"
+            elif p.get('peso_motivo'):
+                l += f" | PESO (lo calcula la casa, no lo cambies): {p['peso_accion']} — {p['peso_motivo']}"
         lines.append(l)
+    if avisos_ciclo:
+        lines.append('MISMA APUESTA: ' + ' '.join(avisos_ciclo))
 
     tickers_list = ', '.join(p['ticker'] for p in enriched)
     prompt = f"""Eres un analista value/GARP al estilo Lynch-Graham. El usuario tiene esta cartera personal ({len(enriched)} posiciones, valor total ~${total_value:,.0f}):
@@ -4164,9 +4116,6 @@ Analiza la cartera y devuelve ÚNICAMENTE un JSON válido con esta estructura ex
       "ticker": "XXX",
       "action": "MANTENER",
       "conviction": "ALTA",
-      "target_price": 123.45,
-      "stop_loss": 90.00,
-      "recommended_weight_pct": 15.0,
       "analysis": "2-3 frases sobre esta posición: tesis vigente o rota, valoración actual",
       "key_risk": "principal riesgo en 1 frase",
       "options_strategy": "COVERED_CALL",
@@ -4182,10 +4131,11 @@ Valores posibles para action: MANTENER, AÑADIR, REDUCIR, VENDER
 Valores posibles para conviction: ALTA, MEDIA, BAJA
 Valores posibles para options_strategy: COVERED_CALL (vender call OTM para ingresos), PROTECTIVE_PUT (comprar put para proteger), COLLAR (vender call + comprar put), BUY_MORE (añadir sin opciones), CASH_SECURED_PUT (vender put para entrar más barato), TRAILING_STOP (stop dinámico sin opciones), HOLD (mantener sin acción adicional), SELL (cerrar posición)
 Cubre estos tickers en orden: {tickers_list}
-Sé honesto: si la tesis se ha roto, di VENDER. Los pesos recomendados deben sumar ~100%.
+Sé honesto: si la tesis se ha roto, di VENDER. El peso de cada posición ya lo ha calculado la casa (PESO): no propongas otro; explícalo si hace falta, y si dice REDUCIR, tu action no puede ser AÑADIR.
+El objetivo que manda es el NUESTRO (DCF, P/E y consenso); el del consenso es un dato más. No pongas stops: el inversor vende a precio objetivo, nunca por un nivel técnico.
 Para options_strategy: sé específico — si recomiendas COVERED_CALL indica el rango de delta objetivo (~0.25-0.35 OTM), si es PROTECTIVE_PUT indica cuánto downside proteger.
 Reglas del inversor, no negociables:
-- Una posición SOBREPONDERADA no admite AÑADIR, BUY_MORE ni CASH_SECURED_PUT: añadir es lo contrario de lo que pide su tamaño.
+- Solo una posición en Prioridad de Value US admite AÑADIR, BUY_MORE o CASH_SECURED_PUT, y nunca si su PESO dice REDUCIR o MANTENER por estar en su techo.
 - Vende a precio objetivo por valoración, no a un porcentaje: no propongas COVERED_CALL con strikes por debajo de su target_price, porque le obligaría a vender antes de tiempo."""
 
     try:
@@ -4251,29 +4201,29 @@ Reglas del inversor, no negociables:
             'ytm': p.get('ytm'),
             'days_to_maturity': p.get('days_to_maturity'),
             'current_yield': p.get('current_yield'),
-            'action': 'MANTENER', 'conviction': 'MEDIA',
-            'target_price': p.get('analyst_target'),
-            'stop_loss': None, 'recommended_weight_pct': round(p['portfolio_pct'], 1),
+            'action': p.get('peso_accion') or 'MANTENER', 'conviction': 'MEDIA',
+            'target_price': p.get('objetivo_propio') or p.get('analyst_target'),
+            'recommended_weight_pct': p.get('peso_recomendado_pct'),
             'analysis': '', 'key_risk': '',
             'options_strategy': '', 'options_rationale': '',
-            # Position sizing (None for non-stock)
+            # Peso y valoración de la casa (position_sizer, Value US)
+            'es_fondo': p.get('es_fondo', False),
+            'value_grupo': p.get('value_grupo') or '',
+            'objetivo_propio': p.get('objetivo_propio'),
+            'upside_propio_pct': p.get('upside_propio_pct'),
             'volatility_pct': p.get('volatility_pct'),
-            'kelly_pct': p.get('kelly_pct'),
-            'optimal_size_pct': p.get('optimal_size_pct'),
-            'stop_loss_atr': p.get('stop_loss_atr'),
-            'stop_loss_pct_atr': p.get('stop_loss_pct_atr'),
-            'risk_amount': p.get('risk_amount'),
-            'vol_multiplier': p.get('vol_multiplier'),
+            'peso_objetivo_pct': p.get('peso_objetivo_pct'),
+            'peso_techo_pct': p.get('peso_techo_pct'),
+            'peso_accion': p.get('peso_accion'),
+            'peso_motivo': p.get('peso_motivo'),
+            'ciclo': p.get('ciclo'),
         }
         if ai_result and 'positions' in ai_result:
             for ap in ai_result['positions']:
                 if str(ap.get('ticker', '')).upper() == p['ticker']:
                     row.update({
-                        'action': ap.get('action', 'MANTENER'),
+                        'action': _accion_final(ap.get('action'), p),
                         'conviction': ap.get('conviction', 'MEDIA'),
-                        'target_price': ap.get('target_price') or p.get('analyst_target'),
-                        'stop_loss': ap.get('stop_loss'),
-                        'recommended_weight_pct': ap.get('recommended_weight_pct', row['recommended_weight_pct']),
                         'analysis': ap.get('analysis', ''),
                         'key_risk': ap.get('key_risk', ''),
                         'options_strategy': ap.get('options_strategy', ''),
@@ -4283,25 +4233,14 @@ Reglas del inversor, no negociables:
                     break
         result_positions.append(row)
 
-    # ── Portfolio-level risk metrics ────────────────────────────────────
-    total_risk = sum(r.get('risk_amount', 0) or 0 for r in result_positions)
-    total_risk_pct = (total_risk / total_value * 100) if total_value else 0
-    oversized = [r['ticker'] for r in result_positions
-                 if r.get('portfolio_pct', 0) > (r.get('optimal_size_pct', 100) or 100) * 1.5]
-
+    acciones = [r for r in result_positions if r['asset_type'] == 'stock' and not r['es_fondo']]
     return jsonify({
         'total_value': round(total_value, 2),
-        'risk_metrics': {
-            'total_risk_amount': round(total_risk, 0),
-            'total_risk_pct': round(total_risk_pct, 1),
-            'kelly_base_pct': (
-                round(_kelly_base * 100, 1) if (_kelly_base := _calc_kelly(_bt_win_rate, _bt_avg_win, _bt_avg_loss)) is not None else None
-            ),
-            'oversized_positions': oversized,
-            'win_rate_used': (
-                round(_bt_win_rate * 100 if _bt_win_rate <= 1 else _bt_win_rate, 1)
-                if _bt_win_rate is not None else None
-            ),
+        'peso_cartera': {
+            'reducir': [r['ticker'] for r in acciones if r['peso_accion'] == 'REDUCIR'],
+            'añadir': [r['ticker'] for r in acciones if r['peso_accion'] == 'AÑADIR'],
+            'ciclos': avisos_ciclo,
+            'en_prioridad_pct': round(sum(r['portfolio_pct'] for r in acciones if r['value_grupo'] == 'PRIORIDAD'), 1),
         },
         'portfolio_analysis': ai_result.get('portfolio_analysis', {}) if ai_result else {},
         'positions': result_positions,
@@ -4310,10 +4249,85 @@ Reglas del inversor, no negociables:
 
 # ─────────────────────────────────────────────────────────────────────────────
 
+def _casa_para_cartera() -> dict:
+    """Lo que la casa sabe de cada ticker: grupo de Value US y nuestro objetivo.
+
+    El objetivo es el triangulado (consenso, DCF y P/E), el mismo de la ficha y de
+    las alertas de venta. Se guarda como precio, no como %, porque el precio de la
+    cartera es el de ahora y el de la lista, el del último pipeline.
+    """
+    from upside_triangulation import add_upside_triangulation
+    casa: dict = {}
+    if not DF_FUND_US.empty:
+        tri = add_upside_triangulation(DF_FUND_US.reset_index().copy())
+        for _, r in tri.iterrows():
+            up, precio = pd.to_numeric(r.get('upside_triangulated_pct'), errors='coerce'), pd.to_numeric(r.get('current_price'), errors='coerce')
+            if up == up and precio == precio and precio > 0:
+                casa[str(r['ticker']).upper()] = {'objetivo_propio': round(float(precio) * (1 + float(up) / 100), 2)}
+    lista = _load_csv(DOCS / 'value_opportunities_filtered.csv')
+    if not lista.empty and 'value_grupo' in lista.columns:
+        for t, r in lista.iterrows():
+            grupo = str(r.get('value_grupo') or '')
+            casa.setdefault(t, {})['value_grupo'] = grupo if grupo in ('PRIORIDAD', 'OBSERVAR') else ''
+    return casa
+
+
+def _pesos_de_cartera(enriched: list[dict], casa: dict) -> list[str]:
+    """Añade a cada acción su peso de la casa. Devuelve los avisos de ciclo.
+
+    Fondos, bonos y opciones no llevan peso propio. Sin un año de precios no se
+    calcula: `peso_de_posicion` lo dice en vez de inventarlo.
+    """
+    import position_sizer as ps
+    acciones = [p for p in enriched if p.get('asset_type', 'stock') == 'stock' and not p.get('es_fondo')]
+    for p in enriched:
+        datos = casa.get(p['ticker'], {})
+        p['value_grupo'] = datos.get('value_grupo', '')
+        obj = datos.get('objetivo_propio')
+        if obj and p.get('current_price'):
+            p['objetivo_propio'] = obj
+            p['upside_propio_pct'] = round((obj / p['current_price'] - 1) * 100, 1)
+    if not acciones:
+        return []
+    try:
+        vol, corr = ps.riesgo(ps.precios_diarios([p['ticker'] for p in acciones]))
+    except Exception as e:
+        _logger.warning('Sin precios para el peso de la cartera: %s', e)
+        vol, corr = pd.Series(dtype=float), pd.DataFrame()
+    for p in acciones:
+        v = vol.get(p['ticker'])
+        s = ps.peso_de_posicion(p['portfolio_pct'], p['value_grupo'], None if v is None else float(v))
+        p.update(volatility_pct=None if v is None else round(float(v), 1), peso_objetivo_pct=s['objetivo'],
+                 peso_techo_pct=s['techo'], peso_accion=s['accion'], peso_motivo=s['motivo'])
+        # «Deberías tener»: subir al objetivo, bajar al techo o quedarse donde está.
+        p['peso_recomendado_pct'] = (s['objetivo'] if s['accion'] == 'AÑADIR' else s['techo'] if s['accion'] == 'REDUCIR'
+                                     else round(p['portfolio_pct'], 1))
+    pesos = {p['ticker']: p['portfolio_pct'] for p in acciones}
+    grupos = ps.ciclos(corr, list(pesos)) if not corr.empty else {}
+    for p in acciones:
+        otros = [t for t in grupos.get(p['ticker'], ()) if t != p['ticker']]
+        p['ciclo'] = otros
+    return ps.aviso_de_ciclos(pesos, corr, vol) if not corr.empty else []
+
+
+def _accion_final(accion_ia, p: dict) -> str:
+    """La IA decide si la tesis sigue viva (VENDER); el peso, la casa.
+
+    Sin esto la IA proponía AÑADIR a lo que no es Prioridad, que es sugerir una compra
+    sin el análisis de la lista detrás.
+    """
+    accion_ia = str(accion_ia or '').upper()
+    if accion_ia == 'VENDER':
+        return 'VENDER'
+    if p.get('asset_type', 'stock') != 'stock' or p.get('es_fondo') or not p.get('peso_accion'):
+        return accion_ia if accion_ia in ('MANTENER', 'REDUCIR') else 'MANTENER'
+    return p['peso_accion']
+
+
 def _sobreponderada(p: dict) -> bool:
-    """Misma regla que la ficha («↑ SOBRE»): pesa más de 1,5 veces su óptimo."""
-    opt = p.get('optimal_size_pct')
-    return bool(opt) and (p.get('portfolio_pct') or 0) > opt * 1.5
+    """Pesa más que su techo (position_sizer.peso_de_posicion)."""
+    techo = p.get('peso_techo_pct')
+    return bool(techo) and (p.get('portfolio_pct') or 0) > techo
 
 
 def _corregir_si_añade_sobreponderada(row: dict, p: dict) -> None:
@@ -4327,8 +4341,8 @@ def _corregir_si_añade_sobreponderada(row: dict, p: dict) -> None:
         if row.get('action') == 'AÑADIR':
             row['action'] = 'MANTENER'
         row['options_rationale'] = (
-            f"Ya pesa un {p.get('portfolio_pct', 0):.1f}% frente a un óptimo del "
-            f"{p['optimal_size_pct']:.1f}%: no añadas, ni con acciones ni vendiendo puts.")
+            f"Ya pesa un {p.get('portfolio_pct', 0):.1f}% con un techo del "
+            f"{p['peso_techo_pct']:.1f}%: no añadas, ni con acciones ni vendiendo puts.")
 
 
 def _validar_contrato(rec: dict, expiries: list, objetivo: float | None,
@@ -4384,9 +4398,9 @@ def options_chain(ticker: str):
     thesis    = (request.args.get('thesis', '') or '')[:800]   # AI analysis text
     key_risk  = (request.args.get('key_risk', '') or '')[:300]
     peso      = _safe_float(request.args.get('weight'), 0.0)
-    peso_opt  = _safe_float(request.args.get('optimal'), 0.0)
+    techo     = _safe_float(request.args.get('techo'), 0.0)
     objetivo  = _safe_float(request.args.get('target'), 0.0) or None
-    sobrepond = _sobreponderada({'portfolio_pct': peso, 'optimal_size_pct': peso_opt})
+    sobrepond = _sobreponderada({'portfolio_pct': peso, 'peso_techo_pct': techo})
 
     try:
         t = _yf.Ticker(ticker)

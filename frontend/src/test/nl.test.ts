@@ -104,16 +104,22 @@ describe('nl helpers', () => {
       cerebro_smart_money: true,
       days_to_earnings: 3,
       earnings_warning: true,
-      optimal_size_pct: 4,
-      portfolio_pct: 8,
+      upside_propio_pct: 25,
     })
 
-    expect(text).toContain('stop loss superado')
-    expect(text).toContain('señal de salida activa')
+    expect(text).toContain('Pierde un 9 %')
+    expect(text).toContain('le queda un 25 % hasta nuestro objetivo')
+    expect(text).not.toContain('stop')
+    expect(text).toContain('la tesis se ha roto')
     expect(text).toContain('trampa de dividendo')
     expect(text).toContain('Smart money activo')
     expect(text).toContain('earnings en 3 días')
-    expect(text).toContain('sobreponderada')
+  })
+
+  it('una posición en su objetivo habla de vender, no de un porcentaje ganado', () => {
+    const text = nlPositionStatus({ pl_pct: 14, action: 'MANTENER', upside_propio_pct: -2 })
+    expect(text).toContain('ya está en nuestro objetivo')
+    expect(text).not.toContain('objetivo de beneficios')
   })
 
   it('describes valuation scenarios', () => {

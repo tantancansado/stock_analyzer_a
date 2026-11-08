@@ -1,136 +1,121 @@
-"""Position sizing: los fallos que tuvo eran silenciosos y duraron meses.
+"""Peso en cartera: igual para cada idea de PRIORIDAD, ajustado por riesgo y ciclo.
 
-El CSV de producción tenía los 14 tickers con volatilidad 20.0, stop 40.0 y
-Kelly 10.0 — idénticos — y repartía el 111.8% del capital. Cada uno de estos
-tests fija uno de los motivos.
+Sustituye el 8-nov-2026 a un Kelly sobre todo el tracker que daba casi el mismo
+número a todas, ponía stops técnicos (el usuario vende a precio objetivo) y
+dimensionaba la lista vieja de cinco dimensiones, no Value US.
 """
+import numpy as np
 import pandas as pd
 import pytest
 
-from position_sizer import PositionSizer, kelly_inputs_reales
+import position_sizer as ps
 
 
-@pytest.fixture
-def sizer():
-    return PositionSizer(portfolio_value=100000, max_risk_per_trade=0.02)
+def _precios(vols: dict[str, float], parecidas: tuple[str, ...] = (), n=260, semilla=0):
+    """Cierres diarios con la volatilidad anual pedida; las `parecidas` comparten casi todo el movimiento."""
+    rng = np.random.default_rng(semilla)
+    comun = rng.normal(0, 1, n)
+    cols = {}
+    for t, v in vols.items():
+        propio = rng.normal(0, 1, n)
+        z = 0.95 * comun + 0.31 * propio if t in parecidas else propio
+        z = z / z.std()
+        cols[t] = 100 * np.exp(np.cumsum(z * v / 100 / np.sqrt(252)))
+    return pd.DataFrame(cols, index=pd.bdate_range('2025-11-01', periods=n))
 
 
-def test_precio_nan_no_revienta(sizer):
-    # El CSV de oportunidades trae NaN cuando no se pudo leer el precio. Un NaN
-    # no es None, así que pasaba el guardia y reventaba en int(valor/precio):
-    # ValueError: cannot convert float NaN to integer. El script murió el
-    # 11-feb-2026 y el workflow se lo tragó con `|| echo`.
-    r = sizer.calculate_position_size('XXXX', 75.0, 'BUENA', False,
-                                      current_price=float('nan'))
-    assert 'error' in r
+def test_la_volatilidad_sale_de_los_precios():
+    vol, _ = ps.riesgo(_precios({'A': 20.0, 'B': 60.0}))
+    assert vol['A'] == pytest.approx(20.0, abs=1.5)
+    assert vol['B'] == pytest.approx(60.0, abs=4.0)
 
 
-def test_precio_cero_no_dimensiona(sizer):
-    r = sizer.calculate_position_size('XXXX', 75.0, 'BUENA', False, current_price=0)
-    assert 'error' in r
+def test_sin_medio_año_de_precios_no_hay_volatilidad():
+    vol, _ = ps.riesgo(_precios({'NUEVA': 30.0}, n=60))
+    assert 'NUEVA' not in vol
 
 
-def test_sin_volatilidad_no_se_inventa_un_numero(sizer, monkeypatch):
-    # Antes devolvía 0.20 al fallar, que se convierte en un stop del 40% que la
-    # interfaz pinta como si estuviera calculado.
-    monkeypatch.setattr(sizer, 'get_volatility', lambda *a, **k: None)
-    r = sizer.calculate_position_size('XXXX', 75.0, 'BUENA', False, current_price=100.0)
-    assert 'error' in r
-    assert 'volatilidad' in r['error'].lower()
+@pytest.mark.parametrize('vol,peso', [(19.0, 5.0), (30.0, 5.0), (34.0, 4.5), (64.0, 2.5), (200.0, 1.0)])
+def test_posicion_completa_por_riesgo(vol, peso):
+    """KO lleva la entera; las de equipos de chips, la mitad; nunca menos del mínimo."""
+    assert ps.peso_completo(vol) == peso
 
 
-def test_get_volatility_pide_calendario_suficiente(sizer, monkeypatch):
-    # `days` son SESIONES. Pedía days+10 días naturales (40 para 30 sesiones,
-    # unas 28 reales), así que el `len(df) < days` saltaba siempre y todos los
-    # tickers caían al valor por defecto.
-    capturado = {}
-
-    def fake_download(ticker, start=None, end=None, **kw):
-        capturado['naturales'] = (end - start).days
-        return pd.DataFrame()
-
-    monkeypatch.setattr('position_sizer.yf.download', fake_download)
-    sizer.get_volatility('XXXX', days=30)
-    # 30 sesiones necesitan ~42 días naturales solo por los fines de semana,
-    # más festivos. Con margen: al menos 50.
-    assert capturado['naturales'] >= 50
+@pytest.mark.parametrize('vol', [None, float('nan'), 0.0])
+def test_sin_volatilidad_no_se_inventa_un_peso(vol):
+    assert ps.peso_completo(vol) is None
 
 
-def test_get_volatility_sin_datos_devuelve_none(sizer, monkeypatch):
-    monkeypatch.setattr('position_sizer.yf.download',
-                        lambda *a, **k: pd.DataFrame())
-    assert sizer.get_volatility('XXXX') is None
+def _lista(*filas):
+    return pd.DataFrame([{'ticker': t, 'value_grupo': g, 'value_score': s} for t, g, s in filas])
 
 
-def test_kelly_inputs_exigen_muestra(tmp_path):
-    d = tmp_path / 'docs' / 'portfolio_tracker'
-    d.mkdir(parents=True)
-    pd.DataFrame({'return_90d': [5.0, -3.0, 8.0]}).to_csv(d / 'recommendations.csv', index=False)
-    assert kelly_inputs_reales('90d', 30, docs=tmp_path / 'docs') == (None, None, None)
+def test_dos_por_ciclo_y_van_las_mas_baratas():
+    """Lam, KLA y Applied se mueven igual: la de peor nota se queda sin peso."""
+    precios = _precios({'LRCX': 64.0, 'KLAC': 64.0, 'AMAT': 64.0, 'KO': 19.0},
+                       parecidas=('LRCX', 'KLAC', 'AMAT'))
+    vol, corr = ps.riesgo(precios)
+    assert corr.at['LRCX', 'AMAT'] >= ps.CORRELACION_CICLO
+    r = ps.pesos_de_ideas(_lista(('AMAT', 'PRIORIDAD', 85), ('LRCX', 'PRIORIDAD', 92),
+                                 ('KLAC', 'PRIORIDAD', 88), ('KO', 'PRIORIDAD', 81)), vol, corr).set_index('ticker')
+    assert r.loc['LRCX', 'peso_objetivo_pct'] == 2.5
+    assert r.loc['KLAC', 'peso_objetivo_pct'] == 2.5
+    assert r.loc['AMAT', 'peso_objetivo_pct'] == 0.0
+    assert 'LRCX y KLAC' in r.loc['AMAT', 'peso_motivo']
+    assert r.loc['KO', 'peso_objetivo_pct'] == 5.0
+    assert r.loc['KO', 'ciclo'] == ''
 
 
-def test_kelly_inputs_miden_ganancias_y_perdidas_por_separado(tmp_path):
-    d = tmp_path / 'docs' / 'portfolio_tracker'
-    d.mkdir(parents=True)
-    retornos = [10.0] * 60 + [-5.0] * 40
-    pd.DataFrame({'return_90d': retornos}).to_csv(d / 'recommendations.csv', index=False)
-    win, avg_win, avg_loss = kelly_inputs_reales('90d', 30, docs=tmp_path / 'docs')
-    assert win == pytest.approx(0.60)
-    assert avg_win == pytest.approx(10.0)
-    # La pérdida media se MIDE. Antes se "estimaba" con
-    # avg_win * (w/(1-w)) * -0.6, y al sustituirla en Kelly el ratio se
-    # cancelaba: quedaba 0.4*w, o sea el tope del 10% para cualquier win rate
-    # por encima del 50%. El "Kelly criterion" era una constante.
-    assert avg_loss == pytest.approx(-5.0)
+def test_observar_no_recibe_dinero_nuevo():
+    vol, corr = ps.riesgo(_precios({'X': 25.0}))
+    r = ps.pesos_de_ideas(_lista(('X', 'OBSERVAR', 55)), vol, corr).iloc[0]
+    assert r['peso_objetivo_pct'] == 0.0
+    assert 'Observar' in r['peso_motivo']
 
 
-def test_kelly_no_es_constante_con_el_win_rate(sizer):
-    flojo = sizer.calculate_kelly_criterion(0.52, 10.0, -9.0)
-    bueno = sizer.calculate_kelly_criterion(0.75, 10.0, -9.0)
-    assert flojo < bueno
+def test_prioridad_sin_precios_no_se_dimensiona():
+    vol, corr = ps.riesgo(_precios({'X': 25.0}))
+    r = ps.pesos_de_ideas(_lista(('Y', 'PRIORIDAD', 90)), vol, corr).iloc[0]
+    assert r['peso_objetivo_pct'] is None or r['peso_objetivo_pct'] != r['peso_objetivo_pct']
 
 
-def test_dos_picks_buenos_distintos_no_salen_iguales(sizer, monkeypatch):
-    # Este es el fallo que de verdad se veía. El tope se aplicaba DESPUÉS de
-    # multiplicar por 1.3/1.2/1.2/1.2, así que cualquier combinación cuyo
-    # producto pasara de 1 acababa recortada exactamente en el mismo 10%: en el
-    # CSV de producción, 10 de 13 posiciones tenían el tamaño idéntico y el
-    # "ajuste por volatilidad, score y timing" del subtítulo no ajustaba nada.
-    #
-    # Un pick excelente y uno solo bueno tienen que salir DISTINTOS, no los dos
-    # pegados al techo.
-    monkeypatch.setattr(sizer, 'get_volatility', lambda *a, **k: 0.03)
-    kw = dict(current_price=100.0, win_rate=0.60, avg_win=14.0, avg_loss=-9.5)
-    excelente = sizer.calculate_position_size('AAA', 85.0, 'LEGENDARY', True,
-                                              sector_status='LEADING', **kw)
-    bueno = sizer.calculate_position_size('BBB', 72.0, 'EXCELENTE', True,
-                                          sector_status='NEUTRAL', **kw)
-    assert excelente['position_size_pct'] > bueno['position_size_pct']
-    # y el techo se respeta
-    assert excelente['position_size_pct'] <= sizer.max_position_size * 100 + 1e-9
+# ── Posiciones que ya se tienen ─────────────────────────────────────────────
+
+def test_el_ejemplo_del_usuario_un_15_por_ciento():
+    """«Si tiene un 15 %, que le diga deberías tener un 4 %»: con el techo al doble."""
+    r = ps.peso_de_posicion(15.0, 'PRIORIDAD', 34.0)
+    assert r['accion'] == 'REDUCIR'
+    assert (r['objetivo'], r['techo']) == (4.5, 9.0)
+    assert 'recorta hasta 9 %' in r['motivo']
 
 
-def test_el_peor_pick_sale_por_debajo_del_mejor(sizer, monkeypatch):
-    monkeypatch.setattr(sizer, 'get_volatility', lambda *a, **k: 0.03)
-    kw = dict(current_price=100.0, win_rate=0.60, avg_win=14.0, avg_loss=-9.5)
-    optimo = sizer.calculate_position_size('AAA', 85.0, 'LEGENDARY', True,
-                                           sector_status='LEADING', **kw)
-    peor = sizer.calculate_position_size('BBB', 50.0, 'MODERADA', False,
-                                         sector_status='LAGGING', **kw)
-    assert optimo['position_size_pct'] > peor['position_size_pct']
+def test_entre_objetivo_y_techo_se_deja_correr():
+    assert ps.peso_de_posicion(7.0, 'PRIORIDAD', 30.0)['accion'] == 'MANTENER'
 
 
-def test_volatilidad_alta_reduce_la_posicion(sizer, monkeypatch):
-    def size_con(vol):
-        monkeypatch.setattr(sizer, 'get_volatility', lambda *a, **k: vol)
-        return sizer.calculate_position_size('AAA', 75.0, 'BUENA', False,
-                                             current_price=100.0, win_rate=0.60,
-                                             avg_win=14.0, avg_loss=-9.5)['position_size_pct']
-    assert size_con(0.25) < size_con(0.03)
+def test_prioridad_por_debajo_puede_subir():
+    r = ps.peso_de_posicion(2.0, 'PRIORIDAD', 30.0)
+    assert r['accion'] == 'AÑADIR' and 'hasta 5 %' in r['motivo']
 
 
-def test_el_stop_sale_de_la_volatilidad_real(sizer, monkeypatch):
-    monkeypatch.setattr(sizer, 'get_volatility', lambda *a, **k: 0.045)
-    r = sizer.calculate_position_size('AAA', 75.0, 'BUENA', False, current_price=100.0)
-    assert r['stop_loss_pct'] == pytest.approx(9.0)   # 2x ATR
-    assert r['volatility'] == pytest.approx(4.5)
+@pytest.mark.parametrize('grupo,texto', [('OBSERVAR', 'Observar'), ('', 'no está en la lista')])
+def test_lo_que_no_es_prioridad_no_se_añade(grupo, texto):
+    r = ps.peso_de_posicion(2.0, grupo, 30.0)
+    assert r['accion'] == 'MANTENER' and texto in r['motivo'] and r['objetivo'] is None
+    assert ps.peso_de_posicion(8.0, grupo, 30.0)['accion'] == 'REDUCIR'
+
+
+def test_varias_del_mismo_ciclo_avisan_con_el_tope_de_su_riesgo():
+    """Dos de chips (2,5 % completas) juntas no deberían pasar del 5 %, no del 10 %."""
+    vol, corr = ps.riesgo(_precios({'AMAT': 64.0, 'LRCX': 64.0, 'KO': 19.0}, parecidas=('AMAT', 'LRCX')))
+    avisos = ps.aviso_de_ciclos({'AMAT': 4.0, 'LRCX': 3.0, 'KO': 20.0}, corr, vol)
+    assert len(avisos) == 1
+    assert 'AMAT y LRCX' in avisos[0] and '7 %' in avisos[0] and 'del 5 %' in avisos[0]
+    assert 'más baratas' not in avisos[0]          # son dos: no sobra ninguna
+    assert ps.aviso_de_ciclos({'AMAT': 2.5, 'LRCX': 2.5}, corr, vol) == []
+
+
+def test_tres_del_mismo_ciclo_dicen_cuales_sobran():
+    vol, corr = ps.riesgo(_precios({'AMAT': 64.0, 'LRCX': 64.0, 'KLAC': 64.0}, parecidas=('AMAT', 'LRCX', 'KLAC')))
+    avisos = ps.aviso_de_ciclos({'AMAT': 3.0, 'LRCX': 3.0, 'KLAC': 3.0}, corr, vol)
+    assert 'Quédate con las 2 más baratas' in avisos[0]

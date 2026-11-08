@@ -144,6 +144,9 @@ export interface ValueOpportunity {
   // PRIORIDAD por recorrido: DCF y P/E propios le ven +100 % con el beneficio en su tendencia
   value_dobla?: boolean | null
   recorrido_propio_pct?: number | null
+  // Peso en cartera (position_sizing.csv), pegado al cargar la lista
+  peso_objetivo_pct?: number | null
+  peso_motivo?: string | null
   // Hedge Fund 13F consensus
   hedge_fund_count?: number
   hedge_fund_names?: string
@@ -424,6 +427,15 @@ export const fetchValueOpportunities = async (): Promise<{
           }
         })
       } catch { /* conviction enrichment failed — show tickers without grades */ }
+      // El peso en cartera lo calcula position_sizer después del filtro: si no está,
+      // la lista sale igual y la ficha no enseña peso.
+      try {
+        const pesos = new Map((await fetchPesosValue()).map(p => [p.ticker, p]))
+        base.data = base.data.map(r => {
+          const p = pesos.get(r.ticker)
+          return p ? { ...r, peso_objetivo_pct: p.peso_objetivo_pct, peso_motivo: p.peso_motivo } : r
+        })
+      } catch { /* sin pesos: la lista no depende de ellos */ }
       return { data: base }
     } catch { /* el CSV no se pudo leer: se prueba la API */ }
   }
@@ -432,6 +444,32 @@ export const fetchValueOpportunities = async (): Promise<{
 }
 
 const STATIC_DATA_BASE = (import.meta.env.VITE_CSV_BASE as string | undefined) || 'https://tantancansado.github.io/stock_analyzer_a'
+
+/** Peso en cartera de cada idea de Value US (position_sizer.py). */
+export interface PesoIdea {
+  ticker: string
+  value_grupo: string
+  volatilidad_pct: number | null
+  peso_completo_pct: number | null
+  peso_objetivo_pct: number | null
+  ciclo: string
+  peso_motivo: string
+}
+
+export async function fetchPesosValue(): Promise<PesoIdea[]> {
+  const res = await fetch(`${STATIC_DATA_BASE}/position_sizing.csv`, { cache: 'no-store' })
+  if (!res.ok) throw new Error(`CSV fetch failed: ${res.status}`)
+  const num = (v: string) => (v === '' || Number.isNaN(Number(v)) ? null : Number(v))
+  const filas = parseCsvRows(await res.text())
+  // El CSV del dimensionador viejo (Kelly) no trae el motivo: no es «cero ideas».
+  if (filas.length > 0 && !('peso_motivo' in filas[0])) throw new Error('El cálculo del peso aún no se ha publicado: sale con el próximo pipeline')
+  return filas
+    .map(r => ({
+      ticker: r.ticker, value_grupo: r.value_grupo ?? '', volatilidad_pct: num(r.volatilidad_pct),
+      peso_completo_pct: num(r.peso_completo_pct), peso_objetivo_pct: num(r.peso_objetivo_pct),
+      ciclo: r.ciclo ?? '', peso_motivo: r.peso_motivo ?? '',
+    }))
+}
 
 /**
  * Fetcher unificado para endpoints con dualidad estático/API.
@@ -499,7 +537,7 @@ export const VALUE_NUMERIC = new Set([
   'revenue_growth_pct','pe_forward','pe_trailing','market_cap','payout_ratio_pct',
   'dividend_rate','five_yr_avg_dividend_yield_pct','shares_change_pct','interest_coverage',
   'value_barata','per_norm','per_mediana_10a','per_z','precio_per_menos_1s','precio_per_media',
-  'bpa_sobre_tendencia_pct','ventas_anual_pct','ventas_anual_anio','revision_4s_pct','revision_13s_pct','recorrido_propio_pct',
+  'bpa_sobre_tendencia_pct','ventas_anual_pct','ventas_anual_anio','revision_4s_pct','revision_13s_pct','recorrido_propio_pct','peso_objetivo_pct',
   'analyst_revision_momentum','fundamental_score','earnings_quality_score','growth_acceleration_score',
   'relative_strength_score','financial_health_score','catalyst_timing_score','rs_line_score',
   'rs_line_percentile','eps_growth_yoy','eps_accel_quarters','rev_growth_yoy','rev_accel_quarters',

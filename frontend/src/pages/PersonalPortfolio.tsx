@@ -86,28 +86,29 @@ interface PositionResult {
   action: 'MANTENER' | 'AÑADIR' | 'REDUCIR' | 'VENDER'
   conviction: 'ALTA' | 'MEDIA' | 'BAJA'
   target_price?: number
-  stop_loss?: number
-  recommended_weight_pct: number
+  recommended_weight_pct: number | null
   analysis: string
   key_risk: string
   options_strategy?: string
   options_rationale?: string
-  // Position sizing (stocks only)
-  volatility_pct?: number
-  kelly_pct?: number
-  optimal_size_pct?: number
-  stop_loss_atr?: number
-  stop_loss_pct_atr?: number
-  risk_amount?: number
-  vol_multiplier?: number
+  // Peso y valoración de la casa (position_sizer y Value US), solo acciones
+  es_fondo?: boolean
+  value_grupo?: string
+  objetivo_propio?: number | null
+  upside_propio_pct?: number | null
+  volatility_pct?: number | null
+  peso_objetivo_pct?: number | null
+  peso_techo_pct?: number | null
+  peso_accion?: 'AÑADIR' | 'MANTENER' | 'REDUCIR' | null
+  peso_motivo?: string | null
+  ciclo?: string[] | null
 }
 
-interface RiskMetrics {
-  total_risk_amount: number
-  total_risk_pct: number
-  kelly_base_pct: number | null
-  oversized_positions: string[]
-  win_rate_used: number | null
+interface PesoCartera {
+  reducir: string[]
+  añadir: string[]
+  ciclos: string[]
+  en_prioridad_pct: number
 }
 
 interface PortfolioAnalysis {
@@ -118,7 +119,7 @@ interface PortfolioAnalysis {
 
 interface AnalysisResult {
   total_value: number
-  risk_metrics?: RiskMetrics
+  peso_cartera?: PesoCartera
   portfolio_analysis: PortfolioAnalysis
   positions: PositionResult[]
 }
@@ -579,13 +580,13 @@ function OptionsPanel({ result, sym }: { result: PositionResult; sym: string }) 
       const params = new URLSearchParams({
         price:      String(result.current_price ?? 0),
         pl:         String(result.pl_pct ?? 0),
-        upside:     String(result.analyst_upside ?? 0),
+        upside:     String(result.upside_propio_pct ?? result.analyst_upside ?? 0),
         action:     result.action,
         conviction: result.conviction,
         thesis:     result.analysis ?? '',
         key_risk:   result.key_risk ?? '',
         weight:     String(result.portfolio_pct ?? 0),
-        optimal:    String(result.optimal_size_pct ?? 0),
+        techo:      String(result.peso_techo_pct ?? 0),
         target:     String(result.target_price ?? 0),
       })
       const { data: json } = await apiClient.get(`/api/options-chain/${result.ticker}?${params}`)
@@ -981,8 +982,8 @@ function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluen
   const div    = cerebro.divMap[ticker]
   const hasCerebro = !!(exit || trap || sm || div) || Boolean(driftAlert)
 
-  const overweight  = result && result.portfolio_pct > (result.optimal_size_pct ?? 100) * 1.5
-  const underweight = result && result.portfolio_pct < (result.optimal_size_pct ?? 0) * 0.5 && (result.optimal_size_pct ?? 0) > 0
+  const overweight  = result?.peso_accion === 'REDUCIR'
+  const underweight = result?.peso_accion === 'AÑADIR'
 
   return (
     <div className={`glass rounded-2xl overflow-clip transition-all border h-full flex flex-col ${
@@ -1152,8 +1153,8 @@ function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluen
             cerebro_exit:    !!exit,
             cerebro_trap:    !!trap,
             cerebro_smart_money: !!sm,
-            optimal_size_pct:    result?.optimal_size_pct,
-            portfolio_pct:       result?.portfolio_pct,
+            upside_propio_pct:   result?.upside_propio_pct,
+            peso_accion:         result?.peso_accion,
           })}
         </p>
       </div>
@@ -1270,8 +1271,7 @@ function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluen
             pos.coupon_rate != null && { label: 'Div fijo', value: `${pos.coupon_rate.toFixed(2)}%`, valueClass: 'text-emerald-400' },
             result.current_yield != null && { label: 'Yield actual', value: `${result.current_yield.toFixed(2)}%`, valueClass: 'text-emerald-400' },
             pos.par_value != null && { label: 'Par', value: `${sym}${pos.par_value}` },
-            result.analyst_target != null && { label: 'Target', value: `${sym}${result.analyst_target.toFixed(0)}` },
-            result.stop_loss != null && { label: 'Stop loss', value: `${sym}${result.stop_loss.toFixed(2)}`, valueClass: 'text-red-400' },
+            result.analyst_target != null && { label: 'Consenso', value: precio(result.analyst_target, ticker, pos.currency, 0) },
             { label: 'Peso', value: `${result.portfolio_pct.toFixed(1)}%` },
           ]
         } else {
@@ -1279,8 +1279,10 @@ function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluen
             result.forward_pe != null && { label: 'PE fwd', value: `${result.forward_pe.toFixed(1)}x` },
             result.fcf_yield != null && { label: 'FCF yield', value: `${result.fcf_yield.toFixed(1)}%`, valueClass: result.fcf_yield >= 5 ? 'text-emerald-400' : result.fcf_yield < 0 ? 'text-red-400' : 'text-foreground' },
             result.dividend_yield != null && result.dividend_yield > 0 && { label: 'Div yield', value: `${result.dividend_yield.toFixed(2)}%`, valueClass: 'text-emerald-400' },
-            result.analyst_target != null && { label: 'Target', value: `${sym}${result.analyst_target.toFixed(0)}`, suffix: result.analyst_upside != null ? ` ${result.analyst_upside >= 0 ? '+' : ''}${result.analyst_upside.toFixed(0)}%` : undefined, suffixClass: result.analyst_upside != null && result.analyst_upside >= 0 ? 'text-emerald-400' : 'text-red-400' },
-            result.stop_loss != null && { label: 'Stop loss', value: `${sym}${result.stop_loss.toFixed(2)}`, valueClass: 'text-red-400' },
+            // El objetivo que manda es el nuestro (consenso, DCF y P/E): el mismo de Value y de las alertas de venta.
+            result.objetivo_propio != null
+              ? { label: 'Objetivo', value: precio(result.objetivo_propio, ticker, pos.currency, 0), suffix: result.upside_propio_pct != null ? ` ${result.upside_propio_pct >= 0 ? '+' : ''}${result.upside_propio_pct.toFixed(0)}%` : undefined, suffixClass: result.upside_propio_pct != null && result.upside_propio_pct >= 0 ? 'text-emerald-400' : 'text-red-400' }
+              : result.analyst_target != null && { label: 'Consenso', value: precio(result.analyst_target, ticker, pos.currency, 0), suffix: result.analyst_upside != null ? ` ${result.analyst_upside >= 0 ? '+' : ''}${result.analyst_upside.toFixed(0)}%` : undefined, suffixClass: 'text-muted-foreground' },
             { label: 'Peso', value: `${result.portfolio_pct.toFixed(1)}%`, valueClass: overweight ? 'text-red-400' : underweight ? 'text-blue-400' : 'text-foreground' },
           ]
         }
@@ -1316,31 +1318,16 @@ function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluen
         </div>
       )}
 
-      {/* ── SIZING ROW (stocks only) ── */}
-      {result?.volatility_pct != null && (pos.asset_type ?? 'stock') === 'stock' && (
-        <div className="px-4 py-2.5 mx-3 mb-3 rounded-xl bg-primary/5 border border-primary/10">
-          <div className="flex items-center justify-between mb-1.5">
-            <span className="etiqueta-seccion text-primary">Sizing</span>
-            {(overweight || underweight) && (
-              <span className={`etiqueta-seccion ${overweight ? 'text-red-400' : 'text-blue-400'}`}>
-                {overweight ? '↑ SOBRE' : '↓ INFRA'}
-              </span>
-            )}
+      {/* ── PESO (acciones; lo calcula la casa) ── */}
+      {result?.peso_motivo && (
+        <div className="px-4 py-2.5 mx-3 mb-3 rounded-xl bg-muted/10 border border-border/20">
+          <div className="flex items-center gap-4 flex-wrap mb-1">
+            <span className="etiqueta-seccion">Peso</span>
+            <MetricChip label="Hoy" value={`${result.portfolio_pct.toFixed(1)}%`} />
+            {result.peso_objetivo_pct != null && <MetricChip label="Normal" value={`${result.peso_objetivo_pct.toFixed(1)}%`} />}
+            {result.peso_techo_pct != null && <MetricChip label="Techo" value={`${result.peso_techo_pct.toFixed(1)}%`} />}
           </div>
-          <div className="flex gap-4 flex-wrap">
-            <MetricChip
-              label="Vol"
-              value={`${result.volatility_pct.toFixed(1)}%`}
-              valueClass={result.volatility_pct > 15 ? 'text-red-400' : result.volatility_pct > 8 ? 'text-amber-400' : 'text-foreground'}
-            />
-            {result.kelly_pct != null && <MetricChip label="Kelly" value={`${result.kelly_pct.toFixed(1)}%`} />}
-            {result.optimal_size_pct != null && (
-              <MetricChip label="Óptimo" value={`${result.optimal_size_pct.toFixed(1)}%`} valueClass={overweight ? 'text-red-400' : underweight ? 'text-blue-400' : 'text-primary'} />
-            )}
-            {result.stop_loss_atr != null && (
-              <MetricChip label="Stop ATR" value={`${sym}${result.stop_loss_atr.toFixed(2)}`} valueClass="text-red-400" />
-            )}
-          </div>
+          <p className="text-micro text-muted-foreground leading-relaxed">{result.peso_motivo}</p>
         </div>
       )}
 
@@ -1389,13 +1376,129 @@ function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluen
 // Cache key: sorted ticker list + shares + avg_price fingerprint
 // TTL: 6 hours. On mutation: invalidate immediately and re-analyze.
 
-const CACHE_KEY   = 'sa-portfolio-analysis-v1'
+// v2: el peso lo calcula la casa (position_sizer); los análisis guardados con el Kelly no lo traen.
+const CACHE_KEY   = 'sa-portfolio-analysis-v2'
 const CACHE_TTL_MS = 6 * 60 * 60 * 1000  // 6 hours
 
 interface CacheEntry {
   fingerprint: string
   result: AnalysisResult
   ts: number
+}
+
+// ── Peso en cartera y camino al objetivo ─────────────────────────────────────
+
+const pct = (x: number) => `${x.toLocaleString('es-ES', { maximumFractionDigits: 1 })} %`
+
+/** Peso de hoy de cada acción contra su franja: de su peso normal a su techo. */
+function PesoEnCartera({ positions, ciclos }: Readonly<{ positions: PositionResult[]; ciclos: string[] }>) {
+  const acciones = positions.filter(p => (p.asset_type ?? 'stock') === 'stock' && !p.es_fondo && p.peso_techo_pct != null)
+  if (acciones.length === 0) return null
+  const fondos = positions.filter(p => p.es_fondo)
+  const escala = Math.max(...acciones.map(p => Math.max(p.portfolio_pct, p.peso_techo_pct ?? 0)), 1)
+  const ancho = (x: number) => `${Math.min(x / escala, 1) * 100}%`
+  return (
+    <div className="pt-3 border-t border-border/30">
+      <div className="etiqueta-seccion mb-1">Peso en cartera</div>
+      <p className="text-micro text-muted-foreground mb-2 leading-relaxed">
+        La barra es lo que pesa hoy y la raya, su techo; la franja va de su peso normal al techo. Cada
+        idea en Prioridad vale lo mismo, menos si se mueve mucho; lo que no es Prioridad no se amplía.
+        El porqué de cada una está en su ficha.
+      </p>
+      <ul className="space-y-2.5">
+        {[...acciones].sort((a, b) => b.portfolio_pct - a.portfolio_pct).map(p => {
+          const techo = p.peso_techo_pct ?? 0
+          const normal = p.peso_objetivo_pct ?? 0
+          const destino = p.peso_accion === 'REDUCIR' ? `recorta a ${pct(techo)}`
+            : p.peso_accion === 'AÑADIR' && p.peso_objetivo_pct != null ? `puede subir a ${pct(p.peso_objetivo_pct)}` : null
+          return (
+            <li key={p.ticker}>
+              <div className="flex items-baseline justify-between gap-2 text-micro">
+                <span className="font-mono font-bold text-foreground">{p.ticker}</span>
+                <span className="tabular-nums text-muted-foreground">
+                  {pct(p.portfolio_pct)}
+                  {destino && <> · <span className="font-semibold" style={{ color: p.peso_accion === 'REDUCIR' ? 'var(--warn)' : 'var(--primary)' }}>{destino}</span></>}
+                </span>
+              </div>
+              <div className="relative h-2.5 mt-1 rounded-full barra-pista overflow-clip" role="img"
+                   aria-label={`${p.ticker}: pesa ${pct(p.portfolio_pct)}; techo ${pct(techo)}${p.peso_objetivo_pct != null ? `, normal ${pct(normal)}` : ''}`}>
+                <div className="absolute inset-y-0 bg-primary/20" style={{ left: ancho(normal), width: `${Math.max(0, (techo - normal) / escala) * 100}%` }} />
+                <div className="absolute left-0 rounded-full bg-foreground/70" style={{ width: ancho(p.portfolio_pct), top: '30%', bottom: '30%' }} />
+                <div className="absolute inset-y-0 w-0.5 bg-foreground" style={{ left: `calc(${ancho(techo)} - 1px)` }} />
+              </div>
+            </li>
+          )
+        })}
+      </ul>
+      {fondos.length > 0 && (
+        <p className="text-micro text-muted-foreground mt-2">
+          {fondos.map(f => f.ticker).join(', ')}: {pct(fondos.reduce((t, f) => t + f.portfolio_pct, 0))} en fondos, la base de la cartera. No llevan peso propio.
+        </p>
+      )}
+      {ciclos.map(c => (
+        <div key={c} className="flex items-start gap-2 mt-2 p-2 rounded-lg bg-muted/10 border border-border/20 text-micro">
+          <AlertTriangle size={12} className="mt-0.5 shrink-0" style={{ color: 'var(--warn)' }} />
+          <span className="text-foreground/80">{c}</span>
+        </div>
+      ))}
+    </div>
+  )
+}
+
+/** De lo que se pagó a nuestro objetivo, y dónde está hoy. El usuario vende al llegar. */
+function CaminoAlObjetivo({ positions }: Readonly<{ positions: PositionResult[] }>) {
+  const filas = positions
+    .filter(p => (p.asset_type ?? 'stock') === 'stock' && p.objetivo_propio != null && p.avg_price > 0 && p.current_price > 0)
+    .sort((a, b) => (a.upside_propio_pct ?? 0) - (b.upside_propio_pct ?? 0))
+  if (filas.length === 0) return null
+  return (
+    <div className="pt-3 border-t border-border/30">
+      <div className="etiqueta-seccion mb-1">Camino a nuestro objetivo</div>
+      <p className="text-micro text-muted-foreground mb-2 leading-relaxed">
+        La marca fina es lo que pagaste, la gruesa nuestro objetivo y el punto, el precio de hoy. Arriba,
+        las que están más cerca de venderse.
+      </p>
+      <ul className="space-y-3">
+        {filas.map(p => {
+          const obj = p.objetivo_propio as number
+          const lo = Math.min(p.avg_price, p.current_price, obj)
+          const hi = Math.max(p.avg_price, p.current_price, obj)
+          // Las marcas, dentro de la barra: en el 100 % una raya de 2 px se sale por el borde.
+          const x = (v: number) => `calc(${hi > lo ? ((v - lo) / (hi - lo)) * 100 : 50}% - ${hi > lo && v === hi ? 2 : 0}px)`
+          const up = p.upside_propio_pct ?? 0
+          const desde = Math.min(p.avg_price, p.current_price)
+          const hasta = Math.max(p.avg_price, p.current_price)
+          return (
+            <li key={p.ticker}>
+              <div className="flex items-baseline justify-between gap-2 text-micro">
+                <span className="font-mono font-bold text-foreground">{p.ticker}</span>
+                <span className="tabular-nums text-muted-foreground">
+                  {up <= 0 ? 'en nuestro objetivo: toca decidir la venta' : `le queda +${up.toLocaleString('es-ES', { maximumFractionDigits: 0 })} %`}
+                </span>
+              </div>
+              <div className="relative h-3 mt-1" role="img"
+                   aria-label={`${p.ticker}: pagaste ${precio(p.avg_price, p.ticker, p.currency)}, hoy ${precio(p.current_price, p.ticker, p.currency)}, objetivo ${precio(obj, p.ticker, p.currency)}`}>
+                <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-1 rounded-full barra-pista" />
+                <div className="absolute top-1/2 -translate-y-1/2 h-1 rounded-full bg-primary/40"
+                     style={{ left: x(desde), width: `calc(${x(hasta)} - ${x(desde)} + 2px)` }} />
+                <div className="absolute inset-y-0 w-px bg-muted-foreground" style={{ left: x(p.avg_price) }} />
+                <div className="absolute inset-y-0 w-0.5 bg-foreground" style={{ left: x(obj) }} />
+                <div className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-2.5 h-2.5 rounded-full bg-primary ring-2 ring-background"
+                     style={{ left: x(p.current_price) }} />
+              </div>
+              {/* En el orden en que están en la barra: con el objetivo por debajo de lo
+                  pagado, «pagaste» va a la derecha. */}
+              <div className="flex justify-between gap-2 text-micro text-muted-foreground tabular-nums mt-0.5 flex-wrap">
+                {([['pagaste', p.avg_price], ['hoy', p.current_price], ['objetivo', obj]] as const)
+                  .slice().sort((a, b) => a[1] - b[1])
+                  .map(([etiqueta, v]) => <span key={etiqueta}>{etiqueta} {precio(v, p.ticker, p.currency)}</span>)}
+              </div>
+            </li>
+          )
+        })}
+      </ul>
+    </div>
+  )
 }
 
 function positionsFingerprint(positions: Position[]): string {
@@ -1761,71 +1864,8 @@ export default function PersonalPortfolio() {
             </div>
           )}
 
-          {/* Risk & Position Sizing overview */}
-          {result.risk_metrics && (
-            <div className="pt-3 border-t border-border/30">
-              <div className="etiqueta-seccion mb-2">
-                Risk Management · Position Sizing (Kelly)
-              </div>
-              <div className="flex gap-4 flex-wrap text-mini mb-2">
-                <span className="text-muted-foreground">
-                  Riesgo total cartera{' '}
-                  <strong className={result.risk_metrics.total_risk_pct > 10 ? 'text-red-400' : result.risk_metrics.total_risk_pct > 5 ? 'text-amber-400' : 'text-emerald-400'}>
-                    {result.risk_metrics.total_risk_pct.toFixed(1)}%
-                  </strong>
-                  <span className="text-muted-foreground ml-1">(${result.risk_metrics.total_risk_amount.toFixed(0)} en riesgo)</span>
-                </span>
-                {result.risk_metrics.kelly_base_pct != null && (
-                  <span className="text-muted-foreground">
-                    Kelly base <strong className="text-foreground">{result.risk_metrics.kelly_base_pct.toFixed(1)}%</strong>
-                  </span>
-                )}
-                {result.risk_metrics.win_rate_used != null && (
-                  <span className="text-muted-foreground">
-                    Win rate <strong className="text-foreground">{result.risk_metrics.win_rate_used.toFixed(0)}%</strong>
-                  </span>
-                )}
-              </div>
-              {result.risk_metrics.oversized_positions.length > 0 && (
-                <div className="flex items-start gap-2 p-2 rounded-lg bg-red-500/8 border border-red-500/15 text-mini">
-                  <AlertTriangle size={12} className="text-red-400 mt-0.5 shrink-0" />
-                  <span className="text-red-300">
-                    Posiciones sobreexpuestas (peso actual &gt; 1.5× Kelly óptimo):{' '}
-                    <strong>{result.risk_metrics.oversized_positions.join(', ')}</strong>
-                    {' '}— considera reducir o abrir hedge
-                  </span>
-                </div>
-              )}
-              {/* Per-position sizing bars */}
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 mt-2">
-                {result.positions.map(p => {
-                  const actual = p.portfolio_pct
-                  const optimal = p.optimal_size_pct ?? 0
-                  const maxBar = Math.max(actual, optimal, 1)
-                  const isOver = actual > optimal * 1.5
-                  const isUnder = actual < optimal * 0.5 && optimal > 0
-                  return (
-                    <div key={p.ticker} className="p-2 rounded-lg bg-muted/10 border border-border/20">
-                      <div className="flex items-center justify-between mb-1">
-                        <span className="font-mono font-bold text-micro text-foreground">{p.ticker}</span>
-                        <span className={`text-micro font-bold ${isOver ? 'text-red-400' : isUnder ? 'text-blue-400' : 'text-emerald-400'}`}>
-                          {isOver ? 'SOBRE' : isUnder ? 'INFRA' : 'OK'}
-                        </span>
-                      </div>
-                      <div className="relative h-2 rounded-full barra-pista overflow-hidden">
-                        <div className="absolute inset-y-0 left-0 rounded-full bg-primary/50" style={{ width: `${(optimal / maxBar) * 100}%` }} />
-                        <div className={`absolute inset-y-0 left-0 rounded-full ${isOver ? 'bg-red-400/60' : 'bg-emerald-400/60'}`} style={{ width: `${(actual / maxBar) * 100}%`, height: '50%', top: '25%' }} />
-                      </div>
-                      <div className="flex justify-between mt-0.5 text-micro text-muted-foreground">
-                        <span>Actual {actual.toFixed(1)}%</span>
-                        <span>Kelly {optimal.toFixed(1)}%</span>
-                      </div>
-                    </div>
-                  )
-                })}
-              </div>
-            </div>
-          )}
+          <PesoEnCartera positions={result.positions} ciclos={result.peso_cartera?.ciclos ?? []} />
+          <CaminoAlObjetivo positions={result.positions} />
 
           {/* Analyst revisions — target price changes over time */}
           {(() => {

@@ -43,7 +43,7 @@ const SECTIONS: Section[] = [
   { id: 'sectores',           title: 'Sectores',              icon: PieChart,        group: 'pages' },
   { id: 'calendario',         title: 'Calendario',            icon: CalendarDays,    group: 'pages' },
   { id: 'dividend-traps',     title: 'Dividend traps',        icon: AlertTriangle,   group: 'pages' },
-  { id: 'position-sizing',    title: 'Position sizing',       icon: Ruler,           group: 'pages' },
+  { id: 'position-sizing',    title: 'Peso en cartera',       icon: Ruler,           group: 'pages' },
   { id: 'backtest',           title: 'Backtest',              icon: FlaskConical,    group: 'pages' },
   { id: 'comparar',           title: 'Comparar',              icon: Shuffle,         group: 'pages' },
   { id: 'datos',              title: 'Exportar datos',        icon: Database,        group: 'pages' },
@@ -602,16 +602,14 @@ export default function Manual() {
             <div className="mt-3"><OpenLink to="/dividend-traps" /></div>
           </Card>
 
-          <SectionHeader id="position-sizing" icon={Ruler} title="Position sizing"
-            subtitle="Cuánto invertir en cada posición según el criterio de Kelly." />
+          <SectionHeader id="position-sizing" icon={Ruler} title="Peso en cartera"
+            subtitle="Cuánto poner en cada idea de Value US, y cuánto deberían pesar las que ya tienes." />
           <Card>
-            <p className="mb-3">
-              Introduce el tamaño de tu cartera y la tabla calcula cuánto asignar a cada oportunidad en base a:
-            </p>
             <ul className="list-disc pl-5 space-y-1.5 text-cuerpo">
-              <li><b>Convicción</b> (grade A = más peso).</li>
-              <li><b>Volatilidad</b> histórica.</li>
-              <li><b>Kelly fraccionado</b> (normalmente 25% del Kelly óptimo — más conservador).</li>
+              <li><b>Una posición completa por idea en Prioridad</b> (5 % de la cartera): medido, no se puede saber cuál de dos Prioridades ganará más.</li>
+              <li><b>Menos si se mueve mucho</b>: la que se mueve el doble que la media pesa la mitad.</li>
+              <li><b>Dos por ciclo como mucho</b>: si dos empresas se mueven igual, son una sola apuesta; entran las más baratas.</li>
+              <li><b>En Mi cartera</b>, el techo es el doble de su peso normal (una completa si no es Prioridad): por encima, recorta hasta el techo. Observar no se amplía.</li>
             </ul>
             <div className="mt-3"><OpenLink to="/position-sizing" /></div>
           </Card>
