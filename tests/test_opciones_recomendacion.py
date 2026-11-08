@@ -88,3 +88,19 @@ def test_pesos_de_cartera_con_la_regla_de_la_lista(monkeypatch):
     assert a['peso_accion'] == 'REDUCIR' and a['peso_recomendado_pct'] == a['peso_techo_pct']
     assert a['upside_propio_pct'] == 30.0
     assert 'peso_accion' not in voo
+
+
+def test_la_cartera_y_el_aviso_de_venta_usan_el_mismo_objetivo(monkeypatch):
+    """Con divergencia ALTA el aviso de venta no tiene objetivo: la cartera tampoco."""
+    import pandas as pd
+    fund = pd.DataFrame([
+        {'ticker': 'SANA', 'current_price': 100.0, 'analyst_upside_pct': 20.0,
+         'target_price_dcf_upside_pct': 25.0, 'target_price_pe_upside_pct': 15.0},
+        {'ticker': 'CHOCA', 'current_price': 100.0, 'analyst_upside_pct': 60.0,
+         'target_price_dcf_upside_pct': -10.0, 'target_price_pe_upside_pct': -5.0},
+    ]).set_index('ticker')
+    monkeypatch.setattr(api, 'DF_FUND_US', fund)
+    monkeypatch.setattr(api, '_load_csv', lambda *a, **k: pd.DataFrame())
+    casa = api._casa_para_cartera()
+    assert casa['SANA']['objetivo_propio'] == 120.0
+    assert 'CHOCA' not in casa

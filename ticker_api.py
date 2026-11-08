@@ -4262,6 +4262,10 @@ def _casa_para_cartera() -> dict:
         tri = add_upside_triangulation(DF_FUND_US.reset_index().copy())
         for _, r in tri.iterrows():
             up, precio = pd.to_numeric(r.get('upside_triangulated_pct'), errors='coerce'), pd.to_numeric(r.get('current_price'), errors='coerce')
+            # Como el aviso de venta (portfolio_price_alerts): si consenso y modelos chocan
+            # de lleno no hay objetivo, y la cartera no puede enseñar uno que el aviso niega.
+            if str(r.get('upside_divergence') or '').upper() == 'ALTA':
+                continue
             if up == up and precio == precio and precio > 0:
                 casa[str(r['ticker']).upper()] = {'objetivo_propio': round(float(precio) * (1 + float(up) / 100), 2)}
     lista = _load_csv(DOCS / 'value_opportunities_filtered.csv')
