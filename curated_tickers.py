@@ -226,6 +226,10 @@ TIER_4 = [
     'KLAC',    # KLA Corporation
     # Applied: +11 %, margen 26 % (mínimo 16 %), FCF 20 %, ROIC 34 %, recompra un 4 % al año.
     'AMAT',    # Applied Materials
+    # Lam, el 8-nov-2026: +15 %, margen 30 % (mínimo 18 %), FCF 25 %, ROIC 47 %, más caja
+    # que deuda. Pasaba el listón y se quedó fuera por repetir ciclo con KLA y Applied; con
+    # las tres dentro, decidir entre ellas es cosa del peso en cartera, no del universo.
+    'LRCX',    # Lam Research
     # Adobe: +17 %, margen 32 %, FCF 37 %, ROIC 29 %, ningún año de caída. El riesgo es la
     # IA, y que paga el 19 % de su flujo operativo en acciones (mediana de lo curado: 4,5 %).
     'ADBE',    # Adobe

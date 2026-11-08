@@ -29,8 +29,18 @@ RAIZ = Path(__file__).resolve().parent.parent
 DATOS = json.loads((RAIZ / 'docs' / 'tikr_earnings_data.json').read_text())['data']
 
 
-def _ficha(ticker='CNI'):
-    return copy.deepcopy(DATOS[ticker])
+def _ficha(ticker='CNI', precio=None):
+    """La ficha real de TIKR; con `precio`, movida a ese precio (capitalización y
+    valor de empresa a la par). Los rangos de yfinance de abajo se tomaron a un
+    precio concreto, y la carga semanal trae el del día: ESLOY pasó de 85 a 108 y
+    el test fallaba sin que nada estuviera mal."""
+    ficha = copy.deepcopy(DATOS[ticker])
+    if precio is not None:
+        p = ficha['price']
+        k, mc = precio / float(p['c']), float(p['mc'])
+        p['tev'] = str(float(p['tev']) - mc + mc * k)
+        p['mc'], p['c'] = str(mc * k), str(precio)
+    return ficha
 
 
 @pytest.fixture
@@ -166,7 +176,7 @@ def test_el_objetivo_por_per_no_se_convierte_dos_veces(calcular):
 def test_adr_de_verdad_sale_igual_de_bien(calcular):
     """ESLOY: BPA de TIKR ya en USD por ADR (media acción). Antes salía a 40 sobre
     un precio de 85; ahora a ~66."""
-    r = calcular(_ficha('ESLOY'), 'ESLOY', divisas=('EUR', 'USD'), fx=1.16)
+    r = calcular(_ficha('ESLOY', precio=84.96), 'ESLOY', divisas=('EUR', 'USD'), fx=1.16)
     assert r['conversion_divisa']['adr_por_accion'] == 2
     assert 15 < r['ntm_pe'] < 22
     assert 0.7 < r['price_targets']['2026']['per'] / r['current_price'] < 1.0
@@ -175,11 +185,11 @@ def test_adr_de_verdad_sale_igual_de_bien(calcular):
 def test_beneficio_que_el_bpa_no_confirma_no_da_objetivo(calcular):
     """CSU.TO 2028: beneficio de 1.176 con 1 analista frente a 2.887 el año
     anterior, y un BPA de 164 que implica 7 millones de acciones (son 21)."""
-    r = calcular(_ficha('CSU.TO'), 'CSU.TO', divisas=('USD', 'CAD'), fx=1.384)
+    r = calcular(_ficha('CSU.TO', precio=2827.94), 'CSU.TO', divisas=('USD', 'CAD'), fx=1.384)
     objetivos = r['price_targets']
     assert 'per' in objetivos['2026'] and 'per' in objetivos['2027']
     assert 'per' not in objetivos['2028']
-    assert 13 < r['ntm_pe'] < 18                      # yfinance: 15,3
+    assert 13 < r['ntm_pe'] < 18                      # yfinance: 15,3 a 2.827,94
 
 
 def test_sin_beneficio_esperado_no_se_inventa_un_pe(calcular):
