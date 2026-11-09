@@ -1,91 +1,71 @@
 {
-  "generated_at": "2026-11-06",
+  "generated_at": "2026-11-09",
   "alerts": [
     {
-      "type": "SCORE_UP",
-      "ticker": "ICE",
-      "company_name": "Intercontinental Exchange, Inc.",
-      "sector": "Financial Services",
-      "score_today": 55.3,
-      "score_prev": 45.7,
-      "delta": 9.6,
-      "grade": "⭐ GOOD"
+      "type": "NEW_ENTRY",
+      "ticker": "INTU",
+      "company_name": "Intuit Inc.",
+      "sector": "Technology",
+      "score_today": 100.0,
+      "score_prev": null,
+      "delta": null,
+      "grade": "PRIORIDAD"
     },
     {
-      "type": "SCORE_UP",
+      "type": "NEW_ENTRY",
+      "ticker": "BRO",
+      "company_name": "Brown & Brown, Inc.",
+      "sector": "Financial Services",
+      "score_today": 94.8,
+      "score_prev": null,
+      "delta": null,
+      "grade": "PRIORIDAD"
+    },
+    {
+      "type": "NEW_ENTRY",
+      "ticker": "BSX",
+      "company_name": "Boston Scientific Corporation",
+      "sector": "Healthcare",
+      "score_today": 94.8,
+      "score_prev": null,
+      "delta": null,
+      "grade": "PRIORIDAD"
+    },
+    {
+      "type": "NEW_ENTRY",
+      "ticker": "PGR",
+      "company_name": "The Progressive Corporation",
+      "sector": "Financial Services",
+      "score_today": 88.7,
+      "score_prev": null,
+      "delta": null,
+      "grade": "PRIORIDAD"
+    },
+    {
+      "type": "NEW_ENTRY",
+      "ticker": "UBER",
+      "company_name": "Uber Technologies, Inc.",
+      "sector": "Technology",
+      "score_today": 58.6,
+      "score_prev": null,
+      "delta": null,
+      "grade": "OBSERVAR"
+    },
+    {
+      "type": "EXITED",
       "ticker": "7741.T",
       "company_name": "HOYA Corporation",
       "sector": "Healthcare",
-      "score_today": 56.2,
-      "score_prev": 47.0,
-      "delta": 9.3,
+      "score_today": null,
+      "score_prev": 56.2,
+      "delta": null,
       "grade": "🔵 DECENT"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "AMZN",
-      "company_name": "Amazon.com, Inc.",
-      "sector": "Consumer Cyclical",
-      "score_today": 48.8,
-      "score_prev": 40.9,
-      "delta": 7.9,
-      "grade": "⚪ WEAK"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "NYT",
-      "company_name": "The New York Times Company",
-      "sector": "Communication Services",
-      "score_today": 30.5,
-      "score_prev": 36.1,
-      "delta": -5.5,
-      "grade": "⚪ WEAK"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "MSFT",
-      "company_name": "Microsoft Corporation",
-      "sector": "Technology",
-      "score_today": 66.5,
-      "score_prev": 72.0,
-      "delta": -5.6,
-      "grade": "⭐ GOOD"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "BR",
-      "company_name": "Broadridge Financial Solutions, Inc.",
-      "sector": "Technology",
-      "score_today": 39.3,
-      "score_prev": 75.4,
-      "delta": -36.1,
-      "grade": "⚪ WEAK"
-    },
-    {
-      "type": "EXITED",
-      "ticker": "AXP",
-      "company_name": "American Express Company",
-      "sector": "Financial Services",
-      "score_today": null,
-      "score_prev": 58.1,
-      "delta": null,
-      "grade": "⭐ GOOD"
-    },
-    {
-      "type": "EXITED",
-      "ticker": "V",
-      "company_name": "Visa Inc.",
-      "sector": "Financial Services",
-      "score_today": null,
-      "score_prev": 62.0,
-      "delta": null,
-      "grade": "⭐ GOOD"
     }
   ],
   "counts": {
-    "new_entries": 0,
-    "exited": 2,
-    "score_up": 3,
-    "score_down": 3
+    "new_entries": 5,
+    "exited": 1,
+    "score_up": 0,
+    "score_down": 0
   }
 }

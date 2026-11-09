@@ -1,93 +1,26 @@
 {
-  "generated_at": "2026-11-06",
-  "baseline_date": "2026-09-21",
-  "days_tracked": 46,
-  "total": 13,
-  "high_count": 2,
+  "generated_at": "2026-11-09",
+  "baseline_date": "2026-09-22",
+  "days_tracked": 48,
+  "total": 15,
+  "high_count": 0,
   "narrative": "",
   "drifts": [
     {
-      "ticker": "BR",
-      "company_name": "Broadridge Financial Solutions, Inc.",
+      "ticker": "JKHY",
+      "company_name": "Jack Henry & Associates, Inc.",
       "sector": "Technology",
-      "severity": "HIGH",
-      "drift_score": 7,
-      "days_tracked": 46,
-      "baseline_date": "2026-09-21",
-      "value_score_now": 39.3,
-      "value_score_prev": 72.9,
-      "drift_flags": [
-        "Score cay\u00f3 34pts en 46d (73\u219239)",
-        "Upside analistas cay\u00f3 23pp (31%\u21928%)",
-        "Margen op. cay\u00f3 14.2pp (24.6%\u219210.4%)"
-      ],
-      "improvements": []
-    },
-    {
-      "ticker": "THC",
-      "company_name": "Tenet Healthcare Corporation",
-      "sector": "Healthcare",
-      "severity": "HIGH",
-      "drift_score": 6,
-      "days_tracked": 46,
-      "baseline_date": "2026-09-21",
-      "value_score_now": 48.3,
-      "value_score_prev": 58.9,
-      "drift_flags": [
-        "Score cay\u00f3 11pts en 46d (59\u219248)",
-        "FCF yield cay\u00f3 4.0pp (14.3%\u219210.3%)"
-      ],
-      "improvements": []
-    },
-    {
-      "ticker": "DPZ",
-      "company_name": "Domino's Pizza, Inc.",
-      "sector": "Consumer Cyclical",
       "severity": "MEDIUM",
-      "drift_score": 5,
-      "days_tracked": 46,
-      "baseline_date": "2026-09-21",
-      "value_score_now": 33.3,
-      "value_score_prev": 53.0,
+      "drift_score": 4,
+      "days_tracked": 48,
+      "baseline_date": "2026-09-22",
+      "value_score_now": 51.3,
+      "value_score_prev": 52.8,
       "drift_flags": [
-        "Score cay\u00f3 20pts en 46d (53\u219233)",
-        "Upside analistas cay\u00f3 25pp (30%\u21924%)"
+        "Upside analistas cay\u00f3 10pp (26%\u219216%)",
+        "Deuda/equity subi\u00f3 50% (0.0\u21920.1x)"
       ],
       "improvements": []
-    },
-    {
-      "ticker": "WKL.AS",
-      "company_name": "Wolters Kluwer N.V.",
-      "sector": "Industrials",
-      "severity": "MEDIUM",
-      "drift_score": 5,
-      "days_tracked": 46,
-      "baseline_date": "2026-09-21",
-      "value_score_now": 47.2,
-      "value_score_prev": 60.8,
-      "drift_flags": [
-        "Score cay\u00f3 14pts en 46d (61\u219247)",
-        "Upside analistas cay\u00f3 28pp (29%\u21920%)"
-      ],
-      "improvements": []
-    },
-    {
-      "ticker": "G24.DE",
-      "company_name": "Scout24 SE",
-      "sector": "Communication Services",
-      "severity": "MEDIUM",
-      "drift_score": 5,
-      "days_tracked": 46,
-      "baseline_date": "2026-09-21",
-      "value_score_now": 39.0,
-      "value_score_prev": 55.5,
-      "drift_flags": [
-        "Score cay\u00f3 16pts en 46d (56\u219239)",
-        "Upside analistas cay\u00f3 10pp (28%\u219218%)"
-      ],
-      "improvements": [
-        "Margen op. mejor\u00f3 7.1pp"
-      ]
     },
     {
       "ticker": "AON",
@@ -95,75 +28,43 @@
       "sector": "Financial Services",
       "severity": "MEDIUM",
       "drift_score": 4,
-      "days_tracked": 46,
-      "baseline_date": "2026-09-21",
-      "value_score_now": 39.6,
+      "days_tracked": 48,
+      "baseline_date": "2026-09-22",
+      "value_score_now": 48.1,
       "value_score_prev": 32.6,
       "drift_flags": [
-        "Upside analistas cay\u00f3 16pp (21%\u21926%)",
+        "Upside analistas cay\u00f3 13pp (21%\u21928%)",
         "Deuda/equity subi\u00f3 74% (1.6\u21922.8x)"
       ],
       "improvements": []
     },
     {
-      "ticker": "RMD",
-      "company_name": "ResMed Inc.",
-      "sector": "Healthcare",
-      "severity": "MEDIUM",
-      "drift_score": 3,
-      "days_tracked": 46,
-      "baseline_date": "2026-09-21",
-      "value_score_now": 57.3,
-      "value_score_prev": 79.7,
-      "drift_flags": [
-        "Score cay\u00f3 22pts en 46d (80\u219257)"
-      ],
-      "improvements": [
-        "Margen op. mejor\u00f3 3.9pp"
-      ]
-    },
-    {
-      "ticker": "NYT",
-      "company_name": "The New York Times Company",
-      "sector": "Communication Services",
-      "severity": "MEDIUM",
-      "drift_score": 3,
-      "days_tracked": 46,
-      "baseline_date": "2026-09-21",
-      "value_score_now": 30.5,
-      "value_score_prev": 44.6,
-      "drift_flags": [
-        "Score cay\u00f3 14pts en 46d (45\u219231)"
-      ],
-      "improvements": []
-    },
-    {
-      "ticker": "AMS.MC",
-      "company_name": "Amadeus IT Group, S.A.",
+      "ticker": "INTU",
+      "company_name": "Intuit Inc.",
       "sector": "Technology",
-      "severity": "MEDIUM",
-      "drift_score": 3,
-      "days_tracked": 46,
-      "baseline_date": "2026-09-21",
-      "value_score_now": 45.7,
-      "value_score_prev": 55.8,
-      "drift_flags": [
-        "Score cay\u00f3 10pts en 46d (56\u219246)"
-      ],
-      "improvements": []
-    },
-    {
-      "ticker": "ICE",
-      "company_name": "Intercontinental Exchange, Inc.",
-      "sector": "Financial Services",
       "severity": "LOW",
       "drift_score": 2,
-      "days_tracked": 46,
-      "baseline_date": "2026-09-21",
-      "value_score_now": 55.3,
-      "value_score_prev": 49.1,
+      "days_tracked": 48,
+      "baseline_date": "2026-09-22",
+      "value_score_now": 100.0,
+      "value_score_prev": 35.6,
       "drift_flags": [
-        "Upside analistas cay\u00f3 10pp (20%\u219210%)"
+        "Upside analistas cay\u00f3 24pp (43%\u219219%)"
+      ],
+      "improvements": []
+    },
+    {
+      "ticker": "BSX",
+      "company_name": "Boston Scientific Corporation",
+      "sector": "Healthcare",
+      "severity": "LOW",
+      "drift_score": 2,
+      "days_tracked": 48,
+      "baseline_date": "2026-09-22",
+      "value_score_now": 94.8,
+      "value_score_prev": 37.3,
+      "drift_flags": [
+        "Upside analistas cay\u00f3 24pp (40%\u219216%)"
       ],
       "improvements": []
     },
@@ -173,16 +74,149 @@
       "sector": "Industrials",
       "severity": "LOW",
       "drift_score": 2,
-      "days_tracked": 46,
-      "baseline_date": "2026-09-21",
-      "value_score_now": 54.2,
+      "days_tracked": 48,
+      "baseline_date": "2026-09-22",
+      "value_score_now": 57.3,
       "value_score_prev": 36.5,
       "drift_flags": [
-        "Upside analistas cay\u00f3 31pp (41%\u219210%)"
+        "Upside analistas cay\u00f3 28pp (41%\u219213%)"
       ],
-      "improvements": [
-        "Score mejor\u00f3 18pts (36\u219254)"
-      ]
+      "improvements": []
+    },
+    {
+      "ticker": "BR",
+      "company_name": "Broadridge Financial Solutions, Inc.",
+      "sector": "Technology",
+      "severity": "LOW",
+      "drift_score": 2,
+      "days_tracked": 48,
+      "baseline_date": "2026-09-22",
+      "value_score_now": 53.5,
+      "value_score_prev": 88.0,
+      "drift_flags": [
+        "Upside analistas cay\u00f3 20pp (30%\u219210%)"
+      ],
+      "improvements": []
+    },
+    {
+      "ticker": "GGG",
+      "company_name": "Graco Inc.",
+      "sector": "Industrials",
+      "severity": "LOW",
+      "drift_score": 2,
+      "days_tracked": 48,
+      "baseline_date": "2026-09-22",
+      "value_score_now": 53.2,
+      "value_score_prev": 48.4,
+      "drift_flags": [
+        "Deuda/equity subi\u00f3 250% (0.0\u21920.1x)"
+      ],
+      "improvements": []
+    },
+    {
+      "ticker": "OTIS",
+      "company_name": "Otis Worldwide Corporation",
+      "sector": "Industrials",
+      "severity": "LOW",
+      "drift_score": 2,
+      "days_tracked": 48,
+      "baseline_date": "2026-09-22",
+      "value_score_now": 52.7,
+      "value_score_prev": 33.1,
+      "drift_flags": [
+        "Upside analistas cay\u00f3 21pp (30%\u21929%)"
+      ],
+      "improvements": []
+    },
+    {
+      "ticker": "TYL",
+      "company_name": "Tyler Technologies, Inc.",
+      "sector": "Technology",
+      "severity": "LOW",
+      "drift_score": 2,
+      "days_tracked": 48,
+      "baseline_date": "2026-09-22",
+      "value_score_now": 51.0,
+      "value_score_prev": 34.8,
+      "drift_flags": [
+        "Upside analistas cay\u00f3 22pp (29%\u21926%)"
+      ],
+      "improvements": []
+    },
+    {
+      "ticker": "VRSK",
+      "company_name": "Verisk Analytics, Inc.",
+      "sector": "Industrials",
+      "severity": "LOW",
+      "drift_score": 2,
+      "days_tracked": 48,
+      "baseline_date": "2026-09-22",
+      "value_score_now": 49.1,
+      "value_score_prev": 32.2,
+      "drift_flags": [
+        "Upside analistas cay\u00f3 14pp (29%\u219215%)"
+      ],
+      "improvements": []
+    },
+    {
+      "ticker": "DSGX",
+      "company_name": "The Descartes Systems Group Inc.",
+      "sector": "Technology",
+      "severity": "LOW",
+      "drift_score": 2,
+      "days_tracked": 48,
+      "baseline_date": "2026-09-22",
+      "value_score_now": 46.9,
+      "value_score_prev": 46.1,
+      "drift_flags": [
+        "Upside analistas cay\u00f3 18pp (28%\u21929%)"
+      ],
+      "improvements": []
+    },
+    {
+      "ticker": "ICE",
+      "company_name": "Intercontinental Exchange, Inc.",
+      "sector": "Financial Services",
+      "severity": "LOW",
+      "drift_score": 2,
+      "days_tracked": 48,
+      "baseline_date": "2026-09-22",
+      "value_score_now": 46.4,
+      "value_score_prev": 54.5,
+      "drift_flags": [
+        "Upside analistas cay\u00f3 9pp (20%\u219212%)"
+      ],
+      "improvements": []
+    },
+    {
+      "ticker": "CRH",
+      "company_name": "CRH plc",
+      "sector": "Basic Materials",
+      "severity": "LOW",
+      "drift_score": 2,
+      "days_tracked": 48,
+      "baseline_date": "2026-09-22",
+      "value_score_now": 40.0,
+      "value_score_prev": 41.6,
+      "drift_flags": [
+        "Upside analistas cay\u00f3 27pp (55%\u219228%)"
+      ],
+      "improvements": []
+    },
+    {
+      "ticker": "WKL.AS",
+      "company_name": "Wolters Kluwer N.V.",
+      "sector": "Industrials",
+      "severity": "LOW",
+      "drift_score": 2,
+      "days_tracked": 48,
+      "baseline_date": "2026-09-22",
+      "value_score_now": 49.7,
+      "value_score_prev": 60.8,
+      "drift_flags": [
+        "Upside analistas cay\u00f3 22pp (29%\u21927%)"
+      ],
+      "improvements": []
     },
     {
       "ticker": "PGHN.SW",
@@ -190,27 +224,12 @@
       "sector": "Financial Services",
       "severity": "LOW",
       "drift_score": 2,
-      "days_tracked": 46,
-      "baseline_date": "2026-09-21",
+      "days_tracked": 48,
+      "baseline_date": "2026-09-22",
       "value_score_now": 43.2,
       "value_score_prev": 47.6,
       "drift_flags": [
-        "Upside analistas cay\u00f3 14pp (28%\u219214%)"
-      ],
-      "improvements": []
-    },
-    {
-      "ticker": "IMCD.AS",
-      "company_name": "IMCD N.V.",
-      "sector": "Basic Materials",
-      "severity": "LOW",
-      "drift_score": 2,
-      "days_tracked": 46,
-      "baseline_date": "2026-09-21",
-      "value_score_now": 35.7,
-      "value_score_prev": 38.1,
-      "drift_flags": [
-        "Upside analistas cay\u00f3 9pp (23%\u219214%)"
+        "Upside analistas cay\u00f3 13pp (28%\u219214%)"
       ],
       "improvements": []
     }

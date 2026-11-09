@@ -1,51 +1,10 @@
 {
-  "generated_at": "2026-11-06",
+  "generated_at": "2026-11-09",
   "total_analyzed": 795,
   "poblacion": "VALUE",
   "baseline_win_rate": 66.5,
   "baseline_avg_return": 7.1,
-  "score_tiers": [
-    {
-      "label": "80\u201390",
-      "horizonte": "90d",
-      "win_rate": 100.0,
-      "avg_return": 28.36,
-      "avg_return_2": 38.53,
-      "n": 5,
-      "vs_baseline_wr": 33.5,
-      "vs_baseline_ret": 21.26
-    },
-    {
-      "label": "70\u201380",
-      "horizonte": "90d",
-      "win_rate": 77.8,
-      "avg_return": 17.34,
-      "avg_return_2": 64.4,
-      "n": 36,
-      "vs_baseline_wr": 11.2,
-      "vs_baseline_ret": 10.24
-    },
-    {
-      "label": "60\u201370",
-      "horizonte": "90d",
-      "win_rate": 63.9,
-      "avg_return": 7.4,
-      "avg_return_2": 16.88,
-      "n": 238,
-      "vs_baseline_wr": -2.7,
-      "vs_baseline_ret": 0.3
-    },
-    {
-      "label": "50\u201360",
-      "horizonte": "90d",
-      "win_rate": 71.8,
-      "avg_return": 5.0,
-      "avg_return_2": 13.11,
-      "n": 330,
-      "vs_baseline_wr": 5.3,
-      "vs_baseline_ret": -2.1
-    }
-  ],
+  "score_tiers": [],
   "market_regimes": [
     {
       "label": "CONFIRMED_UPTREND",
@@ -261,18 +220,7 @@
       "n": 795
     }
   },
-  "best_combos": [
-    {
-      "label": "Score\u226570 + FCF\u22655%",
-      "horizonte": "90d",
-      "win_rate": 90.6,
-      "avg_return": 23.53,
-      "avg_return_2": 73.42,
-      "n": 32,
-      "vs_baseline_wr": 24.1,
-      "vs_baseline_ret": 16.43
-    }
-  ],
+  "best_combos": [],
   "hay_senal": true,
-  "narrative": "Para maximizar la tasa de \u00e9xito, conc\u00e9ntrate en se\u00f1ales con **Score entre 50 y 60** (WR\u202f71.8\u202f% y retorno medio de 5\u202f%) y, de ser posible, dentro del sector **Financial Services**, que muestra el WR m\u00e1s alto (82.2\u202f%). Prioriza a\u00fan m\u00e1s aquellas oportunidades que cumplan **FCF\u202f\u2265\u202f5"
+  "narrative": "Con los 795 se\u00f1ales analizadas, el sector que m\u00e1s potencia el win rate es **Financial Services**, alcanzando un 82,2\u202f% y superando el promedio base del 66,5\u202f%; por tanto, prioriza operaciones en este sector y mant\u00e9n una exposici\u00f3n mayor en sus sub\u2011industrias m\u00e1s l\u00edquidas. Los t\u00edtulos con **FCF\u202f\u2265\u202f5\u202f%** tambi\u00e9n mejoran la tasa de \u00e9xito (60,9\u202f% frente al promedio), as\u00ed que filtra tus candidatos por"
 }

@@ -1,10 +1,18 @@
 {
-  "total_problemas": 0,
+  "total_problemas": 1,
   "desfases_conocidos": [
-    "⏳ ⚠️  european_value_opportunities.csv: upside analista = (objetivo − precio) / precio — 1/7 filas, peor desvío 4% (WKL.AS)",
-    "⏳ ⚠️  momentum_opportunities.csv: upside P/E = (objetivo − precio) / precio — 1/6 filas, peor desvío 3% (ROP)"
+    "⏳ ⚠️  value_opportunities.csv: upside analista = (objetivo − precio) / precio — 1/30 filas, peor desvío 2% (PEP)",
+    "⏳ ⚠️  value_opportunities.csv: upside P/E = (objetivo − precio) / precio — 1/27 filas, peor desvío 4% (AMZN)",
+    "⏳ ⚠️  value_opportunities_filtered.csv: upside analista = (objetivo − precio) / precio — 1/30 filas, peor desvío 2% (PEP)",
+    "⏳ ⚠️  value_opportunities_filtered.csv: upside P/E = (objetivo − precio) / precio — 1/27 filas, peor desvío 4% (AMZN)",
+    "⏳ ⚠️  momentum_opportunities.csv: upside analista = (objetivo − precio) / precio — 1/7 filas, peor desvío 2% (CTAS)",
+    "⏳ ⚠️  momentum_opportunities.csv: upside DCF = (objetivo − precio) / precio — 1/7 filas, peor desvío 3% (ROP)"
   ],
-  "detalle": {},
-  "tickers_value": 15,
-  "tickers_verdicts": 22
+  "detalle": {
+    "commodities: rating contra narrativa IA": [
+      "COPX: value_rating=CARO pero ai_narrative_veredicto=OPORTUNIDAD_ESTRUCTURAL"
+    ]
+  },
+  "tickers_value": 30,
+  "tickers_verdicts": 43
 }

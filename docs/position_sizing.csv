@@ -1,14 +1,31 @@
-ticker,current_price,position_size_pct,position_value,shares,stop_loss_price,stop_loss_pct,risk_amount,risk_pct_portfolio,volatility,kelly_pct,multipliers,kelly_horizon,kelly_win_rate
-PODD,227.08,9.23,9230.77,40,208.79,8.06,731.67,0.73,4.03,10.0,"{'score': 1.2, 'timing': 1.2, 'sector': 1.2, 'volatility': 1.2}",90d,55.8
-CVS,71.29,9.23,9230.77,129,65.7,7.84,721.4,0.72,3.92,10.0,"{'score': 1.2, 'timing': 1.2, 'sector': 1.2, 'volatility': 1.2}",90d,55.8
-PRU,94.29,8.33,8333.33,88,89.23,5.37,445.26,0.45,2.68,10.0,"{'score': 1.3, 'timing': 1.2, 'sector': 1.0, 'volatility': 1.2}",90d,55.8
-KKR,90.84,8.33,8333.33,91,84.42,7.07,584.09,0.58,3.53,10.0,"{'score': 1.3, 'timing': 1.2, 'sector': 1.0, 'volatility': 1.2}",90d,55.8
-INTC,44.01,8.33,8333.33,189,32.99,25.04,2082.71,2.08,12.52,10.0,"{'score': 1.3, 'timing': 1.2, 'sector': 1.2, 'volatility': 1.0}",90d,55.8
-WRB,65.55,7.69,7692.31,117,62.65,4.42,339.3,0.34,2.21,10.0,"{'score': 1.2, 'timing': 1.2, 'sector': 1.0, 'volatility': 1.2}",90d,55.8
-ROP,353.48,6.41,6410.26,18,330.5,6.5,413.61,0.41,3.25,10.0,"{'score': 1.0, 'timing': 1.0, 'sector': 1.2, 'volatility': 1.2}",90d,55.8
-GPN,71.06,5.38,5384.62,75,65.33,8.07,429.9,0.43,4.03,10.0,"{'score': 1.2, 'timing': 1.2, 'sector': 0.7, 'volatility': 1.2}",90d,55.8
-URI,732.05,5.38,5384.62,7,661.08,9.69,496.79,0.5,4.85,10.0,"{'score': 1.2, 'timing': 1.2, 'sector': 0.7, 'volatility': 1.2}",90d,55.8
-ALLY,39.22,5.34,5341.88,136,36.89,5.93,316.52,0.32,2.97,10.0,"{'score': 1.0, 'timing': 1.0, 'sector': 1.0, 'volatility': 1.2}",90d,55.8
-POOL,205.26,3.74,3739.32,18,189.01,7.92,292.53,0.29,3.96,10.0,"{'score': 1.0, 'timing': 1.0, 'sector': 0.7, 'volatility': 1.2}",90d,55.8
-GL,137.38,3.74,3739.32,27,129.45,5.77,214.04,0.21,2.89,10.0,"{'score': 0.7, 'timing': 1.0, 'sector': 1.0, 'volatility': 1.2}",90d,55.8
-EXE,107.64,1.87,1869.66,17,100.74,6.41,117.36,0.12,3.21,10.0,"{'score': 0.7, 'timing': 1.0, 'sector': 0.5, 'volatility': 1.2}",90d,55.8
+ticker,value_grupo,volatilidad_pct,peso_completo_pct,peso_objetivo_pct,ciclo,peso_motivo
+INTU,PRIORIDAD,52.4,3.0,3.0,,"Se mueve un 52 % al año, más que la media (30 %): 3 % en vez de 5."
+FICO,PRIORIDAD,67.4,2.0,2.0,,"Se mueve un 67 % al año, más que la media (30 %): 2 % en vez de 5."
+BSX,PRIORIDAD,41.2,3.5,3.5,,"Se mueve un 41 % al año, más que la media (30 %): 3,5 % en vez de 5."
+BRO,PRIORIDAD,32.6,4.5,4.5,,"Se mueve un 33 % al año, más que la media (30 %): 4,5 % en vez de 5."
+PGR,PRIORIDAD,26.8,5.0,5.0,,Posición completa (5 %).
+UBER,OBSERVAR,35.3,4.5,0.0,,Observar: sin dinero nuevo hasta que sea Prioridad.
+WTKWY,OBSERVAR,39.5,4.0,0.0,,Observar: sin dinero nuevo hasta que sea Prioridad.
+6383.T,OBSERVAR,39.1,4.0,0.0,,Observar: sin dinero nuevo hasta que sea Prioridad.
+BR,OBSERVAR,30.2,5.0,0.0,,Observar: sin dinero nuevo hasta que sea Prioridad.
+GGG,OBSERVAR,26.8,5.0,0.0,,Observar: sin dinero nuevo hasta que sea Prioridad.
+OTIS,OBSERVAR,23.3,5.0,0.0,,Observar: sin dinero nuevo hasta que sea Prioridad.
+PEP,OBSERVAR,21.5,5.0,0.0,,Observar: sin dinero nuevo hasta que sea Prioridad.
+RMD,OBSERVAR,31.0,5.0,0.0,,Observar: sin dinero nuevo hasta que sea Prioridad.
+JKHY,OBSERVAR,31.6,5.0,0.0,,Observar: sin dinero nuevo hasta que sea Prioridad.
+RELX,OBSERVAR,35.8,4.0,0.0,,Observar: sin dinero nuevo hasta que sea Prioridad.
+TYL,OBSERVAR,43.6,3.5,0.0,,Observar: sin dinero nuevo hasta que sea Prioridad.
+NYT,OBSERVAR,32.7,4.5,0.0,,Observar: sin dinero nuevo hasta que sea Prioridad.
+VRSK,OBSERVAR,36.1,4.0,0.0,,Observar: sin dinero nuevo hasta que sea Prioridad.
+AON,OBSERVAR,29.7,5.0,0.0,,Observar: sin dinero nuevo hasta que sea Prioridad.
+DSGX,OBSERVAR,40.9,3.5,0.0,,Observar: sin dinero nuevo hasta que sea Prioridad.
+ICE,OBSERVAR,26.0,5.0,0.0,,Observar: sin dinero nuevo hasta que sea Prioridad.
+FCNCA,OBSERVAR,27.3,5.0,0.0,,Observar: sin dinero nuevo hasta que sea Prioridad.
+META,OBSERVAR,41.6,3.5,0.0,,Observar: sin dinero nuevo hasta que sea Prioridad.
+MLM,OBSERVAR,29.6,5.0,0.0,,Observar: sin dinero nuevo hasta que sea Prioridad.
+GOOG,OBSERVAR,33.3,4.5,0.0,,Observar: sin dinero nuevo hasta que sea Prioridad.
+MSFT,OBSERVAR,33.8,4.5,0.0,,Observar: sin dinero nuevo hasta que sea Prioridad.
+BAC,OBSERVAR,22.5,5.0,0.0,,Observar: sin dinero nuevo hasta que sea Prioridad.
+COF,OBSERVAR,31.6,5.0,0.0,,Observar: sin dinero nuevo hasta que sea Prioridad.
+AMZN,OBSERVAR,33.4,4.5,0.0,,Observar: sin dinero nuevo hasta que sea Prioridad.
+CRH,OBSERVAR,33.9,4.5,0.0,,Observar: sin dinero nuevo hasta que sea Prioridad.

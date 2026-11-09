@@ -1,0 +1,25 @@
+{
+  "generated_at": "2026-11-06T20:41:43.591199",
+  "risk_free_rate_pct": 4.3,
+  "universe_size": 11,
+  "analyzed": 3,
+  "methodology": {
+    "universo": "Value US verificado",
+    "max_ideas": 2,
+    "delta_band": [
+      0.7,
+      0.92
+    ],
+    "min_dte": 400,
+    "max_carry_pct": 14.0,
+    "note": "La versión apalancada de las ideas de Value: 1-2 como mucho, revisadas por Claude"
+  },
+  "opportunities": [],
+  "retiradas": [
+    {
+      "ticker": "BAC",
+      "motivo": "ya no está en Value verificado o no queda contrato que compense",
+      "rompe": true
+    }
+  ]
+}
