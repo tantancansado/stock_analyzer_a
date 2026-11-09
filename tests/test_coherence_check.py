@@ -237,3 +237,27 @@ class TestLeapsPrecioContraValue:
         value = [{'ticker': 'XYZ', 'current_price': None}]
         leaps = [{'ticker': 'XYZ', 'spot': None}]
         assert leaps_precio_vs_value(value, [], leaps) == []
+
+
+class TestEuropaApagada:
+    """9-nov-2026: con Europa apagada su fichero ya no existe, y «columnas
+    obligatorias (EU)» lo contaba como contradicción. La ejecución habría salido
+    en rojo cada día y el vigilante lo habría mandado a Telegram."""
+
+    def _ejecutar(self, tmp_path, monkeypatch, capsys, interruptor):
+        import coherence_check as cc
+        monkeypatch.setattr(cc, 'DOCS', tmp_path)
+        if interruptor is None:
+            monkeypatch.delenv('MERCADOS_FUERA_DE_EEUU', raising=False)
+        else:
+            monkeypatch.setenv('MERCADOS_FUERA_DE_EEUU', interruptor)
+        cc.run()
+        return capsys.readouterr().out
+
+    def test_apagada_no_mira_europa(self, tmp_path, monkeypatch, capsys):
+        for interruptor in ('off', None):
+            assert '(EU)' not in self._ejecutar(tmp_path, monkeypatch, capsys, interruptor)
+
+    def test_encendida_sigue_vigilando_que_no_venga_vacia(self, tmp_path, monkeypatch, capsys):
+        salida = self._ejecutar(tmp_path, monkeypatch, capsys, 'on')
+        assert 'european_value_opportunities.csv está vacío' in salida

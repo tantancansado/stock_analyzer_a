@@ -21,6 +21,7 @@ from __future__ import annotations
 
 import csv
 import json
+import os
 import sys
 from pathlib import Path
 
@@ -698,6 +699,12 @@ def run() -> int:
         ))),
         ('aritmética de los LEAPS',                   leaps_incoherentes()),
     ]
+    # Europa y Global apagados (`MERCADOS_FUERA_DE_EEUU` en el workflow, mismo valor
+    # por defecto que el informe de salud): sin su fichero, «está vacío» no es una
+    # contradicción, es que no se calcula. El 9-nov-2026 lo habría puesto en rojo
+    # cada día.
+    if os.environ.get('MERCADOS_FUERA_DE_EEUU', 'off') != 'on':
+        comprobaciones = [c for c in comprobaciones if not c[0].endswith('(EU)')]
 
     total = 0
     # Los avisos marcados con ⏳ son desfases conocidos entre artefactos de
