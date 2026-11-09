@@ -61,6 +61,60 @@ class TestElRatingLlegaAlPrompt:
         assert 'si tu conclusión se aparta de ella' in cna.SYSTEM
 
 
+class TestCOPX:
+    """9-nov-2026: COPX un 13 % sobre su media de 2 años (CARO) y un 29 % bajo su
+    máximo. La IA leyó la caída como precio bajo («el precio bajo es temporal») y
+    dijo OPORTUNIDAD_ESTRUCTURAL; el control de coherencia puso el pipeline en rojo."""
+
+    URL = ['https://es.tradingeconomics.com/commodity/copper']
+    OPORTUNIDAD = ('{"veredicto": "OPORTUNIDAD_ESTRUCTURAL", '
+                   '"resumen": "El precio bajo es temporal.", "confianza": 70}')
+
+    def test_el_prompt_dice_con_signo_si_esta_por_encima_o_por_debajo(self):
+        texto = cna.PROMPT.format(sector='Cobre', ticker='COPX', price=71.25,
+                                  currency='USD', pct_from_high=-28.74,
+                                  pct_vs_2y=13.11, rating='CARO')
+        assert '+13.1% contra su\nmedia de 2 años' in texto
+        assert '-28.7% contra su máximo' in texto
+
+    def test_el_system_dice_contra_que_se_mide_barato(self):
+        assert 'contra la media de 2 años, no contra el máximo' in cna.SYSTEM
+
+    def test_caro_con_una_categoria_de_precio_bajo_no_se_publica(self):
+        for v in cna.DE_PRECIO_BAJO:
+            j = self.OPORTUNIDAD.replace('OPORTUNIDAD_ESTRUCTURAL', v)
+            r = cna._interpretar(j, self.URL, 'CARO')
+            assert r['veredicto'] == 'SIN_DATOS' and r['resumen'] == '', v
+            assert r['descartado']
+
+    def test_barato_con_precio_exigente_tampoco(self):
+        j = self.OPORTUNIDAD.replace('OPORTUNIDAD_ESTRUCTURAL', 'PRECIO_EXIGENTE')
+        assert cna._interpretar(j, self.URL, 'ATRACTIVO')['veredicto'] == 'SIN_DATOS'
+
+    def test_lo_coherente_se_publica_igual(self):
+        exigente = self.OPORTUNIDAD.replace('OPORTUNIDAD_ESTRUCTURAL', 'PRECIO_EXIGENTE')
+        trampa = self.OPORTUNIDAD.replace('OPORTUNIDAD_ESTRUCTURAL', 'TRAMPA_DE_VALOR')
+        assert cna._interpretar(exigente, self.URL, 'CARO')['veredicto'] == 'PRECIO_EXIGENTE'
+        assert cna._interpretar(trampa, self.URL, 'ATRACTIVO')['veredicto'] == 'TRAMPA_DE_VALOR'
+        assert cna._interpretar(self.OPORTUNIDAD, self.URL, 'NEUTRAL')['veredicto'] == 'OPORTUNIDAD_ESTRUCTURAL'
+
+    def test_enrich_le_pasa_la_valoracion_de_cada_fila(self):
+        from unittest.mock import patch
+        filas = [{'ticker': 'COPX', 'sector': 'Cobre', 'value_rating': 'CARO', 'price': '71.25',
+                  'currency': 'USD', 'pct_from_high': '-28.74', 'pct_vs_2y_avg': '13.11'}]
+        with patch.object(cna, 'ask_with_search_lote',
+                          lambda prompts, **_: {t: (self.OPORTUNIDAD, self.URL) for t in prompts}):
+            out = cna.enrich(filas)
+        assert out['COPX']['veredicto'] == 'SIN_DATOS'
+
+    def test_y_el_control_de_coherencia_ya_no_salta(self):
+        import coherence_check as cc
+        r = cna._interpretar(self.OPORTUNIDAD, self.URL, 'CARO')
+        assert cc.commodity_rating_vs_narrativa(
+            [{'ticker': 'COPX', 'value_rating': 'CARO',
+              'ai_narrative_veredicto': r['veredicto']}]) == []
+
+
 class TestElControlDeCoherencia:
     def test_caro_con_oportunidad_sigue_siendo_contradiccion(self):
         import coherence_check as cc

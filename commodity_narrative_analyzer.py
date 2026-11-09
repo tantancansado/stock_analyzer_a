@@ -59,7 +59,9 @@ Clasifica en una de estas categorías:
 
 Las tres primeras categorías describen un precio BAJO. Si la materia prima no
 está barata, la respuesta es PRECIO_EXIGENTE — no metas un precio alto en
-«oportunidad» porque la historia de fondo sea buena. Te damos abajo la
+«oportunidad» porque la historia de fondo sea buena. Barato o caro se mide
+contra la media de 2 años, no contra el máximo: caer desde un máximo no la hace
+barata si sigue por encima de su media. Te damos abajo la
 valoración cuantitativa: si tu conclusión se aparta de ella, dilo en el
 resumen y explica por qué, que para eso buscas.
 
@@ -73,8 +75,14 @@ Responde SOLO con este JSON, sin markdown alrededor:
 # salieron con rating CARO y veredicto OPORTUNIDAD_ESTRUCTURAL, y el control
 # de coherencia tumbó el pipeline. No era la IA contradiciéndose: era que
 # ninguna de las categorías servía para un precio alto.
-PROMPT = """{sector} ({ticker}) cotiza a {price} {currency}, un {pct_from_high:.1f}% por
-debajo de su máximo de 52 semanas y un {pct_vs_2y:.1f}% respecto a su media de 2 años.
+#
+# El 9-nov-2026 volvió a pasar con COPX: un 13 % sobre su media de 2 años (CARO) y
+# un 29 % bajo su máximo. El prompt decía «un -28.7% por debajo» y «un 13.1%
+# respecto a su media», sin signo, así que no se sabía si estaba por encima o por
+# debajo, y la IA tomó la caída desde el máximo por precio bajo. Ahora van los dos
+# con signo, y lo que contradiga a la valoración no se publica (`contradice_al_precio`).
+PROMPT = """{sector} ({ticker}) cotiza a {price} {currency}: {pct_vs_2y:+.1f}% contra su
+media de 2 años y {pct_from_high:+.1f}% contra su máximo de 52 semanas.
 Valoración cuantitativa de la app: {rating}.
 
 ¿Qué está pasando con {sector} ahora mismo que explique este precio?"""
@@ -101,10 +109,27 @@ def analyze_commodity(ticker: str, sector: str, price: float, currency: str,
         system=SYSTEM, max_tokens=1200, max_searches=2,
         model=claude_research.MODEL_HAIKU,
     )
-    return _interpretar(texto, fuentes)
+    return _interpretar(texto, fuentes, value_rating)
 
 
-def _interpretar(texto: str, fuentes: list[str]) -> dict:
+DE_PRECIO_BAJO = ('OPORTUNIDAD_ESTRUCTURAL', 'MINIMO_CICLICO', 'TRAMPA_DE_VALOR')
+
+
+def contradice_al_precio(veredicto: str, rating: str | None) -> bool:
+    """Una categoría de precio bajo sobre algo CARO, o PRECIO_EXIGENTE sobre algo
+    barato. Con el prompt ya diciéndoselo, si aun así pasa, el veredicto parte de
+    leer mal el precio y no se publica: mejor sin narrativa que con una que
+    contradice a la nota de al lado. Barato con TRAMPA_DE_VALOR sí vale (ver
+    `coherence_check.commodity_rating_vs_narrativa`)."""
+    rating = (rating or '').upper()
+    if rating == 'CARO':
+        return veredicto in DE_PRECIO_BAJO
+    if rating in ('MUY_ATRACTIVO', 'ATRACTIVO'):
+        return veredicto == 'PRECIO_EXIGENTE'
+    return False
+
+
+def _interpretar(texto: str, fuentes: list[str], rating: str | None = None) -> dict:
     """Respuesta cruda -> veredicto. Compartido por la vía síncrona y la de
     lote; dos parseos separados acaban desincronizándose."""
     vacio = {'veredicto': 'SIN_DATOS', 'resumen': '', 'confianza': 0, 'fuentes': []}
@@ -117,6 +142,8 @@ def _interpretar(texto: str, fuentes: list[str]) -> dict:
         veredicto = 'SIN_DATOS'
     if not fuentes:
         veredicto = 'SIN_DATOS'
+    if contradice_al_precio(veredicto, rating):
+        return dict(vacio, descartado=f'{veredicto} con la app diciendo {rating}')
 
     try:
         confianza = max(0, min(100, int(data.get('confianza', 0))))
@@ -172,7 +199,7 @@ def enrich(rows: list[dict], max_commodities: int = MAX_COMMODITIES) -> dict[str
     )
 
     for ticker, r in elegidos:
-        res = _interpretar(*crudos[ticker])
+        res = _interpretar(*crudos[ticker], rating=r.get('value_rating'))
         out[ticker] = res
         icono = {'OPORTUNIDAD_ESTRUCTURAL': '🟢', 'MINIMO_CICLICO': '🟡',
                  'TRAMPA_DE_VALOR': '🔴', 'PRECIO_EXIGENTE': '🔵',
@@ -182,4 +209,6 @@ def enrich(rows: list[dict], max_commodities: int = MAX_COMMODITIES) -> dict[str
         print(f"   {icono} {ticker} ({r.get('sector')}): {res['veredicto']}{compra}")
         if res['resumen']:
             print(f"      {res['resumen'][:100]}")
+        if res.get('descartado'):
+            print(f"      ⚠️  no se publica: {res['descartado']}")
     return out
