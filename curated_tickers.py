@@ -282,6 +282,18 @@ HF_WATCH = [
 ]
 
 
+# ── Bolsas apagadas ────────────────────────────────────────────────────────────
+# Tokio, el 9-nov-2026, como Europa y Global el día antes: el usuario no compra ahí
+# («ya que las ignoro, ahorramos tiempo y dinero»), y allí se compra de 100 en 100
+# acciones. Hoya, Obic y Daifuku siguen en su tier; para volver a puntuarlas, quitar
+# el sufijo de aquí.
+BOLSAS_APAGADAS = ('.T',)
+
+
+def apagada(ticker: str) -> bool:
+    return ticker.upper().endswith(BOLSAS_APAGADAS)
+
+
 # ── Helpers ────────────────────────────────────────────────────────────────────
 
 def get_universe(include_tier4: bool = True, include_hf_watch: bool = False) -> list:
@@ -307,6 +319,7 @@ def get_universe(include_tier4: bool = True, include_hf_watch: bool = False) -> 
         universe += TIER_4
     if include_hf_watch:
         universe += HF_WATCH
+    universe = [t for t in universe if not apagada(t)]
     return list(dict.fromkeys(universe))  # deduplicate, preserve order
 
 

@@ -23,8 +23,20 @@ def test_el_universo_puntuado_es_el_curado_entero():
 
 def test_ninguna_curada_se_queda_sin_medir():
     faltan = [t for t in ct.TIER_1 + ct.TIER_2 + ct.TIER_3 + ct.TIER_4
-              if t not in ct.SCORED_TICKERS]
+              if t not in ct.SCORED_TICKERS and not ct.apagada(t)]
     assert faltan == [], f'del curado, sin puntuar: {faltan}'
+
+
+def test_tokio_esta_apagada_sin_borrar_a_nadie():
+    """9-nov-2026: el usuario no compra en Tokio. Se apaga la bolsa, no las empresas:
+    siguen en su tier para volver a encenderlas con una línea."""
+    tokio = ('7741.T', '4684.T', '6383.T')
+    for universo in (ct.SCORED_TICKERS, ct.ALL_TICKERS, ct.HF_UNIVERSE,
+                     ct.get_universe(include_hf_watch=True)):
+        assert not [t for t in universo if t in tokio]
+    assert all(ct.get_tier(t) in ('2', '4') for t in tokio)
+    # `.T` no es `.TO`: Toronto sigue dentro.
+    assert 'CSU.TO' in ct.SCORED_TICKERS and 'DOL.TO' in ct.SCORED_TICKERS
 
 
 def test_los_nombres_del_caso_estan_dentro():
