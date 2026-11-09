@@ -1,15 +1,19 @@
 {
 "bandas": {
 "4684.T": {
-"motivo": "fuera de TIKR"
+"motivo": "TIKR no tiene su BPA histórico",
+"ventas_anual_anio": 2026,
+"ventas_anual_pct": 11.5
 },
 "6383.T": {
-"motivo": "fuera de TIKR"
+"motivo": "TIKR no tiene su BPA histórico",
+"ventas_anual_anio": 2025,
+"ventas_anual_pct": 17.3
 },
 "7741.T": {
 "motivo": "TIKR no tiene su BPA histórico",
-"ventas_anual_anio": 2025,
-"ventas_anual_pct": 13.6
+"ventas_anual_anio": 2026,
+"ventas_anual_pct": 9.4
 },
 "AAPL": {
 "bpa": 7.46,
@@ -32,6 +36,17 @@
 "tendencia_pct": -7.4,
 "ventas_anual_anio": 2025,
 "ventas_anual_pct": 5.7
+},
+"ADBE": {
+"bpa": 20.94,
+"bpa_anio": 2025,
+"mediana": 41.6,
+"meses": 120,
+"mu": 3.61044,
+"sd": 0.489,
+"tendencia_pct": -11.1,
+"ventas_anual_anio": 2025,
+"ventas_anual_pct": 10.5
 },
 "ADP": {
 "bpa": 11.08,
@@ -73,7 +88,20 @@
 "meses": 120,
 "mu": 2.31868,
 "sd": 0.3854,
-"tendencia_pct": 23.3
+"tendencia_pct": 23.3,
+"ventas_anual_anio": 2025,
+"ventas_anual_pct": -9.3
+},
+"AMAT": {
+"bpa": 9.42,
+"bpa_anio": 2025,
+"mediana": 20.04,
+"meses": 120,
+"mu": 3.02679,
+"sd": 0.42633,
+"tendencia_pct": -24.4,
+"ventas_anual_anio": 2025,
+"ventas_anual_pct": 4.4
 },
 "AME": {
 "bpa": 7.43,
@@ -190,9 +218,18 @@
 "meses": 120,
 "mu": 2.59377,
 "sd": 0.30443,
-"tendencia_pct": 8.6,
+"tendencia_pct": 8.6
+},
+"BKNG": {
+"bpa": 9.12,
+"bpa_anio": 2025,
+"mediana": 25.79,
+"meses": 120,
+"mu": 3.24743,
+"sd": 0.27587,
+"tendencia_pct": -12.6,
 "ventas_anual_anio": 2025,
-"ventas_anual_pct": 6.4
+"ventas_anual_pct": 13.4
 },
 "BLK": {
 "bpa": 48.09,
@@ -228,7 +265,15 @@
 "ventas_anual_pct": 8.5
 },
 "BRK-B": {
-"motivo": "fuera de TIKR"
+"bpa": 20.62,
+"bpa_anio": 2025,
+"mediana": 24.43,
+"meses": 120,
+"mu": 3.23165,
+"sd": 0.16377,
+"tendencia_pct": -16.1,
+"ventas_anual_anio": 2025,
+"ventas_anual_pct": -0.1
 },
 "BRO": {
 "bpa": 4.26,
@@ -261,7 +306,7 @@
 "sd": 0.2023,
 "tendencia_pct": -11.1,
 "ventas_anual_anio": 2025,
-"ventas_anual_pct": 6.6
+"ventas_anual_pct": 6.5
 },
 "CBOE": {
 "bpa": 10.67,
@@ -426,7 +471,15 @@
 "ventas_anual_pct": 2.9
 },
 "DOL.TO": {
-"motivo": "fuera de TIKR"
+"bpa": 4.7,
+"bpa_anio": 2025,
+"mediana": 33.78,
+"meses": 120,
+"mu": 3.51711,
+"sd": 0.18773,
+"tendencia_pct": -4.7,
+"ventas_anual_anio": 2025,
+"ventas_anual_pct": 13.1
 },
 "DPZ": {
 "bpa": 17.57,
@@ -527,7 +580,13 @@
 "ventas_anual_pct": 8.7
 },
 "FCNCA": {
-"motivo": "TIKR no tiene su BPA histórico",
+"bpa": 177.88,
+"bpa_anio": 2025,
+"mediana": 24.92,
+"meses": 120,
+"mu": 3.08518,
+"sd": 0.5812,
+"tendencia_pct": -57.9,
 "ventas_anual_anio": 2025,
 "ventas_anual_pct": 4.5
 },
@@ -784,9 +843,9 @@
 "ventas_anual_pct": 6.0
 },
 "KD": {
-"motivo": "solo 8 meses de PER utilizable",
-"ventas_anual_anio": 2025,
-"ventas_anual_pct": -6.2
+"motivo": "solo 17 meses de PER utilizable",
+"ventas_anual_anio": 2026,
+"ventas_anual_pct": 0.2
 },
 "KHC": {
 "bpa": 2.6,
@@ -798,6 +857,17 @@
 "tendencia_pct": -14.3,
 "ventas_anual_anio": 2025,
 "ventas_anual_pct": -3.5
+},
+"KLAC": {
+"bpa": 3.7,
+"bpa_anio": 2026,
+"mediana": 22.5,
+"meses": 120,
+"mu": 3.15207,
+"sd": 0.34786,
+"tendencia_pct": -12.6,
+"ventas_anual_anio": 2026,
+"ventas_anual_pct": 11.7
 },
 "KO": {
 "bpa": 3.0,
@@ -822,12 +892,14 @@
 "ventas_anual_pct": 0.4
 },
 "KVUE": {
-"motivo": "solo 15 meses de PER utilizable",
+"motivo": "solo 32 meses de PER utilizable",
 "ventas_anual_anio": 2025,
 "ventas_anual_pct": -2.1
 },
 "KYCCF": {
-"motivo": "fuera de TIKR"
+"motivo": "cotiza y presenta cuentas en divisas distintas",
+"ventas_anual_anio": 2026,
+"ventas_anual_pct": 10.4
 },
 "LEN": {
 "bpa": 8.06,
@@ -851,6 +923,17 @@
 "ventas_anual_anio": 2025,
 "ventas_anual_pct": 3.0
 },
+"LLY": {
+"bpa": 24.21,
+"bpa_anio": 2025,
+"mediana": 27.98,
+"meses": 120,
+"mu": 3.44294,
+"sd": 0.38645,
+"tendencia_pct": 122.6,
+"ventas_anual_anio": 2025,
+"ventas_anual_pct": 44.7
+},
 "LMT": {
 "bpa": 21.49,
 "bpa_anio": 2025,
@@ -872,6 +955,9 @@
 "tendencia_pct": -82.1,
 "ventas_anual_anio": 2025,
 "ventas_anual_pct": -7.9
+},
+"LRCX": {
+"motivo": "fuera de TIKR"
 },
 "LRLCY": {
 "motivo": "cotiza y presenta cuentas en divisas distintas",
@@ -954,6 +1040,17 @@
 "tendencia_pct": -9.9,
 "ventas_anual_anio": 2025,
 "ventas_anual_pct": 8.6
+},
+"MNST": {
+"bpa": 0.99,
+"bpa_anio": 2025,
+"mediana": 39.39,
+"meses": 120,
+"mu": 3.68124,
+"sd": 0.14766,
+"tendencia_pct": 15.3,
+"ventas_anual_anio": 2025,
+"ventas_anual_pct": 10.7
 },
 "MRSH": {
 "bpa": 9.75,
@@ -1047,6 +1144,17 @@
 "tendencia_pct": -69.7,
 "ventas_anual_anio": 2025,
 "ventas_anual_pct": 5.7
+},
+"NVDA": {
+"bpa": 4.77,
+"bpa_anio": 2025,
+"mediana": 38.4,
+"meses": 120,
+"mu": 3.5558,
+"sd": 0.52514,
+"tendencia_pct": 24.6,
+"ventas_anual_anio": 2025,
+"ventas_anual_pct": 65.5
 },
 "NVR": {
 "bpa": 436.55,
@@ -1267,7 +1375,9 @@
 "ventas_anual_pct": 5.2
 },
 "SGSOY": {
-"motivo": "fuera de TIKR"
+"motivo": "cotiza y presenta cuentas en divisas distintas",
+"ventas_anual_anio": 2025,
+"ventas_anual_pct": 2.2
 },
 "SHW": {
 "bpa": 11.43,
@@ -1356,7 +1466,9 @@
 "ventas_anual_pct": 7.1
 },
 "TLC.AX": {
-"motivo": "fuera de TIKR"
+"motivo": "solo 50 meses de PER utilizable",
+"ventas_anual_anio": 2026,
+"ventas_anual_pct": -2.9
 },
 "TMO": {
 "bpa": 22.87,
@@ -1370,7 +1482,13 @@
 "ventas_anual_pct": 3.9
 },
 "TNE.AX": {
-"motivo": "TIKR no tiene su BPA histórico",
+"bpa": 0.42,
+"bpa_anio": 2025,
+"mediana": 47.62,
+"meses": 120,
+"mu": 3.88393,
+"sd": 0.20804,
+"tendencia_pct": 1.3,
 "ventas_anual_anio": 2025,
 "ventas_anual_pct": 18.4
 },
@@ -1446,7 +1564,9 @@
 "ventas_anual_pct": 11.3
 },
 "VCISY": {
-"motivo": "fuera de TIKR"
+"motivo": "cotiza y presenta cuentas en divisas distintas",
+"ventas_anual_anio": 2025,
+"ventas_anual_pct": 4.2
 },
 "VEEV": {
 "bpa": 8.1,
@@ -1558,5 +1678,5 @@
 "ventas_anual_pct": 2.3
 }
 },
-"generated_at": "2026-11-07T01:41:39+00:00"
+"generated_at": "2026-11-09T06:31:58+00:00"
 }

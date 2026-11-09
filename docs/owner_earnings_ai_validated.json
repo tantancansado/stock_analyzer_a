@@ -1,827 +1,827 @@
 {
   "model": "openai/gpt-oss-120b",
-  "validated_at": "2026-11-06T07:11:25+00:00",
-  "huella_entrada": "4ded122f41a9b49f",
-  "total": 161,
+  "validated_at": "2026-11-09T06:56:13+00:00",
+  "huella_entrada": "1cba98bfeeb1a4c3",
+  "total": 176,
   "results": {
     "RSG": {
-      "data_quality": "RELIABLE",
-      "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre son consistentes y el historial es suficiente, pero el modelo muestra un precio objetivo de 144,71 frente al precio actual de 244,04, lo que implica un downside del 40 % y un margen de seguridad negativo, confirmando la sobrevaloración.",
-      "confidence": 92,
-      "score_adjustment": -8,
-      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
-    },
-    "FAST": {
-      "data_quality": "RELIABLE",
-      "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre son consistentes y el historial es suficiente; sin embargo, el modelo muestra un precio objetivo por debajo del actual con un margen de seguridad negativo, indicando sobrevaloración.",
-      "confidence": 85,
-      "score_adjustment": -8,
-      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
-    },
-    "MSI": {
-      "data_quality": "RELIABLE",
-      "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre son consistentes y el historial es suficiente; sin embargo, el modelo muestra un precio objetivo de compra muy por debajo del precio actual, con un upside negativo del -35% y margen de seguridad negativo, lo que confirma la sobrevaloración implícita.",
-      "confidence": 92,
-      "score_adjustment": -8,
-      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
-    },
-    "CB": {
-      "data_quality": "RELIABLE",
-      "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre presentan una trayectoria estable y los datos históricos cumplen con los requisitos mínimos, por lo que la información es confiable. Sin embargo, el modelo indica un precio objetivo de 240 USD frente al precio actual de 364 USD, lo que implica un downside del 34 % y un margen de seguridad negativo, confirmando la tesis de sobrevaloración.",
-      "confidence": 92,
-      "score_adjustment": -8,
-      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
-    },
-    "CHD": {
-      "data_quality": "RELIABLE",
-      "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre son consistentes y el historial es suficiente; sin embargo, el modelo muestra un precio objetivo de compra muy por debajo del precio actual, indicando una sobrevaloración significativa.",
-      "confidence": 85,
-      "score_adjustment": -8,
-      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
-    },
-    "ROP": {
-      "data_quality": "RELIABLE",
-      "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre son consistentes y cuentan con al menos cinco años de historial, pero el ROIC del 6.2% está por debajo del costo de capital estimado (8%) y el modelo muestra un precio objetivo mucho menor al precio actual, indicando sobrevaloración.",
-      "confidence": 92,
-      "score_adjustment": -8,
-      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
-    },
-    "CBOE": {
-      "data_quality": "RELIABLE",
-      "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre son consistentes y el histórico supera los 3 años, pero el precio objetivo calculado está muy por debajo del precio actual, indicando una sobrevaloración significativa. El margen de seguridad negativo refuerza la conclusión de que la acción está sobrevaluada.",
-      "confidence": 92,
-      "score_adjustment": -8,
-      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
-    },
-    "7741.T": {
-      "data_quality": "UNRELIABLE",
-      "thesis_verdict": "INSUFFICIENT",
-      "reasoning": "Los valores de FCF (cientos de miles de millones) no concuerdan con la capitalización de mercado y el precio por acción, lo que sugiere inconsistencias en unidades o fuentes. Sin datos consistentes, no se puede validar la tesis de sobrevaloración.",
-      "confidence": 85,
-      "score_adjustment": 0,
-      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
-    },
-    "ISRG": {
-      "data_quality": "RELIABLE",
-      "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre históricos y proyectados son consistentes y el número de años es suficiente, por lo que los datos son fiables. Sin embargo, el modelo muestra un precio objetivo muy por debajo del precio actual, indicando que la acción está sobrevalorada según los supuestos de retorno y múltiplos aplicados.",
-      "confidence": 82,
-      "score_adjustment": -8,
-      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
-    },
-    "CNI": {
-      "data_quality": "RELIABLE",
-      "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre son consistentes y el historial es amplio; sin embargo, el precio objetivo calculado está muy por debajo del precio actual, indicando una gran sobrevaloración. La señal de margen de seguridad negativo refuerza la conclusión de sobrevaloración.",
-      "confidence": 92,
-      "score_adjustment": -8,
-      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
-    },
-    "SYK": {
-      "data_quality": "RELIABLE",
-      "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre son consistentes y el historial es amplio, pero el modelo muestra un precio objetivo de compra muy por debajo del precio actual, generando un upside negativo y un margen de seguridad muy bajo, lo que confirma la sobrevaloración implícita.",
-      "confidence": 92,
-      "score_adjustment": -8,
-      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
-    },
-    "ERIE": {
-      "data_quality": "MIXED",
-      "thesis_verdict": "INSUFFICIENT",
-      "reasoning": "Los flujos de caja libres históricos son positivos y consistentes, pero falta información clave como proyecciones de FCF, múltiplos EV/FCF y rendimientos futuros, lo que impide una valoración fiable. Además, la escasa cobertura de analistas y la ausencia de datos de valoración limitan la confianza en la tesis implícita.",
-      "confidence": 68,
-      "score_adjustment": 0,
-      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
-    },
-    "MSFT": {
-      "data_quality": "MIXED",
-      "thesis_verdict": "WATCH",
-      "reasoning": "Los datos históricos de FCF son consistentes, pero las proyecciones forward son extremadamente optimistas y poco realistas, lo que genera incertidumbre. La señal de compra basada en un upside del 147% parece exagerada dadas las dudas sobre el crecimiento futuro.",
-      "confidence": 78,
-      "score_adjustment": 0,
-      "oe_ai_verdict": "MIXED/WATCH (0)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
-    },
-    "AUTO.L": {
-      "data_quality": "RELIABLE",
-      "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre son consistentes y el historial supera los 3 años, aunque hay una ligera caída reciente. El modelo muestra un precio objetivo de 2.68 frente al actual 4.89, indicando un downside del 45% y margen de seguridad negativo, por lo que la tesis de sobrevaloración es correcta.",
-      "confidence": 92,
-      "score_adjustment": -8,
-      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
-    },
-    "RELX": {
-      "data_quality": "RELIABLE",
-      "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre presentan una trayectoria estable y los supuestos de valoración son coherentes, por lo que los datos son fiables. El modelo indica un precio objetivo de 43,21 frente al precio actual de 40,09, generando un upside negativo del -38,4% y un margen de seguridad muy bajo, lo que confirma la tesis de sobrevaloración.",
-      "confidence": 92,
-      "score_adjustment": -8,
-      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
-    },
-    "AJG": {
-      "data_quality": "RELIABLE",
-      "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre son consistentes y el historial tiene más de tres años, aunque muestra una caída reciente y ROIC por debajo del costo de capital. El modelo indica un precio objetivo mucho menor al actual, lo que confirma la sobrevaloración.",
-      "confidence": 92,
-      "score_adjustment": -8,
-      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
-    },
-    "LRLCY": {
-      "data_quality": "RELIABLE",
-      "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre presentan historial sólido y los supuestos son razonables; sin embargo, el modelo indica un precio objetivo de 110,69 USD frente al actual 88,09 USD con un margen de seguridad negativo del 60%, lo que confirma la sobrevaloración implícita.",
-      "confidence": 85,
-      "score_adjustment": -8,
-      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
-    },
-    "CP": {
-      "data_quality": "RELIABLE",
-      "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre son consistentes y el historial tiene más de tres años, aunque presentan caídas y ROIC bajo el costo de capital. El modelo muestra un precio objetivo muy por debajo del precio actual, indicando sobrevaloración.",
-      "confidence": 92,
-      "score_adjustment": -8,
-      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
-    },
-    "ZTS": {
-      "data_quality": "RELIABLE",
-      "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre son consistentes y el historial tiene más de tres años; sin embargo, el modelo muestra un precio objetivo de 41,48 USD frente al precio actual de 79,72 USD, lo que implica un downside del 48 % y un margen de seguridad negativo, confirmando la tesis de sobrevaloración.",
-      "confidence": 92,
-      "score_adjustment": -8,
-      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
-    },
-    "NOW": {
-      "data_quality": "RELIABLE",
-      "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre históricos son consistentes y el modelo usa supuestos razonables; sin embargo, el precio objetivo calculado está muy por debajo del precio actual, indicando un margen de seguridad negativo y una sobrevaloración evidente.",
-      "confidence": 85,
-      "score_adjustment": -8,
-      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
-    },
-    "INTU": {
-      "data_quality": "RELIABLE",
-      "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre son consistentes y el historial es suficiente, pero el modelo muestra un precio objetivo de compra de 166.33 frente al actual 341.09, lo que implica un downside del 51 % y un margen de seguridad negativo. La tesis de sobrevaloración es consistente con estos resultados.",
-      "confidence": 92,
-      "score_adjustment": -8,
-      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
-    },
-    "SPGI": {
-      "data_quality": "RELIABLE",
-      "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre son consistentes y el historial es suficiente; sin embargo, el modelo muestra un precio objetivo muy por debajo del actual y un margen de seguridad negativo, indicando sobrevaloración.",
-      "confidence": 85,
-      "score_adjustment": -8,
-      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
-    },
-    "LSEG.L": {
-      "data_quality": "RELIABLE",
-      "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre son consistentes y el historial es suficiente, pero el cálculo muestra un precio objetivo muy por debajo del actual y un margen de seguridad negativo, lo que confirma la sobrevaloración. Además, el ROIC está por debajo del costo de capital y hay dilución accionaria.",
-      "confidence": 92,
-      "score_adjustment": -8,
-      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
-    },
-    "CME": {
-      "data_quality": "RELIABLE",
-      "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre presentan una serie histórica razonable y los supuestos de valoración son consistentes; el modelo muestra un precio objetivo muy por debajo del actual, indicando sobrevaloración significativa.",
-      "confidence": 92,
-      "score_adjustment": -8,
-      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
-    },
-    "FICO": {
-      "data_quality": "MIXED",
-      "thesis_verdict": "AVOID",
-      "reasoning": "Los datos de FCF son consistentes y tienen historial suficiente, pero el ROE negativo es inusual para una empresa de software y sugiere posibles inconsistencias en los estados financieros. La valoración muestra un upside negativo y un margen de seguridad muy bajo, lo que respalda la tesis de sobrevaloración.",
-      "confidence": 85,
-      "score_adjustment": -5,
-      "oe_ai_verdict": "MIXED/AVOID (-5)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
-    },
-    "ITW": {
-      "data_quality": "RELIABLE",
-      "thesis_verdict": "AVOID",
-      "reasoning": "Los datos de FCF son consistentes y cuentan con al menos tres años históricos, por lo que la calidad es aceptable. Sin embargo, el modelo muestra un precio objetivo inferior al actual (‑9.8% de upside) y un margen de seguridad negativo, lo que indica sobrevaloración y justifica evitar la posición.",
-      "confidence": 85,
-      "score_adjustment": -8,
-      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
-    },
-    "DHR": {
-      "data_quality": "RELIABLE",
-      "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre presentan una ligera caída y el ROIC está por debajo del costo de capital, lo que respalda la conclusión de sobrevaloración. Además, el modelo muestra un upside negativo y un margen de seguridad muy bajo.",
-      "confidence": 92,
-      "score_adjustment": -8,
-      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
-    },
-    "ETN": {
-      "data_quality": "RELIABLE",
-      "thesis_verdict": "AVOID",
-      "reasoning": "El modelo muestra un precio objetivo inferior al actual (329 vs 369) y un upside negativo del 11 %, con margen de seguridad negativo, lo que indica sobrevaloración. No se detectan red flags, pero la valoración no justifica mantener la posición.",
-      "confidence": 85,
-      "score_adjustment": -8,
-      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
-    },
-    "CSU.TO": {
-      "data_quality": "RELIABLE",
-      "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre son consistentes y cuentan con varios años de historial, por lo que los datos son fiables. Sin embargo, el modelo muestra un upside negativo del -13.9% y un margen de seguridad de -16.2%, indicando que el precio actual está sobrevalorado respecto al valor intrínseco estimado, por lo que la tesis HOLD no se justifica.",
-      "confidence": 92,
-      "score_adjustment": -8,
-      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
-    },
-    "CLPBY": {
-      "data_quality": "RELIABLE",
-      "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre históricos son consistentes y el número de acciones y la conversión ADR están bien documentados, por lo que los datos son fiables. Sin embargo, el modelo muestra un precio objetivo de compra de 3.57 USD frente al precio actual de 6.57 USD, indicando un upside negativo del -45.7% y un margen de seguridad muy bajo, lo que respalda la conclusión de sobrevaloración.",
-      "confidence": 92,
-      "score_adjustment": -8,
-      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
-    },
-    "V": {
-      "data_quality": "RELIABLE",
-      "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre presentados son consistentes con los reportes de Visa y el historial supera los 3 años requeridos; sin embargo, el modelo muestra un precio objetivo de compra muy por debajo del precio actual y un margen de seguridad negativo, lo que confirma la tesis de sobrevaloración.",
-      "confidence": 92,
-      "score_adjustment": -8,
-      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
-    },
-    "BRO": {
-      "data_quality": "RELIABLE",
-      "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre históricos son consistentes y el consenso forward es razonable; sin embargo, el modelo muestra un precio objetivo de compra de 36.03 frente al actual 69.76, indicando una sobrevaloración significativa y un margen de seguridad negativo.",
-      "confidence": 92,
-      "score_adjustment": -8,
-      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
-    },
-    "PGR": {
-      "data_quality": "RELIABLE",
-      "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre son consistentes y el historial es amplio; sin embargo, el modelo muestra un precio objetivo de 122.56 frente al precio actual de 231.28, indicando una sobrevaloración significativa y margen de seguridad negativo.",
-      "confidence": 85,
-      "score_adjustment": -8,
-      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
-    },
-    "PEP": {
-      "data_quality": "RELIABLE",
-      "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre son consistentes y el historial es amplio; sin embargo, el precio objetivo calculado está muy por debajo del precio actual, indicando una sobrevaloración significativa.",
-      "confidence": 92,
-      "score_adjustment": -8,
-      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
-    },
-    "IT": {
-      "data_quality": "RELIABLE",
-      "thesis_verdict": "AVOID",
-      "reasoning": "Los datos de FCF son consistentes y cuentan con al menos tres años históricos; las proyecciones forward son razonables y no hay inconsistencias graves. Sin embargo, el modelo muestra un precio objetivo mucho menor al actual, con un upside negativo del -36.9% y margen de seguridad negativo, lo que respalda la tesis de sobrevaloración.",
-      "confidence": 82,
-      "score_adjustment": -8,
-      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
-    },
-    "HEI": {
-      "data_quality": "RELIABLE",
-      "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre son consistentes y el historial es suficiente; sin embargo, el precio objetivo calculado está muy por debajo del precio actual, generando un upside negativo y un margen de seguridad muy bajo, lo que confirma la sobrevaloración implícita.",
-      "confidence": 88,
-      "score_adjustment": -8,
-      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
-    },
-    "CDNS": {
-      "data_quality": "RELIABLE",
-      "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre son consistentes y el historial es suficiente, pero el modelo muestra un precio objetivo de compra muy por debajo del precio actual, generando un upside negativo y un margen de seguridad desfavorable, lo que confirma la sobrevaloración implícita.",
-      "confidence": 88,
-      "score_adjustment": -8,
-      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
-    },
-    "ESLOY": {
-      "data_quality": "RELIABLE",
-      "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre son consistentes y el historial tiene más de tres años; sin embargo, el modelo muestra un precio objetivo por debajo del precio actual, con un margen de seguridad negativo y ROIC inferior al costo de capital, lo que confirma la sobrevaloración implícita.",
-      "confidence": 92,
-      "score_adjustment": -8,
-      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
-    },
-    "WST": {
-      "data_quality": "RELIABLE",
-      "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre son consistentes y el historial es suficiente; sin embargo, el modelo muestra un precio objetivo de 303.61 frente al actual 412.62, indicando un downside del 26% y margen de seguridad negativo, lo que confirma la sobrevaloración implícita.",
-      "confidence": 92,
-      "score_adjustment": -8,
-      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
-    },
-    "LIN": {
-      "data_quality": "RELIABLE",
-      "thesis_verdict": "AVOID",
-      "reasoning": "Los datos de FCF son consistentes y cuentan con varios años históricos y proyecciones razonables; la única alerta es una conversión FCF/EBITDA moderada. El modelo muestra un precio objetivo de 346, muy por debajo del precio actual de 514, indicando una sobrevaloración significativa.",
-      "confidence": 92,
-      "score_adjustment": -8,
-      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
-    },
-    "SBGSY": {
-      "data_quality": "RELIABLE",
-      "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre presentan una trayectoria estable y los supuestos de valoración son coherentes; sin embargo, el modelo indica un precio objetivo de compra de 43,32 USD frente al precio actual de 67,37 USD, generando un upside negativo del -35,7% y un margen de seguridad del -55,5%, lo que confirma la tesis de sobrevaloración.",
-      "confidence": 92,
-      "score_adjustment": -8,
-      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
-    },
-    "MTD": {
-      "data_quality": "MIXED",
-      "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre son consistentes y cuentan con al menos tres años de historial, pero la caída reciente y el ROE extremadamente negativo generan dudas sobre la calidad de los ingresos. Además, el modelo muestra un margen de seguridad negativo y un upside del -32%, lo que respalda la conclusión de sobrevaloración.",
-      "confidence": 85,
-      "score_adjustment": -5,
-      "oe_ai_verdict": "MIXED/AVOID (-5)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
-    },
-    "ROL": {
-      "data_quality": "RELIABLE",
-      "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre son consistentes y el historial es amplio, pero el precio objetivo calculado está por debajo del precio actual, indicando un upside negativo y margen de seguridad negativo. La valoración sugiere que la acción está sobrevalorada.",
-      "confidence": 92,
-      "score_adjustment": -8,
-      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
-    },
-    "TNE.AX": {
-      "data_quality": "RELIABLE",
-      "thesis_verdict": "AVOID",
-      "reasoning": "El modelo muestra un precio objetivo de compra inferior al actual y un upside negativo del -13%, con margen de seguridad también negativo, lo que indica sobrevaloración. Además, el alto múltiplo EV/FCF objetivo (45.5x) es poco realista para el sector.",
-      "confidence": 92,
-      "score_adjustment": -8,
-      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
-    },
-    "TYL": {
-      "data_quality": "RELIABLE",
-      "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre presentan una trayectoria consistente y los supuestos de valoración son razonables, pero el modelo indica un precio objetivo de 234,56 frente al precio actual de 394,30, lo que implica un downside del 40 % y un margen de seguridad negativo. Por tanto, la tesis de sobrevaloración es correcta.",
-      "confidence": 92,
-      "score_adjustment": -8,
-      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
-    },
-    "GVDNY": {
-      "data_quality": "RELIABLE",
-      "thesis_verdict": "AVOID",
-      "reasoning": "Los datos de FCF son consistentes y cuentan con varios años históricos; la única señal de alerta es la ligera caída reciente y la baja cobertura de analistas, pero no invalidan el modelo. Sin embargo, el cálculo muestra un precio objetivo de compra muy por debajo del precio actual, indicando que la acción está significativamente sobrevalorada según los supuestos de retorno y múltiplos, por lo que la tesis de OVERVALUED es razonable.",
-      "confidence": 92,
-      "score_adjustment": -8,
-      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
-    },
-    "HESAY": {
-      "data_quality": "RELIABLE",
-      "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre presentan una trayectoria estable y el histórico cuenta con más de tres años, por lo que los datos son confiables. Sin embargo, el modelo indica un precio objetivo de compra de 86 USD frente al precio actual de 162 USD, lo que implica un upside negativo del 46 % y un margen de seguridad extremadamente bajo, señalando que la acción está sobrevalorada según los supuestos de retorno y múltiplos.",
-      "confidence": 92,
-      "score_adjustment": -8,
-      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
-    },
-    "VLTO": {
-      "data_quality": "RELIABLE",
-      "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre son consistentes y el historial es suficiente, pero el modelo muestra un precio objetivo de 71.76 frente al actual 111.10, lo que implica un downside del 35% y un margen de seguridad negativo, confirmando la tesis de sobrevaloración.",
-      "confidence": 88,
-      "score_adjustment": -8,
-      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
-    },
-    "DBOEY": {
-      "data_quality": "RELIABLE",
-      "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre presentan una trayectoria coherente y los supuestos de valoración son razonables; el modelo muestra un precio justo de compra de 15.87 frente al precio actual de 31.95, indicando una sobrevaloración significativa. La baja cobertura de analistas es una señal de alerta menor, pero no invalida la conclusión.",
-      "confidence": 92,
-      "score_adjustment": -8,
-      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
-    },
-    "MCD": {
-      "data_quality": "MIXED",
-      "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre son consistentes y el historial es amplio, pero el ROE negativo extremadamente alto sugiere posibles errores de datos o problemas de calidad, lo que genera dudas. La valoración muestra un amplio downside respecto al precio actual, indicando sobrevaloración.",
-      "confidence": 78,
-      "score_adjustment": -5,
-      "oe_ai_verdict": "MIXED/AVOID (-5)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
-    },
-    "AON": {
-      "data_quality": "RELIABLE",
-      "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre son consistentes y el historial es amplio, pero el modelo muestra un precio objetivo de 197.74 frente al actual 321.67, lo que implica un downside del 38.5% y un margen de seguridad negativo, confirmando la sobrevaloración.",
-      "confidence": 92,
-      "score_adjustment": -8,
-      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
-    },
-    "ASAZY": {
-      "data_quality": "RELIABLE",
-      "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre históricos son consistentes y el número de años es suficiente; sin embargo, el modelo muestra un precio objetivo por debajo del actual con un margen de seguridad negativo, indicando sobrevaloración. Además, la caída del FCF reciente y la escasa cobertura de analistas refuerzan la cautela.",
-      "confidence": 92,
-      "score_adjustment": -8,
-      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
-    },
-    "EQIX": {
-      "data_quality": "MIXED",
-      "thesis_verdict": "AVOID",
-      "reasoning": "Equinix es un REIT y su flujo de caja libre es volátil, con un año negativo y proyecciones sin consenso claro; además, la alta deuda y ROIC bajo el costo de capital generan dudas sobre la fiabilidad del modelo. La valoración muestra un amplio margen de seguridad negativo, lo que respalda la conclusión de sobrevaloración.",
-      "confidence": 78,
-      "score_adjustment": -5,
-      "oe_ai_verdict": "MIXED/AVOID (-5)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
-    },
-    "VRSN": {
-      "data_quality": "MIXED",
-      "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre son consistentes y tienen historial suficiente, pero los indicadores de rentabilidad (ROIC 918% y ROE -40.2%) y la escasa cobertura de analistas generan dudas sobre la calidad de los supuestos. El modelo muestra un margen de seguridad negativo y un upside de -33%, lo que respalda la conclusión de sobrevaloración.",
-      "confidence": 78,
-      "score_adjustment": -5,
-      "oe_ai_verdict": "MIXED/AVOID (-5)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
-    },
-    "ADP": {
-      "data_quality": "MIXED",
-      "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre históricos son razonables, pero los valores proyectados por acción (≈$13) son incongruentes con el precio actual ($293), lo que indica posibles errores en la cantidad de acciones o en las proyecciones. La valoración muestra un precio objetivo muy por debajo del mercado, apoyando la tesis de sobrevaloración.",
-      "confidence": 80,
-      "score_adjustment": -5,
-      "oe_ai_verdict": "MIXED/AVOID (-5)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
-    },
-    "PAYX": {
-      "data_quality": "RELIABLE",
-      "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre son consistentes y el historial es amplio; sin embargo, el modelo indica un precio objetivo de compra de 53.80 frente al actual 112.12, lo que implica un downside del 52% y un margen de seguridad negativo, confirmando la tesis de sobrevaloración.",
-      "confidence": 92,
-      "score_adjustment": -8,
-      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
-    },
-    "WMT": {
-      "data_quality": "RELIABLE",
-      "thesis_verdict": "AVOID",
-      "reasoning": "El FCF histórico es consistente y el horizonte de datos es suficiente, pero el modelo muestra un precio objetivo inferior al actual, con margen de seguridad negativo y upside del -7,4%, lo que indica sobrevaloración. Además, la red flag de conversión FCF/EBITDA baja refuerza la cautela.",
-      "confidence": 88,
-      "score_adjustment": -8,
-      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
-    },
-    "SAP": {
-      "data_quality": "RELIABLE",
-      "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre están bien documentados y el histórico supera los 3 años, sin banderas rojas. Sin embargo, el modelo muestra un precio objetivo inferior al actual y un margen de seguridad negativo, indicando que la acción está sobrevalorada según los supuestos.",
-      "confidence": 92,
-      "score_adjustment": -8,
-      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
-    },
-    "WTKWY": {
-      "data_quality": "RELIABLE",
-      "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre históricos son consistentes y hay al menos tres años de datos; la conversión ADR está verificada. El modelo muestra un precio objetivo de compra de 41,30 USD frente al precio actual de 77 USD, indicando un downside del 46 % y un margen de seguridad negativo, por lo que la tesis de sobrevaloración es consistente.",
-      "confidence": 92,
-      "score_adjustment": -8,
-      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
-    },
-    "CPRT": {
-      "data_quality": "RELIABLE",
-      "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre son consistentes y el historial es suficiente, pero el modelo muestra un precio objetivo de 14.95 frente al precio actual de 30.13, lo que implica un downside del 50 % y un margen de seguridad negativo, confirmando la sobrevaloración.",
-      "confidence": 92,
-      "score_adjustment": -8,
-      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
-    },
-    "AXP": {
-      "data_quality": "RELIABLE",
-      "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre son consistentes y el historial es amplio, pero el modelo muestra un precio objetivo de compra muy por debajo del precio actual, generando un upside negativo y un margen de seguridad negativo, lo que confirma la sobrevaloración implícita.",
-      "confidence": 92,
-      "score_adjustment": -8,
-      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
-    },
-    "AWK": {
-      "data_quality": "MIXED",
-      "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libres presentan alta volatilidad y tres años consecutivos negativos, y las proyecciones forward son inconsistentes, lo que reduce la fiabilidad del modelo. Además, los indicadores de deuda y ROIC son desfavorables, reforzando la conclusión de sobrevaloración.",
-      "confidence": 78,
-      "score_adjustment": -5,
-      "oe_ai_verdict": "MIXED/AVOID (-5)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
-    },
-    "TW": {
-      "data_quality": "RELIABLE",
-      "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre son consistentes y el historial es amplio; sin embargo, el modelo muestra un precio objetivo de 81,07 frente al actual 122,54, lo que implica un downside del 33,8% y un margen de seguridad negativo, confirmando la tesis de sobrevaloración.",
-      "confidence": 92,
-      "score_adjustment": -8,
-      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
-    },
-    "SHW": {
-      "data_quality": "RELIABLE",
-      "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre son consistentes y el historial es suficiente; sin embargo, el modelo muestra un precio objetivo de compra muy por debajo del precio actual y un margen de seguridad negativo, confirmando la sobrevaloración implícita.",
-      "confidence": 92,
-      "score_adjustment": -8,
-      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
-    },
-    "FDS": {
-      "data_quality": "RELIABLE",
-      "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre son consistentes y el historial es suficiente; sin embargo, el modelo indica un precio objetivo de 196 USD frente al actual 329 USD, lo que implica un downside del 40 % y un margen de seguridad negativo, confirmando la tesis de sobrevaloración.",
-      "confidence": 92,
-      "score_adjustment": -8,
-      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
-    },
-    "TT": {
-      "data_quality": "RELIABLE",
-      "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre son consistentes y el historial es suficiente, pero el modelo muestra un precio objetivo por debajo del actual (descuento del 15.9%) y margen de seguridad negativo, indicando sobrevaloración. La tesis HOLD no se sostiene con esos indicadores.",
-      "confidence": 92,
-      "score_adjustment": -8,
-      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
-    },
-    "ATLKY": {
-      "data_quality": "RELIABLE",
-      "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre presentan una tendencia irregular y el modelo indica un precio objetivo muy por debajo del actual, con margen de seguridad negativo; además el EV/FCF objetivo es inferior al histórico, lo que refuerza la sobrevaloración.",
-      "confidence": 92,
-      "score_adjustment": -8,
-      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
-    },
-    "CTAS": {
-      "data_quality": "RELIABLE",
-      "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre son consistentes y el historial es amplio; sin embargo, el modelo muestra un precio objetivo de compra muy por debajo del precio actual y un margen de seguridad negativo, indicando que la acción está sobrevalorada.",
-      "confidence": 85,
-      "score_adjustment": -8,
-      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
-    },
-    "VRSK": {
-      "data_quality": "RELIABLE",
-      "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre son consistentes y el historial es amplio, pero el precio objetivo calculado está muy por debajo del precio actual, indicando un margen de seguridad negativo y poca upside. La valoración basada en EV/FCF y el ROIC alto no compensan el amplio sobreprecio.",
-      "confidence": 92,
-      "score_adjustment": -8,
-      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
-    },
-    "VEEV": {
-      "data_quality": "RELIABLE",
-      "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre históricos son consistentes y el consenso forward está bien documentado; sin embargo, el precio objetivo calculado está muy por debajo del precio actual, indicando una sobrevaloración significativa.",
-      "confidence": 92,
-      "score_adjustment": -8,
-      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
-    },
-    "DSGX": {
-      "data_quality": "RELIABLE",
-      "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre son consistentes y el historial es suficiente, pero el modelo muestra un precio objetivo inferior al actual, con upside negativo y margen de seguridad negativo, indicando sobrevaloración.",
-      "confidence": 92,
-      "score_adjustment": -8,
-      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
-    },
-    "WM": {
-      "data_quality": "RELIABLE",
-      "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre presentan un historial sólido y los supuestos de valoración son transparentes; sin embargo, el precio objetivo calculado está muy por debajo del precio actual, indicando una sobrevaloración significativa. La señal de conversión FCF/EBITDA baja refuerza la cautela.",
-      "confidence": 80,
-      "score_adjustment": -8,
-      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
-    },
-    "G24.DE": {
-      "data_quality": "RELIABLE",
-      "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre son consistentes y el historial es suficiente, pero el modelo muestra un precio objetivo de 55,04 frente al actual 73,05, lo que implica un downside del 24,7% y margen de seguridad negativo, confirmando la sobrevaloración.",
-      "confidence": 85,
-      "score_adjustment": -8,
-      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
-    },
-    "IDXX": {
-      "data_quality": "RELIABLE",
-      "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre presentan historial razonable y los supuestos son coherentes; sin embargo, el modelo muestra un precio objetivo significativamente inferior al actual, indicando sobrevaloración.",
-      "confidence": 85,
-      "score_adjustment": -8,
-      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
-    },
-    "ICE": {
-      "data_quality": "RELIABLE",
-      "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre presentan historial sólido y los supuestos son razonables, por lo que los datos son confiables. Sin embargo, el modelo indica un precio objetivo de 102 $, muy por debajo del precio actual de 168 $, lo que sugiere una sobrevaloración significativa.",
-      "confidence": 92,
-      "score_adjustment": -8,
-      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
-    },
-    "AZO": {
-      "data_quality": "MIXED",
-      "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre son consistentes y el historial es suficiente, pero la señal de ROE negativo y la alta valoración implícita generan dudas sobre la fiabilidad completa del modelo.",
-      "confidence": 78,
-      "score_adjustment": -5,
-      "oe_ai_verdict": "MIXED/AVOID (-5)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
-    },
-    "ECL": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
       "reasoning": "Los flujos de caja libre son consistentes y el historial es amplio; sin embargo, el precio objetivo calculado está muy por debajo del precio actual, lo que indica una sobrevaloración significativa.",
       "confidence": 85,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
+      "validated_at": "2026-11-09T06:56:13+00:00"
     },
-    "PG": {
+    "FAST": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre son consistentes y el histórico cubre varios años; sin embargo, el modelo muestra un precio objetivo de compra muy bajo (86.79) frente al precio actual (161.57) y un margen de seguridad negativo, indicando que la acción está sobrevalorada.",
-      "confidence": 92,
-      "score_adjustment": -8,
-      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
-    },
-    "AME": {
-      "data_quality": "RELIABLE",
-      "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre son consistentes y el historial es suficiente, pero el modelo muestra un precio objetivo por compra de 186.19 frente al actual 241.12, lo que implica un downside del 22.8% y margen de seguridad negativo, confirmando la sobrevaloración.",
-      "confidence": 92,
-      "score_adjustment": -8,
-      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
-    },
-    "RACE": {
-      "data_quality": "RELIABLE",
-      "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre presentan una trayectoria estable y los supuestos de valoración son transparentes, por lo que los datos son confiables. El modelo indica un precio objetivo de compra de 288,67 USD frente al precio actual de 395,99 USD, generando un upside negativo del -27,1% y un margen de seguridad del -37,2%, lo que confirma la tesis de sobrevaloración.",
-      "confidence": 92,
-      "score_adjustment": -8,
-      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
-    },
-    "GWW": {
-      "data_quality": "RELIABLE",
-      "thesis_verdict": "AVOID",
-      "reasoning": "Los datos de FCF son consistentes y cuentan con al menos tres años históricos; aunque hay una caída reciente, la información es suficiente y no presenta inconsistencias graves. El modelo muestra un precio objetivo de 1018, muy por debajo del precio actual (1359), lo que implica un upside negativo y un margen de seguridad negativo, confirmando la tesis de sobrevaloración.",
-      "confidence": 92,
-      "score_adjustment": -8,
-      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
-    },
-    "JNJ": {
-      "data_quality": "RELIABLE",
-      "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre son consistentes y el histórico supera los 3 años, aunque muestra una ligera caída reciente. El modelo indica un precio objetivo de 204.32 frente al actual 273.20, lo que implica un downside del 25%, por lo que la tesis de sobrevaloración es correcta.",
-      "confidence": 92,
-      "score_adjustment": -8,
-      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
-    },
-    "TJX": {
-      "data_quality": "RELIABLE",
-      "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre son consistentes y el historial es suficiente, pero el modelo indica un precio objetivo por debajo del actual con un margen de seguridad negativo, lo que sugiere sobrevaloración.",
+      "reasoning": "Los flujos de caja libre son consistentes y el historial cubre más de tres años sin banderas rojas, pero el modelo muestra un precio objetivo de compra muy por debajo del precio actual y un margen de seguridad negativo, indicando sobrevaloración.",
       "confidence": 85,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
+      "validated_at": "2026-11-09T06:56:13+00:00"
     },
-    "MKC": {
+    "MSI": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre son consistentes y el historial cubre más de tres años, pero el modelo muestra un precio objetivo de compra muy por debajo del precio actual, generando un upside negativo del -41.6% y un margen de seguridad extremadamente bajo, lo que confirma la sobrevaloración implícita.",
+      "reasoning": "Los flujos de caja libre son consistentes y el historial es suficiente, pero el modelo muestra un precio objetivo de compra muy por debajo del precio actual y un margen de seguridad negativo, indicando que la acción está sobrevalorada según los supuestos. No se detectan red flags, sin embargo la valoración no justifica el precio de mercado.",
       "confidence": 92,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
+      "validated_at": "2026-11-09T06:56:13+00:00"
     },
-    "MSCI": {
-      "data_quality": "MIXED",
+    "CB": {
+      "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre son consistentes, pero el ROE negativo y el apalancamiento moderado generan dudas sobre la calidad de los ingresos sostenibles; además, la valoración muestra un amplio desfase respecto al precio actual.",
-      "confidence": 78,
-      "score_adjustment": -5,
-      "oe_ai_verdict": "MIXED/AVOID (-5)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
+      "reasoning": "Los flujos de caja libre son consistentes y el historial es suficiente, pero el modelo muestra un precio objetivo mucho menor que el precio actual, indicando sobrevaloración significativa.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
     },
-    "WCN": {
+    "CHD": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre son consistentes y el historial es suficiente, pero el modelo muestra un precio objetivo de 61.54 frente al precio actual de 109.33, lo que implica un downside del 43,7% y un margen de seguridad negativo. La valoración indica que la acción está sobrevalorada.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "ROP": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre históricos son consistentes y el horizonte de proyección tiene consenso razonable; sin embargo, el modelo muestra un precio objetivo de 209 USD frente al precio actual de 476 USD, indicando una sobrevaloración significativa y un margen de seguridad negativo.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "CBOE": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
       "reasoning": "Los flujos de caja libre son consistentes y el historial es amplio; sin embargo, el precio objetivo calculado está muy por debajo del precio actual, indicando una sobrevaloración significativa.",
       "confidence": 88,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
+      "validated_at": "2026-11-09T06:56:13+00:00"
     },
-    "MA": {
+    "7741.T": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "Los valores de capitalización y precio parecen incongruentes con los flujos de caja y la cantidad de acciones implícita, lo que sugiere errores en los datos de entrada. Sin datos consistentes, no se puede validar la tesis de sobrevaloración.",
+      "confidence": 85,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "ISRG": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre son consistentes y el historial es suficiente; sin embargo, el modelo muestra un precio objetivo de $282 frente al actual $452, lo que implica un downside del 38% y un margen de seguridad negativo, confirmando la sobrevaloración.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "CNI": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre son consistentes y el historial es amplio; sin embargo, el precio objetivo calculado está muy por debajo del precio actual, lo que implica un upside negativo y un margen de seguridad extremadamente bajo, confirmando la tesis de sobrevaloración.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "SYK": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre son consistentes y el histórico supera los 3 años, pero el precio objetivo calculado está muy por debajo del precio actual, lo que genera un upside negativo y un margen de seguridad muy bajo, indicando sobrevaloración.",
+      "confidence": 88,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "ERIE": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "Los flujos de caja libre históricos son positivos y consistentes, con al menos tres años de datos, pero la falta de proyecciones de FCF, ausencia de múltiplos objetivo y cobertura analítica muy limitada impiden validar la tesis implícita.",
+      "confidence": 70,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "RELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "MSFT": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los datos de FCF y capitalización son consistentes y provienen de fuentes públicas, por lo que la calidad es fiable. Sin embargo, el precio objetivo de 1442 USD implica un múltiplo EV/FCF extremadamente alto y una proyección de crecimiento de FCF poco realista para una empresa madura como Microsoft, lo que hace que la tesis BUY sea demasiado optimista.",
+      "confidence": 85,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "AUTO.L": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre son consistentes y el historial supera los 3 años, aunque hay una ligera caída reciente. El modelo muestra un precio objetivo de 2.68 frente al actual 4.89, indicando un downside del 45 % y margen de seguridad negativo, por lo que la tesis de sobrevaloración es correcta.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "RELX": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre presentan una trayectoria consistente y los datos de capitalización y precios ADR están alineados, por lo que la información subyacente es fiable. Sin embargo, el modelo muestra un precio objetivo inferior al actual, un upside negativo del -37.8% y un margen de seguridad muy bajo, lo que confirma la tesis de sobrevaloración.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "AJG": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre presentan volatilidad y una caída reciente, el ROIC está por debajo del costo de capital y el modelo muestra un precio objetivo mucho menor al actual, indicando sobrevaloración significativa.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "LRLCY": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre presentan historial sólido y proyecciones razonables, pero el precio objetivo calculado está muy por debajo del precio actual, generando un upside negativo y un margen de seguridad muy bajo, lo que confirma la sobrevaloración implícita.",
+      "confidence": 85,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "CP": {
       "data_quality": "MIXED",
       "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre presentan una tendencia razonable, pero el ROIC reportado del 94.5% es extremadamente alto para una empresa de pagos y sugiere posible error de datos; además, la valoración basada en EV/FCF objetivo parece subestimar el precio actual, generando un margen de seguridad negativo.",
+      "reasoning": "Los datos históricos de FCF son suficientes, pero la caída reciente, la proyección forward sin amplio consenso y la dilución de acciones generan incertidumbre. La valoración muestra un precio objetivo muy por debajo del actual, indicando sobrevaloración.",
       "confidence": 78,
       "score_adjustment": -5,
       "oe_ai_verdict": "MIXED/AVOID (-5)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "ZTS": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre son consistentes y el historial es suficiente; sin embargo, el modelo muestra un precio objetivo de compra de $39.45 frente al actual $79.40, lo que implica una caída del 50% y un margen de seguridad negativo, confirmando la sobrevaloración.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "NOW": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre presentan un crecimiento sostenido y los supuestos son coherentes con la historia de la compañía, por lo que los datos son fiables. Sin embargo, el modelo indica un precio objetivo de compra de 67,98 $, muy por debajo del precio actual de 101,97 $, lo que implica un upside negativo del 33 % y un margen de seguridad del -50 %, confirmando que la acción está sobrevalorada.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "INTU": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre son consistentes y el histórico tiene más de tres años; sin embargo, el precio objetivo calculado está muy por debajo del precio actual, lo que indica una sobrevaloración significativa según el modelo. La conclusión de OVERVALUED es consistente con el amplio margen de seguridad negativo.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "SPGI": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre son consistentes y el historial es suficiente; sin embargo, el modelo muestra un precio objetivo muy por debajo del mercado y un margen de seguridad negativo, indicando sobrevaloración.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "LSEG.L": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre presentan historial suficiente y cifras coherentes, aunque el ROIC está por debajo del costo de capital y hay dilución accionarial. El modelo muestra un precio objetivo muy por debajo del precio actual, indicando sobrevaloración significativa.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "CME": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "AVOID",
+      "reasoning": "El historial de FCF muestra una caída abrupta en 2022 que no se explica y los forward parecen basarse en supuestos poco claros; aunque el modelo indica sobrevaloración, la calidad de los datos es dudosa, por lo que se recomienda evitar la acción.",
+      "confidence": 78,
+      "score_adjustment": -5,
+      "oe_ai_verdict": "MIXED/AVOID (-5)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "FICO": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre históricos son consistentes y hay al menos cinco años de datos, por lo que la información subyacente es fiable. Sin embargo, el modelo muestra un precio objetivo muy por debajo del precio actual, con un margen de seguridad negativo y un ROE altamente negativo, lo que respalda la conclusión de sobrevaloración.",
+      "confidence": 85,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "ITW": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "WATCH",
+      "reasoning": "Los datos de FCF son consistentes y cuentan con al menos tres años históricos, aunque presentan una ligera caída reciente. El modelo muestra un precio objetivo por debajo del precio actual, indicando poco upside y un margen de seguridad negativo, por lo que mantener la posición pero sin convicción de compra es prudente.",
+      "confidence": 78,
+      "score_adjustment": 2,
+      "oe_ai_verdict": "RELIABLE/WATCH (+2)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "DHR": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los datos de FCF son consistentes y el historial supera los tres años, aunque muestra una ligera caída reciente. El modelo indica un precio objetivo de 141.85 frente al precio actual de 230.25, lo que implica un downside del 38 % y un margen de seguridad negativo, respaldando la tesis de sobrevaloración.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "ETN": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "El modelo muestra un precio objetivo de compra inferior al actual y un upside negativo del 15,9%, lo que indica sobrevaloración. Además, el margen de seguridad es negativo, sin señales de mejora clara.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "CSU.TO": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre son consistentes y el historial es amplio, pero el modelo muestra un precio objetivo por debajo del precio actual (upside -9.2%) y margen de seguridad negativo, indicando sobrevaloración. La tesis HOLD no se justifica con estos indicadores.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "CLPBY": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre presentan historial suficiente y coherente, y la conversión de DKK a ADR está bien documentada; la única alerta es la cobertura de analistas muy baja, pero no invalida los datos. El modelo muestra un precio objetivo de compra de 4.39 USD frente al precio actual de 7.59 USD, lo que implica un upside negativo del -42 % y un margen de seguridad extremadamente bajo, confirmando la tesis de sobrevaloración.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "V": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre presentan una gran volatilidad (2022 mucho menor que años posteriores) y la proyección forward carece de consenso claro, lo que genera incertidumbre. Además, el modelo muestra un precio objetivo por debajo del actual, indicando sobrevaloración.",
+      "confidence": 78,
+      "score_adjustment": -5,
+      "oe_ai_verdict": "MIXED/AVOID (-5)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "BRO": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre son consistentes y el historial es suficiente; sin embargo, el modelo muestra un precio objetivo de compra muy por debajo del precio actual y un margen de seguridad negativo, lo que confirma la sobrevaloración implícita.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "PGR": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre son consistentes y el historial es amplio; sin embargo, el modelo muestra un precio objetivo de 121.55 frente al actual 227.77, indicando una caída de ~46% y margen de seguridad negativo, lo que confirma la tesis de sobrevaloración.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "PEP": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre y los múltiplos históricos son consistentes, pero el precio objetivo de $58.96 es extremadamente bajo respecto al precio actual y al ROIC del 20.4%, lo que indica que el modelo subestima el valor de PepsiCo. Por tanto, la conclusión de sobrevaloración es válida y se recomienda evitar la compra.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "IT": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre son consistentes y el histórico supera los 3 años, aunque hay una ligera caída reciente. El modelo muestra un precio objetivo de 115.65 frente al actual 190.10, indicando un upside negativo del -39%, por lo que la tesis de sobrevaloración es válida.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "HEI": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre son consistentes y el historial es amplio; sin embargo, el precio objetivo calculado está muy por debajo del precio actual, generando un upside negativo y un margen de seguridad muy bajo, lo que confirma la sobrevaloración implícita.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "CDNS": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre son consistentes y el historial es suficiente, pero el modelo muestra un precio objetivo de compra muy por debajo del precio actual y un margen de seguridad negativo, indicando sobrevaloración.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "ESLOY": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre son consistentes y el historial es amplio; sin embargo, el modelo muestra un precio objetivo por debajo del actual con un margen de seguridad negativo y un ROIC inferior al costo de capital, lo que respalda la conclusión de sobrevaloración.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "WST": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre son consistentes y el historial tiene más de tres años, pero el modelo muestra un precio objetivo de 293.40 frente al precio actual de 399.81, lo que implica un downside del 26.6% y un margen de seguridad negativo, confirmando la tesis de sobrevaloración.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "LIN": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre son consistentes y el historial es amplio; sin embargo, el modelo muestra un precio objetivo de 342.76 frente al actual 515.25, lo que implica un downside del 33% y un margen de seguridad negativo, confirmando la tesis de sobrevaloración.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "SBGSY": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre presentan historial sólido y los supuestos son coherentes, pero el modelo indica un precio objetivo por debajo del actual con un margen de seguridad negativo, lo que confirma la sobrevaloración implícita.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "MTD": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre son consistentes y con historial suficiente, pero la discrepancia entre ROIC y ROE negativo sugiere problemas de calidad de los datos o de la estructura de capital. Además, el modelo muestra un amplio downside respecto al precio actual, lo que respalda la conclusión de sobrevaloración.",
+      "confidence": 85,
+      "score_adjustment": -5,
+      "oe_ai_verdict": "MIXED/AVOID (-5)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "ROL": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre son consistentes y el historial es suficiente, pero el modelo muestra un precio objetivo de 26.33 frente al actual 37.95, lo que implica un downside del 30% y margen de seguridad negativo, confirmando la tesis de sobrevaloración.",
+      "confidence": 88,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "TNE.AX": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "El modelo muestra un upside negativo del -8,1% y un margen de seguridad también negativo, lo que indica que el precio actual está por encima del valor intrínseco estimado. Además, el alto múltiplo EV/FCF histórico (59,5x) sugiere sobrevaloración relativa.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "TYL": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre son consistentes y el historial es suficiente; sin embargo, el modelo muestra un precio objetivo de 256 frente al actual 420, lo que implica un downside del 39% y margen de seguridad negativo, confirmando la sobrevaloración.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "GVDNY": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los datos de FCF y métricas históricas son consistentes y suficientes; el modelo muestra un precio objetivo muy por debajo del actual, indicando sobrevaloración.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "HESAY": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre presentan historial sólido y proyecciones razonables, y no se detectan inconsistencias graves en los datos. Sin embargo, el modelo indica un precio objetivo de compra muy por debajo del precio actual, con un upside negativo del -42,2% y un margen de seguridad negativo, lo que respalda la conclusión de sobrevaloración.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "VLTO": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre son consistentes y el histórico es amplio, pero el modelo muestra un precio objetivo de 76.60 frente al actual 117.09, lo que implica un downside del 34.6% y un margen de seguridad negativo. La valoración basada en EV/FCF objetivo 23.5x no justifica el precio actual, por lo que la tesis de sobrevaloración es correcta.",
+      "confidence": 88,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "DBOEY": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre históricos son consistentes y hay al menos tres años de datos; la conversión ADR está verificada. El modelo muestra un precio objetivo de compra de 16.86 USD frente al precio actual de 35.55 USD, lo que implica un downside del 52 % y un margen de seguridad negativo, por lo que la tesis de sobrevaloración es consistente.",
+      "confidence": 85,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "MCD": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre son consistentes y el histórico es amplio, pero el ROE negativo extremo sugiere posibles errores de datos o problemas de calidad. La valoración muestra un upside negativo significativo, apoyando la tesis de sobrevaloración.",
+      "confidence": 78,
+      "score_adjustment": -5,
+      "oe_ai_verdict": "MIXED/AVOID (-5)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "AON": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre son consistentes y el histórico tiene más de tres años; sin embargo, el modelo muestra un precio objetivo de 213.86 frente al actual 334.81, lo que implica un downside del 36% y un margen de seguridad negativo, confirmando la tesis de sobrevaloración.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "ASAZY": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los datos de FCF son consistentes y cuentan con varios años históricos; los únicos flags son menores. El modelo muestra un upside negativo del -28.9% y un margen de seguridad negativo, indicando que el precio actual supera significativamente el valor implícito.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "EQIX": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre son muy volátiles y presentan un año negativo, y las proyecciones forward carecen de consenso y parecen excesivamente optimistas. Además, los indicadores de deuda y ROIC son débiles, lo que refuerza la idea de sobrevaloración.",
+      "confidence": 78,
+      "score_adjustment": -5,
+      "oe_ai_verdict": "MIXED/AVOID (-5)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "VRSN": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre son consistentes y tienen historial suficiente, pero hay indicadores sospechosos como ROIC del 918 % y ROE negativo, lo que sugiere posibles errores de datos. La valoración muestra un precio objetivo por debajo del actual y un margen de seguridad negativo, apoyando la conclusión de sobrevaloración.",
+      "confidence": 78,
+      "score_adjustment": -5,
+      "oe_ai_verdict": "MIXED/AVOID (-5)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "ADP": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre son consistentes y el historial es suficiente, pero el modelo muestra un precio objetivo de 141 $, muy por debajo del precio actual de 303 $, lo que implica una caída de más del 50 % y un margen de seguridad negativo. Esto confirma que la acción está sobrevalorada según los supuestos usados.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "PAYX": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre históricos son consistentes y el modelo usa supuestos razonables; sin embargo, el precio objetivo calculado (55.79) está muy por debajo del precio actual (117.06), lo que implica un downside del 52% y un margen de seguridad negativo, confirmando la tesis de sobrevaloración.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "WMT": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre son consistentes y el historial es suficiente, pero el modelo muestra un precio objetivo por debajo del actual (upside -7%) y un margen de seguridad negativo, lo que indica sobrevaloración. Además, la red flag de conversión FCF/EBITDA baja refuerza la cautela.",
+      "confidence": 88,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "SAP": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre presentan historial sólido y los supuestos de valoración son coherentes, pero el precio objetivo de compra es mucho menor que el precio actual y el modelo muestra un upside negativo del -34,4%, indicando que la acción está sobrevalorada.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "WTKWY": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre presentan una trayectoria estable y el historial cubre más de tres años, por lo que los datos son confiables. Sin embargo, el precio objetivo calculado está muy por debajo del precio actual, indicando un margen de seguridad negativo y una sobrevaloración significativa.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "CPRT": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre son consistentes y el historial cubre más de tres años; sin embargo, el modelo indica un precio objetivo de 15.81 frente al actual 31.95, lo que implica una caída del 50% y un margen de seguridad negativo, confirmando la sobrevaloración.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "AXP": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre presentan historial de al menos 3 años y los supuestos son coherentes; sin embargo, el modelo indica un precio objetivo por debajo del actual con un margen de seguridad negativo, lo que confirma la sobrevaloración implícita.",
+      "confidence": 85,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "AWK": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libres presentan alta volatilidad y tres años consecutivos negativos, lo que dificulta confiar plenamente en las proyecciones forward. Además, la alta deuda neta/EBITDA y un ROIC por debajo del costo de capital refuerzan la conclusión de sobrevaloración.",
+      "confidence": 78,
+      "score_adjustment": -5,
+      "oe_ai_verdict": "MIXED/AVOID (-5)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "TW": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre son consistentes y cuentan con varios años de historial y proyecciones de consenso; sin embargo, el modelo muestra un precio objetivo de 84,66 frente al actual 127,73, lo que implica un downside del 33 % y un margen de seguridad negativo, confirmando la tesis de sobrevaloración.",
+      "confidence": 85,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "SHW": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre son consistentes y el historial es suficiente; sin embargo, el precio objetivo calculado está muy por debajo del precio actual, indicando un margen de seguridad negativo y una sobrevaloración significativa.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "FDS": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre son consistentes y el histórico supera los 3 años, pero el modelo indica un precio objetivo de compra de 194.90 frente al precio actual de 327.89, lo que implica un upside negativo del 40.6% y un margen de seguridad muy bajo, confirmando la sobrevaloración.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "TT": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre son consistentes y el histórico es amplio, pero el modelo muestra un precio objetivo inferior al actual (upside -13%) y margen de seguridad negativo, indicando sobrevaloración.",
+      "confidence": 80,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "ATLKY": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los datos de FCF son consistentes y cuentan con suficiente historial; la única anomalía es una caída puntual. El modelo muestra un precio objetivo muy por debajo del actual, indicando sobrevaloración, por lo que la tesis de OVERVALUED es acertada.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "CTAS": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre son consistentes y el historial es amplio; sin embargo, el precio objetivo calculado está muy por debajo del precio actual, indicando un upside negativo del -39.9% y un margen de seguridad negativo, lo que confirma la tesis de sobrevaloración.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "VRSK": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre son consistentes y el historial es suficiente, pero el modelo muestra un precio objetivo de compra muy por debajo del precio actual, generando un upside negativo del -28.8% y un margen de seguridad negativo, lo que confirma la sobrevaloración.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "VEEV": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre históricos son consistentes y el consenso forward es razonable, por lo que los datos son fiables. Sin embargo, el modelo muestra un precio objetivo de compra de 197,61 frente al precio actual de 303,73, lo que implica un downside del 34,9% y un margen de seguridad negativo, confirmando la tesis de sobrevaloración.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "DSGX": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "El modelo muestra un precio objetivo inferior al actual (81.58 vs 93.99) y un upside negativo del 13%, con margen de seguridad también negativo, lo que indica sobrevaloración. No se detectan red flags, pero la valoración no respalda la tesis de HOLD.",
+      "confidence": 82,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "WM": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre son consistentes y el histórico es amplio, pero el modelo muestra un precio objetivo de 118.75 frente al actual 236.26, implicando un downside del ~50% y margen de seguridad negativo, lo que confirma la tesis de sobrevaloración.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "G24.DE": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre son consistentes y el histórico supera los 3 años, pero el modelo muestra un precio objetivo de 55,04 frente al actual 73,05, lo que implica un downside del 24,7% y margen de seguridad negativo, confirmando la tesis de sobrevaloración.",
+      "confidence": 85,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "IDXX": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre son consistentes y el historial es suficiente; sin embargo, el modelo muestra un precio objetivo de 460,70 frente al actual 676,04, lo que implica un downside del 31,9% y margen de seguridad negativo, confirmando la sobrevaloración.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "ICE": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre son consistentes y el historial es amplio, pero el modelo muestra un precio objetivo de compra muy por debajo del precio actual y un margen de seguridad negativo, indicando sobrevaloración.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "AZO": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "Los valores de FCF están expresados en millones, lo que es incoherente con la capitalización de mercado y el precio por acción de AutoZone; además el ROE reportado es negativo, lo que no corresponde a la realidad de la compañía. Estos errores hacen que el modelo no sea fiable para juzgar la valoración.",
+      "confidence": 85,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "ECL": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre son consistentes y el historial es suficiente, pero el precio objetivo calculado está muy por debajo del precio actual, indicando un margen de seguridad negativo y poca upside. La valoración muestra que la acción está sobrevalorada según los supuestos del modelo.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "PG": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre son consistentes y el historial es amplio, sin banderas rojas. Sin embargo, el modelo muestra un precio objetivo muy por debajo del precio actual, indicando sobrevaloración significativa.",
+      "confidence": 88,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "AME": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre son consistentes y el historial es suficiente, pero el modelo muestra un precio objetivo de compra muy inferior al actual y un margen de seguridad negativo, indicando sobrevaloración.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "RACE": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre presentan historial sólido y proyecciones razonables, pero el precio objetivo calculado está muy por debajo del precio actual, generando un upside negativo y un margen de seguridad negativo, lo que confirma la sobrevaloración implícita.",
+      "confidence": 85,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "GWW": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los datos de FCF son consistentes y cuentan con al menos tres años históricos; aunque hay una caída reciente, la información es suficiente para el modelo. El precio objetivo calculado está muy por debajo del precio actual, indicando un margen de seguridad negativo y una sobrevaloración clara.",
+      "confidence": 85,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "JNJ": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre son consistentes y el historial es amplio; sin embargo, el modelo muestra un precio objetivo de 207 USD frente al precio actual de 276 USD, lo que implica un downside del 25 % y un margen de seguridad negativo, confirmando la tesis de sobrevaloración.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "TJX": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre son consistentes y el histórico tiene más de tres años, pero el modelo muestra un precio objetivo de compra muy por debajo del precio actual y un upside negativo del -35%, lo que indica sobrevaloración.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "MKC": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre son consistentes y el historial tiene más de tres años, pero el modelo muestra un precio objetivo de compra muy por debajo del precio actual, generando un upside negativo del -41%. Esto indica que la acción está sobrevaluada según los supuestos.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "MSCI": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre son consistentes y el histórico tiene más de tres años, pero hay incongruencias como ROE -66.9% frente a ROIC 44% y la alta deuda neta/EBITDA, lo que genera dudas sobre la calidad de los datos. La valoración muestra un precio objetivo muy por debajo del actual, indicando sobrevaloración.",
+      "confidence": 78,
+      "score_adjustment": -5,
+      "oe_ai_verdict": "MIXED/AVOID (-5)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "WCN": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre son consistentes y el historial es amplio; sin embargo, el precio objetivo calculado está muy por debajo del precio actual, indicando una sobrevaloración significativa.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "MA": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre son consistentes y el historial es amplio; sin embargo, el modelo indica un precio objetivo mucho menor al actual, con un margen de seguridad negativo, lo que confirma la sobrevaloración implícita.",
+      "confidence": 85,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
     },
     "ORLY": {
       "data_quality": "MIXED",
       "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre presentan caída sostenida y hay inconsistencias como ROE negativo, lo que genera dudas sobre la fiabilidad completa de los datos. Además, el modelo muestra un amplio margen de seguridad negativo y un upside negativo, indicando sobrevaloración.",
-      "confidence": 82,
+      "reasoning": "Los flujos de caja libre son consistentes y tienen al menos tres años de historial, pero la caída sostenida y el ROE extremadamente negativo generan dudas sobre la calidad del negocio. La valoración muestra un upside negativo y un margen de seguridad muy bajo, lo que respalda la tesis de sobrevaloración.",
+      "confidence": 85,
       "score_adjustment": -5,
       "oe_ai_verdict": "MIXED/AVOID (-5)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
+      "validated_at": "2026-11-09T06:56:13+00:00"
     },
     "SXYAY": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "Los datos de FCF y capitalización son consistentes y el historial supera los 3 años; las únicas alertas son menores. El modelo muestra un precio objetivo por debajo del actual y un margen de seguridad negativo, indicando sobrevaloración.",
-      "confidence": 85,
+      "reasoning": "Los flujos de caja libre presentan historial de al menos 3 años y cifras coherentes; sin embargo, el modelo muestra un precio objetivo por debajo del actual y un margen de seguridad negativo, indicando sobrevaloración. Además, la caída del FCF y la escasa cobertura analítica refuerzan la cautela.",
+      "confidence": 92,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
+      "validated_at": "2026-11-09T06:56:13+00:00"
     },
     "KO": {
       "data_quality": "MIXED",
       "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre presentan inconsistencias (p.ej., un salto inesperado en 2023) y la proyección forward carece de consenso claro, lo que genera dudas sobre la precisión del modelo. Además, el cálculo muestra un precio objetivo muy por debajo del actual, indicando sobrevaloración.",
+      "reasoning": "Los flujos de caja libre presentan una volatilidad inusual (p.ej., 2023 casi duplica a 2022) y la proyección forward carece de consenso claro, lo que genera dudas sobre la precisión del modelo. Además, la valoración muestra un upside negativo y un margen de seguridad muy bajo, indicando sobrevaloración.",
       "confidence": 78,
       "score_adjustment": -5,
       "oe_ai_verdict": "MIXED/AVOID (-5)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
+      "validated_at": "2026-11-09T06:56:13+00:00"
     },
     "ABT": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre son consistentes y el historial es amplio, pero el modelo muestra un precio objetivo de 56.71 frente al actual 106.20, indicando un descuento del 46,6% y un margen de seguridad negativo, lo que confirma la sobrevaloración implícita.",
-      "confidence": 85,
+      "reasoning": "Los flujos de caja libre son consistentes y el historial es amplio, pero el modelo muestra un precio objetivo de compra de 58.84 frente al precio actual de 109.93, lo que implica un downside del 46,5% y un margen de seguridad negativo, confirmando la sobrevaloración.",
+      "confidence": 92,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
+      "validated_at": "2026-11-09T06:56:13+00:00"
     },
     "NDSN": {
       "data_quality": "RELIABLE",
@@ -830,628 +830,763 @@
       "confidence": 85,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
+      "validated_at": "2026-11-09T06:56:13+00:00"
     },
     "BR": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre son consistentes y el historial es suficiente, pero el modelo muestra un precio objetivo de compra muy por debajo del precio actual y un margen de seguridad negativo, indicando que la acción está sobrevalorada según los supuestos. Además, el alto ROIC no compensa la gran brecha de valoración.",
-      "confidence": 82,
+      "reasoning": "Los flujos de caja libre son consistentes y el historial es suficiente; sin embargo, el modelo indica un precio objetivo de compra muy bajo y un upside negativo del 42%, lo que confirma que la acción está sobrevalorada respecto a sus fundamentos.",
+      "confidence": 85,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
+      "validated_at": "2026-11-09T06:56:13+00:00"
     },
     "TMO": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre son consistentes y el historial es amplio, pero el modelo muestra un precio objetivo de compra muy por debajo del precio actual y un margen de seguridad negativo, indicando sobrevaloración. Además, la caída del FCF en 2025 refuerza la cautela.",
+      "reasoning": "Los flujos de caja libre son consistentes y el historial es amplio, pero el modelo muestra un precio objetivo muy por debajo del precio actual, indicando una sobrevaloración significativa. Además, el margen de seguridad negativo refuerza la conclusión de que la acción está sobrevaluada.",
       "confidence": 92,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
+      "validated_at": "2026-11-09T06:56:13+00:00"
     },
     "NDAQ": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre son consistentes y el historial es suficiente; sin embargo, el modelo muestra un precio objetivo muy por debajo del precio actual, lo que implica una pérdida potencial del 48 % y un margen de seguridad negativo, confirmando la sobrevaloración.",
+      "reasoning": "Los flujos de caja libre son consistentes y el histórico tiene más de tres años; sin embargo, el modelo muestra un precio objetivo muy por debajo del precio actual, indicando sobrevaloración significativa.",
       "confidence": 92,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
+      "validated_at": "2026-11-09T06:56:13+00:00"
     },
     "CL": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre son consistentes y el historial es suficiente; sin embargo, el precio objetivo calculado está muy por debajo del precio actual, indicando una gran sobrevaloración y margen de seguridad negativo.",
+      "reasoning": "Los flujos de caja libre son consistentes y el historial es suficiente; sin embargo, el modelo muestra un precio objetivo de compra muy por debajo del precio actual, generando un upside negativo y un margen de seguridad muy bajo, lo que confirma la sobrevaloración implícita.",
       "confidence": 92,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
+      "validated_at": "2026-11-09T06:56:13+00:00"
     },
     "COST": {
-      "data_quality": "RELIABLE",
+      "data_quality": "MIXED",
       "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre históricos y proyectados son consistentes y el cálculo muestra un precio objetivo de compra muy por debajo del precio actual, indicando una sobrevaloración significativa. No se detectan banderas rojas en los datos, por lo que la conclusión de overvalued es razonable.",
-      "confidence": 92,
-      "score_adjustment": -8,
-      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
+      "reasoning": "Los flujos de caja libre presentados son plausibles, pero los múltiplos de EV/FCF (≈55‑62x) y el precio objetivo implícito son extremadamente altos para un retailer de bajo crecimiento, lo que sugiere que los supuestos de valoración son poco realistas. La conclusión de sobrevaloración es consistente con esta discrepancia.",
+      "confidence": 78,
+      "score_adjustment": -5,
+      "oe_ai_verdict": "MIXED/AVOID (-5)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
     },
     "MCO": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre son consistentes y el historial es suficiente; sin embargo, el modelo muestra un precio objetivo de 323,60 frente al actual 493,91, indicando un descuento del 34,5% y margen de seguridad negativo, lo que confirma la sobrevaloración.",
+      "reasoning": "Los flujos de caja libre son consistentes y el historial es suficiente, pero el modelo muestra un precio objetivo de 331 $, muy por debajo del precio actual de 505 $, lo que implica un downside del 34 % y un margen de seguridad negativo. Por tanto la tesis de sobrevaloración es correcta.",
       "confidence": 92,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
+      "validated_at": "2026-11-09T06:56:13+00:00"
     },
     "OTIS": {
       "data_quality": "MIXED",
       "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre son relativamente estables, pero la discrepancia entre ROIC extremadamente alto (97.9%) y ROE negativo (-29.1%) sugiere inconsistencias en los estados financieros. Además, el modelo muestra un precio objetivo muy por debajo del mercado, lo que refuerza la sobrevaloración.",
+      "reasoning": "Los flujos de caja libre son consistentes y tienen varios años de historial, pero indicadores como ROIC del 97.9% y ROE negativo -29.1% son sospechosos y sugieren problemas de calidad de los datos. La valoración muestra un precio objetivo muy por debajo del actual, lo que respalda la tesis de sobrevaloración.",
       "confidence": 78,
       "score_adjustment": -5,
       "oe_ai_verdict": "MIXED/AVOID (-5)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
+      "validated_at": "2026-11-09T06:56:13+00:00"
     },
     "JKHY": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre son consistentes y el historial es suficiente; sin embargo, el modelo muestra un precio objetivo de 100.46 frente al actual 161.34, indicando una sobrevaloración significativa y un margen de seguridad negativo.",
+      "reasoning": "Los flujos de caja libre son consistentes y el historial es suficiente; sin embargo, el modelo muestra un precio objetivo de compra muy por debajo del precio actual y un margen de seguridad negativo, lo que confirma la sobrevaloración implícita.",
       "confidence": 85,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
+      "validated_at": "2026-11-09T06:56:13+00:00"
     },
     "ITRK.L": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre presentan historial de al menos 5 años y los valores proyectados son coherentes con la tendencia, por lo que los datos son fiables. Sin embargo, el modelo muestra un precio objetivo de 37,24 £ frente al precio actual de 58,50 £, lo que implica un downside del 36 % y un margen de seguridad negativo, confirmando la tesis de sobrevaloración.",
+      "reasoning": "Los flujos de caja libre son consistentes y el historial supera los 3 años, aunque muestra una ligera caída reciente. El modelo indica un precio objetivo de compra muy por debajo del actual y un margen de seguridad negativo, lo que respalda la conclusión de sobrevaloración.",
       "confidence": 92,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
+      "validated_at": "2026-11-09T06:56:13+00:00"
     },
     "TEVA": {
       "data_quality": "MIXED",
       "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre presentan alta volatilidad y una proyección forward sin amplio consenso, lo que genera incertidumbre en la base del modelo. Además, el cálculo muestra un precio objetivo muy por debajo del actual, indicando sobrevaloración.",
-      "confidence": 85,
+      "reasoning": "Los flujos de caja libre presentan alta volatilidad y proyecciones forward muy agresivas sin consenso claro, lo que reduce la fiabilidad del modelo. Además, la valoración muestra un amplio downside respecto al precio actual, indicando sobrevaloración.",
+      "confidence": 78,
       "score_adjustment": -5,
       "oe_ai_verdict": "MIXED/AVOID (-5)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
+      "validated_at": "2026-11-09T06:56:13+00:00"
     },
     "NVR": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre son consistentes y el historial es suficiente, pero el modelo muestra un precio objetivo muy por debajo del precio actual, indicando una sobrevaloración significativa. Además, la caída del FCF reciente refuerza la cautela.",
-      "confidence": 85,
+      "reasoning": "Los datos de FCF y capitalización son consistentes y el histórico tiene más de tres años, por lo que la calidad es fiable. El modelo muestra un precio objetivo de 3996 frente al precio actual de 6298, lo que implica un downside del 36 % y un margen de seguridad negativo, confirmando la tesis de sobrevaloración.",
+      "confidence": 92,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
+      "validated_at": "2026-11-09T06:56:13+00:00"
     },
     "COF": {
       "data_quality": "UNRELIABLE",
-      "thesis_verdict": "AVOID",
-      "reasoning": "Capital One es una entidad financiera donde el flujo de caja libre no captura adecuadamente su generación de valor; además los supuestos de EV/FCF y CapEx son poco aplicables y los datos presentan inconsistencias, por lo que el modelo no es fiable para valorar la acción.",
-      "confidence": 85,
-      "score_adjustment": -10,
-      "oe_ai_verdict": "UNRELIABLE/AVOID (-10)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "Capital One es una entidad financiera donde el flujo de caja libre no captura adecuadamente la generación de valor; además los datos presentados presentan inconsistencias y no consideran la naturaleza regulada del sector bancario.",
+      "confidence": 78,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
     },
     "LPX": {
       "data_quality": "MIXED",
       "thesis_verdict": "WATCH",
-      "reasoning": "Los flujos de caja libre presentan alta volatilidad y proyecciones inconsistentes, lo que genera incertidumbre en la valoración. Aunque el modelo muestra gran upside, los red flags y la falta de un múltiplo EV/FCF fiable hacen prudente esperar confirmación antes de comprar.",
+      "reasoning": "Los flujos de caja libre presentan alta volatilidad y caídas pronunciadas, lo que genera incertidumbre en las proyecciones; sin embargo, no hay evidencia clara de datos erróneos, por lo que el modelo puede usarse con cautela. La tesis de BUY parece exagerada dado el riesgo de reversión del FCF y la gran sensibilidad a los supuestos de múltiplos.",
       "confidence": 68,
       "score_adjustment": 0,
       "oe_ai_verdict": "MIXED/WATCH (0)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
+      "validated_at": "2026-11-09T06:56:13+00:00"
     },
     "CVX": {
-      "data_quality": "RELIABLE",
+      "data_quality": "MIXED",
       "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre históricos y proyectados son consistentes y el número de años es suficiente, pero el modelo genera un precio objetivo de compra extremadamente bajo (88 USD) frente al precio actual (235 USD), lo que indica que la valoración está subestimada y la tesis de sobrevaloración es válida.",
-      "confidence": 92,
-      "score_adjustment": -8,
-      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
+      "reasoning": "Los flujos de caja libre históricos son razonables, pero las proyecciones forward (45 B en 2026) son muy optimistas y no están respaldadas por consenso, lo que genera incertidumbre. La baja ROIC frente al costo de capital y el amplio margen de seguridad negativo refuerzan la idea de sobrevaloración.",
+      "confidence": 70,
+      "score_adjustment": -5,
+      "oe_ai_verdict": "MIXED/AVOID (-5)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
     },
     "DVA": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre presentan una caída sostenida y el modelo muestra un precio objetivo inferior al actual, con margen de seguridad negativo. Además, el apalancamiento moderado y la falta de upside hacen que la tesis HOLD no esté justificada.",
+      "reasoning": "Los flujos de caja libre son consistentes y cuentan con al menos tres años de historial, pero la tendencia a la baja y el hecho de que el precio objetivo está por debajo del precio actual generan un upside negativo del 12% y margen de seguridad negativo, lo que indica sobrevaloración.",
       "confidence": 85,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
+      "validated_at": "2026-11-09T06:56:13+00:00"
     },
     "GPK": {
       "data_quality": "MIXED",
-      "thesis_verdict": "WATCH",
-      "reasoning": "Los flujos de caja libres presentan alta volatilidad y valores negativos recientes, aunque los proyecciones forward son positivas; los indicadores de deuda y ROIC son medianamente desfavorables, lo que genera incertidumbre sobre la valoración implícita.",
-      "confidence": 68,
-      "score_adjustment": 0,
-      "oe_ai_verdict": "MIXED/WATCH (0)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre son volátiles y presentan años negativos, y las proyecciones forward carecen de consenso sólido; sin embargo, la información disponible es suficiente para evaluar la valoración. La modelación muestra un upside negativo del -86%, indicando que la acción está significativamente sobrevaluada.",
+      "confidence": 80,
+      "score_adjustment": -5,
+      "oe_ai_verdict": "MIXED/AVOID (-5)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
     },
     "KD": {
       "data_quality": "MIXED",
       "thesis_verdict": "INSUFFICIENT",
-      "reasoning": "Los flujos de caja libres son muy volátiles y recientes negativos, y las proyecciones forward carecen de consenso claro, lo que genera incertidumbre. Además, los indicadores de calidad (FCF/EBITDA bajo) son medianos, por lo que la fiabilidad del modelo es limitada y no se puede validar la tesis implícita.",
+      "reasoning": "Los flujos de caja libres presentan alta volatilidad y varios años negativos, aunque los pronósticos son positivos; existen banderas rojas medias que generan dudas sobre la consistencia del dato. Además, la tesis implícita no está definida, por lo que no se puede concluir si la inversión es atractiva.",
       "confidence": 68,
       "score_adjustment": 0,
       "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
+      "validated_at": "2026-11-09T06:56:13+00:00"
     },
     "BN": {
       "data_quality": "MIXED",
       "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre son muy volátiles y el pronóstico 2026 (6.6 bn) es desproporcionado respecto al histórico, lo que genera incertidumbre. Además, la alta deuda (Net‑Debt/EBITDA 8.3x) y el bajo ROIC refuerzan la idea de sobrevaloración.",
+      "reasoning": "Los flujos de caja libre son muy volátiles, con un salto negativo en 2025 y una proyección forward de 6.6 bn que no tiene consenso y parece exagerada; además la empresa tiene alta deuda (Net‑Debt/EBITDA 8.3x) y ROIC bajo el costo de capital. Estos factores hacen que la valoración basada en Owner Earnings sea poco fiable y la tesis de sobrevaloración se confirma.",
       "confidence": 78,
       "score_adjustment": -5,
       "oe_ai_verdict": "MIXED/AVOID (-5)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
+      "validated_at": "2026-11-09T06:56:13+00:00"
     },
     "UBER": {
       "data_quality": "MIXED",
       "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libres son volátiles y la proyección forward depende de supuestos agresivos; además la dilución anual del 9,2% erosiona el valor por acción. El modelo indica un precio justo muy por debajo del actual, por lo que la tesis de sobrevaloración parece válida.",
+      "reasoning": "Los flujos de caja libre históricos son volátiles y solo recientemente positivos; las proyecciones forward son muy agresivas y carecen de consenso sólido, lo que genera incertidumbre. Dada la valoración implícita (precio objetivo 44 $, upside -35 %) y la alta dilución de acciones, la tesis de sobrevaloración parece razonable.",
       "confidence": 78,
       "score_adjustment": -5,
       "oe_ai_verdict": "MIXED/AVOID (-5)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
+      "validated_at": "2026-11-09T06:56:13+00:00"
     },
     "HHH": {
       "data_quality": "MIXED",
       "thesis_verdict": "INSUFFICIENT",
-      "reasoning": "Los flujos de caja presentan volatilidad y la proyección para 2030 parece errónea (1.1 M vs cientos de millones en años anteriores), lo que genera dudas sobre la fiabilidad del modelo. Además, la tesis implícita no está disponible, impidiendo una valoración clara.",
-      "confidence": 68,
+      "reasoning": "Los flujos de caja libre presentan volatilidad y hay señales de alerta como alta deuda y bajo ROIC, además la proyección para 2030 parece errónea (1.1 M total). Estos factores hacen que la calidad de los datos sea cuestionable y la tesis implícita no pueda evaluarse con certeza.",
+      "confidence": 78,
       "score_adjustment": 0,
       "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
+      "validated_at": "2026-11-09T06:56:13+00:00"
     },
     "NUE": {
       "data_quality": "MIXED",
       "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre son muy volátiles y presentan caída reciente, además el modelo muestra un precio objetivo muy por debajo del mercado, lo que respalda la sobrevaloración. Las inconsistencias y la alta incertidumbre hacen prudente evitar la acción.",
+      "reasoning": "Los datos de FCF son inconsistentes y presentan una caída reciente, además el ajuste por socios minoritarios introduce incertidumbre; aunque el histórico tiene suficiente longitud, la volatilidad y los red flags reducen la fiabilidad del modelo. La valoración muestra un precio objetivo muy por debajo del actual, indicando sobrevaloración.",
       "confidence": 78,
       "score_adjustment": -5,
       "oe_ai_verdict": "MIXED/AVOID (-5)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
+      "validated_at": "2026-11-09T06:56:13+00:00"
     },
     "DPZ": {
       "data_quality": "MIXED",
       "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre son consistentes pero la alta deuda neta/EBITDA y el ROE negativo generan dudas sobre la sostenibilidad; además, el modelo muestra un precio objetivo muy por debajo del actual, indicando sobrevaloración.",
-      "confidence": 85,
+      "reasoning": "Los flujos de caja libre son positivos y tienen historial, pero la alta deuda neta/EBITDA y el ROE negativo indican riesgos significativos; además, la valoración muestra un upside negativo amplio, lo que respalda la conclusión de sobrevaloración.",
+      "confidence": 78,
       "score_adjustment": -5,
       "oe_ai_verdict": "MIXED/AVOID (-5)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
+      "validated_at": "2026-11-09T06:56:13+00:00"
     },
     "OXY": {
       "data_quality": "MIXED",
       "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre presentan una fuerte caída reciente y proyecciones forward sin consenso sólido, lo que genera incertidumbre en la calidad de los datos. Además, el ROIC está por debajo del costo de capital y hay dilución accionarial, reforzando la conclusión de sobrevaloración.",
+      "reasoning": "Los flujos de caja libre muestran una caída sostenida y el ROIC está por debajo del costo de capital, lo que genera incertidumbre sobre la capacidad de generar valor. Además, la alta dilución y los múltiplos de salida muy bajos hacen que la valoración actual parezca sobrevalorada.",
       "confidence": 78,
       "score_adjustment": -5,
       "oe_ai_verdict": "MIXED/AVOID (-5)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
+      "validated_at": "2026-11-09T06:56:13+00:00"
     },
     "CHTR": {
       "data_quality": "MIXED",
-      "thesis_verdict": "INSUFFICIENT",
-      "reasoning": "Los flujos de caja libre son consistentes y cuentan con historial, pero la alta deuda (Net Debt/EBITDA 4.3x) y la volatilidad del FCF generan dudas sobre la fiabilidad completa del modelo. Además, la tesis implícita está ausente, por lo que no se puede concluir si es una compra o no.",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre presentan alta volatilidad y la deuda neta/EBITDA es elevada (4.3x), lo que reduce la fiabilidad del modelo. Además, la conversión FCF/EBITDA es baja, indicando presión de capital. Estos factores hacen que la tesis implícita de compra no esté justificada.",
       "confidence": 78,
-      "score_adjustment": 0,
-      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
+      "score_adjustment": -5,
+      "oe_ai_verdict": "MIXED/AVOID (-5)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
     },
     "FCNCA": {
       "data_quality": "UNRELIABLE",
       "thesis_verdict": "INSUFFICIENT",
-      "reasoning": "Los bancos no generan Free Cash Flow comparable a otras industrias y los datos presentados son inconsistentes y escasos, además hay señales de deterioro del ROIC y caída del FCF. Por ello el modelo no es fiable y no se puede validar la tesis implícita.",
+      "reasoning": "Los flujos de caja libre son muy volátiles, con un año negativo y una caída reciente; además el ROIC está por debajo del costo de capital y el modelo carece de datos clave como EV/FCF y proyecciones forward, lo que hace que la valoración basada en Owner Earnings no sea fiable para un banco.",
       "confidence": 85,
       "score_adjustment": 0,
       "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
+      "validated_at": "2026-11-09T06:56:13+00:00"
     },
     "BAC": {
       "data_quality": "UNRELIABLE",
       "thesis_verdict": "INSUFFICIENT",
-      "reasoning": "Los flujos de caja libres son extremadamente volátiles y presentan varios años negativos sin contexto claro; además falta proyección de FCF y los múltiplos clave no están disponibles, lo que impide una valoración fiable. La baja ROIC frente al costo de capital refuerza la incertidumbre.",
+      "reasoning": "Los flujos de caja libres del banco son extremadamente volátiles y presentan varios años negativos, además falta proyección de FCF y métricas clave como EV/FCF y ROIC, lo que hace que el modelo basado en Owner Earnings sea poco fiable para una entidad financiera.",
       "confidence": 85,
       "score_adjustment": 0,
       "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
+      "validated_at": "2026-11-09T06:56:13+00:00"
     },
     "KVUE": {
-      "data_quality": "RELIABLE",
-      "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre presentan un historial de al menos tres años y los valores son consistentes con la capitalización y el EV reportado; sin embargo, el modelo muestra un precio objetivo de $8.99 frente al precio actual de $19.31, lo que implica un downside del 53 % y un margen de seguridad negativo, confirmando la tesis de sobrevaloración.",
-      "confidence": 92,
-      "score_adjustment": -8,
-      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "Los flujos de caja libre presentan alta volatilidad y los datos forward carecen de consenso, además faltan información clave como precio actual y capitalización. Esto impide validar con confianza la tesis implícita.",
+      "confidence": 65,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
     },
     "FHN": {
       "data_quality": "UNRELIABLE",
-      "thesis_verdict": "INSUFFICIENT",
-      "reasoning": "First Horizon es una entidad financiera donde el flujo de caja libre no es una métrica fiable; los datos presentan alta volatilidad y caída reciente, además falta información clave como EV y proyecciones. Sin datos consistentes el modelo no puede validar la tesis implícita.",
+      "thesis_verdict": "AVOID",
+      "reasoning": "First Horizon es una entidad financiera donde el flujo de caja libre es volátil y ha caído tres años seguidos; además, los bancos no son adecuados para modelos basados en Owner Earnings y falta de datos clave (EV, FCF forward). Estos factores hacen que el modelo no sea fiable para tomar una decisión de compra.",
       "confidence": 85,
-      "score_adjustment": 0,
-      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
+      "score_adjustment": -10,
+      "oe_ai_verdict": "UNRELIABLE/AVOID (-10)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
     },
     "TECK": {
       "data_quality": "MIXED",
       "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre son muy volátiles y presentan años negativos recientes, lo que genera incertidumbre en las proyecciones forward. Además, el ROIC está por debajo del costo de capital y el modelo muestra un upside negativo, apoyando la tesis de sobrevaloración.",
+      "reasoning": "Los flujos de caja libre son muy volátiles y presentan años negativos recientes, lo que dificulta una valoración fiable; además el ROIC está por debajo del costo de capital y el modelo muestra un upside negativo, confirmando la sobrevaloración.",
       "confidence": 78,
       "score_adjustment": -5,
       "oe_ai_verdict": "MIXED/AVOID (-5)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
+      "validated_at": "2026-11-09T06:56:13+00:00"
     },
     "NYT": {
-      "data_quality": "RELIABLE",
+      "data_quality": "MIXED",
       "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre son consistentes y el historial cubre más de tres años, por lo que los datos son fiables. El modelo muestra un precio objetivo de compra de 43,52 USD frente al precio actual de 70,17 USD, lo que implica un downside del 38 % y un margen de seguridad negativo, confirmando la tesis de sobrevaloración.",
-      "confidence": 92,
-      "score_adjustment": -8,
-      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
+      "reasoning": "Los flujos de caja libre presentan inconsistencias (TEV menor que la capitalización y gran variabilidad histórica), lo que genera dudas sobre la fiabilidad del modelo. Sin embargo, el cálculo muestra un precio objetivo por debajo del actual y un margen de seguridad negativo, apoyando la conclusión de sobrevaloración.",
+      "confidence": 78,
+      "score_adjustment": -5,
+      "oe_ai_verdict": "MIXED/AVOID (-5)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
     },
     "KR": {
       "data_quality": "MIXED",
       "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre son muy volátiles (p.ej., 149 M en 2022 vs >2.9 B en 2021) y la proyección forward carece de consenso amplio, lo que genera incertidumbre. Sin embargo, la valoración muestra un precio objetivo de 14.84 frente al actual 66.76, indicando una sobrevaloración extrema, por lo que la tesis de OVERVALUED parece acertada.",
-      "confidence": 85,
+      "reasoning": "Los flujos de caja libre presentan gran volatilidad (p.ej., 149 M en 2022 frente a casi 3 B en años adyacentes) y la proyección forward carece de consenso claro, lo que reduce la fiabilidad del modelo. Además, el cálculo del precio objetivo da un valor extremadamente bajo, indicando que el modelo probablemente subestima el valor real. Dada la alta incertidumbre y la señal de sobrevaloración, la tesis de OVERVALUED es razonable.",
+      "confidence": 78,
       "score_adjustment": -5,
       "oe_ai_verdict": "MIXED/AVOID (-5)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
+      "validated_at": "2026-11-09T06:56:13+00:00"
     },
     "THC": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre son consistentes y el histórico tiene más de tres años; sin embargo, el modelo muestra un precio objetivo de 46.91 frente al precio actual de 273.25, lo que implica un downside del 82 % y un margen de seguridad negativo, confirmando la tesis de sobrevaloración.",
+      "reasoning": "Los flujos de caja libre son consistentes y el historial tiene más de tres años; sin embargo, el modelo muestra un precio objetivo de 48.56 frente al precio actual de 283, lo que implica una sobrevaloración extrema y un upside negativo. Por tanto, la tesis de OVERVALUED es correcta.",
       "confidence": 92,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
+      "validated_at": "2026-11-09T06:56:13+00:00"
     },
     "QSR": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre son consistentes y el histórico es amplio, pero el modelo muestra un precio objetivo de 17.18 frente al actual 72.41, indicando una sobrevaloración extrema y un margen de seguridad negativo. Además, el alto apalancamiento (Net Debt/EBITDA 5.2x) refuerza la cautela.",
+      "reasoning": "Los flujos de caja libre son consistentes y el historial es suficiente, pero el modelo muestra un precio objetivo muy por debajo del mercado y un margen de seguridad negativo, indicando sobrevaloración significativa.",
       "confidence": 92,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
+      "validated_at": "2026-11-09T06:56:13+00:00"
     },
     "HRI": {
       "data_quality": "MIXED",
       "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libres son muy volátiles y presentan un año negativo, además la deuda neta/EBITDA es extremadamente alta y el ROIC está por debajo del costo de capital, lo que debilita la fiabilidad del modelo. La valoración muestra un amplio downside respecto al precio actual, por lo que la tesis de sobrevaloración es consistente.",
-      "confidence": 85,
+      "reasoning": "Los flujos de caja libre son muy volátiles y presentan un año negativo reciente, además las proyecciones forward carecen de consenso sólido; los indicadores de deuda y ROIC son débiles, lo que respalda la conclusión de sobrevaloración.",
+      "confidence": 78,
       "score_adjustment": -5,
       "oe_ai_verdict": "MIXED/AVOID (-5)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
+      "validated_at": "2026-11-09T06:56:13+00:00"
     },
     "LEN": {
-      "data_quality": "MIXED",
-      "thesis_verdict": "WATCH",
-      "reasoning": "Los flujos de caja libre presentan inconsistencias graves (p.ej., 2025 = 28.2 M frente a 2231.9 M en 2024), lo que sugiere datos poco fiables. Aunque el modelo muestra upside, la calidad de la información impide confiar plenamente en la tesis BUY.",
-      "confidence": 68,
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "Los flujos de caja libre presentan inconsistencias graves (p.ej., 2025 = 28 M frente a 2024 = 2232 M) y las proyecciones forward son discordantes, lo que impide confiar en el modelo. Sin datos fiables, no se puede validar la tesis BUY.",
+      "confidence": 85,
       "score_adjustment": 0,
-      "oe_ai_verdict": "MIXED/WATCH (0)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
     },
     "UNH": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre son consistentes y el historial es amplio, pero el modelo muestra un precio objetivo muy por debajo del precio actual, lo que implica una caída del 45% y un margen de seguridad negativo, señalando sobrevaloración.",
+      "reasoning": "Los flujos de caja libre son consistentes y el historial tiene más de tres años, aunque muestra una caída reciente. El modelo indica un precio objetivo muy por debajo del actual, con un margen de seguridad negativo, lo que respalda la tesis de sobrevaloración.",
       "confidence": 92,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
+      "validated_at": "2026-11-09T06:56:13+00:00"
     },
     "POOL": {
       "data_quality": "MIXED",
       "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre presentan alta volatilidad y una caída sostenida, lo que genera incertidumbre en los pronósticos forward. Además, el modelo indica un precio objetivo muy por debajo del actual, confirmando la sobrevaloración implícita.",
-      "confidence": 78,
+      "reasoning": "Los flujos de caja libre presentan alta volatilidad y una tendencia a la baja, lo que genera incertidumbre en los pronósticos forward; sin embargo, la información disponible es suficiente para un análisis preliminar. Dado el precio actual muy por encima del valor implícito y el margen de seguridad negativo, la tesis de sobrevaloración es consistente.",
+      "confidence": 85,
       "score_adjustment": -5,
       "oe_ai_verdict": "MIXED/AVOID (-5)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
+      "validated_at": "2026-11-09T06:56:13+00:00"
     },
     "STZ": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre presentan historial suficiente y los supuestos son razonables; sin embargo, el modelo muestra un precio objetivo muy por debajo del precio actual, indicando sobrevaloración significativa.",
+      "reasoning": "Los flujos de caja libre son consistentes y el histórico tiene más de tres años, aunque muestra una ligera caída reciente. El modelo indica un precio objetivo muy por debajo del precio actual, lo que implica un margen de seguridad negativo y una sobrevaloración significativa.",
       "confidence": 92,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
+      "validated_at": "2026-11-09T06:56:13+00:00"
     },
     "ALLY": {
       "data_quality": "UNRELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "Ally es una entidad financiera donde el flujo de caja libre es poco representativo y muestra volatilidad extrema, con un FCF negativo en 2025 y sin contexto claro; además los supuestos de EV/FCF y capex son poco aplicables a bancos.",
+      "reasoning": "Ally es una entidad financiera donde el flujo de caja libre es volátil y poco representativo por la naturaleza del negocio; además los datos presentan años negativos y proyecciones sin consenso, lo que invalida el modelo de Owner Earnings. La conclusión de sobrevaloración es consistente con la falta de fiabilidad del dato.",
       "confidence": 85,
       "score_adjustment": -10,
       "oe_ai_verdict": "UNRELIABLE/AVOID (-10)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
+      "validated_at": "2026-11-09T06:56:13+00:00"
     },
     "KHC": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre son consistentes y el historial es suficiente, pero el modelo muestra un precio objetivo muy por debajo del actual y un margen de seguridad negativo, lo que confirma la sobrevaloración. Además, ROIC está por debajo del costo de capital, reforzando la conclusión.",
-      "confidence": 85,
+      "reasoning": "Los flujos de caja libre están bien documentados y cuentan con varios años históricos, por lo que la calidad de los datos es aceptable. Sin embargo, el modelo muestra un precio objetivo muy bajo frente al precio actual y los indicadores de rentabilidad (ROE negativo, ROIC inferior al costo de capital) indican que la valoración está inflada.",
+      "confidence": 92,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
+      "validated_at": "2026-11-09T06:56:13+00:00"
     },
     "MRSH": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre históricos son consistentes y el número de años es suficiente; no se detectan inconsistencias evidentes. Sin embargo, el modelo indica un precio objetivo de 90,63 frente al precio actual de 200,62, lo que implica una caída del 55 % y un margen de seguridad negativo, confirmando que la acción está sobrevalorada.",
-      "confidence": 92,
+      "reasoning": "Los flujos de caja libre históricos son consistentes y los supuestos de valoración están bien documentados; el modelo indica un precio objetivo muy por debajo del precio actual, lo que sugiere sobrevaloración significativa.",
+      "confidence": 85,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
+      "validated_at": "2026-11-09T06:56:13+00:00"
     },
     "ASML": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre son consistentes y el historial supera los 3 años, sin red flags. Sin embargo, el modelo muestra un precio objetivo por debajo del precio actual (upside -26.8%) y un margen de seguridad negativo, lo que confirma la tesis de sobrevaloración.",
+      "reasoning": "Los flujos de caja libre históricos son consistentes y el modelo usa supuestos razonables; sin embargo, el precio objetivo calculado está por debajo del precio actual, generando un upside negativo y un margen de seguridad negativo, lo que confirma la sobrevaloración implícita.",
       "confidence": 92,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
+      "validated_at": "2026-11-09T06:56:13+00:00"
     },
     "AAPL": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "Los datos de FCF son consistentes y el historial supera los 3 años; sin embargo, el modelo muestra un precio objetivo de compra muy por debajo del precio actual y un upside negativo del -32%, indicando que la acción está sobrevalorada según los supuestos.",
+      "reasoning": "Los flujos de caja libre son consistentes y el historial es amplio; sin embargo, el modelo muestra un precio objetivo de compra muy por debajo del precio actual y un margen de seguridad negativo, lo que confirma la sobrevaloración implícita.",
       "confidence": 92,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
+      "validated_at": "2026-11-09T06:56:13+00:00"
     },
     "FERG": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre son consistentes y el historial supera los 3 años, aunque el ROIC está por debajo del costo de capital y el modelo muestra un precio objetivo significativamente inferior al actual, indicando sobrevaloración.",
-      "confidence": 92,
+      "reasoning": "Los flujos de caja libre presentan historial suficiente y cifras coherentes; sin embargo, el precio objetivo calculado está muy por debajo del precio actual, indicando sobrevaloración y margen de seguridad negativo.",
+      "confidence": 85,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
+      "validated_at": "2026-11-09T06:56:13+00:00"
     },
     "BSX": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre son consistentes y el historial es suficiente, pero el modelo muestra un precio objetivo de 21.14 frente al actual 41.98, lo que implica un downside del ~50% y margen de seguridad negativo, confirmando la sobrevaloración.",
-      "confidence": 92,
+      "reasoning": "Los flujos de caja libre son consistentes y el historial es suficiente; sin embargo, el precio objetivo calculado está muy por debajo del precio actual, indicando una gran sobrevaloración y margen de seguridad negativo.",
+      "confidence": 85,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
+      "validated_at": "2026-11-09T06:56:13+00:00"
     },
     "ATO": {
       "data_quality": "MIXED",
       "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libres son muy volátiles y presentan varios años negativos, y las proyecciones forward carecen de consenso sólido, lo que reduce la fiabilidad del modelo. Además, el ROIC está por debajo del costo de capital y el rendimiento de FCF es negativo, reforzando la conclusión de sobrevaloración.",
+      "reasoning": "Los flujos de caja libre son muy volátiles y presentan varios años negativos, lo que dificulta confiar plenamente en las proyecciones forward; además, el ROIC está por debajo del costo de capital y la valoración muestra un margen de seguridad negativo.",
       "confidence": 78,
       "score_adjustment": -5,
       "oe_ai_verdict": "MIXED/AVOID (-5)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
+      "validated_at": "2026-11-09T06:56:13+00:00"
     },
     "EFX": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre presentan alta volatilidad (60 M en 2022 vs 791 M en 2021) y los pronósticos forward carecen de consenso claro, lo que reduce la fiabilidad del modelo. Además, el cálculo muestra un precio objetivo muy por debajo del precio actual, indicando sobrevaloración.",
+      "confidence": 78,
+      "score_adjustment": -5,
+      "oe_ai_verdict": "MIXED/AVOID (-5)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "YUM": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre son consistentes y el histórico tiene más de tres años, sin banderas rojas evidentes. Sin embargo, el modelo muestra un precio objetivo de 131, muy por debajo del precio actual de 184.6, lo que implica un upside negativo y un margen de seguridad desfavorable, confirmando la tesis de sobrevaloración.",
+      "reasoning": "Los flujos de caja libre históricos son consistentes y el horizonte de proyección tiene suficiente cobertura temporal; sin embargo, el modelo muestra un precio objetivo muy por debajo del precio actual y existen señales de sobreendeudamiento y ROE negativo, lo que respalda la conclusión de sobrevaloración.",
       "confidence": 92,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
-    },
-    "YUM": {
-      "data_quality": "MIXED",
-      "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre son consistentes y el historial es amplio, pero la alta deuda neta/EBITDA y el ROE negativo generan dudas sobre la sostenibilidad del rendimiento. La valoración muestra un margen de seguridad negativo y un upside negativo, lo que respalda la conclusión de sobrevaloración.",
-      "confidence": 85,
-      "score_adjustment": -5,
-      "oe_ai_verdict": "MIXED/AVOID (-5)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
+      "validated_at": "2026-11-09T06:56:13+00:00"
     },
     "MLM": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre son consistentes y el historial es amplio, pero el precio objetivo calculado está muy por debajo del precio actual, generando un upside negativo y un margen de seguridad muy bajo. Además, el ROIC está por debajo del costo de capital, lo que refuerza la sobrevaloración.",
-      "confidence": 92,
+      "reasoning": "Los flujos de caja libre presentan historial razonable y los supuestos son coherentes, por lo que los datos son fiables. Sin embargo, el modelo muestra un precio objetivo de 293 USD frente al precio actual de 518 USD, lo que implica un descuento del 43 % y un margen de seguridad negativo, confirmando la tesis de sobrevaloración.",
+      "confidence": 85,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
+      "validated_at": "2026-11-09T06:56:13+00:00"
     },
     "GOOG": {
       "data_quality": "MIXED",
       "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja proyectados presentan incoherencias (p.ej., 2028 FCF de solo 5 bn frente a >100 bn en años adyacentes) y el rendimiento NTM es negativo, lo que indica problemas de calidad de los datos. Además, el modelo muestra un upside negativo y margen de seguridad desfavorable, lo que no respalda la tesis de HOLD.",
+      "reasoning": "Los flujos de caja históricos son consistentes, pero las proyecciones forward muestran un crecimiento implausible (doble en un año) y un rendimiento negativo, lo que indica incertidumbre en los supuestos. Además, el modelo muestra un upside negativo y margen de seguridad negativo, lo que no respalda la tesis HOLD.",
       "confidence": 78,
       "score_adjustment": -5,
       "oe_ai_verdict": "MIXED/AVOID (-5)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
+      "validated_at": "2026-11-09T06:56:13+00:00"
     },
     "FTNT": {
       "data_quality": "MIXED",
       "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre son consistentes y el historial es amplio, pero el ROIC reportado (311.9%) es irrealista y sugiere un error de datos; además el modelo muestra un precio objetivo por debajo del actual, indicando sobrevaloración.",
+      "reasoning": "Los flujos de caja libre son consistentes y tienen varios años de historial, pero el ROIC reportado del 311.9% es extremadamente anómalo y sugiere un posible error de datos; además, el modelo usa un múltiplo objetivo muy bajo respecto al histórico, lo que genera un precio objetivo por debajo del mercado.",
       "confidence": 78,
       "score_adjustment": -5,
       "oe_ai_verdict": "MIXED/AVOID (-5)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
+      "validated_at": "2026-11-09T06:56:13+00:00"
     },
     "GGG": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre son consistentes y el historial es suficiente, pero el modelo muestra un precio objetivo de compra muy por debajo del precio actual y un margen de seguridad negativo, indicando que la acción está sobrevalorada según los supuestos. No se detectan banderas rojas que invaliden los datos, pero la valoración no respalda la compra.",
-      "confidence": 92,
+      "reasoning": "Los flujos de caja libre presentan historial suficiente y los supuestos son razonables, pero el modelo muestra un precio objetivo por debajo del actual y un margen de seguridad negativo, indicando sobrevaloración.",
+      "confidence": 85,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
+      "validated_at": "2026-11-09T06:56:13+00:00"
     },
     "HLT": {
       "data_quality": "MIXED",
       "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre presentan una recuperación abrupta tras 2021, lo que genera dudas sobre la consistencia del histórico; además, la alta deuda y el ROE negativo son señales de riesgo. La valoración muestra un margen de seguridad negativo y un upside sustancialmente bajo, apoyando la conclusión de sobrevaloración.",
-      "confidence": 78,
+      "reasoning": "El historial de FCF muestra una recuperación abrupta tras 2021, lo que genera dudas sobre la consistencia de los flujos futuros; además, el alto apalancamiento (Net Debt/EBITDA 4.2x) y el ROE negativo indican riesgos significativos. La valoración muestra un upside negativo y un margen de seguridad muy bajo, apoyando la conclusión de sobrevaloración.",
+      "confidence": 85,
       "score_adjustment": -5,
       "oe_ai_verdict": "MIXED/AVOID (-5)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
+      "validated_at": "2026-11-09T06:56:13+00:00"
     },
     "ORCL": {
       "data_quality": "MIXED",
       "thesis_verdict": "WATCH",
-      "reasoning": "Los datos históricos de FCF son volátiles y presentan años negativos, lo que genera dudas sobre la consistencia del modelo; sin embargo, los proyecciones forward parecen muy optimistas y carecen de consenso amplio. Dada la incertidumbre y los red flags, la recomendación de observar (WATCH) es prudente.",
-      "confidence": 78,
+      "reasoning": "Los flujos de caja libre históricos son volátiles y presentan años negativos, lo que genera dudas sobre la fiabilidad de los pronósticos forward muy optimistas. Sin embargo, la valoración muestra un margen de seguridad moderado y upside limitado, por lo que la recomendación de observar antes de decidir es prudente.",
+      "confidence": 68,
       "score_adjustment": 0,
       "oe_ai_verdict": "MIXED/WATCH (0)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
+      "validated_at": "2026-11-09T06:56:13+00:00"
     },
     "UNP": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre son consistentes y el historial es suficiente, pero el modelo muestra un precio objetivo de 191 $, muy por debajo del precio actual de 304 $, lo que implica un downside del 37 % y un margen de seguridad negativo. Dada la gran discrepancia y la caída del FCF reciente, la tesis de sobrevaloración es razonable.",
+      "reasoning": "Los flujos de caja libre son consistentes y el historial es suficiente; sin embargo, el modelo muestra un precio objetivo mucho menor que el actual y un margen de seguridad negativo, lo que respalda la conclusión de sobrevaloración.",
       "confidence": 92,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
+      "validated_at": "2026-11-09T06:56:13+00:00"
     },
     "AMZN": {
-      "data_quality": "UNRELIABLE",
-      "thesis_verdict": "INSUFFICIENT",
-      "reasoning": "Los flujos de caja proyectados son extremadamente altos y no coinciden con la realidad operativa de Amazon, lo que indica datos poco fiables; además, la falta de consenso y la inconsistencia con la capitalización hacen que la valoración sea dudosa.",
-      "confidence": 85,
-      "score_adjustment": 0,
-      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
+      "data_quality": "MIXED",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre presentan alta volatilidad y proyecciones forward extremadamente optimistas sin consenso, lo que genera incertidumbre. Además, el modelo muestra un upside negativo y margen de seguridad negativo, indicando sobrevaloración.",
+      "confidence": 78,
+      "score_adjustment": -5,
+      "oe_ai_verdict": "MIXED/AVOID (-5)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
     },
     "ODFL": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "Los datos de FCF son consistentes y cuentan con varios años históricos, sin señales de alerta. El modelo muestra un precio objetivo de 104 USD frente al precio actual de 172 USD, indicando una sobrevaloración significativa, por lo que la tesis de OVERVALUED es adecuada.",
+      "reasoning": "Los flujos de caja libre presentan historial suficiente y los supuestos son coherentes; sin embargo, el modelo indica un precio objetivo de compra de 99,32 frente al precio actual de 164,92, lo que implica un downside del 40% y un margen de seguridad negativo, confirmando la tesis de sobrevaloración.",
       "confidence": 92,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
+      "validated_at": "2026-11-09T06:56:13+00:00"
     },
     "PSA": {
       "data_quality": "MIXED",
       "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre presentan alta volatilidad y la proyección forward carece de consenso, lo que dificulta la fiabilidad plena del modelo; sin embargo, el cálculo muestra un precio objetivo muy inferior al actual, indicando sobrevaloración.",
-      "confidence": 85,
+      "reasoning": "Los flujos de caja libre son positivos pero la empresa es un REIT, donde el FCF es menos representativo y la proyección forward carece de consenso; además, la valoración basada en un múltiplo EV/FCF no está disponible, lo que debilita la fiabilidad del modelo. La conclusión de sobrevaloración parece exagerada dado el potencial de crecimiento y la estructura de dividendos del sector.",
+      "confidence": 75,
       "score_adjustment": -5,
       "oe_ai_verdict": "MIXED/AVOID (-5)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
+      "validated_at": "2026-11-09T06:56:13+00:00"
     },
     "BLK": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre son consistentes y cuentan con al menos tres años de historial; la única alerta es la caída del FCF en 2025, pero no invalida la calidad de los datos. El modelo muestra un precio objetivo de 525 USD frente al precio actual de 1 147 USD, lo que implica un downside del 54 % y un margen de seguridad negativo, confirmando la tesis de sobrevaloración.",
+      "reasoning": "Los flujos de caja libre son consistentes y el histórico tiene más de tres años; sin embargo, el modelo muestra un precio objetivo de 539 USD frente al precio actual de 1179 USD, lo que implica un downside del 54 % y un margen de seguridad negativo, confirmando la tesis de sobrevaloración.",
       "confidence": 92,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
+      "validated_at": "2026-11-09T06:56:13+00:00"
     },
     "HD": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre son consistentes y el historial tiene más de tres años, aunque muestra una ligera caída reciente. El modelo indica un precio objetivo de 157 $, muy por debajo del precio actual de 329 $, lo que implica un margen de seguridad negativo y una sobrevaloración evidente.",
+      "reasoning": "Los flujos de caja libre son consistentes y el historial cubre más de tres años, por lo que los datos son fiables. Sin embargo, el modelo indica un precio de compra de 165 USD frente al precio actual de 343 USD, lo que implica una caída del 52 % y un margen de seguridad negativo, señalando que la acción está significativamente sobrevaluada.",
       "confidence": 92,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
+      "validated_at": "2026-11-09T06:56:13+00:00"
     },
     "META": {
       "data_quality": "MIXED",
       "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja históricos son razonables, pero las proyecciones forward muestran un salto abrupto e implausible que carece de consenso, lo que genera incertidumbre. Dado el upside negativo y el margen de seguridad negativo, la tesis de sobrevaloración parece acertada.",
+      "reasoning": "Los flujos de caja históricos son consistentes, pero las proyecciones forward muestran aumentos extremos y una caída abrupta en 2029, lo que indica incertidumbre en los supuestos. La valoración muestra un margen de seguridad negativo y un upside del -22%, apoyando la conclusión de sobrevaloración.",
       "confidence": 78,
       "score_adjustment": -5,
       "oe_ai_verdict": "MIXED/AVOID (-5)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
+      "validated_at": "2026-11-09T06:56:13+00:00"
     },
     "LMT": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre son consistentes y el historial es amplio; sin embargo, el modelo muestra un precio objetivo de 422 USD frente al precio actual de 637 USD, lo que implica un downside del 33 % y un margen de seguridad negativo, confirmando la tesis de sobrevaloración.",
-      "confidence": 88,
+      "reasoning": "Los flujos de caja libre son consistentes y el historial es amplio; sin embargo, el precio objetivo calculado está muy por debajo del precio actual, indicando una sobrevaloración significativa.",
+      "confidence": 85,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
+      "validated_at": "2026-11-09T06:56:13+00:00"
     },
     "AVGO": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "BUY",
-      "reasoning": "Los flujos de caja libre históricos son consistentes y el modelo muestra un upside del 17% con margen de seguridad del 14%, mientras que la dilución prevista es moderada. Los supuestos de ROIC y EV/FCF son razonables para Broadcom.",
+      "reasoning": "Los flujos de caja libre históricos son consistentes y el modelo usa supuestos razonables; el upside del 17% y un margen de seguridad del 14.8% respaldan la recomendación, pese a una dilución moderada del 2.5% anual.",
       "confidence": 82,
       "score_adjustment": 8,
       "oe_ai_verdict": "RELIABLE/BUY (+8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
+      "validated_at": "2026-11-09T06:56:13+00:00"
     },
     "MANH": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre son consistentes y tienen historial suficiente, pero el ROIC reportado del 357.5% es irreal y sugiere errores en los supuestos; además el modelo muestra un precio objetivo por debajo del actual, indicando sobrevaloración.",
+      "confidence": 78,
+      "score_adjustment": -5,
+      "oe_ai_verdict": "MIXED/AVOID (-5)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "RMD": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre son consistentes y el historial es suficiente, pero el modelo muestra un precio objetivo de compra muy por debajo del precio actual, generando un upside negativo del -23.9% y un margen de seguridad negativo, lo que confirma la sobrevaloración implícita.",
+      "reasoning": "Los flujos de caja libre son consistentes y el historial supera los 3 años, aunque muestra caída reciente; sin embargo, el modelo indica un precio objetivo de compra de 127,75 frente al actual 235,30, lo que implica un downside del 45 % y un margen de seguridad negativo, confirmando la sobrevaloración.",
       "confidence": 92,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
-    },
-    "RMD": {
-      "data_quality": "MIXED",
-      "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre presentan alta volatilidad y un salto inesperado en 2026, lo que genera incertidumbre en los supuestos forward. Además, el modelo indica un precio objetivo de 123 USD, muy por debajo del precio actual, confirmando la sobrevaloración implícita.",
-      "confidence": 85,
-      "score_adjustment": -5,
-      "oe_ai_verdict": "MIXED/AVOID (-5)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
+      "validated_at": "2026-11-09T06:56:13+00:00"
     },
     "ADSK": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre son consistentes y el historial es suficiente, pero el precio objetivo calculado está por debajo del precio actual, generando un upside negativo y un margen de seguridad negativo, lo que confirma la sobrevaloración implícita.",
+      "reasoning": "Los flujos de caja libre son consistentes y el historial es suficiente, pero el modelo muestra un precio objetivo de compra muy por debajo del precio actual, generando un upside negativo y un margen de seguridad negativo, lo que confirma la sobrevaloración implícita.",
       "confidence": 92,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
+      "validated_at": "2026-11-09T06:56:13+00:00"
     },
     "CRH": {
-      "data_quality": "MIXED",
+      "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre son consistentes pero la proyección forward muestra volatilidad y la valoración indica un upside negativo y margen de seguridad negativo, lo que sugiere sobrevaloración. Además, la red flag de conversión FCF/EBITDA <40% refuerza la cautela.",
-      "confidence": 78,
-      "score_adjustment": -5,
-      "oe_ai_verdict": "MIXED/AVOID (-5)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
+      "reasoning": "Los flujos de caja libre son consistentes y el historial es suficiente, aunque hay una alerta media en la conversión FCF/EBITDA. La valoración muestra un upside negativo del -2.9% y margen de seguridad negativo, lo que indica sobrevaloración.",
+      "confidence": 85,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
     },
     "APH": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre son consistentes y el historial es suficiente; sin embargo, el precio objetivo calculado está muy por debajo del precio actual, indicando un margen de seguridad negativo y poca upside, por lo que la tesis de sobrevaloración es acertada.",
+      "reasoning": "Los flujos de caja libre presentan crecimiento sólido y el modelo muestra un precio objetivo de 49.97 frente al actual 74.59, lo que implica un downside del 33% y margen de seguridad negativo, confirmando la sobrevaloración.",
       "confidence": 92,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
+      "validated_at": "2026-11-09T06:56:13+00:00"
     },
     "SUNB": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre son consistentes y el historial cubre más de tres años; sin embargo, el modelo muestra un precio objetivo de 51,84 frente al actual 77,05, lo que implica un downside del 32,7% y un margen de seguridad negativo, confirmando la tesis de sobrevaloración.",
+      "confidence": 85,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "BKNG": {
       "data_quality": "MIXED",
       "thesis_verdict": "AVOID",
-      "reasoning": "Los flujos de caja libre presentan irregularidades (p.ej., 2024 = 216.5 M vs 2025 = 1790 M), lo que genera dudas sobre la fiabilidad del histórico; sin embargo, el modelo muestra un precio objetivo muy por debajo del actual y un margen de seguridad negativo, apoyando la conclusión de sobrevaloración.",
+      "reasoning": "Los flujos de caja libres son consistentes, pero hay indicadores extremos (ROIC 240 % y ROE -112,6 %) que sugieren problemas de calidad de los datos. La valoración muestra un precio objetivo por debajo del actual y un margen de seguridad negativo, lo que respalda la tesis de sobrevaloración.",
       "confidence": 78,
       "score_adjustment": -5,
       "oe_ai_verdict": "MIXED/AVOID (-5)",
-      "validated_at": "2026-11-06T07:11:25+00:00"
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "4684.T": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "Los valores de capitalización y precio por acción no concuerdan con los flujos de caja presentados, lo que sugiere datos inconsistentes; sin datos fiables no se puede validar la tesis de sobrevaloración.",
+      "confidence": 85,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "ADBE": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre son consistentes y el historial es amplio, pero el modelo muestra un precio objetivo de 116.53 frente al precio actual de 239.30, indicando una sobrevaloración significativa. La falta de upside y el margen de seguridad negativo respaldan la conclusión de que la acción está sobrevaluada.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "VCISY": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre presentan varios años de historial y los supuestos de valoración son coherentes; el modelo indica un precio objetivo de compra de 11.47 USD, mucho menor que el precio actual de 30.93 USD, lo que implica un downside del 62,9 % y un margen de seguridad negativo. Dada esta discrepancia y la baja cobertura de analistas, la tesis de sobrevaloración es consistente.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "6383.T": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre presentan alta volatilidad y caídas recientes, y la conversión FCF/EBITDA es baja, lo que genera dudas sobre la fiabilidad completa del modelo. Además, el cálculo muestra un upside negativo y un margen de seguridad desfavorable, respaldando la conclusión de sobrevaloración.",
+      "confidence": 78,
+      "score_adjustment": -5,
+      "oe_ai_verdict": "MIXED/AVOID (-5)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "TLC.AX": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre presentan volatilidad y los múltiplos implícitos (EV/FCF >180x) son extremadamente altos para el sector, lo que sugiere que los supuestos de valoración son poco realistas. Además, la caída del FCF y la falta de consenso sólido en los pronósticos hacen que la tesis de compra sea arriesgada.",
+      "confidence": 78,
+      "score_adjustment": -5,
+      "oe_ai_verdict": "MIXED/AVOID (-5)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "MNST": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre son consistentes y el historial es suficiente, pero el modelo muestra un precio objetivo de compra muy por debajo del precio actual y un margen de seguridad negativo, indicando sobrevaloración.",
+      "confidence": 85,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "AMAT": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre presentan caída sostenida y proyecciones muy agresivas que generan un upside negativo y margen de seguridad negativo; la calidad de los datos es aceptable pero la volatilidad y los supuestos poco realistas reducen la fiabilidad del modelo.",
+      "confidence": 78,
+      "score_adjustment": -5,
+      "oe_ai_verdict": "MIXED/AVOID (-5)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "KYCCF": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los datos de FCF cuentan con varios años históricos y cifras consistentes; las banderas rojas son moderadas y no invalidan el modelo. El cálculo muestra un precio objetivo mucho menor que el actual, indicando una sobrevaloración significativa, por lo que la tesis de OVERVALUED es correcta.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "NVDA": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "Los valores de FCF por acción son incompatibles con el número real de acciones de NVDA, indicando datos inconsistentes; además el salto de FCF histórico es extremadamente abrupto. Sin datos fiables, la tesis no puede evaluarse.",
+      "confidence": 85,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "SGSOY": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre presentan tendencia creciente y hay más de tres años de historial, por lo que los datos son consistentes. Sin embargo, el modelo indica un precio objetivo por debajo del actual (‑44,6% de upside) y un margen de seguridad negativo, lo que confirma la tesis de sobrevaloración.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "LLY": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre presentan alta volatilidad y proyecciones extremadamente agresivas sin suficiente respaldo, lo que genera incertidumbre. Además, el modelo muestra un upside negativo y margen de seguridad bajo, indicando sobrevaloración.",
+      "confidence": 78,
+      "score_adjustment": -5,
+      "oe_ai_verdict": "MIXED/AVOID (-5)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "BRK-B": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "El ratio 1529.25x probablemente proviene de un error de conversión de divisa o, más plausible, de usar la relación ADR sin ajustar (1 ADR de BRK.B representa 1/1500 de una acción ordinaria), lo que hace que la capitalización implícita calculada con el número de acciones sea mucho menor que la reportada por TIKR. Dado este desajuste, los fundamentos en la divisa nativa (USD) no pueden verificarse con los datos presentados, impidiendo una evaluación fiable del negocio.",
+      "confidence": 92,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "KLAC": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los flujos de caja libre son consistentes y el historial es suficiente, pero el modelo muestra un precio objetivo de compra de 104,49 frente al precio actual de 138,49, lo que implica un downside del 24,6% y un margen de seguridad negativo. La valoración indica que la acción está sobrevalorada.",
+      "confidence": 85,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
+    },
+    "DOL.TO": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "El modelo muestra un precio objetivo de 181,74 frente al precio actual de 215,49, lo que implica un downside del 15 % y un margen de seguridad negativo. Los fundamentos de FCF son sólidos, pero la valoración actual parece sobrevalorada.",
+      "confidence": 92,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-11-09T06:56:13+00:00"
     }
   }
 }

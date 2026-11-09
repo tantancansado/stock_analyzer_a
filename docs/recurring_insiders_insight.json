@@ -1,11 +1,19 @@
 {
-  "date": "2026-11-06",
-  "timestamp": "2026-11-06T07:30:32.098320",
-  "narrative": "Los tickers con mayor actividad se concentran en sectores defensivos y de salud (GSK, BSX, BATS) y en transporte/industrial (HEI, RSG, AAL, BA), lo que sugiere un enfoque tem\u00e1tico en empresas con flujos de caja estables y exposici\u00f3n a la recuperaci\u00f3n post\u2011pandemia. Cuando varios insiders diferentes compran simult\u00e1neamente, indica una convicci\u00f3n compartida de que el precio est\u00e1 subvalorado y que existen catalizadores internos (nuevos contratos, mejoras operativas) que no est\u00e1n a\u00fan reflejados en el mercado. Para un inversor value/GARP, esa convergencia refuerza la se\u00f1al de \u201c",
+  "date": "2026-11-09",
+  "timestamp": "2026-11-09T07:18:24.132869",
+  "narrative": "Los tickers con mayor actividad se concentran en sectores defensivos y de infraestructura: ROL y HEI (energ\u00eda/servicios p\u00fablicos), RSG y BSX (salud/biotecnolog\u00eda) en EE.\u202fUU., y AAL.L, BA.L, BARC.L y BATS.L (aerol\u00edneas, transporte y energ\u00eda) en Europa, lo que sugiere un enfoque tem\u00e1tico en activos con flujos estables y recuperaci\u00f3n post\u2011pandemia. Cuando varios insiders diferentes compran en",
   "total_tickers": 16,
   "total_us": 8,
   "total_eu": 8,
   "top_picks": [
+    {
+      "ticker": "ROL",
+      "market": "US",
+      "purchase_count": 8,
+      "unique_insiders": 1,
+      "confidence_score": 100.0,
+      "days_span": 3
+    },
     {
       "ticker": "HEI",
       "market": "US",
@@ -37,14 +45,6 @@
       "unique_insiders": 12,
       "confidence_score": 100.0,
       "days_span": 61
-    },
-    {
-      "ticker": "BA.L",
-      "market": "EU",
-      "purchase_count": 31,
-      "unique_insiders": 11,
-      "confidence_score": 100.0,
-      "days_span": 64
     }
   ]
 }

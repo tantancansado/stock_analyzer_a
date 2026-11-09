@@ -1,36 +1,43 @@
 {
-  "date": "2026-11-06",
-  "timestamp": "2026-11-06T07:30:33.916650",
-  "narrative": "Los sectores que lideran la lista son tecnolog\u00eda (AMS.MC), servicios financieros (PGHN.SW), comunicaciones (G24.DE) e industriales (SAF.PA), todos con exposici\u00f3n predominante a la zona euro y alineados con el ciclo de revaluaci\u00f3n de valor que atraviesa Europa, donde la recuperaci\u00f3n del cr\u00e9dito y la estabilizaci\u00f3n del consumo favorecen a empresas con flujos de caja s\u00f3lidos y m\u00faltiplos deprimidos. El entorno macro\u2011macro es benigno: la pol\u00edtica monetaria del BCE se mantiene restrictiva pero estable, el euro muestra fortaleza relativa y la presi\u00f3n sobre los precios de la energ\u00eda ha disminuido, reduciendo el coste de producci\u00f3n para los industriales y mejorando los m\u00e1rgenes de los financieros.",
+  "date": "2026-11-09",
+  "timestamp": "2026-11-09T07:18:26.508566",
+  "narrative": "Los sectores que lideran el ranking son tecnolog\u00eda (SAP, AMS) y energ\u00eda (Neste), seguidos por servicios financieros, comunicaciones e industriales; esta composici\u00f3n coincide con la fase de recuperaci\u00f3n moderada del ciclo europeo, donde la digitalizaci\u00f3n y la transici\u00f3n energ\u00e9tica siguen impulsando m\u00e1rgenes atractivos. El entorno macro es favorable: la pol\u00edtica monetaria del BCE se mantiene acomodaticia, el euro est\u00e1 estable y los precios de la energ\u00eda se est\u00e1n normalizando tras la volatilidad geopol\u00edtica, lo que beneficia a empresas con exposici\u00f3n a energ\u00eda renovable y a proveedores de software de gesti\u00f3n que pueden captar gasto de capital reactivado. En comparaci\u00f3n con EE.\u202fUU., las acciones europeas ofrecen m\u00faltiplos m\u00e1s bajos y dividendos m\u00e1s s\u00f3lidos, pero est\u00e1n m\u00e1s expuestas a riesgos regulatorios locales y a la",
   "macro_regime": "CALM",
-  "picks_count": 4,
+  "picks_count": 6,
   "top_picks": [
+    {
+      "ticker": "SAP.DE",
+      "sector": "Technology",
+      "value_score": 66.4,
+      "analyst_upside_pct": 13.4,
+      "conviction_grade": null
+    },
     {
       "ticker": "AMS.MC",
       "sector": "Technology",
-      "value_score": 45.7,
+      "value_score": 55.1,
       "analyst_upside_pct": 16.7,
+      "conviction_grade": null
+    },
+    {
+      "ticker": "NESTE.HE",
+      "sector": "Energy",
+      "value_score": 52.6,
+      "analyst_upside_pct": 26.9,
       "conviction_grade": null
     },
     {
       "ticker": "PGHN.SW",
       "sector": "Financial Services",
       "value_score": 43.2,
-      "analyst_upside_pct": 13.6,
+      "analyst_upside_pct": 14.4,
       "conviction_grade": null
     },
     {
       "ticker": "G24.DE",
       "sector": "Communication Services",
-      "value_score": 39.0,
-      "analyst_upside_pct": 17.5,
-      "conviction_grade": null
-    },
-    {
-      "ticker": "SAF.PA",
-      "sector": "Industrials",
-      "value_score": 37.4,
-      "analyst_upside_pct": 20.2,
+      "value_score": 39.2,
+      "analyst_upside_pct": 21.5,
       "conviction_grade": null
     }
   ]
