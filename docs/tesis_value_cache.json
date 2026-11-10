@@ -122,14 +122,14 @@
   "margen_op_delta": 0.7421501699409667,
   "op_yoy": 22.522214627477787,
   "eps_limpio": 6.183736580413505,
-  "pe_hoy": 7.647479705035838,
+  "pe_hoy": 7.742891272512497,
   "extraordinarios_pct": 11.821637982161029,
-  "pe_hist": 26.090777657295884,
-  "compresion": -70.68895452068928,
+  "pe_hist": 26.090777741527784,
+  "compresion": -70.3232638397421,
   "crec_usado": -10.0,
-  "ret_2a_sin_reversion": -18.999999999999993,
-  "ret_2a_con_reversion": 176.346335231113,
-  "fecha": "2026-11-02"
+  "ret_2a_sin_reversion": -18.999999999999982,
+  "ret_2a_con_reversion": 172.9410658995328,
+  "fecha": "2026-11-10"
  },
  "ASAZY": {
   "ticker": "ASAZY",
@@ -208,11 +208,11 @@
   "margen_op_delta": 1.2858548584430167,
   "op_yoy": 18.502024291497964,
   "eps_limpio": 8.043678936149906,
-  "pe_hoy": 29.043924037055344,
+  "pe_hoy": 29.516344683150752,
   "extraordinarios_pct": 0.1703478972591052,
   "crec_usado": 6.7,
   "ret_2a_sin_reversion": 13.848899999999986,
-  "fecha": "2026-11-03"
+  "fecha": "2026-11-10"
  },
  "PEP": {
   "ticker": "PEP",
@@ -2591,5 +2591,16 @@
   "crec_usado": -7.9,
   "ret_2a_sin_reversion": -15.175899999999986,
   "fecha": "2026-11-09"
+ },
+ "ESLOY": {
+  "ticker": "ESLOY",
+  "deterioro": true,
+  "motivo": null,
+  "base": "anual",
+  "ingresos_yoy": 7.480760525124497,
+  "margen_op": 11.852865817275632,
+  "margen_op_delta": -1.150755730936229,
+  "op_yoy": -2.030751378009865,
+  "fecha": "2026-11-10"
  }
 }

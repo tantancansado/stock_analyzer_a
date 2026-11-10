@@ -1,10 +1,10 @@
 {
-  "date": "2026-11-09",
-  "timestamp": "2026-11-09T07:18:24.132869",
-  "narrative": "Los tickers con mayor actividad se concentran en sectores defensivos y de infraestructura: ROL y HEI (energ\u00eda/servicios p\u00fablicos), RSG y BSX (salud/biotecnolog\u00eda) en EE.\u202fUU., y AAL.L, BA.L, BARC.L y BATS.L (aerol\u00edneas, transporte y energ\u00eda) en Europa, lo que sugiere un enfoque tem\u00e1tico en activos con flujos estables y recuperaci\u00f3n post\u2011pandemia. Cuando varios insiders diferentes compran en",
-  "total_tickers": 16,
+  "date": "2026-11-10",
+  "timestamp": "2026-11-10T08:05:36.482367",
+  "narrative": "Los tickers con mayor actividad (HEI, RSG, ROL) pertenecen a sectores defensivos y de consumo b\u00e1sico (energ\u00eda, servicios p\u00fablicos y alimentos), lo que sugiere un clustering tem\u00e1tico orientado a estabilidad de flujo de caja y resiliencia ante la volatilidad macro. Cuando varios insiders diferentes adquieren acciones del mismo emisor en un lapso de pocos d\u00edas, indica confianza interna simult\u00e1nea y refuerza la se\u00f1al de informaci\u00f3n no p\u00fablica sobre perspectivas positivas a",
+  "total_tickers": 8,
   "total_us": 8,
-  "total_eu": 8,
+  "total_eu": 0,
   "top_picks": [
     {
       "ticker": "ROL",
@@ -31,20 +31,20 @@
       "days_span": 37
     },
     {
-      "ticker": "BSX",
+      "ticker": "CME",
       "market": "US",
-      "purchase_count": 11,
-      "unique_insiders": 2,
-      "confidence_score": 100.0,
-      "days_span": 22
+      "purchase_count": 5,
+      "unique_insiders": 1,
+      "confidence_score": 75.0,
+      "days_span": 23
     },
     {
-      "ticker": "AAL.L",
-      "market": "EU",
-      "purchase_count": 35,
-      "unique_insiders": 12,
-      "confidence_score": 100.0,
-      "days_span": 61
+      "ticker": "BSX",
+      "market": "US",
+      "purchase_count": 5,
+      "unique_insiders": 1,
+      "confidence_score": 75.0,
+      "days_span": 19
     }
   ]
 }

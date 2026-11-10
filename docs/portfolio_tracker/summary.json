@@ -1,17 +1,17 @@
 {
-  "total_signals": 132,
-  "unique_tickers": 77,
-  "date_range": "2026-04-08 to 2026-11-09",
-  "active_signals": 37,
-  "completed_signals": 95,
+  "total_signals": 136,
+  "unique_tickers": 81,
+  "date_range": "2026-04-08 to 2026-11-10",
+  "active_signals": 39,
+  "completed_signals": 97,
   "overall": {
     "90d": {
-      "count": 67,
-      "win_rate": 68.7,
-      "ci_low": 56.8,
-      "ci_high": 78.5,
-      "avg_return": 3.98,
-      "median_return": 4.67,
+      "count": 73,
+      "win_rate": 68.5,
+      "ci_low": 57.1,
+      "ci_high": 78.0,
+      "avg_return": 4.23,
+      "median_return": 4.82,
       "best": 24.67,
       "worst": -27.96
     },
@@ -158,13 +158,13 @@
     }
   },
   "value_strategy": {
-    "count": 120,
+    "count": 124,
     "90d": {
-      "count": 55,
-      "win_rate": 72.7,
+      "count": 61,
+      "win_rate": 72.1,
       "ci_low": 59.8,
-      "ci_high": 82.7,
-      "avg_return": 4.32,
+      "ci_high": 81.8,
+      "avg_return": 4.58,
       "median_return": 4.93,
       "best": 24.67,
       "worst": -27.96,
@@ -230,7 +230,7 @@
   },
   "bounce_strategies": {
     "BOUNCE_BROAD": {
-      "count": 46,
+      "count": 48,
       "7d": {
         "count": 44,
         "win_rate": 29.5,
@@ -259,7 +259,7 @@
     }
   },
   "leaps_strategy": {
-    "count": 185,
+    "count": 186,
     "subyacente": {
       "90d": {
         "count": 0,
@@ -304,9 +304,9 @@
         "ci_high": null
       }
     },
-    "edad_max_dias": 81,
-    "dias_hasta_primera_lectura": 9,
-    "con_contrato": 148,
+    "edad_max_dias": 82,
+    "dias_hasta_primera_lectura": 8,
+    "con_contrato": 149,
     "nota": "el contrato se sigue por su s\u00edmbolo OCC; son opciones poco l\u00edquidas, as\u00ed que un checkpoint sin cotizaci\u00f3n en 10 d\u00edas se queda vac\u00edo en vez de arrastrar un precio viejo"
   },
   "sector_performance": {
@@ -321,9 +321,9 @@
       "win_rate_30d": 60.0
     },
     "Financial Services": {
-      "count": 35,
-      "avg_30d": 0.93,
-      "win_rate_30d": 60.0
+      "count": 36,
+      "avg_30d": 1.39,
+      "win_rate_30d": 61.1
     },
     "Communication Services": {
       "count": 6,
@@ -331,9 +331,9 @@
       "win_rate_30d": 33.3
     },
     "Healthcare": {
-      "count": 7,
-      "avg_30d": 1.56,
-      "win_rate_30d": 57.1
+      "count": 8,
+      "avg_30d": 1.91,
+      "win_rate_30d": 62.5
     },
     "Industrials": {
       "count": 13,
@@ -449,58 +449,58 @@
   "performers_horizon": "180d",
   "recent_signals": [
     {
-      "ticker": "UBER",
-      "company_name": "Uber Technologies, Inc.",
+      "ticker": "SAP",
+      "company_name": "SAP SE",
       "strategy": "VALUE",
-      "signal_date": "2026-11-09",
-      "signal_price": 68.59,
+      "signal_date": "2026-11-10",
+      "signal_price": 237.42,
       "sector": "Technology",
-      "value_score": 58.6,
+      "value_score": 49.4,
       "days_active": 0,
-      "first_result_date": "2026-11-16"
+      "first_result_date": "2026-11-17"
     },
     {
-      "ticker": "WTKWY",
-      "company_name": "Wolters Kluwer N.V.",
+      "ticker": "ESLOY",
+      "company_name": "EssilorLuxottica Soci\u00e9t\u00e9 anonyme",
       "strategy": "VALUE",
-      "signal_date": "2026-11-09",
-      "signal_price": 100.52,
-      "sector": "Industrials",
-      "value_score": 57.3,
+      "signal_date": "2026-11-10",
+      "signal_price": 107.2,
+      "sector": "Healthcare",
+      "value_score": 50.8,
       "days_active": 0,
-      "first_result_date": "2026-11-16"
+      "first_result_date": "2026-11-17"
     },
     {
-      "ticker": "BR",
-      "company_name": "Broadridge Financial Solutions, Inc.",
+      "ticker": "DPZ",
+      "company_name": "Domino's Pizza, Inc.",
       "strategy": "VALUE",
-      "signal_date": "2026-11-09",
-      "signal_price": 190.4,
-      "sector": "Technology",
-      "value_score": 53.5,
+      "signal_date": "2026-11-10",
+      "signal_price": 334.18,
+      "sector": "Consumer Cyclical",
+      "value_score": 54.1,
       "days_active": 0,
-      "first_result_date": "2026-11-16"
+      "first_result_date": "2026-11-17"
     },
     {
-      "ticker": "GGG",
-      "company_name": "Graco Inc.",
+      "ticker": "MKC",
+      "company_name": "McCormick & Company, Incorporated",
       "strategy": "VALUE",
-      "signal_date": "2026-11-09",
-      "signal_price": 67.86,
-      "sector": "Industrials",
-      "value_score": 53.2,
-      "days_active": 0,
-      "first_result_date": "2026-11-16"
-    },
-    {
-      "ticker": "PEP",
-      "company_name": "PepsiCo, Inc.",
-      "strategy": "VALUE",
-      "signal_date": "2026-11-09",
-      "signal_price": 141.34,
+      "signal_date": "2026-11-10",
+      "signal_price": 47.88,
       "sector": "Consumer Defensive",
-      "value_score": 52.5,
+      "value_score": 58.8,
       "days_active": 0,
+      "first_result_date": "2026-11-17"
+    },
+    {
+      "ticker": "ICE",
+      "company_name": "Intercontinental Exchange, Inc.",
+      "strategy": "VALUE",
+      "signal_date": "2026-11-09",
+      "signal_price": 172.27,
+      "sector": "Financial Services",
+      "value_score": 46.4,
+      "days_active": 1,
       "first_result_date": "2026-11-16"
     },
     {
@@ -511,7 +511,7 @@
       "signal_price": 173.23,
       "sector": "Technology",
       "value_score": 51.3,
-      "days_active": 0,
+      "days_active": 1,
       "first_result_date": "2026-11-16"
     },
     {
@@ -522,7 +522,7 @@
       "signal_price": 40.17,
       "sector": "Industrials",
       "value_score": 51.3,
-      "days_active": 0,
+      "days_active": 1,
       "first_result_date": "2026-11-16"
     },
     {
@@ -533,7 +533,7 @@
       "signal_price": 420.56,
       "sector": "Technology",
       "value_score": 51.0,
-      "days_active": 0,
+      "days_active": 1,
       "first_result_date": "2026-11-16"
     },
     {
@@ -544,7 +544,7 @@
       "signal_price": 68.36,
       "sector": "Communication Services",
       "value_score": 49.5,
-      "days_active": 0,
+      "days_active": 1,
       "first_result_date": "2026-11-16"
     },
     {
@@ -555,7 +555,7 @@
       "signal_price": 334.81,
       "sector": "Financial Services",
       "value_score": 48.1,
-      "days_active": 0,
+      "days_active": 1,
       "first_result_date": "2026-11-16"
     },
     {
@@ -566,29 +566,7 @@
       "signal_price": 93.99,
       "sector": "Technology",
       "value_score": 46.9,
-      "days_active": 0,
-      "first_result_date": "2026-11-16"
-    },
-    {
-      "ticker": "ICE",
-      "company_name": "Intercontinental Exchange, Inc.",
-      "strategy": "VALUE",
-      "signal_date": "2026-11-09",
-      "signal_price": 172.27,
-      "sector": "Financial Services",
-      "value_score": 46.4,
-      "days_active": 0,
-      "first_result_date": "2026-11-16"
-    },
-    {
-      "ticker": "FCNCA",
-      "company_name": "First Citizens BancShares, Inc.",
-      "strategy": "VALUE",
-      "signal_date": "2026-11-09",
-      "signal_price": 2273.74,
-      "sector": "Financial Services",
-      "value_score": 46.1,
-      "days_active": 0,
+      "days_active": 1,
       "first_result_date": "2026-11-16"
     },
     {
@@ -599,7 +577,29 @@
       "signal_price": 518.15,
       "sector": "Basic Materials",
       "value_score": 44.1,
-      "days_active": 0,
+      "days_active": 1,
+      "first_result_date": "2026-11-16"
+    },
+    {
+      "ticker": "FCNCA",
+      "company_name": "First Citizens BancShares, Inc.",
+      "strategy": "VALUE",
+      "signal_date": "2026-11-09",
+      "signal_price": 2273.74,
+      "sector": "Financial Services",
+      "value_score": 46.1,
+      "days_active": 1,
+      "first_result_date": "2026-11-16"
+    },
+    {
+      "ticker": "GGG",
+      "company_name": "Graco Inc.",
+      "strategy": "VALUE",
+      "signal_date": "2026-11-09",
+      "signal_price": 67.86,
+      "sector": "Industrials",
+      "value_score": 53.2,
+      "days_active": 1,
       "first_result_date": "2026-11-16"
     },
     {
@@ -610,7 +610,7 @@
       "signal_price": 283.93,
       "sector": "Communication Services",
       "value_score": 43.2,
-      "days_active": 0,
+      "days_active": 1,
       "first_result_date": "2026-11-16"
     },
     {
@@ -621,7 +621,7 @@
       "signal_price": 530.61,
       "sector": "Technology",
       "value_score": 41.9,
-      "days_active": 0,
+      "days_active": 1,
       "first_result_date": "2026-11-16"
     },
     {
@@ -632,18 +632,7 @@
       "signal_price": 201.87,
       "sector": "Financial Services",
       "value_score": 40.3,
-      "days_active": 0,
-      "first_result_date": "2026-11-16"
-    },
-    {
-      "ticker": "6383.T",
-      "company_name": "Daifuku Co., Ltd.",
-      "strategy": "VALUE",
-      "signal_date": "2026-11-09",
-      "signal_price": 4676.0,
-      "sector": "Industrials",
-      "value_score": 56.7,
-      "days_active": 0,
+      "days_active": 1,
       "first_result_date": "2026-11-16"
     },
     {
@@ -654,22 +643,33 @@
       "signal_price": 94.81,
       "sector": "Basic Materials",
       "value_score": 40.0,
-      "days_active": 0,
+      "days_active": 1,
       "first_result_date": "2026-11-16"
     },
     {
-      "ticker": "BRO",
-      "company_name": "Brown & Brown, Inc.",
+      "ticker": "PEP",
+      "company_name": "PepsiCo, Inc.",
       "strategy": "VALUE",
       "signal_date": "2026-11-09",
-      "signal_price": 72.12,
-      "sector": "Financial Services",
-      "value_score": 94.8,
-      "days_active": 0,
+      "signal_price": 141.34,
+      "sector": "Consumer Defensive",
+      "value_score": 52.5,
+      "days_active": 1,
+      "first_result_date": "2026-11-16"
+    },
+    {
+      "ticker": "BR",
+      "company_name": "Broadridge Financial Solutions, Inc.",
+      "strategy": "VALUE",
+      "signal_date": "2026-11-09",
+      "signal_price": 190.4,
+      "sector": "Technology",
+      "value_score": 53.5,
+      "days_active": 1,
       "first_result_date": "2026-11-16"
     }
   ],
-  "avg_max_drawdown": -2.67,
+  "avg_max_drawdown": -2.68,
   "alpha": {
     "365d": {
       "count": 0,
@@ -688,29 +688,29 @@
       "worst_alpha": -35.2
     },
     "90d": {
-      "count": 67,
-      "avg_alpha": -0.12,
-      "avg_signal_return": 3.98,
-      "avg_benchmark_return": 4.11,
-      "positive_alpha_rate": 47.8,
-      "best_alpha": 22.72,
+      "count": 73,
+      "avg_alpha": 0.65,
+      "avg_signal_return": 4.23,
+      "avg_benchmark_return": 3.58,
+      "positive_alpha_rate": 49.3,
+      "best_alpha": 25.49,
       "worst_alpha": -38.85
     },
     "30d": {
-      "count": 95,
-      "avg_alpha": -2.43,
-      "avg_signal_return": -0.17,
-      "avg_benchmark_return": 2.26,
-      "positive_alpha_rate": 45.3,
+      "count": 97,
+      "avg_alpha": -2.09,
+      "avg_signal_return": 0.05,
+      "avg_benchmark_return": 2.15,
+      "positive_alpha_rate": 46.4,
       "best_alpha": 21.86,
       "worst_alpha": -21.52
     },
     "14d": {
-      "count": 101,
-      "avg_alpha": 0.16,
-      "avg_signal_return": 0.83,
-      "avg_benchmark_return": 0.66,
-      "positive_alpha_rate": 48.5,
+      "count": 102,
+      "avg_alpha": 0.23,
+      "avg_signal_return": 0.87,
+      "avg_benchmark_return": 0.64,
+      "positive_alpha_rate": 49.0,
       "best_alpha": 13.42,
       "worst_alpha": -12.78
     },
@@ -751,20 +751,20 @@
       "worst_alpha": -51.85
     },
     "30d": {
-      "count": 83,
-      "avg_alpha": -2.7,
-      "avg_signal_return": -0.08,
-      "avg_benchmark_return": 2.62,
-      "positive_alpha_rate": 44.6,
+      "count": 85,
+      "avg_alpha": -2.31,
+      "avg_signal_return": 0.18,
+      "avg_benchmark_return": 2.49,
+      "positive_alpha_rate": 45.9,
       "best_alpha": 21.86,
       "worst_alpha": -21.52
     },
     "14d": {
-      "count": 89,
-      "avg_alpha": 0.16,
-      "avg_signal_return": 1.12,
-      "avg_benchmark_return": 0.96,
-      "positive_alpha_rate": 47.2,
+      "count": 90,
+      "avg_alpha": 0.23,
+      "avg_signal_return": 1.16,
+      "avg_benchmark_return": 0.93,
+      "positive_alpha_rate": 47.8,
       "best_alpha": 13.42,
       "worst_alpha": -12.78
     }
@@ -814,5 +814,5 @@
       "worst_alpha": -4.98
     }
   },
-  "generated_at": "2026-11-09T07:19:29.339585"
+  "generated_at": "2026-11-10T08:07:06.913080"
 }

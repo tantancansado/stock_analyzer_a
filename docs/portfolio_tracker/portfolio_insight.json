@@ -1,8 +1,8 @@
 {
-  "date": "2026-11-09",
-  "timestamp": "2026-11-09T07:18:27.128062",
-  "narrative": "El win\u2011rate de 0\u202f% en los \u00faltimos 7, 14 y 30\u202fd\u00edas indica que el modelo no est\u00e1 generando se\u00f1ales ganadoras en el corto plazo, lo que sugiere una p\u00e9rdida de capacidad predictiva frente a la volatilidad actual del mercado. No se observan patrones temporales relevantes y la \u00fanica se\u00f1al sectorial positiva proviene de Energy (+3,41\u202f% en 30\u202fd), aunque su peso es marginal frente al total de 108 se\u00f1ales. Dada la ausencia de retornos y la correlaci\u00f3n casi nula entre score y retorno (0,07), recomendar\u00eda reducir la exposici\u00f3n global, limitar el n\u00famero de posiciones activas y re\u2011evaluar los criterios de filtrado, especialmente reforzando filtros de momentum y de calidad sectorial",
-  "total_signals": 108,
+  "date": "2026-11-10",
+  "timestamp": "2026-11-10T08:05:38.772637",
+  "narrative": "El win\u2011rate de 0\u202f% en los \u00faltimos 30\u202fd\u00edas indica que, bajo las condiciones actuales del mercado, el modelo no est\u00e1 generando se\u00f1ales ganadoras; la correlaci\u00f3n casi nula (0,07) entre el score y el retorno refuerza la falta de poder predictivo. No se observan patrones temporales relevantes, pues no hay operaciones completadas en los intervalos de 7, 14 y 30\u202fd\u00edas, y la \u00fanica se\u00f1al sectorial destacada (Energy +3,41\u202f% en 30\u202fd\u00edas) no se tradujo en posiciones activas. Recomiendo reducir la exposici\u00f3n global, eliminar temporalmente el sesgo sectorial y re\u2011entrenar el algoritmo con un horizonte de datos m\u00e1s amplio antes de reactivar nuevas",
+  "total_signals": 132,
   "win_rate_7d": null,
   "win_rate_14d": null,
   "score_correlation": 0.075

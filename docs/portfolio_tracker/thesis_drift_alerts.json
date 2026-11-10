@@ -1,7 +1,17 @@
 {
-  "generated_at": "2026-11-09T07:19:29",
-  "positions_checked": 35,
-  "total": 0,
-  "high_count": 0,
-  "alerts": []
+  "generated_at": "2026-11-10T08:07:07",
+  "positions_checked": 38,
+  "total": 1,
+  "high_count": 1,
+  "alerts": [
+    {
+      "ticker": "PEP",
+      "company_name": "PepsiCo, Inc.",
+      "strategy": "VALUE",
+      "signal_date": "2026-11-09",
+      "type": "THESIS_BROKEN",
+      "reason": "analyst_upside ahora -0% \u2014 sobrevalorado",
+      "severity": "HIGH"
+    }
+  ]
 }

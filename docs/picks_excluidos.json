@@ -1,35 +1,10 @@
 {
   "listas": {
     "value_opportunities": {
-      "candidatas": 35,
+      "candidatas": 31,
       "publicadas": 31,
-      "excluidos": [
-        {
-          "ticker": "MKC",
-          "paso": "verificador_ia",
-          "motivo": "PEG ratio de 2.95 con rev_growth_yoy de 17.4% es elevado pero manejable. Sin embargo, ventas_anual_pct = 1.7% contradice rev_growth_yoy = 17.4% de forma irreconciliable. Si hay 17.4% YoY, no puede haber 1.7% anual. Esto invalida la evaluación del crecimiento y, por tanto, la recomendación",
-          "score": 58.6
-        },
-        {
-          "ticker": "DPZ",
-          "paso": "verificador_ia",
-          "motivo": "Modelos DISPERSOS con 61.7 pts de diferencia (DCF 15.2% vs PE 76.9%), pero upside_triangulated_pct publicado como 15.2%. Según protocolo, cuando hay CONTRADICCION, triangulated va vacío. DISPERSOS puede justificar un valor, pero esta brecha es tan extrema que invalida la elección de DCF sobre PE sin justificación visible",
-          "score": 54.1
-        },
-        {
-          "ticker": "ESLOY",
-          "paso": "verificador_ia",
-          "motivo": "PEG ratio de 23.19 para crecimiento de 7.5% es imposible (absurdamente alto). Indica error de unidad: PEG debería estar entre 0.5 y 3 típicamente. Esto invalida cualquier análisis de valuación relativa. Posible factor de escala perdido (100x o 10x)",
-          "score": 50.6
-        },
-        {
-          "ticker": "SAP",
-          "paso": "verificador_ia",
-          "motivo": "EBIT_EV_yield = 0.25% es anormalmente bajo para empresa con fundamental_score 80 y crecimiento 13.2%. Sugiere empresa sobrevalorada o error de cálculo. Modelos DISPERSOS (27.0 pts) con DCF 7.8% vs PE 34.8%, pero upside_triangulated_pct = 20.3 (coincide con analyst). Esta asignación requiere justificación ante tan alta dispersión",
-          "score": 49.5
-        }
-      ]
+      "excluidos": []
     }
   },
-  "generated_at": "2026-11-09T06:41:31Z"
+  "generated_at": "2026-11-10T07:37:06Z"
 }

@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-11-09T06:43:47.532806",
+  "generated_at": "2026-11-10T07:39:34.598645",
   "model_auc": 0.7881,
   "base_win_rate": 0.2943,
   "predictions": {
     "INTU": {
-      "probability": 0.0418,
-      "percentile": 18,
+      "probability": 0.0258,
+      "percentile": 13,
       "label": "BAJA"
     },
     "ADBE": {
@@ -13,185 +13,150 @@
       "percentile": 97,
       "label": "MEDIA"
     },
+    "BRO": {
+      "probability": 0.1078,
+      "percentile": 39,
+      "label": "BAJA"
+    },
     "FICO": {
-      "probability": 0.3689,
-      "percentile": 68,
+      "probability": 0.4365,
+      "percentile": 90,
       "label": "BAJA"
     },
     "BSX": {
-      "probability": 0.1122,
-      "percentile": 26,
-      "label": "BAJA"
-    },
-    "BRO": {
-      "probability": 0.1372,
-      "percentile": 32,
+      "probability": 0.0333,
+      "percentile": 23,
       "label": "BAJA"
     },
     "PGR": {
       "probability": 0.0415,
-      "percentile": 13,
+      "percentile": 26,
+      "label": "BAJA"
+    },
+    "MKC": {
+      "probability": 0.4302,
+      "percentile": 87,
       "label": "BAJA"
     },
     "UBER": {
-      "probability": 0.1972,
-      "percentile": 45,
+      "probability": 0.3241,
+      "percentile": 74,
       "label": "BAJA"
     },
     "WTKWY": {
-      "probability": 0.4,
-      "percentile": 79,
+      "probability": 0.4385,
+      "percentile": 94,
       "label": "BAJA"
     },
-    "6383.T": {
-      "probability": 0.2656,
-      "percentile": 53,
+    "DPZ": {
+      "probability": 0.2096,
+      "percentile": 58,
       "label": "BAJA"
     },
     "BR": {
       "probability": 0.3241,
-      "percentile": 61,
+      "percentile": 74,
+      "label": "BAJA"
+    },
+    "OTIS": {
+      "probability": 0.0605,
+      "percentile": 32,
       "label": "BAJA"
     },
     "GGG": {
-      "probability": 0.1396,
-      "percentile": 34,
-      "label": "BAJA"
-    },
-    "NESTE.HE": {
-      "probability": 0.4824,
-      "percentile": 87,
-      "label": "MEDIA"
-    },
-    "OTIS": {
-      "probability": 0.1931,
-      "percentile": 42,
-      "label": "BAJA"
-    },
-    "PEP": {
-      "probability": 0.0032,
-      "percentile": 0,
+      "probability": 0.1099,
+      "percentile": 45,
       "label": "BAJA"
     },
     "RMD": {
-      "probability": 0.2327,
-      "percentile": 50,
+      "probability": 0.2765,
+      "percentile": 68,
       "label": "BAJA"
     },
     "JKHY": {
-      "probability": 0.0229,
-      "percentile": 11,
+      "probability": 0.0522,
+      "percentile": 29,
       "label": "BAJA"
     },
     "RELX": {
       "probability": 0.1088,
-      "percentile": 24,
-      "label": "BAJA"
-    },
-    "TYL": {
-      "probability": 0.0196,
-      "percentile": 3,
-      "label": "BAJA"
-    },
-    "NYT": {
-      "probability": 0.1931,
       "percentile": 42,
       "label": "BAJA"
     },
+    "TYL": {
+      "probability": 0.0229,
+      "percentile": 10,
+      "label": "BAJA"
+    },
+    "ESLOY": {
+      "probability": 0.0333,
+      "percentile": 23,
+      "label": "BAJA"
+    },
     "VRSK": {
-      "probability": 0.2785,
-      "percentile": 55,
+      "probability": 0.0333,
+      "percentile": 23,
+      "label": "BAJA"
+    },
+    "SAP": {
+      "probability": 0.1122,
+      "percentile": 48,
+      "label": "BAJA"
+    },
+    "NYT": {
+      "probability": 0.0995,
+      "percentile": 35,
       "label": "BAJA"
     },
     "AON": {
-      "probability": 0.0418,
-      "percentile": 18,
-      "label": "BAJA"
-    },
-    "WKL.AS": {
-      "probability": 0.38,
-      "percentile": 71,
+      "probability": 0.0135,
+      "percentile": 3,
       "label": "BAJA"
     },
     "DSGX": {
-      "probability": 0.0217,
-      "percentile": 5,
-      "label": "BAJA"
-    },
-    "ICE": {
-      "probability": 0.4302,
-      "percentile": 82,
+      "probability": 0.0135,
+      "percentile": 3,
       "label": "BAJA"
     },
     "FCNCA": {
-      "probability": 0.505,
-      "percentile": 92,
-      "label": "MEDIA"
-    },
-    "AMS.MC": {
-      "probability": 0.3552,
-      "percentile": 63,
+      "probability": 0.4,
+      "percentile": 84,
       "label": "BAJA"
     },
     "META": {
-      "probability": 0.0522,
-      "percentile": 21,
+      "probability": 0.1523,
+      "percentile": 52,
       "label": "BAJA"
     },
     "MLM": {
-      "probability": 0.1997,
-      "percentile": 47,
+      "probability": 0.1956,
+      "percentile": 55,
       "label": "BAJA"
-    },
-    "PGHN.SW": {
-      "probability": 0.5209,
-      "percentile": 97,
-      "label": "MEDIA"
     },
     "GOOG": {
       "probability": 0.0229,
-      "percentile": 11,
+      "percentile": 10,
       "label": "BAJA"
     },
     "MSFT": {
-      "probability": 0.135,
-      "percentile": 29,
-      "label": "BAJA"
-    },
-    "BAC": {
       "probability": 0.4,
-      "percentile": 79,
+      "percentile": 84,
       "label": "BAJA"
     },
     "COF": {
-      "probability": 0.4819,
+      "probability": 0.4,
       "percentile": 84,
-      "label": "MEDIA"
+      "label": "BAJA"
+    },
+    "BAC": {
+      "probability": 0.2475,
+      "percentile": 61,
+      "label": "BAJA"
     },
     "AMZN": {
-      "probability": 0.3689,
-      "percentile": 68,
+      "probability": 0.2698,
+      "percentile": 65,
       "label": "BAJA"
-    },
-    "CRH": {
-      "probability": 0.1761,
-      "percentile": 37,
-      "label": "BAJA"
-    },
-    "G24.DE": {
-      "probability": 0.2975,
-      "percentile": 58,
-      "label": "BAJA"
-    },
-    "SAF.PA": {
-      "probability": 0.3803,
-      "percentile": 74,
-      "label": "BAJA"
-    },
-    "IMCD.AS": {
-      "probability": 0.505,
-      "percentile": 92,
-      "label": "MEDIA"
     }
   }
 }
