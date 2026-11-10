@@ -325,7 +325,52 @@ def find_problems() -> tuple[list[dict], bool]:
     # 4. La app contradiciéndose consigo misma.
     problems.extend(_contradicciones_publicadas())
 
+    # 5. El estudio de por qué ha caído cada una, que es lo que decide si se compra.
+    problems.extend(_estudio_de_noticias())
+
     return problems, health_stale
+
+
+# Varias búsquedas vacías el mismo día ya no hablan de las empresas, hablan de la
+# búsqueda. Entre el 4 y el 9-nov-2026 ocho veredictos se perdieron así sin aviso.
+BUSQUEDAS_VACIAS_MIN = 3
+
+
+def _estudio_de_noticias() -> list[dict]:
+    """Prioridades bajadas a Observar por falta de estudio, y búsquedas vacías de hoy."""
+    from value_bands import FALTA_ESTUDIO
+    problems: list[dict] = []
+    try:
+        with open(DOCS / 'value_opportunities_filtered.csv', newline='') as f:
+            sin_estudio = [r.get('ticker') for r in csv.DictReader(f)
+                           if (r.get('value_falta') or '') == FALTA_ESTUDIO]
+    except Exception:
+        sin_estudio = []
+    if sin_estudio:
+        problems.append({
+            "module": "why_cheap:prioridad_sin_estudio",
+            "status": "sin_estudio",
+            "critical": True,
+            "detail": (f"de Prioridad sin saber por qué ha caído: {', '.join(sin_estudio)}. "
+                       f"Salen en Observar hasta que la búsqueda de noticias dé resultado"),
+        })
+    try:
+        cache = json.loads((DOCS / 'why_cheap_cache.json').read_text())
+    except Exception:
+        return problems
+    hoy = _now().date().isoformat()
+    vacias = sorted(t for t, e in cache.items()
+                    if e.get('ultimo_fallo') == hoy
+                    or (str(e.get('fecha', ''))[:10] == hoy and (e.get('veredicto') or 'SIN_DATOS') == 'SIN_DATOS'))
+    if len(vacias) >= BUSQUEDAS_VACIAS_MIN:
+        problems.append({
+            "module": "why_cheap:busquedas_vacias",
+            "status": "busquedas_vacias",
+            "critical": True,
+            "detail": (f"la búsqueda de noticias volvió vacía en {len(vacias)} empresas hoy "
+                       f"({', '.join(vacias[:6])}): suele ser la búsqueda, no las empresas"),
+        })
+    return problems
 
 
 def _contradicciones_publicadas() -> list[dict]:

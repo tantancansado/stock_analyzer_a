@@ -28,7 +28,10 @@ from pathlib import Path
 
 import pandas as pd
 
-from why_cheap_analyzer import analyze_ticker, apply_to_dataframe, cifras_propias, MIN_SCORE_CANDIDATO, CRITERIO
+from why_cheap_analyzer import (analyze_ticker, apply_to_dataframe, cifras_propias, MIN_SCORE_CANDIDATO,
+                                CRITERIO, MODELO_PRIORIDAD)
+from claude_research import MODEL_HAIKU
+from value_bands import sin_estudio_a_observar
 
 DOCS = Path('docs')
 TARGET_CSVS: list[Path] = [
@@ -111,7 +114,14 @@ def _leer_cache() -> dict:
         return {}
 
 
-def _cache_vigente(entrada: dict, sin_presupuesto: bool = False) -> bool:
+def _fecha(valor) -> dt.date | None:
+    try:
+        return dt.date.fromisoformat(str(valor or '')[:10])
+    except ValueError:
+        return None
+
+
+def _cache_vigente(entrada: dict, sin_presupuesto: bool = False, modelo: str | None = None) -> bool:
     """¿Sirve esta entrada de caché?
 
     Con presupuesto: caduca a los CACHE_DIAS y se refresca.
@@ -129,6 +139,16 @@ def _cache_vigente(entrada: dict, sin_presupuesto: bool = False) -> bool:
     # Lo juzgado con otro criterio se vuelve a preguntar (MAX_TICKERS al día,
     # las de Prioridad primero); mientras tanto sigue sirviendo de respaldo.
     if entrada.get('criterio') != CRITERIO:
+        return False
+    # Las de Prioridad las estudia Sonnet: lo que Haiku estudió cuando era Observar
+    # se vuelve a estudiar.
+    if modelo and entrada.get('modelo') != modelo:
+        return False
+    # Lo estudiado antes de unos resultados que ya se han presentado se estudia de
+    # nuevo: las malas noticias (previsión recortada, ventas que se frenan) llegan
+    # casi siempre ese día, y a los 14 días a ciegas pueden llevar dos semanas fuera.
+    resultados = _fecha(entrada.get('resultados'))
+    if resultados and resultados < dt.date.today():
         return False
     return edad < (CACHE_DIAS if _es_veredicto(entrada) else CACHE_DIAS_SIN_DATOS)
 
@@ -183,13 +203,12 @@ def _candidatos(csv: Path) -> pd.DataFrame:
 def _aplicar(frames: dict, veredictos_por_csv: dict) -> None:
     """Vuelca los veredictos (nuevos y de caché) a cada CSV de origen."""
     for csv_path, veredictos in veredictos_por_csv.items():
-        if not veredictos:
+        if not veredictos or csv_path not in frames:
             continue
-        df = frames[csv_path]
-        df, deteriorados = apply_to_dataframe(df, veredictos)
-        df.to_csv(csv_path, index=False)
+        frames[csv_path], deteriorados = apply_to_dataframe(frames[csv_path], veredictos)
         print(f'   ✓ {csv_path} enriquecido con {len(veredictos)} veredictos'
               + (f' · fuera por deterioro: {deteriorados}' if deteriorados else ''))
+    _guardar_frames(frames)
 
 
 
@@ -217,6 +236,9 @@ def _reaplicar_lo_ya_pagado(frames: dict, cache: dict) -> None:
 
 def _guardar_frames(frames: dict) -> None:
     for csv_path, df in frames.items():
+        df, bajadas = sin_estudio_a_observar(df)
+        if bajadas:
+            print(f'   ⏳ {csv_path}: sin saber por qué ha caído, de Prioridad a Observar: {bajadas}')
         df.to_csv(csv_path, index=False)
 
 
@@ -279,10 +301,14 @@ def main() -> None:
     from_cache = 0
     veredictos_por_csv: dict[str, dict] = {str(csv): {} for csv in TARGET_CSVS}
     pendientes = []
+    def _modelo(r) -> str:
+        return MODELO_PRIORIDAD if str(r.get('value_grupo') or '') == 'PRIORIDAD' else MODEL_HAIKU
+
     for _, r in orden.iterrows():
         t = str(r['ticker']).upper()
         e = cache.get(t)
-        if e and _cache_vigente(e, sin_presu):
+        exige = MODELO_PRIORIDAD if _modelo(r) == MODELO_PRIORIDAD else None
+        if e and _cache_vigente(e, sin_presu, modelo=exige):
             veredictos_por_csv[r['origen_csv']][t] = {
                 'veredicto': e.get('veredicto'), 'resumen': e.get('resumen', ''),
                 'fuentes': e.get('fuentes', []),
@@ -313,10 +339,20 @@ def main() -> None:
             break
         ticker = str(r['ticker']).upper()
         t0 = time.monotonic()
-        res = analyze_ticker(ticker, str(r.get('company_name', '')),
-                             abs(float(r.get('proximity_to_52w_high') or 0)),
-                             float(r.get('relative_strength_6m') or 0),
-                             cifras=cifras_propias(r))
+        args = (ticker, str(r.get('company_name', '')),
+                abs(float(r.get('proximity_to_52w_high') or 0)),
+                float(r.get('relative_strength_6m') or 0))
+        modelo = _modelo(r)
+        res = analyze_ticker(*args, cifras=cifras_propias(r), modelo=modelo)
+        if not _es_veredicto(res) and modelo != MODEL_HAIKU:
+            # Sin respuesta de Sonnet, Haiku antes que quedarse sin estudio. Mañana se
+            # vuelve a preguntar a Sonnet, porque la entrada no queda como suya.
+            print(f'   ⚠️  {ticker}: {modelo} no trajo nada; se pregunta a {MODEL_HAIKU}')
+            modelo = MODEL_HAIKU
+            res = analyze_ticker(*args, cifras=cifras_propias(r), modelo=modelo)
+        proximos = _fecha(r.get('earnings_date'))
+        res = {**res, 'modelo': modelo,
+               'resultados': proximos.isoformat() if proximos and proximos >= dt.date.today() else ''}
         # La reserva sigue al peor caso visto en esta corrida: si un ticker se
         # atasca, el siguiente exige más margen en vez de repetir el atasco.
         reserva = max(reserva, time.monotonic() - t0)

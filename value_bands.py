@@ -262,6 +262,35 @@ def nota_value(df):
     return salida
 
 
+# Sin saber por qué ha caído no hay PRIORIDAD (11-nov-2026). INTU estuvo en PRIORIDAD
+# desde septiembre sin que la búsqueda trajera nada, y BSX volvió a ella el 9-nov porque
+# un refresco vacío borró su DETERIORO. Es fail-closed, como el gate de datos: lo que no
+# se ha estudiado no se propone comprar. Lo aplica enrich_why_cheap, que es quien estudia.
+FALTA_ESTUDIO = 'falta saber por qué ha caído: la búsqueda de noticias aún no ha dado resultado'
+CAUSAS_ESTUDIADAS = ('DETERIORO', 'CICLICO', 'EVENTO', 'SENTIMIENTO')
+
+
+def sin_estudio_a_observar(df):
+    """Las de PRIORIDAD sin causa de la caída estudiada pasan a OBSERVAR, con su nota
+    en el tramo de OBSERVAR y `value_falta` diciendo qué falta. Devuelve (df, tickers)."""
+    import pandas as pd
+    if df is None or df.empty or 'value_grupo' not in df.columns:
+        return df, []
+    causa = df['why_cheap'] if 'why_cheap' in df.columns else pd.Series('', index=df.index)
+    estudiada = causa.fillna('').astype(str).str.strip().str.upper().isin(CAUSAS_ESTUDIADAS)
+    bajar = (df['value_grupo'] == 'PRIORIDAD') & ~estudiada
+    if not bajar.any():
+        return df, []
+    df = df.copy()
+    # Leída de un CSV donde nadie tiene nada que le falte, la columna llega como float.
+    df['value_falta'] = df['value_falta'].astype(object) if 'value_falta' in df.columns else ''
+    df.loc[bajar, 'value_grupo'] = 'OBSERVAR'
+    df.loc[bajar, 'value_score'] = (pd.to_numeric(df.loc[bajar, 'value_score'], errors='coerce')
+                                    - (NOTA_PRIORIDAD - NOTA_OBSERVAR)).round(1)
+    df.loc[bajar, 'value_falta'] = FALTA_ESTUDIO
+    return df, df.loc[bajar, 'ticker'].astype(str).tolist()
+
+
 # ── Las que pueden doblar (8-nov-2026) ───────────────────────────────────────
 # El usuario: «hay veces que se ve claro que una empresa puede doblar [...] no
 # deberíamos obviarlas, pero haciéndolo con cabeza». Medido reconstruyendo cada mes

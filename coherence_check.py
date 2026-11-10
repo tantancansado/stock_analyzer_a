@@ -143,8 +143,9 @@ def value_us_incumple_su_regla(value: list[dict]) -> list[str]:
     if not value or 'value_grupo' not in value[0]:
         return []      # lista anterior a la nota de grupos
     import pandas as pd
-    from value_bands import (CRECIMIENTO_QUE_JUSTIFICA, NOTA_OBSERVAR, NOTA_PRIORIDAD, PER_BAJO_SU_MEDIA,
-                             PUNTOS_POR_BARATA, motivo_fuera_de_value, puede_doblar, vetos_value)
+    from value_bands import (CRECIMIENTO_QUE_JUSTIFICA, FALTA_ESTUDIO, NOTA_OBSERVAR, NOTA_PRIORIDAD,
+                             PER_BAJO_SU_MEDIA, PUNTOS_POR_BARATA, motivo_fuera_de_value, puede_doblar,
+                             vetos_value)
     df = pd.DataFrame(value)
     malos = []
     motivos, vetos, dobla = motivo_fuera_de_value(df), vetos_value(df), puede_doblar(df)[0]
@@ -157,6 +158,9 @@ def value_us_incumple_su_regla(value: list[dict]) -> list[str]:
             malos.append(f"{t}: publicada con un descarte duro")
         es_prioridad = bool(dobla.iloc[i]) or (ventas is not None and z is not None
                                                and ventas >= CRECIMIENTO_QUE_JUSTIFICA and z < PER_BAJO_SU_MEDIA)
+        # Sin estudio de la caída, una PRIORIDAD se publica en OBSERVAR a propósito.
+        if es_prioridad and r.get('value_falta') == FALTA_ESTUDIO:
+            es_prioridad = False
         if (g == 'PRIORIDAD') != es_prioridad or g not in ('PRIORIDAD', 'OBSERVAR'):
             malos.append(f"{t}: grupo {g} con ventas {ventas}, PER a {z}σ y puede doblar {bool(dobla.iloc[i])}")
         base = NOTA_PRIORIDAD if g == 'PRIORIDAD' else NOTA_OBSERVAR

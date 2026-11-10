@@ -358,3 +358,41 @@ def test_fuera_de_la_puerta_no_dobla():
     r = _nota(_dobla('IT', trim=-1.3))
     assert r.loc['IT', 'value_grupo'] == ''
     assert not r.loc['IT', 'value_dobla']
+
+
+class TestSinEstudioNoHayPrioridad:
+    """11-nov-2026: INTU estaba en PRIORIDAD sin que la búsqueda de noticias trajera
+    nada desde septiembre. Lo que no se ha estudiado no se propone comprar."""
+
+    def _lista(self):
+        return pd.DataFrame([
+            {'ticker': 'INTU', 'value_grupo': 'PRIORIDAD', 'value_score': 95.3, 'value_falta': '', 'why_cheap': float('nan')},
+            {'ticker': 'BSX', 'value_grupo': 'PRIORIDAD', 'value_score': 88.0, 'value_falta': '', 'why_cheap': 'SIN_DATOS'},
+            {'ticker': 'BRO', 'value_grupo': 'PRIORIDAD', 'value_score': 90.0, 'value_falta': '', 'why_cheap': 'CICLICO'},
+            {'ticker': 'MKC', 'value_grupo': 'OBSERVAR', 'value_score': 50.0, 'value_falta': 'x', 'why_cheap': float('nan')},
+        ])
+
+    def test_sin_causa_estudiada_baja_a_observar(self):
+        from value_bands import sin_estudio_a_observar, FALTA_ESTUDIO, NOTA_OBSERVAR, PUNTOS_POR_BARATA
+        df, bajadas = sin_estudio_a_observar(self._lista())
+        assert bajadas == ['INTU', 'BSX']
+        f = df.set_index('ticker')
+        assert f.loc['INTU', 'value_grupo'] == 'OBSERVAR' and f.loc['INTU', 'value_falta'] == FALTA_ESTUDIO
+        assert NOTA_OBSERVAR <= f.loc['INTU', 'value_score'] <= NOTA_OBSERVAR + PUNTOS_POR_BARATA
+        assert f.loc['BRO', 'value_grupo'] == 'PRIORIDAD', 'con la causa estudiada sigue'
+        assert f.loc['MKC', 'value_score'] == 50.0, 'a lo que ya era OBSERVAR no se le toca'
+
+    def test_aplicarlo_dos_veces_no_resta_dos_veces(self):
+        from value_bands import sin_estudio_a_observar
+        una, _ = sin_estudio_a_observar(self._lista())
+        dos, bajadas = sin_estudio_a_observar(una)
+        assert bajadas == [] and dos['value_score'].tolist() == una['value_score'].tolist()
+
+    def test_la_coherencia_lo_da_por_bueno(self):
+        import coherence_check as cc
+        from value_bands import FALTA_ESTUDIO
+        fila = TestLaListaCumpleSuRegla()._fila(value_grupo='OBSERVAR', value_score=50.0, value_falta=FALTA_ESTUDIO)
+        assert cc.value_us_incumple_su_regla([fila]) == []
+        # Sin ese motivo, una PRIORIDAD publicada en OBSERVAR sigue siendo una avería.
+        fila['value_falta'] = ''
+        assert cc.value_us_incumple_su_regla([fila]) != []

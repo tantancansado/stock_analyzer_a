@@ -11,6 +11,8 @@ import sys
 from types import SimpleNamespace
 from unittest.mock import MagicMock, patch
 
+import re
+
 import pandas as pd
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -282,3 +284,52 @@ def test_el_normalizador_lee_value_dobla_como_texto_del_csv():
     g = _gen()
     for crudo, esperado in (('True', True), ('False', False), (float('nan'), False), (True, True)):
         assert g._normalize_value_row({'ticker': 'X', 'value_dobla': crudo})['value_dobla'] is esperado
+
+
+# ── la tesis no contradice a la lista (10-nov-2026) ───────────────────────
+BRO_10NOV = ("**Resumen** Distribuidor de seguros barato contra su historia.\n\n**Conclusión**\n\n**ESPERAR.** "
+             "El estado lateral actual es correcto: vigilar reconquista de medias móviles antes de entrar. "
+             "La compra tiene sentido a $60 o menor; a $71 carece de margen de seguridad.")
+PGR_10NOV = ("**Resumen** Asegurador con ROE del 33 %.\n\n**Conclusión**\n**ESPERAR con vigilancia.** PGR está "
+             "clasificada OBSERVAR, no PRIORIDAD: el descuento de valoración es real.")
+BUENA = ("**Resumen** Distribuidor de seguros.\n\n**Riesgos** Cae bajo su media de 200 sesiones, riesgo de corto plazo.\n\n"
+         "**Conclusión** **COMPRAR.** Está en Prioridad; nuestra valoración le ve un +73 % y el objetivo es $123.")
+
+
+def test_rechaza_la_tesis_de_bro_del_10_nov():
+    assert 'técnicas' in tg.tesis_contradice_a_la_casa(BRO_10NOV, {'value_grupo': 'PRIORIDAD'})
+    sin_medias = BRO_10NOV.replace('vigilar reconquista de medias móviles antes de entrar', 'esperar')
+    assert 'precio de entrada' in tg.tesis_contradice_a_la_casa(sin_medias, {'value_grupo': 'PRIORIDAD'})
+
+
+def test_rechaza_la_tesis_de_pgr_del_10_nov():
+    assert 'OBSERVAR' in tg.tesis_contradice_a_la_casa(PGR_10NOV, {'value_grupo': 'PRIORIDAD'})
+
+
+def test_una_tesis_correcta_pasa():
+    """Hablar de la media como riesgo y citar nuestro objetivo es lo que se pide."""
+    assert tg.tesis_contradice_a_la_casa(BUENA, {'value_grupo': 'PRIORIDAD'}) is None
+    assert tg.tesis_contradice_a_la_casa(PGR_10NOV, {'value_grupo': 'OBSERVAR'}) is None
+    assert tg.tesis_contradice_a_la_casa(BRO_10NOV, {}) is None, 'fuera de Value US no se aplica'
+
+
+def test_la_tesis_que_contradice_cae_a_groq_y_luego_a_la_plantilla():
+    g = _gen()
+    _groq_devuelve(g, PGR_10NOV)
+    with patch('groq_utils.claude_chat', return_value=BRO_10NOV):
+        try:
+            g._narrative_value_ai(_row(value_grupo='PRIORIDAD'))
+        except ValueError:
+            pass
+        else:
+            raise AssertionError('debía levantar para usar la plantilla')
+
+
+def test_la_plantilla_de_value_us_no_pone_stops_ni_soportes():
+    g = _generador()
+    for grupo, palabra in (('PRIORIDAD', 'COMPRAR'), ('OBSERVAR', 'ESPERAR')):
+        fila = g._normalize_value_row({**FILA_GRUPO, 'value_grupo': grupo, 'proximity_to_52w_high': -3.0}, None)
+        texto = g._narrative_value(fila)
+        assert palabra in texto.split('Conclusión')[-1]
+        assert tg.tesis_contradice_a_la_casa(texto, fila) is None, texto
+        assert not re.search(r'stop|soporte|breakout|R:R', texto, re.I), texto

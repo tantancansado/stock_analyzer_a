@@ -160,10 +160,16 @@ def contradice_las_cifras(veredicto: str, row) -> str | None:
     return None
 
 
+# Las de PRIORIDAD son las candidatas a comprar y son pocas: las estudia Sonnet
+# (decidido por el usuario el 11-nov-2026, sabiendo que cuesta unos 4 $ más al mes).
+# Haiku, que estudia el resto, fue el que llamó EVENTO al regulador de FICO.
+MODELO_PRIORIDAD = claude_research.MODEL
+
+
 def analyze_ticker(ticker: str, company: str, drop_pct: float,
-                   rs_6m: float = 0.0, cifras: str = '') -> dict[str, Any]:
+                   rs_6m: float = 0.0, cifras: str = '',
+                   modelo: str = claude_research.MODEL_HAIKU) -> dict[str, Any]:
     """Devuelve {veredicto, resumen, confianza, fuentes}. SIN_DATOS si no puede."""
-    vacio = {'veredicto': 'SIN_DATOS', 'resumen': '', 'confianza': 0, 'fuentes': []}
 
     # Con los valores por defecto (6 búsquedas, max_tokens 2000, effort medium)
     # esta llamada salía a $0.33 — el 44% del gasto mensual con solo 12
@@ -189,8 +195,10 @@ def analyze_ticker(ticker: str, company: str, drop_pct: float,
                       drop=abs(drop_pct or 0), rs=rs_6m or 0, cifras=cifras),
         system=SYSTEM,
         max_searches=2,
-        max_tokens=1200,
-        model=claude_research.MODEL_HAIKU,
+        # Con Sonnet, margen por si razona antes del JSON: un tope corto deja la
+        # respuesta vacía (le pasó al gate de datos con max_tokens=300).
+        max_tokens=1200 if modelo == claude_research.MODEL_HAIKU else 3000,
+        model=modelo,
     )
     return _interpretar(texto, fuentes)
 

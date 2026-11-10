@@ -96,6 +96,24 @@ function parseAnalystLine(line: string): { analysts: string; target: string; ups
   return null
 }
 
+/** `**negrita**` dentro de un texto. La Conclusión y los Riesgos se pintaban tal
+ *  cual y en la ficha de BRO salía «**ESPERAR.**» con los asteriscos a la vista. */
+function conNegrita(text: string): ReactNode {
+  return text.split(/\*\*(.+?)\*\*/g).map((parte, i) =>
+    i % 2 === 1 ? <strong key={i} className="font-semibold text-foreground">{parte}</strong> : parte)
+}
+
+/** Un texto con saltos de línea, una línea por párrafo y con su negrita. */
+function Lineas({ text, className }: { text: string; className: string }): ReactNode {
+  return (
+    <>
+      {text.split('\n').map(l => l.trim()).filter(Boolean).map((l, i) => (
+        <p key={i} className={className}>{conNegrita(l)}</p>
+      ))}
+    </>
+  )
+}
+
 // ── Section-specific renderers ────────────────────────────────────────────────
 
 /** Render fundamentals as a metrics grid */
@@ -126,7 +144,7 @@ function FundamentalsGrid({ bullets }: { bullets: string[] }): ReactNode {
       {otherLines.length > 0 && (
         <div className="text-apoyo space-y-1">
           {otherLines.map((l, i) => (
-            <p key={i} className="text-muted-foreground">{l}</p>
+            <p key={i} className="text-muted-foreground">{conNegrita(l)}</p>
           ))}
         </div>
       )}
@@ -150,7 +168,7 @@ function InsiderSection({ preamble, bullets }: { preamble: string; bullets: stri
 
   return (
     <div className="space-y-2">
-      {preamble && <p className="text-apoyo text-muted-foreground">{preamble}</p>}
+      {preamble && <p className="text-apoyo text-muted-foreground">{conNegrita(preamble)}</p>}
       {kvPairs.length > 0 && (
         <div className="flex flex-wrap gap-1.5">
           {kvPairs.map((kv, i) => (
@@ -188,7 +206,7 @@ function InsiderSection({ preamble, bullets }: { preamble: string; bullets: stri
       )}
       {otherLines.length > 0 && (
         <div className="text-apoyo space-y-1">
-          {otherLines.map((l, i) => <p key={i} className="text-muted-foreground">{l}</p>)}
+          {otherLines.map((l, i) => <p key={i} className="text-muted-foreground">{conNegrita(l)}</p>)}
         </div>
       )}
     </div>
@@ -268,7 +286,7 @@ function ValuationSection({ bullets }: { bullets: string[] }): ReactNode {
     }
 
     // Plain text
-    items.push(<p key={`p-${i}`} className="text-apoyo text-muted-foreground px-1">{b}</p>)
+    items.push(<p key={`p-${i}`} className="text-apoyo text-muted-foreground px-1">{conNegrita(b)}</p>)
   }
 
   return <div className="space-y-1.5">{items}</div>
@@ -277,7 +295,9 @@ function ValuationSection({ bullets }: { bullets: string[] }): ReactNode {
 /** Render conclusion as a styled callout */
 function ConclusionBlock({ text }: { text: string }): ReactNode {
   return (
-    <p className="text-apoyo text-foreground/70 leading-relaxed">{text}</p>
+    <div className="space-y-1.5">
+      <Lineas text={text} className="text-apoyo text-foreground/70 leading-relaxed" />
+    </div>
   )
 }
 
@@ -324,13 +344,13 @@ function sectionAccent(type: SectionType): string {
 function GenericBullets({ preamble, bullets }: { preamble: string; bullets: string[] }): ReactNode {
   return (
     <div className="space-y-1.5">
-      {preamble && <p className="text-apoyo text-muted-foreground">{preamble}</p>}
+      {preamble && <p className="text-apoyo text-muted-foreground">{conNegrita(preamble)}</p>}
       {bullets.length > 0 && (
         <ul className="space-y-1">
           {bullets.map((b, i) => (
             <li key={i} className="flex gap-2 text-apoyo">
               <span className="text-primary select-none shrink-0 mt-0.5">▸</span>
-              <span className="text-muted-foreground">{b}</span>
+              <span className="text-muted-foreground">{conNegrita(b)}</span>
             </li>
           ))}
         </ul>
@@ -364,15 +384,23 @@ export default function ThesisBody({ text }: { text: string }) {
   }
 
   const processed = text
+    // «# TESIS DE INVERSIÓN: …» repite lo que ya dice la cabecera del modal.
+    .replace(/^#+\s[^\n]*\n*/gm, '')
     .replace(/\s+(\*\*[A-ZÁÉÍÓÚÑ][^*]*:\*\*)/g, '\n\n$1')
     .replace(/\s+(\*\*[A-ZÁÉÍÓÚÑ][a-záéíóúñüä\s/-]+\*\*)(\s*[(:])/g, '\n\n$1$2')
+    // La IA escribe «**Conclusión**» en su línea y el texto debajo: van juntos, o
+    // la sección sale vacía y su texto en una tarjeta suelta.
+    .replace(/^(\*\*[^*\n]+\*\*):?[ \t]*\n+/gm, '$1 ')
+    .trim()
 
   const paragraphs = processed.split('\n\n').map(p => p.trim()).filter(Boolean)
 
   return (
     <div className="text-cuerpo leading-relaxed text-muted-foreground space-y-2.5">
       {paragraphs.map((para, pi) => {
-        if (pi === 0) {
+        // La plantilla abre con «**BRO** — **Prioridad** | Sector…»; la IA, con «**Resumen**».
+        const abreSeccion = /^\*\*[^*]+?:?\*\*/.test(para) && !/^\*\*[A-Z0-9.]+\*\*\s*—/.test(para)
+        if (pi === 0 && !abreSeccion) {
           // Strip redundant ticker/sector (already in modal header)
           const clean = para.replace(/\*\*/g, '').replace(/^[A-Z0-9.]+\s*—\s*/, '')
           return (
@@ -402,7 +430,7 @@ export default function ThesisBody({ text }: { text: string }) {
           } else if (bullets.length > 0) {
             content = <GenericBullets preamble={preamble} bullets={bullets} />
           } else if (rest) {
-            content = <p className="text-apoyo text-muted-foreground">{rest}</p>
+            content = <div className="space-y-1"><Lineas text={rest} className="text-apoyo text-muted-foreground" /></div>
           }
 
           return (
@@ -425,7 +453,7 @@ export default function ThesisBody({ text }: { text: string }) {
         // Fallback: plain card block
         return (
           <div key={pi} className="rounded-xl bg-muted/20 border border-border/20 px-3 py-2.5 text-apoyo">
-            <p className="text-muted-foreground">{para.replace(/\*\*/g, '')}</p>
+            <p className="text-muted-foreground">{conNegrita(para)}</p>
           </div>
         )
       })}

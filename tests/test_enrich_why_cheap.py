@@ -293,3 +293,89 @@ def test_el_resumen_sale_sin_etiquetas_de_cita():
     from why_cheap_analyzer import limpiar_resumen
     crudo = '(cite index="4-6">El 26,5 % de caída vino del regulador</cite>. <cite index="9-7">Guía recortada</cite>'
     assert limpiar_resumen(crudo) == 'El 26,5 % de caída vino del regulador. Guía recortada'
+
+
+class TestLasDePrioridad:
+    """Las candidatas a comprar: Sonnet las estudia, se estudian tras cada resultado
+    y sin estudio no salen como Prioridad (11-nov-2026)."""
+
+    def _hoy(self, dias=0):
+        import datetime as dt
+        return (dt.date.today() + dt.timedelta(days=dias)).isoformat()
+
+    def _prio(self, ticker='INTU', **extra):
+        return {**_row(ticker, 90.0, -30.0), 'value_grupo': 'PRIORIDAD', 'value_falta': '', **extra}
+
+    def _escribir(self, csv, *filas):
+        pd.DataFrame(list(filas)).to_csv(csv, index=False)
+
+    def test_la_estudia_sonnet(self, universos, monkeypatch):
+        us_csv, _ = universos
+        self._escribir(us_csv, self._prio())
+        monkeypatch.setattr(ewc, 'PRESUPUESTO_SEG', 999)
+        modelos = []
+        with patch.object(ewc, 'analyze_ticker',
+                          side_effect=lambda *a, modelo=None, **kw: modelos.append(modelo) or _fake_veredicto('EVENTO')):
+            ewc.main()
+        assert modelos == [ewc.MODELO_PRIORIDAD]
+
+    def test_si_sonnet_vuelve_vacio_pregunta_a_haiku(self, universos, monkeypatch):
+        import json
+        us_csv, _ = universos
+        self._escribir(us_csv, self._prio())
+        monkeypatch.setattr(ewc, 'PRESUPUESTO_SEG', 999)
+        respuestas = {ewc.MODELO_PRIORIDAD: 'SIN_DATOS', ewc.MODEL_HAIKU: 'CICLICO'}
+        with patch.object(ewc, 'analyze_ticker',
+                          side_effect=lambda *a, modelo=None, **kw: _fake_veredicto(respuestas[modelo])):
+            ewc.main()
+        assert pd.read_csv(us_csv).set_index('ticker').loc['INTU', 'value_grupo'] == 'PRIORIDAD'
+        assert json.loads(ewc.CACHE.read_text())['INTU']['modelo'] == ewc.MODEL_HAIKU
+
+    def test_sin_estudio_sale_en_observar(self, universos, monkeypatch):
+        from value_bands import FALTA_ESTUDIO
+        us_csv, _ = universos
+        self._escribir(us_csv, self._prio())
+        monkeypatch.setattr(ewc, 'PRESUPUESTO_SEG', 999)
+        with patch.object(ewc, 'analyze_ticker', side_effect=lambda *a, **kw: _fake_veredicto('SIN_DATOS')):
+            ewc.main()
+        fila = pd.read_csv(us_csv).set_index('ticker').loc['INTU']
+        assert fila['value_grupo'] == 'OBSERVAR' and fila['value_falta'] == FALTA_ESTUDIO
+
+    def test_lo_que_estudio_haiku_se_repite_con_sonnet(self, universos, monkeypatch):
+        import json
+        us_csv, _ = universos
+        self._escribir(us_csv, self._prio())
+        ewc.CACHE.write_text(json.dumps({'INTU': {
+            'veredicto': 'EVENTO', 'resumen': 'x', 'fuentes': ['https://a'], 'fecha': self._hoy(),
+            'criterio': ewc.CRITERIO, 'modelo': ewc.MODEL_HAIKU}}))
+        monkeypatch.setattr(ewc, 'PRESUPUESTO_SEG', 999)
+        llamadas = []
+        with patch.object(ewc, 'analyze_ticker',
+                          side_effect=lambda t, *a, **kw: llamadas.append(t) or _fake_veredicto('EVENTO')):
+            ewc.main()
+        assert llamadas == ['INTU']
+
+    def test_tras_presentar_resultados_se_vuelve_a_estudiar(self):
+        base = {'veredicto': 'EVENTO', 'fecha': self._hoy(-3), 'criterio': ewc.CRITERIO}
+        assert ewc._cache_vigente({**base, 'resultados': self._hoy(5)})
+        assert not ewc._cache_vigente({**base, 'resultados': self._hoy(-1)}), \
+            'presentó resultados ayer y seguía valiendo lo de antes'
+
+    def test_guarda_la_fecha_de_los_proximos_resultados(self, universos, monkeypatch):
+        import json
+        us_csv, _ = universos
+        self._escribir(us_csv, self._prio(earnings_date=self._hoy(9)))
+        monkeypatch.setattr(ewc, 'PRESUPUESTO_SEG', 999)
+        with patch.object(ewc, 'analyze_ticker', side_effect=lambda *a, **kw: _fake_veredicto('EVENTO')):
+            ewc.main()
+        assert json.loads(ewc.CACHE.read_text())['INTU']['resultados'] == self._hoy(9)
+
+    def test_una_fecha_de_resultados_ya_pasada_no_se_guarda(self, universos, monkeypatch):
+        """Si no, caducaría cada día y se pagaría el estudio a diario."""
+        import json
+        us_csv, _ = universos
+        self._escribir(us_csv, self._prio(earnings_date=self._hoy(-2)))
+        monkeypatch.setattr(ewc, 'PRESUPUESTO_SEG', 999)
+        with patch.object(ewc, 'analyze_ticker', side_effect=lambda *a, **kw: _fake_veredicto('EVENTO')):
+            ewc.main()
+        assert json.loads(ewc.CACHE.read_text())['INTU']['resultados'] == ''

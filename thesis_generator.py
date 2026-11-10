@@ -7,6 +7,7 @@ basándose en análisis técnico, fundamental, sector, y catalizadores
 import pandas as pd
 import json
 import math
+import re
 from pathlib import Path
 from datetime import datetime
 
@@ -27,6 +28,35 @@ def _tesis_completa(texto) -> bool:
     tesis con IA de theses.json terminaban sin veredicto y casi sin riesgos."""
     t = (texto or '').strip()
     return bool(t) and 'conclusi' in t.lower() and t[-1] in '.!?)*"%'
+
+
+# 10-nov-2026: la tesis de PGR decía «clasificada OBSERVAR, no PRIORIDAD» con la
+# etiqueta de Prioridad al lado, y la de BRO concluía «vigilar reconquista de medias
+# móviles antes de entrar; la compra tiene sentido a $60». Una ficha que contradice a
+# la lista hace que no te fíes de ninguna de las dos, y el usuario no compra por
+# niveles técnicos (vende a precio objetivo por valoración).
+_TECNICO = re.compile(r'medias?\s+m[oó]vil|reconquist|ruptura|\bstops?\b|stop[\s-]?loss|'
+                      r'confirmaci[oó]n\s+t[eé]cnica|se[nñ]al\s+t[eé]cnica|'
+                      r'(?:soporte|resistencia)s?\s+(?:en|de|a|t[eé]cnic)', re.I)
+_PRECIO_DE_ENTRADA = re.compile(r'(?:compr|entr)\w*[^.\n]{0,50}?(?:\ba|por debajo de|bajo|menos de)\s+\$\s?\d', re.I)
+
+
+def tesis_contradice_a_la_casa(texto: str, row: dict) -> str | None:
+    """Motivo por el que una tesis de Value US no se puede publicar; None si vale."""
+    grupo = str(row.get('value_grupo') or '').upper()
+    if grupo not in ('PRIORIDAD', 'OBSERVAR'):
+        return None
+    if grupo == 'PRIORIDAD' and re.search(r'\bOBSERVAR\b', texto, re.I):
+        return 'dice OBSERVAR y la casa la tiene en PRIORIDAD'
+    if grupo == 'OBSERVAR' and re.search(r'(?:clasificad[ao]|est[aá]|es)\s+(?:como\s+|en\s+)?PRIORIDAD\b', texto, re.I):
+        return 'dice PRIORIDAD y la casa la tiene en OBSERVAR'
+    m = re.search(r'conclusi[oó]n\s*:?\s*\**([\s\S]*)', texto, re.I)
+    conclusion = m.group(1) if m else ''
+    if _TECNICO.search(conclusion):
+        return 'pone condiciones técnicas en la conclusión'
+    if _PRECIO_DE_ENTRADA.search(conclusion):
+        return 'se inventa un precio de entrada'
+    return None
 
 
 def _tickers_publicados_us() -> set[str] | None:
@@ -834,7 +864,13 @@ class ThesisGenerator:
                     'plazo, no como motivo para no comprar:')
             regla_conclusion = ('- La causa de la caída manda sobre tu intuición: si es DETERIORO, la conclusión es evitar. '
                                 'Si no: en PRIORIDAD la conclusión es comprar, salvo que los datos de arriba la desmientan '
-                                '(dilo); en OBSERVAR es esperar, y di qué le falta. El estado de entrada no cambia la conclusión.')
+                                '(dilo); en OBSERVAR es esperar, y di qué le falta. El estado de entrada no cambia la conclusión.\n'
+                                f"- El grupo lo decide la casa con su regla y es {row.get('value_grupo')}: dilo así y no lo "
+                                'recalcules con otro dato (el crecimiento de un trimestre no es el del año).\n'
+                                '- La valoración que manda es la nuestra (NUESTRA VALORACIÓN, DCF, P/E justo). El consenso de '
+                                'analistas es una referencia: que le vea poco recorrido no es motivo para no comprar.\n'
+                                '- Ni precios de entrada ni condiciones técnicas (medias móviles, soportes, resistencias, '
+                                'rupturas, stops): el inversor compra por valoración y vende al llegar al precio objetivo.')
         else:
             casa = 'LO QUE LA CASA YA SABE (no lo contradigas; si la ficha muestra ESPERAR o VIGILAR, tu conclusión no puede ser comprar ya):'
             regla_conclusion = ('- La causa de la caída manda sobre tu intuición: si es DETERIORO, la conclusión es evitar; '
@@ -944,10 +980,33 @@ ESTRUCTURA (usa **negrita** para cada sección):
             except Exception as e:
                 print(f"  ⚠️  {nombre} falló para {ticker}: {e}")
                 continue
-            if _tesis_completa(text):
-                return text
-            print(f"  ⚠️  {nombre} dejó la tesis de {ticker} cortada o sin conclusión")
+            if not _tesis_completa(text):
+                print(f"  ⚠️  {nombre} dejó la tesis de {ticker} cortada o sin conclusión")
+                continue
+            motivo = tesis_contradice_a_la_casa(text, row)
+            if motivo:
+                print(f"  ⚠️  {nombre}: la tesis de {ticker} {motivo} — no se publica")
+                continue
+            return text
         raise ValueError('tesis con IA incompleta')
+
+    @staticmethod
+    def _conclusion_value_us(row) -> str:
+        """La conclusión de la casa, sin stops ni niveles técnicos: el grupo decide y se
+        vende al precio objetivo de nuestra valoración."""
+        grupo = str(row.get('value_grupo') or '').upper()
+        nuestra = row.get('upside_triangulated_pct')
+        valoracion = f" Nuestra valoración le ve un {nuestra:+.0f} %." if isinstance(nuestra, (int, float)) and nuestra == nuestra else ''
+        dias = row.get('days_to_earnings')
+        try:
+            d = int(float(dias))
+            resultados = f" Presenta resultados en {d} días." if 0 <= d <= 14 else ''
+        except (TypeError, ValueError):
+            resultados = ''
+        if grupo == 'PRIORIDAD':
+            return f"\n**Conclusión:** COMPRAR — está en Prioridad, que es lo que tiene ventaja medida.{valoracion}{resultados}"
+        falta = row.get('value_falta')
+        return f"\n**Conclusión:** ESPERAR — está en Observar" + (f": {falta}." if falta else '.') + f"{valoracion}{resultados}"
 
     def _narrative_value(self, row):
         """Narrativa para oportunidades VALUE — foco en fundamentales e insiders (template)"""
@@ -1125,7 +1184,10 @@ ESTRUCTURA (usa **negrita** para cada sección):
 
         # Proximity to 52w high
         prox = row.get('proximity_to_52w_high')
-        if prox and prox != 0 and current_price:
+        if prox and prox != 0 and current_price and grupo:
+            # En Value US la distancia al máximo es dato, no señal: medida, no separa.
+            entry_lines.append(f"A {abs(prox):.1f}% de su máximo de 52 semanas")
+        elif prox and prox != 0 and current_price:
             if prox >= -5:
                 entry_lines.append(f"A {abs(prox):.1f}% del máximo 52 semanas — zona de breakout")
             elif prox >= -15:
@@ -1155,6 +1217,10 @@ ESTRUCTURA (usa **negrita** para cada sección):
 
         if extras:
             parts.append("\n**Catalizadores:**\n" + "\n".join(f"• {e}" for e in extras))
+
+        if grupo:
+            parts.append(self._conclusion_value_us(row))
+            return "\n".join(parts)
 
         # Conclusión — veredicto accionable con entrada/target/R:R
         best_target = t_analyst or t_dcf or t_pe

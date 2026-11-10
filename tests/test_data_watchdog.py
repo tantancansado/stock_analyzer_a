@@ -450,3 +450,40 @@ class TestMercadosApagados:
                          if s.get('if') == "env.MERCADOS_FUERA_DE_EEUU == 'on'"}
         assert condicionados == {'European Insider Scanner', 'European Value Scanner',
                                  'Global Market Scanner (BR/KR/JP/HK)', 'AI Filter European Value'}
+
+
+class TestEstudioDeNoticias:
+    """Que el estudio de por qué ha caído falle tiene que llegar por Telegram: entre
+    el 4 y el 9-nov-2026 ocho veredictos se perdieron sin que nadie se enterara."""
+
+    def _docs(self, tmp_path, monkeypatch, filas, cache):
+        import csv as _csv
+        monkeypatch.setattr(wd, 'DOCS', tmp_path)
+        with open(tmp_path / 'value_opportunities_filtered.csv', 'w', newline='') as f:
+            w = _csv.DictWriter(f, fieldnames=['ticker', 'value_grupo', 'value_falta'])
+            w.writeheader()
+            w.writerows(filas)
+        (tmp_path / 'why_cheap_cache.json').write_text(json.dumps(cache))
+
+    def test_avisa_de_una_prioridad_sin_estudio(self, tmp_path, monkeypatch):
+        from value_bands import FALTA_ESTUDIO
+        self._docs(tmp_path, monkeypatch,
+                   [{'ticker': 'INTU', 'value_grupo': 'OBSERVAR', 'value_falta': FALTA_ESTUDIO},
+                    {'ticker': 'BRO', 'value_grupo': 'PRIORIDAD', 'value_falta': ''}], {})
+        p = wd._estudio_de_noticias()
+        assert len(p) == 1 and p[0]['critical'] and 'INTU' in p[0]['detail'] and 'BRO' not in p[0]['detail']
+
+    def test_avisa_si_fallan_varias_busquedas_el_mismo_dia(self, tmp_path, monkeypatch):
+        hoy = wd._now().date().isoformat()
+        cache = {'A': {'veredicto': 'SIN_DATOS', 'fecha': hoy},
+                 'B': {'veredicto': 'EVENTO', 'fecha': '2026-10-21', 'ultimo_fallo': hoy},
+                 'C': {'veredicto': 'SIN_DATOS', 'fecha': hoy},
+                 'D': {'veredicto': 'CICLICO', 'fecha': hoy}}
+        self._docs(tmp_path, monkeypatch, [], cache)
+        p = wd._estudio_de_noticias()
+        assert len(p) == 1 and p[0]['status'] == 'busquedas_vacias' and '3 empresas' in p[0]['detail']
+
+    def test_un_fallo_suelto_no_es_noticia(self, tmp_path, monkeypatch):
+        hoy = wd._now().date().isoformat()
+        self._docs(tmp_path, monkeypatch, [], {'A': {'veredicto': 'SIN_DATOS', 'fecha': hoy}})
+        assert wd._estudio_de_noticias() == []
