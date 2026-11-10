@@ -271,7 +271,8 @@ HF_WATCH = [
 
     # ── Appaloosa (Tepper) — solo posiciones con suficiente liquidez ──────────
     'TEVA',   # Teva Pharmaceutical — genéricos, posición de valor
-    'KVUE',   # Kenvue — consumer health (spinoff J&J)
+    # KVUE (Kenvue) salió el 10-nov-2026: Kimberly-Clark la compró y dejó de
+    # cotizar el 30-oct.
     'THC',    # Tenet Healthcare — hospitales
     'GPK',    # Graphic Packaging — packaging
     'TECK',   # Teck Resources — minería de cobre

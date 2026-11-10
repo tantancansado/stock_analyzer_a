@@ -135,6 +135,22 @@ def test_el_mapa_de_divisas_no_se_separa_del_frontend():
     assert set(del_ts) == set(it.DIVISA_POR_SUFIJO), 'faltan sufijos en uno de los dos'
 
 
+def test_el_ticker_puesto_de_nombre_no_es_otra_empresa(monkeypatch, tmp_path):
+    """10-nov-2026: KVUE dejó de cotizar (la compró Kimberly-Clark), el escáner
+    rellenó el nombre con el ticker y el control lo leyó como otra empresa."""
+    import json
+    import coherence_check as cc
+    (tmp_path / 'fundamental_scores.csv').write_text(
+        'ticker,company_name,current_price\nKVUE,KVUE,0.0\nMMC,MM Conferences S.A.,8.9\n')
+    (tmp_path / 'tikr_earnings_data.json').write_text(json.dumps({'data': {
+        'KVUE': {'company_name': 'Kenvue Inc.', 'price': {'c': 19.3, 'curr': 'USD'}},
+        'MMC': {'company_name': 'Marsh & McLennan Companies, Inc.', 'price': {'c': 200, 'curr': 'USD'}}}}))
+    monkeypatch.setattr(cc, 'DOCS', tmp_path)
+    fallos = ' '.join(map(str, cc.identidad_de_los_tickers()))
+    assert 'KVUE' not in fallos
+    assert 'MMC' in fallos, 'un nombre de verdad que no cuadra sigue saltando'
+
+
 def test_el_pipeline_lo_ejecuta():
     from pathlib import Path
     src = (Path(__file__).resolve().parent.parent / 'coherence_check.py').read_text()

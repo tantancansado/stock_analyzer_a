@@ -40,6 +40,23 @@ def test_la_narrativa_semanal_sobrevive_al_escaner_diario(monkeypatch, tmp_path)
     assert nuevo.loc[nuevo.ticker == 'SLV', 'ai_narrative_veredicto'].iloc[0] == ''
 
 
+def test_no_se_arrastra_la_que_contradice_a_la_valoracion_de_hoy(monkeypatch, tmp_path):
+    """10-nov-2026: la de COPX del lunes era anterior al filtro y se arrastró con
+    COPX en CARO; el control de coherencia volvió a poner el pipeline en rojo."""
+    import pandas as pd
+    from datetime import datetime, timezone
+    out = tmp_path / 'c.csv'
+    hoy = datetime.now(timezone.utc)
+    pd.DataFrame([{'ticker': t, 'ai_narrative_veredicto': 'OPORTUNIDAD_ESTRUCTURAL',
+                   'ai_narrative_resumen': 'El precio bajo es temporal.', 'ai_narrative_fuentes': 'u',
+                   'ai_narrative_fecha': hoy.date().isoformat()} for t in ('COPX', 'GLD')]).to_csv(out, index=False)
+    monkeypatch.setattr(cs, 'OUTPUT', out)
+    nuevo = cs._conservar_narrativa(pd.DataFrame([{'ticker': 'COPX', 'value_rating': 'CARO'},
+                                                  {'ticker': 'GLD', 'value_rating': 'NEUTRAL'}]), hoy)
+    assert nuevo.loc[nuevo.ticker == 'COPX', 'ai_narrative_veredicto'].iloc[0] == ''
+    assert nuevo.loc[nuevo.ticker == 'GLD', 'ai_narrative_veredicto'].iloc[0] == 'OPORTUNIDAD_ESTRUCTURAL'
+
+
 def test_una_narrativa_de_hace_un_mes_no_se_arrastra(monkeypatch, tmp_path):
     import pandas as pd
     from datetime import datetime, timezone

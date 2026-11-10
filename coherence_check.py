@@ -564,9 +564,13 @@ def identidad_de_los_tickers() -> list[str]:
             continue
         for _, r in d.iterrows():
             t = str(r['ticker']).upper().strip()
+            # Sin nombre, el escáner pone el ticker (`_get_empty_result`): es «no
+            # lo sé», no otra empresa. KVUE, comprada por Kimberly-Clark, tumbó el
+            # pipeline el 10-nov-2026 con «KVUE» contra «Kenvue Inc.».
+            empresa = str(r.get('company_name') or '').strip()
             fuentes.setdefault(t, []).append({
                 'fuente': nombre.replace('.csv', '')[:18],
-                'nombre': str(r.get('company_name') or '') or None,
+                'nombre': empresa if empresa and empresa.upper() != t else None,
                 'precio': pd.to_numeric(pd.Series([r.get('current_price')]),
                                         errors='coerce').iloc[0],
                 'divisa': None,   # los CSV no la traen; la divisa la aporta TIKR

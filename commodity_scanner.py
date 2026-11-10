@@ -470,8 +470,11 @@ def _conservar_narrativa(df: pd.DataFrame, now: datetime) -> pd.DataFrame:
     Reescribir el CSV sin mirar el anterior borraba esas columnas al día
     siguiente: la narrativa de pago (búsqueda web) vivía un día de cada siete.
     Se arrastra la del CSV previo mientras tenga menos de una semana, con su
-    fecha, para que quien la lea sepa de cuándo es.
+    fecha, para que quien la lea sepa de cuándo es. Pero no si contradice a la
+    valoración de HOY: el rating cambia entre semana, y el 10-nov-2026 se arrastró
+    el «oportunidad» de COPX del lunes, anterior al filtro, con COPX en CARO.
     """
+    from commodity_narrative_analyzer import contradice_al_precio
     if not OUTPUT.exists():
         return df
     try:
@@ -490,6 +493,8 @@ def _conservar_narrativa(df: pd.DataFrame, now: datetime) -> pd.DataFrame:
         try:
             edad = (now.date() - datetime.fromisoformat(ant["ai_narrative_fecha"]).date()).days
         except ValueError:
+            continue
+        if contradice_al_precio(ant.get("ai_narrative_veredicto", ""), fila.get("value_rating")):
             continue
         if 0 <= edad <= NARRATIVA_MAX_DIAS:
             for col in NARRATIVA_COLS:
