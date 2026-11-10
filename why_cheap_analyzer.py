@@ -63,23 +63,40 @@ SYSTEM = """Eres un analista value evaluando si una caída de precio es una opor
 o una trampa. El criterio del inversor: comprar buenas empresas castigadas solo si el
 castigo NO es deterioro real del negocio.
 
-Busca antes de responder: resultados trimestrales, guidance y noticias de los últimos
-seis meses. No afirmes nada que no hayas encontrado buscando — si la búsqueda no da
-suficiente, el veredicto es "SIN_DATOS", que es una respuesta perfectamente válida y
-preferible a elegir una categoría por descarte.
+Busca SIEMPRE antes de responder, al menos una vez: resultados trimestrales, guidance
+y noticias de los últimos seis meses. No afirmes nada que no hayas encontrado
+buscando — si la búsqueda no da suficiente, el veredicto es "SIN_DATOS", que es una
+respuesta perfectamente válida y preferible a elegir una categoría por descarte.
 
-Responde SOLO con este JSON, sin markdown alrededor:
+Responde SOLO con este JSON, sin markdown alrededor y sin etiquetas de cita:
 {"veredicto": "DETERIORO|CICLICO|EVENTO|SENTIMIENTO|SIN_DATOS",
  "resumen": "<máximo dos frases en español: qué pasó y cuándo>",
  "confianza": 0-100}
 
 Categorías:
-- DETERIORO: el negocio está estructuralmente peor — guidance retirada o recortada
-  varias veces, márgenes en caída sostenida, pérdida de cuota, investigación
-  regulatoria grave, deuda que aprieta.
+- DETERIORO: el negocio está estructuralmente peor, AUNQUE sus cuentas todavía no lo
+  reflejen — guidance recortada o retirada más de una vez, márgenes en caída
+  sostenida, pérdida de cuota, su producto principal estancado, un regulador o un
+  competidor que le quita una posición dominante o el poder de fijar precios,
+  investigación regulatoria grave, deuda que aprieta.
 - CICLICO: el sector está en la parte baja de su ciclo pero el negocio aguanta.
-- EVENTO: shock puntual y acotado, ya conocido y cuantificable.
+- EVENTO: shock puntual y acotado que NO cambia lo que la empresa ganará en los
+  próximos años: una multa, un litigio cerrado, la salida de un directivo, un
+  trimestre flojo. Si el hecho cambia el negocio a futuro, no es EVENTO.
 - SENTIMIENTO: rotación, múltiplos o macro; nada específico de la empresa."""
+
+# Sube cada vez que cambia el criterio de arriba: lo juzgado con el anterior se
+# vuelve a preguntar (enrich_why_cheap._cache_vigente). El 2 es del 10-nov-2026:
+# a FICO, con el regulador hipotecario abriendo a VantageScore el mercado que
+# dominaba, el 1 lo llamó EVENTO porque sus cuentas aún crecían.
+CRITERIO = 2
+
+
+def limpiar_resumen(texto: str) -> str:
+    """Sin las etiquetas de cita que a veces deja la búsqueda en el texto
+    («<cite index="4-6">…</cite>», que llegaba así a la ficha de FICO)."""
+    import re
+    return re.sub(r'\s{2,}', ' ', re.sub(r'[<(]/?cite\b[^>]*>', '', str(texto or ''))).strip()
 
 PROMPT = """{company} ({ticker}) cotiza un {drop:.1f}% por debajo de su máximo de 52
 semanas, con una fuerza relativa a 6 meses de {rs:.1f}%.
@@ -202,7 +219,7 @@ def _interpretar(texto: str, fuentes: list[str]) -> dict:
 
     return {
         'veredicto': veredicto,
-        'resumen': str(data.get('resumen', ''))[:300],
+        'resumen': limpiar_resumen(data.get('resumen', ''))[:300],
         'confianza': confianza,
         'fuentes': fuentes[:4],
     }
@@ -289,7 +306,7 @@ def apply_to_dataframe(df, veredictos: dict[str, dict]):
         df[nombre] = nuevo.where(nuevo.notna(), df[nombre])
 
     _col('why_cheap',         lambda v: v.get('veredicto', ''))
-    _col('why_cheap_resumen', lambda v: v.get('resumen', ''))
+    _col('why_cheap_resumen', lambda v: limpiar_resumen(v.get('resumen', '')))
     _col('why_cheap_fuentes', lambda v: ' | '.join(v.get('fuentes', []))[:400])
 
     # Una causa que las propias cuentas desmienten no se publica como causa.

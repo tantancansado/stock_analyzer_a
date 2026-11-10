@@ -36,18 +36,30 @@
   "fecha": "2026-10-30"
  },
  "BR": {
-  "veredicto": "SIN_DATOS",
-  "resumen": "",
-  "confianza": 0,
-  "fuentes": [],
-  "fecha": "2026-11-05"
+  "veredicto": "SENTIMIENTO",
+  "resumen": "Broadridge reportó resultados sólidos en Q4 FY2025 (ajustado EPS de $8.55 +11% YoY, ingresos +8%) con guidance optimista. La caída obedece a olas de cortes en precio target de analistas (RBC, Raymond James) e insider selling de ejecutivos clave en marzo 2026.",
+  "confianza": 75,
+  "fuentes": [
+   "https://www.sec.gov/Archives/edgar/data/1383312/000162828025037656/br-20250630.htm",
+   "https://www.sec.gov/Archives/edgar/data/1383312/000138331225000032/ex991earningsrelease1q2026.htm",
+   "https://finance.yahoo.com/news/broadridge-financial-solutions-full-2025-110743683.html",
+   "https://www.investing.com/equities/broadridge-financial-solutions-earnings"
+  ],
+  "fecha": "2026-10-22",
+  "ultimo_fallo": "2026-11-05"
  },
  "HLMA.L": {
-  "veredicto": "SIN_DATOS",
-  "resumen": "",
-  "confianza": 0,
-  "fuentes": [],
-  "fecha": "2026-11-05"
+  "veredicto": "EVENTO",
+  "resumen": "Halma reportó resultados récord el 11 de junio de 2026, pero emitió guidance cautelosa esperando 'crecimiento orgánico de bajos dos dígitos' (vs. expectativas previas de 'mediados de dos dígitos'), alertando sobre incertidumbre económica y geopolítica en sus mercados finales.",
+  "confianza": 72,
+  "fuentes": [
+   "https://www.tipranks.com/stocks/gb:hlma/earnings",
+   "https://www.marketscreener.com/quote/stock/HALMA-PLC-9590130/calendar/",
+   "https://www.tipranks.com/stocks/gb:hlma/revenue",
+   "https://www.halma.com/~/media/Files/H/Halma/Corp-V2/reports-and-presentations/reports/2026/halma_hy26_report.pdf"
+  ],
+  "fecha": "2026-10-22",
+  "ultimo_fallo": "2026-11-05"
  },
  "WKL.AS": {
   "veredicto": "SENTIMIENTO",
@@ -158,25 +170,43 @@
   "fecha": "2026-11-03"
  },
  "AVGO": {
-  "veredicto": "SIN_DATOS",
-  "resumen": "",
-  "confianza": 0,
-  "fuentes": [],
-  "fecha": "2026-11-04"
+  "veredicto": "SENTIMIENTO",
+  "resumen": "Broadcom ha caído ~32% desde su máximo histórico de $495 en junio 2026, a pesar de beats consistentes en resultados y guidance alcista. La caída se debe a compresión de márgenes (75% → 73% bruto por shift hacia chips AI de menor margen) y expectativas extraordinarias del mercado que no se pueden cum",
+  "confianza": 78,
+  "fuentes": [
+   "https://www.rava.com/perfil/AVGO",
+   "https://mx.investing.com/analysis/broadcom-2025-el-gigante-del-chip-imparable-200481878",
+   "https://roboforex.com/es/beginners/analytics/forex-forecast/stocks/stocks-forecast-broadcom-avgo/",
+   "https://www.bloomberglinea.com/negocios/broadcom-da-un-pronostico-optimista-ante-un-crecimiento-impulsado-por-acuerdos-de-ia/"
+  ],
+  "fecha": "2026-10-21",
+  "ultimo_fallo": "2026-11-04"
  },
  "UBER": {
-  "veredicto": "SIN_DATOS",
-  "resumen": "",
-  "confianza": 0,
-  "fuentes": [],
-  "fecha": "2026-11-04"
+  "veredicto": "SENTIMIENTO",
+  "resumen": "Negocios core funcionan bien (ingresos +12%, EBITDA +33% en Q2 2026), pero guidance Q3 decepcionó y preocupan inversiones en robotaxi. Rotación en múltiplos: de $102 pico a $70, con aumento de deuda y ganancias infladas por valorización de participaciones.",
+  "confianza": 72,
+  "fuentes": [
+   "https://inversornovato.substack.com/p/analisis-de-uber",
+   "https://www.tikr.com/es/blog/uber-stock-is-down-29-from-its-peak-heres-where-the-stock-could-go-in-2026",
+   "https://www.tikr.com/es/blog/uber-stock-is-down-9-in-2026-heres-why-analysts-still-see-upside-to-103",
+   "https://blog.skipo.com/post/resultados-uber-q2-2026"
+  ],
+  "fecha": "2026-10-21",
+  "ultimo_fallo": "2026-11-04"
  },
  "DVA": {
-  "veredicto": "SIN_DATOS",
-  "resumen": "",
-  "confianza": 0,
-  "fuentes": [],
-  "fecha": "2026-11-05"
+  "veredicto": "EVENTO",
+  "resumen": "Caída por anuncio de plan de competencia en diálisis de la administración Trump (Oct 20, 2026). Negocio fundamentalmente sólido con guidance reafirmado en 2026, sin deterioro de estructura, pero con presión de costos y RPT débil en H2.",
+  "confianza": 78,
+  "fuentes": [
+   "https://www.sec.gov/Archives/edgar/data/0000927066/000092706626000060/dva33126ex991.htm",
+   "https://www.gurufocus.com/news/9132685/davita-inc-dva-shares-drop-over-6-amid-new-kidney-care-plan-announcement",
+   "https://www.gurufocus.com/news/9132851/a-look-at-davita-inc-dva-after-62-decline-gf-value-19805-vs-price-17535",
+   "https://www.heygotrade.com/en/us-stock/dva/"
+  ],
+  "fecha": "2026-10-22",
+  "ultimo_fallo": "2026-11-05"
  },
  "FICO": {
   "veredicto": "EVENTO",
@@ -404,18 +434,30 @@
   "fecha": "2026-11-04"
  },
  "GOOG": {
-  "veredicto": "SIN_DATOS",
-  "resumen": "",
-  "confianza": 0,
-  "fuentes": [],
-  "fecha": "2026-11-05"
+  "veredicto": "EVENTO",
+  "resumen": "Alphabet publicó Q2 2026 sólido (ingresos +24%, Google Cloud +82%) pero el Free Cash Flow fue negativo por inversión masiva en infraestructura IA (CapEx desmesurado para 2026). El mercado castigó los resultados por preocupación sobre retorno de inversión en IA, no por deterioro operativo.",
+  "confianza": 72,
+  "fuentes": [
+   "https://www.rava.com/perfil/GOOGL",
+   "https://mx.investing.com/news/stock-market-news/alphabet-bajo-presion-googl-cae-45-en-2-dias-comprar-hoy-o-hay-mejor-opcion-3774188",
+   "https://www.bloomberglinea.com/mercados/alphabet-cae-mas-de-5-pero-wall-street-no-cree-que-sea-hora-de-vender-la-accion/",
+   "https://stockanalysis.com/stocks/goog/history/"
+  ],
+  "fecha": "2026-10-02",
+  "ultimo_fallo": "2026-11-05"
  },
  "AUTO.L": {
-  "veredicto": "SIN_DATOS",
-  "resumen": "",
-  "confianza": 0,
-  "fuentes": [],
-  "fecha": "2026-11-05"
+  "veredicto": "SENTIMIENTO",
+  "resumen": "Guidance FY 2027 reducida (£395-415m vs £408m FY2026) tras fuertes resultados en H2 2026; valuaciones ajustadas a la baja por presiones minoristas cíclicas y desaceleración de crecimiento, sin deterioro estructural del negocio.",
+  "confianza": 72,
+  "fuentes": [
+   "https://en.wikipedia.org/wiki/Autotrader_Group",
+   "https://finance.yahoo.com/news/auto-trader-group-full-2025-133815695.html",
+   "https://www.google.com/finance/quote/AUTO:LON?hl=en",
+   "https://en.wikipedia.org/wiki/AutoTrader_(South_Africa)"
+  ],
+  "fecha": "2026-10-21",
+  "ultimo_fallo": "2026-11-05"
  },
  "DG.PA": {
   "veredicto": "EVENTO",
@@ -442,11 +484,17 @@
   "fecha": "2026-11-09"
  },
  "BSX": {
-  "veredicto": "SIN_DATOS",
-  "resumen": "",
-  "confianza": 0,
-  "fuentes": [],
-  "fecha": "2026-11-09"
+  "veredicto": "DETERIORO",
+  "resumen": "Boston Scientific ha sufrido recortes sucesivos de guidance desde febrero 2026: de 10.5-11.5% a 7-8.5% y finalmente a 5.5-6.5%. Las caídas en WATCHMAN (producto clave), pérdida de cuota en electrofisiología por competencia y debilidad en urología revelan deterioro estructural; adicionalmente, un inc",
+  "confianza": 92,
+  "fuentes": [
+   "https://www.tikr.com/es/blog/boston-scientific-fell-28-in-2026-do-analysts-see-recovery",
+   "https://www.mexc.com/es/news/1043194",
+   "https://es.investing.com/news/stock-market-news/las-acciones-de-boston-scientific-caen-un-6-tras-recorte-de-previsiones-3679485",
+   "https://es.investing.com/news/company-news/las-acciones-de-boston-scientific-caen-tras-debil-perspectiva-para-2026-93CH-3499996"
+  ],
+  "fecha": "2026-10-21",
+  "ultimo_fallo": "2026-11-09"
  },
  "BRO": {
   "veredicto": "CICLICO",

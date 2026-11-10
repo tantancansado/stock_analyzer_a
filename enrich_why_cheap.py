@@ -28,7 +28,7 @@ from pathlib import Path
 
 import pandas as pd
 
-from why_cheap_analyzer import analyze_ticker, apply_to_dataframe, cifras_propias, MIN_SCORE_CANDIDATO
+from why_cheap_analyzer import analyze_ticker, apply_to_dataframe, cifras_propias, MIN_SCORE_CANDIDATO, CRITERIO
 
 DOCS = Path('docs')
 TARGET_CSVS: list[Path] = [
@@ -81,6 +81,26 @@ CACHE = DOCS / 'why_cheap_cache.json'
 # veredicto; con caché la cobertura crece sola sin gastar más.
 CACHE_DIAS = 14
 
+# «Sin datos» no es un veredicto: es que la búsqueda no trajo nada, y se
+# vuelve a preguntar al día siguiente, no a las dos semanas. INTU llevaba así
+# desde septiembre.
+CACHE_DIAS_SIN_DATOS = 1
+
+# Un veredicto real se guarda hasta aquí como respaldo, aunque toque
+# refrescarlo a los 14 días: si el refresco falla, sigue valiendo.
+CACHE_PODA_DIAS = 45
+
+
+def _es_veredicto(entrada: dict | None) -> bool:
+    return bool(entrada) and (entrada.get('veredicto') or '').strip() not in ('', 'SIN_DATOS')
+
+
+def _edad_dias(entrada: dict) -> int | None:
+    try:
+        return (dt.date.today() - dt.date.fromisoformat(str(entrada.get('fecha', ''))[:10])).days
+    except Exception:
+        return None
+
 
 def _leer_cache() -> dict:
     if not CACHE.exists():
@@ -101,22 +121,36 @@ def _cache_vigente(entrada: dict, sin_presupuesto: bool = False) -> bool:
     vacía — y el motivo de una caída no caduca a los 14 días, ese plazo es para
     refrescar, no para invalidar.
     """
-    try:
-        f = dt.date.fromisoformat(str(entrada.get('fecha', ''))[:10])
-    except Exception:
+    edad = _edad_dias(entrada)
+    if edad is None:
         return False
     if sin_presupuesto:
         return True
-    return (dt.date.today() - f).days < CACHE_DIAS
+    # Lo juzgado con otro criterio se vuelve a preguntar (MAX_TICKERS al día,
+    # las de Prioridad primero); mientras tanto sigue sirviendo de respaldo.
+    if entrada.get('criterio') != CRITERIO:
+        return False
+    return edad < (CACHE_DIAS if _es_veredicto(entrada) else CACHE_DIAS_SIN_DATOS)
 
 
 def _guardar_cache(cache: dict, nuevos: dict) -> None:
+    hoy = dt.date.today().isoformat()
     for t, res in nuevos.items():
-        cache[t] = {**res, 'fecha': dt.date.today().isoformat()}
+        previo = cache.get(t)
+        # Que la búsqueda de hoy no encuentre nada no desmiente lo que otra sí
+        # encontró. El 21-oct BSX salió DETERIORO con cuatro fuentes («recortes
+        # sucesivos de guidance»); el 9-nov el refresco volvió vacío, pisó el
+        # veredicto y BSX entró en Prioridad. Se queda el de antes, con su fecha,
+        # así que mañana se vuelve a intentar.
+        if not _es_veredicto(res) and _es_veredicto(previo):
+            cache[t] = {**previo, 'ultimo_fallo': hoy}
+            continue
+        cache[t] = {**res, 'fecha': hoy, 'criterio': CRITERIO}
     # Poda: lo caducado hace mucho no vuelve a servir y engorda el fichero
     # publicado (docs/ ya pesa 193MB y roza el timeout de Pages).
+    edades = {t: _edad_dias(e) for t, e in cache.items()}
     vivos = {t: e for t, e in cache.items()
-             if _cache_vigente(e) or (t in nuevos)}
+             if t in nuevos or (edades[t] is not None and edades[t] < CACHE_PODA_DIAS)}
     try:
         CACHE.write_text(json.dumps(vivos, ensure_ascii=False, indent=1))
     except Exception as e:
@@ -286,7 +320,15 @@ def main() -> None:
         # La reserva sigue al peor caso visto en esta corrida: si un ticker se
         # atasca, el siguiente exige más margen en vez de repetir el atasco.
         reserva = max(reserva, time.monotonic() - t0)
-        veredictos_por_csv[r['origen_csv']][ticker] = res
+        previo = cache.get(ticker)
+        if not _es_veredicto(res) and _es_veredicto(previo):
+            print(f"   ↩ {ticker}: la búsqueda de hoy no trajo nada; se mantiene "
+                  f"{previo['veredicto']} del {previo.get('fecha')}")
+            veredictos_por_csv[r['origen_csv']][ticker] = {
+                'veredicto': previo['veredicto'], 'resumen': previo.get('resumen', ''),
+                'fuentes': previo.get('fuentes', [])}
+        else:
+            veredictos_por_csv[r['origen_csv']][ticker] = res
         nuevos[ticker] = res
         icono = {'DETERIORO': '🚫', 'CICLICO': '🔄', 'EVENTO': '⚡',
                  'SENTIMIENTO': '💭', 'SIN_DATOS': '❓'}.get(res['veredicto'], '❓')

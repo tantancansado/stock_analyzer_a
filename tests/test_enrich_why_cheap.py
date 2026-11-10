@@ -180,7 +180,8 @@ class TestCacheDeVeredictos:
         pd.DataFrame([_row('AAPL', 60.0)], columns=COLS).to_csv(us_csv, index=False)
         ewc.CACHE.write_text(json.dumps({
             'AAPL': {'veredicto': 'CICLICO', 'resumen': 'del cache', 'fuentes': [],
-                     'fecha': __import__('datetime').date.today().isoformat()},
+                     'fecha': __import__('datetime').date.today().isoformat(),
+                     'criterio': ewc.CRITERIO},
         }))
         llamadas = []
         with patch.object(ewc, 'analyze_ticker',
@@ -215,3 +216,80 @@ class TestCacheDeVeredictos:
         guardado = json.loads(ewc.CACHE.read_text())
         assert guardado['AAPL']['veredicto'] == 'EVENTO'
         assert 'fecha' in guardado['AAPL'], 'sin fecha no se puede caducar'
+
+
+class TestSinDatosNoEsUnVeredicto:
+    """«Sin datos» es que la búsqueda no trajo nada, no que no haya motivo.
+
+    El 21-oct-2026 BSX salió DETERIORO con cuatro fuentes; el 9-nov el refresco
+    de los 14 días volvió vacío, pisó ese veredicto y BSX entró en Prioridad.
+    """
+
+    def _cache(self, **entradas):
+        import json
+        ewc.CACHE.write_text(json.dumps(entradas))
+
+    def _hace(self, dias):
+        import datetime as dt
+        return (dt.date.today() - dt.timedelta(days=dias)).isoformat()
+
+    def test_un_refresco_vacio_no_borra_el_deterioro(self, universos, monkeypatch):
+        import json
+        us_csv, _ = universos
+        pd.DataFrame([_row('BSX', 90.0, -30.0), _row('INTU', 85.0, -40.0)],
+                     columns=COLS).to_csv(us_csv, index=False)
+        self._cache(BSX={'veredicto': 'DETERIORO', 'resumen': 'recortes sucesivos de guidance',
+                         'fuentes': ['https://a', 'https://b'], 'fecha': self._hace(20),
+                         'criterio': ewc.CRITERIO})
+        monkeypatch.setattr(ewc, 'PRESUPUESTO_SEG', 999)
+        with patch.object(ewc, 'analyze_ticker',
+                          side_effect=lambda t, *a, **kw: _fake_veredicto('SIN_DATOS')):
+            ewc.main()
+        assert 'BSX' not in set(pd.read_csv(us_csv).ticker), 'volvió a publicarse con el deterioro borrado'
+        guardado = json.loads(ewc.CACHE.read_text())
+        assert guardado['BSX']['veredicto'] == 'DETERIORO'
+        assert guardado['BSX']['fecha'] == self._hace(20), 'con la fecha de hoy no se reintentaría mañana'
+
+    def test_sin_datos_se_reintenta_al_dia_siguiente(self, universos, monkeypatch):
+        us_csv, _ = universos
+        pd.DataFrame([_row('INTU', 85.0, -40.0)], columns=COLS).to_csv(us_csv, index=False)
+        self._cache(INTU={'veredicto': 'SIN_DATOS', 'resumen': '', 'fuentes': [],
+                          'fecha': self._hace(1), 'criterio': ewc.CRITERIO})
+        monkeypatch.setattr(ewc, 'PRESUPUESTO_SEG', 999)
+        llamadas = []
+        with patch.object(ewc, 'analyze_ticker',
+                          side_effect=lambda t, *a, **kw: llamadas.append(t) or _fake_veredicto()):
+            ewc.main()
+        assert llamadas == ['INTU'], 'un «sin datos» de ayer se tomó como respuesta'
+
+    def test_lo_juzgado_con_otro_criterio_se_vuelve_a_preguntar(self, universos, monkeypatch):
+        import json
+        us_csv, _ = universos
+        pd.DataFrame([_row('FICO', 88.0, -35.0)], columns=COLS).to_csv(us_csv, index=False)
+        self._cache(FICO={'veredicto': 'EVENTO', 'resumen': 'regulador', 'fuentes': ['https://a'],
+                          'fecha': self._hace(0), 'criterio': ewc.CRITERIO - 1})
+        monkeypatch.setattr(ewc, 'PRESUPUESTO_SEG', 999)
+        llamadas = []
+        with patch.object(ewc, 'analyze_ticker',
+                          side_effect=lambda t, *a, **kw: llamadas.append(t) or _fake_veredicto('DETERIORO')):
+            ewc.main()
+        assert llamadas == ['FICO']
+        assert 'FICO' not in set(pd.read_csv(us_csv).ticker)
+        assert json.loads(ewc.CACHE.read_text())['FICO']['criterio'] == ewc.CRITERIO
+
+    def test_el_respaldo_dura_mas_que_el_refresco(self, universos):
+        """A los 14 días se refresca, pero no se borra: es el respaldo si el refresco falla."""
+        self._cache(MKC={'veredicto': 'EVENTO', 'resumen': 'x', 'fuentes': ['https://a'],
+                         'fecha': self._hace(ewc.CACHE_DIAS + 5), 'criterio': ewc.CRITERIO},
+                    VIEJO={'veredicto': 'EVENTO', 'resumen': 'x', 'fuentes': ['https://a'],
+                           'fecha': self._hace(ewc.CACHE_PODA_DIAS + 1), 'criterio': ewc.CRITERIO})
+        ewc._guardar_cache(ewc._leer_cache(), {'HOY': _fake_veredicto('CICLICO')})
+        import json
+        guardado = json.loads(ewc.CACHE.read_text())
+        assert set(guardado) == {'MKC', 'HOY'}
+
+
+def test_el_resumen_sale_sin_etiquetas_de_cita():
+    from why_cheap_analyzer import limpiar_resumen
+    crudo = '(cite index="4-6">El 26,5 % de caída vino del regulador</cite>. <cite index="9-7">Guía recortada</cite>'
+    assert limpiar_resumen(crudo) == 'El 26,5 % de caída vino del regulador. Guía recortada'
