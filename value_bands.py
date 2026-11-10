@@ -321,9 +321,22 @@ def vetos_value(df):
 
     ROE negativo, analistas por debajo del precio (dentro de PRIORIDAD, en 2026:
     -6,0 a 90 días, con solo 8 observaciones, contra +6,4 del resto del grupo) y
-    «puede doblar» con el beneficio de pico (ver `puede_doblar`).
+    el beneficio de pico, tenga el recorrido que tenga.
     Cerebro vetó aquí hasta el 7-nov-2026 con su AVOID y dejó de hacerlo al medirlo:
     lo vetado rindió +8,6 a 90 días frente a -1,5 de lo neutro.
+
+    El pico se vetaba solo en «puede doblar» (8-nov) y el 10-nov PGR salió en
+    PRIORIDAD con el BPA un 98 % sobre su tendencia, porque nuestros modelos le veían
+    +73 % y no +100 %. Medido con la misma reconstrucción mensual, a 12 meses contra el
+    universo, 2020-23 y 2024-26:
+
+        PRIORIDAD con el BPA >50 % sobre su tendencia   -10,2 (8 emp.)   -14,1 (6)
+        PRIORIDAD con el BPA en su tendencia (<=20 %)   +17,6 (14)       +8,9 (11)
+        OBSERVAR con el BPA >50 % sobre su tendencia     -2,6 (8)         -7,3 (2)
+        toda la puerta con el BPA >50 %                   -6,9 (13)       -11,9 (6)
+
+    Sin el pico, PRIORIDAD pasa de +0,7 a +8,9 en 2024-26. Sin tendencia no se veta:
+    «no lo sé» no es pico.
     """
     import pandas as pd
     veto = pd.Series(False, index=df.index)
@@ -332,7 +345,8 @@ def vetos_value(df):
         veto |= df['negative_roe'].astype(str).str.strip().str.lower() == 'true'
     if 'analyst_upside_pct' in df.columns:
         veto |= pd.to_numeric(df['analyst_upside_pct'], errors='coerce') < 0
-    veto |= puede_doblar(df)[1]
+    if 'bpa_sobre_tendencia_pct' in df.columns:
+        veto |= pd.to_numeric(df['bpa_sobre_tendencia_pct'], errors='coerce') > BENEFICIO_DE_PICO
     return veto
 
 

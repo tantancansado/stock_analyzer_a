@@ -315,6 +315,17 @@ def test_con_el_beneficio_de_pico_se_veta():
     assert not _nota(_dobla('PICO', tendencia=80.0)).loc['PICO', 'value_dobla']
 
 
+def test_el_pico_se_veta_tambien_sin_poder_doblar():
+    """10-nov-2026: PGR en PRIORIDAD con el BPA un 98 % sobre su tendencia y +73 % de
+    recorrido. Medido en toda la puerta: -6,9 y -11,9 a 12 meses."""
+    from value_bands import vetos_value
+    pgr = _fila('PGR', anual=15.8, z=-1.3, target_price_pe_upside_pct=73.3,
+                bpa_sobre_tendencia_pct=98.0)
+    sana = _fila('SANA', anual=15.8, z=-1.3, target_price_pe_upside_pct=73.3,
+                 bpa_sobre_tendencia_pct=-3.6)
+    assert vetos_value(pd.DataFrame([pgr, sana])).tolist() == [True, False]
+
+
 def test_sin_tendencia_del_beneficio_no_se_presume_sana():
     """CHTR no tenía tendencia y perdió -14: sin el dato, ni sube ni se veta."""
     from value_bands import vetos_value
