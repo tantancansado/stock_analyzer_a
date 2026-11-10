@@ -1,0 +1,256 @@
+{
+  "generated_at": "2026-11-10",
+  "total": 20,
+  "high_count": 4,
+  "narrative": "Esto indica que la exposici\u00f3n a esas posiciones debe revisarse y, de ser necesario, reducirse o cubrirse para limitar p\u00e9rdidas potenciales si la hip\u00f3tesis original se invalida. Adem\u00e1s, se recomienda reforzar los criterios de salida y ajustar los stop\u2011loss para mantener el margen de seguridad frente a la volatilidad del precio.",
+  "exits": [
+    {
+      "ticker": "6383.T",
+      "severity": "HIGH",
+      "entry_score": 56.7,
+      "current_score": null,
+      "signal_date": "2026-11-09",
+      "reasons": [
+        "Ya no aparece en VALUE \u2014 tesis posiblemente rota"
+      ],
+      "fundamental_score": null,
+      "ai_validation": {
+        "verdict": "FALSE_POSITIVE",
+        "confidence": 65,
+        "summary": "La se\u00f1al de salida se basa \u00fanicamente en que la acci\u00f3n ya no aparece en el screening de VALUE, probablemente porque el precio subi\u00f3 y redujo el margen de valoraci\u00f3n, no por deterioro fundamental. Daifuku es un fabricante l\u00edder de sistemas de manejo de materiales y automatizaci\u00f3n (semiconductores, log\u00edstica) con negocio hist\u00f3ricamente s\u00f3lido.",
+        "key_finding": "El motivo de salida es puramente t\u00e9cnico/valoraci\u00f3n (desaparici\u00f3n del screen VALUE), sin evidencia de ca\u00edda de beneficios, recortes de gu\u00eda o eventos negativos espec\u00edficos reportados.",
+        "summary_note": "La se\u00f1al de salida se basa \u00fanicamente en que la acci\u00f3n ya no aparece en el screening de VALUE, probablemente porque el precio subi\u00f3 y redujo el margen de valoraci\u00f3n, no por deterioro fundamental. Daifuku es un fabricante l\u00edder de sistemas de manejo de materiales y automatizaci\u00f3n (semiconductores, log\u00edstica) con negocio hist\u00f3ricamente s\u00f3lido."
+      }
+    },
+    {
+      "ticker": "PEP",
+      "severity": "HIGH",
+      "entry_score": 52.5,
+      "current_score": null,
+      "signal_date": "2026-11-09",
+      "reasons": [
+        "Ya no aparece en VALUE \u2014 tesis posiblemente rota"
+      ],
+      "fundamental_score": 57.6,
+      "ai_validation": {
+        "verdict": "FALSE_POSITIVE",
+        "confidence": 65,
+        "summary": "PEP es una empresa defensiva y estable con fundamentales s\u00f3lidos; la salida de la lista VALUE probablemente refleja una revalorizaci\u00f3n del precio (menor margen de seguridad) m\u00e1s que un deterioro real del negocio. El score fundamental de 57.6 es mediocre pero no indica ruptura de tesis grave.",
+        "key_finding": "PepsiCo mantiene crecimiento constante de ingresos y dividendos (Dividend Aristocrat) sin eventos recientes de deterioro mayor conocidos hasta el corte de entrenamiento, aunque enfrenta presiones de volumen por GLP-1 y consumidores sensibles al precio.",
+        "summary_note": "PEP es una empresa defensiva y estable con fundamentales s\u00f3lidos; la salida de la lista VALUE probablemente refleja una revalorizaci\u00f3n del precio (menor margen de seguridad) m\u00e1s que un deterioro real del negocio. El score fundamental de 57.6 es mediocre pero no indica ruptura de tesis grave."
+      }
+    },
+    {
+      "ticker": "CRH",
+      "severity": "HIGH",
+      "entry_score": 40.0,
+      "current_score": null,
+      "signal_date": "2026-11-09",
+      "reasons": [
+        "Ya no aparece en VALUE \u2014 tesis posiblemente rota"
+      ],
+      "fundamental_score": 50.2,
+      "ai_validation": {
+        "verdict": "FALSE_POSITIVE",
+        "confidence": 65,
+        "summary": "CRH es una empresa de materiales de construcci\u00f3n con fundamentales s\u00f3lidos y buen momentum de negocio (infraestructura en EE.UU.), por lo que la salida de la lista VALUE probablemente se debe a una apreciaci\u00f3n del precio que redujo el margen de upside, no a un deterioro real. El score fundamental de 50.2 es mediocre pero no indica alarma grave.",
+        "key_finding": "CRH ha mostrado crecimiento constante impulsado por gasto en infraestructura y adquisiciones estrat\u00e9gicas, sin se\u00f1ales claras de deterioro operativo reciente; la salida de VALUE es consistente con revalorizaci\u00f3n del precio tras fuerte rendimiento burs\u00e1til.",
+        "summary_note": "CRH es una empresa de materiales de construcci\u00f3n con fundamentales s\u00f3lidos y buen momentum de negocio (infraestructura en EE.UU.), por lo que la salida de la lista VALUE probablemente se debe a una apreciaci\u00f3n del precio que redujo el margen de upside, no a un deterioro real. El score fundamental de 50.2 es mediocre pero no indica alarma grave."
+      }
+    },
+    {
+      "ticker": "SYK",
+      "severity": "MEDIUM",
+      "entry_score": 0,
+      "current_score": null,
+      "signal_date": "2026-10-21",
+      "reasons": [
+        "Ya no aparece en VALUE \u2014 tesis posiblemente rota",
+        "IA: falso positivo con 72% confianza \u2014 Stryker ha mostrado crecimiento s\u00f3lido y consistente en ingresos y m\u00e1rgenes, sin se\u00f1ales de deterioro fundamental grave; la salida de la lista VALUE probablemente se debe a que el precio subi\u00f3 m\u00e1s r\u00e1pido que el valor intr\u00ednseco estimado, reduciendo el margen de seguridad. El score fundamental de 55/100 es mediocre pero no indica ruptura de tesis, solo valoraci\u00f3n menos atractiva."
+      ],
+      "fundamental_score": 55.0,
+      "ai_validation": {
+        "verdict": "FALSE_POSITIVE",
+        "confidence": 72,
+        "summary": "Stryker ha mostrado crecimiento s\u00f3lido y consistente en ingresos y m\u00e1rgenes, sin se\u00f1ales de deterioro fundamental grave; la salida de la lista VALUE probablemente se debe a que el precio subi\u00f3 m\u00e1s r\u00e1pido que el valor intr\u00ednseco estimado, reduciendo el margen de seguridad. El score fundamental de 55/100 es mediocre pero no indica ruptura de tesis, solo valoraci\u00f3n menos atractiva.",
+        "key_finding": "SYK ha mantenido crecimiento de doble d\u00edgito en ventas de instrumentos y ortopedia, con m\u00faltiples adquisiciones (Wright Medical, Vocera) que fortalecen su portafolio, sin recortes de gu\u00eda ni eventos negativos mayores reportados recientemente."
+      }
+    },
+    {
+      "ticker": "ICE",
+      "severity": "MEDIUM",
+      "entry_score": 46.4,
+      "current_score": null,
+      "signal_date": "2026-11-09",
+      "reasons": [
+        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
+      ],
+      "fundamental_score": 80.1
+    },
+    {
+      "ticker": "OXY",
+      "severity": "MEDIUM",
+      "entry_score": 0,
+      "current_score": null,
+      "signal_date": "2026-09-18",
+      "reasons": [
+        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
+      ],
+      "fundamental_score": 77.3
+    },
+    {
+      "ticker": "BLK",
+      "severity": "MEDIUM",
+      "entry_score": 0,
+      "current_score": null,
+      "signal_date": "2026-09-19",
+      "reasons": [
+        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
+      ],
+      "fundamental_score": 83.2
+    },
+    {
+      "ticker": "UNP",
+      "severity": "MEDIUM",
+      "entry_score": 0,
+      "current_score": null,
+      "signal_date": "2026-09-21",
+      "reasons": [
+        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
+      ],
+      "fundamental_score": 73.1
+    },
+    {
+      "ticker": "MCO",
+      "severity": "MEDIUM",
+      "entry_score": 0,
+      "current_score": null,
+      "signal_date": "2026-09-24",
+      "reasons": [
+        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
+      ],
+      "fundamental_score": 66.8
+    },
+    {
+      "ticker": "KO",
+      "severity": "MEDIUM",
+      "entry_score": 0,
+      "current_score": null,
+      "signal_date": "2026-10-01",
+      "reasons": [
+        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
+      ],
+      "fundamental_score": 69.5
+    },
+    {
+      "ticker": "NDAQ",
+      "severity": "MEDIUM",
+      "entry_score": 0,
+      "current_score": null,
+      "signal_date": "2026-10-09",
+      "reasons": [
+        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
+      ],
+      "fundamental_score": 82.4
+    },
+    {
+      "ticker": "CBOE",
+      "severity": "MEDIUM",
+      "entry_score": 0,
+      "current_score": null,
+      "signal_date": "2026-10-14",
+      "reasons": [
+        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
+      ],
+      "fundamental_score": 79.2
+    },
+    {
+      "ticker": "MSCI",
+      "severity": "MEDIUM",
+      "entry_score": 0,
+      "current_score": null,
+      "signal_date": "2026-10-26",
+      "reasons": [
+        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
+      ],
+      "fundamental_score": 70.9
+    },
+    {
+      "ticker": "WCN",
+      "severity": "MEDIUM",
+      "entry_score": 0,
+      "current_score": null,
+      "signal_date": "2026-10-27",
+      "reasons": [
+        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
+      ],
+      "fundamental_score": 69.1
+    },
+    {
+      "ticker": "CLPBY",
+      "severity": "MEDIUM",
+      "entry_score": 0,
+      "current_score": null,
+      "signal_date": "2026-10-28",
+      "reasons": [
+        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
+      ],
+      "fundamental_score": 64.1
+    },
+    {
+      "ticker": "THC",
+      "severity": "MEDIUM",
+      "entry_score": 0,
+      "current_score": null,
+      "signal_date": "2026-11-03",
+      "reasons": [
+        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
+      ],
+      "fundamental_score": 81.4
+    },
+    {
+      "ticker": "SPGI",
+      "severity": "MEDIUM",
+      "entry_score": 0,
+      "current_score": null,
+      "signal_date": "2026-11-04",
+      "reasons": [
+        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
+      ],
+      "fundamental_score": 70.5
+    },
+    {
+      "ticker": "INTU",
+      "severity": "LOW",
+      "entry_score": 100.0,
+      "current_score": 100.0,
+      "signal_date": "2026-11-09",
+      "reasons": [
+        "Sin insider buying activo \u2014 se\u00f1al de convicci\u00f3n perdida"
+      ],
+      "fundamental_score": 59.2
+    },
+    {
+      "ticker": "BRO",
+      "severity": "LOW",
+      "entry_score": 94.8,
+      "current_score": 95.3,
+      "signal_date": "2026-11-09",
+      "reasons": [
+        "Sin insider buying activo \u2014 se\u00f1al de convicci\u00f3n perdida"
+      ],
+      "fundamental_score": 66.2
+    },
+    {
+      "ticker": "PGR",
+      "severity": "LOW",
+      "entry_score": 88.7,
+      "current_score": 88.7,
+      "signal_date": "2026-11-09",
+      "reasons": [
+        "Sin insider buying activo \u2014 se\u00f1al de convicci\u00f3n perdida"
+      ],
+      "fundamental_score": 57.5
+    }
+  ]
+}

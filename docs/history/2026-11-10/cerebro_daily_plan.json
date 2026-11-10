@@ -1,0 +1,146 @@
+{
+  "generated_at": "2026-11-10",
+  "macro_regime": "CALM",
+  "composite_score": 7.5,
+  "sesgo": "NEUTRO",
+  "confianza": 62,
+  "situacion": "Mercado en calma aparente con se\u00f1ales defensivas emergentes (oro, defensa, curva empin\u00e1ndose) bajo la superficie antes del CPI.",
+  "narrativa": "El r\u00e9gimen CALM esconde una rotaci\u00f3n hacia activos refugio (oro, defensa, bonos largos) mientras el SKEW elevado sugiere cobertura de cola institucional. Para inversores VALUE, esto favorece mantener calidad con FCF s\u00f3lido y evitar apalancamiento direccional antes del CPI del 13-nov, que es el catalizador clave de la semana.",
+  "acciones_inmediatas": [
+    {
+      "prioridad": 1,
+      "accion": "COMPRAR",
+      "instrumento": "INTU",
+      "razon": "Mejor VALUE pick del d\u00eda con grade A y FCF 9.53%, calidad defendible en entorno de rotaci\u00f3n.",
+      "catalizador": "Score 100 y confirmaci\u00f3n de calidad fundamental",
+      "size_hint": "media (3-4%)",
+      "invalidacion": "Deterioro de m\u00e1rgenes o gu\u00eda negativa en pr\u00f3ximo earnings"
+    },
+    {
+      "prioridad": 2,
+      "accion": "VIGILAR",
+      "instrumento": "FICO",
+      "razon": "Segundo mejor score con FCF s\u00f3lido, pendiente de confirmaci\u00f3n t\u00e9cnica antes de entrada.",
+      "catalizador": "Pullback hacia soporte o confirmaci\u00f3n de momentum",
+      "size_hint": "peque\u00f1a (1-2%)",
+      "invalidacion": "Ruptura de tendencia alcista de corto plazo"
+    },
+    {
+      "prioridad": 3,
+      "accion": "COMPRAR",
+      "instrumento": "TLT",
+      "razon": "Yield 30yr en 5.26% representa zona hist\u00f3ricamente atractiva para entrada en duraci\u00f3n larga.",
+      "catalizador": "Nivel de yield extremo seg\u00fan regla cuantitativa (score 95)",
+      "size_hint": "media (3-4%)",
+      "invalidacion": "Ruptura al alza sostenida del yield 30yr por encima de 5.5%"
+    },
+    {
+      "prioridad": 4,
+      "accion": "CUBRIR",
+      "instrumento": "SPY puts cortos plazo",
+      "razon": "SKEW elevado en percentil 79.7 sugiere coste de cobertura de cola a\u00fan razonable antes del CPI.",
+      "catalizador": "CPI November el 13-nov con impacto ALTO",
+      "size_hint": "peque\u00f1a (1-2%)",
+      "invalidacion": "CPI en l\u00ednea o por debajo de expectativas sin sorpresa"
+    },
+    {
+      "prioridad": 5,
+      "accion": "ESPERAR",
+      "instrumento": "UBER",
+      "razon": "Score decente pero sector Technology ya sobrerrepresentado en picks, esperar mejor punto de entrada.",
+      "catalizador": "Correcci\u00f3n de precio o nueva validaci\u00f3n fundamental",
+      "size_hint": "peque\u00f1a (1-2%)",
+      "invalidacion": "Ruptura alcista fuerte que invalide la espera"
+    }
+  ],
+  "macro_plays": [
+    {
+      "instrument": "TLT/VGLT",
+      "direction": "LONG",
+      "thesis": "Yield 30yr en 5.26% \u2014 zona hist\u00f3ricamente atractiva para bonos largos",
+      "historical": "2018-19: TLT +18% cuando yields revertieron desde 3.25%",
+      "risk": "La Fed puede mantener tipos altos m\u00e1s tiempo \u2014 size peque\u00f1o",
+      "timeframe": "3-6 meses",
+      "score": 95,
+      "eu_alternative": {
+        "ticker": "DTLA",
+        "name": "Xtrackers US Treasuries 20yr+ UCITS ETF",
+        "exchange": "Xetra",
+        "available": "DEGIRO/IB"
+      }
+    }
+  ],
+  "macro_plays_commentary": "La entrada en TLT/VGLT con yield 30yr en 5.26% ofrece una asimetr\u00eda atractiva para carteras VALUE que buscan diversificaci\u00f3n en renta fija ante se\u00f1ales defensivas crecientes.",
+  "value_en_entorno": [
+    {
+      "ticker": "INTU",
+      "score": 100.0,
+      "sector": "Technology",
+      "fcf_yield_pct": 9.53,
+      "grade": "A"
+    },
+    {
+      "ticker": "FICO",
+      "score": 94.4,
+      "sector": "Technology",
+      "fcf_yield_pct": 6.68,
+      "grade": "B"
+    },
+    {
+      "ticker": "MKC",
+      "score": 58.8,
+      "sector": "Consumer Defensive",
+      "fcf_yield_pct": 7.13,
+      "grade": "B"
+    },
+    {
+      "ticker": "UBER",
+      "score": 57.9,
+      "sector": "Technology",
+      "fcf_yield_pct": 7.16,
+      "grade": "B"
+    }
+  ],
+  "value_en_entorno_razon": "En un r\u00e9gimen CALM con se\u00f1ales de rotaci\u00f3n defensiva (oro, defensa, curva empin\u00e1ndose), las empresas con FCF robusto y grades A/B como INTU y FICO ofrecen resiliencia ante volatilidad latente sin sacrificar calidad fundamental.",
+  "evitar": [
+    {
+      "ticker": "DXY-linked assets",
+      "razon": "D\u00f3lar fuerte en percentil 89.9 presiona a emergentes y commodities denominados en USD"
+    }
+  ],
+  "agenda_semana": [
+    {
+      "fecha": "2026-11-12",
+      "evento": "AMAT y BN earnings",
+      "impacto": "MEDIO",
+      "accion_sugerida": "Revisar exposici\u00f3n en semiconductores antes de resultados"
+    },
+    {
+      "fecha": "2026-11-13",
+      "evento": "CPI November",
+      "impacto": "ALTO",
+      "accion_sugerida": "Reducir tama\u00f1o de posiciones direccionales y mantener cobertura v\u00eda SKEW hasta conocer el dato"
+    },
+    {
+      "fecha": "2026-11-17",
+      "evento": "NVDA earnings",
+      "impacto": "ALTO",
+      "accion_sugerida": "Vigilar volatilidad impl\u00edcita pre-earnings para ajustar exposici\u00f3n tech"
+    },
+    {
+      "fecha": "2026-11-17",
+      "evento": "HD earnings",
+      "impacto": "MEDIO",
+      "accion_sugerida": "Evaluar sector consumo discrecional como proxy de salud del consumidor"
+    },
+    {
+      "fecha": "2026-11-18",
+      "evento": "TJX earnings",
+      "impacto": "MEDIO",
+      "accion_sugerida": "Confirmar tesis de resiliencia en retail value antes de posicionarse"
+    }
+  ],
+  "frase_del_dia": "El precio es lo que pagas, el valor es lo que recibes. \u2014 Warren Buffett",
+  "mensaje_telegram": "\ud83d\udcca Mercado CALM pero con rotaci\u00f3n defensiva (oro+defensa+curva). CPI 13-nov es clave \ud83c\udfaf. Top picks: INTU (A, FCF 9.5%), FICO. TLT atractivo en yield 5.26% \ud83c\udfe6. Cobertura ligera v\u00eda SKEW antes del dato. Calidad > beta esta semana \ud83d\udcaa",
+  "ai_powered": true
+}

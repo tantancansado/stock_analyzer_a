@@ -1,14 +1,14 @@
 {
-  "generated_at": "2026-11-09",
-  "total_positions": 102,
+  "generated_at": "2026-11-10",
+  "total_positions": 104,
   "risks": [
     {
       "type": "SECTOR_CONCENTRATION",
       "severity": "HIGH",
-      "message": "71% de se\u00f1ales en Unknown (72/102) \u2014 concentraci\u00f3n elevada",
+      "message": "71% de se\u00f1ales en Unknown (74/104) \u2014 concentraci\u00f3n elevada",
       "detail": {
         "sector": "Unknown",
-        "count": 72,
+        "count": 74,
         "pct": 71
       }
     },
@@ -17,32 +17,37 @@
       "severity": "LOW",
       "message": "100% en mercado US \u2014 poca diversificaci\u00f3n geogr\u00e1fica",
       "detail": {
-        "us": 102,
+        "us": 104,
         "eu": 0
       }
     }
   ],
-  "narrative": "",
+  "narrative": "1. Diversifica el portafolio incorporando se\u00f1ales de sectores y activos con menor representaci\u00f3n, como tecnolog\u00eda, salud o consumo b\u00e1sico, y asigna pesos equilibrados para reducir la exposici\u00f3n al 71\u202f% en \u201cUnknown\u201d.  \n\n2. A\u00f1ade instrumentos de mercados internacionales (Europa, Asia\u2011Pac\u00edfico, emergentes) o fondos globales para repartir la exposici\u00f3n y disminuir la concentraci\u00f3n del 100\u202f% en EE.\u202fUU.",
   "sector_breakdown": [
     {
       "sector": "Unknown",
-      "count": 72,
+      "count": 74,
       "pct": 71
     },
     {
       "sector": "Technology",
-      "count": 8,
-      "pct": 8
+      "count": 9,
+      "pct": 9
     },
     {
       "sector": "Financial Services",
-      "count": 7,
-      "pct": 7
+      "count": 6,
+      "pct": 6
     },
     {
       "sector": "Industrials",
-      "count": 6,
-      "pct": 6
+      "count": 5,
+      "pct": 5
+    },
+    {
+      "sector": "Healthcare",
+      "count": 3,
+      "pct": 3
     },
     {
       "sector": "Communication Services",
@@ -50,22 +55,17 @@
       "pct": 3
     },
     {
-      "sector": "Healthcare",
-      "count": 2,
-      "pct": 2
-    },
-    {
-      "sector": "Basic Materials",
-      "count": 2,
-      "pct": 2
-    },
-    {
       "sector": "Consumer Cyclical",
+      "count": 2,
+      "pct": 2
+    },
+    {
+      "sector": "Consumer Defensive",
       "count": 1,
       "pct": 1
     }
   ],
   "region_breakdown": {
-    "US": 102
+    "US": 104
   }
 }

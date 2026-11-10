@@ -1,69 +1,29 @@
 {
-  "generated_at": "2026-11-09",
+  "generated_at": "2026-11-10",
   "alerts": [
     {
       "type": "NEW_ENTRY",
-      "ticker": "INTU",
-      "company_name": "Intuit Inc.",
-      "sector": "Technology",
-      "score_today": 100.0,
-      "score_prev": null,
-      "delta": null,
-      "grade": "PRIORIDAD"
-    },
-    {
-      "type": "NEW_ENTRY",
-      "ticker": "BRO",
-      "company_name": "Brown & Brown, Inc.",
-      "sector": "Financial Services",
-      "score_today": 94.8,
-      "score_prev": null,
-      "delta": null,
-      "grade": "PRIORIDAD"
-    },
-    {
-      "type": "NEW_ENTRY",
-      "ticker": "BSX",
-      "company_name": "Boston Scientific Corporation",
-      "sector": "Healthcare",
-      "score_today": 94.8,
-      "score_prev": null,
-      "delta": null,
-      "grade": "PRIORIDAD"
-    },
-    {
-      "type": "NEW_ENTRY",
-      "ticker": "PGR",
-      "company_name": "The Progressive Corporation",
-      "sector": "Financial Services",
-      "score_today": 88.7,
-      "score_prev": null,
-      "delta": null,
-      "grade": "PRIORIDAD"
-    },
-    {
-      "type": "NEW_ENTRY",
-      "ticker": "UBER",
-      "company_name": "Uber Technologies, Inc.",
-      "sector": "Technology",
-      "score_today": 58.6,
+      "ticker": "MKC",
+      "company_name": "McCormick & Company, Incorporated",
+      "sector": "Consumer Defensive",
+      "score_today": 58.8,
       "score_prev": null,
       "delta": null,
       "grade": "OBSERVAR"
     },
     {
       "type": "EXITED",
-      "ticker": "7741.T",
-      "company_name": "HOYA Corporation",
-      "sector": "Healthcare",
+      "ticker": "6383.T",
+      "company_name": "Daifuku Co., Ltd.",
+      "sector": "Industrials",
       "score_today": null,
-      "score_prev": 56.2,
+      "score_prev": 56.7,
       "delta": null,
-      "grade": "🔵 DECENT"
+      "grade": "OBSERVAR"
     }
   ],
   "counts": {
-    "new_entries": 5,
+    "new_entries": 1,
     "exited": 1,
     "score_up": 0,
     "score_down": 0

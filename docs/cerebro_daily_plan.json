@@ -1,56 +1,56 @@
 {
-  "generated_at": "2026-11-09",
+  "generated_at": "2026-11-10",
   "macro_regime": "CALM",
-  "composite_score": 3.0,
-  "sesgo": "DEFENSIVO",
-  "confianza": 58,
-  "situacion": "Mercado en aparente calma superficial (composite +3.0) pero con se\u00f1ales de volatilidad en percentiles extremos (VIX p95, VVIX p94, SKEW p90) que delatan cobertura institucional masiva de riesgo de cola.",
-  "narrativa": "La divergencia entre el r\u00e9gimen 'CALM' y el posicionamiento defensivo en volatilidad (Oro, Defensa y curva de tipos en positivo) sugiere que smart money est\u00e1 comprando seguros mientras el precio a\u00fan no refleja el riesgo. Para un inversor VALUE esto implica mantener exposici\u00f3n selectiva mientras se cubre cola, evitando a\u00f1adir beta agresiva antes del CPI del 13-nov.",
+  "composite_score": 7.5,
+  "sesgo": "NEUTRO",
+  "confianza": 62,
+  "situacion": "Mercado en calma aparente con se\u00f1ales defensivas emergentes (oro, defensa, curva empin\u00e1ndose) bajo la superficie antes del CPI.",
+  "narrativa": "El r\u00e9gimen CALM esconde una rotaci\u00f3n hacia activos refugio (oro, defensa, bonos largos) mientras el SKEW elevado sugiere cobertura de cola institucional. Para inversores VALUE, esto favorece mantener calidad con FCF s\u00f3lido y evitar apalancamiento direccional antes del CPI del 13-nov, que es el catalizador clave de la semana.",
   "acciones_inmediatas": [
     {
       "prioridad": 1,
-      "accion": "CUBRIR",
-      "instrumento": "UVXY",
-      "razon": "VVIX en p94 con VIX a\u00fan comprimido anticipa spike de volatilidad inminente",
-      "catalizador": "Expansi\u00f3n de SKEW/VVIX o sorpresa en CPI del 13-nov",
-      "size_hint": "peque\u00f1a (1-2%)",
-      "invalidacion": "VVIX y SKEW retroceden por debajo de percentil 80 de forma sostenida"
+      "accion": "COMPRAR",
+      "instrumento": "INTU",
+      "razon": "Mejor VALUE pick del d\u00eda con grade A y FCF 9.53%, calidad defendible en entorno de rotaci\u00f3n.",
+      "catalizador": "Score 100 y confirmaci\u00f3n de calidad fundamental",
+      "size_hint": "media (3-4%)",
+      "invalidacion": "Deterioro de m\u00e1rgenes o gu\u00eda negativa en pr\u00f3ximo earnings"
     },
     {
       "prioridad": 2,
-      "accion": "COMPRAR",
-      "instrumento": "TLT/VGLT",
-      "razon": "Yield 30yr en 5.26% zona hist\u00f3ricamente atractiva para entrada en duraci\u00f3n larga",
-      "catalizador": "Dato de CPI de noviembre; flight-to-quality si vol escala",
-      "size_hint": "media (3-4%)",
-      "invalidacion": "Yield 30yr rompe por encima de 5.6% de forma persistente"
+      "accion": "VIGILAR",
+      "instrumento": "FICO",
+      "razon": "Segundo mejor score con FCF s\u00f3lido, pendiente de confirmaci\u00f3n t\u00e9cnica antes de entrada.",
+      "catalizador": "Pullback hacia soporte o confirmaci\u00f3n de momentum",
+      "size_hint": "peque\u00f1a (1-2%)",
+      "invalidacion": "Ruptura de tendencia alcista de corto plazo"
     },
     {
       "prioridad": 3,
       "accion": "COMPRAR",
-      "instrumento": "INTU",
-      "razon": "Mejor VALUE pick del d\u00eda, grade A con FCF 9.44%, defensivo en calidad",
-      "catalizador": "Pullback t\u00e9cnico o confirmaci\u00f3n post-CPI",
+      "instrumento": "TLT",
+      "razon": "Yield 30yr en 5.26% representa zona hist\u00f3ricamente atractiva para entrada en duraci\u00f3n larga.",
+      "catalizador": "Nivel de yield extremo seg\u00fan regla cuantitativa (score 95)",
       "size_hint": "media (3-4%)",
-      "invalidacion": "Deterioro de FCF yield o gu\u00eda negativa en pr\u00f3ximos earnings"
+      "invalidacion": "Ruptura al alza sostenida del yield 30yr por encima de 5.5%"
     },
     {
       "prioridad": 4,
-      "accion": "VIGILAR",
-      "instrumento": "NVDA",
-      "razon": "Earnings en 8 d\u00edas con alta sensibilidad de mercado y concentraci\u00f3n tecnol\u00f3gica en picks VALUE",
-      "catalizador": "Publicaci\u00f3n de resultados NVDA",
+      "accion": "CUBRIR",
+      "instrumento": "SPY puts cortos plazo",
+      "razon": "SKEW elevado en percentil 79.7 sugiere coste de cobertura de cola a\u00fan razonable antes del CPI.",
+      "catalizador": "CPI November el 13-nov con impacto ALTO",
       "size_hint": "peque\u00f1a (1-2%)",
-      "invalidacion": "N/A - solo monitoreo"
+      "invalidacion": "CPI en l\u00ednea o por debajo de expectativas sin sorpresa"
     },
     {
       "prioridad": 5,
       "accion": "ESPERAR",
-      "instrumento": "BR",
-      "razon": "Se\u00f1al CEREBRO de AVOID activa, evitar nueva exposici\u00f3n",
-      "catalizador": "Cambio en se\u00f1al CEREBRO",
+      "instrumento": "UBER",
+      "razon": "Score decente pero sector Technology ya sobrerrepresentado en picks, esperar mejor punto de entrada.",
+      "catalizador": "Correcci\u00f3n de precio o nueva validaci\u00f3n fundamental",
       "size_hint": "peque\u00f1a (1-2%)",
-      "invalidacion": "CEREBRO retira se\u00f1al AVOID"
+      "invalidacion": "Ruptura alcista fuerte que invalide la espera"
     }
   ],
   "macro_plays": [
@@ -68,107 +68,79 @@
         "exchange": "Xetra",
         "available": "DEGIRO/IB"
       }
-    },
-    {
-      "instrument": "UVXY",
-      "direction": "LONG (peque\u00f1o)",
-      "thesis": "VVIX en percentil 94% con VIX a\u00fan bajo \u2014 spike de volatilidad inminente",
-      "historical": "2018 VIXplosion: UVXY +200% en 2 d\u00edas",
-      "risk": "El tiempo trabaja en contra de VIX products \u2014 size m\u00e1ximo 1%",
-      "timeframe": "1-4 semanas",
-      "score": 65,
-      "eu_alternative": {
-        "ticker": null,
-        "name": "Sin equivalente UCITS directo (productos VIX restringidos por MiFID II)",
-        "exchange": null,
-        "available": "IB: opciones sobre VIX \u00b7 DEGIRO: no disponible"
-      }
     }
   ],
-  "macro_plays_commentary": "TLT/VGLT ofrece entrada atractiva en rendimientos de 30 a\u00f1os mientras UVXY peque\u00f1o act\u00faa como cobertura t\u00e1ctica ante el inminente repunte de volatilidad se\u00f1alado por VVIX/SKEW.",
+  "macro_plays_commentary": "La entrada en TLT/VGLT con yield 30yr en 5.26% ofrece una asimetr\u00eda atractiva para carteras VALUE que buscan diversificaci\u00f3n en renta fija ante se\u00f1ales defensivas crecientes.",
   "value_en_entorno": [
     {
       "ticker": "INTU",
       "score": 100.0,
       "sector": "Technology",
-      "fcf_yield_pct": 9.44,
+      "fcf_yield_pct": 9.53,
       "grade": "A"
     },
     {
       "ticker": "FICO",
-      "score": 95.0,
+      "score": 94.4,
       "sector": "Technology",
-      "fcf_yield_pct": 6.86,
+      "fcf_yield_pct": 6.68,
       "grade": "B"
     },
     {
-      "ticker": "SAP.DE",
-      "score": 66.4,
-      "sector": "Technology",
-      "fcf_yield_pct": 3.76,
+      "ticker": "MKC",
+      "score": 58.8,
+      "sector": "Consumer Defensive",
+      "fcf_yield_pct": 7.13,
       "grade": "B"
     },
     {
       "ticker": "UBER",
-      "score": 58.6,
+      "score": 57.9,
       "sector": "Technology",
-      "fcf_yield_pct": 7.43,
-      "grade": "B"
-    },
-    {
-      "ticker": "AMS.MC",
-      "score": 55.1,
-      "sector": "Technology",
-      "fcf_yield_pct": 5.49,
+      "fcf_yield_pct": 7.16,
       "grade": "B"
     }
   ],
-  "value_en_entorno_razon": "Los picks VALUE (INTU, FICO, SAP.DE) presentan FCF yields s\u00f3lidos y calidad defensiva dentro de tecnolog\u00eda, lo que permite capturar crecimiento con margen de seguridad mientras el mercado digiere el riesgo de cola sin exponerse a nombres altamente apalancados o c\u00edclicos.",
+  "value_en_entorno_razon": "En un r\u00e9gimen CALM con se\u00f1ales de rotaci\u00f3n defensiva (oro, defensa, curva empin\u00e1ndose), las empresas con FCF robusto y grades A/B como INTU y FICO ofrecen resiliencia ante volatilidad latente sin sacrificar calidad fundamental.",
   "evitar": [
     {
-      "ticker": "BR",
-      "razon": "Se\u00f1al CEREBRO de AVOID activa, posible deterioro fundamental o t\u00e9cnico detectado"
+      "ticker": "DXY-linked assets",
+      "razon": "D\u00f3lar fuerte en percentil 89.9 presiona a emergentes y commodities denominados en USD"
     }
   ],
   "agenda_semana": [
     {
-      "fecha": "2026-11-10",
-      "evento": "6383.T earnings",
-      "impacto": "BAJO",
-      "accion_sugerida": "Monitoreo, sin acci\u00f3n directa en cartera"
-    },
-    {
       "fecha": "2026-11-12",
       "evento": "AMAT y BN earnings",
       "impacto": "MEDIO",
-      "accion_sugerida": "Vigilar impacto en semiconductores y sector relacionado"
+      "accion_sugerida": "Revisar exposici\u00f3n en semiconductores antes de resultados"
     },
     {
       "fecha": "2026-11-13",
       "evento": "CPI November",
       "impacto": "ALTO",
-      "accion_sugerida": "Reducir nuevas posiciones direccionales antes del dato, mantener coberturas UVXY/TLT activas"
-    },
-    {
-      "fecha": "2026-11-16",
-      "evento": "TNE.AX earnings",
-      "impacto": "BAJO",
-      "accion_sugerida": "Sin acci\u00f3n relevante"
+      "accion_sugerida": "Reducir tama\u00f1o de posiciones direccionales y mantener cobertura v\u00eda SKEW hasta conocer el dato"
     },
     {
       "fecha": "2026-11-17",
       "evento": "NVDA earnings",
       "impacto": "ALTO",
-      "accion_sugerida": "Evaluar exposici\u00f3n tech antes de resultado, ajustar size si hay sobreponderaci\u00f3n"
+      "accion_sugerida": "Vigilar volatilidad impl\u00edcita pre-earnings para ajustar exposici\u00f3n tech"
     },
     {
       "fecha": "2026-11-17",
       "evento": "HD earnings",
       "impacto": "MEDIO",
-      "accion_sugerida": "Revisar exposici\u00f3n consumo discrecional"
+      "accion_sugerida": "Evaluar sector consumo discrecional como proxy de salud del consumidor"
+    },
+    {
+      "fecha": "2026-11-18",
+      "evento": "TJX earnings",
+      "impacto": "MEDIO",
+      "accion_sugerida": "Confirmar tesis de resiliencia en retail value antes de posicionarse"
     }
   ],
-  "frase_del_dia": "El mercado puede permanecer irracional m\u00e1s tiempo del que t\u00fa puedes permanecer solvente - John Maynard Keynes",
-  "mensaje_telegram": "\ud83d\udcca Calma aparente pero VIX/VVIX/SKEW en m\u00e1ximos percentiles = cobertura institucional masiva \ud83d\udee1\ufe0f CPI 13-nov clave. Plan: TLT long (yields 5.26%), UVXY peque\u00f1o hedge, INTU como VALUE top pick. Evitar BR (CEREBRO AVOID). Vigilar NVDA earnings \ud83d\udcc5",
+  "frase_del_dia": "El precio es lo que pagas, el valor es lo que recibes. \u2014 Warren Buffett",
+  "mensaje_telegram": "\ud83d\udcca Mercado CALM pero con rotaci\u00f3n defensiva (oro+defensa+curva). CPI 13-nov es clave \ud83c\udfaf. Top picks: INTU (A, FCF 9.5%), FICO. TLT atractivo en yield 5.26% \ud83c\udfe6. Cobertura ligera v\u00eda SKEW antes del dato. Calidad > beta esta semana \ud83d\udcaa",
   "ai_powered": true
 }
