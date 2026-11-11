@@ -4,9 +4,9 @@
 11-nov-2026, el mensaje de Telegram: «Intuit... Mejor esperar a ver el
 trimestre», «FICO... no hay prisa», «Brown & Brown vale para sumar en caídas» —
 las tres en Prioridad, que es lo que la app da para comprar— y cerraba con «el
-sistema acierta el 74 % a 180 días, +9 %, cifra definitiva»: señales de abril a
-noviembre con la regla anterior y Europa dentro, en un periodo en que el S&P
-subió un 14 %.
+sistema acierta el 74 % a 180 días, +9 %, cifra definitiva»: señales de abril y
+mayo con la regla anterior y Europa dentro. Solo EE. UU., 74,1 % y +11,2 %, con
+el S&P en +10,1 % en las mismas fechas.
 """
 import csv
 import json

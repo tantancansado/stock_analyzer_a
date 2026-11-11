@@ -1124,8 +1124,8 @@ class PortfolioTracker:
             },
 
             # La lista por grupos (value_bands.nota_value), desde el 7-nov-2026.
-            # Con el S&P al lado: un 74 % de aciertos y +9 % a 180 días se leía
-            # como ventaja en un año en que el índice subió un 14 %.
+            # Con el S&P al lado: un 74 % de aciertos a 180 días se leía como
+            # ventaja, y en EE. UU. era +11,2 % con el S&P en +10,1 %.
             'value_grupos': {
                 g: {h: {**win_stats(f'return_{h}', f'win_{h}', value_df[value_df['value_grupo'] == g]),
                         'contra_sp500': _alpha_stats(value_df[value_df['value_grupo'] == g],

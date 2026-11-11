@@ -233,10 +233,11 @@ def gather_facts() -> dict:
 
     # El acierto de lo que la app da HOY para comprar: el grupo Prioridad, que
     # existe desde el 7-nov-2026, y contra el S&P. Hasta el 11-nov se contaba
-    # `overall` —señales de abril a noviembre con la regla anterior y Europa
-    # dentro— y el mensaje decía «acierta el 74 % a 180 días, +9 %, cifra
-    # definitiva» de una regla que ya no se usa, en un periodo en que el S&P
-    # subió un 14 %. Sin medida suficiente, no se dice nada.
+    # `overall` —señales de abril y mayo con la regla anterior y Europa dentro—
+    # y el mensaje decía «acierta el 74 % a 180 días, +9 %, cifra definitiva»
+    # de una regla que ya no se usa. Sin Europa era igual de alto (74,1 %), pero
+    # en esas fechas el S&P subió un 10,1 % y ellas un 11,2 %: un punto. Sin
+    # medida suficiente, no se dice nada.
     prioridad = (_json(TRACKER / 'summary.json').get('value_grupos') or {}).get('PRIORIDAD') or {}
     medida = next(({'horizonte': h, 'acierto_pct': s.get('win_rate'),
                     'retorno_medio': s.get('avg_return'), 'contra_sp500': s.get('contra_sp500'),
