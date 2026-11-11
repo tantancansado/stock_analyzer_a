@@ -1,17 +1,12 @@
 {
-  "total_problemas": 2,
+  "total_problemas": 0,
   "desfases_conocidos": [
-    "⏳ ⚠️  momentum_opportunities.csv: upside analista = (objetivo − precio) / precio — 1/10 filas, peor desvío 3% (ROP)",
-    "⏳ ⚠️  momentum_opportunities.csv: upside DCF = (objetivo − precio) / precio — 1/10 filas, peor desvío 2% (ROP)"
+    "⏳ ⚠️  value_opportunities.csv: upside P/E = (objetivo − precio) / precio — 1/19 filas, peor desvío 2% (BAC)",
+    "⏳ ⚠️  value_opportunities_filtered.csv: upside P/E = (objetivo − precio) / precio — 1/19 filas, peor desvío 2% (BAC)",
+    "⏳ ⚠️  momentum_opportunities.csv: upside DCF = (objetivo − precio) / precio — 1/9 filas, peor desvío 2% (ROP)",
+    "⏳ ⚠️  momentum_opportunities.csv: distancia al máximo 52s — 1/9 filas, peor desvío 3% (TMO)"
   ],
-  "detalle": {
-    "commodities: rating contra narrativa IA": [
-      "COPX: value_rating=CARO pero ai_narrative_veredicto=OPORTUNIDAD_ESTRUCTURAL"
-    ],
-    "identidad de los tickers (¿es esta empresa?)": [
-      "KVUE: fundamental_scores dice «KVUE» y tikr dice «Kenvue Inc.» — no es la misma empresa"
-    ]
-  },
-  "tickers_value": 30,
-  "tickers_verdicts": 40
+  "detalle": {},
+  "tickers_value": 22,
+  "tickers_verdicts": 31
 }

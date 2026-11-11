@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-11-10",
-  "total_convergences": 14,
+  "generated_at": "2026-11-11",
+  "total_convergences": 12,
   "triple_or_more": 1,
   "convergences": [
     {
@@ -16,33 +16,33 @@
       "convergence_score": 89,
       "value_score": 47.9,
       "conviction_grade": "nan",
-      "analyst_upside_pct": 8.2,
-      "fcf_yield_pct": 4.65,
-      "current_price": 335.77,
-      "streak_days": 13,
+      "analyst_upside_pct": 8.0,
+      "fcf_yield_pct": 4.64,
+      "current_price": 336.34,
+      "streak_days": 14,
       "earnings_warning": false,
-      "days_to_earnings": 80.0,
-      "analysis": "La convergencia de tres estrategias (VALUE, INSIDERS y OPTIONS) durante 13 d\u00edas consecutivos indica que varios indicadores t\u00e9cnicos y fundamentales est\u00e1n alineados, lo que refuerza la se\u00f1al de un posible movimiento alcista y aumenta la confianza en la valoraci\u00f3n actual de AON. Sin embargo, es prudente vigilar la volatilidad del sector financiero, confirmar que el flujo de caja libre (4,65"
+      "days_to_earnings": 79.0,
+      "analysis": "La convergencia de las tres estrategias en 14 d\u00edas consecutivos sugiere que el precio est\u00e1 aline\u00e1ndose con un nivel de valor razonable respaldado por la actividad de insiders y una presi\u00f3n de compra de opciones, lo que aumenta la probabilidad de que el rally sea sostenible. Sin embargo, es prudente vigilar la volatilidad de las opciones y la posible presi\u00f3n de venta de insiders, ya que un repunte abrupt"
     },
     {
-      "ticker": "BSX",
-      "company_name": "Boston Scientific Corporation",
-      "sector": "Healthcare",
+      "ticker": "INTU",
+      "company_name": "Intuit Inc.",
+      "sector": "Technology",
       "strategies": [
         "VALUE",
-        "INSIDERS"
+        "OPTIONS"
       ],
       "strategy_count": 2,
-      "convergence_score": 68,
-      "value_score": 94.3,
-      "conviction_grade": "C",
-      "analyst_upside_pct": 12.7,
-      "fcf_yield_pct": 4.86,
-      "current_price": 44.02,
-      "streak_days": 2,
+      "convergence_score": 70,
+      "value_score": 100.0,
+      "conviction_grade": "A",
+      "analyst_upside_pct": 19.8,
+      "fcf_yield_pct": 9.47,
+      "current_price": 340.44,
+      "streak_days": 3,
       "earnings_warning": false,
-      "days_to_earnings": 92.0,
-      "analysis": "La coincidencia de la se\u00f1al **VALUE** (score\u202f94.3, upside\u202f12.7\u202f%) con la estrategia **INSIDERS** en dos d\u00edas consecutivos sugiere que tanto los fundamentos de la empresa como la actividad de los insiders respaldan una posible revaloraci\u00f3n del precio, lo que refuerza la confianza en el movimiento alcista. Sin embargo, hay que vigilar la volatilidad del sector salud, el nivel"
+      "days_to_earnings": 8.0,
+      "analysis": "La convergencia de las estrategias VALUE y OPTIONS en tres d\u00edas consecutivos indica que"
     },
     {
       "ticker": "FICO",
@@ -54,35 +54,15 @@
       ],
       "strategy_count": 2,
       "convergence_score": 68,
-      "value_score": 94.4,
+      "value_score": 94.3,
       "conviction_grade": "B",
-      "analyst_upside_pct": 13.5,
-      "fcf_yield_pct": 6.68,
-      "current_price": 723.76,
-      "streak_days": 1,
+      "analyst_upside_pct": 12.5,
+      "fcf_yield_pct": 6.62,
+      "current_price": 730.66,
+      "streak_days": 2,
       "earnings_warning": false,
-      "days_to_earnings": 78.0,
-      "analysis": "La convergencia entre la estrategia VALUE ("
-    },
-    {
-      "ticker": "MKC",
-      "company_name": "McCormick & Company, Incorporated",
-      "sector": "Consumer Defensive",
-      "strategies": [
-        "VALUE",
-        "INSIDERS"
-      ],
-      "strategy_count": 2,
-      "convergence_score": 61,
-      "value_score": 58.8,
-      "conviction_grade": "B",
-      "analyst_upside_pct": 13.7,
-      "fcf_yield_pct": 7.13,
-      "current_price": 47.88,
-      "streak_days": 1,
-      "earnings_warning": false,
-      "days_to_earnings": 72.0,
-      "analysis": null
+      "days_to_earnings": 77.0,
+      "analysis": "La convergencia de las se\u00f1ales VALUE e INSIDERS en dos d\u00edas consecutivos sugiere que tanto el an\u00e1lisis fundamental (valor intr\u00ednseco) como la actividad de los insiders est\u00e1n alineados, lo que suele indicar una oportunidad de compra s\u00f3lida y un consenso interno sobre el potencial de la acci\u00f3n. Sin embargo, es prudente vigilar que el impulso de insiders no sea solo una venta de posiciones de riesgo, y confirmar que la valoraci\u00f3n no est\u00e9 sobreestimada frente a la media del sector, especialmente en un"
     },
     {
       "ticker": "VRSN",
@@ -99,27 +79,7 @@
       "analyst_upside_pct": null,
       "fcf_yield_pct": null,
       "current_price": null,
-      "streak_days": 51,
-      "earnings_warning": false,
-      "days_to_earnings": null,
-      "analysis": null
-    },
-    {
-      "ticker": "MSCI",
-      "company_name": "",
-      "sector": "",
-      "strategies": [
-        "INSIDERS",
-        "OPTIONS"
-      ],
-      "strategy_count": 2,
-      "convergence_score": 60,
-      "value_score": null,
-      "conviction_grade": "",
-      "analyst_upside_pct": null,
-      "fcf_yield_pct": null,
-      "current_price": null,
-      "streak_days": 16,
+      "streak_days": 52,
       "earnings_warning": false,
       "days_to_earnings": null,
       "analysis": null
@@ -139,29 +99,9 @@
       "analyst_upside_pct": null,
       "fcf_yield_pct": null,
       "current_price": null,
-      "streak_days": 12,
+      "streak_days": 13,
       "earnings_warning": false,
       "days_to_earnings": null,
-      "analysis": null
-    },
-    {
-      "ticker": "INTU",
-      "company_name": "Intuit Inc.",
-      "sector": "Technology",
-      "strategies": [
-        "VALUE",
-        "OPTIONS"
-      ],
-      "strategy_count": 2,
-      "convergence_score": 60,
-      "value_score": 100.0,
-      "conviction_grade": "A",
-      "analyst_upside_pct": 20.6,
-      "fcf_yield_pct": 9.53,
-      "current_price": 338.23,
-      "streak_days": 2,
-      "earnings_warning": false,
-      "days_to_earnings": 9.0,
       "analysis": null
     },
     {
@@ -174,14 +114,14 @@
       ],
       "strategy_count": 2,
       "convergence_score": 58,
-      "value_score": 41.0,
+      "value_score": 41.7,
       "conviction_grade": "B",
-      "analyst_upside_pct": 16.7,
-      "fcf_yield_pct": 1.97,
-      "current_price": 545.18,
-      "streak_days": 37,
+      "analyst_upside_pct": 19.3,
+      "fcf_yield_pct": 2.02,
+      "current_price": 533.16,
+      "streak_days": 38,
       "earnings_warning": false,
-      "days_to_earnings": 78.0,
+      "days_to_earnings": 77.0,
       "analysis": null
     },
     {
@@ -199,7 +139,47 @@
       "analyst_upside_pct": null,
       "fcf_yield_pct": null,
       "current_price": null,
-      "streak_days": 11,
+      "streak_days": 12,
+      "earnings_warning": false,
+      "days_to_earnings": null,
+      "analysis": null
+    },
+    {
+      "ticker": "ROP",
+      "company_name": "",
+      "sector": "",
+      "strategies": [
+        "OPTIONS",
+        "MOMENTUM"
+      ],
+      "strategy_count": 2,
+      "convergence_score": 50,
+      "value_score": null,
+      "conviction_grade": "",
+      "analyst_upside_pct": null,
+      "fcf_yield_pct": null,
+      "current_price": null,
+      "streak_days": 3,
+      "earnings_warning": false,
+      "days_to_earnings": null,
+      "analysis": null
+    },
+    {
+      "ticker": "CTAS",
+      "company_name": "",
+      "sector": "",
+      "strategies": [
+        "OPTIONS",
+        "MOMENTUM"
+      ],
+      "strategy_count": 2,
+      "convergence_score": 50,
+      "value_score": null,
+      "conviction_grade": "",
+      "analyst_upside_pct": null,
+      "fcf_yield_pct": null,
+      "current_price": null,
+      "streak_days": 3,
       "earnings_warning": false,
       "days_to_earnings": null,
       "analysis": null
@@ -219,7 +199,7 @@
       "analyst_upside_pct": null,
       "fcf_yield_pct": null,
       "current_price": null,
-      "streak_days": 1,
+      "streak_days": 2,
       "earnings_warning": false,
       "days_to_earnings": null,
       "analysis": null
@@ -234,54 +214,34 @@
       ],
       "strategy_count": 2,
       "convergence_score": 50,
-      "value_score": 53.2,
+      "value_score": 53.1,
       "conviction_grade": "nan",
-      "analyst_upside_pct": 8.8,
-      "fcf_yield_pct": 5.9,
-      "current_price": 192.34,
+      "analyst_upside_pct": 8.4,
+      "fcf_yield_pct": 5.88,
+      "current_price": 192.96,
+      "streak_days": 2,
+      "earnings_warning": false,
+      "days_to_earnings": 83.0,
+      "analysis": null
+    },
+    {
+      "ticker": "VRSK",
+      "company_name": "Verisk Analytics, Inc.",
+      "sector": "Industrials",
+      "strategies": [
+        "VALUE",
+        "OPTIONS"
+      ],
+      "strategy_count": 2,
+      "convergence_score": 49,
+      "value_score": 49.2,
+      "conviction_grade": "C",
+      "analyst_upside_pct": 15.2,
+      "fcf_yield_pct": 4.29,
+      "current_price": 204.02,
       "streak_days": 1,
       "earnings_warning": false,
-      "days_to_earnings": 84.0,
-      "analysis": null
-    },
-    {
-      "ticker": "ROP",
-      "company_name": "",
-      "sector": "",
-      "strategies": [
-        "OPTIONS",
-        "MOMENTUM"
-      ],
-      "strategy_count": 2,
-      "convergence_score": 40,
-      "value_score": null,
-      "conviction_grade": "",
-      "analyst_upside_pct": null,
-      "fcf_yield_pct": null,
-      "current_price": null,
-      "streak_days": 2,
-      "earnings_warning": false,
-      "days_to_earnings": null,
-      "analysis": null
-    },
-    {
-      "ticker": "CTAS",
-      "company_name": "",
-      "sector": "",
-      "strategies": [
-        "OPTIONS",
-        "MOMENTUM"
-      ],
-      "strategy_count": 2,
-      "convergence_score": 40,
-      "value_score": null,
-      "conviction_grade": "",
-      "analyst_upside_pct": null,
-      "fcf_yield_pct": null,
-      "current_price": null,
-      "streak_days": 2,
-      "earnings_warning": false,
-      "days_to_earnings": null,
+      "days_to_earnings": 98.0,
       "analysis": null
     }
   ]

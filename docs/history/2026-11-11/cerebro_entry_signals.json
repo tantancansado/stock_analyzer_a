@@ -1,0 +1,120 @@
+{
+  "generated_at": "2026-11-11",
+  "total": 2,
+  "strong_buy": 0,
+  "buy": 1,
+  "monitor": 1,
+  "wait": 0,
+  "narrative": "",
+  "signals": [
+    {
+      "ticker": "FICO",
+      "company_name": "Fair Isaac Corporation",
+      "region": "US",
+      "sector": "Technology",
+      "value_score": 94.3,
+      "conviction_grade": "B",
+      "current_price": 730.66,
+      "analyst_upside_pct": 12.5,
+      "fcf_yield_pct": 6.62,
+      "risk_reward_ratio": 1.56,
+      "days_in_value": 3,
+      "streak_days": 2,
+      "entry_score": 65,
+      "signal": "BUY",
+      "signals_fired": [
+        "Value score \u226580",
+        "FCF yield \u22655%",
+        "Upside en banda dorada [10,30)",
+        "Insider buying",
+        "Analyst revision \u2191",
+        "En VALUE \u22653 d\u00edas"
+      ],
+      "signals_pts": [
+        {
+          "name": "Value score \u226580",
+          "pts": 10
+        },
+        {
+          "name": "FCF yield \u22655%",
+          "pts": 10
+        },
+        {
+          "name": "Upside en banda dorada [10,30)",
+          "pts": 10
+        },
+        {
+          "name": "Insider buying",
+          "pts": 25
+        },
+        {
+          "name": "Analyst revision \u2191",
+          "pts": 5
+        },
+        {
+          "name": "En VALUE \u22653 d\u00edas",
+          "pts": 10
+        }
+      ],
+      "signals_missing": [
+        "Sin se\u00f1al MR oversold",
+        "Sin opciones alcistas",
+        "Sector no l\u00edder",
+        "R\u00e9gimen no alcista"
+      ],
+      "rsi": null,
+      "earnings_warning": false,
+      "days_to_earnings": 77
+    },
+    {
+      "ticker": "INTU",
+      "company_name": "Intuit Inc.",
+      "region": "US",
+      "sector": "Technology",
+      "value_score": 100.0,
+      "conviction_grade": "A",
+      "current_price": 340.44,
+      "analyst_upside_pct": 19.8,
+      "fcf_yield_pct": 9.47,
+      "risk_reward_ratio": 2.48,
+      "days_in_value": 3,
+      "streak_days": 3,
+      "entry_score": 40,
+      "signal": "MONITOR",
+      "signals_fired": [
+        "Value score \u226580",
+        "FCF yield \u22655%",
+        "Upside en banda dorada [10,30)",
+        "En VALUE \u22653 d\u00edas"
+      ],
+      "signals_pts": [
+        {
+          "name": "Value score \u226580",
+          "pts": 10
+        },
+        {
+          "name": "FCF yield \u22655%",
+          "pts": 10
+        },
+        {
+          "name": "Upside en banda dorada [10,30)",
+          "pts": 10
+        },
+        {
+          "name": "En VALUE \u22653 d\u00edas",
+          "pts": 10
+        }
+      ],
+      "signals_missing": [
+        "Sin insider buying (espera)",
+        "Sin se\u00f1al MR oversold",
+        "Sin opciones alcistas",
+        "Sector no l\u00edder",
+        "R\u00e9gimen no alcista"
+      ],
+      "rsi": null,
+      "earnings_warning": false,
+      "days_to_earnings": 8
+    }
+  ]
+}

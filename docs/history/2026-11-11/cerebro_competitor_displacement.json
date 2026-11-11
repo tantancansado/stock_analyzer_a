@@ -1,0 +1,58 @@
+{
+  "generated_at": "2026-11-11",
+  "total": 4,
+  "dropped_count": 2,
+  "narrative": "",
+  "displacements": [
+    {
+      "type": "COMPETITOR_RISE",
+      "dropped_ticker": "PGR",
+      "sector": "Financial Services",
+      "prev_score": 88.7,
+      "replacements": [
+        "BRO"
+      ],
+      "top_replacement": "BRO",
+      "top_replacement_score": 94.9,
+      "detail": "PGR sali\u00f3 de VALUE (89pts); peers en Financial Services: BRO"
+    },
+    {
+      "type": "COMPETITOR_RISE",
+      "dropped_ticker": "BSX",
+      "sector": "Healthcare",
+      "prev_score": 94.3,
+      "replacements": [
+        "RMD",
+        "ESLOY"
+      ],
+      "top_replacement": "RMD",
+      "top_replacement_score": 52.5,
+      "detail": "BSX sali\u00f3 de VALUE (94pts); peers en Healthcare: RMD, ESLOY"
+    },
+    {
+      "type": "SECTOR_TAILWIND",
+      "sector": "Technology",
+      "rotation_score": 100.0,
+      "beneficiaries": [
+        "INTU",
+        "FICO",
+        "UBER"
+      ],
+      "top_ticker": "INTU",
+      "top_score": 100.0,
+      "detail": "Sector Technology l\u00edder (RS 100) \u2014 INTU, FICO, UBER son los picks VALUE"
+    },
+    {
+      "type": "SECTOR_TAILWIND",
+      "sector": "Healthcare",
+      "rotation_score": 100.0,
+      "beneficiaries": [
+        "RMD",
+        "ESLOY"
+      ],
+      "top_ticker": "RMD",
+      "top_score": 52.5,
+      "detail": "Sector Healthcare l\u00edder (RS 100) \u2014 RMD, ESLOY son los picks VALUE"
+    }
+  ]
+}

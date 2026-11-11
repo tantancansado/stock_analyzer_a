@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-11-10",
-  "total": 10,
+  "generated_at": "2026-11-11",
+  "total": 9,
   "tier1": 1,
   "tier2": 0,
-  "tier3": 9,
-  "narrative": "Esta confluencia indica que los fondos de cobertura (HF) y los inversores internos est\u00e1n alineados en sus posiciones, lo que sugiere una mayor confianza del \u201csmart money\u201d en esas acciones. Cuando varios HF apuntan a valor (VALUE) y pocos insiders muestran fuerza, la se\u00f1al se interpreta como una oportunidad de inversi\u00f3n respaldada por an\u00e1lisis profundo y flujos de capital informados.",
+  "tier3": 8,
+  "narrative": "La convergencia de capital inteligente indica que los operadores de alta frecuencia y los insiders est\u00e1n alineando sus posiciones, lo que sugiere una fuerte confianza en el futuro de esas acciones. Este patr\u00f3n suele presagiar movimientos de precios sostenidos",
   "signals": [
     {
       "ticker": "VRSN",
@@ -26,7 +26,7 @@
       "ticker": "GOOG",
       "company_name": "Alphabet Inc.",
       "sector": "Communication Services",
-      "value_score": 43.0,
+      "value_score": 43.1,
       "tier": 3,
       "tier_label": "HF+Value",
       "n_hedge_funds": 2,
@@ -43,7 +43,7 @@
       "ticker": "UBER",
       "company_name": "Uber Technologies, Inc.",
       "sector": "Technology",
-      "value_score": 57.9,
+      "value_score": 58.2,
       "tier": 3,
       "tier_label": "HF+Value",
       "n_hedge_funds": 1,
@@ -56,31 +56,31 @@
       "in_value": true
     },
     {
-      "ticker": "NYT",
-      "company_name": "The New York Times Company",
-      "sector": "Communication Services",
-      "value_score": 48.4,
-      "tier": 3,
-      "tier_label": "HF+Value",
-      "n_hedge_funds": 1,
-      "hedge_funds": [
-        "Berkshire Hathaway (Buffett)"
-      ],
-      "n_insiders": 0,
-      "insider_purchases": 0,
-      "convergence_score": 30,
-      "in_value": true
-    },
-    {
       "ticker": "FCNCA",
       "company_name": "First Citizens BancShares, Inc.",
       "sector": "Financial Services",
-      "value_score": 46.1,
+      "value_score": 46.0,
       "tier": 3,
       "tier_label": "HF+Value",
       "n_hedge_funds": 1,
       "hedge_funds": [
         "Appaloosa (Tepper)"
+      ],
+      "n_insiders": 0,
+      "insider_purchases": 0,
+      "convergence_score": 29,
+      "in_value": true
+    },
+    {
+      "ticker": "NYT",
+      "company_name": "The New York Times Company",
+      "sector": "Communication Services",
+      "value_score": 48.3,
+      "tier": 3,
+      "tier_label": "HF+Value",
+      "n_hedge_funds": 1,
+      "hedge_funds": [
+        "Berkshire Hathaway (Buffett)"
       ],
       "n_insiders": 0,
       "insider_purchases": 0,
@@ -104,10 +104,10 @@
       "in_value": true
     },
     {
-      "ticker": "AMZN",
-      "company_name": "Amazon.com, Inc.",
-      "sector": "Consumer Cyclical",
-      "value_score": 40.0,
+      "ticker": "MSFT",
+      "company_name": "Microsoft Corporation",
+      "sector": "Technology",
+      "value_score": 41.7,
       "tier": 3,
       "tier_label": "HF+Value",
       "n_hedge_funds": 1,
@@ -116,14 +116,14 @@
       ],
       "n_insiders": 0,
       "insider_purchases": 0,
-      "convergence_score": 27,
+      "convergence_score": 28,
       "in_value": true
     },
     {
       "ticker": "BAC",
       "company_name": "Bank of America Corporation",
       "sector": "Financial Services",
-      "value_score": 40.2,
+      "value_score": 40.1,
       "tier": 3,
       "tier_label": "HF+Value",
       "n_hedge_funds": 1,
@@ -136,26 +136,10 @@
       "in_value": true
     },
     {
-      "ticker": "MSFT",
-      "company_name": "Microsoft Corporation",
-      "sector": "Technology",
-      "value_score": 41.0,
-      "tier": 3,
-      "tier_label": "HF+Value",
-      "n_hedge_funds": 1,
-      "hedge_funds": [
-        "Pershing Square (Ackman)"
-      ],
-      "n_insiders": 0,
-      "insider_purchases": 0,
-      "convergence_score": 27,
-      "in_value": true
-    },
-    {
       "ticker": "COF",
       "company_name": "Capital One Financial Corporation",
       "sector": "Financial Services",
-      "value_score": 40.5,
+      "value_score": 40.7,
       "tier": 3,
       "tier_label": "HF+Value",
       "n_hedge_funds": 1,

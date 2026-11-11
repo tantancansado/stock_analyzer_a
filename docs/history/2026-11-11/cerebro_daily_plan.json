@@ -1,0 +1,143 @@
+{
+  "generated_at": "2026-11-11",
+  "macro_regime": "CALM",
+  "composite_score": 8.0,
+  "sesgo": "NEUTRO",
+  "confianza": 62,
+  "situacion": "Mercado en r\u00e9gimen CALM con sesgo defensivo latente: oro, defensa y curva 2s10s liderando mientras el SKEW elevado y el DXY en percentil 98.6 anticipan nerviosismo bajo la superficie.",
+  "narrativa": "La calma superficial convive con se\u00f1ales de cobertura de riesgo de cola (SKEW alto) y un d\u00f3lar extremadamente fuerte que presiona a small caps y emergentes. Para un inversor VALUE esto favorece calidad con FCF s\u00f3lido y baja apalancamiento, evitando ciclos sensibles a d\u00f3lar fuerte antes del CPI del jueves.",
+  "acciones_inmediatas": [
+    {
+      "prioridad": 1,
+      "accion": "COMPRAR",
+      "instrumento": "INTU",
+      "razon": "M\u00e1xima puntuaci\u00f3n VALUE con FCF yield 9.47% y grado A en sector tecnol\u00f3gico de calidad",
+      "catalizador": "Resultados pr\u00f3ximos y confirmaci\u00f3n de tendencia tras CPI",
+      "size_hint": "media (3-4%)",
+      "invalidacion": "Deterioro de m\u00e1rgenes o gu\u00eda d\u00e9bil en pr\u00f3ximos earnings"
+    },
+    {
+      "prioridad": 2,
+      "accion": "VENDER",
+      "instrumento": "CRH",
+      "razon": "Se\u00f1al EXIT del cerebro cuantitativo indicando p\u00e9rdida de momentum fundamental",
+      "catalizador": "Confirmaci\u00f3n de ruptura de soporte t\u00e9cnico",
+      "size_hint": "peque\u00f1a (1-2%)",
+      "invalidacion": "Recuperaci\u00f3n de volumen y reversi\u00f3n de tendencia"
+    },
+    {
+      "prioridad": 3,
+      "accion": "VENDER",
+      "instrumento": "PEP",
+      "razon": "Se\u00f1al EXIT por debilitamiento de tesis value, posible rotaci\u00f3n sectorial",
+      "catalizador": "Datos de CPI del 13-nov afectando consumo defensivo",
+      "size_hint": "peque\u00f1a (1-2%)",
+      "invalidacion": "Sorpresa positiva en m\u00e1rgenes o guidance"
+    },
+    {
+      "prioridad": 4,
+      "accion": "COMPRAR",
+      "instrumento": "TLT",
+      "razon": "Yield 30yr en 5.35% representa zona hist\u00f3ricamente atractiva para bonos largos",
+      "catalizador": "Dato de CPI del 13-nov, si confirma desinflaci\u00f3n favorece duraci\u00f3n",
+      "size_hint": "media (3-4%)",
+      "invalidacion": "CPI sorprende al alza de forma persistente"
+    },
+    {
+      "prioridad": 5,
+      "accion": "VIGILAR",
+      "instrumento": "SKEW Index",
+      "razon": "Percentil 82.6 sugiere acumulaci\u00f3n de cobertura de riesgo de cola pese a calma aparente",
+      "catalizador": "Cualquier shock geopol\u00edtico o sorpresa en CPI",
+      "size_hint": "peque\u00f1a (1-2%)",
+      "invalidacion": "Normalizaci\u00f3n del \u00edndice por debajo del percentil 70"
+    }
+  ],
+  "macro_plays": [
+    {
+      "instrument": "TLT/VGLT",
+      "direction": "LONG",
+      "thesis": "Yield 30yr en 5.35% \u2014 zona hist\u00f3ricamente atractiva para bonos largos",
+      "historical": "2018-19: TLT +18% cuando yields revertieron desde 3.25%",
+      "risk": "La Fed puede mantener tipos altos m\u00e1s tiempo \u2014 size peque\u00f1o",
+      "timeframe": "3-6 meses",
+      "score": 95,
+      "eu_alternative": {
+        "ticker": "DTLA",
+        "name": "Xtrackers US Treasuries 20yr+ UCITS ETF",
+        "exchange": "Xetra",
+        "available": "DEGIRO/IB"
+      }
+    }
+  ],
+  "macro_plays_commentary": "La oportunidad en TLT/VGLT destaca como la operaci\u00f3n macro m\u00e1s clara del d\u00eda dado el nivel hist\u00f3rico atractivo del yield a 30 a\u00f1os antes del CPI.",
+  "value_en_entorno": [
+    {
+      "ticker": "INTU",
+      "score": 100.0,
+      "sector": "Technology",
+      "fcf_yield_pct": 9.47,
+      "grade": "A"
+    },
+    {
+      "ticker": "FICO",
+      "score": 94.3,
+      "sector": "Technology",
+      "fcf_yield_pct": 6.62,
+      "grade": "B"
+    },
+    {
+      "ticker": "UBER",
+      "score": 58.2,
+      "sector": "Technology",
+      "fcf_yield_pct": 7.27,
+      "grade": "B"
+    }
+  ],
+  "value_en_entorno_razon": "En un r\u00e9gimen CALM con d\u00f3lar fuerte y riesgo de cola latente, los picks VALUE con alto FCF yield y balance s\u00f3lido (INTU, FICO) ofrecen resiliencia frente a shocks macro sin sacrificar calidad.",
+  "evitar": [
+    {
+      "ticker": "CRH",
+      "razon": "Se\u00f1al EXIT activa por deterioro de tesis fundamental"
+    },
+    {
+      "ticker": "PEP",
+      "razon": "Se\u00f1al EXIT activa, posible p\u00e9rdida de ventaja competitiva en entorno de d\u00f3lar fuerte"
+    }
+  ],
+  "agenda_semana": [
+    {
+      "fecha": "2026-11-12",
+      "evento": "AMAT y BN earnings",
+      "impacto": "MEDIO",
+      "accion_sugerida": "Revisar exposici\u00f3n a semiconductores antes de apertura"
+    },
+    {
+      "fecha": "2026-11-13",
+      "evento": "CPI November",
+      "impacto": "ALTO",
+      "accion_sugerida": "Reducir tama\u00f1o de posiciones direccionales antes del dato y preparar cobertura con TLT"
+    },
+    {
+      "fecha": "2026-11-16",
+      "evento": "TNE.AX earnings",
+      "impacto": "BAJO",
+      "accion_sugerida": "Monitorear sin acci\u00f3n inmediata"
+    },
+    {
+      "fecha": "2026-11-17",
+      "evento": "NVDA y HD earnings",
+      "impacto": "ALTO",
+      "accion_sugerida": "Evaluar volatilidad impl\u00edcita y ajustar exposici\u00f3n tech/consumo antes del reporte"
+    },
+    {
+      "fecha": "2026-11-18",
+      "evento": "TJX earnings",
+      "impacto": "MEDIO",
+      "accion_sugerida": "Vigilar comentarios sobre consumo ante d\u00f3lar fuerte"
+    }
+  ],
+  "frase_del_dia": "El mercado puede permanecer irracional m\u00e1s tiempo del que t\u00fa puedes permanecer solvente, pero la calidad y el flujo de caja siempre terminan imponi\u00e9ndose. \u2013 Warren Buffett",
+  "mensaje_telegram": "\ud83d\udcca Mercado CALM pero SKEW alto y DXY en m\u00e1ximos. \ud83d\udfe2 COMPRAR INTU (FCF 9.47%) y TLT (yield 5.35%). \ud83d\udd34 VENDER CRH y PEP (EXIT). \ud83d\udcc5 CPI jueves clave, reducir riesgo direccional. Oro y defensa lideran \ud83d\udee1\ufe0f",
+  "ai_powered": true
+}

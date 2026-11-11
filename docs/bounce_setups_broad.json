@@ -1,9 +1,9 @@
 {
-  "scan_date": "2026-11-10",
-  "generated_at": "2026-11-10T08:19:32Z",
+  "scan_date": "2026-11-11",
+  "generated_at": "2026-11-11T07:09:34Z",
   "universe_size": 395,
   "universe": "S&P 500 minus curated T1-T4",
-  "count": 1,
+  "count": 0,
   "criteria": {
     "rsi2_max": 15.0,
     "rsi14_max": 40.0,
@@ -27,34 +27,5 @@
     "rr": "informativo, no filtra \u2014 decide la esperanza simulada",
     "horizon": "1-5 d\u00edas (nominal; ver esperanza_dias_mediana)"
   },
-  "setups": [
-    {
-      "ticker": "TRGP",
-      "price": 273.63,
-      "target": 315.39,
-      "stop": 252.75,
-      "target_pct": 15.26,
-      "stop_pct": -7.63,
-      "stop_atr_mult": 2.0,
-      "resistencia_20d": 316.6,
-      "rr": 2.0,
-      "rsi2": 3.9,
-      "rsi14": 34.9,
-      "atr_pct": 3.81,
-      "vol_ratio": 1.46,
-      "dist_support": -0.94,
-      "drawdown_20d": -13.57,
-      "sma20_distance": -6.42,
-      "above_sma200": true,
-      "horizon_days": "1-5",
-      "setup_type": "BOUNCE_OVERSOLD",
-      "esperanza_pct": 3.18,
-      "esperanza_n": 12,
-      "esperanza_aciertos": 5,
-      "esperanza_stops": 5,
-      "esperanza_dias_mediana": 17,
-      "esperanza_muestra_ok": true,
-      "esperanza_frase": "en los 12 episodios iguales, el objetivo (+15.3%) lleg\u00f3 antes que el stop (-7.6%) 5 veces y el stop salt\u00f3 primero 5, y cuando lleg\u00f3 tard\u00f3 17 sesiones de mediana. Esperanza +3.18% por operaci\u00f3n."
-    }
-  ]
+  "setups": []
 }
