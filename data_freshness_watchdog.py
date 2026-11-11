@@ -328,7 +328,31 @@ def find_problems() -> tuple[list[dict], bool]:
     # 5. El estudio de por qué ha caído cada una, que es lo que decide si se compra.
     problems.extend(_estudio_de_noticias())
 
+    # 6. El revisor que lee lo publicado. Si falla, abre él mismo una incidencia;
+    #    esto cubre lo que no puede contar: que ni siquiera haya corrido.
+    problems.extend(_revisor_nocturno())
+
     return problems, health_stale
+
+
+# Tres noches sin informe ya no es una noche rara: el paso no está corriendo.
+REVISOR_MAX_DIAS = 3
+
+
+def _revisor_nocturno() -> list[dict]:
+    try:
+        datos = json.loads((DOCS / 'revisor.json').read_text())
+        fecha = datetime.fromisoformat(str(datos['fecha'])).date()
+    except Exception:
+        datos, fecha = None, None
+    if fecha is None:
+        return [{"module": "revisor", "status": "sin_informe", "critical": False,
+                 "detail": "el revisor nocturno no ha dejado informe (docs/revisor.json)"}]
+    dias = (_now().date() - fecha).days
+    if dias >= REVISOR_MAX_DIAS:
+        return [{"module": "revisor", "status": "parado", "critical": True,
+                 "detail": f"el revisor nocturno lleva {dias} días sin correr"}]
+    return []
 
 
 # Varias búsquedas vacías el mismo día ya no hablan de las empresas, hablan de la

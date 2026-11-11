@@ -17,6 +17,8 @@ sector_rotation → bandas_per → super_score_integrator → ai_quality_filter
 → entry_exit → thesis_generator → super_dashboard_generator → portfolio_tracker → ticker_data_cache
 ```
 
+**Revisor nocturno (`revisor_nocturno.py`, 11-nov-2026)**: tras el briefing lee lo publicado (lista de Value US, cambios desde ayer, ventas de lo que fue Prioridad, briefing) y abre una incidencia de GitHub con la etiqueta `revisor` por lo que no cuadra: datos que van y vuelven (sin IA) y lo que Claude ve al leerlo, con la cita literal del dato o se descarta. No toca la lista ni manda Telegram. El usuario no quiere intervenir: **al empezar una sesión en este repo, mirar `gh issue list --label revisor` y arreglar lo que haya** sin esperar a que pregunte. Lo que no sea un problema se cierra como «not planned» y no vuelve a abrirse; lo cerrado como arreglado sí, si reaparece. Lee solo `docs/` (repo público): su paso no tiene las claves de Supabase
+
 ## Reglas críticas de código
 
 ### Python (backend)
