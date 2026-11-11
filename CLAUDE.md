@@ -133,6 +133,7 @@ sector_rotation → bandas_per → super_score_integrator → ai_quality_filter
   enseñando ya** (patrón de iOS). Lo detecta sola buscando un encabezado
   visible en `main`: no hay lista que mantener, pero un título que se pinte
   tras cargar necesita que el `MutationObserver` de `TopBar` lo vea
+- **Prueba de humo de la web** (`tests/e2e/test_humo_web.py`, workflow `e2e.yml`, 11-nov-2026): cada ruta de `lib/prefetch.ts`, en un móvil de 390px, en los dos temas, con Railway y Supabase cortados y los datos de `docs/` del commit. Falla con una excepción, un «NaN»/«undefined» pintado, más de un `<h1>` o ancho de más. Corre tras cada cálculo diario y cada cambio de `docs/app`, y si falla abre una incidencia del revisor. En local: `~/.cache/sa-tools-venv/bin/python -m pytest tests/e2e`
 - **Precarga de rutas**: `lib/prefetch.ts` mapea cada ruta del menú a su
   `import()`. Al añadir una ruta nueva hay que añadirla ahí también — hay un
   test que lo comprueba, porque olvidarlo no da ningún síntoma

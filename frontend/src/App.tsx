@@ -92,7 +92,7 @@ function SidebarContent({ onClose, onSignOut, userEmail, onCustomize }: Readonly
             <LogoOrbit size={36} title="Stock Analyzer" />
           </div>
           <div className="min-w-0">
-            <h1 className="text-titulo lg:text-titulo font-bold tracking-tight text-foreground leading-tight">Stock Analyzer</h1>
+            <p className="text-titulo lg:text-titulo font-bold tracking-tight text-foreground leading-tight">Stock Analyzer</p>
           </div>
         </div>
         <button

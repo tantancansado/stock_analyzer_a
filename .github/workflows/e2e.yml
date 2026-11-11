@@ -1,0 +1,64 @@
+name: Prueba de humo de la web
+
+# Cada página del menú, en un móvil, con la API caída y los datos de este commit
+# (tests/e2e/test_humo_web.py). Mira lo que ningún test unitario ve porque vive
+# entre piezas: una excepción que deja la pantalla en blanco, un «NaN» pintado,
+# la página más ancha que el móvil o la cabecera que desaparece sin la API.
+#
+# Corre al cambiar la web y después de cada cálculo diario, porque un dato
+# nuevo también rompe páginas (NaN no es JSON y la página se queda a cero).
+# Si falla, deja una incidencia del revisor en vez de esperar a que se vea.
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'docs/app/**'
+      - 'tests/e2e/**'
+      - '.github/workflows/e2e.yml'
+  workflow_run:
+    workflows: ['Daily Market Analysis - Full Pipeline']
+    types: [completed]
+  workflow_dispatch:
+
+jobs:
+  humo:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Instalar Playwright
+        run: |
+          python -m pip install --upgrade pip
+          pip install pytest playwright
+          python -m playwright install --with-deps chromium
+
+      - name: Cada página en un móvil, con la API caída
+        run: python -m pytest tests/e2e -q
+
+      - name: Si falla, incidencia del revisor
+        if: failure()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh label create revisor --color 5319e7 --description 'Lo encontró el revisor nocturno' --force
+          abierta=$(gh issue list --label revisor --state open --search 'revisor:e2e:humo in:body' --json number --jq '.[0].number')
+          if [ -z "$abierta" ]; then
+            gh issue create --label revisor \
+              --title 'La web se rompe en el móvil (prueba de humo)' \
+              --body "**Qué no cuadra:** la prueba de humo de la web ha fallado: alguna página lanza una excepción, pinta NaN/undefined, se sale de ancho o pierde su h1 con la API caída.
+
+          **La prueba:** ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+          **Dónde mirar:** tests/e2e/test_humo_web.py dice qué página y qué falla.
+
+          <!-- revisor:e2e:humo -->"
+          else
+            gh issue comment "$abierta" --body "Sigue fallando: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          fi
