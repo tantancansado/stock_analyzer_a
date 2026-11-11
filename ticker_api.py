@@ -4136,7 +4136,8 @@ El objetivo que manda es el NUESTRO (DCF, P/E y consenso); el del consenso es un
 Para options_strategy: sé específico — si recomiendas COVERED_CALL indica el rango de delta objetivo (~0.25-0.35 OTM), si es PROTECTIVE_PUT indica cuánto downside proteger.
 Reglas del inversor, no negociables:
 - Solo una posición en Prioridad de Value US admite AÑADIR, BUY_MORE o CASH_SECURED_PUT, y nunca si su PESO dice REDUCIR o MANTENER por estar en su techo.
-- Vende a precio objetivo por valoración, no a un porcentaje: no propongas COVERED_CALL con strikes por debajo de su target_price, porque le obligaría a vender antes de tiempo."""
+- Si PESO dice VENDER, fue Prioridad y ya no lo es: esa es la venta del inversor, y tu action es VENDER.
+- Lo demás se vende a precio objetivo por valoración, no a un porcentaje: no propongas COVERED_CALL con strikes por debajo de su target_price, porque le obligaría a vender antes de tiempo."""
 
     try:
         from groq_utils import claude_chat as _claude_chat, CLAUDE_SONNET
@@ -4231,6 +4232,9 @@ Reglas del inversor, no negociables:
                     })
                     _corregir_si_añade_sobreponderada(row, p)
                     break
+        if p.get('peso_accion') == 'VENDER':
+            # La venta de lo que fue Prioridad la decide la casa, no la IA.
+            row.update(action='VENDER', options_strategy='SELL', options_rationale=p.get('peso_motivo', ''))
         result_positions.append(row)
 
     acciones = [r for r in result_positions if r['asset_type'] == 'stock' and not r['es_fondo']]
@@ -4273,6 +4277,11 @@ def _casa_para_cartera() -> dict:
         for t, r in lista.iterrows():
             grupo = str(r.get('value_grupo') or '')
             casa.setdefault(t, {})['value_grupo'] = grupo if grupo in ('PRIORIDAD', 'OBSERVAR') else ''
+    # Lo que fue Prioridad se vende cuando deja de serlo, no al objetivo (11-nov-2026).
+    import position_sizer as ps
+    for t, motivo in ps.motivos_de_venta(DOCS).items():
+        if motivo:
+            casa.setdefault(t, {})['motivo_venta'] = motivo
     return casa
 
 
@@ -4300,11 +4309,13 @@ def _pesos_de_cartera(enriched: list[dict], casa: dict) -> list[str]:
         vol, corr = pd.Series(dtype=float), pd.DataFrame()
     for p in acciones:
         v = vol.get(p['ticker'])
-        s = ps.peso_de_posicion(p['portfolio_pct'], p['value_grupo'], None if v is None else float(v))
+        s = ps.peso_de_posicion(p['portfolio_pct'], p['value_grupo'], None if v is None else float(v),
+                                venta=casa.get(p['ticker'], {}).get('motivo_venta', ''))
         p.update(volatility_pct=None if v is None else round(float(v), 1), peso_objetivo_pct=s['objetivo'],
                  peso_techo_pct=s['techo'], peso_accion=s['accion'], peso_motivo=s['motivo'])
-        # «Deberías tener»: subir al objetivo, bajar al techo o quedarse donde está.
-        p['peso_recomendado_pct'] = (s['objetivo'] if s['accion'] == 'AÑADIR' else s['techo'] if s['accion'] == 'REDUCIR'
+        # «Deberías tener»: subir al objetivo, bajar al techo, nada o quedarse donde está.
+        p['peso_recomendado_pct'] = (s['objetivo'] if s['accion'] in ('AÑADIR', 'VENDER')
+                                     else s['techo'] if s['accion'] == 'REDUCIR'
                                      else round(p['portfolio_pct'], 1))
     pesos = {p['ticker']: p['portfolio_pct'] for p in acciones}
     grupos = ps.ciclos(corr, list(pesos)) if not corr.empty else {}

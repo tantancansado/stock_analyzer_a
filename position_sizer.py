@@ -33,11 +33,14 @@ Salida: docs/position_sizing.csv, una fila por empresa de la lista publicada.
 """
 from __future__ import annotations
 
+import json
 import math
 from pathlib import Path
 
 import numpy as np
 import pandas as pd
+
+from value_bands import motivo_de_venta
 
 DOCS = Path('docs')
 LISTA = DOCS / 'value_opportunities_filtered.csv'
@@ -152,12 +155,39 @@ def pesos_de_ideas(lista: pd.DataFrame, vol: pd.Series, corr: pd.DataFrame) -> p
     return pd.DataFrame(filas)
 
 
-def peso_de_posicion(peso_actual: float, grupo: str, vol: float | None) -> dict:
+def motivos_de_venta(docs: Path = DOCS) -> dict[str, str]:
+    """{ticker: motivo} de lo que fue Prioridad; '' si se mantiene (value_bands.motivo_de_venta).
+
+    Solo lo que el tracker registró en PRIORIDAD (desde el 9-nov-2026): lo comprado
+    por otra razón sigue vendiéndose al objetivo (portfolio_price_alerts). Sin el
+    estado del integrador o sin el tracker no se decide nada.
+    """
+    try:
+        tracker = pd.read_csv(docs / 'portfolio_tracker' / 'recommendations.csv',
+                              usecols=['ticker', 'value_grupo'], low_memory=False)
+        estado = pd.read_csv(docs / 'value_estado.csv')
+    except (OSError, ValueError):
+        return {}
+    fue = set(tracker.loc[tracker['value_grupo'] == 'PRIORIDAD', 'ticker'].astype(str).str.upper())
+    try:
+        cache = json.loads((docs / 'why_cheap_cache.json').read_text())
+    except (OSError, ValueError):
+        cache = {}
+    veredictos = {str(t).upper(): str((e or {}).get('veredicto') or '') for t, e in cache.items()}
+    estado = estado[estado['ticker'].astype(str).str.upper().isin(fue)]
+    return dict(zip(estado['ticker'].astype(str).str.upper(), motivo_de_venta(estado, veredictos)))
+
+
+def peso_de_posicion(peso_actual: float, grupo: str, vol: float | None, venta: str = '') -> dict:
     """Qué peso debería tener una posición que ya se tiene, y qué hacer.
 
     `grupo`: PRIORIDAD / OBSERVAR / '' (fuera de la lista o fuera del universo).
-    Devuelve {objetivo, techo, accion, motivo}; accion es AÑADIR, MANTENER o REDUCIR.
+    `venta`: el motivo de `motivos_de_venta` si fue Prioridad y ya no lo es.
+    Devuelve {objetivo, techo, accion, motivo}; accion es AÑADIR, MANTENER, REDUCIR o VENDER.
     """
+    if venta:
+        return {'objetivo': 0.0, 'techo': 0.0, 'accion': 'VENDER',
+                'motivo': f'Fue Prioridad y ya no lo es: {venta}. Toca vender.'}
     completo = peso_completo(vol)
     if completo is None:
         return {'objetivo': None, 'techo': None, 'accion': 'MANTENER',

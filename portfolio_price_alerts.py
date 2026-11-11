@@ -2,9 +2,13 @@
 """Cuándo vender lo que tienes. El aviso va dentro del mensaje del día.
 
 El usuario vende a precio objetivo por valoración, y la calidad del negocio
-decide si aguanta hasta el objetivo completo o sale antes. Aquí se aplica a la
-cartera real:
+decide si aguanta hasta el objetivo completo o sale antes. Lo que fue PRIORIDAD,
+desde el 11-nov-2026, se vende cuando deja de serlo (value_bands.motivo_de_venta).
+Aquí se aplica a la cartera real:
 
+  PRIORIDAD fue Prioridad y ya no lo es: su PER ya no está barato contra su
+            historia, las ventas no crecen al 10 %, ha salido de la puerta o las
+            noticias dicen deterioro.
   OBJETIVO  el precio ha llegado a nuestro objetivo.
   ANTES     le queda menos de UPSIDE_MIN hasta el objetivo y la empresa no es
             de las excepcionales: lo que queda no compensa el riesgo (es el
@@ -138,9 +142,23 @@ def _datos_calidad(a: dict) -> str:
     return ', '.join(partes)
 
 
+def avisos_de_cartera(tickers: list[str], valoradas: pd.DataFrame, umbrales: tuple[float, float],
+                      ex_prioridad: dict[str, str]) -> list[dict]:
+    """Lo que fue Prioridad se vende cuando deja de serlo (value_bands.motivo_de_venta),
+    y no al objetivo; lo demás, al objetivo como siempre."""
+    avisos = [{'ticker': t, 'tipo': 'PRIORIDAD', 'motivo': m}
+              for t, m in sorted(ex_prioridad.items()) if t in tickers and m]
+    if not valoradas.empty:
+        valoradas = valoradas[~valoradas['ticker'].astype(str).str.upper().isin(ex_prioridad)]
+    return avisos + evaluar(valoradas, umbrales)
+
+
 def texto(avisos: list[dict]) -> str | None:
     lineas = []
     for a in avisos:
+        if a['tipo'] == 'PRIORIDAD':
+            lineas.append(f"<b>{a['ticker']}</b> ya no es Prioridad: {a['motivo']}.")
+            continue
         objetivo = _precio(a['objetivo'], a['divisa'])
         if a['tipo'] == 'OBJETIVO':
             lineas.append(f"<b>{a['ticker']}</b> ha alcanzado su precio objetivo ({objetivo}).")
@@ -216,7 +234,8 @@ def main() -> None:
     fuera = sorted(set(tickers) - set(dentro['ticker'].str.upper()))
     valoradas = pd.concat([dentro, _valorar_fuera_del_universo(fuera)], ignore_index=True)
 
-    avisos = evaluar(valoradas, umbrales_excepcional(universo))
+    from position_sizer import motivos_de_venta
+    avisos = avisos_de_cartera(tickers, valoradas, umbrales_excepcional(universo), motivos_de_venta(DOCS))
     nuevos = solo_nuevos(avisos, secreto, ESTADO)
     SALIDA.parent.mkdir(parents=True, exist_ok=True)
     SALIDA.write_text(json.dumps({'fecha': date.today().isoformat(), 'nuevos': nuevos},

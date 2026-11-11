@@ -99,7 +99,7 @@ interface PositionResult {
   volatility_pct?: number | null
   peso_objetivo_pct?: number | null
   peso_techo_pct?: number | null
-  peso_accion?: 'AÑADIR' | 'MANTENER' | 'REDUCIR' | null
+  peso_accion?: 'AÑADIR' | 'MANTENER' | 'REDUCIR' | 'VENDER' | null
   peso_motivo?: string | null
   ciclo?: string[] | null
 }
@@ -1402,22 +1402,25 @@ function PesoEnCartera({ positions, ciclos }: Readonly<{ positions: PositionResu
       <div className="etiqueta-seccion mb-1">Peso en cartera</div>
       <p className="text-micro text-muted-foreground mb-2 leading-relaxed">
         La barra es lo que pesa hoy y la raya, su techo; la franja va de su peso normal al techo. Cada
-        idea en Prioridad vale lo mismo, menos si se mueve mucho; lo que no es Prioridad no se amplía.
+        idea en Prioridad vale lo mismo, menos si se mueve mucho; lo que no es Prioridad no se amplía, y lo
+        que fue Prioridad y ya no lo es se vende.
         El porqué de cada una está en su ficha.
       </p>
       <ul className="space-y-2.5">
         {[...acciones].sort((a, b) => b.portfolio_pct - a.portfolio_pct).map(p => {
           const techo = p.peso_techo_pct ?? 0
           const normal = p.peso_objetivo_pct ?? 0
-          const destino = p.peso_accion === 'REDUCIR' ? `recorta a ${pct(techo)}`
+          const destino = p.peso_accion === 'VENDER' ? 'vende: ya no es Prioridad'
+            : p.peso_accion === 'REDUCIR' ? `recorta a ${pct(techo)}`
             : p.peso_accion === 'AÑADIR' && p.peso_objetivo_pct != null ? `puede subir a ${pct(p.peso_objetivo_pct)}` : null
+          const colorDestino = p.peso_accion === 'VENDER' ? 'var(--danger)' : p.peso_accion === 'REDUCIR' ? 'var(--warn)' : 'var(--primary)'
           return (
             <li key={p.ticker}>
               <div className="flex items-baseline justify-between gap-2 text-micro">
                 <span className="font-mono font-bold text-foreground">{p.ticker}</span>
                 <span className="tabular-nums text-muted-foreground">
                   {pct(p.portfolio_pct)}
-                  {destino && <> · <span className="font-semibold" style={{ color: p.peso_accion === 'REDUCIR' ? 'var(--warn)' : 'var(--primary)' }}>{destino}</span></>}
+                  {destino && <> · <span className="font-semibold" style={{ color: colorDestino }}>{destino}</span></>}
                 </span>
               </div>
               <div className="relative h-2.5 mt-1 rounded-full barra-pista overflow-clip" role="img"

@@ -170,6 +170,15 @@ sector_rotation → bandas_per → super_score_integrator → ai_quality_filter
   existe un "objetivo del 5-10%" — eso figuraba aquí y el usuario lo desmintió
   el 11-ago-2026. Nunca proponer salidas por porcentaje ganado ni por niveles
   técnicos: el objetivo se calcula (múltiplo × BPA limpio, DCF, consenso).
+  **Excepción desde el 11-nov-2026, decidida por él: lo que fue PRIORIDAD se vende
+  cuando deja de serlo** (`value_bands.motivo_de_venta`), no al objetivo: PER por
+  encima de -0,75σ (entra por debajo de -1σ), ventas anuales bajo el 10 %, fuera de
+  la puerta, descarte duro o DETERIORO. «No lo sé» no vende. Medido en 2020-26 al
+  10 % por idea: misma rentabilidad (+21 % frente a +20 %), mucho más constante
+  (gana al S&P a 12 meses el 87-89 % de las veces frente al 75 %). Lo aplican el
+  aviso de venta y Mi cartera (`position_sizer.motivos_de_venta`), solo a lo que el
+  tracker registró en PRIORIDAD; el estado de todo el universo lo escribe el
+  integrador en `docs/value_estado.csv`
 - **La calidad del negocio modula la salida**: en una empresa excepcional
   (tipo MCO — margen operativo 49%, ROE 77%) aguanta hasta el objetivo
   completo; en una que no lo es tanto, vende antes de alcanzarlo. Así que un

@@ -379,6 +379,82 @@ def vetos_value(df):
     return veto
 
 
+# Cuándo se vende una que fue PRIORIDAD (decisión del usuario, 11-nov-2026): cuando deja
+# de serlo, no al llegar al precio objetivo. Medido con la reconstrucción mensual
+# 2020-26, solo EE. UU., cartera al 10 % por idea y el resto en el S&P:
+#
+#                                       al año   gana al S&P a 12m   peor 12m vs S&P   ventas/año
+#   al objetivo o con la tesis rota      +19,9 %        75 %              -28              4
+#   cuando deja de ser Prioridad         +21,1 %        89 %              -13              9
+#   ídem, con el PER saliendo en -0,75σ  +20,9 %        87 %              -16              8
+#
+# La rentabilidad casi no cambia (+0,9 al año, intervalo del 90 % de -2,5 a +5,2); lo
+# que mejora es la constancia. Lo que más pesa es el PER: cuando deja de estar barato
+# contra su historia, lo que queda rinde como el índice. Entra por debajo de -1σ y sale
+# por encima de -0,75σ, porque sin margen un PER en el borde haría vender y recomprar
+# cada semana; esperar dos meses fuera, en cambio, perdía la constancia (75 %). Las
+# ventas anuales cambian una vez al año y no necesitan margen.
+# «No lo sé» no vende: sin valoración, sin ventas o sin historia de PER se mantiene.
+PER_DE_SALIDA = -0.75
+_DATO_QUE_FALTA = ('sin valoración propia', 'sin dato de ventas')
+ESTADO_COLUMNAS = ('ticker', 'value_grupo', 'motivo_fuera', 'per_z', 'ventas_anual_pct',
+                   'negative_roe', 'analyst_upside_pct', 'bpa_sobre_tendencia_pct')
+
+
+def estado_value(df, fuera=None):
+    """Lo que hace falta para decidir la venta, de TODO el universo (las listas solo
+    llevan lo que pasa la puerta, y una que sale de ella tiene que poder decir por qué)."""
+    e = df.assign(motivo_fuera=motivo_fuera_de_value(df) if fuera is None else fuera)
+    return e[[c for c in ESTADO_COLUMNAS if c in e.columns]].reset_index(drop=True)
+
+
+def motivo_de_venta(estado, veredictos: dict | None = None):
+    """Por qué vender hoy una que FUE Prioridad; '' si se mantiene. Serie de texto.
+
+    `estado`: filas de `estado_value`. `veredictos`: {ticker: veredicto de why_cheap};
+    un DETERIORO vende aunque el integrador aún la tenga en PRIORIDAD.
+    """
+    import pandas as pd
+    veredictos = veredictos or {}
+    nan = pd.Series(float('nan'), index=estado.index)
+
+    def num(c):
+        return pd.to_numeric(estado[c], errors='coerce') if c in estado.columns else nan
+
+    def txt(c):
+        if c not in estado.columns:
+            return pd.Series('', index=estado.index)
+        # Leído de un CSV, una columna vacía es float: fillna('') sobre float deja de valer.
+        return estado[c].astype(object).where(estado[c].notna(), '').astype(str).str.strip()
+
+    grupo, fuera, roe_neg = txt('value_grupo'), txt('motivo_fuera'), txt('negative_roe').str.lower() == 'true'
+    z, anual = num('per_z'), num('ventas_anual_pct')
+    tendencia, analistas = num('bpa_sobre_tendencia_pct'), num('analyst_upside_pct')
+    tickers = txt('ticker').str.upper()
+
+    def uno(i):
+        if veredictos.get(tickers[i]) == 'DETERIORO':
+            return 'las noticias dicen que la caída es deterioro del negocio'
+        if grupo[i] == 'PRIORIDAD':
+            return ''
+        if fuera[i]:
+            return '' if fuera[i].startswith(_DATO_QUE_FALTA) else fuera[i]
+        if roe_neg[i]:
+            return 'el ROE se ha vuelto negativo'
+        if tendencia[i] > BENEFICIO_DE_PICO:
+            return f'el beneficio es de pico: un {tendencia[i]:.0f} % sobre su tendencia'
+        if analistas[i] < 0:
+            return 'los analistas la ven por debajo del precio'
+        if z[i] >= PER_DE_SALIDA:
+            return f'su PER ya no está barato contra su historia ({z[i]:+.2f}σ)'.replace('.', ',')
+        if anual[i] < CRECIMIENTO_QUE_JUSTIFICA:
+            return (f'las ventas del último año crecen un {anual[i]:+.1f} %, menos del '
+                    f'{CRECIMIENTO_QUE_JUSTIFICA:.0f} %').replace('.', ',')
+        return ''
+
+    return pd.Series([uno(i) for i in estado.index], index=estado.index, dtype=object)
+
+
 # Red de seguridad, no un criterio: lo que pasa la puerta sale con 40 o más. Lo
 # siguen usando Europa y global, que puntúan con su propia suma.
 VALUE_SCORE_MIN = 30.0

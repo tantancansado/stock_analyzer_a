@@ -27,7 +27,7 @@ import argparse
 from opportunity_validator import OpportunityValidator
 from bandas_per import aplicar as aplicar_bandas_per
 from value_bands import (NOTA_OBSERVAR, NOTA_PRIORIDAD, UPSIDE_ALTO, VALUE_SCORE_MIN,
-                         motivo_fuera_de_value, nota_value, vetos_value)
+                         estado_value, motivo_fuera_de_value, nota_value, vetos_value)
 from data_integrity import fcf_es_caja_libre, filter_dataframe
 from ai_pick_verifier import verify_picks, apply_verdicts
 from picks_excluidos import registrar as registrar_excluidos
@@ -149,6 +149,10 @@ class SuperScoreIntegrator:
         print(f"\n🧭 Fuera de VALUE: {int(_fuera.str.startswith('nuestra').sum() + _fuera.str.startswith('sin valoración').sum())} "
               f"sin margen propio · {int(_fuera.str.startswith('ventas').sum() + _fuera.str.startswith('sin dato de ventas').sum())} "
               f"con el negocio empeorando")
+
+        # Antes del filtro: la venta de lo que fue PRIORIDAD necesita saber también por
+        # qué una se ha quedado fuera (value_bands.motivo_de_venta).
+        self.estado_value = estado_value(value_df, _fuera)
 
         # Filter: lo que no pasó la puerta o tiene un descarte duro lleva un 0
         value_df = value_df[value_df['value_score'] >= VALUE_SCORE_MIN].copy()
@@ -1609,6 +1613,10 @@ Note:
         integrator.save_results(value_df, filename='value_opportunities', score_column='value_score')
     else:
         print("⚠️  No value opportunities to save")
+    estado = getattr(integrator, 'estado_value', None)
+    if estado is not None and not estado.empty:
+        estado.to_csv('docs/value_estado.csv', index=False)
+        print(f"💾 docs/value_estado.csv: {len(estado)} empresas (para la venta de lo que fue Prioridad)")
 
     # Guardar resultados de MOMENTUM (sección Minervini)
     print("\n" + "="*80)
