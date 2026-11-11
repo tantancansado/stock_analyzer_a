@@ -844,12 +844,11 @@ export default function Manual() {
 
           <SectionHeader id="agente-ml-scorer" icon={Bot} title="ML Win Predictor" />
           <Card>
-            <p className="mb-2"><b>Qué hace:</b> entrena un modelo XGBoost calibrado (isotonic) cada día sobre el historial completo de señales VALUE del Portfolio Tracker y predice la probabilidad real de ganar para cada ticker del universo.</p>
+            <p className="mb-2"><b>Qué hace:</b> entrena un modelo XGBoost con el historial de señales de Value US y estima la probabilidad de que cada idea le gane al S&amp;P 500 a 90 días.</p>
             <p className="mb-2"><b>Output:</b> <code className="bg-muted/30 px-1 rounded">docs/ml_win_probability.json</code> — alimenta <code className="bg-muted/30 px-1 rounded">ml_win_probability</code>/<code className="bg-muted/30 px-1 rounded">ml_win_label</code> y el campo <code className="bg-muted/30 px-1 rounded">ml_score</code> (0-100) del Super Score Integrador.</p>
             <div className="mt-3 space-y-2 text-cuerpo">
               <p className="text-muted-foreground">
-                Su precisión (AUC) ronda 0,80 en la última versión, y la publica cada día en el propio fichero. Es una pista más, no una decisión:
-                los factores que más pesan cambian de un mes a otro y con pocos datos limpios no generalizan bien.
+                Solo publica si acierta fuera de muestra: se entrena con señales cuyo plazo ya había terminado y se prueba con el mes siguiente, y hace falta un 0,60 de media sin ningún mes por debajo de 0,55, con 300 señales y un año de historia. Hoy no llega, así que no enseña nada. El modelo anterior medía a 14 días y publicaba un 0,78 que, medido así, era un 0,51: lo mismo que tirar una moneda.
               </p>
             </div>
           </Card>

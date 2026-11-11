@@ -1,10 +1,21 @@
 """
-ML Win Predictor — entrena XGBoost con historial de señales VALUE y predice
-probabilidad de win_14d para los tickers actuales.
+ML Win Predictor — XGBoost sobre el historial de señales de Value US: probabilidad
+de que una idea le gane al S&P a 90 días. Solo publica si pasa una validación
+honesta; si no, publica que no hay modelo y por qué.
 
-Outputs:
-  docs/ml_win_probability.json  — predictions por ticker + metadata
-  docs/ml_model_report.json     — feature importances, cv scores, sector win rates
+11-nov-2026. Antes predecía `win_14d` (subir a 14 días), cuando el horizonte
+mínimo de la casa es 90 (`horizontes.py`): a 14 días se mide ruido. Publicaba un
+ROC-AUC de 0,78 que no se reproduce: con los mismos valores en entrenamiento y
+prueba y plazos que se solapan, el modelo reconoce la empresa, no la idea.
+Entrenando solo con señales cuyo plazo ya había terminado antes de la prueba y
+con una señal por empresa y mes, el AUC a 14 días era 0,51, una moneda al aire.
+A 90 días no había ni con qué validar (señales de febrero a agosto de 2026).
+Mientras tanto se enseñaba como «ML 72» en cada fila de Value US.
+
+Outputs (se escriben SIEMPRE, también cuando no publica: un fichero viejo con
+predicciones de otro modelo se seguiría leyendo como si fuera de hoy):
+  docs/ml_win_probability.json  — predicciones por ticker, o vacío con el motivo
+  docs/ml_model_report.json     — validación, importancias y muestra
 """
 import json
 import warnings
@@ -21,12 +32,18 @@ warnings.filterwarnings('ignore')
 DOCS      = Path(__file__).parent / 'docs'
 RECS_CSV  = DOCS / 'portfolio_tracker' / 'recommendations.csv'
 VALUE_CSV = DOCS / 'value_opportunities.csv'
-EU_CSV    = DOCS / 'european_value_opportunities.csv'
 OUT_PROBS  = DOCS / 'ml_win_probability.json'
 OUT_REPORT = DOCS / 'ml_model_report.json'
 
-TARGET   = 'win_14d'
-MIN_ROWS = 200
+HORIZONTE_DIAS = 90
+TARGET = 'gana_al_sp_90d'          # alpha_90d > 0: lo mismo que mide el tracker
+# Para publicar. Una señal por empresa y mes, que señales del mismo valor en días
+# seguidos comparten casi todo el plazo y no son casos distintos.
+MIN_MUESTRAS = 300
+MIN_MESES = 12                     # de fechas de señal: más de un régimen de mercado
+MIN_PLIEGUES = 3
+AUC_MINIMO = 0.60                  # de media fuera de muestra
+AUC_PEOR_PLIEGUE = 0.55            # y ningún mes por debajo de esto
 
 REGIME_MAP = {
     'CONFIRMED_UPTREND': 2,
@@ -132,151 +149,136 @@ FEATURE_COLS = [
 
 
 def _load_training_data() -> pd.DataFrame:
-    df = pd.read_csv(RECS_CSV)
-    df = df[df.get('strategy', pd.Series()).isin({'VALUE', 'EU_VALUE'})] if 'strategy' in df.columns else df
-    df = df[df['status'] == 'COMPLETED'].copy()
-    df = df[df[TARGET].notna() & df['return_14d'].notna()]
-    df = df[(df['return_14d'] > -95) & (df['return_14d'] < 500)]
-    df[TARGET] = df[TARGET].map({True: 1, False: 0, 'True': 1, 'False': 0})
-    return df[df[TARGET].isin([0, 1])]
+    """Señales de Value US con su resultado a 90 días contra el S&P, una por empresa y mes."""
+    df = pd.read_csv(RECS_CSV, low_memory=False)
+    if 'strategy' in df.columns:
+        df = df[df['strategy'] == 'VALUE']
+    df = df[~df['ticker'].astype(str).str.contains(r'\.', regex=True)].copy()
+    df['fecha'] = pd.to_datetime(df.get('signal_date'), errors='coerce')
+    alpha = pd.to_numeric(df.get('alpha_90d'), errors='coerce')
+    df = df[alpha.notna() & df['fecha'].notna()].copy()
+    df[TARGET] = (alpha[df.index] > 0).astype(int)
+    df['mes'] = df['fecha'].dt.to_period('M')
+    return (df.sort_values('fecha').drop_duplicates(['ticker', 'mes'])
+              .drop(columns='mes').reset_index(drop=True))
 
 
-def _train(df: pd.DataFrame):
+def pliegues(fechas: pd.Series, plazo_dias: int = HORIZONTE_DIAS):
+    """Cortes mensuales hacia delante. Se entrena solo con señales cuyo plazo YA
+    había terminado antes del corte, y se prueba con el mes siguiente.
+
+    Es más estricto que un TimeSeriesSplit a secas: con plazos de 90 días que se
+    solapan, la señal de ayer y la de hoy comparten el resultado, y dejarlas a los
+    dos lados del corte es enseñarle la respuesta al modelo.
+    """
+    fechas = pd.to_datetime(fechas)
+    plazo = pd.Timedelta(days=plazo_dias)
+    for corte in pd.date_range(fechas.min() + plazo + pd.Timedelta(days=30), fechas.max(), freq='30D'):
+        entreno = (fechas < corte - plazo).values
+        prueba = ((fechas >= corte) & (fechas < corte + pd.Timedelta(days=30))).values
+        yield corte, entreno, prueba
+
+
+def _modelo(y):
     from xgboost import XGBClassifier
-    from sklearn.calibration import CalibratedClassifierCV
-    from sklearn.model_selection import cross_val_score
+    return XGBClassifier(n_estimators=200, max_depth=4, learning_rate=0.05, subsample=0.8,
+                         colsample_bytree=0.8, eval_metric='logloss', random_state=42, verbosity=0,
+                         scale_pos_weight=float((y == 0).sum()) / max(float((y == 1).sum()), 1))
 
-    X = _build_features(df, fit=True)[FEATURE_COLS]
+
+def validar(df: pd.DataFrame) -> list[dict]:
+    from sklearn.metrics import roc_auc_score
     y = df[TARGET].values
-    scale_pos_weight = float((y == 0).sum()) / max(float((y == 1).sum()), 1)
-
-    base = XGBClassifier(
-        n_estimators=200,
-        max_depth=4,
-        learning_rate=0.05,
-        subsample=0.8,
-        colsample_bytree=0.8,
-        scale_pos_weight=scale_pos_weight,
-        eval_metric='logloss',
-        random_state=42,
-        verbosity=0,
-    )
-    model = CalibratedClassifierCV(base, cv=3, method='isotonic')
-    model.fit(X, y)
-
-    # Validación TEMPORAL, no aleatoria. Con StratifiedKFold(shuffle=True) las
-    # señales de un mismo día caían a la vez en train y test, y como comparten
-    # el movimiento de mercado de ese día el modelo las acertaba por memorizar
-    # el día, no el valor. Eso daba un ROC-AUC de 0,877 que no existe: medido
-    # fuera de tiempo el real es 0,677.
-    #
-    # TimeSeriesSplit respeta el orden: cada fold entrena con el pasado y
-    # evalúa con el futuro, que es como se usa el modelo en producción.
-    from sklearn.model_selection import TimeSeriesSplit
-    if 'signal_date' in df.columns:
-        orden = pd.to_datetime(df['signal_date'], errors='coerce').values.argsort()
-    else:
-        orden = np.arange(len(y))
-    x_ord, y_ord = X.iloc[orden], y[orden]
-    cv = TimeSeriesSplit(n_splits=5)
-    cv_auc   = float(cross_val_score(model, x_ord, y_ord, cv=cv, scoring='roc_auc').mean())
-    cv_brier = float(-cross_val_score(model, x_ord, y_ord, cv=cv, scoring='neg_brier_score').mean())
-
-    importances: dict = {}
-    try:
-        imps = np.array([e.estimator.feature_importances_ for e in model.calibrated_classifiers_])
-        importances = dict(zip(FEATURE_COLS, imps.mean(axis=0).tolist()))
-    except Exception:
-        pass
-
-    return model, cv_auc, cv_brier, importances
+    resultado = []
+    for corte, entreno, prueba in pliegues(df['fecha']):
+        if entreno.sum() < 100 or prueba.sum() < 20:
+            continue
+        if len(set(y[entreno])) < 2 or len(set(y[prueba])) < 2:
+            continue
+        # Las medianas de relleno salen solo del entrenamiento: con todo el
+        # histórico, el modelo vería algo de la prueba.
+        x_entreno = _build_features(df[entreno], fit=True)[FEATURE_COLS].values
+        x_prueba = _build_features(df[prueba], fit=False)[FEATURE_COLS].values
+        m = _modelo(y[entreno]).fit(x_entreno, y[entreno])
+        auc = roc_auc_score(y[prueba], m.predict_proba(x_prueba)[:, 1])
+        resultado.append({'corte': str(corte.date()), 'entreno': int(entreno.sum()),
+                          'prueba': int(prueba.sum()), 'auc': round(float(auc), 3)})
+    return resultado
 
 
-def _load_current_tickers() -> pd.DataFrame:
-    dfs = []
-    for p in [VALUE_CSV, EU_CSV]:
-        if p.exists():
-            d = pd.read_csv(p)
-            if not d.empty and 'ticker' in d.columns:
-                dfs.append(d)
-    if not dfs:
-        return pd.DataFrame()
-    combined = pd.concat(dfs, ignore_index=True)
-    combined['value_score'] = pd.to_numeric(combined.get('value_score'), errors='coerce')
-    return (combined.sort_values('value_score', ascending=False)
-                    .drop_duplicates(subset='ticker')
-                    .reset_index(drop=True))
+def motivo_para_no_publicar(df: pd.DataFrame, validacion: list[dict] | None) -> str | None:
+    if len(df) < MIN_MUESTRAS:
+        return f'{len(df)} señales con resultado a 90 días; hacen falta {MIN_MUESTRAS}'
+    meses = (df['fecha'].max() - df['fecha'].min()).days / 30.4
+    if meses < MIN_MESES:
+        return f'las señales cubren {meses:.0f} meses; hacen falta {MIN_MESES}'
+    if validacion is None or len(validacion) < MIN_PLIEGUES:
+        return f'{len(validacion or [])} meses de prueba fuera de muestra; hacen falta {MIN_PLIEGUES}'
+    aucs = [v['auc'] for v in validacion]
+    if np.mean(aucs) < AUC_MINIMO or min(aucs) < AUC_PEOR_PLIEGUE:
+        return (f'fuera de muestra acierta {np.mean(aucs):.2f} de media (peor mes {min(aucs):.2f}); '
+                f'hace falta {AUC_MINIMO:.2f} y ningún mes bajo {AUC_PEOR_PLIEGUE:.2f}')
+    return None
+
+
+def _escribir(predicciones: dict, informe: dict) -> None:
+    base = {'generated_at': datetime.now().isoformat(), 'horizonte_dias': HORIZONTE_DIAS,
+            'objetivo': 'ganar al S&P 500 a 90 días'}
+    OUT_PROBS.write_text(json.dumps({**base, 'publica': bool(predicciones),
+                                     'motivo': informe.get('motivo'),
+                                     'auc_fuera_de_muestra': informe.get('auc_fuera_de_muestra'),
+                                     'predictions': predicciones}, indent=2, ensure_ascii=False))
+    OUT_REPORT.write_text(json.dumps({**base, **informe}, indent=2, ensure_ascii=False, default=str))
 
 
 def run():
-    print('[ML] Win probability predictor...')
-
+    print('[ML] Probabilidad de ganarle al S&P a 90 días...')
     if not RECS_CSV.exists():
-        print('  recommendations.csv not found — skipping')
+        _escribir({}, {'motivo': 'no hay recommendations.csv'})
         return
-
     df = _load_training_data()
-    print(f'  Training on {len(df)} completed VALUE signals (win rate {df[TARGET].mean()*100:.1f}%)')
-
-    if len(df) < MIN_ROWS:
-        print(f'  Not enough data ({len(df)} < {MIN_ROWS}) — skipping')
-        return
-
     try:
-        model, cv_auc, cv_brier, importances = _train(df)
+        validacion = validar(df) if len(df) >= MIN_MUESTRAS else None
     except ImportError:
-        print('  xgboost/sklearn not installed — skipping')
+        _escribir({}, {'motivo': 'xgboost/sklearn no instalados'})
+        return
+    motivo = motivo_para_no_publicar(df, validacion)
+    informe = {'n_muestras': int(len(df)), 'validacion': validacion or [],
+               'gana_al_sp_base': round(float(df[TARGET].mean()), 3) if len(df) else None,
+               'muestra_desde': str(df['fecha'].min().date()) if len(df) else None,
+               'muestra_hasta': str(df['fecha'].max().date()) if len(df) else None,
+               'motivo': motivo}
+    if motivo:
+        print(f'  No publica: {motivo}')
+        _escribir({}, informe)
         return
 
-    print(f'  CV ROC-AUC: {cv_auc:.3f}  Brier: {cv_brier:.3f}')
+    from sklearn.calibration import CalibratedClassifierCV
+    X = _build_features(df, fit=True)[FEATURE_COLS]
+    y = df[TARGET].values
+    model = CalibratedClassifierCV(_modelo(y), cv=3, method='isotonic').fit(X, y)
+    informe['auc_fuera_de_muestra'] = round(float(np.mean([v['auc'] for v in validacion])), 3)
+    try:
+        imps = np.array([e.estimator.feature_importances_ for e in model.calibrated_classifiers_])
+        informe['feature_importance'] = dict(zip(FEATURE_COLS, np.round(imps.mean(axis=0), 4).tolist()))
+    except Exception:
+        pass
 
-    val_df = _load_current_tickers()
-    if val_df.empty:
-        print('  No current value tickers — skipping inference')
+    val_df = pd.read_csv(VALUE_CSV) if VALUE_CSV.exists() else pd.DataFrame()
+    if val_df.empty or 'ticker' not in val_df:
+        _escribir({}, {**informe, 'motivo': 'no hay lista de Value US que puntuar'})
         return
-
-    x_inf = _build_features(val_df, fit=False)[FEATURE_COLS]
-    probs = model.predict_proba(x_inf)[:, 1]
-
-    probs_list = [float(p) for p in probs]
-    probs_sorted = sorted(probs_list, reverse=True)
-    n = len(probs_sorted)
-    predictions: dict = {}
-    for ticker, prob in zip(val_df['ticker'].astype(str).str.upper(), probs_list):
-        prob_r = round(prob, 4)
-        rank = sum(1 for p in probs_sorted if p > prob) + 1
-        predictions[ticker] = {
-            'probability': prob_r,
-            'percentile':  int(round((1 - rank / n) * 100)),
-            'label':       _prob_label(prob_r),
-        }
-
-    base_wr = round(float(df[TARGET].mean()), 4)
-    sec_wr  = {k: round(v, 3) for k, v in sorted(
-        _SECTOR_WIN_RATES.items(), key=lambda x: x[1], reverse=True)}
-    top_imp = dict(sorted(importances.items(), key=lambda x: -x[1])[:10])
-
-    OUT_PROBS.write_text(json.dumps({
-        'generated_at':  datetime.now().isoformat(),
-        'model_auc':     round(cv_auc, 4),
-        'base_win_rate': base_wr,
-        'predictions':   predictions,
-    }, indent=2))
-
-    OUT_REPORT.write_text(json.dumps({
-        'generated_at':       datetime.now().isoformat(),
-        'n_samples':          int(len(df)),
-        'win_rate_base':      base_wr,
-        'cv_roc_auc':         round(cv_auc, 4),
-        'cv_brier_score':     round(cv_brier, 4),
-        'feature_importance': {k: round(v, 4) for k, v in top_imp.items()},
-        'sector_win_rates':   sec_wr,
-    }, indent=2))
-
-    n_alta = sum(1 for v in predictions.values() if v['label'] == 'ALTA')
-    print(f'  {len(predictions)} tickers scored | {n_alta} ALTA probabilidad')
-    print(f'  Top features: {list(top_imp.keys())[:5]}')
-    print(f'  Saved → {OUT_PROBS.name}, {OUT_REPORT.name}')
+    val_df = val_df.drop_duplicates('ticker').reset_index(drop=True)
+    probs = model.predict_proba(_build_features(val_df, fit=False)[FEATURE_COLS])[:, 1]
+    orden = sorted(probs, reverse=True)
+    predicciones = {}
+    for ticker, prob in zip(val_df['ticker'].astype(str).str.upper(), probs):
+        rank = sum(1 for p in orden if p > prob) + 1
+        predicciones[ticker] = {'probability': round(float(prob), 4),
+                                'percentile': int(round((1 - rank / len(orden)) * 100)),
+                                'label': _prob_label(float(prob))}
+    _escribir(predicciones, informe)
+    print(f'  {len(predicciones)} tickers puntuados · AUC fuera de muestra {informe["auc_fuera_de_muestra"]}')
 
 
 if __name__ == '__main__':

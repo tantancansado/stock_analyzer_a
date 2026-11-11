@@ -575,12 +575,16 @@ class TestMLSinFugaDeTarget:
     def test_validacion_es_temporal_no_aleatoria(self):
         """Señales del mismo día comparten el movimiento de mercado: barajarlas
         entre train y test deja que el modelo memorice el día."""
-        from pathlib import Path
+        import pandas as pd
         import ml_win_predictor as ml
-        src = Path(ml.__file__).read_text()
-        assert 'TimeSeriesSplit' in src, 'la validación debe respetar el orden temporal'
-        assert 'StratifiedKFold(n_splits=5, shuffle=True' not in src, \
-            'CV barajado sobre serie temporal: infla el AUC con fuga de día'
+        fechas = pd.Series(pd.date_range('2025-01-01', '2026-10-31', freq='D'))
+        hubo = False
+        for _, entreno, prueba in ml.pliegues(fechas):
+            if entreno.any() and prueba.any():
+                hubo = True
+                # El plazo de lo entrenado terminó antes de que empiece la prueba.
+                assert fechas[entreno].max() + pd.Timedelta(days=ml.HORIZONTE_DIAS) < fechas[prueba].min()
+        assert hubo
 
 
 class TestScraperInsidersNoTrunca:

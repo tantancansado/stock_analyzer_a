@@ -2373,11 +2373,15 @@ export interface MlWinPrediction {
   label: 'ALTA' | 'MEDIA' | 'BAJA'
 }
 
+// Probabilidad de ganarle al S&P a 90 días. Solo hay predicciones si el modelo
+// pasa la validación fuera de muestra; si no, `publica` es false y `motivo` dice
+// por qué (11-nov-2026: antes medía 14 días con un AUC que no se reproducía).
 export interface MlWinProbabilityData {
   generated_at: string
-  market_regime: string
-  model_auc: number
-  base_win_rate: number
+  horizonte_dias: number
+  publica: boolean
+  motivo: string | null
+  auc_fuera_de_muestra: number | null
   predictions: Record<string, MlWinPrediction>
 }
 
