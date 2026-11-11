@@ -39,7 +39,7 @@ export default function PositionSizing() {
       <PageHeader {...cabecera} />
 
       <p className="text-cuerpo text-muted-foreground leading-relaxed mb-5 max-w-3xl">
-        Cada idea en Prioridad vale una posición completa, el 5 % de la cartera, porque medido no
+        Cada idea en Prioridad vale una posición completa, el 10 % de la cartera, porque medido no
         se puede saber cuál de dos Prioridades ganará más. Lo que sí se ajusta es el riesgo: la que
         se mueve el doble que la media pesa la mitad, y de las que se mueven igual (el mismo ciclo)
         entran dos como mucho, las más baratas. Observar no recibe dinero nuevo.

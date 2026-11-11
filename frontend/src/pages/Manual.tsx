@@ -606,7 +606,7 @@ export default function Manual() {
             subtitle="Cuánto poner en cada idea de Value US, y cuánto deberían pesar las que ya tienes." />
           <Card>
             <ul className="list-disc pl-5 space-y-1.5 text-cuerpo">
-              <li><b>Una posición completa por idea en Prioridad</b> (5 % de la cartera): medido, no se puede saber cuál de dos Prioridades ganará más.</li>
+              <li><b>Una posición completa por idea en Prioridad</b> (10 % de la cartera): medido, no se puede saber cuál de dos Prioridades ganará más.</li>
               <li><b>Menos si se mueve mucho</b>: la que se mueve el doble que la media pesa la mitad.</li>
               <li><b>Dos por ciclo como mucho</b>: si dos empresas se mueven igual, son una sola apuesta; entran las más baratas.</li>
               <li><b>En Mi cartera</b>, el techo es el doble de su peso normal (una completa si no es Prioridad): por encima, recorta hasta el techo. Observar no se amplía.</li>

@@ -43,7 +43,13 @@ DOCS = Path('docs')
 LISTA = DOCS / 'value_opportunities_filtered.csv'
 SALIDA = DOCS / 'position_sizing.csv'
 
-POSICION_COMPLETA = 5.0      # % de la cartera
+# 5 % hasta el 11-nov-2026. El usuario lo subió a 10: «si estamos filtrando ya
+# bastante no debería ser tan peligroso». En la reconstrucción 2020-26, con un 5 %
+# solo había de media un 18 % de la cartera en ideas y la ventaja se diluía (+18 %
+# al año contra +14 % del S&P); con un 10 %, +21 % y una caída máxima de -20 % frente
+# a -22 %. Es la misma muestra con la que se eligió la regla: el tracker por grupos
+# tiene que confirmarlo en febrero de 2027.
+POSICION_COMPLETA = 10.0     # % de la cartera
 VOL_REFERENCIA = 30.0        # % anual; mediana del universo, 31 el 8-nov-2026
 PESO_MINIMO = 1.0            # por debajo no merece la pena una posición
 CORRELACION_CICLO = 0.7
@@ -180,8 +186,8 @@ def peso_de_posicion(peso_actual: float, grupo: str, vol: float | None) -> dict:
 def aviso_de_ciclos(pesos: dict[str, float], corr: pd.DataFrame, vol: pd.Series) -> list[str]:
     """Posiciones que son la misma apuesta y, juntas, pesan más de dos completas.
 
-    «Completa» según su riesgo: dos de equipos de chips (2,5 % cada una) son un 5 %,
-    no un 10 %. Sin volatilidad de ninguna no se dice nada: no se inventa el tope.
+    «Completa» según su riesgo: dos de equipos de chips (4,5 % cada una) son un 9 %,
+    no un 20 %. Sin volatilidad de ninguna no se dice nada: no se inventa el tope.
     """
     avisos = []
     vistos = set()

@@ -70,7 +70,7 @@ def test_un_fondo_no_se_manda_añadir():
 
 
 def test_pesos_de_cartera_con_la_regla_de_la_lista(monkeypatch):
-    """Una Prioridad al 15 % se recorta al techo; un fondo no lleva peso; el objetivo es el nuestro."""
+    """Una Prioridad al 25 % se recorta al techo; un fondo no lleva peso; el objetivo es el nuestro."""
     import numpy as np
     import pandas as pd
     import position_sizer as ps
@@ -79,8 +79,8 @@ def test_pesos_de_cartera_con_la_regla_de_la_lista(monkeypatch):
     precios = pd.DataFrame({'AAA': 100 * np.exp(np.cumsum(rng.normal(0, 0.30 / np.sqrt(252), 260)))}, index=idx)
     monkeypatch.setattr(ps, 'precios_diarios', lambda t: precios)
     enriched = [
-        {'ticker': 'AAA', 'asset_type': 'stock', 'es_fondo': False, 'portfolio_pct': 15.0, 'current_price': 100.0},
-        {'ticker': 'VOO', 'asset_type': 'stock', 'es_fondo': True, 'portfolio_pct': 85.0, 'current_price': 500.0},
+        {'ticker': 'AAA', 'asset_type': 'stock', 'es_fondo': False, 'portfolio_pct': 25.0, 'current_price': 100.0},
+        {'ticker': 'VOO', 'asset_type': 'stock', 'es_fondo': True, 'portfolio_pct': 75.0, 'current_price': 500.0},
     ]
     casa = {'AAA': {'value_grupo': 'PRIORIDAD', 'objetivo_propio': 130.0}}
     assert api._pesos_de_cartera(enriched, casa) == []
