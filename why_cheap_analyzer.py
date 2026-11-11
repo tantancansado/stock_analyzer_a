@@ -69,9 +69,20 @@ buscando — si la búsqueda no da suficiente, el veredicto es "SIN_DATOS", que 
 respuesta perfectamente válida y preferible a elegir una categoría por descarte.
 
 Responde SOLO con este JSON, sin markdown alrededor y sin etiquetas de cita:
-{"veredicto": "DETERIORO|CICLICO|EVENTO|SENTIMIENTO|SIN_DATOS",
+{"perdida_duradera": true|false,
+ "que_pierde": "<si perdida_duradera es true, qué ha pasado, en una frase; si no, vacío>",
+ "veredicto": "DETERIORO|CICLICO|EVENTO|SENTIMIENTO|SIN_DATOS",
  "resumen": "<máximo dos frases en español: qué pasó y cuándo>",
  "confianza": 0-100}
+
+"perdida_duradera" contesta una sola pregunta: ¿ha pasado YA algo que le quita a la
+empresa, para años y no para un trimestre, el poder de fijar sus precios, cuota de
+mercado o una posición dominante? Por ejemplo, un regulador que le congela o le
+limita el precio de su producto principal, o que abre a un competidor el mercado
+que dominaba; un competidor que le está quitando clientes; su producto principal
+que deja de venderse. Cuenta aunque sus cuentas todavía crezcan. NO cuentan un
+miedo del mercado ni una amenaza que aún no ha pasado, ni la parte baja de un
+ciclo que se da la vuelta. Si es true, el veredicto es DETERIORO.
 
 Categorías:
 - DETERIORO: el negocio está estructuralmente peor, AUNQUE sus cuentas todavía no lo
@@ -88,8 +99,11 @@ Categorías:
 # Sube cada vez que cambia el criterio de arriba: lo juzgado con el anterior se
 # vuelve a preguntar (enrich_why_cheap._cache_vigente). El 2 es del 10-nov-2026:
 # a FICO, con el regulador hipotecario abriendo a VantageScore el mercado que
-# dominaba, el 1 lo llamó EVENTO porque sus cuentas aún crecían.
-CRITERIO = 2
+# dominaba, el 1 lo llamó EVENTO porque sus cuentas aún crecían. El 3 es del
+# 11-nov: con el 2, Sonnet volvió a llamarlo EVENTO escribiendo en el resumen
+# que la FHFA le había congelado el precio. Elegir la categoría se la dejaba al
+# modelo; ahora contesta la pregunta concreta y la categoría la pone el código.
+CRITERIO = 3
 
 
 def limpiar_resumen(texto: str) -> str:
@@ -225,9 +239,17 @@ def _interpretar(texto: str, fuentes: list[str]) -> dict:
     except (TypeError, ValueError):
         confianza = 0
 
+    resumen = data.get('resumen', '')
+    # La categoría la decide la respuesta a la pregunta, no la etiqueta que
+    # elija el modelo: FICO salió EVENTO con «le han congelado el precio» en el
+    # propio resumen.
+    if fuentes and str(data.get('perdida_duradera')).strip().lower() == 'true':
+        veredicto = 'DETERIORO'
+        resumen = data.get('que_pierde') or resumen
+
     return {
         'veredicto': veredicto,
-        'resumen': limpiar_resumen(data.get('resumen', ''))[:300],
+        'resumen': limpiar_resumen(resumen)[:300],
         'confianza': confianza,
         'fuentes': fuentes[:4],
     }

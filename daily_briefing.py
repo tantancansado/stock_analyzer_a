@@ -19,7 +19,7 @@ Qué lleva, por orden de lo que cambia una decisión:
   2. Tesis rota en algo que YA tienes comprado (lo que más urge saber)
   3. Qué vigilar: barato pero aún cayendo
   4. Régimen de mercado, SOLO si cambió respecto a ayer
-  5. El win rate real del sistema como recordatorio de tamaño de posición
+  5. El acierto de Prioridad contra el S&P, cuando haya medida suficiente
 
 Los rebotes siguen avisando por su cuenta: son de 1-5 días y esperar al
 briefing les quita el valor.
@@ -27,8 +27,10 @@ briefing les quita el valor.
 from __future__ import annotations
 
 import csv
+import html
 import json
 import os
+import re
 import urllib.error
 import urllib.request
 from datetime import date
@@ -42,6 +44,10 @@ MODEL = 'claude-sonnet-5'
 
 MAX_CANDIDATOS = 8
 MAX_VIGILAR = 5
+# Como la conclusión de la tesis (thesis_generator._conclusion_value_us).
+RESULTADOS_CERCA_DIAS = 14
+# Por debajo, un porcentaje de aciertos es ruido.
+MIN_MEDIDAS = 20
 
 
 def _json(path: Path, default=None):
@@ -127,6 +133,21 @@ def gather_facts() -> dict:
         return None
 
     def ficha(r):
+        f = _ficha(r)
+        if r.get('value_grupo'):
+            # En Value US el timing es dato de la ficha, no ordena ni veta. Pasado
+            # al briefing, la IA lo convertía en «mejor esperar» sobre una de
+            # Prioridad (INTU, 11-nov-2026), y un «no puede doblar» en «vale para
+            # sumar en caídas». Lo que no está, no se cuenta.
+            del f['timing'], f['rs_6m']
+            dias = f['dias_a_resultados']
+            if dias is None or not 0 <= dias <= RESULTADOS_CERCA_DIAS:
+                del f['dias_a_resultados']
+            if not f['puede_doblar']:
+                del f['puede_doblar']
+        return f
+
+    def _ficha(r):
         return {
             'ticker': r.get('ticker'),
             'empresa': (r.get('company_name') or '')[:30],
@@ -210,15 +231,19 @@ def gather_facts() -> dict:
         rotas_son_tuyas = True
         print(f'  Tesis rotas: {len(tesis_rotas)}/{len(_todas)} son de posiciones que tienes')
 
-    # El horizonte de juicio para VALUE es 180d — a 90 días una tesis todavía es
-    # ruido. Pero la muestra de 180d no existe hasta finales de agosto (la señal
-    # más antigua es del 26-feb), así que hasta entonces se informa del 90d
-    # DICIENDO que es provisional, en vez de venderlo como el veredicto.
-    resumen = _json(TRACKER / 'summary.json')
-    overall = (resumen.get('overall') or {})
-    h180, h90 = (overall.get('180d') or {}), (overall.get('90d') or {})
-    definitivo = bool(h180.get('count'))
-    horizonte = h180 if definitivo else h90
+    # El acierto de lo que la app da HOY para comprar: el grupo Prioridad, que
+    # existe desde el 7-nov-2026, y contra el S&P. Hasta el 11-nov se contaba
+    # `overall` —señales de abril a noviembre con la regla anterior y Europa
+    # dentro— y el mensaje decía «acierta el 74 % a 180 días, +9 %, cifra
+    # definitiva» de una regla que ya no se usa, en un periodo en que el S&P
+    # subió un 14 %. Sin medida suficiente, no se dice nada.
+    prioridad = (_json(TRACKER / 'summary.json').get('value_grupos') or {}).get('PRIORIDAD') or {}
+    medida = next(({'horizonte': h, 'acierto_pct': s.get('win_rate'),
+                    'retorno_medio': s.get('avg_return'), 'contra_sp500': s.get('contra_sp500'),
+                    'n': s.get('count')}
+                   for h in ('365d', '180d', '90d')
+                   for s in [prioridad.get(h) or {}]
+                   if (s.get('count') or 0) >= MIN_MEDIDAS), None)
 
     # Qué acaba de aparecer y qué se ha caído.
     #
@@ -254,16 +279,7 @@ def gather_facts() -> dict:
         'tesis_rotas': tesis_rotas,
         'rotas_son_tuyas': rotas_son_tuyas,
         'regimen_cambio': _regime_cambio(),
-        'rendimiento_sistema': {
-            'horizonte': '180d' if definitivo else '90d',
-            'es_horizonte_definitivo': definitivo,
-            'nota': None if definitivo else
-                    'A 180 días aún no hay muestra (la señal más antigua es de feb-2026); '
-                    'este 90d es provisional, no el veredicto',
-            'acierto_pct': horizonte.get('win_rate'),
-            'retorno_medio': horizonte.get('avg_return'),
-            'n': horizonte.get('count'),
-        },
+        **({'rendimiento_prioridad': medida} if medida else {}),
     }
 
 
@@ -280,20 +296,25 @@ Estructura, en este orden y omitiendo lo que esté vacío:
    pipeline no terminó y los datos están a medias. No digas "no hay nada que
    comprar" en ese caso — no lo sabes. Di que el análisis no está completo y qué
    falta. Aun así, informa de las tesis rotas si las hay: esas sí son fiables.
-1. Qué comprar hoy. Si la lista de comprables viene vacía Y los datos están
-   completos, la PRIMERA línea es que hoy no hay nada, sin rodeos ni consuelo.
+1. Qué comprar hoy: las de "comprables", que son las del grupo Prioridad de la app.
+   Ese es el veredicto de la casa y no lo cambias: son comprables. NUNCA escribas
+   «mejor esperar», «no hay prisa», «espera a los resultados» ni «sumar en caídas»,
+   ni pongas condiciones o precios de entrada, stops o soportes. Si la lista de
+   comprables viene vacía Y los datos están completos, la PRIMERA línea es que hoy
+   no hay nada, sin rodeos ni consuelo.
 2. Si hay tesis rotas, van justo después: es lo que más urge. OJO con cómo las
    llamas: si `rotas_son_tuyas` es true son posiciones que el usuario TIENE y
    puedes decir "sal" o "cierra"; si es false NO se ha podido confirmar que las
    tenga, así que di "la señal de X se ha roto" y nunca "tu posición" ni "sal".
-   En cada comprable di, si vienen: los resultados trimestrales si caen en menos
-   de 30 días ("dias_a_resultados": la entrada se la juega a esa reacción), si un
-   modelo propio (objetivo_por_pe_pct u objetivo_dcf_pct) sale negativo (dice que
-   ya está cara), y si "beneficio_respaldado_por_negocio" es false (el beneficio
-   crece más que el negocio: no lo vendas como calidad ni te apoyes en el
-   objetivo por P/E). Un comprable con esos reparos se presenta con el reparo.
-3. Qué vigilar: baratas que aún caen. Una línea cada una, con el porqué de su caída
-   si lo tienes.
+   En cada comprable di, si vienen, como hechos y en media frase: que presenta
+   resultados en N días ("dias_a_resultados"), sus "avisos", si un modelo propio
+   (objetivo_por_pe_pct u objetivo_dcf_pct) sale negativo, y si
+   "beneficio_respaldado_por_negocio" es false (el beneficio crece más que el
+   negocio: no lo vendas como calidad). Son datos que debe saber; no cambian el
+   veredicto.
+3. Qué vigilar: las de "vigilar", del grupo Observar: baratas a las que les falta
+   algo para Prioridad ("que_le_falta"). Una sola línea para todas, con lo que les
+   falta en pocas palabras. No digas que «siguen cayendo»: no es el motivo.
 4. Lo que ACABA DE APARECER en la lista (`picks_nuevos`) y lo que se ha caído de
    ella (`picks_que_se_van`), si los hay. Una línea, sin repetir lo que ya has
    dicho arriba: es lo que cambia respecto a ayer y por eso importa. Si las dos
@@ -301,7 +322,10 @@ Estructura, en este orden y omitiendo lo que esté vacío:
    noticia. Si el campo no viene, tampoco: significa que no había con qué
    comparar, no que nada se haya movido.
 5. El régimen de mercado SOLO si te lo paso (significa que cambió hoy).
-6. Cierra con el acierto real del sistema como recordatorio de tamaño de posición.
+6. Si viene "rendimiento_prioridad", cierra con él en una frase: aciertos y
+   resultado medio de las de Prioridad a ese plazo, y cuánto le sacan al S&P 500
+   ("contra_sp500"). Si no viene, no hables del acierto del sistema: la regla de
+   hoy aún no tiene medición y cualquier otra cifra es de otra regla.
 
 Reglas de escritura — esto importa tanto como el contenido:
 - Escribe como le hablarías a un colega por teléfono, en frases completas. NO como
@@ -318,17 +342,73 @@ Reglas de escritura — esto importa tanto como el contenido:
   disclaimers.
 - Máximo 12 líneas. Es un móvil.
 - HTML de Telegram para el énfasis: <b>negrita</b>. Nada de markdown.
-- Si algo está barato pero cayendo, dilo así: barato todavía no es comprable.
-- Con el rendimiento del sistema: si "es_horizonte_definitivo" es false, di que la
-  cifra es provisional y por qué — no la presentes como el veredicto del sistema."""
+- Si un dato no viene, no lo deduzcas de que falta: que no venga "puede_doblar" no
+  significa que no pueda doblar."""
+
+# Lo que convierte un aviso en un «todavía no compres». La casa dice comprable y
+# el mensaje no puede decir otra cosa, como la tesis
+# (thesis_generator.tesis_contradice_a_la_casa). «No esperes» y el precio de
+# salida sí valen: es lo que se dice de una tesis rota.
+_CONTRADICE = re.compile(
+    r'\b(?:mejor|conviene|toca|hay que|habría que)\s+esperar\b'
+    r'|\bno hay prisa\b|\bsin prisa\b'
+    r'|\besperar?\s+a\s+(?:ver|que|los resultados|el trimestre|la reacción)'
+    r'|\ben (?:las )?caídas\b'
+    r'|\bsoportes?\b|medias?\s+móvil', re.I)
+
+
+def contradice_a_la_casa(texto: str) -> str | None:
+    m = _CONTRADICE.search(texto or '')
+    return f'«{m.group(0)}»' if m else None
+
+
+def _plantilla(facts: dict) -> str:
+    """Sin redactar, para cuando lo redactado contradice a la lista."""
+    def nombres(fichas):
+        return ', '.join(html.escape(f.get('empresa') or f.get('ticker') or '') for f in fichas)
+
+    lineas = []
+    if facts['datos_incompletos']:
+        lineas.append('<b>El análisis de hoy no está completo:</b> '
+                      + html.escape('; '.join(facts['datos_incompletos'])) + '.')
+    elif facts['comprables']:
+        lineas.append(f"<b>Prioridad hoy:</b> {nombres(facts['comprables'])}.")
+    else:
+        lineas.append('<b>Hoy no hay nada que comprar.</b>')
+    if facts['tesis_rotas']:
+        quien = 'en tu cartera' if facts['rotas_son_tuyas'] else 'en las señales'
+        lineas.append(f'Tesis rota {quien}: '
+                      + ', '.join(html.escape(str(t['ticker'])) for t in facts['tesis_rotas']) + '.')
+    if facts['vigilar']:
+        lineas.append(f"Observar: {nombres(facts['vigilar'])}.")
+    if facts['picks_nuevos']:
+        lineas.append('Entran: ' + ', '.join(map(html.escape, facts['picks_nuevos'])) + '.')
+    if facts['picks_que_se_van']:
+        lineas.append('Salen: ' + ', '.join(map(html.escape, facts['picks_que_se_van'])) + '.')
+    return '\n'.join(linea.replace('..', '.') for linea in lineas)
 
 
 def build_message(facts: dict) -> str | None:
-    """Texto del briefing. None si Claude no está disponible."""
+    """Texto del briefing. None si ni Claude ni Groq están disponibles; la
+    plantilla si lo que redactan contradice a la lista."""
     prompt = (
         'Escribe el briefing de hoy con estos hechos:\n\n'
         + json.dumps(facts, ensure_ascii=False, indent=1, default=str)
     )
+    redactado = False
+    for nombre, redacta in (('Claude', _con_claude), ('Groq', _con_groq)):
+        texto = redacta(prompt)
+        if not texto:
+            continue
+        redactado = True
+        motivo = contradice_a_la_casa(texto)
+        if not motivo:
+            return texto
+        print(f'  ⚠️  el briefing de {nombre} contradice a la lista ({motivo}): no se manda')
+    return _plantilla(facts) if redactado else None
+
+
+def _con_claude(prompt: str) -> str | None:
     # max_tokens cubre pensamiento + respuesta: con adaptive thinking (que
     # claude_chat activa en los modelos de la generación 5) un presupuesto
     # ajustado se lo come el pensamiento y el mensaje sale truncado.
@@ -336,9 +416,10 @@ def build_message(facts: dict) -> str | None:
     # poco margen en el tope mensual (ver claude_budget.RESERVA_USD).
     texto = claude_chat([{'role': 'user', 'content': prompt}],
                         model=MODEL, system=SYSTEM, max_tokens=4000, esencial=True)
-    if texto:
-        return texto.strip()
+    return texto.strip() if texto else None
 
+
+def _con_groq(prompt: str) -> str | None:
     # Sin Claude (tope agotado, API caída o sin key) el briefing NO se pierde:
     # esto es redacción sobre hechos que la app ya tiene calculados, no requiere
     # búsqueda web ni fuentes verificadas, así que Groq lo hace igual de bien y
@@ -357,6 +438,16 @@ def build_message(facts: dict) -> str | None:
     except Exception as e:
         print(f'   ⚠️  Groq tampoco disponible para el briefing: {e}')
         return None
+
+
+def publicable(texto: str, facts: dict) -> dict:
+    """Lo que va a docs/, que es público. Las tesis rotas filtradas por la
+    cartera real son posiciones del usuario, y el texto las nombra: ese día solo
+    se publica cuántas hay."""
+    if facts.get('tesis_rotas') and facts.get('rotas_son_tuyas') is not False:
+        return {'fecha': facts['fecha'], 'texto': None,
+                'hechos': {**facts, 'tesis_rotas': len(facts['tesis_rotas'])}}
+    return {'fecha': facts['fecha'], 'texto': texto, 'hechos': facts}
 
 
 def _send(text: str) -> bool:
@@ -417,8 +508,7 @@ def main() -> None:
         print(f'  (no se pudo leer el estado de presupuesto: {e})')
 
     (DOCS / 'daily_briefing.json').write_text(json.dumps(
-        {'fecha': facts['fecha'], 'texto': texto, 'hechos': facts},
-        ensure_ascii=False, indent=2, default=str))
+        publicable(texto, facts), ensure_ascii=False, indent=2, default=str))
 
     if _send(f'{venta}\n\n{texto}' if venta else texto):
         print(f'  ✓ Briefing enviado ({len(texto)} caracteres)'

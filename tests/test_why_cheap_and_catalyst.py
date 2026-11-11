@@ -58,6 +58,28 @@ class TestWhyCheap:
         assert r['veredicto'] == 'DETERIORO'
         assert r['confianza'] == 85 and r['fuentes'] == [URL]
 
+    def test_una_perdida_duradera_es_deterioro_aunque_diga_evento(self):
+        """11-nov-2026: con el criterio 2, Sonnet llamó EVENTO a FICO escribiendo
+        en el propio resumen que la FHFA le había congelado el precio."""
+        j = ('{"perdida_duradera": true, "que_pierde": "La FHFA le congela el precio '
+             'del score hipotecario y abre ese mercado a VantageScore", '
+             '"veredicto": "EVENTO", "resumen": "Decisión regulatoria puntual", "confianza": 55}')
+        with patch.object(wc, 'ask_with_search', return_value=(j, [URL])):
+            r = wc.analyze_ticker('FICO', 'Fair Isaac', -60.0)
+        assert r['veredicto'] == 'DETERIORO'
+        assert 'congela' in r['resumen']
+
+    def test_un_miedo_no_es_perdida_duradera(self):
+        j = ('{"perdida_duradera": false, "que_pierde": "", "veredicto": "SENTIMIENTO", '
+             '"resumen": "Miedo a que la IA sustituya a TurboTax", "confianza": 55}')
+        with patch.object(wc, 'ask_with_search', return_value=(j, [URL])):
+            assert wc.analyze_ticker('INTU', 'Intuit', -50.0)['veredicto'] == 'SENTIMIENTO'
+
+    def test_sin_busquedas_tampoco_vale_la_perdida(self):
+        j = '{"perdida_duradera": true, "que_pierde": "algo", "veredicto": "EVENTO"}'
+        with patch.object(wc, 'ask_with_search', return_value=(j, [])):
+            assert wc.analyze_ticker('XYZ', 'X', -25.0)['veredicto'] == 'SIN_DATOS'
+
     def test_veredicto_sin_busquedas_degrada_a_sin_datos(self):
         # Las fuentes salen de la herramienta: si no buscó, el veredicto podría
         # venir de la memoria del modelo y no se acepta
