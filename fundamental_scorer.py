@@ -25,7 +25,8 @@ from typing import Dict, List, Optional
 
 from currency_normalizer import normalize_info
 from value_bands import PER_ANCLA_MAX, PER_ANCLA_MIN, UPSIDE_ALTO, UPSIDE_PE_ABSURDO
-from financial_cross_check import derive_from_statements, check_coherence
+from financial_cross_check import (derive_from_statements, check_coherence, mismo_periodo_hace,
+                                   tramo_seguido, ultimos_seguidos)
 
 try:
     from ai_data_fetcher import fetch_missing_financials as _ai_fetch
@@ -450,23 +451,13 @@ def margen_operativo_12m(stock) -> Optional[float]:
         q = stock.quarterly_income_stmt
         if not isinstance(q, pd.DataFrame) or 'Operating Income' not in q.index or 'Total Revenue' not in q.index:
             return None
-        op = pd.to_numeric(q.loc['Operating Income'], errors='coerce').iloc[:4]
-        ventas = pd.to_numeric(q.loc['Total Revenue'], errors='coerce').iloc[:4]
-        if len(op) < 4 or op.isna().any() or ventas.isna().any() or ventas.sum() <= 0:
+        op = ultimos_seguidos(q.loc['Operating Income'], 4)
+        ventas = ultimos_seguidos(q.loc['Total Revenue'], 4)
+        if op is None or ventas is None or list(op.index) != list(ventas.index) or ventas.sum() <= 0:
             return None
         return float(op.sum() / ventas.sum())
     except Exception:
         return None
-
-
-def _paso_interanual(periodo: str) -> int:
-    """Cuántas filas hay que retroceder para comparar con el año anterior.
-
-    Con trimestres, cuatro. Con años, una. Todo el scorer indexaba por
-    posición dando por hecho lo primero, y con estados anuales `iloc[4]`
-    compara contra hace CUATRO años.
-    """
-    return 1 if periodo == 'anual' else 4
 
 
 class FundamentalScorer:
@@ -905,18 +896,16 @@ class FundamentalScorer:
                 # invertido sin avisar. Ordenar aqui lo hace independiente.
                 earnings = quarterly_earnings['Earnings'].dropna().sort_index(ascending=False)
 
-                # El mismo periodo del año anterior está `paso` filas atrás:
-                # cuatro con trimestres, una con años (Europa reporta
-                # semestral y yfinance solo da anuales para 36 de las 58 del
-                # universo curado europeo).
-                paso = _paso_interanual(quarterly_earnings.attrs.get('periodo', 'trimestral'))
-                if len(earnings) >= paso + 1:
+                # El mismo periodo del año anterior, emparejado por FECHA: vale
+                # igual con trimestres que con años (Europa reporta semestral y
+                # yfinance solo da anuales para 36 de las 58 del universo
+                # curado europeo). Por posición, un trimestre vacío en medio
+                # desplazaba la comparación (ver mismo_periodo_hace).
+                periodo = quarterly_earnings.attrs.get('periodo', 'trimestral')
+                par = mismo_periodo_hace(earnings)
+                if par is not None:
                     # 1. EPS Growth YoY
-                    latest_eps = earnings.iloc[0]
-                    # iloc[paso], no iloc[paso-1]. Ver la nota del bug en el
-                    # bloque de ingresos: iloc[3] comparaba contra hace TRES
-                    # trimestres.
-                    prev_eps = earnings.iloc[paso]
+                    latest_eps, prev_eps = par
 
                     if prev_eps > 0:
                         eps_growth = ((latest_eps - prev_eps) / prev_eps) * 100
@@ -941,9 +930,9 @@ class FundamentalScorer:
                         # cuenta como calidad.
                         crecimiento_puntuable = eps_growth
                         if 'Operating' in quarterly_earnings.columns:
-                            op = quarterly_earnings['Operating'].dropna().sort_index(ascending=False)
-                            if len(op) >= paso + 1 and op.iloc[paso] > 0:
-                                op_growth = (op.iloc[0] - op.iloc[paso]) / op.iloc[paso] * 100
+                            par_op = mismo_periodo_hace(quarterly_earnings['Operating'])
+                            if par_op is not None and par_op[1] > 0:
+                                op_growth = (par_op[0] - par_op[1]) / par_op[1] * 100
                                 details['op_growth_yoy'] = round(op_growth, 1)
                                 # Holgura de 25 puntos: el BPA puede crecer algo
                                 # más que el operativo sin que sea contable —las
@@ -986,8 +975,10 @@ class FundamentalScorer:
                         elif eps_growth < 0:
                             score -= 20
 
-                    # 2. Consecutive positive earnings
-                    positive_quarters = sum(1 for e in earnings.iloc[:4] if e > 0)
+                    # 2. Consecutive positive earnings. Solo trimestres seguidos:
+                    # con uno vacío en medio, «los cuatro últimos» eran cinco.
+                    seguidos = tramo_seguido(earnings, periodo)
+                    positive_quarters = sum(1 for e in seguidos.iloc[:4] if e > 0)
                     details['positive_quarters'] = positive_quarters
 
                     if positive_quarters == 4:
@@ -998,9 +989,9 @@ class FundamentalScorer:
                     # 3. Multi-quarter EPS acceleration (CANSLIM "A")
                     # Calculate QoQ growth rates for last 3 pairs (need ≥4 quarters)
                     qoq_rates = []
-                    for i in range(min(3, len(earnings) - 1)):
-                        curr = earnings.iloc[i]
-                        prev = earnings.iloc[i + 1]
+                    for i in range(min(3, len(seguidos) - 1)):
+                        curr = seguidos.iloc[i]
+                        prev = seguidos.iloc[i + 1]
                         if prev != 0:
                             qoq_rates.append((curr - prev) / abs(prev) * 100)
                         else:
@@ -1117,14 +1108,15 @@ class FundamentalScorer:
                     # No es cosmetico: alimenta growth_acceleration_score (que
                     # suma +30 si el crecimiento pasa de 30%), y de ahi al
                     # fundamental_score y al value_score.
-                    # `paso` en vez de 4 fijo: con estados anuales —los
-                    # únicos que hay para 36 de las 58 europeas, que reportan
-                    # semestral— el mismo periodo del año anterior está UNA
-                    # fila atrás, no cuatro.
-                    paso = _paso_interanual(financials.get('periodo', 'trimestral'))
-                    if len(revenue) >= paso + 1:
-                        latest_rev = revenue.iloc[0]
-                        prev_rev = revenue.iloc[paso]
+                    # 11-nov-2026: ni 4 ni `paso` posiciones, sino la FECHA de
+                    # hace un año. yfinance deja a veces vacío un trimestre
+                    # intermedio y la cuarta posición pasaba a ser la de hace
+                    # cinco: Gartner a -10,8 % un día y a -1,3 % al siguiente.
+                    # Sirve igual con estados anuales (Europa).
+                    periodo = financials.get('periodo', 'trimestral')
+                    par = mismo_periodo_hace(revenue)
+                    if par is not None:
+                        latest_rev, prev_rev = par
 
                         if prev_rev > 0:
                             rev_growth = ((latest_rev - prev_rev) / prev_rev) * 100
@@ -1141,11 +1133,13 @@ class FundamentalScorer:
                             elif rev_growth < 0:
                                 score -= 20
 
-                        # Multi-quarter revenue acceleration (CANSLIM "A")
+                        # Multi-quarter revenue acceleration (CANSLIM "A"),
+                        # solo con trimestres seguidos.
+                        seguidos = tramo_seguido(revenue, periodo)
                         qoq_rates = []
-                        for i in range(min(3, len(revenue) - 1)):
-                            curr = revenue.iloc[i]
-                            prev = revenue.iloc[i + 1]
+                        for i in range(min(3, len(seguidos) - 1)):
+                            curr = seguidos.iloc[i]
+                            prev = seguidos.iloc[i + 1]
                             if prev != 0:
                                 qoq_rates.append((curr - prev) / abs(prev) * 100)
                             else:
@@ -2057,8 +2051,11 @@ class FundamentalScorer:
                             buyback_row = cashflow.loc[label]
                             break
                     if buyback_row is not None:
-                        # Sum last 4 quarters of buybacks (negative = buying back)
-                        recent_buybacks = buyback_row.head(4).sum()
+                        # Los cuatro últimos trimestres SEGUIDOS (negativo =
+                        # recompra). Con uno vacío en medio, `head(4)` sumaba
+                        # tres y pico, o cinco.
+                        ultimos = ultimos_seguidos(buyback_row, 4)
+                        recent_buybacks = float(ultimos.sum()) if ultimos is not None else None
                         # El cambio REAL del número de acciones manda sobre el
                         # gasto en recompras. Lo que importa al accionista es
                         # si su trozo crece, no cuánto dinero se gastó: parte
@@ -2073,6 +2070,8 @@ class FundamentalScorer:
                             # una etiqueta que se cumple en el 98% no informa
                             # de nada y regalaba 3 puntos de score a todos.
                             result['buyback_active'] = bool(cambio_real <= -RECOMPRA_MATERIAL_PCT)
+                        elif recent_buybacks is None:
+                            pass   # sin cuatro trimestres seguidos no se sabe: ni sí ni no
                         elif recent_buybacks < 0 and market_cap and market_cap > 0:
                             buyback_pct = abs(float(recent_buybacks)) / float(market_cap) * 100
                             result['buyback_active'] = buyback_pct >= RECOMPRA_MATERIAL_PCT
@@ -2112,12 +2111,12 @@ class FundamentalScorer:
                     def _ttm(*etiquetas):
                         for label in etiquetas:
                             if label in financials.index:
-                                serie = financials.loc[label].dropna()
-                                # Hacen falta los cuatro trimestres: sumar dos
-                                # y compararlos con intereses de dos sale
-                                # parecido por casualidad, y con tres no.
-                                if len(serie) >= 4:
-                                    return float(serie.head(4).sum()), label
+                                # Hacen falta los cuatro trimestres, y SEGUIDOS:
+                                # sumar dos y compararlos con intereses de dos
+                                # sale parecido por casualidad, y con tres no.
+                                serie = ultimos_seguidos(financials.loc[label], 4)
+                                if serie is not None:
+                                    return float(serie.sum()), label
                         return None, None
 
                     operativo, base = _ttm('Operating Income',

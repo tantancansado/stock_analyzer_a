@@ -86,34 +86,22 @@ def _yoy(actual, anterior):
     return 100 * (a / b - 1)
 
 
-def _par_interanual(serie):
+def _par_interanual(serie, anios: int = 1):
     """(valor de hace un año, valor actual), emparejados POR FECHA.
 
     Por posición no vale: `columns[-5]` solo cae en el mismo trimestre del año
     anterior si no falta ninguna columna intermedia. En BSX faltaban dos y
-    comparaba 2025-09 contra 2026-06 — tres trimestres, no cuatro.
+    comparaba 2025-09 contra 2026-06 — tres trimestres, no cuatro. Sirve igual
+    con ejercicios anuales. La función es la de toda la app desde el 11-nov-2026:
+    aquí se había arreglado y en el scorer no.
     """
+    from financial_cross_check import mismo_periodo_hace
     if serie is None:
         return None, None
-    s = serie.dropna().sort_index()
-    if len(s) < 2:
+    par = mismo_periodo_hace(serie, anios)
+    if par is None:
         return None, None
-    objetivo = s.index[-1] - pd.Timedelta(days=365)
-    difs = abs(s.index[:-1] - objetivo)
-    i = int(difs.argmin())
-    if difs[i] > pd.Timedelta(days=45):
-        return None, None
-    return _num(s.iloc[i]), _num(s.iloc[-1])
-
-
-def _ultimos_dos(serie):
-    """(ejercicio anterior, último), para quien reporta semestral o anual."""
-    if serie is None:
-        return None, None
-    s = serie.dropna().sort_index()
-    if len(s) < 2:
-        return None, None
-    return _num(s.iloc[-2]), _num(s.iloc[-1])
+    return _num(par[1]), _num(par[0])
 
 
 def _pe_historico(tk):
@@ -249,8 +237,8 @@ def analizar_tesis_value(ticker: str, precio: float | None = None) -> dict:
             # trimestre, pero responde la misma pregunta y se marca como tal.
             a = tk.income_stmt
             rev_a, op_a = _fila(a, 'Total Revenue'), _fila(a, 'Operating Income')
-            rev0, rev1 = _ultimos_dos(rev_a)
-            op0, op1 = _ultimos_dos(op_a)
+            rev0, rev1 = _par_interanual(rev_a)
+            op0, op1 = _par_interanual(op_a)
             if None in (rev0, rev1, op0, op1) or rev0 <= 0 or rev1 <= 0:
                 r['motivo'] = 'sin dos periodos comparables (ni trimestrales ni anuales)'
                 return r

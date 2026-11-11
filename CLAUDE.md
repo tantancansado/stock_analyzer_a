@@ -42,6 +42,7 @@ sector_rotation → bandas_per → super_score_integrator → ai_quality_filter
 - Las bandas de upside viven en `value_bands.py` (UPSIDE_MIN/GOLDEN_MAX/UPSIDE_ALTO) — integrator, tracker y conviction las importan de ahí; NUNCA hardcodear una banda inline
 - `dividendYield` en yfinance ya viene en porcentaje (0.38 = 0.38%), NO decimal
 - `profit_margin_pct` está en `earnings_details`, NO en `health_details`
+- **Los periodos se emparejan por FECHA, nunca por posición** (`financial_cross_check.mismo_periodo_hace`, `ultimos_seguidos`, `tramo_seguido`; 11-nov-2026). yfinance deja a veces vacío un trimestre intermedio y `iloc[4]` pasaba a ser el de hace cinco, y «los cuatro últimos», quince meses: ese día, 16 del universo con el crecimiento de ventas mal (BAC +9,2 en vez de +3,2; AMZN +20,4 en vez de +12,1). Sin el periodo de hace un año no hay dato. Ya se había arreglado en `conviction_filter` y seguía vivo en el scorer; hay un test que lo vigila en todos los módulos
 - MA filter: si falla por rate-limit ("Too Many Requests"), NO penalizar (-20pts se salta)
 - Sin fallbacks silenciosos: si el dato falla → no score, no número inventado
 

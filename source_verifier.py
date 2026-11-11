@@ -74,13 +74,13 @@ def _valor_en_fuente(ticker: str, campo: str) -> float | None:
         qf = t.quarterly_financials
         if qf is None or qf.empty or 'Total Revenue' not in qf.index:
             return None
-        # Mismo criterio que fundamental_scorer tras el arreglo del 10-sep:
-        # el trimestre del año anterior está 4 posiciones atrás, y la serie
-        # se ordena explícitamente en vez de fiarse de yfinance.
-        rev = qf.loc['Total Revenue'].dropna().sort_index(ascending=False)
-        if len(rev) < 5 or not rev.iloc[4]:
+        # Mismo criterio que fundamental_scorer: el trimestre del año anterior
+        # se busca por fecha, no cuatro posiciones atrás (11-nov-2026).
+        from financial_cross_check import mismo_periodo_hace
+        par = mismo_periodo_hace(qf.loc['Total Revenue'])
+        if par is None or not par[1]:
             return None
-        return (rev.iloc[0] - rev.iloc[4]) / abs(rev.iloc[4]) * 100
+        return (par[0] - par[1]) / abs(par[1]) * 100
 
     i = _info(ticker if isinstance(ticker, dict) else t)
     if campo == 'roe':

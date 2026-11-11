@@ -32,6 +32,8 @@ from __future__ import annotations
 
 from typing import Any
 
+import pandas as pd
+
 # Cuánto puede desviarse shares×price de marketCap y seguir siendo cuadre.
 # Holgura para recompras y acciones emitidas entre el cierre y el dato.
 SHARES_PRICE_TOLERANCE = 0.05
@@ -52,6 +54,67 @@ STATEMENT_ROWS = {
     'totalDebt':         ('balance_sheet', 'Total Debt'),
     'totalCash':         ('balance_sheet', 'Cash And Cash Equivalents'),
 }
+
+
+# Periodos por FECHA, no por posición (11-nov-2026). yfinance deja a veces vacío
+# un trimestre intermedio —el de junio de 2026 en BSX, IT, ETN o DVA, unos días
+# sí y otros no—, el `dropna` lo quita y todo lo que contaba posiciones se
+# desplazaba: `iloc[4]` pasaba a ser el trimestre de hace CINCO y la suma de
+# «los cuatro últimos» cubría quince meses. Gartner salía con las ventas a
+# -10,8 % un día y a -1,3 % al siguiente, y BSX con el BPA a +99 % y +13,8 %.
+DIAS_DEL_PERIODO = {'trimestral': 91, 'anual': 365}
+TOLERANCIA_DIAS = 45
+
+
+def _por_fecha(serie) -> pd.Series:
+    """La serie sin vacíos, con índice de fechas y de más nueva a más vieja."""
+    s = pd.to_numeric(pd.Series(serie), errors='coerce').dropna()
+    if not isinstance(s.index, pd.DatetimeIndex):
+        s.index = pd.to_datetime(s.index.astype(str), errors='coerce', format='mixed')
+    return s[s.index.notna()].sort_index(ascending=False)
+
+
+def ultimos_seguidos(serie, n: int = 4, periodo: str = 'trimestral') -> pd.Series | None:
+    """Los `n` últimos periodos, o None si entre ellos falta alguno.
+
+    Sumar cuatro trimestres que no son seguidos no da doce meses. Sin el
+    periodo que falta no hay dato: no se rellena ni se salta.
+    """
+    s = _por_fecha(serie).iloc[:n]
+    if len(s) < n:
+        return None
+    dias = DIAS_DEL_PERIODO[periodo]
+    saltos = (s.index[:-1] - s.index[1:]).days
+    if any(d > dias * 1.5 or d < dias * 0.5 for d in saltos):
+        return None
+    return s
+
+
+def tramo_seguido(serie, periodo: str = 'trimestral') -> pd.Series:
+    """Desde el último periodo hasta el primer hueco, para ver aceleraciones."""
+    s = _por_fecha(serie)
+    dias = DIAS_DEL_PERIODO[periodo]
+    for i in range(1, len(s)):
+        d = (s.index[i - 1] - s.index[i]).days
+        if d > dias * 1.5 or d < dias * 0.5:
+            return s.iloc[:i]
+    return s
+
+
+def mismo_periodo_hace(serie, anios: int = 1) -> tuple[float, float] | None:
+    """(el último periodo, el mismo periodo `anios` antes), o None si no está.
+
+    Se empareja por fecha. Si falta justo el periodo de hace un año, no se
+    compara con el de al lado: ese crecimiento sería de otro plazo.
+    """
+    s = _por_fecha(serie)
+    if s.empty:
+        return None
+    objetivo = s.index[0] - pd.DateOffset(years=anios)
+    distancia = abs((s.index - objetivo).days)
+    if distancia.min() > TOLERANCIA_DIAS:
+        return None
+    return float(s.iloc[0]), float(s.iloc[int(distancia.argmin())])
 
 
 def _latest(df, row_name: str):
@@ -81,10 +144,8 @@ def _ttm(df, row_name: str):
     try:
         if row_name not in df.index:
             return None
-        serie = df.loc[row_name].dropna().sort_index(ascending=False)
-        if len(serie) < 4:
-            return None
-        return float(serie.iloc[:4].sum())
+        serie = ultimos_seguidos(df.loc[row_name], 4)
+        return None if serie is None else float(serie.sum())
     except Exception:
         return None
 
@@ -164,10 +225,10 @@ def crecimiento_ingresos_3y(stock) -> float | None:
     if fin is None or getattr(fin, 'empty', True) or 'Total Revenue' not in fin.index:
         return None
     try:
-        r = fin.loc['Total Revenue'].dropna().sort_index(ascending=False)
-        if len(r) < 4:
+        par = mismo_periodo_hace(fin.loc['Total Revenue'], anios=3)
+        if par is None:
             return None
-        ini, fin_ = float(r.iloc[3]), float(r.iloc[0])
+        fin_, ini = par
         if ini <= 0 or fin_ <= 0:
             return None
         return (fin_ / ini) ** (1 / 3) - 1
@@ -211,15 +272,13 @@ def crecimiento_bpa_3y(stock) -> float | None:
     if 'Net Income' not in fin.index or 'Diluted Average Shares' not in fin.index:
         return None
     try:
-        ni = fin.loc['Net Income'].dropna()
-        sh = fin.loc['Diluted Average Shares'].dropna()
-        fechas = sorted(set(ni.index) & set(sh.index), reverse=True)
-        if len(fechas) < 4:
+        ni = _por_fecha(fin.loc['Net Income'])
+        sh = _por_fecha(fin.loc['Diluted Average Shares'])
+        sh = sh[sh > 0]
+        par = mismo_periodo_hace((ni / sh).dropna(), anios=3)
+        if par is None:
             return None
-        def _bpa(f):
-            acciones = float(sh[f])
-            return float(ni[f]) / acciones if acciones > 0 else None
-        fin_, ini = _bpa(fechas[0]), _bpa(fechas[3])
+        fin_, ini = par
         # Un BPA negativo en cualquiera de los dos extremos no da un CAGR: la
         # raíz cúbica de un cociente negativo no existe, y forzarla inventaría
         # una tasa. Sin dato es mejor que con uno falso.
@@ -370,13 +429,13 @@ def _no_operativo_a_golpes(q) -> tuple[float, str] | None:
     """
     if 'Operating Income' not in q.index:
         return None
-    pre = q.loc['Pretax Income'].dropna().sort_index(ascending=False).iloc[:4]
-    op = q.loc['Operating Income'].dropna().sort_index(ascending=False).iloc[:4]
-    if len(pre) < 4 or len(op) < 4 or list(pre.index) != list(op.index):
+    pre = ultimos_seguidos(q.loc['Pretax Income'], 4)
+    op = ultimos_seguidos(q.loc['Operating Income'], 4)
+    if pre is None or op is None or list(pre.index) != list(op.index):
         return None
     intereses = 0.0
     if 'Net Non Operating Interest Income Expense' in q.index:
-        ni = q.loc['Net Non Operating Interest Income Expense'].reindex(pre.index)
+        ni = _por_fecha(q.loc['Net Non Operating Interest Income Expense']).reindex(pre.index)
         intereses = ni.fillna(0).astype(float)
     otros = pre.astype(float) - op.astype(float) - intereses
     total, op_ttm = float(otros.sum()), float(op.sum())
@@ -415,10 +474,13 @@ def bpa_normalizado(stock) -> tuple[float | None, str | None]:
         if fila not in q.index:
             return None, None
     try:
-        pre = q.loc['Pretax Income'].dropna().sort_index(ascending=False).iloc[:4]
-        tax = q.loc['Tax Provision'].dropna().sort_index(ascending=False).iloc[:4]
-        acc = q.loc['Diluted Average Shares'].dropna().sort_index(ascending=False).iloc[0]
-        if len(pre) < 4 or len(tax) < 4 or not acc or float(acc) <= 0:
+        pre = ultimos_seguidos(q.loc['Pretax Income'], 4)
+        tax = ultimos_seguidos(q.loc['Tax Provision'], 4)
+        acciones = _por_fecha(q.loc['Diluted Average Shares'])
+        if pre is None or tax is None or list(pre.index) != list(tax.index) or acciones.empty:
+            return None, None
+        acc = acciones.iloc[0]
+        if float(acc) <= 0:
             return None, None
         pre_ttm, tax_ttm = float(pre.sum()), float(tax.sum())
         if pre_ttm <= 0:
@@ -465,10 +527,10 @@ def cambio_de_acciones_pct(stock) -> float | None:
     if q is None or getattr(q, 'empty', True) or 'Diluted Average Shares' not in q.index:
         return None
     try:
-        sh = q.loc['Diluted Average Shares'].dropna().sort_index(ascending=False)
-        if len(sh) < 5:
+        par = mismo_periodo_hace(q.loc['Diluted Average Shares'])
+        if par is None:
             return None
-        hoy, hace_un_ano = float(sh.iloc[0]), float(sh.iloc[4])
+        hoy, hace_un_ano = par
         if hoy <= 0 or hace_un_ano <= 0:
             return None
         return (hoy / hace_un_ano - 1) * 100

@@ -49,10 +49,18 @@ def test_se_publica_cual_se_usó():
     assert "result['interest_coverage_ebit']" in BLOQUE
 
 
-def test_exige_los_cuatro_trimestres():
+def test_exige_los_cuatro_trimestres_y_seguidos():
     """Sumar dos trimestres de resultado y compararlos contra dos de
-    intereses sale parecido por casualidad; con tres, no."""
-    assert 'len(serie) >= 4' in BLOQUE
+    intereses sale parecido por casualidad; con tres, no. Y con uno vacío en
+    medio, «los cuatro últimos» eran quince meses (11-nov-2026)."""
+    import pandas as pd
+    from financial_cross_check import ultimos_seguidos
+    assert 'ultimos_seguidos(financials.loc[label], 4)' in BLOQUE
+    tres = pd.Series([1.0, 1.0, 1.0], index=pd.to_datetime(['2026-09-30', '2026-06-30', '2026-03-31']))
+    con_hueco = pd.Series([1.0, 1.0, 1.0, 1.0],
+                          index=pd.to_datetime(['2026-09-30', '2026-03-31', '2025-12-31', '2025-09-30']))
+    assert ultimos_seguidos(tres, 4) is None
+    assert ultimos_seguidos(con_hueco, 4) is None
 
 
 def test_los_campos_nuevos_llegan_al_csv():

@@ -12,8 +12,8 @@ el CSV del 18-sep mirando el `mtime`, que en CI siempre parece de hoy. Al
 arreglar el mtime, Europa habría pasado de 58 empresas puntuadas a 22.
 
 Con los estados ANUALES el interanual se mide igual de bien —mejor incluso:
-no hay estacionalidad que corregir—; lo único que cambia es cuántas filas hay
-que retroceder.
+no hay estacionalidad que corregir—. El año anterior se busca por fecha, así
+que vale para las dos bases.
 """
 import os
 import sys
@@ -42,18 +42,6 @@ def _marco(periodos, beneficio):
     cols = pd.to_datetime([f'202{6 - i}-12-31' for i in range(periodos)])
     return pd.DataFrame({c: [v] for c, v in zip(cols, beneficio)},
                         index=['Net Income'])
-
-
-class TestElPasoInteranual:
-
-    def test_con_trimestres_se_retrocede_cuatro(self):
-        assert fs._paso_interanual('trimestral') == 4
-
-    def test_con_anos_se_retrocede_uno(self):
-        assert fs._paso_interanual('anual') == 1
-
-    def test_lo_desconocido_se_trata_como_trimestral(self):
-        assert fs._paso_interanual('') == 4
 
 
 class TestSinTrimestresSeUsaElAnual:
@@ -104,12 +92,11 @@ class TestElInteranualSeMideBienEnCadaBase:
 
     def test_con_trimestres_sigue_comparando_contra_el_mismo_trimestre(self):
         sc = fs.FundamentalScorer()
-        earnings = _marco(5, [110, 100, 90, 80, 70]).T
-        earnings.columns = ['Earnings']
-        earnings = earnings.sort_index(ascending=False)
+        fechas = pd.to_datetime(['2026-09-30', '2026-06-30', '2026-03-31', '2025-12-31', '2025-09-30'])
+        earnings = pd.DataFrame({'Earnings': [110, 100, 90, 80, 70]}, index=fechas)
         earnings.attrs['periodo'] = 'trimestral'
         res = sc._calculate_earnings_quality_score(earnings, {})
-        # 110 contra 70 = +57,1%
+        # 110 contra 70 (sep-2026 contra sep-2025) = +57,1%
         assert res['details'].get('eps_growth_yoy') == pytest.approx(57.1, abs=0.2)
 
 
