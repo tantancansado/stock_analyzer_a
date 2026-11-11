@@ -1,16 +1,25 @@
 {
-  "generated_at": "2026-11-10T08:07:07",
+  "generated_at": "2026-11-11T06:57:51",
   "positions_checked": 38,
-  "total": 1,
-  "high_count": 1,
+  "total": 2,
+  "high_count": 2,
   "alerts": [
+    {
+      "ticker": "CBOE",
+      "company_name": "Cboe Global Markets, Inc.",
+      "strategy": "VALUE",
+      "signal_date": "2026-10-14",
+      "type": "THESIS_BROKEN",
+      "reason": "analyst_upside ahora -2% \u2014 sobrevalorado",
+      "severity": "HIGH"
+    },
     {
       "ticker": "PEP",
       "company_name": "PepsiCo, Inc.",
       "strategy": "VALUE",
       "signal_date": "2026-11-09",
       "type": "THESIS_BROKEN",
-      "reason": "analyst_upside ahora -0% \u2014 sobrevalorado",
+      "reason": "analyst_upside ahora -1% \u2014 sobrevalorado",
       "severity": "HIGH"
     }
   ]

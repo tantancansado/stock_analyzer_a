@@ -210,15 +210,18 @@
  },
  "FICO": {
   "veredicto": "EVENTO",
-  "resumen": "<cite index=\"4-6\">El 26.5% de caída en un día (29 de septiembre) vino tras el anuncio de la Federal Housing Finance Agency de que VantageScore se sumaría al mismo marco de precios hipotecarios que FICO Score</cite>. <cite index=\"9-7,9-8,9-9\">En noviembre (acaba de ocurrir), guidance para 2026 quedó ",
-  "confianza": 72,
+  "resumen": "La caída se originó por decisiones regulatorias de la FHFA (septiembre-octubre 2026) que introdujeron a VantageScore en el pricing de hipotecas de Fannie/Freddie y por la congelación del precio del score hipotecario en 10 dólares, atacando la percepción de poder de fijación de precios de FICO; sin e",
+  "confianza": 55,
   "fuentes": [
-   "https://www.gurufocus.com/news/9143439/fair-isaac-corp-fico-shares-drop-over-13-amid-competitive-pressures-and-pricing-concerns",
-   "https://finance.yahoo.com/markets/stocks/articles/fair-isaac-fico-stock-looks-150951207.html",
-   "https://www.marketbeat.com/instant-alerts/fair-isaac-nysefico-stock-price-down-59-after-insider-selling-2026-08-03/",
-   "https://finance.yahoo.com/markets/stocks/articles/does-fall-fair-isaac-stock-122319607.html"
+   "https://www.sec.gov/Archives/edgar/data/0000814547/000081454726000042/fico-20260930.htm",
+   "https://seekingalpha.com/news/4657132-fair-isaac-stock-slumps-after-holding-pricing-for-preferred-lenders",
+   "https://finance.yahoo.com/markets/stocks/articles/does-fall-fair-isaac-stock-122319607.html",
+   "https://www.tradingview.com/news/gurufocus:04cc44019094b:0-fair-isaac-after-the-50-drop-is-the-credit-score-monopoly-now-a-value-stock/"
   ],
-  "fecha": "2026-11-06"
+  "modelo": "claude-sonnet-5",
+  "resultados": "2027-01-27",
+  "fecha": "2026-11-11",
+  "criterio": 2
  },
  "WTKWY": {
   "veredicto": "SENTIMIENTO",
@@ -420,11 +423,19 @@
   "fecha": "2026-11-04"
  },
  "INTU": {
-  "veredicto": "SIN_DATOS",
-  "resumen": "",
-  "confianza": 0,
-  "fuentes": [],
-  "fecha": "2026-11-04"
+  "veredicto": "SENTIMIENTO",
+  "resumen": "La acción se desplomó durante 2026 (de máximos cercanos a 680-814 a mínimos de ~253) principalmente por el miedo del mercado a que la IA agéntica sustituya los servicios de TurboTax/QuickBooks, mientras los resultados trimestrales reales batieron el guidance y la compañía elevó su guidance de FY26 e",
+  "confianza": 55,
+  "fuentes": [
+   "https://www.tikr.com/blog/is-intuit-stock-a-buy-in-2026-after-falling-67-from-its-52-week-high",
+   "https://www.tikr.com/blog/intuit-stock-is-down-38-in-2026-analysts-see-42-upside-to-553-target",
+   "https://finance.yahoo.com/markets/stocks/articles/intuit-intu-stock-trades-down-203134329.html",
+   "https://www.gurufocus.com/news/9182327/intuit-inc-intu-shares-fall-38-what-gf-score-of-79-tells-investors"
+  ],
+  "modelo": "claude-sonnet-5",
+  "resultados": "2026-11-19",
+  "fecha": "2026-11-11",
+  "criterio": 2
  },
  "ODFL": {
   "veredicto": "SIN_DATOS",
@@ -472,16 +483,19 @@
   "fecha": "2026-11-06"
  },
  "ADBE": {
-  "veredicto": "DETERIORO",
-  "resumen": "Crecimiento de ARR ralentizando sostenidamente; legacy stock business colapsa más rápido que guidance; management acepta sacrificar crecimiento corto plazo empujando clientes a free tiers. Cambio de CEO en marcha.",
-  "confianza": 72,
+  "veredicto": "SENTIMIENTO",
+  "resumen": "Adobe ha caído por temor a la disrupción de la IA generativa (Midjourney, OpenAI, Canva) y por incertidumbre en la transición de CEO, pero cada trimestre de 2026 ha batido estimaciones y elevado el guidance, con ARR, ingresos y márgenes creciendo con fuerza. El mercado no ha visto deterioro real en ",
+  "confianza": 70,
   "fuentes": [
-   "https://www.tikr.com/blog/adobe-has-fallen-46-from-its-peak-is-adbe-stock-a-buy-in-2026",
-   "https://finance.yahoo.com/markets/stocks/articles/adobe-now-down-37-2026-164456666.html",
    "https://finance.yahoo.com/news/adobe-stock-drops-26-wall-112203636.html",
-   "https://finance.yahoo.com/markets/stocks/articles/why-adobe-adbe-stock-falling-214120182.html"
+   "https://roboforex.com/beginners/analytics/forex-forecast/stocks/stocks-forecast-adobe-adbe/",
+   "https://247wallst.com/investing/2026/02/18/adobe-stock-drops-26-as-wall-street-questions-its-defense-against-ai-competition/",
+   "https://247wallst.com/investing/2026/10/26/the-software-monopoly-priced-like-a-victim-adobe/"
   ],
-  "fecha": "2026-11-09"
+  "modelo": "claude-sonnet-5",
+  "resultados": "2026-12-09",
+  "fecha": "2026-11-11",
+  "criterio": 2
  },
  "BSX": {
   "veredicto": "DETERIORO",
@@ -498,15 +512,18 @@
  },
  "BRO": {
   "veredicto": "CICLICO",
-  "resumen": "Q3 2026: EPS adjusted solo +1.9% pese a ingresos +7.4%, márgenes contraídos 200bp por integración Accession y caída de tasas en property. Crecimiento orgánico débil (1.2%) en segmento Specialty Distribution; ciclo de precios de propiedad bajista conocido y cuantificable.",
-  "confianza": 72,
+  "resumen": "En el Q3 2026 (publicado el 26-27 de octubre), BRO reportó crecimiento orgánico de solo 1.2% frente al 3.5% del año anterior y compresión de margen de 200 puntos básicos, por el ablandamiento de precios en propiedad y especialidad y la comparación con mayores ingresos por intereses del año previo. E",
+  "confianza": 65,
   "fuentes": [
-   "https://www.gurufocus.com/news/9182383/a-look-at-brown-brown-inc-bro-after-30-decline-gf-value-11213-vs-price-7212",
-   "https://www.marketbeat.com/stocks/NYSE/BRO/news/",
-   "https://www.fool.com/investing/2026/10/27/why-brown-and-brown-stock-slumped-by-5-today/",
-   "https://www.tradingview.com/news/stockstory:92731bb6e094b:0-why-brown-brown-bro-stock-is-trading-lower-today/"
+   "https://uk.investing.com/news/stock-market-news/brown--brown-q3-2026-slides-growth-continues-amid-margin-pressure-93CH-4934621",
+   "https://investwithcolby.substack.com/p/brown-and-brown-bro-q3-2026-earnings",
+   "https://finance.yahoo.com/markets/stocks/articles/bro-q3-earnings-miss-estimates-141100706.html",
+   "https://www.sec.gov/Archives/edgar/data/0000079282/000119312526432142/bro-ex99_1.htm"
   ],
-  "fecha": "2026-11-09"
+  "modelo": "claude-sonnet-5",
+  "resultados": "2027-01-25",
+  "fecha": "2026-11-11",
+  "criterio": 2
  },
  "PGR": {
   "veredicto": "EVENTO",
@@ -533,16 +550,19 @@
   "fecha": "2026-11-09"
  },
  "MKC": {
-  "veredicto": "EVENTO",
-  "resumen": "Guidance recortada en Q4 FY2025 ($3.09 EPS vs expectativa 3.20+); mayores cargos especiales y presión de aranceles China erosionan BPA neto pese a operativo positivo. Caída de 34% desde máximo March 2025.",
-  "confianza": 78,
+  "veredicto": "DETERIORO",
+  "resumen": "Volumen estancado (0.3% 2024) tras agotamiento de pricing (+0.5%), guidance recortada para 2025, y merger Unilever de $44.8B genera deuda material que impacta estructura de capital. Márgenes operativos aún sanos pero erosión de poder precio e ingreso neto deteriorado.",
+  "confianza": 72,
   "fuentes": [
    "https://www.sec.gov/Archives/edgar/data/63754/000006375424000064/mkc-20240831.htm",
-   "https://www.sec.gov/Archives/edgar/data/63754/000006375425000005/mkc-20241130.htm",
-   "https://www.sec.gov/Archives/edgar/data/63754/000006375426000037/mkc-20251130.htm",
-   "https://www.sec.gov/Archives/edgar/data/63754/000006375425000024/mkc-20250228.htm"
+   "https://www.sec.gov/Archives/edgar/data/63754/000006375424000024/mkcreports2023financialres.htm",
+   "https://www.sec.gov/Archives/edgar/data/63754/000006375424000030/mkcreportsstrongfirstqua.htm",
+   "https://www.sec.gov/Archives/edgar/data/63754/000006375424000033/mkc-20240229.htm"
   ],
-  "fecha": "2026-11-10"
+  "modelo": "claude-haiku-4-5",
+  "resultados": "2027-01-21",
+  "fecha": "2026-11-11",
+  "criterio": 2
  },
  "ESLOY": {
   "veredicto": "SENTIMIENTO",
