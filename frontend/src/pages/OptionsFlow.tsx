@@ -1,3 +1,4 @@
+import { BotonMasDatos, useMasDatos } from '../components/MasDatos'
 import { useState, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { fetchUnusualFlow, fetchCerebroOptionsQuality, type OptionsQualitySignal } from '../api/client'
@@ -167,6 +168,8 @@ export default function OptionsFlow() {
   const [signalFilter, setSignalFilter] = useState<'ALL' | 'BULLISH' | 'BEARISH' | 'MIXED'>('ALL')
   const [expanded, setExpanded] = useState<string | null>(null)
   const [onlyLarge, setOnlyLarge] = useState(false)
+  // Vista sencilla por defecto (12-nov-2026); cifras y filtros, en la avanzada.
+  const [avanzada, alternarAvanzada] = useMasDatos('opciones')
 
   const raw = data as FlowData | null
   const results: FlowResult[] = raw?.results ?? []
@@ -212,9 +215,12 @@ export default function OptionsFlow() {
           )}
         </>}
       >
-        <CsvDownload dataset="unusual-flow" label="CSV" />
+        {avanzada && <CsvDownload dataset="unusual-flow" label="CSV" />}
+        <BotonMasDatos activo={avanzada} onClick={alternarAvanzada} />
       </PageHeader>
 
+      {avanzada && (
+      <>
       {/* Summary cards */}
       <CifrasClave cifras={[
         { etiqueta: 'Tickers con flujo', valor: raw?.total_tickers_with_flow ?? 0, sub: 'con actividad opciones' },
@@ -249,6 +255,9 @@ export default function OptionsFlow() {
           <Zap size={12} strokeWidth={2.25} />Solo bloques &gt;$100K
         </button>
       </div>
+
+      </>
+      )}
 
       {/* Mobile cards */}
       <div className="sm:hidden space-y-2 mb-2">
@@ -372,6 +381,8 @@ export default function OptionsFlow() {
         </Card>
       </div>
 
+      {avanzada && (
+      <>
       {/* Cerebro Options Quality — TIER1/TIER2 filtered by IA */}
       {qualityRaw && (qualityRaw.tier1 + qualityRaw.tier2) > 0 && (() => {
         const tier12 = (qualityRaw.actionable as OptionsQualitySignal[])
@@ -437,6 +448,9 @@ export default function OptionsFlow() {
           </div>
         )
       })()}
+      </>
+      )}
+
     </>
   )
 }

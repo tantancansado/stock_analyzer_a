@@ -1,3 +1,4 @@
+import { BotonMasDatos, useMasDatos } from '../components/MasDatos'
 import StaleDataBanner from '../components/StaleDataBanner'
 import { useState } from 'react'
 import { fetchRecurringInsiders, fetchInsidersInsight, downloadCsv, type InsiderData } from '../api/client'
@@ -46,6 +47,8 @@ export default function Insiders() {
   const { positions: myPositions } = usePersonalPortfolio()
   const [filterMarket, setFilterMarket] = useState<'ALL' | 'US' | 'EU'>('ALL')
   const [expanded, setExpanded] = useState<string | null>(null)
+  // Vista sencilla por defecto (12-nov-2026); cifras y filtros, en la avanzada.
+  const [avanzada, alternarAvanzada] = useMasDatos('insiders')
   const [compact, setCompact] = useState(() => typeof window !== 'undefined' && window.innerWidth < 1280)
   const PAGE_SIZE = 30
 
@@ -90,6 +93,7 @@ export default function Insiders() {
       title="Directivos comprando"
       subtitle="Empresas cuyos directivos compran sus propias acciones una y otra vez. Es un dato: no cambia la lista de Value"
       banner={<StaleDataBanner module="insiders" />}
+      actions={<BotonMasDatos activo={avanzada} onClick={alternarAvanzada} />}
       loading={loading}
       error={error}
     >
@@ -98,12 +102,17 @@ export default function Insiders() {
         <AiNarrativeCard narrative={insightRaw.narrative} label="Análisis de Patrones Insider" className="mb-5" />
       )}
 
+      {avanzada && (
+      <>
       <CifrasClave cifras={[
         { etiqueta: 'Tickers', valor: filtered.length, sub: EUROPA_Y_GLOBAL ? `${euRows.length} EU · ${usRows.length} US` : 'en EE. UU.' },
         { etiqueta: 'Alta confianza', valor: highConf, sub: 'score normalizado 70+', tono: 'favor' },
         { etiqueta: 'Multi-insider', valor: multiInsider, sub: '≥2 directivos comprando', tono: 'neutro' },
         { etiqueta: 'Confianza media', valor: avgConf.toFixed(0), sub: 'normalizado 0-100', tono: avgConf >= 60 ? 'favor' : 'aviso' },
       ]} />
+
+      </>
+      )}
 
       {/* My Portfolio insiders */}
       {(() => {
@@ -179,6 +188,8 @@ export default function Insiders() {
         )
       })()}
 
+      {avanzada && (
+      <>
       {/* Filter + Download bar */}
       <div className="flex items-center gap-2 mb-3 flex-wrap">
         {EUROPA_Y_GLOBAL && (['ALL', 'US', 'EU'] as const).map(m => (
@@ -202,6 +213,9 @@ export default function Insiders() {
           {EUROPA_Y_GLOBAL && <button onClick={() => downloadCsv('insiders-eu')} className="filter-btn">↓ CSV EU</button>}
         </div>
       </div>
+
+      </>
+      )}
 
       {/* Mobile cards */}
       <div className="sm:hidden space-y-2 mb-2">

@@ -1,3 +1,4 @@
+import { BotonMasDatos, useMasDatos } from '../components/MasDatos'
 import { useState, useEffect } from 'react'
 import { fetchDividendTraps, fetchDividendCalendar, fetchValueOpportunities, fetchEUValueOpportunities } from '../api/client'
 import type { DividendTrapEntry, DividendCalendarEvent } from '../api/client'
@@ -159,6 +160,8 @@ export default function DividendTraps() {
   const { positions: myPositions, isOwned } = usePersonalPortfolio()
   const [tab, setTab] = useState<Tab>('traps')
   const [riskFilter, setRiskFilter] = useState<'ALL' | 'HIGH' | 'MEDIUM'>('ALL')
+  // Vista sencilla por defecto (12-nov-2026); cifras y filtros, en la avanzada.
+  const [avanzada, alternarAvanzada] = useMasDatos('dividendos')
 
   // Fetch VALUE recommendations to cross-reference
   const [valueRecs, setValueRecs] = useState<Set<string>>(new Set())
@@ -205,6 +208,7 @@ export default function DividendTraps() {
   return (
     <div className="max-w-5xl mx-auto space-y-5">
       <PageHeader {...cabecera}>
+        <BotonMasDatos activo={avanzada} onClick={alternarAvanzada} />
         <span className="text-mini text-muted-foreground">{data.date} · {data.total_scanned} tickers analizados</span>
       </PageHeader>
 
@@ -284,6 +288,8 @@ export default function DividendTraps() {
         </Card>
       )}
 
+      {avanzada && (
+      <>
       {/* Stats */}
       <div className="grid grid-cols-3 gap-3">
         <Card className="glass border border-red-500/20">
@@ -314,6 +320,9 @@ export default function DividendTraps() {
           </CardContent>
         </Card>
       </div>
+
+      </>
+      )}
 
       {/* Tabs */}
       <div className="flex flex-wrap items-center gap-3">
@@ -352,6 +361,8 @@ export default function DividendTraps() {
         )}
       </div>
 
+      {avanzada && (
+      <>
       {/* Tab summary row */}
       {tab === 'traps' && (
         <p className="text-mini text-muted-foreground">
@@ -372,6 +383,9 @@ export default function DividendTraps() {
         <p className="text-mini text-muted-foreground">
           Próximos <span className="text-blue-400 font-semibold">{divCalendar.filter(e => e.days_to_exdiv <= 30).length}</span> dividendos en 30 días
         </p>
+      )}
+
+      </>
       )}
 
       {/* List */}

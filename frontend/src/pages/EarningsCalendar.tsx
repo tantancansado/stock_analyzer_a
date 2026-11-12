@@ -1,3 +1,4 @@
+import { BotonMasDatos, useMasDatos } from '../components/MasDatos'
 import { useState, useMemo, useDeferredValue } from 'react'
 import { AnimatePresence } from 'motion/react'
 import { fetchEarningsCalendar } from '../api/client'
@@ -90,6 +91,8 @@ export default function EarningsCalendar() {
   const [filter, setFilter] = useState<FilterMode>('all')
   const [search, setSearch] = useState('')
   const [thesisTicker, setThesisTicker] = useState<string | null>(null)
+  // Vista sencilla por defecto (12-nov-2026); cifras y filtros, en la avanzada.
+  const [avanzada, alternarAvanzada] = useMasDatos('resultados')
   const deferredSearch = useDeferredValue(search)
   const { positions: myPositions } = usePersonalPortfolio()
 
@@ -141,9 +144,12 @@ export default function EarningsCalendar() {
   return (
     <div className="max-w-5xl mx-auto space-y-5">
       <PageHeader {...cabecera}>
+        <BotonMasDatos activo={avanzada} onClick={alternarAvanzada} />
         <span className="text-mini text-muted-foreground">{data.total} tickers · {data.as_of}</span>
       </PageHeader>
 
+      {avanzada && (
+      <>
       {/* Stats */}
       <div className="grid grid-cols-3 gap-3">
         <Card className="glass border border-border/50">
@@ -174,6 +180,9 @@ export default function EarningsCalendar() {
           </CardContent>
         </Card>
       </div>
+
+      </>
+      )}
 
       {/* My Portfolio Earnings */}
       {myEarnings.length > 0 && (
@@ -394,6 +403,8 @@ export default function EarningsCalendar() {
         ))
       )}
 
+      {avanzada && (
+      <>
       {/* Legend */}
       <Card className="glass border border-border/30">
         <CardContent className="p-3 flex flex-wrap gap-4 text-mini text-muted-foreground">
@@ -415,6 +426,9 @@ export default function EarningsCalendar() {
           </div>
         </CardContent>
       </Card>
+
+      </>
+      )}
 
       {/* AnimatePresence aquí, no dentro del modal: el modal se DESMONTA al
           cerrarse, y una animación de salida necesita que alguien retrase ese
