@@ -1,16 +1,13 @@
 import { useState, useEffect, useRef, useMemo, useCallback, useDeferredValue } from 'react'
 import { AnimatePresence } from 'motion/react'
-import { TriangleAlert, LogOut, Gem, Flame, CalendarClock, CircleCheck, Landmark } from 'lucide-react'
-import SignalBadge from '../components/SignalBadge'
+import { TriangleAlert, Gem, Landmark } from 'lucide-react'
 import { precio } from '../lib/moneda'
 import { Link, useSearchParams } from 'react-router-dom'
-import { fetchValueOpportunities, fetchMarketRegime, fetchThesis, fetchMacroRadar, fetchMlWinProbability, type ValueOpportunity, type MlWinPrediction } from '../api/client'
+import { fetchValueOpportunities, fetchMarketRegime, fetchThesis, fetchMacroRadar, type ValueOpportunity } from '../api/client'
 import StaleDataBanner from '../components/StaleDataBanner'
 import { usePersonalPortfolio } from '../context/PersonalPortfolioContext'
 import { useApi } from '../hooks/useApi'
 import ScoreBar from '../components/ScoreBar'
-import ScoreRing from '../components/ScoreRing'
-import GradeBadge from '../components/GradeBadge'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent } from '@/components/ui/card'
 import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '@/components/ui/table'
@@ -21,15 +18,7 @@ import ThesisModal from '../components/ThesisModal'
 import TickerLogo from '../components/TickerLogo'
 import OwnedBadge from '../components/OwnedBadge'
 import ValuationBar from '../components/ValuationBar'
-import { useTechnicalSummaryMap } from '../hooks/useTechnicalSummaryMap'
-import { useCerebroSignals } from '../hooks/useCerebroSignals'
-import { useChartSignals } from '../hooks/useChartSignals'
-import CerebroBadges from '../components/CerebroBadges'
 import OeAiBadge from '../components/OeAiBadge'
-import AnalystRevisionBadge from '../components/AnalystRevisionBadge'
-import EntryVerdictBadge from '../components/EntryVerdictBadge'
-import { useEntryVerdicts } from '../hooks/useEntryVerdicts'
-import type { TechnicalSummary } from '../api/client'
 import PageHeader from '../components/PageHeader'
 import AvisoDatosViejos from '@/components/AvisoDatosViejos'
 import RendimientoReal from '../components/RendimientoReal'
@@ -37,127 +26,36 @@ import { LogoCandleBull } from '../components/BrandLogos'
 import { useValueExperienceMode } from '../hooks/useValueExperienceMode'
 import { ValueClarityPanel, ValueDecisionBadge, ValueModeToggle } from '../components/ValueDecision'
 import { getValueDecision } from '@/lib/valueDecision'
-import { estadoEfectivo } from '@/lib/estadoEntrada'
 import PageShell from '@/components/PageShell'
 import { nlRegimen, nlRegimenTono } from '@/lib/nl'
 import CifrasClave from '../components/CifrasClave'
 
-function TechBiasCell({ t }: { t?: TechnicalSummary }) {
-  if (!t) return <span className="text-muted-foreground text-mini">—</span>
-  const cls = t.bias === 'BULLISH'
-    ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30'
-    : t.bias === 'BEARISH'
-    ? 'bg-red-500/15 text-red-400 border-red-500/30'
-    : 'bg-muted/20 text-muted-foreground border-border/20'
-  const icon = t.bias === 'BULLISH' ? '▲' : t.bias === 'BEARISH' ? '▼' : '—'
-  return (
-    <span className={`text-mini font-bold px-1.5 py-0.5 rounded-full border ${cls}`}
-      title={`+${t.bullish_count} alcistas / -${t.bearish_count} bajistas`}>
-      {icon}
-    </span>
-  )
+/** Nuestro potencial: la valoración triangulada (DCF y P/E propios con el
+ *  consenso), que es lo que decide la lista. El objetivo de los analistas solo,
+ *  donde no hay otro. Era el del analista: INTU salía a +19 % con nuestros
+ *  modelos viéndole +150 %. */
+function potencial(d: ValueOpportunity): number | null {
+  return d.upside_triangulated_pct ?? d.analyst_upside_pct ?? null
 }
 
-function MlWinBadge({ pred }: { pred?: MlWinPrediction }) {
-  if (!pred) return <span className="text-muted-foreground text-mini">—</span>
-  const cls =
-    pred.label === 'ALTA'  ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30' :
-    pred.label === 'MEDIA' ? 'bg-amber-500/15 text-amber-400 border-amber-500/30' :
-                             'bg-muted/20 text-muted-foreground border-border/30'
-  return (
-    <span
-      className={`text-micro font-bold px-1.5 py-0.5 rounded border tracking-wide ${cls}`}
-      title={`XGBoost win probability: ${(pred.probability * 100).toFixed(0)}% (P${pred.percentile})`}
-    >
-      {(pred.probability * 100).toFixed(0)}%
-    </span>
-  )
-}
-
-/** Cuántos días vale una lectura de gráfico antes de dejar de ser el "ahora". */
-const CADUCIDAD_CHART_DIAS = 7
-
-/**
- * Calidad de entrada leída del gráfico por un modelo de visión.
- *
- * Dos filtros que antes no había:
- *
- *  1. **Caducidad.** El análisis salió del pipeline diario el 14-sep-2026 —
- *     costaba 15 de los 90 minutos del job y era lo primero que moría en cada
- *     timeout, así que su salida llevaba días congelada. Ahora se pide bajo
- *     demanda, y una lectura de hace dos semanas no describe el gráfico de hoy.
- *
- *  2. **Confianza.** 73 de 103 lecturas salían con confidence "low". Marcarlas
- *     con un "?" no bastaba: en una tabla se leen igual que las buenas. Si el
- *     modelo dice que no está seguro, no hay dato.
- */
-function EntryQualityBadge({ quality, confidence, analyzedAt }: {
-  quality?: string
-  confidence?: string
-  analyzedAt?: string
-}) {
-  const sinDato = <span className="text-muted-foreground text-mini">—</span>
-  if (!quality || quality === 'wait' || confidence === 'low') return sinDato
-  if (analyzedAt) {
-    const dias = (Date.now() - new Date(analyzedAt).getTime()) / 86_400_000
-    if (!Number.isFinite(dias) || dias > CADUCIDAD_CHART_DIAS) return sinDato
-  }
-  const cfg: Record<string, { cls: string; label: string }> = {
-    ideal:      { cls: 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30', label: 'IDEAL' },
-    acceptable: { cls: 'bg-amber-500/15 text-amber-400 border-amber-500/30',      label: 'OK' },
-    avoid:      { cls: 'bg-red-500/15 text-red-400 border-red-500/30',             label: 'EVITAR' },
-  }
-  const { cls, label } = cfg[quality] ?? { cls: 'bg-muted/20 text-muted-foreground border-border/20', label: quality }
-  const confSuffix = confidence === 'low' ? '?' : ''
-  return (
-    <span className={`text-micro font-bold px-1.5 py-0.5 rounded border tracking-wide ${cls}`}
-      title={`Entrada: ${quality} · Confianza: ${confidence ?? '?'}`}>
-      {label}{confSuffix}
-    </span>
-  )
-}
+// Value US decide con UNA regla (value_bands.nota_value) y cada fila dice su grupo y
+// por qué. El 12-nov la vista completa enseñaba, al lado de tres de Prioridad,
+// ESPERA, EXIT, TRAP, un grado D, «HARD REJECT», un R:R con stop del 8 % y un P(win)
+// que ya no se publica: reglas anteriores que la lista no usa y que decían lo
+// contrario. Esas señales viven en la ficha como datos, no en la fila como veredicto.
+const GRUPO_FILTROS: { clave: string; etiqueta: string }[] = [
+  { clave: 'ALL',       etiqueta: 'Todas' },
+  { clave: 'PRIORIDAD', etiqueta: 'Prioridad' },
+  { clave: 'OBSERVAR',  etiqueta: 'Observar' },
+]
 
 type SortKey = keyof ValueOpportunity
 type SortDir = 'asc' | 'desc'
-
-/** Orden de accionabilidad: lo que se puede comprar hoy, primero. Sin dato va
- *  al final — no se sabe el timing, así que no se promociona. */
-export const ORDEN_TIMING: Record<string, number> = {
-  ENTRADA: 0, VIGILAR: 1, ESPERAR: 2, '': 9,
-}
-
-/** Compara dos ideas por timing y, a igual timing, por score.
- *
- *  Es el orden al pulsar la columna de timing. Dentro del grupo manda el score,
- *  para que un ENTRADA flojo no encabece la pantalla — EQIX salía con 30,9 el
- *  22-sep-2026 y es el último de los suyos, no el primero. */
-export function comparaPorTiming(
-  a: Pick<ValueOpportunity, 'entry_readiness' | 'value_score'>,
-  b: Pick<ValueOpportunity, 'entry_readiness' | 'value_score'>,
-  dir: SortDir = 'desc',
-): number {
-  const ra = ORDEN_TIMING[a.entry_readiness ?? ''] ?? 9
-  const rb = ORDEN_TIMING[b.entry_readiness ?? ''] ?? 9
-  if (ra !== rb) return dir === 'desc' ? ra - rb : rb - ra
-  return (b.value_score ?? 0) - (a.value_score ?? 0)
-}
-const TIMING_FILTROS: { clave: string; etiqueta: string }[] = [
-  { clave: 'ALL',     etiqueta: 'Todos' },
-  { clave: 'ENTRADA', etiqueta: 'Entra' },
-  { clave: 'VIGILAR', etiqueta: 'Vigila' },
-  { clave: 'ESPERAR', etiqueta: 'Espera' },
-]
 
 export default function ValueUS() {
   const { data, loading, error } = useApi(() => fetchValueOpportunities(), [])
   const { data: regime } = useApi(() => fetchMarketRegime(), [])
   const { data: macroRaw } = useApi(() => fetchMacroRadar(), [])
-  const { data: mlData } = useApi(() => fetchMlWinProbability().then(d => ({ data: d })), [])
-  const mlMap = useMemo(() => mlData?.predictions ?? {}, [mlData])
-  const techMap = useTechnicalSummaryMap()
-  const cerebro = useCerebroSignals()
-  const chartSignals = useChartSignals()
-  const verdicts = useEntryVerdicts()
   const [sortKey, setSortKey] = useState<SortKey>('value_score')
   const [sortDir, setSortDir] = useState<SortDir>('desc')
   const [expandedRow, setExpandedRow] = useState<ValueOpportunity | null>(null)
@@ -167,24 +65,15 @@ export default function ValueUS() {
   // URL-synced filters
   const [searchParams, setSearchParams] = useSearchParams()
 
-  const filterGrade = searchParams.get('grade') ?? 'ALL'
+  const filterGrupo = searchParams.get('grupo') ?? 'ALL'
   const filterSector = searchParams.get('sector') ?? 'ALL'
-  // Sin suelo por defecto. Lo que llega a este CSV YA pasó el gate de Claude
-  // y el conviction filter: poner encima un mínimo de score en la UI es
-  // filtrar dos veces y esconder justo lo que el backend acaba de verificar.
-  // El 9-sep-2026 el default de '55' dejaba la pantalla principal en "No hay
-  // ideas visibles" con 4 picks publicados (45,8 / 39,9 / 38,1 / 31,1) —
-  // parecía que el pipeline no había sacado nada. El score sigue estando en
-  // los filtros para quien lo quiera; simplemente no se aplica solo.
-  const minScore = searchParams.get('score') ?? ''
   const minFcf = searchParams.get('fcf') ?? ''
-  const minRr = searchParams.get('rr') ?? ''
 
-  function setFilterGrade(v: string) {
+  function setFilterGrupo(v: string) {
     setSearchParams(p => {
       const next = new URLSearchParams(p)
-      if (v === 'ALL') next.delete('grade')
-      else next.set('grade', v)
+      if (v === 'ALL') next.delete('grupo')
+      else next.set('grupo', v)
       return next
     }, { replace: true })
   }
@@ -196,14 +85,6 @@ export default function ValueUS() {
       return next
     }, { replace: true })
   }
-  function setMinScore(v: string) {
-    setSearchParams(p => {
-      const next = new URLSearchParams(p)
-      if (v === '') next.delete('score')
-      else next.set('score', v)
-      return next
-    }, { replace: true })
-  }
   function setMinFcf(v: string) {
     setSearchParams(p => {
       const next = new URLSearchParams(p)
@@ -212,21 +93,8 @@ export default function ValueUS() {
       return next
     }, { replace: true })
   }
-  function setMinRr(v: string) {
-    setSearchParams(p => {
-      const next = new URLSearchParams(p)
-      if (v === '') next.delete('rr')
-      else next.set('rr', v)
-      return next
-    }, { replace: true })
-  }
 
-  const [filterTiming, setFilterTiming] = useState('ALL')
   const [hideEarnings, setHideEarnings] = useState(false)
-  // Sin ocultar nada por defecto: lo que dice Cerebro va en la fila como aviso. Lo
-  // escondían aquí y la lista era otra que la que mide el tracker, sin avisar.
-  const [hideTraps, setHideTraps] = useState(false)
-  const [hideExits, setHideExits] = useState(false)
   const [onlyOwned, setOnlyOwned] = useState(false)
   const [onlyHf, setOnlyHf] = useState(false)
   const [compact, setCompact] = useState(() => typeof window !== 'undefined' && window.innerWidth < 1280)
@@ -237,8 +105,6 @@ export default function ValueUS() {
 
   // useDeferredValue: los filtros de texto/número no bloquean el UI mientras se recalcula
   const deferredMinFcf = useDeferredValue(minFcf)
-  const deferredMinRr = useDeferredValue(minRr)
-  const deferredMinScore = useDeferredValue(minScore)
 
   const currentThesisTicker = useRef<string | null>(null)
   // pagedRef must be declared before early returns (React Rules of Hooks)
@@ -266,7 +132,7 @@ export default function ValueUS() {
   }, [])
 
   // Reset page + scroll to top when any filter changes
-  useEffect(() => { setPage(1); setFocusedIdx(-1) }, [filterGrade, filterSector, filterTiming, minScore, minFcf, minRr, hideEarnings, hideTraps, hideExits, onlyOwned, onlyHf])
+  useEffect(() => { setPage(1); setFocusedIdx(-1) }, [filterGrupo, filterSector, minFcf, hideEarnings, onlyOwned, onlyHf])
   // Scroll to top when page changes
   useEffect(() => { window.scrollTo({ top: 0, behavior: 'smooth' }) }, [page])
 
@@ -312,37 +178,17 @@ export default function ValueUS() {
 
 
   const filtered = useMemo(() => rows.filter(r => {
-    if (filterGrade !== 'ALL' && r.conviction_grade !== filterGrade) return false
+    if (filterGrupo !== 'ALL' && r.value_grupo !== filterGrupo) return false
     if (filterSector !== 'ALL' && r.sector !== filterSector) return false
-    if (filterTiming !== 'ALL' && estadoEfectivo(r.entry_readiness, verdicts[r.ticker?.toUpperCase() ?? '']?.verdict) !== filterTiming) return false
-    // El umbral de score mira value_score (métrica rápida), pero conviction_grade
-    // sale de un análisis más profundo (ROE, deuda, DCF, R:R) que puede discrepar
-    // — un A/B de alta convicción no debe desaparecer solo porque el value_score
-    // simple cae un par de puntos por debajo del mínimo (caso real: CBOE,
-    // value_score 52.6 bajo el corte de 55 pero grade A con 8 positivos/0 red flags).
-    // El filtro de score filtra siempre — ver la nota en ValueEU: los grados A
-    // y B se lo saltaban y la lista mostraba tickers por debajo del umbral
-    // elegido sin decirlo. Para alta convicción está el filtro de GRADO.
-    if (deferredMinScore !== '' && (r.value_score == null || r.value_score < Number(deferredMinScore))) return false
     if (deferredMinFcf !== '' && (r.fcf_yield_pct == null || r.fcf_yield_pct < Number(deferredMinFcf))) return false
-    if (deferredMinRr !== '' && (r.risk_reward_ratio == null || r.risk_reward_ratio < Number(deferredMinRr))) return false
     if (hideEarnings && r.earnings_warning) return false
-    if (hideTraps && cerebro.trapMap[r.ticker]?.severity === 'HIGH') return false
-    if (hideExits && (cerebro.exitMap[r.ticker] || r.cerebro_signal === 'EXIT')) return false
     if (onlyOwned && !isOwned(r.ticker)) return false
     if (onlyHf && (r.hedge_fund_count ?? 0) < 1) return false
     return true
-  }), [rows, filterGrade, filterSector, filterTiming, deferredMinScore, deferredMinFcf, deferredMinRr, hideEarnings, hideTraps, hideExits, onlyOwned, onlyHf, cerebro.trapMap, cerebro.exitMap, isOwned])
+  }), [rows, filterGrupo, filterSector, deferredMinFcf, hideEarnings, onlyOwned, onlyHf, isOwned])
 
+  // Por defecto manda la nota: PRIORIDAD arriba y, dentro de cada grupo, lo barata.
   const sorted = useMemo(() => [...filtered].sort((a, b) => {
-    // Por defecto manda la nota: PRIORIDAD arriba. El timing se puede elegir (ver
-    // comparaPorTiming), pero no abre la lista: dentro de la puerta, lo que cae bajo
-    // su media descendente es lo que mejor ha salido, así que ordenar por «se puede
-    // comprar hoy» ponía delante justo lo peor (-8,0 a 90 días en 2026).
-    if (sortKey === 'entry_readiness') {
-      const ef = (r: ValueOpportunity) => ({ entry_readiness: estadoEfectivo(r.entry_readiness, verdicts[r.ticker?.toUpperCase() ?? '']?.verdict) ?? undefined, value_score: r.value_score })
-      return comparaPorTiming(ef(a), ef(b), sortDir)
-    }
     const av = a[sortKey] ?? 0
     const bv = b[sortKey] ?? 0
     if (av < bv) return sortDir === 'asc' ? -1 : 1
@@ -386,41 +232,24 @@ export default function ValueUS() {
   const regimeLabel = nlRegimen(regimeCrudo)
   const regimeRec = usRegime?.recommendation || ''
 
-  const hiddenByTraps = hideTraps ? Object.values(cerebro.trapMap).filter(t => t.severity === 'HIGH').length : 0
-  const hiddenByExits = hideExits ? rows.filter(r => cerebro.exitMap[r.ticker] || r.cerebro_signal === 'EXIT').length : 0
-  const hasActiveFilters = filterGrade !== 'ALL' || filterSector !== 'ALL' || minScore !== '' || minFcf !== '' || minRr !== '' || hideEarnings || hideTraps || hideExits || onlyOwned || onlyHf
+  const hasActiveFilters = filterGrupo !== 'ALL' || filterSector !== 'ALL' || minFcf !== '' || hideEarnings || onlyOwned || onlyHf
   const resetFilters = () => {
     setSearchParams({}, { replace: true })
-    setMinFcf(''); setMinRr(''); setHideEarnings(false); setHideTraps(false); setHideExits(false); setOnlyOwned(false); setOnlyHf(false)
+    setMinFcf(''); setHideEarnings(false); setOnlyOwned(false); setOnlyHf(false)
   }
-  const applyRecommendedView = () => {
-    setSearchParams({}, { replace: true })
-    setMinFcf('')
-    setMinRr('')
-    setHideEarnings(false)
-    setHideTraps(false)
-    setHideExits(false)
-    setOnlyOwned(false)
-  }
-  const decisionFor = (row: ValueOpportunity) => getValueDecision({
-    row,
-    hasTrap: cerebro.trapMap[row.ticker]?.severity === 'HIGH',
-    hasExit: !!cerebro.exitMap[row.ticker],
-    hasEntry: !!cerebro.entryMap[row.ticker],
-    hasSmartMoney: !!cerebro.smMap[row.ticker],
-    hasSqueeze: !!cerebro.squeezeMap[row.ticker],
-    veredicto: verdicts[row.ticker?.toUpperCase() ?? '']?.verdict,
-  })
+  // Solo el grupo decide (Cerebro y el veredicto de entrada no entran: medidos, no
+  // separan, y cargarlos solo servía para avisar de que no habían cargado).
+  const decisionFor = (row: ValueOpportunity) => getValueDecision({ row })
 
   const fmtFcf = (v?: number) => {
     if (v == null) return <span className="text-muted-foreground">—</span>
     const cls = v >= 5 ? 'text-emerald-400' : v >= 3 ? 'text-amber-400' : v < 0 ? 'text-red-400' : ''
     return <span className={cls}>{v.toFixed(1)}%</span>
   }
-  const fmtRR = (v?: number | null) => {
+  const fmtPotencial = (d: ValueOpportunity) => {
+    const v = potencial(d)
     if (v == null) return <span className="text-muted-foreground">—</span>
-    const cls = v >= 2 ? 'text-emerald-400' : v >= 1 ? 'text-amber-400' : 'text-red-400'
-    return <span className={cls}>{v.toFixed(1)}</span>
+    return <span className={v >= 0 ? 'text-emerald-400' : 'text-red-400'}>{v >= 0 ? '+' : ''}{v.toFixed(0)}%</span>
   }
   const fmtDivBB = (d: ValueOpportunity) => {
     const parts: string[] = []
@@ -430,10 +259,11 @@ export default function ValueUS() {
       ? <span className="text-emerald-400">{parts.join('+')}</span>
       : <span className="text-muted-foreground">—</span>
   }
+  // Sin semáforo: en rojo, unos resultados a 7 días decían «no entres» al lado de
+  // una de Prioridad, y la casa no frena por eso (se dice como hecho).
   const fmtEarn = (d: ValueOpportunity) => {
-    if (d.days_to_earnings == null) return <span className="text-muted-foreground">—</span>
-    const cls = d.days_to_earnings <= 7 ? 'text-red-400' : d.days_to_earnings <= 21 ? 'text-amber-400' : 'text-emerald-400'
-    return <span className={cls}>{d.days_to_earnings}d</span>
+    if (d.days_to_earnings == null || d.days_to_earnings < 0) return <span className="text-muted-foreground">—</span>
+    return <span className="text-muted-foreground">{d.days_to_earnings}d</span>
   }
 
   return (
@@ -536,7 +366,7 @@ export default function ValueUS() {
             Dentro de cada grupo, las más baratas primero. No se oculta nada: los avisos van en cada empresa.
           </p>
           {hasActiveFilters && (
-            <button type="button" onClick={applyRecommendedView} className="filter-btn active">
+            <button type="button" onClick={resetFilters} className="filter-btn active">
               Restaurar criterio
             </button>
           )}
@@ -554,39 +384,15 @@ export default function ValueUS() {
       <Card className="liquid-glass px-4 py-3 mb-3 animate-fade-in-up rounded-xl">
         <div className="flex flex-wrap gap-x-4 gap-y-2 items-center">
 
-          {/* Timing de entrada — lo primero: qué se puede comprar hoy */}
+          {/* El grupo: lo que decide la lista */}
           <div className="flex items-center gap-1 flex-wrap">
-            <span className="filter-label mr-0.5">Timing</span>
-            {TIMING_FILTROS.map(({ clave, etiqueta }) => (
+            <span className="filter-label mr-0.5">Grupo</span>
+            {GRUPO_FILTROS.map(({ clave, etiqueta }) => (
               <button
                 key={clave}
-                onClick={() => setFilterTiming(clave)}
-                title={clave === 'ALL' ? 'Todas las ideas'
-                  : clave === 'ENTRADA' ? 'Suelo técnico confirmado — comprable hoy'
-                  : clave === 'VIGILAR' ? 'Construyendo base o extendida — en el radar'
-                  : 'Todavía cayendo — espera a que haga suelo'}
-                className={`filter-btn ${filterTiming === clave ? 'active' : ''}`}
+                onClick={() => setFilterGrupo(clave)}
+                className={`filter-btn ${filterGrupo === clave ? 'active' : ''}`}
               >{etiqueta}</button>
-            ))}
-          </div>
-
-          <div className="w-px h-4 bg-border/40 self-center" />
-
-          {/* Min Score */}
-          <div className="flex items-center gap-1 flex-wrap">
-            <span className="filter-label mr-0.5">Score≥</span>
-            {[['ALL', ''], ['50+', '50'], ['55+', '55'], ['60+', '60'], ['65+', '65']].map(([label, val]) => (
-              <button key={val} onClick={() => setMinScore(val)} className={`filter-btn ${minScore === val ? 'active' : ''}`}>{label}</button>
-            ))}
-          </div>
-
-          <div className="w-px h-4 bg-border/40 self-center" />
-
-          {/* Grade */}
-          <div className="flex items-center gap-1">
-            <span className="filter-label mr-0.5">Grado</span>
-            {['ALL', 'A', 'B', 'C'].map(g => (
-              <button key={g} onClick={() => setFilterGrade(g)} className={`filter-btn ${filterGrade === g ? 'active' : ''}`}>{g}</button>
             ))}
           </div>
 
@@ -613,23 +419,8 @@ export default function ValueUS() {
             <input type="number" value={minFcf} onChange={e => setMinFcf(e.target.value)} placeholder="0" className="filter-input" />
           </div>
 
-          {/* R:R min */}
-          <div className="flex items-center gap-1.5">
-            <span className="filter-label">R:R≥</span>
-            <input type="number" value={minRr} onChange={e => setMinRr(e.target.value)} placeholder="0" className="filter-input" />
-          </div>
-
           <div className="w-px h-4 bg-border/40 self-center" />
 
-          {/* Cerebro IA filters */}
-          <button onClick={() => setHideTraps(v => !v)} className={`filter-btn ${hideTraps ? 'active-red' : ''}`}
-            title="Ocultar tickers marcados como value trap HIGH por Cerebro IA">
-            <TriangleAlert size={12} strokeWidth={2.25} />{hiddenByTraps > 0 && hideTraps ? `TRAP (${hiddenByTraps})` : 'TRAP'}
-          </button>
-          <button onClick={() => setHideExits(v => !v)} className={`filter-btn ${hideExits ? 'active-red' : ''}`}
-            title="Ocultar tickers con señal de salida HIGH por Cerebro IA">
-            <LogOut size={12} strokeWidth={2.25} />{hiddenByExits > 0 && hideExits ? `EXIT (${hiddenByExits})` : 'EXIT'}
-          </button>
           <button onClick={() => setHideEarnings(v => !v)} className={`filter-btn ${hideEarnings ? 'active-amber' : ''}`}>
             Earn &lt;7d
           </button>
@@ -666,18 +457,17 @@ export default function ValueUS() {
       )}
 
       {/* Mobile card view */}
+      {/* En el móvil, siempre la tarjeta clara: la «avanzada» era la misma con
+          LISTO al lado de TRAP/EXIT, grado, ML y entrada/stop/objetivo, que la
+          regla de Value US no usa. */}
       <div className="sm:hidden space-y-2.5 mb-2">
         {paged.map((d, i) => {
-          const hasTrap   = !!cerebro.trapMap[d.ticker]
-          const hasExit   = !!(cerebro.exitMap[d.ticker] || d.cerebro_signal === 'EXIT')
-          const hasSM     = !!cerebro.smMap[d.ticker]
-          const hasSqueeze = !!cerebro.squeezeMap[d.ticker]
           const decision = decisionFor(d)
-          const isReady = decision.kind === 'ready'
-          if (clearMode) {
-            return (
+          const pot = potencial(d)
+          return (
               <div
                 key={d.ticker}
+                data-fila-value={d.ticker}
                 onClick={() => { setFocusedIdx(i); toggleThesis(d.ticker, d) }}
                 className={`glass rounded-2xl p-4 cursor-pointer active:scale-[0.98] transition-transform border entra-escalonada ${decision.panelClass}`}
                 style={{ '--i': Math.min(i, 12) } as React.CSSProperties}
@@ -696,9 +486,9 @@ export default function ValueUS() {
                   </div>
                   <div className="text-right shrink-0">
                     {/* Nuestra valoración: es lo que decide la lista. El analista va en la barra de abajo. */}
-                    {(d.upside_triangulated_pct ?? d.analyst_upside_pct) != null && (
-                      <div className={`text-cuerpo font-bold ${(d.upside_triangulated_pct ?? d.analyst_upside_pct ?? 0) >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
-                        {(d.upside_triangulated_pct ?? d.analyst_upside_pct ?? 0) >= 0 ? '+' : ''}{(d.upside_triangulated_pct ?? d.analyst_upside_pct ?? 0).toFixed(0)}%
+                    {pot != null && (
+                      <div className={`text-cuerpo font-bold ${pot >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+                        {pot >= 0 ? '+' : ''}{pot.toFixed(0)}%
                       </div>
                     )}
                     <div className="text-micro text-muted-foreground mt-0.5">{precio(d.current_price, d.ticker)}</div>
@@ -725,81 +515,6 @@ export default function ValueUS() {
                   objetivoPe={d.target_price_pe}
                 />
               </div>
-            )
-          }
-          return (
-            <div
-              key={d.ticker}
-              onClick={() => { setFocusedIdx(i); toggleThesis(d.ticker, d) }}
-              className={`glass rounded-2xl p-4 cursor-pointer active:scale-[0.98] transition-transform border entra-escalonada ${hasTrap ? 'border-red-500/30' : hasExit ? 'border-amber-500/30' : 'border-foreground/5'}`}
-              style={{ '--i': Math.min(i, 12) } as React.CSSProperties}
-            >
-              {/* Fila 1: logo + puntuación + ticker + grado + upside.
-                  El logo faltaba: el anillo de puntuación ocupaba su sitio, así
-                  que al apagar la vista clara —que es lo que pasa al filtrar—
-                  la tarjeta perdía lo único que identifica la empresa de un
-                  vistazo y se quedaba con un número. El comentario de esta
-                  misma línea ya decía «logo». */}
-              <div className="flex items-center justify-between gap-2">
-                <div className="flex items-center gap-2.5 min-w-0">
-                  <TickerLogo ticker={d.ticker} size="sm" />
-                  <ScoreRing score={d.value_score} size="sm" />
-                  <div className="min-w-0">
-                    <div className="flex items-center gap-2 flex-wrap">
-                      <span className="font-mono font-extrabold text-titulo leading-tight">{d.ticker}</span>
-                      {isReady && (
-                        <SignalBadge icon={CircleCheck} tono="favor" texto="LISTO" />
-                      )}
-                      <OwnedBadge ticker={d.ticker} />
-                    </div>
-                    <span className="text-mini text-muted-foreground truncate max-w-[160px] block mt-0.5">{d.company_name}</span>
-                  </div>
-                </div>
-                <div className="text-right shrink-0">
-                  <GradeBadge grade={d.conviction_grade} score={d.conviction_score} />
-                  {d.ml_score != null && d.ml_score !== 50 && (
-                    <div className={`text-micro font-bold px-1.5 py-0.5 rounded-full border mt-1 inline-block ${
-                      d.ml_score >= 70 ? 'bg-violet-500/15 text-violet-400 border-violet-500/30' :
-                      d.ml_score >= 55 ? 'bg-blue-500/15 text-blue-400 border-blue-500/30' :
-                      'bg-muted/20 text-muted-foreground border-border/30'
-                    }`}>ML {d.ml_score.toFixed(0)}</div>
-                  )}
-                  {d.analyst_upside_pct != null && (
-                    <div className={`text-cuerpo font-bold mt-1 ${d.analyst_upside_pct > 0 ? 'text-emerald-400' : 'text-red-400'}`}>
-                      {d.analyst_upside_pct > 0 ? '+' : ''}{d.analyst_upside_pct.toFixed(0)}%
-                    </div>
-                  )}
-                  <div className="text-micro text-muted-foreground mt-0.5">{precio(d.current_price, d.ticker)}</div>
-                </div>
-              </div>
-
-              {/* Row 2: Cerebro signals */}
-              {(hasTrap || hasExit || hasSM || hasSqueeze || d.earnings_warning) && (
-                <div className="flex flex-wrap gap-1.5 mt-2.5">
-                  {hasTrap && <SignalBadge icon={TriangleAlert} tono="alarma" texto="TRAP" />}
-                  {hasExit && <SignalBadge icon={LogOut} tono="aviso" texto="EXIT" />}
-                  {hasSM && <SignalBadge icon={Gem} tono="favor" texto="SMART MONEY" />}
-                  {hasSqueeze && <SignalBadge icon={Flame} tono="info" texto="SQUEEZE" />}
-                  {d.earnings_warning && <SignalBadge icon={CalendarClock} tono="aviso" texto="EARNINGS" />}
-                </div>
-              )}
-
-              {/* Row 3: Entry / Stop / Target */}
-              {(d.entry_price || d.stop_loss || d.target_price) && (
-                <div className="flex gap-3 mt-2.5 text-mini font-mono">
-                  {d.entry_price && <span className="text-cyan-400">E ${d.entry_price.toFixed(2)}</span>}
-                  {d.stop_loss && <span className="text-red-400">SL ${d.stop_loss.toFixed(2)}</span>}
-                  {d.target_price && <span className="text-emerald-400">TP ${d.target_price.toFixed(2)}</span>}
-                </div>
-              )}
-
-              {/* Row 4: FCF / R:R / Sector */}
-              <div className="flex gap-3 mt-2 text-mini text-muted-foreground">
-                {d.fcf_yield_pct != null && <span>FCF {d.fcf_yield_pct.toFixed(1)}%</span>}
-                {d.rr_operativo != null && <span>R:R {d.rr_operativo.toFixed(1)}x</span>}
-                {d.sector && <span className="truncate">{d.sector}</span>}
-              </div>
-            </div>
           )
         })}
       </div>
@@ -825,6 +540,7 @@ export default function ValueUS() {
                     <TableRow
                       key={d.ticker}
                       data-row-idx={i}
+                      data-fila-value={d.ticker}
                       style={{ '--i': Math.min(i, 12) } as React.CSSProperties}
                       className={`entra-escalonada cursor-pointer transition-colors ${i === focusedIdx ? 'ring-1 ring-inset ring-primary/40 bg-primary/5' : ''}`}
                       onClick={() => { setFocusedIdx(i); toggleThesis(d.ticker, d) }}
@@ -846,13 +562,7 @@ export default function ValueUS() {
                         <div className="text-apoyo font-semibold text-foreground">{decision.headline}</div>
                         <div className="mt-0.5 text-mini leading-relaxed text-muted-foreground">{decision.detail}</div>
                       </TableCell>
-                      <TableCell className="tabular-nums">
-                        {d.analyst_upside_pct != null ? (
-                          <span className={d.analyst_upside_pct >= 0 ? 'text-emerald-400' : 'text-red-400'}>
-                            {d.analyst_upside_pct >= 0 ? '+' : ''}{d.analyst_upside_pct.toFixed(0)}%
-                          </span>
-                        ) : <span className="text-muted-foreground">—</span>}
-                      </TableCell>
+                      <TableCell className="tabular-nums">{fmtPotencial(d)}</TableCell>
                       <TableCell className="tabular-nums">{precio(d.current_price, d.ticker)}</TableCell>
                     </TableRow>
                   )
@@ -884,35 +594,14 @@ export default function ValueUS() {
                   align="left"
                 />
               </TableHead>
-              <TableHead>
-                Grade
-                <InfoTooltip
-                  text={
-                    <span>
-                      Grado de convicción del filtro IA:<br />
-                      <span className="text-emerald-400">A</span> — alta convicción (pocas alertas, múltiples positivos)<br />
-                      <span className="text-blue-400">B</span> — convicción moderada<br />
-                      <span className="text-amber-400">C</span> — baja convicción (revisar antes de entrar)
-                    </span>
-                  }
-                />
-              </TableHead>
               <TableHead className={compact ? 'hidden' : `hidden md:table-cell ${thCls('sector')}`} onClick={() => onSort('sector')}>Sector</TableHead>
-              <TableHead className={thCls('analyst_upside_pct')} onClick={() => onSort('analyst_upside_pct')}>
-                Objetivo
-                <InfoTooltip text="Upside según precio objetivo de analistas = (precio objetivo − precio actual) / precio actual. Negativo = analistas ven el valor sobrevalorado." />
+              <TableHead className={thCls('upside_triangulated_pct')} onClick={() => onSort('upside_triangulated_pct')}>
+                Potencial
+                <InfoTooltip text="Lo que le ven nuestras valoraciones (DCF y P/E propios) junto al consenso de analistas. Es lo que decide la lista; el objetivo de los analistas solo está en la ficha." />
               </TableHead>
               <TableHead className={`hidden sm:table-cell ${thCls('fcf_yield_pct')}`} onClick={() => onSort('fcf_yield_pct')}>
                 FCF%
                 <InfoTooltip text="FCF Yield = Free Cash Flow / Market Cap. ≥5% excelente (verde), 3-5% bueno (ámbar), <0% negativo (rojo). Indica cuánto cash genera la empresa respecto a su valor de mercado." />
-              </TableHead>
-              <TableHead className={compact ? 'hidden' : thCls('risk_reward_ratio')} onClick={() => onSort('risk_reward_ratio')}>
-                R:R
-                <InfoTooltip text="Risk:Reward = upside analista / 8% stop loss estándar. ≥3 excelente (verde), ≥2 bueno, <1 desfavorable (rojo). Mide si el potencial de ganancia justifica el riesgo." />
-              </TableHead>
-              <TableHead className={compact ? 'hidden' : 'hidden sm:table-cell'}>
-                OE AI
-                <InfoTooltip text="Aviso del validador de Owner Earnings: solo aparece si el dato de caja no es fiable. En ese caso el FCF no cuenta para la nota." align="right" />
               </TableHead>
               <TableHead className={compact ? 'hidden' : 'hidden sm:table-cell'}>
                 Div/BB
@@ -921,33 +610,20 @@ export default function ValueUS() {
               <TableHead className={thCls('days_to_earnings')} onClick={() => onSort('days_to_earnings')}>
                 Earn
                 <InfoTooltip
-                  text="Días hasta próximos resultados trimestrales. Rojo ≤7d — entrada muy arriesgada (gap post-earnings). Ámbar ≤21d — precaución. Verde >21d — zona segura."
+                  text="Días hasta los próximos resultados. Es un dato: no frena una de Prioridad."
                   align="right"
                 />
-              </TableHead>
-              <TableHead className={compact ? 'hidden' : 'hidden sm:table-cell'}>
-                Téc
-                <InfoTooltip text="Sesgo técnico detectado automáticamente: indicadores de tendencia, RSI, MACD, Bollinger y velas. ▲ Alcista · ▼ Bajista · — Neutro." align="right" />
-              </TableHead>
-              <TableHead className={compact ? 'hidden' : 'hidden sm:table-cell'}>
-                Entry
-                <InfoTooltip text="Calidad de entrada según análisis de gráfico por IA (Groq Vision): IDEAL=en pivote/base, OK=extensión leve, EVITAR=extendido/distribución. '?' = baja confianza." align="right" />
-              </TableHead>
-              <TableHead className={compact ? 'hidden' : 'hidden sm:table-cell'}>
-                P(win)
-                <InfoTooltip text="Probabilidad de ganar en 14 días según modelo XGBoost entrenado con 1.300+ señales históricas VALUE. Verde ≥45%, ámbar 30-45%, gris <30%. Basado en value_score, FCF, R:R, sector y régimen de mercado." align="right" />
               </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {paged.map((d, i) => {
-            const isReady = decisionFor(d).kind === 'ready'
-            const veredicto = verdicts[d.ticker?.toUpperCase() ?? '']
-            const estado = estadoEfectivo(d.entry_readiness, veredicto?.verdict)
+            const decision = decisionFor(d)
             return (
               <TableRow
                 key={d.ticker}
                 data-row-idx={i}
+                data-fila-value={d.ticker}
                 style={{ '--i': Math.min(i, 12) } as React.CSSProperties}
                 className={`entra-escalonada cursor-pointer transition-colors ${i === focusedIdx ? 'ring-1 ring-inset ring-primary/40 bg-primary/5' : ''}`}
                 onClick={() => { setFocusedIdx(i); toggleThesis(d.ticker, d) }}
@@ -956,121 +632,28 @@ export default function ValueUS() {
                     <div className="flex items-center gap-2">
                       <TickerLogo ticker={d.ticker} size="sm" />
                       <div className="flex flex-col gap-0.5">
+                      {/* La fila dice UNA cosa: su grupo y por qué. Timing, Cerebro,
+                          grado, Magic Formula y fondos son datos de la ficha. */}
                       <div className="flex items-center gap-1.5">
                         {d.ticker}
-                        {isReady && (
-                          <span
-                            title="Todos los filtros pasan — setup listo para operar"
-                            className="inline-flex items-center gap-0.5 text-micro font-bold px-1.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 tracking-wide"
-                          >
-                            LISTO
-                          </span>
-                        )}
+                        <ValueDecisionBadge decision={decision} />
                         <OwnedBadge ticker={d.ticker} />
-                        {d.magic_formula_rank != null && d.magic_formula_rank <= 50 && (
-                          <span
-                            className="text-micro font-bold px-1 py-0.5 rounded bg-violet-500/15 text-violet-400 border border-violet-500/25"
-                            title={`Magic Formula (Greenblatt) rank #${d.magic_formula_rank} — EBIT/EV yield ${d.ebit_ev_yield != null ? d.ebit_ev_yield.toFixed(1) + '%' : '—'} · ROIC ${d.roic_greenblatt != null ? d.roic_greenblatt.toFixed(1) + '%' : '—'}`}
-                          >
-                            MF #{d.magic_formula_rank}
-                          </span>
-                        )}
-                        {d.proximity_to_52w_high != null && d.proximity_to_52w_high > -5 && (
-                          <span className="text-micro font-bold px-1 py-0.5 rounded bg-amber-500/15 text-amber-400 border border-amber-500/25" title={`A ${Math.abs(d.proximity_to_52w_high).toFixed(1)}% del máximo 52 semanas — posible entrada en techo`}>
-                            TECHO
-                          </span>
-                        )}
-                        {estado === 'ESPERAR' && veredicto?.verdict !== 'AVOID' && (
-                          <span
-                            className="text-micro font-bold px-1 py-0.5 rounded bg-red-500/15 text-red-400 border border-red-500/25"
-                            title={d.entry_readiness_reason || 'Aún en caída — espera a que haga suelo antes de entrar'}
-                          >
-                            ESPERA
-                          </span>
-                        )}
-                        {estado === 'VIGILAR' && (
-                          <span
-                            className="text-micro font-bold px-1 py-0.5 rounded bg-amber-500/15 text-amber-400 border border-amber-500/25"
-                            title={[veredicto?.blockers, veredicto?.trigger, d.entry_readiness_reason].filter(Boolean).join(' · ') || 'En el radar: aún no es momento de entrar'}
-                          >
-                            VIGILA
-                          </span>
-                        )}
-                        {estado === 'ENTRADA' && !isReady && (
-                          <span
-                            className="text-micro font-bold px-1 py-0.5 rounded bg-cyan-500/15 text-cyan-400 border border-cyan-500/25"
-                            title={d.entry_readiness_reason || 'Suelo técnico confirmado (stage 2)'}
-                          >
-                            SUELO OK
-                          </span>
-                        )}
-                        <AnalystRevisionBadge
-                          targetChange7dPct={d.target_change_7d_pct}
-                          upgradeDays14d={d.upgrade_days_14d}
-                          downgradeDays14d={d.downgrade_days_14d}
-                          compact
-                        />
-                        {/* WAIT ya va dentro de VIGILA/ESPERA: repetirlo era la segunda etiqueta que contradecía al filtro */}
-                        {veredicto && veredicto.verdict !== 'WAIT' && <EntryVerdictBadge verdict={veredicto} compact />}
-                        {(d.hedge_fund_count ?? 0) >= 1 && (
-                          <span
-                            className={`text-micro font-bold px-1 py-0.5 rounded border ${(d.hedge_fund_count ?? 0) >= 2 ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/25' : 'bg-muted/20 text-muted-foreground border-border/30'}`}
-                            title={d.hedge_fund_names || `${d.hedge_fund_count} hedge fund(s) en posición`}
-                          >
-                            {d.hedge_fund_count ?? 1} {(d.hedge_fund_count ?? 1) === 1 ? 'FONDO' : 'FONDOS'}
-                          </span>
+                        {d.oe_ai_verdict?.toUpperCase().startsWith('UNRELIABLE') && (
+                          <OeAiBadge verdict={d.oe_ai_verdict} adjustment={d.oe_ai_adjustment} />
                         )}
                       </div>
-                      {/* NL reason preview — first conviction reason or AI reasoning */}
-                      {(() => {
-                        const reason = d.ai_reasoning
-                          ?? (d.conviction_reasons ? d.conviction_reasons.split(' | ')[0] : null)
-                        return reason ? (
-                          <span
-                            className="text-micro text-muted-foreground font-normal font-sans leading-snug max-w-[360px] line-clamp-2 hidden lg:block"
-                            title={reason}
-                          >
-                            {reason}
-                          </span>
-                        ) : null
-                      })()}
-                      <CerebroBadges
-                        entryInfo={cerebro.entryMap[d.ticker]}
-                        trapInfo={cerebro.trapMap[d.ticker]}
-                        smInfo={cerebro.smMap[d.ticker]}
-                        exitInfo={cerebro.exitMap[d.ticker]}
-                        divInfo={cerebro.divMap[d.ticker]}
-                        piotrInfo={cerebro.piotrMap[d.ticker]}
-                        squeezeInfo={cerebro.squeezeMap[d.ticker]}
-                        decayInfo={cerebro.decayMap[d.ticker]}
-                        sectorInfo={cerebro.sectorMap[d.ticker]}
-                      />
+                      <span className="text-micro text-muted-foreground font-normal font-sans leading-snug max-w-[420px] line-clamp-2 whitespace-normal">
+                        {decision.headline}
+                      </span>
                       </div>
                     </div>
                   </TableCell>
                   <TableCell className={compact ? 'hidden' : 'hidden sm:table-cell max-w-[160px] truncate text-muted-foreground text-mini'}>{d.company_name}</TableCell>
                   <TableCell className={compact ? 'hidden' : 'hidden sm:table-cell tabular-nums'}>{precio(d.current_price, d.ticker)}</TableCell>
                   <TableCell><ScoreBar score={d.value_score} /></TableCell>
-                  <TableCell>
-                    <div className="flex items-center gap-1.5">
-                      <GradeBadge grade={d.conviction_grade} score={d.conviction_score} />
-                      {d.ml_score != null && d.ml_score !== 50 && (
-                        <span className={`text-micro font-bold px-1.5 py-0.5 rounded-full border ${
-                          d.ml_score >= 70 ? 'bg-violet-500/15 text-violet-400 border-violet-500/30' :
-                          d.ml_score >= 55 ? 'bg-blue-500/15 text-blue-400 border-blue-500/30' :
-                          'bg-muted/20 text-muted-foreground border-border/30'
-                        }`}>ML {d.ml_score.toFixed(0)}</span>
-                      )}
-                    </div>
-                  </TableCell>
                   <TableCell className={compact ? 'hidden' : 'hidden md:table-cell max-w-[120px] truncate text-muted-foreground text-mini'}>{d.sector}</TableCell>
                   <TableCell className="tabular-nums">
-                    {precio(d.target_price_analyst, d.ticker, null, 0)}
-                    {d.analyst_upside_pct != null && (
-                      <span className={`ml-1.5 text-mini font-semibold ${d.analyst_upside_pct > 0 ? 'text-emerald-400' : 'text-red-400'}`}>
-                        {d.analyst_upside_pct > 0 ? '+' : ''}{d.analyst_upside_pct.toFixed(0)}%
-                      </span>
-                    )}
+                    {fmtPotencial(d)}
                     {/* Dos avisos distintos, y el orden importa: si tus propios
                         modelos se contradicen ENTRE ELLOS, no hay con qué
                         contrastar el target del analista, así que ese aviso
@@ -1092,29 +675,8 @@ export default function ValueUS() {
                     )}
                   </TableCell>
                   <TableCell className="hidden sm:table-cell">{fmtFcf(d.fcf_yield_pct)}</TableCell>
-                  <TableCell className={compact ? 'hidden' : ''}>{fmtRR(d.rr_operativo)}</TableCell>
-                  <TableCell className={compact ? 'hidden' : 'hidden sm:table-cell'}>
-                    {/* Solo si el dato no es fiable. Su tesis dice AVOID en 146 de 161 empresas
-                        (exige un 15 % anual a precio de hoy), así que no distingue nada. */}
-                    {d.oe_ai_verdict?.toUpperCase().startsWith('UNRELIABLE')
-                      ? <OeAiBadge verdict={d.oe_ai_verdict} adjustment={d.oe_ai_adjustment} />
-                      : <span className="text-muted-foreground text-mini">—</span>}
-                  </TableCell>
                   <TableCell className={compact ? 'hidden' : 'hidden sm:table-cell'}>{fmtDivBB(d)}</TableCell>
                   <TableCell>{fmtEarn(d)}</TableCell>
-                  <TableCell className={compact ? 'hidden' : 'hidden sm:table-cell'}>
-                    <TechBiasCell t={techMap[d.ticker]} />
-                  </TableCell>
-                  <TableCell className={compact ? 'hidden' : 'hidden sm:table-cell'}>
-                    <EntryQualityBadge
-                      quality={chartSignals[d.ticker]?.entry_quality}
-                      confidence={chartSignals[d.ticker]?.confidence}
-                      analyzedAt={chartSignals[d.ticker]?.analyzed_at}
-                    />
-                  </TableCell>
-                  <TableCell className={compact ? 'hidden' : 'hidden sm:table-cell'}>
-                    <MlWinBadge pred={mlMap[d.ticker?.toUpperCase() ?? '']} />
-                  </TableCell>
               </TableRow>
             )
           })}

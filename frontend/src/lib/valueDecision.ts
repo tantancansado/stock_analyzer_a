@@ -54,9 +54,9 @@ export function esListo(row: ValueOpportunity, veredicto?: EntryVerdictKind | nu
   // encima. El timing no frena: dentro de la puerta, lo que cae bajo su media
   // descendente es lo que mejor ha salido a 12 meses en 2020-2025 y a 90 días en
   // 2026 (+7,0 contra +1,7), así que vetarlo descartaba justo lo bueno.
-  if (row.value_grupo) {
-    return row.value_grupo === 'PRIORIDAD' && !nearEarnings && !row.earnings_warning && row.cerebro_signal !== 'TRAP'
-  }
+  // Ni los resultados cerca ni Cerebro la sacan: la regla se midió con ellos dentro
+  // y la casa dice que una de Prioridad es comprable (los avisos se dicen, no frenan).
+  if (row.value_grupo) return row.value_grupo === 'PRIORIDAD'
   // Una sola condición de upside, y con la banda declarada.
   //
   // Antes había dos, y las dos sobre la MISMA variable: `upside >= 10` y
@@ -98,15 +98,14 @@ export function getValueDecision({
   const isReady = esListo(row, veredicto)
   const salida = hasExit || row.cerebro_signal === 'EXIT'
 
-  // Value US: dos grupos, y el texto dice el dato de esa empresa. Los avisos van en
-  // el texto y no cambian el grupo: si una tarjeta de Prioridad pasa a «Esperar» o
-  // «Evitar», la pantalla dice 4 arriba y enseña 3 abajo. Medidas, las señales de
-  // Cerebro no separan (AVOID +8,6 a 90 días, neutras -1,5).
+  // Value US: dos grupos, y el texto dice el dato de esa empresa. Los avisos son
+  // hechos y no cambian el grupo ni aconsejan esperar: si una tarjeta de Prioridad
+  // dice «Esperar», «revísala» o «trampa», la lista dice una cosa y la fila otra (le
+  // pasaba a la vista completa el 12-nov con INTU, ADBE y BRO). Medidas, las señales
+  // de Cerebro no separan (AVOID +8,6 a 90 días, neutras -1,5), así que no se dicen.
   const avisoGrupo = nearEarnings
-    ? ` ${row.days_to_earnings === 0 ? 'Resultados hoy' : row.days_to_earnings === 1 ? 'Resultados mañana' : `Resultados en ${row.days_to_earnings} días`}: mejor verlos antes de decidir.`
-    : hasTrap || row.cerebro_signal === 'TRAP'
-      ? ' Cerebro la marca como posible trampa: revísala antes.'
-      : ''
+    ? ` ${row.days_to_earnings === 0 ? 'Resultados hoy' : row.days_to_earnings === 1 ? 'Resultados mañana' : `Resultados en ${row.days_to_earnings} días`}.`
+    : ''
   if (row.value_grupo === 'PRIORIDAD') {
     const z = row.per_z != null ? row.per_z.toLocaleString('es-ES', { maximumFractionDigits: 1 }) : null
     const ventas = row.ventas_anual_pct != null ? row.ventas_anual_pct.toLocaleString('es-ES', { maximumFractionDigits: 0 }) : null
@@ -125,7 +124,7 @@ export function getValueDecision({
       headline: `${porque}${avisos}${avisoGrupo}`,
       detail: `${clasica
         ? 'Barata frente a su propia historia y creciendo: la combinación con ventaja en los dos periodos medidos.'
-        : 'Sin crecer al 10 % ni PER bajo su media, pero lo que podía doblar con el beneficio sano ganó en los dos periodos medidos. Es lo más fino de lo medido: pocas empresas.'}${row.entry_readiness === 'ESPERAR' || row.entry_readiness === 'VIGILAR' ? ' Sigue cayendo: a 12 meses eso no ha restado, pero a corto puede bajar más.' : ''} Revísala antes de decidir.`,
+        : 'Sin crecer al 10 % ni PER bajo su media, pero lo que podía doblar con el beneficio sano ganó en los dos periodos medidos. Es lo más fino de lo medido: pocas empresas.'}${row.entry_readiness === 'ESPERAR' || row.entry_readiness === 'VIGILAR' ? ' Sigue cayendo: a 12 meses eso no ha restado, pero a corto puede bajar más.' : ''}`,
       badgeClass: 'border-emerald-500/30 bg-emerald-500/10 text-emerald-400',
       panelClass: 'border-emerald-500/20 bg-emerald-500/5',
     }

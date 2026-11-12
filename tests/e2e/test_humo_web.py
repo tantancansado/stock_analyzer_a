@@ -73,16 +73,17 @@ def navegador():
         b.close()
 
 
-def _pagina(navegador, tema):
+def _pagina(navegador, tema, ancho=ANCHO, extra=''):
     sesion = {'access_token': 'x', 'token_type': 'bearer', 'expires_in': 3600,
               'expires_at': int(time.time()) + 3600, 'refresh_token': 'x',
               'user': {'id': '00000000-0000-0000-0000-000000000001', 'email': 'prueba@example.com',
                        'aud': 'authenticated', 'role': 'authenticated'}}
-    ctx = navegador.new_context(viewport={'width': ANCHO, 'height': 844}, is_mobile=True, has_touch=True,
-                                device_scale_factor=2, service_workers='block')
+    movil = ancho < 640
+    ctx = navegador.new_context(viewport={'width': ancho, 'height': 844 if movil else 1000}, is_mobile=movil,
+                                has_touch=movil, device_scale_factor=2, service_workers='block')
     ctx.add_init_script(
         f"localStorage.setItem('sb-rkcqkivnvhhwgtbndbyi-auth-token', {json.dumps(json.dumps(sesion))});"
-        f"localStorage.setItem('sa-theme', '{tema}');")
+        f"localStorage.setItem('sa-theme', '{tema}');{extra}")
     ctx.route(f'{PAGES}**', _desde_disco)
     for corte in ('**/*.up.railway.app/**', '**/*.supabase.co/**', '**/*sentry.io/**'):
         ctx.route(corte, lambda r: r.abort())
@@ -117,3 +118,31 @@ def test_cada_pagina_se_pinta_entera_en_el_movil(servidor, navegador, tema):
             fallos.append(f'{ruta}: {ancho}px de ancho en un móvil de {ANCHO}')
     ctx.close()
     assert not fallos, f'tema {tema}:\n' + '\n'.join(fallos)
+
+
+# Lo que en una fila de Value US dice lo contrario de su grupo. El 12-nov la vista
+# completa enseñaba ESPERA, EXIT y TRAP al lado de las tres de Prioridad, y el
+# usuario no sabía si eran para entrar sin abrir la ficha.
+CONTRARIO = re.compile(r'\b(espera|esperar|exit|trap|evitar|hard reject)\b|mejor (esperar|verlos)|revísala',
+                       re.I)
+
+
+@pytest.mark.parametrize('ancho', [ANCHO, 1440])
+@pytest.mark.parametrize('vista', ['clear', 'expert'])
+def test_cada_fila_de_value_us_dice_su_grupo_y_nada_en_contra(servidor, navegador, ancho, vista):
+    ctx, pagina = _pagina(navegador, 'dark', ancho,
+                          f"localStorage.setItem('stock-analyzer:value-experience-mode', '{vista}');")
+    pagina.goto(f'{servidor}#/value')
+    pagina.locator('[data-fila-value]:visible').first.wait_for(timeout=20000)
+    filas = [f.inner_text() for f in pagina.locator('[data-fila-value]').all() if f.is_visible()]
+    ctx.close()
+    assert filas, 'Value US no pinta ninguna fila'
+    fallos = []
+    for texto in filas:
+        cabeza = texto.split()[0] if texto.split() else '?'
+        grupos = [g for g in ('Prioridad', 'Observar') if g in texto]
+        if len(grupos) != 1:
+            fallos.append(f'{cabeza}: no dice su grupo ({grupos})')
+        elif grupos == ['Prioridad'] and CONTRARIO.search(texto):
+            fallos.append(f'{cabeza}: Prioridad con «{CONTRARIO.search(texto).group(0)}»')
+    assert not fallos, f'{ancho}px, vista {vista}:\n' + '\n'.join(fallos)

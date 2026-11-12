@@ -662,10 +662,28 @@ describe('Value US: el aviso no cambia el grupo', () => {
     }
   })
 
-  it('una posible trampa tampoco lo cambia: se dice en el texto', () => {
+  it('una posible trampa de Cerebro tampoco lo cambia, y no se dice: medida, no separa', () => {
     const r = getValueDecision({ row: makeRow({ ...prioridad }), hasTrap: true })
     expect(r.label).toBe('Prioridad')
-    expect(r.headline).toContain('posible trampa')
+    expect(r.headline).not.toContain('trampa')
+  })
+
+  it('una de Prioridad nunca dice esperar, evitar ni revisar, pase lo que pase', () => {
+    // 12-nov: INTU, ADBE y BRO eran Prioridad y su fila decía ESPERA, EXIT y TRAP.
+    const contrarias = /esper|evit|revís|trampa|salida|mejor ver/i
+    for (const days_to_earnings of [null, 0, 1, 7, 30]) {
+      for (const entry_readiness of ['ENTRADA', 'VIGILAR', 'ESPERAR', undefined]) {
+        for (const cerebro_signal of [undefined, 'EXIT', 'TRAP']) {
+          for (const flags of [{}, { hasTrap: true }, { hasExit: true }, { veredicto: 'AVOID' as const }]) {
+            const fila = makeRow({ ...prioridad, days_to_earnings, entry_readiness, cerebro_signal } as never)
+            const r = getValueDecision({ row: fila, ...flags })
+            expect(r.label).toBe('Prioridad')
+            expect(esListo(fila, flags.veredicto)).toBe(true)
+            expect(`${r.headline} ${r.detail}`).not.toMatch(contrarias)
+          }
+        }
+      }
+    }
   })
 
   it('una fecha de resultados ya pasada no es «resultados cerca»', () => {
