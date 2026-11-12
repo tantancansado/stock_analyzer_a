@@ -3,11 +3,11 @@ import { motion } from 'motion/react'
 import { Link, useSearchParams } from 'react-router-dom'
 import PipelineFreshnessBanner from '../components/PipelineFreshnessBanner'
 import {
-  fetchMarketRegime, fetchValueOpportunities, fetchEUValueOpportunities,
-  fetchPortfolioTracker, fetchRecurringInsiders, fetchOptionsFlow, fetchMeanReversion,
+  fetchMarketRegime, fetchValueOpportunities,
+  fetchRecurringInsiders, fetchOptionsFlow, fetchMeanReversion,
   fetchMacroRadar, fetchDailyBriefing, fetchCerebroConvergence, fetchCerebroAlerts,
   fetchCerebroEntrySignals, fetchCerebroDailyPlan, fetchLivePrices, fetchPortfolioNews, fetchPortfolioPrices,
-  type ValueOpportunity, type InsiderData, type PortfolioSummary,
+  type InsiderData,
   type DailyPlan, type DailyPlanAction, type MacroPlay, type LivePricesData, type PortfolioNewsItem,
 } from '../api/client'
 import AiNarrativeCard from '../components/AiNarrativeCard'
@@ -15,21 +15,18 @@ import AiNarrativeCard from '../components/AiNarrativeCard'
 import { useApi } from '../hooks/useApi'
 import { Card, CardContent } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
-import GradeBadge from '../components/GradeBadge'
-import ScoreRing from '../components/ScoreRing'
 import InfoTooltip from '../components/InfoTooltip'
 import TickerLogo from '../components/TickerLogo'
-import EntryVerdictBadge from '../components/EntryVerdictBadge'
-import { useEntryVerdicts } from '../hooks/useEntryVerdicts'
-import { esListo } from '../lib/valueDecision'
 import { LogoChartPeak } from '../components/BrandLogos'
-import { TrendingUp, TrendingDown, Minus, AlertTriangle, ChevronRight, Radar as RadarIcon, Wallet, Zap, Brain, Target, ChevronDown, ChevronUp, Sparkles, LayoutDashboard, Circle, Newspaper, Pin} from 'lucide-react'
+import { TrendingUp, TrendingDown, Minus, ChevronRight, Radar as RadarIcon, Wallet, Brain, Target, ChevronDown, ChevronUp, Sparkles, LayoutDashboard, Circle, Newspaper, Pin} from 'lucide-react'
 import { usePersonalPortfolio } from '../context/PersonalPortfolioContext'
 import { PieChart, Pie, Cell, ResponsiveContainer, RadarChart, PolarGrid, PolarAngleAxis, Radar } from 'recharts'
 import { cn } from '@/lib/utils'
 import EmptyState from '@/components/EmptyState'
 import { EUROPA_Y_GLOBAL } from '@/lib/mercados'
-import CifrasClave from '../components/CifrasClave'
+import RendimientoReal from '../components/RendimientoReal'
+import { BotonMasDatos, useMasDatos } from '../components/MasDatos'
+import { getValueDecision } from '../lib/valueDecision'
 
 // Cerebro se carga solo cuando se abre su pestaña (no penaliza el Resumen)
 const Cerebro = lazy(() => import('./Cerebro'))
@@ -118,86 +115,6 @@ function RegimeCard({ label, data, loading }: { label: string; data: Record<stri
         )}
       </div>
     </Card>
-  )
-}
-
-function upsideColor(upside: number) {
-  if (upside >= 15) return 'text-emerald-400'
-  if (upside < 0) return 'text-red-400'
-  return 'text-foreground'
-}
-
-function UpsideCell({ upside }: { upside: number }) {
-  return <div className={`text-mini tabular-nums ${upsideColor(upside)}`}>{pct(upside)}</div>
-}
-
-function TopPicksTable({
-  title, rows, to, loading
-}: {
-  title: string; rows: ValueOpportunity[]; to: string; loading: boolean
-}) {
-  const verdicts = useEntryVerdicts()
-  return (
-    <div>
-      <div className="flex items-center justify-between mb-2 px-1">
-        <span className="text-apoyo font-bold uppercase tracking-[0.14em] text-muted-foreground">{title}</span>
-        <Link to={to} className="flex items-center gap-1 text-mini text-muted-foreground hover:text-foreground transition-colors">
-          Ver todos <ChevronRight size={12} />
-        </Link>
-      </div>
-      <Card className="glass">
-        {loading ? (
-          <div className="divide-y divide-border/30">
-            {['a','b','c','d','e'].map((k) => (
-              <div key={k} className="px-4 py-3 flex items-center gap-3">
-                <Skeleton className="h-3.5 w-12" />
-                <Skeleton className="h-3 flex-1" />
-                <Skeleton className="h-3 w-8" />
-                <Skeleton className="h-3 w-10" />
-              </div>
-            ))}
-          </div>
-        ) : rows.length === 0 ? (
-          <CardContent className="p-0"><EmptyState compact title="Sin datos" /></CardContent>
-        ) : (
-          <div className="divide-y divide-border/30">
-            {rows.map((r) => (
-              <div key={r.ticker} className="flex items-center gap-3 px-4 py-2.5 hover:bg-foreground/3 transition-colors">
-                <TickerLogo ticker={r.ticker} size="md" className="flex-shrink-0" />
-                <div className="w-20 shrink-0">
-                  <div className="font-mono font-bold text-primary text-cuerpo tracking-wide truncate">{r.ticker}</div>
-                  <div className="flex flex-wrap items-center gap-1 mt-0.5">
-                    {r.conviction_grade && (
-                      <GradeBadge grade={r.conviction_grade} score={r.conviction_score} />
-                    )}
-                    <EntryVerdictBadge verdict={verdicts[r.ticker?.toUpperCase() ?? '']} compact />
-                  </div>
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div className="text-apoyo text-muted-foreground truncate">{r.company_name || r.sector || ''}</div>
-                  {r.sector && r.company_name && (
-                    <div className="text-mini text-muted-foreground truncate">{r.sector}</div>
-                  )}
-                </div>
-                <div className="shrink-0 flex items-center gap-3">
-                  <div className="text-right">
-                    {r.analyst_upside_pct != null && (
-                      <UpsideCell upside={r.analyst_upside_pct} />
-                    )}
-                  </div>
-                  <ScoreRing score={r.value_score} size="sm" />
-                </div>
-                {r.earnings_warning && (
-                  <span title="Earnings próximos">
-                    <AlertTriangle size={12} className="text-amber-400 shrink-0" />
-                  </span>
-                )}
-              </div>
-            ))}
-          </div>
-        )}
-      </Card>
-    </div>
   )
 }
 
@@ -987,8 +904,6 @@ function PortfolioNewsWidget({ data, loading }: { data: any; loading: boolean })
 // ── Main Dashboard ───────────────────────────────────────────────────────────
 
 export default function Dashboard() {
-  const [showDetails, setShowDetails] = React.useState(false)
-
   // Command center: Resumen (overview) | Cerebro (agente IA), en una sola
   // pantalla. Antes eran dos entradas de menú con contenido solapado.
   const [searchParams, setSearchParams] = useSearchParams()
@@ -1001,13 +916,15 @@ export default function Dashboard() {
       return next
     }, { replace: true })
   }
+  // Por defecto, lo que decide: qué se puede comprar hoy y cómo va tu cartera. El
+  // resto (plan macro, Cerebro, régimen, radares, noticias) detrás de «Más datos».
+  // Fuera lo que contradecía a la lista: «earnings en 7d, evita añadir», «oportunidad
+  // de añadir» por sobreventa, un «Setup del día» con LISTO, objetivo del analista y
+  // R:R, y un win rate que mezclaba estrategias (12-nov-2026).
+  const [masDatos, alternarDatos] = useMasDatos('centro')
 
   const { data: regime, loading: loadingRegime } = useApi(() => fetchMarketRegime(), [])
   const { data: valueUS, loading: loadingUS } = useApi(() => fetchValueOpportunities(), [])
-  const verdicts = useEntryVerdicts()
-  const { data: valueEU, loading: loadingEU } = useApi(
-    () => (EUROPA_Y_GLOBAL ? fetchEUValueOpportunities() : Promise.resolve({ data: { data: [], count: 0, source: 'apagado' } })), [])
-  const { data: portfolio } = useApi(() => fetchPortfolioTracker(), [])
   const { data: insiders, loading: loadingInsiders } = useApi(() => fetchRecurringInsiders(), [])
   const { data: optionsRaw, loading: loadingOptions } = useApi(() => fetchOptionsFlow(), [])
   const { data: mrRaw, loading: loadingMR } = useApi(() => fetchMeanReversion(), [])
@@ -1020,9 +937,8 @@ export default function Dashboard() {
   const { data: portfolioNewsRaw, loading: loadingPortfolioNews } = useApi(() => fetchPortfolioNews(), [])
 
   const { positions: myPositions } = usePersonalPortfolio()
-  const myTickers = new Set(myPositions.map(p => p.ticker?.toUpperCase() ?? '').filter(Boolean))
 
-  // Portfolio P&L widget — fetched once per session
+  // Resumen de cartera: pedido una vez por sesión
   const [livePrices, setLivePrices] = useState<Record<string, number>>({})
   const [loadingLivePrices, setLoadingLivePrices] = useState(false)
   useEffect(() => {
@@ -1033,93 +949,16 @@ export default function Dashboard() {
       .finally(() => setLoadingLivePrices(false))
   }, [myPositions.length]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  const pf = (portfolio as PortfolioSummary) ?? {}
-  const overall = pf.overall as Record<string, { count: number; win_rate: number; avg_return: number }> | undefined
-
-  const topUS = [...(valueUS?.data ?? [])].sort((a, b) => (b.value_score ?? 0) - (a.value_score ?? 0)).slice(0, 5)
-  const topEU = [...(valueEU?.data ?? [])].sort((a, b) => (b.value_score ?? 0) - (a.value_score ?? 0)).slice(0, 5)
-
-  const bestPick = useMemo(() => {
-    const rows = valueUS?.data ?? []
-    return rows
-      .filter((r) => esListo(r, verdicts[r.ticker?.toUpperCase() ?? '']?.verdict))
-      .sort((a, b) => (b.value_score ?? 0) - (a.value_score ?? 0))[0] ?? null
-  }, [valueUS, verdicts])
-
-  // ── Portfolio Action Items ─────────────────────────────────────────
-  const actionItems: { icon: React.ReactNode; text: string; color: string; link: string }[] = []
-  if (myTickers.size > 0) {
-    // Earnings warnings for owned tickers
-    const allValue = [...(valueUS?.data ?? []), ...(valueEU?.data ?? [])]
-    for (const r of allValue) {
-      if (myTickers.has(r.ticker) && r.earnings_warning && r.days_to_earnings != null) {
-        actionItems.push({
-          icon: <AlertTriangle size={12} />,
-          text: `${r.ticker} — earnings en ${r.days_to_earnings}d, evita añadir`,
-          color: 'text-amber-400',
-          link: '/earnings',
-        })
-      }
-    }
-    // Insiders buying/selling owned tickers
-    const insiderData = (insiders?.data ?? []) as InsiderData[]
-    for (const ins of insiderData) {
-      if (myTickers.has(ins.ticker)) {
-        actionItems.push({
-          icon: <Zap size={12} />,
-          text: `${ins.ticker} — ${ins.purchase_count} compras insider (${ins.unique_insiders} directivos)`,
-          color: 'text-purple-400',
-          link: '/insiders',
-        })
-      }
-    }
-    // Mean reversion bounce on owned tickers
-    const mrData = (mrRaw as { data?: { ticker: string }[] })?.data ?? []
-    for (const mr of mrData) {
-      if (myTickers.has(mr.ticker)) {
-        actionItems.push({
-          icon: <TrendingUp size={12} />,
-          text: `${mr.ticker} — en zona oversold, oportunidad de añadir`,
-          color: 'text-cyan-400',
-          link: '/mean-reversion',
-        })
-      }
-    }
-  }
-
-  // Earnings warnings from both lists
-  const earningsWarnings = [
-    ...(valueUS?.data ?? []).filter(r => r.earnings_warning),
-    ...(valueEU?.data ?? []).filter(r => r.earnings_warning),
-  ].slice(0, 6)
+  // Lo que se compra hoy: las de Prioridad, en el orden de la lista.
+  const prioridad = useMemo(
+    () => (valueUS?.data ?? [])
+      .filter(r => r.value_grupo === 'PRIORIDAD')
+      .sort((a, b) => (b.value_score ?? 0) - (a.value_score ?? 0)),
+    [valueUS],
+  )
 
   const usRegime = regime?.us as Record<string, unknown> | undefined
   const euRegime = regime?.eu as Record<string, unknown> | undefined
-
-  // Win rate al horizonte de tesis (90d). El 7/30d no dice nada para value:
-  // un pick recién señalado tiene mal momentum por construcción. A 90d el
-  // sistema cierra casi el gap con el índice.
-  const winRateValue = overall?.['90d']
-  const totalSignals = pf.total_signals ?? 0
-  const activeSignals = pf.active_signals ?? totalSignals
-
-  function winRateColor() {
-    if (winRateValue?.win_rate == null) return 'text-muted-foreground'
-    if (winRateValue.win_rate >= 55) return 'text-emerald-400'
-    if (winRateValue.win_rate >= 45) return 'text-amber-400'
-    return 'text-red-400'
-  }
-
-  /** El mismo corte, en el vocabulario de tonos de `CifrasClave`. */
-  function winRateTono(): 'favor' | 'aviso' | 'alarma' | 'neutro' {
-    if (winRateValue?.win_rate == null) return 'neutro'
-    if (winRateValue.win_rate >= 55) return 'favor'
-    if (winRateValue.win_rate >= 45) return 'aviso'
-    return 'alarma'
-  }
-
-  const signalsNum = activeSignals > 0 ? activeSignals : totalSignals > 0 ? totalSignals : null
-
 
   return (
     <>
@@ -1129,7 +968,7 @@ export default function Dashboard() {
           <h1 className="text-cifra sm:text-cifra font-extrabold tracking-tight mb-2 gradient-title">Centro de mando</h1>
           <p className="text-titulo text-muted-foreground">
             {activeTab === 'resumen'
-              ? 'Resumen ejecutivo · Actualización diaria automática'
+              ? 'Qué se compra hoy y cómo va tu cartera'
               : 'Cerebro · el agente IA te resume lo importante primero'}
           </p>
         </div>
@@ -1161,133 +1000,55 @@ export default function Dashboard() {
 
       {activeTab === 'resumen' && (
       <>
-      {/* Un solo indicador de frescura. Antes había dos pegados que se
-          contradecían: este dice cuándo corrió el pipeline (hace 20h) y el
-          de al lado la fecha del dato de MACRO (hace 0d), con el rótulo
-          genérico "Datos en vivo" — que se lee como si hablara de toda la
-          pantalla. El de macro vive en su propia página, que es donde
-          significa algo. */}
-      <div className="mb-4 animate-fade-in-up stagger-a3">
-        <PipelineFreshnessBanner />
-      </div>
-
-      {/* Live prices bar — real-time, polls every 60s */}
-      <div className="animate-fade-in-up stagger-a4">
-        <LivePricesBar />
-      </div>
-
-      {/* Daily Plan — most prominent feature, shown first */}
-      <DailyPlanCard data={dailyPlanRaw} loading={loadingDailyPlan} />
-
-      {/* Cerebro IA — acceso rápido */}
-      {(() => {
-        const entryCount = (cerebroEntry?.strong_buy ?? 0) + (cerebroEntry?.buy ?? 0)
-        const convCount = cerebroConv?.convergences?.length ?? 0
-        const alertCount = cerebroAlertsRaw?.alerts?.length ?? 0
-        return (
-          <div className="mb-5 animate-fade-in-up stagger-a6">
-            <Link
-              to="/dashboard?tab=cerebro"
-              className="flex items-center gap-4 glass rounded-xl p-4 border border-primary/20 hover:border-primary/40 transition-colors group"
-            >
-              <div className="p-2.5 rounded-lg bg-purple-500/10 border border-purple-500/20 shrink-0">
-                <Brain size={16} className="text-purple-400" />
-              </div>
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2 mb-0.5">
-                  <span className="text-apoyo font-bold uppercase tracking-[0.14em] text-foreground/80">Cerebro IA</span>
-                  {!loadingEntry && !loadingConv && (entryCount > 0 || convCount > 0) && (
-                    <span className="text-mini px-1.5 py-0.5 rounded-full bg-primary/15 text-primary font-bold">
-                      {entryCount > 0 ? `${entryCount} señales` : `${convCount} convergencias`}
-                    </span>
-                  )}
-                  {!loadingAlerts && alertCount > 0 && (
-                    <span className="text-mini px-1.5 py-0.5 rounded-full bg-red-500/15 text-red-400 font-bold">
-                      {alertCount} alertas
-                    </span>
-                  )}
-                </div>
-                <p className="text-apoyo text-muted-foreground">
-                  Agente IA que analiza convergencia de señales y genera alertas automáticas
-                </p>
-              </div>
-              <ChevronRight size={16} className="text-muted-foreground group-hover:text-primary transition-colors shrink-0" />
-            </Link>
+      {/* Hoy: lo que se compra. Es lo primero que se lee. */}
+      <Card className="glass mb-4 animate-fade-in-up">
+        <CardContent className="p-4 sm:p-5">
+          <div className="flex items-center justify-between gap-3 mb-3">
+            <h2 className="text-titulo font-bold text-foreground">
+              {loadingUS ? 'Cargando…' : prioridad.length > 0 ? 'Hoy puedes comprar' : 'Hoy no hay nada que comprar'}
+            </h2>
+            <Link to="/value" className="text-mini font-semibold text-primary hover:underline shrink-0">Ver la lista →</Link>
           </div>
-        )
-      })()}
-
-      {/* Earnings Warning Banner */}
-      {earningsWarnings.length > 0 && (
-        <div className="mb-5 animate-fade-in-up">
-          <div className="flex items-start gap-3 px-4 py-3 rounded-lg border border-amber-500/30 bg-amber-500/8">
-            <AlertTriangle size={16} className="text-amber-400 shrink-0 mt-0.5" />
-            <div>
-              <span className="text-apoyo font-bold text-amber-400 uppercase tracking-[0.14em]">Earnings próximos</span>
-              <div className="flex flex-wrap gap-1.5 mt-1.5">
-                {earningsWarnings.map(r => (
-                  <span key={r.ticker} className="text-apoyo font-mono font-bold text-amber-300 px-2 py-0.5 rounded bg-amber-500/15">
-                    {r.ticker}
-                    {r.days_to_earnings != null && r.days_to_earnings <= 7 && (
-                      <span className="ml-1 font-normal text-amber-400">{r.days_to_earnings}d</span>
-                    )}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Portfolio Action Items */}
-      {actionItems.length > 0 && (
-        <div className="mb-5 animate-fade-in-up">
-          <Card className="glass border border-primary/20">
-            <CardContent className="p-4">
-              <div className="flex items-center gap-2 mb-3">
-                <Wallet size={16} className="text-primary" />
-                <span className="etiqueta-seccion tracking-[0.14em] text-primary">Acciones pendientes · Mi Cartera</span>
-                <span className="text-mini px-1.5 py-0.5 rounded-full bg-primary/15 text-primary font-bold">{actionItems.length}</span>
-              </div>
-              <div className="space-y-1.5">
-                {actionItems.slice(0, 8).map((item, i) => (
+          {loadingUS ? (
+            <Skeleton className="h-16 w-full" />
+          ) : prioridad.length === 0 ? (
+            <p className="text-apoyo text-muted-foreground">
+              Ninguna empresa está a la vez barata frente a su historia y creciendo. Esperar también es una decisión.
+            </p>
+          ) : (
+            <div className="space-y-2">
+              {prioridad.map(r => {
+                const decision = getValueDecision({ row: r })
+                const pot = r.upside_triangulated_pct ?? r.analyst_upside_pct
+                return (
                   <Link
-                    key={i}
-                    to={item.link}
-                    className="flex items-center gap-2 px-3 py-2 rounded-lg bg-muted/10 border border-border/20 hover:bg-muted/20 hover:border-border/40 transition-colors group"
+                    key={r.ticker}
+                    to="/value"
+                    data-fila-centro={r.ticker}
+                    className="flex items-start gap-3 rounded-lg px-3 py-2.5 bg-muted/10 border border-border/20 hover:bg-muted/20 hover:border-border/40 transition-colors"
                   >
-                    <span className={item.color}>{item.icon}</span>
-                    <span className="text-cuerpo text-foreground/80 flex-1">{item.text}</span>
-                    <ChevronRight size={12} className="text-muted-foreground group-hover:text-muted-foreground transition-colors" />
+                    <TickerLogo ticker={r.ticker} size="sm" className="mt-0.5 shrink-0" />
+                    <div className="min-w-0 flex-1">
+                      <div className="flex flex-wrap items-baseline gap-x-2">
+                        <span className="font-mono font-bold text-primary">{r.ticker}</span>
+                        <span className="text-mini text-muted-foreground truncate">{r.company_name}</span>
+                      </div>
+                      <p className="text-apoyo text-foreground/90 mt-0.5">{decision.headline}</p>
+                    </div>
+                    {pot != null && (
+                      <span className={`shrink-0 text-cuerpo font-bold tabular-nums ${pot >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+                        {pot >= 0 ? '+' : ''}{pot.toFixed(0)}%
+                      </span>
+                    )}
                   </Link>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      )}
-
-      {/* Win Rate al horizonte de tesis (90d) — always visible */}
-      {winRateValue?.win_rate != null && (
-        <div className="mb-4 animate-fade-in-up">
-          <Link to="/portfolio" className="flex items-center gap-4 glass rounded-xl px-4 py-3 border border-border/30 hover:border-primary/30 transition-colors group">
-            <div className="flex items-center gap-2 min-w-0 flex-1">
-              <span className="etiqueta-seccion tracking-[0.16em] shrink-0">Win Rate 90d</span>
-              <span className={`text-seccion font-extrabold tabular-nums ${winRateColor()}`}>
-                {winRateValue.win_rate.toFixed(1)}%
-              </span>
-              <span className="text-micro font-bold px-1.5 py-0.5 rounded border bg-primary/10 text-primary border-primary/25">horizonte value</span>
-              <span className="text-apoyo text-muted-foreground hidden sm:inline">
-                {winRateValue.avg_return != null && <>· avg <span className={winRateValue.avg_return >= 0 ? 'text-emerald-400' : 'text-red-400'}>{winRateValue.avg_return >= 0 ? '+' : ''}{winRateValue.avg_return.toFixed(1)}%</span></>}
-                {' '}· {winRateValue.count} señales
-              </span>
+                )
+              })}
             </div>
-            <ChevronRight size={16} className="text-muted-foreground group-hover:text-primary transition-colors shrink-0" />
-          </Link>
-        </div>
-      )}
+          )}
+        </CardContent>
+      </Card>
 
-      {/* Portfolio P&L mini widget */}
+      {/* Tu cartera: cuánto va ganando o perdiendo. El detalle (pesos, ventas) en Mi cartera. */}
       {myPositions.length > 0 && (
         <div className="mb-4 animate-fade-in-up">
           <Link to="/my-portfolio" className="flex items-center gap-3 glass rounded-xl px-4 py-3 border border-border/30 hover:border-primary/30 transition-colors group">
@@ -1309,11 +1070,8 @@ export default function Dashboard() {
                   <span className={`text-seccion font-extrabold tabular-nums ${pos ? 'text-emerald-400' : 'text-red-400'}`}>
                     {pos ? '+' : ''}{plPct.toFixed(2)}%
                   </span>
-                  <span className={`text-mini font-semibold tabular-nums hidden sm:inline ${pos ? 'text-emerald-400' : 'text-red-400'}`}>
-                    {pos ? '+' : ''}${pl.toFixed(0)}
-                  </span>
-                  <span className="text-apoyo text-muted-foreground hidden md:inline">
-                    {myPositions.length} posiciones · ${totalValue.toFixed(0)}
+                  <span className="text-apoyo text-muted-foreground hidden sm:inline">
+                    {myPositions.length} posiciones
                   </span>
                 </div>
               )
@@ -1323,18 +1081,62 @@ export default function Dashboard() {
         </div>
       )}
 
-      {/* Toggle: Ver datos de mercado */}
-      <button
-        onClick={() => setShowDetails(d => !d)}
-        className="etiqueta-seccion w-full flex items-center justify-center gap-2 mb-5 py-3 rounded-lg border border-border bg-muted/25 hover:text-foreground hover:bg-muted/40 transition-colors tracking-[0.16em]"
-      >
-        <ChevronDown size={12} className={`collapse-chevron ${showDetails ? 'open' : ''}`} />
-        {showDetails ? 'Ocultar datos' : 'Ver datos de mercado'}
-      </button>
+      <div className="mb-5 flex justify-end">
+        <BotonMasDatos activo={masDatos} onClick={alternarDatos} />
+      </div>
 
-      <div className={`collapsible-panel ${showDetails ? 'open' : ''}`}>
-      <div>
-          {/* Daily AI Briefing */}
+      {masDatos && (
+        <div>
+          <div className="mb-4">
+            <PipelineFreshnessBanner />
+          </div>
+          {/* Si la lista bate al índice o no: la medida de verdad, no un win rate mezclado. */}
+          <RendimientoReal fuente="alpha_us" />
+
+          <div className="animate-fade-in-up">
+            <LivePricesBar />
+          </div>
+
+          {/* Plan del día de Cerebro: lectura macro de la IA, no la regla de compra. */}
+          <DailyPlanCard data={dailyPlanRaw} loading={loadingDailyPlan} />
+
+          {(() => {
+            const entryCount = (cerebroEntry?.strong_buy ?? 0) + (cerebroEntry?.buy ?? 0)
+            const convCount = cerebroConv?.convergences?.length ?? 0
+            const alertCount = cerebroAlertsRaw?.alerts?.length ?? 0
+            return (
+              <div className="mb-5 animate-fade-in-up">
+                <Link
+                  to="/dashboard?tab=cerebro"
+                  className="flex items-center gap-4 glass rounded-xl p-4 border border-border/30 hover:border-primary/40 transition-colors group"
+                >
+                  <div className="p-2.5 rounded-lg bg-purple-500/10 border border-purple-500/20 shrink-0">
+                    <Brain size={16} className="text-purple-400" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-0.5">
+                      <span className="text-apoyo font-bold uppercase tracking-[0.14em] text-foreground/80">Cerebro IA</span>
+                      {!loadingEntry && !loadingConv && (entryCount > 0 || convCount > 0) && (
+                        <span className="text-mini px-1.5 py-0.5 rounded-full bg-primary/15 text-primary font-bold">
+                          {entryCount > 0 ? `${entryCount} señales` : `${convCount} convergencias`}
+                        </span>
+                      )}
+                      {!loadingAlerts && alertCount > 0 && (
+                        <span className="text-mini px-1.5 py-0.5 rounded-full bg-muted/30 text-muted-foreground font-bold">
+                          {alertCount} alertas
+                        </span>
+                      )}
+                    </div>
+                    <p className="text-apoyo text-muted-foreground">
+                      Señales y alertas del agente IA. Son datos: no cambian la lista.
+                    </p>
+                  </div>
+                  <ChevronRight size={16} className="text-muted-foreground group-hover:text-primary transition-colors shrink-0" />
+                </Link>
+              </div>
+            )
+          })()}
+
           {briefingRaw?.narrative && (
             <div className="mb-5 animate-fade-in-up">
               <AiNarrativeCard
@@ -1343,33 +1145,6 @@ export default function Dashboard() {
               />
             </div>
           )}
-
-          {/* Régimen de mercado y cifras de cartera.
-              Iban los cuatro en la MISMA rejilla de cuatro columnas, y no son
-              lo mismo: el régimen es un estado (icono, nombre, tooltip, precio
-              del índice) y eso sí es una tarjeta; el win rate y el seguimiento
-              son cifras, y una cifra dentro de una caja compite con la caja de
-              al lado en vez de leerse como un dato. Separados por lo que son. */}
-          <CifrasClave cifras={[
-            {
-              etiqueta: 'Win rate 90d',
-              valor: winRateValue?.win_rate != null ? winRateValue.win_rate.toFixed(1) : '—',
-              unidad: winRateValue?.win_rate != null ? '%' : undefined,
-              tono: winRateTono(),
-              sub: winRateValue?.win_rate != null ? (
-                <>
-                  Media <span className={(winRateValue.avg_return ?? 0) >= 0 ? 'text-success' : 'text-danger'}>
-                    {pct(winRateValue.avg_return)}
-                  </span> · {winRateValue.count} señales
-                </>
-              ) : 'Acumulando datos a 90d',
-            },
-            {
-              etiqueta: 'En seguimiento',
-              valor: signalsNum ?? '—',
-              sub: totalSignals > 0 ? `midiendo a 90d · ${totalSignals} históricas` : 'Sin datos de portfolio',
-            },
-          ]} />
 
           <motion.div
             className={`grid grid-cols-1 ${EUROPA_Y_GLOBAL ? 'sm:grid-cols-2' : ''} gap-3 mb-6`}
@@ -1387,65 +1162,6 @@ export default function Dashboard() {
             )}
           </motion.div>
 
-          {/* Setup del día — hero card */}
-          {bestPick && (
-            <Link to="/value" className="block mb-6 group">
-              <div className="glass rounded-2xl overflow-clip animate-fade-in-up transition-all duration-200 group-hover:bg-emerald-500/6">
-                <div className="p-5">
-                  <div className="flex items-center justify-between mb-4">
-                    <span className="etiqueta-seccion tracking-[0.18em] text-emerald-400">Setup del día</span>
-                    <span className="inline-flex items-center gap-1 text-micro font-bold text-emerald-400 tracking-wide">
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                      LISTO
-                    </span>
-                  </div>
-                  <div className="flex items-center justify-between gap-4">
-                    <div className="min-w-0">
-                      <div className="text-cifra font-black tracking-tight text-foreground group-hover:text-emerald-400 transition-colors">{bestPick.ticker}</div>
-                      <div className="text-cuerpo text-muted-foreground mt-0.5 truncate">{bestPick.company_name}</div>
-                      <div className="flex flex-wrap gap-x-4 gap-y-1 mt-3">
-                        {bestPick.analyst_upside_pct != null && (
-                          <div>
-                            <div className="etiqueta-seccion tracking-[0.14em]">Upside</div>
-                            <div className="text-cuerpo font-bold text-emerald-400">+{bestPick.analyst_upside_pct.toFixed(0)}%</div>
-                          </div>
-                        )}
-                        {bestPick.fcf_yield_pct != null && (
-                          <div>
-                            <div className="etiqueta-seccion tracking-[0.14em]">FCF Yield</div>
-                            <div className="text-cuerpo font-semibold text-foreground/80">{bestPick.fcf_yield_pct.toFixed(1)}%</div>
-                          </div>
-                        )}
-                        {bestPick.risk_reward_ratio != null && (
-                          <div>
-                            <div className="etiqueta-seccion tracking-[0.14em]">R:R</div>
-                            <div className="text-cuerpo font-semibold text-foreground/80">{bestPick.risk_reward_ratio.toFixed(1)}x</div>
-                          </div>
-                        )}
-                        {bestPick.sector && (
-                          <div>
-                            <div className="etiqueta-seccion tracking-[0.14em]">Sector</div>
-                            <div className="text-apoyo text-muted-foreground truncate max-w-[100px]">{bestPick.sector}</div>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                    <div className="flex-shrink-0">
-                      <ScoreRing score={bestPick.value_score} size="lg" />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </Link>
-          )}
-
-          {/* Top VALUE Picks */}
-          <div className={`grid grid-cols-1 ${EUROPA_Y_GLOBAL ? 'md:grid-cols-2' : ''} gap-4 mb-6`}>
-            <TopPicksTable title="Top VALUE US" rows={topUS} to="/value" loading={loadingUS} />
-            {EUROPA_Y_GLOBAL && <TopPicksTable title="Top VALUE EU" rows={topEU} to="/value?region=eu" loading={loadingEU} />}
-          </div>
-
-          {/* Signals Radar */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
             <MacroRadarMini data={macroRaw} loading={loadingMacro} />
             <InsidersMini data={insiders?.data} loading={loadingInsiders} />
@@ -1453,19 +1169,13 @@ export default function Dashboard() {
             <MeanReversionMini data={mrRaw} loading={loadingMR} />
           </div>
 
-          {/* Los widgets de Cerebro (señales de entrada, convergencias, smart
-              money, breadth, revisiones) viven ahora en la pestaña Cerebro, en
-              su versión completa — aquí ya no se duplican. */}
-
-          {/* Portfolio News */}
           <div className="mb-6">
             <PortfolioNewsWidget data={portfolioNewsRaw} loading={loadingPortfolioNews} />
           </div>
-      </div>
-      </div>
+        </div>
+      )}
       </>
       )}
-
     </>
   )
 }

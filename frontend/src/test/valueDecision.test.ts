@@ -622,13 +622,13 @@ describe('getValueDecision — grupos de Value US', () => {
     expect(r.kind).toBe('ready')
     expect(r.label).toBe('Prioridad')
     expect(r.headline).toContain('-2,8σ')
-    expect(r.headline).toContain('+14 %')
+    expect(r.headline).toContain('+14\u00A0%')
   })
 
   it('OBSERVAR dice qué le falta', () => {
     const r = getValueDecision({ row: makeRow({ value_grupo: 'OBSERVAR', value_falta: 'ventas anuales +7 %, le falta crecer al 10 %', value_score: 50 }) })
     expect(r.kind).toBe('watch')
-    expect(r.headline).toBe('Ventas anuales +7 %, le falta crecer al 10 %.')
+    expect(r.headline).toBe('Ventas anuales +7\u00A0%, le falta crecer al 10\u00A0%.')
   })
 
   it('caer bajo su media descendente no le quita la prioridad', () => {
@@ -670,7 +670,7 @@ describe('Value US: el aviso no cambia el grupo', () => {
 
   it('con el PER y su historia lo dice en números, sin sigmas', () => {
     const r = getValueDecision({ row: makeRow({ ...prioridad, per_norm: 14.4, per_mediana_10a: 39.87 }) })
-    expect(r.headline).toContain('PER 14 frente a 40 de media en 10 años y ventas anuales +14 %.')
+    expect(r.headline).toContain('PER 14 frente a 40 de media en 10 años y ventas anuales +14\u00A0%.')
     expect(r.headline).not.toContain('σ')
   })
 
@@ -700,7 +700,7 @@ describe('Value US: el aviso no cambia el grupo', () => {
   it('los avisos de la nota salen en la tarjeta de prioridad', () => {
     const r = getValueDecision({ row: makeRow({ ...prioridad, value_avisos: 'se frena: último trimestre +1 %' }) })
     expect(r.label).toBe('Prioridad')
-    expect(r.headline).toContain('Se frena: último trimestre +1 %.')
+    expect(r.headline).toContain('Se frena: último trimestre +1\u00A0%.')
   })
 
   it('fuera de Value US, resultados cerca sigue siendo esperar', () => {
@@ -712,14 +712,14 @@ describe('PRIORIDAD por recorrido (puede doblar)', () => {
   it('dice el recorrido cuando entra solo por eso', () => {
     const d = getValueDecision({ row: makeRow({ value_grupo: 'PRIORIDAD', per_z: -0.3, ventas_anual_pct: 4, value_dobla: true, recorrido_propio_pct: 115.4 }) } as never)
     expect(d.label).toBe('Prioridad')
-    expect(d.headline).toContain('+115 %')
+    expect(d.headline).toContain('+115\u00A0%')
     expect(d.headline).not.toContain('PER a')
     expect(d.detail).toContain('podía doblar')
   })
   it('si cumple las dos, dice las dos', () => {
     const d = getValueDecision({ row: makeRow({ value_grupo: 'PRIORIDAD', per_z: -3.1, ventas_anual_pct: 13.9, value_dobla: true, recorrido_propio_pct: 141.9 }) } as never)
     expect(d.headline).toContain('PER a -3,1σ')
-    expect(d.headline).toContain('+142 %')
+    expect(d.headline).toContain('+142\u00A0%')
     expect(d.detail).toContain('creciendo')
   })
 })

@@ -131,7 +131,7 @@ CONTRARIO = re.compile(r'\b(espera|esperar|exit|trap|evitar|hard reject)\b|mejor
 @pytest.mark.parametrize('vista', ['sencilla', 'mas_datos'])
 def test_cada_fila_de_value_us_dice_su_grupo_y_nada_en_contra(servidor, navegador, ancho, vista):
     ctx, pagina = _pagina(navegador, 'dark', ancho,
-                          f"localStorage.setItem('sa-value-mas-datos', '{int(vista == 'mas_datos')}');")
+                          f"localStorage.setItem('sa-mas-datos:value', '{int(vista == 'mas_datos')}');")
     pagina.goto(f'{servidor}#/value')
     pagina.locator('[data-fila-value]:visible').first.wait_for(timeout=20000)
     filas = [f.inner_text() for f in pagina.locator('[data-fila-value]').all() if f.is_visible()]
@@ -146,3 +146,24 @@ def test_cada_fila_de_value_us_dice_su_grupo_y_nada_en_contra(servidor, navegado
         elif grupos == ['Prioridad'] and CONTRARIO.search(texto):
             fallos.append(f'{cabeza}: Prioridad con «{CONTRARIO.search(texto).group(0)}»')
     assert not fallos, f'{ancho}px, vista {vista}:\n' + '\n'.join(fallos)
+
+
+@pytest.mark.parametrize('ancho', [ANCHO, 1440])
+@pytest.mark.parametrize('ruta', ['/dashboard', '/value'])
+def test_la_vista_por_defecto_no_contradice_a_la_lista(servidor, navegador, ruta, ancho):
+    """Por defecto, lo que se entiende sin conocer la regla (12-nov: «tiene que ser
+    intuitivo para un usuario»). Ni ahí ni en ningún sitio de la vista sencilla puede
+    salir un esperar, evitar, EXIT o TRAP: eso era el Centro de mando de antes."""
+    ctx, pagina = _pagina(navegador, 'dark', ancho)
+    pagina.goto(f'{servidor}#{ruta}')
+    try:
+        pagina.wait_for_load_state('networkidle', timeout=15000)
+    except sync_api.TimeoutError:
+        pass
+    pagina.wait_for_timeout(800)
+    texto = pagina.locator('main').inner_text()
+    ctx.close()
+    assert any(f in texto for f in ('Prioridad', 'puedes comprar', 'nada que comprar')), \
+        f'{ruta}: no dice qué se compra hoy'
+    choque = CONTRARIO.search(texto)
+    assert not choque, f'{ruta} a {ancho}px dice «{choque.group(0)}» en la vista por defecto'

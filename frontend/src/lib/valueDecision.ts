@@ -80,7 +80,19 @@ export function esListo(row: ValueOpportunity, veredicto?: EntryVerdictKind | nu
   )
 }
 
-export function getValueDecision({
+/** El «%» va pegado a su número: con un espacio normal, en el móvil «+14 %» se
+ *  partía en «+14» y un «%» solo en la línea siguiente. */
+const sinPartir = (d: ValueDecision): ValueDecision => ({
+  ...d,
+  headline: d.headline.replace(/ %/g, ' %'),
+  detail: d.detail.replace(/ %/g, ' %'),
+})
+
+export function getValueDecision(entrada: DecisionInput): ValueDecision {
+  return sinPartir(decidir(entrada))
+}
+
+function decidir({
   row,
   hasTrap = false,
   hasExit = false,

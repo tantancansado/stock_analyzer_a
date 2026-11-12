@@ -26,6 +26,7 @@ import { getValueDecision } from '@/lib/valueDecision'
 import PageShell from '@/components/PageShell'
 import { nlRegimen, nlRegimenTono } from '@/lib/nl'
 import CifrasClave from '../components/CifrasClave'
+import { BotonMasDatos, useMasDatos } from '../components/MasDatos'
 
 /** Nuestro potencial: la valoración triangulada (DCF y P/E propios con el
  *  consenso), que es lo que decide la lista. El objetivo de los analistas solo,
@@ -55,13 +56,6 @@ const MACRO_AVISO: Record<string, { bg: string; text: string; msg: string }> = {
 
 const PAGE_SIZE = 50
 
-// «Más datos»: los números para quien los quiera, sin los veredictos de reglas
-// anteriores. Es una preferencia de pantalla de este navegador, nada más.
-const CLAVE_MAS_DATOS = 'sa-value-mas-datos'
-function leerMasDatos(): boolean {
-  try { return localStorage.getItem(CLAVE_MAS_DATOS) === '1' } catch { return false }
-}
-
 const pct = (v: number | null | undefined, decimales = 1) =>
   v == null ? '—' : `${v.toLocaleString('es-ES', { maximumFractionDigits: decimales, minimumFractionDigits: decimales })} %`
 const dias = (d: ValueOpportunity) =>
@@ -80,11 +74,7 @@ export default function ValueUS() {
   const filterGrupo = searchParams.get('grupo') ?? 'ALL'
   const [page, setPage] = useState(1)
   const [focusedIdx, setFocusedIdx] = useState(-1)
-  const [masDatos, setMasDatos] = useState(leerMasDatos)
-  const alternarDatos = () => setMasDatos(v => {
-    try { localStorage.setItem(CLAVE_MAS_DATOS, v ? '0' : '1') } catch { /* sin almacenamiento: solo esta visita */ }
-    return !v
-  })
+  const [masDatos, alternarDatos] = useMasDatos('value')
 
   function setFilterGrupo(v: string) {
     setSearchParams(p => {
@@ -249,12 +239,7 @@ export default function ValueUS() {
         <span className="ml-auto filter-label !normal-case !tracking-normal">
           {sorted.length !== rows.length ? `${sorted.length} / ${rows.length}` : `${rows.length} ideas`}
         </span>
-        <button
-          type="button"
-          aria-pressed={masDatos}
-          onClick={alternarDatos}
-          className={`filter-btn ${masDatos ? 'active' : ''}`}
-        >{masDatos ? 'Menos datos' : 'Más datos'}</button>
+        <BotonMasDatos activo={masDatos} onClick={alternarDatos} />
       </div>
 
       {/* Móvil */}
