@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-11-11T06:57:51",
-  "positions_checked": 38,
-  "total": 2,
-  "high_count": 2,
+  "generated_at": "2026-11-12T07:54:29",
+  "positions_checked": 40,
+  "total": 3,
+  "high_count": 3,
   "alerts": [
     {
       "ticker": "CBOE",
@@ -10,7 +10,7 @@
       "strategy": "VALUE",
       "signal_date": "2026-10-14",
       "type": "THESIS_BROKEN",
-      "reason": "analyst_upside ahora -2% \u2014 sobrevalorado",
+      "reason": "analyst_upside ahora -4% \u2014 sobrevalorado",
       "severity": "HIGH"
     },
     {
@@ -19,7 +19,16 @@
       "strategy": "VALUE",
       "signal_date": "2026-11-09",
       "type": "THESIS_BROKEN",
-      "reason": "analyst_upside ahora -1% \u2014 sobrevalorado",
+      "reason": "analyst_upside ahora -2% \u2014 sobrevalorado",
+      "severity": "HIGH"
+    },
+    {
+      "ticker": "PGR",
+      "company_name": "The Progressive Corporation",
+      "strategy": "VALUE",
+      "signal_date": "2026-11-09",
+      "type": "THESIS_BROKEN",
+      "reason": "analyst_upside ahora -0% \u2014 sobrevalorado",
       "severity": "HIGH"
     }
   ]

@@ -1,16 +1,16 @@
 {
-  "total_signals": 136,
-  "unique_tickers": 81,
-  "date_range": "2026-04-08 to 2026-11-10",
-  "active_signals": 39,
+  "total_signals": 138,
+  "unique_tickers": 83,
+  "date_range": "2026-04-08 to 2026-11-12",
+  "active_signals": 41,
   "completed_signals": 97,
   "overall": {
     "90d": {
-      "count": 73,
-      "win_rate": 68.5,
-      "ci_low": 57.1,
-      "ci_high": 78.0,
-      "avg_return": 4.23,
+      "count": 75,
+      "win_rate": 69.3,
+      "ci_low": 58.2,
+      "ci_high": 78.6,
+      "avg_return": 4.39,
       "median_return": 4.82,
       "best": 24.67,
       "worst": -27.96
@@ -38,11 +38,11 @@
   },
   "long_hist_reference": {
     "90d": {
-      "count": 901,
-      "win_rate": 49.8,
+      "count": 902,
+      "win_rate": 49.9,
       "ci_low": 46.6,
       "ci_high": 53.1,
-      "avg_return": 1.51,
+      "avg_return": 1.52,
       "median_return": -0.05,
       "best": 57.29,
       "worst": -37.59
@@ -101,7 +101,8 @@
         "best": null,
         "worst": null,
         "ci_low": null,
-        "ci_high": null
+        "ci_high": null,
+        "contra_sp500": null
       },
       "180d": {
         "count": 0,
@@ -111,7 +112,8 @@
         "best": null,
         "worst": null,
         "ci_low": null,
-        "ci_high": null
+        "ci_high": null,
+        "contra_sp500": null
       },
       "365d": {
         "count": 0,
@@ -121,7 +123,8 @@
         "best": null,
         "worst": null,
         "ci_low": null,
-        "ci_high": null
+        "ci_high": null,
+        "contra_sp500": null
       }
     },
     "OBSERVAR": {
@@ -133,7 +136,8 @@
         "best": null,
         "worst": null,
         "ci_low": null,
-        "ci_high": null
+        "ci_high": null,
+        "contra_sp500": null
       },
       "180d": {
         "count": 0,
@@ -143,7 +147,8 @@
         "best": null,
         "worst": null,
         "ci_low": null,
-        "ci_high": null
+        "ci_high": null,
+        "contra_sp500": null
       },
       "365d": {
         "count": 0,
@@ -153,18 +158,19 @@
         "best": null,
         "worst": null,
         "ci_low": null,
-        "ci_high": null
+        "ci_high": null,
+        "contra_sp500": null
       }
     }
   },
   "value_strategy": {
-    "count": 124,
+    "count": 126,
     "90d": {
-      "count": 61,
-      "win_rate": 72.1,
-      "ci_low": 59.8,
-      "ci_high": 81.8,
-      "avg_return": 4.58,
+      "count": 63,
+      "win_rate": 73.0,
+      "ci_low": 61.0,
+      "ci_high": 82.4,
+      "avg_return": 4.76,
       "median_return": 4.93,
       "best": 24.67,
       "worst": -27.96,
@@ -259,7 +265,7 @@
     }
   },
   "leaps_strategy": {
-    "count": 187,
+    "count": 188,
     "subyacente": {
       "90d": {
         "count": 0,
@@ -304,9 +310,9 @@
         "ci_high": null
       }
     },
-    "edad_max_dias": 83,
-    "dias_hasta_primera_lectura": 7,
-    "con_contrato": 150,
+    "edad_max_dias": 84,
+    "dias_hasta_primera_lectura": 6,
+    "con_contrato": 151,
     "nota": "el contrato se sigue por su s\u00edmbolo OCC; son opciones poco l\u00edquidas, as\u00ed que un checkpoint sin cotizaci\u00f3n en 10 d\u00edas se queda vac\u00edo en vez de arrastrar un precio viejo"
   },
   "sector_performance": {
@@ -449,6 +455,28 @@
   "performers_horizon": "180d",
   "recent_signals": [
     {
+      "ticker": "VRSK",
+      "company_name": "Verisk Analytics, Inc.",
+      "strategy": "VALUE",
+      "signal_date": "2026-11-12",
+      "signal_price": 205.98,
+      "sector": "Industrials",
+      "value_score": 48.9,
+      "days_active": 0,
+      "first_result_date": "2026-11-19"
+    },
+    {
+      "ticker": "ADBE",
+      "company_name": "Adobe Inc.",
+      "strategy": "VALUE",
+      "signal_date": "2026-11-12",
+      "signal_price": 237.6,
+      "sector": "Technology",
+      "value_score": 98.1,
+      "days_active": 0,
+      "first_result_date": "2026-11-19"
+    },
+    {
       "ticker": "SAP",
       "company_name": "SAP SE",
       "strategy": "VALUE",
@@ -456,7 +484,7 @@
       "signal_price": 237.42,
       "sector": "Technology",
       "value_score": 49.4,
-      "days_active": 1,
+      "days_active": 2,
       "first_result_date": "2026-11-17"
     },
     {
@@ -467,7 +495,7 @@
       "signal_price": 107.2,
       "sector": "Healthcare",
       "value_score": 50.8,
-      "days_active": 1,
+      "days_active": 2,
       "first_result_date": "2026-11-17"
     },
     {
@@ -478,7 +506,7 @@
       "signal_price": 334.18,
       "sector": "Consumer Cyclical",
       "value_score": 54.1,
-      "days_active": 1,
+      "days_active": 2,
       "first_result_date": "2026-11-17"
     },
     {
@@ -489,7 +517,7 @@
       "signal_price": 47.88,
       "sector": "Consumer Defensive",
       "value_score": 58.8,
-      "days_active": 1,
+      "days_active": 2,
       "first_result_date": "2026-11-17"
     },
     {
@@ -500,18 +528,7 @@
       "signal_price": 172.27,
       "sector": "Financial Services",
       "value_score": 46.4,
-      "days_active": 2,
-      "first_result_date": "2026-11-16"
-    },
-    {
-      "ticker": "JKHY",
-      "company_name": "Jack Henry & Associates, Inc.",
-      "strategy": "VALUE",
-      "signal_date": "2026-11-09",
-      "signal_price": 173.23,
-      "sector": "Technology",
-      "value_score": 51.3,
-      "days_active": 2,
+      "days_active": 3,
       "first_result_date": "2026-11-16"
     },
     {
@@ -522,7 +539,7 @@
       "signal_price": 40.17,
       "sector": "Industrials",
       "value_score": 51.3,
-      "days_active": 2,
+      "days_active": 3,
       "first_result_date": "2026-11-16"
     },
     {
@@ -533,7 +550,7 @@
       "signal_price": 420.56,
       "sector": "Technology",
       "value_score": 51.0,
-      "days_active": 2,
+      "days_active": 3,
       "first_result_date": "2026-11-16"
     },
     {
@@ -544,7 +561,7 @@
       "signal_price": 68.36,
       "sector": "Communication Services",
       "value_score": 49.5,
-      "days_active": 2,
+      "days_active": 3,
       "first_result_date": "2026-11-16"
     },
     {
@@ -555,7 +572,7 @@
       "signal_price": 334.81,
       "sector": "Financial Services",
       "value_score": 48.1,
-      "days_active": 2,
+      "days_active": 3,
       "first_result_date": "2026-11-16"
     },
     {
@@ -566,40 +583,7 @@
       "signal_price": 93.99,
       "sector": "Technology",
       "value_score": 46.9,
-      "days_active": 2,
-      "first_result_date": "2026-11-16"
-    },
-    {
-      "ticker": "MLM",
-      "company_name": "Martin Marietta Materials, Inc.",
-      "strategy": "VALUE",
-      "signal_date": "2026-11-09",
-      "signal_price": 518.15,
-      "sector": "Basic Materials",
-      "value_score": 44.1,
-      "days_active": 2,
-      "first_result_date": "2026-11-16"
-    },
-    {
-      "ticker": "FCNCA",
-      "company_name": "First Citizens BancShares, Inc.",
-      "strategy": "VALUE",
-      "signal_date": "2026-11-09",
-      "signal_price": 2273.74,
-      "sector": "Financial Services",
-      "value_score": 46.1,
-      "days_active": 2,
-      "first_result_date": "2026-11-16"
-    },
-    {
-      "ticker": "GGG",
-      "company_name": "Graco Inc.",
-      "strategy": "VALUE",
-      "signal_date": "2026-11-09",
-      "signal_price": 67.86,
-      "sector": "Industrials",
-      "value_score": 53.2,
-      "days_active": 2,
+      "days_active": 3,
       "first_result_date": "2026-11-16"
     },
     {
@@ -610,40 +594,29 @@
       "signal_price": 283.93,
       "sector": "Communication Services",
       "value_score": 43.2,
-      "days_active": 2,
+      "days_active": 3,
       "first_result_date": "2026-11-16"
     },
     {
-      "ticker": "MSFT",
-      "company_name": "Microsoft Corporation",
+      "ticker": "FCNCA",
+      "company_name": "First Citizens BancShares, Inc.",
       "strategy": "VALUE",
       "signal_date": "2026-11-09",
-      "signal_price": 530.61,
-      "sector": "Technology",
-      "value_score": 41.9,
-      "days_active": 2,
-      "first_result_date": "2026-11-16"
-    },
-    {
-      "ticker": "COF",
-      "company_name": "Capital One Financial Corporation",
-      "strategy": "VALUE",
-      "signal_date": "2026-11-09",
-      "signal_price": 201.87,
+      "signal_price": 2273.74,
       "sector": "Financial Services",
-      "value_score": 40.3,
-      "days_active": 2,
+      "value_score": 46.1,
+      "days_active": 3,
       "first_result_date": "2026-11-16"
     },
     {
-      "ticker": "CRH",
-      "company_name": "CRH plc",
+      "ticker": "MLM",
+      "company_name": "Martin Marietta Materials, Inc.",
       "strategy": "VALUE",
       "signal_date": "2026-11-09",
-      "signal_price": 94.81,
+      "signal_price": 518.15,
       "sector": "Basic Materials",
-      "value_score": 40.0,
-      "days_active": 2,
+      "value_score": 44.1,
+      "days_active": 3,
       "first_result_date": "2026-11-16"
     },
     {
@@ -654,18 +627,51 @@
       "signal_price": 141.34,
       "sector": "Consumer Defensive",
       "value_score": 52.5,
-      "days_active": 2,
+      "days_active": 3,
       "first_result_date": "2026-11-16"
     },
     {
-      "ticker": "BR",
-      "company_name": "Broadridge Financial Solutions, Inc.",
+      "ticker": "MSFT",
+      "company_name": "Microsoft Corporation",
       "strategy": "VALUE",
       "signal_date": "2026-11-09",
-      "signal_price": 190.4,
+      "signal_price": 530.61,
       "sector": "Technology",
-      "value_score": 53.5,
-      "days_active": 2,
+      "value_score": 41.9,
+      "days_active": 3,
+      "first_result_date": "2026-11-16"
+    },
+    {
+      "ticker": "COF",
+      "company_name": "Capital One Financial Corporation",
+      "strategy": "VALUE",
+      "signal_date": "2026-11-09",
+      "signal_price": 201.87,
+      "sector": "Financial Services",
+      "value_score": 40.3,
+      "days_active": 3,
+      "first_result_date": "2026-11-16"
+    },
+    {
+      "ticker": "CRH",
+      "company_name": "CRH plc",
+      "strategy": "VALUE",
+      "signal_date": "2026-11-09",
+      "signal_price": 94.81,
+      "sector": "Basic Materials",
+      "value_score": 40.0,
+      "days_active": 3,
+      "first_result_date": "2026-11-16"
+    },
+    {
+      "ticker": "JKHY",
+      "company_name": "Jack Henry & Associates, Inc.",
+      "strategy": "VALUE",
+      "signal_date": "2026-11-09",
+      "signal_price": 173.23,
+      "sector": "Technology",
+      "value_score": 51.3,
+      "days_active": 3,
       "first_result_date": "2026-11-16"
     }
   ],
@@ -688,11 +694,11 @@
       "worst_alpha": -35.2
     },
     "90d": {
-      "count": 73,
-      "avg_alpha": 0.65,
-      "avg_signal_return": 4.23,
-      "avg_benchmark_return": 3.58,
-      "positive_alpha_rate": 49.3,
+      "count": 75,
+      "avg_alpha": 0.96,
+      "avg_signal_return": 4.39,
+      "avg_benchmark_return": 3.43,
+      "positive_alpha_rate": 50.7,
       "best_alpha": 25.49,
       "worst_alpha": -38.85
     },
@@ -706,20 +712,20 @@
       "worst_alpha": -21.52
     },
     "14d": {
-      "count": 103,
-      "avg_alpha": 0.27,
-      "avg_signal_return": 0.88,
-      "avg_benchmark_return": 0.61,
-      "positive_alpha_rate": 49.5,
+      "count": 104,
+      "avg_alpha": 0.31,
+      "avg_signal_return": 0.9,
+      "avg_benchmark_return": 0.59,
+      "positive_alpha_rate": 50.0,
       "best_alpha": 13.42,
       "worst_alpha": -12.78
     },
     "7d": {
-      "count": 107,
-      "avg_alpha": 0.24,
-      "avg_signal_return": 0.73,
-      "avg_benchmark_return": 0.49,
-      "positive_alpha_rate": 49.5,
+      "count": 108,
+      "avg_alpha": 0.26,
+      "avg_signal_return": 0.74,
+      "avg_benchmark_return": 0.48,
+      "positive_alpha_rate": 50.0,
       "best_alpha": 13.81,
       "worst_alpha": -12.04
     }
@@ -742,11 +748,11 @@
       "worst_alpha": -57.59
     },
     "90d": {
-      "count": 146,
-      "avg_alpha": 0.84,
-      "avg_signal_return": 11.56,
-      "avg_benchmark_return": 10.72,
-      "positive_alpha_rate": 52.1,
+      "count": 147,
+      "avg_alpha": 0.87,
+      "avg_signal_return": 11.5,
+      "avg_benchmark_return": 10.64,
+      "positive_alpha_rate": 52.4,
       "best_alpha": 44.58,
       "worst_alpha": -51.85
     },
@@ -760,11 +766,11 @@
       "worst_alpha": -21.52
     },
     "14d": {
-      "count": 91,
-      "avg_alpha": 0.28,
-      "avg_signal_return": 1.17,
-      "avg_benchmark_return": 0.89,
-      "positive_alpha_rate": 48.4,
+      "count": 92,
+      "avg_alpha": 0.33,
+      "avg_signal_return": 1.19,
+      "avg_benchmark_return": 0.86,
+      "positive_alpha_rate": 48.9,
       "best_alpha": 13.42,
       "worst_alpha": -12.78
     }
@@ -814,5 +820,5 @@
       "worst_alpha": -4.98
     }
   },
-  "generated_at": "2026-11-11T06:57:51.131348"
+  "generated_at": "2026-11-12T07:54:29.329783"
 }

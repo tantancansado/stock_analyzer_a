@@ -209,19 +209,19 @@
   "ultimo_fallo": "2026-11-05"
  },
  "FICO": {
-  "veredicto": "EVENTO",
-  "resumen": "La caída se originó por decisiones regulatorias de la FHFA (septiembre-octubre 2026) que introdujeron a VantageScore en el pricing de hipotecas de Fannie/Freddie y por la congelación del precio del score hipotecario en 10 dólares, atacando la percepción de poder de fijación de precios de FICO; sin e",
-  "confianza": 55,
+  "veredicto": "DETERIORO",
+  "resumen": "La FHFA abrió el mercado hipotecario (Fannie Mae/Freddie Mac, ~70% del mercado) que FICO dominaba en exclusiva, dejando entrar a VantageScore al mismo grid de precios, mientras grandes prestamistas como Rocket Mortgage y UWM ya están migrando a VantageScore, mucho más barato ($0.99 vs $10).",
+  "confianza": 80,
   "fuentes": [
    "https://www.sec.gov/Archives/edgar/data/0000814547/000081454726000042/fico-20260930.htm",
-   "https://seekingalpha.com/news/4657132-fair-isaac-stock-slumps-after-holding-pricing-for-preferred-lenders",
+   "https://seekingalpha.com/article/4964590-fair-isaac-is-down-55-percent-and-the-worst-may-not-be-priced-in",
    "https://finance.yahoo.com/markets/stocks/articles/does-fall-fair-isaac-stock-122319607.html",
-   "https://www.tradingview.com/news/gurufocus:04cc44019094b:0-fair-isaac-after-the-50-drop-is-the-credit-score-monopoly-now-a-value-stock/"
+   "https://finance.yahoo.com/markets/stocks/article/fair-isaac-stock-plunges-20-after-fannie-and-freddie-open-door-to-fico-credit-score-rival-142841650.html"
   ],
   "modelo": "claude-sonnet-5",
   "resultados": "2027-01-27",
-  "fecha": "2026-11-11",
-  "criterio": 2
+  "fecha": "2026-11-12",
+  "criterio": 3
  },
  "WTKWY": {
   "veredicto": "SENTIMIENTO",
@@ -424,18 +424,18 @@
  },
  "INTU": {
   "veredicto": "SENTIMIENTO",
-  "resumen": "La acción se desplomó durante 2026 (de máximos cercanos a 680-814 a mínimos de ~253) principalmente por el miedo del mercado a que la IA agéntica sustituya los servicios de TurboTax/QuickBooks, mientras los resultados trimestrales reales batieron el guidance y la compañía elevó su guidance de FY26 e",
-  "confianza": 55,
+  "resumen": "La acción cayó por una fuerte compresión de múltiplo ante el miedo a que la IA erosione el negocio de TurboTax/QuickBooks y por una desaceleración del crecimiento guiado (de ~18-20% a ~10-13%), pese a que Intuit mantuvo o incluso elevó su guía de ingresos y BPA en los trimestres de 2026 y los ingres",
+  "confianza": 60,
   "fuentes": [
-   "https://www.tikr.com/blog/is-intuit-stock-a-buy-in-2026-after-falling-67-from-its-52-week-high",
-   "https://www.tikr.com/blog/intuit-stock-is-down-38-in-2026-analysts-see-42-upside-to-553-target",
-   "https://finance.yahoo.com/markets/stocks/articles/intuit-intu-stock-trades-down-203134329.html",
-   "https://www.gurufocus.com/news/9182327/intuit-inc-intu-shares-fall-38-what-gf-score-of-79-tells-investors"
+   "https://www.sec.gov/Archives/edgar/data/896878/000089687826000012/fy26q2earningspressrelease.htm",
+   "https://www.sec.gov/Archives/edgar/data/0000896878/000089687826000024/fy26q3earningspressrelease.htm",
+   "https://www.marketbeat.com/earnings/reports/2025-11-20-intuit-inc-stock/",
+   "https://www.sec.gov/Archives/edgar/data/0000896878/000089687826000029/fy26q4earningspressrelease.htm"
   ],
   "modelo": "claude-sonnet-5",
   "resultados": "2026-11-19",
-  "fecha": "2026-11-11",
-  "criterio": 2
+  "fecha": "2026-11-12",
+  "criterio": 3
  },
  "ODFL": {
   "veredicto": "SIN_DATOS",
@@ -484,18 +484,18 @@
  },
  "ADBE": {
   "veredicto": "SENTIMIENTO",
-  "resumen": "Adobe ha caído por temor a la disrupción de la IA generativa (Midjourney, OpenAI, Canva) y por incertidumbre en la transición de CEO, pero cada trimestre de 2026 ha batido estimaciones y elevado el guidance, con ARR, ingresos y márgenes creciendo con fuerza. El mercado no ha visto deterioro real en ",
+  "resumen": "Desde inicios de 2026 Adobe ha caído con fuertes batidas de beneficios y guidance elevado trimestre tras trimestre, pero el mercado teme que la IA generativa (Midjourney, OpenAI, Canva, Claude Design) erosione el negocio de Creative Cloud a futuro, agravado por la salida del CEO y la compresión de m",
   "confianza": 70,
   "fuentes": [
    "https://finance.yahoo.com/news/adobe-stock-drops-26-wall-112203636.html",
-   "https://roboforex.com/beginners/analytics/forex-forecast/stocks/stocks-forecast-adobe-adbe/",
-   "https://247wallst.com/investing/2026/02/18/adobe-stock-drops-26-as-wall-street-questions-its-defense-against-ai-competition/",
-   "https://247wallst.com/investing/2026/10/26/the-software-monopoly-priced-like-a-victim-adobe/"
+   "https://pluang.com/en/news-feed/debat-saham-adobe-menjadi-menarik",
+   "https://www.tradingview.com/news/zacks:539e57ec1094b:0-adobe-drops-9-in-3-months-buy-sell-or-hold-the-stock-in-2026/",
+   "https://seekingalpha.com/article/4914373-adobe-q2-too-cheap-to-ignore"
   ],
   "modelo": "claude-sonnet-5",
   "resultados": "2026-12-09",
-  "fecha": "2026-11-11",
-  "criterio": 2
+  "fecha": "2026-11-12",
+  "criterio": 3
  },
  "BSX": {
   "veredicto": "DETERIORO",
@@ -512,18 +512,18 @@
  },
  "BRO": {
   "veredicto": "CICLICO",
-  "resumen": "En el Q3 2026 (publicado el 26-27 de octubre), BRO reportó crecimiento orgánico de solo 1.2% frente al 3.5% del año anterior y compresión de margen de 200 puntos básicos, por el ablandamiento de precios en propiedad y especialidad y la comparación con mayores ingresos por intereses del año previo. E",
-  "confianza": 65,
+  "resumen": "En el 3T2026 Brown & Brown reportó ingresos +7.4% y BPA ajustado +1.9%, pero el crecimiento orgánico se frenó a 1.2% y el segmento Specialty Distribution cayó -0.8% (vs guía de +2/+4%) porque aseguradoras del mercado admitido recuperaron negocio del E&S y bajaron las tarifas de catástrofe, mientras ",
+  "confianza": 70,
   "fuentes": [
-   "https://uk.investing.com/news/stock-market-news/brown--brown-q3-2026-slides-growth-continues-amid-margin-pressure-93CH-4934621",
-   "https://investwithcolby.substack.com/p/brown-and-brown-bro-q3-2026-earnings",
-   "https://finance.yahoo.com/markets/stocks/articles/bro-q3-earnings-miss-estimates-141100706.html",
-   "https://www.sec.gov/Archives/edgar/data/0000079282/000119312526432142/bro-ex99_1.htm"
+   "https://www.sec.gov/Archives/edgar/data/0000079282/000119312526432142/bro-ex99_1.htm",
+   "https://www.fool.com/earnings/call-transcripts/2026/10/27/brown-brown-bro-q3-2026-earnings-call-transcript/",
+   "https://www.investing.com/news/transcripts/earnings-call-transcript-brown--brown-q3-2026-profit-miss-weighs-on-shares-93CH-4975862",
+   "https://investwithcolby.substack.com/p/brown-and-brown-bro-q3-2026-earnings"
   ],
   "modelo": "claude-sonnet-5",
   "resultados": "2027-01-25",
-  "fecha": "2026-11-11",
-  "criterio": 2
+  "fecha": "2026-11-12",
+  "criterio": 3
  },
  "PGR": {
   "veredicto": "EVENTO",
@@ -587,5 +587,20 @@
    "https://finance.yahoo.com/news/martin-mariettas-q3-earnings-revenues-164700894.html"
   ],
   "fecha": "2026-11-10"
+ },
+ "SYK": {
+  "veredicto": "DETERIORO",
+  "resumen": "Un problema de fabricación no resuelto en su unidad de Peripheral Vascular lleva varios trimestres provocando backorders, pérdida de ventas y, según el propio CFO, incapacidad para ganar nuevos clientes en ese negocio.",
+  "confianza": 70,
+  "fuentes": [
+   "https://www.sec.gov/Archives/edgar/data/0000310764/000031076426000025/sykex991earningsq12026.htm",
+   "https://www.sec.gov/Archives/edgar/data/0000310764/000031076426000048/sykex991earningsq22026.htm",
+   "https://www.sec.gov/Archives/edgar/data/310764/000031076426000006/sykex991earningsq42025.htm",
+   "https://www.sec.gov/Archives/edgar/data/0000310764/000031076426000059/sykex991earningsq32026.htm"
+  ],
+  "modelo": "claude-sonnet-5",
+  "resultados": "2027-01-28",
+  "fecha": "2026-11-12",
+  "criterio": 3
  }
 }

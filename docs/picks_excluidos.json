@@ -1,41 +1,41 @@
 {
   "listas": {
     "value_opportunities": {
-      "candidatas": 29,
-      "publicadas": 24,
+      "candidatas": 31,
+      "publicadas": 26,
       "excluidos": [
         {
           "ticker": "BSX",
           "paso": "verificador_ia",
-          "motivo": "upside_requiere_verificacion es falso, pero rev_growth_yoy (1.4%) apenas crece mientras ventas_anual_pct (19.9%) salta 14x. Esto es inconsistencia de datos: o bien rev_growth_yoy es erróneo o ventas_anual_pct es un cambio contable/divisa no ajustado. Sin aclaración, la ficha no es auditable.",
-          "score": 94.0
+          "motivo": "rev_growth_yoy (1.4%) con upside_triangulated_pct de 58.9% sin upside_requiere_verificacion=true: crecimiento de ingresos prácticamente estancado (~1.4%) contradice la justificación de descuento del 58.9%; esto sugiere una trampa, no una oportunidad · modelos_acuerdo DISPERSOS (33.9 puntos) pero upside_triangulated_pct (58.9%) coincide exactamente con DCF; incoherencia en cómo se triangulan valuaciones dispersas",
+          "score": 93.9
         },
         {
           "ticker": "DPZ",
           "paso": "verificador_ia",
-          "motivo": "modelos_acuerdo: DISPERSOS con dispersión 62.5 pts (la más alta del lote). target_price_dcf_upside_pct (16.7%) vs. target_price_pe_upside_pct (79.2%) divergen en 62.5 pts. upside_triangulated_pct: 16.7% toma DCF, pero ¿por qué? Cuando modelos_dispersion_pts es >50, la selección de uno sobre otro debe justificarse. Además, rev_growth_yoy (3.4%) es muy bajo para una recomendación con 16.7% upside en un entorno débil (ma_filter_pass: false). La ficha no explica qué modelo es correcto.",
-          "score": 54.3
+          "motivo": "modelos_acuerdo DISPERSOS (62.8 puntos) con target_price_dcf_upside_pct (17.2%) vs target_price_pe_upside_pct (80.0%): diferencia de 62.8 puntos es enorme; pero upside_triangulated_pct reporta 17.2% (solo el DCF), ignorando completamente la valuación P/E que da 80% · Si hay tal dispersión, el triangulado debería reflejar ambas o estar vacío; reportar solo DCF cuando P/E difiere en 62.8 puntos es selectivo",
+          "score": 54.4
+        },
+        {
+          "ticker": "ESLOY",
+          "paso": "verificador_ia",
+          "motivo": "upside_requiere_verificacion=true con analyst_upside_pct (30.1%) pero target_price_dcf_upside_pct solo (9.0%); PEG ratio (21.93) es patológicamente alto con crecimiento del 7.5%, indicando sobrevaloración según múltiplos; la divergencia no es defendible",
+          "score": 51.2
         },
         {
           "ticker": "SAP",
           "paso": "verificador_ia",
-          "motivo": "modelos_acuerdo: DISPERSOS (dispersión 27.0 pts). target_price_dcf_upside_pct (7.6%) vs. target_price_pe_upside_pct (34.6%) divergen 27 pts. upside_triangulated_pct (21.7%) no es ni DCF ni P/E: es un híbrido no justificado. Con fundamental_score (80.0) alto y piotroski (8.0), se espera que modelos converjan; si divergen, la dispersión debe validarse. La elección del 21.7% (entre 7.6% y 34.6%) sin norma es arbitraria.",
+          "motivo": "ebit_ev_yield (0.25%) es extremadamente bajo; con un fundamental_score de 80.0 (muy alto), esto es incoherente · target_price_dcf_upside_pct (6.7%) vs target_price_pe_upside_pct (34.4%): dispersión de 27.7 puntos marcada como DISPERSOS, pero upside_triangulated_pct reporta 21.5% (coincide con analyst_upside_pct), no reflejando el conflicto de modelos",
           "score": 49.4
         },
         {
           "ticker": "ADSK",
           "paso": "verificador_ia",
-          "motivo": "target_price_dcf_upside_pct: 0.1% — DCF valúa el título en precio actual. target_price_pe_upside_pct: 41.4%. modelos_acuerdo: DISPERSOS (41.3 pts de brecha). upside_triangulated_pct (18.5%) no es el promedio ni extremo: es un punto intermedio sin criterio claro. Cuando DCF está al precio actual y P/E ve 41%, la recomendación debe elegir una metodología explícitamente; aquí toma 18.5%, que oculta la divergencia fundamental.",
+          "motivo": "target_price_dcf_upside_pct es 0.1%: prácticamente valuation neutra según DCF, pero upside_triangulated_pct es 18.6% (coincide con analyst); dispersión_pts (41.4) es muy alta, conflicto no reflejado en triangulado",
           "score": 49.4
-        },
-        {
-          "ticker": "MLM",
-          "paso": "verificador_ia",
-          "motivo": "Analyst upside (20.1%) vs. target_price_pe_upside_pct (10.2%) divergen 2x. Sin target_price_dcf_upside_pct, no hay segundo modelo. upside_triangulated_pct (15.2%) cae entre ambos pero sin criterio documental. Además, rev_growth_yoy (28.3%) es muy alto, ventas_anual_pct (8.6%) es muy bajo — factor 3.3x de diferencia. Este patrón en materiales (ciclo, divisa, consolidación) requiere nota. FCF yield (1.91%) es bajísimo para crecimiento alto — margen o inversión excesiva. Sin explicación, ficha no es coherente.",
-          "score": 43.4
         }
       ]
     }
   },
-  "generated_at": "2026-11-11T06:29:53Z"
+  "generated_at": "2026-11-12T07:26:12Z"
 }

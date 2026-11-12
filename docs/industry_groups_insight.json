@@ -1,42 +1,42 @@
 {
-  "date": "2026-11-11",
-  "timestamp": "2026-11-11T06:56:30.458449",
-  "narrative": "La rotaci\u00f3n muestra una clara preferencia por sectores c\u00edclicos de alta exposici\u00f3n industrial y de salud, mientras que los defensivos y de alta tecnolog\u00eda est\u00e1n en la parte baja del ranking. En un entorno macro \u201cCALM\u201d, donde la volatilidad es baja y la pol\u00edtica monetaria est\u00e1 estable, los inversores tienden a buscar crecimiento moderado y flujos de ingresos estables, lo que respalda la fortaleza de Railroads, Industrial Distribution y los sub\u2011sectores de Healthcare. Enf\u00f3quese ahora en buscar oportunidades dentro de Healthcare (especialmente Drug Manufacturers y Diagnostics), Industrials (Railroads, Distribution) y Financial Services (Data & Exchanges). Evite exposici\u00f3n a Basic Materials (Building Materials, Building Products), Consumer Cyclical (Residential Construction)",
+  "date": "2026-11-12",
+  "timestamp": "2026-11-12T07:53:09.279263",
+  "narrative": "La rotaci\u00f3n muestra una clara preferencia por sectores defensivos y de flujo estable: salud (fabricantes de f\u00e1rmacos y diagn\u00f3stico) y servicios industriales de renta/arrendamiento lideran con RS >\u202f75, mientras que los c\u00edclicos tradicionales (construcci\u00f3n, materiales y semiconductores) se encuentran en el fondo con RS <\u202f25. Este sesgo defensivo encaja con el entorno macro \u201cCALM\u201d, donde la volatilidad es baja y los inversores buscan preservaci\u00f3n de capital y rendimientos consistentes. Enf\u00f3quese ahora en b\u00fasquedas dentro de Healthcare (especialmente pharma y diagnostics) y en Industrials de Rental & Leasing y Railroads; evite exposici\u00f3n a Building Materials/Products, Residential Construction y Semiconductors hasta que la",
   "macro_regime": "CALM",
   "top_sectors": [
     {
       "industry": "Drug Manufacturers - General",
       "sector": "Healthcare",
-      "avg_rs_percentile": 96.4,
+      "avg_rs_percentile": 92.4,
       "num_tickers": 2,
       "label": "Top 10%"
     },
     {
-      "industry": "Railroads",
+      "industry": "Rental & Leasing Services",
       "sector": "Industrials",
-      "avg_rs_percentile": 82.0,
-      "num_tickers": 3,
+      "avg_rs_percentile": 79.9,
+      "num_tickers": 2,
       "label": "Top 10%"
     },
     {
       "industry": "Diagnostics & Research",
       "sector": "Healthcare",
-      "avg_rs_percentile": 81.4,
+      "avg_rs_percentile": 78.5,
       "num_tickers": 4,
       "label": "Top 10%"
     },
     {
       "industry": "Financial Data & Stock Exchanges",
       "sector": "Financial Services",
-      "avg_rs_percentile": 78.6,
+      "avg_rs_percentile": 78.1,
       "num_tickers": 9,
       "label": "Top 10%"
     },
     {
-      "industry": "Industrial Distribution",
+      "industry": "Railroads",
       "sector": "Industrials",
-      "avg_rs_percentile": 77.5,
-      "num_tickers": 4,
+      "avg_rs_percentile": 78.0,
+      "num_tickers": 3,
       "label": "Top 25%"
     }
   ],
@@ -44,35 +44,35 @@
     {
       "industry": "Building Materials",
       "sector": "Basic Materials",
-      "avg_rs_percentile": 26.9,
-      "num_tickers": 2,
-      "label": "Bottom 25%"
-    },
-    {
-      "industry": "Internet Content & Information",
-      "sector": "Communication Services",
-      "avg_rs_percentile": 24.0,
+      "avg_rs_percentile": 23.7,
       "num_tickers": 2,
       "label": "Bottom 25%"
     },
     {
       "industry": "Building Products & Equipment",
       "sector": "Industrials",
-      "avg_rs_percentile": 23.4,
+      "avg_rs_percentile": 22.1,
       "num_tickers": 2,
       "label": "Bottom 25%"
     },
     {
-      "industry": "Residential Construction",
-      "sector": "Consumer Cyclical",
-      "avg_rs_percentile": 17.6,
+      "industry": "Internet Content & Information",
+      "sector": "Communication Services",
+      "avg_rs_percentile": 20.8,
       "num_tickers": 2,
       "label": "Bottom 25%"
     },
     {
       "industry": "Semiconductors",
       "sector": "Technology",
-      "avg_rs_percentile": 9.4,
+      "avg_rs_percentile": 13.8,
+      "num_tickers": 2,
+      "label": "Bottom 25%"
+    },
+    {
+      "industry": "Residential Construction",
+      "sector": "Consumer Cyclical",
+      "avg_rs_percentile": 13.4,
       "num_tickers": 2,
       "label": "Bottom 25%"
     }
