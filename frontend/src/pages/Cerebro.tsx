@@ -1,3 +1,4 @@
+import { BotonMasDatos, useMasDatos } from '../components/MasDatos'
 import StaleDataBanner from '../components/StaleDataBanner'
 import { useState, useRef, useEffect, useMemo, lazy, Suspense } from 'react'
 import { Link } from 'react-router-dom'
@@ -773,6 +774,10 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
   const [focusedIdx, setFocusedIdx] = useState(-1)
   const [showAllAlerts, setShowAllAlerts] = useState(false)
   const [showAllConvergences, setShowAllConvergences] = useState(false)
+  // Vista sencilla (12-nov-2026): el resumen del día en lenguaje normal. Las ideas del
+  // agente («Strong Buy») competían con la lista de Value, y medidas no separan: van a la
+  // avanzada como datos, con las cifras y las pestañas.
+  const [avanzada, alternarAvanzada] = useMasDatos('cerebro')
 
   // pagedRef must be declared before early returns (React Rules of Hooks)
   const pagedRef = useRef<EntrySignal[]>([])
@@ -905,6 +910,25 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
         </div>
       )}
 
+      <div className="mb-4 flex justify-end">
+        <BotonMasDatos activo={avanzada} onClick={alternarAvanzada} />
+      </div>
+
+      {!avanzada && (
+        <div className="space-y-4 animate-fade-in-up">
+          {briefingData?.narrative ? (
+            <AiNarrativeCard narrative={briefingData.narrative} label="Lo que ve la IA hoy" />
+          ) : (
+            <p className="text-apoyo text-muted-foreground">La IA aún no ha escrito el resumen de hoy.</p>
+          )}
+          <p className="text-mini text-muted-foreground">
+            Lo que se compra lo dice la lista de Value. Las señales del agente están en la vista avanzada, como datos.
+          </p>
+        </div>
+      )}
+
+      {avanzada && (
+      <>
       <IdeasHoy signals={entrySignals} onVerDetalle={() => scrollToTabs('entry')} />
 
       <CerebroCoachPanel
@@ -1987,6 +2011,8 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
         <div className="px-1 py-2">
           <ScoreAlerts />
         </div>
+      )}
+      </>
       )}
     </>
   )
