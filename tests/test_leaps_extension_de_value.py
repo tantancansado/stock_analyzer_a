@@ -17,6 +17,20 @@ def test_el_universo_es_solo_value_verificado(monkeypatch):
     assert la.build_universe({'BAC': {'in_value_list': True, 'conviction_grade': 'A'}}) == ['MSFT', 'V']
 
 
+def test_solo_las_de_prioridad_no_las_de_observar(tmp_path, monkeypatch):
+    # 12-nov-2026: BAC, en OBSERVAR y sin estudio, salía como idea apalancada.
+    (tmp_path / 'value_opportunities_filtered.csv').write_text(
+        'ticker,value_grupo\nZZZQ,PRIORIDAD\nBAC,OBSERVAR\nDOBLQ,prioridad\n')
+    monkeypatch.setattr(la, 'DOCS', tmp_path)
+    assert la._value_verificados() == {'ZZZQ', 'DOBLQ'}
+
+
+def test_sin_el_grupo_no_sale_ninguna(tmp_path, monkeypatch):
+    (tmp_path / 'value_opportunities_filtered.csv').write_text('ticker\nZZZQ\n')
+    monkeypatch.setattr(la, 'DOCS', tmp_path)
+    assert la._value_verificados() == set()
+
+
 def test_no_se_abre_lo_que_sigue_cayendo():
     assert 'cayendo' in la.motivo_para_no_abrir(_opp('BAC', entry_readiness='ESPERAR'))
 

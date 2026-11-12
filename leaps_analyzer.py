@@ -499,10 +499,17 @@ def _num(v, default=None):
 
 
 def _value_verificados() -> set[str]:
-    """Tickers que Value US ya ha verificado con Claude (la lista publicada)."""
+    """Tickers de PRIORIDAD en Value US (la lista publicada y verificada).
+
+    Solo Prioridad (12-nov-2026): tomaba toda la lista, también OBSERVAR, donde la casa
+    no abre nada nuevo (position_sizer). Así volvió BAC, en Observar, sin estudio de la
+    caída y con «calidad mediocre» en su propio texto, publicada como idea apalancada.
+    Sin la columna de grupo no se sabe cuál es Prioridad: no sale ninguna (fail-closed).
+    """
     df = _read_csv(DOCS / 'value_opportunities_filtered.csv')
-    if df.empty or 'ticker' not in df.columns:
+    if df.empty or 'ticker' not in df.columns or 'value_grupo' not in df.columns:
         return set()
+    df = df[df['value_grupo'].astype(str).str.strip().str.upper() == 'PRIORIDAD']
     return {str(t).strip().upper() for t in df['ticker'] if str(t).strip()}
 
 
@@ -565,7 +572,7 @@ def mantener(previa: dict, fresca: Optional[dict], hoy: date) -> tuple[Optional[
     if edad > DIAS_ESTABILIDAD:
         return None, f'lleva {edad} días: se vuelve a revisar como nueva'
     if fresca is None:
-        return None, 'ya no está en Value verificado o no queda contrato que compense'
+        return None, 'ya no está en Value como Prioridad o no queda contrato que compense'
     if str(fresca.get('entry_readiness') or '').upper() == 'ESPERAR':
         return None, 'la acción ha pasado a ESPERAR'
     for k in CAMPOS_REVISION_IA:
