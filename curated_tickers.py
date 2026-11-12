@@ -168,6 +168,10 @@ TIER_3 = [
     # Booking: +11 %, FCF 34 %, ROIC 25 %, recompra un 5 % al año. Solo falla por 2020.
     # El -1 % de ventas del 3T-2026 es un cargo de 900 M$ por la FTC; ajustado, +9 %.
     'BKNG',    # Booking Holdings
+    # Garmin, el 12-nov-2026 (mismo listón de la SEC que las del 7-nov, aprobada por el
+    # usuario): ventas +10 % al año, una sola caída en diez, margen 23 %, ROIC 20 %, sin
+    # deuda neta. Nicho propio (fitness, aviación, náutica) que no repite nada de lo curado.
+    'GRMN',    # Garmin
 ]
 
 # ── TIER 4 — No apta para portfolios apalancados (★★☆☆☆) ─────────────────────
@@ -233,6 +237,14 @@ TIER_4 = [
     # Adobe: +17 %, margen 32 %, FCF 37 %, ROIC 29 %, ningún año de caída. El riesgo es la
     # IA, y que paga el 19 % de su flujo operativo en acciones (mediana de lo curado: 4,5 %).
     'ADBE',    # Adobe
+    # Dos del 12-nov-2026, aprobadas por el usuario para ampliar «muy poquito» el universo:
+    # más ideas con la misma regla. Si no cumplen, no salen.
+    # Lululemon: +18 % al año sin ninguna caída, ROIC 40 %, sin deuda. Aquí por el riesgo de
+    # competencia (ha caído por eso): why_cheap dirá si es circunstancial o deterioro.
+    'LULU',    # Lululemon Athletica
+    # Primerica: distribución de seguros de vida, +9 %, ROE 22 %, recompra. Buena pero menos
+    # excepcional que el resto: el usuario prefirió que entre y la regla decida.
+    'PRI',     # Primerica
 ]
 
 
