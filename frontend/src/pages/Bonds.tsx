@@ -5,6 +5,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { TrendingUp, TrendingDown, Minus, ChevronDown, ChevronUp, Calculator, Brain, Droplet} from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { BotonMasDatos, useMasDatos } from '../components/MasDatos'
 import PageHeader from '../components/PageHeader'
 
 const BOND_TYPE_LABELS: Record<string, string> = {
@@ -1167,6 +1168,9 @@ export default function Bonds() {
   const [error, setError] = useState<string | null>(null)
   const [typeFilter, setTypeFilter] = useState<FilterType>('ALL')
   const [ratingFilter, setRatingFilter] = useState<'ALL' | 'ATRACTIVO' | 'NEUTRAL' | 'CARO'>('ALL')
+  // Vista sencilla (12-nov-2026): la respuesta, dónde dejar el dinero según cuándo lo
+  // necesites. Las cifras del universo, la calculadora y la tabla, en la avanzada.
+  const [avanzada, alternarAvanzada] = useMasDatos('bonos')
   const [showCalc, setShowCalc] = useState(true)
 
   useEffect(() => {
@@ -1198,9 +1202,11 @@ export default function Bonds() {
   // estás. Ver PageShell, que existe justo por esto.
   const cabecera = (
     <PageHeader
-      title="Bonos & Renta Fija"
-      subtitle={<>ETFs de renta fija con análisis VALUE — yield vs histórico, duración y dislocation de precio{generatedAt && <span className="ml-2 opacity-60">· {new Date(generatedAt).toLocaleDateString('es-ES')}</span>}</>}
-    />
+      title="Bonos y renta fija"
+      subtitle={<>Dónde dejar el dinero que no está en acciones, según cuándo lo vayas a necesitar{generatedAt && <span className="ml-2 opacity-60">· {new Date(generatedAt).toLocaleDateString('es-ES')}</span>}</>}
+    >
+      <BotonMasDatos activo={avanzada} onClick={alternarAvanzada} />
+    </PageHeader>
   )
   if (loading) return <div className="space-y-6">{cabecera}<Loading conCabecera={false} /></div>
   if (error) return <div className="space-y-6">{cabecera}<ErrorState message="No se pudo cargar datos de bonos" /></div>
@@ -1209,6 +1215,11 @@ export default function Bonds() {
     <div className="space-y-6">
       {cabecera}
 
+      {/* Asesor IA */}
+      {bonds.length > 0 && <FixedIncomeAdvisor bonds={bonds} prefs={prefs} />}
+
+      {avanzada && (
+      <>
       {/* Summary cards */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         <Card className="glass border-border/30">
@@ -1238,9 +1249,6 @@ export default function Bonds() {
           </CardContent>
         </Card>
       </div>
-
-      {/* Asesor IA */}
-      {bonds.length > 0 && <FixedIncomeAdvisor bonds={bonds} prefs={prefs} />}
 
       {/* Calculator toggle + panel */}
       <div>
@@ -1333,6 +1341,8 @@ export default function Bonds() {
           <div><span className="text-purple-400 font-medium">EUR Govt/IG</span> — denominado en EUR, añade riesgo divisa vs USD pero diversifica geografía</div>
         </CardContent>
       </Card>
+      </>
+      )}
     </div>
   )
 }

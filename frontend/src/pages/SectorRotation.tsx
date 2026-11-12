@@ -86,7 +86,7 @@ export default function SectorRotation() {
   // si no, la pantalla de error no dice en qué sección estás.
   const cabecera = {
     title: 'Rotación Sectorial',
-    subtitle: 'Modelo de rotacion de sectores — identifica liderazgo y debilidad relativa',
+    subtitle: 'Qué sectores lo están haciendo mejor y peor que el mercado.',
   } as const
   if (loading || error) return <PageShell {...cabecera} loading={loading} error={error} />
 

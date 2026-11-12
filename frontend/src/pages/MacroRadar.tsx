@@ -924,7 +924,7 @@ export default function MacroRadar() {
   // si no, la pantalla de error no dice en qué sección estás.
   const cabecera = {
     title: 'Macro Radar',
-    subtitle: 'Sistema de alerta temprana — detecta cambios de régimen antes de que ocurran',
+    subtitle: 'Cómo está el mercado y si aparecen señales de riesgo. Es contexto: no cambia la lista de Value.',
   } as const
   if (loading || error) return <PageShell {...cabecera} loading={loading} error={error} />
   if (!data || !data.regime) return <ErrorState message="Sin datos de radar macro" />

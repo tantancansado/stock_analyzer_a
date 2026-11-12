@@ -3,6 +3,7 @@ import { fetchCommodities, type CommodityOpportunity } from '../api/client'
 import { Card, CardContent } from '@/components/ui/card'
 import { cn } from '@/lib/utils'
 import { TrendingUp, TrendingDown, Minus, ChevronDown, ChevronUp } from 'lucide-react'
+import { BotonMasDatos, useMasDatos } from '../components/MasDatos'
 import PageHeader from '../components/PageHeader'
 import PageShell from '@/components/PageShell'
 import EmptyState from '@/components/EmptyState'
@@ -348,6 +349,9 @@ export default function Commodities() {
   const [error, setError] = useState<string | null>(null)
   const [typeFilter, setTypeFilter] = useState<string>('ALL')
   const [ratingFilter, setRatingFilter] = useState<string>('ALL')
+  // Vista sencilla (12-nov-2026): solo lo que está barato y verificado, que es la
+  // pregunta. Cifras, filtros y lo «por verificar», en la avanzada.
+  const [avanzada, alternarAvanzada] = useMasDatos('materias')
 
   useEffect(() => {
     fetchCommodities()
@@ -357,14 +361,16 @@ export default function Commodities() {
 
   const filtered = useMemo(() => {
     if (!data) return []
+    const tipo = avanzada ? typeFilter : 'ALL'
+    const valoracion = avanzada ? ratingFilter : 'BUYS'
     return data.filter(d => {
-      if (typeFilter !== 'ALL' && d.commodity_type !== typeFilter) return false
+      if (tipo !== 'ALL' && d.commodity_type !== tipo) return false
       const efectivo = ratingEfectivo(d)
-      if (ratingFilter === 'BUYS' && efectivo !== 'MUY_ATRACTIVO' && efectivo !== 'ATRACTIVO') return false
-      if (ratingFilter !== 'BUYS' && ratingFilter !== 'ALL' && efectivo !== ratingFilter) return false
+      if (valoracion === 'BUYS' && efectivo !== 'MUY_ATRACTIVO' && efectivo !== 'ATRACTIVO') return false
+      if (valoracion !== 'BUYS' && valoracion !== 'ALL' && efectivo !== valoracion) return false
       return true
     })
-  }, [data, typeFilter, ratingFilter])
+  }, [data, typeFilter, ratingFilter, avanzada])
 
   // Cabecera también mientras carga o si la API falla: si no, la pantalla
   // de error no dice en qué sección estás. Ver PageShell.
@@ -381,12 +387,24 @@ export default function Commodities() {
   return (
     <div className="max-w-6xl mx-auto space-y-6">
       <PageHeader
-        title="Materias Primas"
-        subtitle={<>{data.length} ETFs y ETC · rating por precio frente a su media de 2 años · solo cuenta lo que la revisión avala{generatedAt && <span className="ml-2">· actualizado {generatedAt}</span>}</>}
-      />
+        title="Materias primas"
+        subtitle={<>Las que están baratas frente a su precio de los últimos 2 años, solo si la revisión lo confirma{generatedAt && <span className="ml-2">· actualizado {generatedAt}</span>}</>}
+      >
+        <BotonMasDatos activo={avanzada} onClick={alternarAvanzada} />
+      </PageHeader>
 
-      <SummaryCards data={data} />
+      {avanzada && <SummaryCards data={data} />}
 
+      {!avanzada && filtered.length === 0 && (
+        <EmptyState
+          compact
+          title="Hoy ninguna está barata y verificada"
+          subtitle="En la vista avanzada están todas, también las que están por verificar."
+        />
+      )}
+
+      {avanzada && (
+      <>
       {/* Filtros.
           Eran dos grupos de píldoras hechas a mano, pegados y los dos
           empezando por «Todos», sin nada que dijera qué filtraba cada uno: se
@@ -428,6 +446,8 @@ export default function Commodities() {
           ))}
         </div>
       </div>
+      </>
+      )}
 
       {/* Móvil: tarjetas. La tabla tiene 10 columnas y en 390px sobrevivían
           cuatro; el veredicto (rating) competía por sitio con el precio y el
