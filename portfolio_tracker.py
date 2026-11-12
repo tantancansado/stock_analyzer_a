@@ -9,6 +9,14 @@ import pandas as pd
 import numpy as np
 import yfinance as yf
 from pathlib import Path
+import os
+
+# Europa y Global, apagados (8-nov-2026, MERCADOS_FUERA_DE_EEUU en daily-analysis.yml).
+# Con el interruptor apagado el tracker ni recalcula sus señales antiguas (755 de EU_VALUE
+# que aún esperaban su dato a 90/180/365 días) ni las cuenta: el titular es solo Value US.
+# El usuario, 12-nov: «que solo calcule value us». Las filas se quedan en el CSV.
+FUERA_DE_EEUU = os.environ.get('MERCADOS_FUERA_DE_EEUU', 'off') == 'on'
+ESTRATEGIAS_FUERA_DE_EEUU = {'EU_VALUE', 'GLOBAL_VALUE'}
 from datetime import datetime, timedelta
 import json
 import time
@@ -578,11 +586,13 @@ class PortfolioTracker:
                         else pd.Series(True, index=_recs.index))
             _needs_long |= _missing & (_age_days >= _min_age)
         active_all = _recs[(_recs['status'] == 'ACTIVE') | _needs_long].copy()
+        if not FUERA_DE_EEUU:
+            active_all = active_all[~active_all['strategy'].isin(ESTRATEGIAS_FUERA_DE_EEUU)]
         if not active_all.empty:
             earliest = pd.Timestamp(active_all['signal_date'].min()) - timedelta(days=1)
             bench_end = (today + timedelta(days=1)).strftime('%Y-%m-%d')
             bench_start = earliest.strftime('%Y-%m-%d')
-            for bench in ['SPY', 'VGK']:
+            for bench in (['SPY', 'VGK'] if FUERA_DE_EEUU else ['SPY']):
                 try:
                     h = yf.Ticker(bench).history(start=bench_start, end=bench_end)
                     if not h.empty:
@@ -813,7 +823,7 @@ class PortfolioTracker:
         df = self.recommendations
 
         # Core VALUE strategies only — exclude MOMENTUM/Bounce/Entry (different logic, distorts stats)
-        VALUE_STRATEGIES = {'VALUE', 'EU_VALUE'}
+        VALUE_STRATEGIES = {'VALUE', 'EU_VALUE'} if FUERA_DE_EEUU else {'VALUE'}
         value_core_all = df[df['strategy'].isin(VALUE_STRATEGIES)]
 
         # ── Clean data cut: ignore contaminated signals before 2026-04-08 ──────
@@ -1234,6 +1244,13 @@ class PortfolioTracker:
             'generated_at': datetime.now().isoformat()
         }
 
+        if not FUERA_DE_EEUU:
+            # Sin Europa no hay sección de Europa: una tarjeta «VALUE EU» a cero se leía
+            # como que Europa no funcionaba, no como que está apagada.
+            summary.pop('eu_value_strategy', None)
+            summary.pop('alpha_eu', None)
+            summary['stats_basis']['clean_period'] = summary['stats_basis']['clean_period'].replace(
+                'señales VALUE+EU_VALUE', 'señales VALUE (US)')
         self._save_summary(summary)
         self.generate_calibration()
         return summary
@@ -1552,6 +1569,8 @@ def backfill_alpha(tracker: 'PortfolioTracker') -> int:
             _no_alpha = df[_ac].isna() if _ac in df.columns else True
             _missing_any |= _has_ret & _no_alpha
     needs = df[_missing_any].copy()
+    if not FUERA_DE_EEUU:
+        needs = needs[~needs['strategy'].isin(ESTRATEGIAS_FUERA_DE_EEUU)]
 
     if needs.empty:
         print("  No rows need alpha backfill.")
@@ -1565,7 +1584,7 @@ def backfill_alpha(tracker: 'PortfolioTracker') -> int:
     start_str = earliest.strftime('%Y-%m-%d')
 
     bench_hists: dict[str, pd.DataFrame] = {}
-    for bench in ['SPY', 'VGK']:
+    for bench in (['SPY', 'VGK'] if FUERA_DE_EEUU else ['SPY']):
         try:
             h = yf.Ticker(bench).history(start=start_str, end=end_str)
             if not h.empty:

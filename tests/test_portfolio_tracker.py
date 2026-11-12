@@ -1530,3 +1530,36 @@ class TestRegistraLoQueSePublica:
         assert fila['value_grupo'] == 'PRIORIDAD' and fila['per_z'] == -1.8
         assert fila['fundamental_score'] == 71.0 and fila['revision_13s_pct'] == 2.1
         assert fila['ventas_anual_pct'] == 14.0
+
+
+class TestSoloValueUS:
+    """12-nov-2026, el usuario: «que solo calcule value us». Con los mercados de fuera
+    de EE. UU. apagados, Europa ni se recalcula ni cuenta en el titular."""
+
+    def _filas(self):
+        columnas = list(_make_tracker().recommendations.columns)
+        filas = []
+        for i, (estr, ret) in enumerate([('VALUE', 5.0)] * 12 + [('EU_VALUE', -20.0)] * 12):
+            f = {c: np.nan for c in columnas}
+            f.update({'ticker': f'Z{i:03d}Q', 'company_name': 'Prueba', 'strategy': estr,
+                      'signal_date': pd.Timestamp('2026-05-04') + pd.Timedelta(days=i),
+                      'signal_price': 100.0, 'value_score': 70.0, 'analyst_upside_pct': 15.0,
+                      'status': 'COMPLETED', 'return_90d': ret, 'win_90d': ret > 0,
+                      'sector': 'Technology', 'market_regime': 'BULL'})
+            filas.append(f)
+        return pd.DataFrame(filas)
+
+    def test_el_titular_no_mezcla_europa(self, monkeypatch):
+        import portfolio_tracker as pt
+        monkeypatch.setattr(pt, 'FUERA_DE_EEUU', False)
+        s = _make_tracker(self._filas()).generate_summary()
+        assert s['overall']['90d']['count'] == 12
+        assert s['overall']['90d']['win_rate'] == 100.0
+        assert 'eu_value_strategy' not in s and 'alpha_eu' not in s
+
+    def test_con_europa_encendida_vuelve_a_contar(self, monkeypatch):
+        import portfolio_tracker as pt
+        monkeypatch.setattr(pt, 'FUERA_DE_EEUU', True)
+        s = _make_tracker(self._filas()).generate_summary()
+        assert s['overall']['90d']['count'] == 24
+        assert 'eu_value_strategy' in s

@@ -777,7 +777,7 @@ export default function Portfolio() {
       {((pf.value_strategy?.['90d']?.count ?? 0) >= 10 || (pf.eu_value_strategy?.['90d']?.count ?? 0) >= 10) && (
         <div className="mt-6 animate-fade-in-up">
           <h2 className="text-titulo font-bold uppercase tracking-widest text-muted-foreground pb-1 border-b border-border/30 mb-1">
-            VALUE US vs EU — horizonte de tesis
+            {EUROPA_Y_GLOBAL ? 'VALUE US vs EU — horizonte de tesis' : 'Value US — horizonte de tesis'}
           </h2>
           <p className="text-mini text-muted-foreground mb-2">
             Una tesis value se juega en trimestres, no en semanas. Estas son las cifras a 90d /
