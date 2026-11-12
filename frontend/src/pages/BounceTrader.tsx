@@ -1,3 +1,4 @@
+import { BotonMasDatos, useMasDatos } from '../components/MasDatos'
 import { useState, useMemo } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { fetchMeanReversion, fetchBounceCatalystFlags } from '../api/client'
@@ -81,7 +82,7 @@ function confidenceBar(score?: number) {
 
 // ─── Card ─────────────────────────────────────────────────────────────────────
 
-function BounceCard({ s, isConviction }: { s: BounceSetup; isConviction: boolean }) {
+function BounceCard({ s, isConviction, avanzada = false }: { s: BounceSetup; isConviction: boolean; avanzada?: boolean }) {
   const tc = tierColor(s.rsi_tier)
   const conf = confidenceBar(s.bounce_confidence)
   const verdict = useEntryVerdict(s.ticker)
@@ -179,6 +180,8 @@ function BounceCard({ s, isConviction }: { s: BounceSetup; isConviction: boolean
         </div>
       </div>
 
+      {avanzada && (
+      <>
       {/* Stats row */}
       <div className="flex items-center justify-between text-micro text-muted-foreground">
         <span>R:R <strong className={`${rr && rr >= 2 ? 'text-emerald-400' : rr && rr >= 1 ? 'text-amber-400' : 'text-muted-foreground'}`}>{rr ? `${rr.toFixed(1)}:1` : '—'}</strong></span>
@@ -191,6 +194,9 @@ function BounceCard({ s, isConviction }: { s: BounceSetup; isConviction: boolean
           </span>
         )}
       </div>
+
+      </>
+      )}
 
       {/* Bounce confidence bar */}
       <div>
@@ -210,6 +216,8 @@ function BounceCard({ s, isConviction }: { s: BounceSetup; isConviction: boolean
         )}
       </div>
 
+      {avanzada && (
+      <>
       {/* Indicators row */}
       <div className="grid grid-cols-4 gap-1.5 text-micro text-center">
         {s.stoch_k != null && (
@@ -252,6 +260,11 @@ function BounceCard({ s, isConviction }: { s: BounceSetup; isConviction: boolean
         </div>
       )}
 
+      </>
+      )}
+
+      {avanzada && (
+      <>
       {/* Enrichment: PCR · Dark Pool · Short Interest */}
       {(s.pcr != null || s.finra_short_vol_pct != null || s.short_days_to_cover != null) && (
         <div className="flex flex-wrap gap-1 pt-1 border-t border-border/10">
@@ -285,6 +298,8 @@ function BounceCard({ s, isConviction }: { s: BounceSetup; isConviction: boolean
             </span>
           )}
         </div>
+      )}
+      </>
       )}
     </div>
   )
@@ -327,6 +342,9 @@ export default function BounceTrader() {
   const { data: catalystData } = useApi(() => fetchBounceCatalystFlags(), [])
   const [tierFilter, setTierFilter] = useState<TierFilter>('ALL')
   const [hideEarnings, setHideEarnings] = useState(true)
+  // Vista sencilla (12-nov-2026): qué rebota, por qué y dónde salir; RSI, velas, PCR,
+  // dark pool y cortos, en la avanzada.
+  const [avanzada, alternarAvanzada] = useMasDatos('rebotes-tecnicos')
 
   // bounce_alerts.py descarta un setup del aviso de Telegram si detecta un
   // catalizador negativo grave (profit warning, investigación, fraude...) —
@@ -419,9 +437,13 @@ export default function BounceTrader() {
       {mode === 'curated' && <>
       <PageHeader
         {...cabecera}
-        subtitle={<>{cabecera.subtitle}{scanDate && <span className="text-muted-foreground ml-2">· Scan {scanDate}</span>}</>}
-      />
+        subtitle={<>{cabecera.subtitle}{avanzada && scanDate && <span className="text-muted-foreground ml-2">· Scan {scanDate}</span>}</>}
+      >
+        <BotonMasDatos activo={avanzada} onClick={alternarAvanzada} />
+      </PageHeader>
 
+        {avanzada && (
+        <>
         {/* Summary pills */}
         <div className="flex flex-wrap gap-2 mt-3">
           <div className="flex items-center gap-1.5 text-mini px-3 py-1.5 rounded-lg bg-red-500/8 border border-red-500/20 text-red-400">
@@ -440,6 +462,11 @@ export default function BounceTrader() {
           )}
         </div>
 
+        </>
+        )}
+
+      {avanzada && (
+      <>
       {/* Filters */}
       <div className="flex flex-wrap items-center gap-2 mb-6">
         {(['ALL', 'EXTREMO', 'ALTO', 'MEDIO'] as TierFilter[]).map(t => {
@@ -472,6 +499,9 @@ export default function BounceTrader() {
         </div>
       </div>
 
+      </>
+      )}
+
       {/* Filtered out notice */}
       {filteredOutCount > 0 && (
         <div className="flex items-center gap-2 text-micro text-muted-foreground mb-4 px-1">
@@ -489,11 +519,11 @@ export default function BounceTrader() {
       {filtered.length === 0 ? (
         <div className="text-center py-16 text-muted-foreground">
           <Target size={32} strokeWidth={1.5} className="mx-auto mb-3 opacity-20" />
-          <div className="text-cuerpo font-medium">No hay setups de alta fiabilidad hoy</div>
+          <div className="text-cuerpo font-medium">Hoy no hay ningún rebote</div>
           <div className="text-mini mt-1 opacity-60">
             {rawBounceCount > 0
               ? `${rawBounceCount} tickers oversold pero ninguno pasa los filtros de calidad`
-              : 'El mercado no ha generado oportunidades oversold válidas'
+              : 'Aparecen cuando una empresa de calidad cae muy fuerte y da señal de girarse'
             }
           </div>
         </div>
@@ -511,7 +541,7 @@ export default function BounceTrader() {
                 accent="bg-amber-400/5 border-amber-400/25 text-amber-300"
               />
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                {conviction.map(s => <BounceCard key={s.ticker} s={s} isConviction={true} />)}
+                {conviction.map(s => <BounceCard key={s.ticker} s={s} isConviction={true} avanzada={avanzada} />)}
               </div>
             </section>
           )}
@@ -527,7 +557,7 @@ export default function BounceTrader() {
                 accent="bg-cyan-500/5 border-cyan-500/20 text-cyan-300"
               />
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                {technical.map(s => <BounceCard key={s.ticker} s={s} isConviction={false} />)}
+                {technical.map(s => <BounceCard key={s.ticker} s={s} isConviction={false} avanzada={avanzada} />)}
               </div>
             </section>
           )}
