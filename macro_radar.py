@@ -616,19 +616,25 @@ def _groq_analysis(signals: dict, composite: float, regime: str) -> Optional[str
         summary_lines.append(f"- {label}: score={score:+.1f}, {interp}")
 
     summary = '\n'.join(summary_lines)
-    prompt = f"""Eres un analista macro de mercados financieros con 20 años de experiencia.
-Analiza estos indicadores macro actuales y proporciona un análisis conciso (3-4 oraciones)
-del régimen de mercado actual. La puntuación compuesta es {composite:.1f}/20 → régimen {regime}.
+    # Para una persona, no para un trader (12-nov-2026). El usuario: «yo no quiero datos
+    # técnicos, quiero que la IA interprete esos datos técnicos y los traduzca a lenguaje
+    # humano». Antes pedía «citar las señales más relevantes» y salía «VVIX 90.5, curva
+    # 2s-10s, SKEW 149» con asteriscos de markdown pintados en la web.
+    prompt = f"""Lee estos indicadores del mercado y explícale a un inversor particular qué está pasando.
+Él compra buenas empresas baratas para tenerlas unos 12 meses; no hace trading.
+Lectura del sistema: régimen {regime} (puntuación {composite:.1f}/20).
 
-Señales actuales:
+Indicadores (son para ti, no para citarlos):
 {summary}
 
-Proporciona:
-1. Una interpretación del régimen actual citando las señales más relevantes
-2. El principal riesgo o catalizador a vigilar
-3. Una recomendación de posicionamiento general (no ticker específico)
+Escribe 3 o 4 frases en español llano:
+1. Cómo está el mercado ahora, como se lo dirías a un amigo.
+2. Qué podría torcerlo en las próximas semanas.
+3. Qué significa para alguien que compra a 12 meses (normalmente: nada que cambiar; dilo si es así).
 
-Responde en español, tono profesional, máximo 120 palabras."""
+Prohibido: siglas y nombres de indicadores (VIX, VVIX, SKEW, DXY, spreads, curva 2s10s, high yield, RSI,
+MACD...), cifras de indicadores, recomendaciones de trading o de posicionamiento, y formato (ni
+asteriscos, ni listas, ni títulos). Máximo 90 palabras."""
 
     try:
         from groq_utils import groq_chat as _groq_chat
@@ -638,10 +644,21 @@ Responde en español, tono profesional, máximo 120 palabras."""
             max_tokens=200,
             temperature=0.3,
         )
-        return resp.choices[0].message.content.strip()
+        return texto_llano(resp.choices[0].message.content)
     except Exception as e:
         print(f"  Groq analysis failed: {e}")
         return None
+
+
+def texto_llano(texto: Optional[str]) -> Optional[str]:
+    """Sin formato markdown: la web y Telegram lo pintaban tal cual («**Interpretación**»)."""
+    if not texto:
+        return None
+    import re as _re
+    limpio = _re.sub(r'\*\*|__|`', '', texto)
+    limpio = _re.sub(r'^\s*(#+|[-*•]|\d+[.)])\s+', '', limpio, flags=_re.M)
+    limpio = _re.sub(r'\s*\n\s*', ' ', limpio).strip()
+    return limpio or None
 
 
 # ── Historical episode fingerprints ───────────────────────────────────────────

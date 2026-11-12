@@ -1,3 +1,4 @@
+import { BotonMasDatos, useMasDatos } from '../components/MasDatos'
 import React, { lazy, Suspense } from 'react'
 import { fetchMacroRadar, fetchMacroRadarHistory, fetchEconomicCalendar } from '../api/client'
 import type { EconEvent } from '../api/client'
@@ -915,15 +916,54 @@ function HistoricalAnalogsPanel({ analogs }: { analogs: HistoricalAnalog[] }) {
   )
 }
 
+
+// ── Vista sencilla (12-nov-2026) ─────────────────────────────────────────────
+// El usuario: «yo no quiero datos técnicos, quiero que la IA interprete esos datos
+// técnicos y los traduzca a lenguaje humano». Por defecto, el estado del mercado
+// dicho una vez, la lectura de la IA y una frase por índice; lo técnico, en la avanzada.
+
+const REGIMEN_LLANO: Record<string, string> = {
+  CALM: 'Mercado tranquilo', WATCH: 'Mercado en vigilancia', STRESS: 'Mercado nervioso',
+  ALERT: 'Alerta en el mercado', CRISIS: 'Mercado en crisis',
+}
+
+const EVENTO_LLANO: Record<string, string> = {
+  FED: 'reunión de la Reserva Federal', CPI: 'dato de inflación', PCE: 'dato de inflación (PCE)',
+  JOBS: 'dato de empleo', EARNINGS: 'resultados',
+}
+
+const pctLlano = (v: number) => `${v >= 0 ? '+' : '−'}${Math.abs(v).toFixed(1).replace('.', ',')} %`
+
+/** Una frase por índice, sacada de sus datos: tendencia, el año, los últimos meses y
+ *  lo lejos que está de su máximo. Sin RSI, MACD ni medias. */
+export function lecturaIndice(s: Pick<IndexSummary, 'name' | 'ytd_pct' | 'weinstein_stage' | 'speed_63d' | 'pct_from_52w_high'>): string {
+  const tendencia: Record<number, string> = {
+    1: 'sin tendencia clara', 2: 'sigue al alza', 3: 'está perdiendo la tendencia alcista', 4: 'está en tendencia bajista',
+  }
+  const partes: string[] = []
+  if (s.ytd_pct != null) partes.push(`${pctLlano(s.ytd_pct)} en el año`)
+  let frase = tendencia[s.weinstein_stage] ?? ''
+  if (s.speed_63d != null && s.speed_63d <= -4 && s.weinstein_stage === 2) frase += `, aunque en tres meses ha bajado un ${Math.abs(s.speed_63d).toFixed(1).replace('.', ',')} %`
+  else if (s.speed_63d != null && s.speed_63d <= -4) frase += `; en tres meses, ${pctLlano(s.speed_63d)}`
+  else if (s.speed_63d != null && s.speed_63d >= 4) frase += `; en tres meses, ${pctLlano(s.speed_63d)}`
+  if (frase) partes.push(frase)
+  if (s.pct_from_52w_high != null) {
+    partes.push(s.pct_from_52w_high > -2 ? 'cerca de su máximo'
+      : `a un ${Math.abs(s.pct_from_52w_high).toFixed(1).replace('.', ',')} % de su máximo`)
+  }
+  return `${s.name}: ${partes.join('; ')}.`
+}
+
 export default function MacroRadar() {
   const { data, loading, error } = useApi<MacroData>(() => fetchMacroRadar(), [])
   const { data: historyData } = useApi(() => fetchMacroRadarHistory(), [])
   const { data: econData } = useApi(() => fetchEconomicCalendar(), [])
+  const [avanzada, alternarAvanzada] = useMasDatos('macro')
 
   // La cabecera se pinta también mientras carga o si la API falla:
   // si no, la pantalla de error no dice en qué sección estás.
   const cabecera = {
-    title: 'Macro Radar',
+    title: 'Macro',
     subtitle: 'Cómo está el mercado y si aparecen señales de riesgo. Es contexto: no cambia la lista de Value.',
   } as const
   if (loading || error) return <PageShell {...cabecera} loading={loading} error={error} />
@@ -941,7 +981,53 @@ export default function MacroRadar() {
       <StaleDataBanner module="macro" />
 
       <PageHeader {...cabecera}>
-        <div className="text-right flex flex-col items-end gap-2">
+        <BotonMasDatos activo={avanzada} onClick={alternarAvanzada} />
+      </PageHeader>
+
+      {!avanzada && (() => {
+        const narrativa = ai_narrative?.replace(/\*\*|__/g, '').trim()
+        const evento = econData?.events?.find((ev: EconEvent) => new Date(ev.date).getTime() >= Date.now() - 86_400_000)
+        const dias = evento ? Math.ceil((new Date(evento.date).getTime() - Date.now()) / 86_400_000) : null
+        const indices = Object.entries(index_summary ?? {})
+          .filter(([k]) => ['SPY', 'QQQ', 'IWM', 'DIA'].includes(k))
+          .sort(([a], [b]) => ['SPY', 'QQQ', 'IWM', 'DIA'].indexOf(a) - ['SPY', 'QQQ', 'IWM', 'DIA'].indexOf(b))
+        return (
+          <>
+            <Card className="glass animate-fade-in-up">
+              <CardContent className="p-5 space-y-3">
+                <div className="flex items-center gap-2.5">
+                  <span className="w-2.5 h-2.5 rounded-full shrink-0" style={{ backgroundColor: regime.color }} />
+                  <h2 className="text-seccion font-bold text-foreground">{REGIMEN_LLANO[regime.name] ?? regime.name}</h2>
+                </div>
+                <p className="text-cuerpo text-foreground/90 leading-relaxed">{narrativa || regime.description}</p>
+                {evento && dias != null && (
+                  <p className="text-apoyo text-muted-foreground">
+                    Próximo dato importante: {EVENTO_LLANO[evento.type] ?? evento.event}
+                    {' '}{dias <= 0 ? 'hoy' : dias === 1 ? 'mañana' : `en ${dias} días`}.
+                  </p>
+                )}
+              </CardContent>
+            </Card>
+            {indices.length > 0 && (
+              <Card className="glass">
+                <CardContent className="p-5">
+                  <h2 className="text-cuerpo font-semibold text-foreground mb-2">Los índices</h2>
+                  <ul className="space-y-1.5">
+                    {indices.map(([k, sum]) => (
+                      <li key={k} className="text-apoyo text-foreground/90">{lecturaIndice(sum as IndexSummary)}</li>
+                    ))}
+                  </ul>
+                </CardContent>
+              </Card>
+            )}
+          </>
+        )
+      })()}
+
+      {avanzada && (
+      <>
+      <div className="flex justify-end">
+        <span className="text-right flex flex-col items-end gap-2">
           <span
             className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-cuerpo font-bold ${regimeBadgeVariant(regime.name)}`}
           >
@@ -949,8 +1035,8 @@ export default function MacroRadar() {
             {regime.name}
           </span>
           <span className="text-mini text-muted-foreground">{date}</span>
-        </div>
-      </PageHeader>
+        </span>
+      </div>
 
       {/* Hero regime card */}
       <Card className="glass border border-border/50 animate-fade-in-up">
@@ -971,7 +1057,7 @@ export default function MacroRadar() {
             {ai_narrative && (
               <div className="mt-3 p-3 rounded-lg bg-muted/20 border border-border/30">
                 <p className="text-mini font-semibold text-primary mb-1">Análisis IA</p>
-                <p className="text-cuerpo text-foreground/90 leading-relaxed">{ai_narrative}</p>
+                <p className="text-cuerpo text-foreground/90 leading-relaxed">{ai_narrative.replace(/\*\*|__/g, '')}</p>
               </div>
             )}
           </div>
@@ -1145,6 +1231,8 @@ export default function MacroRadar() {
           </div>
         </CardContent>
       </Card>
+      </>
+      )}
     </div>
   )
 }
