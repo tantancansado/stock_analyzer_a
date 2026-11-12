@@ -1099,6 +1099,9 @@ jobs:
           # vacio solo si viene con ese motivo. Callarse sigue siendo un fallo.
           VACIO_EXPLICADO = {
               'earnings_opts': 'motivo_vacio',
+              # Los rebotes salen vacíos muchos días con el escáner bien: lo dicen ellos.
+              'mean_reversion': 'motivo_vacio',
+              'bounce_broad':   'motivo_vacio',
           }
 
           def _motivo_del_vacio(path, clave):

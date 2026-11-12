@@ -935,6 +935,7 @@ class MeanReversionDetector:
         """
         print(f"🔄 Mean Reversion Detector")
         print(f"   Escaneando {len(tickers)} tickers...")
+        self.n_escaneadas = len(tickers)
 
         # Régimen de mercado — advierte si SPY < MA50 (rebotes en bajista = falling knife)
         regime = self.get_market_regime()
@@ -1562,6 +1563,13 @@ Tono: técnico, directo. Sin emojis."""
             'ai_narrative': ai_narrative,
             'opportunities': json_safe_results
         }
+        # Un día sin rebotes es un resultado, no una avería: el vigilante marcaba
+        # «incompleto» y la web avisaba de datos rotos tres semanas seguidas (12-nov).
+        if not json_safe_results:
+            n = getattr(self, 'n_escaneadas', None)
+            results_dict['motivo_vacio'] = (
+                f'Revisadas {n} empresas: ninguna con una caída de calidad y un rebote a la vista hoy.'
+                if n else 'Ninguna empresa con una caída de calidad y un rebote a la vista hoy.')
 
         with open(json_path, 'w') as f:
             json.dump(results_dict, f, indent=2)

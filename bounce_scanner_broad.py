@@ -458,6 +458,9 @@ def main() -> None:
         },
         'setups': setups,
     }
+    if not setups:
+        # Vacío explicado: sin esto el vigilante lo marcaba «incompleto» (12-nov).
+        out['motivo_vacio'] = f'Revisadas {len(universe)} empresas: ningún rebote con ventaja medida hoy.'
     json_path = DOCS / 'bounce_setups_broad.json'
     with open(json_path, 'w') as f:
         json.dump(out, f, indent=2)

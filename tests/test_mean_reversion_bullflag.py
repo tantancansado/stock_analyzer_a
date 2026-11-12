@@ -147,11 +147,11 @@ class TestCatalizadorDeUpside:
         f = Path(__file__).parent.parent / 'frontend' / 'src' / 'pages' / 'CatalystScreener.tsx'
         src = f.read_text()
         assert "id: 'rr_strong'" not in src, 'volvió el catalizador que premiaba upside alto'
-        assert "id: 'upside_dorado'" in src
-        # La banda dejó de escribirse a mano aquí: vive en
-        # `frontend/src/lib/bandasUpside.ts`, espejo de `value_bands.py`, y hay
-        # un test propio (`bandasUpside.test.ts`) que impide las copias inline.
-        assert 'enZonaDorada(d.analyst_upside_pct)' in src
+        # 12-nov-2026: tampoco la banda «buena» del analista. Value US decide con
+        # nuestra valoración y la banda ya no puntúa (value_bands.py), así que un
+        # catalizador por el upside del consenso volvería a decir otra cosa que la lista.
+        assert 'risk_reward_ratio' not in src.split('export const SETUPS')[0]
+        assert 'enZonaDorada' not in src
 
 
 class TestSueloDeRiesgo:
