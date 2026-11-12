@@ -1,3 +1,4 @@
+import { BotonMasDatos, useMasDatos } from '../components/MasDatos'
 import { ClipboardList, Hourglass } from 'lucide-react'
 import { precio } from '@/lib/moneda'
 import { EUROPA_Y_GLOBAL } from '@/lib/mercados'
@@ -119,6 +120,9 @@ export default function Portfolio() {
   const [sigFilter, setSigFilter] = useState<'ALL' | 'ACTIVE' | 'COMPLETED'>('ALL')
   const [sigPage, setSigPage] = useState(1)
   const SIG_PAGE_SIZE = 30
+  // Vista sencilla (12-nov-2026): cómo les ha ido a las ideas y contra el S&P, en dos
+  // frases. Tablas, animación, correlaciones y estadísticas, en la avanzada.
+  const [avanzada, alternarAvanzada] = useMasDatos('seguimiento')
 
   // La cabecera se pinta también mientras carga o si la API falla:
   // si no, la pantalla de error no dice en qué sección estás.
@@ -191,15 +195,47 @@ export default function Portfolio() {
 
   return (
     <>
-      <PageHeader
-        title="Portfolio Tracker"
-        subtitle={<>Rendimiento de <strong className="text-foreground">VALUE US</strong> — {pf.value_strategy?.count ?? pf.total_signals} señales
-          {pf.date_range && <span className="ml-1 opacity-60">({pf.date_range})</span>}
-          <span className="mt-1 block text-mini text-muted-foreground">
-            Europa va aparte, más abajo: mezclarla en el titular hundía el número con señales que no operas.
-          </span></>}
-      />
+      <PageHeader {...cabecera}>
+        <BotonMasDatos activo={avanzada} onClick={alternarAvanzada} />
+      </PageHeader>
 
+      {!avanzada && (() => {
+        const us90 = pf.value_strategy?.['90d']
+        const us180 = pf.value_strategy?.['180d']
+        const a90 = pf.alpha_us?.['90d']
+        const prio90 = (pf as { value_grupos?: Record<string, Record<string, { count?: number; avg_return?: number | null; contra_sp500?: number | null }>> }).value_grupos?.PRIORIDAD?.['90d']
+        const n = (v?: number | null, d = 1) => v == null ? '—' : v.toLocaleString('es-ES', { maximumFractionDigits: d, minimumFractionDigits: d })
+        const signo = (v?: number | null) => (v != null && v >= 0 ? '+' : '')
+        return (
+          <Card className="glass mb-5 animate-fade-in-up">
+            <CardContent className="p-5 space-y-3 text-cuerpo text-foreground/90 leading-relaxed">
+              {us90?.count ? (
+                <p>
+                  Desde abril, a 90 días, las ideas de Value US ganaron en el <strong className="text-foreground">{n(us90.win_rate, 0)}{'\u00A0'}%</strong> de
+                  los casos, con un <strong className="text-foreground">{signo(us90.avg_return)}{n(us90.avg_return)}{'\u00A0'}%</strong> de media ({us90.count} ideas).
+                  {us180?.count ? <> A 180 días, {signo(us180.avg_return)}{n(us180.avg_return)}{'\u00A0'}% de media ({us180.count} ideas).</> : null}
+                </p>
+              ) : (
+                <p>Aún no hay ideas con 90 días cumplidos.</p>
+              )}
+              {a90?.count ? (
+                <p>
+                  Contra el S&amp;P 500, a 90 días: {signo(a90.avg_alpha)}{n(a90.avg_alpha)} puntos de media; le ganaron en
+                  el {n(a90.positive_alpha_rate, 0)}{'\u00A0'}% de los casos ({a90.count} ideas).
+                </p>
+              ) : null}
+              <p className="text-apoyo text-muted-foreground">
+                {prio90?.count
+                  ? <>Con la regla de hoy (Prioridad): {signo(prio90.avg_return)}{n(prio90.avg_return)}{'\u00A0'}% de media a 90 días en {prio90.count} ideas{prio90.contra_sp500 != null ? <>, {signo(prio90.contra_sp500)}{n(prio90.contra_sp500)} puntos frente al S&amp;P</> : null}.</>
+                  : 'Son ideas de las reglas anteriores. La regla de hoy (Prioridad, desde el 7 de noviembre) aún no tiene ideas con 90 días cumplidos: la primera medida llega en febrero.'}
+              </p>
+            </CardContent>
+          </Card>
+        )
+      })()}
+
+      {avanzada && (
+      <>
       {insightRaw?.narrative && (
         <AiNarrativeCard narrative={insightRaw.narrative} label="Análisis de Rendimiento" className="mb-5" />
       )}
@@ -1022,6 +1058,8 @@ export default function Portfolio() {
             ))}
           </div>
         </div>
+      )}
+      </>
       )}
     </>
   )
