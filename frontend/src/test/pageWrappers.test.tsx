@@ -49,7 +49,9 @@ describe('page wrappers', () => {
   it('configures the MyPortfolio tabs', () => {
     const element = MyPortfolio()
 
-    expect(element.props.tabs.map((tab: { id: string }) => tab.id)).toEqual(['positions', 'strategies', 'signals'])
+    // Sin «Estrategias IA» desde el 12-nov-2026: daba recortes, recompras y stops por
+    // niveles de precio, contra la regla de venta.
+    expect(element.props.tabs.map((tab: { id: string }) => tab.id)).toEqual(['positions', 'signals'])
   })
 
   it('configures the Macro tabs', () => {
