@@ -277,6 +277,8 @@ def gather_facts() -> dict:
         'picks_que_se_van': se_van,
         'comprables': comprables[:MAX_CANDIDATOS],
         'vigilar': vigilar[:MAX_VIGILAR],
+        # Sin el total, «para vigilar quedan [las cinco]» decía que no había más (había 20).
+        'vigilar_total': len(vigilar),
         'tesis_rotas': tesis_rotas,
         'rotas_son_tuyas': rotas_son_tuyas,
         'regimen_cambio': _regime_cambio(),
@@ -316,6 +318,10 @@ Estructura, en este orden y omitiendo lo que esté vacío:
 3. Qué vigilar: las de "vigilar", del grupo Observar: baratas a las que les falta
    algo para Prioridad ("que_le_falta"). Una sola línea para todas, con lo que les
    falta en pocas palabras. No digas que «siguen cayendo»: no es el motivo.
+   Son las más baratas de "vigilar_total": si este es mayor, dilo («las cinco más
+   baratas de las 20 en Observar») y nunca «quedan» ni «solo», que dan a entender
+   que no hay más. Lo que les falta, dilo de las que lo tienen en común; no
+   atribuyas a todas lo de unas pocas.
 4. Lo que ACABA DE APARECER en la lista (`picks_nuevos`) y lo que se ha caído de
    ella (`picks_que_se_van`), si los hay. Una línea, sin repetir lo que ya has
    dicho arriba: es lo que cambia respecto a ayer y por eso importa. Si las dos
@@ -381,7 +387,9 @@ def _plantilla(facts: dict) -> str:
         lineas.append(f'Tesis rota {quien}: '
                       + ', '.join(html.escape(str(t['ticker'])) for t in facts['tesis_rotas']) + '.')
     if facts['vigilar']:
-        lineas.append(f"Observar: {nombres(facts['vigilar'])}.")
+        total = facts.get('vigilar_total') or len(facts['vigilar'])
+        de = f" ({len(facts['vigilar'])} de {total})" if total > len(facts['vigilar']) else ''
+        lineas.append(f"Observar{de}: {nombres(facts['vigilar'])}.")
     if facts['picks_nuevos']:
         lineas.append('Entran: ' + ', '.join(map(html.escape, facts['picks_nuevos'])) + '.')
     if facts['picks_que_se_van']:

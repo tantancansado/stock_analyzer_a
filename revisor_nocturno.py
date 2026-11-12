@@ -81,6 +81,14 @@ Reglas de la casa (son correctas; no las discutas):
 - Lo que fue Prioridad se vende al dejar de serlo (PER por encima de -0,75σ, ventas < 10 %, fuera de la
   puerta, descarte duro o DETERIORO). «No lo sé» no vende.
 - Un dato vacío se enseña vacío: eso es correcto, no es un hallazgo.
+- "fueron_prioridad_y_hoy_no" es un ESTADO, no un cambio de hoy: todo lo que el registro tuvo en
+  Prioridad y hoy no lo es, con su motivo de venta. Puede haber salido de la lista hace días, así que
+  no tiene por qué estar en "cambios_desde_ayer".
+- Las ventas de la app (rev_growth_yoy, ventas_anual_pct) son las de Yahoo y TIKR, sin ingresos
+  financieros. Los porcentajes del resumen de why_cheap salen de notas de prensa y noticias, con otras
+  definiciones (ingresos totales, orgánico). Una diferencia de pocos puntos entre ambos no es un
+  hallazgo; solo lo es si no puede deberse a la definición o si cambiaría el grupo. El umbral del 10 %
+  es de ventas_anual_pct, no del trimestre.
 - why_cheap: SENTIMIENTO, EVENTO o MACRO son caídas circunstanciales; DETERIORO es el negocio. Si el
   resumen describe que un regulador o un competidor le quita precio, cuota o posición de forma
   duradera, eso es DETERIORO aunque las cuentas aún crezcan.
@@ -258,7 +266,7 @@ def hechos(hoy: str, docs: Path = DOCS) -> tuple[dict, list[dict]]:
         'fecha': hoy,
         'lista_value_us': fichas(value),
         'cambios_desde_ayer': cambios,
-        'se_venden_por_dejar_de_ser_prioridad': ventas,
+        'fueron_prioridad_y_hoy_no': ventas,
         'briefing_publicado': briefing.get('texto') if briefing.get('fecha') == hoy else None,
         'coherencia': {k: v[:3] for k, v in (coherencia.get('detalle') or {}).items() if v},
         'datos_que_van_y_vuelven': [f"{h['ticker']} {h['titulo']}: {h['por_que']}" for h in deterministas],
@@ -314,7 +322,7 @@ def revisar_con_claude(datos: dict, ya_abiertas: list[str]) -> tuple[list[dict],
         return [], [], 'respuesta sin JSON de hallazgos (¿cortada?)'
     tickers = {f['ticker'] for f in datos['lista_value_us'] if f.get('ticker')}
     tickers |= set((datos.get('cambios_desde_ayer') or {}).get('salen', []))
-    tickers |= set(datos.get('se_venden_por_dejar_de_ser_prioridad') or {})
+    tickers |= set(datos.get('fueron_prioridad_y_hoy_no') or {})
     validos, descartados = verificar(respuesta['hallazgos'], entrada, tickers)
     return validos, descartados, None
 

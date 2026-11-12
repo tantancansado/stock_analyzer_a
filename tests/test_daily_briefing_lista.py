@@ -100,6 +100,22 @@ class TestLoQueNoSeLePasa:
         assert fichas['DOBLQ']['puede_doblar'] is True
 
 
+class TestVigilarDiceCuantasHay:
+    """12-nov: «para vigilar quedan» cinco, y en Observar había veinte."""
+
+    def test_los_hechos_llevan_el_total_y_la_plantilla_lo_dice(self, tmp_path):
+        filas = [_fila()] + [_fila(ticker=f'OBS{i}Q', company_name=f'Obs {i}', value_grupo='OBSERVAR',
+                                   value_score=str(60 - i)) for i in range(8)]
+        hechos = _hechos(tmp_path, filas)
+        assert len(hechos['vigilar']) == db.MAX_VIGILAR
+        assert hechos['vigilar_total'] == 8
+        assert f'Observar ({db.MAX_VIGILAR} de 8):' in db._plantilla(hechos)
+
+    def test_si_caben_todas_no_se_dice_de_cuantas(self, tmp_path):
+        hechos = _hechos(tmp_path, [_fila(), _fila(ticker='OBS1Q', value_grupo='OBSERVAR')])
+        assert 'Observar: ' in db._plantilla(hechos)
+
+
 class TestRendimiento:
     RESUMEN_11_NOV = {
         'overall': {'180d': {'count': 39, 'win_rate': 74.4, 'avg_return': 9.26}},

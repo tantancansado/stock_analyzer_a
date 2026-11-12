@@ -262,7 +262,7 @@ def test_el_frenazo_se_avisa_y_no_cambia_ni_grupo_ni_nota():
     f = _prioridad_con(ventas_anual_pct=19.9, rev_growth_yoy=1.4)
     assert f.value_grupo == 'PRIORIDAD'
     assert f.value_score == base.value_score
-    assert 'se frena: último trimestre +1 %' in f.value_avisos
+    assert 'se frena: último trimestre +1,4 % frente a +19,9 % del último año' in f.value_avisos
 
 
 def test_el_recorte_de_consenso_se_avisa():

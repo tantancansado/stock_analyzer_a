@@ -232,7 +232,10 @@ def nota_value(df):
     def _avisos(a, q, r):
         partes = []
         if a == a and q == q and q < a - FRENAZO_PUNTOS:
-            partes.append(f'se frena: último trimestre {q:+.0f} %')
+            # Con los dos números: «último trimestre +10 %» a secas se leyó como que el
+            # trimestre ANTERIOR crecía al 10 % (briefing del 12-nov, BRO).
+            partes.append(f'se frena: último trimestre {q:+.1f} % frente a {a:+.1f} % del último año'
+                          .replace('.', ','))
         if r == r and r <= RECORTE_CONSENSO:
             partes.append(f'consenso de BPA {r:+.0f} % en 13 semanas')
         return ' · '.join(partes)
