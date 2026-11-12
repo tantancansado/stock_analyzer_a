@@ -1,18 +1,18 @@
 {
-  "generated_at": "2026-11-11",
-  "total_analyzed": 801,
+  "generated_at": "2026-11-12",
+  "total_analyzed": 803,
   "poblacion": "VALUE",
-  "baseline_win_rate": 66.5,
-  "baseline_avg_return": 7.1,
+  "baseline_win_rate": 66.6,
+  "baseline_avg_return": 7.11,
   "score_tiers": [],
   "market_regimes": [
     {
       "label": "CONFIRMED_UPTREND",
       "horizonte": "90d",
-      "win_rate": 67.4,
-      "avg_return": 7.73,
+      "win_rate": 67.5,
+      "avg_return": 7.74,
       "avg_return_2": 18.1,
-      "n": 641,
+      "n": 643,
       "vs_baseline_wr": 0.9,
       "vs_baseline_ret": 0.63
     },
@@ -23,20 +23,30 @@
       "avg_return": 4.58,
       "avg_return_2": 10.56,
       "n": 160,
-      "vs_baseline_wr": -3.4,
-      "vs_baseline_ret": -2.52
+      "vs_baseline_wr": -3.5,
+      "vs_baseline_ret": -2.53
     }
   ],
   "sectors": [
     {
       "label": "Financial Services",
       "horizonte": "90d",
-      "win_rate": 82.1,
-      "avg_return": 8.38,
+      "win_rate": 82.2,
+      "avg_return": 8.41,
       "avg_return_2": 23.63,
-      "n": 380,
-      "vs_baseline_wr": 15.6,
-      "vs_baseline_ret": 1.28
+      "n": 381,
+      "vs_baseline_wr": 15.5,
+      "vs_baseline_ret": 1.3
+    },
+    {
+      "label": "Consumer Cyclical",
+      "horizonte": "90d",
+      "win_rate": 72.7,
+      "avg_return": 3.34,
+      "avg_return_2": 3.95,
+      "n": 11,
+      "vs_baseline_wr": 6.1,
+      "vs_baseline_ret": -3.76
     },
     {
       "label": "Healthcare",
@@ -45,8 +55,8 @@
       "avg_return": 11.58,
       "avg_return_2": 18.24,
       "n": 36,
-      "vs_baseline_wr": 5.7,
-      "vs_baseline_ret": 4.48
+      "vs_baseline_wr": 5.6,
+      "vs_baseline_ret": 4.47
     },
     {
       "label": "Communication Services",
@@ -55,18 +65,8 @@
       "avg_return": 28.35,
       "avg_return_2": 43.5,
       "n": 53,
-      "vs_baseline_wr": 5.2,
-      "vs_baseline_ret": 21.25
-    },
-    {
-      "label": "Consumer Cyclical",
-      "horizonte": "90d",
-      "win_rate": 70.0,
-      "avg_return": 3.44,
-      "avg_return_2": 3.95,
-      "n": 10,
-      "vs_baseline_wr": 3.5,
-      "vs_baseline_ret": -3.65
+      "vs_baseline_wr": 5.1,
+      "vs_baseline_ret": 21.24
     },
     {
       "label": "Consumer Defensive",
@@ -75,8 +75,8 @@
       "avg_return": 5.86,
       "avg_return_2": -18.21,
       "n": 17,
-      "vs_baseline_wr": -1.8,
-      "vs_baseline_ret": -1.23
+      "vs_baseline_wr": -1.9,
+      "vs_baseline_ret": -1.24
     },
     {
       "label": "Energy",
@@ -86,7 +86,7 @@
       "avg_return_2": 26.11,
       "n": 22,
       "vs_baseline_wr": -7.5,
-      "vs_baseline_ret": 2.52
+      "vs_baseline_ret": 2.51
     },
     {
       "label": "Basic Materials",
@@ -95,8 +95,8 @@
       "avg_return": 1.53,
       "avg_return_2": -16.91,
       "n": 26,
-      "vs_baseline_wr": -16.5,
-      "vs_baseline_ret": -5.56
+      "vs_baseline_wr": -16.6,
+      "vs_baseline_ret": -5.57
     },
     {
       "label": "Technology",
@@ -105,8 +105,8 @@
       "avg_return": -0.44,
       "avg_return_2": 14.31,
       "n": 85,
-      "vs_baseline_wr": -18.3,
-      "vs_baseline_ret": -7.54
+      "vs_baseline_wr": -18.4,
+      "vs_baseline_ret": -7.55
     },
     {
       "label": "Industrials",
@@ -116,7 +116,7 @@
       "avg_return_2": 1.47,
       "n": 136,
       "vs_baseline_wr": -23.2,
-      "vs_baseline_ret": -4.56
+      "vs_baseline_ret": -4.57
     },
     {
       "label": "Real Estate",
@@ -125,7 +125,7 @@
       "avg_return": -3.11,
       "avg_return_2": -1.21,
       "n": 36,
-      "vs_baseline_wr": -30.4,
+      "vs_baseline_wr": -30.5,
       "vs_baseline_ret": -10.21
     }
   ],
@@ -137,18 +137,18 @@
       "avg_return": 6.84,
       "avg_return_2": 29.87,
       "n": 181,
-      "vs_baseline_wr": -5.8,
-      "vs_baseline_ret": -0.26
+      "vs_baseline_wr": -5.9,
+      "vs_baseline_ret": -0.27
     },
     {
       "label": "FCF 2-5%",
       "horizonte": "90d",
-      "win_rate": 49.7,
-      "avg_return": 2.98,
+      "win_rate": 50.3,
+      "avg_return": 3.06,
       "avg_return_2": 0.69,
-      "n": 181,
-      "vs_baseline_wr": -16.8,
-      "vs_baseline_ret": -4.11
+      "n": 183,
+      "vs_baseline_wr": -16.4,
+      "vs_baseline_ret": -4.04
     },
     {
       "label": "FCF<2%",
@@ -168,7 +168,7 @@
       "avg_return_2": 19.44,
       "n": 55,
       "vs_baseline_wr": -8.4,
-      "vs_baseline_ret": 13.73
+      "vs_baseline_ret": 13.72
     }
   ],
   "rr_tiers": [
@@ -179,48 +179,48 @@
       "avg_return": 7.21,
       "avg_return_2": 21.04,
       "n": 317,
-      "vs_baseline_wr": -7.2,
-      "vs_baseline_ret": 0.11
+      "vs_baseline_wr": -7.3,
+      "vs_baseline_ret": 0.1
     },
     {
       "label": "R:R 2-3",
       "horizonte": "90d",
-      "win_rate": 75.9,
-      "avg_return": 8.69,
+      "win_rate": 76.0,
+      "avg_return": 8.74,
       "avg_return_2": 14.86,
-      "n": 170,
-      "vs_baseline_wr": 9.3,
-      "vs_baseline_ret": 1.59
+      "n": 171,
+      "vs_baseline_wr": 9.4,
+      "vs_baseline_ret": 1.64
     },
     {
       "label": "R:R<2",
       "horizonte": "90d",
-      "win_rate": 71.6,
-      "avg_return": 6.98,
+      "win_rate": 71.7,
+      "avg_return": 6.96,
       "avg_return_2": 14.07,
-      "n": 243,
+      "n": 244,
       "vs_baseline_wr": 5.1,
-      "vs_baseline_ret": -0.12
+      "vs_baseline_ret": -0.14
     }
   ],
   "period_stats": {
     "7d": {
-      "win_rate": 38.3,
-      "avg_return": -1.05,
-      "n": 801
+      "win_rate": 38.5,
+      "avg_return": -1.04,
+      "n": 803
     },
     "14d": {
-      "win_rate": 42.1,
-      "avg_return": -1.24,
-      "n": 801
+      "win_rate": 42.2,
+      "avg_return": -1.22,
+      "n": 803
     },
     "30d": {
-      "win_rate": 60.8,
+      "win_rate": 60.9,
       "avg_return": 2.1,
-      "n": 801
+      "n": 803
     }
   },
   "best_combos": [],
   "hay_senal": true,
-  "narrative": "- Prioriza operaciones en el sector **Financial Services**, que muestra el win\u2011rate m\u00e1s alto (82.1\u202f%).  \n- Dentro de ese sector, favorece a las empresas con **FCF \u2265\u202f5\u202f%**, ya que superan el 60\u202f% de \u00e9xito y a\u00f1aden solidez al desempe\u00f1o.  \n- Evita concentrarte en sectores o activos que no tengan historial de win\u2011rate"
+  "narrative": "1. Prioriza operaciones en el sector **Financial Services**, que muestra el win\u2011rate m\u00e1s alto (82.2\u202f%); enf\u00f3cate en sub\u2011industrias con alta rentabilidad y liquidez.  \n2. Filtra las oportunidades por **FCF\u202f\u2265\u202f5\u202f%**, ya que estas presentan un 60.8\u202f% de \u00e9xito, lo que indica mayor solidez financiera y menor riesgo de deterioro.  \n3. Evita activos de sectores con WR cercano al promedio (\u224866\u202f%) o inferior, y descarta cualquier se\u00f1al que no cumpla con el"
 }

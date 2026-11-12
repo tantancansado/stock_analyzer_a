@@ -1,19 +1,9 @@
 {
-  "generated_at": "2026-11-11",
-  "total": 11,
-  "improving": 1,
+  "generated_at": "2026-11-12",
+  "total": 12,
+  "improving": 0,
   "narrative": "",
   "candidates": [
-    {
-      "ticker": "FICO",
-      "company_name": "Fair Isaac Corporation",
-      "piotroski_current": 8.0,
-      "piotroski_prev": 7.0,
-      "delta": 1.0,
-      "trend": "SLIGHT_UP",
-      "signal": "STRONG",
-      "value_score": 94.3
-    },
     {
       "ticker": "INTU",
       "company_name": "Intuit Inc.",
@@ -32,7 +22,7 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 53.1
+      "value_score": 53.2
     },
     {
       "ticker": "TYL",
@@ -42,7 +32,7 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 50.9
+      "value_score": 50.8
     },
     {
       "ticker": "NYT",
@@ -62,7 +52,27 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 47.9
+      "value_score": 47.8
+    },
+    {
+      "ticker": "MLM",
+      "company_name": "Martin Marietta Materials, Inc.",
+      "piotroski_current": 8.0,
+      "piotroski_prev": 8.0,
+      "delta": 0.0,
+      "trend": "STABLE",
+      "signal": "STRONG",
+      "value_score": 43.7
+    },
+    {
+      "ticker": "ADBE",
+      "company_name": "Adobe Inc.",
+      "piotroski_current": 7.0,
+      "piotroski_prev": null,
+      "delta": 0.0,
+      "trend": "STABLE",
+      "signal": "STRONG",
+      "value_score": 98.1
     },
     {
       "ticker": "WTKWY",
@@ -72,7 +82,7 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 57.8
+      "value_score": 57.6
     },
     {
       "ticker": "RMD",
@@ -82,7 +92,7 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 52.5
+      "value_score": 52.1
     },
     {
       "ticker": "RELX",
@@ -92,7 +102,7 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 51.4
+      "value_score": 51.2
     },
     {
       "ticker": "JKHY",
@@ -102,7 +112,7 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 51.1
+      "value_score": 51.0
     },
     {
       "ticker": "VRSK",
@@ -112,7 +122,7 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 49.2
+      "value_score": 48.9
     }
   ]
 }

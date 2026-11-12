@@ -1,40 +1,30 @@
 {
-  "generated_at": "2026-11-11",
+  "generated_at": "2026-11-12",
   "alerts": [
     {
-      "type": "EXITED",
-      "ticker": "BSX",
-      "company_name": "Boston Scientific Corporation",
-      "sector": "Healthcare",
-      "score_today": null,
-      "score_prev": 94.3,
+      "type": "NEW_ENTRY",
+      "ticker": "ADBE",
+      "company_name": "Adobe Inc.",
+      "sector": "Technology",
+      "score_today": 98.1,
+      "score_prev": null,
       "delta": null,
       "grade": "PRIORIDAD"
     },
     {
       "type": "EXITED",
-      "ticker": "MKC",
-      "company_name": "McCormick & Company, Incorporated",
-      "sector": "Consumer Defensive",
+      "ticker": "FICO",
+      "company_name": "Fair Isaac Corporation",
+      "sector": "Technology",
       "score_today": null,
-      "score_prev": 58.8,
-      "delta": null,
-      "grade": "OBSERVAR"
-    },
-    {
-      "type": "EXITED",
-      "ticker": "PGR",
-      "company_name": "The Progressive Corporation",
-      "sector": "Financial Services",
-      "score_today": null,
-      "score_prev": 88.7,
+      "score_prev": 94.3,
       "delta": null,
       "grade": "PRIORIDAD"
     }
   ],
   "counts": {
-    "new_entries": 0,
-    "exited": 3,
+    "new_entries": 1,
+    "exited": 1,
     "score_up": 0,
     "score_down": 0
   }

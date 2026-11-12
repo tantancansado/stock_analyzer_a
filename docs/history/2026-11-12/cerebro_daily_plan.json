@@ -1,0 +1,157 @@
+{
+  "generated_at": "2026-11-12",
+  "macro_regime": "CALM",
+  "composite_score": 8.5,
+  "sesgo": "NEUTRO",
+  "confianza": 62,
+  "situacion": "Mercado en calma aparente pero con se\u00f1ales de cobertura defensiva (oro, defensa, SKEW) que contrastan con la tranquilidad del composite macro.",
+  "narrativa": "El r\u00e9gimen CALM esconde una rotaci\u00f3n silenciosa hacia activos refugio (oro, defensa, bonos largos) mientras el d\u00f3lar cotiza en percentil 99.6, se\u00f1al de posible agotamiento de tendencia. Para el inversor VALUE esto sugiere mantener exposici\u00f3n selectiva en calidad con FCF alto, evitar small caps d\u00e9biles y aprovechar la ventana de bonos largos antes del CPI de ma\u00f1ana.",
+  "acciones_inmediatas": [
+    {
+      "prioridad": 1,
+      "accion": "VIGILAR",
+      "instrumento": "SPY / Mercado general",
+      "razon": "CPI de ma\u00f1ana es el catalizador clave que puede romper la calma actual",
+      "catalizador": "CPI November 2026-11-13",
+      "size_hint": "peque\u00f1a (1-2%)",
+      "invalidacion": "CPI en l\u00ednea o por debajo de consenso sin reacci\u00f3n en yields"
+    },
+    {
+      "prioridad": 2,
+      "accion": "COMPRAR",
+      "instrumento": "TLT/VGLT",
+      "razon": "Yield 30yr en 5.36% ofrece punto de entrada hist\u00f3ricamente atractivo para duraci\u00f3n larga",
+      "catalizador": "Nivel de yield actual + posible sorpresa dovish en CPI",
+      "size_hint": "media (3-4%)",
+      "invalidacion": "Ruptura alcista sostenida de yields por encima de 5.6%"
+    },
+    {
+      "prioridad": 3,
+      "accion": "VENDER",
+      "instrumento": "BSX, CRH, MLM",
+      "razon": "Se\u00f1al EXIT activa en cerebro cuantitativo para estos 3 nombres",
+      "catalizador": "Deterioro de score interno / rotaci\u00f3n sectorial",
+      "size_hint": "media (3-4%)",
+      "invalidacion": "Reversi\u00f3n de score a positivo en pr\u00f3xima actualizaci\u00f3n"
+    },
+    {
+      "prioridad": 4,
+      "accion": "ESPERAR",
+      "instrumento": "INTU",
+      "razon": "Pese a score 100 y grade B, earnings en 7 d\u00edas aconseja esperar antes de nueva posici\u00f3n grande",
+      "catalizador": "Earnings INTU (7d)",
+      "size_hint": "peque\u00f1a (1-2%)",
+      "invalidacion": "Gu\u00eda pre-earnings positiva que reduzca incertidumbre"
+    },
+    {
+      "prioridad": 5,
+      "accion": "COMPRAR",
+      "instrumento": "ADBE",
+      "razon": "Grade A con FCF 11.49% ofrece mejor margen de seguridad que el resto del top value",
+      "catalizador": "Score value 98.1 sostenido",
+      "size_hint": "media (3-4%)",
+      "invalidacion": "Ca\u00edda de FCF yield por debajo de 8% o downgrade de grade"
+    }
+  ],
+  "macro_plays": [
+    {
+      "instrument": "TLT/VGLT",
+      "direction": "LONG",
+      "thesis": "Yield 30yr en 5.36% \u2014 zona hist\u00f3ricamente atractiva para bonos largos",
+      "historical": "2018-19: TLT +18% cuando yields revertieron desde 3.25%",
+      "risk": "La Fed puede mantener tipos altos m\u00e1s tiempo \u2014 size peque\u00f1o",
+      "timeframe": "3-6 meses",
+      "score": 95,
+      "eu_alternative": {
+        "ticker": "DTLA",
+        "name": "Xtrackers US Treasuries 20yr+ UCITS ETF",
+        "exchange": "Xetra",
+        "available": "DEGIRO/IB"
+      }
+    }
+  ],
+  "macro_plays_commentary": "La oportunidad en TLT/VGLT es la m\u00e1s clara del d\u00eda dado el nivel de yield, pero conviene esperar confirmaci\u00f3n post-CPI antes de aumentar tama\u00f1o.",
+  "value_en_entorno": [
+    {
+      "ticker": "INTU",
+      "score": 100.0,
+      "sector": "Technology",
+      "fcf_yield_pct": 9.41,
+      "grade": "B"
+    },
+    {
+      "ticker": "ADBE",
+      "score": 98.1,
+      "sector": "Technology",
+      "fcf_yield_pct": 11.49,
+      "grade": "A"
+    },
+    {
+      "ticker": "UBER",
+      "score": 58.0,
+      "sector": "Technology",
+      "fcf_yield_pct": 7.21,
+      "grade": "B"
+    }
+  ],
+  "value_en_entorno_razon": "En un r\u00e9gimen CALM con se\u00f1ales mixtas (d\u00f3lar fuerte, SKEW elevado), los picks VALUE en tecnolog\u00eda de calidad (INTU, ADBE) con alto FCF ofrecen resiliencia frente a volatilidad s\u00fabita sin sacrificar crecimiento.",
+  "evitar": [
+    {
+      "ticker": "BSX",
+      "razon": "Se\u00f1al EXIT activa del cerebro cuantitativo"
+    },
+    {
+      "ticker": "CRH",
+      "razon": "Se\u00f1al EXIT activa del cerebro cuantitativo"
+    },
+    {
+      "ticker": "MLM",
+      "razon": "Se\u00f1al EXIT activa del cerebro cuantitativo"
+    },
+    {
+      "ticker": "IWM / Small Caps",
+      "razon": "Score negativo (-0.5) y percentil bajo (35.5) indica debilidad relativa"
+    }
+  ],
+  "agenda_semana": [
+    {
+      "fecha": "2026-11-13",
+      "evento": "CPI November",
+      "impacto": "ALTO",
+      "accion_sugerida": "Reducir tama\u00f1o de nuevas posiciones hasta conocer el dato; mantener cobertura en oro/defensa"
+    },
+    {
+      "fecha": "2026-11-16",
+      "evento": "TNE.AX earnings",
+      "impacto": "BAJO",
+      "accion_sugerida": "Sin acci\u00f3n si no se tiene posici\u00f3n"
+    },
+    {
+      "fecha": "2026-11-17",
+      "evento": "NVDA earnings",
+      "impacto": "ALTO",
+      "accion_sugerida": "Vigilar volatilidad impl\u00edcita, evitar nueva entrada pre-earnings"
+    },
+    {
+      "fecha": "2026-11-17",
+      "evento": "HD earnings",
+      "impacto": "MEDIO",
+      "accion_sugerida": "Revisar exposici\u00f3n consumo discrecional"
+    },
+    {
+      "fecha": "2026-11-18",
+      "evento": "TJX earnings",
+      "impacto": "MEDIO",
+      "accion_sugerida": "Monitorear gu\u00eda de retail para contexto de consumo"
+    },
+    {
+      "fecha": "2026-11-19",
+      "evento": "INTU y CPRT earnings",
+      "impacto": "ALTO",
+      "accion_sugerida": "Esperar resultados antes de aumentar posici\u00f3n en INTU"
+    }
+  ],
+  "frase_del_dia": "El mercado es un dispositivo para transferir dinero del impaciente al paciente \u2014 Warren Buffett",
+  "mensaje_telegram": "\ud83d\udcca Mercado CALM pero con oro/defensa subiendo \ud83d\udee1\ufe0f y d\u00f3lar en extremos \ud83d\udcb5. CPI ma\u00f1ana \u26a0\ufe0f clave. TLT atractivo en yields 5.36% \ud83d\udcc8. VALUE: ADBE fuerte, INTU esperar earnings. Salir de BSX/CRH/MLM \ud83d\udeaa. Cautela y selectividad.",
+  "ai_powered": true
+}

@@ -1,9 +1,27 @@
 {
-  "generated_at": "2026-11-11",
-  "total": 26,
-  "high_count": 8,
+  "generated_at": "2026-11-12",
+  "total": 28,
+  "high_count": 10,
   "narrative": "",
   "exits": [
+    {
+      "ticker": "FICO",
+      "severity": "MEDIUM",
+      "entry_score": 95.0,
+      "current_score": null,
+      "signal_date": "2026-11-09",
+      "reasons": [
+        "Ya no aparece en VALUE \u2014 tesis posiblemente rota",
+        "IA: falso positivo con 75% confianza \u2014 FICO ha mostrado fundamentales s\u00f3lidos hist\u00f3ricamente (alto margen, crecimiento en scores y software), y la salida de la lista VALUE probablemente se debe a una valoraci\u00f3n ya elevada (m\u00faltiplos altos) m\u00e1s que a deterioro real del negocio. La se\u00f1al parece reflejar que el precio subi\u00f3 reduciendo el upside de valor, no una ruptura de tesis fundamental."
+      ],
+      "fundamental_score": 59.5,
+      "ai_validation": {
+        "verdict": "FALSE_POSITIVE",
+        "confidence": 75,
+        "summary": "FICO ha mostrado fundamentales s\u00f3lidos hist\u00f3ricamente (alto margen, crecimiento en scores y software), y la salida de la lista VALUE probablemente se debe a una valoraci\u00f3n ya elevada (m\u00faltiplos altos) m\u00e1s que a deterioro real del negocio. La se\u00f1al parece reflejar que el precio subi\u00f3 reduciendo el upside de valor, no una ruptura de tesis fundamental.",
+        "key_finding": "FICO ha cotizado hist\u00f3ricamente a m\u00faltiplos muy altos (P/E elevado) debido a su posici\u00f3n dominante en scoring crediticio y software anal\u00edtico, lo que naturalmente la saca de screens de 'value' sin implicar deterioro del negocio."
+      }
+    },
     {
       "ticker": "BSX",
       "severity": "HIGH",
@@ -13,13 +31,13 @@
       "reasons": [
         "Ya no aparece en VALUE \u2014 tesis posiblemente rota"
       ],
-      "fundamental_score": 52.7,
+      "fundamental_score": 47.5,
       "ai_validation": {
         "verdict": "FALSE_POSITIVE",
-        "confidence": 68,
-        "summary": "Boston Scientific ha mostrado crecimiento s\u00f3lido y consistente en ingresos (Watchman, Farapulse, electrofisiolog\u00eda) sin se\u00f1ales de deterioro fundamental conocidas. La se\u00f1al probablemente refleja que el precio subi\u00f3 reduciendo el margen de seguridad en el modelo VALUE, no un deterioro real del negocio.",
-        "key_finding": "BSX ha reportado crecimiento de doble d\u00edgito en ventas impulsado por Farapulse y Watchman, con guidance consistentemente al alza en trimestres recientes.",
-        "summary_note": "Boston Scientific ha mostrado crecimiento s\u00f3lido y consistente en ingresos (Watchman, Farapulse, electrofisiolog\u00eda) sin se\u00f1ales de deterioro fundamental conocidas. La se\u00f1al probablemente refleja que el precio subi\u00f3 reduciendo el margen de seguridad en el modelo VALUE, no un deterioro real del negocio."
+        "confidence": 65,
+        "summary": "Boston Scientific hist\u00f3ricamente ha mostrado crecimiento s\u00f3lido y consistente en ventas y ganancias, impulsado por su cartera de dispositivos m\u00e9dicos (cardiovascular, electrofisiolog\u00eda, urolog\u00eda). La salida de la lista VALUE probablemente se debe a que la apreciaci\u00f3n del precio redujo el margen de upside, no a un deterioro fundamental del negocio.",
+        "key_finding": "BSX ha mantenido crecimiento de doble d\u00edgito en ingresos y expansi\u00f3n de m\u00e1rgenes en los \u00faltimos trimestres previos al corte de conocimiento, sin se\u00f1ales de guidance cuts ni eventos negativos mayores; el score fundamental de 47.5 parece m\u00e1s reflejo de valoraci\u00f3n (precio alto) que de debilidad operativa.",
+        "summary_note": "Boston Scientific hist\u00f3ricamente ha mostrado crecimiento s\u00f3lido y consistente en ventas y ganancias, impulsado por su cartera de dispositivos m\u00e9dicos (cardiovascular, electrofisiolog\u00eda, urolog\u00eda). La salida de la lista VALUE probablemente se debe a que la apreciaci\u00f3n del precio redujo el margen de upside, no a un deterioro fundamental del negocio."
       }
     },
     {
@@ -31,14 +49,14 @@
       "reasons": [
         "Ya no aparece en VALUE \u2014 tesis posiblemente rota",
         "Sin insider buying activo \u2014 se\u00f1al de convicci\u00f3n perdida",
-        "IA: falso positivo con 72% confianza \u2014 Progressive es una aseguradora de auto con fundamentos hist\u00f3ricamente s\u00f3lidos (crecimiento de p\u00f3lizas, ratio combinado disciplinado, buena ejecuci\u00f3n telem\u00e1tica). La desaparici\u00f3n de VALUE probablemente refleja una revalorizaci\u00f3n del precio tras fuerte rendimiento, no un deterioro del negocio."
+        "IA: falso positivo con 72% confianza \u2014 Progressive es una aseguradora de auto con fundamentos hist\u00f3ricamente s\u00f3lidos (crecimiento de p\u00f3lizas, buen ratio combinado, ventajas en telem\u00e1tica con Snapshot). La salida de la lista VALUE probablemente refleja una apreciaci\u00f3n de precio que comprimi\u00f3 el upside, no un deterioro del negocio."
       ],
       "fundamental_score": 57.5,
       "ai_validation": {
         "verdict": "FALSE_POSITIVE",
         "confidence": 72,
-        "summary": "Progressive es una aseguradora de auto con fundamentos hist\u00f3ricamente s\u00f3lidos (crecimiento de p\u00f3lizas, ratio combinado disciplinado, buena ejecuci\u00f3n telem\u00e1tica). La desaparici\u00f3n de VALUE probablemente refleja una revalorizaci\u00f3n del precio tras fuerte rendimiento, no un deterioro del negocio.",
-        "key_finding": "PGR ha mostrado crecimiento sostenido en primas y rentabilidad t\u00e9cnica (combined ratio) superior a la industria, sin se\u00f1ales p\u00fablicas de guidance cuts o eventos negativos mayores hasta el corte de entrenamiento."
+        "summary": "Progressive es una aseguradora de auto con fundamentos hist\u00f3ricamente s\u00f3lidos (crecimiento de p\u00f3lizas, buen ratio combinado, ventajas en telem\u00e1tica con Snapshot). La salida de la lista VALUE probablemente refleja una apreciaci\u00f3n de precio que comprimi\u00f3 el upside, no un deterioro del negocio.",
+        "key_finding": "PGR ha mostrado crecimiento sostenido en primas y rentabilidad; no hay evidencia p\u00fablica de guidance cuts o eventos negativos mayores recientes, por lo que la se\u00f1al parece m\u00e1s ligada a valoraci\u00f3n que a fundamentales."
       }
     },
     {
@@ -54,9 +72,9 @@
       "ai_validation": {
         "verdict": "UNCERTAIN",
         "confidence": 35,
-        "summary": "6383.T (Daifuku Co.) es un fabricante l\u00edder de sistemas de manipulaci\u00f3n de materiales con fundamentos hist\u00f3ricamente s\u00f3lidos; no tengo evidencia concreta de deterioro reciente en el negocio. La se\u00f1al de salida parece basada en que ya no aparece en el screening de VALUE, lo cual suele deberse a una revalorizaci\u00f3n de precio m\u00e1s que a un deterioro real.",
-        "key_finding": "La ausencia en el listado VALUE probablemente refleja una subida de precio que redujo el margen de descuento, no un evento fundamental negativo confirmado.",
-        "summary_note": "6383.T (Daifuku Co.) es un fabricante l\u00edder de sistemas de manipulaci\u00f3n de materiales con fundamentos hist\u00f3ricamente s\u00f3lidos; no tengo evidencia concreta de deterioro reciente en el negocio. La se\u00f1al de salida parece basada en que ya no aparece en el screening de VALUE, lo cual suele deberse a una revalorizaci\u00f3n de precio m\u00e1s que a un deterioro real."
+        "summary": "6383.T (Daifuku Co.) es un fabricante l\u00edder de sistemas de manejo de materiales con fundamentales hist\u00f3ricamente s\u00f3lidos; la se\u00f1al parece basada en que sali\u00f3 de un screening de VALUE, posiblemente por subida de precio m\u00e1s que por deterioro real. No tengo datos recientes posteriores a mi entrenamiento que confirmen un evento negativo espec\u00edfico.",
+        "key_finding": "La salida del \u00edndice VALUE sugiere revalorizaci\u00f3n del precio (posible rally) m\u00e1s que un deterioro fundamental confirmado, pero sin datos actualizados no se puede descartar un evento reciente negativo.",
+        "summary_note": "6383.T (Daifuku Co.) es un fabricante l\u00edder de sistemas de manejo de materiales con fundamentales hist\u00f3ricamente s\u00f3lidos; la se\u00f1al parece basada en que sali\u00f3 de un screening de VALUE, posiblemente por subida de precio m\u00e1s que por deterioro real. No tengo datos recientes posteriores a mi entrenamiento que confirmen un evento negativo espec\u00edfico."
       }
     },
     {
@@ -72,9 +90,9 @@
       "ai_validation": {
         "verdict": "FALSE_POSITIVE",
         "confidence": 62,
-        "summary": "DPZ es un negocio maduro con flujo de caja estable y recompras constantes; la se\u00f1al parece deberse a que el precio subi\u00f3 reduciendo el margen de seguridad en un modelo de VALUE, no a un deterioro fundamental real. No hay evidencia conocida de guidance cuts graves ni eventos negativos mayores recientes que justifiquen una ruptura de tesis.",
-        "key_finding": "Domino's ha mostrado crecimiento consistente de same-store sales y expansi\u00f3n internacional, con un score fundamental moderado (59.2) que sugiere debilidad relativa m\u00e1s que deterioro agudo.",
-        "summary_note": "DPZ es un negocio maduro con flujo de caja estable y recompras constantes; la se\u00f1al parece deberse a que el precio subi\u00f3 reduciendo el margen de seguridad en un modelo de VALUE, no a un deterioro fundamental real. No hay evidencia conocida de guidance cuts graves ni eventos negativos mayores recientes que justifiquen una ruptura de tesis."
+        "summary": "DPZ es un negocio fundamentalmente s\u00f3lido con flujo de caja estable y recompras consistentes; la se\u00f1al probablemente refleja que el precio subi\u00f3 y comprimi\u00f3 el upside de valoraci\u00f3n, no un deterioro real del negocio. No obstante, el score fundamental de 59.2 sugiere cierta debilidad relativa que vale monitorear (crecimiento de same-store sales m\u00e1s lento, competencia agresiva en delivery).",
+        "key_finding": "Domino's ha mantenido rentabilidad y generaci\u00f3n de caja estables, con desaf\u00edos de crecimiento org\u00e1nico m\u00e1s que una ruptura de tesis, lo que apunta a salida del screening VALUE por revalorizaci\u00f3n de precio m\u00e1s que por deterioro fundamental.",
+        "summary_note": "DPZ es un negocio fundamentalmente s\u00f3lido con flujo de caja estable y recompras consistentes; la se\u00f1al probablemente refleja que el precio subi\u00f3 y comprimi\u00f3 el upside de valoraci\u00f3n, no un deterioro real del negocio. No obstante, el score fundamental de 59.2 sugiere cierta debilidad relativa que vale monitorear (crecimiento de same-store sales m\u00e1s lento, competencia agresiva en delivery)."
       }
     },
     {
@@ -90,27 +108,27 @@
       "ai_validation": {
         "verdict": "FALSE_POSITIVE",
         "confidence": 65,
-        "summary": "PEP es una empresa defensiva y estable con fundamentales s\u00f3lidos (marca, flujo de caja, dividendo consistente); la salida de la lista VALUE probablemente se debe a una apreciaci\u00f3n del precio que redujo el margen de upside, no a un deterioro real del negocio. El score fundamental de 57.6 es mediocre pero no indica ruptura de tesis, m\u00e1s bien valoraci\u00f3n ajustada.",
-        "key_finding": "PepsiCo mantiene crecimiento estable de ingresos, dividendo creciente por d\u00e9cadas (Dividend Aristocrat) y no se identifican eventos negativos mayores recientes como profit warnings severos o esc\u00e1ndalos de gesti\u00f3n.",
-        "summary_note": "PEP es una empresa defensiva y estable con fundamentales s\u00f3lidos (marca, flujo de caja, dividendo consistente); la salida de la lista VALUE probablemente se debe a una apreciaci\u00f3n del precio que redujo el margen de upside, no a un deterioro real del negocio. El score fundamental de 57.6 es mediocre pero no indica ruptura de tesis, m\u00e1s bien valoraci\u00f3n ajustada."
+        "summary": "PEP es una empresa defensiva con fundamentales s\u00f3lidos y crecimiento estable; la salida de la lista VALUE probablemente se debe a una revalorizaci\u00f3n del precio que redujo el margen de upside, no a un deterioro real del negocio. El score fundamental de 57.6 es mediocre pero no indica cat\u00e1strofe.",
+        "key_finding": "PepsiCo mantiene crecimiento constante de ingresos, dividendos crecientes (Dividend Aristocrat) y no hay reportes de guidance cuts severos o eventos negativos mayores conocidos hasta el corte de entrenamiento.",
+        "summary_note": "PEP es una empresa defensiva con fundamentales s\u00f3lidos y crecimiento estable; la salida de la lista VALUE probablemente se debe a una revalorizaci\u00f3n del precio que redujo el margen de upside, no a un deterioro real del negocio. El score fundamental de 57.6 es mediocre pero no indica cat\u00e1strofe."
       }
     },
     {
-      "ticker": "MLM",
+      "ticker": "ESLOY",
       "severity": "HIGH",
-      "entry_score": 44.1,
+      "entry_score": 50.8,
       "current_score": null,
-      "signal_date": "2026-11-09",
+      "signal_date": "2026-11-10",
       "reasons": [
         "Ya no aparece en VALUE \u2014 tesis posiblemente rota"
       ],
-      "fundamental_score": 58.7,
+      "fundamental_score": 53.7,
       "ai_validation": {
-        "verdict": "FALSE_POSITIVE",
-        "confidence": 65,
-        "summary": "MLM es un operador l\u00edder de agregados de construcci\u00f3n con fundamentales hist\u00f3ricamente s\u00f3lidos y demanda estructural ligada a infraestructura (IIJA). La se\u00f1al probablemente refleja que el precio subi\u00f3 m\u00e1s r\u00e1pido que el valor intr\u00ednseco estimado, sac\u00e1ndolo del screen VALUE, no un deterioro real del negocio.",
-        "key_finding": "El score fundamental de 58.7/100 es mediocre pero no indica deterioro severo; la salida de VALUE suele deberse a revalorizaci\u00f3n de m\u00faltiplos (P/E alto) m\u00e1s que a ca\u00edda de fundamentales, dado el tailwind de gasto en infraestructura p\u00fablica.",
-        "summary_note": "MLM es un operador l\u00edder de agregados de construcci\u00f3n con fundamentales hist\u00f3ricamente s\u00f3lidos y demanda estructural ligada a infraestructura (IIJA). La se\u00f1al probablemente refleja que el precio subi\u00f3 m\u00e1s r\u00e1pido que el valor intr\u00ednseco estimado, sac\u00e1ndolo del screen VALUE, no un deterioro real del negocio."
+        "verdict": "UNCERTAIN",
+        "confidence": 45,
+        "summary": "ESLOY (Esprit Holdings) es una empresa con historial de dificultades operativas y m\u00e1rgenes d\u00e9biles en el negocio de retail de moda; la se\u00f1al podr\u00eda deberse simplemente a que subi\u00f3 de precio y sali\u00f3 del filtro VALUE, no necesariamente a deterioro fundamental nuevo. No tengo datos recientes posteriores a mi corte de entrenamiento para confirmar eventos negativos espec\u00edficos.",
+        "key_finding": "Esprit Holdings ha tenido hist\u00f3ricamente problemas de rentabilidad y reestructuraciones, pero no hay evidencia concreta de un evento negativo reciente espec\u00edfico que justifique la se\u00f1al m\u00e1s all\u00e1 de la salida del universo VALUE por precio.",
+        "summary_note": "ESLOY (Esprit Holdings) es una empresa con historial de dificultades operativas y m\u00e1rgenes d\u00e9biles en el negocio de retail de moda; la se\u00f1al podr\u00eda deberse simplemente a que subi\u00f3 de precio y sali\u00f3 del filtro VALUE, no necesariamente a deterioro fundamental nuevo. No tengo datos recientes posteriores a mi corte de entrenamiento para confirmar eventos negativos espec\u00edficos."
       }
     },
     {
@@ -125,10 +143,10 @@
       "fundamental_score": 50.2,
       "ai_validation": {
         "verdict": "FALSE_POSITIVE",
-        "confidence": 62,
-        "summary": "CRH es l\u00edder en materiales de construcci\u00f3n con fundamentales s\u00f3lidos y ha mostrado buen desempe\u00f1o operativo en a\u00f1os recientes, especialmente tras su recotizaci\u00f3n en NYSE. La salida de la lista VALUE probablemente refleja una apreciaci\u00f3n de precio que redujo el margen de infravaloraci\u00f3n, no un deterioro del negocio.",
-        "key_finding": "CRH traslad\u00f3 su cotizaci\u00f3n primaria a NYSE y ha mostrado fuerte momentum de precio y resultados consistentes, lo que sugiere que la se\u00f1al se debe a valoraci\u00f3n (precio subi\u00f3) m\u00e1s que a deterioro fundamental.",
-        "summary_note": "CRH es l\u00edder en materiales de construcci\u00f3n con fundamentales s\u00f3lidos y ha mostrado buen desempe\u00f1o operativo en a\u00f1os recientes, especialmente tras su recotizaci\u00f3n en NYSE. La salida de la lista VALUE probablemente refleja una apreciaci\u00f3n de precio que redujo el margen de infravaloraci\u00f3n, no un deterioro del negocio."
+        "confidence": 65,
+        "summary": "CRH ha mostrado fundamentales s\u00f3lidos (m\u00e1rgenes en expansi\u00f3n, buena generaci\u00f3n de caja y demanda sostenida en materiales de construcci\u00f3n en EE.UU.), por lo que la salida de la lista VALUE probablemente se debe a una revalorizaci\u00f3n del precio m\u00e1s que a un deterioro real del negocio. El score fundamental de 50.2 es mediocre pero no indica alarma grave.",
+        "key_finding": "La acci\u00f3n tuvo una fuerte apreciaci\u00f3n tras la cotizaci\u00f3n primaria en NYSE y mejoras operativas, reduciendo el upside de valoraci\u00f3n sin evidencia de deterioro fundamental significativo.",
+        "summary_note": "CRH ha mostrado fundamentales s\u00f3lidos (m\u00e1rgenes en expansi\u00f3n, buena generaci\u00f3n de caja y demanda sostenida en materiales de construcci\u00f3n en EE.UU.), por lo que la salida de la lista VALUE probablemente se debe a una revalorizaci\u00f3n del precio m\u00e1s que a un deterioro real del negocio. El score fundamental de 50.2 es mediocre pero no indica alarma grave."
       }
     },
     {
@@ -139,15 +157,45 @@
       "signal_date": "2026-10-21",
       "reasons": [
         "Ya no aparece en VALUE \u2014 tesis posiblemente rota",
-        "IA: falso positivo con 72% confianza \u2014 Stryker ha mostrado un crecimiento consistente en ingresos y m\u00e1rgenes, sin se\u00f1ales de deterioro fundamental significativo; la salida de la lista VALUE probablemente se debe a una apreciaci\u00f3n del precio que redujo el margen de upside, no a un problema del negocio. El score fundamental de 55/100 es mediocre pero no indica deterioro agudo reciente."
+        "IA: falso positivo con 72% confianza \u2014 Stryker ha mantenido un desempe\u00f1o s\u00f3lido y consistente, con crecimiento de doble d\u00edgito en ventas y sin se\u00f1ales de deterioro fundamental conocidas hasta la fecha de corte. La salida de la lista VALUE probablemente refleja que el precio subi\u00f3 m\u00e1s r\u00e1pido que las m\u00e9tricas de valoraci\u00f3n (m\u00faltiplos m\u00e1s altos), no un problema de negocio."
       ],
       "fundamental_score": 55.0,
       "ai_validation": {
         "verdict": "FALSE_POSITIVE",
         "confidence": 72,
-        "summary": "Stryker ha mostrado un crecimiento consistente en ingresos y m\u00e1rgenes, sin se\u00f1ales de deterioro fundamental significativo; la salida de la lista VALUE probablemente se debe a una apreciaci\u00f3n del precio que redujo el margen de upside, no a un problema del negocio. El score fundamental de 55/100 es mediocre pero no indica deterioro agudo reciente.",
-        "key_finding": "Stryker ha mantenido crecimiento de doble d\u00edgito en ventas (impulsado por Mako, implantes y Medtech) y expansi\u00f3n de m\u00e1rgenes, con el mercado valorando la acci\u00f3n a m\u00faltiplos altos, lo que naturalmente la saca de estrategias basadas en VALUE."
+        "summary": "Stryker ha mantenido un desempe\u00f1o s\u00f3lido y consistente, con crecimiento de doble d\u00edgito en ventas y sin se\u00f1ales de deterioro fundamental conocidas hasta la fecha de corte. La salida de la lista VALUE probablemente refleja que el precio subi\u00f3 m\u00e1s r\u00e1pido que las m\u00e9tricas de valoraci\u00f3n (m\u00faltiplos m\u00e1s altos), no un problema de negocio.",
+        "key_finding": "SYK ha mostrado crecimiento org\u00e1nico robusto en MedSurg y Orthopedics, con integraci\u00f3n exitosa de adquisiciones (como Wright Medical), sin recortes de gu\u00eda ni esc\u00e1ndalos recientes reportados."
       }
+    },
+    {
+      "ticker": "CLPBY",
+      "severity": "HIGH",
+      "entry_score": 0,
+      "current_score": null,
+      "signal_date": "2026-10-28",
+      "reasons": [
+        "Ya no aparece en VALUE \u2014 tesis posiblemente rota"
+      ],
+      "fundamental_score": null,
+      "ai_validation": {
+        "verdict": "FALSE_POSITIVE",
+        "confidence": 65,
+        "summary": "CLP Holdings es una utility estable de Hong Kong con negocio regulado y dividendos consistentes; la salida del screening de VALUE probablemente se debe a una apreciaci\u00f3n de precio o cambio en m\u00e9tricas de valoraci\u00f3n, no a deterioro fundamental del negocio.",
+        "key_finding": "No hay evidencia de deterioro operativo significativo (earnings misses, recortes de gu\u00eda, esc\u00e1ndalos) conocido hasta la fecha de corte; la empresa mantiene su perfil defensivo de utility regulada.",
+        "summary_note": "CLP Holdings es una utility estable de Hong Kong con negocio regulado y dividendos consistentes; la salida del screening de VALUE probablemente se debe a una apreciaci\u00f3n de precio o cambio en m\u00e9tricas de valoraci\u00f3n, no a deterioro fundamental del negocio."
+      }
+    },
+    {
+      "ticker": "INTU",
+      "severity": "MEDIUM",
+      "entry_score": 100.0,
+      "current_score": 100.0,
+      "signal_date": "2026-11-09",
+      "reasons": [
+        "Earnings en 7d \u2014 alta incertidumbre, considera reducir",
+        "Sin insider buying activo \u2014 se\u00f1al de convicci\u00f3n perdida"
+      ],
+      "fundamental_score": 59.2
     },
     {
       "ticker": "MKC",
@@ -158,7 +206,7 @@
       "reasons": [
         "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
       ],
-      "fundamental_score": 60.4
+      "fundamental_score": 61.4
     },
     {
       "ticker": "SAP",
@@ -202,7 +250,7 @@
       "reasons": [
         "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
       ],
-      "fundamental_score": 73.7
+      "fundamental_score": 73.0
     },
     {
       "ticker": "BLK",
@@ -213,7 +261,7 @@
       "reasons": [
         "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
       ],
-      "fundamental_score": 85.3
+      "fundamental_score": 84.1
     },
     {
       "ticker": "UNP",
@@ -257,7 +305,7 @@
       "reasons": [
         "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
       ],
-      "fundamental_score": 83.2
+      "fundamental_score": 82.4
     },
     {
       "ticker": "CBOE",
@@ -268,7 +316,7 @@
       "reasons": [
         "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
       ],
-      "fundamental_score": 80.8
+      "fundamental_score": 81.1
     },
     {
       "ticker": "MSCI",
@@ -279,7 +327,7 @@
       "reasons": [
         "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
       ],
-      "fundamental_score": 73.0
+      "fundamental_score": 71.8
     },
     {
       "ticker": "WCN",
@@ -291,17 +339,6 @@
         "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
       ],
       "fundamental_score": 69.1
-    },
-    {
-      "ticker": "CLPBY",
-      "severity": "MEDIUM",
-      "entry_score": 0,
-      "current_score": null,
-      "signal_date": "2026-10-28",
-      "reasons": [
-        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
-      ],
-      "fundamental_score": 64.6
     },
     {
       "ticker": "THC",
@@ -326,21 +363,21 @@
       "fundamental_score": 71.2
     },
     {
-      "ticker": "INTU",
+      "ticker": "ADBE",
       "severity": "LOW",
-      "entry_score": 100.0,
-      "current_score": 100.0,
-      "signal_date": "2026-11-09",
+      "entry_score": 98.1,
+      "current_score": 98.1,
+      "signal_date": "2026-11-12",
       "reasons": [
         "Sin insider buying activo \u2014 se\u00f1al de convicci\u00f3n perdida"
       ],
-      "fundamental_score": 58.7
+      "fundamental_score": 63.2
     },
     {
       "ticker": "BRO",
       "severity": "LOW",
       "entry_score": 94.8,
-      "current_score": 94.9,
+      "current_score": 95.1,
       "signal_date": "2026-11-09",
       "reasons": [
         "Sin insider buying activo \u2014 se\u00f1al de convicci\u00f3n perdida"

@@ -1,0 +1,46 @@
+{
+  "generated_at": "2026-11-12",
+  "total": 3,
+  "dropped_count": 1,
+  "narrative": "",
+  "displacements": [
+    {
+      "type": "COMPETITOR_RISE",
+      "dropped_ticker": "FICO",
+      "sector": "Technology",
+      "prev_score": 94.3,
+      "replacements": [
+        "INTU",
+        "ADBE",
+        "UBER"
+      ],
+      "top_replacement": "INTU",
+      "top_replacement_score": 100.0,
+      "detail": "FICO sali\u00f3 de VALUE (94pts); peers en Technology: INTU, ADBE"
+    },
+    {
+      "type": "SECTOR_TAILWIND",
+      "sector": "Technology",
+      "rotation_score": 100.0,
+      "beneficiaries": [
+        "INTU",
+        "ADBE",
+        "UBER"
+      ],
+      "top_ticker": "INTU",
+      "top_score": 100.0,
+      "detail": "Sector Technology l\u00edder (RS 100) \u2014 INTU, ADBE, UBER son los picks VALUE"
+    },
+    {
+      "type": "SECTOR_TAILWIND",
+      "sector": "Healthcare",
+      "rotation_score": 100.0,
+      "beneficiaries": [
+        "RMD"
+      ],
+      "top_ticker": "RMD",
+      "top_score": 52.1,
+      "detail": "Sector Healthcare l\u00edder (RS 100) \u2014 RMD son los picks VALUE"
+    }
+  ]
+}

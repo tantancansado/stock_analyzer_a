@@ -1,0 +1,22 @@
+{
+  "generated_at": "2026-11-12",
+  "total": 1,
+  "high_count": 0,
+  "narrative": "1. El bajo puntaje Piotroski (4/9) indica que BRO muestra debilidades en su rentabilidad, apalancamiento y generaci\u00f3n de flujo de caja, lo que sugiere que su apar",
+  "traps": [
+    {
+      "ticker": "BRO",
+      "company_name": "Brown & Brown, Inc.",
+      "severity": "MEDIUM",
+      "trap_score": 4,
+      "value_score": 95.1,
+      "flags": [
+        "Piotroski d\u00e9bil (4/9)",
+        "Analistas recomiendan 'hold' pese a score alto"
+      ],
+      "piotroski": 4.0,
+      "fcf_yield_pct": 6.4,
+      "fundamental_score": 66.2
+    }
+  ]
+}

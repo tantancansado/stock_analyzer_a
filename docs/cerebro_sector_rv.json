@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-11-11",
+  "generated_at": "2026-11-12",
   "total": 10,
-  "rerate_sectors": 0,
+  "rerate_sectors": 1,
   "narrative": "",
   "standouts": [
     {
@@ -9,38 +9,38 @@
       "company_name": "Capital One Financial Corporation",
       "sector": "Financial Services",
       "label": "BEST_IN_SECTOR",
-      "fcf_yield_pct": 22.44,
+      "fcf_yield_pct": 22.29,
       "fcf_rank": 1,
       "fcf_rank_of": 5,
-      "value_score": 40.7,
-      "analyst_upside_pct": 30.3,
-      "sector_avg_fcf": 8.67,
+      "value_score": 40.6,
+      "analyst_upside_pct": 29.5,
+      "sector_avg_fcf": 8.64,
       "peers_in_sector": 5
+    },
+    {
+      "ticker": "ADBE",
+      "company_name": "Adobe Inc.",
+      "sector": "Technology",
+      "label": "BEST_IN_SECTOR",
+      "fcf_yield_pct": 11.49,
+      "fcf_rank": 1,
+      "fcf_rank_of": 7,
+      "value_score": 98.1,
+      "analyst_upside_pct": 12.3,
+      "sector_avg_fcf": 6.4,
+      "peers_in_sector": 7
     },
     {
       "ticker": "INTU",
       "company_name": "Intuit Inc.",
       "sector": "Technology",
       "label": "BEST_IN_SECTOR",
-      "fcf_yield_pct": 9.47,
-      "fcf_rank": 1,
-      "fcf_rank_of": 7,
-      "value_score": 100.0,
-      "analyst_upside_pct": 19.8,
-      "sector_avg_fcf": 5.73,
-      "peers_in_sector": 7
-    },
-    {
-      "ticker": "UBER",
-      "company_name": "Uber Technologies, Inc.",
-      "sector": "Technology",
-      "label": "BEST_IN_SECTOR",
-      "fcf_yield_pct": 7.27,
+      "fcf_yield_pct": 9.41,
       "fcf_rank": 2,
       "fcf_rank_of": 7,
-      "value_score": 58.2,
-      "analyst_upside_pct": 41.6,
-      "sector_avg_fcf": 5.73,
+      "value_score": 100.0,
+      "analyst_upside_pct": 19.0,
+      "sector_avg_fcf": 6.4,
       "peers_in_sector": 7
     },
     {
@@ -48,12 +48,12 @@
       "company_name": "Wolters Kluwer N.V.",
       "sector": "Industrials",
       "label": "BEST_IN_SECTOR",
-      "fcf_yield_pct": 7.11,
+      "fcf_yield_pct": 7.02,
       "fcf_rank": 1,
       "fcf_rank_of": 5,
-      "value_score": 57.8,
-      "analyst_upside_pct": 16.3,
-      "sector_avg_fcf": 5.42,
+      "value_score": 57.6,
+      "analyst_upside_pct": 15.8,
+      "sector_avg_fcf": 5.34,
       "peers_in_sector": 5
     },
     {
@@ -61,12 +61,12 @@
       "company_name": "Brown & Brown, Inc.",
       "sector": "Financial Services",
       "label": "BEST_IN_SECTOR",
-      "fcf_yield_pct": 6.36,
+      "fcf_yield_pct": 6.4,
       "fcf_rank": 2,
       "fcf_rank_of": 5,
-      "value_score": 94.9,
-      "analyst_upside_pct": 4.0,
-      "sector_avg_fcf": 8.67,
+      "value_score": 95.1,
+      "analyst_upside_pct": 4.7,
+      "sector_avg_fcf": 8.64,
       "peers_in_sector": 5
     },
     {
@@ -74,12 +74,12 @@
       "company_name": "Otis Worldwide Corporation",
       "sector": "Industrials",
       "label": "BEST_IN_SECTOR",
-      "fcf_yield_pct": 5.65,
+      "fcf_yield_pct": 5.7,
       "fcf_rank": 2,
       "fcf_rank_of": 5,
-      "value_score": 52.9,
-      "analyst_upside_pct": 9.9,
-      "sector_avg_fcf": 5.42,
+      "value_score": 53.2,
+      "analyst_upside_pct": 10.8,
+      "sector_avg_fcf": 5.34,
       "peers_in_sector": 5
     },
     {
@@ -91,8 +91,8 @@
       "fcf_rank": 1,
       "fcf_rank_of": 3,
       "value_score": 48.3,
-      "analyst_upside_pct": 6.1,
-      "sector_avg_fcf": 3.83,
+      "analyst_upside_pct": 5.9,
+      "sector_avg_fcf": 3.84,
       "peers_in_sector": 3
     },
     {
@@ -100,12 +100,12 @@
       "company_name": "Verisk Analytics, Inc.",
       "sector": "Industrials",
       "label": "PRICEY_VS_PEERS",
-      "fcf_yield_pct": 4.29,
+      "fcf_yield_pct": 4.25,
       "fcf_rank": 5,
       "fcf_rank_of": 5,
-      "value_score": 49.2,
-      "analyst_upside_pct": 15.2,
-      "sector_avg_fcf": 5.42,
+      "value_score": 48.9,
+      "analyst_upside_pct": 14.1,
+      "sector_avg_fcf": 5.34,
       "peers_in_sector": 5
     },
     {
@@ -118,7 +118,7 @@
       "fcf_rank_of": 5,
       "value_score": 40.1,
       "analyst_upside_pct": 23.3,
-      "sector_avg_fcf": 8.67,
+      "sector_avg_fcf": 8.64,
       "peers_in_sector": 5
     },
     {
@@ -126,12 +126,12 @@
       "company_name": "Microsoft Corporation",
       "sector": "Technology",
       "label": "PRICEY_VS_PEERS",
-      "fcf_yield_pct": 2.02,
+      "fcf_yield_pct": 2.07,
       "fcf_rank": 7,
       "fcf_rank_of": 7,
-      "value_score": 41.7,
-      "analyst_upside_pct": 19.3,
-      "sector_avg_fcf": 5.73,
+      "value_score": 42.5,
+      "analyst_upside_pct": 22.1,
+      "sector_avg_fcf": 6.4,
       "peers_in_sector": 7
     }
   ],
@@ -139,12 +139,12 @@
     {
       "sector": "Technology",
       "count": 7,
-      "avg_value_score": 64.2,
-      "avg_fcf_yield": 5.73,
-      "rerate_potential": false,
+      "avg_value_score": 64.8,
+      "avg_fcf_yield": 6.4,
+      "rerate_potential": true,
       "tickers": [
         "INTU",
-        "FICO",
+        "ADBE",
         "UBER",
         "BR",
         "JKHY"
@@ -154,7 +154,7 @@
       "sector": "Financial Services",
       "count": 5,
       "avg_value_score": 53.9,
-      "avg_fcf_yield": 8.67,
+      "avg_fcf_yield": 8.64,
       "rerate_potential": false,
       "tickers": [
         "BRO",
@@ -167,22 +167,22 @@
     {
       "sector": "Industrials",
       "count": 5,
-      "avg_value_score": 52.7,
-      "avg_fcf_yield": 5.42,
+      "avg_value_score": 52.4,
+      "avg_fcf_yield": 5.34,
       "rerate_potential": false,
       "tickers": [
         "WTKWY",
         "OTIS",
-        "GGG",
         "RELX",
+        "GGG",
         "VRSK"
       ]
     },
     {
       "sector": "Communication Services",
       "count": 3,
-      "avg_value_score": 45.2,
-      "avg_fcf_yield": 3.83,
+      "avg_value_score": 45.1,
+      "avg_fcf_yield": 3.84,
       "rerate_potential": false,
       "tickers": [
         "NYT",
