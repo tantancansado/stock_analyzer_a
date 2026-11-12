@@ -458,7 +458,6 @@ function IdeaLeaps({ o }: { o: LeapsOpportunity }) {
   const c = o.recommended_contract
   const pat = o.profit_at_target
   const quieto = pat?.si_no_se_mueve
-  const entrada = o.entry_readiness ? ENTRADA_CONFIG[o.entry_readiness] : null
   const porQue = o.situation_verdict?.reason || o.ai_narrative
   return (
     <Card className="glass">
@@ -469,10 +468,9 @@ function IdeaLeaps({ o }: { o: LeapsOpportunity }) {
             <div className="font-bold text-seccion text-foreground">{o.ticker}</div>
             <div className="text-mini text-muted-foreground truncate">{o.company_name}</div>
           </div>
-          {entrada && o.entry_readiness && (
-            <SignalBadge icon={entrada.icon} tono={entrada.tono} texto={TEXTO_ENTRADA[o.entry_readiness]}
-              titulo="Estado de entrada de la acción (el mismo que en Value)" tamano="micro" />
-          )}
+          {/* Sin la etiqueta de timing: una idea publicada se puede abrir (solo ESPERAR la
+              frena), y «En vigilancia» al lado de «Qué comprar» decía lo contrario (12-nov).
+              Sigue en el análisis completo. */}
         </div>
 
         <div className="rounded-lg bg-foreground/5 px-3 py-2.5">
