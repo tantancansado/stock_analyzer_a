@@ -128,10 +128,10 @@ CONTRARIO = re.compile(r'\b(espera|esperar|exit|trap|evitar|hard reject)\b|mejor
 
 
 @pytest.mark.parametrize('ancho', [ANCHO, 1440])
-@pytest.mark.parametrize('vista', ['clear', 'expert'])
+@pytest.mark.parametrize('vista', ['sencilla', 'mas_datos'])
 def test_cada_fila_de_value_us_dice_su_grupo_y_nada_en_contra(servidor, navegador, ancho, vista):
     ctx, pagina = _pagina(navegador, 'dark', ancho,
-                          f"localStorage.setItem('stock-analyzer:value-experience-mode', '{vista}');")
+                          f"localStorage.setItem('sa-value-mas-datos', '{int(vista == 'mas_datos')}');")
     pagina.goto(f'{servidor}#/value')
     pagina.locator('[data-fila-value]:visible').first.wait_for(timeout=20000)
     filas = [f.inner_text() for f in pagina.locator('[data-fila-value]').all() if f.is_visible()]

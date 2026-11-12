@@ -112,11 +112,16 @@ export function getValueDecision({
     const clasica = row.per_z != null && row.per_z < -1 && row.ventas_anual_pct != null && row.ventas_anual_pct >= 10
     // Por recorrido (value_bands.puede_doblar): si además cumple la clásica, se dicen las dos.
     const dobla = row.value_dobla && row.recorrido_propio_pct != null
-      ? `Nuestros modelos le ven +${Math.round(row.recorrido_propio_pct)} % con el beneficio en su tendencia: puede doblar.`
+      ? `Nuestros modelos le ven +${Math.round(row.recorrido_propio_pct)} % con el beneficio sin inflar: puede doblar.`
       : ''
     const avisos = row.value_avisos ? ` ${row.value_avisos.charAt(0).toUpperCase()}${row.value_avisos.slice(1)}.` : ''
+    // En números y sin sigmas cuando se tiene el PER y su historia: «PER a -3,2σ de su
+    // media» no se entiende sin saber la regla (12-nov).
+    const per = row.per_norm != null && row.per_mediana_10a != null
+      ? `PER ${Math.round(row.per_norm)} frente a ${Math.round(row.per_mediana_10a)} de media en 10 años`
+      : `PER a ${z}σ de su media`
     const porque = clasica || !dobla
-      ? `PER a ${z}σ de su media y ventas anuales ${row.ventas_anual_pct != null && row.ventas_anual_pct < 0 ? '' : '+'}${ventas} %.${dobla ? ` ${dobla}` : ''}`
+      ? `${per} y ventas anuales ${row.ventas_anual_pct != null && row.ventas_anual_pct < 0 ? '' : '+'}${ventas} %.${dobla ? ` ${dobla}` : ''}`
       : dobla
     return {
       kind: 'ready',

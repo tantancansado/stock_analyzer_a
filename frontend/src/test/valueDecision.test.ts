@@ -668,6 +668,12 @@ describe('Value US: el aviso no cambia el grupo', () => {
     expect(r.headline).not.toContain('trampa')
   })
 
+  it('con el PER y su historia lo dice en números, sin sigmas', () => {
+    const r = getValueDecision({ row: makeRow({ ...prioridad, per_norm: 14.4, per_mediana_10a: 39.87 }) })
+    expect(r.headline).toContain('PER 14 frente a 40 de media en 10 años y ventas anuales +14 %.')
+    expect(r.headline).not.toContain('σ')
+  })
+
   it('una de Prioridad nunca dice esperar, evitar ni revisar, pase lo que pase', () => {
     // 12-nov: INTU, ADBE y BRO eran Prioridad y su fila decía ESPERA, EXIT y TRAP.
     const contrarias = /esper|evit|revís|trampa|salida|mejor ver/i

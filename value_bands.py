@@ -228,35 +228,41 @@ def nota_value(df):
 
     trimestre = pd.to_numeric(df['rev_growth_yoy'], errors='coerce') if 'rev_growth_yoy' in df.columns else nan
     revision = pd.to_numeric(df['revision_13s_pct'], errors='coerce') if 'revision_13s_pct' in df.columns else nan
+    per = pd.to_numeric(df['per_norm'], errors='coerce') if 'per_norm' in df.columns else nan
+    per_historia = pd.to_numeric(df['per_mediana_10a'], errors='coerce') if 'per_mediana_10a' in df.columns else nan
 
+    # Los textos se leen sin saber la regla (12-nov: «PER a -0,57σ» o «consenso de BPA»
+    # no le dicen nada a quien abre la app). Los leen la web, el briefing y la tesis.
     def _avisos(a, q, r):
         partes = []
         if a == a and q == q and q < a - FRENAZO_PUNTOS:
             # Con los dos números: «último trimestre +10 %» a secas se leyó como que el
             # trimestre ANTERIOR crecía al 10 % (briefing del 12-nov, BRO).
-            partes.append(f'se frena: último trimestre {q:+.1f} % frente a {a:+.1f} % del último año'
-                          .replace('.', ','))
+            partes.append(f'sus ventas se frenan: {q:+.1f} % el último trimestre frente a {a:+.1f} % '
+                          f'el último año'.replace('.', ','))
         if r == r and r <= RECORTE_CONSENSO:
-            partes.append(f'consenso de BPA {r:+.0f} % en 13 semanas')
+            partes.append(f'los analistas le han bajado un {abs(r):.0f} % el beneficio esperado en tres meses')
         return ' · '.join(partes)
 
-    def _falta(a, zeta):
+    def _falta(a, zeta, p, h):
         partes = []
         if a != a:
-            partes.append('sin ventas anuales')
+            partes.append('sin el dato de ventas anuales')
         elif a < CRECIMIENTO_QUE_JUSTIFICA:
             partes.append(f'ventas anuales {a:+.1f} %, le falta crecer al {CRECIMIENTO_QUE_JUSTIFICA:.0f} %'.replace('.', ','))
         if zeta != zeta:
-            partes.append('sin historia de PER')
+            partes.append('sin historia de PER con que compararla')
         elif zeta >= PER_BAJO_SU_MEDIA:
-            partes.append(f'PER a {zeta:+.2f}σ, le falta bajar de {PER_BAJO_SU_MEDIA:+.0f}σ'.replace('.', ','))
+            partes.append(f'PER {p:.0f} frente a {h:.0f} de media en 10 años: aún no está barata frente a su historia'
+                          if p == p and h == h else
+                          f'PER a {zeta:+.2f}σ, le falta bajar de {PER_BAJO_SU_MEDIA:+.0f}σ'.replace('.', ','))
         return ' · '.join(partes)
 
     dentro = motivo_fuera_de_value(df) == ''
     salida['value_grupo'] = pd.Series('OBSERVAR', index=df.index, dtype=object).where(~prioridad, 'PRIORIDAD').where(dentro, '')
     salida['value_barata'] = barata.round(3)
-    salida['value_falta'] = [_falta(a, zeta) if d and not p else ''
-                             for a, zeta, d, p in zip(anual, z, dentro, prioridad)]
+    salida['value_falta'] = [_falta(a, zeta, pe, h) if d and not p else ''
+                             for a, zeta, pe, h, d, p in zip(anual, z, per, per_historia, dentro, prioridad)]
     salida['value_avisos'] = [_avisos(a, q, r) if d and p else ''
                               for a, q, r, d, p in zip(anual, trimestre, revision, dentro, prioridad)]
     salida['recorrido_propio_pct'] = recorrido_propio(df).round(1)

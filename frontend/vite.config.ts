@@ -16,7 +16,8 @@ export default defineConfig(({ mode }) => ({
     tailwindcss(),
     VitePWA({
       registerType: 'autoUpdate',
-      injectRegister: 'auto',
+      // Lo registra main.tsx (virtual:pwa-register), que recarga al llegar una versión nueva.
+      injectRegister: false,
       // Usar el manifest.json existente en public/
       manifest: false,
       workbox: {
@@ -28,12 +29,15 @@ export default defineConfig(({ mode }) => ({
         navigateFallbackDenylist: [/^\/api\//, /^\/stock_analyzer_a\/(?!app\/)/],
         runtimeCaching: [
           {
-            // CSV/JSON de GitHub Pages — StaleWhileRevalidate: devuelve cache inmediato,
-            // actualiza en background. El usuario siempre ve datos, nunca spinner.
+            // CSV/JSON de GitHub Pages — red primero, la copia solo sin conexión. Era
+            // StaleWhileRevalidate: pintaba la copia (hasta 2 h) y la nueva llegaba a la
+            // caché sin llegar a la pantalla, así que tras el cálculo de la mañana se
+            // veía la lista de ayer.
             urlPattern: /^https:\/\/tantancansado\.github\.io\/stock_analyzer_a\/.*\.(csv|json)$/,
-            handler: 'StaleWhileRevalidate',
+            handler: 'NetworkFirst',
             options: {
-              cacheName: 'csv-data-v1',
+              cacheName: 'csv-data-v2',
+              networkTimeoutSeconds: 6,
               expiration: { maxEntries: 50, maxAgeSeconds: 60 * 60 * 2 },
               cacheableResponse: { statuses: [0, 200] },
             },

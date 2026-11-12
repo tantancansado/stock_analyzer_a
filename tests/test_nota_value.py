@@ -72,7 +72,7 @@ def test_sin_historia_de_per_no_puede_ser_prioridad_pero_no_se_cae():
 
 def test_sin_ventas_anuales_no_puede_ser_prioridad():
     r = _nota(_fila(anual=float('nan')))
-    assert r.loc['X', 'value_grupo'] == 'OBSERVAR' and 'sin ventas anuales' in r.loc['X', 'value_falta']
+    assert r.loc['X', 'value_grupo'] == 'OBSERVAR' and 'sin el dato de ventas anuales' in r.loc['X', 'value_falta']
 
 
 def test_sin_ningun_dato_de_barata_queda_al_final_de_su_grupo():
@@ -262,12 +262,13 @@ def test_el_frenazo_se_avisa_y_no_cambia_ni_grupo_ni_nota():
     f = _prioridad_con(ventas_anual_pct=19.9, rev_growth_yoy=1.4)
     assert f.value_grupo == 'PRIORIDAD'
     assert f.value_score == base.value_score
-    assert 'se frena: último trimestre +1,4 % frente a +19,9 % del último año' in f.value_avisos
+    assert 'sus ventas se frenan: +1,4 % el último trimestre frente a +19,9 % el último año' in f.value_avisos
 
 
 def test_el_recorte_de_consenso_se_avisa():
     # INTU, nov-2026: -11 % en 13 semanas, confirmado con Yahoo.
-    assert 'consenso de BPA -11 %' in _prioridad_con(revision_13s_pct=-11.0).value_avisos
+    assert ('los analistas le han bajado un 11 % el beneficio esperado en tres meses'
+            in _prioridad_con(revision_13s_pct=-11.0).value_avisos)
     assert _prioridad_con(revision_13s_pct=-3.0).value_avisos == ''
 
 
@@ -285,6 +286,12 @@ def test_lo_que_le_falta_no_se_contradice_al_redondear():
     assert '+9,6 %, le falta crecer al 10 %' in f.value_falta
     f = _prioridad_con(per_z=-0.96)
     assert 'PER a -0,96σ, le falta bajar de -1σ' in f.value_falta
+
+
+def test_con_el_per_y_su_historia_lo_dice_en_numeros_y_sin_sigmas():
+    # 12-nov: «PER a -0,57σ, le falta bajar de -1σ» no se entiende sin saber la regla.
+    f = _prioridad_con(per_z=-0.57, per_norm=18.4, per_mediana_10a=22.1)
+    assert f.value_falta == 'PER 18 frente a 22 de media en 10 años: aún no está barata frente a su historia'
 
 
 
