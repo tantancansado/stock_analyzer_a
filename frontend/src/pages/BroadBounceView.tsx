@@ -5,6 +5,7 @@ import { useApi } from '../hooks/useApi'
 import TickerLogo from '../components/TickerLogo'
 import EmptyState from '../components/EmptyState'
 import PageHeader from '@/components/PageHeader'
+import { BotonMasDatos, useMasDatos } from '../components/MasDatos'
 import AvisoDatosViejos from '@/components/AvisoDatosViejos'
 import PageShell from '@/components/PageShell'
 
@@ -57,6 +58,8 @@ function Card({ s, i = 0 }: Readonly<{ s: BounceBroadSetup; i?: number }>) {
 export default function BroadBounceView() {
   const { data, loading, error } = useApi(() => fetchBounceBroad(), [])
   const { data: catalystData } = useApi(() => fetchBounceCatalystFlags(), [])
+  // Vista sencilla (12-nov-2026): qué rebota y por qué; los filtros técnicos, en la avanzada.
+  const [avanzada, alternarAvanzada] = useMasDatos('universo')
 
   // Cabecera también mientras carga o si la API falla: si no, la pantalla
   // de error no dice en qué sección estás. Ver PageShell.
@@ -107,23 +110,27 @@ export default function BroadBounceView() {
         <PageHeader
           title={tituloPagina}
           subtitle={<>
-            S&amp;P 500 (excl. universo curado) · Filtros estrictos multi-confirmación · Horizonte 1–5 días
-            {scanDate && <span className="text-muted-foreground ml-2">· Scan {scanDate}</span>}
+            Empresas del S&amp;P 500 fuera de nuestra lista que han caído fuerte y pueden rebotar en 1 a 5 días.
+            {avanzada && scanDate && <span className="text-muted-foreground ml-2">· Scan {scanDate}</span>}
           </>}
-        />
+        >
+          <BotonMasDatos activo={avanzada} onClick={alternarAvanzada} />
+        </PageHeader>
 
         <AvisoDatosViejos clave="rebotes" />
-        <div className="flex flex-wrap gap-2 mt-3">
-          <div className="text-micro px-2.5 py-1 rounded-lg bg-purple-500/8 border border-purple-500/20 text-purple-300">
-            Universo: <b>{universeSize}</b> tickers
+        {avanzada && (
+          <div className="flex flex-wrap gap-2 mt-3">
+            <div className="text-micro px-2.5 py-1 rounded-lg bg-purple-500/8 border border-purple-500/20 text-purple-300">
+              Universo: <b>{universeSize}</b> tickers
+            </div>
+            <div className="text-micro px-2.5 py-1 rounded-lg bg-purple-500/8 border border-purple-500/20 text-purple-300">
+              Setups hoy: <b>{setups.length}</b>
+            </div>
+            <div className="text-micro px-2.5 py-1 rounded-lg bg-muted/10 border border-border/30 text-muted-foreground">
+              RSI(2) &le;10 · &gt;SMA200 · Vol &ge;1.3× · R/R &ge;1.5
+            </div>
           </div>
-          <div className="text-micro px-2.5 py-1 rounded-lg bg-purple-500/8 border border-purple-500/20 text-purple-300">
-            Setups hoy: <b>{setups.length}</b>
-          </div>
-          <div className="text-micro px-2.5 py-1 rounded-lg bg-muted/10 border border-border/30 text-muted-foreground">
-            RSI(2) &le;10 · &gt;SMA200 · Vol &ge;1.3× · R/R &ge;1.5
-          </div>
-        </div>
+        )}
         {catalystExcludedCount > 0 && (
           <div className="text-micro text-danger mt-2">
             {catalystExcludedCount} setup{catalystExcludedCount > 1 ? 's' : ''} oculto{catalystExcludedCount > 1 ? 's' : ''} por catalizador negativo grave reciente (mismo motivo por el que no avisó Telegram)
@@ -146,8 +153,8 @@ export default function BroadBounceView() {
       {setups.length === 0 ? (
         <EmptyState
           icon={<Target size={32} strokeWidth={1.5} />}
-          title="Sin setups de alta fiabilidad hoy"
-          subtitle="Ningún ticker del universo ampliado cumple los filtros estrictos — menos es más."
+          title="Hoy no hay ningún rebote"
+          subtitle={resp?.motivo_vacio ?? 'Ninguna empresa cumple los filtros estrictos. Menos es más.'}
         />
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">

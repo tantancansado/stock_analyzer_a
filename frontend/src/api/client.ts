@@ -750,6 +750,8 @@ export interface BounceBroadResponse {
   count: number
   criteria: Record<string, unknown>
   setups: BounceBroadSetup[]
+  /** Por qué no hay ninguno, cuando no hay ninguno (bounce_scanner_broad). */
+  motivo_vacio?: string
 }
 
 export const fetchBounceBroad = () =>

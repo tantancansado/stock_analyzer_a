@@ -14,9 +14,10 @@ import { Badge } from '@/components/ui/badge'
 import CsvDownload from '../components/CsvDownload'
 import { Card, CardContent } from '@/components/ui/card'
 import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '@/components/ui/table'
-import { RefreshCw, Wallet, Check, TriangleAlert, X} from 'lucide-react'
+import { RefreshCw, Wallet, Check, TriangleAlert, X, Undo2 } from 'lucide-react'
 import EmptyState from '../components/EmptyState'
 import PageHeader from '@/components/PageHeader'
+import { BotonMasDatos, useMasDatos } from '../components/MasDatos'
 import AvisoDatosViejos from '@/components/AvisoDatosViejos'
 import PageShell from '@/components/PageShell'
 import { precio } from '../lib/moneda'
@@ -123,6 +124,9 @@ export default function MeanReversion() {
   const [expanded, setExpanded] = useState<string | null>(null)
   const [filterQuality, setFilterQuality] = useState<string>('EXCELENTE')
   const [compact, setCompact] = useState(false)
+  // Vista sencilla (12-nov-2026): los mejores rebotes de hoy o por qué no hay ninguno.
+  // Filtros, tabla, CSV y comentario de la IA, en la avanzada.
+  const [avanzada, alternarAvanzada] = useMasDatos('rebote')
   const [focusedIdx, setFocusedIdx] = useState(-1)
   const [page, setPage] = useState(1)
   const pagedRef = useRef<MRItem[]>([])
@@ -161,8 +165,8 @@ export default function MeanReversion() {
   }, [])
 
   const cabecera = {
-    title: 'Mean Reversion',
-    subtitle: 'Oversold bounces y pullbacks — oportunidades de reversión a la media',
+    title: 'Rebote tras caída',
+    subtitle: 'Empresas de calidad que han caído mucho y pueden rebotar en días. Es una operación corta, con su propia salida.',
   } as const
   if (loading || error) return <PageShell {...cabecera} loading={loading} error={error} />
 
@@ -227,18 +231,23 @@ export default function MeanReversion() {
     <>
       <StaleDataBanner module="mean_reversion" />
       <PageHeader {...cabecera}>
-        <button
-          onClick={() => setCompact(c => !c)}
-          className={`filter-btn hidden sm:inline-flex ${compact ? 'active' : ''}`}
-        >
-          Compacto
-        </button>
-        <CsvDownload dataset="mean-reversion" label="CSV" />
+        {avanzada && (
+          <>
+            <button
+              onClick={() => setCompact(c => !c)}
+              className={`filter-btn hidden sm:inline-flex ${compact ? 'active' : ''}`}
+            >
+              Compacto
+            </button>
+            <CsvDownload dataset="mean-reversion" label="CSV" />
+          </>
+        )}
+        <BotonMasDatos activo={avanzada} onClick={alternarAvanzada} />
       </PageHeader>
 
       <AvisoDatosViejos clave="reversion" />
 
-      {(raw?.ai_narrative as string | null | undefined) && (
+      {avanzada && (raw?.ai_narrative as string | null | undefined) && (
         <AiNarrativeCard narrative={raw.ai_narrative as string} label="Análisis del Batch Actual" className="mb-5" />
       )}
 
@@ -248,7 +257,19 @@ export default function MeanReversion() {
           .filter(i => qualMatch(i.quality, 'EXCELENTE') || qualMatch(i.quality, 'MUY BUENA'))
           .sort((a, b) => (b.reversion_score ?? 0) - (a.reversion_score ?? 0))
           .slice(0, 5)
-        if (top.length === 0) return null
+        if (top.length === 0) {
+          if (avanzada) return null
+          return (
+            <Card className="mb-6">
+              <EmptyState
+                compact
+                icon={<Undo2 size={32} strokeWidth={1.5} />}
+                title="Hoy no hay ningún rebote"
+                subtitle={(raw?.motivo_vacio as string | undefined) ?? 'Aparecen cuando una empresa de calidad cae mucho y da señal de girarse.'}
+              />
+            </Card>
+          )
+        }
         return (
           <div className="mb-6 animate-fade-in-up">
             <div className="flex items-center gap-2 mb-3">
@@ -334,6 +355,8 @@ export default function MeanReversion() {
         )
       })()}
 
+      {avanzada && (
+      <>
       {/* Quality filter */}
       <div className="flex items-center gap-2 mb-5 flex-wrap">
         <span className="etiqueta-seccion mr-1">Calidad</span>
@@ -641,6 +664,8 @@ export default function MeanReversion() {
           />
         )}
       </div>
+      </>
+      )}
     </>
   )
 }

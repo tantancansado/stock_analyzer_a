@@ -17,6 +17,7 @@ import EmptyState from '../components/EmptyState'
 import PageShell from '@/components/PageShell'
 import { TrendingDown } from 'lucide-react'
 import CifrasClave from '../components/CifrasClave'
+import { BotonMasDatos, useMasDatos } from '../components/MasDatos'
 
 type SortKey = keyof MomentumOpportunity
 type SortDir = 'asc' | 'desc'
@@ -27,7 +28,10 @@ export default function Momentum() {
   const [sortKey, setSortKey] = useState<SortKey>('momentum_score')
   const [sortDir, setSortDir] = useState<SortDir>('desc')
   const [focusedIdx, setFocusedIdx] = useState(-1)
-  const [compact, setCompact] = useState(() => typeof window !== 'undefined' && window.innerWidth < 1280)
+  const [compactaElegida, setCompact] = useState(() => typeof window !== 'undefined' && window.innerWidth < 1280)
+  // Vista sencilla (12-nov-2026): sin cifras de VCP ni plantillas; la avanzada, todo.
+  const [avanzada, alternarAvanzada] = useMasDatos('tendencia')
+  const compact = !avanzada || compactaElegida
   const pagedRef = useRef<MomentumOpportunity[]>([])
 
   useEffect(() => {
@@ -56,8 +60,8 @@ export default function Momentum() {
   }, [])
 
   const cabecera = {
-    title: 'Momentum',
-    subtitle: 'Setups VCP y momentum Minervini — filtrados por tendencia y volumen',
+    title: 'Tendencia',
+    subtitle: 'Empresas en tendencia alcista, con el volumen a favor. Es otra forma de invertir, no la idea de 12 meses.',
   } as const
   if (loading || error) return <PageShell {...cabecera} loading={loading} error={error} />
 
@@ -93,22 +97,27 @@ export default function Momentum() {
           salía 36px de la pantalla en móvil mientras el resto de páginas ya
           estaban arregladas. */}
       <PageHeader {...cabecera}>
-        <button
-          onClick={() => setCompact(v => !v)}
-          className={`filter-btn ${compact ? 'active' : ''}`}
-          title="Alternar entre vista compacta y completa"
-        >
-          {compact ? '⊟ Compacta' : '⊞ Completa'}
-        </button>
-        <button onClick={() => downloadCsv('momentum')} className="filter-btn">↓ CSV</button>
+        {avanzada && (
+          <>
+            <button
+              onClick={() => setCompact(v => !v)}
+              className={`filter-btn ${compact ? 'active' : ''}`}
+              title="Alternar entre vista compacta y completa"
+            >
+              {compact ? '⊟ Compacta' : '⊞ Completa'}
+            </button>
+            <button onClick={() => downloadCsv('momentum')} className="filter-btn">↓ CSV</button>
+          </>
+        )}
+        <BotonMasDatos activo={avanzada} onClick={alternarAvanzada} />
       </PageHeader>
 
-      <CifrasClave cifras={[
+      {avanzada && <CifrasClave cifras={[
         { etiqueta: 'Setups', valor: rows.length, sub: 'configuraciones activas' },
         { etiqueta: 'Score medio', valor: avgScore.toFixed(1), sub: 'momentum score', tono: avgScore >= 60 ? 'favor' : 'aviso' },
         { etiqueta: 'VCP alto', valor: vcpHigh, sub: 'VCP score 70+', tono: 'neutro' },
         { etiqueta: 'Cerca de máximos', valor: nearHigh, sub: `dentro del 10% | ${trendStrong} tendencia 7+/8`, tono: 'favor' },
-      ]} />
+      ]} />}
 
       {/* Mobile cards */}
       <div className="sm:hidden space-y-2 mb-2">
@@ -131,12 +140,12 @@ export default function Momentum() {
                 </div>
               </div>
               <div className="text-right flex flex-col items-end gap-1">
-                {d.vcp_score != null && (
+                {avanzada && d.vcp_score != null && (
                   <Badge variant={d.vcp_score >= 70 ? 'green' : d.vcp_score >= 50 ? 'yellow' : 'red'} >
                     VCP {d.vcp_score.toFixed(0)}
                   </Badge>
                 )}
-                {d.trend_template_score != null && (
+                {avanzada && d.trend_template_score != null && (
                   <Badge variant={d.trend_template_score >= 7 ? 'green' : d.trend_template_score >= 5 ? 'yellow' : 'red'}>
                     {d.trend_template_score}/8
                   </Badge>
@@ -145,14 +154,14 @@ export default function Momentum() {
             </div>
             <div className="flex gap-3 mt-2.5 text-micro text-muted-foreground">
               {d.current_price != null && (
-                <span>${d.current_price.toFixed(2)}</span>
+                <span>{precio(d.current_price, d.ticker)}</span>
               )}
               {d.proximity_to_52w_high != null && (
                 <span className={d.proximity_to_52w_high > -5 ? 'text-emerald-400' : d.proximity_to_52w_high > -15 ? 'text-amber-400' : 'text-red-400'}>
-                  Dist.Max {d.proximity_to_52w_high.toFixed(1)}%
+                  {d.proximity_to_52w_high > -0.5 ? 'en su máximo' : `a ${Math.abs(d.proximity_to_52w_high).toFixed(1).replace('.', ',')}\u00A0% de su máximo`}
                 </span>
               )}
-              {d.analyst_upside_pct != null && (
+              {avanzada && d.analyst_upside_pct != null && (
                 <span className={d.analyst_upside_pct > 0 ? 'text-emerald-400' : 'text-red-400'}>
                   Obj {d.analyst_upside_pct > 0 ? '+' : ''}{d.analyst_upside_pct.toFixed(0)}%
                 </span>
@@ -163,8 +172,8 @@ export default function Momentum() {
         {rows.length === 0 && (
           <EmptyState
             icon={<TrendingDown size={32} strokeWidth={1.5} />}
-            title="Sin setups momentum"
-            subtitle="Normal durante correcciones — el sistema espera tendencias Stage 2 confirmadas"
+            title="Hoy no hay ninguna empresa en tendencia clara"
+            subtitle="Es normal cuando el mercado corrige"
           />
         )}
       </div>
@@ -260,8 +269,8 @@ export default function Momentum() {
           {rows.length === 0 && (
             <EmptyState
               icon={<TrendingDown size={32} strokeWidth={1.5} />}
-              title="Sin setups momentum"
-              subtitle="Normal durante correcciones — el sistema espera tendencias Stage 2 confirmadas"
+              title="Hoy no hay ninguna empresa en tendencia clara"
+              subtitle="Es normal cuando el mercado corrige"
             />
           )}
           {sorted.length > 0 && (
