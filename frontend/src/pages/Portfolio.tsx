@@ -123,8 +123,8 @@ export default function Portfolio() {
   // La cabecera se pinta también mientras carga o si la API falla:
   // si no, la pantalla de error no dice en qué sección estás.
   const cabecera = {
-    title: 'Portfolio Tracker',
-    subtitle: 'Seguimiento de rendimiento de recomendaciones',
+    title: 'Seguimiento de las ideas',
+    subtitle: 'Cómo les ha ido a las ideas de Value US que publicó la app, contra el S&P 500',
   } as const
   if (loading || error) return <PageShell {...cabecera} loading={loading} error={error} />
 

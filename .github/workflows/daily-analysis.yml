@@ -648,6 +648,10 @@ jobs:
         run: python3 portfolio_news_monitor.py
 
       - name: Strategy Agent (per-position trim/add plan via Groq)
+        # Apagado el 12-nov-2026: daba por posición recortes y recompras a niveles de precio
+        # y un stop del -12 %, contra la regla de venta (lo que fue Prioridad se vende al
+        # dejar de serlo; nunca por niveles técnicos ni stops). Para volver: quitar el if.
+        if: ${{ false }}
         continue-on-error: true
         env:
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
@@ -665,6 +669,8 @@ jobs:
         run: python3 earnings_options_snapshot.py
 
       - name: Strategy Alerts (trim/add level crossings to Telegram)
+        # Apagado con el Strategy Agent (12-nov-2026): vigilaba sus niveles de recorte.
+        if: ${{ false }}
         continue-on-error: true
         # env: sin variables — todas silenciadas → daily_briefing
           # TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}   # silenciado → daily_briefing

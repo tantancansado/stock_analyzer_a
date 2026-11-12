@@ -191,8 +191,8 @@ export default function OptionsFlow() {
     `cursor-pointer select-none whitespace-nowrap transition-colors hover:text-foreground ${sortKey === key ? 'text-primary' : ''}`
 
   const cabecera = {
-    title: 'Unusual Options Flow',
-    subtitle: 'Actividad inusual de opciones — sweeps, bloques grandes, sesgo direccional',
+    title: 'Opciones inusuales',
+    subtitle: 'Apuestas grandes y poco habituales en opciones. Es contexto de corto plazo, no la idea de 12 meses',
   } as const
   if (loading || error) return <PageShell {...cabecera} loading={loading} error={error} />
 
@@ -202,9 +202,9 @@ export default function OptionsFlow() {
   return (
     <>
       <PageHeader
-        title="Unusual Options Flow"
+        title="Opciones inusuales"
         subtitle={<>
-          Actividad inusual de opciones — sweeps, bloques grandes, sesgo direccional
+          Apuestas grandes y poco habituales en opciones. Es contexto de corto plazo, no la idea de 12 meses
           {scanDate && (
             <span className="ml-2 opacity-50 text-mini">
               · {scanDate.toLocaleTimeString('es', { hour: '2-digit', minute: '2-digit' })} ET

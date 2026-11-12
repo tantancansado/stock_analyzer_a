@@ -377,7 +377,7 @@ export default function BounceTrader() {
   // la pantalla de error no dice en qué sección estás. Ver PageShell.
   const cabecera = {
     title: <span className="flex items-center gap-2"><Zap size={20} className="text-orange-400" />Rebotes técnicos</span>,
-    subtitle: 'Rebotes de 1–3 días · sobreventa extrema confirmada',
+    subtitle: 'Rebotes de 1 a 3 días tras una caída fuerte. Es una operación corta, con su propia salida.',
   }
   if (loading || error) return <PageShell {...cabecera} loading={loading} error={error} />
 

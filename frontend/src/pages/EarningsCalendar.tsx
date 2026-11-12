@@ -132,8 +132,8 @@ export default function EarningsCalendar() {
   // La cabecera se pinta también mientras carga o si la API falla:
   // si no, la pantalla de error no dice en qué sección estás.
   const cabecera = {
-    title: 'Calendario de earnings',
-    subtitle: 'Próximos reportes de resultados — evita entrar antes de earnings sin catalizador',
+    title: 'Calendario de resultados',
+    subtitle: 'Cuándo presenta resultados cada empresa. Es un dato: una de Prioridad no se deja de comprar por eso',
   } as const
   if (loading || error) return <PageShell {...cabecera} loading={loading} error={error} />
   if (!data) return <ErrorState message="Sin datos de earnings" />

@@ -160,7 +160,7 @@ export default function Calibration() {
   // de error no dice en qué sección estás. Ver PageShell.
   if (loading || error || !data) return (
     <PageShell
-      title="Calibración del Sistema"
+      title="Calibración"
       loading={loading}
       error={loading ? null : 'No hay datos de calibración aún. Se generan al final del pipeline diario.'}
     />
@@ -190,7 +190,7 @@ export default function Calibration() {
   return (
     <div className="p-4 md:p-6 space-y-6 max-w-5xl mx-auto">
       <PageHeader
-        title="Calibración del Sistema"
+        title="Calibración"
         subtitle={`¿Cuándo predice bien el sistema? Análisis sobre ${data.total_completed.toLocaleString()} señales completadas.`}
       />
 

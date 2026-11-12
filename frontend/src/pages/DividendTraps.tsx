@@ -185,8 +185,8 @@ export default function DividendTraps() {
   // La cabecera se pinta también mientras carga o si la API falla:
   // si no, la pantalla de error no dice en qué sección estás.
   const cabecera = {
-    title: 'Dividend Trap Radar',
-    subtitle: 'Análisis de sostenibilidad de dividendos · detecta trampas antes de que recorten',
+    title: 'Dividendos en riesgo',
+    subtitle: 'Dividendos altos que podrían recortarse, antes de que pase',
   } as const
   if (loading || error) return <PageShell {...cabecera} loading={loading} error={error} />
   if (!data) return <ErrorState message="Sin datos de dividend traps" />

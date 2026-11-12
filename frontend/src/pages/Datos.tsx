@@ -108,8 +108,8 @@ export default function Datos() {
   return (
     <>
       <PageHeader
-        title="Datos & Historial"
-        subtitle="Descarga CSVs actualizados diariamente · Historial de hasta 45 días para backtesting"
+        title="Datos e historial"
+        subtitle="Los datos de la app para descargar en CSV, con hasta 45 días de historial"
       />
 
       {/* Current CSVs */}

@@ -87,8 +87,8 @@ export default function Insiders() {
 
   return (
     <PageShell
-      title="Recurring Insiders"
-      subtitle="Insiders comprando repetidamente sus propias acciones — señal de convicción directiva"
+      title="Directivos comprando"
+      subtitle="Empresas cuyos directivos compran sus propias acciones una y otra vez. Es un dato: no cambia la lista de Value"
       banner={<StaleDataBanner module="insiders" />}
       loading={loading}
       error={error}
