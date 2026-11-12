@@ -36,7 +36,7 @@ export function BotonMasDatos({ activo, onClick, className = '' }: {
       onClick={onClick}
       className={`filter-btn ${activo ? 'active' : ''} ${className}`}
     >
-      {activo ? 'Menos datos' : 'Más datos'}
+      {activo ? 'Vista sencilla' : 'Vista avanzada'}
     </button>
   )
 }

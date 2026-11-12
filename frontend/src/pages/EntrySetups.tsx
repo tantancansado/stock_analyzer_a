@@ -35,6 +35,9 @@ function EntrySetupsFreshness() {
   const anyStale = statuses.some(s => !s.isOk || !s.isToday)
   const noneRan  = !pipelineRanToday && statuses.every(s => !s.isOk)
 
+  // Solo si el cálculo de hoy no se ha hecho: «2 de 4 módulos sin actualizar» salía casi
+  // a diario (hay módulos que no corren todos los días) y era ruido técnico (12-nov).
+  if (!noneRan) return null
   if (allOk) {
     return (
       <div className="inline-flex items-center gap-2 text-mini font-medium mb-4 px-3 py-1.5 rounded-lg border bg-emerald-500/8 border-emerald-500/20 text-emerald-400">
@@ -106,8 +109,8 @@ export default function EntrySetups() {
       <PageTabs
         tabs={[
           { id: 'catalyst',       icon: Zap, label: 'Catalizadores',     content: <CatalystScreener /> },
-          { id: 'mean-reversion', icon: Undo2, label: 'Mean Reversion',     content: <MeanReversion /> },
-          { id: 'momentum',       icon: ArrowUpRight, label: 'Momentum VCP',       content: <Momentum /> },
+          { id: 'mean-reversion', icon: Undo2, label: 'Rebote tras caída',  content: <MeanReversion /> },
+          { id: 'momentum',       icon: ArrowUpRight, label: 'Tendencia',         content: <Momentum /> },
           { id: 'broad-bounce',   icon: Telescope, label: 'Universo ampliado', content: <BroadBounceView /> },
         ]}
       />
