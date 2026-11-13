@@ -51,6 +51,19 @@ class TestSamplingPorModelo:
         assert 'temperature' not in kw
         assert 'thinking' not in kw
 
+    def test_el_esfuerzo_acota_el_pensar_solo_donde_existe(self):
+        # El revisor del 13-nov pensó hasta el tope sin escribir la respuesta.
+        def kw(model, **extra):
+            c = MagicMock()
+            c.messages.create.return_value = _resp()
+            with patch.object(g, '_get_anthropic_client', return_value=c):
+                g.claude_chat([{'role': 'user', 'content': 'x'}], model=model, **extra)
+            return c.messages.create.call_args.kwargs
+        assert kw('claude-sonnet-5', esfuerzo='medium')['output_config'] == {'effort': 'medium'}
+        assert 'output_config' not in kw('claude-sonnet-5')
+        # Haiku 4.5 no lo soporta: mandarlo sería un 400
+        assert 'output_config' not in kw('claude-haiku-4-5', esfuerzo='medium')
+
     def test_sonnet46_conserva_temperature(self):
         assert 'temperature' in _llamar('claude-sonnet-4-6')
 

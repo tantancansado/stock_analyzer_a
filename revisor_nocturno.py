@@ -313,10 +313,12 @@ def revisar_con_claude(datos: dict, ya_abiertas: list[str]) -> tuple[list[dict],
     from claude_research import MODEL, parse_json
     from groq_utils import claude_chat
     entrada = json.dumps({**datos, 'ya_abiertas': ya_abiertas}, ensure_ascii=False, default=str)
+    # Sin acotar, el 13-nov pensó hasta el tope y no escribió la respuesta.
     texto = claude_chat([{'role': 'user', 'content': entrada}], model=MODEL, system=SYSTEM,
-                        max_tokens=MAX_TOKENS)
+                        max_tokens=MAX_TOKENS, esfuerzo='medium')
     if not texto:
-        return [], [], 'Claude no respondió (presupuesto, crédito o API caída)'
+        return [], [], ('Claude no respondió: presupuesto, crédito, API caída o se quedó sin '
+                        'espacio pensando (el log del paso dice cuál)')
     respuesta = parse_json(texto)
     if 'hallazgos' not in respuesta:
         return [], [], 'respuesta sin JSON de hallazgos (¿cortada?)'

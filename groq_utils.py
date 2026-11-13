@@ -249,9 +249,15 @@ def claude_chat(
     temperature: float = 0.3,
     system: str | None = None,
     esencial: bool = False,
+    esfuerzo: str | None = None,
 ) -> str | None:
     """
     Calls Anthropic Messages API. Returns text content or None on failure.
+
+    `esfuerzo` (low/medium/high) acota cuánto piensa un modelo de adaptive
+    thinking. Sin él piensa lo que quiera y puede gastar el max_tokens entero
+    sin escribir la respuesta: el revisor nocturno del 13-nov-2026 se cortó en
+    11.000 tokens sin una línea, y el aviso decía «presupuesto, crédito o API».
 
     messages: list of {"role": "user"|"assistant", "content": "..."}
     system:   optional system prompt (Anthropic separates it from messages)
@@ -282,6 +288,8 @@ def claude_chat(
         }
         if sin_sampling:
             kwargs["thinking"] = {"type": "adaptive"}
+            if esfuerzo:
+                kwargs["output_config"] = {"effort": esfuerzo}
         elif not sin_control_muestreo:
             kwargs["temperature"] = temperature
         if system:
