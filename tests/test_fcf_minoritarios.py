@@ -123,6 +123,47 @@ def test_derive_from_statements_deja_el_fcf_neto_y_avisa():
     assert any('minoritariosSobreFcf' in a for a in avisos)
 
 
+def _con_hueco(fila: str, valores: list[float]) -> pd.DataFrame:
+    """Cinco trimestres con el de junio vacío, como DVA en yfinance el 13-nov-2026."""
+    cols = pd.to_datetime(['2026-09-30', '2026-06-30', '2026-03-31', '2025-12-31', '2025-09-30'])
+    return pd.DataFrame([valores], index=[fila], columns=cols)
+
+
+def _anual(fila: str, valor: float) -> pd.DataFrame:
+    return pd.DataFrame([[valor, valor * 0.95]], index=[fila],
+                        columns=pd.to_datetime(['2025-12-31', '2024-12-31']))
+
+
+class _DaVita:
+    """Un trimestre vacío en resultados y flujos; el anual completo."""
+    quarterly_income_stmt = _con_hueco('Minority Interests', [-46e6, float('nan'), -78e6, -97e6, -90e6])
+    quarterly_cashflow = pd.concat([
+        _con_hueco('Operating Cash Flow', [519e6, float('nan'), 321e6, 541e6, 842e6]),
+        _con_hueco('Capital Expenditure', [-150e6, float('nan'), -140e6, -160e6, -150e6]),
+        _con_hueco('Net Other Financing Charges', [-157e6, float('nan'), -166e6, -123e6, -96e6])])
+    income_stmt = _anual('Minority Interests', -332e6)
+    cashflow = pd.concat([_anual('Operating Cash Flow', 2000e6),
+                          _anual('Capital Expenditure', -600e6),
+                          _anual('Net Other Financing Charges', -400e6)])
+
+    def __getattr__(self, nombre):
+        return pd.DataFrame()
+
+
+def test_un_trimestre_vacio_no_convierte_el_reparto_en_cero():
+    # Sin los doce meses seguidos, el último ejercicio: 332 de 1.400
+    assert peso_de_minoritarios_en_fcf(_DaVita(), 1400e6) == pytest.approx(332 / 1400)
+
+
+def test_con_el_hueco_el_fcf_sigue_saliendo_neto_del_minoritario():
+    from financial_cross_check import derive_from_statements
+    from fundamental_scorer import fcf_fiable
+    info, _ = derive_from_statements(_DaVita(), {'operatingCashflow': 2000e6, 'freeCashflow': 1400e6})
+    assert info['minoritariosSobreFcf'] == pytest.approx(332 / 1400)
+    assert info['freeCashflow'] == pytest.approx(1400e6 - 332e6)
+    assert fcf_fiable(info) == pytest.approx(1400e6 - 332e6)
+
+
 def test_el_peg_no_se_dispara_con_un_trimestre_sobre_base_hundida():
     from fundamental_scorer import TECHO_CRECIMIENTO_PEG, FundamentalScorer
     stock = SimpleNamespace(financials=None, balance_sheet=None)

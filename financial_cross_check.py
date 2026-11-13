@@ -572,6 +572,24 @@ def peso_del_margen_de_intereses(stock) -> float | None:
 UMBRAL_MINORITARIOS = 0.05
 
 
+def _doce_meses(stock, trimestral, anual: str, fila: str):
+    """Los cuatro últimos trimestres; si falta alguno, el último ejercicio cerrado.
+
+    yfinance vacía un trimestre unos días sí y otros no, y sin doce meses el
+    reparto a minoritarios contaba como CERO: DaVita (23 % de su FCF) pasó el
+    12-nov-2026 de 15,8 a 20,6 de FCF por acción y de 368 a 479 de DCF, y volvió
+    al día siguiente. El ejercicio cerrado es la misma partida, declarada por la
+    empresa.
+    """
+    valor = _ttm(trimestral, fila)
+    if valor is not None:
+        return valor
+    try:
+        return _latest(getattr(stock, anual, None), fila)
+    except Exception:
+        return None
+
+
 def peso_de_minoritarios_en_fcf(stock, fcf) -> float | None:
     """Fracción del FCF que sale hacia socios minoritarios de filiales consolidadas.
 
@@ -605,12 +623,12 @@ def peso_de_minoritarios_en_fcf(stock, fcf) -> float | None:
         qi, qc = stock.quarterly_income_stmt, stock.quarterly_cashflow
     except Exception:
         return None
-    parte_minoritaria = _ttm(qi, 'Minority Interests')
+    parte_minoritaria = _doce_meses(stock, qi, 'income_stmt', 'Minority Interests')
+    otros = _doce_meses(stock, qc, 'cashflow', 'Net Other Financing Charges')
     # En yfinance viene NEGATIVO cuando el minoritario se lleva beneficio.
     if parte_minoritaria is None or parte_minoritaria >= 0:
         return None
     reparto = abs(parte_minoritaria)
-    otros = _ttm(qc, 'Net Other Financing Charges')
     if otros is not None and otros < 0:
         reparto = min(reparto, abs(otros))
     peso = min(reparto / fcf, 1.0)
@@ -693,10 +711,24 @@ def derive_from_statements(stock, info: dict, fields: list[str] | None = None,
     # Reparto a socios minoritarios: el FCF que llega al accionista es el bruto
     # menos esto. `freeCashflow` se deja NETO y la fracción viaja aparte porque
     # `fcf_fiable` parte del flujo operativo y el capex, no de `freeCashflow`.
-    peso_min = peso_de_minoritarios_en_fcf(stock, derivado_local)
+    # Sin doce meses de trimestres, `fcf_fiable` valora con el flujo anual y el
+    # reparto se mide contra ese mismo flujo: si no, el día del hueco el
+    # minoritario contaba como cero.
+    fcf_para_peso = derivado_local
+    if fcf_para_peso is None:
+        try:
+            anual = stock.cashflow
+        except Exception:
+            anual = None
+        ocf_l, capex_l = _latest(anual, 'Operating Cash Flow'), _latest(anual, 'Capital Expenditure')
+        if ocf_l is not None and capex_l is not None:
+            fcf_para_peso = ocf_l - abs(capex_l)
+    peso_min = peso_de_minoritarios_en_fcf(stock, fcf_para_peso)
     if peso_min is not None:
         out['minoritariosSobreFcf'] = peso_min
-        out['freeCashflow'] = derivado * (1 - peso_min)
+        base = derivado if derivado is not None else out.get('freeCashflow')
+        if base is not None and float(base) > 0:
+            out['freeCashflow'] = float(base) * (1 - peso_min)
         filled.append(f'minoritariosSobreFcf({peso_min:.0%} del FCF va a socios minoritarios)')
 
     # Crecimiento de ingresos a 3 AÑOS: el `revenueGrowth` de yfinance es de un
