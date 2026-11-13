@@ -1,33 +1,34 @@
 ticker,origin,verdict,confidence,reasons,blockers,trigger,source
 CTAS,momentum,AVOID,90,,sobrevalorado vs analistas (-4%),Espera a que el precio caiga por debajo del target medio,rules
-FDS,momentum,AVOID,90,,sobrevalorado vs analistas (-10%),Espera a que el precio caiga por debajo del target medio,rules
+FDS,momentum,AVOID,90,,sobrevalorado vs analistas (-8%),Espera a que el precio caiga por debajo del target medio,rules
 ROP,momentum,AVOID,90,,sobrevalorado vs analistas (-2%),Espera a que el precio caiga por debajo del target medio,rules
 TMO,momentum,AVOID,75,,score bajo (0),Revisa si el score mejora tras próximo earnings,rules
-ITW,momentum,AVOID,75,,score bajo (0),Revisa si el score mejora tras próximo earnings,rules
+GRMN,momentum,AVOID,75,,score bajo (0),Revisa si el score mejora tras próximo earnings,rules
 VEEV,momentum,AVOID,75,,score bajo (0),Revisa si el score mejora tras próximo earnings,rules
-FERG,momentum,AVOID,75,,score bajo (0),Revisa si el score mejora tras próximo earnings,rules
+ITW,momentum,AVOID,75,,score bajo (0),Revisa si el score mejora tras próximo earnings,rules
 IDXX,momentum,AVOID,75,,score bajo (0),Revisa si el score mejora tras próximo earnings,rules
-APH,momentum,AVOID,75,,score bajo (0),Revisa si el score mejora tras próximo earnings,rules
 MSFT,value,ENTRY,80,ROE 34% · margen 41% · upside +22% analistas,,Entrada válida ahora,rules
 INTU,value,WAIT,60,score 100/100 · ROE 24% · margen 21%,timing dice ESPERAR · sin término medio histórico: o para aquí o se va a -41%,Espera confirmación técnica (MA pass + RS subiendo),rules
-ADBE,value,WAIT,60,score 98/100 · ROE 62% · margen 28%,timing dice ESPERAR · solo 33% de sus 9 episodios iguales acabó arriba,Espera confirmación técnica (MA pass + RS subiendo),rules
-BRO,value,WAIT,60,score 95/100 · margen 18% · FCF yield 6.4%,timing dice VIGILAR · upside 4.7% < 10%,Espera confirmación técnica (MA pass + RS subiendo),rules
-UBER,value,WAIT,60,score 58/100 · FCF yield 7.2% · upside +40% analistas,timing dice VIGILAR · sin término medio histórico: o para aquí o se va a -49%,Espera confirmación técnica (MA pass + RS subiendo),rules
-WTKWY,value,WAIT,60,score 58/100 · ROE 146% · margen 22%,timing dice VIGILAR,Espera confirmación técnica (MA pass + RS subiendo),rules
-OTIS,value,WAIT,60,score 53/100 · FCF yield 5.7% · upside +11% analistas,timing dice VIGILAR · sin término medio histórico: o para aquí o se va a -21%,Espera confirmación técnica (MA pass + RS subiendo),rules
-BR,value,WAIT,60,score 53/100 · ROE 40% · FCF yield 5.9%,timing dice VIGILAR · upside 8.5% < 10%,Espera confirmación técnica (MA pass + RS subiendo),rules
+ADBE,value,WAIT,60,score 98/100 · ROE 62% · margen 28%,timing dice ESPERAR · solo 30% de sus 10 episodios iguales acabó arriba,Espera confirmación técnica (MA pass + RS subiendo),rules
+BRO,value,WAIT,60,score 95/100 · margen 18% · FCF yield 6.5%,timing dice VIGILAR · upside 6.0% < 10%,Espera confirmación técnica (MA pass + RS subiendo),rules
+WTKWY,value,WAIT,60,score 57/100 · ROE 146% · margen 22%,timing dice VIGILAR,Espera confirmación técnica (MA pass + RS subiendo),rules
+OTIS,value,WAIT,60,score 53/100 · FCF yield 5.7% · upside +12% analistas,timing dice VIGILAR · sin término medio histórico: o para aquí o se va a -21%,Espera confirmación técnica (MA pass + RS subiendo),rules
+BR,value,WAIT,60,score 53/100 · ROE 40% · FCF yield 5.9%,timing dice VIGILAR · upside 9.3% < 10%,Espera confirmación técnica (MA pass + RS subiendo),rules
 RMD,value,WAIT,60,score 52/100 · ROE 26% · margen 28%,timing dice VIGILAR · sin término medio histórico: o para aquí o se va a -42%,Espera confirmación técnica (MA pass + RS subiendo),rules
-RELX,value,WAIT,60,score 51/100 · ROE 132% · margen 23%,timing dice VIGILAR · sin término medio histórico: o para aquí o se va a -20%,Espera confirmación técnica (MA pass + RS subiendo),rules
+ESLOY,value,WAIT,60,score 52/100 · upside +34% analistas · 81% de sus 16 episodios iguales acabaron arriba,timing dice ESPERAR · RS débil (16%),Espera confirmación técnica (MA pass + RS subiendo),rules
+GGG,value,WAIT,60,score 51/100 · ROE 20% · margen 22%,timing dice ESPERAR · RS débil (18%),Espera confirmación técnica (MA pass + RS subiendo),rules
+TYL,value,WAIT,60,score 51/100 · Piotroski 8/9 · 88% de sus 8 episodios iguales acabaron arriba,timing dice VIGILAR · upside 5.3% < 10%,Espera confirmación técnica (MA pass + RS subiendo),rules
 JKHY,value,WAIT,60,score 51/100 · ROE 24% · margen 20%,timing dice VIGILAR · sin término medio histórico: o para aquí o se va a -18%,Espera confirmación técnica (MA pass + RS subiendo),rules
-GGG,value,WAIT,60,score 51/100 · ROE 20% · margen 22%,timing dice ESPERAR · RS débil (19%),Espera confirmación técnica (MA pass + RS subiendo),rules
-TYL,value,WAIT,60,score 51/100 · Piotroski 8/9 · 88% de sus 8 episodios iguales acabaron arriba,timing dice VIGILAR · upside 4.8% < 10%,Espera confirmación técnica (MA pass + RS subiendo),rules
+ADSK,value,WAIT,60,ROE 54% · margen 21% · FCF yield 5.2%,timing dice VIGILAR · sin término medio histórico: o para aquí o se va a -45%,Espera confirmación técnica (MA pass + RS subiendo),rules
+SAP,value,WAIT,60,ROE 18% · margen 20% · upside +22% analistas,DCF y P/E se separan 28 pts: valoración poco firme,Espera confirmación técnica (MA pass + RS subiendo),rules
 VRSK,value,WAIT,60,margen 28% · upside +14% analistas · Piotroski 7/9,timing dice VIGILAR,Espera confirmación técnica (MA pass + RS subiendo),rules
-NYT,value,WAIT,60,ROE 20% · FCF yield 5.1% · Piotroski 8/9,timing dice ESPERAR · upside 5.9% < 10%,Espera confirmación técnica (MA pass + RS subiendo),rules
-AON,value,WAIT,60,ROE 43% · margen 22% · EPS acelerando,timing dice VIGILAR · upside 7.9% < 10%,Espera confirmación técnica (MA pass + RS subiendo),rules
-FCNCA,value,WAIT,60,margen 25% · FCF yield 6.3% · sobre MA50/150/200,timing dice VIGILAR · upside 9.2% < 10%,Espera confirmación técnica (MA pass + RS subiendo),rules
-META,value,WAIT,60,ROE 32% · margen 31% · upside +35% analistas,timing dice ESPERAR,Espera confirmación técnica (MA pass + RS subiendo),rules
-MLM,value,WAIT,60,margen 32% · upside +21% analistas · Piotroski 8/9,timing dice VIGILAR · RS débil (20%),Espera confirmación técnica (MA pass + RS subiendo),rules
-GOOG,value,WAIT,60,ROE 44% · margen 50% · upside +36% analistas,timing dice ESPERAR · sin término medio histórico: o para aquí o se va a -29%,Espera confirmación técnica (MA pass + RS subiendo),rules
-COF,value,WAIT,60,margen 22% · FCF yield 22.3% · upside +30% analistas,timing dice VIGILAR · sin término medio histórico: o para aquí o se va a -50%,Espera confirmación técnica (MA pass + RS subiendo),rules
-BAC,value,WAIT,60,margen 28% · upside +23% analistas · apoyado en soporte vivo a 0.6%,timing dice VIGILAR · RS débil (5%),Entra si el precio cierra por encima del soporte vivo en 50.34 y se mantiene por al menos 3 sesiones consecutivas,ai
-AMZN,value,WAIT,60,ROE 27% · margen 17% · upside +23% analistas,timing dice VIGILAR,Espera confirmación técnica (MA pass + RS subiendo),rules
+NYT,value,WAIT,60,ROE 20% · FCF yield 5.2% · Piotroski 8/9,timing dice ESPERAR · upside 7.8% < 10%,Espera confirmación técnica (MA pass + RS subiendo),rules
+AON,value,WAIT,60,ROE 43% · margen 22% · EPS acelerando,timing dice VIGILAR · upside 8.9% < 10%,Espera confirmación técnica (MA pass + RS subiendo),rules
+FCNCA,value,WAIT,60,margen 25% · FCF yield 6.3% · sobre MA50/150/200,timing dice VIGILAR · upside 9.1% < 10%,Espera confirmación técnica (MA pass + RS subiendo),rules
+META,value,WAIT,60,ROE 32% · margen 31% · upside +36% analistas,timing dice ESPERAR,Espera confirmación técnica (MA pass + RS subiendo),rules
+MLM,value,WAIT,60,margen 32% · upside +21% analistas · Piotroski 8/9,timing dice VIGILAR · RS débil (18%),Espera confirmación técnica (MA pass + RS subiendo),rules
+GOOG,value,WAIT,60,ROE 44% · margen 50% · upside +33% analistas,timing dice ESPERAR · sin término medio histórico: o para aquí o se va a -29%,Espera confirmación técnica (MA pass + RS subiendo),rules
+COF,value,WAIT,60,margen 22% · FCF yield 22.7% · upside +32% analistas,timing dice VIGILAR · sin término medio histórico: o para aquí o se va a -50%,Espera confirmación técnica (MA pass + RS subiendo),rules
+BAC,value,WAIT,60,margen 28% · upside +24% analistas · apoyado en soporte vivo a 0.8%,timing dice ESPERAR · RS débil (6%),Entra si el precio cierra por encima del soporte vivo de 50.08 con volumen suficiente tras el reporte de earnings,ai
+AMZN,value,WAIT,60,ROE 27% · margen 17% · upside +22% analistas,timing dice VIGILAR,Espera confirmación técnica (MA pass + RS subiendo),rules
+CRH,value,WAIT,60,upside +29% analistas · Piotroski 6/9 · 83% de sus 12 episodios iguales acabaron arriba,timing dice ESPERAR · sin término medio histórico: o para aquí o se va a -29%,Espera confirmación técnica (MA pass + RS subiendo),rules

@@ -1,41 +1,29 @@
 {
   "listas": {
     "value_opportunities": {
-      "candidatas": 31,
-      "publicadas": 26,
+      "candidatas": 32,
+      "publicadas": 29,
       "excluidos": [
         {
           "ticker": "BSX",
           "paso": "verificador_ia",
-          "motivo": "rev_growth_yoy (1.4%) con upside_triangulated_pct de 58.9% sin upside_requiere_verificacion=true: crecimiento de ingresos prácticamente estancado (~1.4%) contradice la justificación de descuento del 58.9%; esto sugiere una trampa, no una oportunidad · modelos_acuerdo DISPERSOS (33.9 puntos) pero upside_triangulated_pct (58.9%) coincide exactamente con DCF; incoherencia en cómo se triangulan valuaciones dispersas",
-          "score": 93.9
+          "motivo": "Contradicción fundamental: rev_growth_yoy es 1.4% (prácticamente estancado) pero upside_requiere_verificacion es falso y upside_triangulated_pct es 62.2%. Un descuento del 62% en un negocio estancado requiere verificación explícita según el contrato, pero está marcado como falso. · modelos_acuerdo es DISPERSOS (34.6 pts entre DCF 62.2% y P/E 96.8%) pero upside_triangulated_pct toma el valor DCF sin señalar la dispersión.",
+          "score": 94.2
         },
         {
-          "ticker": "DPZ",
+          "ticker": "UBER",
           "paso": "verificador_ia",
-          "motivo": "modelos_acuerdo DISPERSOS (62.8 puntos) con target_price_dcf_upside_pct (17.2%) vs target_price_pe_upside_pct (80.0%): diferencia de 62.8 puntos es enorme; pero upside_triangulated_pct reporta 17.2% (solo el DCF), ignorando completamente la valuación P/E que da 80% · Si hay tal dispersión, el triangulado debería reflejar ambas o estar vacío; reportar solo DCF cuando P/E difiere en 62.8 puntos es selectivo",
-          "score": 54.4
+          "motivo": "upside_requiere_verificacion es true (descuento >=30%, aquí 44.9%) pero faltan datos críticos: per_norm, peg_ratio, ebit_ev_yield. Sin estos ratios, no se puede verificar si el descuento se sostiene en márgenes/crecimiento o desmiente una avería. · FCF yield de 7.37% es coherente, pero sin PEG ni márgenes EBIT/EV no hay base para confirmar si el negocio fundamenta ese upside.",
+          "score": 58.4
         },
         {
-          "ticker": "ESLOY",
+          "ticker": "RELX",
           "paso": "verificador_ia",
-          "motivo": "upside_requiere_verificacion=true con analyst_upside_pct (30.1%) pero target_price_dcf_upside_pct solo (9.0%); PEG ratio (21.93) es patológicamente alto con crecimiento del 7.5%, indicando sobrevaloración según múltiplos; la divergencia no es defendible",
+          "motivo": "upside_requiere_verificacion es true (descuento 33.2%) pero rev_growth_yoy es 1.7% y ventas_anual_pct es 1.7% (prácticamente nulo). Un negocio estancado con descuento del 33% requiere explicación: el contrato establece que se sostiene si el crecimiento aguanta, pero aquí es prácticamente cero. Esto DESMIENTE el descuento, no lo sostiene. · ebit_ev_yield de 1.03% es muy bajo y sugiere escasos márgenes operativos para justificar el upside.",
           "score": 51.2
-        },
-        {
-          "ticker": "SAP",
-          "paso": "verificador_ia",
-          "motivo": "ebit_ev_yield (0.25%) es extremadamente bajo; con un fundamental_score de 80.0 (muy alto), esto es incoherente · target_price_dcf_upside_pct (6.7%) vs target_price_pe_upside_pct (34.4%): dispersión de 27.7 puntos marcada como DISPERSOS, pero upside_triangulated_pct reporta 21.5% (coincide con analyst_upside_pct), no reflejando el conflicto de modelos",
-          "score": 49.4
-        },
-        {
-          "ticker": "ADSK",
-          "paso": "verificador_ia",
-          "motivo": "target_price_dcf_upside_pct es 0.1%: prácticamente valuation neutra según DCF, pero upside_triangulated_pct es 18.6% (coincide con analyst); dispersión_pts (41.4) es muy alta, conflicto no reflejado en triangulado",
-          "score": 49.4
         }
       ]
     }
   },
-  "generated_at": "2026-11-12T07:26:12Z"
+  "generated_at": "2026-11-13T06:58:58Z"
 }

@@ -36,17 +36,19 @@
   "fecha": "2026-10-30"
  },
  "BR": {
-  "veredicto": "SENTIMIENTO",
-  "resumen": "Broadridge reportó resultados sólidos en Q4 FY2025 (ajustado EPS de $8.55 +11% YoY, ingresos +8%) con guidance optimista. La caída obedece a olas de cortes en precio target de analistas (RBC, Raymond James) e insider selling de ejecutivos clave en marzo 2026.",
-  "confianza": 75,
+  "veredicto": "EVENTO",
+  "resumen": "Caída de BPA del -42.7% en el trimestre por inversiones estratégicas en IA, tokenización y modernización de plataformas que comprimen márgenes; guidance de crecimiento de ingresos y EPS de largo plazo reafirmado. Ingresos recurrentes siguen creciendo 11% y el negocio core aguanta.",
+  "confianza": 72,
   "fuentes": [
    "https://www.sec.gov/Archives/edgar/data/1383312/000162828025037656/br-20250630.htm",
    "https://www.sec.gov/Archives/edgar/data/1383312/000138331225000032/ex991earningsrelease1q2026.htm",
    "https://finance.yahoo.com/news/broadridge-financial-solutions-full-2025-110743683.html",
-   "https://www.investing.com/equities/broadridge-financial-solutions-earnings"
+   "https://www.tipranks.com/stocks/br/earnings"
   ],
-  "fecha": "2026-10-22",
-  "ultimo_fallo": "2026-11-05"
+  "modelo": "claude-haiku-4-5",
+  "resultados": "2027-02-02",
+  "fecha": "2026-11-13",
+  "criterio": 3
  },
  "HLMA.L": {
   "veredicto": "EVENTO",
@@ -98,28 +100,34 @@
   "fecha": "2026-10-28"
  },
  "DPZ": {
-  "veredicto": "CICLICO",
-  "resumen": "Q3 2026: operaciones +8.4% y BPA +9.2%, pero same-store sales se desplomaría a +0.3% vs +7% YoY; management recortó guidance 2026 a extremo bajo citando presión macro. Analistas cortaron targets sharply (Guggenheim $440→$325) por deuda y expectativas débiles 2027.",
-  "confianza": 72,
+  "veredicto": "DETERIORO",
+  "resumen": "El negocio pierde velocidad de crecimiento de comps: de 5.2% a 0.3% en EE.UU. en un año. La dirección ha cortado guidance de expansion de tiendas. El crecimiento de ganancias se sostiene solo por subidas de precios a franquicias, no por demanda.",
+  "confianza": 78,
   "fuentes": [
    "https://www.tikr.com/es/blog/dominos-pizza-has-fallen-26-from-its-highs-heres-where-the-stock-could-go-in-2026",
-   "https://finance.yahoo.com/markets/stocks/articles/domino-pizza-down-28-time-192309706.html",
+   "https://www.marketbeat.com/stocks/NASDAQ/DPZ/",
    "https://www.gurufocus.com/news/9121838/dominos-pizza-inc-dpz-stock-down-48-now-undervalued-gf-score-72100",
    "https://www.gurufocus.com/news/9082883/is-dominos-pizza-inc-dpz-a-bargain-after-40-drop-gf-value-says-undervalued"
   ],
-  "fecha": "2026-10-28"
+  "modelo": "claude-haiku-4-5",
+  "resultados": "2027-02-22",
+  "fecha": "2026-11-13",
+  "criterio": 3
  },
  "OTIS": {
   "veredicto": "SENTIMIENTO",
-  "resumen": "<cite index=\"10-5,10-6\">Otis batió estimaciones en Q3 2026 con crecimiento de ventas orgánicas del 6% (más rápido en 13 trimestres), impulsado por servicios (+7%) y modernización (+20%)</cite>. <cite index=\"11-8\">Sin embargo, el margen operativo ajustado se contrajo 110 puntos básicos al 16%</cite>,",
-  "confianza": 75,
+  "resumen": "Caída de 18.4% (21.5% YTD) pese a que Q3 2026 mostró organic sales growth de 6%, modernization +20%, guidance mantenida y EPS beat. Mercado penaliza contracción de margen operativo ajustado por inversiones en calidad/digital, no por deterioro del negocio.",
+  "confianza": 82,
   "fuentes": [
-   "https://www.marketbeat.com/stocks/NYSE/OTIS/chart/",
-   "https://stockanalysis.com/stocks/otis/",
-   "https://www.marketbeat.com/stocks/NYSE/OTIS/",
-   "https://stockanalysis.com/stocks/otis/history/"
+   "https://www.marketscreener.com/quote/stock/OTIS-WORLDWIDE-CORPORATIO-105026689/quotes/",
+   "https://www.investing.com/news/company-news/otis-worldwide-corp-stock-hits-52week-low-at-6506-usd-93CH-4925470",
+   "https://stockanalysis.com/stocks/otis/history/",
+   "https://www.gurufocus.com/news/8847145/otis-worldwide-corp-otis-stock-down-34-now-undervalued-gf-score-79100?mobile=true"
   ],
-  "fecha": "2026-10-29"
+  "modelo": "claude-haiku-4-5",
+  "resultados": "2027-01-27",
+  "fecha": "2026-11-13",
+  "criterio": 3
  },
  "IDXX": {
   "veredicto": "SENTIMIENTO",
@@ -368,16 +376,19 @@
   "fecha": "2026-11-02"
  },
  "RMD": {
-  "veredicto": "EVENTO",
-  "resumen": "<cite index=\"12-14,12-15,12-16\">El crecimiento de ingresos se ralentizó a 5.9% en el Q1 FY2027 (reportado 29 oct), el más lento en cinco trimestres, tras 8.6% en el trimestre anterior.</cite> <cite index=\"17-4\">El mercado castigó el stock por falta de guidance upgrade o camino claro hacia crecimient",
-  "confianza": 72,
+  "veredicto": "SENTIMIENTO",
+  "resumen": "Caída por temor a disruption futura de GLP-1 (Lilly) y reingreso de Philips en PAP, más downgrade de Morgan Stanley en septiembre 2024. Fundamentals siguen fuertes: ingresos +11%, BPA +42%, FCF récord.",
+  "confianza": 75,
   "fuentes": [
-   "https://www.investing.com/equities/resmed-inc-earnings",
-   "https://www.sec.gov/Archives/edgar/data/0000943819/000119312526197192/d146862dex991.htm",
-   "https://www.sec.gov/Archives/edgar/data/0000943819/000119312526337962/d158732dex991.htm",
-   "https://investor.resmed.com/news-events/press-releases/detail/420/resmed-inc-announces-results-for-the-third-quarter-of-fiscal-year-2026"
+   "https://www.sec.gov/Archives/edgar/data/943819/000119312524113883/d817936dex991.htm",
+   "https://www.sec.gov/Archives/edgar/data/943819/000119312524191487/d805836dex991.htm",
+   "https://www.sec.gov/Archives/edgar/data/943819/000119312524242806/d859390dex991.htm",
+   "https://www.sec.gov/Archives/edgar/data/943819/000119312524014223/d685328dex991.htm"
   ],
-  "fecha": "2026-11-03"
+  "modelo": "claude-haiku-4-5",
+  "resultados": "2027-01-28",
+  "fecha": "2026-11-13",
+  "criterio": 3
  },
  "ALLY": {
   "veredicto": "SENTIMIENTO",
@@ -551,18 +562,18 @@
  },
  "MKC": {
   "veredicto": "DETERIORO",
-  "resumen": "Volumen estancado (0.3% 2024) tras agotamiento de pricing (+0.5%), guidance recortada para 2025, y merger Unilever de $44.8B genera deuda material que impacta estructura de capital. Márgenes operativos aún sanos pero erosión de poder precio e ingreso neto deteriorado.",
+  "resumen": "Presión de márgenes por aranceles chinos, debilidad de volúmenes en China, inflación de costos SG&A no compensada por ahorros de productividad; EPS cae a pesar de ingresos operativos planos.",
   "confianza": 72,
   "fuentes": [
    "https://www.sec.gov/Archives/edgar/data/63754/000006375424000064/mkc-20240831.htm",
    "https://www.sec.gov/Archives/edgar/data/63754/000006375424000024/mkcreports2023financialres.htm",
    "https://www.sec.gov/Archives/edgar/data/63754/000006375424000030/mkcreportsstrongfirstqua.htm",
-   "https://www.sec.gov/Archives/edgar/data/63754/000006375424000033/mkc-20240229.htm"
+   "https://www.sec.gov/Archives/edgar/data/63754/000006375424000054/mkcreports2ndquarterperf.htm"
   ],
   "modelo": "claude-haiku-4-5",
   "resultados": "2027-01-21",
-  "fecha": "2026-11-11",
-  "criterio": 2
+  "fecha": "2026-11-13",
+  "criterio": 3
  },
  "ESLOY": {
   "veredicto": "SENTIMIENTO",
