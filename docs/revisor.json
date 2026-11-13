@@ -1,40 +1,42 @@
 {
-  "fecha": "2026-11-12",
+  "fecha": "2026-11-13",
   "estado": "ok",
   "hallazgos": [
     {
-      "clave": "texto_contradice_datos:3c2293d826",
-      "ticker": null,
-      "tipo": "texto_contradice_datos",
-      "titulo": "El briefing dice que solo quedan 5 valores para vigilar, pero hay 20 en OBSERVAR",
-      "por_que": "El texto publicado nombra únicamente a Uber, Wolters Kluwer, Otis, Broadridge y ResMed como lo que 'queda' para vigilar, pero la lista incluye además RELX, JKHY, GGG, TYL, VRSK, NYT, AON, FCNCA, META, MLM, MSFT, GOOG, COF, BAC y AMZN en value_grupo OBSERVAR, dando una imagen de cobertura mucho menor que la real.",
-      "cita": "Para vigilar quedan Uber, Wolters Kluwer, Otis, Broadridge y ResMed: todas baratas, pero les falta crecer más rápido",
-      "donde_mirar": "briefing_publicado vs. recuento de tickers con value_grupo=OBSERVAR en lista_value_us"
+      "clave": "vaiven:DVA:target_price_dcf",
+      "ticker": "DVA",
+      "tipo": "cambio_sin_motivo",
+      "titulo": "target_price_dcf va y vuelve",
+      "por_que": "2026-11-11: 368.3 · 2026-11-12: 478.81 · 2026-11-13: 368.3. Un dato que vuelve al día siguiente no es la empresa: alguna fuente devuelve cosas distintas según el día.",
+      "cita": "target_price_dcf: 478.81",
+      "donde_mirar": "el cálculo de ese campo y su fuente"
     },
     {
-      "clave": "datos_que_se_contradicen:BRO",
-      "ticker": "BRO",
-      "tipo": "datos_que_se_contradicen",
-      "titulo": "Crecimiento del último trimestre: 10% en el aviso vs 7,4% en el resumen",
-      "por_que": "value_avisos afirma que el último trimestre creció un 10%, pero why_cheap_resumen, hablando del mismo trimestre (3T2026), dice explícitamente que los ingresos fueron +7.4%. Si el dato real es 7,4% y no 22,5%/10%, BRO podría no cumplir el umbral de ventas ≥10% que exige la puerta de Prioridad.",
-      "cita": "se frena: último trimestre +10 %",
-      "donde_mirar": "campo value_avisos comparado con el texto why_cheap_resumen de BRO ('reportó ingresos +7.4%')"
+      "clave": "vaiven:DVA:fcf_per_share",
+      "ticker": "DVA",
+      "tipo": "cambio_sin_motivo",
+      "titulo": "fcf_per_share va y vuelve",
+      "por_que": "2026-11-11: 15.83 · 2026-11-12: 20.59 · 2026-11-13: 15.82. Un dato que vuelve al día siguiente no es la empresa: alguna fuente devuelve cosas distintas según el día.",
+      "cita": "fcf_per_share: 20.59",
+      "donde_mirar": "el cálculo de ese campo y su fuente"
     },
     {
-      "clave": "lista_incumple_su_regla:a1f36856d1",
+      "clave": "revisor:sin_claude",
       "ticker": null,
-      "tipo": "lista_incumple_su_regla",
-      "titulo": "BSX y PGR se dan de baja pero no aparecen en 'salen'",
-      "por_que": "se_venden_por_dejar_de_ser_prioridad explica por qué se venden FICO, BSX y PGR, y ninguno de los tres aparece ya en lista_value_us; sin embargo cambios_desde_ayer.salen solo registra a ESLOY y FICO, omitiendo BSX y PGR sin explicación.",
-      "cita": "\"salen\": [\"ESLOY\", \"FICO\"]",
-      "donde_mirar": "cambios_desde_ayer.salen frente a las claves de se_venden_por_dejar_de_ser_prioridad (BSX, PGR)"
+      "tipo": "otro",
+      "titulo": "el revisor no pudo preguntar a Claude",
+      "por_que": "Claude no respondió (presupuesto, crédito o API caída)",
+      "cita": "Claude no respondió (presupuesto, crédito o API caída)",
+      "donde_mirar": "el paso «Revisor nocturno» del workflow y docs/revisor.json"
     }
   ],
   "descartados": [],
   "incidencias_nuevas": [
-    9,
-    10,
-    11
+    13,
+    14,
+    15
   ],
-  "avisos": []
+  "avisos": [
+    "sin revisión de Claude: Claude no respondió (presupuesto, crédito o API caída)"
+  ]
 }

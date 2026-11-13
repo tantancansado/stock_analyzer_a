@@ -1,0 +1,29 @@
+{
+  "listas": {
+    "value_opportunities": {
+      "candidatas": 32,
+      "publicadas": 29,
+      "excluidos": [
+        {
+          "ticker": "BSX",
+          "paso": "verificador_ia",
+          "motivo": "Contradicción fundamental: rev_growth_yoy es 1.4% (prácticamente estancado) pero upside_requiere_verificacion es falso y upside_triangulated_pct es 62.2%. Un descuento del 62% en un negocio estancado requiere verificación explícita según el contrato, pero está marcado como falso. · modelos_acuerdo es DISPERSOS (34.6 pts entre DCF 62.2% y P/E 96.8%) pero upside_triangulated_pct toma el valor DCF sin señalar la dispersión.",
+          "score": 94.2
+        },
+        {
+          "ticker": "UBER",
+          "paso": "verificador_ia",
+          "motivo": "upside_requiere_verificacion es true (descuento >=30%, aquí 44.9%) pero faltan datos críticos: per_norm, peg_ratio, ebit_ev_yield. Sin estos ratios, no se puede verificar si el descuento se sostiene en márgenes/crecimiento o desmiente una avería. · FCF yield de 7.37% es coherente, pero sin PEG ni márgenes EBIT/EV no hay base para confirmar si el negocio fundamenta ese upside.",
+          "score": 58.4
+        },
+        {
+          "ticker": "RELX",
+          "paso": "verificador_ia",
+          "motivo": "upside_requiere_verificacion es true (descuento 33.2%) pero rev_growth_yoy es 1.7% y ventas_anual_pct es 1.7% (prácticamente nulo). Un negocio estancado con descuento del 33% requiere explicación: el contrato establece que se sostiene si el crecimiento aguanta, pero aquí es prácticamente cero. Esto DESMIENTE el descuento, no lo sostiene. · ebit_ev_yield de 1.03% es muy bajo y sugiere escasos márgenes operativos para justificar el upside.",
+          "score": 51.2
+        }
+      ]
+    }
+  },
+  "generated_at": "2026-11-13T06:58:58Z"
+}

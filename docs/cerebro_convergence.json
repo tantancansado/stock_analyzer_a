@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-11-12",
-  "total_convergences": 11,
+  "generated_at": "2026-11-13",
+  "total_convergences": 15,
   "triple_or_more": 1,
   "convergences": [
     {
@@ -14,15 +14,15 @@
       ],
       "strategy_count": 3,
       "convergence_score": 89,
-      "value_score": 47.8,
+      "value_score": 48.3,
       "conviction_grade": "nan",
-      "analyst_upside_pct": 7.9,
-      "fcf_yield_pct": 4.64,
-      "current_price": 336.55,
-      "streak_days": 15,
+      "analyst_upside_pct": 8.9,
+      "fcf_yield_pct": 4.68,
+      "current_price": 333.42,
+      "streak_days": 16,
       "earnings_warning": false,
-      "days_to_earnings": 78.0,
-      "analysis": "La convergencia de los tres modelos (VALUE, INSIDERS y OPTIONS) durante 15\u202fd\u00edas consecutivos indica que distintas metodolog\u00edas \u2013fundamentales, de flujos de caja y de comportamiento de insiders y opciones\u2013 est\u00e1n alineando sus se\u00f1ales alcistas, lo que refuerza la probabilidad de que el precio de AON experimente el upside estimado del 7,9\u202f%.  \n\nSin embargo"
+      "days_to_earnings": 77.0,
+      "analysis": "La convergencia de las tres estrategias (VALUE, INSIDERS y OPTIONS) durante 16 d\u00edas consecutivos indica que diferentes enfoques de an\u00e1lisis \u2014valoraci\u00f3n fundamental, actividad de insiders y volatilidad impl\u00edcita de opciones \u2014 est\u00e1n alineados en una se\u00f1al alcista para AON, lo que refuerza la confianza en el potencial upside del 8.9\u202f%. Sin embargo, es prudente vigilar la liquidez de las opciones, confirmar que el flujo de insiders sea sostenido y validar que los m\u00faltiplos de valor no est\u00e9n inflados por factores tempor"
     },
     {
       "ticker": "INTU",
@@ -36,13 +36,13 @@
       "convergence_score": 70,
       "value_score": 100.0,
       "conviction_grade": "B",
-      "analyst_upside_pct": 19.0,
-      "fcf_yield_pct": 9.41,
-      "current_price": 342.64,
-      "streak_days": 4,
+      "analyst_upside_pct": 19.9,
+      "fcf_yield_pct": 9.48,
+      "current_price": 340.17,
+      "streak_days": 5,
       "earnings_warning": true,
-      "days_to_earnings": 7.0,
-      "analysis": "La convergencia de 4 d\u00edas consecutivos entre la estrategia VALUE y las opciones su"
+      "days_to_earnings": 6.0,
+      "analysis": "La convergencia de las estrategias **VALUE** y **OPTIONS** durante cinco d\u00edas seguidos sugiere que el mercado est\u00e1 alineando tanto la valoraci\u00f3n fundamental (FCF\u202f+\u202f9.48\u202f%) como la expectativa de movimiento del precio (upside\u202f\u2248\u202f20\u202f%), lo que refuerza la se\u00f1al de compra y reduce la incertidumbre de un solo enfoque.  \n\nSin embargo, hay que ser cauteloso porque el reporte de earnings est\u00e1 a solo 6"
     },
     {
       "ticker": "VRSN",
@@ -59,10 +59,10 @@
       "analyst_upside_pct": null,
       "fcf_yield_pct": null,
       "current_price": null,
-      "streak_days": 53,
+      "streak_days": 54,
       "earnings_warning": false,
       "days_to_earnings": null,
-      "analysis": "Convergencia de 2 estrategias: INSIDERS, OPTIONS."
+      "analysis": "La convergencia de 54\u202fd\u00edas consecutivos entre la actividad de insiders y el flujo de opciones indica que tanto los ejecutivos como los operadores de mercado est\u00e1n alineando sus posiciones, lo que suele preceder a movimientos de precio m\u00e1s pronunciados y puede ser una se\u00f1al temprana de cambio de tendencia. Sin embargo, es fundamental no basarse solo en este patr\u00f3n: verifique la solidez de los fundamentos de VRSN, controle el volumen y la volatilidad de las opciones, y establezca stops claros para limitar p\u00e9rdidas en caso de que la"
     },
     {
       "ticker": "CME",
@@ -79,7 +79,7 @@
       "analyst_upside_pct": null,
       "fcf_yield_pct": null,
       "current_price": null,
-      "streak_days": 14,
+      "streak_days": 15,
       "earnings_warning": false,
       "days_to_earnings": null,
       "analysis": null
@@ -94,14 +94,14 @@
       ],
       "strategy_count": 2,
       "convergence_score": 60,
-      "value_score": 53.2,
+      "value_score": 53.3,
       "conviction_grade": "nan",
-      "analyst_upside_pct": 8.5,
-      "fcf_yield_pct": 5.89,
-      "current_price": 192.85,
-      "streak_days": 3,
+      "analyst_upside_pct": 9.3,
+      "fcf_yield_pct": 5.93,
+      "current_price": 191.47,
+      "streak_days": 4,
       "earnings_warning": false,
-      "days_to_earnings": 82.0,
+      "days_to_earnings": 81.0,
       "analysis": null
     },
     {
@@ -114,86 +114,6 @@
       ],
       "strategy_count": 2,
       "convergence_score": 60,
-      "value_score": null,
-      "conviction_grade": "",
-      "analyst_upside_pct": null,
-      "fcf_yield_pct": null,
-      "current_price": null,
-      "streak_days": 3,
-      "earnings_warning": false,
-      "days_to_earnings": null,
-      "analysis": null
-    },
-    {
-      "ticker": "MSFT",
-      "company_name": "Microsoft Corporation",
-      "sector": "Technology",
-      "strategies": [
-        "VALUE",
-        "OPTIONS"
-      ],
-      "strategy_count": 2,
-      "convergence_score": 58,
-      "value_score": 42.5,
-      "conviction_grade": "B",
-      "analyst_upside_pct": 22.1,
-      "fcf_yield_pct": 2.07,
-      "current_price": 521.125,
-      "streak_days": 39,
-      "earnings_warning": false,
-      "days_to_earnings": 76.0,
-      "analysis": null
-    },
-    {
-      "ticker": "TMO",
-      "company_name": "",
-      "sector": "",
-      "strategies": [
-        "OPTIONS",
-        "MOMENTUM"
-      ],
-      "strategy_count": 2,
-      "convergence_score": 50,
-      "value_score": null,
-      "conviction_grade": "",
-      "analyst_upside_pct": null,
-      "fcf_yield_pct": null,
-      "current_price": null,
-      "streak_days": 13,
-      "earnings_warning": false,
-      "days_to_earnings": null,
-      "analysis": null
-    },
-    {
-      "ticker": "ROP",
-      "company_name": "",
-      "sector": "",
-      "strategies": [
-        "OPTIONS",
-        "MOMENTUM"
-      ],
-      "strategy_count": 2,
-      "convergence_score": 50,
-      "value_score": null,
-      "conviction_grade": "",
-      "analyst_upside_pct": null,
-      "fcf_yield_pct": null,
-      "current_price": null,
-      "streak_days": 4,
-      "earnings_warning": false,
-      "days_to_earnings": null,
-      "analysis": null
-    },
-    {
-      "ticker": "CTAS",
-      "company_name": "",
-      "sector": "",
-      "strategies": [
-        "OPTIONS",
-        "MOMENTUM"
-      ],
-      "strategy_count": 2,
-      "convergence_score": 50,
       "value_score": null,
       "conviction_grade": "",
       "analyst_upside_pct": null,
@@ -213,15 +133,175 @@
         "OPTIONS"
       ],
       "strategy_count": 2,
-      "convergence_score": 49,
+      "convergence_score": 59,
       "value_score": 48.9,
       "conviction_grade": "C",
-      "analyst_upside_pct": 14.1,
-      "fcf_yield_pct": 4.25,
-      "current_price": 205.98,
-      "streak_days": 2,
+      "analyst_upside_pct": 14.4,
+      "fcf_yield_pct": 4.24,
+      "current_price": 206.32,
+      "streak_days": 3,
       "earnings_warning": false,
-      "days_to_earnings": 97.0,
+      "days_to_earnings": 96.0,
+      "analysis": null
+    },
+    {
+      "ticker": "MSFT",
+      "company_name": "Microsoft Corporation",
+      "sector": "Technology",
+      "strategies": [
+        "VALUE",
+        "OPTIONS"
+      ],
+      "strategy_count": 2,
+      "convergence_score": 58,
+      "value_score": 42.4,
+      "conviction_grade": "B",
+      "analyst_upside_pct": 21.6,
+      "fcf_yield_pct": 2.06,
+      "current_price": 523.0,
+      "streak_days": 40,
+      "earnings_warning": false,
+      "days_to_earnings": 75.0,
+      "analysis": null
+    },
+    {
+      "ticker": "CRH",
+      "company_name": "CRH plc",
+      "sector": "Basic Materials",
+      "strategies": [
+        "VALUE",
+        "INSIDERS"
+      ],
+      "strategy_count": 2,
+      "convergence_score": 58,
+      "value_score": 40.0,
+      "conviction_grade": "C",
+      "analyst_upside_pct": 29.0,
+      "fcf_yield_pct": 3.96,
+      "current_price": 93.92,
+      "streak_days": 1,
+      "earnings_warning": false,
+      "days_to_earnings": 96.0,
+      "analysis": null
+    },
+    {
+      "ticker": "CTAS",
+      "company_name": "",
+      "sector": "",
+      "strategies": [
+        "OPTIONS",
+        "MOMENTUM"
+      ],
+      "strategy_count": 2,
+      "convergence_score": 50,
+      "value_score": null,
+      "conviction_grade": "",
+      "analyst_upside_pct": null,
+      "fcf_yield_pct": null,
+      "current_price": null,
+      "streak_days": 5,
+      "earnings_warning": false,
+      "days_to_earnings": null,
+      "analysis": null
+    },
+    {
+      "ticker": "ROP",
+      "company_name": "",
+      "sector": "",
+      "strategies": [
+        "OPTIONS",
+        "MOMENTUM"
+      ],
+      "strategy_count": 2,
+      "convergence_score": 50,
+      "value_score": null,
+      "conviction_grade": "",
+      "analyst_upside_pct": null,
+      "fcf_yield_pct": null,
+      "current_price": null,
+      "streak_days": 5,
+      "earnings_warning": false,
+      "days_to_earnings": null,
+      "analysis": null
+    },
+    {
+      "ticker": "FICO",
+      "company_name": "",
+      "sector": "",
+      "strategies": [
+        "INSIDERS",
+        "OPTIONS"
+      ],
+      "strategy_count": 2,
+      "convergence_score": 50,
+      "value_score": null,
+      "conviction_grade": "",
+      "analyst_upside_pct": null,
+      "fcf_yield_pct": null,
+      "current_price": null,
+      "streak_days": 1,
+      "earnings_warning": false,
+      "days_to_earnings": null,
+      "analysis": null
+    },
+    {
+      "ticker": "MSCI",
+      "company_name": "",
+      "sector": "",
+      "strategies": [
+        "INSIDERS",
+        "OPTIONS"
+      ],
+      "strategy_count": 2,
+      "convergence_score": 50,
+      "value_score": null,
+      "conviction_grade": "",
+      "analyst_upside_pct": null,
+      "fcf_yield_pct": null,
+      "current_price": null,
+      "streak_days": 1,
+      "earnings_warning": false,
+      "days_to_earnings": null,
+      "analysis": null
+    },
+    {
+      "ticker": "SYK",
+      "company_name": "",
+      "sector": "",
+      "strategies": [
+        "INSIDERS",
+        "OPTIONS"
+      ],
+      "strategy_count": 2,
+      "convergence_score": 50,
+      "value_score": null,
+      "conviction_grade": "",
+      "analyst_upside_pct": null,
+      "fcf_yield_pct": null,
+      "current_price": null,
+      "streak_days": 1,
+      "earnings_warning": false,
+      "days_to_earnings": null,
+      "analysis": null
+    },
+    {
+      "ticker": "VEEV",
+      "company_name": "",
+      "sector": "",
+      "strategies": [
+        "OPTIONS",
+        "MOMENTUM"
+      ],
+      "strategy_count": 2,
+      "convergence_score": 40,
+      "value_score": null,
+      "conviction_grade": "",
+      "analyst_upside_pct": null,
+      "fcf_yield_pct": null,
+      "current_price": null,
+      "streak_days": 1,
+      "earnings_warning": false,
+      "days_to_earnings": null,
       "analysis": null
     }
   ]

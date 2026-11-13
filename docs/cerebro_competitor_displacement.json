@@ -1,22 +1,22 @@
 {
-  "generated_at": "2026-11-12",
+  "generated_at": "2026-11-13",
   "total": 3,
   "dropped_count": 1,
-  "narrative": "",
+  "narrative": "- Cuando rotar dentro de un sector ofrece mayor rendimiento que simplemente esperar.  \n- Cuando cambiar posiciones dentro de un sector resulta m\u00e1s rentable que permanecer en la misma.",
   "displacements": [
     {
       "type": "COMPETITOR_RISE",
-      "dropped_ticker": "FICO",
+      "dropped_ticker": "UBER",
       "sector": "Technology",
-      "prev_score": 94.3,
+      "prev_score": 58.0,
       "replacements": [
         "INTU",
         "ADBE",
-        "UBER"
+        "BR"
       ],
       "top_replacement": "INTU",
       "top_replacement_score": 100.0,
-      "detail": "FICO sali\u00f3 de VALUE (94pts); peers en Technology: INTU, ADBE"
+      "detail": "UBER sali\u00f3 de VALUE (58pts); peers en Technology: INTU, ADBE"
     },
     {
       "type": "SECTOR_TAILWIND",
@@ -25,22 +25,23 @@
       "beneficiaries": [
         "INTU",
         "ADBE",
-        "UBER"
+        "BR"
       ],
       "top_ticker": "INTU",
       "top_score": 100.0,
-      "detail": "Sector Technology l\u00edder (RS 100) \u2014 INTU, ADBE, UBER son los picks VALUE"
+      "detail": "Sector Technology l\u00edder (RS 100) \u2014 INTU, ADBE, BR son los picks VALUE"
     },
     {
       "type": "SECTOR_TAILWIND",
       "sector": "Healthcare",
       "rotation_score": 100.0,
       "beneficiaries": [
-        "RMD"
+        "RMD",
+        "ESLOY"
       ],
       "top_ticker": "RMD",
       "top_score": 52.1,
-      "detail": "Sector Healthcare l\u00edder (RS 100) \u2014 RMD son los picks VALUE"
+      "detail": "Sector Healthcare l\u00edder (RS 100) \u2014 RMD, ESLOY son los picks VALUE"
     }
   ]
 }

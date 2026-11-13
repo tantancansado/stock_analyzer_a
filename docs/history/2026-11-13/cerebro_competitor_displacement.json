@@ -1,0 +1,47 @@
+{
+  "generated_at": "2026-11-13",
+  "total": 3,
+  "dropped_count": 1,
+  "narrative": "- Cuando rotar dentro de un sector ofrece mayor rendimiento que simplemente esperar.  \n- Cuando cambiar posiciones dentro de un sector resulta m\u00e1s rentable que permanecer en la misma.",
+  "displacements": [
+    {
+      "type": "COMPETITOR_RISE",
+      "dropped_ticker": "UBER",
+      "sector": "Technology",
+      "prev_score": 58.0,
+      "replacements": [
+        "INTU",
+        "ADBE",
+        "BR"
+      ],
+      "top_replacement": "INTU",
+      "top_replacement_score": 100.0,
+      "detail": "UBER sali\u00f3 de VALUE (58pts); peers en Technology: INTU, ADBE"
+    },
+    {
+      "type": "SECTOR_TAILWIND",
+      "sector": "Technology",
+      "rotation_score": 100.0,
+      "beneficiaries": [
+        "INTU",
+        "ADBE",
+        "BR"
+      ],
+      "top_ticker": "INTU",
+      "top_score": 100.0,
+      "detail": "Sector Technology l\u00edder (RS 100) \u2014 INTU, ADBE, BR son los picks VALUE"
+    },
+    {
+      "type": "SECTOR_TAILWIND",
+      "sector": "Healthcare",
+      "rotation_score": 100.0,
+      "beneficiaries": [
+        "RMD",
+        "ESLOY"
+      ],
+      "top_ticker": "RMD",
+      "top_score": 52.1,
+      "detail": "Sector Healthcare l\u00edder (RS 100) \u2014 RMD, ESLOY son los picks VALUE"
+    }
+  ]
+}

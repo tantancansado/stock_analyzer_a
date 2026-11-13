@@ -1,0 +1,36 @@
+{
+  "generated_at": "2026-11-13",
+  "total": 2,
+  "high_count": 0,
+  "narrative": "",
+  "traps": [
+    {
+      "ticker": "BRO",
+      "company_name": "Brown & Brown, Inc.",
+      "severity": "MEDIUM",
+      "trap_score": 4,
+      "value_score": 95.4,
+      "flags": [
+        "Piotroski d\u00e9bil (4/9)",
+        "Analistas recomiendan 'hold' pese a score alto"
+      ],
+      "piotroski": 4.0,
+      "fcf_yield_pct": 6.48,
+      "fundamental_score": 66.2
+    },
+    {
+      "ticker": "ESLOY",
+      "company_name": "EssilorLuxottica Soci\u00e9t\u00e9 anonyme",
+      "severity": "MEDIUM",
+      "trap_score": 4,
+      "value_score": 51.5,
+      "flags": [
+        "Piotroski d\u00e9bil (4/9)",
+        "Fundamental score cerca de default (50) \u2014 datos poco fiables"
+      ],
+      "piotroski": 4.0,
+      "fcf_yield_pct": 4.59,
+      "fundamental_score": 53.0
+    }
+  ]
+}

@@ -1,0 +1,167 @@
+{
+  "generated_at": "2026-11-13",
+  "macro_regime": "CALM",
+  "composite_score": 9.0,
+  "sesgo": "NEUTRO",
+  "confianza": 62,
+  "situacion": "Mercado en r\u00e9gimen CALM con se\u00f1ales mixtas: cr\u00e9dito y cobre/oro s\u00f3lidos pero DXY en extremo hist\u00f3rico y small caps rezagadas antes del CPI de hoy.",
+  "narrativa": "El composite macro positivo (+9.0/30) refleja un equilibrio fr\u00e1gil donde el cr\u00e9dito HY/IG y Dr. Copper muestran apetito por riesgo, mientras el d\u00f3lar en percentil 99.3 y el SKEW elevado sugieren cobertura de cola latente. Para inversores VALUE, esto favorece mantener calidad en Technology con FCF s\u00f3lido (INTU, ADBE) mientras se vigila la reacci\u00f3n del CPI que puede mover tasas y rotaci\u00f3n hacia small caps.",
+  "acciones_inmediatas": [
+    {
+      "prioridad": 1,
+      "accion": "VIGILAR",
+      "instrumento": "CPI November / Mercado general",
+      "razon": "Dato HIGH impact que puede alterar expectativas de tasas y el extremo actual del DXY.",
+      "catalizador": "Publicaci\u00f3n CPI 2026-11-13",
+      "size_hint": "peque\u00f1a (1-2%)",
+      "invalidacion": "Sorpresa inflacionaria fuerte que rompa rango de tasas actual"
+    },
+    {
+      "prioridad": 2,
+      "accion": "COMPRAR",
+      "instrumento": "ADBE",
+      "razon": "Grade A con FCF 11.45% y score 98, encaja en entorno CALM con cr\u00e9dito sano.",
+      "catalizador": "Reversi\u00f3n de SKEW o confirmaci\u00f3n CPI benigno",
+      "size_hint": "media (3-4%)",
+      "invalidacion": "Deterioro en cr\u00e9dito HY/IG o guidance d\u00e9bil en pr\u00f3ximos earnings tech"
+    },
+    {
+      "prioridad": 3,
+      "accion": "COMPRAR",
+      "instrumento": "TLT",
+      "razon": "Yield 30yr en 5.43% en zona hist\u00f3ricamente atractiva seg\u00fan regla macro (score 95).",
+      "catalizador": "Reacci\u00f3n de tasas largas post-CPI",
+      "size_hint": "media (3-4%)",
+      "invalidacion": "Ruptura alcista sostenida de yields por encima de 5.6%"
+    },
+    {
+      "prioridad": 4,
+      "accion": "VENDER",
+      "instrumento": "BSX, CLPBY, CRH",
+      "razon": "Se\u00f1al EXIT activa en Cerebro para estos tres nombres.",
+      "catalizador": "Se\u00f1al de salida ya confirmada",
+      "size_hint": "peque\u00f1a (1-2%)",
+      "invalidacion": "Cambio de se\u00f1al Cerebro a HOLD o BUY"
+    },
+    {
+      "prioridad": 5,
+      "accion": "ESPERAR",
+      "instrumento": "INTU",
+      "razon": "Earnings en 6 d\u00edas, mejor esperar claridad antes de a\u00f1adir posici\u00f3n pese a score 100.",
+      "catalizador": "Reporte de resultados INTU",
+      "size_hint": "peque\u00f1a (1-2%)",
+      "invalidacion": "Guidance negativo que rompa tesis de calidad"
+    }
+  ],
+  "macro_plays": [
+    {
+      "instrument": "TLT/VGLT",
+      "direction": "LONG",
+      "thesis": "Yield 30yr en 5.43% \u2014 zona hist\u00f3ricamente atractiva para bonos largos",
+      "historical": "2018-19: TLT +18% cuando yields revertieron desde 3.25%",
+      "risk": "La Fed puede mantener tipos altos m\u00e1s tiempo \u2014 size peque\u00f1o",
+      "timeframe": "3-6 meses",
+      "score": 95,
+      "eu_alternative": {
+        "ticker": "DTLA",
+        "name": "Xtrackers US Treasuries 20yr+ UCITS ETF",
+        "exchange": "Xetra",
+        "available": "DEGIRO/IB"
+      }
+    },
+    {
+      "instrument": "IWM",
+      "direction": "LONG (contrarian)",
+      "thesis": "Small caps en percentil 24% pero cr\u00e9dito OK \u2014 divergencia excesiva",
+      "historical": "2016 post-elecci\u00f3n: IWM +20% en 3 meses desde valuaciones deprimidas",
+      "risk": "Si cr\u00e9dito deteriora, small caps caen m\u00e1s \u2014 monitorizar HYG",
+      "timeframe": "2-3 meses",
+      "score": 60,
+      "eu_alternative": {
+        "ticker": "CSUS",
+        "name": "iShares MSCI USA Small Cap UCITS ETF",
+        "exchange": "LSE",
+        "available": "DEGIRO/IB"
+      }
+    }
+  ],
+  "macro_plays_commentary": "TLT/VGLT luce atractivo por yields extremos y IWM contrarian es interesante pero especulativo dado el percentil bajo pese a cr\u00e9dito sano.",
+  "value_en_entorno": [
+    {
+      "ticker": "INTU",
+      "score": 100.0,
+      "sector": "Technology",
+      "fcf_yield_pct": 9.48,
+      "grade": "B"
+    },
+    {
+      "ticker": "ADBE",
+      "score": 98.0,
+      "sector": "Technology",
+      "fcf_yield_pct": 11.45,
+      "grade": "A"
+    }
+  ],
+  "value_en_entorno_razon": "En un r\u00e9gimen CALM con cr\u00e9dito s\u00f3lido y cobre/oro fuertes, los nombres tech de alta calidad y FCF robusto (INTU, ADBE) ofrecen resiliencia ante volatilidad de cola sin sacrificar crecimiento.",
+  "evitar": [
+    {
+      "ticker": "BSX",
+      "razon": "Se\u00f1al EXIT activa de Cerebro"
+    },
+    {
+      "ticker": "CLPBY",
+      "razon": "Se\u00f1al EXIT activa de Cerebro"
+    },
+    {
+      "ticker": "CRH",
+      "razon": "Se\u00f1al EXIT activa de Cerebro"
+    }
+  ],
+  "agenda_semana": [
+    {
+      "fecha": "2026-11-13",
+      "evento": "CPI November",
+      "impacto": "ALTO",
+      "accion_sugerida": "Reducir exposici\u00f3n t\u00e1ctica antes de la publicaci\u00f3n y esperar confirmaci\u00f3n de tendencia"
+    },
+    {
+      "fecha": "2026-11-16",
+      "evento": "TNE.AX earnings",
+      "impacto": "BAJO",
+      "accion_sugerida": "Sin acci\u00f3n relevante para cartera US"
+    },
+    {
+      "fecha": "2026-11-17",
+      "evento": "NVDA earnings",
+      "impacto": "ALTO",
+      "accion_sugerida": "Vigilar volatilidad impl\u00edcita en tech growth"
+    },
+    {
+      "fecha": "2026-11-17",
+      "evento": "HD earnings",
+      "impacto": "MEDIO",
+      "accion_sugerida": "Evaluar salud del consumidor"
+    },
+    {
+      "fecha": "2026-11-18",
+      "evento": "TJX earnings",
+      "impacto": "MEDIO",
+      "accion_sugerida": "Confirmar tendencia de retail discrecional"
+    },
+    {
+      "fecha": "2026-11-19",
+      "evento": "INTU earnings",
+      "impacto": "ALTO",
+      "accion_sugerida": "Esperar reporte antes de aumentar posici\u00f3n VALUE"
+    },
+    {
+      "fecha": "2026-11-19",
+      "evento": "CPRT earnings",
+      "impacto": "BAJO",
+      "accion_sugerida": "Monitorear sin acci\u00f3n inmediata"
+    }
+  ],
+  "frase_del_dia": "El mercado es un mecanismo de transferencia de dinero de los impacientes a los pacientes. \u2014 Warren Buffett",
+  "mensaje_telegram": "\ud83d\udcca CPI hoy puede mover todo. Cr\u00e9dito y cobre OK \u2705 pero DXY en extremo \ud83d\udd3a y SKEW alto \u26a0\ufe0f. Plan: VIGILAR CPI, COMPRAR ADBE/TLT en dips, VENDER BSX/CLPBY/CRH (exit se\u00f1al). Esperar INTU earnings antes de sumar \ud83e\uddd8",
+  "ai_powered": true
+}

@@ -1,63 +1,63 @@
 {
-  "generated_at": "2026-11-12",
+  "generated_at": "2026-11-13",
   "macro_regime": "CALM",
-  "composite_score": 8.5,
+  "composite_score": 9.0,
   "sesgo": "NEUTRO",
   "confianza": 62,
-  "situacion": "Mercado en calma aparente pero con se\u00f1ales de cobertura defensiva (oro, defensa, SKEW) que contrastan con la tranquilidad del composite macro.",
-  "narrativa": "El r\u00e9gimen CALM esconde una rotaci\u00f3n silenciosa hacia activos refugio (oro, defensa, bonos largos) mientras el d\u00f3lar cotiza en percentil 99.6, se\u00f1al de posible agotamiento de tendencia. Para el inversor VALUE esto sugiere mantener exposici\u00f3n selectiva en calidad con FCF alto, evitar small caps d\u00e9biles y aprovechar la ventana de bonos largos antes del CPI de ma\u00f1ana.",
+  "situacion": "Mercado en r\u00e9gimen CALM con se\u00f1ales mixtas: cr\u00e9dito y cobre/oro s\u00f3lidos pero DXY en extremo hist\u00f3rico y small caps rezagadas antes del CPI de hoy.",
+  "narrativa": "El composite macro positivo (+9.0/30) refleja un equilibrio fr\u00e1gil donde el cr\u00e9dito HY/IG y Dr. Copper muestran apetito por riesgo, mientras el d\u00f3lar en percentil 99.3 y el SKEW elevado sugieren cobertura de cola latente. Para inversores VALUE, esto favorece mantener calidad en Technology con FCF s\u00f3lido (INTU, ADBE) mientras se vigila la reacci\u00f3n del CPI que puede mover tasas y rotaci\u00f3n hacia small caps.",
   "acciones_inmediatas": [
     {
       "prioridad": 1,
       "accion": "VIGILAR",
-      "instrumento": "SPY / Mercado general",
-      "razon": "CPI de ma\u00f1ana es el catalizador clave que puede romper la calma actual",
-      "catalizador": "CPI November 2026-11-13",
+      "instrumento": "CPI November / Mercado general",
+      "razon": "Dato HIGH impact que puede alterar expectativas de tasas y el extremo actual del DXY.",
+      "catalizador": "Publicaci\u00f3n CPI 2026-11-13",
       "size_hint": "peque\u00f1a (1-2%)",
-      "invalidacion": "CPI en l\u00ednea o por debajo de consenso sin reacci\u00f3n en yields"
+      "invalidacion": "Sorpresa inflacionaria fuerte que rompa rango de tasas actual"
     },
     {
       "prioridad": 2,
       "accion": "COMPRAR",
-      "instrumento": "TLT/VGLT",
-      "razon": "Yield 30yr en 5.36% ofrece punto de entrada hist\u00f3ricamente atractivo para duraci\u00f3n larga",
-      "catalizador": "Nivel de yield actual + posible sorpresa dovish en CPI",
+      "instrumento": "ADBE",
+      "razon": "Grade A con FCF 11.45% y score 98, encaja en entorno CALM con cr\u00e9dito sano.",
+      "catalizador": "Reversi\u00f3n de SKEW o confirmaci\u00f3n CPI benigno",
+      "size_hint": "media (3-4%)",
+      "invalidacion": "Deterioro en cr\u00e9dito HY/IG o guidance d\u00e9bil en pr\u00f3ximos earnings tech"
+    },
+    {
+      "prioridad": 3,
+      "accion": "COMPRAR",
+      "instrumento": "TLT",
+      "razon": "Yield 30yr en 5.43% en zona hist\u00f3ricamente atractiva seg\u00fan regla macro (score 95).",
+      "catalizador": "Reacci\u00f3n de tasas largas post-CPI",
       "size_hint": "media (3-4%)",
       "invalidacion": "Ruptura alcista sostenida de yields por encima de 5.6%"
     },
     {
-      "prioridad": 3,
-      "accion": "VENDER",
-      "instrumento": "BSX, CRH, MLM",
-      "razon": "Se\u00f1al EXIT activa en cerebro cuantitativo para estos 3 nombres",
-      "catalizador": "Deterioro de score interno / rotaci\u00f3n sectorial",
-      "size_hint": "media (3-4%)",
-      "invalidacion": "Reversi\u00f3n de score a positivo en pr\u00f3xima actualizaci\u00f3n"
-    },
-    {
       "prioridad": 4,
-      "accion": "ESPERAR",
-      "instrumento": "INTU",
-      "razon": "Pese a score 100 y grade B, earnings en 7 d\u00edas aconseja esperar antes de nueva posici\u00f3n grande",
-      "catalizador": "Earnings INTU (7d)",
+      "accion": "VENDER",
+      "instrumento": "BSX, CLPBY, CRH",
+      "razon": "Se\u00f1al EXIT activa en Cerebro para estos tres nombres.",
+      "catalizador": "Se\u00f1al de salida ya confirmada",
       "size_hint": "peque\u00f1a (1-2%)",
-      "invalidacion": "Gu\u00eda pre-earnings positiva que reduzca incertidumbre"
+      "invalidacion": "Cambio de se\u00f1al Cerebro a HOLD o BUY"
     },
     {
       "prioridad": 5,
-      "accion": "COMPRAR",
-      "instrumento": "ADBE",
-      "razon": "Grade A con FCF 11.49% ofrece mejor margen de seguridad que el resto del top value",
-      "catalizador": "Score value 98.1 sostenido",
-      "size_hint": "media (3-4%)",
-      "invalidacion": "Ca\u00edda de FCF yield por debajo de 8% o downgrade de grade"
+      "accion": "ESPERAR",
+      "instrumento": "INTU",
+      "razon": "Earnings en 6 d\u00edas, mejor esperar claridad antes de a\u00f1adir posici\u00f3n pese a score 100.",
+      "catalizador": "Reporte de resultados INTU",
+      "size_hint": "peque\u00f1a (1-2%)",
+      "invalidacion": "Guidance negativo que rompa tesis de calidad"
     }
   ],
   "macro_plays": [
     {
       "instrument": "TLT/VGLT",
       "direction": "LONG",
-      "thesis": "Yield 30yr en 5.36% \u2014 zona hist\u00f3ricamente atractiva para bonos largos",
+      "thesis": "Yield 30yr en 5.43% \u2014 zona hist\u00f3ricamente atractiva para bonos largos",
       "historical": "2018-19: TLT +18% cuando yields revertieron desde 3.25%",
       "risk": "La Fed puede mantener tipos altos m\u00e1s tiempo \u2014 size peque\u00f1o",
       "timeframe": "3-6 meses",
@@ -68,49 +68,53 @@
         "exchange": "Xetra",
         "available": "DEGIRO/IB"
       }
+    },
+    {
+      "instrument": "IWM",
+      "direction": "LONG (contrarian)",
+      "thesis": "Small caps en percentil 24% pero cr\u00e9dito OK \u2014 divergencia excesiva",
+      "historical": "2016 post-elecci\u00f3n: IWM +20% en 3 meses desde valuaciones deprimidas",
+      "risk": "Si cr\u00e9dito deteriora, small caps caen m\u00e1s \u2014 monitorizar HYG",
+      "timeframe": "2-3 meses",
+      "score": 60,
+      "eu_alternative": {
+        "ticker": "CSUS",
+        "name": "iShares MSCI USA Small Cap UCITS ETF",
+        "exchange": "LSE",
+        "available": "DEGIRO/IB"
+      }
     }
   ],
-  "macro_plays_commentary": "La oportunidad en TLT/VGLT es la m\u00e1s clara del d\u00eda dado el nivel de yield, pero conviene esperar confirmaci\u00f3n post-CPI antes de aumentar tama\u00f1o.",
+  "macro_plays_commentary": "TLT/VGLT luce atractivo por yields extremos y IWM contrarian es interesante pero especulativo dado el percentil bajo pese a cr\u00e9dito sano.",
   "value_en_entorno": [
     {
       "ticker": "INTU",
       "score": 100.0,
       "sector": "Technology",
-      "fcf_yield_pct": 9.41,
+      "fcf_yield_pct": 9.48,
       "grade": "B"
     },
     {
       "ticker": "ADBE",
-      "score": 98.1,
+      "score": 98.0,
       "sector": "Technology",
-      "fcf_yield_pct": 11.49,
+      "fcf_yield_pct": 11.45,
       "grade": "A"
-    },
-    {
-      "ticker": "UBER",
-      "score": 58.0,
-      "sector": "Technology",
-      "fcf_yield_pct": 7.21,
-      "grade": "B"
     }
   ],
-  "value_en_entorno_razon": "En un r\u00e9gimen CALM con se\u00f1ales mixtas (d\u00f3lar fuerte, SKEW elevado), los picks VALUE en tecnolog\u00eda de calidad (INTU, ADBE) con alto FCF ofrecen resiliencia frente a volatilidad s\u00fabita sin sacrificar crecimiento.",
+  "value_en_entorno_razon": "En un r\u00e9gimen CALM con cr\u00e9dito s\u00f3lido y cobre/oro fuertes, los nombres tech de alta calidad y FCF robusto (INTU, ADBE) ofrecen resiliencia ante volatilidad de cola sin sacrificar crecimiento.",
   "evitar": [
     {
       "ticker": "BSX",
-      "razon": "Se\u00f1al EXIT activa del cerebro cuantitativo"
+      "razon": "Se\u00f1al EXIT activa de Cerebro"
+    },
+    {
+      "ticker": "CLPBY",
+      "razon": "Se\u00f1al EXIT activa de Cerebro"
     },
     {
       "ticker": "CRH",
-      "razon": "Se\u00f1al EXIT activa del cerebro cuantitativo"
-    },
-    {
-      "ticker": "MLM",
-      "razon": "Se\u00f1al EXIT activa del cerebro cuantitativo"
-    },
-    {
-      "ticker": "IWM / Small Caps",
-      "razon": "Score negativo (-0.5) y percentil bajo (35.5) indica debilidad relativa"
+      "razon": "Se\u00f1al EXIT activa de Cerebro"
     }
   ],
   "agenda_semana": [
@@ -118,40 +122,46 @@
       "fecha": "2026-11-13",
       "evento": "CPI November",
       "impacto": "ALTO",
-      "accion_sugerida": "Reducir tama\u00f1o de nuevas posiciones hasta conocer el dato; mantener cobertura en oro/defensa"
+      "accion_sugerida": "Reducir exposici\u00f3n t\u00e1ctica antes de la publicaci\u00f3n y esperar confirmaci\u00f3n de tendencia"
     },
     {
       "fecha": "2026-11-16",
       "evento": "TNE.AX earnings",
       "impacto": "BAJO",
-      "accion_sugerida": "Sin acci\u00f3n si no se tiene posici\u00f3n"
+      "accion_sugerida": "Sin acci\u00f3n relevante para cartera US"
     },
     {
       "fecha": "2026-11-17",
       "evento": "NVDA earnings",
       "impacto": "ALTO",
-      "accion_sugerida": "Vigilar volatilidad impl\u00edcita, evitar nueva entrada pre-earnings"
+      "accion_sugerida": "Vigilar volatilidad impl\u00edcita en tech growth"
     },
     {
       "fecha": "2026-11-17",
       "evento": "HD earnings",
       "impacto": "MEDIO",
-      "accion_sugerida": "Revisar exposici\u00f3n consumo discrecional"
+      "accion_sugerida": "Evaluar salud del consumidor"
     },
     {
       "fecha": "2026-11-18",
       "evento": "TJX earnings",
       "impacto": "MEDIO",
-      "accion_sugerida": "Monitorear gu\u00eda de retail para contexto de consumo"
+      "accion_sugerida": "Confirmar tendencia de retail discrecional"
     },
     {
       "fecha": "2026-11-19",
-      "evento": "INTU y CPRT earnings",
+      "evento": "INTU earnings",
       "impacto": "ALTO",
-      "accion_sugerida": "Esperar resultados antes de aumentar posici\u00f3n en INTU"
+      "accion_sugerida": "Esperar reporte antes de aumentar posici\u00f3n VALUE"
+    },
+    {
+      "fecha": "2026-11-19",
+      "evento": "CPRT earnings",
+      "impacto": "BAJO",
+      "accion_sugerida": "Monitorear sin acci\u00f3n inmediata"
     }
   ],
-  "frase_del_dia": "El mercado es un dispositivo para transferir dinero del impaciente al paciente \u2014 Warren Buffett",
-  "mensaje_telegram": "\ud83d\udcca Mercado CALM pero con oro/defensa subiendo \ud83d\udee1\ufe0f y d\u00f3lar en extremos \ud83d\udcb5. CPI ma\u00f1ana \u26a0\ufe0f clave. TLT atractivo en yields 5.36% \ud83d\udcc8. VALUE: ADBE fuerte, INTU esperar earnings. Salir de BSX/CRH/MLM \ud83d\udeaa. Cautela y selectividad.",
+  "frase_del_dia": "El mercado es un mecanismo de transferencia de dinero de los impacientes a los pacientes. \u2014 Warren Buffett",
+  "mensaje_telegram": "\ud83d\udcca CPI hoy puede mover todo. Cr\u00e9dito y cobre OK \u2705 pero DXY en extremo \ud83d\udd3a y SKEW alto \u26a0\ufe0f. Plan: VIGILAR CPI, COMPRAR ADBE/TLT en dips, VENDER BSX/CLPBY/CRH (exit se\u00f1al). Esperar INTU earnings antes de sumar \ud83e\uddd8",
   "ai_powered": true
 }
