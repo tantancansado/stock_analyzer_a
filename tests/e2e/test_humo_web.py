@@ -90,6 +90,10 @@ def _pagina(navegador, tema, ancho=ANCHO, extra=''):
     return ctx, ctx.new_page()
 
 
+_LA_DE_LA_DIRECCION = ("const p = document.querySelectorAll('main [data-ruta]'); "
+                       "const destino = location.hash.slice(1) || '/';")
+
+
 @pytest.mark.parametrize('tema', ['dark', 'light'])
 def test_cada_pagina_se_pinta_entera_en_el_movil(servidor, navegador, tema):
     ctx, pagina = _pagina(navegador, tema)
@@ -103,7 +107,24 @@ def test_cada_pagina_se_pinta_entera_en_el_movil(servidor, navegador, tema):
             pagina.wait_for_load_state('networkidle', timeout=15000)
         except sync_api.TimeoutError:
             pass
+        # Cambiar solo el hash no es una navegación: `networkidle` vuelve al
+        # momento aunque la página aún esté bajando su código, y mientras sale
+        # la anterior su <h1> sigue ahí. /portfolio redirige a una pestaña de Mi
+        # cartera que se carga aparte, y en CI tardaba más de los 800 ms: «0
+        # <h1>» dos veces el 12-nov con la página bien. Se espera a que la
+        # página que se ve sea la de la dirección (`data-ruta`, App.tsx) y
+        # tenga su título; si no llega, se dice cuál se quedó.
+        try:
+            pagina.wait_for_function(f'() => {{ {_LA_DE_LA_DIRECCION} return p.length === 1 '
+                                     '&& p[0].dataset.ruta === destino && !!p[0].querySelector("h1") }',
+                                     timeout=10000)
+        except sync_api.TimeoutError:
+            pass
         pagina.wait_for_timeout(800)
+        mostrada, destino = pagina.evaluate(
+            f'() => {{ {_LA_DE_LA_DIRECCION} return [[...p].map(e => e.dataset.ruta), destino] }}')
+        if mostrada != [destino]:
+            fallos.append(f'{ruta}: enseña {mostrada} en vez de {destino}')
         h1 = pagina.locator('h1').count()
         texto = pagina.locator('main').inner_text() if pagina.locator('main').count() else ''
         roto = sorted(set(TEXTO_ROTO.findall(texto)))

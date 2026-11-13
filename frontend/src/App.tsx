@@ -287,6 +287,7 @@ export default function App() {
           <AnimatePresence mode="wait" initial={false}>
             <motion.div
               key={pageKey}
+              data-ruta={pageKey}
               initial={reduceMotion ? false : { opacity: 0, y: 12, filter: 'blur(6px)' }}
               animate={reduceMotion ? { opacity: 1 } : { opacity: 1, y: 0, filter: 'blur(0px)' }}
               exit={reduceMotion ? { opacity: 1 } : { opacity: 0, y: -6, filter: 'blur(4px)' }}
