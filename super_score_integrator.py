@@ -978,16 +978,21 @@ class SuperScoreIntegrator:
                 combined = _ev.rank(ascending=False, na_option='bottom') + _roic.rank(ascending=False, na_option='bottom')
                 df['magic_formula_rank'] = combined.rank(ascending=True, method='min').astype('Int64').where(has_both, other=pd.NA)
 
-        # Fondos 13F: dato de la ficha (hay un filtro «solo con fondos» en la lista).
+        # Inversores 13F (los de Dataroma): dato de la ficha, no cuenta en la nota.
         hf_path = Path('docs/hedge_fund_summary.json')
         if hf_path.exists():
             try:
-                filas_hf = json.loads(hf_path.read_text()).get('top_consensus', [])
-                hf_count = {str(r.get('ticker', '')).upper().strip(): int(r.get('funds_count', 0)) for r in filas_hf}
-                hf_names = {str(r.get('ticker', '')).upper().strip(): r.get('funds_list', '') for r in filas_hf}
+                from hedge_fund_tracker import frase_inversores
+                filas_hf = {str(r.get('ticker', '')).upper().strip(): r
+                            for r in json.loads(hf_path.read_text()).get('top_consensus', [])}
                 _t = df['ticker'].str.upper().str.strip()
-                df['hedge_fund_count'] = _t.map(hf_count).fillna(0).astype(int)
-                df['hedge_fund_names'] = _t.map(hf_names).fillna('')
+                _de = lambda campo, f: _t.map(lambda t: f(filas_hf[t].get(campo)) if t in filas_hf else None)  # noqa: E731
+                df['hedge_fund_count'] = _de('funds_count', lambda v: int(v or 0)).fillna(0).astype(int)
+                df['hedge_fund_names'] = _de('funds_list', lambda v: v or '').fillna('')
+                df['inversores_compran'] = _de('compran', lambda v: frase_inversores(v or [])).fillna('')
+                df['inversores_venden'] = _de('venden', lambda v: frase_inversores(v or [])).fillna('')
+                df['inversores_n_compran'] = _de('compran', lambda v: len(v or [])).fillna(0).astype(int)
+                df['inversores_n_venden'] = _de('venden', lambda v: len(v or [])).fillna(0).astype(int)
             except Exception as _e:
                 print(f"   ⚠️  Hedge fund signal skipped: {_e}")
 

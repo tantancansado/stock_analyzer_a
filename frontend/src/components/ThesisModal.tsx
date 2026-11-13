@@ -272,6 +272,45 @@ function InteresCorto({ row }: Readonly<{ row: ValueOpportunity }>) {
   )
 }
 
+// Los inversores que sigue Dataroma, sacados de sus 13F en la SEC
+// (hedge_fund_tracker.py). Las frases vienen hechas y agrupadas por trimestre.
+function GrandesInversores({ row }: Readonly<{ row: ValueOpportunity }>) {
+  const tienen = row.hedge_fund_count ?? 0
+  const compran = row.inversores_compran?.trim()
+  const venden = row.inversores_venden?.trim()
+  if (!tienen && !compran && !venden) return null
+  const cuantos = tienen === 1 ? 'La tiene 1' : `La tienen ${tienen}`
+
+  return (
+    <div className="mb-4">
+      <h4 className="etiqueta-seccion mb-2">Grandes inversores</h4>
+      <div className="rounded-lg border border-border/20 bg-muted/10 p-3 space-y-1.5">
+        <p className="text-micro text-foreground/80">
+          {tienen > 0
+            ? `${cuantos} de los inversores value que sigue Dataroma.`
+            : 'Ya no la tiene ninguno de los inversores value que sigue Dataroma.'}
+        </p>
+        {compran && (
+          <p className="text-micro leading-relaxed">
+            <span className="font-semibold text-emerald-400">Compran: </span>
+            <span className="text-muted-foreground">{compran}</span>
+          </p>
+        )}
+        {venden && (
+          <p className="text-micro leading-relaxed">
+            <span className="font-semibold text-red-400">Venden: </span>
+            <span className="text-muted-foreground">{venden}</span>
+          </p>
+        )}
+        <p className="text-micro leading-relaxed text-muted-foreground">
+          Dato informativo, no cuenta en la nota: no está medido que seguirles dé
+          ventaja, y sus carteras se conocen hasta 45 días después de cerrar el trimestre.
+        </p>
+      </div>
+    </div>
+  )
+}
+
 function Chip({ label, value, color }: { label: string; value: string; color?: string }) {
   const bg =
     color?.includes('emerald') ? 'bg-emerald-500/8 border-emerald-500/20' :
@@ -465,9 +504,6 @@ export default function ThesisModal({ row, thesisText, onClose }: Props) {
               <Chip label="Div" value={`${row.dividend_yield_pct.toFixed(1)}%`} color="text-emerald-400" />
             )}
             {row.buyback_active && <Chip label="Buyback" value="Activo" color="text-emerald-400" />}
-            {(row.hedge_fund_count ?? 0) >= 1 && (
-              <Chip label="Smart $" value={`${row.hedge_fund_count}`} color={(row.hedge_fund_count ?? 0) >= 2 ? 'text-amber-400' : ''} />
-            )}
             {earn != null && (
               <Chip label="Earnings" value={`${earn}d`} color={earn <= 7 ? 'text-red-400' : earn <= 21 ? 'text-amber-400' : 'text-emerald-400'} />
             )}
@@ -556,6 +592,7 @@ export default function ThesisModal({ row, thesisText, onClose }: Props) {
                 )}
                 <WhyCheap row={row} />
                 <InteresCorto row={row} />
+                <GrandesInversores row={row} />
                 <h4 className="etiqueta-seccion mb-3">Tesis de Inversión</h4>
                 <ThesisBody text={thesisText} />
               </div>

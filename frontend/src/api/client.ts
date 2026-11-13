@@ -147,9 +147,14 @@ export interface ValueOpportunity {
   // Peso en cartera (position_sizing.csv), pegado al cargar la lista
   peso_objetivo_pct?: number | null
   peso_motivo?: string | null
-  // Hedge Fund 13F consensus
+  // Inversores 13F (los de Dataroma, hedge_fund_tracker.py): cuántos la tienen
+  // y, en frase ya hecha, quién compra y quién vende en su último trimestre
   hedge_fund_count?: number
   hedge_fund_names?: string
+  inversores_compran?: string
+  inversores_venden?: string
+  inversores_n_compran?: number
+  inversores_n_venden?: number
   // Health/earnings metrics (from global CSV)
   roe_pct?: number
   profit_margin_pct?: number
@@ -548,7 +553,7 @@ export const VALUE_NUMERIC = new Set([
   'piotroski_bonus','fcf_bonus','dividend_bonus','buyback_bonus','revision_bonus',
   'rr_bonus','sector_bonus','insider_bonus','institutional_bonus','options_bonus',
   'mr_bonus','hf_bonus','days_in_list','profitability_penalty',
-  'cerebro_score_adj','hedge_fund_count',
+  'cerebro_score_adj','hedge_fund_count','inversores_n_compran','inversores_n_venden',
   'hv_30d','atm_iv','iv_ratio','iv_premium_pts',
   'ml_win_probability','ml_score',
   'upside_triangulated_pct','upside_divergence_pts','relative_strength_6m',

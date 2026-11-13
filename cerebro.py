@@ -1287,7 +1287,11 @@ def scan_smart_money() -> dict:
             t = str(row.get("ticker","")).upper()
             value_map[t] = {"value_score": sf(row.get("value_score")), "company_name": str(row.get("company_name", t)), "sector": str(row.get("sector",""))}
 
-    # Build hedge fund map: ticker → {funds, count}
+    # Build hedge fund map: ticker → {funds, count}. Solo las que compran en su
+    # último 13F (entran o amplían): el aviso dice «comprando», y desde el
+    # 13-nov-2026 se siguen 79 gestoras, no 8, así que «la tiene» ya no separa.
+    if not hf_df.empty and "activity" in hf_df.columns:
+        hf_df = hf_df[hf_df["activity"].isin(["NUEVA", "AMPLIA"])]
     hf_map = {}
     if not hf_df.empty:
         ticker_col = next((c for c in ["ticker","stock","symbol"] if c in hf_df.columns), None)
