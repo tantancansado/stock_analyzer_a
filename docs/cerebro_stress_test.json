@@ -1,14 +1,14 @@
 {
-  "generated_at": "2026-11-13",
-  "total_positions": 102,
+  "generated_at": "2026-11-16",
+  "total_positions": 95,
   "risks": [
     {
       "type": "SECTOR_CONCENTRATION",
       "severity": "HIGH",
-      "message": "75% de se\u00f1ales en Unknown (77/102) \u2014 concentraci\u00f3n elevada",
+      "message": "75% de se\u00f1ales en Unknown (71/95) \u2014 concentraci\u00f3n elevada",
       "detail": {
         "sector": "Unknown",
-        "count": 77,
+        "count": 71,
         "pct": 75
       }
     },
@@ -17,27 +17,27 @@
       "severity": "LOW",
       "message": "100% en mercado US \u2014 poca diversificaci\u00f3n geogr\u00e1fica",
       "detail": {
-        "us": 102,
+        "us": 95,
         "eu": 0
       }
     }
   ],
-  "narrative": "",
+  "narrative": "Para mitigar la alta concentraci\u00f3n sectorial, diversifica la cartera invirtiendo en se\u00f1ales de sectores con menor exposici\u00f3n, como tecnolog\u00eda, salud o energ\u00eda renovable, y aplica l\u00edmites de porcentaje por sector. Para reducir la concentraci\u00f3n geogr\u00e1fica, a\u00f1ade activos de mercados internacionales (Europa, Asia y Am\u00e9rica Latina) y utiliza fondos indexados globales que distribuyan la exposici\u00f3n a distintas regiones.",
   "sector_breakdown": [
     {
       "sector": "Unknown",
-      "count": 77,
+      "count": 71,
       "pct": 75
     },
     {
       "sector": "Technology",
-      "count": 8,
-      "pct": 8
+      "count": 7,
+      "pct": 7
     },
     {
       "sector": "Financial Services",
-      "count": 5,
-      "pct": 5
+      "count": 6,
+      "pct": 6
     },
     {
       "sector": "Industrials",
@@ -55,17 +55,17 @@
       "pct": 2
     },
     {
-      "sector": "Healthcare",
-      "count": 2,
-      "pct": 2
+      "sector": "Consumer Cyclical",
+      "count": 1,
+      "pct": 1
     },
     {
-      "sector": "Consumer Cyclical",
+      "sector": "Healthcare",
       "count": 1,
       "pct": 1
     }
   ],
   "region_breakdown": {
-    "US": 102
+    "US": 95
   }
 }

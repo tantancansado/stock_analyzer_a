@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-11-13",
-  "total": 2,
+  "generated_at": "2026-11-16",
+  "total": 1,
   "strong_buy": 0,
   "buy": 0,
-  "monitor": 2,
+  "monitor": 1,
   "wait": 0,
   "narrative": null,
   "signals": [
@@ -12,14 +12,14 @@
       "company_name": "Intuit Inc.",
       "region": "US",
       "sector": "Technology",
-      "value_score": 100.0,
+      "value_score": 99.9,
       "conviction_grade": "B",
-      "current_price": 340.17,
-      "analyst_upside_pct": 19.9,
-      "fcf_yield_pct": 9.48,
-      "risk_reward_ratio": 2.49,
-      "days_in_value": 5,
-      "streak_days": 5,
+      "current_price": 341.7,
+      "analyst_upside_pct": 19.4,
+      "fcf_yield_pct": 9.44,
+      "risk_reward_ratio": 2.42,
+      "days_in_value": 6,
+      "streak_days": 6,
       "entry_score": 40,
       "signal": "MONITOR",
       "signals_fired": [
@@ -56,62 +56,11 @@
         "Sin se\u00f1al MR oversold",
         "Sector no l\u00edder",
         "R\u00e9gimen no alcista",
-        "\u26a0 Earnings en 6d \u2014 riesgo de entrada"
+        "\u26a0 Earnings en 3d \u2014 riesgo de entrada"
       ],
       "rsi": null,
       "earnings_warning": true,
-      "days_to_earnings": 6
-    },
-    {
-      "ticker": "ADBE",
-      "company_name": "Adobe Inc.",
-      "region": "US",
-      "sector": "Technology",
-      "value_score": 98.0,
-      "conviction_grade": "A",
-      "current_price": 238.54,
-      "analyst_upside_pct": 11.9,
-      "fcf_yield_pct": 11.45,
-      "risk_reward_ratio": 1.49,
-      "days_in_value": 2,
-      "streak_days": 1,
-      "entry_score": 30,
-      "signal": "MONITOR",
-      "signals_fired": [
-        "Value score \u226580",
-        "FCF yield \u22655%",
-        "Upside en banda dorada [10,30)",
-        "Analyst revision \u2191"
-      ],
-      "signals_pts": [
-        {
-          "name": "Value score \u226580",
-          "pts": 10
-        },
-        {
-          "name": "FCF yield \u22655%",
-          "pts": 10
-        },
-        {
-          "name": "Upside en banda dorada [10,30)",
-          "pts": 10
-        },
-        {
-          "name": "Analyst revision \u2191",
-          "pts": 5
-        }
-      ],
-      "signals_missing": [
-        "Sin insider buying (espera)",
-        "Sin se\u00f1al MR oversold",
-        "Sin opciones alcistas",
-        "Sector no l\u00edder",
-        "R\u00e9gimen no alcista",
-        "Solo 2d en VALUE"
-      ],
-      "rsi": null,
-      "earnings_warning": false,
-      "days_to_earnings": 26
+      "days_to_earnings": 3
     }
   ]
 }

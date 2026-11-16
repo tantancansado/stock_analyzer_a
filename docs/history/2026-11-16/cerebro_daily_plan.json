@@ -1,0 +1,143 @@
+{
+  "generated_at": "2026-11-16",
+  "macro_regime": "CALM",
+  "composite_score": 8.5,
+  "sesgo": "NEUTRO",
+  "confianza": 62,
+  "situacion": "Mercado en calma aparente (+8.5/30) pero con tensi\u00f3n creciente por un d\u00f3lar en m\u00e1ximos hist\u00f3ricos que amenaza con romper el equilibrio.",
+  "narrativa": "El r\u00e9gimen CALM esconde una divergencia relevante: cr\u00e9dito HY/IG, cobre/oro y oro vs mercado est\u00e1n fuertes, sugiriendo apetito de riesgo selectivo, pero el DXY en percentil 99.6 con momentum fuerte genera riesgo de dollar squeeze sobre emergentes y carry trades. Para un inversor VALUE esto implica priorizar calidad con FCF robusto y baja sensibilidad a d\u00f3lar, evitando small caps d\u00e9biles (IWM p24.4) hasta que la divergencia cr\u00e9dito/small caps se resuelva.",
+  "acciones_inmediatas": [
+    {
+      "prioridad": 1,
+      "accion": "VENDER",
+      "instrumento": "BSX",
+      "razon": "Se\u00f1al EXIT confirmada por Cerebro, deterioro de tesis t\u00e9cnica/fundamental.",
+      "catalizador": "Se\u00f1al sistem\u00e1tica de salida activada hoy.",
+      "size_hint": "media (3-4%)",
+      "invalidacion": "Reversi\u00f3n de la se\u00f1al Cerebro con mejora de momentum."
+    },
+    {
+      "prioridad": 1,
+      "accion": "VENDER",
+      "instrumento": "CLPBY",
+      "razon": "Se\u00f1al EXIT de Cerebro, riesgo elevado en contexto de d\u00f3lar fuerte para posiciones ligadas a emergentes.",
+      "catalizador": "Dollar squeeze en curso (DXY +1.8% 5d).",
+      "size_hint": "media (3-4%)",
+      "invalidacion": "Estabilizaci\u00f3n del DXY y mejora de flujos EM."
+    },
+    {
+      "prioridad": 2,
+      "accion": "VENDER",
+      "instrumento": "PEP",
+      "razon": "Se\u00f1al EXIT de Cerebro, defensivo perdiendo tracci\u00f3n relativa.",
+      "catalizador": "Se\u00f1al sistem\u00e1tica de salida.",
+      "size_hint": "peque\u00f1a (1-2%)",
+      "invalidacion": "Recuperaci\u00f3n de fundamentales o nueva se\u00f1al de entrada."
+    },
+    {
+      "prioridad": 2,
+      "accion": "VIGILAR",
+      "instrumento": "INTU",
+      "razon": "Top VALUE pick (score 99.9, FCF 9.44%) pero earnings en 3 d\u00edas a\u00f1ade volatilidad binaria.",
+      "catalizador": "Reporte de resultados INTU en 3 d\u00edas.",
+      "size_hint": "peque\u00f1a (1-2%)",
+      "invalidacion": "Guidance negativo o ca\u00edda del FCF yield post-earnings."
+    },
+    {
+      "prioridad": 3,
+      "accion": "COMPRAR",
+      "instrumento": "TLT/VGLT",
+      "razon": "Yield 30yr en 5.48% en zona hist\u00f3ricamente atractiva para bonos largos, play rule-based con score 95.",
+      "catalizador": "Nivel de yield t\u00e9cnico + posible flight-to-quality por dollar squeeze.",
+      "size_hint": "media (3-4%)",
+      "invalidacion": "Ruptura alcista sostenida de yields por encima de 5.6%."
+    }
+  ],
+  "macro_plays": [
+    {
+      "instrument": "TLT/VGLT",
+      "direction": "LONG",
+      "thesis": "Yield 30yr en 5.48% \u2014 zona hist\u00f3ricamente atractiva para bonos largos",
+      "historical": "2018-19: TLT +18% cuando yields revertieron desde 3.25%",
+      "risk": "La Fed puede mantener tipos altos m\u00e1s tiempo \u2014 size peque\u00f1o",
+      "timeframe": "3-6 meses",
+      "score": 95,
+      "eu_alternative": {
+        "ticker": "DTLA",
+        "name": "Xtrackers US Treasuries 20yr+ UCITS ETF",
+        "exchange": "Xetra",
+        "available": "DEGIRO/IB"
+      }
+    },
+    {
+      "instrument": "IWM",
+      "direction": "LONG (contrarian)",
+      "thesis": "Small caps en percentil 24% pero cr\u00e9dito OK \u2014 divergencia excesiva",
+      "historical": "2016 post-elecci\u00f3n: IWM +20% en 3 meses desde valuaciones deprimidas",
+      "risk": "Si cr\u00e9dito deteriora, small caps caen m\u00e1s \u2014 monitorizar HYG",
+      "timeframe": "2-3 meses",
+      "score": 60,
+      "eu_alternative": {
+        "ticker": "CSUS",
+        "name": "iShares MSCI USA Small Cap UCITS ETF",
+        "exchange": "LSE",
+        "available": "DEGIRO/IB"
+      }
+    }
+  ],
+  "macro_plays_commentary": "TLT/VGLT ofrece entrada t\u00e9cnica atractiva por yield, mientras IWM long contrarian requiere paciencia dado el riesgo activo de dollar squeeze.",
+  "value_en_entorno": [
+    {
+      "ticker": "INTU",
+      "score": 99.9,
+      "sector": "Technology",
+      "fcf_yield_pct": 9.44,
+      "grade": "B"
+    },
+    {
+      "ticker": "UBER",
+      "score": 58.3,
+      "sector": "Technology",
+      "fcf_yield_pct": 7.31,
+      "grade": "B"
+    }
+  ],
+  "value_en_entorno_razon": "INTU y UBER combinan alto FCF yield y calidad sectorial (Technology, grade B), lo que los hace resilientes frente a un d\u00f3lar fuerte y un entorno de cr\u00e9dito a\u00fan sano, encajando con el perfil defensivo-selectivo que exige el r\u00e9gimen CALM con riesgos de cola.",
+  "evitar": [
+    {
+      "ticker": "BSX",
+      "razon": "Se\u00f1al EXIT de Cerebro, deterioro de tesis."
+    },
+    {
+      "ticker": "CLPBY",
+      "razon": "Se\u00f1al EXIT de Cerebro y exposici\u00f3n a riesgo de dollar squeeze."
+    },
+    {
+      "ticker": "PEP",
+      "razon": "Se\u00f1al EXIT de Cerebro, p\u00e9rdida de momentum relativo."
+    }
+  ],
+  "agenda_semana": [
+    {
+      "fecha": "2026-11-17",
+      "evento": "Earnings NVDA y HD",
+      "impacto": "ALTO",
+      "accion_sugerida": "Evitar nuevas posiciones en semiconductores/consumo discrecional hasta conocer guidance."
+    },
+    {
+      "fecha": "2026-11-18",
+      "evento": "Earnings TJX",
+      "impacto": "MEDIO",
+      "accion_sugerida": "Vigilar impacto en sector retail value."
+    },
+    {
+      "fecha": "2026-11-19",
+      "evento": "Earnings INTU, CPRT, WMT",
+      "impacto": "ALTO",
+      "accion_sugerida": "Reducir tama\u00f1o en INTU previo a resultados, esperar confirmaci\u00f3n post-reporte para a\u00f1adir."
+    }
+  ],
+  "frase_del_dia": "\u201cS\u00e9 temeroso cuando otros son codiciosos, y codicioso cuando otros son temerosos.\u201d \u2014 Warren Buffett",
+  "mensaje_telegram": "\ud83d\udcc9 D\u00f3lar en m\u00e1ximos (p99.6) = riesgo squeeze en EM. \ud83d\udfe2 Cr\u00e9dito y cobre/oro fuertes. Salimos de BSX/CLPBY/PEP (Cerebro). TLT atractivo por yield 5.48%. INTU top VALUE pero earnings en 3d, posici\u00f3n peque\u00f1a. Cautela con IWM. \ud83d\udee1\ufe0f",
+  "ai_powered": true
+}

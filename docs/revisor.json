@@ -1,42 +1,32 @@
 {
-  "fecha": "2026-11-13",
+  "fecha": "2026-11-16",
   "estado": "ok",
   "hallazgos": [
     {
-      "clave": "vaiven:DVA:target_price_dcf",
-      "ticker": "DVA",
-      "tipo": "cambio_sin_motivo",
-      "titulo": "target_price_dcf va y vuelve",
-      "por_que": "2026-11-11: 368.3 · 2026-11-12: 478.81 · 2026-11-13: 368.3. Un dato que vuelve al día siguiente no es la empresa: alguna fuente devuelve cosas distintas según el día.",
-      "cita": "target_price_dcf: 478.81",
-      "donde_mirar": "el cálculo de ese campo y su fuente"
+      "clave": "texto_contradice_datos:INTU",
+      "ticker": "INTU",
+      "tipo": "texto_contradice_datos",
+      "titulo": "El resumen dice que Intuit elevó su guía mientras los propios datos muestran recortes de estimaciones",
+      "por_que": "why_cheap_resumen afirma que Intuit \"mantuvo o incluso elevó su guía de ingresos y BPA\", pero el mismo registro indica que los analistas han recortado el beneficio esperado un 11% en tres meses, lo que contradice la idea de que las estimaciones de consenso suban o se mantengan intactas.",
+      "cita": "\"revision_13s_pct\": -10.9",
+      "donde_mirar": "Comparación entre why_cheap_resumen y revision_13s_pct / value_avisos en la ficha de INTU"
     },
     {
-      "clave": "vaiven:DVA:fcf_per_share",
-      "ticker": "DVA",
-      "tipo": "cambio_sin_motivo",
-      "titulo": "fcf_per_share va y vuelve",
-      "por_que": "2026-11-11: 15.83 · 2026-11-12: 20.59 · 2026-11-13: 15.82. Un dato que vuelve al día siguiente no es la empresa: alguna fuente devuelve cosas distintas según el día.",
-      "cita": "fcf_per_share: 20.59",
-      "donde_mirar": "el cálculo de ese campo y su fuente"
-    },
-    {
-      "clave": "revisor:sin_claude",
-      "ticker": null,
-      "tipo": "otro",
-      "titulo": "el revisor no pudo preguntar a Claude",
-      "por_que": "Claude no respondió (presupuesto, crédito o API caída)",
-      "cita": "Claude no respondió (presupuesto, crédito o API caída)",
-      "donde_mirar": "el paso «Revisor nocturno» del workflow y docs/revisor.json"
+      "clave": "lista_incumple_su_regla:BRO",
+      "ticker": "BRO",
+      "tipo": "lista_incumple_su_regla",
+      "titulo": "why_cheap usa una categoría (CICLICO) fuera de la taxonomía definida",
+      "por_que": "Las reglas de la casa solo contemplan SENTIMIENTO, EVENTO, MACRO o DETERIORO para clasificar la caída; BRO aparece con 'CICLICO', una categoría no prevista, lo que rompe la coherencia del esquema de clasificación.",
+      "cita": "\"why_cheap\": \"CICLICO\"",
+      "donde_mirar": "Campo why_cheap de la ficha de BRO"
     }
   ],
-  "descartados": [],
-  "incidencias_nuevas": [
-    13,
-    14,
-    15
+  "descartados": [
+    "UBER: El briefing dice que a Uber le falta crecer un 10% cuando sus ventas ya superan ese umbral (la cita no está en los datos)"
   ],
-  "avisos": [
-    "sin revisión de Claude: Claude no respondió (presupuesto, crédito o API caída)"
-  ]
+  "incidencias_nuevas": [
+    16,
+    17
+  ],
+  "avisos": []
 }
