@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-13T07:03:41+00:00",
+  "generated_at": "2026-11-16T06:46:01+00:00",
   "framework": "macro_stress_v2",
   "markets": {
     "crude_oil": {
@@ -31,15 +31,15 @@
           "label": "Backwardation de la curva",
           "weight": 0.25,
           "direction": "high_is_stress",
-          "value": -8.51,
-          "percentile": 18.7,
+          "value": -8.18,
+          "percentile": 24.2,
           "z": null,
-          "score": 18.7,
-          "contribution": 4.7,
+          "score": 24.2,
+          "contribution": 6.0,
           "meta": {
             "curve_state": "CONTANGO",
-            "front_price": 88.94,
-            "deferred_price": 96.51
+            "front_price": 89.36,
+            "deferred_price": 96.67
           },
           "history_ready": true
         },
@@ -87,7 +87,7 @@
           "history_ready": false
         }
       },
-      "narrative": "backwardation -8.51% \u00b7 CFTC +4.2% OI",
+      "narrative": "backwardation -8.18% \u00b7 CFTC +4.2% OI",
       "equity_exposure": {
         "beneficiaries": [
           "USO",
@@ -113,11 +113,6 @@
       "history_ready": false,
       "history_note": "Hist\u00f3rico insuficiente: a\u00fan no hay suficientes fechas comparables con al menos 3 se\u00f1ales.",
       "chart_series": [
-        {
-          "date": "2021-11-26",
-          "price": 68.15,
-          "stress_score": null
-        },
         {
           "date": "2021-12-03",
           "price": 66.26,
@@ -1410,22 +1405,27 @@
         },
         {
           "date": "2026-11-13",
-          "price": 88.94,
+          "price": 88.56,
+          "stress_score": null
+        },
+        {
+          "date": "2026-11-20",
+          "price": 89.34,
           "stress_score": null
         }
       ],
       "top_contributors": [
         {
+          "key": "curve_shape",
+          "label": "Backwardation de la curva",
+          "score": 24.2,
+          "contribution": 6.0
+        },
+        {
           "key": "positioning",
           "label": "CFTC positioning",
           "score": 33.2,
           "contribution": 5.0
-        },
-        {
-          "key": "curve_shape",
-          "label": "Backwardation de la curva",
-          "score": 18.7,
-          "contribution": 4.7
         }
       ]
     }

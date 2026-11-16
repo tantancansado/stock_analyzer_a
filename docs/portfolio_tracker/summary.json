@@ -1,9 +1,9 @@
 {
-  "total_signals": 128,
-  "unique_tickers": 80,
-  "date_range": "2026-04-08 to 2026-11-13",
-  "active_signals": 42,
-  "completed_signals": 86,
+  "total_signals": 131,
+  "unique_tickers": 82,
+  "date_range": "2026-04-08 to 2026-11-16",
+  "active_signals": 44,
+  "completed_signals": 87,
   "overall": {
     "90d": {
       "count": 63,
@@ -164,7 +164,7 @@
     }
   },
   "value_strategy": {
-    "count": 128,
+    "count": 131,
     "90d": {
       "count": 63,
       "win_rate": 73.0,
@@ -274,8 +274,8 @@
         "ci_high": null
       }
     },
-    "edad_max_dias": 85,
-    "dias_hasta_primera_lectura": 5,
+    "edad_max_dias": 88,
+    "dias_hasta_primera_lectura": 2,
     "con_contrato": 151,
     "nota": "el contrato se sigue por su s\u00edmbolo OCC; son opciones poco l\u00edquidas, as\u00ed que un checkpoint sin cotizaci\u00f3n en 10 d\u00edas se queda vac\u00edo en vez de arrastrar un precio viejo"
   },
@@ -291,9 +291,9 @@
       "win_rate_30d": 60.0
     },
     "Financial Services": {
-      "count": 37,
-      "avg_30d": 1.7,
-      "win_rate_30d": 62.2
+      "count": 38,
+      "avg_30d": 2.41,
+      "win_rate_30d": 63.2
     },
     "Communication Services": {
       "count": 6,
@@ -321,7 +321,7 @@
       "win_rate_30d": 66.7
     }
   },
-  "score_correlation": 0.067,
+  "score_correlation": 0.051,
   "top_performers": [
     {
       "ticker": "BBY",
@@ -419,6 +419,39 @@
   "performers_horizon": "180d",
   "recent_signals": [
     {
+      "ticker": "ALLY",
+      "company_name": "Ally Financial Inc.",
+      "strategy": "VALUE",
+      "signal_date": "2026-11-16",
+      "signal_price": 38.31,
+      "sector": "Financial Services",
+      "value_score": 40.2,
+      "days_active": 0,
+      "first_result_date": "2026-11-23"
+    },
+    {
+      "ticker": "META",
+      "company_name": "Meta Platforms, Inc.",
+      "strategy": "VALUE",
+      "signal_date": "2026-11-16",
+      "signal_price": 641.69,
+      "sector": "Communication Services",
+      "value_score": 44.3,
+      "days_active": 0,
+      "first_result_date": "2026-11-23"
+    },
+    {
+      "ticker": "PRI",
+      "company_name": "Primerica, Inc.",
+      "strategy": "VALUE",
+      "signal_date": "2026-11-16",
+      "signal_price": 293.39,
+      "sector": "Financial Services",
+      "value_score": 47.1,
+      "days_active": 0,
+      "first_result_date": "2026-11-23"
+    },
+    {
       "ticker": "AMZN",
       "company_name": "Amazon.com, Inc.",
       "strategy": "VALUE",
@@ -426,7 +459,7 @@
       "signal_price": 267.44,
       "sector": "Consumer Cyclical",
       "value_score": 40.0,
-      "days_active": 0,
+      "days_active": 3,
       "first_result_date": "2026-11-20"
     },
     {
@@ -437,7 +470,7 @@
       "signal_price": 259.48,
       "sector": "Technology",
       "value_score": 49.4,
-      "days_active": 0,
+      "days_active": 3,
       "first_result_date": "2026-11-20"
     },
     {
@@ -448,7 +481,7 @@
       "signal_price": 205.98,
       "sector": "Industrials",
       "value_score": 48.9,
-      "days_active": 1,
+      "days_active": 4,
       "first_result_date": "2026-11-19"
     },
     {
@@ -459,19 +492,8 @@
       "signal_price": 237.6,
       "sector": "Technology",
       "value_score": 98.1,
-      "days_active": 1,
+      "days_active": 4,
       "first_result_date": "2026-11-19"
-    },
-    {
-      "ticker": "SAP",
-      "company_name": "SAP SE",
-      "strategy": "VALUE",
-      "signal_date": "2026-11-10",
-      "signal_price": 237.42,
-      "sector": "Technology",
-      "value_score": 49.4,
-      "days_active": 3,
-      "first_result_date": "2026-11-17"
     },
     {
       "ticker": "ESLOY",
@@ -481,18 +503,7 @@
       "signal_price": 107.2,
       "sector": "Healthcare",
       "value_score": 50.8,
-      "days_active": 3,
-      "first_result_date": "2026-11-17"
-    },
-    {
-      "ticker": "DPZ",
-      "company_name": "Domino's Pizza, Inc.",
-      "strategy": "VALUE",
-      "signal_date": "2026-11-10",
-      "signal_price": 334.18,
-      "sector": "Consumer Cyclical",
-      "value_score": 54.1,
-      "days_active": 3,
+      "days_active": 6,
       "first_result_date": "2026-11-17"
     },
     {
@@ -503,19 +514,30 @@
       "signal_price": 47.88,
       "sector": "Consumer Defensive",
       "value_score": 58.8,
-      "days_active": 3,
+      "days_active": 6,
       "first_result_date": "2026-11-17"
     },
     {
-      "ticker": "FCNCA",
-      "company_name": "First Citizens BancShares, Inc.",
+      "ticker": "DPZ",
+      "company_name": "Domino's Pizza, Inc.",
       "strategy": "VALUE",
-      "signal_date": "2026-11-09",
-      "signal_price": 2273.74,
-      "sector": "Financial Services",
-      "value_score": 46.1,
-      "days_active": 4,
-      "first_result_date": "2026-11-16"
+      "signal_date": "2026-11-10",
+      "signal_price": 334.18,
+      "sector": "Consumer Cyclical",
+      "value_score": 54.1,
+      "days_active": 6,
+      "first_result_date": "2026-11-17"
+    },
+    {
+      "ticker": "SAP",
+      "company_name": "SAP SE",
+      "strategy": "VALUE",
+      "signal_date": "2026-11-10",
+      "signal_price": 237.42,
+      "sector": "Technology",
+      "value_score": 49.4,
+      "days_active": 6,
+      "first_result_date": "2026-11-17"
     },
     {
       "ticker": "NYT",
@@ -525,95 +547,7 @@
       "signal_price": 68.36,
       "sector": "Communication Services",
       "value_score": 49.5,
-      "days_active": 4,
-      "first_result_date": "2026-11-16"
-    },
-    {
-      "ticker": "AON",
-      "company_name": "Aon plc",
-      "strategy": "VALUE",
-      "signal_date": "2026-11-09",
-      "signal_price": 334.81,
-      "sector": "Financial Services",
-      "value_score": 48.1,
-      "days_active": 4,
-      "first_result_date": "2026-11-16"
-    },
-    {
-      "ticker": "DSGX",
-      "company_name": "The Descartes Systems Group Inc.",
-      "strategy": "VALUE",
-      "signal_date": "2026-11-09",
-      "signal_price": 93.99,
-      "sector": "Technology",
-      "value_score": 46.9,
-      "days_active": 4,
-      "first_result_date": "2026-11-16"
-    },
-    {
-      "ticker": "ICE",
-      "company_name": "Intercontinental Exchange, Inc.",
-      "strategy": "VALUE",
-      "signal_date": "2026-11-09",
-      "signal_price": 172.27,
-      "sector": "Financial Services",
-      "value_score": 46.4,
-      "days_active": 4,
-      "first_result_date": "2026-11-16"
-    },
-    {
-      "ticker": "COF",
-      "company_name": "Capital One Financial Corporation",
-      "strategy": "VALUE",
-      "signal_date": "2026-11-09",
-      "signal_price": 201.87,
-      "sector": "Financial Services",
-      "value_score": 40.3,
-      "days_active": 4,
-      "first_result_date": "2026-11-16"
-    },
-    {
-      "ticker": "MLM",
-      "company_name": "Martin Marietta Materials, Inc.",
-      "strategy": "VALUE",
-      "signal_date": "2026-11-09",
-      "signal_price": 518.15,
-      "sector": "Basic Materials",
-      "value_score": 44.1,
-      "days_active": 4,
-      "first_result_date": "2026-11-16"
-    },
-    {
-      "ticker": "GOOG",
-      "company_name": "Alphabet Inc.",
-      "strategy": "VALUE",
-      "signal_date": "2026-11-09",
-      "signal_price": 283.93,
-      "sector": "Communication Services",
-      "value_score": 43.2,
-      "days_active": 4,
-      "first_result_date": "2026-11-16"
-    },
-    {
-      "ticker": "MSFT",
-      "company_name": "Microsoft Corporation",
-      "strategy": "VALUE",
-      "signal_date": "2026-11-09",
-      "signal_price": 530.61,
-      "sector": "Technology",
-      "value_score": 41.9,
-      "days_active": 4,
-      "first_result_date": "2026-11-16"
-    },
-    {
-      "ticker": "RELX",
-      "company_name": "RELX PLC",
-      "strategy": "VALUE",
-      "signal_date": "2026-11-09",
-      "signal_price": 40.17,
-      "sector": "Industrials",
-      "value_score": 51.3,
-      "days_active": 4,
+      "days_active": 7,
       "first_result_date": "2026-11-16"
     },
     {
@@ -624,22 +558,88 @@
       "signal_price": 94.81,
       "sector": "Basic Materials",
       "value_score": 40.0,
-      "days_active": 4,
+      "days_active": 7,
       "first_result_date": "2026-11-16"
     },
     {
-      "ticker": "TYL",
-      "company_name": "Tyler Technologies, Inc.",
+      "ticker": "COF",
+      "company_name": "Capital One Financial Corporation",
       "strategy": "VALUE",
       "signal_date": "2026-11-09",
-      "signal_price": 420.56,
+      "signal_price": 201.87,
+      "sector": "Financial Services",
+      "value_score": 40.3,
+      "days_active": 7,
+      "first_result_date": "2026-11-16"
+    },
+    {
+      "ticker": "MSFT",
+      "company_name": "Microsoft Corporation",
+      "strategy": "VALUE",
+      "signal_date": "2026-11-09",
+      "signal_price": 530.61,
       "sector": "Technology",
-      "value_score": 51.0,
-      "days_active": 4,
+      "value_score": 41.9,
+      "days_active": 7,
+      "first_result_date": "2026-11-16"
+    },
+    {
+      "ticker": "GOOG",
+      "company_name": "Alphabet Inc.",
+      "strategy": "VALUE",
+      "signal_date": "2026-11-09",
+      "signal_price": 283.93,
+      "sector": "Communication Services",
+      "value_score": 43.2,
+      "days_active": 7,
+      "first_result_date": "2026-11-16"
+    },
+    {
+      "ticker": "MLM",
+      "company_name": "Martin Marietta Materials, Inc.",
+      "strategy": "VALUE",
+      "signal_date": "2026-11-09",
+      "signal_price": 518.15,
+      "sector": "Basic Materials",
+      "value_score": 44.1,
+      "days_active": 7,
+      "first_result_date": "2026-11-16"
+    },
+    {
+      "ticker": "FCNCA",
+      "company_name": "First Citizens BancShares, Inc.",
+      "strategy": "VALUE",
+      "signal_date": "2026-11-09",
+      "signal_price": 2273.74,
+      "sector": "Financial Services",
+      "value_score": 46.1,
+      "days_active": 7,
+      "first_result_date": "2026-11-16"
+    },
+    {
+      "ticker": "ICE",
+      "company_name": "Intercontinental Exchange, Inc.",
+      "strategy": "VALUE",
+      "signal_date": "2026-11-09",
+      "signal_price": 172.27,
+      "sector": "Financial Services",
+      "value_score": 46.4,
+      "days_active": 7,
+      "first_result_date": "2026-11-16"
+    },
+    {
+      "ticker": "DSGX",
+      "company_name": "The Descartes Systems Group Inc.",
+      "strategy": "VALUE",
+      "signal_date": "2026-11-09",
+      "signal_price": 93.99,
+      "sector": "Technology",
+      "value_score": 46.9,
+      "days_active": 7,
       "first_result_date": "2026-11-16"
     }
   ],
-  "avg_max_drawdown": -2.73,
+  "avg_max_drawdown": -2.49,
   "alpha": {
     "365d": {
       "count": 0,
@@ -667,12 +667,12 @@
       "worst_alpha": -38.85
     },
     "30d": {
-      "count": 86,
-      "avg_alpha": -2.1,
-      "avg_signal_return": 0.33,
-      "avg_benchmark_return": 2.43,
-      "positive_alpha_rate": 46.5,
-      "best_alpha": 21.86,
+      "count": 87,
+      "avg_alpha": -1.73,
+      "avg_signal_return": 0.65,
+      "avg_benchmark_return": 2.38,
+      "positive_alpha_rate": 47.1,
+      "best_alpha": 30.44,
       "worst_alpha": -21.52
     },
     "14d": {
@@ -721,12 +721,12 @@
       "worst_alpha": -51.85
     },
     "30d": {
-      "count": 86,
-      "avg_alpha": -2.1,
-      "avg_signal_return": 0.33,
-      "avg_benchmark_return": 2.43,
-      "positive_alpha_rate": 46.5,
-      "best_alpha": 21.86,
+      "count": 87,
+      "avg_alpha": -1.73,
+      "avg_signal_return": 0.65,
+      "avg_benchmark_return": 2.38,
+      "positive_alpha_rate": 47.1,
+      "best_alpha": 30.44,
       "worst_alpha": -21.52
     },
     "14d": {
@@ -739,5 +739,5 @@
       "worst_alpha": -12.78
     }
   },
-  "generated_at": "2026-11-13T07:27:09.200065"
+  "generated_at": "2026-11-16T07:09:53.489700"
 }
