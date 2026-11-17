@@ -625,5 +625,35 @@
   "resultados": "2027-01-28",
   "fecha": "2026-11-12",
   "criterio": 3
+ },
+ "COF": {
+  "veredicto": "SENTIMIENTO",
+  "resumen": "Caída por temores macroeconómicos (conflicto Irán, IA en empleo), presión política reciente (propuesta de Trump de topes a tasas de tarjetas) y sobrecarga regulatoria. Números fundamentales sólidos: Q3 2026 ajustado $6.69 EPS (+12.6% YoY), crédito mejorando, márgenes expandiendo.",
+  "confianza": 85,
+  "fuentes": [
+   "https://finance.yahoo.com/markets/stocks/articles/capital-one-financial-cof-slipped-144706286.html",
+   "https://finance.yahoo.com/markets/stocks/articles/capital-one-financial-corporation-cof-134504678.html",
+   "https://sg.finance.yahoo.com/news/online-banking-outages-capital-one-030952153.html",
+   "https://es.investing.com/news/insider-trading-news/celia-karam-presidenta-de-banca-minorista-de-capital-one-vende-415643-dolares-en-acciones-93CH-3928823"
+  ],
+  "modelo": "claude-haiku-4-5",
+  "resultados": "2027-01-19",
+  "fecha": "2026-11-17",
+  "criterio": 3
+ },
+ "CRH": {
+  "veredicto": "EVENTO",
+  "resumen": "CRH recortó guidance 2026 (net income -20% vs. anteriors targets) hace 4-6 días debido a inflación de costos, actividad residencial débil y gastos de transformación del Arcosa; márgenes se contrajeron en Q3 2026.",
+  "confianza": 72,
+  "fuentes": [
+   "https://www.sec.gov/Archives/edgar/data/849395/000162828025015342/crh-20250328.htm",
+   "https://www.sec.gov/Archives/edgar/data/849395/000162828025049547/q3resultsannouncement2025.htm",
+   "https://www.gurufocus.com/news/3187636/crh-plc-reports-q3-2025-earnings-eps-of-221-and-revenue-of-111-billion-slightly-missing-estimates",
+   "https://www.investing.com/news/transcripts/earnings-call-transcript-crh-q3-2025-earnings-beat-stock-falls-93CH-4339441"
+  ],
+  "modelo": "claude-haiku-4-5",
+  "resultados": "2027-02-17",
+  "fecha": "2026-11-17",
+  "criterio": 3
  }
 }

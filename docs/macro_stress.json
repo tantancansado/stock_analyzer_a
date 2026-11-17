@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-16T06:46:01+00:00",
+  "generated_at": "2026-11-17T08:17:30+00:00",
   "framework": "macro_stress_v2",
   "markets": {
     "crude_oil": {
@@ -31,15 +31,15 @@
           "label": "Backwardation de la curva",
           "weight": 0.25,
           "direction": "high_is_stress",
-          "value": -8.18,
-          "percentile": 24.2,
+          "value": -7.77,
+          "percentile": 31.3,
           "z": null,
-          "score": 24.2,
-          "contribution": 6.0,
+          "score": 31.3,
+          "contribution": 7.8,
           "meta": {
             "curve_state": "CONTANGO",
-            "front_price": 89.36,
-            "deferred_price": 96.67
+            "front_price": 85.17,
+            "deferred_price": 91.79
           },
           "history_ready": true
         },
@@ -61,14 +61,14 @@
           "label": "CFTC positioning",
           "weight": 0.15,
           "direction": "extreme_is_stress",
-          "value": 4.21,
-          "percentile": 13.5,
-          "z": -1.33,
-          "score": 33.2,
-          "contribution": 5.0,
+          "value": 3.86,
+          "percentile": 10.3,
+          "z": -1.4,
+          "score": 35.0,
+          "contribution": 5.2,
           "meta": {
-            "net_contracts": 80289,
-            "open_interest": 1908732
+            "net_contracts": 73982,
+            "open_interest": 1917473
           },
           "history_ready": true
         },
@@ -87,7 +87,7 @@
           "history_ready": false
         }
       },
-      "narrative": "backwardation -8.18% \u00b7 CFTC +4.2% OI",
+      "narrative": "backwardation -7.77% \u00b7 CFTC +3.9% OI",
       "equity_exposure": {
         "beneficiaries": [
           "USO",
@@ -1410,7 +1410,7 @@
         },
         {
           "date": "2026-11-20",
-          "price": 89.34,
+          "price": 85.16,
           "stress_score": null
         }
       ],
@@ -1418,14 +1418,14 @@
         {
           "key": "curve_shape",
           "label": "Backwardation de la curva",
-          "score": 24.2,
-          "contribution": 6.0
+          "score": 31.3,
+          "contribution": 7.8
         },
         {
           "key": "positioning",
           "label": "CFTC positioning",
-          "score": 33.2,
-          "contribution": 5.0
+          "score": 35.0,
+          "contribution": 5.2
         }
       ]
     }

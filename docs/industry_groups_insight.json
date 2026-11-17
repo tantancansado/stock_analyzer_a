@@ -1,51 +1,51 @@
 {
-  "date": "2026-11-16",
-  "timestamp": "2026-11-16T07:08:38.016587",
-  "narrative": "La rotaci\u00f3n muestra una clara preferencia por sectores defensivos y de ingresos recurrentes: salud (fabricantes de f\u00e1rmacos y diagn\u00f3stico) lidera con RS >\u202f95, mientras que seguros, ferrocarriles y plataformas de datos financieros tambi\u00e9n registran fuerza. Los c\u00edclicos m\u00e1s d\u00e9biles son materiales de construcci\u00f3n, retail de apparel y semiconductores, indicando aversi\u00f3n a la exposici\u00f3n a consumo discrecional y a la cadena de suministro. Este sesgo es coherente con el entorno macro \u201cCALM\u201d, donde los inversores buscan estabilidad y flujos de caja seguros frente a la volatilidad limitada. Enf\u00f3quese en buscar oportunidades largas en salud, seguros y servicios financieros (incluido rail y data exchanges) y mant",
+  "date": "2026-11-17",
+  "timestamp": "2026-11-17T08:40:07.687358",
+  "narrative": "1. La rotaci\u00f3n muestra una clara preferencia por sectores defensivos y de infraestructura: los l\u00edderes son farmac\u00e9uticos, seguros de propiedad, ferrocarriles, productos de consumo defensivo y gesti\u00f3n de residuos. Los c\u00edclicos y tecnol\u00f3gicos est\u00e1n en el fondo.  \n2. Este patr\u00f3n concuerda con un r\u00e9gimen macro \u201cCALM\u201d, donde la volatilidad es baja y los flujos de capital se dirigen a activos con flujo de caja estable y protecci\u00f3n contra recesiones.  \n3. Enf\u00f3quese en los grupos de Healthcare, Insurance, Industrials (Railroads, Waste Management) y Consumer Defensive. Evite Semiconductor Equipment, Building Products, Apparel Retail, Residential Construction y Sem",
   "macro_regime": "CALM",
   "top_sectors": [
     {
       "industry": "Drug Manufacturers - General",
       "sector": "Healthcare",
-      "avg_rs_percentile": 98.5,
+      "avg_rs_percentile": 100.0,
       "num_tickers": 2,
       "label": "Top 10%"
     },
     {
       "industry": "Insurance - Property & Casualty",
       "sector": "Financial Services",
-      "avg_rs_percentile": 81.4,
+      "avg_rs_percentile": 94.3,
       "num_tickers": 2,
       "label": "Top 10%"
     },
     {
       "industry": "Railroads",
       "sector": "Industrials",
-      "avg_rs_percentile": 81.3,
+      "avg_rs_percentile": 91.6,
       "num_tickers": 3,
       "label": "Top 10%"
     },
     {
-      "industry": "Financial Data & Stock Exchanges",
-      "sector": "Financial Services",
-      "avg_rs_percentile": 79.2,
-      "num_tickers": 9,
+      "industry": "Household & Personal Products",
+      "sector": "Consumer Defensive",
+      "avg_rs_percentile": 88.1,
+      "num_tickers": 4,
       "label": "Top 10%"
     },
     {
-      "industry": "Diagnostics & Research",
-      "sector": "Healthcare",
-      "avg_rs_percentile": 77.8,
-      "num_tickers": 4,
+      "industry": "Waste Management",
+      "sector": "Industrials",
+      "avg_rs_percentile": 87.1,
+      "num_tickers": 3,
       "label": "Top 25%"
     }
   ],
   "bottom_sectors": [
     {
-      "industry": "Building Materials",
-      "sector": "Basic Materials",
-      "avg_rs_percentile": 21.1,
-      "num_tickers": 2,
+      "industry": "Semiconductor Equipment & Materials",
+      "sector": "Technology",
+      "avg_rs_percentile": 21.9,
+      "num_tickers": 4,
       "label": "Bottom 25%"
     },
     {
@@ -63,16 +63,16 @@
       "label": "Bottom 25%"
     },
     {
-      "industry": "Semiconductors",
-      "sector": "Technology",
-      "avg_rs_percentile": 13.0,
+      "industry": "Residential Construction",
+      "sector": "Consumer Cyclical",
+      "avg_rs_percentile": 14.0,
       "num_tickers": 2,
       "label": "Bottom 25%"
     },
     {
-      "industry": "Residential Construction",
-      "sector": "Consumer Cyclical",
-      "avg_rs_percentile": 12.0,
+      "industry": "Semiconductors",
+      "sector": "Technology",
+      "avg_rs_percentile": 11.0,
       "num_tickers": 2,
       "label": "Bottom 25%"
     }

@@ -1,11 +1,19 @@
 {
-  "date": "2026-11-16",
-  "timestamp": "2026-11-16T07:08:37.331595",
-  "narrative": "Los tickers con mayor actividad (HEI, RSG, ROL) pertenecen a sectores de energ\u00eda, infraestructura y servicios financieros, lo que sugiere un clustering tem\u00e1tico en activos defensivos y con exposici\u00f3n a flujos de capital estables. Cuando varios insiders diferentes adquieren acciones del mismo ticker en un lapso corto, indica consenso interno sobre una valoraci\u00f3n subestimada o pr\u00f3ximos catalizadores positivos, reforzando la se\u00f1al de confianza corporativa. Para un inversor value/GARP, estos patrones representan una se\u00f1al complementaria de posible \u201cmargin of safety\u201d ampliado; sin embargo, deben combinarse con an\u00e1lisis fundamental y de valoraci\u00f3n antes de ajustar posiciones, pues la compra",
+  "date": "2026-11-17",
+  "timestamp": "2026-11-17T08:40:06.107327",
+  "narrative": "",
   "total_tickers": 8,
   "total_us": 8,
   "total_eu": 0,
   "top_picks": [
+    {
+      "ticker": "CRH",
+      "market": "US",
+      "purchase_count": 8,
+      "unique_insiders": 1,
+      "confidence_score": 100.0,
+      "days_span": 10
+    },
     {
       "ticker": "ROL",
       "market": "US",
@@ -25,18 +33,10 @@
     {
       "ticker": "RSG",
       "market": "US",
-      "purchase_count": 45,
+      "purchase_count": 41,
       "unique_insiders": 1,
       "confidence_score": 100.0,
-      "days_span": 33
-    },
-    {
-      "ticker": "CRH",
-      "market": "US",
-      "purchase_count": 7,
-      "unique_insiders": 1,
-      "confidence_score": 95.0,
-      "days_span": 7
+      "days_span": 31
     },
     {
       "ticker": "CME",

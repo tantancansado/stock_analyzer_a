@@ -227,6 +227,12 @@
   "ok": true,
   "ticker": "AMZN"
  },
+ "AMZN|Consumer Cyclical|5|3|1|2|1|5|-3|113|118|60": {
+  "aviso": "",
+  "fecha": "2026-11-17T08:16:41.570657+00:00",
+  "ok": true,
+  "ticker": "AMZN"
+ },
  "AMZN|Consumer Cyclical|5|3|1|4|1|4|-2|114|118|59": {
   "aviso": "",
   "fecha": "2026-11-10T07:41:25.303067+00:00",
@@ -296,6 +302,12 @@
  "AON|Financial Services|8|4|5|0|4|1|-3|119|120|19": {
   "aviso": "",
   "fecha": "2026-11-09T06:46:04.118020+00:00",
+  "ok": true,
+  "ticker": "AON"
+ },
+ "AON|Financial Services|8|4|5|0|4|1|-3|119|121|19": {
+  "aviso": "",
+  "fecha": "2026-11-17T08:16:20.856032+00:00",
   "ok": true,
   "ticker": "AON"
  },
@@ -611,6 +623,12 @@
   "ok": true,
   "ticker": "BRO"
  },
+ "BRO|Financial Services|1|3|1|1|6|0|-3|88|88|18": {
+  "aviso": "",
+  "fecha": "2026-11-17T08:16:07.907467+00:00",
+  "ok": true,
+  "ticker": "BRO"
+ },
  "BRO|Financial Services|1|3|1|1|6|1|-3|87|88|18": {
   "aviso": "",
   "fecha": "2026-11-10T07:40:12.120854+00:00",
@@ -632,6 +650,12 @@
  "BR|Technology|8|2|2|1|5|1|-4|107|109|8": {
   "aviso": "",
   "fecha": "2026-11-06T07:02:49.569616+00:00",
+  "ok": true,
+  "ticker": "BR"
+ },
+ "BR|Technology|8|2|2|1|5|1|-4|108|109|8": {
+  "aviso": "",
+  "fecha": "2026-11-17T08:16:13.012617+00:00",
   "ok": true,
   "ticker": "BR"
  },
@@ -776,6 +800,12 @@
  "CRH|Basic Materials|2|1|1|0|3|5|-6|93|98|24": {
   "aviso": "",
   "fecha": "2026-11-09T06:46:46.172181+00:00",
+  "ok": true,
+  "ticker": "CRH"
+ },
+ "CRH|Basic Materials|2|1|1|0|4|6|-6|92|98|24": {
+  "aviso": "",
+  "fecha": "2026-11-17T08:16:38.292304+00:00",
   "ok": true,
   "ticker": "CRH"
  },
@@ -1220,6 +1250,12 @@
  "GOOG|Communication Services|8|10|0|4|2|7|-6|116|122|14": {
   "aviso": "Claude dudaba de profit_margin, pero la fuente lo confirma (50.0 publicado vs 50.0 real (0.0pp de desv\u00edo))",
   "fecha": "2026-11-12T07:30:14.638772+00:00",
+  "ok": true,
+  "ticker": "GOOG"
+ },
+ "GOOG|Communication Services|8|10|0|4|2|7|-7|115|122|15": {
+  "aviso": "Claude dudaba de profit_margin, pero la fuente lo confirma (50.0 publicado vs 50.0 real (0.0pp de desv\u00edo))",
+  "fecha": "2026-11-17T08:16:36.184815+00:00",
   "ok": true,
   "ticker": "GOOG"
  },
@@ -1757,6 +1793,12 @@
   "ok": true,
   "ticker": "MLM"
  },
+ "MLM|Basic Materials|1|6|1|5|1|4|-6|127|131|24": {
+  "aviso": "",
+  "fecha": "2026-11-17T08:16:27.280721+00:00",
+  "ok": true,
+  "ticker": "MLM"
+ },
  "MLM|Basic Materials|1|6|1|5|1|4|-6|127|132|24": {
   "aviso": "Claude dudaba de roe, pero la fuente lo confirma (6.0 publicado vs 6.0 real (0.0pp de desv\u00edo))",
   "fecha": "2026-11-16T06:45:10.966821+00:00",
@@ -2021,6 +2063,12 @@
   "ok": true,
   "ticker": "NYT"
  },
+ "NYT|Communication Services|4|2|n/d|1|5|0|-4|88|89|9": {
+  "aviso": "",
+  "fecha": "2026-11-17T08:16:15.042132+00:00",
+  "ok": true,
+  "ticker": "NYT"
+ },
  "NYT|Communication Services|4|2|n/d|1|5|1|-4|87|89|9": {
   "aviso": "",
   "fecha": "2026-11-10T07:41:05.147761+00:00",
@@ -2248,6 +2296,12 @@
   "fecha": "2026-10-29T06:11:25.572148+00:00",
   "ok": true,
   "ticker": "PG"
+ },
+ "PRI|Financial Services|6|4|1|1|10|1|-2|116|118|6": {
+  "aviso": "",
+  "fecha": "2026-11-17T08:16:16.761165+00:00",
+  "ok": true,
+  "ticker": "PRI"
  },
  "PRI|Financial Services|6|4|1|1|10|2|-3|116|118|6": {
   "aviso": "",
@@ -2888,6 +2942,12 @@
  "UBER|Technology|2|1|1|1|7|8|-5|86|94|45": {
   "aviso": "",
   "fecha": "2026-11-16T06:45:00.278458+00:00",
+  "ok": true,
+  "ticker": "UBER"
+ },
+ "UBER|Technology|2|1|1|1|7|8|-5|87|94|45": {
+  "aviso": "",
+  "fecha": "2026-11-17T08:16:10.715525+00:00",
   "ok": true,
   "ticker": "UBER"
  },
