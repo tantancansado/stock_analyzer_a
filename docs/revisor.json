@@ -1,32 +1,40 @@
 {
-  "fecha": "2026-11-16",
+  "fecha": "2026-11-17",
   "estado": "ok",
   "hallazgos": [
     {
-      "clave": "texto_contradice_datos:INTU",
-      "ticker": "INTU",
+      "clave": "texto_contradice_datos:MLM",
+      "ticker": "MLM",
       "tipo": "texto_contradice_datos",
-      "titulo": "El resumen dice que Intuit elevó su guía mientras los propios datos muestran recortes de estimaciones",
-      "por_que": "why_cheap_resumen afirma que Intuit \"mantuvo o incluso elevó su guía de ingresos y BPA\", pero el mismo registro indica que los analistas han recortado el beneficio esperado un 11% en tres meses, lo que contradice la idea de que las estimaciones de consenso suban o se mantengan intactas.",
-      "cita": "\"revision_13s_pct\": -10.9",
-      "donde_mirar": "Comparación entre why_cheap_resumen y revision_13s_pct / value_avisos en la ficha de INTU"
+      "titulo": "El resumen cita un PER de 13x que no coincide con el PER de la propia ficha (27,2)",
+      "por_que": "El why_cheap_resumen dice que el múltiplo cayó a 'P/E de 13x vs. 26.5x histórico', pero los campos per_norm (27.2) y per_mediana_10a (31.01) de la misma ficha no sostienen esa cifra: la compresión real reflejada en los datos es mucho menor que la narrada.",
+      "cita": "Múltiplos desplomados (P/E de 13x vs. 26.5x histórico)",
+      "donde_mirar": "Ficha MLM: per_norm / per_mediana_10a vs texto why_cheap_resumen"
     },
     {
-      "clave": "lista_incumple_su_regla:BRO",
-      "ticker": "BRO",
-      "tipo": "lista_incumple_su_regla",
-      "titulo": "why_cheap usa una categoría (CICLICO) fuera de la taxonomía definida",
-      "por_que": "Las reglas de la casa solo contemplan SENTIMIENTO, EVENTO, MACRO o DETERIORO para clasificar la caída; BRO aparece con 'CICLICO', una categoría no prevista, lo que rompe la coherencia del esquema de clasificación.",
-      "cita": "\"why_cheap\": \"CICLICO\"",
-      "donde_mirar": "Campo why_cheap de la ficha de BRO"
+      "clave": "texto_contradice_datos:AMZN",
+      "ticker": "AMZN",
+      "tipo": "texto_contradice_datos",
+      "titulo": "El FCF citado en el resumen ($7,7B) no cuadra con el fcf_yield_pct de la ficha",
+      "por_que": "fcf_yield_pct=1.31% sobre un market_cap de 2,79 billones implica un FCF de ~36.500M, muy por encima de los '$7,7B FCF' que menciona el resumen; la diferencia no se explica por definiciones distintas (trimestre vs anual) porque es de un orden de magnitud.",
+      "cita": "$210,7B capex anual vs. $7,7B FCF",
+      "donde_mirar": "Ficha AMZN: fcf_yield_pct vs market_cap, comparado con el texto why_cheap_resumen"
+    },
+    {
+      "clave": "texto_contradice_datos:GOOG",
+      "ticker": "GOOG",
+      "tipo": "texto_contradice_datos",
+      "titulo": "El resumen dice que el flujo de caja fue negativo, pero fcf_yield_pct es positivo",
+      "por_que": "El resumen afirma 'flujo de caja negativo de $9.1B' mientras que fcf_yield_pct=2.55% sobre un market_cap de 3,46 billones implica un FCF positivo de decenas de miles de millones; si se refiere solo a un trimestre puntual debería aclararse, porque tal como está contradice el dato anual de la ficha.",
+      "cita": "flujo de caja negativo de $9.1B y guidance de capex sin cambios",
+      "donde_mirar": "Ficha GOOG: fcf_yield_pct vs texto why_cheap_resumen"
     }
   ],
-  "descartados": [
-    "UBER: El briefing dice que a Uber le falta crecer un 10% cuando sus ventas ya superan ese umbral (la cita no está en los datos)"
-  ],
+  "descartados": [],
   "incidencias_nuevas": [
-    16,
-    17
+    18,
+    19,
+    20
   ],
   "avisos": []
 }

@@ -1,0 +1,41 @@
+{
+  "listas": {
+    "value_opportunities": {
+      "candidatas": 33,
+      "publicadas": 28,
+      "excluidos": [
+        {
+          "ticker": "BSX",
+          "paso": "verificador_ia",
+          "motivo": "rev_growth_yoy (1.4%) extremadamente bajo pero ventas_anual_pct (19.9%) es muy alto: esto es una contradicción fundamental. No pueden coexistir a menos que haya un error de unidad o de período. · modelos_acuerdo DISPERSOS (35.0 pts) con DCF (64.1%) vs PE (99.1%), pero upside_triangulated (64.1%) replica solo DCF sin reflejar la dispersión. La triangulación debería estar entre ambos o indicar que no hay valor único.",
+          "score": 94.4
+        },
+        {
+          "ticker": "DPZ",
+          "paso": "verificador_ia",
+          "motivo": "modelos_acuerdo DISPERSOS (59.5 pts) con target_price_dcf (11.2%) vs target_price_pe (70.7%), pero upside_triangulated (11.2%) replica solo DCF sin reflejar o justificar por qué se elige DCF sobre PE cuando están tan dispersos. · analyst_upside_pct (3.7%) es extremadamente conservador comparado con ambos modelos. Esto no es una contradicción interna pero sugiere que el analista ve riesgos que los modelos quantitativos no capturan.",
+          "score": 53.4
+        },
+        {
+          "ticker": "ESLOY",
+          "paso": "verificador_ia",
+          "motivo": "upside_requiere_verificacion es true, pero peg_ratio (21.79) es extremadamente alto (outlier en la cartera), sugiriendo un crecimiento muy bajo relativo al múltiplo. rev_growth_yoy (7.5%) es moderado, NO justifica un PEG de 21.79. Esto es una contradicción fundamental. · analyst_upside_pct (30.9%) es muy superior a target_price_dcf (8.9%) pero los modelos están etiquetados como COHERENTES. Esta divergencia, junto con el PEG anómalo, sugiere que los datos subyacentes no respaldan la recomendación.",
+          "score": 51.2
+        },
+        {
+          "ticker": "RELX",
+          "paso": "verificador_ia",
+          "motivo": "upside_requiere_verificacion es true (descuento >30%), pero los fundamentales no lo respaldan: rev_growth_yoy (1.7%) y ventas_anual_pct (1.7%) son prácticamente estancados. Un descuento de ~32% en una empresa con crecimiento nulo sugiere riesgo, no oportunidad. · ebit_ev_yield (1.02%) es muy bajo, casi indicativo de que el negocio no genera retorno sobre capital invertido. Esto desmiente la idea de que el descuento sea una oportunidad.",
+          "score": 51.1
+        },
+        {
+          "ticker": "SAP",
+          "paso": "verificador_ia",
+          "motivo": "ebit_ev_yield (0.25%) es anormalmente bajo, casi cero. Esto es una señal de que el negocio no genera EBIT significativo relativo al EV, lo que contradice un fundamental_score de 80.0 (muy alto) y un analyst_upside_pct de 21.7%. · modelos_acuerdo DISPERSOS (28.5 pts) con DCF (6.0%) vs PE (34.5%), pero upside_triangulated (21.7%) replica analyst_upside_pct exactamente. No es una triangulación real entre modelos.",
+          "score": 49.3
+        }
+      ]
+    }
+  },
+  "generated_at": "2026-11-17T08:13:24Z"
+}

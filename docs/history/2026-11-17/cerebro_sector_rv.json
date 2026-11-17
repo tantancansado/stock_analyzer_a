@@ -1,0 +1,166 @@
+{
+  "generated_at": "2026-11-17",
+  "total": 8,
+  "rerate_sectors": 1,
+  "narrative": "",
+  "standouts": [
+    {
+      "ticker": "COF",
+      "company_name": "Capital One Financial Corporation",
+      "sector": "Financial Services",
+      "label": "BEST_IN_SECTOR",
+      "fcf_yield_pct": 22.74,
+      "fcf_rank": 1,
+      "fcf_rank_of": 7,
+      "value_score": 40.9,
+      "analyst_upside_pct": 31.7,
+      "sector_avg_fcf": 8.58,
+      "peers_in_sector": 7
+    },
+    {
+      "ticker": "ADBE",
+      "company_name": "Adobe Inc.",
+      "sector": "Technology",
+      "label": "BEST_IN_SECTOR",
+      "fcf_yield_pct": 11.1,
+      "fcf_rank": 1,
+      "fcf_rank_of": 7,
+      "value_score": 97.8,
+      "analyst_upside_pct": 8.5,
+      "sector_avg_fcf": 6.32,
+      "peers_in_sector": 7
+    },
+    {
+      "ticker": "PRI",
+      "company_name": "Primerica, Inc.",
+      "sector": "Financial Services",
+      "label": "BEST_IN_SECTOR",
+      "fcf_yield_pct": 10.64,
+      "fcf_rank": 2,
+      "fcf_rank_of": 7,
+      "value_score": 46.9,
+      "analyst_upside_pct": 9.7,
+      "sector_avg_fcf": 8.58,
+      "peers_in_sector": 7
+    },
+    {
+      "ticker": "INTU",
+      "company_name": "Intuit Inc.",
+      "sector": "Technology",
+      "label": "BEST_IN_SECTOR",
+      "fcf_yield_pct": 9.33,
+      "fcf_rank": 2,
+      "fcf_rank_of": 7,
+      "value_score": 100.0,
+      "analyst_upside_pct": 18.0,
+      "sector_avg_fcf": 6.32,
+      "peers_in_sector": 7
+    },
+    {
+      "ticker": "WTKWY",
+      "company_name": "Wolters Kluwer N.V.",
+      "sector": "Industrials",
+      "label": "BEST_IN_SECTOR",
+      "fcf_yield_pct": 6.87,
+      "fcf_rank": 1,
+      "fcf_rank_of": 3,
+      "value_score": 57.2,
+      "analyst_upside_pct": 14.0,
+      "sector_avg_fcf": 5.55,
+      "peers_in_sector": 3
+    },
+    {
+      "ticker": "NYT",
+      "company_name": "The New York Times Company",
+      "sector": "Communication Services",
+      "label": "BEST_IN_SECTOR",
+      "fcf_yield_pct": 5.04,
+      "fcf_rank": 1,
+      "fcf_rank_of": 3,
+      "value_score": 48.0,
+      "analyst_upside_pct": 4.8,
+      "sector_avg_fcf": 3.85,
+      "peers_in_sector": 3
+    },
+    {
+      "ticker": "BAC",
+      "company_name": "Bank of America Corporation",
+      "sector": "Financial Services",
+      "label": "PRICEY_VS_PEERS",
+      "fcf_yield_pct": 3.65,
+      "fcf_rank": 7,
+      "fcf_rank_of": 7,
+      "value_score": 40.4,
+      "analyst_upside_pct": 24.8,
+      "sector_avg_fcf": 8.58,
+      "peers_in_sector": 7
+    },
+    {
+      "ticker": "MSFT",
+      "company_name": "Microsoft Corporation",
+      "sector": "Technology",
+      "label": "PRICEY_VS_PEERS",
+      "fcf_yield_pct": 2.08,
+      "fcf_rank": 7,
+      "fcf_rank_of": 7,
+      "value_score": 42.7,
+      "analyst_upside_pct": 22.8,
+      "sector_avg_fcf": 6.32,
+      "peers_in_sector": 7
+    }
+  ],
+  "sector_summary": [
+    {
+      "sector": "Technology",
+      "count": 7,
+      "avg_value_score": 64.7,
+      "avg_fcf_yield": 6.32,
+      "rerate_potential": true,
+      "tickers": [
+        "INTU",
+        "ADBE",
+        "UBER",
+        "BR",
+        "TYL"
+      ]
+    },
+    {
+      "sector": "Industrials",
+      "count": 3,
+      "avg_value_score": 52.8,
+      "avg_fcf_yield": 5.55,
+      "rerate_potential": false,
+      "tickers": [
+        "WTKWY",
+        "OTIS",
+        "VRSK"
+      ]
+    },
+    {
+      "sector": "Financial Services",
+      "count": 7,
+      "avg_value_score": 50.8,
+      "avg_fcf_yield": 8.58,
+      "rerate_potential": false,
+      "tickers": [
+        "BRO",
+        "PRI",
+        "AON",
+        "FCNCA",
+        "COF"
+      ]
+    },
+    {
+      "sector": "Communication Services",
+      "count": 3,
+      "avg_value_score": 45.4,
+      "avg_fcf_yield": 3.85,
+      "rerate_potential": false,
+      "tickers": [
+        "NYT",
+        "META",
+        "GOOG"
+      ]
+    }
+  ]
+}
