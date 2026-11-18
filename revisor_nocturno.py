@@ -89,7 +89,9 @@ Reglas de la casa (son correctas; no las discutas):
   definiciones (ingresos totales, orgánico). Una diferencia de pocos puntos entre ambos no es un
   hallazgo; solo lo es si no puede deberse a la definición o si cambiaría el grupo. El umbral del 10 %
   es de ventas_anual_pct, no del trimestre.
-- why_cheap: SENTIMIENTO, EVENTO o MACRO son caídas circunstanciales; DETERIORO es el negocio. Si el
+- why_cheap tiene cinco valores y solo cinco: SENTIMIENTO (rotación, múltiplos, macro), EVENTO (un
+  golpe puntual) y CICLICO (el sector en la parte baja de su ciclo, el negocio aguanta) son caídas
+  circunstanciales; DETERIORO es el negocio; SIN_DATOS es que no se encontró la causa. Si el
   resumen describe que un regulador o un competidor le quita precio, cuota o posición de forma
   duradera, eso es DETERIORO aunque las cuentas aún crezcan.
 

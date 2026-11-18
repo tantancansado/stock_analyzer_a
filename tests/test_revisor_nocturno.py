@@ -212,3 +212,14 @@ class TestElVigilanteLoVigila:
     def test_sin_informe_se_dice_sin_telegram(self, monkeypatch, tmp_path):
         p = self._con(monkeypatch, tmp_path, None)
         assert p[0]['status'] == 'sin_informe' and not p[0]['critical']
+
+
+class TestLasReglasQueLeDaAClaude:
+    def test_why_cheap_con_las_categorias_que_existen(self):
+        # El 16-nov abrió una incidencia porque BRO salía «CICLICO»: su lista
+        # decía «SENTIMIENTO, EVENTO o MACRO», y MACRO no existe.
+        import re
+        from why_cheap_analyzer import VEREDICTOS
+        linea = rv.SYSTEM.split('- why_cheap', 1)[1].split('\n\n', 1)[0]
+        nombradas = set(re.findall(r'\b[A-Z][A-Z_]{4,}\b', linea))
+        assert nombradas == set(VEREDICTOS)
