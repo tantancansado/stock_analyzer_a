@@ -28,6 +28,7 @@ Reglas del módulo, heredadas de todo el trabajo de integridad:
 """
 from __future__ import annotations
 
+import datetime as dt
 from typing import Any
 
 import claude_research
@@ -112,10 +113,29 @@ def limpiar_resumen(texto: str) -> str:
     import re
     return re.sub(r'\s{2,}', ' ', re.sub(r'[<(]/?cite\b[^>]*>', '', str(texto or ''))).strip()
 
-PROMPT = """{company} ({ticker}) cotiza un {drop:.1f}% por debajo de su máximo de 52
+PROMPT = """Hoy es {hoy}. {company} ({ticker}) cotiza un {drop:.1f}% por debajo de su máximo de 52
 semanas, con una fuerza relativa a 6 meses de {rs:.1f}%.
 {cifras}
-¿Por qué ha caído? Busca y clasifica."""
+¿Por qué ha caído? Busca y clasifica. Solo explican la caída los resultados y las noticias
+desde {desde}: lo anterior es de otro ejercicio, y si es lo único que encuentras, SIN_DATOS."""
+
+_MESES = ('enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto',
+          'septiembre', 'octubre', 'noviembre', 'diciembre')
+
+
+def ventana(hoy: dt.date | None = None) -> dict[str, str]:
+    """La fecha de hoy y la de hace seis meses, para el PROMPT.
+
+    Se le pedían noticias «de los últimos seis meses» sin decirle qué día es, y
+    el modelo no lo sabe: el 16-nov-2026 el estudio de MLM citaba los
+    resultados del tercer trimestre de 2024 y 2025 como si fueran de 2026, y
+    un PER de 13 cuando cotiza a 27. Ese día, 11 de los 52 estudios guardados
+    tenían fuentes de 2023 o 2024.
+    """
+    hoy = hoy or dt.date.today()
+    desde = hoy - dt.timedelta(days=183)
+    return {'hoy': f'{hoy.day} de {_MESES[hoy.month - 1]} de {hoy.year}',
+            'desde': f'{_MESES[desde.month - 1]} de {desde.year}'}
 
 # Por debajo de esto el resultado operativo no se puede llamar «sin nada
 # específico de la empresa».
@@ -206,7 +226,7 @@ def analyze_ticker(ticker: str, company: str, drop_pct: float,
     # con 2, son 1+2=3. Quitar UNA búsqueda cuesta la mitad, no un tercio.
     texto, fuentes = ask_with_search(
         PROMPT.format(company=company or ticker, ticker=ticker,
-                      drop=abs(drop_pct or 0), rs=rs_6m or 0, cifras=cifras),
+                      drop=abs(drop_pct or 0), rs=rs_6m or 0, cifras=cifras, **ventana()),
         system=SYSTEM,
         max_searches=2,
         # Con Sonnet, margen por si razona antes del JSON: un tope corto deja la
@@ -295,7 +315,7 @@ def analyze_picks(rows: list[dict], min_drop_pct: float = 8.0,
         elegidos.append((ticker, drop))
         prompts[ticker] = PROMPT.format(
             company=str(r.get('company_name', '')) or ticker, ticker=ticker,
-            drop=abs(drop or 0), rs=rs or 0, cifras=cifras_propias(r))
+            drop=abs(drop or 0), rs=rs or 0, cifras=cifras_propias(r), **ventana())
 
     crudos = ask_with_search_lote(
         prompts, system=SYSTEM, max_searches=2, max_tokens=1200,

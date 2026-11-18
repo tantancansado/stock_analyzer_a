@@ -35,3 +35,12 @@ def test_el_prompt_lleva_las_cifras_propias():
     assert 'resultado operativo -12.2%' in txt and 'BPA -12.8%' in txt
     assert 'mandan estas' in txt
     assert '{cifras}' in w.PROMPT
+
+
+def test_el_prompt_dice_que_dia_es_y_desde_cuando_valen_las_noticias():
+    # MLM, 16-nov-2026: sin la fecha, citaba resultados de 2024 y 2025 como de 2026.
+    import datetime as dt
+    v = w.ventana(dt.date(2026, 11, 16))
+    assert v == {'hoy': '16 de noviembre de 2026', 'desde': 'mayo de 2026'}
+    txt = w.PROMPT.format(company='Zzz', ticker='ZZZQ', drop=30, rs=-5, cifras='', **v)
+    assert 'Hoy es 16 de noviembre de 2026' in txt and 'desde mayo de 2026' in txt
