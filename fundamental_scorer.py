@@ -263,6 +263,17 @@ def crecimiento_sostenible(info: Dict) -> Optional[float]:
     return max(SUELO_CRECIMIENTO, min(min(candidatos), TECHO_CRECIMIENTO))
 
 
+def flujo_y_capex_de(info: Dict) -> tuple:
+    """Flujo operativo y capex del mismo periodo (`financial_cross_check.flujo_y_capex`).
+
+    Sin ese par, los de `info`: es lo que llega cuando no se han leído los
+    estados, y entonces no hay capex que mezclar.
+    """
+    if info.get('fcfOperativo') is not None and info.get('fcfCapex') is not None:
+        return info['fcfOperativo'], info['fcfCapex']
+    return info.get('operatingCashflow'), info.get('capitalExpenditure')
+
+
 def fcf_fiable(info: Dict) -> Optional[float]:
     """El flujo de caja libre, prefiriendo el que sale del estado de flujos.
 
@@ -283,7 +294,7 @@ def fcf_fiable(info: Dict) -> Optional[float]:
     Operativo menos capex es la definición, y sale de cifras que la empresa
     reporta. Ese manda; el declarado solo se usa si no hay estado de flujos.
     """
-    ocf, capex = info.get('operatingCashflow'), info.get('capitalExpenditure')
+    ocf, capex = flujo_y_capex_de(info)
     declarado = info.get('freeCashflow')
     try:
         if ocf and capex:
@@ -404,7 +415,7 @@ PESO_INTERESES_PRESTAMISTA = 0.25
 
 def dcf_aplicable(info: Dict) -> tuple[bool, Optional[str]]:
     """¿Tiene sentido descontar flujos en este negocio?"""
-    ocf, capex = info.get('operatingCashflow'), info.get('capitalExpenditure')
+    ocf, capex = flujo_y_capex_de(info)
     try:
         if ocf and capex and float(ocf) > 0:
             peso = abs(float(capex)) / float(ocf)

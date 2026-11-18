@@ -184,8 +184,14 @@ def test_adr_de_verdad_sale_igual_de_bien(calcular):
 
 def test_beneficio_que_el_bpa_no_confirma_no_da_objetivo(calcular):
     """CSU.TO 2028: beneficio de 1.176 con 1 analista frente a 2.887 el año
-    anterior, y un BPA de 164 que implica 7 millones de acciones (son 21)."""
-    r = calcular(_ficha('CSU.TO', precio=2827.94), 'CSU.TO', divisas=('USD', 'CAD'), fx=1.384)
+    anterior, y un BPA de 164 que implica 7 millones de acciones (son 21).
+
+    El caso va escrito a mano: con la carga del 15-nov el año roto pasó a ser
+    2029 y 2028 ya traía dos analistas y un BPA que cuadra."""
+    ficha = _ficha('CSU.TO', precio=2827.94)
+    ficha['analyst_estimates']['forward']['2028'].update(
+        net_income_norm=1176.0, eps_norm=164.0, n_analysts=1.0)
+    r = calcular(ficha, 'CSU.TO', divisas=('USD', 'CAD'), fx=1.384)
     objetivos = r['price_targets']
     assert 'per' in objetivos['2026'] and 'per' in objetivos['2027']
     assert 'per' not in objetivos['2028']

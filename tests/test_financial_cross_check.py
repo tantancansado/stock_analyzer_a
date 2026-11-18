@@ -4,6 +4,7 @@ import os
 import sys
 
 import pandas as pd
+import pytest
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
@@ -202,3 +203,63 @@ class TestElCapitalCirculanteNoEsFlujoDelNegocio:
         st = self._stock([500e6]*4, [-25e6]*4, None)
         info, _ = derive_from_statements(st, {'freeCashflow': None})
         assert info['freeCashflow'] == (2000e6 - 100e6)
+
+
+class TestFlujoYCapexDelMismoPeriodo:
+    """El FCF restaba la inversión del último ejercicio al flujo de doce meses.
+
+    17-nov-2026, con la inversión en IA disparada: GOOG salía con 88.150 M de
+    FCF (yield 2,58 %) cuando en doce meses fueron 19.700 M, y AMZN con 36.500 M
+    cuando su último ejercicio dio 7.700 M. El revisor lo vio porque el resumen
+    de why_cheap citaba las cifras buenas.
+    """
+
+    def _stock(self, trimestres, anual):
+        import pandas as pd
+        qc = pd.DataFrame([[o for o, _ in trimestres.values()], [c for _, c in trimestres.values()]],
+                          columns=pd.to_datetime(list(trimestres)),
+                          index=['Operating Cash Flow', 'Capital Expenditure'])
+        cf = pd.DataFrame([[o for o, _ in anual.values()], [c for _, c in anual.values()]],
+                          columns=pd.to_datetime(list(anual)),
+                          index=['Operating Cash Flow', 'Capital Expenditure'])
+
+        class _S:
+            quarterly_cashflow = qc
+            cashflow = cf
+            financials = pd.DataFrame()
+            balance_sheet = pd.DataFrame()
+        return _S()
+
+    def test_capex_que_se_dispara_cuenta_el_de_doce_meses(self):
+        from fundamental_scorer import fcf_fiable
+        st = self._stock({'2026-09-30': (42.3e9, -51.4e9), '2026-06-30': (39.1e9, -44.9e9),
+                          '2026-03-31': (45.8e9, -35.7e9), '2025-12-31': (52.4e9, -27.9e9)},
+                         {'2025-12-31': (164.7e9, -91.4e9)})
+        info, _ = derive_from_statements(st, {'operatingCashflow': 179.55e9, 'marketCap': 3.41e12})
+        assert info['fcfPeriodo'] == 'ttm'
+        assert fcf_fiable(info) == pytest.approx(179.6e9 - 159.9e9)
+
+    def test_con_un_trimestre_vacio_el_par_es_del_ultimo_ejercicio(self):
+        from fundamental_scorer import fcf_fiable
+        st = self._stock({'2026-09-30': (42.4e9, -77.3e9), '2026-03-31': (26.0e9, -44.2e9),
+                          '2025-12-31': (54.5e9, -39.5e9), '2025-09-30': (35.5e9, -35.1e9)},
+                         {'2025-12-31': (139.5e9, -131.8e9), '2024-12-31': (115.9e9, -83.0e9)})
+        info, _ = derive_from_statements(st, {'operatingCashflow': 168.3e9})
+        assert info['fcfPeriodo'] == 'anual'
+        assert fcf_fiable(info) == pytest.approx(139.5e9 - 131.8e9), 'no 168,3 menos 131,8'
+
+    def test_el_ejercicio_es_el_mismo_para_los_dos_datos(self):
+        from fundamental_scorer import fcf_fiable
+        st = self._stock({}, {'2025-12-31': (139.5e9, float('nan')), '2024-12-31': (115.9e9, -83.0e9)})
+        info, _ = derive_from_statements(st, {'operatingCashflow': 168.3e9})
+        assert fcf_fiable(info) == pytest.approx(115.9e9 - 83.0e9)
+
+    def test_la_regla_del_dcf_mira_el_mismo_par(self):
+        """Con el capex de doce meses, GOOG gasta el 89 % del flujo en invertir:
+        lo que queda no es lo que gana el dueño."""
+        from fundamental_scorer import dcf_aplicable
+        st = self._stock({'2026-09-30': (42.3e9, -51.4e9), '2026-06-30': (39.1e9, -44.9e9),
+                          '2026-03-31': (45.8e9, -35.7e9), '2025-12-31': (52.4e9, -27.9e9)},
+                         {'2025-12-31': (164.7e9, -91.4e9)})
+        info, _ = derive_from_statements(st, {'operatingCashflow': 179.55e9})
+        assert dcf_aplicable(info)[0] is False

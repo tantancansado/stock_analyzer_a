@@ -200,6 +200,38 @@ def fcf_del_estado_de_flujos(stock):
     return fcf, capex
 
 
+def flujo_y_capex(stock) -> tuple[float, float, str] | None:
+    """Flujo operativo y capex DEL MISMO PERIODO: (flujo, capex, 'ttm' | 'anual').
+
+    `operatingCashflow` de `info` es de doce meses y `capitalExpenditure` lo
+    rellenaba el estado ANUAL, así que el FCF restaba la inversión del último
+    ejercicio cerrado al flujo de los últimos doce meses. Con la inversión en
+    IA disparada en 2026, el 17-nov GOOG salía con 88.150 M de FCF (yield
+    2,58 %) cuando en doce meses fueron 19.700 M, y AMZN con 36.500 M cuando
+    su último ejercicio dio 7.700 M. Lo vio el revisor: el resumen de why_cheap
+    citaba las cifras buenas y la ficha las malas.
+
+    Doce meses por fecha si están; si no, el último ejercicio en que constan
+    los dos datos.
+    """
+    try:
+        qc = stock.quarterly_cashflow
+    except Exception:
+        qc = None
+    ocf, capex = _ttm(qc, 'Operating Cash Flow'), _ttm(qc, 'Capital Expenditure')
+    if ocf is not None and capex is not None:
+        return ocf, capex, 'ttm'
+    try:
+        anual = stock.cashflow
+        ambos = anual.loc[['Operating Cash Flow', 'Capital Expenditure']].dropna(axis=1)
+    except Exception:
+        return None
+    if ambos.empty:
+        return None
+    ultimo = ambos[max(ambos.columns)]
+    return float(ultimo['Operating Cash Flow']), float(ultimo['Capital Expenditure']), 'anual'
+
+
 
 def crecimiento_ingresos_3y(stock) -> float | None:
     """Crecimiento anual compuesto de ingresos a 3 años, del estado anual.
@@ -673,20 +705,24 @@ def derive_from_statements(stock, info: dict, fields: list[str] | None = None,
     # completa. Antes esto solo rellenaba el hueco cuando faltaba, y cuando
     # estaba presente pero mal —YUM: 833M contra 1.679M reales— se usaba el
     # malo y el desajuste se quedaba en un aviso por pantalla.
-    derivado_local, capex_ttm = fcf_del_estado_de_flujos(stock)
+    derivado_local, _ = fcf_del_estado_de_flujos(stock)
     derivado = derivado_local * fx_to_major if derivado_local is not None else None
-    capex_ttm = capex_ttm * fx_to_major if capex_ttm is not None else None
-    if capex_ttm is not None and out.get('capitalExpenditure') is None:
-        out['capitalExpenditure'] = capex_ttm
-        filled.append('capitalExpenditure(TTM)')
-    if derivado is None:
+    # El par con que se calcula el FCF, del mismo periodo (ver `flujo_y_capex`).
+    # `capitalExpenditure` se alinea con él: el bucle de arriba lo rellenaba del
+    # anual y el capex de doce meses no llegaba a entrar nunca.
+    par = flujo_y_capex(stock)
+    if par is not None:
+        ocf_p, capex_p, periodo = par
+        out['fcfOperativo'], out['fcfCapex'], out['fcfPeriodo'] = (
+            ocf_p * fx_to_major, capex_p * fx_to_major, periodo)
+        out['capitalExpenditure'] = capex_p * fx_to_major
+        filled.append(f'capitalExpenditure({periodo})')
+    if derivado is None and par is not None and out.get('freeCashflow') is None:
         # Sin cuatro trimestres no hay TTM, pero puede haber anual: es lo que
         # había antes de mirar al trimestral, y quitarlo dejaba sin FCF a quien
         # solo publica cuentas anuales.
-        ocf_a, capex_a = out.get('operatingCashflow'), out.get('capitalExpenditure')
-        if out.get('freeCashflow') is None and ocf_a is not None and capex_a is not None:
-            out['freeCashflow'] = float(ocf_a) - abs(float(capex_a))
-            filled.append('freeCashflow(derivado OCF-capex)')
+        out['freeCashflow'] = out['fcfOperativo'] - abs(out['fcfCapex'])
+        filled.append(f'freeCashflow(derivado OCF-capex, {periodo})')
 
     if derivado is not None:
         # El derivado manda SIEMPRE, no solo cuando el desvío es escandaloso.
@@ -876,7 +912,9 @@ def check_coherence(info: dict, ticker: str = '') -> dict:
             pass
 
     # FCF declarado contra el derivado del propio estado de flujos
-    fcf, ocf, capex = info.get('freeCashflow'), info.get('operatingCashflow'), info.get('capitalExpenditure')
+    fcf = info.get('freeCashflow')
+    ocf = info.get('fcfOperativo', info.get('operatingCashflow'))
+    capex = info.get('fcfCapex', info.get('capitalExpenditure'))
     if fcf and ocf and capex:
         try:
             derived = float(ocf) - abs(float(capex))
