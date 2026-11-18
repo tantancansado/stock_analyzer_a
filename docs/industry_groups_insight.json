@@ -1,57 +1,64 @@
 {
-  "date": "2026-11-17",
-  "timestamp": "2026-11-17T08:40:07.687358",
-  "narrative": "1. La rotaci\u00f3n muestra una clara preferencia por sectores defensivos y de infraestructura: los l\u00edderes son farmac\u00e9uticos, seguros de propiedad, ferrocarriles, productos de consumo defensivo y gesti\u00f3n de residuos. Los c\u00edclicos y tecnol\u00f3gicos est\u00e1n en el fondo.  \n2. Este patr\u00f3n concuerda con un r\u00e9gimen macro \u201cCALM\u201d, donde la volatilidad es baja y los flujos de capital se dirigen a activos con flujo de caja estable y protecci\u00f3n contra recesiones.  \n3. Enf\u00f3quese en los grupos de Healthcare, Insurance, Industrials (Railroads, Waste Management) y Consumer Defensive. Evite Semiconductor Equipment, Building Products, Apparel Retail, Residential Construction y Sem",
-  "macro_regime": "CALM",
+  "date": "2026-11-18",
+  "timestamp": "2026-11-18T07:51:05.886703",
+  "narrative": "La rotaci\u00f3n muestra una clara preferencia por defensivos y sectores de servicios estables: los l\u00edderes son Healthcare (Drug Manufacturers), seguros y railroads, mientras que los c\u00edclicos m\u00e1s d\u00e9biles son Building Materials, Construction y Semiconductors. Este sesgo defensivo encaja con el r\u00e9gimen macro \u201cWATCH\u201d, que indica incertidumbre y volatilidad moderada, favoreciendo activos menos sensibles al ciclo econ\u00f3mico. Enf\u00f3quense ahora en buscar oportunidades largas en Healthcare, seguros (P&C) y Consumer Defensive (Household & Personal Products, Discount Stores), as\u00ed como en Industrials de infraestructura defensiva (Railroads). Eviten exposici\u00f3n a Basic Materials, Construction, y Technology de alta sensibilidad c\u00edclica (Semiconductors, Apparel Retail).",
+  "macro_regime": "WATCH",
   "top_sectors": [
     {
       "industry": "Drug Manufacturers - General",
       "sector": "Healthcare",
-      "avg_rs_percentile": 100.0,
+      "avg_rs_percentile": 99.1,
       "num_tickers": 2,
       "label": "Top 10%"
     },
     {
       "industry": "Insurance - Property & Casualty",
       "sector": "Financial Services",
-      "avg_rs_percentile": 94.3,
+      "avg_rs_percentile": 92.9,
       "num_tickers": 2,
       "label": "Top 10%"
     },
     {
       "industry": "Railroads",
       "sector": "Industrials",
-      "avg_rs_percentile": 91.6,
+      "avg_rs_percentile": 89.1,
       "num_tickers": 3,
       "label": "Top 10%"
     },
     {
       "industry": "Household & Personal Products",
       "sector": "Consumer Defensive",
-      "avg_rs_percentile": 88.1,
+      "avg_rs_percentile": 87.2,
       "num_tickers": 4,
       "label": "Top 10%"
     },
     {
-      "industry": "Waste Management",
-      "sector": "Industrials",
-      "avg_rs_percentile": 87.1,
+      "industry": "Discount Stores",
+      "sector": "Consumer Defensive",
+      "avg_rs_percentile": 80.1,
       "num_tickers": 3,
       "label": "Top 25%"
     }
   ],
   "bottom_sectors": [
     {
-      "industry": "Semiconductor Equipment & Materials",
-      "sector": "Technology",
-      "avg_rs_percentile": 21.9,
-      "num_tickers": 4,
+      "industry": "Building Materials",
+      "sector": "Basic Materials",
+      "avg_rs_percentile": 22.2,
+      "num_tickers": 2,
       "label": "Bottom 25%"
     },
     {
       "industry": "Building Products & Equipment",
       "sector": "Industrials",
       "avg_rs_percentile": 21.0,
+      "num_tickers": 2,
+      "label": "Bottom 25%"
+    },
+    {
+      "industry": "Semiconductors",
+      "sector": "Technology",
+      "avg_rs_percentile": 15.0,
       "num_tickers": 2,
       "label": "Bottom 25%"
     },
@@ -65,14 +72,7 @@
     {
       "industry": "Residential Construction",
       "sector": "Consumer Cyclical",
-      "avg_rs_percentile": 14.0,
-      "num_tickers": 2,
-      "label": "Bottom 25%"
-    },
-    {
-      "industry": "Semiconductors",
-      "sector": "Technology",
-      "avg_rs_percentile": 11.0,
+      "avg_rs_percentile": 12.0,
       "num_tickers": 2,
       "label": "Bottom 25%"
     }

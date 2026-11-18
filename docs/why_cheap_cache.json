@@ -307,15 +307,18 @@
  },
  "TYL": {
   "veredicto": "SENTIMIENTO",
-  "resumen": "Rotación de valoraciones tras cotizar $453.65 a inicio 2026; mercado recalibra múltiplos de crecimiento SaaS pese a negocios sólidos (+21.7% SaaS, márgenes en expansión, guidance confirmada).",
-  "confianza": 75,
+  "resumen": "Miss de ingresos <1% en Q3 2026 (28 oct) y recorte marginal de guidance $10M por timing de deals, con markets reaccionando a valuación cara (PER 52x) a pesar de operativos fuertes (+19.5%), SaaS acelerado (+21.2%) y cash flow récord.",
+  "confianza": 72,
   "fuentes": [
-   "https://www.sec.gov/Archives/edgar/data/860731/000086073124000039/a991earningsrelease-6302024.htm",
-   "https://www.sec.gov/Archives/edgar/data/860731/000086073124000023/a991earningsrelease-3312024.htm",
-   "https://www.sec.gov/Archives/edgar/data/860731/000086073124000050/a991earningsrelease-9302024.htm",
-   "https://www.sec.gov/Archives/edgar/data/860731/000086073125000024/a991earningsrelease-3312025.htm"
+   "https://es.investing.com/news/insider-trading-news/el-director-ejecutivo-de-tyler-technologies-inc-vende-acciones-por-128-millones-de-dolares-93CH-3933188",
+   "https://es.investing.com/news/company-news/tyler-technologies-en-el-cuarto-trimestre-de-2025-crecimiento-solido-de-ingresos-recurrentes-pese-a-resultados-por-debajo-de-lo-esperado-93CH-3514734",
+   "https://www.investing.com/equities/tyler-technologies-inc-earnings",
+   "https://www.marketbeat.com/instant-alerts/earnings-tyler-technologies-nyse-tyl-announces-earnings-results-beats-estimates-by-004-eps-2026-10-28/"
   ],
-  "fecha": "2026-10-29"
+  "modelo": "claude-haiku-4-5",
+  "resultados": "2027-02-10",
+  "fecha": "2026-11-18",
+  "criterio": 3
  },
  "RELX": {
   "veredicto": "SENTIMIENTO",
@@ -585,16 +588,19 @@
   "criterio": 3
  },
  "ESLOY": {
-  "veredicto": "SENTIMIENTO",
-  "resumen": "Ingresos +7.2% CC en Q3 2026 pero márgenes operativo y BPA contraen 2%. Caída impulsada por temor a disruption de IA/wearables (Meta) y revaluación múltiplos tech desde junio-octubre.",
-  "confianza": 55,
+  "veredicto": "DETERIORO",
+  "resumen": "Compresión de márgenes operativos a pesar del crecimiento de ingresos; presión de costos o mix de producto desfavorable que socava rentabilidad.",
+  "confianza": 65,
   "fuentes": [
-   "https://www.marketbeat.com/stocks/OTCMKTS/ESLOY/",
-   "https://www.morningstar.com/stocks/otcm/esloy/quote",
-   "https://parisee.com/en/essilorluxottica-stock-crash-2026",
-   "https://meyka.com/stock/ESLOY/forecasting/"
+   "https://es.investing.com/news/transcripts/informe-de-resultados-de-essilorluxottica-fuerte-crecimiento-en-el-tercer-trimestre-de-2026-93CH-3881912",
+   "https://www.optimoda.es/economia/essilorluxottica-resultados-tercer-trimestre-2026/",
+   "https://www.macrotrends.net/stocks/charts/ESLOY/essilorluxottica/total-long-term-assets",
+   "https://www.macrotrends.net/stocks/charts/ESLOY/essilorluxottica/operating-income"
   ],
-  "fecha": "2026-11-10"
+  "modelo": "claude-haiku-4-5",
+  "resultados": "",
+  "fecha": "2026-11-18",
+  "criterio": 3
  },
  "MLM": {
   "veredicto": "SENTIMIENTO",
@@ -654,6 +660,21 @@
   "modelo": "claude-haiku-4-5",
   "resultados": "2027-02-17",
   "fecha": "2026-11-17",
+  "criterio": 3
+ },
+ "PAYX": {
+  "veredicto": "CICLICO",
+  "resumen": "En el Q1 FY2027 (publicado el 23 de septiembre de 2026) Paychex batió expectativas de beneficio y elevó la guía de PEO e Insurance a 7-8%, pero el segmento Management Solutions (tres cuartos del negocio) creció solo un 4%, muy por debajo del 17% de todo el ejercicio anterior, y la dirección mantuvo ",
+  "confianza": 70,
+  "fuentes": [
+   "https://www.theglobeandmail.com/investing/markets/stocks/PAYX/pressreleases/4779788/paychex-payx-q1-2027-earnings-call-transcript/",
+   "https://finance.yahoo.com/markets/stocks/articles/paychex-inc-payx-q1-2027-210037074.html",
+   "https://www.marketbeat.com/earnings/reports/2026-9-23-paychex-inc-stock/",
+   "https://www.investing.com/news/company-news/paychex-q1-fy27-slides-doubledigit-earnings-growth-ai-expansion-93CH-4913490"
+  ],
+  "modelo": "claude-sonnet-5",
+  "resultados": "2026-12-18",
+  "fecha": "2026-11-18",
   "criterio": 3
  }
 }

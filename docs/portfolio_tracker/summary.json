@@ -1,8 +1,8 @@
 {
-  "total_signals": 131,
-  "unique_tickers": 82,
-  "date_range": "2026-04-08 to 2026-11-16",
-  "active_signals": 44,
+  "total_signals": 132,
+  "unique_tickers": 83,
+  "date_range": "2026-04-08 to 2026-11-18",
+  "active_signals": 45,
   "completed_signals": 87,
   "overall": {
     "90d": {
@@ -164,7 +164,7 @@
     }
   },
   "value_strategy": {
-    "count": 131,
+    "count": 132,
     "90d": {
       "count": 63,
       "win_rate": 73.0,
@@ -202,12 +202,12 @@
     "BOUNCE_BROAD": {
       "count": 49,
       "7d": {
-        "count": 46,
-        "win_rate": 28.3,
-        "ci_low": 17.3,
-        "ci_high": 42.5,
-        "avg_return": -1.24,
-        "median_return": -1.88,
+        "count": 48,
+        "win_rate": 31.2,
+        "ci_low": 19.9,
+        "ci_high": 45.3,
+        "avg_return": -1.03,
+        "median_return": -1.46,
         "best": 12.61,
         "worst": -12.25
       },
@@ -274,8 +274,8 @@
         "ci_high": null
       }
     },
-    "edad_max_dias": 89,
-    "dias_hasta_primera_lectura": 1,
+    "edad_max_dias": 90,
+    "dias_hasta_primera_lectura": 0,
     "con_contrato": 151,
     "nota": "el contrato se sigue por su s\u00edmbolo OCC; son opciones poco l\u00edquidas, as\u00ed que un checkpoint sin cotizaci\u00f3n en 10 d\u00edas se queda vac\u00edo en vez de arrastrar un precio viejo"
   },
@@ -419,6 +419,17 @@
   "performers_horizon": "180d",
   "recent_signals": [
     {
+      "ticker": "PAYX",
+      "company_name": "Paychex, Inc.",
+      "strategy": "VALUE",
+      "signal_date": "2026-11-18",
+      "signal_price": 114.1,
+      "sector": "Technology",
+      "value_score": 92.6,
+      "days_active": 0,
+      "first_result_date": "2026-11-25"
+    },
+    {
       "ticker": "ALLY",
       "company_name": "Ally Financial Inc.",
       "strategy": "VALUE",
@@ -426,7 +437,7 @@
       "signal_price": 38.31,
       "sector": "Financial Services",
       "value_score": 40.2,
-      "days_active": 1,
+      "days_active": 2,
       "first_result_date": "2026-11-23"
     },
     {
@@ -437,7 +448,7 @@
       "signal_price": 641.69,
       "sector": "Communication Services",
       "value_score": 44.3,
-      "days_active": 1,
+      "days_active": 2,
       "first_result_date": "2026-11-23"
     },
     {
@@ -448,7 +459,7 @@
       "signal_price": 293.39,
       "sector": "Financial Services",
       "value_score": 47.1,
-      "days_active": 1,
+      "days_active": 2,
       "first_result_date": "2026-11-23"
     },
     {
@@ -459,7 +470,7 @@
       "signal_price": 267.44,
       "sector": "Consumer Cyclical",
       "value_score": 40.0,
-      "days_active": 4,
+      "days_active": 5,
       "first_result_date": "2026-11-20"
     },
     {
@@ -470,7 +481,7 @@
       "signal_price": 259.48,
       "sector": "Technology",
       "value_score": 49.4,
-      "days_active": 4,
+      "days_active": 5,
       "first_result_date": "2026-11-20"
     },
     {
@@ -481,7 +492,7 @@
       "signal_price": 205.98,
       "sector": "Industrials",
       "value_score": 48.9,
-      "days_active": 5,
+      "days_active": 6,
       "first_result_date": "2026-11-19"
     },
     {
@@ -492,7 +503,7 @@
       "signal_price": 237.6,
       "sector": "Technology",
       "value_score": 98.1,
-      "days_active": 5,
+      "days_active": 6,
       "first_result_date": "2026-11-19"
     },
     {
@@ -503,7 +514,7 @@
       "signal_price": 107.2,
       "sector": "Healthcare",
       "value_score": 50.8,
-      "days_active": 7,
+      "days_active": 8,
       "first_result_date": "2026-11-17"
     },
     {
@@ -514,7 +525,7 @@
       "signal_price": 47.88,
       "sector": "Consumer Defensive",
       "value_score": 58.8,
-      "days_active": 7,
+      "days_active": 8,
       "first_result_date": "2026-11-17"
     },
     {
@@ -525,7 +536,7 @@
       "signal_price": 334.18,
       "sector": "Consumer Cyclical",
       "value_score": 54.1,
-      "days_active": 7,
+      "days_active": 8,
       "first_result_date": "2026-11-17"
     },
     {
@@ -536,7 +547,7 @@
       "signal_price": 237.42,
       "sector": "Technology",
       "value_score": 49.4,
-      "days_active": 7,
+      "days_active": 8,
       "first_result_date": "2026-11-17"
     },
     {
@@ -547,7 +558,7 @@
       "signal_price": 68.36,
       "sector": "Communication Services",
       "value_score": 49.5,
-      "days_active": 8,
+      "days_active": 9,
       "first_result_date": "2026-11-16"
     },
     {
@@ -558,7 +569,7 @@
       "signal_price": 94.81,
       "sector": "Basic Materials",
       "value_score": 40.0,
-      "days_active": 8,
+      "days_active": 9,
       "first_result_date": "2026-11-16"
     },
     {
@@ -569,7 +580,7 @@
       "signal_price": 201.87,
       "sector": "Financial Services",
       "value_score": 40.3,
-      "days_active": 8,
+      "days_active": 9,
       "first_result_date": "2026-11-16"
     },
     {
@@ -580,7 +591,7 @@
       "signal_price": 530.61,
       "sector": "Technology",
       "value_score": 41.9,
-      "days_active": 8,
+      "days_active": 9,
       "first_result_date": "2026-11-16"
     },
     {
@@ -591,7 +602,7 @@
       "signal_price": 283.93,
       "sector": "Communication Services",
       "value_score": 43.2,
-      "days_active": 8,
+      "days_active": 9,
       "first_result_date": "2026-11-16"
     },
     {
@@ -602,7 +613,7 @@
       "signal_price": 518.15,
       "sector": "Basic Materials",
       "value_score": 44.1,
-      "days_active": 8,
+      "days_active": 9,
       "first_result_date": "2026-11-16"
     },
     {
@@ -613,7 +624,7 @@
       "signal_price": 2273.74,
       "sector": "Financial Services",
       "value_score": 46.1,
-      "days_active": 8,
+      "days_active": 9,
       "first_result_date": "2026-11-16"
     },
     {
@@ -624,18 +635,7 @@
       "signal_price": 172.27,
       "sector": "Financial Services",
       "value_score": 46.4,
-      "days_active": 8,
-      "first_result_date": "2026-11-16"
-    },
-    {
-      "ticker": "DSGX",
-      "company_name": "The Descartes Systems Group Inc.",
-      "strategy": "VALUE",
-      "signal_date": "2026-11-09",
-      "signal_price": 93.99,
-      "sector": "Technology",
-      "value_score": 46.9,
-      "days_active": 8,
+      "days_active": 9,
       "first_result_date": "2026-11-16"
     }
   ],
@@ -676,20 +676,20 @@
       "worst_alpha": -21.52
     },
     "14d": {
-      "count": 93,
-      "avg_alpha": 0.4,
-      "avg_signal_return": 1.24,
-      "avg_benchmark_return": 0.84,
-      "positive_alpha_rate": 49.5,
+      "count": 95,
+      "avg_alpha": 0.53,
+      "avg_signal_return": 1.29,
+      "avg_benchmark_return": 0.76,
+      "positive_alpha_rate": 50.5,
       "best_alpha": 13.42,
       "worst_alpha": -12.78
     },
     "7d": {
-      "count": 120,
-      "avg_alpha": 0.68,
-      "avg_signal_return": 0.79,
-      "avg_benchmark_return": 0.11,
-      "positive_alpha_rate": 53.3,
+      "count": 124,
+      "avg_alpha": 0.6,
+      "avg_signal_return": 0.64,
+      "avg_benchmark_return": 0.03,
+      "positive_alpha_rate": 52.4,
       "best_alpha": 13.81,
       "worst_alpha": -12.04
     }
@@ -730,14 +730,14 @@
       "worst_alpha": -21.52
     },
     "14d": {
-      "count": 93,
-      "avg_alpha": 0.4,
-      "avg_signal_return": 1.24,
-      "avg_benchmark_return": 0.84,
-      "positive_alpha_rate": 49.5,
+      "count": 95,
+      "avg_alpha": 0.53,
+      "avg_signal_return": 1.29,
+      "avg_benchmark_return": 0.76,
+      "positive_alpha_rate": 50.5,
       "best_alpha": 13.42,
       "worst_alpha": -12.78
     }
   },
-  "generated_at": "2026-11-17T08:41:30.857161"
+  "generated_at": "2026-11-18T07:52:31.626069"
 }
