@@ -1,0 +1,47 @@
+{
+  "listas": {
+    "value_opportunities": {
+      "candidatas": 37,
+      "publicadas": 31,
+      "excluidos": [
+        {
+          "ticker": "KYCCF",
+          "paso": "rangos_imposibles",
+          "motivo": "Falta analyst_upside_pct: no se recomienda lo que no se puede evaluar",
+          "score": 60.0
+        },
+        {
+          "ticker": "BSX",
+          "paso": "verificador_ia",
+          "motivo": "Contradicción interna: rev_growth_yoy=1.4% pero ventas_anual_pct=19.9%. Estas dos métricas miden lo mismo (crecimiento de ingresos) y no pueden diferir en 18.5 puntos sin explicación de cambio de divisas o consolidación. El dato es incoherente.",
+          "score": 95.0
+        },
+        {
+          "ticker": "MKC",
+          "paso": "verificador_ia",
+          "motivo": "Contradicción interna: rev_growth_yoy=17.4% pero ventas_anual_pct=1.7%. No hay explicación por divisas o consolidación conocida; estas dos cifras miden el mismo concepto y no pueden diferir en 15.7 puntos. Dato erróneo.",
+          "score": 59.3
+        },
+        {
+          "ticker": "ESLOY",
+          "paso": "verificador_ia",
+          "motivo": "upside_requiere_verificacion=true con analyst_upside_pct=33.5% pero target_price_dcf_upside_pct=11.1% (descuento de ~300% de diferencia). El PEG ratio de 21.36 es absurdo, sugiriendo error de escala o unidad. Con rev_growth_yoy=7.5% bajo, el múltiplo sugerido por ese PEG no es sostenible. La ficha no sostiene el descuento sugerido; es una trampa.",
+          "score": 51.4
+        },
+        {
+          "ticker": "RELX",
+          "paso": "verificador_ia",
+          "motivo": "upside_requiere_verificacion=true con analyst_upside_pct=36.7%, pero rev_growth_yoy=1.7% es estancado. Modelos_dispersion=43.2 pts indica fuerte desacuerdo (target_pe_upside_pct=60.5% vs target_dcf_upside_pct=17.3%). Con crecimiento prácticamente nulo y volatilidad de valoración, el descuento sugiere una trampa, no una oportunidad. EBIT_EV_yield de 1.06% es muy bajo.",
+          "score": 51.2
+        },
+        {
+          "ticker": "DVA",
+          "paso": "verificador_ia",
+          "motivo": "upside_requiere_verificacion=true con analyst_upside_pct=37.4%, pero modelos_dispersion=116.7 pts es extremadamente alta (target_dcf_upside_pct=123.7% vs target_pe_upside_pct=7.0%). Los modelos se contradicen radicalmente. FCF_yield de 9.62% sugiere un flujo que el DCF ve bajista; el P/E ve el valor como justo. Con rev_growth_yoy=4.6% bajo, la volatilidad de modelos invalida la recomendación de descuento.",
+          "score": 50.6
+        }
+      ]
+    }
+  },
+  "generated_at": "2026-11-19T07:40:47Z"
+}

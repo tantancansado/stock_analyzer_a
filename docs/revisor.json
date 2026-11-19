@@ -1,40 +1,22 @@
 {
-  "fecha": "2026-11-17",
+  "fecha": "2026-11-19",
   "estado": "ok",
   "hallazgos": [
     {
-      "clave": "texto_contradice_datos:MLM",
-      "ticker": "MLM",
-      "tipo": "texto_contradice_datos",
-      "titulo": "El resumen cita un PER de 13x que no coincide con el PER de la propia ficha (27,2)",
-      "por_que": "El why_cheap_resumen dice que el múltiplo cayó a 'P/E de 13x vs. 26.5x histórico', pero los campos per_norm (27.2) y per_mediana_10a (31.01) de la misma ficha no sostienen esa cifra: la compresión real reflejada en los datos es mucho menor que la narrada.",
-      "cita": "Múltiplos desplomados (P/E de 13x vs. 26.5x histórico)",
-      "donde_mirar": "Ficha MLM: per_norm / per_mediana_10a vs texto why_cheap_resumen"
-    },
-    {
-      "clave": "texto_contradice_datos:AMZN",
-      "ticker": "AMZN",
-      "tipo": "texto_contradice_datos",
-      "titulo": "El FCF citado en el resumen ($7,7B) no cuadra con el fcf_yield_pct de la ficha",
-      "por_que": "fcf_yield_pct=1.31% sobre un market_cap de 2,79 billones implica un FCF de ~36.500M, muy por encima de los '$7,7B FCF' que menciona el resumen; la diferencia no se explica por definiciones distintas (trimestre vs anual) porque es de un orden de magnitud.",
-      "cita": "$210,7B capex anual vs. $7,7B FCF",
-      "donde_mirar": "Ficha AMZN: fcf_yield_pct vs market_cap, comparado con el texto why_cheap_resumen"
-    },
-    {
-      "clave": "texto_contradice_datos:GOOG",
-      "ticker": "GOOG",
-      "tipo": "texto_contradice_datos",
-      "titulo": "El resumen dice que el flujo de caja fue negativo, pero fcf_yield_pct es positivo",
-      "por_que": "El resumen afirma 'flujo de caja negativo de $9.1B' mientras que fcf_yield_pct=2.55% sobre un market_cap de 3,46 billones implica un FCF positivo de decenas de miles de millones; si se refiere solo a un trimestre puntual debería aclararse, porque tal como está contradice el dato anual de la ficha.",
-      "cita": "flujo de caja negativo de $9.1B y guidance de capex sin cambios",
-      "donde_mirar": "Ficha GOOG: fcf_yield_pct vs texto why_cheap_resumen"
+      "clave": "revisor:sin_claude",
+      "ticker": null,
+      "tipo": "otro",
+      "titulo": "el revisor no pudo preguntar a Claude",
+      "por_que": "Claude no respondió: presupuesto, crédito, API caída o se quedó sin espacio pensando (el log del paso dice cuál)",
+      "cita": "Claude no respondió: presupuesto, crédito, API caída o se quedó sin espacio pensando (el log del paso dice cuál)",
+      "donde_mirar": "el paso «Revisor nocturno» del workflow y docs/revisor.json"
     }
   ],
   "descartados": [],
   "incidencias_nuevas": [
-    18,
-    19,
-    20
+    21
   ],
-  "avisos": []
+  "avisos": [
+    "sin revisión de Claude: Claude no respondió: presupuesto, crédito, API caída o se quedó sin espacio pensando (el log del paso dice cuál)"
+  ]
 }

@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-11-17",
-  "total": 12,
+  "generated_at": "2026-11-19",
+  "total": 15,
   "improving": 0,
   "narrative": "",
   "candidates": [
@@ -22,7 +22,7 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 52.8
+      "value_score": 54.4
     },
     {
       "ticker": "TYL",
@@ -32,7 +32,17 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 50.7
+      "value_score": 51.6
+    },
+    {
+      "ticker": "SAP",
+      "company_name": "SAP SE",
+      "piotroski_current": 8.0,
+      "piotroski_prev": 8.0,
+      "delta": 0.0,
+      "trend": "STABLE",
+      "signal": "STRONG",
+      "value_score": 50.4
     },
     {
       "ticker": "NYT",
@@ -42,7 +52,7 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 48.0
+      "value_score": 48.8
     },
     {
       "ticker": "AON",
@@ -52,17 +62,17 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 46.8
+      "value_score": 48.5
     },
     {
-      "ticker": "MLM",
-      "company_name": "Martin Marietta Materials, Inc.",
+      "ticker": "ICE",
+      "company_name": "Intercontinental Exchange, Inc.",
       "piotroski_current": 8.0,
       "piotroski_prev": 8.0,
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 44.7
+      "value_score": 46.3
     },
     {
       "ticker": "ADBE",
@@ -72,7 +82,17 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 97.8
+      "value_score": 98.4
+    },
+    {
+      "ticker": "PAYX",
+      "company_name": "Paychex, Inc.",
+      "piotroski_current": 7.0,
+      "piotroski_prev": null,
+      "delta": 0.0,
+      "trend": "STABLE",
+      "signal": "STRONG",
+      "value_score": 92.7
     },
     {
       "ticker": "WTKWY",
@@ -82,7 +102,7 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 57.2
+      "value_score": 57.9
     },
     {
       "ticker": "RMD",
@@ -92,7 +112,7 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 52.2
+      "value_score": 51.7
     },
     {
       "ticker": "JKHY",
@@ -102,7 +122,17 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 50.6
+      "value_score": 51.0
+    },
+    {
+      "ticker": "ADSK",
+      "company_name": "Autodesk, Inc.",
+      "piotroski_current": 7.0,
+      "piotroski_prev": 7.0,
+      "delta": 0.0,
+      "trend": "STABLE",
+      "signal": "STRONG",
+      "value_score": 49.7
     },
     {
       "ticker": "VRSK",
@@ -112,13 +142,13 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 48.2
+      "value_score": 49.2
     },
     {
       "ticker": "PRI",
       "company_name": "Primerica, Inc.",
       "piotroski_current": 7.0,
-      "piotroski_prev": null,
+      "piotroski_prev": 7.0,
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",

@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-11-17",
-  "total_convergences": 15,
-  "triple_or_more": 3,
+  "generated_at": "2026-11-19",
+  "total_convergences": 16,
+  "triple_or_more": 2,
   "convergences": [
     {
       "ticker": "AON",
@@ -14,15 +14,15 @@
       ],
       "strategy_count": 3,
       "convergence_score": 89,
-      "value_score": 46.8,
-      "conviction_grade": "nan",
-      "analyst_upside_pct": 7.1,
-      "fcf_yield_pct": 4.55,
-      "current_price": 343.12,
-      "streak_days": 18,
+      "value_score": 48.5,
+      "conviction_grade": "C",
+      "analyst_upside_pct": 10.5,
+      "fcf_yield_pct": 4.63,
+      "current_price": 332.47,
+      "streak_days": 19,
       "earnings_warning": false,
-      "days_to_earnings": 73.0,
-      "analysis": "Convergencia de 3 estrategias: VALUE, INSIDERS, OPTIONS."
+      "days_to_earnings": 71.0,
+      "analysis": "La convergencia de las tres estrategias (VALUE, INSIDERS y OPTIONS) durante 19 d\u00edas consecutivos indica que diferentes enfoques de an\u00e1lisis est\u00e1n alineando sus se\u00f1ales alcistas, lo que refuerza la probabilidad de que AON experimente un movimiento positivo y justifica el upside estimado del\u202f10.5\u202f%. Sin embargo, hay que ser cauteloso con la calificaci\u00f3n C del modelo VALUE, el nivel moderado de flujo de caja libre (4.63\u202f%) y la posible volatilidad de las opciones; por ello"
     },
     {
       "ticker": "MSCI",
@@ -40,31 +40,10 @@
       "analyst_upside_pct": null,
       "fcf_yield_pct": null,
       "current_price": null,
-      "streak_days": 3,
+      "streak_days": 4,
       "earnings_warning": false,
       "days_to_earnings": null,
-      "analysis": "La convergencia de los indicadores\u202fINSIDERS,\u202fOPTIONS\u202fy\u202fMOMENTUM\u202fdurante tres d\u00edas consecutivos sugiere una presi\u00f3n coordinada del mercado: los insiders est\u00e1n comprando, el flujo de opciones muestra un sesgo alcista y el impulso t\u00e9cnico confirma la tendencia. Esta coincidencia aumenta la probabilidad de que el precio contin\u00fae subiendo, pero es importante vigilar la volatilidad impl\u00edcita de las opciones"
-    },
-    {
-      "ticker": "ECL",
-      "company_name": "",
-      "sector": "",
-      "strategies": [
-        "INSIDERS",
-        "OPTIONS",
-        "MOMENTUM"
-      ],
-      "strategy_count": 3,
-      "convergence_score": 70,
-      "value_score": null,
-      "conviction_grade": "",
-      "analyst_upside_pct": null,
-      "fcf_yield_pct": null,
-      "current_price": null,
-      "streak_days": 2,
-      "earnings_warning": false,
-      "days_to_earnings": null,
-      "analysis": "La coincidencia de se\u00f1ales de insiders, opciones y momentum durante dos d\u00edas seguidos sugiere que distintos indicadores (flujo"
+      "analysis": "La coincidencia de se\u00f1ales de insiders, opciones y momentum durante cuatro d\u00edas seguidos sugiere"
     },
     {
       "ticker": "INTU",
@@ -77,14 +56,14 @@
       "strategy_count": 2,
       "convergence_score": 70,
       "value_score": 100.0,
-      "conviction_grade": "B",
-      "analyst_upside_pct": 18.0,
-      "fcf_yield_pct": 9.33,
-      "current_price": 345.56,
-      "streak_days": 7,
+      "conviction_grade": "A",
+      "analyst_upside_pct": 30.5,
+      "fcf_yield_pct": 10.29,
+      "current_price": 313.24,
+      "streak_days": 8,
       "earnings_warning": true,
-      "days_to_earnings": 2.0,
-      "analysis": null
+      "days_to_earnings": 0.0,
+      "analysis": "La convergencia de 8 d\u00edas consecutivos entre la estrategia VALUE y la de opciones indica que el precio est\u00e1 aline\u00e1ndose con el valor fundamental de INTU, lo que suele predecir un movimiento alcista sostenido y reduce la brecha entre la acci\u00f3n y su precio intr\u00ednseco. Sin embargo, con el reporte de ganancias programado para hoy, la volatilidad puede dispararse y las opciones podr\u00edan volverse m\u00e1s"
     },
     {
       "ticker": "CRH",
@@ -98,12 +77,12 @@
       "convergence_score": 68,
       "value_score": 40.0,
       "conviction_grade": "C",
-      "analyst_upside_pct": 31.0,
-      "fcf_yield_pct": 4.02,
-      "current_price": 92.37,
-      "streak_days": 3,
+      "analyst_upside_pct": 30.7,
+      "fcf_yield_pct": 4.12,
+      "current_price": 92.58,
+      "streak_days": 4,
       "earnings_warning": false,
-      "days_to_earnings": 92.0,
+      "days_to_earnings": 90.0,
       "analysis": null
     },
     {
@@ -121,7 +100,7 @@
       "analyst_upside_pct": null,
       "fcf_yield_pct": null,
       "current_price": null,
-      "streak_days": 56,
+      "streak_days": 57,
       "earnings_warning": false,
       "days_to_earnings": null,
       "analysis": null
@@ -141,7 +120,7 @@
       "analyst_upside_pct": null,
       "fcf_yield_pct": null,
       "current_price": null,
-      "streak_days": 17,
+      "streak_days": 18,
       "earnings_warning": false,
       "days_to_earnings": null,
       "analysis": null
@@ -161,13 +140,13 @@
       "analyst_upside_pct": null,
       "fcf_yield_pct": null,
       "current_price": null,
-      "streak_days": 6,
+      "streak_days": 7,
       "earnings_warning": false,
       "days_to_earnings": null,
       "analysis": null
     },
     {
-      "ticker": "SYK",
+      "ticker": "ECL",
       "company_name": "",
       "sector": "",
       "strategies": [
@@ -196,23 +175,63 @@
       ],
       "strategy_count": 2,
       "convergence_score": 59,
-      "value_score": 48.2,
+      "value_score": 49.2,
       "conviction_grade": "C",
-      "analyst_upside_pct": 10.9,
-      "fcf_yield_pct": 4.11,
-      "current_price": 212.76,
-      "streak_days": 5,
+      "analyst_upside_pct": 16.6,
+      "fcf_yield_pct": 4.24,
+      "current_price": 202.31,
+      "streak_days": 6,
       "earnings_warning": false,
-      "days_to_earnings": 92.0,
+      "days_to_earnings": 90.0,
       "analysis": null
     },
     {
-      "ticker": "LIN",
+      "ticker": "PAYX",
+      "company_name": "Paychex, Inc.",
+      "sector": "Technology",
+      "strategies": [
+        "VALUE",
+        "OPTIONS"
+      ],
+      "strategy_count": 2,
+      "convergence_score": 58,
+      "value_score": 92.7,
+      "conviction_grade": "nan",
+      "analyst_upside_pct": 0.8,
+      "fcf_yield_pct": 4.98,
+      "current_price": 113.67,
+      "streak_days": 1,
+      "earnings_warning": false,
+      "days_to_earnings": 29.0,
+      "analysis": null
+    },
+    {
+      "ticker": "WTKWY",
+      "company_name": "Wolters Kluwer N.V.",
+      "sector": "Industrials",
+      "strategies": [
+        "VALUE",
+        "MR"
+      ],
+      "strategy_count": 2,
+      "convergence_score": 51,
+      "value_score": 57.9,
+      "conviction_grade": "D",
+      "analyst_upside_pct": 21.1,
+      "fcf_yield_pct": 7.15,
+      "current_price": 94.07,
+      "streak_days": 1,
+      "earnings_warning": false,
+      "days_to_earnings": null,
+      "analysis": null
+    },
+    {
+      "ticker": "TMO",
       "company_name": "",
       "sector": "",
       "strategies": [
-        "INSIDERS",
-        "OPTIONS"
+        "OPTIONS",
+        "MOMENTUM"
       ],
       "strategy_count": 2,
       "convergence_score": 50,
@@ -221,29 +240,49 @@
       "analyst_upside_pct": null,
       "fcf_yield_pct": null,
       "current_price": null,
-      "streak_days": 1,
+      "streak_days": 3,
       "earnings_warning": false,
       "days_to_earnings": null,
       "analysis": null
     },
     {
-      "ticker": "FICO",
-      "company_name": "",
-      "sector": "",
+      "ticker": "BR",
+      "company_name": "Broadridge Financial Solutions, Inc.",
+      "sector": "Technology",
       "strategies": [
-        "INSIDERS",
+        "VALUE",
         "OPTIONS"
       ],
       "strategy_count": 2,
       "convergence_score": 50,
-      "value_score": null,
-      "conviction_grade": "",
-      "analyst_upside_pct": null,
-      "fcf_yield_pct": null,
-      "current_price": null,
+      "value_score": 54.4,
+      "conviction_grade": "C",
+      "analyst_upside_pct": 13.2,
+      "fcf_yield_pct": 6.2,
+      "current_price": 184.9,
       "streak_days": 1,
       "earnings_warning": false,
-      "days_to_earnings": null,
+      "days_to_earnings": 75.0,
+      "analysis": null
+    },
+    {
+      "ticker": "ICE",
+      "company_name": "Intercontinental Exchange, Inc.",
+      "sector": "Financial Services",
+      "strategies": [
+        "VALUE",
+        "OPTIONS"
+      ],
+      "strategy_count": 2,
+      "convergence_score": 49,
+      "value_score": 46.3,
+      "conviction_grade": "B",
+      "analyst_upside_pct": 12.6,
+      "fcf_yield_pct": 5.03,
+      "current_price": 171.81,
+      "streak_days": 1,
+      "earnings_warning": false,
+      "days_to_earnings": 77.0,
       "analysis": null
     },
     {
@@ -256,34 +295,14 @@
       ],
       "strategy_count": 2,
       "convergence_score": 48,
-      "value_score": 42.7,
+      "value_score": 43.4,
       "conviction_grade": "B",
-      "analyst_upside_pct": 22.8,
-      "fcf_yield_pct": 2.08,
-      "current_price": 517.99,
-      "streak_days": 1,
-      "earnings_warning": false,
-      "days_to_earnings": 71.0,
-      "analysis": null
-    },
-    {
-      "ticker": "TMO",
-      "company_name": "",
-      "sector": "",
-      "strategies": [
-        "OPTIONS",
-        "MOMENTUM"
-      ],
-      "strategy_count": 2,
-      "convergence_score": 40,
-      "value_score": null,
-      "conviction_grade": "",
-      "analyst_upside_pct": null,
-      "fcf_yield_pct": null,
-      "current_price": null,
+      "analyst_upside_pct": 25.1,
+      "fcf_yield_pct": 1.59,
+      "current_price": 508.29,
       "streak_days": 2,
       "earnings_warning": false,
-      "days_to_earnings": null,
+      "days_to_earnings": 69.0,
       "analysis": null
     },
     {
@@ -301,7 +320,7 @@
       "analyst_upside_pct": null,
       "fcf_yield_pct": null,
       "current_price": null,
-      "streak_days": 1,
+      "streak_days": 2,
       "earnings_warning": false,
       "days_to_earnings": null,
       "analysis": null

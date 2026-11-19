@@ -1,0 +1,329 @@
+{
+  "generated_at": "2026-11-19",
+  "total_convergences": 16,
+  "triple_or_more": 2,
+  "convergences": [
+    {
+      "ticker": "AON",
+      "company_name": "Aon plc",
+      "sector": "Financial Services",
+      "strategies": [
+        "VALUE",
+        "INSIDERS",
+        "OPTIONS"
+      ],
+      "strategy_count": 3,
+      "convergence_score": 89,
+      "value_score": 48.5,
+      "conviction_grade": "C",
+      "analyst_upside_pct": 10.5,
+      "fcf_yield_pct": 4.63,
+      "current_price": 332.47,
+      "streak_days": 19,
+      "earnings_warning": false,
+      "days_to_earnings": 71.0,
+      "analysis": "La convergencia de las tres estrategias (VALUE, INSIDERS y OPTIONS) durante 19 d\u00edas consecutivos indica que diferentes enfoques de an\u00e1lisis est\u00e1n alineando sus se\u00f1ales alcistas, lo que refuerza la probabilidad de que AON experimente un movimiento positivo y justifica el upside estimado del\u202f10.5\u202f%. Sin embargo, hay que ser cauteloso con la calificaci\u00f3n C del modelo VALUE, el nivel moderado de flujo de caja libre (4.63\u202f%) y la posible volatilidad de las opciones; por ello"
+    },
+    {
+      "ticker": "MSCI",
+      "company_name": "",
+      "sector": "",
+      "strategies": [
+        "INSIDERS",
+        "OPTIONS",
+        "MOMENTUM"
+      ],
+      "strategy_count": 3,
+      "convergence_score": 80,
+      "value_score": null,
+      "conviction_grade": "",
+      "analyst_upside_pct": null,
+      "fcf_yield_pct": null,
+      "current_price": null,
+      "streak_days": 4,
+      "earnings_warning": false,
+      "days_to_earnings": null,
+      "analysis": "La coincidencia de se\u00f1ales de insiders, opciones y momentum durante cuatro d\u00edas seguidos sugiere"
+    },
+    {
+      "ticker": "INTU",
+      "company_name": "Intuit Inc.",
+      "sector": "Technology",
+      "strategies": [
+        "VALUE",
+        "OPTIONS"
+      ],
+      "strategy_count": 2,
+      "convergence_score": 70,
+      "value_score": 100.0,
+      "conviction_grade": "A",
+      "analyst_upside_pct": 30.5,
+      "fcf_yield_pct": 10.29,
+      "current_price": 313.24,
+      "streak_days": 8,
+      "earnings_warning": true,
+      "days_to_earnings": 0.0,
+      "analysis": "La convergencia de 8 d\u00edas consecutivos entre la estrategia VALUE y la de opciones indica que el precio est\u00e1 aline\u00e1ndose con el valor fundamental de INTU, lo que suele predecir un movimiento alcista sostenido y reduce la brecha entre la acci\u00f3n y su precio intr\u00ednseco. Sin embargo, con el reporte de ganancias programado para hoy, la volatilidad puede dispararse y las opciones podr\u00edan volverse m\u00e1s"
+    },
+    {
+      "ticker": "CRH",
+      "company_name": "CRH plc",
+      "sector": "Basic Materials",
+      "strategies": [
+        "VALUE",
+        "INSIDERS"
+      ],
+      "strategy_count": 2,
+      "convergence_score": 68,
+      "value_score": 40.0,
+      "conviction_grade": "C",
+      "analyst_upside_pct": 30.7,
+      "fcf_yield_pct": 4.12,
+      "current_price": 92.58,
+      "streak_days": 4,
+      "earnings_warning": false,
+      "days_to_earnings": 90.0,
+      "analysis": null
+    },
+    {
+      "ticker": "VRSN",
+      "company_name": "",
+      "sector": "",
+      "strategies": [
+        "INSIDERS",
+        "OPTIONS"
+      ],
+      "strategy_count": 2,
+      "convergence_score": 60,
+      "value_score": null,
+      "conviction_grade": "",
+      "analyst_upside_pct": null,
+      "fcf_yield_pct": null,
+      "current_price": null,
+      "streak_days": 57,
+      "earnings_warning": false,
+      "days_to_earnings": null,
+      "analysis": null
+    },
+    {
+      "ticker": "CME",
+      "company_name": "",
+      "sector": "",
+      "strategies": [
+        "INSIDERS",
+        "OPTIONS"
+      ],
+      "strategy_count": 2,
+      "convergence_score": 60,
+      "value_score": null,
+      "conviction_grade": "",
+      "analyst_upside_pct": null,
+      "fcf_yield_pct": null,
+      "current_price": null,
+      "streak_days": 18,
+      "earnings_warning": false,
+      "days_to_earnings": null,
+      "analysis": null
+    },
+    {
+      "ticker": "ROL",
+      "company_name": "",
+      "sector": "",
+      "strategies": [
+        "INSIDERS",
+        "OPTIONS"
+      ],
+      "strategy_count": 2,
+      "convergence_score": 60,
+      "value_score": null,
+      "conviction_grade": "",
+      "analyst_upside_pct": null,
+      "fcf_yield_pct": null,
+      "current_price": null,
+      "streak_days": 7,
+      "earnings_warning": false,
+      "days_to_earnings": null,
+      "analysis": null
+    },
+    {
+      "ticker": "ECL",
+      "company_name": "",
+      "sector": "",
+      "strategies": [
+        "INSIDERS",
+        "OPTIONS"
+      ],
+      "strategy_count": 2,
+      "convergence_score": 60,
+      "value_score": null,
+      "conviction_grade": "",
+      "analyst_upside_pct": null,
+      "fcf_yield_pct": null,
+      "current_price": null,
+      "streak_days": 3,
+      "earnings_warning": false,
+      "days_to_earnings": null,
+      "analysis": null
+    },
+    {
+      "ticker": "VRSK",
+      "company_name": "Verisk Analytics, Inc.",
+      "sector": "Industrials",
+      "strategies": [
+        "VALUE",
+        "OPTIONS"
+      ],
+      "strategy_count": 2,
+      "convergence_score": 59,
+      "value_score": 49.2,
+      "conviction_grade": "C",
+      "analyst_upside_pct": 16.6,
+      "fcf_yield_pct": 4.24,
+      "current_price": 202.31,
+      "streak_days": 6,
+      "earnings_warning": false,
+      "days_to_earnings": 90.0,
+      "analysis": null
+    },
+    {
+      "ticker": "PAYX",
+      "company_name": "Paychex, Inc.",
+      "sector": "Technology",
+      "strategies": [
+        "VALUE",
+        "OPTIONS"
+      ],
+      "strategy_count": 2,
+      "convergence_score": 58,
+      "value_score": 92.7,
+      "conviction_grade": "nan",
+      "analyst_upside_pct": 0.8,
+      "fcf_yield_pct": 4.98,
+      "current_price": 113.67,
+      "streak_days": 1,
+      "earnings_warning": false,
+      "days_to_earnings": 29.0,
+      "analysis": null
+    },
+    {
+      "ticker": "WTKWY",
+      "company_name": "Wolters Kluwer N.V.",
+      "sector": "Industrials",
+      "strategies": [
+        "VALUE",
+        "MR"
+      ],
+      "strategy_count": 2,
+      "convergence_score": 51,
+      "value_score": 57.9,
+      "conviction_grade": "D",
+      "analyst_upside_pct": 21.1,
+      "fcf_yield_pct": 7.15,
+      "current_price": 94.07,
+      "streak_days": 1,
+      "earnings_warning": false,
+      "days_to_earnings": null,
+      "analysis": null
+    },
+    {
+      "ticker": "TMO",
+      "company_name": "",
+      "sector": "",
+      "strategies": [
+        "OPTIONS",
+        "MOMENTUM"
+      ],
+      "strategy_count": 2,
+      "convergence_score": 50,
+      "value_score": null,
+      "conviction_grade": "",
+      "analyst_upside_pct": null,
+      "fcf_yield_pct": null,
+      "current_price": null,
+      "streak_days": 3,
+      "earnings_warning": false,
+      "days_to_earnings": null,
+      "analysis": null
+    },
+    {
+      "ticker": "BR",
+      "company_name": "Broadridge Financial Solutions, Inc.",
+      "sector": "Technology",
+      "strategies": [
+        "VALUE",
+        "OPTIONS"
+      ],
+      "strategy_count": 2,
+      "convergence_score": 50,
+      "value_score": 54.4,
+      "conviction_grade": "C",
+      "analyst_upside_pct": 13.2,
+      "fcf_yield_pct": 6.2,
+      "current_price": 184.9,
+      "streak_days": 1,
+      "earnings_warning": false,
+      "days_to_earnings": 75.0,
+      "analysis": null
+    },
+    {
+      "ticker": "ICE",
+      "company_name": "Intercontinental Exchange, Inc.",
+      "sector": "Financial Services",
+      "strategies": [
+        "VALUE",
+        "OPTIONS"
+      ],
+      "strategy_count": 2,
+      "convergence_score": 49,
+      "value_score": 46.3,
+      "conviction_grade": "B",
+      "analyst_upside_pct": 12.6,
+      "fcf_yield_pct": 5.03,
+      "current_price": 171.81,
+      "streak_days": 1,
+      "earnings_warning": false,
+      "days_to_earnings": 77.0,
+      "analysis": null
+    },
+    {
+      "ticker": "MSFT",
+      "company_name": "Microsoft Corporation",
+      "sector": "Technology",
+      "strategies": [
+        "VALUE",
+        "OPTIONS"
+      ],
+      "strategy_count": 2,
+      "convergence_score": 48,
+      "value_score": 43.4,
+      "conviction_grade": "B",
+      "analyst_upside_pct": 25.1,
+      "fcf_yield_pct": 1.59,
+      "current_price": 508.29,
+      "streak_days": 2,
+      "earnings_warning": false,
+      "days_to_earnings": 69.0,
+      "analysis": null
+    },
+    {
+      "ticker": "AJG",
+      "company_name": "",
+      "sector": "",
+      "strategies": [
+        "OPTIONS",
+        "MOMENTUM"
+      ],
+      "strategy_count": 2,
+      "convergence_score": 40,
+      "value_score": null,
+      "conviction_grade": "",
+      "analyst_upside_pct": null,
+      "fcf_yield_pct": null,
+      "current_price": null,
+      "streak_days": 2,
+      "earnings_warning": false,
+      "days_to_earnings": null,
+      "analysis": null
+    }
+  ]
+}

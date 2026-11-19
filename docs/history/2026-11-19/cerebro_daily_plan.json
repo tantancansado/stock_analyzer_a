@@ -1,0 +1,144 @@
+{
+  "generated_at": "2026-11-19",
+  "macro_regime": "CALM",
+  "composite_score": 3.5,
+  "sesgo": "DEFENSIVO",
+  "confianza": 58,
+  "situacion": "Mercado en calma aparente (composite +3.5) pero con se\u00f1ales institucionales de cobertura masiva contra riesgo de cola.",
+  "narrativa": "El VIX y VVIX en percentil 92 junto con el SKEW en zona baja indican que los grandes jugadores est\u00e1n comprando protecci\u00f3n tail-risk mientras el precio a\u00fan no refleja estr\u00e9s. Para un inversor VALUE esto implica mantener exposici\u00f3n a calidad (FCF alto, grade A) pero reducir beta general y reforzar coberturas baratas antes de que el mercado repricee la volatilidad.",
+  "acciones_inmediatas": [
+    {
+      "prioridad": 1,
+      "accion": "CUBRIR",
+      "instrumento": "UVXY",
+      "razon": "VVIX en percentil 92% con VIX todav\u00eda comprimido sugiere spike de volatilidad inminente no descontado",
+      "catalizador": "Ruptura de VIX por encima de su rango reciente o sorpresa en PCE del 25-nov",
+      "size_hint": "peque\u00f1a (1-2%)",
+      "invalidacion": "VVIX retrocede por debajo del percentil 70 sin repunte del VIX"
+    },
+    {
+      "prioridad": 2,
+      "accion": "COMPRAR",
+      "instrumento": "TLT/VGLT",
+      "razon": "Yield del 30yr en 5.41% es zona hist\u00f3ricamente atractiva para entrada en duraci\u00f3n larga",
+      "catalizador": "Dato de PCE Inflation del 25-nov podr\u00eda confirmar desinflaci\u00f3n y favorecer bonos largos",
+      "size_hint": "media (3-4%)",
+      "invalidacion": "Yield 30yr rompe por encima de 5.6% con sesgo inflacionario persistente"
+    },
+    {
+      "prioridad": 3,
+      "accion": "COMPRAR",
+      "instrumento": "INTU",
+      "razon": "Score 100, grade A, FCF 10.29%, mejor pick VALUE del d\u00eda en sector resiliente",
+      "catalizador": "Ninguno inmediato, tesis de calidad a largo plazo",
+      "size_hint": "media (3-4%)",
+      "invalidacion": "Deterioro de m\u00e1rgenes o gu\u00eda de crecimiento por debajo de expectativas"
+    },
+    {
+      "prioridad": 4,
+      "accion": "VENDER",
+      "instrumento": "BSX, CLPBY, ESLOY",
+      "razon": "Se\u00f1al EXIT confirmada por el motor Cerebro en estas 3 posiciones",
+      "catalizador": "Se\u00f1al t\u00e9cnica/fundamental interna del sistema",
+      "size_hint": "grande (5%+)",
+      "invalidacion": "Reversi\u00f3n de la se\u00f1al EXIT en pr\u00f3ximas sesiones"
+    },
+    {
+      "prioridad": 5,
+      "accion": "VIGILAR",
+      "instrumento": "ADSK",
+      "razon": "Earnings en 5 d\u00edas pueden generar volatilidad binaria antes de cualquier entrada",
+      "catalizador": "Publicaci\u00f3n de resultados ADSK",
+      "size_hint": "peque\u00f1a (1-2%)",
+      "invalidacion": "N/A - solo vigilancia, no posici\u00f3n abierta"
+    }
+  ],
+  "macro_plays": [
+    {
+      "instrument": "TLT/VGLT",
+      "direction": "LONG",
+      "thesis": "Yield 30yr en 5.41% \u2014 zona hist\u00f3ricamente atractiva para bonos largos",
+      "historical": "2018-19: TLT +18% cuando yields revertieron desde 3.25%",
+      "risk": "La Fed puede mantener tipos altos m\u00e1s tiempo \u2014 size peque\u00f1o",
+      "timeframe": "3-6 meses",
+      "score": 95,
+      "eu_alternative": {
+        "ticker": "DTLA",
+        "name": "Xtrackers US Treasuries 20yr+ UCITS ETF",
+        "exchange": "Xetra",
+        "available": "DEGIRO/IB"
+      }
+    },
+    {
+      "instrument": "UVXY",
+      "direction": "LONG (peque\u00f1o)",
+      "thesis": "VVIX en percentil 92% con VIX a\u00fan bajo \u2014 spike de volatilidad inminente",
+      "historical": "2018 VIXplosion: UVXY +200% en 2 d\u00edas",
+      "risk": "El tiempo trabaja en contra de VIX products \u2014 size m\u00e1ximo 1%",
+      "timeframe": "1-4 semanas",
+      "score": 65,
+      "eu_alternative": {
+        "ticker": null,
+        "name": "Sin equivalente UCITS directo (productos VIX restringidos por MiFID II)",
+        "exchange": null,
+        "available": "IB: opciones sobre VIX \u00b7 DEGIRO: no disponible"
+      }
+    }
+  ],
+  "macro_plays_commentary": "Las dos plays rule-based (TLT largo y UVXY peque\u00f1o) son coherentes entre s\u00ed: ambas apuestan a que el mercado est\u00e1 subestimando el riesgo de cola mientras los yields largos ya ofrecen valor por s\u00ed mismos.",
+  "value_en_entorno": [
+    {
+      "ticker": "INTU",
+      "score": 100.0,
+      "sector": "Technology",
+      "fcf_yield_pct": 10.29,
+      "grade": "A"
+    },
+    {
+      "ticker": "ADBE",
+      "score": 98.4,
+      "sector": "Technology",
+      "fcf_yield_pct": 12.03,
+      "grade": "A"
+    },
+    {
+      "ticker": "UBER",
+      "score": 58.6,
+      "sector": "Technology",
+      "fcf_yield_pct": 7.42,
+      "grade": "B"
+    }
+  ],
+  "value_en_entorno_razon": "En un r\u00e9gimen donde el VIX y VVIX elevados sugieren fragilidad oculta, los picks VALUE con FCF alto y grade A (INTU, ADBE) ofrecen balance y poder de generaci\u00f3n de caja que amortiguan correcciones, mientras Oro y Defensa ya muestran fortaleza relativa confirmando el giro hacia calidad.",
+  "evitar": [
+    {
+      "ticker": "BSX",
+      "razon": "Se\u00f1al EXIT activa del motor Cerebro"
+    },
+    {
+      "ticker": "CLPBY",
+      "razon": "Se\u00f1al EXIT activa del motor Cerebro"
+    },
+    {
+      "ticker": "ESLOY",
+      "razon": "Se\u00f1al EXIT activa del motor Cerebro"
+    }
+  ],
+  "agenda_semana": [
+    {
+      "fecha": "2026-11-24",
+      "evento": "Earnings ADSK",
+      "impacto": "MEDIO",
+      "accion_sugerida": "Evitar abrir posici\u00f3n nueva en ADSK hasta conocer resultados"
+    },
+    {
+      "fecha": "2026-11-25",
+      "evento": "PCE Inflation",
+      "impacto": "ALTO",
+      "accion_sugerida": "Reducir tama\u00f1o de nuevas posiciones direccionales antes del dato y mantener cobertura UVXY activa"
+    }
+  ],
+  "frase_del_dia": "S\u00e9 temeroso cuando otros son codiciosos, y codicioso cuando otros son temerosos. \u2014 Warren Buffett",
+  "mensaje_telegram": "\ud83d\udcca Calma enga\u00f1osa: VVIX p92 + SKEW bajo = cobertura institucional masiva. \ud83d\udee1\ufe0f Defensivo: COMPRA TLT (yield 5.41%), peque\u00f1a cobertura UVXY. \ud83d\udc8e VALUE: INTU/ADBE top picks. \ud83d\udeaa SALIR de BSX/CLPBY/ESLOY. \ud83d\udc40 Vigilar ADSK earnings y PCE 25-nov.",
+  "ai_powered": true
+}

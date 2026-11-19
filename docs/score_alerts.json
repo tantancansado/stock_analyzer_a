@@ -1,8 +1,19 @@
 {
-  "generated_at": "2026-11-17",
-  "alerts": [],
+  "generated_at": "2026-11-19",
+  "alerts": [
+    {
+      "type": "NEW_ENTRY",
+      "ticker": "PAYX",
+      "company_name": "Paychex, Inc.",
+      "sector": "Technology",
+      "score_today": 92.7,
+      "score_prev": null,
+      "delta": null,
+      "grade": "PRIORIDAD"
+    }
+  ],
   "counts": {
-    "new_entries": 0,
+    "new_entries": 1,
     "exited": 0,
     "score_up": 0,
     "score_down": 0
