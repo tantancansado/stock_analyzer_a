@@ -25,15 +25,18 @@
  },
  "SAP": {
   "veredicto": "SENTIMIENTO",
-  "resumen": "Caída iniciada en enero por guía de desaceleración de backlog-nube (26% vs. expectativas 30%+), agravada por presión de márgenes en H2 2026 y múltiplos. Q3 2026 mostró operativa sólida (+18% op. profit, +19% EPS), sin deterioro real.",
-  "confianza": 75,
+  "resumen": "SAP reportó Q3 2026 récord con +19% BPA y márgenes operativos mejores, pero guidance de Q4 con advertencias macroeconómicas (petróleo alto, tasas altas) generan temor a desaceleración en trimestre con 50% de bookings anuales. Caída es rotación/macro, no deterioro del negocio.",
+  "confianza": 72,
   "fuentes": [
-   "https://www.cnbc.com/2026/01/29/sap-earnings-q4-shares-cloud-contract-value.html",
-   "https://finance.yahoo.com/markets/stocks/articles/sap-stock-buy-2026-selloff-154100641.html",
-   "https://capital.com/en-int/market-updates/sap-stock-forecast-20-02-2026",
-   "https://finance.yahoo.com/markets/stocks/articles/sap-se-sap-fell-goldman-120410934.html"
+   "https://www.sec.gov/Archives/edgar/data/0001000184/000110465926118617/tm2628113d1_ex99-1.htm",
+   "https://x.com/Tickeron/status/2113211745250451959",
+   "https://www.gurufocus.com/news/9135656/sap-se-sap-q3-2026-earnings-call-highlights-revenue-tops-10-billion-for-the-first-time-as-cloud-backlog-surges-26",
+   "https://www.marketbeat.com/earnings/reports/2026-10-21-sap-se-stock/"
   ],
-  "fecha": "2026-10-30"
+  "modelo": "claude-haiku-4-5",
+  "resultados": "2027-01-28",
+  "fecha": "2026-11-19",
+  "criterio": 3
  },
  "BR": {
   "veredicto": "EVENTO",
@@ -235,15 +238,18 @@
  },
  "WTKWY": {
   "veredicto": "SENTIMIENTO",
-  "resumen": "Caída inicial post-resultados Q4 2024 (febrero 2025) pese a ganancias alineadas y guidance confirmada; recuperación posterior sin deterioro de negocio. Rotación de múltiplos, no fundamentals.",
-  "confianza": 78,
+  "resumen": "Caída de múltiplos por repricing de riesgo macro e incertidumbre sobre IA desde agosto 2026. Negocio operativo sólido: crecimiento orgánico 6%, márgenes expandiéndose, software cloud +15%, guía sin cambios.",
+  "confianza": 75,
   "fuentes": [
-   "https://live.euronext.com/en/products/equities/company-news/2025-02-26-wolters-kluwer-2024-full-year-report",
-   "https://www.investing.com/equities/wolters-kluwer-nv-earnings",
-   "https://www.fool.com/quote/otc/wtkwy/",
-   "https://www.macrotrends.net/stocks/charts/WTKWY/wolters-kluwer/revenue"
+   "https://quartr.com/companies/wolters-kluwer-n-v_6541",
+   "https://www.marketscreener.com/quote/stock/WOLTERS-KLUWER-N-V-120788052/calendar/",
+   "https://assets.contenthub.wolterskluwer.com/api/public/content/3775537-2026-08-05-wolters-kluwer-2026-half-year-results-7d85c04c6c?v=15135ed1",
+   "https://simplywall.st/stocks/us/commercial-services/otc-wtkw.y/wolters-kluwer/past"
   ],
-  "fecha": "2026-11-06"
+  "modelo": "claude-haiku-4-5",
+  "resultados": "",
+  "fecha": "2026-11-19",
+  "criterio": 3
  },
  "PGHN.SW": {
   "veredicto": "EVENTO",
@@ -660,6 +666,21 @@
   "modelo": "claude-sonnet-5",
   "resultados": "2026-12-18",
   "fecha": "2026-11-18",
+  "criterio": 3
+ },
+ "BAC": {
+  "veredicto": "EVENTO",
+  "resumen": "Cargo regulatorio de $1.2B por compliance de anti-lavado de dinero en Q3 2026 (octubre). El negocio subyacente permanece sano con NII +8%, ingresos +3% y guidance de full-year NII elevada en Q2.",
+  "confianza": 90,
+  "fuentes": [
+   "https://www.sec.gov/Archives/edgar/data/0000070858/000007085826000481/bac09302026ex992.htm",
+   "https://www.marketbeat.com/earnings/reports/2026-10-14-bank-of-america-co-stock/",
+   "https://vestedfinance.com/blog/us-stocks/bank-of-america-q3-earnings-2026/",
+   "https://www.benzinga.com/news/26/10/62355886/bank-america-q3-2026-earnings-call-transcript"
+  ],
+  "modelo": "claude-haiku-4-5",
+  "resultados": "2027-01-15",
+  "fecha": "2026-11-19",
   "criterio": 3
  }
 }

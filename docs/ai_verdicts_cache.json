@@ -125,6 +125,12 @@
   "ok": true,
   "ticker": "ADBE"
  },
+ "ADBE|Technology|12|5|1|2|12|3|-8|111|114|33": {
+  "aviso": "",
+  "fecha": "2026-11-19T07:43:49.397612+00:00",
+  "ok": true,
+  "ticker": "ADBE"
+ },
  "ADP|Technology|14|4|1|1|4|0|-2|115|116|15": {
   "aviso": "",
   "fecha": "2026-10-29T06:10:49.687255+00:00",
@@ -160,6 +166,12 @@
   "fecha": "2026-10-30T06:24:18.191944+00:00",
   "ok": true,
   "ticker": "AI.PA"
+ },
+ "ALLY|Financial Services|1|3|n/d|1|19|5|-5|74|79|18": {
+  "aviso": "",
+  "fecha": "2026-11-19T07:44:42.915073+00:00",
+  "ok": true,
+  "ticker": "ALLY"
  },
  "ALLY|Financial Services|1|3|n/d|1|5|4|-4|74|79|18": {
   "aviso": "",
@@ -212,6 +224,12 @@
  "AMZN|Consumer Cyclical|5|3|0|3|1|7|-4|112|118|58": {
   "aviso": "",
   "fecha": "2026-11-02T06:28:15.584010+00:00",
+  "ok": true,
+  "ticker": "AMZN"
+ },
+ "AMZN|Consumer Cyclical|5|3|1|2|0|4|-2|114|118|60": {
+  "aviso": "",
+  "fecha": "2026-11-19T07:44:47.271590+00:00",
   "ok": true,
   "ticker": "AMZN"
  },
@@ -311,6 +329,12 @@
   "ok": true,
   "ticker": "AON"
  },
+ "AON|Financial Services|8|4|5|0|4|2|-3|119|121|19": {
+  "aviso": "",
+  "fecha": "2026-11-19T07:44:18.515458+00:00",
+  "ok": true,
+  "ticker": "AON"
+ },
  "APH|Technology|7|3|2|11|2|5|-2|90|94|19": {
   "aviso": "",
   "fecha": "2026-10-29T06:10:23.032571+00:00",
@@ -392,12 +416,6 @@
  "ASSA-B.ST|Industrials|3|2|1|0|n/d|2|-2|121|123|22": {
   "aviso": "",
   "fecha": "2026-10-26T05:22:01.269107+00:00",
-  "ok": true,
-  "ticker": "ASSA-B.ST"
- },
- "ASSA-B.ST|Industrials|3|2|1|0|n/d|2|-3|120|123|22": {
-  "aviso": "",
-  "fecha": "2026-10-20T05:23:28.947802+00:00",
   "ok": true,
   "ticker": "ASSA-B.ST"
  },
@@ -653,6 +671,12 @@
   "ok": true,
   "ticker": "BR"
  },
+ "BR|Technology|8|2|2|1|6|2|-5|106|109|8": {
+  "aviso": "",
+  "fecha": "2026-11-19T07:44:03.809067+00:00",
+  "ok": true,
+  "ticker": "BR"
+ },
  "BR|Technology|8|3|2|1|5|2|-5|106|109|8": {
   "aviso": "",
   "fecha": "2026-11-03T07:12:23.709488+00:00",
@@ -770,6 +794,12 @@
  "COF|Financial Services|1|4|n/d|1|22|6|-6|107|113|21": {
   "aviso": "",
   "fecha": "2026-11-13T07:02:55.507241+00:00",
+  "ok": true,
+  "ticker": "COF"
+ },
+ "COF|Financial Services|1|4|n/d|1|23|7|-6|106|113|21": {
+  "aviso": "",
+  "fecha": "2026-11-19T07:44:38.278317+00:00",
   "ok": true,
   "ticker": "COF"
  },
@@ -1229,6 +1259,12 @@
   "ok": true,
   "ticker": "GGG"
  },
+ "GOOG|Communication Services|8|10|0|4|0|7|-7|115|122|15": {
+  "aviso": "Claude dudaba de fcf_yield_pct, pero la fuente lo confirma (0.6 publicado vs 2.1 real (1.6pp de desv\u00edo))",
+  "fecha": "2026-11-19T07:44:33.624657+00:00",
+  "ok": true,
+  "ticker": "GOOG"
+ },
  "GOOG|Communication Services|8|10|0|4|2|6|-6|116|122|14": {
   "aviso": "Claude dudaba de profit_margin, pero la fuente lo confirma (50.0 publicado vs 50.0 real (0.0pp de desv\u00edo))",
   "fecha": "2026-11-13T07:02:51.818243+00:00",
@@ -1379,12 +1415,6 @@
   "ok": true,
   "ticker": "HLMA.L"
  },
- "HLMA.L|Industrials|3|2|0|2|n/d|5|-7|166|171|18": {
-  "aviso": "",
-  "fecha": "2026-10-20T05:23:22.408438+00:00",
-  "ok": true,
-  "ticker": "HLMA.L"
- },
  "HLMA.L|Industrials|3|2|0|2|n/d|6|-7|166|171|18": {
   "aviso": "Groq dudaba de current_price, pero la fuente lo confirma (3376.00 publicado vs 3316.00 real (1.8% de desv\u00edo))",
   "fecha": "2026-10-28T06:15:33.347251+00:00",
@@ -1448,6 +1478,12 @@
  "INTU|Technology|4|4|0|2|10|5|-11|118|123|31": {
   "aviso": "",
   "fecha": "2026-11-18T07:47:27.369972+00:00",
+  "ok": true,
+  "ticker": "INTU"
+ },
+ "INTU|Technology|4|4|0|2|10|6|-11|117|123|31": {
+  "aviso": "Claude dudaba de current_price, pero la fuente lo confirma (313.24 publicado vs 313.24 real (0.0% de desv\u00edo))",
+  "fecha": "2026-11-19T07:43:44.759100+00:00",
   "ok": true,
   "ticker": "INTU"
  },
@@ -1625,12 +1661,6 @@
   "ok": true,
   "ticker": "LR.PA"
  },
- "LR.PA|Industrials|3|2|2|5|3|5|-5|99|105|18": {
-  "aviso": "",
-  "fecha": "2026-10-20T05:23:20.427805+00:00",
-  "ok": true,
-  "ticker": "LR.PA"
- },
  "LR.PA|Industrials|3|2|2|5|3|6|-5|99|105|18": {
   "aviso": "Groq dudaba de current_price, pero la fuente lo confirma (129.05 publicado vs 125.95 real (2.5% de desv\u00edo))",
   "fecha": "2026-10-28T06:15:30.844927+00:00",
@@ -1708,6 +1738,12 @@
   "fecha": "2026-10-23T21:36:07.815751+00:00",
   "ok": true,
   "ticker": "MCO"
+ },
+ "META|Communication Services|6|6|0|5|1|7|-5|131|138|58": {
+  "aviso": "",
+  "fecha": "2026-11-19T07:44:24.959466+00:00",
+  "ok": true,
+  "ticker": "META"
  },
  "META|Communication Services|6|6|0|5|3|6|-4|132|138|57": {
   "aviso": "",
@@ -1892,6 +1928,12 @@
  "MSFT|Technology|6|8|0|3|1|3|-1|129|132|54": {
   "aviso": "",
   "fecha": "2026-11-10T07:41:18.684533+00:00",
+  "ok": true,
+  "ticker": "MSFT"
+ },
+ "MSFT|Technology|6|8|0|3|1|5|-2|127|132|54": {
+  "aviso": "",
+  "fecha": "2026-11-19T07:44:35.353735+00:00",
   "ok": true,
   "ticker": "MSFT"
  },
@@ -2110,12 +2152,6 @@
   "fecha": "2026-10-30T06:13:25.631803+00:00",
   "ok": true,
   "ticker": "ODFL"
- },
- "OR.PA|Consumer Defensive|3|2|0|0|3|0|-1|122|123|24": {
-  "aviso": "",
-  "fecha": "2026-10-20T05:23:29.363263+00:00",
-  "ok": true,
-  "ticker": "OR.PA"
  },
  "OR.PA|Consumer Defensive|3|2|0|0|3|0|-1|123|123|24": {
   "aviso": "",
@@ -2357,6 +2393,12 @@
   "ok": true,
   "ticker": "RMD"
  },
+ "RMD|Healthcare|5|5|0|1|4|1|-3|112|114|17": {
+  "aviso": "",
+  "fecha": "2026-11-19T07:44:13.030234+00:00",
+  "ok": true,
+  "ticker": "RMD"
+ },
  "RMD|Healthcare|5|5|0|1|4|2|-3|112|114|17": {
   "aviso": "",
   "fecha": "2026-11-06T07:02:31.488392+00:00",
@@ -2561,12 +2603,6 @@
   "ok": true,
   "ticker": "SAP.DE"
  },
- "SAP.DE|Technology|3|4|0|1|3|1|-4|108|110|27": {
-  "aviso": "",
-  "fecha": "2026-10-20T05:23:21.889032+00:00",
-  "ok": true,
-  "ticker": "SAP.DE"
- },
  "SAP.DE|Technology|3|4|0|2|3|2|-1|109|112|27": {
   "aviso": "",
   "fecha": "2026-11-09T06:54:22.274070+00:00",
@@ -2632,6 +2668,18 @@
   "fecha": "2026-10-30T06:13:40.796785+00:00",
   "ok": true,
   "ticker": "SAP"
+ },
+ "SAP|Technology|3|4|0|2|4|7|-4|109|115|12": {
+  "aviso": "",
+  "fecha": "2026-11-19T07:44:14.843398+00:00",
+  "ok": true,
+  "ticker": "SAP"
+ },
+ "SGSOY|Industrials|15|1|9|0|4|3|-2|50|53|1": {
+  "aviso": "",
+  "fecha": "2026-11-19T07:44:10.946731+00:00",
+  "ok": true,
+  "ticker": "SGSOY"
  },
  "SPGI|Financial Services|2|6|0|2|3|2|-3|125|127|21": {
   "aviso": "",
@@ -3143,6 +3191,12 @@
   "ok": true,
   "ticker": "WCN"
  },
+ "WCN|Industrials|2|2|2|1|2|2|-2|106|109|25": {
+  "aviso": "",
+  "fecha": "2026-11-19T07:44:21.671891+00:00",
+  "ok": true,
+  "ticker": "WCN"
+ },
  "WCN|Industrials|2|2|2|1|3|3|-2|105|108|24": {
   "aviso": "",
   "fecha": "2026-10-22T05:06:04.143876+00:00",
@@ -3236,6 +3290,12 @@
  "WTKWY|Industrials|29|4|11|0|7|3|-3|94|97|1": {
   "aviso": "",
   "fecha": "2026-11-12T07:29:58.961662+00:00",
+  "ok": true,
+  "ticker": "WTKWY"
+ },
+ "WTKWY|Industrials|29|4|11|0|7|4|-3|93|97|1": {
+  "aviso": "",
+  "fecha": "2026-11-19T07:44:00.132608+00:00",
   "ok": true,
   "ticker": "WTKWY"
  }

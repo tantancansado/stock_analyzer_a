@@ -1,17 +1,17 @@
 {
-  "total_signals": 132,
-  "unique_tickers": 83,
-  "date_range": "2026-04-08 to 2026-11-18",
-  "active_signals": 45,
+  "total_signals": 134,
+  "unique_tickers": 84,
+  "date_range": "2026-04-08 to 2026-11-19",
+  "active_signals": 47,
   "completed_signals": 87,
   "overall": {
     "90d": {
-      "count": 63,
-      "win_rate": 73.0,
-      "ci_low": 61.0,
-      "ci_high": 82.4,
-      "avg_return": 4.76,
-      "median_return": 4.93,
+      "count": 65,
+      "win_rate": 70.8,
+      "ci_low": 58.8,
+      "ci_high": 80.4,
+      "avg_return": 4.31,
+      "median_return": 4.82,
       "best": 24.67,
       "worst": -27.96
     },
@@ -38,12 +38,12 @@
   },
   "long_hist_reference": {
     "90d": {
-      "count": 147,
-      "win_rate": 76.9,
-      "ci_low": 69.4,
-      "ci_high": 83.0,
-      "avg_return": 11.5,
-      "median_return": 10.61,
+      "count": 148,
+      "win_rate": 76.4,
+      "ci_low": 68.9,
+      "ci_high": 82.5,
+      "avg_return": 11.35,
+      "median_return": 10.44,
       "best": 57.29,
       "worst": -37.59
     },
@@ -164,14 +164,14 @@
     }
   },
   "value_strategy": {
-    "count": 132,
+    "count": 134,
     "90d": {
-      "count": 63,
-      "win_rate": 73.0,
-      "ci_low": 61.0,
-      "ci_high": 82.4,
-      "avg_return": 4.76,
-      "median_return": 4.93,
+      "count": 65,
+      "win_rate": 70.8,
+      "ci_low": 58.8,
+      "ci_high": 80.4,
+      "avg_return": 4.31,
+      "median_return": 4.82,
       "best": 24.67,
       "worst": -27.96,
       "basis": "clean_period"
@@ -202,12 +202,12 @@
     "BOUNCE_BROAD": {
       "count": 49,
       "7d": {
-        "count": 48,
-        "win_rate": 31.2,
-        "ci_low": 19.9,
-        "ci_high": 45.3,
-        "avg_return": -1.03,
-        "median_return": -1.46,
+        "count": 49,
+        "win_rate": 32.7,
+        "ci_low": 21.2,
+        "ci_high": 46.6,
+        "avg_return": -0.89,
+        "median_return": -1.34,
         "best": 12.61,
         "worst": -12.25
       },
@@ -232,14 +232,14 @@
     "count": 188,
     "subyacente": {
       "90d": {
-        "count": 0,
-        "win_rate": null,
-        "avg_return": null,
-        "median_return": null,
-        "best": null,
-        "worst": null,
-        "ci_low": null,
-        "ci_high": null
+        "count": 10,
+        "win_rate": 50.0,
+        "ci_low": 23.7,
+        "ci_high": 76.3,
+        "avg_return": -1.92,
+        "median_return": -1.42,
+        "best": 12.32,
+        "worst": -22.73
       },
       "180d": {
         "count": 0,
@@ -254,14 +254,14 @@
     },
     "contrato": {
       "90d": {
-        "count": 0,
-        "win_rate": null,
-        "avg_return": null,
-        "median_return": null,
-        "best": null,
-        "worst": null,
-        "ci_low": null,
-        "ci_high": null
+        "count": 3,
+        "win_rate": 0.0,
+        "ci_low": 0.0,
+        "ci_high": 56.2,
+        "avg_return": -35.86,
+        "median_return": -30.92,
+        "best": -19.15,
+        "worst": -57.52
       },
       "180d": {
         "count": 0,
@@ -274,7 +274,7 @@
         "ci_high": null
       }
     },
-    "edad_max_dias": 90,
+    "edad_max_dias": 91,
     "dias_hasta_primera_lectura": 0,
     "con_contrato": 151,
     "nota": "el contrato se sigue por su s\u00edmbolo OCC; son opciones poco l\u00edquidas, as\u00ed que un checkpoint sin cotizaci\u00f3n en 10 d\u00edas se queda vac\u00edo en vez de arrastrar un precio viejo"
@@ -419,6 +419,28 @@
   "performers_horizon": "180d",
   "recent_signals": [
     {
+      "ticker": "WCN",
+      "company_name": "Waste Connections, Inc.",
+      "strategy": "VALUE",
+      "signal_date": "2026-11-19",
+      "signal_price": 182.0,
+      "sector": "Industrials",
+      "value_score": 45.0,
+      "days_active": 0,
+      "first_result_date": "2026-11-26"
+    },
+    {
+      "ticker": "SGSOY",
+      "company_name": "SGS SA",
+      "strategy": "VALUE",
+      "signal_date": "2026-11-19",
+      "signal_price": 12.04,
+      "sector": "Industrials",
+      "value_score": 52.0,
+      "days_active": 0,
+      "first_result_date": "2026-11-26"
+    },
+    {
       "ticker": "PAYX",
       "company_name": "Paychex, Inc.",
       "strategy": "VALUE",
@@ -426,7 +448,7 @@
       "signal_price": 114.1,
       "sector": "Technology",
       "value_score": 92.6,
-      "days_active": 0,
+      "days_active": 1,
       "first_result_date": "2026-11-25"
     },
     {
@@ -437,7 +459,7 @@
       "signal_price": 38.31,
       "sector": "Financial Services",
       "value_score": 40.2,
-      "days_active": 2,
+      "days_active": 3,
       "first_result_date": "2026-11-23"
     },
     {
@@ -448,7 +470,7 @@
       "signal_price": 641.69,
       "sector": "Communication Services",
       "value_score": 44.3,
-      "days_active": 2,
+      "days_active": 3,
       "first_result_date": "2026-11-23"
     },
     {
@@ -459,7 +481,7 @@
       "signal_price": 293.39,
       "sector": "Financial Services",
       "value_score": 47.1,
-      "days_active": 2,
+      "days_active": 3,
       "first_result_date": "2026-11-23"
     },
     {
@@ -470,7 +492,7 @@
       "signal_price": 267.44,
       "sector": "Consumer Cyclical",
       "value_score": 40.0,
-      "days_active": 5,
+      "days_active": 6,
       "first_result_date": "2026-11-20"
     },
     {
@@ -481,7 +503,7 @@
       "signal_price": 259.48,
       "sector": "Technology",
       "value_score": 49.4,
-      "days_active": 5,
+      "days_active": 6,
       "first_result_date": "2026-11-20"
     },
     {
@@ -492,7 +514,7 @@
       "signal_price": 205.98,
       "sector": "Industrials",
       "value_score": 48.9,
-      "days_active": 6,
+      "days_active": 7,
       "first_result_date": "2026-11-19"
     },
     {
@@ -503,18 +525,18 @@
       "signal_price": 237.6,
       "sector": "Technology",
       "value_score": 98.1,
-      "days_active": 6,
+      "days_active": 7,
       "first_result_date": "2026-11-19"
     },
     {
-      "ticker": "ESLOY",
-      "company_name": "EssilorLuxottica Soci\u00e9t\u00e9 anonyme",
+      "ticker": "DPZ",
+      "company_name": "Domino's Pizza, Inc.",
       "strategy": "VALUE",
       "signal_date": "2026-11-10",
-      "signal_price": 107.2,
-      "sector": "Healthcare",
-      "value_score": 50.8,
-      "days_active": 8,
+      "signal_price": 334.18,
+      "sector": "Consumer Cyclical",
+      "value_score": 54.1,
+      "days_active": 9,
       "first_result_date": "2026-11-17"
     },
     {
@@ -525,18 +547,7 @@
       "signal_price": 47.88,
       "sector": "Consumer Defensive",
       "value_score": 58.8,
-      "days_active": 8,
-      "first_result_date": "2026-11-17"
-    },
-    {
-      "ticker": "DPZ",
-      "company_name": "Domino's Pizza, Inc.",
-      "strategy": "VALUE",
-      "signal_date": "2026-11-10",
-      "signal_price": 334.18,
-      "sector": "Consumer Cyclical",
-      "value_score": 54.1,
-      "days_active": 8,
+      "days_active": 9,
       "first_result_date": "2026-11-17"
     },
     {
@@ -547,18 +558,29 @@
       "signal_price": 237.42,
       "sector": "Technology",
       "value_score": 49.4,
-      "days_active": 8,
+      "days_active": 9,
       "first_result_date": "2026-11-17"
     },
     {
-      "ticker": "NYT",
-      "company_name": "The New York Times Company",
+      "ticker": "ESLOY",
+      "company_name": "EssilorLuxottica Soci\u00e9t\u00e9 anonyme",
+      "strategy": "VALUE",
+      "signal_date": "2026-11-10",
+      "signal_price": 107.2,
+      "sector": "Healthcare",
+      "value_score": 50.8,
+      "days_active": 9,
+      "first_result_date": "2026-11-17"
+    },
+    {
+      "ticker": "AON",
+      "company_name": "Aon plc",
       "strategy": "VALUE",
       "signal_date": "2026-11-09",
-      "signal_price": 68.36,
-      "sector": "Communication Services",
-      "value_score": 49.5,
-      "days_active": 9,
+      "signal_price": 334.81,
+      "sector": "Financial Services",
+      "value_score": 48.1,
+      "days_active": 10,
       "first_result_date": "2026-11-16"
     },
     {
@@ -569,7 +591,7 @@
       "signal_price": 94.81,
       "sector": "Basic Materials",
       "value_score": 40.0,
-      "days_active": 9,
+      "days_active": 10,
       "first_result_date": "2026-11-16"
     },
     {
@@ -580,7 +602,7 @@
       "signal_price": 201.87,
       "sector": "Financial Services",
       "value_score": 40.3,
-      "days_active": 9,
+      "days_active": 10,
       "first_result_date": "2026-11-16"
     },
     {
@@ -591,7 +613,7 @@
       "signal_price": 530.61,
       "sector": "Technology",
       "value_score": 41.9,
-      "days_active": 9,
+      "days_active": 10,
       "first_result_date": "2026-11-16"
     },
     {
@@ -602,7 +624,7 @@
       "signal_price": 283.93,
       "sector": "Communication Services",
       "value_score": 43.2,
-      "days_active": 9,
+      "days_active": 10,
       "first_result_date": "2026-11-16"
     },
     {
@@ -613,33 +635,11 @@
       "signal_price": 518.15,
       "sector": "Basic Materials",
       "value_score": 44.1,
-      "days_active": 9,
-      "first_result_date": "2026-11-16"
-    },
-    {
-      "ticker": "FCNCA",
-      "company_name": "First Citizens BancShares, Inc.",
-      "strategy": "VALUE",
-      "signal_date": "2026-11-09",
-      "signal_price": 2273.74,
-      "sector": "Financial Services",
-      "value_score": 46.1,
-      "days_active": 9,
-      "first_result_date": "2026-11-16"
-    },
-    {
-      "ticker": "ICE",
-      "company_name": "Intercontinental Exchange, Inc.",
-      "strategy": "VALUE",
-      "signal_date": "2026-11-09",
-      "signal_price": 172.27,
-      "sector": "Financial Services",
-      "value_score": 46.4,
-      "days_active": 9,
+      "days_active": 10,
       "first_result_date": "2026-11-16"
     }
   ],
-  "avg_max_drawdown": -2.57,
+  "avg_max_drawdown": -2.59,
   "alpha": {
     "365d": {
       "count": 0,
@@ -658,11 +658,11 @@
       "worst_alpha": -35.2
     },
     "90d": {
-      "count": 63,
-      "avg_alpha": 1.13,
-      "avg_signal_return": 4.76,
-      "avg_benchmark_return": 3.63,
-      "positive_alpha_rate": 52.4,
+      "count": 65,
+      "avg_alpha": 0.91,
+      "avg_signal_return": 4.31,
+      "avg_benchmark_return": 3.39,
+      "positive_alpha_rate": 50.8,
       "best_alpha": 25.49,
       "worst_alpha": -38.85
     },
@@ -676,11 +676,11 @@
       "worst_alpha": -21.52
     },
     "14d": {
-      "count": 95,
+      "count": 96,
       "avg_alpha": 0.53,
-      "avg_signal_return": 1.29,
-      "avg_benchmark_return": 0.76,
-      "positive_alpha_rate": 50.5,
+      "avg_signal_return": 1.23,
+      "avg_benchmark_return": 0.7,
+      "positive_alpha_rate": 51.0,
       "best_alpha": 13.42,
       "worst_alpha": -12.78
     },
@@ -712,11 +712,11 @@
       "worst_alpha": -57.59
     },
     "90d": {
-      "count": 147,
-      "avg_alpha": 0.87,
-      "avg_signal_return": 11.5,
-      "avg_benchmark_return": 10.64,
-      "positive_alpha_rate": 52.4,
+      "count": 148,
+      "avg_alpha": 0.82,
+      "avg_signal_return": 11.35,
+      "avg_benchmark_return": 10.54,
+      "positive_alpha_rate": 52.0,
       "best_alpha": 44.58,
       "worst_alpha": -51.85
     },
@@ -730,14 +730,14 @@
       "worst_alpha": -21.52
     },
     "14d": {
-      "count": 95,
+      "count": 96,
       "avg_alpha": 0.53,
-      "avg_signal_return": 1.29,
-      "avg_benchmark_return": 0.76,
-      "positive_alpha_rate": 50.5,
+      "avg_signal_return": 1.23,
+      "avg_benchmark_return": 0.7,
+      "positive_alpha_rate": 51.0,
       "best_alpha": 13.42,
       "worst_alpha": -12.78
     }
   },
-  "generated_at": "2026-11-18T07:52:31.626069"
+  "generated_at": "2026-11-19T08:10:07.920982"
 }

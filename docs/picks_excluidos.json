@@ -2,40 +2,46 @@
   "listas": {
     "value_opportunities": {
       "candidatas": 37,
-      "publicadas": 32,
+      "publicadas": 31,
       "excluidos": [
+        {
+          "ticker": "KYCCF",
+          "paso": "rangos_imposibles",
+          "motivo": "Falta analyst_upside_pct: no se recomienda lo que no se puede evaluar",
+          "score": 60.0
+        },
         {
           "ticker": "BSX",
           "paso": "verificador_ia",
-          "motivo": "rev_growth_yoy es 1.4% pero ventas_anual_pct es 19.9%: contradicción interna sobre si el negocio crece. YoY debe reflejar el mismo período que anual, o hay error de unidad. · upside_requiere_verificacion es false con 66.6% upside y crecimiento de apenas 1.4% YoY; la ficha sostiene que un negocio casi estancado tiene un 66% de margen de seguridad sin mención a riesgo.",
-          "score": 94.7
+          "motivo": "Contradicción interna: rev_growth_yoy=1.4% pero ventas_anual_pct=19.9%. Estas dos métricas miden lo mismo (crecimiento de ingresos) y no pueden diferir en 18.5 puntos sin explicación de cambio de divisas o consolidación. El dato es incoherente.",
+          "score": 95.0
         },
         {
-          "ticker": "DPZ",
+          "ticker": "MKC",
           "paso": "verificador_ia",
-          "motivo": "modelos_acuerdo DISPERSOS (58.9 pts) pero upside_triangulated_pct (10.1%) es igual a target_price_dcf_upside_pct. Cuando hay dispersión tan amplia (DCF 10.1% vs PE 69.0%), no se debe publicar un número único sin explicar por qué se elige uno. La ficha oculta una contradicción de casi 60 pts bajo un número único. · analyst_upside_pct (2.7%) vs upside_triangulated (10.1%): analista muy escéptico frente a DCF, pero PE dice 69%. La ficha no comunica esta incertidumbre.",
-          "score": 53.2
+          "motivo": "Contradicción interna: rev_growth_yoy=17.4% pero ventas_anual_pct=1.7%. No hay explicación por divisas o consolidación conocida; estas dos cifras miden el mismo concepto y no pueden diferir en 15.7 puntos. Dato erróneo.",
+          "score": 59.3
+        },
+        {
+          "ticker": "ESLOY",
+          "paso": "verificador_ia",
+          "motivo": "upside_requiere_verificacion=true con analyst_upside_pct=33.5% pero target_price_dcf_upside_pct=11.1% (descuento de ~300% de diferencia). El PEG ratio de 21.36 es absurdo, sugiriendo error de escala o unidad. Con rev_growth_yoy=7.5% bajo, el múltiplo sugerido por ese PEG no es sostenible. La ficha no sostiene el descuento sugerido; es una trampa.",
+          "score": 51.4
         },
         {
           "ticker": "RELX",
           "paso": "verificador_ia",
-          "motivo": "upside_requiere_verificacion es true (descuento 35.4%), y rev_growth_yoy es apenas 1.7% con ventas_anual_pct también 1.7% (coherente, pero muy débil). El crecimiento prácticamente nulo contradice la tesis de descuento: si no crece, el descuento puede ser una trampa, no una oportunidad. La ficha no aborda esta debilidad fundamental. · ebit_ev_yield 1.05% es muy bajo, subraya la fragilidad operativa. Con crecimiento muerto y rendimiento ínfimo, la recomendación de verificación no se sostiene en las métricas de la propia ficha.",
-          "score": 51.4
+          "motivo": "upside_requiere_verificacion=true con analyst_upside_pct=36.7%, pero rev_growth_yoy=1.7% es estancado. Modelos_dispersion=43.2 pts indica fuerte desacuerdo (target_pe_upside_pct=60.5% vs target_dcf_upside_pct=17.3%). Con crecimiento prácticamente nulo y volatilidad de valoración, el descuento sugiere una trampa, no una oportunidad. EBIT_EV_yield de 1.06% es muy bajo.",
+          "score": 51.2
         },
         {
           "ticker": "DVA",
           "paso": "verificador_ia",
-          "motivo": "modelos_dispersion_pts 112.8 es extremo (DCF 112.9% vs PE 0.1%): dos modelos que no concuerdan en nada. upside_triangulated_pct (28.5%) iguala analyst_upside_pct (28.5%), ignorando completamente ambos modelos propios. Cuando hay 112.8 pts de dispersión, no se puede publicar un número como si fuera consenso. · La ficha publica un upside sin que modelos_acuerdo diga DISPERSOS (lo dice, pero la contradicción no se comunica al lector). Esta es una avería metodológica: dos modelos irreconciliables no producen un número único confiable.",
-          "score": 50.0
-        },
-        {
-          "ticker": "SAP",
-          "paso": "verificador_ia",
-          "motivo": "ebit_ev_yield 0.27% es prácticamente cero: el negocio genera casi nada de EBIT relativo a su valor empresarial. Con esto, target_price_dcf_upside_pct (11.2%) suena generoso sin explicación de por qué DCF confía en flujos futuros cuando actuales son insignificantes. · analyst_upside_pct (27.9%) es más que el doble del DCF (11.2%), pero modelos_acuerdo es DISPERSOS (30.2 pts) y upside_triangulated_pct (27.9%) iguala al analista, no a los modelos. Con EBIT_EV tan bajo, la ficha no justifica por qué el analista ve más valor que el modelo fundamental.",
-          "score": 49.8
+          "motivo": "upside_requiere_verificacion=true con analyst_upside_pct=37.4%, pero modelos_dispersion=116.7 pts es extremadamente alta (target_dcf_upside_pct=123.7% vs target_pe_upside_pct=7.0%). Los modelos se contradicen radicalmente. FCF_yield de 9.62% sugiere un flujo que el DCF ve bajista; el P/E ve el valor como justo. Con rev_growth_yoy=4.6% bajo, la volatilidad de modelos invalida la recomendación de descuento.",
+          "score": 50.6
         }
       ]
     }
   },
-  "generated_at": "2026-11-18T07:44:16Z"
+  "generated_at": "2026-11-19T07:40:47Z"
 }

@@ -208,11 +208,11 @@
   "margen_op_delta": 1.2858548584430167,
   "op_yoy": 18.502024291497964,
   "eps_limpio": 8.043678936149906,
-  "pe_hoy": 29.516344683150752,
+  "pe_hoy": 26.201940887123463,
   "extraordinarios_pct": 0.1703478972591052,
   "crec_usado": 6.7,
   "ret_2a_sin_reversion": 13.848899999999986,
-  "fecha": "2026-11-10"
+  "fecha": "2026-11-19"
  },
  "PEP": {
   "ticker": "PEP",
@@ -677,19 +677,19 @@
   "ticker": "AON",
   "deterioro": false,
   "motivo": null,
-  "ingresos_yoy": 2.1901323706377873,
-  "margen_op": 23.810645313235987,
-  "margen_op_delta": 0.8744238932600545,
-  "op_yoy": 6.086044071353625,
-  "eps_limpio": 14.58542889515896,
-  "pe_hoy": 20.739876912389086,
-  "extraordinarios_pct": 19.595210059763172,
-  "pe_hist": 24.073354321797336,
-  "compresion": -13.847166310304903,
-  "crec_usado": -1.5,
-  "ret_2a_sin_reversion": -2.9775000000000107,
-  "ret_2a_con_reversion": 12.616725236752169,
-  "fecha": "2026-10-28"
+  "ingresos_yoy": 2.601951463597696,
+  "margen_op": 21.99463545476713,
+  "margen_op_delta": 0.7787235208166692,
+  "op_yoy": 6.367924528301883,
+  "eps_limpio": 14.928234671646312,
+  "pe_hoy": 22.271220094863008,
+  "extraordinarios_pct": 18.290997965811105,
+  "pe_hist": 24.011987065513615,
+  "compresion": -7.249574830692474,
+  "crec_usado": 2.85,
+  "ret_2a_sin_reversion": 5.781224999999979,
+  "ret_2a_con_reversion": 14.049315468803435,
+  "fecha": "2026-11-19"
  },
  "ATLKY": {
   "ticker": "ATLKY",
@@ -1165,14 +1165,14 @@
   "margen_op_delta": -0.04018650304029947,
   "op_yoy": 5.802047781569963,
   "eps_limpio": 4.02,
-  "pe_hoy": 19.27860696517413,
+  "pe_hoy": 19.320895522388064,
   "extraordinarios_pct": 0.0,
-  "pe_hist": 23.467747153743197,
-  "compresion": -17.850627762115135,
+  "pe_hist": 23.333888713408296,
+  "compresion": -17.19813289721509,
   "crec_usado": 6.8500000000000005,
-  "ret_2a_sin_reversion": 14.169224999999974,
-  "ret_2a_con_reversion": 38.977598842013435,
-  "fecha": "2026-11-12"
+  "ret_2a_sin_reversion": 14.169224999999997,
+  "ret_2a_con_reversion": 37.882428252828724,
+  "fecha": "2026-11-19"
  },
  "DHR": {
   "ticker": "DHR",
@@ -1296,14 +1296,14 @@
   "margen_op_delta": 0.133035756949468,
   "op_yoy": 5.6085573865279015,
   "eps_limpio": 6.685967349774227,
-  "pe_hoy": 30.80780823839284,
+  "pe_hoy": 30.258897391539257,
   "extraordinarios_pct": 1.3025356026398056,
-  "pe_hist": 39.7015843937997,
-  "compresion": -22.40156480202292,
+  "pe_hist": 39.701584546811915,
+  "compresion": -23.78415688708555,
   "crec_usado": 2.7,
   "ret_2a_sin_reversion": 5.472899999999981,
-  "ret_2a_con_reversion": 35.92142641911102,
-  "fecha": "2026-11-12"
+  "ret_2a_con_reversion": 38.387106528154426,
+  "fecha": "2026-11-19"
  },
  "ECL": {
   "ticker": "ECL",
@@ -1448,11 +1448,11 @@
   "margen_op_delta": 0.2785932296355824,
   "op_yoy": 8.78055223145855,
   "eps_limpio": 5.007061827944096,
-  "pe_hoy": 36.34267086226835,
+  "pe_hoy": 36.3486624000266,
   "extraordinarios_pct": 12.265960267804836,
   "crec_usado": 8.654909863332657,
-  "ret_2a_sin_reversion": 18.05889437408943,
-  "fecha": "2026-10-30"
+  "ret_2a_sin_reversion": 18.05889437408945,
+  "fecha": "2026-11-19"
  },
  "ZTS": {
   "ticker": "ZTS",
@@ -2612,7 +2612,7 @@
   "margen_op_delta": -1.4667599498800357,
   "op_yoy": 8.329498389323508,
   "eps_limpio": 17.91,
-  "pe_hoy": 13.266331658291456,
+  "pe_hoy": 12.629815745393634,
   "extraordinarios_pct": 0.0,
   "compresion_con_bpa_creciendo": true,
   "bpa_crecio_pct": 65.34653465346534,
@@ -2621,12 +2621,23 @@
   "pe_ahora": 22.59780356766935,
   "crec_usado": 5.25,
   "ret_2a_sin_reversion": 10.775625,
-  "fecha": "2026-11-12"
+  "fecha": "2026-11-19"
  },
  "PRI": {
   "ticker": "PRI",
   "deterioro": null,
   "motivo": "sin dos periodos comparables (ni trimestrales ni anuales)",
   "fecha": "2026-11-16"
+ },
+ "SGSOY": {
+  "ticker": "SGSOY",
+  "deterioro": false,
+  "motivo": null,
+  "base": "anual",
+  "ingresos_yoy": 2.2225493082131287,
+  "margen_op": 13.779697624190065,
+  "margen_op_delta": 0.42968290532047426,
+  "op_yoy": 5.512679162072764,
+  "fecha": "2026-11-19"
  }
 }
