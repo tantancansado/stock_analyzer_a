@@ -1105,7 +1105,7 @@ def scan_exit_signals() -> dict:
 
     # Only look at recent signals (last 60 days) without a return yet (still open)
     pt["signal_date"] = pd.to_datetime(pt.get("signal_date", pd.NaT), errors="coerce")
-    cutoff = pd.Timestamp.today() - pd.Timedelta(days=60)
+    cutoff = pd.Timestamp(TODAY) - pd.Timedelta(days=60)
     recent = pt[pt["signal_date"] >= cutoff] if "signal_date" in pt.columns else pt
 
     # Deduplicate by ticker — use highest-scored entry
@@ -1635,7 +1635,7 @@ def scan_portfolio_stress() -> dict:
         return dict(generated_at=TODAY, risks=[], narrative=None)
 
     pt["signal_date"] = pd.to_datetime(pt.get("signal_date", pd.NaT), errors="coerce")
-    cutoff = pd.Timestamp.today() - pd.Timedelta(days=60)
+    cutoff = pd.Timestamp(TODAY) - pd.Timedelta(days=60)
     recent = pt[pt["signal_date"] >= cutoff] if "signal_date" in pt.columns else pt.head(50)
     recent_tickers = list(set(recent["ticker"].str.upper().dropna()))
 
