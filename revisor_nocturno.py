@@ -38,7 +38,10 @@ DOCS = Path('docs')
 INFORME = DOCS / 'revisor.json'
 ETIQUETA = 'revisor'
 MAX_NUEVAS = 5            # incidencias nuevas por noche, como mucho
-MAX_TOKENS = 8000         # cubre el pensamiento y la respuesta
+# Cubre el pensamiento y la respuesta. Con 8000 (+3000 de margen) el 19-nov se
+# fue todo en pensar y no contestó; solo se paga lo que escribe, así que una
+# noche normal cuesta lo mismo con el tope más alto.
+MAX_TOKENS = 16000
 
 # Campos que no deberían moverse de un día a otro sin resultados de por medio.
 CAMPOS_VAIVEN = ('rev_growth_yoy', 'eps_growth_yoy', 'target_price_pe', 'target_price_dcf',
