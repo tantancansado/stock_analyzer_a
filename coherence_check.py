@@ -528,6 +528,29 @@ def universo_curado_que_no_llega(minimo_pct: float = 0.80) -> list[str]:
     return casos
 
 
+def _desdoblada_tras_tikr(fuentes: list[dict], split: tuple[str, float] | None) -> str | None:
+    """Motivo si el precio de TIKR no cuadra por un desdoblamiento posterior a su carga.
+
+    TIKR se carga los domingos; si la acción se desdobla entre medias, su precio
+    va con la base de antes. KYCCF, 5:1 el 19-nov-2026: TIKR a 466,08 y Yahoo a
+    91,54, y el paso se puso en rojo acusándola de ser otra empresa. Solo vale si
+    la diferencia es la del desdoblamiento (con margen por los días de desfase).
+    """
+    if not split:
+        return None
+    fecha, factor = split
+    tikr = next((f for f in fuentes if f.get('fuente') == 'tikr' and f.get('precio')), None)
+    if not tikr or not tikr.get('cargado') or fecha < tikr['cargado'] or factor == 1:
+        return None
+    for f in fuentes:
+        if f is tikr or not f.get('precio') or float(f['precio']) <= 0:
+            continue
+        razon = float(tikr['precio']) / float(f['precio'])
+        if 0.75 * factor <= razon <= 1.33 * factor:
+            return f'se desdobló {factor:g} por 1 el {fecha}, después de la carga de TIKR ({tikr["cargado"]})'
+    return None
+
+
 def identidad_de_los_tickers() -> list[str]:
     """¿Cada ticker trae los datos de la empresa que dice?
 
@@ -554,6 +577,7 @@ def identidad_de_los_tickers() -> list[str]:
         return [f'no se pudo comprobar la identidad de los tickers: {exc}']
 
     fuentes: dict[str, list[dict]] = {}
+    splits: dict[str, tuple[str, float]] = {}
     for nombre in ('value_opportunities.csv', 'european_value_opportunities.csv',
                    'fundamental_scores.csv', 'momentum_opportunities.csv',
                    'global_value_opportunities.csv'):
@@ -568,6 +592,9 @@ def identidad_de_los_tickers() -> list[str]:
             continue
         for _, r in d.iterrows():
             t = str(r['ticker']).upper().strip()
+            factor = pd.to_numeric(pd.Series([r.get('ultimo_split_factor')]), errors='coerce').iloc[0]
+            if r.get('ultimo_split_fecha') and pd.notna(factor) and factor > 0:
+                splits[t] = (str(r['ultimo_split_fecha']), float(factor))
             # Sin nombre, el escáner pone el ticker (`_get_empty_result`): es «no
             # lo sé», no otra empresa. KVUE, comprada por Kimberly-Clark, tumbó el
             # pipeline el 10-nov-2026 con «KVUE» contra «Kenvue Inc.».
@@ -588,6 +615,7 @@ def identidad_de_los_tickers() -> list[str]:
                 c = pr.get('c')
                 fuentes.setdefault(str(t).upper(), []).append({
                     'fuente': 'tikr',
+                    'cargado': str((v or {}).get('fetched_at') or '')[:10],
                     'nombre': str((v or {}).get('company_name') or '') or None,
                     'precio': float(c) if c else None,
                     'divisa': pr.get('curr'),
@@ -631,10 +659,13 @@ def identidad_de_los_tickers() -> list[str]:
     for t, fs in sorted(fuentes.items()):
         if len(fs) < 2 and not any(f.get('divisa') for f in fs):
             continue
+        desdoblada = _desdoblada_tras_tikr(fs, splits.get(t))
         for f in identidad_ticker.revisar(t, fs):
             # Solo los que señalan a TIKR: si la contradicción es entre dos
             # CSV del pipeline diario, ahí no hay desfase que valga.
-            if tikr_desfasado and 'tikr' in str(f).lower():
+            if desdoblada and 'tikr' in str(f).lower() and 'de diferencia' in str(f):
+                fallos.append(f'⏳ {f} — {desdoblada}; se corrige con la carga de TIKR del domingo')
+            elif tikr_desfasado and 'tikr' in str(f).lower():
                 fallos.append(f'⏳ {f} — el resolvedor se arregló después de '
                               f'este volcado; TIKR corre los domingos')
             else:

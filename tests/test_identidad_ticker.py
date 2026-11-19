@@ -151,6 +151,50 @@ def test_el_ticker_puesto_de_nombre_no_es_otra_empresa(monkeypatch, tmp_path):
     assert 'MMC' in fallos, 'un nombre de verdad que no cuadra sigue saltando'
 
 
+def _identidad(monkeypatch, tmp_path, filas: str, tikr: dict):
+    import json
+    import coherence_check as cc
+    (tmp_path / 'fundamental_scores.csv').write_text(filas)
+    (tmp_path / 'tikr_earnings_data.json').write_text(json.dumps({'data': tikr}))
+    monkeypatch.setattr(cc, 'DOCS', tmp_path)
+    return [str(f) for f in cc.identidad_de_los_tickers()]
+
+
+def test_un_desdoblamiento_tras_la_carga_de_tikr_no_es_otra_empresa(monkeypatch, tmp_path):
+    """KYCCF, 5:1 el 19-nov-2026: TIKR del domingo a 466,08 y Yahoo a 91,54. El
+    paso se puso en rojo acusándola de ser otra empresa."""
+    fallos = _identidad(monkeypatch, tmp_path,
+                        'ticker,company_name,current_price,ultimo_split_fecha,ultimo_split_factor\n'
+                        'ZZZQ,Zeta Corp,91.54,2026-11-19,5.0\n',
+                        {'ZZZQ': {'company_name': 'Zeta Corp', 'fetched_at': '2026-11-15T14:20:14+00:00',
+                                  'price': {'c': '466.08', 'curr': 'USD'}}})
+    assert fallos and all(f.startswith('⏳') for f in fallos), fallos
+    assert 'desdobló 5 por 1' in fallos[0]
+
+
+def test_el_desdoblamiento_no_tapa_lo_que_no_explica(monkeypatch, tmp_path):
+    tikr = {'ZZZQ': {'company_name': 'Zeta Corp', 'fetched_at': '2026-11-15T14:20:14+00:00',
+                     'price': {'c': '466.08', 'curr': 'USD'}}}
+    # Desdoblada ANTES de la carga de TIKR: su precio ya iba con la base nueva.
+    antes = _identidad(monkeypatch, tmp_path,
+                       'ticker,company_name,current_price,ultimo_split_fecha,ultimo_split_factor\n'
+                       'ZZZQ,Zeta Corp,91.54,2026-11-10,5.0\n', tikr)
+    # La diferencia no es la del desdoblamiento.
+    otra = _identidad(monkeypatch, tmp_path,
+                      'ticker,company_name,current_price,ultimo_split_fecha,ultimo_split_factor\n'
+                      'ZZZQ,Zeta Corp,40.0,2026-11-19,2.0\n', tikr)
+    assert antes and not antes[0].startswith('⏳')
+    assert otra and not otra[0].startswith('⏳')
+
+
+def test_el_ultimo_desdoblamiento_sale_de_yahoo():
+    from fundamental_scorer import ultimo_split
+    assert ultimo_split({'lastSplitDate': 1795046400, 'lastSplitFactor': '5:1'}) == \
+        {'ultimo_split_fecha': '2026-11-19', 'ultimo_split_factor': 5.0}
+    assert ultimo_split({'lastSplitDate': 1700000000, 'lastSplitFactor': '1:10'})['ultimo_split_factor'] == 0.1
+    assert ultimo_split({}) == {'ultimo_split_fecha': None, 'ultimo_split_factor': None}
+
+
 def test_el_pipeline_lo_ejecuta():
     from pathlib import Path
     src = (Path(__file__).resolve().parent.parent / 'coherence_check.py').read_text()

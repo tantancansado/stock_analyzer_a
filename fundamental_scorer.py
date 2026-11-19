@@ -263,6 +263,17 @@ def crecimiento_sostenible(info: Dict) -> Optional[float]:
     return max(SUELO_CRECIMIENTO, min(min(candidatos), TECHO_CRECIMIENTO))
 
 
+def ultimo_split(info: Dict) -> Dict:
+    """{'ultimo_split_fecha': 'AAAA-MM-DD', 'ultimo_split_factor': acciones nuevas por cada vieja}."""
+    fecha, factor = info.get('lastSplitDate'), str(info.get('lastSplitFactor') or '')
+    try:
+        nuevas, viejas = (float(x) for x in factor.split(':'))
+        return {'ultimo_split_fecha': datetime.fromtimestamp(fecha, tz=timezone.utc).date().isoformat(),
+                'ultimo_split_factor': round(nuevas / viejas, 4)}
+    except (TypeError, ValueError, ZeroDivisionError, OSError):
+        return {'ultimo_split_fecha': None, 'ultimo_split_factor': None}
+
+
 def flujo_y_capex_de(info: Dict) -> tuple:
     """Flujo operativo y capex del mismo periodo (`financial_cross_check.flujo_y_capex`).
 
@@ -1956,6 +1967,10 @@ class FundamentalScorer:
         result = {
             'mes_cierre_fiscal': ((datetime.fromtimestamp(_cierre_fiscal, tz=timezone.utc) - timedelta(days=7)).month
                                   if isinstance(_cierre_fiscal, (int, float)) and _cierre_fiscal > 0 else None),
+            # El último desdoblamiento: TIKR se carga los domingos y, si la acción se
+            # desdobla entre medias, sus datos por acción van con la base de antes
+            # (KYCCF 5:1 el 19-nov-2026: TIKR a 466 y Yahoo a 105).
+            **ultimo_split(info),
             # FCF
             'fcf_yield_pct': None,
             'fcf_per_share': None,
