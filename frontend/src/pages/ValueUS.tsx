@@ -164,7 +164,6 @@ export default function ValueUS() {
   // "UNKNOWN" no es un régimen, es la ausencia de dato: no se pinta.
   const regimeCrudo = usRegime?.regime || usRegime?.market_regime || ''
   const regimeLabel = nlRegimen(regimeCrudo)
-  const regimeRec = usRegime?.recommendation || ''
   const macro = macroRaw as { regime?: { name: string }; composite_score?: number; max_score?: number } | null
   const aviso = macro?.regime?.name ? MACRO_AVISO[macro.regime.name] : undefined
 
@@ -187,7 +186,6 @@ export default function ValueUS() {
             </Badge>
           )}
           Prioridad: barata frente a su propia historia y creciendo. Es la que se compra.
-          {regimeRec && <> · <strong className="text-foreground">{regimeRec}</strong></>}
         </>}
       >
         <CsvDownload dataset="value-us" label="CSV" />

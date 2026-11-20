@@ -223,3 +223,37 @@ class TestLasReglasQueLeDaAClaude:
         linea = rv.SYSTEM.split('- why_cheap', 1)[1].split('\n\n', 1)[0]
         nombradas = set(re.findall(r'\b[A-Z][A-Z_]{4,}\b', linea))
         assert nombradas == set(VEREDICTOS)
+
+    def test_la_parte_baja_del_ciclo_no_es_deterioro_para_ninguno_de_los_dos(self):
+        # BRO, 20-nov: «las aseguradoras recuperaron negocio y bajaron tarifas» es el
+        # mercado blando del seguro. why_cheap lo excluye de la pérdida duradera y el
+        # revisor, sin esa excepción, lo llamaba DETERIORO.
+        from why_cheap_analyzer import SYSTEM
+        assert 'parte baja de un ciclo que se da la vuelta' in ' '.join(SYSTEM.split())
+        assert 'parte baja de un ciclo que se da la' in ' '.join(rv.SYSTEM.split())
+
+
+class TestElRojoDelCoherenceCheck:
+    """El Coherence Check pone el job en rojo a propósito, pero el rojo solo lo veía
+    quien abría el correo: KYCCF lo tuvo dos días (19 y 20-nov-2026)."""
+
+    def test_una_contradiccion_es_una_incidencia(self):
+        h = rv.incoherencias({'detalle': {'identidad de los tickers (¿es esta empresa?)': [
+            'ZZZQ: fundamental_scores=94.01 y tikr=466.08 (396% de diferencia)']}})
+        assert len(h) == 1 and h[0]['clave'].startswith('coherencia:')
+        assert 'ZZZQ' in h[0]['por_que'] and 'identidad' in h[0]['titulo']
+
+    def test_un_desfase_conocido_no(self):
+        assert rv.incoherencias({'detalle': {'aritmética': ['⏳ se corrige solo'], 'otro': []}}) == []
+
+    def test_la_misma_contradiccion_lleva_la_misma_marca(self):
+        uno = rv.incoherencias({'detalle': {'control': ['ZZZQ: x']}})
+        otro = rv.incoherencias({'detalle': {'control': ['DOBLQ: y']}})
+        assert uno[0]['clave'] == otro[0]['clave']
+
+    def test_hechos_la_incluye_sin_mezclarla_con_lo_que_va_y_vuelve(self, tmp_path):
+        (tmp_path / 'coherence_check.json').write_text(json.dumps(
+            {'detalle': {'control': ['ZZZQ: no cuadra']}}))
+        datos, hallazgos = rv.hechos('2026-11-20', docs=tmp_path)
+        assert [h['clave'][:11] for h in hallazgos] == ['coherencia:']
+        assert datos['datos_que_van_y_vuelven'] == []

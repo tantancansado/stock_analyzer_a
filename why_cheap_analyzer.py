@@ -107,11 +107,26 @@ Categorías:
 CRITERIO = 3
 
 
+RESUMEN_MAX = 300
+
+
 def limpiar_resumen(texto: str) -> str:
     """Sin las etiquetas de cita que a veces deja la búsqueda en el texto
-    («<cite index="4-6">…</cite>», que llegaba así a la ficha de FICO)."""
+    («(cite index="4-6">…</cite>», que llegaba así a la ficha de FICO), y sin
+    cortar a media frase: el corte a 300 letras dejaba 12 de 55 acabando en
+    «mientras» o «y» (BRO, ADSK, AVGO… el 20-nov-2026)."""
     import re
-    return re.sub(r'\s{2,}', ' ', re.sub(r'[<(]/?cite\b[^>]*>', '', str(texto or ''))).strip()
+    t = re.sub(r'\s{2,}', ' ', re.sub(r'[<(]/?cite\b[^>]*>', '', str(texto or ''))).strip()
+    cortado = len(t) > RESUMEN_MAX or (len(t) >= RESUMEN_MAX - 5 and t[-1:] not in '.!?')
+    if not cortado:
+        return t
+    corte = t[:RESUMEN_MAX]
+    finales = [m.end() for m in re.finditer(r'[.!?](?=\s|$)', corte)]
+    if finales and finales[-1] >= 80:
+        return corte[:finales[-1]]
+    pausa = max(corte.rfind(', '), corte.rfind('; '))
+    hasta = pausa if pausa >= RESUMEN_MAX // 2 else corte.rfind(' ')
+    return corte[:hasta].rstrip(' ,;:') + '…'
 
 PROMPT = """Hoy es {hoy}. {company} ({ticker}) cotiza un {drop:.1f}% por debajo de su máximo de 52
 semanas, con una fuerza relativa a 6 meses de {rs:.1f}%.
@@ -269,7 +284,7 @@ def _interpretar(texto: str, fuentes: list[str]) -> dict:
 
     return {
         'veredicto': veredicto,
-        'resumen': limpiar_resumen(resumen)[:300],
+        'resumen': limpiar_resumen(resumen),
         'confianza': confianza,
         'fuentes': fuentes[:4],
     }

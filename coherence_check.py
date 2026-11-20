@@ -528,6 +528,14 @@ def universo_curado_que_no_llega(minimo_pct: float = 0.80) -> list[str]:
     return casos
 
 
+def _acciones(valor, precio) -> float | None:
+    try:
+        n = float(valor) / float(precio)
+    except (TypeError, ValueError, ZeroDivisionError):
+        return None
+    return n if n > 0 and n == n else None
+
+
 def _desdoblada_tras_tikr(fuentes: list[dict], split: tuple[str, float] | None) -> str | None:
     """Motivo si el precio de TIKR no cuadra por un desdoblamiento posterior a su carga.
 
@@ -536,18 +544,33 @@ def _desdoblada_tras_tikr(fuentes: list[dict], split: tuple[str, float] | None) 
     91,54, y el paso se puso en rojo acusándola de ser otra empresa. Solo vale si
     la diferencia es la del desdoblamiento (con margen por los días de desfase).
     """
-    if not split:
-        return None
-    fecha, factor = split
     tikr = next((f for f in fuentes if f.get('fuente') == 'tikr' and f.get('precio')), None)
-    if not tikr or not tikr.get('cargado') or fecha < tikr['cargado'] or factor == 1:
+    if not tikr:
+        return None
+    if split and tikr.get('cargado') and split[0] >= tikr['cargado'] and split[1] != 1:
+        fecha, factor = split
+        for f in fuentes:
+            if f is tikr or not f.get('precio') or float(f['precio']) <= 0:
+                continue
+            razon = float(tikr['precio']) / float(f['precio'])
+            if 0.75 * factor <= razon <= 1.33 * factor:
+                return f'se desdobló {factor:g} por 1 el {fecha}, después de la carga de TIKR ({tikr["cargado"]})'
+    # Sin el desdoblamiento apuntado: en las cotizaciones de fuera (KYCCF) Yahoo
+    # lo apunta solo en la bolsa de origen. Lo delata que la empresa vale lo
+    # mismo: las acciones cambian en la proporción inversa al precio.
+    if not tikr.get('acciones'):
         return None
     for f in fuentes:
-        if f is tikr or not f.get('precio') or float(f['precio']) <= 0:
+        if f is tikr or not f.get('precio') or not f.get('acciones'):
             continue
         razon = float(tikr['precio']) / float(f['precio'])
-        if 0.75 * factor <= razon <= 1.33 * factor:
-            return f'se desdobló {factor:g} por 1 el {fecha}, después de la carga de TIKR ({tikr["cargado"]})'
+        if not (razon >= 1.5 or razon <= 1 / 1.5):
+            continue
+        valor = razon * float(tikr['acciones']) / float(f['acciones'])
+        if 0.75 <= valor <= 1.33:
+            return (f'tiene {float(f["acciones"]) / float(tikr["acciones"]):.3g} veces las acciones '
+                    f'que tenía en la carga de TIKR ({tikr.get("cargado") or "?"}) y vale lo mismo: '
+                    f'es un desdoblamiento')
     return None
 
 
@@ -604,6 +627,7 @@ def identidad_de_los_tickers() -> list[str]:
                 'nombre': empresa if empresa and empresa.upper() != t else None,
                 'precio': pd.to_numeric(pd.Series([r.get('current_price')]),
                                         errors='coerce').iloc[0],
+                'acciones': _acciones(r.get('market_cap'), r.get('current_price')),
                 'divisa': None,   # los CSV no la traen; la divisa la aporta TIKR
             })
 
@@ -618,6 +642,7 @@ def identidad_de_los_tickers() -> list[str]:
                     'cargado': str((v or {}).get('fetched_at') or '')[:10],
                     'nombre': str((v or {}).get('company_name') or '') or None,
                     'precio': float(c) if c else None,
+                    'acciones': _acciones(pr.get('sho'), 1),
                     'divisa': pr.get('curr'),
                 })
         except Exception:

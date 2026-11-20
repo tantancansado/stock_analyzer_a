@@ -187,6 +187,24 @@ def test_el_desdoblamiento_no_tapa_lo_que_no_explica(monkeypatch, tmp_path):
     assert otra and not otra[0].startswith('⏳')
 
 
+def test_un_desdoblamiento_que_yahoo_no_apunta_lo_delatan_las_acciones(monkeypatch, tmp_path):
+    """KYCCF el 20-nov-2026: en la cotización de EE. UU. Yahoo seguía con el
+    desdoblamiento de 2019; el de 5 por 1 solo estaba en la de Tokio. Con cinco
+    veces las acciones y una quinta parte del precio, la empresa vale lo mismo."""
+    tikr = {'ZZZQ': {'company_name': 'Zeta Corp', 'fetched_at': '2026-11-15T14:20:14+00:00',
+                     'price': {'c': '466.08', 'curr': 'USD', 'sho': '242524929'}}}
+    fallos = _identidad(monkeypatch, tmp_path,
+                        'ticker,company_name,current_price,market_cap,ultimo_split_fecha,ultimo_split_factor\n'
+                        'ZZZQ,Zeta Corp,94.01,113998872576,2019-11-19,2.0\n', tikr)
+    assert fallos and all(f.startswith('⏳') for f in fallos), fallos
+    assert 'desdoblamiento' in fallos[0]
+    # Mismas acciones y otro precio: eso no lo explica ningún desdoblamiento.
+    otra = _identidad(monkeypatch, tmp_path,
+                      'ticker,company_name,current_price,market_cap\n'
+                      'ZZZQ,Zeta Corp,94.01,22799774515\n', tikr)
+    assert otra and not otra[0].startswith('⏳'), otra
+
+
 def test_el_ultimo_desdoblamiento_sale_de_yahoo():
     from fundamental_scorer import ultimo_split
     assert ultimo_split({'lastSplitDate': 1795046400, 'lastSplitFactor': '5:1'}) == \

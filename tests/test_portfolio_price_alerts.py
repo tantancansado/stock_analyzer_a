@@ -167,7 +167,7 @@ class TestEnElMensajeDelDia:
         monkeypatch.setattr(db, 'DOCS', tmp_path)
         monkeypatch.setattr(db, 'gather_facts', lambda: {
             'fecha': date.today().isoformat(), 'total_lista': 0, 'comprables': [], 'vigilar': [],
-            'tesis_rotas': [], 'regimen_cambio': None})
+            'tesis_rotas': [], 'mercado': None})
         monkeypatch.setattr(db, 'build_message', lambda f: redactado)
         enviados = []
         monkeypatch.setattr(db, '_send', lambda t: enviados.append(t) or True)

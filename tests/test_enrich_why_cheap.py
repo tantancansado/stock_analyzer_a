@@ -379,3 +379,17 @@ class TestLasDePrioridad:
         with patch.object(ewc, 'analyze_ticker', side_effect=lambda *a, **kw: _fake_veredicto('EVENTO')):
             ewc.main()
         assert json.loads(ewc.CACHE.read_text())['INTU']['resultados'] == ''
+
+
+def test_el_resumen_no_se_corta_a_media_frase():
+    """El corte a 300 letras dejaba 12 de 55 acabando en «mientras» (BRO, 20-nov-2026)."""
+    from why_cheap_analyzer import RESUMEN_MAX, limpiar_resumen
+    primera = 'Primera frase con lo que pasó en el trimestre: ventas +7,4 % y beneficio por acción +1,9 %.'
+    assert limpiar_resumen(primera + ' ' + 'palabra ' * 60) == primera
+    una = ('El segmento cayó un -0.8% porque ' + 'otras aseguradoras bajaron precios ' * 7
+           + 'y las tarifas de catástrofe, mientras ')[:RESUMEN_MAX]
+    assert len(una) == RESUMEN_MAX
+    r = limpiar_resumen(una)
+    assert r.endswith('…') and not r.endswith('mientras…') and len(r) <= RESUMEN_MAX + 1
+    corto = 'Rotación sectorial sin nada propio de la empresa'
+    assert limpiar_resumen(corto) == corto

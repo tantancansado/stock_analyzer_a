@@ -14,6 +14,10 @@ import os
 import sys
 from unittest.mock import patch
 
+# Antes de cualquier patch.dict(sys.modules): lo que se importa dentro se borra al
+# salir, y numpy no se deja cargar dos veces en el mismo proceso.
+import pandas as pd
+
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import daily_briefing as db
@@ -155,3 +159,45 @@ class TestLoPublicado:
     def test_las_que_no_son_tuyas_son_señales_publicas(self):
         hechos = {**self.HECHOS, 'rotas_son_tuyas': False}
         assert db.publicable('texto', hechos)['texto'] == 'texto'
+
+
+class TestElMercado:
+    """El mensaje calló una caída del 15 % del Nasdaq (oct-nov 2026): comparaba el
+    régimen con el de ayer, y el de ayer no se archivaba."""
+
+    def _cierres(self, spy_final, qqq_final=None):
+        spy_final = list(spy_final)
+        qqq_final = list(qqq_final or spy_final)
+        dias = pd.bdate_range('2025-09-01', periods=258 + len(spy_final))
+        return pd.DataFrame({'SPY': [100.0] * 258 + spy_final, 'QQQ': [100.0] * 258 + qqq_final},
+                            index=dias)
+
+    def test_sale_el_dia_que_la_caida_llega_a_otro_tramo(self):
+        from daily_briefing import mercado_hoy
+        m = mercado_hoy(self._cierres([100.0, 91.9], [100.0, 84.9]))
+        assert m['sp500_bajo_su_maximo_pct'] == 8.1 and m['nasdaq_bajo_su_maximo_pct'] == 15.1
+        assert m['vuelve_cerca_de_maximos'] is False
+
+    def test_en_el_mismo_tramo_no_se_repite(self):
+        from daily_briefing import mercado_hoy
+        assert mercado_hoy(self._cierres([93.0, 92.0])) is None
+        assert mercado_hoy(self._cierres([93.0, 96.0, 93.0])) is None, 'rebotar y volver no es noticia'
+
+    def test_tambien_el_dia_que_se_recupera(self):
+        from daily_briefing import mercado_hoy
+        m = mercado_hoy(self._cierres([94.0, 98.0]))
+        assert m and m['vuelve_cerca_de_maximos'] is True
+
+    def test_el_nasdaq_solo_no_decide(self):
+        """Con tramos en los dos índices salía 55 días al año."""
+        from daily_briefing import mercado_hoy
+        assert mercado_hoy(self._cierres([99.0, 98.0], [100.0, 88.0])) is None
+
+    def test_sin_precios_no_se_inventa(self):
+        from daily_briefing import mercado_hoy
+        assert mercado_hoy(pd.DataFrame({'SPY': [1.0], 'QQQ': [1.0]})) is None
+
+    def test_el_prompt_no_deja_aconsejar_por_el_mercado(self):
+        from daily_briefing import SYSTEM
+        bloque = SYSTEM.split('5. El mercado', 1)[1].split('\n6.', 1)[0]
+        assert 'se compra' in bloque and 'esperar' in bloque

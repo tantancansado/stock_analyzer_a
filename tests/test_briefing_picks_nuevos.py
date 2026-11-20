@@ -65,3 +65,32 @@ class TestElBriefing:
 
     def test_distingue_sin_movimiento_de_sin_datos(self):
         assert 'no que nada se haya movido' in BRIEF
+
+
+class TestDeDondeVienen:
+    """20-nov-2026: «Nuevas en la lista hoy: Autodesk y First Citizens», que ayer
+    ya estaban en Observar. Entraban en Prioridad, no en la lista."""
+
+    def test_subir_de_grupo_no_es_entrar_en_la_lista(self):
+        from daily_briefing import con_su_grupo
+        entran, salen = con_su_grupo(['ZZZQ', 'DOBLQ'], ['VIEJQ', 'FUERQ'],
+                                     {'ZZZQ': 'OBSERVAR', 'VIEJQ': 'PRIORIDAD', 'FUERQ': 'PRIORIDAD'},
+                                     {'ZZZQ': 'PRIORIDAD', 'DOBLQ': 'PRIORIDAD', 'VIEJQ': 'OBSERVAR'})
+        assert entran == ['ZZZQ (ayer en Observar)', 'DOBLQ (nueva en la lista)']
+        assert salen == ['VIEJQ (sigue en Observar)', 'FUERQ (sale de la lista)']
+
+    def test_sin_el_grupo_de_ayer_no_se_inventa(self):
+        from daily_briefing import con_su_grupo
+        assert con_su_grupo(['ZZZQ'], [], None, {}) == (['ZZZQ'], [])
+
+    def test_los_grupos_salen_del_dia_que_hizo_de_base(self, tmp_path, monkeypatch):
+        import datetime as dt
+        import daily_briefing as db
+        import new_value_alerts as nva
+        ayer = tmp_path / 'history' / (dt.date.today() - dt.timedelta(days=1)).isoformat()
+        ayer.mkdir(parents=True)
+        (ayer / 'value_opportunities_filtered.csv').write_text(
+            'ticker,value_score,value_grupo\nVIEJQ,85,PRIORIDAD\nZZZQ,48,OBSERVAR\n')
+        monkeypatch.setattr(nva, 'HISTORY', tmp_path / 'history')
+        assert db._grupos_de_la_base({'VIEJQ'}) == {'VIEJQ': 'PRIORIDAD', 'ZZZQ': 'OBSERVAR'}
+        assert db._grupos_de_la_base({'OTRAQ'}) is None

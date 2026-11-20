@@ -96,7 +96,9 @@ Reglas de la casa (son correctas; no las discutas):
   golpe puntual) y CICLICO (el sector en la parte baja de su ciclo, el negocio aguanta) son caídas
   circunstanciales; DETERIORO es el negocio; SIN_DATOS es que no se encontró la causa. Si el
   resumen describe que un regulador o un competidor le quita precio, cuota o posición de forma
-  duradera, eso es DETERIORO aunque las cuentas aún crezcan.
+  duradera, eso es DETERIORO aunque las cuentas aún crezcan. La parte baja de un ciclo que se da la
+  vuelta no lo es (tarifas que bajan en un mercado blando, clientes que vuelven a otro canal mientras
+  dura): eso es CICLICO, y solo es hallazgo si el resumen dice que la pérdida es para años.
 
 Es un hallazgo:
 1. Un dato que no puede ser verdad para esa empresa, o mal escalado (una fracción leída como
@@ -212,6 +214,26 @@ def grupos_que_van_y_vuelven(anteayer: pd.DataFrame, ayer: pd.DataFrame, hoy: pd
     return hallazgos
 
 
+def incoherencias(coherencia: dict) -> list[dict]:
+    """Lo que el Coherence Check dio por contradicción (sin los ⏳, que son desfases
+    conocidos). Pone el job en rojo, y sin esto el rojo solo lo veía quien abría el
+    correo de GitHub: KYCCF lo tuvo dos días seguidos (19 y 20-nov-2026)."""
+    hallazgos = []
+    for control, fallos in (coherencia.get('detalle') or {}).items():
+        reales = [str(f) for f in fallos or [] if not str(f).lstrip().startswith('⏳')]
+        if not reales:
+            continue
+        hallazgos.append({
+            'clave': f'coherencia:{hashlib.sha1(control.encode()).hexdigest()[:10]}', 'ticker': None,
+            'tipo': 'otro', 'titulo': f'el Coherence Check falla: {control}',
+            'por_que': f'{len(reales)} contradicción(es) entre lo publicado y sus propios datos: '
+                       + ' · '.join(reales[:5]),
+            'cita': reales[0][:200],
+            'donde_mirar': 'coherence_check.py, el control de ese nombre; docs/coherence_check.json',
+        })
+    return hallazgos
+
+
 def _limpio(v):
     if isinstance(v, float):
         return None if pd.isna(v) else round(v, 2)
@@ -276,7 +298,7 @@ def hechos(hoy: str, docs: Path = DOCS) -> tuple[dict, list[dict]]:
         'coherencia': {k: v[:3] for k, v in (coherencia.get('detalle') or {}).items() if v},
         'datos_que_van_y_vuelven': [f"{h['ticker']} {h['titulo']}: {h['por_que']}" for h in deterministas],
     }
-    return datos, deterministas
+    return datos, deterministas + incoherencias(coherencia)
 
 
 # ── Claude ───────────────────────────────────────────────────────────────────

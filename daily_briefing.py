@@ -18,7 +18,7 @@ Qué lleva, por orden de lo que cambia una decisión:
   1. Qué comprar hoy — y si no hay nada, decirlo en la primera línea
   2. Tesis rota en algo que YA tienes comprado (lo que más urge saber)
   3. Qué vigilar: barato pero aún cayendo
-  4. Régimen de mercado, SOLO si cambió respecto a ayer
+  4. El mercado, SOLO el día que la caída del S&P llega a otro tramo del 5 %
   5. El acierto de Prioridad contra el S&P, cuando haya medida suficiente
 
 Los rebotes siguen avisando por su cuenta: son de 1-5 días y esperar al
@@ -33,7 +33,7 @@ import os
 import re
 import urllib.error
 import urllib.request
-from datetime import date
+from datetime import date, timedelta
 from pathlib import Path
 
 from groq_utils import claude_chat
@@ -65,6 +65,46 @@ def _rows(path: Path) -> list[dict]:
         return []
 
 
+def _grupos(ruta: Path) -> dict[str, str] | None:
+    """{ticker: grupo} de una lista de Value; None si no hay fichero."""
+    if not ruta.exists():
+        return None
+    return {r['ticker']: r.get('value_grupo') or '' for r in _rows(ruta) if r.get('ticker')}
+
+
+def _grupos_de_la_base(base: set) -> dict[str, str] | None:
+    """Los grupos del día que `base_de_comparacion` usó de base: el más reciente,
+    hasta tres días atrás, cuya Prioridad es exactamente esa."""
+    from new_value_alerts import HISTORY, _load_value_csv
+    for delta in (1, 2, 3):
+        dia = (date.today() - timedelta(days=delta)).isoformat()
+        for ruta in (HISTORY / dia / 'value_opportunities_filtered.csv', HISTORY / dia / 'value_opportunities.csv'):
+            if ruta.exists() and _load_value_csv(ruta) == base:
+                return _grupos(ruta)
+    return None
+
+
+def con_su_grupo(entran: list[str], salen: list[str], ayer: dict | None,
+                 hoy: dict | None) -> tuple[list[str], list[str]]:
+    """Las que entran y salen de Prioridad, con dónde estaban o dónde quedan.
+
+    El 20-nov-2026 el briefing llamó «nuevas en la lista» a Autodesk y First
+    Citizens, que ayer ya estaban en Observar: lo que pasaba en el texto era
+    «entran» sin decir de dónde. Sin el grupo de ayer no se dice nada, porque
+    «nueva en la lista» sería inventarlo."""
+    def de_donde(t):
+        if ayer is None:
+            return t
+        return f'{t} (ayer en Observar)' if ayer.get(t) == 'OBSERVAR' else f'{t} (nueva en la lista)'
+
+    def a_donde(t):
+        if hoy is None:
+            return t
+        return f'{t} (sigue en Observar)' if hoy.get(t) == 'OBSERVAR' else f'{t} (sale de la lista)'
+
+    return [de_donde(t) for t in entran], [a_donde(t) for t in salen]
+
+
 def _f(x):
     try:
         return float(x)
@@ -72,19 +112,52 @@ def _f(x):
         return None
 
 
-def _regime_cambio() -> str | None:
-    """Régimen de hoy solo si difiere del de ayer — si no, no se menciona."""
-    hoy = _json(DOCS / 'market_regime.json').get('regime')
-    if not hoy:
+TRAMO_CAIDA = 5.0
+RECUPERADO = 2.5
+
+
+def mercado_hoy(cierres=None) -> dict | None:
+    """Cuánto están el S&P y el Nasdaq bajo su máximo de un año, solo el día que la
+    caída del S&P llega a un tramo más hondo (5, 10, 15 %...) que los de esa misma
+    caída, y el día que vuelve a menos de un 2,5 % del máximo.
+
+    Hasta el 20-nov-2026 se comparaba el régimen de `market_regime.json` con el de
+    ayer, pero ese fichero no se archiva (está en .gitignore): sin «ayer», nunca
+    salía, y el mensaje calló una caída del 15 % del Nasdaq. Ahora sale del precio
+    y no depende de ningún fichero. Sin precios, nada: no se inventa una caída. El
+    Nasdaq no decide cuándo: con tramos en los dos, salía 55 días al año. Y no
+    lleva predicción ni consejo: medido el mismo día, la Prioridad comprada con el
+    S&P un 8 % o más bajo su máximo le sacó +16 puntos a 12 meses en 2021-25 (el
+    resto del tiempo, -3).
+    """
+    try:
+        if cierres is None:
+            import yfinance as yf
+            cierres = yf.download(['SPY', 'QQQ'], period='26mo', auto_adjust=True,
+                                  progress=False)['Close']
+        cierres = cierres[['SPY', 'QQQ']].dropna()
+    except Exception as exc:
+        print(f'  [warn] sin precios del mercado: {exc}')
         return None
-    ayer = None
-    hist = sorted((DOCS / 'history').glob('*/market_regime.json'), reverse=True)
-    for p in hist[:3]:
-        prev = _json(p).get('regime')
-        if prev:
-            ayer = prev
-            break
-    return hoy if (ayer and ayer != hoy) else None
+    caida = ((1 - cierres / cierres.rolling(252, min_periods=200).max()) * 100).dropna()
+    if caida.empty:
+        return None
+    hondo, hoy = 0, None
+    for v in caida['SPY']:
+        tramo = int(v // TRAMO_CAIDA)
+        if tramo > hondo:
+            hondo, hoy = tramo, 'cae'
+        elif hondo and v < RECUPERADO:
+            hondo, hoy = 0, 'vuelve'
+        else:
+            hoy = None
+    if hoy is None:
+        return None
+    ultimo = caida.iloc[-1]
+    return {'sp500_bajo_su_maximo_pct': round(float(ultimo['SPY']), 1),
+            'nasdaq_bajo_su_maximo_pct': round(float(ultimo['QQQ']), 1),
+            'maximo_del_sp500': cierres['SPY'].iloc[-252:].idxmax().date().isoformat(),
+            'vuelve_cerca_de_maximos': hoy == 'vuelve'}
 
 
 def datos_incompletos(rows: list[dict]) -> list[str]:
@@ -264,8 +337,9 @@ def gather_facts() -> dict:
         _base = base_de_comparacion()
         if _base:
             _hoy = _load_value_csv(DOCS / 'value_opportunities_filtered.csv')
-            nuevos = sorted(_hoy - _base)
-            se_van = sorted(_base - _hoy)
+            nuevos, se_van = con_su_grupo(sorted(_hoy - _base), sorted(_base - _hoy),
+                                          _grupos_de_la_base(_base),
+                                          _grupos(DOCS / 'value_opportunities_filtered.csv'))
     except Exception as exc:
         print(f'  [warn] no se pudo comparar con ayer: {exc}')
 
@@ -281,7 +355,7 @@ def gather_facts() -> dict:
         'vigilar_total': len(vigilar),
         'tesis_rotas': tesis_rotas,
         'rotas_son_tuyas': rotas_son_tuyas,
-        'regimen_cambio': _regime_cambio(),
+        'mercado': mercado_hoy(),
         **({'rendimiento_prioridad': medida} if medida else {}),
     }
 
@@ -322,13 +396,20 @@ Estructura, en este orden y omitiendo lo que esté vacío:
    baratas de las 20 en Observar») y nunca «quedan» ni «solo», que dan a entender
    que no hay más. Lo que les falta, dilo de las que lo tienen en común; no
    atribuyas a todas lo de unas pocas.
-4. Lo que ACABA DE APARECER en la lista (`picks_nuevos`) y lo que se ha caído de
-   ella (`picks_que_se_van`), si los hay. Una línea, sin repetir lo que ya has
-   dicho arriba: es lo que cambia respecto a ayer y por eso importa. Si las dos
+4. Lo que ha ENTRADO hoy en Prioridad (`picks_nuevos`) y lo que ha SALIDO de ella
+   (`picks_que_se_van`), si los hay. Cada uno dice entre paréntesis de dónde viene
+   o dónde queda: «ayer en Observar» es que sube de grupo («sube a Prioridad», nunca
+   «nueva en la lista», porque ya estaba en ella); «nueva en la lista» es que no
+   estaba; «sigue en Observar» es que baja de grupo; «sale de la lista», que sale.
+   Una línea, sin repetir lo que ya has dicho arriba: es lo que cambia respecto a
+   ayer y por eso importa. Si las dos
    listas vienen vacías, no menciones el tema — que no haya movimiento no es
    noticia. Si el campo no viene, tampoco: significa que no había con qué
    comparar, no que nada se haya movido.
-5. El régimen de mercado SOLO si te lo paso (significa que cambió hoy).
+5. El mercado SOLO si viene `mercado` (hoy la caída del S&P desde su máximo llega a
+   otro tramo del 5 %, o ha vuelto cerca de él): una frase con cuánto están por
+   debajo y desde cuándo, y que la regla no cambia por eso: lo de Prioridad se compra
+   igual. Ni predicciones, ni «esperar», ni «proteger capital».
 6. Si viene "rendimiento_prioridad", cierra con él en una frase: aciertos y
    resultado medio de las de Prioridad a ese plazo, y cuánto le sacan al S&P 500
    ("contra_sp500"). Si no viene, no hables del acierto del sistema: la regla de
@@ -391,9 +472,9 @@ def _plantilla(facts: dict) -> str:
         de = f" ({len(facts['vigilar'])} de {total})" if total > len(facts['vigilar']) else ''
         lineas.append(f"Observar{de}: {nombres(facts['vigilar'])}.")
     if facts['picks_nuevos']:
-        lineas.append('Entran: ' + ', '.join(map(html.escape, facts['picks_nuevos'])) + '.')
+        lineas.append('Entran en Prioridad: ' + ', '.join(map(html.escape, facts['picks_nuevos'])) + '.')
     if facts['picks_que_se_van']:
-        lineas.append('Salen: ' + ', '.join(map(html.escape, facts['picks_que_se_van'])) + '.')
+        lineas.append('Salen de Prioridad: ' + ', '.join(map(html.escape, facts['picks_que_se_van'])) + '.')
     return '\n'.join(linea.replace('..', '.') for linea in lineas)
 
 
@@ -487,7 +568,8 @@ def main() -> None:
     facts = gather_facts()
     print(f"  {facts['total_lista']} en lista · {len(facts['comprables'])} comprables · "
           f"{len(facts['vigilar'])} a vigilar · {len(facts['tesis_rotas'])} tesis rotas"
-          + (f" · régimen → {facts['regimen_cambio']}" if facts['regimen_cambio'] else ''))
+          + (f" · mercado: S&P -{facts['mercado']['sp500_bajo_su_maximo_pct']} %, Nasdaq "
+             f"-{facts['mercado']['nasdaq_bajo_su_maximo_pct']} %" if facts.get('mercado') else ''))
 
     # Va delante y fuera de Claude: es lo más urgente, ya viene redactado y
     # nombra posiciones reales, así que tampoco entra en daily_briefing.json,

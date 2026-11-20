@@ -137,13 +137,40 @@ SIGNALS = {
     },
 }
 
+# Describen, no aconsejan: la casa no entra ni sale por el mercado (medido el
+# 20-nov-2026: la Prioridad comprada con el S&P un 8 % o más bajo su máximo ganó
+# +16 puntos al S&P a 12 meses en 2021-25; el resto del tiempo, -3). «Reducir
+# exposición» o «capital preservation mode» eran consejos de trader.
 REGIME_LABELS = {
-    (3, 30):   ('CALM',   '#10b981', 'Mercado en calma. Condiciones favorables para operar.'),
-    (0, 3):    ('WATCH',  '#84cc16', 'Precaución. Señales mixtas, mantener vigilancia.'),
-    (-6, 0):   ('STRESS', '#f59e0b', 'Estrés moderado. Reducir exposición, gestionar riesgo.'),
-    (-12, -6): ('ALERT',  '#f97316', 'Alerta elevada. Riesgo sistémico aumentando.'),
-    (-30, -12):('CRISIS', '#ef4444', 'Crisis potencial. Capital preservation mode.'),
+    (3, 30):   ('CALM',   '#10b981', 'Sin estrés: crédito, tipos y volatilidad tranquilos.'),
+    (0, 3):    ('WATCH',  '#84cc16', 'Señales mixtas, sin estrés generalizado.'),
+    (-6, 0):   ('STRESS', '#f59e0b', 'Estrés moderado en varios indicadores a la vez.'),
+    (-12, -6): ('ALERT',  '#f97316', 'Estrés elevado y extendido: crédito, volatilidad y refugios.'),
+    (-30, -12):('CRISIS', '#ef4444', 'Estrés extremo, como en las grandes caídas.'),
 }
+
+# Las quince señales miden estrés (crédito, curva, refugios...), y una caída de las
+# tecnológicas sin estrés de crédito no mueve casi ninguna: del 20-oct al 19-nov de
+# 2026 el radar dijo «Mercado en calma» con el Nasdaq hasta un 15 % bajo su máximo
+# y el VIX en 28. Con el mercado así de abajo, «calma» no se dice.
+CAIDA_QUE_NO_ES_CALMA = {'SPY': ('S&P 500', -8.0), 'QQQ': ('Nasdaq 100', -10.0)}
+
+
+def con_el_mercado(regime: dict, index_summary: dict) -> dict:
+    """El régimen, sin «calma» si el S&P o el Nasdaq están en corrección."""
+    if regime.get('name') != 'CALM':
+        return regime
+    bajo = []
+    for t, (nombre, umbral) in CAIDA_QUE_NO_ES_CALMA.items():
+        v = (index_summary.get(t) or {}).get('pct_from_52w_high')
+        if v is not None and v <= umbral:
+            bajo.append(f'{nombre} un {abs(v):.0f} % bajo su máximo')
+    if not bajo:
+        return regime
+    nombre, color, _ = REGIME_LABELS[(0, 3)]
+    return {'name': nombre, 'color': color,
+            'description': 'Sin estrés de crédito ni de tipos, pero el mercado está cayendo: '
+                           + ' y '.join(bajo) + '.'}
 
 
 def _fetch(ticker: str, period_days: int = 400) -> Optional[pd.DataFrame]:
@@ -1674,7 +1701,19 @@ def run_macro_radar() -> dict:
     # Normalize to 0-100 for display, but keep raw for regime
     composite_pct = (composite + max_possible) / (2 * max_possible) * 100
 
-    regime = _get_regime(composite)
+    # ── Index MA breakouts ─────────────────────────────────────────────────
+    # Antes que el régimen: sin ver cuánto ha caído el mercado no se puede decir «calma».
+    print("Scanning index breakouts (Nasdaq, S&P, Russell, DAX...)...")
+    scan_result = _scan_index_breakouts()
+    index_breakouts = scan_result.get('breakouts', [])
+    index_summary  = scan_result.get('summary', {})
+    special_events = scan_result.get('special_events', [])
+    fresh_breaks   = [b for b in index_breakouts if b.get('fresh_cross')]
+    bearish_breaks = [b for b in fresh_breaks if b.get('signal') == 'BEARISH_BREAK']
+    bullish_breaks = [b for b in fresh_breaks if b.get('signal') == 'BULLISH_BREAK']
+    print(f"  Breakouts: {len(index_breakouts)} total, {len(bearish_breaks)} bearish fresh, {len(bullish_breaks)} bullish fresh, {len(special_events)} special events")
+
+    regime = con_el_mercado(_get_regime(composite), index_summary)
 
     print(f"\nComposite score: {composite:.1f} / {max_possible} → {regime['name']}")
 
@@ -1704,17 +1743,6 @@ def run_macro_radar() -> dict:
     systemic_risks = _identify_systemic_risks(enriched)
     for r in systemic_risks:
         print(f"  Risk: {r['name']} [{r['severity']}]")
-
-    # ── Index MA breakouts ─────────────────────────────────────────────────
-    print("Scanning index breakouts (Nasdaq, S&P, Russell, DAX...)...")
-    scan_result = _scan_index_breakouts()
-    index_breakouts = scan_result.get('breakouts', [])
-    index_summary  = scan_result.get('summary', {})
-    special_events = scan_result.get('special_events', [])
-    fresh_breaks   = [b for b in index_breakouts if b.get('fresh_cross')]
-    bearish_breaks = [b for b in fresh_breaks if b.get('signal') == 'BEARISH_BREAK']
-    bullish_breaks = [b for b in fresh_breaks if b.get('signal') == 'BULLISH_BREAK']
-    print(f"  Breakouts: {len(index_breakouts)} total, {len(bearish_breaks)} bearish fresh, {len(bullish_breaks)} bullish fresh, {len(special_events)} special events")
 
     # ── Build output ──────────────────────────────────────────────────────
     output = {
