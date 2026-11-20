@@ -2450,6 +2450,8 @@ class FundamentalScorer:
             _dcf_ok, _dcf_motivo = dcf_aplicable(info)
             if not _dcf_ok:
                 result['dcf_no_aplicable'] = _dcf_motivo
+            # El mismo descuento sirve al DCF inverso de bandas_per, que corre después.
+            result['coste_capital_pct'] = round(coste_del_capital(info) * 100, 2)
             if _dcf_ok and _per_share_ok and fcf and shares and float(shares) > 0 and growth_rate:
                 fcf_ps = float(fcf) / float(shares)  # FCF per share
                 g = float(growth_rate)   # ya viene acotado y sin contaminar

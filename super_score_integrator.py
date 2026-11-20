@@ -284,7 +284,7 @@ class SuperScoreIntegrator:
             # hay dato» en vez de «aquí ese modelo no aplica».
             'pe_ancla', 'pe_ancla_n', 'pe_ancla_dispersion', 'pe_ancla_fragil',
             'pe_ancla_excluidos', 'pe_sin_ancla_motivo', 'pe_eps_usado', 'pe_eps_motivo',
-            'dcf_no_aplicable',
+            'dcf_no_aplicable', 'coste_capital_pct',
             # Qué campos vienen de una IA y de qué fuente: trazabilidad.
             'ai_filled_fields', 'ai_sources', 'ai_descartados',
             'per_share_no_fiable', 'acciones_efectivas',

@@ -241,3 +241,54 @@ class TestMain:
         monkeypatch.setattr(bp, 'FUND', fund)
         bp.main()
         assert pd.read_csv(fund).at[0, 'target_price_pe'] == 40.0
+
+
+class TestLoQueDescuentaElPrecio:
+    """El DCF inverso (20-nov-2026): qué crecimiento hace falta para que el precio sea justo."""
+
+    def _precio(self, g, bpa=5.0, r=0.09):
+        from fundamental_scorer import CRECIMIENTO_TERMINAL, MARGEN_SOBRE_TERMINAL
+        return bp.valor_con_crecimiento(bpa, g, r, min(CRECIMIENTO_TERMINAL, r - MARGEN_SOBRE_TERMINAL))
+
+    def test_devuelve_el_crecimiento_con_el_que_se_hizo_el_precio(self):
+        for g in (-0.05, 0.0, 0.08, 0.25):
+            assert bp.crecimiento_descontado(self._precio(g), 5.0, 9.0) == (round(g * 100, 1), None)
+
+    def test_mas_cara_supone_mas_crecimiento_y_mas_descuento_tambien(self):
+        g = [bp.crecimiento_descontado(p, 5.0, 9.0)[0] for p in (60, 90, 140)]
+        assert g == sorted(g) and g[0] < g[-1]
+        assert bp.crecimiento_descontado(90, 5.0, 11.0)[0] > g[1]
+
+    def test_lo_que_no_se_sabe_dice_por_que(self):
+        assert bp.crecimiento_descontado(100, None, 9.0) == (None, 'sin el beneficio esperado a 12 meses (TIKR)')
+        assert bp.crecimiento_descontado(100, -1.0, 9.0)[1] == 'espera pérdidas los próximos 12 meses'
+        assert bp.crecimiento_descontado(100, 5.0, None) == (None, 'sin coste del capital')
+        assert bp.crecimiento_descontado(float('nan'), 5.0, 9.0) == (None, 'sin precio')
+
+    def test_fuera_del_rango_no_se_extrapola(self):
+        valor, motivo = bp.crecimiento_descontado(self._precio(0.9), 5.0, 9.0)
+        assert valor is None and 'más de un 60%' in motivo
+        valor, motivo = bp.crecimiento_descontado(self._precio(-0.3), 5.0, 9.0)
+        assert valor is None and 'cayendo' in motivo
+
+    def test_los_analistas_desde_el_año_que_viene_y_con_analistas_detras(self):
+        td = {'ntm': {'ntm_eps': '12.0971'}, 'analyst_estimates': {'current_year': 2026, 'forward': {
+            '2026': {'eps_norm': 9.33, 'n_analysts': 50.0}, '2027': {'eps_norm': 15.85, 'n_analysts': 51.0},
+            '2028': {'eps_norm': 21.08, 'n_analysts': 34.0}, '2029': {'eps_norm': 25.14, 'n_analysts': 4.0},
+            '2030': {'eps_norm': 40.0, 'n_analysts': 2.0}}}}
+        assert bp.lo_que_esperan(td) == {'bpa_ntm': 12.0971, 'crec_analistas_pct': 25.9, 'crec_analistas_hasta': 2029}
+
+    def test_un_hueco_corta_la_serie(self):
+        td = {'analyst_estimates': {'current_year': 2026, 'forward': {
+            '2027': {'eps_norm': 10.0, 'n_analysts': 20}, '2029': {'eps_norm': 14.0, 'n_analysts': 20}}}}
+        assert bp.lo_que_esperan(td) == {'bpa_ntm': None, 'crec_analistas_pct': None, 'crec_analistas_hasta': None}
+
+    def test_llega_a_la_tabla_con_el_precio_del_dia(self):
+        bandas = {'AAA': {**TestAplicar.BANDAS['bandas']['AAA'], 'bpa_ntm': 5.0,
+                          'crec_analistas_pct': 12.0, 'crec_analistas_hasta': 2029}}
+        r = bp.aplicar(pd.DataFrame([{'ticker': 'AAA', 'current_price': self._precio(0.07), 'coste_capital_pct': 9.0},
+                                     {'ticker': 'BBB', 'current_price': 100.0}]), {'bandas': bandas}, {}).set_index('ticker')
+        assert r.loc['AAA', 'crecimiento_descontado_pct'] == 7.0 and r.loc['AAA', 'crecimiento_analistas_pct'] == 12.0
+        assert r.loc['AAA', 'crecimiento_analistas_hasta'] == 2029
+        assert pd.isna(r.loc['BBB', 'crecimiento_descontado_pct'])
+        assert r.loc['BBB', 'crecimiento_descontado_motivo'] == 'sin el beneficio esperado a 12 meses (TIKR)'

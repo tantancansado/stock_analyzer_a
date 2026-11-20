@@ -406,8 +406,10 @@ def vetos_value(df):
 # «No lo sé» no vende: sin valoración, sin ventas o sin historia de PER se mantiene.
 PER_DE_SALIDA = -0.75
 _DATO_QUE_FALTA = ('sin valoración propia', 'sin dato de ventas')
+# Con el DCF inverso, para poder medirlo en todo el universo cuando haya historia.
 ESTADO_COLUMNAS = ('ticker', 'value_grupo', 'motivo_fuera', 'per_z', 'ventas_anual_pct',
-                   'negative_roe', 'analyst_upside_pct', 'bpa_sobre_tendencia_pct')
+                   'negative_roe', 'analyst_upside_pct', 'bpa_sobre_tendencia_pct',
+                   'crecimiento_descontado_pct', 'crecimiento_analistas_pct')
 
 
 def estado_value(df, fuera=None):

@@ -140,6 +140,11 @@ export interface ValueOpportunity {
   ventas_anual_anio?: number | null
   revision_4s_pct?: number | null
   revision_13s_pct?: number | null
+  // DCF inverso (bandas_per): el crecimiento que supone el precio. Dato, no puntúa
+  crecimiento_descontado_pct?: number | null
+  crecimiento_descontado_motivo?: string | null
+  crecimiento_analistas_pct?: number | null
+  crecimiento_analistas_hasta?: number | null
   value_avisos?: string | null
   // PRIORIDAD por recorrido: DCF y P/E propios le ven +100 % con el beneficio en su tendencia
   value_dobla?: boolean | null
@@ -543,6 +548,7 @@ export const VALUE_NUMERIC = new Set([
   'dividend_rate','five_yr_avg_dividend_yield_pct','shares_change_pct','interest_coverage',
   'value_barata','per_norm','per_mediana_10a','per_z','precio_per_menos_1s','precio_per_media',
   'bpa_sobre_tendencia_pct','ventas_anual_pct','ventas_anual_anio','revision_4s_pct','revision_13s_pct','recorrido_propio_pct','peso_objetivo_pct',
+  'crecimiento_descontado_pct','crecimiento_analistas_pct','crecimiento_analistas_hasta',
   'analyst_revision_momentum','fundamental_score','earnings_quality_score','growth_acceleration_score',
   'relative_strength_score','financial_health_score','catalyst_timing_score','rs_line_score',
   'rs_line_percentile','eps_growth_yoy','eps_accel_quarters','rev_growth_yoy','rev_accel_quarters',

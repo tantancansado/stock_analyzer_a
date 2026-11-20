@@ -69,6 +69,14 @@ function ComoSaleLaNota({ row }: ScoreBreakdownProps) {
   if (row.revision_13s_pct != null) {
     filas.push({ etiqueta: 'Consenso de BPA en 13 semanas', valor: `${signo(row.revision_13s_pct, 1)} %` })
   }
+  if (row.crecimiento_descontado_pct != null) {
+    const analistas = row.crecimiento_analistas_pct != null && row.crecimiento_analistas_hasta != null
+      ? `los analistas esperan ${signo(row.crecimiento_analistas_pct)} % al año hasta ${row.crecimiento_analistas_hasta}`
+      : 'sin estimaciones de analistas a varios años'
+    filas.push({ etiqueta: 'Crecimiento que supone el precio', valor: `${signo(row.crecimiento_descontado_pct)} % al año`, nota: analistas })
+  } else if (row.crecimiento_descontado_motivo) {
+    filas.push({ etiqueta: 'Crecimiento que supone el precio', valor: 'Sin dato', nota: row.crecimiento_descontado_motivo })
+  }
   if (row.bpa_sobre_tendencia_pct != null && row.bpa_sobre_tendencia_pct > 25) {
     filas.push({ etiqueta: 'Beneficio sobre su tendencia', valor: `${signo(row.bpa_sobre_tendencia_pct)} %`, nota: 'Puede estar en pico de ciclo: un PER bajo engaña más' })
   }

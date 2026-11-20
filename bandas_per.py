@@ -168,9 +168,81 @@ def _leer(ruta: Path) -> dict:
         return {}
 
 
+# DCF inverso: qué crecimiento del beneficio hace falta para que el precio de hoy
+# sea justo. Año 1, el BPA normalizado a 12 meses de TIKR; años 2 a 6, ese
+# crecimiento; 7 a 10, bajando en línea recta hasta el terminal, y después el
+# terminal. El descuento y el terminal son los del DCF de la casa. Es un dato de
+# la ficha: no puntúa, porque no hay previsiones antiguas con las que medirlo.
+CRECIMIENTO_BUSCADO = (-0.15, 0.60)
+ANALISTAS_MINIMOS = 3
+
+
+def valor_con_crecimiento(bpa1: float, g: float, r: float, gt: float) -> float:
+    """Lo que vale hoy el beneficio de diez años y el terminal, con ese crecimiento."""
+    valor, bpa = 0.0, bpa1
+    for t in range(1, 11):
+        if t > 1:
+            bpa *= 1 + (g if t <= 6 else g + (gt - g) * (t - 6) / 4)
+        valor += bpa / (1 + r) ** t
+    return valor + bpa * (1 + gt) / (r - gt) / (1 + r) ** 10
+
+
+def crecimiento_descontado(precio, bpa1, coste_pct) -> tuple[float | None, str | None]:
+    """(crecimiento al año en %, None) o (None, por qué no hay dato)."""
+    from fundamental_scorer import CRECIMIENTO_TERMINAL, MARGEN_SOBRE_TERMINAL
+    precio, bpa1, coste = (pd.to_numeric(v, errors='coerce') for v in (precio, bpa1, coste_pct))
+    if pd.isna(precio) or precio <= 0:
+        return None, 'sin precio'
+    if pd.isna(bpa1):
+        return None, 'sin el beneficio esperado a 12 meses (TIKR)'
+    if bpa1 <= 0:
+        return None, 'espera pérdidas los próximos 12 meses'
+    if pd.isna(coste) or coste <= 0:
+        return None, 'sin coste del capital'
+    r = float(coste) / 100
+    gt = min(CRECIMIENTO_TERMINAL, r - MARGEN_SOBRE_TERMINAL)
+    lo, hi = CRECIMIENTO_BUSCADO
+    if valor_con_crecimiento(float(bpa1), lo, r, gt) > precio:
+        return None, f'ni con el beneficio cayendo un {-lo:.0%} al año valdría tan poco'
+    if valor_con_crecimiento(float(bpa1), hi, r, gt) < precio:
+        return None, f'haría falta que el beneficio creciera más de un {hi:.0%} al año'
+    for _ in range(60):
+        g = (lo + hi) / 2
+        lo, hi = (g, hi) if valor_con_crecimiento(float(bpa1), g, r, gt) < precio else (lo, g)
+    return round((lo + hi) / 2 * 100, 1), None
+
+
+def lo_que_esperan(td: dict) -> dict:
+    """El BPA normalizado a 12 meses y el crecimiento que esperan los analistas a
+    partir del año que viene (el de este ya va dentro del BPA a 12 meses)."""
+    v = pd.to_numeric((td.get('ntm') or {}).get('ntm_eps'), errors='coerce')
+    salida = {'bpa_ntm': None if pd.isna(v) else round(float(v), 4),
+              'crec_analistas_pct': None, 'crec_analistas_hasta': None}
+    est = td.get('analyst_estimates') or {}
+    try:
+        desde = int(est.get('current_year')) + 1
+    except (TypeError, ValueError):
+        return salida
+    bpa, anio = {}, desde
+    while True:     # años seguidos y con analistas de verdad detrás
+        x = (est.get('forward') or {}).get(str(anio)) or {}
+        e = pd.to_numeric(x.get('eps_norm'), errors='coerce')
+        n = pd.to_numeric(x.get('n_analysts'), errors='coerce')
+        if pd.isna(e) or pd.isna(n) or n < ANALISTAS_MINIMOS:
+            break
+        bpa[anio] = float(e)
+        anio += 1
+    hasta = max(bpa, default=desde)
+    if hasta - desde >= 2 and bpa[desde] > 0 and bpa[hasta] > 0:
+        salida['crec_analistas_pct'] = round(((bpa[hasta] / bpa[desde]) ** (1 / (hasta - desde)) - 1) * 100, 1)
+        salida['crec_analistas_hasta'] = hasta
+    return salida
+
+
 COLUMNAS = ('per_norm', 'per_mediana_10a', 'per_z', 'precio_per_menos_1s', 'precio_per_media',
             'bpa_sobre_tendencia_pct', 'per_sin_dato_motivo', 'ventas_anual_pct', 'ventas_anual_anio',
-            'revision_4s_pct', 'revision_13s_pct')
+            'revision_4s_pct', 'revision_13s_pct', 'crecimiento_descontado_pct',
+            'crecimiento_descontado_motivo', 'crecimiento_analistas_pct', 'crecimiento_analistas_hasta')
 
 
 def aplicar(df: pd.DataFrame, bandas: dict | None = None, consenso: dict | None = None) -> pd.DataFrame:
@@ -186,6 +258,10 @@ def aplicar(df: pd.DataFrame, bandas: dict | None = None, consenso: dict | None 
         o.update(revisiones(consenso.get(t) or {}, hoy))
         o['ventas_anual_pct'], o['ventas_anual_anio'] = b.get('ventas_anual_pct'), b.get('ventas_anual_anio')
         precio = pd.to_numeric(r.get('current_price'), errors='coerce')
+        o['crecimiento_descontado_pct'], o['crecimiento_descontado_motivo'] = crecimiento_descontado(
+            precio, b.get('bpa_ntm'), r.get('coste_capital_pct'))
+        o['crecimiento_analistas_pct'] = b.get('crec_analistas_pct')
+        o['crecimiento_analistas_hasta'] = b.get('crec_analistas_hasta')
         if 'mu' not in b:
             o['per_sin_dato_motivo'] = b.get('motivo') or 'sin bandas de PER'
         elif pd.isna(precio) or precio <= 0:
@@ -270,6 +346,7 @@ def _calcular(datos: dict, fund: pd.DataFrame, hoy: pd.Timestamp) -> dict | None
         salida[t] = ventas_anuales(datos[t], mes, hoy)
         if fund.at[t, 'price_currency'] == fund.at[t, 'financial_currency']:
             aptos.append(t)
+            salida[t].update(lo_que_esperan(datos[t]))
         else:
             # El BPA de TIKR no tiene base fija cuando precio y cuentas van en
             # divisas distintas (ver tikr-bases-por-campo): no se inventa un PER.
