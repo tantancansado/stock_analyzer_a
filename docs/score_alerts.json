@@ -1,21 +1,31 @@
 {
-  "generated_at": "2026-11-19",
+  "generated_at": "2026-11-20",
   "alerts": [
     {
-      "type": "NEW_ENTRY",
-      "ticker": "PAYX",
-      "company_name": "Paychex, Inc.",
+      "type": "SCORE_UP",
+      "ticker": "ADSK",
+      "company_name": "Autodesk, Inc.",
       "sector": "Technology",
-      "score_today": 92.7,
-      "score_prev": null,
-      "delta": null,
+      "score_today": 90.3,
+      "score_prev": 49.7,
+      "delta": 40.6,
+      "grade": "PRIORIDAD"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "FCNCA",
+      "company_name": "First Citizens BancShares, Inc.",
+      "sector": "Financial Services",
+      "score_today": 86.8,
+      "score_prev": 46.4,
+      "delta": 40.4,
       "grade": "PRIORIDAD"
     }
   ],
   "counts": {
-    "new_entries": 1,
+    "new_entries": 0,
     "exited": 0,
-    "score_up": 0,
+    "score_up": 2,
     "score_down": 0
   }
 }

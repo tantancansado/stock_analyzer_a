@@ -1,15 +1,15 @@
 {
-  "generated_at": "2026-11-19",
-  "total_positions": 95,
+  "generated_at": "2026-11-20",
+  "total_positions": 97,
   "risks": [
     {
       "type": "SECTOR_CONCENTRATION",
       "severity": "HIGH",
-      "message": "69% de se\u00f1ales en Unknown (66/95) \u2014 concentraci\u00f3n elevada",
+      "message": "72% de se\u00f1ales en Unknown (70/97) \u2014 concentraci\u00f3n elevada",
       "detail": {
         "sector": "Unknown",
-        "count": 66,
-        "pct": 69
+        "count": 70,
+        "pct": 72
       }
     },
     {
@@ -17,22 +17,22 @@
       "severity": "LOW",
       "message": "100% en mercado US \u2014 poca diversificaci\u00f3n geogr\u00e1fica",
       "detail": {
-        "us": 95,
+        "us": 97,
         "eu": 0
       }
     }
   ],
-  "narrative": "",
+  "narrative": "1. Diversifica el portafolio incorporando se\u00f1ales de sectores y activos con menor representaci\u00f3n, como tecnolog\u00eda, salud o consumo b\u00e1sico, para reducir la alta concentraci\u00f3n en el sector Unknown.  \n2. A\u00f1ade instrumentos financieros de mercados internacionales (Europa, Asia\u2011Pac\u00edfico, Am\u00e9rica Latina) o fondos globales para equilibrar la exposici\u00f3n geogr\u00e1fica y disminuir la dependencia del mercado US.",
   "sector_breakdown": [
     {
       "sector": "Unknown",
-      "count": 66,
-      "pct": 69
+      "count": 70,
+      "pct": 72
     },
     {
       "sector": "Technology",
-      "count": 10,
-      "pct": 11
+      "count": 9,
+      "pct": 9
     },
     {
       "sector": "Financial Services",
@@ -41,8 +41,8 @@
     },
     {
       "sector": "Industrials",
-      "count": 5,
-      "pct": 5
+      "count": 4,
+      "pct": 4
     },
     {
       "sector": "Communication Services",
@@ -66,6 +66,6 @@
     }
   ],
   "region_breakdown": {
-    "US": 95
+    "US": 97
   }
 }

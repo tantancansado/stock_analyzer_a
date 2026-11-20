@@ -1,0 +1,41 @@
+{
+  "listas": {
+    "value_opportunities": {
+      "candidatas": 36,
+      "publicadas": 31,
+      "excluidos": [
+        {
+          "ticker": "BSX",
+          "paso": "verificador_ia",
+          "motivo": "rev_growth_yoy=1.4% con upside_triangulated_pct=82.9% y modelos_acuerdo=COHERENTES sugiere oportunidad, pero crecimiento prácticamente nulo (1.4%) no sostiene un descuento de esa magnitud. La ficha contradice la propia recomendación: negocio estancado no justifica 82% de upside sin deterioro evidente en márgenes que la ficha oculta o crecimiento que esta no muestra.",
+          "score": 95.3
+        },
+        {
+          "ticker": "ESLOY",
+          "paso": "verificador_ia",
+          "motivo": "upside_requiere_verificacion=true con analyst_upside_pct=36.9%, pero peg_ratio=20.84 es patológico (error de escala probable o dato corrupto). Un PEG de 20+ es físicamente imposible para un negocio sano. Falta per_norm y per_mediana_10a para validar si es error de unidad o realidad. La ficha no es confiable.",
+          "score": 51.6
+        },
+        {
+          "ticker": "RELX",
+          "paso": "verificador_ia",
+          "motivo": "upside_requiere_verificacion=true con 37.4% descuento, pero rev_growth_yoy=1.7% y ventas_anual_pct=1.7% (negocio prácticamente estancado). Modelos dispersos (43.6 pts) y ebit_ev_yield=1.06% (muy bajo) contradicen el descuento. ma_filter_pass=true intenta sostenerlo técnicamente, pero sin crecimiento ni márgenes, el descuento no se sostiene: es una trampa, no una oportunidad.",
+          "score": 51.2
+        },
+        {
+          "ticker": "DVA",
+          "paso": "verificador_ia",
+          "motivo": "modelos_dispersion_pts=120.8 es extremadamente alta (DCF=131.5% vs PE=10.7%). upside_requiere_verificacion=true con analyst_upside_pct=42.2%. La ficha señala correctamente que los modelos contradicen (DISPERSOS), pero publica un upside_triangulated_pct=42.2% que toma la del analista. Sin claridad sobre cuál de los dos modelos propios es confiable, la recomendación queda sin suelo: el descuento podría ser real (PE) o ilusorio (DCF con premisas rotas).",
+          "score": 51.1
+        },
+        {
+          "ticker": "SAP",
+          "paso": "verificador_ia",
+          "motivo": "ebit_ev_yield=0.29% es patológicamente bajo (rentabilidad operativa casi nula). upside_requiere_verificacion=true con analyst_upside_pct=40% descuento, pero un rendimiento de 0.29% desmiente que haya margen de seguridad. Modelos dispersos (32.4 pts) con DCF=22.4% vs PE=54.8%: la ficha oculta que SAP tiene rentabilidad operativa casi nula, lo que invalida cualquier descuento. Fundamental_score=78.5 contradice ebit_ev_yield=0.29%.",
+          "score": 50.8
+        }
+      ]
+    }
+  },
+  "generated_at": "2026-11-20T07:30:34Z"
+}

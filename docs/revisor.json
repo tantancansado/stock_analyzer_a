@@ -1,22 +1,30 @@
 {
-  "fecha": "2026-11-19",
+  "fecha": "2026-11-20",
   "estado": "ok",
   "hallazgos": [
     {
-      "clave": "revisor:sin_claude",
+      "clave": "lista_incumple_su_regla:BRO",
+      "ticker": "BRO",
+      "tipo": "lista_incumple_su_regla",
+      "titulo": "why_cheap clasificado como CICLICO cuando la causa descrita es DETERIORO",
+      "por_que": "El resumen dice que la caída de Specialty Distribution se debe a que aseguradoras del mercado admitido 'recuperaron negocio del E&S y bajaron las tarifas de catástrofe', es decir, un competidor le quita cuota y precio de forma duradera. Según la propia regla de la casa esto es DETERIORO (vetado para Prioridad) aunque las cuentas aún crezcan, no CICLICO.",
+      "cita": "porque aseguradoras del mercado admitido recuperaron negocio del E&S y bajaron las tarifas de catástrofe, mientras",
+      "donde_mirar": "campo why_cheap y why_cheap_resumen de BRO, regla de veto DETERIORO"
+    },
+    {
+      "clave": "texto_contradice_datos:4f40b3c73f",
       "ticker": null,
-      "tipo": "otro",
-      "titulo": "el revisor no pudo preguntar a Claude",
-      "por_que": "Claude no respondió: presupuesto, crédito, API caída o se quedó sin espacio pensando (el log del paso dice cuál)",
-      "cita": "Claude no respondió: presupuesto, crédito, API caída o se quedó sin espacio pensando (el log del paso dice cuál)",
-      "donde_mirar": "el paso «Revisor nocturno» del workflow y docs/revisor.json"
+      "tipo": "texto_contradice_datos",
+      "titulo": "El briefing llama 'nuevas en la lista' a Autodesk y First Citizens cuando ya estaban en Observar",
+      "por_que": "cambios_desde_ayer muestra 'entran': [] y sitúa a ADSK y FCNCA en 'cambian' (de OBSERVAR a PRIORIDAD), es decir, no son altas nuevas en la lista_value_us sino promociones de grupo. El briefing afirma lo contrario.",
+      "cita": "Nuevas en la lista hoy: <b>Autodesk</b> y <b>First Citizens BancShares</b>.",
+      "donde_mirar": "briefing_publicado vs cambios_desde_ayer.entran y .cambian"
     }
   ],
   "descartados": [],
   "incidencias_nuevas": [
-    21
+    22,
+    23
   ],
-  "avisos": [
-    "sin revisión de Claude: Claude no respondió: presupuesto, crédito, API caída o se quedó sin espacio pensando (el log del paso dice cuál)"
-  ]
+  "avisos": []
 }
