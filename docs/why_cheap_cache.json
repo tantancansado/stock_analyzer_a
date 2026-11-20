@@ -13,15 +13,18 @@
  },
  "ADSK": {
   "veredicto": "EVENTO",
-  "resumen": "Dilución de márgenes por adquisición MaintainX (anunciada en Q2 FY27, agosto 2026) y endeudamiento adicional para financiarla, combinado con rotación/miedo a múltiplos elevados en software tras earnings beat.",
-  "confianza": 72,
+  "resumen": "El 27 de agosto de 2026 Autodesk presentó ingresos que batieron expectativas pero una guía de beneficios para el tercer trimestre y el año fiscal por debajo de lo esperado, lo que desató una caída acumulada de hasta el 20-22% en los días siguientes, agravada en septiembre por una venta masiva genera",
+  "confianza": 60,
   "fuentes": [
-   "https://simplywall.st/es/stocks/us/software/nasdaq-adsk/autodesk/news/las-acciones-de-autodesk-adsk-podrian-estar-infravaloradas-e/amp",
-   "https://www.tikr.com/es/blog/autodesk-stock-is-down-17-ytd-what-the-numbers-say-about-2026",
-   "https://bobby.ai/es/stocks/adsk",
-   "https://finance.yahoo.com/markets/stocks/articles/autodesk-adsk-registers-bigger-fall-221501823.html"
+   "https://www.tikr.com/blog/title-2",
+   "https://www.gurufocus.com/news/9206102/autodesk-inc-adsk-shares-fall-39-what-gf-score-of-89-tells-investors",
+   "https://www.trefis.com/stock/adsk/articles/614512/autodesk-stock-slides-19-over-6-straight-down-days/2026-09-07",
+   "https://www.trefis.com/stock/adsk/articles/617135/how-low-can-autodesk-adsk-stock-go/2026-09-30"
   ],
-  "fecha": "2026-11-02"
+  "modelo": "claude-sonnet-5",
+  "resultados": "2026-11-24",
+  "fecha": "2026-11-20",
+  "criterio": 3
  },
  "SAP": {
   "veredicto": "SENTIMIENTO",
@@ -445,18 +448,18 @@
   "fecha": "2026-11-04"
  },
  "INTU": {
-  "veredicto": "SENTIMIENTO",
-  "resumen": "La acción cayó por una fuerte compresión de múltiplo ante el miedo a que la IA erosione el negocio de TurboTax/QuickBooks y por una desaceleración del crecimiento guiado (de ~18-20% a ~10-13%), pese a que Intuit mantuvo o incluso elevó su guía de ingresos y BPA en los trimestres de 2026 y los ingres",
-  "confianza": 60,
+  "veredicto": "CICLICO",
+  "resumen": "Desde mayo de 2026 Intuit ha encadenado varios recortes de guidance (de +14% a 8-9% de crecimiento de ingresos para FY27) ligados a una desaceleración de Credit Karma por tipos de interés altos y cambios en el comportamiento del consumidor, mientras el negocio núcleo (Enterprise Suite +41%, operativ",
+  "confianza": 55,
   "fuentes": [
-   "https://www.sec.gov/Archives/edgar/data/896878/000089687826000012/fy26q2earningspressrelease.htm",
-   "https://www.sec.gov/Archives/edgar/data/0000896878/000089687826000024/fy26q3earningspressrelease.htm",
-   "https://www.marketbeat.com/earnings/reports/2025-11-20-intuit-inc-stock/",
-   "https://www.sec.gov/Archives/edgar/data/0000896878/000089687826000029/fy26q4earningspressrelease.htm"
+   "https://www.investing.com/news/transcripts/earnings-call-transcript-intuit-beats-q4-2026-estimates-but-shares-fall-on-softer-outlook-93CH-4875996",
+   "https://www.gurufocus.com/news/9210948/intuit-intu-reports-q1-results-revises-outlook-shares-drop-12",
+   "https://www.cnbc.com/2026/05/20/intuit-intu-q3-earnings-report-2026-company-cutting-17percent-of-staff.html",
+   "https://www.gurufocus.com/news/9210945/intuit-intu-q1-earnings-beat-estimates-shares-fall-amid-modest-revenue-outlook"
   ],
   "modelo": "claude-sonnet-5",
-  "resultados": "2026-11-19",
-  "fecha": "2026-11-12",
+  "resultados": "",
+  "fecha": "2026-11-20",
   "criterio": 3
  },
  "ODFL": {
@@ -681,6 +684,51 @@
   "modelo": "claude-haiku-4-5",
   "resultados": "2027-01-15",
   "fecha": "2026-11-19",
+  "criterio": 3
+ },
+ "FCNCA": {
+  "veredicto": "SENTIMIENTO",
+  "resumen": "En el Q3 2026 (23 oct) First Citizens superó ampliamente expectativas de BPA e ingresos, con crecimiento de préstamos y depósitos y guías elevadas, pero la acción cayó a mínimos de 52 semanas a mediados de noviembre por presión generalizada sobre el sector bancario y una rebaja de JPMorgan (19 nov) ",
+  "confianza": 65,
+  "fuentes": [
+   "https://ca.investing.com/news/company-news/first-citizens-bancshares-inc-fcnca-q3-2026-earnings-call-highlights-strong-loan-and--4901125",
+   "https://finance.yahoo.com/quote/FCNCA/earnings/FCNCA-Q3-2026-earnings_call-714061.html",
+   "https://finance.yahoo.com/markets/stocks/articles/first-citizens-bancshares-inc-fcnca-070357640.html",
+   "https://www.sec.gov/Archives/edgar/data/798941/000079894119000045/earningsrelease-q32019.htm"
+  ],
+  "modelo": "claude-sonnet-5",
+  "resultados": "2027-01-22",
+  "fecha": "2026-11-20",
+  "criterio": 3
+ },
+ "PEP": {
+  "veredicto": "DETERIORO",
+  "resumen": "Poder de fijar precios: tras bajar precios en bolsas grandes, debe subir en pequeñas; márgenes bajo presión sostenida por costos; restructuring de supply chain (cierres de plantas mayo-junio 2026) señala eficiencia deteriorada.",
+  "confianza": 72,
+  "fuentes": [
+   "https://www.sec.gov/Archives/edgar/data/0000077476/000007747626000050/q320268-kxexhibit991.htm",
+   "https://www.sec.gov/Archives/edgar/data/77476/000007747626000019/q120268-kxexhibit991.htm",
+   "https://www.sec.gov/Archives/edgar/data/0000077476/000007747626000037/q220268-kxexhibit991.htm",
+   "https://www.sec.gov/Archives/edgar/data/0000077476/000007747626000048/pep-20260905.htm"
+  ],
+  "modelo": "claude-haiku-4-5",
+  "resultados": "2027-02-02",
+  "fecha": "2026-11-20",
+  "criterio": 3
+ },
+ "JKHY": {
+  "veredicto": "SENTIMIENTO",
+  "resumen": "Earnings beat del 18% el 5 de mayo con guidance elevada, pero management advirtió sobre presión de márgenes futura y desaceleración de crecimiento en H2. Rotación hacia growth por preocupación macro más que por deterioro operacional.",
+  "confianza": 75,
+  "fuentes": [
+   "https://www.sec.gov/Archives/edgar/data/0000779152/000077915226000021/jkhy-20260331xex99pressrel.htm",
+   "https://www.investing.com/news/transcripts/earnings-call-transcript-jack-henry-q3-2026-earnings-beat-expectations-93CH-4684825",
+   "https://finance.yahoo.com/quote/JKHY/earnings/JKHY-Q3-2026-earnings_call-551699.html",
+   "https://seekingalpha.com/article/4899375-jack-henry-and-associates-inc-jkhy-q3-2026-earnings-call-transcript"
+  ],
+  "modelo": "claude-haiku-4-5",
+  "resultados": "2027-02-02",
+  "fecha": "2026-11-20",
   "criterio": 3
  }
 }

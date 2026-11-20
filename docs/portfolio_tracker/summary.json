@@ -1,17 +1,17 @@
 {
-  "total_signals": 134,
+  "total_signals": 135,
   "unique_tickers": 84,
-  "date_range": "2026-04-08 to 2026-11-19",
-  "active_signals": 47,
+  "date_range": "2026-04-08 to 2026-11-20",
+  "active_signals": 48,
   "completed_signals": 87,
   "overall": {
     "90d": {
-      "count": 65,
-      "win_rate": 70.8,
-      "ci_low": 58.8,
-      "ci_high": 80.4,
-      "avg_return": 4.31,
-      "median_return": 4.82,
+      "count": 66,
+      "win_rate": 71.2,
+      "ci_low": 59.4,
+      "ci_high": 80.7,
+      "avg_return": 4.47,
+      "median_return": 4.88,
       "best": 24.67,
       "worst": -27.96
     },
@@ -85,9 +85,9 @@
   },
   "conviction": {
     "7d": {
-      "count": 158,
-      "win_rate": 41.8,
-      "avg_return": -0.27,
+      "count": 159,
+      "win_rate": 41.5,
+      "avg_return": -0.31,
       "basis": "golden_zone_hist"
     }
   },
@@ -164,14 +164,14 @@
     }
   },
   "value_strategy": {
-    "count": 134,
+    "count": 135,
     "90d": {
-      "count": 65,
-      "win_rate": 70.8,
-      "ci_low": 58.8,
-      "ci_high": 80.4,
-      "avg_return": 4.31,
-      "median_return": 4.82,
+      "count": 66,
+      "win_rate": 71.2,
+      "ci_low": 59.4,
+      "ci_high": 80.7,
+      "avg_return": 4.47,
+      "median_return": 4.88,
       "best": 24.67,
       "worst": -27.96,
       "basis": "clean_period"
@@ -200,7 +200,7 @@
   },
   "bounce_strategies": {
     "BOUNCE_BROAD": {
-      "count": 49,
+      "count": 51,
       "7d": {
         "count": 49,
         "win_rate": 32.7,
@@ -214,7 +214,7 @@
       "nota": "horizonte real 1-5 d\u00edas: el 7d es la medida m\u00e1s cercana disponible, no el criterio del setup (target vs stop)"
     },
     "MEAN_REVERSION": {
-      "count": 93,
+      "count": 95,
       "7d": {
         "count": 93,
         "win_rate": 41.9,
@@ -232,12 +232,12 @@
     "count": 188,
     "subyacente": {
       "90d": {
-        "count": 10,
-        "win_rate": 50.0,
-        "ci_low": 23.7,
-        "ci_high": 76.3,
-        "avg_return": -1.92,
-        "median_return": -1.42,
+        "count": 20,
+        "win_rate": 40.0,
+        "ci_low": 21.9,
+        "ci_high": 61.3,
+        "avg_return": -4.48,
+        "median_return": -6.12,
         "best": 12.32,
         "worst": -22.73
       },
@@ -254,14 +254,14 @@
     },
     "contrato": {
       "90d": {
-        "count": 3,
-        "win_rate": 0.0,
-        "ci_low": 0.0,
-        "ci_high": 56.2,
-        "avg_return": -35.86,
-        "median_return": -30.92,
-        "best": -19.15,
-        "worst": -57.52
+        "count": 11,
+        "win_rate": 36.4,
+        "ci_low": 15.2,
+        "ci_high": 64.6,
+        "avg_return": -18.39,
+        "median_return": -22.17,
+        "best": 21.4,
+        "worst": -62.47
       },
       "180d": {
         "count": 0,
@@ -274,7 +274,7 @@
         "ci_high": null
       }
     },
-    "edad_max_dias": 91,
+    "edad_max_dias": 92,
     "dias_hasta_primera_lectura": 0,
     "con_contrato": 151,
     "nota": "el contrato se sigue por su s\u00edmbolo OCC; son opciones poco l\u00edquidas, as\u00ed que un checkpoint sin cotizaci\u00f3n en 10 d\u00edas se queda vac\u00edo en vez de arrastrar un precio viejo"
@@ -419,6 +419,17 @@
   "performers_horizon": "180d",
   "recent_signals": [
     {
+      "ticker": "OTIS",
+      "company_name": "Otis Worldwide Corporation",
+      "strategy": "VALUE",
+      "signal_date": "2026-11-20",
+      "signal_price": 75.95,
+      "sector": "Industrials",
+      "value_score": 53.7,
+      "days_active": 0,
+      "first_result_date": "2026-11-27"
+    },
+    {
       "ticker": "WCN",
       "company_name": "Waste Connections, Inc.",
       "strategy": "VALUE",
@@ -426,7 +437,7 @@
       "signal_price": 182.0,
       "sector": "Industrials",
       "value_score": 45.0,
-      "days_active": 0,
+      "days_active": 1,
       "first_result_date": "2026-11-26"
     },
     {
@@ -437,7 +448,7 @@
       "signal_price": 12.04,
       "sector": "Industrials",
       "value_score": 52.0,
-      "days_active": 0,
+      "days_active": 1,
       "first_result_date": "2026-11-26"
     },
     {
@@ -448,7 +459,7 @@
       "signal_price": 114.1,
       "sector": "Technology",
       "value_score": 92.6,
-      "days_active": 1,
+      "days_active": 2,
       "first_result_date": "2026-11-25"
     },
     {
@@ -459,7 +470,7 @@
       "signal_price": 38.31,
       "sector": "Financial Services",
       "value_score": 40.2,
-      "days_active": 3,
+      "days_active": 4,
       "first_result_date": "2026-11-23"
     },
     {
@@ -470,7 +481,7 @@
       "signal_price": 641.69,
       "sector": "Communication Services",
       "value_score": 44.3,
-      "days_active": 3,
+      "days_active": 4,
       "first_result_date": "2026-11-23"
     },
     {
@@ -481,7 +492,7 @@
       "signal_price": 293.39,
       "sector": "Financial Services",
       "value_score": 47.1,
-      "days_active": 3,
+      "days_active": 4,
       "first_result_date": "2026-11-23"
     },
     {
@@ -492,7 +503,7 @@
       "signal_price": 267.44,
       "sector": "Consumer Cyclical",
       "value_score": 40.0,
-      "days_active": 6,
+      "days_active": 7,
       "first_result_date": "2026-11-20"
     },
     {
@@ -503,7 +514,7 @@
       "signal_price": 259.48,
       "sector": "Technology",
       "value_score": 49.4,
-      "days_active": 6,
+      "days_active": 7,
       "first_result_date": "2026-11-20"
     },
     {
@@ -514,7 +525,7 @@
       "signal_price": 205.98,
       "sector": "Industrials",
       "value_score": 48.9,
-      "days_active": 7,
+      "days_active": 8,
       "first_result_date": "2026-11-19"
     },
     {
@@ -525,30 +536,8 @@
       "signal_price": 237.6,
       "sector": "Technology",
       "value_score": 98.1,
-      "days_active": 7,
+      "days_active": 8,
       "first_result_date": "2026-11-19"
-    },
-    {
-      "ticker": "DPZ",
-      "company_name": "Domino's Pizza, Inc.",
-      "strategy": "VALUE",
-      "signal_date": "2026-11-10",
-      "signal_price": 334.18,
-      "sector": "Consumer Cyclical",
-      "value_score": 54.1,
-      "days_active": 9,
-      "first_result_date": "2026-11-17"
-    },
-    {
-      "ticker": "MKC",
-      "company_name": "McCormick & Company, Incorporated",
-      "strategy": "VALUE",
-      "signal_date": "2026-11-10",
-      "signal_price": 47.88,
-      "sector": "Consumer Defensive",
-      "value_score": 58.8,
-      "days_active": 9,
-      "first_result_date": "2026-11-17"
     },
     {
       "ticker": "SAP",
@@ -558,7 +547,7 @@
       "signal_price": 237.42,
       "sector": "Technology",
       "value_score": 49.4,
-      "days_active": 9,
+      "days_active": 10,
       "first_result_date": "2026-11-17"
     },
     {
@@ -569,18 +558,40 @@
       "signal_price": 107.2,
       "sector": "Healthcare",
       "value_score": 50.8,
-      "days_active": 9,
+      "days_active": 10,
       "first_result_date": "2026-11-17"
     },
     {
-      "ticker": "AON",
-      "company_name": "Aon plc",
+      "ticker": "DPZ",
+      "company_name": "Domino's Pizza, Inc.",
+      "strategy": "VALUE",
+      "signal_date": "2026-11-10",
+      "signal_price": 334.18,
+      "sector": "Consumer Cyclical",
+      "value_score": 54.1,
+      "days_active": 10,
+      "first_result_date": "2026-11-17"
+    },
+    {
+      "ticker": "MKC",
+      "company_name": "McCormick & Company, Incorporated",
+      "strategy": "VALUE",
+      "signal_date": "2026-11-10",
+      "signal_price": 47.88,
+      "sector": "Consumer Defensive",
+      "value_score": 58.8,
+      "days_active": 10,
+      "first_result_date": "2026-11-17"
+    },
+    {
+      "ticker": "DSGX",
+      "company_name": "The Descartes Systems Group Inc.",
       "strategy": "VALUE",
       "signal_date": "2026-11-09",
-      "signal_price": 334.81,
-      "sector": "Financial Services",
-      "value_score": 48.1,
-      "days_active": 10,
+      "signal_price": 93.99,
+      "sector": "Technology",
+      "value_score": 46.9,
+      "days_active": 11,
       "first_result_date": "2026-11-16"
     },
     {
@@ -591,7 +602,7 @@
       "signal_price": 94.81,
       "sector": "Basic Materials",
       "value_score": 40.0,
-      "days_active": 10,
+      "days_active": 11,
       "first_result_date": "2026-11-16"
     },
     {
@@ -602,7 +613,7 @@
       "signal_price": 201.87,
       "sector": "Financial Services",
       "value_score": 40.3,
-      "days_active": 10,
+      "days_active": 11,
       "first_result_date": "2026-11-16"
     },
     {
@@ -613,7 +624,7 @@
       "signal_price": 530.61,
       "sector": "Technology",
       "value_score": 41.9,
-      "days_active": 10,
+      "days_active": 11,
       "first_result_date": "2026-11-16"
     },
     {
@@ -624,22 +635,11 @@
       "signal_price": 283.93,
       "sector": "Communication Services",
       "value_score": 43.2,
-      "days_active": 10,
-      "first_result_date": "2026-11-16"
-    },
-    {
-      "ticker": "MLM",
-      "company_name": "Martin Marietta Materials, Inc.",
-      "strategy": "VALUE",
-      "signal_date": "2026-11-09",
-      "signal_price": 518.15,
-      "sector": "Basic Materials",
-      "value_score": 44.1,
-      "days_active": 10,
+      "days_active": 11,
       "first_result_date": "2026-11-16"
     }
   ],
-  "avg_max_drawdown": -2.59,
+  "avg_max_drawdown": -2.64,
   "alpha": {
     "365d": {
       "count": 0,
@@ -658,11 +658,11 @@
       "worst_alpha": -35.2
     },
     "90d": {
-      "count": 65,
-      "avg_alpha": 0.91,
-      "avg_signal_return": 4.31,
-      "avg_benchmark_return": 3.39,
-      "positive_alpha_rate": 50.8,
+      "count": 66,
+      "avg_alpha": 1.22,
+      "avg_signal_return": 4.47,
+      "avg_benchmark_return": 3.25,
+      "positive_alpha_rate": 51.5,
       "best_alpha": 25.49,
       "worst_alpha": -38.85
     },
@@ -685,10 +685,10 @@
       "worst_alpha": -12.78
     },
     "7d": {
-      "count": 124,
-      "avg_alpha": 0.6,
-      "avg_signal_return": 0.64,
-      "avg_benchmark_return": 0.03,
+      "count": 126,
+      "avg_alpha": 0.61,
+      "avg_signal_return": 0.55,
+      "avg_benchmark_return": -0.05,
       "positive_alpha_rate": 52.4,
       "best_alpha": 13.81,
       "worst_alpha": -12.04
@@ -739,5 +739,5 @@
       "worst_alpha": -12.78
     }
   },
-  "generated_at": "2026-11-19T08:10:07.920982"
+  "generated_at": "2026-11-20T07:39:47.886563"
 }

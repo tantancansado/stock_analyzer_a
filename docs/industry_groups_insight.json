@@ -1,41 +1,41 @@
 {
-  "date": "2026-11-19",
-  "timestamp": "2026-11-19T08:08:39.574037",
-  "narrative": "La rotaci\u00f3n muestra una clara preferencia por defensivos y sectores de infraestructura estable: los l\u00edderes son Healthcare (fabricantes de f\u00e1rmacos, diagn\u00f3stico), Industrials (ferrocarriles) y Property\u2011&\u2011Casualty Insurance, mientras que los rezagados son c\u00edclicos de alta sensibilidad (Construcci\u00f3n residencial, Semiconductores) y tecnolog\u00eda de crecimiento (Semiconductor Equipment, Internet Content). Este sesgo coincide con el entorno macro \u201cCALM\u201d, donde los inversores buscan calidad y menor volatilidad frente a la incertidumbre de crecimiento. Enf\u00f3quese ahora en Healthcare, Utilities\u2011adjacent Industrials (ferrocarriles) y seguros de propiedad\u2011casualty; evite exposici\u00f3n a tecnolog\u00eda de semiconductores, construcci\u00f3n residencial y medios",
-  "macro_regime": "CALM",
+  "date": "2026-11-20",
+  "timestamp": "2026-11-20T07:38:19.989649",
+  "narrative": "La rotaci\u00f3n muestra un giro claro hacia sectores defensivos y de ingresos recurrentes: seguros de propiedad\u2011casa, productos de consumo b\u00e1sico y salud lideran con RS >\u202f85, mientras que los c\u00edclicos tradicionales (construcci\u00f3n residencial, ferrocarriles) y la exposici\u00f3n tecnol\u00f3gica (semiconductores, equipos de semiconductores) est\u00e1n en la parte baja del ranking. Este sesgo defensivo es coherente con el r\u00e9gimen macro \u201cWATCH\u201d, que indica incertidumbre y volatilidad, favoreciendo activos menos sensibles al ciclo econ\u00f3mico. Enf\u00f3quense ahora en buscar oportunidades largas en seguros P&C, productos de consumo defensivo y compa\u00f1\u00edas de salud (farmac\u00e9uticas y diagn\u00f3sticos). Eviten exposici\u00f3n a construcci\u00f3n residencial, equipos de semiconductores y cualquier sub",
+  "macro_regime": "WATCH",
   "top_sectors": [
+    {
+      "industry": "Insurance - Property & Casualty",
+      "sector": "Financial Services",
+      "avg_rs_percentile": 94.6,
+      "num_tickers": 2,
+      "label": "Top 10%"
+    },
     {
       "industry": "Drug Manufacturers - General",
       "sector": "Healthcare",
-      "avg_rs_percentile": 92.6,
+      "avg_rs_percentile": 92.0,
       "num_tickers": 2,
       "label": "Top 10%"
     },
     {
       "industry": "Railroads",
       "sector": "Industrials",
-      "avg_rs_percentile": 91.1,
+      "avg_rs_percentile": 90.8,
       "num_tickers": 3,
-      "label": "Top 10%"
-    },
-    {
-      "industry": "Insurance - Property & Casualty",
-      "sector": "Financial Services",
-      "avg_rs_percentile": 85.8,
-      "num_tickers": 2,
       "label": "Top 10%"
     },
     {
       "industry": "Household & Personal Products",
       "sector": "Consumer Defensive",
-      "avg_rs_percentile": 85.2,
+      "avg_rs_percentile": 86.4,
       "num_tickers": 4,
       "label": "Top 10%"
     },
     {
       "industry": "Diagnostics & Research",
       "sector": "Healthcare",
-      "avg_rs_percentile": 82.1,
+      "avg_rs_percentile": 84.0,
       "num_tickers": 4,
       "label": "Top 25%"
     }
@@ -51,28 +51,28 @@
     {
       "industry": "Semiconductor Equipment & Materials",
       "sector": "Technology",
-      "avg_rs_percentile": 23.2,
+      "avg_rs_percentile": 22.1,
       "num_tickers": 4,
       "label": "Bottom 25%"
     },
     {
       "industry": "Internet Content & Information",
       "sector": "Communication Services",
-      "avg_rs_percentile": 23.1,
+      "avg_rs_percentile": 20.4,
       "num_tickers": 2,
       "label": "Bottom 25%"
     },
     {
       "industry": "Semiconductors",
       "sector": "Technology",
-      "avg_rs_percentile": 18.2,
+      "avg_rs_percentile": 18.1,
       "num_tickers": 2,
       "label": "Bottom 25%"
     },
     {
       "industry": "Residential Construction",
       "sector": "Consumer Cyclical",
-      "avg_rs_percentile": 12.8,
+      "avg_rs_percentile": 11.4,
       "num_tickers": 2,
       "label": "Bottom 25%"
     }
