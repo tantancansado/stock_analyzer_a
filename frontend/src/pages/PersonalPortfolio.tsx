@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useMemo } from 'react'
 import { precio } from '@/lib/moneda'
 import { Plus, RefreshCw, TrendingUp, TrendingDown, Wallet, AlertTriangle, X, Loader2, BookOpen, Send, Trash2, ChevronDown, ChevronUp, Zap, Brain, Pencil, Check, Landmark, Star,
-         Target, Gem, Anchor, CalendarRange, CalendarDays, Clock } from 'lucide-react'
+         Target, Gem, CalendarRange, CalendarDays, Clock } from 'lucide-react'
 import SignalBadge from '../components/SignalBadge'
 import type { LucideIcon } from 'lucide-react'
 import { nlPositionStatus } from '@/lib/nl'
@@ -1191,12 +1191,10 @@ function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluen
       )}
 
       {/* ── CONFLUENCE SIGNALS ── */}
-      {confluence && (confluence.bounce || confluence.value || confluence.flow) && (
+      {confluence && (confluence.bounce || confluence.value) && (
         <div className="flex flex-wrap gap-1.5 px-4 mb-3">
           {confluence.bounce && <SignalBadge icon={Target} tono="info" texto="Bounce" />}
           {confluence.value && <SignalBadge icon={Gem} tono="favor" texto="VALUE" />}
-          {confluence.flow === 'BULLISH' && <SignalBadge icon={TrendingUp} tono="favor" texto="Flow alcista" />}
-          {confluence.flow === 'PUT_COVERING' && <SignalBadge icon={Anchor} tono="info" texto="Suelo probable" />}
         </div>
       )}
 

@@ -45,26 +45,11 @@ describe('usePortfolioConfluence', () => {
     })
 
     fetchUnusualFlowMock.mockResolvedValue({
-      data: {
-        results: [
-          {
-            ticker: 'AAPL',
-            signal: 'BULLISH',
-            flow_interpretation: 'STANDARD',
-            total_premium: 100000,
-          },
-          {
-            ticker: 'SAP.DE',
-            signal: 'NEUTRAL',
-            flow_interpretation: 'PUT_COVERING',
-            total_premium: 26000,
-          },
-        ],
-      },
+      data: { results: [{ ticker: 'AAPL', signal: 'BULLISH', flow_interpretation: 'STANDARD', total_premium: 100000 }] },
     })
   })
 
-  it('builds the confluence map from bounce, value, and flow sources', async () => {
+  it('builds the confluence map from bounce and value', async () => {
     const { usePortfolioConfluence } = await loadModule()
     const { result } = renderHook(() => usePortfolioConfluence())
 
@@ -72,16 +57,17 @@ describe('usePortfolioConfluence', () => {
       expect(result.current.AAPL).toBeDefined()
     })
 
-    expect(result.current.AAPL).toEqual({
-      bounce: true,
-      value: true,
-      flow: 'BULLISH',
+    expect(result.current.AAPL).toEqual({ bounce: true, value: true })
+    expect(result.current['SAP.DE']).toEqual({ bounce: false, value: true })
+  })
+
+  it('no lee las opciones: medido el 22-nov-2026, no anticipan nada', async () => {
+    const { usePortfolioConfluence } = await loadModule()
+    const { result } = renderHook(() => usePortfolioConfluence())
+    await waitFor(() => {
+      expect(result.current.AAPL).toBeDefined()
     })
-    expect(result.current['SAP.DE']).toEqual({
-      bounce: false,
-      value: true,
-      flow: 'PUT_COVERING',
-    })
+    expect(fetchUnusualFlowMock).not.toHaveBeenCalled()
   })
 
   it('reuses the session cache across hook mounts', async () => {
@@ -95,6 +81,5 @@ describe('usePortfolioConfluence', () => {
     const second = renderHook(() => usePortfolioConfluence())
     expect(second.result.current.AAPL.value).toBe(true)
     expect(fetchMeanReversionMock).toHaveBeenCalledTimes(1)
-    expect(fetchUnusualFlowMock).toHaveBeenCalledTimes(1)
   })
 })

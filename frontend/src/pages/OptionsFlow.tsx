@@ -1,7 +1,7 @@
 import { BotonMasDatos, useMasDatos } from '../components/MasDatos'
 import { useState, useMemo } from 'react'
-import { Link } from 'react-router-dom'
-import { fetchUnusualFlow, fetchCerebroOptionsQuality, type OptionsQualitySignal } from '../api/client'
+import { fetchUnusualFlow } from '../api/client'
+import { precio } from '@/lib/moneda'
 import { useApi } from '../hooks/useApi'
 import TickerLogo from '../components/TickerLogo'
 import { Card, CardContent } from '@/components/ui/card'
@@ -9,7 +9,7 @@ import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '@
 import PageHeader from '@/components/PageHeader'
 import CsvDownload from '@/components/CsvDownload'
 import PageShell from '@/components/PageShell'
-import { Brain, Minus, TrendingDown, TrendingUp, Repeat, Zap, ChartColumn, Sparkle, type LucideIcon } from 'lucide-react'
+import { Zap, ChartColumn } from 'lucide-react'
 import CifrasClave from '../components/CifrasClave'
 
 interface TopContract {
@@ -68,80 +68,28 @@ const fmtPremium = (v?: number) => {
 
 const fmtIV = (v?: number) => v != null ? `${(v * 100).toFixed(0)}%` : '—'
 
-function SignalBadge({ signal }: { signal: string }) {
-  const cls =
-    signal === 'BULLISH' ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30' :
-    signal === 'BEARISH' ? 'bg-red-500/15 text-red-400 border-red-500/30' :
-    'bg-yellow-500/15 text-yellow-400 border-yellow-500/30'
-  const Icono = signal === 'BULLISH' ? TrendingUp : signal === 'BEARISH' ? TrendingDown : Minus
-  return (
-    <span className={`inline-flex items-center gap-1 text-micro font-bold px-1.5 py-0.5 rounded border ${cls}`}>
-      <Icono size={12} strokeWidth={2.5} className="shrink-0" />
-      {signal}
-    </span>
-  )
-}
-
+// Sin verde ni rojo: más dinero en puts no es una mala señal (22-nov-2026). Tras
+// una caída las puts quedan dentro del dinero y su prima sube sola.
 function CallPutBar({ callPct }: { callPct: number }) {
   const putPct = 100 - callPct
   return (
     <div className="flex items-center gap-1.5 min-w-[90px]">
-      <div className="flex-1 h-1.5 rounded-full overflow-hidden barra-pista flex">
-        <div className="bg-emerald-500/70 h-full" style={{ width: `${callPct}%` }} />
-        <div className="bg-red-500/70 h-full" style={{ width: `${putPct}%` }} />
+      <div className="flex-1 h-1.5 rounded-full overflow-clip barra-pista flex">
+        <div className="h-full" style={{ width: `${callPct}%`, background: 'color-mix(in oklab, var(--primary) 70%, transparent)' }} />
+        <div className="h-full" style={{ width: `${putPct}%`, background: 'color-mix(in oklab, var(--muted-foreground) 45%, transparent)' }} />
       </div>
       <span className="text-micro text-muted-foreground tabular-nums w-16 text-right">
-        <span className="text-emerald-400">{callPct.toFixed(0)}C</span>
-        {' / '}
-        <span className="text-red-400">{putPct.toFixed(0)}P</span>
+        {callPct.toFixed(0)}C / {putPct.toFixed(0)}P
       </span>
     </div>
   )
 }
 
-function InterpretationBadge({ interp, reason, drawdown }: {
-  interp?: string
-  reason?: string
-  drawdown?: number
-}) {
-  if (!interp || interp === 'STANDARD') return null
-
-  const cfg: Record<string, { label: string; cls: string; icon: LucideIcon }> = {
-    PUT_COVERING:  { label: 'Recogida Puts',  cls: 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30', icon: Repeat },
-    CALL_COVERING: { label: 'Recogida Calls', cls: 'bg-orange-500/15 text-orange-300 border-orange-500/30',   icon: Repeat },
-    FRESH_BEARISH: { label: 'Bajista Nuevo',  cls: 'bg-red-500/15 text-red-300 border-red-500/30',            icon: Sparkle },
-    FRESH_BULLISH: { label: 'Alcista Nuevo',  cls: 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30', icon: Sparkle },
-  }
-  const c = cfg[interp]
-  if (!c) return null
-
-  const drawdownStr = drawdown != null ? ` · ${drawdown.toFixed(0)}% vs máx` : ''
-
+function ContractRow({ c, ticker }: { c: TopContract; ticker: string }) {
   return (
-    <div className="group relative inline-flex">
-      <span className={`inline-flex items-center gap-1 text-micro font-bold px-1.5 py-0.5 rounded border cursor-help ${c.cls}`}>
-        <c.icon size={12} strokeWidth={2.25} className="shrink-0" /> {c.label}{drawdownStr}
-      </span>
-      {/* El tooltip va centrado sobre el badge y con el ancho atado al
-          viewport, en vez de `left-0 w-64` fijo. Anclado a la izquierda, un
-          badge de la mitad derecha empujaba sus 256px hasta 428 en una
-          pantalla de 390: el texto se cortaba y no había forma de leerlo,
-          porque además se activa con hover y en un móvil no hay hover. */}
-      {reason && (
-        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5 z-50 w-64 max-w-[calc(100vw-2rem)] p-2.5 rounded-lg bg-popover border border-border/60 shadow-xl text-micro text-muted-foreground leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-          {reason}
-        </div>
-      )}
-    </div>
-  )
-}
-
-function ContractRow({ c }: { c: TopContract }) {
-  const isCall = c.side === 'CALL'
-  return (
-    <div className={`flex flex-wrap items-center gap-x-3 gap-y-0.5 text-micro py-0.5 ${isCall ? 'text-emerald-400' : 'text-red-400'}`}>
+    <div className="flex flex-wrap items-center gap-x-3 gap-y-0.5 text-micro py-0.5">
       <span className="font-bold w-8">{c.side}</span>
-      <span className="font-mono">${c.strike}</span>
+      <span className="font-mono">{precio(c.strike, ticker)}</span>
       <span className="text-muted-foreground">{c.expiry} ({c.dte}d)</span>
       <span className="text-muted-foreground">vol {c.volume?.toLocaleString() ?? '—'}</span>
       {c.vol_oi_ratio != null && (
@@ -162,10 +110,8 @@ function ContractRow({ c }: { c: TopContract }) {
 
 export default function OptionsFlow() {
   const { data, loading, error } = useApi(() => fetchUnusualFlow(), [])
-  const { data: qualityRaw } = useApi(() => fetchCerebroOptionsQuality(), [])
   const [sortKey, setSortKey] = useState<keyof FlowResult>('total_premium')
   const [sortDir, setSortDir] = useState<'asc' | 'desc'>('desc')
-  const [signalFilter, setSignalFilter] = useState<'ALL' | 'BULLISH' | 'BEARISH' | 'MIXED'>('ALL')
   const [expanded, setExpanded] = useState<string | null>(null)
   const [onlyLarge, setOnlyLarge] = useState(false)
   // Vista sencilla por defecto (12-nov-2026); cifras y filtros, en la avanzada.
@@ -176,14 +122,13 @@ export default function OptionsFlow() {
 
   const filtered = useMemo(() => {
     let r = results
-    if (signalFilter !== 'ALL') r = r.filter(x => x.signal === signalFilter)
     if (onlyLarge) r = r.filter(x => x.has_large_premium)
     return [...r].sort((a, b) => {
       const av = (a[sortKey] as number) ?? 0
       const bv = (b[sortKey] as number) ?? 0
       return sortDir === 'asc' ? (av < bv ? -1 : 1) : (av > bv ? -1 : 1)
     })
-  }, [results, signalFilter, onlyLarge, sortKey, sortDir])
+  }, [results, onlyLarge, sortKey, sortDir])
 
   const onSort = (key: keyof FlowResult) => {
     if (sortKey === key) setSortDir(d => d === 'asc' ? 'desc' : 'asc')
@@ -195,7 +140,7 @@ export default function OptionsFlow() {
 
   const cabecera = {
     title: 'Opciones inusuales',
-    subtitle: 'Apuestas grandes y poco habituales en opciones. Es contexto de corto plazo, no la idea de 12 meses',
+    subtitle: 'Dónde va el dinero en opciones. Medido, no anticipa lo que hará la acción: cuando cae, sus puts valen más y el dinero en puts sube solo',
   } as const
   if (loading || error) return <PageShell {...cabecera} loading={loading} error={error} />
 
@@ -207,7 +152,7 @@ export default function OptionsFlow() {
       <PageHeader
         title="Opciones inusuales"
         subtitle={<>
-          Apuestas grandes y poco habituales en opciones. Es contexto de corto plazo, no la idea de 12 meses
+          Dónde va el dinero en opciones. Medido, no anticipa lo que hará la acción: cuando cae, sus puts valen más y el dinero en puts sube solo
           {scanDate && (
             <span className="ml-2 opacity-50 text-mini">
               · {scanDate.toLocaleTimeString('es', { hour: '2-digit', minute: '2-digit' })} ET
@@ -221,31 +166,12 @@ export default function OptionsFlow() {
 
       {avanzada && (
       <>
-      {/* Summary cards */}
       <CifrasClave cifras={[
         { etiqueta: 'Tickers con flujo', valor: raw?.total_tickers_with_flow ?? 0, sub: 'con actividad opciones' },
-        { etiqueta: 'Bullish', valor: raw?.bullish_count ?? 0, sub: 'calls dominan', tono: 'favor' },
-        { etiqueta: 'Bearish', valor: raw?.bearish_count ?? 0, sub: 'puts dominan', tono: 'alarma' },
         { etiqueta: 'Premium total', valor: fmtPremium(totalPremium), sub: `${raw?.unusual_count ?? 0} con bloque >$100K` },
       ]} />
 
-      {/* Filters */}
       <div className="flex flex-wrap gap-2 mb-4">
-        {(['ALL', 'BULLISH', 'BEARISH', 'MIXED'] as const).map(f => (
-          <button
-            key={f}
-            onClick={() => setSignalFilter(f)}
-            className={`text-micro px-2.5 py-0.5 rounded border transition-colors ${
-              signalFilter === f
-                ? f === 'BULLISH' ? 'border-emerald-500/60 bg-emerald-500/15 text-emerald-400'
-                  : f === 'BEARISH' ? 'border-red-500/60 bg-red-500/15 text-red-400'
-                  : 'border-primary/60 bg-primary/15 text-primary'
-                : 'border-border/40 text-muted-foreground hover:border-border/70 hover:text-foreground'
-            }`}
-          >
-            {f === 'ALL' ? `Todos (${results.length})` : f}
-          </button>
-        ))}
         <button
           onClick={() => setOnlyLarge(v => !v)}
           className={`text-micro px-2.5 py-0.5 rounded border transition-colors ${
@@ -272,21 +198,11 @@ export default function OptionsFlow() {
                 <TickerLogo ticker={r.ticker} size="xs" />
                 <span className="font-mono font-bold text-cuerpo text-primary">{r.ticker}</span>
               </div>
-              <div className="flex flex-col items-end gap-1">
-                <SignalBadge signal={r.signal} />
-                <InterpretationBadge
-                  interp={r.flow_interpretation}
-                  reason={r.interpretation_reason}
-                  drawdown={r.drawdown_from_high_pct}
-                />
-              </div>
-            </div>
-            <div className="flex items-center justify-between mb-2">
-              <CallPutBar callPct={r.call_pct} />
               <span className="text-mini font-mono font-bold">{fmtPremium(r.total_premium)}</span>
             </div>
+            <CallPutBar callPct={r.call_pct} />
             {expanded === r.ticker && r.top_contracts.map((c, i) => (
-              <ContractRow key={i} c={c} />
+              <ContractRow key={i} c={c} ticker={r.ticker} />
             ))}
           </div>
         ))}
@@ -299,7 +215,6 @@ export default function OptionsFlow() {
             <TableHeader>
               <TableRow className="border-border/50 hover:bg-transparent">
                 <TableHead className={thCls('ticker')} onClick={() => onSort('ticker')}>Ticker</TableHead>
-                <TableHead>Señal</TableHead>
                 <TableHead>Calls / Puts</TableHead>
                 <TableHead className={thCls('total_premium')} onClick={() => onSort('total_premium')}>Premium Total</TableHead>
                 <TableHead className={thCls('max_single_premium')} onClick={() => onSort('max_single_premium')}>Mayor Contrato</TableHead>
@@ -322,16 +237,6 @@ export default function OptionsFlow() {
                         {r.has_large_premium && <Zap size={12} strokeWidth={2.5} className="text-amber-400 shrink-0" />}
                       </div>
                     </TableCell>
-                    <TableCell>
-                      <div className="flex flex-col gap-1">
-                        <SignalBadge signal={r.signal} />
-                        <InterpretationBadge
-                          interp={r.flow_interpretation}
-                          reason={r.interpretation_reason}
-                          drawdown={r.drawdown_from_high_pct}
-                        />
-                      </div>
-                    </TableCell>
                     <TableCell><CallPutBar callPct={r.call_pct} /></TableCell>
                     <TableCell className="tabular-nums font-semibold">{fmtPremium(r.total_premium)}</TableCell>
                     <TableCell className="tabular-nums text-muted-foreground">{fmtPremium(r.max_single_premium)}</TableCell>
@@ -345,8 +250,8 @@ export default function OptionsFlow() {
                     </TableCell>
                     <TableCell className="text-muted-foreground text-micro">
                       {r.top_contracts.slice(0, 1).map((c, i) => (
-                        <span key={i} className={c.side === 'CALL' ? 'text-emerald-400' : 'text-red-400'}>
-                          {c.side} ${c.strike} {c.expiry} {fmtPremium(c.premium_usd)}
+                        <span key={i}>
+                          {c.side} {precio(c.strike, r.ticker)} {c.expiry} {fmtPremium(c.premium_usd)}
                           {c.speculative && <Zap size={12} strokeWidth={2.5} className="inline ml-0.5 -mt-px text-amber-400" />}
                         </span>
                       ))}
@@ -357,9 +262,9 @@ export default function OptionsFlow() {
                   </TableRow>
                   {expanded === r.ticker && (
                     <TableRow key={`${r.ticker}-expanded`} className="bg-muted/5">
-                      <TableCell colSpan={7} className="py-3 px-4">
+                      <TableCell colSpan={6} className="py-3 px-4">
                         <div className="space-y-1">
-                          {r.top_contracts.map((c, i) => <ContractRow key={i} c={c} />)}
+                          {r.top_contracts.map((c, i) => <ContractRow key={i} c={c} ticker={r.ticker} />)}
                         </div>
                       </TableCell>
                     </TableRow>
@@ -373,83 +278,13 @@ export default function OptionsFlow() {
               <ChartColumn size={32} strokeWidth={1.5} className="mx-auto mb-4 opacity-20" />
               <p className="font-medium text-muted-foreground">
                 {results.length === 0
-                  ? 'Esperando datos del scanner (corre cada 30 min en mercado abierto)'
+                  ? 'Esperando datos del escáner, que corre cada noche'
                   : 'Ningún ticker pasa el filtro seleccionado'}
               </p>
             </CardContent>
           )}
         </Card>
       </div>
-
-      {avanzada && (
-      <>
-      {/* Cerebro Options Quality — TIER1/TIER2 filtered by IA */}
-      {qualityRaw && (qualityRaw.tier1 + qualityRaw.tier2) > 0 && (() => {
-        const tier12 = (qualityRaw.actionable as OptionsQualitySignal[])
-          .filter(s => s.tier === 'TIER1' || s.tier === 'TIER2')
-          .slice(0, 10)
-        const TIER_STYLE: Record<string, string> = {
-          TIER1: 'bg-amber-500/20 text-amber-400 border-amber-500/30',
-          TIER2: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30',
-        }
-        return (
-          <div className="mt-6">
-            <div className="flex items-center justify-between mb-3">
-              <div>
-                <h2 className="flex items-center gap-2 text-titulo font-bold"><Brain size={16} strokeWidth={1.75} className="shrink-0" />Calidad IA — TIER 1 &amp; 2</h2>
-                <p className="text-mini text-muted-foreground mt-0.5">
-                  Flujo filtrado por cerebro: contratos con volumen institucional confirmado y baja probabilidad de ruido.
-                  T1 (ruido filtrado) = {qualityRaw.noise_filtered} descartados.
-                </p>
-              </div>
-            </div>
-            <Card className="glass">
-              {/* `.table-x-wrap`: en escritorio recorta sin crear scroll
-                  container (el thead sticky sigue funcionando) y en móvil pasa a
-                  scroll horizontal. Sin él la tabla se corta y no hay manera de
-                  llegar a las columnas de la derecha. */}
-              <div className="table-x-wrap">
-                <Table>
-                  <TableHeader>
-                    <TableRow className="border-border/50 hover:bg-transparent">
-                      <TableHead>Ticker</TableHead>
-                      <TableHead>Tier</TableHead>
-                      <TableHead>Tipo señal</TableHead>
-                      <TableHead className="text-right">Score</TableHead>
-                      <TableHead className="text-right">Premium</TableHead>
-                      <TableHead className="text-right">Vol/OI</TableHead>
-                      <TableHead>Flags</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {tier12.map(s => (
-                      <TableRow key={s.ticker} className="border-border/30 hover:bg-muted/5">
-                        <TableCell className="font-mono font-bold text-primary text-apoyo">
-                          <Link to={`/search?q=${s.ticker}`} className="hover:underline">{s.ticker}</Link>
-                        </TableCell>
-                        <TableCell>
-                          <span className={`text-micro font-bold px-1.5 py-0.5 rounded border ${TIER_STYLE[s.tier] ?? ''}`}>{s.tier}</span>
-                        </TableCell>
-                        <TableCell className="text-mini text-muted-foreground">{s.signal_type}</TableCell>
-                        <TableCell className="text-right tabular-nums text-apoyo font-semibold text-primary">{s.quality_score}</TableCell>
-                        <TableCell className="text-right tabular-nums text-mini">
-                          ${(s.premium_usd / 1000).toFixed(0)}K
-                        </TableCell>
-                        <TableCell className="text-right tabular-nums text-mini">{s.vol_oi_ratio?.toFixed(1)}x</TableCell>
-                        <TableCell className="text-micro text-muted-foreground max-w-[220px]">
-                          {(s.flags ?? []).slice(0, 2).join(' · ')}
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </div>
-            </Card>
-          </div>
-        )
-      })()}
-      </>
-      )}
 
     </>
   )
