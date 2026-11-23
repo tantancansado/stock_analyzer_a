@@ -1,30 +1,50 @@
 {
-  "fecha": "2026-11-20",
+  "fecha": "2026-11-23",
   "estado": "ok",
   "hallazgos": [
     {
-      "clave": "lista_incumple_su_regla:BRO",
-      "ticker": "BRO",
-      "tipo": "lista_incumple_su_regla",
-      "titulo": "why_cheap clasificado como CICLICO cuando la causa descrita es DETERIORO",
-      "por_que": "El resumen dice que la caída de Specialty Distribution se debe a que aseguradoras del mercado admitido 'recuperaron negocio del E&S y bajaron las tarifas de catástrofe', es decir, un competidor le quita cuota y precio de forma duradera. Según la propia regla de la casa esto es DETERIORO (vetado para Prioridad) aunque las cuentas aún crezcan, no CICLICO.",
-      "cita": "porque aseguradoras del mercado admitido recuperaron negocio del E&S y bajaron las tarifas de catástrofe, mientras",
-      "donde_mirar": "campo why_cheap y why_cheap_resumen de BRO, regla de veto DETERIORO"
+      "clave": "vaiven:TJX:target_price_dcf",
+      "ticker": "TJX",
+      "tipo": "cambio_sin_motivo",
+      "titulo": "target_price_dcf va y vuelve",
+      "por_que": "2026-11-19: 147.58 · 2026-11-20: 111.29 · 2026-11-23: 147.58. Un dato que vuelve al día siguiente no es la empresa: alguna fuente devuelve cosas distintas según el día.",
+      "cita": "target_price_dcf: 111.29",
+      "donde_mirar": "el cálculo de ese campo y su fuente"
     },
     {
-      "clave": "texto_contradice_datos:4f40b3c73f",
-      "ticker": null,
+      "clave": "texto_contradice_datos:ADSK",
+      "ticker": "ADSK",
       "tipo": "texto_contradice_datos",
-      "titulo": "El briefing llama 'nuevas en la lista' a Autodesk y First Citizens cuando ya estaban en Observar",
-      "por_que": "cambios_desde_ayer muestra 'entran': [] y sitúa a ADSK y FCNCA en 'cambian' (de OBSERVAR a PRIORIDAD), es decir, no son altas nuevas en la lista_value_us sino promociones de grupo. El briefing afirma lo contrario.",
-      "cita": "Nuevas en la lista hoy: <b>Autodesk</b> y <b>First Citizens BancShares</b>.",
-      "donde_mirar": "briefing_publicado vs cambios_desde_ayer.entran y .cambian"
+      "titulo": "El briefing infla el recorrido de Autodesk muy por encima de lo que dice el propio modelo",
+      "por_que": "El briefing afirma que 'el modelo le da hasta un 50,5%' de recorrido, pero los campos propios de la ficha son upside_triangulated_pct 26,6 y recorrido_propio_pct 28,2 — casi la mitad de lo que se publica en el texto. El 50,5% solo sale de dividir target_price_pe entre el precio actual, una métrica que no se usa así para ninguna otra ficha del briefing (para FCNCA y BRO el texto cita literalmente recorrido_propio_pct).",
+      "cita": "el modelo le da hasta un 50,5%",
+      "donde_mirar": "briefing_publicado vs upside_triangulated_pct / recorrido_propio_pct de ADSK"
+    },
+    {
+      "clave": "texto_contradice_datos:ADSK",
+      "ticker": "ADSK",
+      "tipo": "texto_contradice_datos",
+      "titulo": "La caída de Autodesk tiene dos cifras distintas en dos textos de la misma ficha",
+      "por_que": "El resumen de why_cheap habla de una caída de 'hasta el 20-22%' tras la guía floja, mientras el briefing dice que Autodesk 'viene de un -23,6%'. Ninguna de las dos cifras coincide y la segunda queda fuera del rango que da la propia fuente.",
+      "cita": "una caída acumulada de hasta el 20-22% en los días siguientes",
+      "donde_mirar": "why_cheap_resumen de ADSK vs briefing_publicado"
+    },
+    {
+      "clave": "texto_contradice_datos:PAYX",
+      "ticker": "PAYX",
+      "tipo": "texto_contradice_datos",
+      "titulo": "El rango de recorrido de Paychex en el briefing no corresponde a ningún dato de la ficha",
+      "por_que": "El briefing dice 'PAYX entre 21% y 42% según el modelo'. El 21% coincide con upside_triangulated_pct (21,3), pero el 42% no aparece en ningún campo de la ficha: ni upside_triangulated_pct (21,3) ni recorrido_propio_pct (31,8) llegan a esa cifra; solo se obtiene calculando target_price_pe/precio, un criterio que no se aplica igual al resto de fichas del mismo briefing.",
+      "cita": "PAYX entre 21% y 42% según el modelo",
+      "donde_mirar": "briefing_publicado vs upside_triangulated_pct / recorrido_propio_pct de PAYX"
     }
   ],
   "descartados": [],
   "incidencias_nuevas": [
-    22,
-    23
+    24,
+    25,
+    26,
+    27
   ],
   "avisos": []
 }

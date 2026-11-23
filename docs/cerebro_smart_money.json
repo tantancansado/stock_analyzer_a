@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-20",
+  "generated_at": "2026-11-23",
   "total": 29,
   "tier1": 10,
   "tier2": 0,
@@ -15,11 +15,11 @@
       "tier_label": "HF+Insiders",
       "n_hedge_funds": 6,
       "hedge_funds": [
+        "First Eagle",
         "Davis Advisors (Chris Davis)",
-        "Hillman Capital",
-        "Sound Shore",
         "Appaloosa (Tepper)",
-        "First Eagle"
+        "Ariel Investments",
+        "Hillman Capital"
       ],
       "n_insiders": 1,
       "insider_purchases": 4,
@@ -36,9 +36,9 @@
       "n_hedge_funds": 4,
       "hedge_funds": [
         "Giverny Capital (Rochon)",
-        "First Eagle",
         "AKO Capital",
-        "Fairfax (Watsa)"
+        "Fairfax (Watsa)",
+        "First Eagle"
       ],
       "n_insiders": 1,
       "insider_purchases": 4,
@@ -46,20 +46,20 @@
       "in_value": false
     },
     {
-      "ticker": "PEP",
-      "company_name": "PEP",
+      "ticker": "CME",
+      "company_name": "CME",
       "sector": "",
       "value_score": null,
       "tier": 1,
       "tier_label": "HF+Insiders",
       "n_hedge_funds": 3,
       "hedge_funds": [
-        "Matrix Asset Advisors",
-        "Yacktman",
-        "Torray"
+        "Maverick Capital",
+        "Baupost (Klarman)",
+        "Mairs & Power"
       ],
       "n_insiders": 1,
-      "insider_purchases": 4,
+      "insider_purchases": 5,
       "convergence_score": 55,
       "in_value": false
     },
@@ -73,8 +73,8 @@
       "n_hedge_funds": 3,
       "hedge_funds": [
         "Causeway (Ketterer)",
-        "Dodge & Cox",
-        "First Pacific Advisors"
+        "First Pacific Advisors",
+        "Dodge & Cox"
       ],
       "n_insiders": 1,
       "insider_purchases": 4,
@@ -82,38 +82,21 @@
       "in_value": false
     },
     {
-      "ticker": "CME",
-      "company_name": "CME",
+      "ticker": "PEP",
+      "company_name": "PEP",
       "sector": "",
       "value_score": null,
       "tier": 1,
       "tier_label": "HF+Insiders",
       "n_hedge_funds": 3,
       "hedge_funds": [
-        "Baupost (Klarman)",
-        "Mairs & Power",
-        "Maverick Capital"
-      ],
-      "n_insiders": 1,
-      "insider_purchases": 5,
-      "convergence_score": 55,
-      "in_value": false
-    },
-    {
-      "ticker": "FICO",
-      "company_name": "FICO",
-      "sector": "",
-      "value_score": null,
-      "tier": 1,
-      "tier_label": "HF+Insiders",
-      "n_hedge_funds": 2,
-      "hedge_funds": [
-        "Akre Capital",
-        "Yacktman"
+        "Torray",
+        "Yacktman",
+        "Matrix Asset Advisors"
       ],
       "n_insiders": 1,
       "insider_purchases": 4,
-      "convergence_score": 40,
+      "convergence_score": 55,
       "in_value": false
     },
     {
@@ -125,11 +108,28 @@
       "tier_label": "HF+Insiders",
       "n_hedge_funds": 2,
       "hedge_funds": [
-        "Markel (Gayner)",
-        "Akre Capital"
+        "Akre Capital",
+        "Markel (Gayner)"
       ],
       "n_insiders": 1,
       "insider_purchases": 8,
+      "convergence_score": 40,
+      "in_value": false
+    },
+    {
+      "ticker": "FICO",
+      "company_name": "FICO",
+      "sector": "",
+      "value_score": null,
+      "tier": 1,
+      "tier_label": "HF+Insiders",
+      "n_hedge_funds": 2,
+      "hedge_funds": [
+        "Yacktman",
+        "Akre Capital"
+      ],
+      "n_insiders": 1,
+      "insider_purchases": 4,
       "convergence_score": 40,
       "in_value": false
     },
@@ -150,22 +150,6 @@
       "in_value": false
     },
     {
-      "ticker": "VRSN",
-      "company_name": "VRSN",
-      "sector": "",
-      "value_score": null,
-      "tier": 1,
-      "tier_label": "HF+Insiders",
-      "n_hedge_funds": 1,
-      "hedge_funds": [
-        "Fundsmith (Terry Smith)"
-      ],
-      "n_insiders": 1,
-      "insider_purchases": 4,
-      "convergence_score": 25,
-      "in_value": false
-    },
-    {
       "ticker": "MSCI",
       "company_name": "MSCI",
       "sector": "",
@@ -182,39 +166,35 @@
       "in_value": false
     },
     {
-      "ticker": "GOOG",
-      "company_name": "Alphabet Inc.",
-      "sector": "Communication Services",
-      "value_score": 44.5,
-      "tier": 3,
-      "tier_label": "HF+Value",
-      "n_hedge_funds": 7,
+      "ticker": "VRSN",
+      "company_name": "VRSN",
+      "sector": "",
+      "value_score": null,
+      "tier": 1,
+      "tier_label": "HF+Insiders",
+      "n_hedge_funds": 1,
       "hedge_funds": [
-        "Oakmark (Nygren)",
-        "Maverick Capital",
-        "Matrix Asset Advisors",
-        "Vulcan Value Partners",
-        "TCI (Chris Hohn)"
+        "Fundsmith (Terry Smith)"
       ],
-      "n_insiders": 0,
-      "insider_purchases": 0,
-      "convergence_score": 100,
-      "in_value": true
+      "n_insiders": 1,
+      "insider_purchases": 4,
+      "convergence_score": 25,
+      "in_value": false
     },
     {
-      "ticker": "META",
-      "company_name": "Meta Platforms, Inc.",
-      "sector": "Communication Services",
-      "value_score": 45.5,
+      "ticker": "MSFT",
+      "company_name": "Microsoft Corporation",
+      "sector": "Technology",
+      "value_score": 45.0,
       "tier": 3,
       "tier_label": "HF+Value",
-      "n_hedge_funds": 14,
+      "n_hedge_funds": 10,
       "hedge_funds": [
-        "Davis Advisors (Chris Davis)",
-        "Egerton Capital",
-        "Lone Pine (Mandel)",
-        "Oakmark (Nygren)",
-        "Dodge & Cox"
+        "Brave Warrior (Greenberg)",
+        "Pzena",
+        "First Eagle",
+        "AltaRock Partners",
+        "Davis Advisors (Chris Davis)"
       ],
       "n_insiders": 0,
       "insider_purchases": 0,
@@ -230,31 +210,11 @@
       "tier_label": "HF+Value",
       "n_hedge_funds": 12,
       "hedge_funds": [
-        "Davis Advisors (Chris Davis)",
-        "Egerton Capital",
-        "Giverny Capital (Rochon)",
-        "Lone Pine (Mandel)",
-        "Dodge & Cox"
-      ],
-      "n_insiders": 0,
-      "insider_purchases": 0,
-      "convergence_score": 100,
-      "in_value": true
-    },
-    {
-      "ticker": "INTU",
-      "company_name": "Intuit Inc.",
-      "sector": "Technology",
-      "value_score": 100.0,
-      "tier": 3,
-      "tier_label": "HF+Value",
-      "n_hedge_funds": 5,
-      "hedge_funds": [
-        "Maverick Capital",
         "Brave Warrior (Greenberg)",
-        "First Pacific Advisors",
-        "Hillman Capital",
-        "Yacktman"
+        "Giverny Capital (Rochon)",
+        "Egerton Capital",
+        "Sound Shore",
+        "Davis Advisors (Chris Davis)"
       ],
       "n_insiders": 0,
       "insider_purchases": 0,
@@ -265,16 +225,36 @@
       "ticker": "ADBE",
       "company_name": "Adobe Inc.",
       "sector": "Technology",
-      "value_score": 98.5,
+      "value_score": 98.6,
       "tier": 3,
       "tier_label": "HF+Value",
       "n_hedge_funds": 5,
       "hedge_funds": [
-        "Davis Advisors (Chris Davis)",
         "Pzena",
-        "Maverick Capital",
+        "Davis Advisors (Chris Davis)",
+        "Tweedy Browne",
         "Patient Capital (McLemore)",
-        "Tweedy Browne"
+        "Maverick Capital"
+      ],
+      "n_insiders": 0,
+      "insider_purchases": 0,
+      "convergence_score": 100,
+      "in_value": true
+    },
+    {
+      "ticker": "GOOG",
+      "company_name": "Alphabet Inc.",
+      "sector": "Communication Services",
+      "value_score": 45.2,
+      "tier": 3,
+      "tier_label": "HF+Value",
+      "n_hedge_funds": 7,
+      "hedge_funds": [
+        "Vulcan Value Partners",
+        "Mairs & Power",
+        "TCI (Chris Hohn)",
+        "Oakmark (Nygren)",
+        "Hillman Capital"
       ],
       "n_insiders": 0,
       "insider_purchases": 0,
@@ -285,16 +265,16 @@
       "ticker": "COF",
       "company_name": "Capital One Financial Corporation",
       "sector": "Financial Services",
-      "value_score": 41.7,
+      "value_score": 42.0,
       "tier": 3,
       "tier_label": "HF+Value",
       "n_hedge_funds": 7,
       "hedge_funds": [
-        "Davis Advisors (Chris Davis)",
         "Giverny Capital (Rochon)",
-        "Matrix Asset Advisors",
-        "Third Point (Loeb)",
-        "Viking Global"
+        "Davis Advisors (Chris Davis)",
+        "Cooperman",
+        "Ariel Investments",
+        "Matrix Asset Advisors"
       ],
       "n_insiders": 0,
       "insider_purchases": 0,
@@ -302,19 +282,19 @@
       "in_value": true
     },
     {
-      "ticker": "MSFT",
-      "company_name": "Microsoft Corporation",
-      "sector": "Technology",
-      "value_score": 44.1,
+      "ticker": "META",
+      "company_name": "Meta Platforms, Inc.",
+      "sector": "Communication Services",
+      "value_score": 46.5,
       "tier": 3,
       "tier_label": "HF+Value",
-      "n_hedge_funds": 10,
+      "n_hedge_funds": 14,
       "hedge_funds": [
-        "Davis Advisors (Chris Davis)",
-        "AltaRock Partners",
-        "Oakmark (Nygren)",
-        "Muhlenkamp",
-        "Pzena"
+        "Brave Warrior (Greenberg)",
+        "Dorsey Asset Management",
+        "Egerton Capital",
+        "Polen Capital",
+        "First Pacific Advisors"
       ],
       "n_insiders": 0,
       "insider_purchases": 0,
@@ -325,16 +305,16 @@
       "ticker": "UBER",
       "company_name": "Uber Technologies, Inc.",
       "sector": "Technology",
-      "value_score": 59.4,
+      "value_score": 60.0,
       "tier": 3,
       "tier_label": "HF+Value",
       "n_hedge_funds": 5,
       "hedge_funds": [
-        "Matrix Asset Advisors",
         "Dorsey Asset Management",
-        "Sound Shore",
+        "First Pacific Advisors",
         "Fairfax (Watsa)",
-        "First Pacific Advisors"
+        "Matrix Asset Advisors",
+        "Sound Shore"
       ],
       "n_insiders": 0,
       "insider_purchases": 0,
@@ -342,10 +322,30 @@
       "in_value": true
     },
     {
+      "ticker": "SAP",
+      "company_name": "SAP SE",
+      "sector": "Technology",
+      "value_score": 51.0,
+      "tier": 3,
+      "tier_label": "HF+Value",
+      "n_hedge_funds": 5,
+      "hedge_funds": [
+        "Pzena",
+        "First Pacific Advisors",
+        "Davis Advisors (Chris Davis)",
+        "Oakmark (Nygren)",
+        "Causeway (Ketterer)"
+      ],
+      "n_insiders": 0,
+      "insider_purchases": 0,
+      "convergence_score": 90,
+      "in_value": true
+    },
+    {
       "ticker": "ICE",
       "company_name": "Intercontinental Exchange, Inc.",
       "sector": "Financial Services",
-      "value_score": 46.3,
+      "value_score": 46.4,
       "tier": 3,
       "tier_label": "HF+Value",
       "n_hedge_funds": 4,
@@ -361,17 +361,17 @@
       "in_value": true
     },
     {
-      "ticker": "OTIS",
-      "company_name": "Otis Worldwide Corporation",
-      "sector": "Industrials",
-      "value_score": 53.7,
+      "ticker": "TYL",
+      "company_name": "Tyler Technologies, Inc.",
+      "sector": "Technology",
+      "value_score": 51.8,
       "tier": 3,
       "tier_label": "HF+Value",
       "n_hedge_funds": 3,
       "hedge_funds": [
-        "Markel (Gayner)",
-        "First Eagle",
-        "Oakmark (Nygren)"
+        "Dorsey Asset Management",
+        "Vulcan Value Partners",
+        "Markel (Gayner)"
       ],
       "n_insiders": 0,
       "insider_purchases": 0,
@@ -379,34 +379,52 @@
       "in_value": true
     },
     {
-      "ticker": "TYL",
-      "company_name": "Tyler Technologies, Inc.",
-      "sector": "Technology",
-      "value_score": 51.9,
+      "ticker": "OTIS",
+      "company_name": "Otis Worldwide Corporation",
+      "sector": "Industrials",
+      "value_score": 53.6,
       "tier": 3,
       "tier_label": "HF+Value",
       "n_hedge_funds": 3,
       "hedge_funds": [
-        "Dorsey Asset Management",
         "Markel (Gayner)",
-        "Vulcan Value Partners"
+        "Oakmark (Nygren)",
+        "First Eagle"
       ],
       "n_insiders": 0,
       "insider_purchases": 0,
       "convergence_score": 61,
+      "in_value": true
+    },
+    {
+      "ticker": "RELX",
+      "company_name": "RELX PLC",
+      "sector": "Industrials",
+      "value_score": 51.4,
+      "tier": 3,
+      "tier_label": "HF+Value",
+      "n_hedge_funds": 3,
+      "hedge_funds": [
+        "Causeway (Ketterer)",
+        "Dodge & Cox",
+        "First Eagle"
+      ],
+      "n_insiders": 0,
+      "insider_purchases": 0,
+      "convergence_score": 60,
       "in_value": true
     },
     {
       "ticker": "BR",
       "company_name": "Broadridge Financial Solutions, Inc.",
       "sector": "Technology",
-      "value_score": 54.8,
+      "value_score": 54.9,
       "tier": 3,
       "tier_label": "HF+Value",
       "n_hedge_funds": 2,
       "hedge_funds": [
-        "Yacktman",
-        "Maverick Capital"
+        "Maverick Capital",
+        "Yacktman"
       ],
       "n_insiders": 0,
       "insider_purchases": 0,
@@ -414,10 +432,27 @@
       "in_value": true
     },
     {
+      "ticker": "BAC",
+      "company_name": "Bank of America Corporation",
+      "sector": "Financial Services",
+      "value_score": 41.7,
+      "tier": 3,
+      "tier_label": "HF+Value",
+      "n_hedge_funds": 2,
+      "hedge_funds": [
+        "Maverick Capital",
+        "Third Point (Loeb)"
+      ],
+      "n_insiders": 0,
+      "insider_purchases": 0,
+      "convergence_score": 43,
+      "in_value": true
+    },
+    {
       "ticker": "PAYX",
       "company_name": "Paychex, Inc.",
       "sector": "Technology",
-      "value_score": 93.3,
+      "value_score": 93.0,
       "tier": 3,
       "tier_label": "HF+Value",
       "n_hedge_funds": 1,
@@ -427,40 +462,6 @@
       "n_insiders": 0,
       "insider_purchases": 0,
       "convergence_score": 43,
-      "in_value": true
-    },
-    {
-      "ticker": "ALLY",
-      "company_name": "Ally Financial Inc.",
-      "sector": "Financial Services",
-      "value_score": 40.8,
-      "tier": 3,
-      "tier_label": "HF+Value",
-      "n_hedge_funds": 2,
-      "hedge_funds": [
-        "Tweedy Browne",
-        "Maverick Capital"
-      ],
-      "n_insiders": 0,
-      "insider_purchases": 0,
-      "convergence_score": 42,
-      "in_value": true
-    },
-    {
-      "ticker": "BAC",
-      "company_name": "Bank of America Corporation",
-      "sector": "Financial Services",
-      "value_score": 41.1,
-      "tier": 3,
-      "tier_label": "HF+Value",
-      "n_hedge_funds": 2,
-      "hedge_funds": [
-        "Third Point (Loeb)",
-        "Maverick Capital"
-      ],
-      "n_insiders": 0,
-      "insider_purchases": 0,
-      "convergence_score": 42,
       "in_value": true
     },
     {
@@ -480,26 +481,10 @@
       "in_value": true
     },
     {
-      "ticker": "VRSK",
-      "company_name": "Verisk Analytics, Inc.",
-      "sector": "Industrials",
-      "value_score": 49.4,
-      "tier": 3,
-      "tier_label": "HF+Value",
-      "n_hedge_funds": 1,
-      "hedge_funds": [
-        "Yacktman"
-      ],
-      "n_insiders": 0,
-      "insider_purchases": 0,
-      "convergence_score": 30,
-      "in_value": true
-    },
-    {
       "ticker": "NYT",
       "company_name": "The New York Times Company",
       "sector": "Communication Services",
-      "value_score": 49.3,
+      "value_score": 49.4,
       "tier": 3,
       "tier_label": "HF+Value",
       "n_hedge_funds": 1,
@@ -515,12 +500,28 @@
       "ticker": "JKHY",
       "company_name": "Jack Henry & Associates, Inc.",
       "sector": "Technology",
-      "value_score": 51.6,
+      "value_score": 51.4,
       "tier": 3,
       "tier_label": "HF+Value",
       "n_hedge_funds": 1,
       "hedge_funds": [
         "Torray"
+      ],
+      "n_insiders": 0,
+      "insider_purchases": 0,
+      "convergence_score": 30,
+      "in_value": true
+    },
+    {
+      "ticker": "VRSK",
+      "company_name": "Verisk Analytics, Inc.",
+      "sector": "Industrials",
+      "value_score": 49.3,
+      "tier": 3,
+      "tier_label": "HF+Value",
+      "n_hedge_funds": 1,
+      "hedge_funds": [
+        "Yacktman"
       ],
       "n_insiders": 0,
       "insider_purchases": 0,

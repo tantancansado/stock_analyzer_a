@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-20",
+  "generated_at": "2026-11-23",
   "status": "PENDING_REVIEW",
   "note": "These weights are suggestions only. Apply manually after review.",
   "current_weights": {
@@ -36,10 +36,10 @@
     {
       "factor": "fcf_yield_bonus_penalty",
       "change": "-2 (stricter negative FCF penalty)",
-      "reason": "FCF negativo reduce WR -8.3pp. Penalizar m\u00e1s agresivo.",
+      "reason": "FCF negativo reduce WR -8.2pp. Penalizar m\u00e1s agresivo.",
       "n": 55
     }
   ],
-  "expected_impact": "Based on 806 historical signals",
-  "narrative": "Los ajustes hacen que un flujo de caja libre negativo penalice al valor de referencia (WR) en 8,3 puntos porcentuales, reduciendo significativamente"
+  "expected_impact": "Based on 807 historical signals",
+  "narrative": "Ajustes propuestos basados en an\u00e1lisis hist\u00f3rico. Requieren revisi\u00f3n antes de aplicar al pipeline."
 }

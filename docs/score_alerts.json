@@ -1,31 +1,21 @@
 {
-  "generated_at": "2026-11-20",
+  "generated_at": "2026-11-23",
   "alerts": [
     {
-      "type": "SCORE_UP",
-      "ticker": "ADSK",
-      "company_name": "Autodesk, Inc.",
+      "type": "EXITED",
+      "ticker": "INTU",
+      "company_name": "Intuit Inc.",
       "sector": "Technology",
-      "score_today": 90.3,
-      "score_prev": 49.7,
-      "delta": 40.6,
-      "grade": "PRIORIDAD"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "FCNCA",
-      "company_name": "First Citizens BancShares, Inc.",
-      "sector": "Financial Services",
-      "score_today": 86.8,
-      "score_prev": 46.4,
-      "delta": 40.4,
+      "score_today": null,
+      "score_prev": 100.0,
+      "delta": null,
       "grade": "PRIORIDAD"
     }
   ],
   "counts": {
     "new_entries": 0,
-    "exited": 0,
-    "score_up": 2,
+    "exited": 1,
+    "score_up": 0,
     "score_down": 0
   }
 }

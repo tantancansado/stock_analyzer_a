@@ -1,0 +1,46 @@
+{
+  "generated_at": "2026-11-23",
+  "total": 3,
+  "dropped_count": 1,
+  "narrative": "1. **\u201cCuando",
+  "displacements": [
+    {
+      "type": "COMPETITOR_RISE",
+      "dropped_ticker": "INTU",
+      "sector": "Technology",
+      "prev_score": 100.0,
+      "replacements": [
+        "ADBE",
+        "PAYX",
+        "ADSK"
+      ],
+      "top_replacement": "ADBE",
+      "top_replacement_score": 98.6,
+      "detail": "INTU sali\u00f3 de VALUE (100pts); peers en Technology: ADBE, PAYX"
+    },
+    {
+      "type": "SECTOR_TAILWIND",
+      "sector": "Technology",
+      "rotation_score": 100.0,
+      "beneficiaries": [
+        "ADBE",
+        "PAYX",
+        "ADSK"
+      ],
+      "top_ticker": "ADBE",
+      "top_score": 98.6,
+      "detail": "Sector Technology l\u00edder (RS 100) \u2014 ADBE, PAYX, ADSK son los picks VALUE"
+    },
+    {
+      "type": "SECTOR_TAILWIND",
+      "sector": "Healthcare",
+      "rotation_score": 100.0,
+      "beneficiaries": [
+        "RMD"
+      ],
+      "top_ticker": "RMD",
+      "top_score": 52.3,
+      "detail": "Sector Healthcare l\u00edder (RS 100) \u2014 RMD son los picks VALUE"
+    }
+  ]
+}

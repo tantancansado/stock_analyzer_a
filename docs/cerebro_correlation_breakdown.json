@@ -1,19 +1,19 @@
 {
-  "generated_at": "2026-11-20",
-  "systemic_risk": "MODERATE",
-  "correlation_score": 4,
-  "universe_breadth_pct": 22.2,
-  "breadth_change": 8.4,
+  "generated_at": "2026-11-23",
+  "systemic_risk": "HIGH",
+  "correlation_score": 6,
+  "universe_breadth_pct": 17.9,
+  "breadth_change": -4.4,
   "signals": [
     {
       "type": "EXIT_SIGNAL_SURGE",
       "severity": "MEDIUM",
-      "detail": "7 se\u00f1ales salida HIGH \u2192 posible contagio"
+      "detail": "6 se\u00f1ales salida HIGH \u2192 posible contagio"
     },
     {
       "type": "SYSTEMIC_MACRO_RISK",
-      "severity": "MEDIUM",
-      "detail": "1 riesgos sist\u00e9micos macro: Cambio de R\u00e9gimen de Volatilidad"
+      "severity": "HIGH",
+      "detail": "2 riesgos sist\u00e9micos macro: Cambio de R\u00e9gimen de Volatilidad, Spike de Volatilidad"
     }
   ],
   "narrative": ""

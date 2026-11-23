@@ -1,15 +1,13 @@
 {
-  "total_problemas": 1,
+  "total_problemas": 0,
   "desfases_conocidos": [
-    "⏳ ⚠️  value_opportunities.csv: upside P/E = (objetivo − precio) / precio — 1/23 filas, peor desvío 2% (CRH)",
-    "⏳ ⚠️  value_opportunities_filtered.csv: upside P/E = (objetivo − precio) / precio — 1/23 filas, peor desvío 2% (CRH)",
-    "⏳ ⚠️  momentum_opportunities.csv: upside analista = (objetivo − precio) / precio — 1/8 filas, peor desvío 2% (CHD)"
+    "⏳ ⚠️  value_opportunities.csv: upside analista = (objetivo − precio) / precio — 1/28 filas, peor desvío 2% (PAYX)",
+    "⏳ ⚠️  value_opportunities.csv: upside P/E = (objetivo − precio) / precio — 2/25 filas, peor desvío 3% (SGSOY, ICE)",
+    "⏳ ⚠️  value_opportunities_filtered.csv: upside analista = (objetivo − precio) / precio — 1/28 filas, peor desvío 2% (PAYX)",
+    "⏳ ⚠️  value_opportunities_filtered.csv: upside P/E = (objetivo − precio) / precio — 2/25 filas, peor desvío 3% (SGSOY, ICE)",
+    "⏳ ⚠️  momentum_opportunities.csv: upside analista = (objetivo − precio) / precio — 1/6 filas, peor desvío 2% (FDS)"
   ],
-  "detalle": {
-    "identidad de los tickers (¿es esta empresa?)": [
-      "KYCCF: fundamental_scores=94.01 y tikr=466.08 (396% de diferencia)"
-    ]
-  },
-  "tickers_value": 27,
-  "tickers_verdicts": 35
+  "detalle": {},
+  "tickers_value": 28,
+  "tickers_verdicts": 34
 }

@@ -1,63 +1,63 @@
 {
-  "generated_at": "2026-11-20",
+  "generated_at": "2026-11-23",
   "macro_regime": "WATCH",
-  "composite_score": 2.5,
+  "composite_score": 1.5,
   "sesgo": "DEFENSIVO",
-  "confianza": 58,
-  "situacion": "Mercado en r\u00e9gimen WATCH con compresi\u00f3n de volatilidad extrema (VIX y VVIX en percentiles >96) mientras institucionales compran protecci\u00f3n tail-risk masivamente.",
-  "narrativa": "El composite macro apenas positivo (+2.5/30) esconde una divergencia peligrosa: rotaci\u00f3n hacia oro, defensivas y cr\u00e9dito de calidad sugiere que el 'smart money' ya se est\u00e1 posicionando defensivamente pese a que los \u00edndices a\u00fan no corrigen. Para un inversor VALUE esto implica priorizar calidad con FCF robusto y balance s\u00f3lido, evitando apalancamiento narrativo en nombres sin fundamentos, y usando la volatilidad como oportunidad de entrada escalonada, no de persecuci\u00f3n.",
+  "confianza": 62,
+  "situacion": "Mercado en p\u00e1nico de corto plazo con VIX en 36 y VVIX en percentil 99, mientras inversores institucionales rotan hacia oro, defensa y bonos largos.",
+  "narrativa": "El spike de volatilidad (+86% en 5 d\u00edas) junto al SKEW elevado indica compra masiva de protecci\u00f3n tail risk, t\u00edpico de un shock de sentimiento m\u00e1s que de fundamentales rotos. Para el inversor VALUE esto es una ventana de oportunidad selectiva: calidad con FCF s\u00f3lido (ADBE, ADSK) puede sufrir drawdown t\u00e9cnico sin deterioro de tesis, pero conviene esperar confirmaci\u00f3n de estabilizaci\u00f3n antes de aumentar exposici\u00f3n agresivamente.",
   "acciones_inmediatas": [
     {
       "prioridad": 1,
-      "accion": "CUBRIR",
-      "instrumento": "UVXY",
-      "razon": "VVIX en percentil 97% con VIX a\u00fan comprimido anticipa spike de volatilidad inminente.",
-      "catalizador": "Expansi\u00f3n repentina de VIX/VVIX o ruptura de SKEW por encima de 145",
+      "accion": "VIGILAR",
+      "instrumento": "ADSK",
+      "razon": "Earnings ma\u00f1ana con VIX elevado implica movimiento post-resultado amplificado",
+      "catalizador": "Publicaci\u00f3n de resultados ADSK (1d)",
       "size_hint": "peque\u00f1a (1-2%)",
-      "invalidacion": "VVIX y VIX revierten a percentiles <80 sin expansi\u00f3n de volatilidad"
+      "invalidacion": "Guidance d\u00e9bil o ca\u00edda de m\u00e1rgenes FCF por debajo de 4%"
     },
     {
       "prioridad": 2,
       "accion": "COMPRAR",
       "instrumento": "TLT/VGLT",
-      "razon": "Yield 30yr en 5.40% ofrece punto de entrada hist\u00f3ricamente atractivo en bonos largos.",
-      "catalizador": "Confirmaci\u00f3n de desaceleraci\u00f3n macro o dato PCE suave el 25-nov",
+      "razon": "Yield 30yr en zona hist\u00f3ricamente atractiva y la curva 2s10s ya anticipa refugio en duraci\u00f3n",
+      "catalizador": "Confirmaci\u00f3n de score macro 95 y flujo hacia renta fija larga",
       "size_hint": "media (3-4%)",
-      "invalidacion": "Yield 30yr rompe por encima de 5.75% con sorpresa inflacionaria al alza"
+      "invalidacion": "Repunte sostenido de yields por encima de 5.60% en 30yr"
     },
     {
       "prioridad": 3,
-      "accion": "VENDER",
-      "instrumento": "BSX, CLPBY, ESLOY",
-      "razon": "Se\u00f1ales EXIT del motor Cerebro indican deterioro de tesis o momentum negativo.",
-      "catalizador": "Se\u00f1al de salida ya activa",
-      "size_hint": "grande (5%+)",
-      "invalidacion": "Reversi\u00f3n de se\u00f1al Cerebro a HOLD/BUY con mejora de fundamentales"
+      "accion": "CUBRIR",
+      "instrumento": "UVXY",
+      "razon": "VVIX en percentil 99 sugiere que el r\u00e9gimen de volatilidad puede extenderse pese a VIX ya elevado",
+      "catalizador": "Nuevo cambio de r\u00e9gimen de volatilidad o ruptura de soporte en SPX",
+      "size_hint": "peque\u00f1a (1-2%)",
+      "invalidacion": "VIX revierte por debajo de 22 de forma sostenida"
     },
     {
       "prioridad": 4,
-      "accion": "VIGILAR",
-      "instrumento": "ADSK",
-      "razon": "Earnings en 4 d\u00edas en un entorno de volatilidad elevada aumenta riesgo binario pese a score VALUE alto (90.3).",
-      "catalizador": "Reporte de resultados ADSK el 24-nov",
-      "size_hint": "peque\u00f1a (1-2%)",
-      "invalidacion": "Gu\u00eda decepcionante o ca\u00edda de FCF por debajo de 4%"
+      "accion": "VENDER",
+      "instrumento": "BSX, CLPBY, ESLOY",
+      "razon": "Se\u00f1al EXIT del sistema Cerebro indica deterioro de tesis o p\u00e9rdida de momentum",
+      "catalizador": "Confirmaci\u00f3n de salida de posiciones en cartera",
+      "size_hint": "grande (5%+)",
+      "invalidacion": "Reversi\u00f3n de se\u00f1al a HOLD/BUY en pr\u00f3ximas sesiones"
     },
     {
       "prioridad": 5,
-      "accion": "COMPRAR",
-      "instrumento": "INTU, ADBE",
-      "razon": "Grade A, FCF >10% y score VALUE top del universo; calidad defensiva dentro de Technology.",
-      "catalizador": "Confirmaci\u00f3n de estabilidad en VIX/VVIX o pullback t\u00e1ctico para mejorar entrada",
+      "accion": "ESPERAR",
+      "instrumento": "ADBE",
+      "razon": "Pick VALUE top con FCF 12.5% y grade A, pero entrada mejor tras estabilizaci\u00f3n de VIX",
+      "catalizador": "VIX retrocede por debajo de 28 o PCE del 25-nov sale en l\u00ednea",
       "size_hint": "media (3-4%)",
-      "invalidacion": "Deterioro de FCF o gu\u00eda negativa en pr\u00f3ximos earnings"
+      "invalidacion": "Deterioro fundamental en pr\u00f3ximo earnings o ruptura de soporte t\u00e9cnico clave"
     }
   ],
   "macro_plays": [
     {
       "instrument": "TLT/VGLT",
       "direction": "LONG",
-      "thesis": "Yield 30yr en 5.40% \u2014 zona hist\u00f3ricamente atractiva para bonos largos",
+      "thesis": "Yield 30yr en 5.30% \u2014 zona hist\u00f3ricamente atractiva para bonos largos",
       "historical": "2018-19: TLT +18% cuando yields revertieron desde 3.25%",
       "risk": "La Fed puede mantener tipos altos m\u00e1s tiempo \u2014 size peque\u00f1o",
       "timeframe": "3-6 meses",
@@ -72,7 +72,7 @@
     {
       "instrument": "UVXY",
       "direction": "LONG (peque\u00f1o)",
-      "thesis": "VVIX en percentil 97% con VIX a\u00fan bajo \u2014 spike de volatilidad inminente",
+      "thesis": "VVIX en percentil 99% con VIX a\u00fan bajo \u2014 spike de volatilidad inminente",
       "historical": "2018 VIXplosion: UVXY +200% en 2 d\u00edas",
       "risk": "El tiempo trabaja en contra de VIX products \u2014 size m\u00e1ximo 1%",
       "timeframe": "1-4 semanas",
@@ -85,67 +85,72 @@
       }
     }
   ],
-  "macro_plays_commentary": "TLT/VGLT ofrece la mejor asimetr\u00eda del d\u00eda (yield atractivo + cobertura ante desaceleraci\u00f3n), mientras una posici\u00f3n peque\u00f1a en UVXY protege contra el riesgo de r\u00e9gimen de volatilidad detectado.",
+  "macro_plays_commentary": "TLT/VGLT ofrece la mejor relaci\u00f3n riesgo/recompensa estructural mientras UVXY act\u00faa como cobertura t\u00e1ctica barata ante un r\u00e9gimen de volatilidad que a\u00fan no ha tocado techo.",
   "value_en_entorno": [
     {
-      "ticker": "INTU",
-      "score": 100.0,
-      "sector": "Technology",
-      "fcf_yield_pct": 10.4,
-      "grade": "A"
-    },
-    {
       "ticker": "ADBE",
-      "score": 98.5,
+      "score": 98.6,
       "sector": "Technology",
-      "fcf_yield_pct": 12.28,
+      "fcf_yield_pct": 12.5,
       "grade": "A"
     },
     {
       "ticker": "ADSK",
       "score": 90.3,
       "sector": "Technology",
-      "fcf_yield_pct": 5.51,
+      "fcf_yield_pct": 5.49,
       "grade": "B"
     },
     {
       "ticker": "UBER",
-      "score": 59.4,
+      "score": 60.0,
       "sector": "Technology",
-      "fcf_yield_pct": 7.78,
+      "fcf_yield_pct": 8.04,
       "grade": "B"
     }
   ],
-  "value_en_entorno_razon": "En un entorno WATCH con rotaci\u00f3n defensiva activa, los nombres con FCF yield alto, grade A/B y baja dependencia de ciclo (INTU, ADBE, ADSK) ofrecen resiliencia frente a un posible repricing de volatilidad sin sacrificar calidad de balance.",
+  "value_en_entorno_razon": "ADBE y ADSK combinan FCF robusto y balance de calidad (grade A/B) que hist\u00f3ricamente resisten mejor correcciones impulsadas por sentimiento, permitiendo acumular en debilidad sin comprometer la tesis fundamental.",
   "evitar": [
     {
       "ticker": "BSX",
-      "razon": "Se\u00f1al EXIT activa de Cerebro, deterioro de tesis"
+      "razon": "Se\u00f1al EXIT activa del sistema Cerebro"
     },
     {
       "ticker": "CLPBY",
-      "razon": "Se\u00f1al EXIT activa de Cerebro"
+      "razon": "Se\u00f1al EXIT activa del sistema Cerebro"
     },
     {
       "ticker": "ESLOY",
-      "razon": "Se\u00f1al EXIT activa de Cerebro"
+      "razon": "Se\u00f1al EXIT activa del sistema Cerebro"
     }
   ],
   "agenda_semana": [
     {
       "fecha": "2026-11-24",
       "evento": "Earnings ADSK",
-      "impacto": "MEDIO",
-      "accion_sugerida": "Reducir tama\u00f1o de posici\u00f3n antes del reporte o esperar a resultados"
+      "impacto": "ALTO",
+      "accion_sugerida": "Reducir tama\u00f1o de posici\u00f3n antes del reporte y esperar reacci\u00f3n post-earnings"
     },
     {
       "fecha": "2026-11-25",
-      "evento": "PCE Inflation (dato clave de inflaci\u00f3n)",
+      "evento": "PCE Inflation (dato clave para Fed)",
       "impacto": "ALTO",
-      "accion_sugerida": "Evitar nuevas posiciones grandes hasta conocer el dato; mantener cobertura UVXY/TLT activa"
+      "accion_sugerida": "Evitar nuevas entradas grandes hasta conocer el dato; mantener liquidez"
+    },
+    {
+      "fecha": "2026-12-01",
+      "evento": "Earnings CPRT",
+      "impacto": "MEDIO",
+      "accion_sugerida": "Vigilar guidance sectorial de consumo"
+    },
+    {
+      "fecha": "2026-12-02",
+      "evento": "Earnings DSGX",
+      "impacto": "MEDIO",
+      "accion_sugerida": "Revisar exposici\u00f3n tech antes del reporte"
     }
   ],
-  "frase_del_dia": "S\u00e9 temeroso cuando otros son codiciosos, y codicioso cuando otros son temerosos \u2014 Warren Buffett, justo cuando el mercado compra seguro tail-risk a manos llenas.",
-  "mensaje_telegram": "\u26a0\ufe0f Vol en m\u00e1ximos (VIX/VVIX p97+) pero composite a\u00fan WATCH \ud83d\udcca Oro+Defensivas+Cr\u00e9dito lideran \ud83d\udee1\ufe0f Plan: COMPRAR TLT/VGLT \ud83d\udcc8, cobertura peque\u00f1a UVXY, VENDER BSX/CLPBY/ESLOY \ud83d\udd3b, vigilar ADSK earnings 24-nov, PCE 25-nov clave \ud83c\udfaf VALUE: INTU/ADBE top picks \ud83d\udc8e",
+  "frase_del_dia": "S\u00e9 temeroso cuando otros son codiciosos, y codicioso cuando otros son temerosos \u2014 Warren Buffett.",
+  "mensaje_telegram": "\ud83d\udea8 VIX 36 + VVIX p99: p\u00e1nico de corto plazo. \ud83d\udee1\ufe0f Defensivo: TLT/VGLT largo, UVXY cobertura peque\u00f1a. \ud83d\udcc9 Exit BSX/CLPBY/ESLOY. \ud83d\udc40 ADSK earnings ma\u00f1ana, PCE jueves. \ud83d\udc8e ADBE/ADSK en radar para comprar en debilidad.",
   "ai_powered": true
 }

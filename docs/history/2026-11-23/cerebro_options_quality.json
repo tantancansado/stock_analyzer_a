@@ -1,0 +1,30 @@
+{
+  "generated_at": "2026-11-23",
+  "total": 31,
+  "tier1": 0,
+  "tier2": 1,
+  "tier3": 1,
+  "noise_filtered": 29,
+  "actionable": [
+    {
+      "ticker": "BR",
+      "company_name": "Broadridge Financial Solutions, Inc.",
+      "sentiment": "BULLISH",
+      "tier": "TIER2",
+      "quality_score": 45,
+      "value_score": 54.9,
+      "fcf_yield": 6.32,
+      "insider_confirmation": false,
+      "in_value": true,
+      "quality_factors": [
+        "VALUE weak (55pts)",
+        "FCF 6.3%",
+        "DIRECTIONAL (100% calls)"
+      ],
+      "flow_score": 80.0,
+      "total_premium": 1084260.0,
+      "detected_date": "2026-11-23"
+    }
+  ],
+  "narrative": "Las opciones solo confirman cuando hay alineaci\u00f3n con los fundamentos porque el mercado interpreta que la informaci\u00f3n fundamental ya est\u00e1 descontada"
+}

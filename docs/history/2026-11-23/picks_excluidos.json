@@ -1,0 +1,17 @@
+{
+  "listas": {
+    "value_opportunities": {
+      "candidatas": 36,
+      "publicadas": 35,
+      "excluidos": [
+        {
+          "ticker": "DVA",
+          "paso": "verificador_ia",
+          "motivo": "upside_requiere_verificacion es true (descuento grande), pero modelos_acuerdo es DISPERSOS con dispersion_pts (117.3%) extremadamente alto: target_price_dcf_upside_pct (124.8%) casi 17x mayor que target_price_pe_upside_pct (7.5%), indicando que DCF y PE no convergen en absoluto · upside_triangulated_pct (38.0%) es el promedio artificial de dos modelos que divergen radicalmente; this ficha es inconsistente consigo misma: no hay un 'verdadero' upside entre una valoración DCF que dice barata 125% y un PE que dice cara -7.5%",
+          "score": 50.6
+        }
+      ]
+    }
+  },
+  "generated_at": "2026-11-23T07:52:27Z"
+}
