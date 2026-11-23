@@ -38,7 +38,8 @@ def _fila(**kw):
     base = {'ticker': 'INTU', 'company_name': 'Intuit', 'value_score': '100',
             'current_price': '300', 'entry_readiness': 'ESPERAR', 'value_grupo': 'PRIORIDAD',
             'relative_strength_6m': '-40', 'days_to_earnings': '8', 'value_dobla': 'False',
-            'why_cheap': 'SENTIMIENTO'}
+            'why_cheap': 'SENTIMIENTO',
+            'value_avisos': 'el consenso de beneficio ha bajado un 11 % en 13 semanas'}
     return {**base, **kw}
 
 
@@ -74,7 +75,8 @@ class TestNoContradiceALaLista:
         assert db.contradice_a_la_casa(texto) is None
 
     def test_si_groq_lo_hace_bien_va_lo_de_groq(self, tmp_path):
-        hechos = _hechos(tmp_path, [_fila()])
+        hechos = _hechos(tmp_path, [_fila(), _fila(ticker='OTIS', company_name='Otis', value_grupo='OBSERVAR',
+                                               value_falta='ventas anuales +3,5 %, le falta crecer al 10 %')])
         with patch.object(db, '_con_claude', return_value=DEL_11_NOV[1]), \
              patch.object(db, '_con_groq', return_value=BUENO):
             assert db.build_message(hechos) == BUENO
@@ -201,3 +203,65 @@ class TestElMercado:
         from daily_briefing import SYSTEM
         bloque = SYSTEM.split('5. El mercado', 1)[1].split('\n6.', 1)[0]
         assert 'se compra' in bloque and 'esperar' in bloque
+
+
+class TestUnaCifraDeRecorrido:
+    """23-nov: «Autodesk... el modelo le da hasta un 50,5 %» (su P/E) con la fila de
+    la app en 26,6, y «Paychex entre 21 % y 42 %». Recibía cuatro recorridos y
+    escogía; Brown & Brown y First Citizens salían con un quinto."""
+
+    PAYX = dict(ticker='PAYX', company_name='Paychex', analyst_upside_pct='2.7',
+                upside_triangulated_pct='21.3', target_price_pe_upside_pct='42.3',
+                target_price_dcf_upside_pct='21.3', recorrido_propio_pct='31.8',
+                proximity_to_52w_high='-12.0')
+
+    def _ficha(self, tmp_path, **kw):
+        return _hechos(tmp_path, [_fila(**{**self.PAYX, **kw})])['comprables'][0]
+
+    def test_lleva_el_potencial_que_ensena_la_app_y_ningun_otro(self, tmp_path):
+        f = self._ficha(tmp_path)
+        assert f['potencial_pct'] == 21.3
+        for cifra in ('42.3', '31.8', '2.7'):
+            assert cifra not in json.dumps(f), cifra
+
+    def test_sin_triangulado_va_el_de_los_analistas_como_en_la_fila(self, tmp_path):
+        assert self._ficha(tmp_path, upside_triangulated_pct='')['potencial_pct'] == 2.7
+
+    def test_la_que_puede_doblar_lleva_el_recorrido_que_lo_dice(self, tmp_path):
+        f = self._ficha(tmp_path, value_dobla='True', recorrido_propio_pct='113.6')
+        assert f['puede_doblar'] is True and f['recorrido_de_nuestros_modelos_pct'] == 113.6
+
+    def test_un_modelo_propio_que_ve_caida_se_dice_sin_su_cifra(self, tmp_path):
+        assert self._ficha(tmp_path, target_price_dcf_upside_pct='-12.4')['un_modelo_propio_ve_caida'] is True
+        assert 'un_modelo_propio_ve_caida' not in self._ficha(tmp_path)
+
+    def test_la_distancia_al_maximo_dice_lo_que_es(self, tmp_path):
+        """«Viene de un -23,6 % por una guía floja»: era la distancia al máximo."""
+        f = self._ficha(tmp_path)
+        assert f['bajo_su_maximo_del_ultimo_anio_pct'] == -12.0 and 'del_maximo_pct' not in f
+
+
+class TestCifrasQueNoEstan:
+    HECHOS = {'comprables': [{'ticker': 'PAYX', 'potencial_pct': 21.3,
+                              'avisos': 'sus ventas se frenan: +5,9 % el último trimestre'}],
+              'mercado': {'sp500_bajo_su_maximo_pct': 11.5}}
+
+    def test_lo_del_23_nov_no_pasa(self):
+        assert db.cifra_que_no_esta('PAYX entre 21% y 42% según el modelo', self.HECHOS) == \
+            '«42%» no está en los datos'
+        assert db.cifra_que_no_esta('el modelo le da hasta un 50,5%', self.HECHOS)
+
+    def test_quitarle_decimales_no_es_inventar(self):
+        texto = 'Paychex, con un 21 % de recorrido, frena al +5,9 %; el S&P, un 11,5 % bajo su máximo.'
+        assert db.cifra_que_no_esta(texto, self.HECHOS) is None
+
+    def test_las_cuentas_propias_si(self):
+        """27-oct: «acierta un 73,5 %... hay un 26 % de veces que falla»."""
+        assert db.cifra_que_no_esta('falla un 26 % de las veces', {'acierto_pct': 73.5})
+
+    def test_si_claude_se_inventa_una_cifra_va_lo_de_groq(self, tmp_path):
+        hechos = _hechos(tmp_path, [_fila(**TestUnaCifraDeRecorrido.PAYX)])
+        bueno = 'Paychex es comprable: le vemos un 21 % de recorrido.'
+        with patch.object(db, '_con_claude', return_value='Paychex, entre un 21 % y un 42 %.'), \
+             patch.object(db, '_con_groq', return_value=bueno):
+            assert db.build_message(hechos) == bueno

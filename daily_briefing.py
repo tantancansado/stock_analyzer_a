@@ -216,8 +216,23 @@ def gather_facts() -> dict:
             dias = f['dias_a_resultados']
             if dias is None or not 0 <= dias <= RESULTADOS_CERCA_DIAS:
                 del f['dias_a_resultados']
+            # Una sola cifra de recorrido: la que enseña la fila de Value US. Con
+            # cuatro (analistas, triangulado, P/E y DCF) la IA escogía la que quería:
+            # el 23-nov, Autodesk «hasta un 50,5 %» (el P/E) con la fila en 26,6, y
+            # Paychex «entre 21 y 42 %». Lo que dice puede doblar es el recorrido de
+            # nuestros modelos, así que ese va solo con ella.
+            f['potencial_pct'] = (f['upside_triangulado'] if f['upside_triangulado'] is not None
+                                  else f['upside_analista'])
+            if any((f[k] or 0) < 0 for k in ('objetivo_por_pe_pct', 'objetivo_dcf_pct')):
+                f['un_modelo_propio_ve_caida'] = True
+            for k in ('upside_analista', 'upside_triangulado', 'divergencia',
+                      'objetivo_por_pe_pct', 'objetivo_dcf_pct'):
+                del f[k]
+            # «Viene de un -23,6 % por una guía floja»: era la distancia al máximo del
+            # año, y la caída por la guía, según su propio estudio, del 20-22 %.
+            f['bajo_su_maximo_del_ultimo_anio_pct'] = f.pop('del_maximo_pct')
             if not f['puede_doblar']:
-                del f['puede_doblar']
+                del f['puede_doblar'], f['recorrido_de_nuestros_modelos_pct']
         return f
 
     def _ficha(r):
@@ -384,11 +399,17 @@ Estructura, en este orden y omitiendo lo que esté vacío:
    puedes decir "sal" o "cierra"; si es false NO se ha podido confirmar que las
    tenga, así que di "la señal de X se ha roto" y nunca "tu posición" ni "sal".
    En cada comprable di, si vienen, como hechos y en media frase: que presenta
-   resultados en N días ("dias_a_resultados"), sus "avisos", si un modelo propio
-   (objetivo_por_pe_pct u objetivo_dcf_pct) sale negativo, y si
+   resultados en N días ("dias_a_resultados"), sus "avisos", si
+   "un_modelo_propio_ve_caida" (uno de nuestros dos modelos le ve caída), y si
    "beneficio_respaldado_por_negocio" es false (el beneficio crece más que el
    negocio: no lo vendas como calidad). Son datos que debe saber; no cambian el
    veredicto.
+   Su recorrido es "potencial_pct", el mismo que enseña la app: di ese y ningún
+   otro, sin rangos ni cuentas. En las que pueden doblar, el que lo dice es
+   "recorrido_de_nuestros_modelos_pct".
+   "bajo_su_maximo_del_ultimo_anio_pct" es cuánto está por debajo de su máximo del
+   año, no lo que cayó por la causa: no los juntes en una cifra. De
+   "por_que_cae_detalle" cuenta la causa, no sus números.
 3. Qué vigilar: las de "vigilar", del grupo Observar: baratas a las que les falta
    algo para Prioridad ("que_le_falta"). Una sola línea para todas, con lo que les
    falta en pocas palabras. No digas que «siguen cayendo»: no es el motivo.
@@ -428,6 +449,9 @@ Reglas de escritura — esto importa tanto como el contenido:
 - Explica la CONSECUENCIA, no solo el hecho: qué significa para él y qué puede hacer.
 - Español de España, tono directo. Nada de "¡Buenos días!", emojis decorativos ni
   disclaimers.
+- Las cifras, como vienen o sin decimales; nada de «más de un 150 %» ni de cuentas
+  tuyas («falla un 26 %» de un 73,5 % de acierto). Un porcentaje que no esté en los
+  hechos hace que el mensaje no se mande.
 - Máximo 12 líneas. Es un móvil.
 - HTML de Telegram para el énfasis: <b>negrita</b>. Nada de markdown.
 - Si un dato no viene, no lo deduzcas de que falta: que no venga "puede_doblar" no
@@ -448,6 +472,36 @@ _CONTRADICE = re.compile(
 def contradice_a_la_casa(texto: str) -> str | None:
     m = _CONTRADICE.search(texto or '')
     return f'«{m.group(0)}»' if m else None
+
+
+# «No inventes ni estimes un solo número», y el 23-nov puso «PAYX entre 21 % y 42 %»
+# y «Autodesk hasta un 50,5 %», cifras que no estaban en lo que la app enseña.
+# Cada porcentaje del texto tiene que estar en los hechos, sin más cambio que
+# quitarle decimales: «70 %» vale por un 70,8 o un -70,2.
+_PORCENTAJE = re.compile(r'(\d+(?:[.,]\d+)?)\s*%')
+_NUMERO = re.compile(r'\d+(?:[.,]\d+)?')
+
+
+def _numeros(x) -> list[float]:
+    if isinstance(x, bool) or x is None:
+        return []
+    if isinstance(x, (int, float)):
+        return [abs(float(x))]
+    if isinstance(x, dict):
+        return [n for v in x.values() for n in _numeros(v)]
+    if isinstance(x, (list, tuple)):
+        return [n for v in x for n in _numeros(v)]
+    return [float(m.replace(',', '.')) for m in _NUMERO.findall(str(x))]
+
+
+def cifra_que_no_esta(texto: str, facts: dict) -> str | None:
+    conocidos = _numeros(facts)
+    for m in _PORCENTAJE.finditer(texto or ''):
+        escrito = m.group(1).replace(',', '.')
+        margen = 0.051 if '.' in escrito else 0.99
+        if not any(abs(float(escrito) - v) <= margen for v in conocidos):
+            return f'«{m.group(0)}» no está en los datos'
+    return None
 
 
 def _plantilla(facts: dict) -> str:
@@ -491,10 +545,10 @@ def build_message(facts: dict) -> str | None:
         if not texto:
             continue
         redactado = True
-        motivo = contradice_a_la_casa(texto)
+        motivo = contradice_a_la_casa(texto) or cifra_que_no_esta(texto, facts)
         if not motivo:
             return texto
-        print(f'  ⚠️  el briefing de {nombre} contradice a la lista ({motivo}): no se manda')
+        print(f'  ⚠️  el briefing de {nombre} no vale ({motivo}): no se manda')
     return _plantilla(facts) if redactado else None
 
 
