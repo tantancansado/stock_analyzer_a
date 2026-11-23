@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-20T07:35:29+00:00",
+  "generated_at": "2026-11-23T07:56:52+00:00",
   "framework": "macro_stress_v2",
   "markets": {
     "crude_oil": {
@@ -31,15 +31,15 @@
           "label": "Backwardation de la curva",
           "weight": 0.25,
           "direction": "high_is_stress",
-          "value": -8.36,
-          "percentile": 21.8,
+          "value": -7.86,
+          "percentile": 30.6,
           "z": null,
-          "score": 21.8,
-          "contribution": 5.5,
+          "score": 30.6,
+          "contribution": 7.7,
           "meta": {
             "curve_state": "CONTANGO",
-            "front_price": 83.14,
-            "deferred_price": 90.09
+            "front_price": 82.95,
+            "deferred_price": 89.47
           },
           "history_ready": true
         },
@@ -61,14 +61,14 @@
           "label": "CFTC positioning",
           "weight": 0.15,
           "direction": "extreme_is_stress",
-          "value": 3.86,
-          "percentile": 10.3,
-          "z": -1.4,
-          "score": 35.0,
-          "contribution": 5.2,
+          "value": 3.38,
+          "percentile": 7.1,
+          "z": -1.5,
+          "score": 37.5,
+          "contribution": 5.6,
           "meta": {
-            "net_contracts": 73982,
-            "open_interest": 1917473
+            "net_contracts": 63136,
+            "open_interest": 1869789
           },
           "history_ready": true
         },
@@ -87,7 +87,7 @@
           "history_ready": false
         }
       },
-      "narrative": "backwardation -8.36% \u00b7 CFTC +3.9% OI",
+      "narrative": "backwardation -7.86% \u00b7 CFTC +3.4% OI",
       "equity_exposure": {
         "beneficiaries": [
           "USO",
@@ -113,11 +113,6 @@
       "history_ready": false,
       "history_note": "Hist\u00f3rico insuficiente: a\u00fan no hay suficientes fechas comparables con al menos 3 se\u00f1ales.",
       "chart_series": [
-        {
-          "date": "2021-12-03",
-          "price": 66.26,
-          "stress_score": null
-        },
         {
           "date": "2021-12-10",
           "price": 71.67,
@@ -1410,7 +1405,12 @@
         },
         {
           "date": "2026-11-20",
-          "price": 83.13,
+          "price": 83.98,
+          "stress_score": null
+        },
+        {
+          "date": "2026-11-27",
+          "price": 82.92,
           "stress_score": null
         }
       ],
@@ -1418,14 +1418,14 @@
         {
           "key": "curve_shape",
           "label": "Backwardation de la curva",
-          "score": 21.8,
-          "contribution": 5.5
+          "score": 30.6,
+          "contribution": 7.7
         },
         {
           "key": "positioning",
           "label": "CFTC positioning",
-          "score": 35.0,
-          "contribution": 5.2
+          "score": 37.5,
+          "contribution": 5.6
         }
       ]
     }

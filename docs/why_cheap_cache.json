@@ -730,5 +730,20 @@
   "resultados": "2027-02-02",
   "fecha": "2026-11-20",
   "criterio": 3
+ },
+ "META": {
+  "veredicto": "EVENTO",
+  "resumen": "Meta reportó Q3 con revenue +26% pero cargo legal de $9.9B y FCF negativo de -$2.1B; caída 19.7% en octubre por preocupación sobre ROI del gasto de IA masivo ($34.9B capex). Noviembre fue liquidación de AI sector sin causa Meta-específica.",
+  "confianza": 72,
+  "fuentes": [
+   "https://www.sec.gov/Archives/edgar/data/0001326801/000162828026066773/meta-20260930.htm",
+   "https://www.sec.gov/Archives/edgar/data/0001326801/000162828026028526/meta-20260331.htm",
+   "https://www.benzinga.com/news/26/10/62514401/meta-platforms-q3-2026-earnings-call-transcript",
+   "https://sec-api.io/insights/financial-analysis-of-meta-platforms-meta-q3-2026-earnings"
+  ],
+  "modelo": "claude-haiku-4-5",
+  "resultados": "2027-01-27",
+  "fecha": "2026-11-23",
+  "criterio": 3
  }
 }
