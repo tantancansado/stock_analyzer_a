@@ -170,3 +170,48 @@ class TestLaCalibracionEsUnaDecision:
         terminal se dispara y un 0,5% de más multiplica el objetivo."""
         tg = min(fs.CRECIMIENTO_TERMINAL, fs.DESCUENTO_MIN - fs.MARGEN_SOBRE_TERMINAL)
         assert fs.DESCUENTO_MIN - tg >= fs.MARGEN_SOBRE_TERMINAL - 1e-9
+
+
+class TestLaBetaDeAyer:
+    """TJX, 20-nov-2026: Yahoo no dio la beta un día, el descuento pasó del 7,5 % al
+    8,8 % de la beta 1,0 y el DCF de 147,58 $ a 111,29 $ con el mismo flujo. Al día
+    siguiente volvió a 147,58: lo que cambió fue el dato, no la empresa."""
+
+    HOY = __import__('datetime').date(2026, 11, 20)
+
+    def test_con_beta_de_yahoo_se_usa_y_se_guarda_con_su_fecha(self):
+        info, meta = fs.beta_con_memoria({'beta': 0.62}, (0.9, self.HOY), self.HOY)
+        assert info['beta'] == 0.62
+        assert meta == {'beta': 0.62, 'beta_fecha': '2026-11-20'}
+
+    def test_sin_beta_hoy_vale_la_de_ayer_y_el_descuento_no_salta(self):
+        ayer = self.HOY - __import__('datetime').timedelta(days=1)
+        info, meta = fs.beta_con_memoria({}, (0.62, ayer), self.HOY)
+        assert fs.coste_del_capital(info) == fs.coste_del_capital({'beta': 0.62})
+        assert meta['beta_fecha'] == '2026-11-19', 'guarda cuándo la dio Yahoo, no cuándo se copió'
+
+    def test_una_beta_de_hace_mas_de_un_mes_no_se_arrastra(self):
+        vieja = self.HOY - __import__('datetime').timedelta(days=fs.BETA_VALIDA_DIAS + 1)
+        info, meta = fs.beta_con_memoria({'beta': None}, (0.62, vieja), self.HOY)
+        assert 'beta' not in meta and info.get('beta') is None
+
+    def test_una_beta_absurda_hoy_no_pisa_la_buena_de_ayer(self):
+        info, meta = fs.beta_con_memoria({'beta': 0.0}, (0.62, self.HOY), self.HOY)
+        assert info['beta'] == 0.62 and meta['beta'] == 0.62
+
+    def test_el_scorer_la_lee_de_la_ultima_ficha_publicada(self, tmp_path, monkeypatch):
+        monkeypatch.chdir(tmp_path)
+        (tmp_path / 'docs').mkdir()
+        (tmp_path / 'docs' / 'fundamental_scores.csv').write_text(
+            'ticker,beta,beta_fecha,target_price_dcf\nZZZQ,0.62,2026-11-19,147.58\nDOBLQ,,,10\n')
+        s = fs.FundamentalScorer()
+        assert s._beta_anterior('ZZZQ') == (0.62, __import__('datetime').date(2026, 11, 19))
+        assert s._beta_anterior('DOBLQ') is None
+        assert fs.FundamentalScorer(as_of_date='2026-11-19')._beta_anterior('ZZZQ') is None, \
+            'en modo histórico, la ficha de hoy sería mirar el futuro'
+
+    def test_sin_las_columnas_todavia_no_rompe(self, tmp_path, monkeypatch):
+        monkeypatch.chdir(tmp_path)
+        (tmp_path / 'docs').mkdir()
+        (tmp_path / 'docs' / 'fundamental_scores.csv').write_text('ticker,target_price_dcf\nZZZQ,1\n')
+        assert fs.FundamentalScorer()._beta_anterior('ZZZQ') is None

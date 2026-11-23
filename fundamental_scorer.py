@@ -205,6 +205,39 @@ def coste_del_capital(info: Dict) -> float:
     return max(DESCUENTO_MIN, min(TIPO_SIN_RIESGO + b * PRIMA_DE_RIESGO, DESCUENTO_MAX))
 
 
+# La beta de ayer vale mientras no tenga más de un mes: se mueve despacio (Yahoo la
+# calcula con cinco años de datos mensuales).
+BETA_VALIDA_DIAS = 30
+
+
+def _beta_utilizable(beta) -> Optional[float]:
+    try:
+        b = float(beta)
+    except (TypeError, ValueError):
+        return None
+    return b if 0.1 < b < 3.0 else None
+
+
+def beta_con_memoria(info: Dict, anterior: Optional[tuple], hoy) -> tuple[Dict, Dict]:
+    """La beta de hoy o, si Yahoo no la da, la última que dio.
+
+    TJX, 20-nov-2026: Yahoo no devolvió la beta un día, el descuento pasó del 7,5 %
+    al 8,8 % de la beta 1,0 y el DCF, de 147,58 $ a 111,29 $ con el mismo flujo; al
+    día siguiente, vuelta a 147,58. La empresa no había cambiado.
+
+    `anterior` es (beta, fecha en que Yahoo la dio). Devuelve el `info` que usar y
+    las columnas que guardar, para que la de mañana tenga de dónde salir.
+    """
+    b = _beta_utilizable(info.get('beta'))
+    if b is not None:
+        return info, {'beta': b, 'beta_fecha': hoy.isoformat()}
+    if anterior:
+        b_ant, fecha = _beta_utilizable(anterior[0]), anterior[1]
+        if b_ant is not None and fecha and 0 <= (hoy - fecha).days <= BETA_VALIDA_DIAS:
+            return {**info, 'beta': b_ant}, {'beta': b_ant, 'beta_fecha': fecha.isoformat()}
+    return info, {}
+
+
 def crecimiento_sostenible(info: Dict) -> Optional[float]:
     """La tasa que se puede proyectar cinco años, no la del último trimestre.
 
@@ -511,6 +544,23 @@ class FundamentalScorer:
             'catalyst_timing': 0.10      # 10% - Timing de catalizadores
         }
 
+    def _beta_anterior(self, ticker: str) -> Optional[tuple]:
+        """(beta, fecha) de la última ficha publicada; en modo histórico, nada."""
+        if self.as_of_date:
+            return None
+        if getattr(self, '_betas', None) is None:
+            self._betas = {}
+            try:
+                prev = pd.read_csv('docs/fundamental_scores.csv', usecols=['ticker', 'beta', 'beta_fecha'])
+            except (FileNotFoundError, ValueError):
+                prev = pd.DataFrame()
+            for t, b, f in prev.dropna().itertuples(index=False):
+                try:
+                    self._betas[t] = (float(b), datetime.strptime(str(f)[:10], '%Y-%m-%d').date())
+                except ValueError:
+                    pass
+        return self._betas.get(ticker)
+
     def score_ticker(self, ticker: str) -> Dict:
         """
         Análisis fundamental completo con scoring
@@ -542,6 +592,8 @@ class FundamentalScorer:
                 fx_to_major=fx_meta['fx_to_major'] if fx_meta.get('fx_reliable', True) else None,
                 fx_to_price=fx_meta.get('fx_to_price', 1.0))
             coherence = check_coherence(info, ticker)
+            info, beta_meta = beta_con_memoria(info, self._beta_anterior(ticker),
+                                               self.as_of_date_dt.date())
 
             # Obtener datos necesarios
             quarterly_earnings = self._get_quarterly_earnings(stock)
@@ -707,6 +759,7 @@ class FundamentalScorer:
                 ),
 
                 # Target Prices (analyst consensus + fundamental-based)
+                **beta_meta,
                 **self._calculate_target_prices(info, ticker, stock),
 
                 # Value Quality Metrics (FCF, dividends, buybacks, revisions, earnings cal)
