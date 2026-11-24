@@ -97,12 +97,43 @@ def con_su_grupo(entran: list[str], salen: list[str], ayer: dict | None,
             return t
         return f'{t} (ayer en Observar)' if ayer.get(t) == 'OBSERVAR' else f'{t} (nueva en la lista)'
 
+    # «Sale también de la lista», no «sale de la lista»: el 24-nov el mensaje dijo
+    # «hoy salen de la lista ADSK y FCNCA» y también salía SGSOY, que estaba en
+    # Observar. Lo que se cuenta es lo que deja Prioridad.
     def a_donde(t):
         if hoy is None:
             return t
-        return f'{t} (sigue en Observar)' if hoy.get(t) == 'OBSERVAR' else f'{t} (sale de la lista)'
+        return f'{t} (sigue en Observar)' if hoy.get(t) == 'OBSERVAR' else f'{t} (sale también de la lista)'
 
     return [de_donde(t) for t in entran], [a_donde(t) for t in salen]
+
+
+def lo_que_les_falta(vigilar: list[dict]) -> list[dict]:
+    """[{falta, tickers}] de las de Observar, a partir de `value_falta`. Una lista y no
+    {falta: tickers}: `cifra_que_no_esta` no mira las claves, y el «10 %» no contaba.
+
+    Con lo que le falta a cada una por separado, la IA los juntaba a su manera: el
+    24-nov-2026, «a la mayoría les falta acelerar ventas hasta el 10 %; a UBER y
+    WTKWY además les falta historial de PER», con UBER creciendo un 18,3 %. Lo que
+    no se reconoce va tal cual, sin agrupar."""
+    from value_bands import CRECIMIENTO_QUE_JUSTIFICA, FALTA_ESTUDIO
+    grupos: dict[str, list[str]] = {}
+    for f in vigilar:
+        for parte in filter(None, (p.strip() for p in (f.get('que_le_falta') or '').split(' · '))):
+            if 'le falta crecer al' in parte:
+                clave = f'crecer al {CRECIMIENTO_QUE_JUSTIFICA:.0f} % en ventas'
+            elif 'sin historia de PER' in parte:
+                clave = 'historia de PER con que compararla'
+            elif 'frente a su historia' in parte or 'le falta bajar de' in parte:
+                clave = 'que su PER baje más frente a su media de 10 años'
+            elif 'sin el dato de ventas' in parte:
+                clave = 'el dato de ventas del último año'
+            elif parte == FALTA_ESTUDIO:
+                clave = 'saber por qué ha caído'
+            else:
+                clave = parte
+            grupos.setdefault(clave, []).append(f['ticker'])
+    return [{'falta': k, 'tickers': v} for k, v in grupos.items()]
 
 
 def _f(x):
@@ -358,14 +389,20 @@ def gather_facts() -> dict:
     except Exception as exc:
         print(f'  [warn] no se pudo comparar con ayer: {exc}')
 
+    comprables, vigilar_hoy = comprables[:MAX_CANDIDATOS], vigilar[:MAX_VIGILAR]
+    faltas = lo_que_les_falta(vigilar_hoy)
+    for f in comprables + vigilar_hoy:
+        f.pop('que_le_falta', None)
+
     return {
         'fecha': date.today().isoformat(),
         'total_lista': len(rows),
         'datos_incompletos': datos_incompletos(rows),
         'picks_nuevos': nuevos,
         'picks_que_se_van': se_van,
-        'comprables': comprables[:MAX_CANDIDATOS],
-        'vigilar': vigilar[:MAX_VIGILAR],
+        'comprables': comprables,
+        'vigilar': vigilar_hoy,
+        **({'lo_que_les_falta': faltas} if faltas else {}),
         # Sin el total, «para vigilar quedan [las cinco]» decía que no había más (había 20).
         'vigilar_total': len(vigilar),
         'tesis_rotas': tesis_rotas,
@@ -411,17 +448,22 @@ Estructura, en este orden y omitiendo lo que esté vacío:
    año, no lo que cayó por la causa: no los juntes en una cifra. De
    "por_que_cae_detalle" cuenta la causa, no sus números.
 3. Qué vigilar: las de "vigilar", del grupo Observar: baratas a las que les falta
-   algo para Prioridad ("que_le_falta"). Una sola línea para todas, con lo que les
-   falta en pocas palabras. No digas que «siguen cayendo»: no es el motivo.
-   Son las más baratas de "vigilar_total": si este es mayor, dilo («las cinco más
-   baratas de las 20 en Observar») y nunca «quedan» ni «solo», que dan a entender
-   que no hay más. Lo que les falta, dilo de las que lo tienen en común; no
-   atribuyas a todas lo de unas pocas.
+   algo para Prioridad. Lo que les falta viene ya agrupado en "lo_que_les_falta"
+   (cada "falta" con sus "tickers"): dilo así, cada cosa con las suyas («a A y B les
+   falta crecer más en ventas; a C, historia de PER»). Una empresa
+   puede estar en dos grupos, y la que está en uno solo NO tiene lo del otro:
+   nada de «la mayoría» ni de «además» que lo mezcle. No digas que «siguen
+   cayendo»: no es el motivo. Son las más baratas de "vigilar_total": si este es
+   mayor, dilo («las cinco más baratas de las 20 en Observar») y nunca «quedan» ni
+   «solo», que dan a entender que no hay más.
 4. Lo que ha ENTRADO hoy en Prioridad (`picks_nuevos`) y lo que ha SALIDO de ella
    (`picks_que_se_van`), si los hay. Cada uno dice entre paréntesis de dónde viene
    o dónde queda: «ayer en Observar» es que sube de grupo («sube a Prioridad», nunca
    «nueva en la lista», porque ya estaba en ella); «nueva en la lista» es que no
-   estaba; «sigue en Observar» es que baja de grupo; «sale de la lista», que sale.
+   estaba; «sigue en Observar» es que baja de grupo; «sale también de la lista»,
+   que deja Prioridad y la lista. Di siempre «de Prioridad» («salen de Prioridad
+   X e Y, que dejan también la lista»), nunca «salen de la lista» a secas:
+   de Observar también entran y salen empresas que aquí no se cuentan.
    Una línea, sin repetir lo que ya has dicho arriba: es lo que cambia respecto a
    ayer y por eso importa. Si las dos
    listas vienen vacías, no menciones el tema — que no haya movimiento no es

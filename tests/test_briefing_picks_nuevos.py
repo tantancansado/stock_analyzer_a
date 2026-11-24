@@ -77,7 +77,7 @@ class TestDeDondeVienen:
                                      {'ZZZQ': 'OBSERVAR', 'VIEJQ': 'PRIORIDAD', 'FUERQ': 'PRIORIDAD'},
                                      {'ZZZQ': 'PRIORIDAD', 'DOBLQ': 'PRIORIDAD', 'VIEJQ': 'OBSERVAR'})
         assert entran == ['ZZZQ (ayer en Observar)', 'DOBLQ (nueva en la lista)']
-        assert salen == ['VIEJQ (sigue en Observar)', 'FUERQ (sale de la lista)']
+        assert salen == ['VIEJQ (sigue en Observar)', 'FUERQ (sale también de la lista)']
 
     def test_sin_el_grupo_de_ayer_no_se_inventa(self):
         from daily_briefing import con_su_grupo

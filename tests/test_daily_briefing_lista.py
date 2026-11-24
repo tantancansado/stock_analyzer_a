@@ -53,7 +53,10 @@ def _hechos(tmp_path, filas, resumen=None):
     (tracker / 'summary.json').write_text(json.dumps(resumen or {}))
     mod = type(sys)('supabase_positions')
     mod.fetch_position_rows = lambda select, extra_filter='': []
+    import new_value_alerts
+    # Sin esto comparaba con el historial de verdad de docs/history.
     with patch.dict(sys.modules, {'supabase_positions': mod}), \
+         patch.object(new_value_alerts, 'base_de_comparacion', lambda: None), \
          patch.object(db, 'TRACKER', tracker), patch.object(db, 'DOCS', tmp_path):
         return db.gather_facts()
 
@@ -265,3 +268,72 @@ class TestCifrasQueNoEstan:
         with patch.object(db, '_con_claude', return_value='Paychex, entre un 21 % y un 42 %.'), \
              patch.object(db, '_con_groq', return_value=bueno):
             assert db.build_message(hechos) == bueno
+
+
+class TestLoQueLesFalta:
+    """24-nov-2026: «a la mayoría les falta acelerar ventas hasta el 10 %; a UBER y
+    WTKWY además les falta historial de PER», con UBER creciendo un 18,3 %. Lo que
+    les falta va agrupado por el código, no por la IA."""
+
+    CONOCIDAS = {'crecer al 10 % en ventas', 'historia de PER con que compararla',
+                 'que su PER baje más frente a su media de 10 años',
+                 'el dato de ventas del último año', 'saber por qué ha caído'}
+
+    def test_cada_cosa_con_las_suyas(self, tmp_path):
+        from value_bands import FALTA_ESTUDIO
+        obs = dict(value_grupo='OBSERVAR')
+        hechos = _hechos(tmp_path, [
+            _fila(),
+            _fila(ticker='PERQ', value_score='60', value_falta='sin historia de PER con que compararla', **obs),
+            _fila(ticker='DOSQ', value_score='58', **obs,
+                  value_falta='ventas anuales +3,5 %, le falta crecer al 10 % · sin historia de PER con que compararla'),
+            _fila(ticker='VENQ', value_score='55', value_falta='ventas anuales +8,5 %, le falta crecer al 10 %', **obs),
+            _fila(ticker='ESTQ', value_score='50', value_falta=FALTA_ESTUDIO, **obs),
+        ])
+        assert hechos['lo_que_les_falta'] == [
+            {'falta': 'historia de PER con que compararla', 'tickers': ['PERQ', 'DOSQ']},
+            {'falta': 'crecer al 10 % en ventas', 'tickers': ['DOSQ', 'VENQ']},
+            {'falta': 'saber por qué ha caído', 'tickers': ['ESTQ']},
+        ]
+        assert all('que_le_falta' not in f for f in hechos['vigilar'] + hechos['comprables'])
+
+    def test_reconoce_lo_que_escribe_la_nota(self):
+        """Con los textos de verdad de value_bands, no con copias: si la nota cambia
+        cómo lo dice, esto avisa en vez de dejarlo sin agrupar."""
+        from value_bands import nota_value
+
+        def fila(t, anual, z, **extra):
+            return {'ticker': t, 'rev_growth_yoy': 8.0, 'ventas_anual_pct': anual, 'per_z': z,
+                    'fcf_yield_pct': 4.0, 'upside_triangulated_pct': 25.0, 'upside_divergence': '', **extra}
+
+        r = nota_value(pd.DataFrame([fila('A', 7.0, -2.0), fila('B', 14.0, -0.6), fila('C', 3.0, float('nan')),
+                                     fila('D', 14.0, -0.6, per_norm=18.4, per_mediana_10a=22.1)]))
+        vigilar = [{'ticker': t, 'que_le_falta': f} for t, f in zip(r['ticker'], r['value_falta']) if f]
+        assert len(vigilar) == 4
+        grupos = {g['falta']: g['tickers'] for g in db.lo_que_les_falta(vigilar)}
+        assert set(grupos) <= self.CONOCIDAS, set(grupos) - self.CONOCIDAS
+        assert grupos['historia de PER con que compararla'] == ['C']
+
+    def test_lo_que_no_se_reconoce_va_tal_cual(self):
+        assert db.lo_que_les_falta([{'ticker': 'RARQ', 'que_le_falta': 'algo nuevo'}]) == [
+            {'falta': 'algo nuevo', 'tickers': ['RARQ']}]
+
+    def test_el_10_que_dice_cuenta_como_dato(self, tmp_path):
+        hechos = _hechos(tmp_path, [_fila(), _fila(ticker='VENQ', value_grupo='OBSERVAR',
+                                                   value_falta='ventas anuales +8,5 %, le falta crecer al 10 %')])
+        assert db.cifra_que_no_esta('A VENQ le falta crecer al 10 % en ventas.', hechos) is None
+
+    def test_sin_observar_no_va(self, tmp_path):
+        assert 'lo_que_les_falta' not in _hechos(tmp_path, [_fila()])
+
+    def test_el_prompt_lo_usa(self):
+        assert 'lo_que_les_falta' in db.SYSTEM and '"que_le_falta"' not in db.SYSTEM
+
+
+class TestSalenDePrioridad:
+    """24-nov-2026: «Hoy salen de la lista ADSK y FCNCA», y también salía SGSOY,
+    que estaba en Observar. Lo que se cuenta es lo que deja Prioridad."""
+
+    def test_el_prompt_pide_decir_de_prioridad(self):
+        assert 'nunca «salen de la lista» a secas' in db.SYSTEM
+        assert 'sale también de la lista' in db.SYSTEM

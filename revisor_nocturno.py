@@ -87,6 +87,9 @@ Reglas de la casa (son correctas; no las discutas):
 - "fueron_prioridad_y_hoy_no" es un ESTADO, no un cambio de hoy: todo lo que el registro tuvo en
   Prioridad y hoy no lo es, con su motivo de venta. Puede haber salido de la lista hace días, así que
   no tiene por qué estar en "cambios_desde_ayer".
+- El briefing cuenta solo lo que entra en PRIORIDAD o sale de ella. "cambios_desde_ayer" es la
+  lista entera, así que lo que entra o sale estando en OBSERVAR no tiene por qué salir en el
+  briefing. Sí es hallazgo que diga «salen de la lista» como si fueran todas.
 - Las ventas de la app (rev_growth_yoy, ventas_anual_pct) son las de Yahoo y TIKR, sin ingresos
   financieros. Los porcentajes del resumen de why_cheap salen de notas de prensa y noticias, con otras
   definiciones (ingresos totales, orgánico). Una diferencia de pocos puntos entre ambos no es un
