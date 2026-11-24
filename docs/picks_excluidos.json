@@ -1,17 +1,41 @@
 {
   "listas": {
     "value_opportunities": {
-      "candidatas": 36,
-      "publicadas": 35,
+      "candidatas": 34,
+      "publicadas": 29,
       "excluidos": [
+        {
+          "ticker": "BSX",
+          "paso": "verificador_ia",
+          "motivo": "rev_growth_yoy (1.4%) es extremadamente bajo para justificar upside_triangulated_pct (61.4%) sin que upside_requiere_verificacion sea true. La discrepancia entre crecimiento casi nulo y descuento grande no se marca para verificación, sugiriendo un error en la lógica de banderas. · peg_ratio (0.45) con crecimiento de 1.4% implicaría un PEG anómalo (PER ~13.8 / crecimiento 1.4 = ~10), lo que solo cuadra si el beneficio no crece pero el precio anticipa recuperación no documentada en la ficha.",
+          "score": 97.3
+        },
+        {
+          "ticker": "FCNCA",
+          "paso": "verificador_ia",
+          "motivo": "rev_growth_yoy (0.6%) y ventas_anual_pct (4.5%) son casi cero, pero upside_triangulated_pct (64.0%) es muy alto para un banco sin crecimiento. upside_requiere_verificacion es false, lo que debería ser true si se ve un descuento >30% en un activo sin crecimiento visibles (posible trampa). · peg_ratio (0.33) con crecimiento 0.6% es un cociente absurdo (PER 11.9 / 0.6 = ~20), incompatible. Verificar si el PEG incluye factores no documentados.",
+          "score": 86.9
+        },
+        {
+          "ticker": "ESLOY",
+          "paso": "verificador_ia",
+          "motivo": "peg_ratio (20.56) es extremadamente alto con rev_growth_yoy (7.5%), lo que indica o error de cálculo o unidad (p.ej., si fuese 2.056 sería razonable pero no 20.56). Esto invalida la valoración. · analyst_upside_pct (38.7%) vs target_price_dcf_upside_pct (14.8%) divergen 24 puntos; upside_triangulated_pct elige 34.8% (P/E), pero el analista ve 39%. Sin modelos_acuerdo/dispersion_pts declarado, la coherencia es dudosa.",
+          "score": 51.8
+        },
         {
           "ticker": "DVA",
           "paso": "verificador_ia",
-          "motivo": "upside_requiere_verificacion es true (descuento grande), pero modelos_acuerdo es DISPERSOS con dispersion_pts (117.3%) extremadamente alto: target_price_dcf_upside_pct (124.8%) casi 17x mayor que target_price_pe_upside_pct (7.5%), indicando que DCF y PE no convergen en absoluto · upside_triangulated_pct (38.0%) es el promedio artificial de dos modelos que divergen radicalmente; this ficha es inconsistente consigo misma: no hay un 'verdadero' upside entre una valoración DCF que dice barata 125% y un PE que dice cara -7.5%",
-          "score": 50.6
+          "motivo": "modelos_dispersion_pts (122.0) es el más alto en la lista, indicando que DCF (130.4%) y P/E (8.4%) están completamente separados. upside_triangulated_pct elige 39.1% (analista), pero sin declarar que se elige al analista por falta de acuerdo. La ficha no explica esta selección. · upside_requiere_verificacion es true (correcto, 39.1% descuento), pero la dispersión de modelos es tan grande que ninguno es confiable. fundamental_score (62.8) es medio-alto, pero no resuelve la divergencia DCF/P/E. Revisar si esta ficha debería bloquearse por modelos irreconciliables.",
+          "score": 50.8
+        },
+        {
+          "ticker": "ADSK",
+          "paso": "verificador_ia",
+          "motivo": "upside_triangulated_pct (21.3%) iguala analyst_upside_pct (21.3%), no es promedio ni triangulación. modelos_dispersion_pts (42.7) indica DCF (1.4%) vs P/E (44.1%) extremadamente divergentes. El campo upside_triangulated_pct debería reflejar esa brecha o declinar usar DCF; en su lugar, adopta al analista sin explicación. · analyst_upside_pct (21.3%) vs modelos (1.4% DCF, 44.1% P/E) sugiere que el analista ve un punto medio, pero modelos_acuerdo no se declara, lo que rompe coherencia del contrato de ficha.",
+          "score": 49.6
         }
       ]
     }
   },
-  "generated_at": "2026-11-23T07:52:27Z"
+  "generated_at": "2026-11-24T10:11:31Z"
 }

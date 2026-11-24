@@ -1,9 +1,36 @@
 {
-  "generated_at": "2026-11-23T08:21:21",
-  "positions_checked": 45,
-  "total": 1,
-  "high_count": 1,
+  "generated_at": "2026-11-24T10:39:23",
+  "positions_checked": 44,
+  "total": 4,
+  "high_count": 4,
   "alerts": [
+    {
+      "ticker": "COF",
+      "company_name": "Capital One Financial Corporation",
+      "strategy": "VALUE",
+      "signal_date": "2026-11-09",
+      "type": "STOP_BREACHED",
+      "reason": "Precio 180.01 por debajo del stop 185.72",
+      "severity": "HIGH"
+    },
+    {
+      "ticker": "WTKWY",
+      "company_name": "Wolters Kluwer N.V.",
+      "strategy": "VALUE",
+      "signal_date": "2026-11-09",
+      "type": "STOP_BREACHED",
+      "reason": "Precio 91.53 por debajo del stop 92.48",
+      "severity": "HIGH"
+    },
+    {
+      "ticker": "INTU",
+      "company_name": "Intuit Inc.",
+      "strategy": "VALUE",
+      "signal_date": "2026-11-09",
+      "type": "STOP_BREACHED",
+      "reason": "Precio 275.46 por debajo del stop 314.18",
+      "severity": "HIGH"
+    },
     {
       "ticker": "ESLOY",
       "company_name": "EssilorLuxottica Soci\u00e9t\u00e9 anonyme",

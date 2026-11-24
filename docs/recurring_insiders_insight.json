@@ -1,11 +1,19 @@
 {
-  "date": "2026-11-23",
-  "timestamp": "2026-11-23T08:19:51.548724",
-  "narrative": "Los tickers con mayor actividad (CRH, ROL, HEI, RSG) pertenecen a sectores de materiales, servicios industriales, salud y energ\u00eda, lo que indica que el clustering no es sectorial sino m\u00e1s bien una se\u00f1al de confianza en empresas con flujos de caja estables y perspectivas de crecimiento moderado. Cuando varios insiders diferentes compran en un mismo ticker en un lapso corto, sugiere informaci\u00f3n no p\u00fablica compartida sobre catalizadores pr\u00f3ximos (ej. contratos, lanzamientos de productos o mejoras operativas) y refuerza la credibilidad de la se\u00f1al. Para un inversor value/GARP, estos patrones pueden servir como un filtro adicional para identificar oportunidades de",
+  "date": "2026-11-24",
+  "timestamp": "2026-11-24T10:37:50.552631",
+  "narrative": "Los tickers con mayor actividad (HEI, RSG, ETN, CRH, ROL) pertenecen a sectores defensivos y de infraestructura (energ\u00eda, materiales, transporte y servicios p\u00fablicos), lo que sugiere un enfoque tem\u00e1tico en activos con flujos estables y alta barrera de entrada. Cuando varios insiders diferentes adquieren acciones del mismo valor en un lapso corto, indica confianza compartida en la visi\u00f3n de corto\u2011plazo de la compa\u00f1\u00eda y reduce la probabilidad de que la compra sea motivada por necesidades personales. Para un inversor value/GARP, este patr\u00f3n constituye una se\u00f1al complementaria de \u201cconfianza interna\u201d que puede reforzar la valoraci\u00f3n basada en fundamentos, aunque no sustitu",
   "total_tickers": 8,
   "total_us": 8,
   "total_eu": 0,
   "top_picks": [
+    {
+      "ticker": "ETN",
+      "market": "US",
+      "purchase_count": 6,
+      "unique_insiders": 2,
+      "confidence_score": 100.0,
+      "days_span": 4
+    },
     {
       "ticker": "CRH",
       "market": "US",
@@ -33,18 +41,10 @@
     {
       "ticker": "RSG",
       "market": "US",
-      "purchase_count": 35,
+      "purchase_count": 31,
       "unique_insiders": 1,
       "confidence_score": 100.0,
-      "days_span": 26
-    },
-    {
-      "ticker": "ETN",
-      "market": "US",
-      "purchase_count": 4,
-      "unique_insiders": 2,
-      "confidence_score": 90.0,
-      "days_span": 1
+      "days_span": 24
     }
   ]
 }
