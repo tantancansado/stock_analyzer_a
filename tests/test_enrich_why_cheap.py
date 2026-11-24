@@ -295,6 +295,18 @@ def test_el_resumen_sale_sin_etiquetas_de_cita():
     assert limpiar_resumen(crudo) == 'El 26,5 % de caída vino del regulador. Guía recortada'
 
 
+def test_el_resumen_no_le_habla_a_quien_hizo_el_encargo():
+    """AMZN, 30-oct-2026: «margen operativo récord (+61% operativo, +29,6% según tus
+    datos)». Va también a lo ya guardado, porque la ficha se pinta pasando por aquí."""
+    from why_cheap_analyzer import cifras_propias, limpiar_resumen
+    crudo = 'Margen récord (+61% operativo, +29,6% según tus datos) pero falló en BPA.'
+    assert limpiar_resumen(crudo) == 'Margen récord (+61% operativo, +29,6% según sus cuentas) pero falló en BPA.'
+    assert 'según sus cuentas' in limpiar_resumen('BPA -4 % según los datos proporcionados.')
+    texto = cifras_propias({'earnings_details': str({'eps_growth_yoy': 5.0, 'op_growth_yoy': 29.6})})
+    assert 'resultado operativo +29.6%' in texto
+    assert '«según sus cuentas»' in texto
+
+
 class TestLasDePrioridad:
     """Las candidatas a comprar: Sonnet las estudia, se estudian tras cada resultado
     y sin estudio no salen como Prioridad (11-nov-2026)."""

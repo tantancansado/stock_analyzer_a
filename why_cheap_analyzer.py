@@ -117,6 +117,10 @@ def limpiar_resumen(texto: str) -> str:
     «mientras» o «y» (BRO, ADSK, AVGO… el 20-nov-2026)."""
     import re
     t = re.sub(r'\s{2,}', ' ', re.sub(r'[<(]/?cite\b[^>]*>', '', str(texto or ''))).strip()
+    # Las cifras que se le pasan son de sus cuentas, y el resumen lo lee el inversor:
+    # «+29,6 % según tus datos» (AMZN, 30-oct-2026) era hablarle a quien hizo el encargo.
+    t = re.sub(r'\bsegún (?:tus|los) (?:datos|cifras)(?: propi[oa]s| proporcionad[oa]s)?\b',
+               'según sus cuentas', t, flags=re.I)
     cortado = len(t) > RESUMEN_MAX or (len(t) >= RESUMEN_MAX - 5 and t[-1:] not in '.!?')
     if not cortado:
         return t
@@ -193,9 +197,12 @@ def cifras_propias(row) -> str:
         partes.append(f'resultado operativo {op:+.1f}%')
     if bpa is not None:
         partes.append(f'BPA {bpa:+.1f}%')
+    # «según sus cuentas»: el 30-oct el resumen de AMZN decía «+29,6 % según tus
+    # datos», y ese texto lo lee el inversor, no quien hizo el encargo.
     return ('\nCifras propias, último trimestre frente al mismo del año anterior: '
             + ', '.join(partes) + '. Son datos de sus cuentas: si una noticia '
-            'dice otra cosa, probablemente es de otro ejercicio — mandan estas.\n')
+            'dice otra cosa, probablemente es de otro ejercicio — mandan estas. '
+            'Si las citas en el resumen, di «según sus cuentas».\n')
 
 
 def contradice_las_cifras(veredicto: str, row) -> str | None:
