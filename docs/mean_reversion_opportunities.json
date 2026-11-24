@@ -1,52 +1,12 @@
 {
-  "generated_at": "2026-11-23 08:36:17",
-  "scan_date": "2026-11-23 08:36:17",
-  "total_opportunities": 1,
+  "generated_at": "2026-11-24 10:50:16",
+  "scan_date": "2026-11-24 10:50:16",
+  "total_opportunities": 0,
   "strategies": {
     "oversold_bounce": 0,
-    "bull_flag_pullback": 1
+    "bull_flag_pullback": 0
   },
-  "ai_narrative": "",
-  "opportunities": [
-    {
-      "ticker": "DSGX",
-      "company_name": "The Descartes Systems Group Inc.",
-      "strategy": "Bull Flag Pullback",
-      "current_price": 89.21,
-      "rsi": 42.6,
-      "rsi_tier": "NEUTRAL",
-      "rally_pct": 34.6,
-      "pullback_pct": -7.1,
-      "sma_50": 86.89,
-      "sma_200": 75.84,
-      "trend": "Bullish",
-      "volume_decrease": true,
-      "reversion_score": 70,
-      "quality": "\u2b50 CON DUDAS",
-      "entry_zone": "$87.43 - $90.99",
-      "entry_ref": 90.99,
-      "target": 95.99,
-      "techo_tecnico": 95.99,
-      "bounce_target": 95.99,
-      "bounce_usd": 5.0,
-      "bounce_pct": 5.5,
-      "stop_loss": 84.28,
-      "stop_pct": -7.4,
-      "risk_reward": 1.38,
-      "risk_reward_en_zona": 0.75,
-      "precio_sobre_zona_entrada": false,
-      "detected_date": "2026-11-23",
-      "historical_win_rate": 42.4,
-      "ai_confirmation": "CAUTION",
-      "ai_confidence": 60,
-      "ai_reason": "pullback -7.1% fuera rango",
-      "esperanza_pct": 1.23,
-      "esperanza_n": 28,
-      "esperanza_aciertos": 14,
-      "esperanza_stops": 13,
-      "esperanza_dias_mediana": 20,
-      "esperanza_muestra_ok": true,
-      "esperanza_frase": "en los 28 episodios iguales, el objetivo (+7.6%) lleg\u00f3 antes que el stop (-5.5%) 14 veces y el stop salt\u00f3 primero 13, y cuando lleg\u00f3 tard\u00f3 20 sesiones de mediana. Esperanza +1.23% por operaci\u00f3n."
-    }
-  ]
+  "ai_narrative": null,
+  "opportunities": [],
+  "motivo_vacio": "Revisadas 172 empresas: ninguna con una ca\u00edda de calidad y un rebote a la vista hoy."
 }

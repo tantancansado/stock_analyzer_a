@@ -1,0 +1,66 @@
+{
+  "generated_at": "2026-11-24",
+  "total": 1,
+  "strong_buy": 0,
+  "buy": 0,
+  "monitor": 1,
+  "wait": 0,
+  "narrative": null,
+  "signals": [
+    {
+      "ticker": "ADBE",
+      "company_name": "Adobe Inc.",
+      "region": "US",
+      "sector": "Technology",
+      "value_score": 98.5,
+      "conviction_grade": "A",
+      "current_price": 223.98,
+      "analyst_upside_pct": 19.2,
+      "fcf_yield_pct": 12.15,
+      "risk_reward_ratio": 2.4,
+      "days_in_value": 4,
+      "streak_days": 1,
+      "entry_score": 45,
+      "signal": "MONITOR",
+      "signals_fired": [
+        "Value score \u226580",
+        "FCF yield \u22655%",
+        "Upside en banda dorada [10,30)",
+        "Analyst revision \u2191",
+        "En VALUE \u22653 d\u00edas"
+      ],
+      "signals_pts": [
+        {
+          "name": "Value score \u226580",
+          "pts": 10
+        },
+        {
+          "name": "FCF yield \u22655%",
+          "pts": 10
+        },
+        {
+          "name": "Upside en banda dorada [10,30)",
+          "pts": 10
+        },
+        {
+          "name": "Analyst revision \u2191",
+          "pts": 5
+        },
+        {
+          "name": "En VALUE \u22653 d\u00edas",
+          "pts": 10
+        }
+      ],
+      "signals_missing": [
+        "Sin insider buying (espera)",
+        "Sin se\u00f1al MR oversold",
+        "Sin opciones alcistas",
+        "Sector no l\u00edder",
+        "R\u00e9gimen no alcista"
+      ],
+      "rsi": null,
+      "earnings_warning": false,
+      "days_to_earnings": 15
+    }
+  ]
+}

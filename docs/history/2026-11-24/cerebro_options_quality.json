@@ -1,0 +1,30 @@
+{
+  "generated_at": "2026-11-24",
+  "total": 29,
+  "tier1": 0,
+  "tier2": 1,
+  "tier3": 1,
+  "noise_filtered": 27,
+  "actionable": [
+    {
+      "ticker": "BR",
+      "company_name": "Broadridge Financial Solutions, Inc.",
+      "sentiment": "BULLISH",
+      "tier": "TIER2",
+      "quality_score": 45,
+      "value_score": 54.8,
+      "fcf_yield": 6.3,
+      "insider_confirmation": false,
+      "in_value": true,
+      "quality_factors": [
+        "VALUE weak (55pts)",
+        "FCF 6.3%",
+        "DIRECTIONAL (100% calls)"
+      ],
+      "flow_score": 80.0,
+      "total_premium": 1084260.0,
+      "detected_date": "2026-11-24"
+    }
+  ],
+  "narrative": ""
+}

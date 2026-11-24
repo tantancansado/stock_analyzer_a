@@ -1,0 +1,58 @@
+{
+  "generated_at": "2026-11-24",
+  "total": 4,
+  "dropped_count": 2,
+  "narrative": "1. Cuando un sector muestra se\u00f1ales de sobrevaloraci\u00f3n o un cambio de liderazgo, rotar dentro del mismo sector suele generar mejores resultados que esperar a que el mercado se ajuste.  \n2. Si los fundamentos de un sector camb",
+  "displacements": [
+    {
+      "type": "COMPETITOR_RISE",
+      "dropped_ticker": "ADSK",
+      "sector": "Technology",
+      "prev_score": 90.3,
+      "replacements": [
+        "ADBE",
+        "PAYX",
+        "UBER"
+      ],
+      "top_replacement": "ADBE",
+      "top_replacement_score": 98.5,
+      "detail": "ADSK sali\u00f3 de VALUE (90pts); peers en Technology: ADBE, PAYX"
+    },
+    {
+      "type": "COMPETITOR_RISE",
+      "dropped_ticker": "FCNCA",
+      "sector": "Financial Services",
+      "prev_score": 87.2,
+      "replacements": [
+        "BRO"
+      ],
+      "top_replacement": "BRO",
+      "top_replacement_score": 94.5,
+      "detail": "FCNCA sali\u00f3 de VALUE (87pts); peers en Financial Services: BRO"
+    },
+    {
+      "type": "SECTOR_TAILWIND",
+      "sector": "Technology",
+      "rotation_score": 100.0,
+      "beneficiaries": [
+        "ADBE",
+        "PAYX",
+        "UBER"
+      ],
+      "top_ticker": "ADBE",
+      "top_score": 98.5,
+      "detail": "Sector Technology l\u00edder (RS 100) \u2014 ADBE, PAYX, UBER son los picks VALUE"
+    },
+    {
+      "type": "SECTOR_TAILWIND",
+      "sector": "Healthcare",
+      "rotation_score": 100.0,
+      "beneficiaries": [
+        "RMD"
+      ],
+      "top_ticker": "RMD",
+      "top_score": 52.0,
+      "detail": "Sector Healthcare l\u00edder (RS 100) \u2014 RMD son los picks VALUE"
+    }
+  ]
+}

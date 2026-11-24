@@ -1,8 +1,29 @@
 {
-  "generated_at": "2026-11-23",
-  "total_convergences": 13,
-  "triple_or_more": 0,
+  "generated_at": "2026-11-24",
+  "total_convergences": 11,
+  "triple_or_more": 1,
   "convergences": [
+    {
+      "ticker": "ECL",
+      "company_name": "",
+      "sector": "",
+      "strategies": [
+        "INSIDERS",
+        "OPTIONS",
+        "MOMENTUM"
+      ],
+      "strategy_count": 3,
+      "convergence_score": 80,
+      "value_score": null,
+      "conviction_grade": "",
+      "analyst_upside_pct": null,
+      "fcf_yield_pct": null,
+      "current_price": null,
+      "streak_days": 6,
+      "earnings_warning": false,
+      "days_to_earnings": null,
+      "analysis": "La convergencia de insiders comprando, un aumento de actividad en opciones y un impulso de momentum durante 6\u202fd\u00edas consecutivos sugiere que varios grupos de participantes est\u00e1n alineados en una visi\u00f3n alcista de ECL, lo que puede anticipar un movimiento de precio m\u00e1s fuerte y sostenido. Sin embargo, es importante vigilar el volumen real de compra, la proximidad de vencimientos de opciones (para evitar que el impulso se disipe por expiraciones) y cualquier noticia fundamental que pueda revertir la"
+    },
     {
       "ticker": "AON",
       "company_name": "Aon plc",
@@ -13,15 +34,15 @@
       ],
       "strategy_count": 2,
       "convergence_score": 69,
-      "value_score": 48.3,
+      "value_score": 48.5,
       "conviction_grade": "C",
-      "analyst_upside_pct": 10.3,
-      "fcf_yield_pct": 4.62,
-      "current_price": 333.07,
-      "streak_days": 21,
+      "analyst_upside_pct": 10.7,
+      "fcf_yield_pct": 4.64,
+      "current_price": 331.86,
+      "streak_days": 22,
       "earnings_warning": false,
-      "days_to_earnings": 67.0,
-      "analysis": "La convergencia de 21\u202fd\u00edas consecutivos indica que tanto el modelo \u201cVALUE\u201d como el de \u201cINSIDERS\u201d est\u00e1n alineando sus se\u00f1ales de compra, lo que refuerza la probabilidad de que el precio de AON supere la expectativa de upside del\u202f10,3\u202f%. Sin embargo, el puntaje \u201cC\u201d y el bajo flujo de caja libre (4,62\u202f%) sugieren que el impulso a\u00fan es fr\u00e1gil; es"
+      "days_to_earnings": 66.0,
+      "analysis": "La convergencia de 22\u202fd\u00edas consecutivos entre la estrategia VALUE (que indica"
     },
     {
       "ticker": "CRH",
@@ -35,13 +56,13 @@
       "convergence_score": 68,
       "value_score": 40.0,
       "conviction_grade": "C",
-      "analyst_upside_pct": 37.2,
-      "fcf_yield_pct": 4.34,
-      "current_price": 88.05,
-      "streak_days": 6,
+      "analyst_upside_pct": 30.9,
+      "fcf_yield_pct": 4.14,
+      "current_price": 92.27,
+      "streak_days": 7,
       "earnings_warning": false,
-      "days_to_earnings": 86.0,
-      "analysis": "La convergencia de la estrategia VALUE con la actividad de insiders durante 6 d\u00edas consecutivos sugiere que los accionistas internos est\u00e1n alineados con la valoraci\u00f3n subyacente de la empresa, lo que suele indicar confianza en el potencial de crecimiento y en la gesti\u00f3n. Sin embargo, es prudente vigilar la volatilidad del precio y la posibilidad de que los insiders vendan en el futuro, lo que podr\u00eda erosionar el soporte de precios. Adem\u00e1s,"
+      "days_to_earnings": 85.0,
+      "analysis": "Convergencia de 2 estrategias: VALUE, INSIDERS."
     },
     {
       "ticker": "VRSN",
@@ -58,10 +79,10 @@
       "analyst_upside_pct": null,
       "fcf_yield_pct": null,
       "current_price": null,
-      "streak_days": 59,
+      "streak_days": 60,
       "earnings_warning": false,
       "days_to_earnings": null,
-      "analysis": "La convergencia de compras de insiders y actividad de opciones durante 59 d\u00edas consecutivos"
+      "analysis": null
     },
     {
       "ticker": "CME",
@@ -78,7 +99,7 @@
       "analyst_upside_pct": null,
       "fcf_yield_pct": null,
       "current_price": null,
-      "streak_days": 20,
+      "streak_days": 21,
       "earnings_warning": false,
       "days_to_earnings": null,
       "analysis": null
@@ -98,27 +119,7 @@
       "analyst_upside_pct": null,
       "fcf_yield_pct": null,
       "current_price": null,
-      "streak_days": 6,
-      "earnings_warning": false,
-      "days_to_earnings": null,
-      "analysis": null
-    },
-    {
-      "ticker": "ECL",
-      "company_name": "",
-      "sector": "",
-      "strategies": [
-        "INSIDERS",
-        "OPTIONS"
-      ],
-      "strategy_count": 2,
-      "convergence_score": 60,
-      "value_score": null,
-      "conviction_grade": "",
-      "analyst_upside_pct": null,
-      "fcf_yield_pct": null,
-      "current_price": null,
-      "streak_days": 5,
+      "streak_days": 7,
       "earnings_warning": false,
       "days_to_earnings": null,
       "analysis": null
@@ -133,14 +134,34 @@
       ],
       "strategy_count": 2,
       "convergence_score": 60,
-      "value_score": 54.9,
+      "value_score": 54.8,
       "conviction_grade": "C",
-      "analyst_upside_pct": 15.3,
-      "fcf_yield_pct": 6.32,
-      "current_price": 181.41,
+      "analyst_upside_pct": 15.1,
+      "fcf_yield_pct": 6.3,
+      "current_price": 181.82,
+      "streak_days": 4,
+      "earnings_warning": false,
+      "days_to_earnings": 70.0,
+      "analysis": null
+    },
+    {
+      "ticker": "SYK",
+      "company_name": "",
+      "sector": "",
+      "strategies": [
+        "INSIDERS",
+        "OPTIONS"
+      ],
+      "strategy_count": 2,
+      "convergence_score": 60,
+      "value_score": null,
+      "conviction_grade": "",
+      "analyst_upside_pct": null,
+      "fcf_yield_pct": null,
+      "current_price": null,
       "streak_days": 3,
       "earnings_warning": false,
-      "days_to_earnings": 71.0,
+      "days_to_earnings": null,
       "analysis": null
     },
     {
@@ -152,39 +173,19 @@
         "OPTIONS"
       ],
       "strategy_count": 2,
-      "convergence_score": 59,
-      "value_score": 45.0,
+      "convergence_score": 58,
+      "value_score": 44.5,
       "conviction_grade": "B",
-      "analyst_upside_pct": 31.3,
-      "fcf_yield_pct": 1.67,
-      "current_price": 484.52,
-      "streak_days": 4,
+      "analyst_upside_pct": 29.4,
+      "fcf_yield_pct": 1.64,
+      "current_price": 492.5,
+      "streak_days": 5,
       "earnings_warning": false,
-      "days_to_earnings": 65.0,
+      "days_to_earnings": 64.0,
       "analysis": null
     },
     {
-      "ticker": "AJG",
-      "company_name": "",
-      "sector": "",
-      "strategies": [
-        "OPTIONS",
-        "MOMENTUM"
-      ],
-      "strategy_count": 2,
-      "convergence_score": 50,
-      "value_score": null,
-      "conviction_grade": "",
-      "analyst_upside_pct": null,
-      "fcf_yield_pct": null,
-      "current_price": null,
-      "streak_days": 4,
-      "earnings_warning": false,
-      "days_to_earnings": null,
-      "analysis": null
-    },
-    {
-      "ticker": "SYK",
+      "ticker": "RSG",
       "company_name": "",
       "sector": "",
       "strategies": [
@@ -204,26 +205,6 @@
       "analysis": null
     },
     {
-      "ticker": "RSG",
-      "company_name": "",
-      "sector": "",
-      "strategies": [
-        "INSIDERS",
-        "OPTIONS"
-      ],
-      "strategy_count": 2,
-      "convergence_score": 50,
-      "value_score": null,
-      "conviction_grade": "",
-      "analyst_upside_pct": null,
-      "fcf_yield_pct": null,
-      "current_price": null,
-      "streak_days": 1,
-      "earnings_warning": false,
-      "days_to_earnings": null,
-      "analysis": null
-    },
-    {
       "ticker": "VRSK",
       "company_name": "Verisk Analytics, Inc.",
       "sector": "Industrials",
@@ -233,34 +214,14 @@
       ],
       "strategy_count": 2,
       "convergence_score": 49,
-      "value_score": 49.3,
+      "value_score": 49.5,
       "conviction_grade": "C",
-      "analyst_upside_pct": 15.9,
-      "fcf_yield_pct": 4.24,
-      "current_price": 202.09,
-      "streak_days": 1,
+      "analyst_upside_pct": 17.2,
+      "fcf_yield_pct": 4.29,
+      "current_price": 199.91,
+      "streak_days": 2,
       "earnings_warning": false,
-      "days_to_earnings": 86.0,
-      "analysis": null
-    },
-    {
-      "ticker": "WCN",
-      "company_name": "Waste Connections, Inc.",
-      "sector": "Industrials",
-      "strategies": [
-        "VALUE",
-        "OPTIONS"
-      ],
-      "strategy_count": 2,
-      "convergence_score": 49,
-      "value_score": 45.7,
-      "conviction_grade": "C",
-      "analyst_upside_pct": 15.0,
-      "fcf_yield_pct": 2.62,
-      "current_price": 179.58,
-      "streak_days": 1,
-      "earnings_warning": false,
-      "days_to_earnings": 79.0,
+      "days_to_earnings": 85.0,
       "analysis": null
     }
   ]
