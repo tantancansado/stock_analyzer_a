@@ -1,7 +1,7 @@
 {
-  "date": "2026-11-24",
-  "timestamp": "2026-11-24T10:37:50.552631",
-  "narrative": "Los tickers con mayor actividad (HEI, RSG, ETN, CRH, ROL) pertenecen a sectores defensivos y de infraestructura (energ\u00eda, materiales, transporte y servicios p\u00fablicos), lo que sugiere un enfoque tem\u00e1tico en activos con flujos estables y alta barrera de entrada. Cuando varios insiders diferentes adquieren acciones del mismo valor en un lapso corto, indica confianza compartida en la visi\u00f3n de corto\u2011plazo de la compa\u00f1\u00eda y reduce la probabilidad de que la compra sea motivada por necesidades personales. Para un inversor value/GARP, este patr\u00f3n constituye una se\u00f1al complementaria de \u201cconfianza interna\u201d que puede reforzar la valoraci\u00f3n basada en fundamentos, aunque no sustitu",
+  "date": "2026-11-25",
+  "timestamp": "2026-11-25T09:15:47.033218",
+  "narrative": "1) Los tickers con mayor actividad (ETN, CRH, ROL, HEI, RSG) pertenecen a sectores de energ\u00eda/infraestructura, materiales y servicios financieros, lo que sugiere un clustering en industrias c\u00edclicas y de capital intensivo, donde los insiders pueden anticipar mejoras operativas o contratos gubernamentales.  \n2) Cuando varios insiders diferentes adquieren acciones del mismo valor en un lapso corto, indica convergencia de informaci\u00f3n no p\u00fablica sobre perspectivas positivas y refuerza la credibilidad de la se\u00f1al.  \n3) Para un inversor value/GARP, este patr\u00f3n constituye una se\u00f1al adicional de",
   "total_tickers": 8,
   "total_us": 8,
   "total_eu": 0,
@@ -9,10 +9,10 @@
     {
       "ticker": "ETN",
       "market": "US",
-      "purchase_count": 6,
+      "purchase_count": 8,
       "unique_insiders": 2,
       "confidence_score": 100.0,
-      "days_span": 4
+      "days_span": 5
     },
     {
       "ticker": "CRH",
@@ -41,10 +41,10 @@
     {
       "ticker": "RSG",
       "market": "US",
-      "purchase_count": 31,
+      "purchase_count": 29,
       "unique_insiders": 1,
       "confidence_score": 100.0,
-      "days_span": 24
+      "days_span": 23
     }
   ]
 }

@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-11-24T10:39:23",
+  "generated_at": "2026-11-25T09:17:17",
   "positions_checked": 44,
-  "total": 4,
-  "high_count": 4,
+  "total": 9,
+  "high_count": 9,
   "alerts": [
     {
       "ticker": "COF",
@@ -11,6 +11,15 @@
       "signal_date": "2026-11-09",
       "type": "STOP_BREACHED",
       "reason": "Precio 180.01 por debajo del stop 185.72",
+      "severity": "HIGH"
+    },
+    {
+      "ticker": "PEP",
+      "company_name": "PepsiCo, Inc.",
+      "strategy": "VALUE",
+      "signal_date": "2026-11-09",
+      "type": "THESIS_BROKEN",
+      "reason": "analyst_upside ahora -1% \u2014 sobrevalorado",
       "severity": "HIGH"
     },
     {
@@ -23,6 +32,24 @@
       "severity": "HIGH"
     },
     {
+      "ticker": "WTKWY",
+      "company_name": "Wolters Kluwer N.V.",
+      "strategy": "VALUE",
+      "signal_date": "2026-11-09",
+      "type": "THESIS_BROKEN",
+      "reason": "analyst_upside ahora -3% \u2014 sobrevalorado",
+      "severity": "HIGH"
+    },
+    {
+      "ticker": "PGR",
+      "company_name": "The Progressive Corporation",
+      "strategy": "VALUE",
+      "signal_date": "2026-11-09",
+      "type": "THESIS_BROKEN",
+      "reason": "analyst_upside ahora -1% \u2014 sobrevalorado",
+      "severity": "HIGH"
+    },
+    {
       "ticker": "INTU",
       "company_name": "Intuit Inc.",
       "strategy": "VALUE",
@@ -32,12 +59,30 @@
       "severity": "HIGH"
     },
     {
+      "ticker": "SAP",
+      "company_name": "SAP SE",
+      "strategy": "VALUE",
+      "signal_date": "2026-11-10",
+      "type": "STOP_BREACHED",
+      "reason": "Precio 208.75 por debajo del stop 218.43",
+      "severity": "HIGH"
+    },
+    {
       "ticker": "ESLOY",
       "company_name": "EssilorLuxottica Soci\u00e9t\u00e9 anonyme",
       "strategy": "VALUE",
       "signal_date": "2026-11-10",
       "type": "STOP_BREACHED",
-      "reason": "Precio 98.21 por debajo del stop 98.62",
+      "reason": "Precio 96.25 por debajo del stop 98.62",
+      "severity": "HIGH"
+    },
+    {
+      "ticker": "PAYX",
+      "company_name": "Paychex, Inc.",
+      "strategy": "VALUE",
+      "signal_date": "2026-11-18",
+      "type": "THESIS_BROKEN",
+      "reason": "analyst_upside ahora -0% \u2014 sobrevalorado",
       "severity": "HIGH"
     }
   ]

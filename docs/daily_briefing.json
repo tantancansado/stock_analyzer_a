@@ -1,160 +1,44 @@
 {
-  "fecha": "2026-11-24",
-  "texto": "<b>Hoy hay tres compras claras: ADBE, BRO y PAYX.</b>\n\n<b>Adobe (ADBE)</b> es la de más convicción: recorrido del 64% según el veredicto de la casa, y nuestros modelos ven hasta un 109% si se cumple el escenario más favorable. Cae por miedo a que la IA generativa le coma el negocio, pero los números siguen batiendo trimestre tras trimestre. Está un 38% por debajo de su máximo del año.\n\n<b>Brown & Brown (BRO)</b> tiene un recorrido del 37%. Aviso: sus ventas se están frenando (+9,7% último trimestre frente a +22,5% el último año), algo a vigilar aunque no cambia la compra. Está un 12% bajo su máximo anual.\n\n<b>Paychex (PAYX)</b> ofrece un recorrido del 21%. Mismo aviso que Brown & Brown: el crecimiento se desacelera (+5,9% frente a +16,5% anual). Está un 12% bajo su máximo.\n\nPara vigilar, las cinco más baratas de las 22 en Observar son UBER, WTKWY, BR, OTIS y RMD. A la mayoría les falta acelerar ventas hasta el 10% anual para entrar en Prioridad; a UBER y WTKWY además les falta historial de PER con el que compararlas.\n\nHoy salen de la lista ADSK y FCNCA.",
-  "hechos": {
-    "fecha": "2026-11-24",
-    "total_lista": 25,
-    "datos_incompletos": [],
-    "picks_nuevos": [],
-    "picks_que_se_van": [
-      "ADSK (sale de la lista)",
-      "FCNCA (sale de la lista)"
-    ],
-    "comprables": [
-      {
-        "ticker": "ADBE",
-        "empresa": "Adobe Inc.",
-        "score": 98.5,
-        "precio": 223.98,
-        "fcf_yield": 12.15,
-        "por_que_cae": "SENTIMIENTO",
-        "por_que_cae_detalle": "Desde inicios de 2026 Adobe ha caído con fuertes batidas de beneficios y guidance elevado trimestre tras trimestre, pero el mercado teme que la IA generativa (Midjourney, OpenAI, C",
-        "beneficio_respaldado_por_negocio": true,
-        "grupo": "PRIORIDAD",
-        "per_contra_su_historia_sigma": -2.54,
-        "ventas_ultimo_anio_pct": 10.5,
-        "que_le_falta": "",
-        "avisos": "",
-        "puede_doblar": true,
-        "recorrido_de_nuestros_modelos_pct": 109.2,
-        "potencial_pct": 64.2,
-        "bajo_su_maximo_del_ultimo_anio_pct": -38.2
-      },
-      {
-        "ticker": "BRO",
-        "empresa": "Brown & Brown, Inc.",
-        "score": 94.5,
-        "precio": 72.73,
-        "fcf_yield": 6.16,
-        "por_que_cae": "CICLICO",
-        "por_que_cae_detalle": "En el 3T2026 Brown & Brown reportó ingresos +7.4% y BPA ajustado +1.9%, pero el crecimiento orgánico se frenó a 1.2% y el segmento Specialty Distribution cayó -0.8% (vs guía de +2/",
-        "beneficio_respaldado_por_negocio": true,
-        "grupo": "PRIORIDAD",
-        "per_contra_su_historia_sigma": -2.18,
-        "ventas_ultimo_anio_pct": 22.5,
-        "que_le_falta": "",
-        "avisos": "sus ventas se frenan: +9,7 % el último trimestre frente a +22,5 % el último año",
-        "potencial_pct": 36.9,
-        "bajo_su_maximo_del_ultimo_anio_pct": -11.9
-      },
-      {
-        "ticker": "PAYX",
-        "empresa": "Paychex, Inc.",
-        "score": 93.0,
-        "precio": 112.54,
-        "fcf_yield": 5.03,
-        "por_que_cae": "CICLICO",
-        "por_que_cae_detalle": "En el Q1 FY2027 (publicado el 23 de septiembre de 2026) Paychex batió expectativas de beneficio y elevó la guía de PEO e Insurance a 7-8%, pero el segmento Management Solutions (tr",
-        "beneficio_respaldado_por_negocio": true,
-        "grupo": "PRIORIDAD",
-        "per_contra_su_historia_sigma": -2.01,
-        "ventas_ultimo_anio_pct": 16.5,
-        "que_le_falta": "",
-        "avisos": "sus ventas se frenan: +5,9 % el último trimestre frente a +16,5 % el último año",
-        "potencial_pct": 21.4,
-        "bajo_su_maximo_del_ultimo_anio_pct": -12.1
-      }
-    ],
-    "vigilar": [
-      {
-        "ticker": "UBER",
-        "empresa": "Uber Technologies, Inc.",
-        "score": 59.9,
-        "precio": 64.07,
-        "fcf_yield": 7.97,
-        "por_que_cae": "EVENTO",
-        "por_que_cae_detalle": "Q3 2024 (31 oct): beat en EPS y revenue pero miss en Gross Bookings ($40.97B vs $41.25B esperados). BPA colapsó -92.3% debido a ganancias no recurrentes por revaluación de inversio",
-        "beneficio_respaldado_por_negocio": true,
-        "grupo": "OBSERVAR",
-        "per_contra_su_historia_sigma": null,
-        "ventas_ultimo_anio_pct": 18.3,
-        "que_le_falta": "sin historia de PER con que compararla",
-        "avisos": "",
-        "potencial_pct": 55.9,
-        "bajo_su_maximo_del_ultimo_anio_pct": -30.9
-      },
-      {
-        "ticker": "WTKWY",
-        "empresa": "Wolters Kluwer N.V.",
-        "score": 58.3,
-        "precio": 91.53,
-        "fcf_yield": 7.32,
-        "por_que_cae": "SENTIMIENTO",
-        "por_que_cae_detalle": "Caída de múltiplos por repricing de riesgo macro e incertidumbre sobre IA desde agosto 2026. Negocio operativo sólido: crecimiento orgánico 6%, márgenes expandiéndose, software clo",
-        "beneficio_respaldado_por_negocio": true,
-        "grupo": "OBSERVAR",
-        "per_contra_su_historia_sigma": null,
-        "ventas_ultimo_anio_pct": 3.5,
-        "que_le_falta": "ventas anuales +3,5 %, le falta crecer al 10 % · sin historia de PER con que compararla",
-        "avisos": "",
-        "potencial_pct": 91.3,
-        "bajo_su_maximo_del_ultimo_anio_pct": -15.8
-      },
-      {
-        "ticker": "BR",
-        "empresa": "Broadridge Financial Solutions",
-        "score": 54.8,
-        "precio": 181.82,
-        "fcf_yield": 6.3,
-        "por_que_cae": "EVENTO",
-        "por_que_cae_detalle": "Caída de BPA del -42.7% en el trimestre por inversiones estratégicas en IA, tokenización y modernización de plataformas que comprimen márgenes; guidance de crecimiento de ingresos ",
-        "beneficio_respaldado_por_negocio": true,
-        "grupo": "OBSERVAR",
-        "per_contra_su_historia_sigma": -2.09,
-        "ventas_ultimo_anio_pct": 8.5,
-        "que_le_falta": "ventas anuales +8,5 %, le falta crecer al 10 %",
-        "avisos": "",
-        "potencial_pct": 45.6,
-        "bajo_su_maximo_del_ultimo_anio_pct": -22.0
-      },
-      {
-        "ticker": "OTIS",
-        "empresa": "Otis Worldwide Corporation",
-        "score": 53.2,
-        "precio": 77.21,
-        "fcf_yield": 5.69,
-        "por_que_cae": "SENTIMIENTO",
-        "por_que_cae_detalle": "Caída de 18.4% (21.5% YTD) pese a que Q3 2026 mostró organic sales growth de 6%, modernization +20%, guidance mantenida y EPS beat. Mercado penaliza contracción de margen operativo",
-        "beneficio_respaldado_por_negocio": true,
-        "grupo": "OBSERVAR",
-        "per_contra_su_historia_sigma": -1.83,
-        "ventas_ultimo_anio_pct": 1.2,
-        "que_le_falta": "ventas anuales +1,2 %, le falta crecer al 10 %",
-        "avisos": "",
-        "potencial_pct": 20.5,
-        "bajo_su_maximo_del_ultimo_anio_pct": -18.4
-      },
-      {
-        "ticker": "RMD",
-        "empresa": "ResMed Inc.",
-        "score": 52.0,
-        "precio": 239.38,
-        "fcf_yield": 4.72,
-        "por_que_cae": "SENTIMIENTO",
-        "por_que_cae_detalle": "Caída por temor a disruption futura de GLP-1 (Lilly) y reingreso de Philips en PAP, más downgrade de Morgan Stanley en septiembre 2024. Fundamentals siguen fuertes: ingresos +11%, ",
-        "beneficio_respaldado_por_negocio": true,
-        "grupo": "OBSERVAR",
-        "per_contra_su_historia_sigma": -1.84,
-        "ventas_ultimo_anio_pct": 9.9,
-        "que_le_falta": "ventas anuales +9,9 %, le falta crecer al 10 %",
-        "avisos": "",
-        "potencial_pct": 34.3,
-        "bajo_su_maximo_del_ultimo_anio_pct": -13.8
-      }
-    ],
-    "vigilar_total": 22,
-    "tesis_rotas": [],
-    "rotas_son_tuyas": true,
-    "mercado": null
-  }
+  "date": "2026-11-25",
+  "timestamp": "2026-11-25T09:15:46.396542",
+  "narrative": "",
+  "macro_regime": "WATCH",
+  "picks_count": 8,
+  "top_picks": [
+    {
+      "ticker": "BRO",
+      "sector": "Financial Services",
+      "value_score": 93.3,
+      "analyst_upside_pct": -0.0,
+      "conviction_grade": null
+    },
+    {
+      "ticker": "FCNCA",
+      "sector": "Financial Services",
+      "value_score": 86.9,
+      "analyst_upside_pct": 18.3,
+      "conviction_grade": null
+    },
+    {
+      "ticker": "UBER",
+      "sector": "Technology",
+      "value_score": 59.7,
+      "analyst_upside_pct": 51.7,
+      "conviction_grade": null
+    },
+    {
+      "ticker": "BR",
+      "sector": "Technology",
+      "value_score": 54.4,
+      "analyst_upside_pct": 13.3,
+      "conviction_grade": null
+    },
+    {
+      "ticker": "OTIS",
+      "sector": "Industrials",
+      "value_score": 52.8,
+      "analyst_upside_pct": 10.2,
+      "conviction_grade": null
+    }
+  ]
 }
