@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-11-24",
+  "generated_at": "2026-11-25",
   "regime": "NEUTRAL",
-  "narrative": "Hoy la lista tiene 3 para comprar: ADBE, BRO, PAYX. El mercado est\u00e1 como siempre.",
+  "narrative": "Hoy la lista tiene 2 para comprar: BRO, FCNCA. El mercado est\u00e1 como siempre.",
   "sections": {
     "regime": "NEUTRAL",
     "strong_buy_count": 0,
@@ -27,35 +27,35 @@
         "STREAK"
       ],
       [
-        "CME",
+        "BR",
         "STREAK"
       ],
       [
-        "CRH",
+        "CME",
         "STREAK"
       ]
     ],
     "traps_warning": [],
     "exit_warnings": [
       [
+        "BSX",
+        "Ya no aparece en VALUE \u2014 tesis posiblemente rota",
+        "BSX ha reportado crecimiento de doble d\u00edgito en ventas y superado expectativas de beneficios en trimestres recientes, impulsado por Watchman y Farapulse, sin se\u00f1ales de deterioro operativo.",
+        94.8,
+        null
+      ],
+      [
         "6383.T",
         "Ya no aparece en VALUE \u2014 tesis posiblemente rota",
-        "No hay informaci\u00f3n reciente en mi conocimiento que indique deterioro fundamental; la se\u00f1al parece m\u00e1s ligada a valoraci\u00f3n (precio) que a fundamentales.",
+        "No tengo datos posteriores a mi corte de entrenamiento que confirmen un evento negativo espec\u00edfico; la salida de la lista VALUE suele deberse a revalorizaci\u00f3n de precio, no necesariamente a deterioro del negocio.",
         56.7,
         null
       ],
       [
         "GGG",
         "Ya no aparece en VALUE \u2014 tesis posiblemente rota",
-        "Graco hist\u00f3ricamente mantiene fundamentales s\u00f3lidos (m\u00e1rgenes altos, poca deuda, crecimiento constante); la desaparici\u00f3n de la lista VALUE sugiere m\u00faltiplo elevado por apreciaci\u00f3n de precio, no deterioro operativo.",
+        "GGG hist\u00f3ricamente mantiene fundamentales s\u00f3lidos (m\u00e1rgenes altos, poca deuda); la desaparici\u00f3n de la lista VALUE sugiere m\u00faltiplo elevado por precio, no deterioro del negocio.",
         53.2,
-        null
-      ],
-      [
-        "PEP",
-        "Ya no aparece en VALUE \u2014 tesis posiblemente rota",
-        "PepsiCo mantiene crecimiento constante de ingresos, dividendos crecientes (Dividend Aristocrat) y posici\u00f3n de mercado dominante en snacks y bebidas, sin eventos negativos mayores recientes conocidos hasta el corte de entrenamiento.",
-        52.5,
         null
       ]
     ],
@@ -66,12 +66,12 @@
         1
       ],
       [
-        "TJX",
+        "SUNB",
         4,
         1
       ],
       [
-        "SUNB",
+        "TJX",
         4,
         1
       ]

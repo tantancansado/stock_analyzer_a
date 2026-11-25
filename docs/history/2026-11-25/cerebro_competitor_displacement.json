@@ -1,0 +1,72 @@
+{
+  "generated_at": "2026-11-25",
+  "total": 5,
+  "dropped_count": 3,
+  "narrative": "1. **\u201cEs m\u00e1s rentable rotar dentro del sector que esperar a que se mueva el mercado.\u201d**  \n2. **\u201cCuando la rotaci\u00f3n sectorial ofrece mejores oportunidades, es mejor cambiar posiciones que quedarte quieto.\u201d**",
+  "displacements": [
+    {
+      "type": "COMPETITOR_RISE",
+      "dropped_ticker": "PAYX",
+      "sector": "Technology",
+      "prev_score": 93.0,
+      "replacements": [
+        "UBER",
+        "BR",
+        "TYL"
+      ],
+      "top_replacement": "UBER",
+      "top_replacement_score": 59.7,
+      "detail": "PAYX sali\u00f3 de VALUE (93pts); peers en Technology: UBER, BR"
+    },
+    {
+      "type": "COMPETITOR_RISE",
+      "dropped_ticker": "WTKWY",
+      "sector": "Industrials",
+      "prev_score": 58.3,
+      "replacements": [
+        "OTIS"
+      ],
+      "top_replacement": "OTIS",
+      "top_replacement_score": 52.8,
+      "detail": "WTKWY sali\u00f3 de VALUE (58pts); peers en Industrials: OTIS"
+    },
+    {
+      "type": "COMPETITOR_RISE",
+      "dropped_ticker": "ADBE",
+      "sector": "Technology",
+      "prev_score": 98.5,
+      "replacements": [
+        "UBER",
+        "BR",
+        "TYL"
+      ],
+      "top_replacement": "UBER",
+      "top_replacement_score": 59.7,
+      "detail": "ADBE sali\u00f3 de VALUE (98pts); peers en Technology: UBER, BR"
+    },
+    {
+      "type": "SECTOR_TAILWIND",
+      "sector": "Technology",
+      "rotation_score": 100.0,
+      "beneficiaries": [
+        "UBER",
+        "BR",
+        "TYL"
+      ],
+      "top_ticker": "UBER",
+      "top_score": 59.7,
+      "detail": "Sector Technology l\u00edder (RS 100) \u2014 UBER, BR, TYL son los picks VALUE"
+    },
+    {
+      "type": "SECTOR_TAILWIND",
+      "sector": "Healthcare",
+      "rotation_score": 100.0,
+      "beneficiaries": [
+        "RMD"
+      ],
+      "top_ticker": "RMD",
+      "top_score": 51.7,
+      "detail": "Sector Healthcare l\u00edder (RS 100) \u2014 RMD son los picks VALUE"
+    }
+  ]
+}

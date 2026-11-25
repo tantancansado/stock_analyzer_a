@@ -1,47 +1,61 @@
 {
-  "generated_at": "2026-11-24",
-  "total": 4,
-  "dropped_count": 2,
-  "narrative": "1. Cuando un sector muestra se\u00f1ales de sobrevaloraci\u00f3n o un cambio de liderazgo, rotar dentro del mismo sector suele generar mejores resultados que esperar a que el mercado se ajuste.  \n2. Si los fundamentos de un sector camb",
+  "generated_at": "2026-11-25",
+  "total": 5,
+  "dropped_count": 3,
+  "narrative": "1. **\u201cEs m\u00e1s rentable rotar dentro del sector que esperar a que se mueva el mercado.\u201d**  \n2. **\u201cCuando la rotaci\u00f3n sectorial ofrece mejores oportunidades, es mejor cambiar posiciones que quedarte quieto.\u201d**",
   "displacements": [
     {
       "type": "COMPETITOR_RISE",
-      "dropped_ticker": "ADSK",
+      "dropped_ticker": "PAYX",
       "sector": "Technology",
-      "prev_score": 90.3,
+      "prev_score": 93.0,
       "replacements": [
-        "ADBE",
-        "PAYX",
-        "UBER"
+        "UBER",
+        "BR",
+        "TYL"
       ],
-      "top_replacement": "ADBE",
-      "top_replacement_score": 98.5,
-      "detail": "ADSK sali\u00f3 de VALUE (90pts); peers en Technology: ADBE, PAYX"
+      "top_replacement": "UBER",
+      "top_replacement_score": 59.7,
+      "detail": "PAYX sali\u00f3 de VALUE (93pts); peers en Technology: UBER, BR"
     },
     {
       "type": "COMPETITOR_RISE",
-      "dropped_ticker": "FCNCA",
-      "sector": "Financial Services",
-      "prev_score": 87.2,
+      "dropped_ticker": "WTKWY",
+      "sector": "Industrials",
+      "prev_score": 58.3,
       "replacements": [
-        "BRO"
+        "OTIS"
       ],
-      "top_replacement": "BRO",
-      "top_replacement_score": 94.5,
-      "detail": "FCNCA sali\u00f3 de VALUE (87pts); peers en Financial Services: BRO"
+      "top_replacement": "OTIS",
+      "top_replacement_score": 52.8,
+      "detail": "WTKWY sali\u00f3 de VALUE (58pts); peers en Industrials: OTIS"
+    },
+    {
+      "type": "COMPETITOR_RISE",
+      "dropped_ticker": "ADBE",
+      "sector": "Technology",
+      "prev_score": 98.5,
+      "replacements": [
+        "UBER",
+        "BR",
+        "TYL"
+      ],
+      "top_replacement": "UBER",
+      "top_replacement_score": 59.7,
+      "detail": "ADBE sali\u00f3 de VALUE (98pts); peers en Technology: UBER, BR"
     },
     {
       "type": "SECTOR_TAILWIND",
       "sector": "Technology",
       "rotation_score": 100.0,
       "beneficiaries": [
-        "ADBE",
-        "PAYX",
-        "UBER"
+        "UBER",
+        "BR",
+        "TYL"
       ],
-      "top_ticker": "ADBE",
-      "top_score": 98.5,
-      "detail": "Sector Technology l\u00edder (RS 100) \u2014 ADBE, PAYX, UBER son los picks VALUE"
+      "top_ticker": "UBER",
+      "top_score": 59.7,
+      "detail": "Sector Technology l\u00edder (RS 100) \u2014 UBER, BR, TYL son los picks VALUE"
     },
     {
       "type": "SECTOR_TAILWIND",
@@ -51,7 +65,7 @@
         "RMD"
       ],
       "top_ticker": "RMD",
-      "top_score": 52.0,
+      "top_score": 51.7,
       "detail": "Sector Healthcare l\u00edder (RS 100) \u2014 RMD son los picks VALUE"
     }
   ]

@@ -1,40 +1,42 @@
 {
-  "fecha": "2026-11-24",
+  "fecha": "2026-11-25",
   "estado": "ok",
   "hallazgos": [
     {
-      "clave": "texto_contradice_datos:28e99aebc3",
-      "ticker": null,
-      "tipo": "texto_contradice_datos",
-      "titulo": "El briefing omite SGSOY entre las salidas de la lista",
-      "por_que": "Los datos de 'cambios_desde_ayer' indican que salen tres tickers (ADSK, FCNCA, SGSOY), pero el briefing solo menciona dos, dando una imagen incompleta de los cambios del día.",
-      "cita": "\"salen\": [\"ADSK\", \"FCNCA\", \"SGSOY\"]",
-      "donde_mirar": "Sección de cambios_desde_ayer vs texto final del briefing_publicado"
+      "clave": "vaiven:BSX:fcf_per_share",
+      "ticker": "BSX",
+      "tipo": "cambio_sin_motivo",
+      "titulo": "fcf_per_share va y vuelve",
+      "por_que": "2026-11-23: 2.35 · 2026-11-24: 1 · 2026-11-25: 2.35. Un dato que vuelve al día siguiente no es la empresa: alguna fuente devuelve cosas distintas según el día.",
+      "cita": "fcf_per_share: 1",
+      "donde_mirar": "el cálculo de ese campo y su fuente"
     },
     {
-      "clave": "texto_contradice_datos:UBER",
-      "ticker": "UBER",
-      "tipo": "texto_contradice_datos",
-      "titulo": "El briefing dice que a UBER le falta acelerar ventas al 10%, pero sus ventas ya superan ese umbral",
-      "por_que": "El value_falta de UBER solo menciona la falta de historial de PER, no de ventas; de hecho ventas_anual_pct es 18.3%, muy por encima del 10% exigido. El briefing agrupa a UBER con los que 'les falta acelerar ventas', lo cual contradice el propio dato de la ficha.",
-      "cita": "\"value_falta\": \"sin historia de PER con que compararla\"",
-      "donde_mirar": "Comparar value_falta de UBER con el párrafo final del briefing sobre los 'Observar' más baratos"
+      "clave": "vaiven:FCNCA:value_grupo",
+      "ticker": "FCNCA",
+      "tipo": "cambio_sin_motivo",
+      "titulo": "sale de Prioridad un día y vuelve al siguiente",
+      "por_que": "2026-11-23: PRIORIDAD · 2026-11-24: fuera · 2026-11-25: PRIORIDAD.",
+      "cita": "value_grupo: fuera",
+      "donde_mirar": "qué dato le cambió ese día"
     },
     {
-      "clave": "otro:AMZN",
-      "ticker": "AMZN",
-      "tipo": "otro",
-      "titulo": "El resumen de why_cheap de AMZN contiene un fragmento sin sentido ('según tus datos')",
-      "por_que": "Esa frase parece un resto de plantilla o prompt que no debería aparecer en un texto dirigido al usuario; no aporta información y rompe la coherencia del resumen.",
-      "cita": "margen operativo récord (+61% operativo, +29,6% según tus datos)",
-      "donde_mirar": "why_cheap_resumen de AMZN"
+      "clave": "lista_incumple_su_regla:ADBE",
+      "ticker": "ADBE",
+      "tipo": "lista_incumple_su_regla",
+      "titulo": "ADBE sale de Prioridad hoy pero no figura en 'fueron_prioridad_y_hoy_no'",
+      "por_que": "El briefing dice explícitamente que ADBE sale de Prioridad hoy, y la regla dice que ese estado debe reflejar todo lo que fue Prioridad y hoy no lo es con su motivo de venta; ADBE falta en esa lista (solo están FICO, BSX, PAYX, PGR).",
+      "cita": "\"Salen de Prioridad ADBE y PAYX, que dejan también la lista.\"",
+      "donde_mirar": "fueron_prioridad_y_hoy_no vs briefing_publicado"
     }
   ],
-  "descartados": [],
+  "descartados": [
+    "FCNCA: FCNCA marcada 'puede doblar' con el beneficio muy por debajo de su tendencia (la cita no está en los datos)"
+  ],
   "incidencias_nuevas": [
-    28,
-    29,
-    30
+    31,
+    32,
+    33
   ],
   "avisos": []
 }

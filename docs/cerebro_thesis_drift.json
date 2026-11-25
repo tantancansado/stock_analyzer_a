@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-11-24",
-  "baseline_date": "2026-10-09",
-  "days_tracked": 46,
-  "total": 7,
+  "generated_at": "2026-11-25",
+  "baseline_date": "2026-10-12",
+  "days_tracked": 44,
+  "total": 8,
   "high_count": 0,
-  "narrative": "",
+  "narrative": "El ruido temporal se refleja en variaciones de mercado que no alteran los fundamentos subyacentes de la empresa, mientras que el deterioro estructural implica cambios persistentes en indicadores clave que minan la viabilidad de la inversi\u00f3n. En una tesis VALUE, la diferencia clave radica en que el ruido es transitorio y se corrige con el tiempo, mientras que el deterioro estructural es permanente y requiere una reevaluaci\u00f3n fundamental del valor.",
   "drifts": [
     {
       "ticker": "JKHY",
@@ -12,12 +12,12 @@
       "sector": "Technology",
       "severity": "MEDIUM",
       "drift_score": 4,
-      "days_tracked": 46,
-      "baseline_date": "2026-10-09",
-      "value_score_now": 51.3,
-      "value_score_prev": 55.7,
+      "days_tracked": 44,
+      "baseline_date": "2026-10-12",
+      "value_score_now": 50.6,
+      "value_score_prev": 53.0,
       "drift_flags": [
-        "Upside analistas cay\u00f3 11pp (27%\u219216%)",
+        "Upside analistas cay\u00f3 14pp (27%\u219213%)",
         "Deuda/equity subi\u00f3 50% (0.0\u21920.1x)"
       ],
       "improvements": []
@@ -28,28 +28,13 @@
       "sector": "Financial Services",
       "severity": "MEDIUM",
       "drift_score": 4,
-      "days_tracked": 46,
-      "baseline_date": "2026-10-09",
-      "value_score_now": 48.5,
+      "days_tracked": 44,
+      "baseline_date": "2026-10-12",
+      "value_score_now": 46.9,
       "value_score_prev": 32.6,
       "drift_flags": [
-        "Upside analistas cay\u00f3 10pp (21%\u219211%)",
+        "Upside analistas cay\u00f3 14pp (21%\u21927%)",
         "Deuda/equity subi\u00f3 74% (1.6\u21922.8x)"
-      ],
-      "improvements": []
-    },
-    {
-      "ticker": "WTKWY",
-      "company_name": "Wolters Kluwer N.V.",
-      "sector": "Industrials",
-      "severity": "LOW",
-      "drift_score": 2,
-      "days_tracked": 46,
-      "baseline_date": "2026-10-09",
-      "value_score_now": 58.3,
-      "value_score_prev": 39.0,
-      "drift_flags": [
-        "Upside analistas cay\u00f3 9pp (33%\u219224%)"
       ],
       "improvements": []
     },
@@ -59,12 +44,12 @@
       "sector": "Technology",
       "severity": "LOW",
       "drift_score": 2,
-      "days_tracked": 46,
-      "baseline_date": "2026-10-09",
-      "value_score_now": 54.8,
-      "value_score_prev": 76.1,
+      "days_tracked": 44,
+      "baseline_date": "2026-10-12",
+      "value_score_now": 54.4,
+      "value_score_prev": 74.0,
       "drift_flags": [
-        "Upside analistas cay\u00f3 14pp (29%\u219215%)"
+        "Upside analistas cay\u00f3 16pp (29%\u219213%)"
       ],
       "improvements": []
     },
@@ -74,12 +59,12 @@
       "sector": "Industrials",
       "severity": "LOW",
       "drift_score": 2,
-      "days_tracked": 46,
-      "baseline_date": "2026-10-09",
-      "value_score_now": 53.2,
+      "days_tracked": 44,
+      "baseline_date": "2026-10-12",
+      "value_score_now": 52.8,
       "value_score_prev": 33.1,
       "drift_flags": [
-        "Upside analistas cay\u00f3 18pp (30%\u219212%)"
+        "Upside analistas cay\u00f3 19pp (30%\u219210%)"
       ],
       "improvements": []
     },
@@ -89,12 +74,27 @@
       "sector": "Technology",
       "severity": "LOW",
       "drift_score": 2,
-      "days_tracked": 46,
-      "baseline_date": "2026-10-09",
-      "value_score_now": 51.8,
-      "value_score_prev": 32.7,
+      "days_tracked": 44,
+      "baseline_date": "2026-10-12",
+      "value_score_now": 51.4,
+      "value_score_prev": 32.3,
       "drift_flags": [
-        "Upside analistas cay\u00f3 18pp (28%\u219211%)"
+        "Upside analistas cay\u00f3 19pp (28%\u21929%)"
+      ],
+      "improvements": []
+    },
+    {
+      "ticker": "ADSK",
+      "company_name": "Autodesk, Inc.",
+      "sector": "Technology",
+      "severity": "LOW",
+      "drift_score": 2,
+      "days_tracked": 44,
+      "baseline_date": "2026-10-12",
+      "value_score_now": 49.6,
+      "value_score_prev": 31.8,
+      "drift_flags": [
+        "Upside analistas cay\u00f3 11pp (32%\u219221%)"
       ],
       "improvements": []
     },
@@ -104,12 +104,27 @@
       "sector": "Industrials",
       "severity": "LOW",
       "drift_score": 2,
-      "days_tracked": 46,
-      "baseline_date": "2026-10-09",
-      "value_score_now": 49.5,
+      "days_tracked": 44,
+      "baseline_date": "2026-10-12",
+      "value_score_now": 49.1,
       "value_score_prev": 32.2,
       "drift_flags": [
-        "Upside analistas cay\u00f3 12pp (29%\u219217%)"
+        "Upside analistas cay\u00f3 14pp (29%\u219215%)"
+      ],
+      "improvements": []
+    },
+    {
+      "ticker": "NYT",
+      "company_name": "The New York Times Company",
+      "sector": "Communication Services",
+      "severity": "LOW",
+      "drift_score": 2,
+      "days_tracked": 44,
+      "baseline_date": "2026-10-12",
+      "value_score_now": 48.9,
+      "value_score_prev": 50.7,
+      "drift_flags": [
+        "Upside analistas cay\u00f3 8pp (16%\u21928%)"
       ],
       "improvements": []
     }

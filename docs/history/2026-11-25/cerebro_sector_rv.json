@@ -1,0 +1,141 @@
+{
+  "generated_at": "2026-11-25",
+  "total": 7,
+  "rerate_sectors": 0,
+  "narrative": "",
+  "standouts": [
+    {
+      "ticker": "COF",
+      "company_name": "Capital One Financial Corporation",
+      "sector": "Financial Services",
+      "label": "BEST_IN_SECTOR",
+      "fcf_yield_pct": 24.07,
+      "fcf_rank": 1,
+      "fcf_rank_of": 6,
+      "value_score": 41.8,
+      "analyst_upside_pct": 39.3,
+      "sector_avg_fcf": 9.25,
+      "peers_in_sector": 6
+    },
+    {
+      "ticker": "PRI",
+      "company_name": "Primerica, Inc.",
+      "sector": "Financial Services",
+      "label": "BEST_IN_SECTOR",
+      "fcf_yield_pct": 10.5,
+      "fcf_rank": 2,
+      "fcf_rank_of": 6,
+      "value_score": 47.1,
+      "analyst_upside_pct": 10.7,
+      "sector_avg_fcf": 9.25,
+      "peers_in_sector": 6
+    },
+    {
+      "ticker": "UBER",
+      "company_name": "Uber Technologies, Inc.",
+      "sector": "Technology",
+      "label": "BEST_IN_SECTOR",
+      "fcf_yield_pct": 7.89,
+      "fcf_rank": 1,
+      "fcf_rank_of": 7,
+      "value_score": 59.7,
+      "analyst_upside_pct": 51.7,
+      "sector_avg_fcf": 4.84,
+      "peers_in_sector": 7
+    },
+    {
+      "ticker": "BR",
+      "company_name": "Broadridge Financial Solutions, Inc.",
+      "sector": "Technology",
+      "label": "BEST_IN_SECTOR",
+      "fcf_yield_pct": 6.21,
+      "fcf_rank": 2,
+      "fcf_rank_of": 7,
+      "value_score": 54.4,
+      "analyst_upside_pct": 13.3,
+      "sector_avg_fcf": 4.84,
+      "peers_in_sector": 7
+    },
+    {
+      "ticker": "NYT",
+      "company_name": "The New York Times Company",
+      "sector": "Communication Services",
+      "label": "BEST_IN_SECTOR",
+      "fcf_yield_pct": 5.27,
+      "fcf_rank": 1,
+      "fcf_rank_of": 3,
+      "value_score": 48.9,
+      "analyst_upside_pct": 7.9,
+      "sector_avg_fcf": 2.58,
+      "peers_in_sector": 3
+    },
+    {
+      "ticker": "BAC",
+      "company_name": "Bank of America Corporation",
+      "sector": "Financial Services",
+      "label": "PRICEY_VS_PEERS",
+      "fcf_yield_pct": 3.76,
+      "fcf_rank": 6,
+      "fcf_rank_of": 6,
+      "value_score": 41.1,
+      "analyst_upside_pct": 28.7,
+      "sector_avg_fcf": 9.25,
+      "peers_in_sector": 6
+    },
+    {
+      "ticker": "MSFT",
+      "company_name": "Microsoft Corporation",
+      "sector": "Technology",
+      "label": "PRICEY_VS_PEERS",
+      "fcf_yield_pct": 1.63,
+      "fcf_rank": 7,
+      "fcf_rank_of": 7,
+      "value_score": 44.2,
+      "analyst_upside_pct": 28.5,
+      "sector_avg_fcf": 4.84,
+      "peers_in_sector": 7
+    }
+  ],
+  "sector_summary": [
+    {
+      "sector": "Financial Services",
+      "count": 6,
+      "avg_value_score": 59.5,
+      "avg_fcf_yield": 9.25,
+      "rerate_potential": false,
+      "tickers": [
+        "BRO",
+        "FCNCA",
+        "PRI",
+        "AON",
+        "COF"
+      ]
+    },
+    {
+      "sector": "Technology",
+      "count": 7,
+      "avg_value_score": 51.5,
+      "avg_fcf_yield": 4.84,
+      "rerate_potential": false,
+      "tickers": [
+        "UBER",
+        "BR",
+        "TYL",
+        "JKHY",
+        "SAP"
+      ]
+    },
+    {
+      "sector": "Communication Services",
+      "count": 3,
+      "avg_value_score": 46.2,
+      "avg_fcf_yield": 2.58,
+      "rerate_potential": false,
+      "tickers": [
+        "NYT",
+        "META",
+        "GOOG"
+      ]
+    }
+  ]
+}

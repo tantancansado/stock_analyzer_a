@@ -1,0 +1,62 @@
+{
+  "generated_at": "2026-11-25",
+  "total": 1,
+  "strong_buy": 0,
+  "buy": 0,
+  "monitor": 1,
+  "wait": 0,
+  "narrative": null,
+  "signals": [
+    {
+      "ticker": "FCNCA",
+      "company_name": "First Citizens BancShares, Inc.",
+      "region": "US",
+      "sector": "Financial Services",
+      "value_score": 86.9,
+      "conviction_grade": "D",
+      "current_price": 2137.21,
+      "analyst_upside_pct": 18.3,
+      "fcf_yield_pct": 6.78,
+      "risk_reward_ratio": 2.29,
+      "days_in_value": 1,
+      "streak_days": 1,
+      "entry_score": 35,
+      "signal": "MONITOR",
+      "signals_fired": [
+        "Value score \u226580",
+        "FCF yield \u22655%",
+        "Upside en banda dorada [10,30)",
+        "Analyst revision \u2191"
+      ],
+      "signals_pts": [
+        {
+          "name": "Value score \u226580",
+          "pts": 10
+        },
+        {
+          "name": "FCF yield \u22655%",
+          "pts": 10
+        },
+        {
+          "name": "Upside en banda dorada [10,30)",
+          "pts": 10
+        },
+        {
+          "name": "Analyst revision \u2191",
+          "pts": 5
+        }
+      ],
+      "signals_missing": [
+        "Sin insider buying (espera)",
+        "Sin se\u00f1al MR oversold",
+        "Sin opciones alcistas",
+        "Sector no l\u00edder",
+        "R\u00e9gimen no alcista",
+        "Solo 1d en VALUE"
+      ],
+      "rsi": null,
+      "earnings_warning": false,
+      "days_to_earnings": 58
+    }
+  ]
+}
