@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-11-25T09:17:17",
-  "positions_checked": 44,
-  "total": 9,
-  "high_count": 9,
+  "generated_at": "2026-11-26T08:37:11",
+  "positions_checked": 43,
+  "total": 11,
+  "high_count": 11,
   "alerts": [
     {
       "ticker": "COF",
@@ -19,7 +19,7 @@
       "strategy": "VALUE",
       "signal_date": "2026-11-09",
       "type": "THESIS_BROKEN",
-      "reason": "analyst_upside ahora -1% \u2014 sobrevalorado",
+      "reason": "analyst_upside ahora -2% \u2014 sobrevalorado",
       "severity": "HIGH"
     },
     {
@@ -37,7 +37,7 @@
       "strategy": "VALUE",
       "signal_date": "2026-11-09",
       "type": "THESIS_BROKEN",
-      "reason": "analyst_upside ahora -3% \u2014 sobrevalorado",
+      "reason": "analyst_upside ahora -4% \u2014 sobrevalorado",
       "severity": "HIGH"
     },
     {
@@ -46,7 +46,16 @@
       "strategy": "VALUE",
       "signal_date": "2026-11-09",
       "type": "THESIS_BROKEN",
-      "reason": "analyst_upside ahora -1% \u2014 sobrevalorado",
+      "reason": "analyst_upside ahora -2% \u2014 sobrevalorado",
+      "severity": "HIGH"
+    },
+    {
+      "ticker": "BRO",
+      "company_name": "Brown & Brown, Inc.",
+      "strategy": "VALUE",
+      "signal_date": "2026-11-09",
+      "type": "THESIS_BROKEN",
+      "reason": "analyst_upside ahora -3% \u2014 sobrevalorado",
       "severity": "HIGH"
     },
     {
@@ -77,12 +86,21 @@
       "severity": "HIGH"
     },
     {
+      "ticker": "DPZ",
+      "company_name": "Domino's Pizza, Inc.",
+      "strategy": "VALUE",
+      "signal_date": "2026-11-10",
+      "type": "THESIS_BROKEN",
+      "reason": "analyst_upside ahora -1% \u2014 sobrevalorado",
+      "severity": "HIGH"
+    },
+    {
       "ticker": "PAYX",
       "company_name": "Paychex, Inc.",
       "strategy": "VALUE",
       "signal_date": "2026-11-18",
       "type": "THESIS_BROKEN",
-      "reason": "analyst_upside ahora -0% \u2014 sobrevalorado",
+      "reason": "analyst_upside ahora -2% \u2014 sobrevalorado",
       "severity": "HIGH"
     }
   ]

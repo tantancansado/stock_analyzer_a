@@ -1,41 +1,23 @@
 {
   "listas": {
     "value_opportunities": {
-      "candidatas": 29,
+      "candidatas": 26,
       "publicadas": 24,
       "excluidos": [
         {
-          "ticker": "ADBE",
-          "paso": "verificador_ia",
-          "motivo": "Contradicción crítica: analyst_upside_pct (15.0%) vs target_price_dcf_upside_pct (101.9%) son irreconciliables. upside_triangulated_pct (58.4%) intenta mediar pero sin campo modelos_acuerdo que explique la dispersión. · PER Z-score (-2.46) indica valoración muy por debajo de media histórica, coherente con descuento, pero fundamental_score (64.4) es moderado no alto, lo que contradice un descuento tan profundo en PER.",
-          "score": 98.2
-        },
-        {
-          "ticker": "BSX",
-          "paso": "verificador_ia",
-          "motivo": "Contradicción fundamental: rev_growth_yoy (1.4%) es prácticamente nulo, pero ventas_anual_pct (19.9%) es muy alto. Estas no pueden coexistir salvo que haya cambio de divisa o consolidación M&A no explicada. Sistema de datos incoherente. · upside_triangulated_pct (78.1%) es muy alto con crecimiento de ingresos de solo 1.4% YoY. upside_requiere_verificacion es false, pero un descuento de 78% con crecimiento prácticamente cero es extremo y no sostenido por los fundamentales mostrados.",
-          "score": 94.8
-        },
-        {
-          "ticker": "MKC",
-          "paso": "verificador_ia",
-          "motivo": "Contradicción interna: rev_growth_yoy (17.4%) pero ventas_anual_pct (1.7%). No pueden ambas ser ciertas. O bien hay error de unidad/divisa, o bien los datos son inconsistentes. · PEG ratio (2.99) es alto para un crecimiento que supuestamente es 17.4%, lo que sugiere que el verdadero crecimiento es más bajo (cercano a 1.7%), no 17.4%. Esto invalida la coherencia del modelo de crecimiento.",
-          "score": 58.3
-        },
-        {
-          "ticker": "RELX",
-          "paso": "verificador_ia",
-          "motivo": "modelos_acuerdo es DISPERSOS con dispersión 43.2 pts: target_price_dcf_upside_pct (15.1%) vs target_price_pe_upside_pct (58.3%) son incompatibles. upside_triangulated_pct (16.1%) elige DCF pero analyst_upside_pct (16.1%) coincide casualmente. Sin justificación de por qué el analista está de acuerdo con DCF y no P/E. · ebit_ev_yield (1.05%) es anormalmente bajo, sugiriendo error de cálculo o factor de escala incorrecto. Comparado con fcf_yield_pct (4.41%) la disparidad es irracional para una empresa de este tipo.",
-          "score": 51.0
-        },
-        {
           "ticker": "DVA",
           "paso": "verificador_ia",
-          "motivo": "Contradicción extrema: modelos_dispersion_pts (115.0) pts, mayor dispersión en toda la cartera. target_price_dcf_upside_pct (120.5%) vs target_price_pe_upside_pct (5.5%) son irreconciliables (diferencia de 115%). upside_triangulated_pct (35.4%) es arbitraria sin justificación de ponderación. · upside_requiere_verificacion es true pero sin que se explique cómo la ficha valida o invalida un descuento de 35% cuando los modelos discrepan 115 puntos. Esto invalida la recomendación.",
-          "score": 50.4
+          "motivo": "upside_requiere_verificacion es true con descuento ~37%, pero modelos_dispersion_pts (116.0) es extremadamente alto: DCF (122.4%) y P/E (6.4%) divergen de forma irreconciliable. El sistema no puede determinar qué múltiplo es válido; la oportunidad se basa en un modelo que podría estar completamente equivocado. Esto invalida la recomendación sin claridad de cuál es el beneficio verdadero",
+          "score": 50.5
+        },
+        {
+          "ticker": "COF",
+          "paso": "verificador_ia",
+          "motivo": "fcf_yield_pct (23.91%) es anómalamente alto para una empresa de crédito. Este valor sugiere un error de unidad, divisa o escala: típicamente un FCF yield de dos dígitos altos indica que el beneficio en flujo libre o la capitalización está en otra escala. Sin confirmación, el analista ve 38% de descuento pero las métricas base son incoherentes",
+          "score": 41.7
         }
       ]
     }
   },
-  "generated_at": "2026-11-25T08:49:22Z"
+  "generated_at": "2026-11-26T08:30:23Z"
 }

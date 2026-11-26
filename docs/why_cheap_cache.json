@@ -12,18 +12,18 @@
   "fecha": "2026-11-02"
  },
  "ADSK": {
-  "veredicto": "EVENTO",
-  "resumen": "El 27 de agosto de 2026 Autodesk presentó ingresos que batieron expectativas pero una guía de beneficios para el tercer trimestre y el año fiscal por debajo de lo esperado, lo que desató una caída acumulada de hasta el 20-22% en los días siguientes, agravada en septiembre por una venta masiva genera",
-  "confianza": 60,
+  "veredicto": "SENTIMIENTO",
+  "resumen": "Autodesk reportó Q3 con ganancias y ingresos por encima de estimaciones (+57.2% BPA, +32.9% op. income según sus cuentas) y elevó guía de ejercicio completo el 24 de noviembre.",
+  "confianza": 85,
   "fuentes": [
-   "https://www.tikr.com/blog/title-2",
-   "https://www.gurufocus.com/news/9206102/autodesk-inc-adsk-shares-fall-39-what-gf-score-of-89-tells-investors",
-   "https://www.trefis.com/stock/adsk/articles/614512/autodesk-stock-slides-19-over-6-straight-down-days/2026-09-07",
-   "https://www.trefis.com/stock/adsk/articles/617135/how-low-can-autodesk-adsk-stock-go/2026-09-30"
+   "https://www.sec.gov/Archives/edgar/data/769397/000076939726000010/q426pressrelease.htm",
+   "https://www.sec.gov/Archives/edgar/data/769397/000076939726000006/adsk-20260122.htm",
+   "https://www.sec.gov/Archives/edgar/data/0000769397/000076939726000059/q227pressrelease.htm",
+   "https://www.sec.gov/Archives/edgar/data/0000769397/000076939726000041/q127pressrelease.htm"
   ],
-  "modelo": "claude-sonnet-5",
-  "resultados": "2026-11-24",
-  "fecha": "2026-11-20",
+  "modelo": "claude-haiku-4-5",
+  "resultados": "2027-02-25",
+  "fecha": "2026-11-26",
   "criterio": 3
  },
  "SAP": {
@@ -226,17 +226,17 @@
  },
  "FICO": {
   "veredicto": "DETERIORO",
-  "resumen": "La FHFA abrió el mercado hipotecario (Fannie Mae/Freddie Mac, ~70% del mercado) que FICO dominaba en exclusiva, dejando entrar a VantageScore al mismo grid de precios, mientras grandes prestamistas como Rocket Mortgage y UWM ya están migrando a VantageScore, mucho más barato ($0.99 vs $10).",
-  "confianza": 80,
+  "resumen": "El regulador FHFA abrió el mercado hipotecario a VantageScore como alternativa en la misma red de precios de Fannie Mae y Freddie Mac, rompiendo el monopolio histórico de FICO en el scoring hipotecario y presionando su poder de fijación de precios.",
+  "confianza": 75,
   "fuentes": [
-   "https://www.sec.gov/Archives/edgar/data/0000814547/000081454726000042/fico-20260930.htm",
-   "https://seekingalpha.com/article/4964590-fair-isaac-is-down-55-percent-and-the-worst-may-not-be-priced-in",
-   "https://finance.yahoo.com/markets/stocks/articles/does-fall-fair-isaac-stock-122319607.html",
-   "https://finance.yahoo.com/markets/stocks/article/fair-isaac-stock-plunges-20-after-fannie-and-freddie-open-door-to-fico-credit-score-rival-142841650.html"
+   "https://www.sec.gov/Archives/edgar/data/814547/000119312526102450/d92566dex991.htm",
+   "https://seekingalpha.com/news/4657132-fair-isaac-stock-slumps-after-holding-pricing-for-preferred-lenders",
+   "https://finance.yahoo.com/markets/stocks/articles/fico-stock-tumbles-us-moves-212713252.html",
+   "https://www.rttnews.com/3694866/fair-isaac-stock-drops-22-on-fhfa-s-structural-changes-about-mortgage-pricing.aspx"
   ],
   "modelo": "claude-sonnet-5",
   "resultados": "2027-01-27",
-  "fecha": "2026-11-12",
+  "fecha": "2026-11-26",
   "criterio": 3
  },
  "WTKWY": {
@@ -511,17 +511,17 @@
  },
  "ADBE": {
   "veredicto": "SENTIMIENTO",
-  "resumen": "Desde inicios de 2026 Adobe ha caído con fuertes batidas de beneficios y guidance elevado trimestre tras trimestre, pero el mercado teme que la IA generativa (Midjourney, OpenAI, Canva, Claude Design) erosione el negocio de Creative Cloud a futuro, agravado por la salida del CEO y la compresión de m",
-  "confianza": 70,
+  "resumen": "Desde mayo de 2026 Adobe ha batido estimaciones de ingresos y BPA trimestre tras trimestre y ha elevado su guidance, pero la acción ha caído por el miedo del mercado a que herramientas de IA generativa (Claude Design, Canva, Midjourney, Sora) erosionen su negocio de software creativo…",
+  "confianza": 68,
   "fuentes": [
-   "https://finance.yahoo.com/news/adobe-stock-drops-26-wall-112203636.html",
-   "https://pluang.com/en/news-feed/debat-saham-adobe-menjadi-menarik",
-   "https://www.tradingview.com/news/zacks:539e57ec1094b:0-adobe-drops-9-in-3-months-buy-sell-or-hold-the-stock-in-2026/",
-   "https://seekingalpha.com/article/4914373-adobe-q2-too-cheap-to-ignore"
+   "https://beinsure.com/news/adobe-stock-price-forecast-ai-deals-new-risks/",
+   "https://www.tikr.com/blog/adobe-stock-2026-outlook-q2-earnings-on-june-11-and-a-25-billion-buyback-in-place",
+   "https://roboforex.com/beginners/analytics/forex-forecast/stocks/stocks-forecast-adobe-adbe/",
+   "https://www.tradingpedia.com/2026/10/12/analyst-double-downgrade-sends-adobe-shares-lower/"
   ],
   "modelo": "claude-sonnet-5",
   "resultados": "2026-12-09",
-  "fecha": "2026-11-12",
+  "fecha": "2026-11-26",
   "criterio": 3
  },
  "BSX": {

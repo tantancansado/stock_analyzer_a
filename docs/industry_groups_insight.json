@@ -1,42 +1,42 @@
 {
-  "date": "2026-11-25",
-  "timestamp": "2026-11-25T09:15:47.692788",
-  "narrative": "La rotaci\u00f3n muestra una clara preferencia por sectores defensivos y de infraestructura: los l\u00edderes son Healthcare (fabricantes de f\u00e1rmacos), Industrials (ferrocarriles) y Consumer Defensive (tiendas de descuento y productos para el hogar). Los c\u00edclicos est\u00e1n en la zona de rechazo, con Apparel Retail, Residential Construction y los sub\u2011sectores de tecnolog\u00eda (semiconductores y equipos) en los \u00faltimos puestos. Esta din\u00e1mica encaja con el r\u00e9gimen macro \u201cWATCH\u201d, donde la incertidumbre impulsa la b\u00fasqueda de calidad y flujos de ingresos estables, mientras que la exposici\u00f3n a crecimiento vol\u00e1til se penaliza. Prioriza b\u00fasquedas en Healthcare, Industrials de infraestructura y Consumer Defensive; evita Apparel Retail, construcci\u00f3n residencial y toda exposici\u00f3n a semiconductores y equipos tecnol\u00f3gicos.",
+  "date": "2026-11-26",
+  "timestamp": "2026-11-26T08:35:52.245972",
+  "narrative": "La rotaci\u00f3n muestra una clara preferencia por sectores defensivos y de calidad: los l\u00edderes son Railroads, seguros P&C, farmac\u00e9uticos y productos de consumo b\u00e1sico, mientras que los rezagados son c\u00edclicos (Apparel Retail, Residential Construction) y tecnol\u00f3gicos (Semiconductores y su equipamiento). Este sesgo defensivo encaja con el r\u00e9gimen macro \u201cWATCH\u201d, que indica incertidumbre y volatilidad, favoreciendo activos con flujo de caja estable y menor sensibilidad al ciclo econ\u00f3mico. Enf\u00f3quense en buscar oportunidades largas en Industriales de infraestructura, seguros, salud y consumo defensivo; eviten exposici\u00f3n a retail c\u00edclico, construcci\u00f3n residencial y a la cadena de semiconductores, que siguen bajo presi\u00f3n.",
   "macro_regime": "WATCH",
   "top_sectors": [
     {
-      "industry": "Drug Manufacturers - General",
-      "sector": "Healthcare",
-      "avg_rs_percentile": 97.2,
-      "num_tickers": 2,
-      "label": "Top 10%"
-    },
-    {
       "industry": "Railroads",
       "sector": "Industrials",
-      "avg_rs_percentile": 91.9,
-      "num_tickers": 3,
-      "label": "Top 10%"
-    },
-    {
-      "industry": "Discount Stores",
-      "sector": "Consumer Defensive",
-      "avg_rs_percentile": 89.9,
+      "avg_rs_percentile": 98.6,
       "num_tickers": 3,
       "label": "Top 10%"
     },
     {
       "industry": "Insurance - Property & Casualty",
       "sector": "Financial Services",
-      "avg_rs_percentile": 89.2,
+      "avg_rs_percentile": 95.6,
+      "num_tickers": 2,
+      "label": "Top 10%"
+    },
+    {
+      "industry": "Drug Manufacturers - General",
+      "sector": "Healthcare",
+      "avg_rs_percentile": 95.0,
       "num_tickers": 2,
       "label": "Top 10%"
     },
     {
       "industry": "Household & Personal Products",
       "sector": "Consumer Defensive",
-      "avg_rs_percentile": 88.2,
+      "avg_rs_percentile": 92.3,
       "num_tickers": 4,
+      "label": "Top 10%"
+    },
+    {
+      "industry": "Discount Stores",
+      "sector": "Consumer Defensive",
+      "avg_rs_percentile": 90.4,
+      "num_tickers": 3,
       "label": "Top 25%"
     }
   ],
@@ -44,35 +44,35 @@
     {
       "industry": "Apparel Retail",
       "sector": "Consumer Cyclical",
-      "avg_rs_percentile": 29.6,
-      "num_tickers": 2,
-      "label": "Bottom 25%"
-    },
-    {
-      "industry": "Internet Content & Information",
-      "sector": "Communication Services",
-      "avg_rs_percentile": 20.5,
+      "avg_rs_percentile": 32.4,
       "num_tickers": 2,
       "label": "Bottom 25%"
     },
     {
       "industry": "Residential Construction",
       "sector": "Consumer Cyclical",
-      "avg_rs_percentile": 20.2,
+      "avg_rs_percentile": 24.2,
+      "num_tickers": 2,
+      "label": "Bottom 25%"
+    },
+    {
+      "industry": "Internet Content & Information",
+      "sector": "Communication Services",
+      "avg_rs_percentile": 22.8,
       "num_tickers": 2,
       "label": "Bottom 25%"
     },
     {
       "industry": "Semiconductors",
       "sector": "Technology",
-      "avg_rs_percentile": 17.2,
+      "avg_rs_percentile": 14.4,
       "num_tickers": 2,
       "label": "Bottom 25%"
     },
     {
       "industry": "Semiconductor Equipment & Materials",
       "sector": "Technology",
-      "avg_rs_percentile": 16.4,
+      "avg_rs_percentile": 13.0,
       "num_tickers": 4,
       "label": "Bottom 25%"
     }
