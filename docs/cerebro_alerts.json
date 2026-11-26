@@ -1,80 +1,19 @@
 {
-  "generated_at": "2026-11-25",
-  "total": 27,
-  "high_count": 9,
+  "generated_at": "2026-11-26",
+  "total": 22,
+  "high_count": 5,
   "alerts": [
-    {
-      "ticker": "AON",
-      "type": "STREAK",
-      "severity": "HIGH",
-      "title": "AON \u2014 23 d\u00edas en convergencia",
-      "message": "Lleva 23 d\u00edas consecutivos en 2 estrategias. Se\u00f1al persistente de alta convicci\u00f3n.",
-      "date": "2026-11-25",
-      "data": {
-        "streak_days": 23,
-        "strategies": [
-          "VALUE",
-          "INSIDERS"
-        ]
-      }
-    },
-    {
-      "ticker": "BR",
-      "type": "STREAK",
-      "severity": "HIGH",
-      "title": "BR \u2014 5 d\u00edas en convergencia",
-      "message": "Lleva 5 d\u00edas consecutivos en 2 estrategias. Se\u00f1al persistente de alta convicci\u00f3n.",
-      "date": "2026-11-25",
-      "data": {
-        "streak_days": 5,
-        "strategies": [
-          "VALUE",
-          "OPTIONS"
-        ]
-      }
-    },
-    {
-      "ticker": "CME",
-      "type": "STREAK",
-      "severity": "HIGH",
-      "title": "CME \u2014 22 d\u00edas en convergencia",
-      "message": "Lleva 22 d\u00edas consecutivos en 2 estrategias. Se\u00f1al persistente de alta convicci\u00f3n.",
-      "date": "2026-11-25",
-      "data": {
-        "streak_days": 22,
-        "strategies": [
-          "INSIDERS",
-          "OPTIONS"
-        ]
-      }
-    },
-    {
-      "ticker": "CRH",
-      "type": "STREAK",
-      "severity": "HIGH",
-      "title": "CRH \u2014 8 d\u00edas en convergencia",
-      "message": "Lleva 8 d\u00edas consecutivos en 2 estrategias. Se\u00f1al persistente de alta convicci\u00f3n.",
-      "date": "2026-11-25",
-      "data": {
-        "streak_days": 8,
-        "strategies": [
-          "VALUE",
-          "INSIDERS"
-        ]
-      }
-    },
     {
       "ticker": "ECL",
       "type": "STREAK",
       "severity": "HIGH",
-      "title": "ECL \u2014 7 d\u00edas en convergencia",
-      "message": "Lleva 7 d\u00edas consecutivos en 3 estrategias. Se\u00f1al persistente de alta convicci\u00f3n.",
-      "date": "2026-11-25",
+      "title": "ECL \u2014 8 d\u00edas en convergencia",
+      "message": "Lleva 8 d\u00edas consecutivos en 2 estrategias. Se\u00f1al persistente de alta convicci\u00f3n.",
+      "date": "2026-11-26",
       "data": {
-        "streak_days": 7,
+        "streak_days": 8,
         "strategies": [
           "INSIDERS",
-          "OPTIONS",
           "MOMENTUM"
         ]
       }
@@ -84,10 +23,10 @@
       "type": "INSIDER_BUYING",
       "severity": "HIGH",
       "title": "Insider buying en ETN",
-      "message": "10 compras por 2 directivos. Se\u00f1al de convicci\u00f3n interna.",
-      "date": "2026-11-25",
+      "message": "12 compras por 2 directivos. Se\u00f1al de convicci\u00f3n interna.",
+      "date": "2026-11-26",
       "data": {
-        "purchase_count": 10.0,
+        "purchase_count": 12.0,
         "unique_insiders": 2.0
       }
     },
@@ -97,7 +36,7 @@
       "severity": "HIGH",
       "title": "Insider buying en HEI",
       "message": "32 compras por 2 directivos. Se\u00f1al de convicci\u00f3n interna.",
-      "date": "2026-11-25",
+      "date": "2026-11-26",
       "data": {
         "purchase_count": 32.0,
         "unique_insiders": 2.0
@@ -107,11 +46,11 @@
       "ticker": "MSCI",
       "type": "STREAK",
       "severity": "HIGH",
-      "title": "MSCI \u2014 8 d\u00edas en convergencia",
-      "message": "Lleva 8 d\u00edas consecutivos en 2 estrategias. Se\u00f1al persistente de alta convicci\u00f3n.",
-      "date": "2026-11-25",
+      "title": "MSCI \u2014 9 d\u00edas en convergencia",
+      "message": "Lleva 9 d\u00edas consecutivos en 2 estrategias. Se\u00f1al persistente de alta convicci\u00f3n.",
+      "date": "2026-11-26",
       "data": {
-        "streak_days": 8,
+        "streak_days": 9,
         "strategies": [
           "INSIDERS",
           "MOMENTUM"
@@ -122,11 +61,11 @@
       "ticker": "MSFT",
       "type": "STREAK",
       "severity": "HIGH",
-      "title": "MSFT \u2014 6 d\u00edas en convergencia",
-      "message": "Lleva 6 d\u00edas consecutivos en 2 estrategias. Se\u00f1al persistente de alta convicci\u00f3n.",
-      "date": "2026-11-25",
+      "title": "MSFT \u2014 7 d\u00edas en convergencia",
+      "message": "Lleva 7 d\u00edas consecutivos en 2 estrategias. Se\u00f1al persistente de alta convicci\u00f3n.",
+      "date": "2026-11-26",
       "data": {
-        "streak_days": 6,
+        "streak_days": 7,
         "strategies": [
           "VALUE",
           "OPTIONS"
@@ -139,19 +78,7 @@
       "severity": "MEDIUM",
       "title": "Insider buying en AON",
       "message": "3 compras por 1 directivos. Se\u00f1al de convicci\u00f3n interna.",
-      "date": "2026-11-25",
-      "data": {
-        "purchase_count": 3.0,
-        "unique_insiders": 1.0
-      }
-    },
-    {
-      "ticker": "BSX",
-      "type": "INSIDER_BUYING",
-      "severity": "MEDIUM",
-      "title": "Insider buying en BSX",
-      "message": "3 compras por 1 directivos. Se\u00f1al de convicci\u00f3n interna.",
-      "date": "2026-11-25",
+      "date": "2026-11-26",
       "data": {
         "purchase_count": 3.0,
         "unique_insiders": 1.0
@@ -162,10 +89,10 @@
       "type": "INSIDER_BUYING",
       "severity": "MEDIUM",
       "title": "Insider buying en CL",
-      "message": "3 compras por 1 directivos. Se\u00f1al de convicci\u00f3n interna.",
-      "date": "2026-11-25",
+      "message": "4 compras por 1 directivos. Se\u00f1al de convicci\u00f3n interna.",
+      "date": "2026-11-26",
       "data": {
-        "purchase_count": 3.0,
+        "purchase_count": 4.0,
         "unique_insiders": 1.0
       }
     },
@@ -175,7 +102,7 @@
       "severity": "MEDIUM",
       "title": "Insider buying en CME",
       "message": "5 compras por 1 directivos. Se\u00f1al de convicci\u00f3n interna.",
-      "date": "2026-11-25",
+      "date": "2026-11-26",
       "data": {
         "purchase_count": 5.0,
         "unique_insiders": 1.0
@@ -187,7 +114,7 @@
       "severity": "MEDIUM",
       "title": "Insider buying en CRH",
       "message": "8 compras por 1 directivos. Se\u00f1al de convicci\u00f3n interna.",
-      "date": "2026-11-25",
+      "date": "2026-11-26",
       "data": {
         "purchase_count": 8.0,
         "unique_insiders": 1.0
@@ -199,7 +126,7 @@
       "severity": "MEDIUM",
       "title": "Insider buying en ECL",
       "message": "3 compras por 1 directivos. Se\u00f1al de convicci\u00f3n interna.",
-      "date": "2026-11-25",
+      "date": "2026-11-26",
       "data": {
         "purchase_count": 3.0,
         "unique_insiders": 1.0
@@ -211,7 +138,7 @@
       "severity": "MEDIUM",
       "title": "Insider buying en FICO",
       "message": "4 compras por 1 directivos. Se\u00f1al de convicci\u00f3n interna.",
-      "date": "2026-11-25",
+      "date": "2026-11-26",
       "data": {
         "purchase_count": 4.0,
         "unique_insiders": 1.0
@@ -223,7 +150,7 @@
       "severity": "MEDIUM",
       "title": "Insider buying en MKC",
       "message": "4 compras por 1 directivos. Se\u00f1al de convicci\u00f3n interna.",
-      "date": "2026-11-25",
+      "date": "2026-11-26",
       "data": {
         "purchase_count": 4.0,
         "unique_insiders": 1.0
@@ -235,7 +162,7 @@
       "severity": "MEDIUM",
       "title": "Insider buying en MSCI",
       "message": "3 compras por 1 directivos. Se\u00f1al de convicci\u00f3n interna.",
-      "date": "2026-11-25",
+      "date": "2026-11-26",
       "data": {
         "purchase_count": 3.0,
         "unique_insiders": 1.0
@@ -247,7 +174,7 @@
       "severity": "MEDIUM",
       "title": "Insider buying en ORCL",
       "message": "4 compras por 1 directivos. Se\u00f1al de convicci\u00f3n interna.",
-      "date": "2026-11-25",
+      "date": "2026-11-26",
       "data": {
         "purchase_count": 4.0,
         "unique_insiders": 1.0
@@ -259,7 +186,7 @@
       "severity": "MEDIUM",
       "title": "Insider buying en PEP",
       "message": "4 compras por 1 directivos. Se\u00f1al de convicci\u00f3n interna.",
-      "date": "2026-11-25",
+      "date": "2026-11-26",
       "data": {
         "purchase_count": 4.0,
         "unique_insiders": 1.0
@@ -271,7 +198,7 @@
       "severity": "MEDIUM",
       "title": "Insider buying en ROL",
       "message": "8 compras por 1 directivos. Se\u00f1al de convicci\u00f3n interna.",
-      "date": "2026-11-25",
+      "date": "2026-11-26",
       "data": {
         "purchase_count": 8.0,
         "unique_insiders": 1.0
@@ -282,26 +209,11 @@
       "type": "INSIDER_BUYING",
       "severity": "MEDIUM",
       "title": "Insider buying en RSG",
-      "message": "27 compras por 1 directivos. Se\u00f1al de convicci\u00f3n interna.",
-      "date": "2026-11-25",
+      "message": "25 compras por 1 directivos. Se\u00f1al de convicci\u00f3n interna.",
+      "date": "2026-11-26",
       "data": {
-        "purchase_count": 27.0,
+        "purchase_count": 25.0,
         "unique_insiders": 1.0
-      }
-    },
-    {
-      "ticker": "RSG",
-      "type": "STREAK",
-      "severity": "MEDIUM",
-      "title": "RSG \u2014 3 d\u00edas en convergencia",
-      "message": "Lleva 3 d\u00edas consecutivos en 2 estrategias. Se\u00f1al persistente de alta convicci\u00f3n.",
-      "date": "2026-11-25",
-      "data": {
-        "streak_days": 3,
-        "strategies": [
-          "INSIDERS",
-          "OPTIONS"
-        ]
       }
     },
     {
@@ -310,7 +222,7 @@
       "severity": "MEDIUM",
       "title": "Insider buying en SUNB",
       "message": "4 compras por 1 directivos. Se\u00f1al de convicci\u00f3n interna.",
-      "date": "2026-11-25",
+      "date": "2026-11-26",
       "data": {
         "purchase_count": 4.0,
         "unique_insiders": 1.0
@@ -322,7 +234,7 @@
       "severity": "MEDIUM",
       "title": "Insider buying en SYK",
       "message": "4 compras por 1 directivos. Se\u00f1al de convicci\u00f3n interna.",
-      "date": "2026-11-25",
+      "date": "2026-11-26",
       "data": {
         "purchase_count": 4.0,
         "unique_insiders": 1.0
@@ -333,11 +245,26 @@
       "type": "INSIDER_BUYING",
       "severity": "MEDIUM",
       "title": "Insider buying en TJX",
-      "message": "3 compras por 1 directivos. Se\u00f1al de convicci\u00f3n interna.",
-      "date": "2026-11-25",
+      "message": "4 compras por 1 directivos. Se\u00f1al de convicci\u00f3n interna.",
+      "date": "2026-11-26",
       "data": {
-        "purchase_count": 3.0,
+        "purchase_count": 4.0,
         "unique_insiders": 1.0
+      }
+    },
+    {
+      "ticker": "VRSK",
+      "type": "NEW_CONVERGENCE",
+      "severity": "MEDIUM",
+      "title": "Nueva convergencia: VRSK",
+      "message": "Aparece en 2 estrategias: VALUE, OPTIONS. Score convergencia: 49.",
+      "date": "2026-11-26",
+      "data": {
+        "strategies": [
+          "VALUE",
+          "OPTIONS"
+        ],
+        "convergence_score": 49
       }
     },
     {
@@ -345,10 +272,10 @@
       "type": "INSIDER_BUYING",
       "severity": "MEDIUM",
       "title": "Insider buying en VRSN",
-      "message": "4 compras por 1 directivos. Se\u00f1al de convicci\u00f3n interna.",
-      "date": "2026-11-25",
+      "message": "5 compras por 1 directivos. Se\u00f1al de convicci\u00f3n interna.",
+      "date": "2026-11-26",
       "data": {
-        "purchase_count": 4.0,
+        "purchase_count": 5.0,
         "unique_insiders": 1.0
       }
     }

@@ -1,0 +1,44 @@
+{
+  "generated_at": "2026-11-26",
+  "total": 3,
+  "dropped_count": 1,
+  "narrative": "1. **Rotar dentro de un sector** es m\u00e1s acertado cuando los indicadores de impulso (p.ej., el Relative Strength de los l\u00edderes del sector) superan significativamente al resto del mercado y aparecen oportunidades de \u201cvalue picks\u201d con precios atractivos, lo que sugiere que el sector est\u00e1 en una fase de consolidaci\u00f3n y los l\u00edderes pueden seguir generando rentabilidad antes de que el impulso se disipe.  \n\n2. **Esperar** tiene m\u00e1s sentido cuando el sector muestra se\u00f1ales de",
+  "displacements": [
+    {
+      "type": "COMPETITOR_RISE",
+      "dropped_ticker": "BRO",
+      "sector": "Financial Services",
+      "prev_score": 93.3,
+      "replacements": [
+        "FCNCA"
+      ],
+      "top_replacement": "FCNCA",
+      "top_replacement_score": 86.8,
+      "detail": "BRO sali\u00f3 de VALUE (93pts); peers en Financial Services: FCNCA"
+    },
+    {
+      "type": "SECTOR_TAILWIND",
+      "sector": "Technology",
+      "rotation_score": 100.0,
+      "beneficiaries": [
+        "ADBE",
+        "UBER",
+        "BR"
+      ],
+      "top_ticker": "ADBE",
+      "top_score": 98.2,
+      "detail": "Sector Technology l\u00edder (RS 100) \u2014 ADBE, UBER, BR son los picks VALUE"
+    },
+    {
+      "type": "SECTOR_TAILWIND",
+      "sector": "Healthcare",
+      "rotation_score": 100.0,
+      "beneficiaries": [
+        "RMD"
+      ],
+      "top_ticker": "RMD",
+      "top_score": 51.5,
+      "detail": "Sector Healthcare l\u00edder (RS 100) \u2014 RMD son los picks VALUE"
+    }
+  ]
+}

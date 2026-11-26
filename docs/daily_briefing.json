@@ -1,44 +1,157 @@
 {
-  "date": "2026-11-26",
-  "timestamp": "2026-11-26T08:35:50.933285",
-  "narrative": "Entorno macro: el r\u00e9gimen \u201cWATCH\u201d indica volatilidad moderada y se\u00f1ales mixtas de crecimiento, lo que favorece a los valores con fundamentos s\u00f3lidos y margen de seguridad frente a posibles retrocesos. Los picks m\u00e1s atractivos son Adobe (ADBE) por su liderazgo en software de suscripci\u00f3n y un score de 98 que respalda un upside del 14.6\u202f%; First Citizens (FCNCA) por su balance robusto y exposici\u00f3n a nichos de cr\u00e9dito con un upside del",
-  "macro_regime": "WATCH",
-  "picks_count": 8,
-  "top_picks": [
-    {
-      "ticker": "ADBE",
-      "sector": "Technology",
-      "value_score": 98.2,
-      "analyst_upside_pct": 14.6,
-      "conviction_grade": null
-    },
-    {
-      "ticker": "FCNCA",
-      "sector": "Financial Services",
-      "value_score": 86.8,
-      "analyst_upside_pct": 17.4,
-      "conviction_grade": null
-    },
-    {
-      "ticker": "UBER",
-      "sector": "Technology",
-      "value_score": 59.2,
-      "analyst_upside_pct": 47.9,
-      "conviction_grade": null
-    },
-    {
-      "ticker": "BR",
-      "sector": "Technology",
-      "value_score": 54.1,
-      "analyst_upside_pct": 11.4,
-      "conviction_grade": null
-    },
-    {
-      "ticker": "OTIS",
-      "sector": "Industrials",
-      "value_score": 52.6,
-      "analyst_upside_pct": 9.4,
-      "conviction_grade": null
-    }
-  ]
+  "fecha": "2026-11-26",
+  "texto": "<b>Hoy hay dos para comprar: Adobe (ADBE) y First Citizens (FCNCA).</b>\n\nAdobe cae por el miedo del mercado a que las herramientas de IA le coman el negocio, aunque lleva desde mayo batiendo estimaciones y subiendo guidance trimestre tras trimestre. Presenta resultados en 13 días, el beneficio está respaldado por negocio real, y la app le ve un 58% de recorrido (sus propios modelos, hasta el doble). Está un 36% por debajo de su máximo del año.\n\nFirst Citizens se fue a mínimos pese a superar ampliamente expectativas de beneficio e ingresos en el último trimestre, con préstamos y depósitos creciendo y guías al alza. La app le ve un 62% de recorrido (sus modelos, hasta el doble). Está un 11% bajo su máximo del año.\n\nPara vigilar, estas cinco entre las 17 baratas que tenemos en Observar: a Uber le falta historia de PER con que compararla; a Broadridge, Otis, ResMed y Tyler les falta crecer más en ventas.\n\nEntra Adobe en Prioridad, nueva en la lista. Sale BRO, que deja también la lista.",
+  "hechos": {
+    "fecha": "2026-11-26",
+    "total_lista": 19,
+    "datos_incompletos": [],
+    "picks_nuevos": [
+      "ADBE (nueva en la lista)"
+    ],
+    "picks_que_se_van": [
+      "BRO (sale también de la lista)"
+    ],
+    "comprables": [
+      {
+        "ticker": "ADBE",
+        "empresa": "Adobe Inc.",
+        "score": 98.2,
+        "precio": 232.83,
+        "fcf_yield": 11.69,
+        "por_que_cae": "SENTIMIENTO",
+        "por_que_cae_detalle": "Desde mayo de 2026 Adobe ha batido estimaciones de ingresos y BPA trimestre tras trimestre y ha elevado su guidance, pero la acción ha caído por el miedo del mercado a que herramie",
+        "dias_a_resultados": 13.0,
+        "beneficio_respaldado_por_negocio": true,
+        "grupo": "PRIORIDAD",
+        "per_contra_su_historia_sigma": -2.46,
+        "ventas_ultimo_anio_pct": 10.5,
+        "avisos": "",
+        "puede_doblar": true,
+        "recorrido_de_nuestros_modelos_pct": 101.2,
+        "potencial_pct": 57.9,
+        "bajo_su_maximo_del_ultimo_anio_pct": -35.8
+      },
+      {
+        "ticker": "FCNCA",
+        "empresa": "First Citizens BancShares, Inc",
+        "score": 86.8,
+        "precio": 2153.88,
+        "fcf_yield": 6.72,
+        "por_que_cae": "SENTIMIENTO",
+        "por_que_cae_detalle": "En el Q3 2026 (23 oct) First Citizens superó ampliamente expectativas de BPA e ingresos, con crecimiento de préstamos y depósitos y guías elevadas, pero la acción cayó a mínimos de",
+        "beneficio_respaldado_por_negocio": null,
+        "grupo": "PRIORIDAD",
+        "per_contra_su_historia_sigma": -1.02,
+        "ventas_ultimo_anio_pct": 4.5,
+        "avisos": "",
+        "puede_doblar": true,
+        "recorrido_de_nuestros_modelos_pct": 105.8,
+        "potencial_pct": 61.6,
+        "bajo_su_maximo_del_ultimo_anio_pct": -11.4
+      }
+    ],
+    "vigilar": [
+      {
+        "ticker": "UBER",
+        "empresa": "Uber Technologies, Inc.",
+        "score": 59.2,
+        "precio": 66.35,
+        "fcf_yield": 7.69,
+        "por_que_cae": "EVENTO",
+        "por_que_cae_detalle": "Q3 2024 (31 oct): beat en EPS y revenue pero miss en Gross Bookings ($40.97B vs $41.25B esperados). BPA colapsó -92.3% debido a ganancias no recurrentes por revaluación de inversio",
+        "beneficio_respaldado_por_negocio": true,
+        "grupo": "OBSERVAR",
+        "per_contra_su_historia_sigma": null,
+        "ventas_ultimo_anio_pct": 18.3,
+        "avisos": "",
+        "potencial_pct": 50.6,
+        "bajo_su_maximo_del_ultimo_anio_pct": -28.5
+      },
+      {
+        "ticker": "BR",
+        "empresa": "Broadridge Financial Solutions",
+        "score": 54.1,
+        "precio": 187.14,
+        "fcf_yield": 6.13,
+        "por_que_cae": "EVENTO",
+        "por_que_cae_detalle": "Caída de BPA del -42.7% en el trimestre por inversiones estratégicas en IA, tokenización y modernización de plataformas que comprimen márgenes; guidance de crecimiento de ingresos ",
+        "beneficio_respaldado_por_negocio": true,
+        "grupo": "OBSERVAR",
+        "per_contra_su_historia_sigma": -1.92,
+        "ventas_ultimo_anio_pct": 8.5,
+        "avisos": "",
+        "potencial_pct": 41.5,
+        "bajo_su_maximo_del_ultimo_anio_pct": -19.7
+      },
+      {
+        "ticker": "OTIS",
+        "empresa": "Otis Worldwide Corporation",
+        "score": 52.6,
+        "precio": 78.9,
+        "fcf_yield": 5.57,
+        "por_que_cae": "SENTIMIENTO",
+        "por_que_cae_detalle": "Caída de 18.4% (21.5% YTD) pese a que Q3 2026 mostró organic sales growth de 6%, modernization +20%, guidance mantenida y EPS beat. Mercado penaliza contracción de margen operativo",
+        "beneficio_respaldado_por_negocio": true,
+        "grupo": "OBSERVAR",
+        "per_contra_su_historia_sigma": -1.7,
+        "ventas_ultimo_anio_pct": 1.2,
+        "avisos": "",
+        "potencial_pct": 17.9,
+        "bajo_su_maximo_del_ultimo_anio_pct": -16.6
+      },
+      {
+        "ticker": "RMD",
+        "empresa": "ResMed Inc.",
+        "score": 51.5,
+        "precio": 245.7,
+        "fcf_yield": 4.6,
+        "por_que_cae": "SENTIMIENTO",
+        "por_que_cae_detalle": "Caída por temor a disruption futura de GLP-1 (Lilly) y reingreso de Philips en PAP, más downgrade de Morgan Stanley en septiembre 2024. Fundamentals siguen fuertes: ingresos +11%, ",
+        "beneficio_respaldado_por_negocio": true,
+        "grupo": "OBSERVAR",
+        "per_contra_su_historia_sigma": -1.73,
+        "ventas_ultimo_anio_pct": 9.9,
+        "avisos": "",
+        "potencial_pct": 30.9,
+        "bajo_su_maximo_del_ultimo_anio_pct": -11.5
+      },
+      {
+        "ticker": "TYL",
+        "empresa": "Tyler Technologies, Inc.",
+        "score": 51.1,
+        "precio": 420.28,
+        "fcf_yield": 4.4,
+        "por_que_cae": "SENTIMIENTO",
+        "por_que_cae_detalle": "Miss de ingresos <1% en Q3 2026 (28 oct) y recorte marginal de guidance $10M por timing de deals, con markets reaccionando a valuación cara (PER 52x) a pesar de operativos fuertes ",
+        "beneficio_respaldado_por_negocio": true,
+        "grupo": "OBSERVAR",
+        "per_contra_su_historia_sigma": -1.67,
+        "ventas_ultimo_anio_pct": 9.1,
+        "avisos": "",
+        "potencial_pct": 15.2,
+        "bajo_su_maximo_del_ultimo_anio_pct": -11.2
+      }
+    ],
+    "lo_que_les_falta": [
+      {
+        "falta": "historia de PER con que compararla",
+        "tickers": [
+          "UBER"
+        ]
+      },
+      {
+        "falta": "crecer al 10 % en ventas",
+        "tickers": [
+          "BR",
+          "OTIS",
+          "RMD",
+          "TYL"
+        ]
+      }
+    ],
+    "vigilar_total": 17,
+    "tesis_rotas": [],
+    "rotas_son_tuyas": true,
+    "mercado": null
+  }
 }

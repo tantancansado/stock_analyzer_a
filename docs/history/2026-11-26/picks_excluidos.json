@@ -1,0 +1,23 @@
+{
+  "listas": {
+    "value_opportunities": {
+      "candidatas": 26,
+      "publicadas": 24,
+      "excluidos": [
+        {
+          "ticker": "DVA",
+          "paso": "verificador_ia",
+          "motivo": "upside_requiere_verificacion es true con descuento ~37%, pero modelos_dispersion_pts (116.0) es extremadamente alto: DCF (122.4%) y P/E (6.4%) divergen de forma irreconciliable. El sistema no puede determinar qué múltiplo es válido; la oportunidad se basa en un modelo que podría estar completamente equivocado. Esto invalida la recomendación sin claridad de cuál es el beneficio verdadero",
+          "score": 50.5
+        },
+        {
+          "ticker": "COF",
+          "paso": "verificador_ia",
+          "motivo": "fcf_yield_pct (23.91%) es anómalamente alto para una empresa de crédito. Este valor sugiere un error de unidad, divisa o escala: típicamente un FCF yield de dos dígitos altos indica que el beneficio en flujo libre o la capitalización está en otra escala. Sin confirmación, el analista ve 38% de descuento pero las métricas base son incoherentes",
+          "score": 41.7
+        }
+      ]
+    }
+  },
+  "generated_at": "2026-11-26T08:30:23Z"
+}

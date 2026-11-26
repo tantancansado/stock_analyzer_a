@@ -1,42 +1,25 @@
 {
-  "fecha": "2026-11-25",
+  "fecha": "2026-11-26",
   "estado": "ok",
   "hallazgos": [
     {
-      "clave": "vaiven:BSX:fcf_per_share",
-      "ticker": "BSX",
-      "tipo": "cambio_sin_motivo",
-      "titulo": "fcf_per_share va y vuelve",
-      "por_que": "2026-11-23: 2.35 · 2026-11-24: 1 · 2026-11-25: 2.35. Un dato que vuelve al día siguiente no es la empresa: alguna fuente devuelve cosas distintas según el día.",
-      "cita": "fcf_per_share: 1",
-      "donde_mirar": "el cálculo de ese campo y su fuente"
-    },
-    {
-      "clave": "vaiven:FCNCA:value_grupo",
-      "ticker": "FCNCA",
+      "clave": "vaiven:ADBE:value_grupo",
+      "ticker": "ADBE",
       "tipo": "cambio_sin_motivo",
       "titulo": "sale de Prioridad un día y vuelve al siguiente",
-      "por_que": "2026-11-23: PRIORIDAD · 2026-11-24: fuera · 2026-11-25: PRIORIDAD.",
+      "por_que": "2026-11-24: PRIORIDAD · 2026-11-25: fuera · 2026-11-26: PRIORIDAD.",
       "cita": "value_grupo: fuera",
       "donde_mirar": "qué dato le cambió ese día"
-    },
-    {
-      "clave": "lista_incumple_su_regla:ADBE",
-      "ticker": "ADBE",
-      "tipo": "lista_incumple_su_regla",
-      "titulo": "ADBE sale de Prioridad hoy pero no figura en 'fueron_prioridad_y_hoy_no'",
-      "por_que": "El briefing dice explícitamente que ADBE sale de Prioridad hoy, y la regla dice que ese estado debe reflejar todo lo que fue Prioridad y hoy no lo es con su motivo de venta; ADBE falta en esa lista (solo están FICO, BSX, PAYX, PGR).",
-      "cita": "\"Salen de Prioridad ADBE y PAYX, que dejan también la lista.\"",
-      "donde_mirar": "fueron_prioridad_y_hoy_no vs briefing_publicado"
     }
   ],
   "descartados": [
-    "FCNCA: FCNCA marcada 'puede doblar' con el beneficio muy por debajo de su tendencia (la cita no está en los datos)"
+    "META: El resumen dice FCF negativo pero el dato de fcf_yield es positivo (la cita no está en los datos)",
+    "GOOG: El resumen dice flujo de caja negativo pero fcf_yield es positivo (la cita no está en los datos)",
+    "RMD: El resumen dice BPA +42% pero el dato de crecimiento anual es +20% (la cita no está en los datos)",
+    "SAP: El resumen dice +19% BPA pero el dato anual de crecimiento es 12,2% (la cita no está en los datos)"
   ],
   "incidencias_nuevas": [
-    31,
-    32,
-    33
+    34
   ],
   "avisos": []
 }

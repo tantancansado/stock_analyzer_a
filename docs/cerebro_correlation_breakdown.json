@@ -1,14 +1,14 @@
 {
-  "generated_at": "2026-11-25",
-  "systemic_risk": "MODERATE",
-  "correlation_score": 4,
-  "universe_breadth_pct": 9.5,
-  "breadth_change": -2.5,
+  "generated_at": "2026-11-26",
+  "systemic_risk": "HIGH",
+  "correlation_score": 6,
+  "universe_breadth_pct": 10.5,
+  "breadth_change": 1.0,
   "signals": [
     {
       "type": "EXIT_SIGNAL_SURGE",
-      "severity": "MEDIUM",
-      "detail": "7 se\u00f1ales salida HIGH \u2192 posible contagio"
+      "severity": "HIGH",
+      "detail": "8 se\u00f1ales salida HIGH simult\u00e1neas \u2192 deterioro sist\u00e9mico"
     },
     {
       "type": "SYSTEMIC_MACRO_RISK",
@@ -16,5 +16,5 @@
       "detail": "1 riesgos sist\u00e9micos macro: Cambio de R\u00e9gimen de Volatilidad"
     }
   ],
-  "narrative": ""
+  "narrative": "Cuando todos los valores del universo VALUE se m"
 }

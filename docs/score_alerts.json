@@ -1,50 +1,30 @@
 {
-  "generated_at": "2026-11-25",
+  "generated_at": "2026-11-26",
   "alerts": [
     {
       "type": "NEW_ENTRY",
-      "ticker": "FCNCA",
-      "company_name": "First Citizens BancShares, Inc.",
-      "sector": "Financial Services",
-      "score_today": 86.9,
+      "ticker": "ADBE",
+      "company_name": "Adobe Inc.",
+      "sector": "Technology",
+      "score_today": 98.2,
       "score_prev": null,
       "delta": null,
       "grade": "PRIORIDAD"
     },
     {
       "type": "EXITED",
-      "ticker": "ADBE",
-      "company_name": "Adobe Inc.",
-      "sector": "Technology",
+      "ticker": "BRO",
+      "company_name": "Brown & Brown, Inc.",
+      "sector": "Financial Services",
       "score_today": null,
-      "score_prev": 98.5,
+      "score_prev": 93.3,
       "delta": null,
       "grade": "PRIORIDAD"
-    },
-    {
-      "type": "EXITED",
-      "ticker": "PAYX",
-      "company_name": "Paychex, Inc.",
-      "sector": "Technology",
-      "score_today": null,
-      "score_prev": 93.0,
-      "delta": null,
-      "grade": "PRIORIDAD"
-    },
-    {
-      "type": "EXITED",
-      "ticker": "WTKWY",
-      "company_name": "Wolters Kluwer N.V.",
-      "sector": "Industrials",
-      "score_today": null,
-      "score_prev": 58.3,
-      "delta": null,
-      "grade": "OBSERVAR"
     }
   ],
   "counts": {
     "new_entries": 1,
-    "exited": 3,
+    "exited": 1,
     "score_up": 0,
     "score_down": 0
   }

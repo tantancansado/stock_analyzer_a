@@ -1,89 +1,8 @@
 {
-  "generated_at": "2026-11-25",
-  "total_convergences": 8,
-  "triple_or_more": 1,
+  "generated_at": "2026-11-26",
+  "total_convergences": 4,
+  "triple_or_more": 0,
   "convergences": [
-    {
-      "ticker": "ECL",
-      "company_name": "",
-      "sector": "",
-      "strategies": [
-        "INSIDERS",
-        "OPTIONS",
-        "MOMENTUM"
-      ],
-      "strategy_count": 3,
-      "convergence_score": 80,
-      "value_score": null,
-      "conviction_grade": "",
-      "analyst_upside_pct": null,
-      "fcf_yield_pct": null,
-      "current_price": null,
-      "streak_days": 7,
-      "earnings_warning": false,
-      "days_to_earnings": null,
-      "analysis": "La coincidencia simult\u00e1nea de se\u00f1ales de insiders, opciones y momentum durante siete d\u00edas indica que diferentes grupos de"
-    },
-    {
-      "ticker": "AON",
-      "company_name": "Aon plc",
-      "sector": "Financial Services",
-      "strategies": [
-        "VALUE",
-        "INSIDERS"
-      ],
-      "strategy_count": 2,
-      "convergence_score": 69,
-      "value_score": 46.9,
-      "conviction_grade": "nan",
-      "analyst_upside_pct": 7.1,
-      "fcf_yield_pct": 4.49,
-      "current_price": 342.86,
-      "streak_days": 23,
-      "earnings_warning": false,
-      "days_to_earnings": 65.0,
-      "analysis": "La coincidencia de la se\u00f1al VALUE con la estrategia INSIDERS durante 23"
-    },
-    {
-      "ticker": "CRH",
-      "company_name": "CRH plc",
-      "sector": "Basic Materials",
-      "strategies": [
-        "VALUE",
-        "INSIDERS"
-      ],
-      "strategy_count": 2,
-      "convergence_score": 68,
-      "value_score": 40.0,
-      "conviction_grade": "C",
-      "analyst_upside_pct": 29.0,
-      "fcf_yield_pct": 4.08,
-      "current_price": 93.66,
-      "streak_days": 8,
-      "earnings_warning": false,
-      "days_to_earnings": 84.0,
-      "analysis": "La coincidencia de las se\u00f1ales"
-    },
-    {
-      "ticker": "CME",
-      "company_name": "",
-      "sector": "",
-      "strategies": [
-        "INSIDERS",
-        "OPTIONS"
-      ],
-      "strategy_count": 2,
-      "convergence_score": 60,
-      "value_score": null,
-      "conviction_grade": "",
-      "analyst_upside_pct": null,
-      "fcf_yield_pct": null,
-      "current_price": null,
-      "streak_days": 22,
-      "earnings_warning": false,
-      "days_to_earnings": null,
-      "analysis": null
-    },
     {
       "ticker": "MSCI",
       "company_name": "",
@@ -99,38 +18,18 @@
       "analyst_upside_pct": null,
       "fcf_yield_pct": null,
       "current_price": null,
-      "streak_days": 8,
+      "streak_days": 9,
       "earnings_warning": false,
       "days_to_earnings": null,
-      "analysis": null
+      "analysis": "Convergencia de 2 estrategias: INSIDERS, MOMENTUM."
     },
     {
-      "ticker": "BR",
-      "company_name": "Broadridge Financial Solutions, Inc.",
-      "sector": "Technology",
-      "strategies": [
-        "VALUE",
-        "OPTIONS"
-      ],
-      "strategy_count": 2,
-      "convergence_score": 60,
-      "value_score": 54.4,
-      "conviction_grade": "C",
-      "analyst_upside_pct": 13.3,
-      "fcf_yield_pct": 6.21,
-      "current_price": 184.74,
-      "streak_days": 5,
-      "earnings_warning": false,
-      "days_to_earnings": 69.0,
-      "analysis": null
-    },
-    {
-      "ticker": "RSG",
+      "ticker": "ECL",
       "company_name": "",
       "sector": "",
       "strategies": [
         "INSIDERS",
-        "OPTIONS"
+        "MOMENTUM"
       ],
       "strategy_count": 2,
       "convergence_score": 60,
@@ -139,10 +38,10 @@
       "analyst_upside_pct": null,
       "fcf_yield_pct": null,
       "current_price": null,
-      "streak_days": 3,
+      "streak_days": 8,
       "earnings_warning": false,
       "days_to_earnings": null,
-      "analysis": null
+      "analysis": "La coincidencia de se\u00f1ales de insiders y momentum durante ocho d\u00edas seguidos sugiere que tanto el flujo de informaci\u00f3n interna como la presi\u00f3n compradora"
     },
     {
       "ticker": "MSFT",
@@ -154,14 +53,34 @@
       ],
       "strategy_count": 2,
       "convergence_score": 58,
-      "value_score": 44.2,
+      "value_score": 44.7,
       "conviction_grade": "B",
-      "analyst_upside_pct": 28.5,
-      "fcf_yield_pct": 1.63,
-      "current_price": 496.13,
-      "streak_days": 6,
+      "analyst_upside_pct": 30.1,
+      "fcf_yield_pct": 1.65,
+      "current_price": 489.93,
+      "streak_days": 7,
       "earnings_warning": false,
-      "days_to_earnings": 63.0,
+      "days_to_earnings": 62.0,
+      "analysis": "La convergencia de la estrategia VALUE con la de OPTIONS durante 7 d\u00edas consecutivos indica que ambos enfoques est\u00e1n alineando sus se\u00f1ales de compra, lo que refuerza la confianza en un posible movimiento alcista y sugiere que el precio de MSFT podr\u00eda acercarse a su potencial upside del 30\u202f%. Sin embargo, es prudente vigilar la volatilidad impl\u00edcita de las opciones, confirmar que el flujo de caja libre (FCF\u202f\u2248\u202f1.65\u202f%) sigue siendo sostenible y establecer stops o l\u00edmites de p\u00e9rdida para protegerse"
+    },
+    {
+      "ticker": "VRSK",
+      "company_name": "Verisk Analytics, Inc.",
+      "sector": "Industrials",
+      "strategies": [
+        "VALUE",
+        "OPTIONS"
+      ],
+      "strategy_count": 2,
+      "convergence_score": 49,
+      "value_score": 49.0,
+      "conviction_grade": "C",
+      "analyst_upside_pct": 14.4,
+      "fcf_yield_pct": 4.19,
+      "current_price": 204.76,
+      "streak_days": 1,
+      "earnings_warning": false,
+      "days_to_earnings": 83.0,
       "analysis": null
     }
   ]
