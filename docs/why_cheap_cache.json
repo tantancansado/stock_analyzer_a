@@ -42,18 +42,18 @@
   "criterio": 3
  },
  "BR": {
-  "veredicto": "EVENTO",
-  "resumen": "Caída de BPA del -42.7% en el trimestre por inversiones estratégicas en IA, tokenización y modernización de plataformas que comprimen márgenes; guidance de crecimiento de ingresos y EPS de largo plazo reafirmado. Ingresos recurrentes siguen creciendo 11% y el negocio core aguanta.",
+  "veredicto": "CICLICO",
+  "resumen": "según sus cuentas, operating income cayó -8% en Q1 FY2027 (sep 2026) por normalización de ingresos event-driven y presión de márgenes (tasas bajas, costos postales). Recurring revenue sigue creciendo fuerte (11%), guidance reafirmada.",
   "confianza": 72,
   "fuentes": [
-   "https://www.sec.gov/Archives/edgar/data/1383312/000162828025037656/br-20250630.htm",
-   "https://www.sec.gov/Archives/edgar/data/1383312/000138331225000032/ex991earningsrelease1q2026.htm",
-   "https://finance.yahoo.com/news/broadridge-financial-solutions-full-2025-110743683.html",
-   "https://www.tipranks.com/stocks/br/earnings"
+   "https://www.sec.gov/Archives/edgar/data/0001383312/000138331226000035/ex991prredividend11-2026.htm",
+   "https://www.sec.gov/Archives/edgar/data/0001383312/000138331226000022/ex991earningsrelease4q2026.htm",
+   "https://www.sec.gov/Archives/edgar/data/0001383312/000138331226000030/ex991earningsrelease1q2027.htm",
+   "https://finance.yahoo.com/markets/stocks/articles/broadridge-financial-solutions-inc-br-210356805.html"
   ],
   "modelo": "claude-haiku-4-5",
   "resultados": "2027-02-02",
-  "fecha": "2026-11-13",
+  "fecha": "2026-11-27",
   "criterio": 3
  },
  "HLMA.L": {
@@ -122,17 +122,17 @@
  },
  "OTIS": {
   "veredicto": "SENTIMIENTO",
-  "resumen": "Caída de 18.4% (21.5% YTD) pese a que Q3 2026 mostró organic sales growth de 6%, modernization +20%, guidance mantenida y EPS beat. Mercado penaliza contracción de margen operativo ajustado por inversiones en calidad/digital, no por deterioro del negocio.",
-  "confianza": 82,
+  "resumen": "Presión de márgenes en Q2-Q3 2026 por inversiones de transformación digital y debilidad en China/Nuevo Equipamiento. Guidance de crecimiento moderado (bajo-mid single digit) versus expectativa de múltiplo más alto, combinado con ciclo de tasas y rotación sectorial en mercado macro.",
+  "confianza": 72,
   "fuentes": [
-   "https://www.marketscreener.com/quote/stock/OTIS-WORLDWIDE-CORPORATIO-105026689/quotes/",
-   "https://www.investing.com/news/company-news/otis-worldwide-corp-stock-hits-52week-low-at-6506-usd-93CH-4925470",
-   "https://stockanalysis.com/stocks/otis/history/",
-   "https://www.gurufocus.com/news/8847145/otis-worldwide-corp-otis-stock-down-34-now-undervalued-gf-score-79100?mobile=true"
+   "https://www.sec.gov/Archives/edgar/data/1781335/000178133526000004/a2025-12x318xkerexhibit99.htm",
+   "https://www.sec.gov/Archives/edgar/data/0001781335/000178133526000110/a2026-06x308xkerexhibit99.htm",
+   "https://www.sec.gov/Archives/edgar/data/0001781335/000178133526000072/a2026-03x318xkerexhibit99.htm",
+   "https://www.sec.gov/Archives/edgar/data/0001781335/000178133526000124/a2026-09x308xkerexhibit99.htm"
   ],
   "modelo": "claude-haiku-4-5",
   "resultados": "2027-01-27",
-  "fecha": "2026-11-13",
+  "fecha": "2026-11-27",
   "criterio": 3
  },
  "IDXX": {

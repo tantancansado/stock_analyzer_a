@@ -1,7 +1,7 @@
 {
-  "date": "2026-11-26",
-  "timestamp": "2026-11-26T08:35:51.602989",
-  "narrative": "Los tickers con mayor actividad (ETN, CRH, ROL, HEI, RSG) pertenecen mayormente a sectores de infraestructura y servicios b\u00e1sicos (energ\u00eda, materiales de construcci\u00f3n, transporte y log\u00edstica), lo que sugiere un clustering tem\u00e1tico en activos considerados defensivos y con flujos de caja estables. Cuando varios insiders diferentes adquieren acciones del mismo ticker en un lapso corto, indica una convergencia de informaci\u00f3n interna positiva y refuerza la se\u00f1al de confianza en la perspectiva operativa de la empresa. Para un inversor value/GARP, este patr\u00f3n constituye una se\u00f1al",
+  "date": "2026-11-27",
+  "timestamp": "2026-11-27T08:50:28.623079",
+  "narrative": "Los tickers con mayor actividad (ETN, CRH, ROL, HEI, RSG) pertenecen mayormente a sectores de infraestructura y servicios b\u00e1sicos (energ\u00eda, materiales de construcci\u00f3n, transporte y seguros), lo que sugiere un clustering tem\u00e1tico en activos considerados defensivos y con flujos de caja estables. Cuando varios insiders diferentes adquieren acciones del mismo ticker en un lapso corto, indica una convicci\u00f3n compartida de que el precio est\u00e1 subvalorado o que se anticipan eventos positivos (ej. contratos, reestructuraciones), reforzando la se\u00f1al de confianza interna. Para un inversor value/G",
   "total_tickers": 8,
   "total_us": 8,
   "total_eu": 0,
@@ -9,10 +9,10 @@
     {
       "ticker": "ETN",
       "market": "US",
-      "purchase_count": 10,
+      "purchase_count": 12,
       "unique_insiders": 2,
       "confidence_score": 100.0,
-      "days_span": 6
+      "days_span": 7
     },
     {
       "ticker": "CRH",
@@ -41,10 +41,10 @@
     {
       "ticker": "RSG",
       "market": "US",
-      "purchase_count": 27,
+      "purchase_count": 25,
       "unique_insiders": 1,
       "confidence_score": 100.0,
-      "days_span": 22
+      "days_span": 19
     }
   ]
 }
