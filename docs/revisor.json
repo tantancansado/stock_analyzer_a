@@ -1,25 +1,50 @@
 {
-  "fecha": "2026-11-26",
+  "fecha": "2026-11-27",
   "estado": "ok",
   "hallazgos": [
     {
-      "clave": "vaiven:ADBE:value_grupo",
-      "ticker": "ADBE",
-      "tipo": "cambio_sin_motivo",
-      "titulo": "sale de Prioridad un día y vuelve al siguiente",
-      "por_que": "2026-11-24: PRIORIDAD · 2026-11-25: fuera · 2026-11-26: PRIORIDAD.",
-      "cita": "value_grupo: fuera",
-      "donde_mirar": "qué dato le cambió ese día"
+      "clave": "texto_contradice_datos:RMD",
+      "ticker": "RMD",
+      "tipo": "texto_contradice_datos",
+      "titulo": "El resumen de why_cheap da crecimientos muy superiores a los datos de la ficha",
+      "por_que": "El texto dice ingresos +11% y BPA +42%, pero la propia ficha marca rev_growth_yoy 5.9 y eps_growth_yoy 20.0: son diferencias de varios puntos (5 y 22 puntos) que no se explican por definiciones distintas, son prácticamente el doble.",
+      "cita": "ingresos +11%, BPA +42%, FCF récord",
+      "donde_mirar": "why_cheap_resumen de RMD frente a rev_growth_yoy / eps_growth_yoy de la misma ficha"
+    },
+    {
+      "clave": "otro:UBER",
+      "ticker": "UBER",
+      "tipo": "otro",
+      "titulo": "El motivo EVENTO de Uber cita un trimestre de hace más de dos años como si fuera la causa actual",
+      "por_que": "La fecha del informe es 27-nov-2026 y days_to_earnings=68 implica un ciclo trimestral normal, pero el resumen explica la caída con resultados de 'Q3 2024', es decir ocho trimestres obsoletos; no puede ser la causa de un precio castigado hoy sin datos más recientes.",
+      "cita": "Q3 2024 (31 oct): beat en EPS y revenue pero miss en Gross Bookings",
+      "donde_mirar": "why_cheap_resumen de UBER comparado con earnings_date/days_to_earnings"
+    },
+    {
+      "clave": "otro:RMD",
+      "ticker": "RMD",
+      "tipo": "otro",
+      "titulo": "El catalizador de sentimiento citado (downgrade) es de septiembre de 2024, no reciente",
+      "por_que": "Con la fecha del informe en noviembre de 2026, presentar un downgrade de hace más de dos años como explicación de la caída actual sugiere un resumen no actualizado o una causa no estudiada de verdad.",
+      "cita": "downgrade de Morgan Stanley en septiembre 2024",
+      "donde_mirar": "why_cheap_resumen de RMD"
+    },
+    {
+      "clave": "texto_contradice_datos:SAP",
+      "ticker": "SAP",
+      "tipo": "texto_contradice_datos",
+      "titulo": "El resumen de SAP da un crecimiento de BPA distinto al de la ficha",
+      "por_que": "El texto dice +19% de BPA mientras eps_growth_yoy en la ficha es 12.2; la diferencia (casi 7 puntos) es mayor de lo que cabría esperar solo por definiciones distintas (trimestral vs interanual).",
+      "cita": "récord con +19% BPA y márgenes operativos mejores",
+      "donde_mirar": "why_cheap_resumen de SAP frente a eps_growth_yoy"
     }
   ],
-  "descartados": [
-    "META: El resumen dice FCF negativo pero el dato de fcf_yield es positivo (la cita no está en los datos)",
-    "GOOG: El resumen dice flujo de caja negativo pero fcf_yield es positivo (la cita no está en los datos)",
-    "RMD: El resumen dice BPA +42% pero el dato de crecimiento anual es +20% (la cita no está en los datos)",
-    "SAP: El resumen dice +19% BPA pero el dato anual de crecimiento es 12,2% (la cita no está en los datos)"
-  ],
+  "descartados": [],
   "incidencias_nuevas": [
-    34
+    35,
+    36,
+    37,
+    38
   ],
   "avisos": []
 }

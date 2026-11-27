@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-11-26",
-  "total_convergences": 4,
-  "triple_or_more": 0,
+  "generated_at": "2026-11-27",
+  "total_convergences": 8,
+  "triple_or_more": 2,
   "convergences": [
     {
       "ticker": "MSCI",
@@ -9,10 +9,32 @@
       "sector": "",
       "strategies": [
         "INSIDERS",
+        "OPTIONS",
         "MOMENTUM"
       ],
-      "strategy_count": 2,
-      "convergence_score": 60,
+      "strategy_count": 3,
+      "convergence_score": 80,
+      "value_score": null,
+      "conviction_grade": "",
+      "analyst_upside_pct": null,
+      "fcf_yield_pct": null,
+      "current_price": null,
+      "streak_days": 10,
+      "earnings_warning": false,
+      "days_to_earnings": null,
+      "analysis": "La coincidencia de se\u00f1ales de insiders"
+    },
+    {
+      "ticker": "ECL",
+      "company_name": "",
+      "sector": "",
+      "strategies": [
+        "INSIDERS",
+        "OPTIONS",
+        "MOMENTUM"
+      ],
+      "strategy_count": 3,
+      "convergence_score": 80,
       "value_score": null,
       "conviction_grade": "",
       "analyst_upside_pct": null,
@@ -21,27 +43,7 @@
       "streak_days": 9,
       "earnings_warning": false,
       "days_to_earnings": null,
-      "analysis": "Convergencia de 2 estrategias: INSIDERS, MOMENTUM."
-    },
-    {
-      "ticker": "ECL",
-      "company_name": "",
-      "sector": "",
-      "strategies": [
-        "INSIDERS",
-        "MOMENTUM"
-      ],
-      "strategy_count": 2,
-      "convergence_score": 60,
-      "value_score": null,
-      "conviction_grade": "",
-      "analyst_upside_pct": null,
-      "fcf_yield_pct": null,
-      "current_price": null,
-      "streak_days": 8,
-      "earnings_warning": false,
-      "days_to_earnings": null,
-      "analysis": "La coincidencia de se\u00f1ales de insiders y momentum durante ocho d\u00edas seguidos sugiere que tanto el flujo de informaci\u00f3n interna como la presi\u00f3n compradora"
+      "analysis": "La coincidencia de tres estrategias (INSIDERS, OPTIONS y MOMENTUM) durante 9\u202fd\u00edas seguidos indica que distintos indicadores \u2013flujo de informaci\u00f3n privilegiada, actividad de opciones y fuerza de precios\u2013 est\u00e1n alineados, lo que refuerza la se\u00f1al de un posible movimiento sostenido del precio. Sin embargo, es prudente vigilar la volatilidad, confirmar el soporte/resistencia clave y establecer stops ajustados, ya que la"
     },
     {
       "ticker": "MSFT",
@@ -58,10 +60,90 @@
       "analyst_upside_pct": 30.1,
       "fcf_yield_pct": 1.65,
       "current_price": 489.93,
-      "streak_days": 7,
+      "streak_days": 8,
       "earnings_warning": false,
-      "days_to_earnings": 62.0,
-      "analysis": "La convergencia de la estrategia VALUE con la de OPTIONS durante 7 d\u00edas consecutivos indica que ambos enfoques est\u00e1n alineando sus se\u00f1ales de compra, lo que refuerza la confianza en un posible movimiento alcista y sugiere que el precio de MSFT podr\u00eda acercarse a su potencial upside del 30\u202f%. Sin embargo, es prudente vigilar la volatilidad impl\u00edcita de las opciones, confirmar que el flujo de caja libre (FCF\u202f\u2248\u202f1.65\u202f%) sigue siendo sostenible y establecer stops o l\u00edmites de p\u00e9rdida para protegerse"
+      "days_to_earnings": 61.0,
+      "analysis": "La convergencia de 8\u202fd\u00edas consecutivos indica que los indicadores de valor y de opciones est\u00e1n alineados, lo que refuerza la se\u00f1al de que el precio de MSFT podr\u00eda acercarse a su rango objetivo y su potencial alcista del 30\u202f%\u202f+; sin embargo, esta coincidencia tambi\u00e9n puede reflejar una sobre\u2011optimismo del mercado y una mayor sensibilidad a eventos externos (resultados trimestrales, cambios regulatorios, volatilidad impl\u00edcita). Por ello, es prudente limitar la"
+    },
+    {
+      "ticker": "SYK",
+      "company_name": "",
+      "sector": "",
+      "strategies": [
+        "INSIDERS",
+        "OPTIONS"
+      ],
+      "strategy_count": 2,
+      "convergence_score": 50,
+      "value_score": null,
+      "conviction_grade": "",
+      "analyst_upside_pct": null,
+      "fcf_yield_pct": null,
+      "current_price": null,
+      "streak_days": 1,
+      "earnings_warning": false,
+      "days_to_earnings": null,
+      "analysis": null
+    },
+    {
+      "ticker": "ROL",
+      "company_name": "",
+      "sector": "",
+      "strategies": [
+        "INSIDERS",
+        "OPTIONS"
+      ],
+      "strategy_count": 2,
+      "convergence_score": 50,
+      "value_score": null,
+      "conviction_grade": "",
+      "analyst_upside_pct": null,
+      "fcf_yield_pct": null,
+      "current_price": null,
+      "streak_days": 1,
+      "earnings_warning": false,
+      "days_to_earnings": null,
+      "analysis": null
+    },
+    {
+      "ticker": "CME",
+      "company_name": "",
+      "sector": "",
+      "strategies": [
+        "INSIDERS",
+        "OPTIONS"
+      ],
+      "strategy_count": 2,
+      "convergence_score": 50,
+      "value_score": null,
+      "conviction_grade": "",
+      "analyst_upside_pct": null,
+      "fcf_yield_pct": null,
+      "current_price": null,
+      "streak_days": 1,
+      "earnings_warning": false,
+      "days_to_earnings": null,
+      "analysis": null
+    },
+    {
+      "ticker": "VRSN",
+      "company_name": "",
+      "sector": "",
+      "strategies": [
+        "INSIDERS",
+        "OPTIONS"
+      ],
+      "strategy_count": 2,
+      "convergence_score": 50,
+      "value_score": null,
+      "conviction_grade": "",
+      "analyst_upside_pct": null,
+      "fcf_yield_pct": null,
+      "current_price": null,
+      "streak_days": 1,
+      "earnings_warning": false,
+      "days_to_earnings": null,
+      "analysis": null
     },
     {
       "ticker": "VRSK",
@@ -78,9 +160,9 @@
       "analyst_upside_pct": 14.4,
       "fcf_yield_pct": 4.19,
       "current_price": 204.76,
-      "streak_days": 1,
+      "streak_days": 2,
       "earnings_warning": false,
-      "days_to_earnings": 83.0,
+      "days_to_earnings": 82.0,
       "analysis": null
     }
   ]

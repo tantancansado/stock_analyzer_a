@@ -1,44 +1,153 @@
 {
-  "date": "2026-11-27",
-  "timestamp": "2026-11-27T08:50:27.554187",
-  "narrative": "",
-  "macro_regime": "WATCH",
-  "picks_count": 8,
-  "top_picks": [
-    {
-      "ticker": "ADBE",
-      "sector": "Technology",
-      "value_score": 98.2,
-      "analyst_upside_pct": 14.6,
-      "conviction_grade": null
-    },
-    {
-      "ticker": "FCNCA",
-      "sector": "Financial Services",
-      "value_score": 86.8,
-      "analyst_upside_pct": 17.4,
-      "conviction_grade": null
-    },
-    {
-      "ticker": "UBER",
-      "sector": "Technology",
-      "value_score": 59.2,
-      "analyst_upside_pct": 47.9,
-      "conviction_grade": null
-    },
-    {
-      "ticker": "BR",
-      "sector": "Technology",
-      "value_score": 54.1,
-      "analyst_upside_pct": 11.4,
-      "conviction_grade": null
-    },
-    {
-      "ticker": "OTIS",
-      "sector": "Industrials",
-      "value_score": 52.6,
-      "analyst_upside_pct": 9.4,
-      "conviction_grade": null
-    }
-  ]
+  "fecha": "2026-11-27",
+  "texto": "<b>27 de noviembre</b>\n\nHoy tienes dos compras claras en Prioridad.\n\n<b>Adobe (ADBE)</b>: lleva trimestres batiendo estimaciones y subiendo guías, pero el mercado la castiga por miedo a que la IA le coma el negocio. El potencial que marca la app es del 57,9%, y nuestros modelos ven que podría llegar a doblar (101,2%). Está un 35,8% por debajo de su máximo anual. Presenta resultados en 12 días.\n\n<b>First Citizens (FCNCA)</b>: también batió con holgura en su último trimestre y subió guías, pero cayó a mínimos igualmente. Potencial del 61,6%, con los modelos viendo hasta un 105,8% si se cumple la tesis. Está un 11,4% bajo su máximo del año.\n\nPara vigilar tienes las cinco más baratas de las 16 en Observar: a Broadridge, Otis, ResMed y Tyler les falta crecer más del 10% en ventas para entrar en Prioridad; a Uber le falta tener historia de PER con la que compararla.\n\nSin novedades de entradas o salidas en Prioridad respecto a ayer.",
+  "hechos": {
+    "fecha": "2026-11-27",
+    "total_lista": 18,
+    "datos_incompletos": [],
+    "picks_nuevos": [],
+    "picks_que_se_van": [],
+    "comprables": [
+      {
+        "ticker": "ADBE",
+        "empresa": "Adobe Inc.",
+        "score": 98.2,
+        "precio": 232.83,
+        "fcf_yield": 11.69,
+        "por_que_cae": "SENTIMIENTO",
+        "por_que_cae_detalle": "Desde mayo de 2026 Adobe ha batido estimaciones de ingresos y BPA trimestre tras trimestre y ha elevado su guidance, pero la acción ha caído por el miedo del mercado a que herramie",
+        "dias_a_resultados": 12.0,
+        "beneficio_respaldado_por_negocio": true,
+        "grupo": "PRIORIDAD",
+        "per_contra_su_historia_sigma": -2.46,
+        "ventas_ultimo_anio_pct": 10.5,
+        "avisos": "",
+        "puede_doblar": true,
+        "recorrido_de_nuestros_modelos_pct": 101.2,
+        "potencial_pct": 57.9,
+        "bajo_su_maximo_del_ultimo_anio_pct": -35.8
+      },
+      {
+        "ticker": "FCNCA",
+        "empresa": "First Citizens BancShares, Inc",
+        "score": 86.8,
+        "precio": 2153.88,
+        "fcf_yield": 6.72,
+        "por_que_cae": "SENTIMIENTO",
+        "por_que_cae_detalle": "En el Q3 2026 (23 oct) First Citizens superó ampliamente expectativas de BPA e ingresos, con crecimiento de préstamos y depósitos y guías elevadas, pero la acción cayó a mínimos de",
+        "beneficio_respaldado_por_negocio": null,
+        "grupo": "PRIORIDAD",
+        "per_contra_su_historia_sigma": -1.02,
+        "ventas_ultimo_anio_pct": 4.5,
+        "avisos": "",
+        "puede_doblar": true,
+        "recorrido_de_nuestros_modelos_pct": 105.8,
+        "potencial_pct": 61.6,
+        "bajo_su_maximo_del_ultimo_anio_pct": -11.4
+      }
+    ],
+    "vigilar": [
+      {
+        "ticker": "UBER",
+        "empresa": "Uber Technologies, Inc.",
+        "score": 59.2,
+        "precio": 66.35,
+        "fcf_yield": 7.69,
+        "por_que_cae": "EVENTO",
+        "por_que_cae_detalle": "Q3 2024 (31 oct): beat en EPS y revenue pero miss en Gross Bookings ($40.97B vs $41.25B esperados). BPA colapsó -92.3% debido a ganancias no recurrentes por revaluación de inversio",
+        "beneficio_respaldado_por_negocio": true,
+        "grupo": "OBSERVAR",
+        "per_contra_su_historia_sigma": null,
+        "ventas_ultimo_anio_pct": 18.3,
+        "avisos": "",
+        "potencial_pct": 50.6,
+        "bajo_su_maximo_del_ultimo_anio_pct": -28.5
+      },
+      {
+        "ticker": "BR",
+        "empresa": "Broadridge Financial Solutions",
+        "score": 54.1,
+        "precio": 187.14,
+        "fcf_yield": 6.13,
+        "por_que_cae": "CICLICO",
+        "por_que_cae_detalle": "según sus cuentas, operating income cayó -8% en Q1 FY2027 (sep 2026) por normalización de ingresos event-driven y presión de márgenes (tasas bajas, costos postales). Recurring reve",
+        "beneficio_respaldado_por_negocio": true,
+        "grupo": "OBSERVAR",
+        "per_contra_su_historia_sigma": -1.92,
+        "ventas_ultimo_anio_pct": 8.5,
+        "avisos": "",
+        "potencial_pct": 41.5,
+        "bajo_su_maximo_del_ultimo_anio_pct": -19.7
+      },
+      {
+        "ticker": "OTIS",
+        "empresa": "Otis Worldwide Corporation",
+        "score": 52.6,
+        "precio": 78.9,
+        "fcf_yield": 5.57,
+        "por_que_cae": "SENTIMIENTO",
+        "por_que_cae_detalle": "Presión de márgenes en Q2-Q3 2026 por inversiones de transformación digital y debilidad en China/Nuevo Equipamiento. Guidance de crecimiento moderado (bajo-mid single digit) versus",
+        "beneficio_respaldado_por_negocio": true,
+        "grupo": "OBSERVAR",
+        "per_contra_su_historia_sigma": -1.7,
+        "ventas_ultimo_anio_pct": 1.2,
+        "avisos": "",
+        "potencial_pct": 17.9,
+        "bajo_su_maximo_del_ultimo_anio_pct": -16.6
+      },
+      {
+        "ticker": "RMD",
+        "empresa": "ResMed Inc.",
+        "score": 51.5,
+        "precio": 245.7,
+        "fcf_yield": 4.6,
+        "por_que_cae": "SENTIMIENTO",
+        "por_que_cae_detalle": "Caída por temor a disruption futura de GLP-1 (Lilly) y reingreso de Philips en PAP, más downgrade de Morgan Stanley en septiembre 2024. Fundamentals siguen fuertes: ingresos +11%, ",
+        "beneficio_respaldado_por_negocio": true,
+        "grupo": "OBSERVAR",
+        "per_contra_su_historia_sigma": -1.73,
+        "ventas_ultimo_anio_pct": 9.9,
+        "avisos": "",
+        "potencial_pct": 30.9,
+        "bajo_su_maximo_del_ultimo_anio_pct": -11.5
+      },
+      {
+        "ticker": "TYL",
+        "empresa": "Tyler Technologies, Inc.",
+        "score": 51.1,
+        "precio": 420.28,
+        "fcf_yield": 4.4,
+        "por_que_cae": "SENTIMIENTO",
+        "por_que_cae_detalle": "Miss de ingresos <1% en Q3 2026 (28 oct) y recorte marginal de guidance $10M por timing de deals, con markets reaccionando a valuación cara (PER 52x) a pesar de operativos fuertes ",
+        "beneficio_respaldado_por_negocio": true,
+        "grupo": "OBSERVAR",
+        "per_contra_su_historia_sigma": -1.67,
+        "ventas_ultimo_anio_pct": 9.1,
+        "avisos": "",
+        "potencial_pct": 15.2,
+        "bajo_su_maximo_del_ultimo_anio_pct": -11.0
+      }
+    ],
+    "lo_que_les_falta": [
+      {
+        "falta": "historia de PER con que compararla",
+        "tickers": [
+          "UBER"
+        ]
+      },
+      {
+        "falta": "crecer al 10 % en ventas",
+        "tickers": [
+          "BR",
+          "OTIS",
+          "RMD",
+          "TYL"
+        ]
+      }
+    ],
+    "vigilar_total": 16,
+    "tesis_rotas": [],
+    "rotas_son_tuyas": true,
+    "mercado": null
+  }
 }

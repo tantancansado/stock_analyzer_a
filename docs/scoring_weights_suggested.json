@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-26",
+  "generated_at": "2026-11-27",
   "status": "PENDING_REVIEW",
   "note": "These weights are suggestions only. Apply manually after review.",
   "current_weights": {
@@ -41,5 +41,5 @@
     }
   ],
   "expected_impact": "Based on 812 historical signals",
-  "narrative": "Los ajustes hacen que un flujo de caja libre negativo penalice al modelo con una reducci\u00f3n adicional de 8\u202fpuntos porcentuales en el Weighted Rating (WR), intensificando la penalizaci\u00f3n de la se\u00f1al fcf_yield_bonus_penalty de \u20132. En consecuencia, los clientes con FCF negativo ver\u00e1n su puntuaci\u00f3n de riesgo bajar significativamente, lo que aumentar\u00e1 la selectividad del scoring y reducir\u00e1 la exposici\u00f3n a operaciones potencialmente menos rentables."
+  "narrative": "Los ajustes hacen que un flujo de caja libre negativo penalice al modelo con una reducci\u00f3n de 8\u202fpuntos porcentuales en el Weighted Rating (WR), lo que aumenta la sensibilidad a la falta de generaci\u00f3n de efectivo. En consecuencia, los scores de empresas con FCF negativo bajar\u00e1n significativamente, favoreciendo a aquellas con generaci\u00f3n de efectivo positiva."
 }

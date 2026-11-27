@@ -1,0 +1,155 @@
+{
+  "generated_at": "2026-11-27",
+  "macro_regime": "WATCH",
+  "composite_score": 3.0,
+  "sesgo": "DEFENSIVO",
+  "confianza": 55,
+  "situacion": "Mercado en modo WATCH con composite apenas positivo (+3/30) pero con se\u00f1ales claras de cobertura institucional ante riesgo de cola.",
+  "narrativa": "La combinaci\u00f3n de VVIX en percentil 86 y SKEW elevado (142) muestra que los institucionales est\u00e1n comprando seguros masivamente, aunque el VIX spot a\u00fan no refleja p\u00e1nico. El d\u00f3lar fuerte (DXY p98.6) y la rotaci\u00f3n hacia oro, defensa y cr\u00e9dito de calidad confirman un sesgo defensivo encubierto bajo la superficie de calma. Para inversores VALUE, esto implica priorizar compa\u00f1\u00edas con FCF robusto y balance s\u00f3lido, evitando apalancamiento en nombres con exit signals activos.",
+  "acciones_inmediatas": [
+    {
+      "prioridad": 1,
+      "accion": "CUBRIR",
+      "instrumento": "UVXY",
+      "razon": "VVIX en percentil 86% con VIX spot bajo sugiere spike de volatilidad inminente no descontado.",
+      "catalizador": "Expansi\u00f3n de SKEW o ruptura de soportes en SPX antes de NFP",
+      "size_hint": "peque\u00f1a (1-2%)",
+      "invalidacion": "VVIX retrocede por debajo de percentil 70 sin eventos de riesgo pendientes"
+    },
+    {
+      "prioridad": 2,
+      "accion": "COMPRAR",
+      "instrumento": "TLT/VGLT",
+      "razon": "Yield del 30yr en 5.24% est\u00e1 en zona hist\u00f3ricamente atractiva para entrada en duraci\u00f3n larga.",
+      "catalizador": "Dato de NFP del 4-dic puede confirmar desaceleraci\u00f3n y acelerar flujo hacia bonos",
+      "size_hint": "media (3-4%)",
+      "invalidacion": "Yield 30yr rompe por encima de 5.50% con sorpresa inflacionaria"
+    },
+    {
+      "prioridad": 3,
+      "accion": "COMPRAR",
+      "instrumento": "ADBE",
+      "razon": "Top value pick con grade A, FCF 11.69% y resiliencia sectorial en entorno de d\u00f3lar fuerte.",
+      "catalizador": "Entrada t\u00e9cnica en pullback o earnings confirmando m\u00e1rgenes",
+      "size_hint": "media (3-4%)",
+      "invalidacion": "Deterioro de m\u00e1rgenes FCF por debajo de 9% en pr\u00f3ximos resultados"
+    },
+    {
+      "prioridad": 4,
+      "accion": "VENDER",
+      "instrumento": "BSX, CLPBY, CRH",
+      "razon": "Se\u00f1al EXIT del modelo Cerebro activa en los tres nombres simult\u00e1neamente.",
+      "catalizador": "Confirmaci\u00f3n de ruptura de soporte t\u00e9cnico o deterioro de fundamentales",
+      "size_hint": "peque\u00f1a (1-2%)",
+      "invalidacion": "Reversi\u00f3n de la se\u00f1al Cerebro a HOLD o BUY"
+    },
+    {
+      "prioridad": 5,
+      "accion": "VIGILAR",
+      "instrumento": "CPRT, DSGX, VEEV, KR",
+      "razon": "Earnings en menos de 10 d\u00edas con riesgo de volatilidad idiosincr\u00e1tica en entorno ya tenso.",
+      "catalizador": "Publicaci\u00f3n de resultados trimestrales",
+      "size_hint": "peque\u00f1a (1-2%)",
+      "invalidacion": "N/A, es seguimiento no posici\u00f3n activa"
+    }
+  ],
+  "macro_plays": [
+    {
+      "instrument": "TLT/VGLT",
+      "direction": "LONG",
+      "thesis": "Yield 30yr en 5.24% \u2014 zona hist\u00f3ricamente atractiva para bonos largos",
+      "historical": "2018-19: TLT +18% cuando yields revertieron desde 3.25%",
+      "risk": "La Fed puede mantener tipos altos m\u00e1s tiempo \u2014 size peque\u00f1o",
+      "timeframe": "3-6 meses",
+      "score": 95,
+      "eu_alternative": {
+        "ticker": "DTLA",
+        "name": "Xtrackers US Treasuries 20yr+ UCITS ETF",
+        "exchange": "Xetra",
+        "available": "DEGIRO/IB"
+      }
+    },
+    {
+      "instrument": "UVXY",
+      "direction": "LONG (peque\u00f1o)",
+      "thesis": "VVIX en percentil 86% con VIX a\u00fan bajo \u2014 spike de volatilidad inminente",
+      "historical": "2018 VIXplosion: UVXY +200% en 2 d\u00edas",
+      "risk": "El tiempo trabaja en contra de VIX products \u2014 size m\u00e1ximo 1%",
+      "timeframe": "1-4 semanas",
+      "score": 65,
+      "eu_alternative": {
+        "ticker": null,
+        "name": "Sin equivalente UCITS directo (productos VIX restringidos por MiFID II)",
+        "exchange": null,
+        "available": "IB: opciones sobre VIX \u00b7 DEGIRO: no disponible"
+      }
+    }
+  ],
+  "macro_plays_commentary": "TLT/VGLT ofrece la mejor relaci\u00f3n riesgo/retorno del d\u00eda (score 95) como cobertura natural a la narrativa de desaceleraci\u00f3n, mientras UVXY small act\u00faa como seguro t\u00e1ctico ante el salto de VVIX.",
+  "value_en_entorno": [
+    {
+      "ticker": "ADBE",
+      "score": 98.2,
+      "sector": "Technology",
+      "fcf_yield_pct": 11.69,
+      "grade": "A"
+    },
+    {
+      "ticker": "UBER",
+      "score": 59.2,
+      "sector": "Technology",
+      "fcf_yield_pct": 7.69,
+      "grade": "B"
+    }
+  ],
+  "value_en_entorno_razon": "ADBE y UBER destacan por generaci\u00f3n de FCF s\u00f3lida y calidad de balance, caracter\u00edsticas que hist\u00f3ricamente superan entornos de d\u00f3lar fuerte y rotaci\u00f3n defensiva mejor que compa\u00f1\u00edas de baja calidad o alto apalancamiento.",
+  "evitar": [
+    {
+      "ticker": "BSX",
+      "razon": "Se\u00f1al EXIT activa del modelo Cerebro sin catalizador de reversi\u00f3n visible"
+    },
+    {
+      "ticker": "CLPBY",
+      "razon": "Se\u00f1al EXIT activa; exposici\u00f3n a riesgo cambiario amplifica incertidumbre macro"
+    },
+    {
+      "ticker": "CRH",
+      "razon": "Se\u00f1al EXIT activa coincide con entorno de d\u00f3lar fuerte que presiona ingresos internacionales"
+    }
+  ],
+  "agenda_semana": [
+    {
+      "fecha": "2026-12-01",
+      "evento": "CPRT earnings",
+      "impacto": "MEDIO",
+      "accion_sugerida": "Reducir tama\u00f1o de posici\u00f3n previo a resultados si existe"
+    },
+    {
+      "fecha": "2026-12-02",
+      "evento": "DSGX earnings",
+      "impacto": "BAJO",
+      "accion_sugerida": "Vigilar sin acci\u00f3n previa"
+    },
+    {
+      "fecha": "2026-12-03",
+      "evento": "VEEV earnings",
+      "impacto": "MEDIO",
+      "accion_sugerida": "Evaluar entrada post-resultados si FCF confirma tesis"
+    },
+    {
+      "fecha": "2026-12-03",
+      "evento": "KR earnings",
+      "impacto": "BAJO",
+      "accion_sugerida": "Sin acci\u00f3n, solo seguimiento sectorial"
+    },
+    {
+      "fecha": "2026-12-04",
+      "evento": "Non-Farm Payrolls",
+      "impacto": "ALTO",
+      "accion_sugerida": "Reducir exposici\u00f3n t\u00e1ctica y mantener cobertura UVXY hasta conocer el dato"
+    }
+  ],
+  "frase_del_dia": "El riesgo viene de no saber lo que est\u00e1s haciendo \u2014 en mercados nerviosos, la calidad y el flujo de caja libre son tu mejor seguro, no el p\u00e1nico colectivo. \u2014 inspirado en Warren Buffett",
+  "mensaje_telegram": "\u26a0\ufe0f Mercado en WATCH: VVIX p86 + SKEW alto = cobertura institucional masiva. \ud83d\udee1\ufe0f Oro/Defensa/Cr\u00e9dito fuertes. \ud83d\udcc8 COMPRAR TLT (yield 5.24%) y ADBE (FCF 11.69%). \ud83d\udd3b VENDER BSX/CLPBY/CRH (exit Cerebro). \ud83c\udfaf UVXY peque\u00f1o como seguro pre-NFP (4-dic). Cautela y calidad ante todo.",
+  "ai_powered": true
+}

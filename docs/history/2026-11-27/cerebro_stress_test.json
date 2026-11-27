@@ -1,0 +1,66 @@
+{
+  "generated_at": "2026-11-27",
+  "total_positions": 89,
+  "risks": [
+    {
+      "type": "SECTOR_CONCENTRATION",
+      "severity": "HIGH",
+      "message": "80% de se\u00f1ales en Unknown (71/89) \u2014 concentraci\u00f3n elevada",
+      "detail": {
+        "sector": "Unknown",
+        "count": 71,
+        "pct": 80
+      }
+    },
+    {
+      "type": "GEO_CONCENTRATION",
+      "severity": "LOW",
+      "message": "100% en mercado US \u2014 poca diversificaci\u00f3n geogr\u00e1fica",
+      "detail": {
+        "us": 89,
+        "eu": 0
+      }
+    }
+  ],
+  "narrative": "",
+  "sector_breakdown": [
+    {
+      "sector": "Unknown",
+      "count": 71,
+      "pct": 80
+    },
+    {
+      "sector": "Technology",
+      "count": 8,
+      "pct": 9
+    },
+    {
+      "sector": "Financial Services",
+      "count": 3,
+      "pct": 3
+    },
+    {
+      "sector": "Communication Services",
+      "count": 3,
+      "pct": 3
+    },
+    {
+      "sector": "Industrials",
+      "count": 2,
+      "pct": 2
+    },
+    {
+      "sector": "Consumer Cyclical",
+      "count": 1,
+      "pct": 1
+    },
+    {
+      "sector": "Healthcare",
+      "count": 1,
+      "pct": 1
+    }
+  ],
+  "region_breakdown": {
+    "US": 89
+  }
+}

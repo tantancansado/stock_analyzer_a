@@ -1,0 +1,117 @@
+{
+  "generated_at": "2026-11-27",
+  "total": 2,
+  "strong_buy": 0,
+  "buy": 0,
+  "monitor": 2,
+  "wait": 0,
+  "narrative": null,
+  "signals": [
+    {
+      "ticker": "FCNCA",
+      "company_name": "First Citizens BancShares, Inc.",
+      "region": "US",
+      "sector": "Financial Services",
+      "value_score": 86.8,
+      "conviction_grade": "D",
+      "current_price": 2153.88,
+      "analyst_upside_pct": 17.4,
+      "fcf_yield_pct": 6.72,
+      "risk_reward_ratio": 2.17,
+      "days_in_value": 3,
+      "streak_days": 1,
+      "entry_score": 45,
+      "signal": "MONITOR",
+      "signals_fired": [
+        "Value score \u226580",
+        "FCF yield \u22655%",
+        "Upside en banda dorada [10,30)",
+        "Analyst revision \u2191",
+        "En VALUE \u22653 d\u00edas"
+      ],
+      "signals_pts": [
+        {
+          "name": "Value score \u226580",
+          "pts": 10
+        },
+        {
+          "name": "FCF yield \u22655%",
+          "pts": 10
+        },
+        {
+          "name": "Upside en banda dorada [10,30)",
+          "pts": 10
+        },
+        {
+          "name": "Analyst revision \u2191",
+          "pts": 5
+        },
+        {
+          "name": "En VALUE \u22653 d\u00edas",
+          "pts": 10
+        }
+      ],
+      "signals_missing": [
+        "Sin insider buying (espera)",
+        "Sin se\u00f1al MR oversold",
+        "Sin opciones alcistas",
+        "Sector no l\u00edder",
+        "R\u00e9gimen no alcista"
+      ],
+      "rsi": null,
+      "earnings_warning": false,
+      "days_to_earnings": 56
+    },
+    {
+      "ticker": "ADBE",
+      "company_name": "Adobe Inc.",
+      "region": "US",
+      "sector": "Technology",
+      "value_score": 98.2,
+      "conviction_grade": "A",
+      "current_price": 232.83,
+      "analyst_upside_pct": 14.6,
+      "fcf_yield_pct": 11.69,
+      "risk_reward_ratio": 1.82,
+      "days_in_value": 2,
+      "streak_days": 1,
+      "entry_score": 30,
+      "signal": "MONITOR",
+      "signals_fired": [
+        "Value score \u226580",
+        "FCF yield \u22655%",
+        "Upside en banda dorada [10,30)",
+        "Analyst revision \u2191"
+      ],
+      "signals_pts": [
+        {
+          "name": "Value score \u226580",
+          "pts": 10
+        },
+        {
+          "name": "FCF yield \u22655%",
+          "pts": 10
+        },
+        {
+          "name": "Upside en banda dorada [10,30)",
+          "pts": 10
+        },
+        {
+          "name": "Analyst revision \u2191",
+          "pts": 5
+        }
+      ],
+      "signals_missing": [
+        "Sin insider buying (espera)",
+        "Sin se\u00f1al MR oversold",
+        "Sin opciones alcistas",
+        "Sector no l\u00edder",
+        "R\u00e9gimen no alcista",
+        "Solo 2d en VALUE"
+      ],
+      "rsi": null,
+      "earnings_warning": false,
+      "days_to_earnings": 12
+    }
+  ]
+}

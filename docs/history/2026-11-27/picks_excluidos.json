@@ -1,0 +1,35 @@
+{
+  "listas": {
+    "value_opportunities": {
+      "candidatas": 26,
+      "publicadas": 22,
+      "excluidos": [
+        {
+          "ticker": "MKC",
+          "paso": "verificador_ia",
+          "motivo": "PEG ratio de 3.04 es muy alto (crecimiento lento de 17.4% YoY justificaría PEG ~1.0, no 3+). Combinado con ventas_anual_pct de solo 1.7% (virtual estancamiento en crecimiento real tras el '17.4% YoY'), hay incongruencia: o el YoY es error de unidad o el PEG está mal. El upside del 70.3% descansa en modelos, pero el PEG extremo sugiere que los beneficios no crecen como se afirma.",
+          "score": 57.8
+        },
+        {
+          "ticker": "RELX",
+          "paso": "verificador_ia",
+          "motivo": "modelos_acuerdo es DISPERSOS (modelos_dispersion_pts=42.1) pero upside_triangulated_pct muestra 14.3%: esto es inconsistente con el protocolo (cuando hay DISPERSOS, upside_triangulated_pct debería estar vacío o marcado como no confiable). Además, rev_growth_yoy y ventas_anual_pct son ambos 1.7%: una empresa sin crecimiento no justifica un descuento de 14.3% a menos que el rendimiento de dividendo o FCF sea excepcional, pero fcf_yield es 4.36% y ebit_ev_yield es 1.03% (muy bajo). La ficha plantea oportunidad en un negocio estancado sin respaldo de múltiplos.",
+          "score": 50.9
+        },
+        {
+          "ticker": "DVA",
+          "paso": "verificador_ia",
+          "motivo": "upside_requiere_verificacion es true (descuento grande), con analyst_upside_pct de 36.6% vs target_price_dcf_upside_pct de 122.4% y target_price_pe_upside_pct de 6.4%: dispersión extrema de 116 puntos (modelos_dispersion_pts=116.0). Los modelos no convergen en nada. FCF_yield de 9.56% es muy alto: o bien el flujo de caja está a punto de caer (invalidando la valoración) o hay error de unidad. Con esta magnitud de divergencia y tal fcf_yield extremo, la ficha es incoherente consigo misma.",
+          "score": 50.5
+        },
+        {
+          "ticker": "COF",
+          "paso": "verificador_ia",
+          "motivo": "fcf_yield_pct de 23.91% es impossiblemente alto para cualquier empresa salvo en contexto de crisis de crédito. Este valor es de dos dígitos altos y sugiere error de unidad (posiblemente % expresado como valor 0-100 cuando debería ser 0-10, o factor de escala 100 aplicado incorrectamente). Sin corregir esto, la ficha es inválida. Además, analyst_upside_pct de 38.4% vs target_price_pe_upside_pct de 17.3% difieren significativamente sin aclaración.",
+          "score": 41.7
+        }
+      ]
+    }
+  },
+  "generated_at": "2026-11-27T08:45:01Z"
+}
